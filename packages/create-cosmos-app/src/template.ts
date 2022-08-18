@@ -1,19 +1,24 @@
-
 import * as shell from 'shelljs';
-import { prompt } from '@pyramation/prompt';
-import dargs from 'dargs';
+import { prompt } from './prompt';
+const dargs = require('dargs');
 const glob = require('glob').sync;
 const fs = require('fs');
 const path = require('path');
 
 export const createApp = (repo: string) => {
-    const clone = async argv => {
+    return async argv => {
+        const { name } = await prompt([
+            {
+                name: 'name',
+                message: 'Enter your new module name',
+                required: true,
+            }
+        ], argv);
+
         if (!shell.which('git')) {
             shell.echo('Sorry, this script requires git');
             return shell.exit(1);
         }
-
-        const { name } = argv;
 
         shell.exec(`git clone ${repo} ${name}`);
         shell.cd(name);
@@ -124,21 +129,12 @@ export const createApp = (repo: string) => {
         shell.rm('-rf', '.questions.json');
 
         console.log(`
-    
+
         |||
        (o o)
       ooO--(_)--Ooo-
-    
+
       ✨ Great work!
       `);
     };
-
-    clone.questions = [
-        {
-            name: 'name',
-            message: 'Enter your new module name',
-            required: true,
-        }
-    ];
-
 };

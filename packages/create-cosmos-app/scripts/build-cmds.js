@@ -49,4 +49,4 @@ const makeCommands = (folder) => {
   return out;
 };
 
-fs.writeFileSync(`${__dirname}/../src/cmds.js`, makeCommands('commands'));
+fs.writeFileSync(`${__dirname}/../src/cmds.js`, makeCommands('templates'));

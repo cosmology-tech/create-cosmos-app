@@ -1,5 +1,5 @@
 import { prompt } from './prompt';
-import { Commands as commands } from './cmds';
+import { Templates as templates } from './cmds';
 
 export const cli = async (argv) => {
   const { cmd } = await prompt(
@@ -9,13 +9,14 @@ export const cli = async (argv) => {
         type: 'fuzzy',
         name: 'cmd',
         message: 'what do you want to create?',
-        choices: Object.keys(commands)
+        choices: Object.keys(templates)
       }
     ],
     argv
   );
-  if (typeof commands[cmd] === 'function') {
-    await commands[cmd](argv);
+  if (typeof templates[cmd] === 'function') {
+    console.log(`calling ${cmd}`)
+    await templates[cmd](argv);
   } else {
     console.log('command not found.');
   }

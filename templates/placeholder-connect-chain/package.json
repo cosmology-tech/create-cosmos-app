@@ -1,16 +1,14 @@
 {
-  "name": "create-cosmos-app",
-  "version": "0.0.5",
-  "description": "create cosmos app",
+  "name": "connect-chain",
+  "version": "0.0.1",
+  "description": "connect-chain",
   "author": "Dan Lynch <pyramation@gmail.com>",
-  "homepage": "https://github.com/cosmology-tech/create-cosmos-app#readme",
+  "homepage": "https://github.com/cosmology-tech/connect-chain#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "main/index.js",
   "module": "module/index.js",
   "typings": "types/index.d.ts",
-  "bin": {
-    "create-cosmos-app": "main/create-cosmos-app.js"
-  },
+  "private": true,
   "directories": {
     "lib": "src",
     "test": "__tests__"
@@ -34,24 +32,6 @@
     "test:watch": "jest --watch",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cosmology-tech/create-cosmos-app"
-  },
-  "keywords": [],
-  "bugs": {
-    "url": "https://github.com/cosmology-tech/create-cosmos-app/issues"
-  },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "main/",
-      "module/",
-      "types/"
-    ]
-  },
   "devDependencies": {
     "@babel/cli": "7.18.6",
     "@babel/core": "7.18.6",
@@ -67,12 +47,10 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "28.1.3",
     "babel-watch": "^7.0.0",
-    "case": "1.6.3",
     "cross-env": "^7.0.2",
     "eslint": "8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "glob": "8.0.3",
     "jest": "^28.1.3",
     "jest-in-case": "^1.0.2",
     "prettier": "^2.1.2",
@@ -81,12 +59,6 @@
     "typescript": "^4.6.2"
   },
   "dependencies": {
-    "@babel/runtime": "^7.11.2",
-    "dargs": "7.0.0",
-    "fuzzy": "0.1.3",
-    "inquirerer": "0.1.3",
-    "minimist": "1.2.6",
-    "mkdirp": "1.0.4",
-    "shelljs": "0.8.5"
+    "@babel/runtime": "^7.11.2"
   }
 }
