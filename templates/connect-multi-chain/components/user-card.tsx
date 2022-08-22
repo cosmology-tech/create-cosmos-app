@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import { WalletStatus } from "@keplr-wallet/stores";
 import { Text, useColorModeValue, Stack, Box } from "@chakra-ui/react";
 import { ConnectedUserCardType } from "./types";
 

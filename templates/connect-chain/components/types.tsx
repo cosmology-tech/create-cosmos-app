@@ -30,3 +30,9 @@ export interface ConnectedUserCardType {
   userName: string;
   icon?: ReactNode;
 }
+
+export interface FeatureProps {
+  title: string;
+  text: string;
+  href: string;
+}

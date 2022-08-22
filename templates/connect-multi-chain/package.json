@@ -1,5 +1,5 @@
 {
-  "name": "@cosmos-app/connect-chain",
+  "name": "@cosmos-app/connect-multi-chain",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,9 @@
     "@chakra-ui/react": "^2.2.8",
     "@cosmos-kit/react": "^0.11.0",
     "@cosmos-kit/types": "^0.11.0",
+    "chain-registry": "^0.7.0",
+    "chakra-react-select": "^4.1.4",
+    "fast-fuzzy": "^1.11.2",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",

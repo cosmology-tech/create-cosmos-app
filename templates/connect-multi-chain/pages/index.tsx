@@ -17,20 +17,26 @@ import {
   Rejected,
   WalletConnectComponent,
   Astronaut,
+  ChooseChain,
+  handleSelectChainDropdown,
+  ChainOption,
+  ConnectedShowAddress,
+  Product,
   Dependency,
-  Product
+  WalletStatus
 } from '../components';
 import styles from '../styles/Home.module.css';
 import { useWalletManager, useWallet } from '@cosmos-kit/react';
 import { mapStatusFromCosmosWallet } from "../utils";
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import Head from 'next/head';
-import { dependencies, products } from '../config';
+import { chainInfos, dependencies, products } from '../config';
 
 
 export default function Home() {
+  const [chainId, setChainId] = useState<string | undefined>();
   const { connect, disconnect } = useWalletManager();
-  const { status, error, name, address } = useWallet();
+  const { status, error, name, address } = useWallet(chainId);
   const walletStatus = mapStatusFromCosmosWallet(status, error as Error);
 
   const onClickConnect: MouseEventHandler = (e) => {
@@ -43,9 +49,18 @@ export default function Home() {
     disconnect();
   };
 
+
   const userInfoCard = (name)
     ? (
       <ConnectedUserInfo name={name} icon={<Astronaut />} />
+    )
+    : <></>;
+
+  const addressCard = (chainId && address && name)
+    ? (
+      <Box maxW={{ base: "100%", md: "84%" }}>
+        <ConnectedShowAddress address={address} username={name} showLink={true} isLoading={false} />
+      </Box>
     )
     : <></>;
 
@@ -68,6 +83,22 @@ export default function Home() {
       notExist={<NotExist buttonText="Not Exist" />}
     />
   )
+
+  const onChainChange: handleSelectChainDropdown = (
+    selectedValue: ChainOption | null
+  ) => {
+    if (selectedValue) {
+      setChainId(selectedValue.chainId);
+    }
+  };
+
+  const chooseChain = (
+    <ChooseChain
+      chainId={chainId}
+      chainInfos={chainInfos}
+      onChange={onChainChange}
+    />
+  );
 
   return (
     <div className={styles.container}>
@@ -100,13 +131,28 @@ export default function Home() {
             <Stack
               pt={30}
               spacing={{ base: 4, sm: 6 }}
-              direction={{ base: 'column', sm: 'row' }}
+              // direction={{ base: 'column', sm: walletStatus === WalletStatus.Rejected ? 'column' : 'row' }}
+              direction={{ base: 'column', sm: 'column', md: 'row' }}
               alignItems="center"
               justifyContent="center"
             >
-              {userInfoCard}
+              {chooseChain}
               {connectWalletButton}
             </Stack>
+            {
+              (chainId && !address)
+                ? <></>
+                : (
+                  <Stack
+                    spacing={{ base: 4, sm: 6 }}
+                    direction={{ base: 'column', sm: 'row' }}
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    {(chainId && address) ? addressCard : userInfoCard}
+                  </Stack>
+                )
+            }
           </Stack>
           <Grid
             mt={90}
