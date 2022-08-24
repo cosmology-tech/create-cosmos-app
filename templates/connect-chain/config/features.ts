@@ -2,7 +2,7 @@ import { FeatureProps } from "../components";
 
 export const products: FeatureProps[] = [
     {
-        title: 'Cosmos Kit',
+        title: 'CosmosKit',
         text: 'A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.',
         href: 'https://github.com/cosmology-tech/cosmos-kit',
     },
@@ -12,13 +12,13 @@ export const products: FeatureProps[] = [
         href: 'https://github.com/osmosis-labs/telescope',
     },
     {
-        title: 'Ts Codegen',
+        title: 'TS Codegen',
         text: 'The quickest and easiest way to convert CosmWasm Contracts into dev-friendly TypeScript classes.',
         href: 'https://github.com/CosmWasm/ts-codegen',
     },
     {
         title: 'Cosmology',
-        text: 'Build web3 applications on top of Osmosis and the Cosmos.',
+        text: 'Build web3 applications in the Cosmos and Intechain Ecosystem.',
         href: 'https://github.com/cosmology-tech/cosmology',
     },
     {
@@ -28,7 +28,7 @@ export const products: FeatureProps[] = [
     },
     {
         title: 'Videos',
-        text: 'Learn more from the official website of @cosmology-tech.',
+        text: 'Learn more from the official Cosmology website.',
         href: 'https://cosmology.tech/',
     }
 ]
