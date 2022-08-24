@@ -84,7 +84,7 @@ export default function Home() {
               fontWeight={800}
               fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
               lineHeight={'110%'}>
-              Cosmos App Made Easy <br />
+              Cosmos Apps Made Easy <br />
             </Heading>
             <Heading
               fontWeight={700}
@@ -94,7 +94,7 @@ export default function Home() {
                 Welcome to {' '}
               </Text>
               <Text as={'span'} color={'purple.500'}>
-                CosmosKit.js + Telescope + Next.js
+                CosmosKit + Telescope + Next.js
               </Text>
             </Heading>
             <Stack
@@ -131,7 +131,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by @cosmology-tech
+          Powered by Cosmology
         </a>
       </footer>
     </div>
