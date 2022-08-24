@@ -129,9 +129,9 @@ export const createApp = (repo: string) => {
         shell.rm('-rf', '.questions.json');
 
         console.log(`
-
-        |||
-       (o o)
+        
+           |||
+          (o o)
       ooO--(_)--Ooo-
 
       ✨ Great work!

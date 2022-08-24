@@ -46,7 +46,6 @@ export const createApp = (repo: string) => {
             .concat(glob(join(process.cwd(), 'templates', template, '/**/.*')))
             .concat(glob(join(process.cwd(), 'templates', template, '/**/*')));
 
-        console.log(files);
         for (let i = 0; i < files.length; i++) {
             const templateFile = files[i];
             if (fs.lstatSync(templateFile).isDirectory()) continue;
@@ -55,24 +54,25 @@ export const createApp = (repo: string) => {
 
             const localfile = templateFile.split('templates/' + template)[1];
             const localdir = dirname(localfile);
-            const dirpath = join(currentDirecotry, localdir);
-            const filepath = join(currentDirecotry, localfile);
-
-            console.log(filepath);
+            const dirpath = join(currentDirecotry, name, localdir);
+            const filepath = join(currentDirecotry, name, localfile);
 
             mkdirp(dirpath);
-            fs.writeFileSync(templateFile, content);
+            fs.writeFileSync(filepath, content);
 
         }
         shell.cd(currentDirecotry);
         shell.rm('-rf', dir);
         console.log(`
+        
+                 |              _   _
+     ===         |.===.        '\\-//\`    
+    (o o)        {}o o{}        (o o)     
+ooO--(_)--Ooo-ooO--(_)--Ooo-ooO--(_)--Ooo-
 
-        |||
-       (o o)
-      ooO--(_)--Ooo-
+✨ Have fun! Now you can start on your project ⚛️
 
-      ✨ Great work!
+cd ./${name} && yarn && yarn dev
       `);
     };
 };
