@@ -2,7 +2,7 @@ import { FeatureProps } from "../components";
 
 export const products: FeatureProps[] = [
     {
-        title: 'Cosmos Kit',
+        title: 'CosmosKit',
         text: 'A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.',
         href: 'https://github.com/cosmology-tech/cosmos-kit',
     },
