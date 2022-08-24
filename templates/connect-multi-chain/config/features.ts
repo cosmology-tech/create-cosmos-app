@@ -12,7 +12,7 @@ export const products: FeatureProps[] = [
         href: 'https://github.com/osmosis-labs/telescope',
     },
     {
-        title: 'Ts Codegen',
+        title: '@CosmWasm/TS Codegen',
         text: 'The quickest and easiest way to convert CosmWasm Contracts into dev-friendly TypeScript classes.',
         href: 'https://github.com/CosmWasm/ts-codegen',
     },
