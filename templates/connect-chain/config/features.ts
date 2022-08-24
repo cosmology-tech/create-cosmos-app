@@ -18,7 +18,7 @@ export const products: FeatureProps[] = [
     },
     {
         title: 'Cosmology',
-        text: 'Build web3 applications on top of Osmosis and the Cosmos.',
+        text: 'Build web3 applications in the Cosmos and Intechain Ecosystem.',
         href: 'https://github.com/cosmology-tech/cosmology',
     },
     {
