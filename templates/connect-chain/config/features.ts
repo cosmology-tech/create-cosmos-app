@@ -28,7 +28,7 @@ export const products: FeatureProps[] = [
     },
     {
         title: 'Videos',
-        text: 'Learn more from the official website of Cosmology.',
+        text: 'Learn more from the official Cosmology website.',
         href: 'https://cosmology.tech/',
     }
 ]
