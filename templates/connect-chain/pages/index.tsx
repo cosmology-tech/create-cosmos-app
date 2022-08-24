@@ -5,6 +5,7 @@ import {
   Divider,
   Grid,
   Heading,
+  SimpleGrid,
   Text,
   Stack,
   Container,
