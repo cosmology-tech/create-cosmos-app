@@ -1,7 +1,15 @@
 # create-cosmos-app
 
-Set up a modern Cosmos app by running one command
+<p align="center" width="100%">
+    <img height="90" src="https://user-images.githubusercontent.com/545047/184277736-69fef40f-1991-4c0e-b979-da125cf7fd8f.svg" />
+</p>
 
+<p align="center" width="100%">
+   <a href="https://github.com/cosmology-tech/create-cosmos-app/blob/main/LICENSE"><img height="20" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+   <a href="https://www.npmjs.com/package/create-cosmos-app"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/create-cosmos-app?filename=packages%2Fcreate-cosmos-app%2Fpackage.json"></a>
+</p>
+
+Set up a modern Cosmos app by running one command
 ## Overview
 
 ```
