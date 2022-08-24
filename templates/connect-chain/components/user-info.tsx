@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { Text, useColorModeValue, Stack, Box } from "@chakra-ui/react";
+import { Text, Stack, Box } from "@chakra-ui/react";
 import { ConnectedUserCardType } from "./types";
 
 export const ConnectedUserCard = ({
@@ -12,25 +12,17 @@ export const ConnectedUserCard = ({
       spacing={2}
       justifyContent="center"
       alignItems="center"
-      borderRadius="lg"
-      bg={useColorModeValue("whiteAlpha.100", "blackAlpha.100")}
-      boxShadow={useColorModeValue(
-        "inset 0 0 12px -5px #d3d3d3",
-        "inset 0 0 14px -7px #828282"
-      )}
       w="full"
       minW="fit-content"
-      p={2}
-      paddingX={20}
     >
       <Box
         display={icon ? "block" : "none"}
-        minW={14}
-        maxW={14}
-        w={14}
-        minH={14}
-        maxH={14}
-        h={14}
+        minW={12}
+        maxW={12}
+        w={12}
+        minH={12}
+        maxH={12}
+        h={12}
         borderRadius="full"
         overflow="hidden"
       >
@@ -42,7 +34,6 @@ export const ConnectedUserCard = ({
     </Stack>
   );
 };
-
 
 export const ConnectedUserInfo = ({
   name,

@@ -1,5 +1,12 @@
 import React, { MouseEventHandler, ReactNode } from "react";
-import { Button, Icon, Stack, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Icon,
+  Stack,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { FiAlertTriangle } from "react-icons/fi";
 import { WalletStatus } from "./types";
 import { IoWallet } from "react-icons/io5";
@@ -40,14 +47,35 @@ export const Disconnect = ({
 };
 
 export const Connected = ({
+  userInfoCard,
   buttonText,
   onClick,
 }: {
+  userInfoCard: ReactNode;
   buttonText: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
-    <ConnectWalletButton buttonText={buttonText} onClickConnectBtn={onClick} />
+    <Stack
+      spacing={{ base: 2, sm: 3 }}
+      alignItems="center"
+      justifyContent="center"
+      borderRadius="lg"
+      bg={useColorModeValue("whiteAlpha.100", "whiteAlpha.50")}
+      boxShadow={useColorModeValue(
+        "inset 0 0 12px -5px #d3d3d3",
+        "inset 0 0 14px -7px #828282"
+      )}
+      w="full"
+      maxW={{ base: "full", md: "sm", lg: "xs" }}
+      p={4}
+    >
+      {userInfoCard}
+      <ConnectWalletButton
+        buttonText={buttonText}
+        onClickConnectBtn={onClick}
+      />
+    </Stack>
   );
 };
 
@@ -63,8 +91,10 @@ export const Rejected = ({
   wordOfWarning?: string;
 }) => {
   return (
-    <Stack>
-      <ConnectWalletButton buttonText={buttonText} isDisabled={true} />
+    <Stack maxW={{ base: "full", lg: 80 }} spacing={2}>
+      <Box>
+        <ConnectWalletButton buttonText={buttonText} isDisabled={true} />
+      </Box>
       <Stack
         isInline={true}
         borderRadius="md"
