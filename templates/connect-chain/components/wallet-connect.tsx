@@ -47,35 +47,14 @@ export const Disconnect = ({
 };
 
 export const Connected = ({
-  userInfoCard,
   buttonText,
   onClick,
 }: {
-  userInfoCard: ReactNode;
   buttonText: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
-    <Stack
-      spacing={{ base: 2, sm: 3 }}
-      alignItems="center"
-      justifyContent="center"
-      borderRadius="lg"
-      bg={useColorModeValue("whiteAlpha.100", "whiteAlpha.50")}
-      boxShadow={useColorModeValue(
-        "inset 0 0 12px -5px #d3d3d3",
-        "inset 0 0 14px -7px #828282"
-      )}
-      w="full"
-      maxW={{ base: "full", md: "sm", lg: "xs" }}
-      p={4}
-    >
-      {userInfoCard}
-      <ConnectWalletButton
-        buttonText={buttonText}
-        onClickConnectBtn={onClick}
-      />
-    </Stack>
+    <ConnectWalletButton buttonText={buttonText} onClickConnectBtn={onClick} />
   );
 };
 
