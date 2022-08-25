@@ -29,6 +29,9 @@
   "devDependencies": {
     "@cosmjson/wasmswap": "^0.0.9",
     "@osmonauts/telescope": "0.18.7",
+    "@protobufs/cosmos": "^0.0.11",
+    "@protobufs/cosmwasm": "^0.0.11",
+    "@protobufs/ibc": "^0.0.11",
     "@types/node": "18.7.11",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
