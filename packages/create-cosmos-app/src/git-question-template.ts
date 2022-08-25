@@ -5,7 +5,7 @@ const glob = require('glob').sync;
 const fs = require('fs');
 const path = require('path');
 
-export const createApp = (repo: string) => {
+export const createQuestionTemplate = (repo: string) => {
     return async argv => {
         const { name } = await prompt([
             {

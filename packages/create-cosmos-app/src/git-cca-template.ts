@@ -8,7 +8,7 @@ const glob = require('glob').sync;
 const fs = require('fs');
 const path = require('path');
 
-export const createApp = (repo: string) => {
+export const createGitApp = (repo: string) => {
     return async argv => {
         const { name } = await prompt([
             {
