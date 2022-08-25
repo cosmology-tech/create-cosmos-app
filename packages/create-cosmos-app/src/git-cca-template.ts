@@ -17,17 +17,14 @@ export const createApp = (repo: string) => {
                 required: true,
             }
         ], argv);
-
         if (!shell.which('git')) {
             shell.echo('Sorry, this script requires git');
             return shell.exit(1);
         }
-
         let folderName: 'templates' | 'examples' = 'templates';
         if (argv.examples || argv.example || argv.ex) {
             folderName = 'examples';
         }
-
         const tempname = Math.random().toString(36).slice(2, 7);
         const dir = join(argv.tmpdir || tmpdir(), tempname);
         mkdirp(dir);
