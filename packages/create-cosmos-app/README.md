@@ -1,7 +1,7 @@
 # create-cosmos-app
 
 <p align="center" width="100%">
-    <img height="90" src="https://user-images.githubusercontent.com/545047/184277736-69fef40f-1991-4c0e-b979-da125cf7fd8f.svg" />
+    <img height="148" src="https://user-images.githubusercontent.com/545047/186589196-e75c9540-86a7-4a71-8096-207be9a4216f.svg" />
 </p>
 
 <p align="center" width="100%">
