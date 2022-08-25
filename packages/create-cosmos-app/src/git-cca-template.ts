@@ -24,7 +24,7 @@ export const createApp = (repo: string) => {
         }
 
         let folderName: 'templates' | 'examples' = 'templates';
-        if (argv.examples) {
+        if (argv.examples || argv.example) {
             folderName = 'examples';
         }
 
