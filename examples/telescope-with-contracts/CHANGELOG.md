@@ -5,12 +5,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 0.1.2 (2022-08-25)
 
-**Note:** Version bump only for package @cosmonauts/connect-chain
-
-
-
-
-
-## 0.1.1 (2022-08-24)
-
-**Note:** Version bump only for package @cosmos-app/connect-chain
+**Note:** Version bump only for package @cosmonauts/connect-chain-with-telescope-and-contracts
