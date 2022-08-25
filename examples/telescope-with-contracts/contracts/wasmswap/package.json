@@ -1,0 +1,21 @@
+{
+  "name": "@cosmjson/wasmswap",
+  "chain": "juno",
+  "contract": "wasmswap",
+  "version": "0.0.9",
+  "description": "wasmswap",
+  "author": "Dan Lynch <pyramation@gmail.com>",
+  "homepage": "https://github.com/cosmology-tech/cosmjson/tree/master/packages/wasmswap#readme",
+  "license": "SEE LICENSE IN LICENSE",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cosmology-tech/cosmjson"
+  },
+  "bugs": {
+    "url": "https://github.com/cosmology-tech/cosmjson/issues"
+  },
+  "gitHead": "236741e84afac1df89b843b04f608e26c1edf0df"
+}
