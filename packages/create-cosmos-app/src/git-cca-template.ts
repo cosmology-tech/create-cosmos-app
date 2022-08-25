@@ -23,6 +23,11 @@ export const createApp = (repo: string) => {
             return shell.exit(1);
         }
 
+        let folderName: 'templates' | 'examples' = 'templates';
+        if (argv.examples) {
+            folderName = 'examples';
+        }
+
         const tempname = Math.random().toString(36).slice(2, 7);
         const dir = join(argv.tmpdir || tmpdir(), tempname);
         mkdirp(dir);
@@ -30,7 +35,7 @@ export const createApp = (repo: string) => {
         shell.cd(dir);
         shell.exec(`git clone ${repo} ${name}`);
         shell.cd(name);
-        const list = shell.ls('./templates');
+        const list = shell.ls(`./${folderName}`);
 
         const { template } = await prompt([
             {
@@ -43,8 +48,8 @@ export const createApp = (repo: string) => {
         ], argv);
 
         const files = []
-            .concat(glob(join(process.cwd(), 'templates', template, '/**/.*')))
-            .concat(glob(join(process.cwd(), 'templates', template, '/**/*')));
+            .concat(glob(join(process.cwd(), folderName, template, '/**/.*')))
+            .concat(glob(join(process.cwd(), folderName, template, '/**/*')));
 
         for (let i = 0; i < files.length; i++) {
             const templateFile = files[i];
@@ -52,7 +57,7 @@ export const createApp = (repo: string) => {
 
             let content = fs.readFileSync(templateFile).toString();
 
-            const localfile = templateFile.split('templates/' + template)[1];
+            const localfile = templateFile.split(`${folderName}/` + template)[1];
             const localdir = dirname(localfile);
             const dirpath = join(currentDirecotry, name, localdir);
             const filepath = join(currentDirecotry, name, localfile);
