@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, ReactNode } from "react";
-import { Button, Icon, useColorModeValue } from "@chakra-ui/react";
+import { Button, Icon } from "@chakra-ui/react";
 
 import { WalletStatus } from "./types";
 import { IoWallet } from "react-icons/io5";

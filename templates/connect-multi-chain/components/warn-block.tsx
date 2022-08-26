@@ -1,12 +1,5 @@
-import React, { MouseEventHandler, ReactNode } from "react";
-import {
-  Box,
-  Button,
-  Icon,
-  Stack,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import React, { ReactNode } from "react";
+import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { WalletStatus } from "./types";
 
 export const WarnBlock = ({
