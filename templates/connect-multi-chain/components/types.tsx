@@ -15,7 +15,7 @@ export enum WalletStatus {
   Loading = "Loading",
   Loaded = "Loaded",
   NotExist = "NotExist",
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 export interface ConnectWalletType {
@@ -27,7 +27,7 @@ export interface ConnectWalletType {
 }
 
 export interface ConnectedUserCardType {
-  userName: string;
+  username?: string;
   icon?: ReactNode;
 }
 
