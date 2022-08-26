@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { ChangeChainDropdown } from "./chain-dropdown";
-import { ChooseChainInfo, ChainOption, handleSelectChainDropdown } from "./types";
-import { Box } from "@chakra-ui/react";
+import {
+  ChooseChainInfo,
+  ChainOption,
+  handleSelectChainDropdown,
+} from "./types";
 
 export function ChooseChain({
   chainId,
@@ -21,12 +24,10 @@ export function ChooseChain({
     if (!chainId) setSelectedItem(undefined);
   }, [chainId]);
   return (
-    <Box w={72}>
-      <ChangeChainDropdown
-        data={chainInfos}
-        selectedItem={selectedItem}
-        onChange={onChange}
-      />
-    </Box>
+    <ChangeChainDropdown
+      data={chainInfos}
+      selectedItem={selectedItem}
+      onChange={onChange}
+    />
   );
 }
