@@ -128,7 +128,7 @@ export default function Home() {
             ))}
           </Grid>
           <Divider mt={12} mb={12} />
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 2 }} spacing={20} mb={50}>
+          <SimpleGrid columns={{ base: 1, md: 3, lg: 3 }} spacing={20} mb={50}>
             {dependencies.map((dependency, i) => (
               <Dependency key={i} {...dependency}></Dependency>
             ))}
@@ -141,7 +141,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by Cosmology
+          Built with Cosmology
         </a>
       </footer>
     </div>
