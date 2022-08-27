@@ -13,7 +13,7 @@ export const createGitApp = (repo: string) => {
         const { name } = await prompt([
             {
                 name: 'name',
-                message: 'Enter your new module name',
+                message: 'Enter your new app name',
                 required: true,
             }
         ], argv);
