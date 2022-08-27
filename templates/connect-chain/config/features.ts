@@ -17,9 +17,9 @@ export const products: FeatureProps[] = [
     href: 'https://github.com/CosmWasm/ts-codegen'
   },
   {
-    title: 'Cosmology',
-    text: 'Build web3 applications in the Cosmos and Intechain Ecosystem.',
-    href: 'https://github.com/cosmology-tech/cosmology'
+    title: 'CosmWasm Academy',
+    text: 'Master CosmWasm and build your secure, multi-chain dApp on any CosmWasm chain!',
+    href: 'https://academy.cosmwasm.com/'
   },
   {
     title: 'Chain Registry',
@@ -29,11 +29,16 @@ export const products: FeatureProps[] = [
   {
     title: 'Videos',
     text: 'Learn more from the official Cosmology website.',
-    href: 'https://cosmology.tech/'
+    href: 'https://cosmology.tech/learn'
   }
 ];
 
 export const dependencies: FeatureProps[] = [
+  {
+    title: 'CosmJS',
+    text: 'The Swiss Army knife Cosmos library for building JavaScript apps.',
+    href: 'https://cosmos.github.io/cosmjs/'
+  },
   {
     title: 'Chakra UI',
     text: 'A simple, modular and accessible React Component Library.',
