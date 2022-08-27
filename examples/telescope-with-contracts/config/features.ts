@@ -23,12 +23,12 @@ export const products: FeatureProps[] = [
   },
   {
     title: 'Chain Registry',
-    text: 'The npm package for the Official Cosmos chain registry.',
+    text: 'Get chain and asset list information from the npm package for the Official Cosmos chain registry.',
     href: 'https://github.com/cosmology-tech/chain-registry'
   },
   {
     title: 'Videos',
-    text: 'Learn more from the official Cosmology website.',
+    text: 'How-to videos from the official Cosmology website, with learning resources for building in Cosmos.',
     href: 'https://cosmology.tech/learn'
   }
 ];
