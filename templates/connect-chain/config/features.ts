@@ -35,11 +35,6 @@ export const products: FeatureProps[] = [
 
 export const dependencies: FeatureProps[] = [
   {
-    title: 'CosmJS',
-    text: 'The Swiss Army knife Cosmos library for building JavaScript apps.',
-    href: 'https://cosmos.github.io/cosmjs/'
-  },
-  {
     title: 'Chakra UI',
     text: 'A simple, modular and accessible React Component Library.',
     href: 'https://chakra-ui.com/docs/components/'
