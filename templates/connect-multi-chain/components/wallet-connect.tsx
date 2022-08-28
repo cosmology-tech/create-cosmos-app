@@ -1,16 +1,16 @@
-import React, { MouseEventHandler, ReactNode } from "react";
-import { Button, Icon, Stack, Text, useColorModeValue } from "@chakra-ui/react";
-import { FiAlertTriangle } from "react-icons/fi";
-import { WalletStatus } from "./types";
-import { IoWallet } from "react-icons/io5";
-import { ConnectWalletType } from "./types";
+import React, { MouseEventHandler, ReactNode } from 'react';
+import { Button, Icon, Stack, Text, useColorModeValue } from '@chakra-ui/react';
+import { FiAlertTriangle } from 'react-icons/fi';
+import { WalletStatus } from './types';
+import { IoWallet } from 'react-icons/io5';
+import { ConnectWalletType } from './types';
 
 export const ConnectWalletButton = ({
   buttonText,
   isLoading,
   isDisabled,
   icon,
-  onClickConnectBtn,
+  onClickConnectBtn
 }: ConnectWalletType) => {
   return (
     <Button
@@ -22,14 +22,14 @@ export const ConnectWalletButton = ({
       onClick={onClickConnectBtn}
     >
       <Icon as={icon ? icon : IoWallet} mr={2} />
-      {buttonText ? buttonText : "Connect Wallet"}
+      {buttonText ? buttonText : 'Connect Wallet'}
     </Button>
   );
 };
 
 export const Disconnect = ({
   buttonText,
-  onClick,
+  onClick
 }: {
   buttonText: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
@@ -41,7 +41,7 @@ export const Disconnect = ({
 
 export const Connected = ({
   buttonText,
-  onClick,
+  onClick
 }: {
   buttonText: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
@@ -57,7 +57,7 @@ export const Connecting = () => {
 
 export const Rejected = ({
   buttonText,
-  wordOfWarning,
+  wordOfWarning
 }: {
   buttonText: string;
   wordOfWarning?: string;
@@ -97,7 +97,7 @@ export const WalletConnectComponent = ({
   connecting,
   connected,
   rejected,
-  notExist,
+  notExist
 }: {
   walletStatus: WalletStatus;
   disconnect: ReactNode;

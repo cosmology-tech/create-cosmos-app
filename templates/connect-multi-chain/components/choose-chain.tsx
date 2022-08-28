@@ -1,12 +1,16 @@
-import { useState, useEffect } from "react";
-import { ChangeChainDropdown } from "./chain-dropdown";
-import { ChooseChainInfo, ChainOption, handleSelectChainDropdown } from "./types";
-import { Box } from "@chakra-ui/react";
+import { useState, useEffect } from 'react';
+import { ChangeChainDropdown } from './chain-dropdown';
+import {
+  ChooseChainInfo,
+  ChainOption,
+  handleSelectChainDropdown
+} from './types';
+import { Box } from '@chakra-ui/react';
 
 export function ChooseChain({
   chainId,
   chainInfos,
-  onChange,
+  onChange
 }: {
   chainId?: string;
   chainInfos: ChooseChainInfo[];
