@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       }}
       renderLoader={() => <p>Loading...</p>}
       localStorageKey={LOCAL_STORAGE_KEY}
-      defaultChainId={ChainInfoID.Juno1}
+      defaultChainId={ChainInfoID.Cosmoshub4}
       getSigningCosmWasmClientOptions={(chainInfo) => ({
         gasPrice: GasPrice.fromString(
           '0.0025' + chainInfo.feeCurrencies[0].coinMinimalDenom
