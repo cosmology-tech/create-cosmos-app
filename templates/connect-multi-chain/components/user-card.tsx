@@ -1,11 +1,11 @@
-import React, { ReactNode } from "react";
-import { WalletStatus } from "@keplr-wallet/stores";
-import { Text, useColorModeValue, Stack, Box } from "@chakra-ui/react";
-import { ConnectedUserCardType } from "./types";
+import React, { ReactNode } from 'react';
+import { WalletStatus } from '@keplr-wallet/stores';
+import { Text, useColorModeValue, Stack, Box } from '@chakra-ui/react';
+import { ConnectedUserCardType } from './types';
 
 export const ConnectedUserCard = ({
   userName,
-  icon,
+  icon
 }: ConnectedUserCardType) => {
   return (
     <Stack
@@ -14,10 +14,10 @@ export const ConnectedUserCard = ({
       justifyContent="center"
       alignItems="center"
       borderRadius="lg"
-      bg={useColorModeValue("whiteAlpha.100", "blackAlpha.100")}
+      bg={useColorModeValue('whiteAlpha.100', 'blackAlpha.100')}
       boxShadow={useColorModeValue(
-        "inset 0 0 12px -5px #d3d3d3",
-        "inset 0 0 14px -7px #828282"
+        'inset 0 0 12px -5px #d3d3d3',
+        'inset 0 0 14px -7px #828282'
       )}
       w="full"
       minW="fit-content"
@@ -25,7 +25,7 @@ export const ConnectedUserCard = ({
       paddingX={20}
     >
       <Box
-        display={icon ? "block" : "none"}
+        display={icon ? 'block' : 'none'}
         minW={14}
         maxW={14}
         w={14}
@@ -37,17 +37,16 @@ export const ConnectedUserCard = ({
       >
         {icon}
       </Box>
-      <Text fontSize={{ lg: "lg" }} fontWeight="semibold">
+      <Text fontSize={{ lg: 'lg' }} fontWeight="semibold">
         {userName}
       </Text>
     </Stack>
   );
 };
 
-
 export const ConnectedUserInfo = ({
   name,
-  icon,
+  icon
 }: {
   name: string;
   icon?: ReactNode;
