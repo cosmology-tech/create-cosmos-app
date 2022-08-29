@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler } from "react";
 import Head from "next/head";
 import {
   Box,
@@ -29,8 +29,6 @@ import {
   Rejected,
   ConnectWalletButtonStatus,
   Astronaut,
-  handleSelectChainDropdown,
-  ChainOption,
   ConnectedShowAddress,
   Product,
   Dependency,
@@ -43,9 +41,8 @@ import { dependencies, products } from "../config";
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const [chainId, setChainId] = useState<string | undefined>();
   const { connect, disconnect } = useWalletManager();
-  const { status, error, name, address } = useWallet(chainId);
+  const { status, error, name, address } = useWallet();
   const walletStatus = mapStatusFromCosmosWallet(status, error as Error);
 
   const onClickConnect: MouseEventHandler = (e) => {
@@ -55,13 +52,6 @@ export default function Home() {
   const onClickDisconnect: MouseEventHandler = (e) => {
     e.preventDefault();
     disconnect();
-  };
-  const onChainChange: handleSelectChainDropdown = (
-    selectedValue: ChainOption | null
-  ) => {
-    if (selectedValue) {
-      setChainId(selectedValue.chainId);
-    }
   };
 
   const userInfo = <ConnectedUserInfo username={name} icon={<Astronaut />} />;
