@@ -1,3 +1,4 @@
+import { LinkIcon } from "@chakra-ui/icons";
 import {
   Box,
   Heading,
@@ -7,7 +8,6 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { LinkIcon } from "@chakra-ui/icons";
 import { FeatureProps } from "./types";
 
 export const Product = ({ title, text, href }: FeatureProps) => {
@@ -41,7 +41,7 @@ export const Product = ({ title, text, href }: FeatureProps) => {
 
 export const Dependency = ({ title, text, href }: FeatureProps) => {
   return (
-    <Link href={href} target={"_blank"} _hover={{ textDecoration: "none" }}>
+    <Link href={href} target="_blank" _hover={{ textDecoration: "none" }}>
       <Stack
         isInline={true}
         key={title}
