@@ -29,7 +29,6 @@ import {
   Rejected,
   ConnectWalletButtonStatus,
   Astronaut,
-  ChooseChain,
   handleSelectChainDropdown,
   ChainOption,
   ConnectedShowAddress,
@@ -40,7 +39,7 @@ import {
   CopyAddressBtn,
 } from "../components";
 import { mapStatusFromCosmosWallet } from "../utils";
-import { chainInfos, dependencies, products } from "../config";
+import { dependencies, products } from "../config";
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
