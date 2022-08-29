@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode } from "react";
+import { MouseEventHandler, ReactNode, RefObject } from "react";
 import { IconType } from "react-icons";
 
 export interface ChooseChainInfo {
@@ -15,7 +15,7 @@ export enum WalletStatus {
   Loading = "Loading",
   Loaded = "Loaded",
   NotExist = "NotExist",
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 export interface ConnectWalletType {
@@ -27,8 +27,41 @@ export interface ConnectWalletType {
 }
 
 export interface ConnectedUserCardType {
-  userName: string;
+  username?: string;
   icon?: ReactNode;
+}
+
+export interface OptionBase {
+  variant?: string;
+  colorScheme?: string;
+  isFixed?: boolean;
+  isDisabled?: boolean;
+}
+
+export interface ChainOption extends OptionBase {
+  isDisabled?: boolean;
+  label: string;
+  value: string;
+  icon?: string;
+  chainId: string;
+  chainRoute?: string;
+}
+
+export type handleSelectChainDropdown = (value: ChainOption | null) => void;
+
+export interface ChangeChainDropdownType {
+  data: ChainOption[];
+  selectedItem?: ChainOption;
+  onChange: handleSelectChainDropdown;
+  chainDropdownLoading?: boolean;
+}
+
+export interface ChangeChainMenuType {
+  data: ChainOption[];
+  value?: ChainOption;
+  onClose?: () => void;
+  onChange: handleSelectChainDropdown;
+  innerRef?: RefObject<HTMLInputElement>;
 }
 
 export interface FeatureProps {

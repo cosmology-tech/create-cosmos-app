@@ -1,4 +1,4 @@
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, useState } from "react";
 import Head from "next/head";
 import {
   Box,
@@ -8,14 +8,17 @@ import {
   Text,
   Stack,
   Container,
-  Icon,
-  Flex,
+  Link,
   Button,
+  Flex,
+  Icon,
   useColorMode,
   useColorModeValue,
-  Link,
+  GridItem,
+  Center,
 } from "@chakra-ui/react";
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
+import { FiAlertTriangle } from "react-icons/fi";
 import { useWalletManager, useWallet } from "@cosmos-kit/react";
 import {
   Connected,
@@ -24,58 +27,79 @@ import {
   Disconnect,
   NotExist,
   Rejected,
-  WalletConnectComponent,
+  ConnectWalletButtonStatus,
   Astronaut,
-  Dependency,
+  ChooseChain,
+  handleSelectChainDropdown,
+  ChainOption,
+  ConnectedShowAddress,
   Product,
+  Dependency,
+  ConnectStatusWarn,
+  RejectedWarn,
+  CopyAddressBtn,
 } from "../components";
 import { mapStatusFromCosmosWallet } from "../utils";
-import { dependencies, products } from "../config";
+import { chainInfos, dependencies, products } from "../config";
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
+  const [chainId, setChainId] = useState<string | undefined>();
   const { connect, disconnect } = useWalletManager();
-  const { status, error, name, address } = useWallet();
+  const { status, error, name, address } = useWallet(chainId);
   const walletStatus = mapStatusFromCosmosWallet(status, error as Error);
 
   const onClickConnect: MouseEventHandler = (e) => {
     e.preventDefault();
     connect();
   };
-
   const onClickDisconnect: MouseEventHandler = (e) => {
     e.preventDefault();
     disconnect();
   };
+  const onChainChange: handleSelectChainDropdown = (
+    selectedValue: ChainOption | null
+  ) => {
+    if (selectedValue) {
+      setChainId(selectedValue.chainId);
+    }
+  };
 
-  const userInfoCard = name ? (
-    <ConnectedUserInfo name={name} icon={<Astronaut />} />
-  ) : (
-    <></>
+  const userInfo = <ConnectedUserInfo username={name} icon={<Astronaut />} />;
+  const addressBtn = (
+    <CopyAddressBtn
+      walletStatus={walletStatus}
+      connected={<ConnectedShowAddress address={address} isLoading={false} />}
+    />
   );
-
-  const connectWalletComponent = (
-    <WalletConnectComponent
+  const connectWalletButton = (
+    <ConnectWalletButtonStatus
       walletStatus={walletStatus}
       disconnect={
         <Disconnect buttonText="Connect Wallet" onClick={onClickConnect} />
       }
       connecting={<Connecting />}
       connected={
-        <Box display={{ base: "block", md: "flex" }}>
-          <Box mr={{ lg: 8 }} mb={{ base: 4, md: 0 }}>
-            {userInfoCard}
-          </Box>
-          <Connected buttonText="Disconnect" onClick={onClickDisconnect} />
-        </Box>
+        <Connected buttonText="Disconnect" onClick={onClickDisconnect} />
       }
       rejected={
         <Rejected
           buttonText="Chain Rejected"
-          wordOfWarning="There is not enough chain information to connect to this chain."
+        // wordOfWarning="There is not enough chain information to connect to this chain."
         />
       }
       notExist={<NotExist buttonText="Not Exist" />}
+    />
+  );
+  const connectWalletWarn = (
+    <ConnectStatusWarn
+      walletStatus={walletStatus}
+      rejected={
+        <RejectedWarn
+          icon={<Icon as={FiAlertTriangle} mt={1} />}
+          wordOfWarning="Warning: There is not enough chain information to connect to this chain."
+        />
+      }
     />
   );
 
@@ -93,57 +117,79 @@ export default function Home() {
           />
         </Button>
       </Flex>
-      <Box>
-        <Stack
-          spacing={12}
-          justifyContent="center"
-          alignItems="center"
-          textAlign="center"
-          mb={14}
+      <Box textAlign="center">
+        <Heading
+          as="h1"
+          fontSize={{ base: "3xl", sm: "4xl", md: "5xl" }}
+          fontWeight="extrabold"
+          mb={3}
         >
-          <Box>
-            <Heading
-              as="h1"
-              fontSize={{ base: "3xl", sm: "4xl", md: "5xl" }}
-              fontWeight="extrabold"
-              mb={2}
-            >
-              Cosmos App Made Easy
-            </Heading>
-            <Heading
-              as="h1"
-              fontWeight="bold"
-              fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
-            >
-              <Text as="span">Welcome to&nbsp;</Text>
-              <Text
-                as="span"
-                color={useColorModeValue("primary.500", "primary.200")}
-              >
-                CosmosKit.js + Telescope + Next.js
-              </Text>
-            </Heading>
-          </Box>
-          {connectWalletComponent}
-        </Stack>
-        <Grid
-          templateColumns={{
-            md: "repeat(2, 1fr)",
-            lg: "repeat(3, 1fr)",
-          }}
-          gap={8}
-          mb={14}
+          Cosmos App Made Easy
+        </Heading>
+        <Heading
+          as="h1"
+          fontWeight="bold"
+          fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
         >
-          {products.map((product) => (
-            <Product {...product} key={product.title}></Product>
-          ))}
-        </Grid>
-        <Grid templateColumns={{ md: "1fr 1fr" }} gap={8} mb={20}>
-          {dependencies.map((dependency) => (
-            <Dependency {...dependency}></Dependency>
-          ))}
-        </Grid>
+          <Text as="span">Welcome to&nbsp;</Text>
+          <Text
+            as="span"
+            color={useColorModeValue("primary.500", "primary.200")}
+          >
+            CosmosKit.js + Telescope + Next.js
+          </Text>
+        </Heading>
       </Box>
+      <Center py={16}>
+        <Grid
+          w="full"
+          maxW="sm"
+          templateColumns="1fr"
+          rowGap={4}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <GridItem>{connectWalletWarn}</GridItem>
+          <GridItem px={6}>
+            <Stack
+              justifyContent="center"
+              alignItems="center"
+              borderRadius="lg"
+              bg={useColorModeValue("white", "blackAlpha.400")}
+              boxShadow={useColorModeValue(
+                "0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3",
+                "0 0 2px #363636, 0 0 8px -2px #4f4f4f"
+              )}
+              spacing={4}
+              px={4}
+              py={{ base: 6, md: 12 }}
+            >
+              {userInfo}
+              {addressBtn}
+              <Box w="full" maxW={{ base: 52, md: 64 }}>
+                {connectWalletButton}
+              </Box>
+            </Stack>
+          </GridItem>
+        </Grid>
+      </Center>
+      <Grid
+        templateColumns={{
+          md: "repeat(2, 1fr)",
+          lg: "repeat(3, 1fr)",
+        }}
+        gap={8}
+        mb={14}
+      >
+        {products.map((product) => (
+          <Product key={product.title} {...product}></Product>
+        ))}
+      </Grid>
+      <Grid templateColumns={{ md: "1fr 1fr" }} gap={8} mb={20}>
+        {dependencies.map((dependency) => (
+          <Dependency key={dependency.title} {...dependency}></Dependency>
+        ))}
+      </Grid>
       <Box mb={3}>
         <Divider />
       </Box>
