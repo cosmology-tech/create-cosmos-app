@@ -74,7 +74,7 @@ export default function Home() {
       rejected={
         <Rejected
           buttonText="Chain Rejected"
-        // wordOfWarning="There is not enough chain information to connect to this chain."
+          // wordOfWarning="There is not enough chain information to connect to this chain."
         />
       }
       notExist={<NotExist buttonText="Not Exist" />}

@@ -8,21 +8,23 @@ const glob = require('glob').sync;
 const fs = require('fs');
 const path = require('path');
 
-export const createApp = (repo: string) => {
+export const createGitApp = (repo: string) => {
     return async argv => {
         const { name } = await prompt([
             {
                 name: 'name',
-                message: 'Enter your new module name',
+                message: 'Enter your new app name',
                 required: true,
             }
         ], argv);
-
         if (!shell.which('git')) {
             shell.echo('Sorry, this script requires git');
             return shell.exit(1);
         }
-
+        let folderName: 'templates' | 'examples' = 'templates';
+        if (argv.examples || argv.example || argv.ex) {
+            folderName = 'examples';
+        }
         const tempname = Math.random().toString(36).slice(2, 7);
         const dir = join(argv.tmpdir || tmpdir(), tempname);
         mkdirp(dir);
@@ -30,7 +32,7 @@ export const createApp = (repo: string) => {
         shell.cd(dir);
         shell.exec(`git clone ${repo} ${name}`);
         shell.cd(name);
-        const list = shell.ls('./templates');
+        const list = shell.ls(`./${folderName}`);
 
         const { template } = await prompt([
             {
@@ -43,36 +45,36 @@ export const createApp = (repo: string) => {
         ], argv);
 
         const files = []
-            .concat(glob(join(process.cwd(), 'templates', template, '/**/.*')))
-            .concat(glob(join(process.cwd(), 'templates', template, '/**/*')));
+            .concat(glob(join(process.cwd(), folderName, template, '/**/.*')))
+            .concat(glob(join(process.cwd(), folderName, template, '/**/*')));
 
-        console.log(files);
         for (let i = 0; i < files.length; i++) {
             const templateFile = files[i];
             if (fs.lstatSync(templateFile).isDirectory()) continue;
 
             let content = fs.readFileSync(templateFile).toString();
 
-            const localfile = templateFile.split('templates/' + template)[1];
+            const localfile = templateFile.split(`${folderName}/` + template)[1];
             const localdir = dirname(localfile);
-            const dirpath = join(currentDirecotry, localdir);
-            const filepath = join(currentDirecotry, localfile);
-
-            console.log(filepath);
+            const dirpath = join(currentDirecotry, name, localdir);
+            const filepath = join(currentDirecotry, name, localfile);
 
             mkdirp(dirpath);
-            fs.writeFileSync(templateFile, content);
+            fs.writeFileSync(filepath, content);
 
         }
         shell.cd(currentDirecotry);
         shell.rm('-rf', dir);
         console.log(`
+        
+                 |              _   _
+     ===         |.===.        '\\-//\`    
+    (o o)        {}o o{}        (o o)     
+ooO--(_)--Ooo-ooO--(_)--Ooo-ooO--(_)--Ooo-
 
-        |||
-       (o o)
-      ooO--(_)--Ooo-
+✨ Have fun! Now you can start on your project ⚛️
 
-      ✨ Great work!
+cd ./${name} && yarn && yarn dev
       `);
     };
 };

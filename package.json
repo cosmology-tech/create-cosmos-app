@@ -29,6 +29,7 @@
   },
   "workspaces": [
     "packages/*",
+    "examples/*",
     "templates/*"
   ],
   "repository": {

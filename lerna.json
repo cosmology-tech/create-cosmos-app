@@ -8,6 +8,7 @@
   ],
   "packages": [
     "packages/*",
+    "examples/*",
     "templates/*"
   ],
   "version": "independent",
