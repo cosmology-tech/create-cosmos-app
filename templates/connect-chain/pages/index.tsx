@@ -184,13 +184,13 @@ export default function Home() {
         opacity={0.5}
         fontSize="sm"
       >
-        <Text>Powered by</Text>
+        <Text>Built with</Text>
         <Link
           href="https://cosmology.tech/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          @cosmology-tech
+          Cosmology
         </Link>
       </Stack>
     </Container>
