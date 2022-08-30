@@ -41,6 +41,7 @@ import {
 } from '../components';
 import { mapStatusFromCosmosWallet } from '../utils';
 import { chainInfos, dependencies, products } from '../config';
+import { WalletStatus } from '../components';
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -65,7 +66,9 @@ export default function Home() {
     }
   };
 
-  const userInfo = <ConnectedUserInfo username={name} icon={<Astronaut />} />;
+  const userInfo = walletStatus === WalletStatus.Loaded && (
+    <ConnectedUserInfo username={name} icon={<Astronaut />} />
+  );
   const addressBtn = chainId && (
     <CopyAddressBtn
       walletStatus={walletStatus}

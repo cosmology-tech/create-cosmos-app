@@ -38,6 +38,7 @@ import {
 } from '../components';
 import { mapStatusFromCosmosWallet } from '../utils';
 import { dependencies, products } from '../config';
+import { WalletStatus } from '../components';
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -54,7 +55,9 @@ export default function Home() {
     disconnect();
   };
 
-  const userInfo = <ConnectedUserInfo username={name} icon={<Astronaut />} />;
+  const userInfo = walletStatus === WalletStatus.Loaded && (
+    <ConnectedUserInfo username={name} icon={<Astronaut />} />
+  );
   const addressBtn = (
     <CopyAddressBtn
       walletStatus={walletStatus}
