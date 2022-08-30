@@ -19,84 +19,48 @@ export const ConnectedShowAddress = ({
   const { hasCopied, onCopy } = useClipboard(address ? address : "");
 
   return (
-    <Center>
-      <Box
-        w="full"
-        maxW="xl"
-        borderRadius="lg"
-        boxShadow="inner"
-        bg={useColorModeValue('gray.50', 'whiteAlpha.200')}
-        p={4}
+    <Button
+      borderRadius="full"
+      bg={useColorModeValue("white", "blackAlpha.500")}
+      boxShadow={useColorModeValue("0 0 2px #ccc", "0 1px 2px #333")}
+      w="fit-content"
+      h="fit-content"
+      px={4}
+      py={1.5}
+      onClick={() => onCopy()}
+      isLoading={isLoading}
+      isDisabled={address ? hasCopied : true}
+      rightIcon={<Icon as={FaRegCopy} w={3} h={3} />}
+    >
+      <Text
+        maxW={{ base: 40, md: 48 }}
+        position="relative"
+        fontSize={{ base: "xs", md: "sm" }}
+        fontWeight="normal"
+        letterSpacing="0.4px"
+        title={address}
+        height="1.25em"
+        whiteSpace="break-spaces"
+        overflow="hidden"
+        opacity={0.8}
+        _before={{
+          content: "attr(title)",
+          width: "25%",
+          float: "right",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          direction: "rtl",
+        }}
+        _hover={{
+          cursor: "inherit",
+        }}
       >
-        <Flex
-          justify="space-between"
-          align="center"
-          px={{ base: 2, sm: 3 }}
-          mb={2}
-        >
-          {isLoading ? (
-            <Skeleton w="full" maxW="2xs" h={8} />
-          ) : (
-            <Flex flexGrow={1} align="center">
-              <Icon as={IoWallet} mr={2} />
-              <Text
-                fontSize={{ base: 'lg', sm: 'xl', md: 'xl' }}
-                fontWeight="semibold"
-              >
-                {username ? username : 'user not identified yet'}
-              </Text>
-            </Flex>
-          )}
-          {showLink && (
-            <Link href="#" isExternal>
-              <Icon as={FiExternalLink} mx={1} />
-            </Link>
-          )}
-        </Flex>
-        <Button
-          w="full"
-          borderRadius="full"
-          boxShadow="base"
-          bg={useColorModeValue('whiteAlpha.900', 'blackAlpha.900')}
-          px={{ base: 3, md: 4 }}
-          py={1}
-          onClick={() => onCopy()}
-          isLoading={isLoading}
-          isDisabled={address.length === 0 ? true : hasCopied}
-          rightIcon={<FaRegCopy />}
-        >
-          <Text
-            maxW={{ base: 40, md: 'lg' }}
-            position="relative"
-            fontSize={{ base: 'sm', md: 'md' }}
-            fontWeight="normal"
-            letterSpacing="0.4px"
-            title={address}
-            height="1.25em"
-            whiteSpace="break-spaces"
-            overflow="hidden"
-            _before={{
-              content: 'attr(title)',
-              width: { base: '50%', sm: 0 },
-              float: 'right',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              direction: 'rtl'
-            }}
-            _hover={{
-              cursor: 'inherit'
-            }}
-          >
-            {address ? address : 'address not identified yet'}
-          </Text>
-        </Button>
-      </Box>
-    </Center>
+        {address ? address : "address not identified yet"}
+      </Text>
+    </Button>
   );
->>>>>>> main
 };
-
 
 export const CopyAddressBtn = ({
   walletStatus,

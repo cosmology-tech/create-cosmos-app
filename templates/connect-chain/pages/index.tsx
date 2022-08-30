@@ -71,12 +71,7 @@ export default function Home() {
       connected={
         <Connected buttonText="Disconnect" onClick={onClickDisconnect} />
       }
-      rejected={
-        <Rejected
-          buttonText="Chain Rejected"
-          // wordOfWarning="There is not enough chain information to connect to this chain."
-        />
-      }
+      rejected={<Rejected buttonText="Chain Rejected" />}
       notExist={<NotExist buttonText="Not Exist" />}
     />
   );
