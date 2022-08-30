@@ -1,5 +1,5 @@
-import { MouseEventHandler, ReactNode, RefObject } from 'react';
-import { IconType } from 'react-icons';
+import { MouseEventHandler, ReactNode, RefObject } from "react";
+import { IconType } from "react-icons";
 
 export interface ChooseChainInfo {
   chainId: string;
@@ -11,11 +11,11 @@ export interface ChooseChainInfo {
 }
 
 export enum WalletStatus {
-  NotInit = 'NotInit',
-  Loading = 'Loading',
-  Loaded = 'Loaded',
-  NotExist = 'NotExist',
-  Rejected = 'Rejected'
+  NotInit = "NotInit",
+  Loading = "Loading",
+  Loaded = "Loaded",
+  NotExist = "NotExist",
+  Rejected = "Rejected",
 }
 
 export interface ConnectWalletType {
@@ -27,7 +27,7 @@ export interface ConnectWalletType {
 }
 
 export interface ConnectedUserCardType {
-  userName: string;
+  username?: string;
   icon?: ReactNode;
 }
 

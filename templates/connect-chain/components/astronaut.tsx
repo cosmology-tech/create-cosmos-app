@@ -1,9 +1,9 @@
 export const Astronaut = (props: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" {...props}>
-    <title>{'cosmology-astronaut'}</title>
+    <title>{"cosmology-astronaut"}</title>
     <style>
       {
-        '.astronaut0{fill:#030609}.astronaut1{fill:#f6f5f3}.astronaut6{fill:#d8dedc}.astronaut7{fill:#839091}.astronaut8{fill:#9ca9a8}.astronaut9{fill:#dae0df}.astronaut10{fill:#687476}.astronaut11{fill:#fff}.astronaut14{fill:#388688}.astronaut15{fill:#515c5c}'
+        ".astronaut0{fill:#030609}.astronaut1{fill:#f6f5f3}.astronaut6{fill:#d8dedc}.astronaut7{fill:#839091}.astronaut8{fill:#9ca9a8}.astronaut9{fill:#dae0df}.astronaut10{fill:#687476}.astronaut11{fill:#fff}.astronaut14{fill:#388688}.astronaut15{fill:#515c5c}"
       }
     </style>
     <g id="astronaut">
@@ -64,7 +64,7 @@ export const Astronaut = (props: any) => (
           <path
             d="M247.1 70.4c9.6 11.7 17 25.1 22 39.7-4.5 4.5-10.7 7.4-17.6 7.4-13.4 0-24.2-10.7-24.2-23.8 0-11.6 8.5-21.3 19.8-23.3z"
             style={{
-              fill: '#ba536a'
+              fill: "#ba536a",
             }}
             id="Layer 4"
           />
@@ -72,20 +72,20 @@ export const Astronaut = (props: any) => (
             <path
               d="M253.7 116.2c-13 0-23.6-10.6-23.6-23.7 0-10.6 7-19.6 16.7-22.6 9.7 11.9 17.4 25.6 22.4 40.5-4.2 3.6-9.6 5.8-15.5 5.8z"
               style={{
-                fill: '#ff6b84'
+                fill: "#ff6b84",
               }}
             />
             <g id="Layer 12">
               <path
                 d="M155.9 270c0 2.8-.6 5.4-1.5 7.9q-3.1.2-6.4.2c-14.2 0-28-2.4-40.8-6.7 0-.5-.1-1-.1-1.4 0-13.1 10.9-23.8 24.4-23.8 13.5 0 24.4 10.7 24.4 23.8z"
                 style={{
-                  fill: '#124899'
+                  fill: "#124899",
                 }}
               />
               <path
                 d="M156.8 272.5q0 2.7-.6 5.3-4 .3-8.2.3c-13.5 0-26.5-2.1-38.7-6 .2-13.4 10.8-24.3 23.7-24.3 13.1 0 23.8 11.1 23.8 24.7z"
                 style={{
-                  fill: '#4cbab6'
+                  fill: "#4cbab6",
                 }}
                 id="Layer 30"
               />
@@ -191,14 +191,14 @@ export const Astronaut = (props: any) => (
               <path
                 d="M107.9 98.9c5.7 1.4 15.8-.4 20.1 1.3 4.2 1.8 11.7 12.8 16.3 14.4 4.6 1.5 11.7-5.4 14-5 2.3.3 1.9 4.4 4.9 6.6 1.2.9 3.2 1.9 7.3 3q4.6 1.3 9.5 3-30.5 17.5-59.9 11.6-29.4-5.8-31.4-13.2-.7-7 .5-17.1 1-7.7 3.1-13.3 10 7.3 15.6 8.7z"
                 style={{
-                  fill: '#173d3e'
+                  fill: "#173d3e",
                 }}
               />
               <g id="Layer 48">
                 <path
                   d="M88.5 115q4.1-.9 7.3 1.2c3.1 2.1 14.7 9.3 18.7 10.8s24.9-.2 26.8-1.5q1.8-1.4 5.7-2.3 5 4.1 7.8 3.8c2.7-.4 6 1.2 9.9-1.3 4-2.5 6-5.6 8.8-5.6 2.7 0 5.9 1.8 8 2.1 6.5 1.1 8.2-1.5 11-.5 2.8 1 4.2 1.5 8.8 1.3q4.6-.3 17.9-1.9 2.4 6.7-15.4 20.6c-6.3 4.9-19.3 12-55 12-5.8 0-27.9-1.1-46-14.5Q85.7 126.7 88.5 115z"
                   style={{
-                    fill: '#276a69'
+                    fill: "#276a69",
                   }}
                 />
                 <g id="Layer 52">
@@ -209,7 +209,7 @@ export const Astronaut = (props: any) => (
                   <g
                     id="Layer 50"
                     style={{
-                      opacity: 0.4
+                      opacity: 0.4,
                     }}
                   >
                     <path
