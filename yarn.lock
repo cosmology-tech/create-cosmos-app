@@ -5284,6 +5284,69 @@
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
+"@protobufs/confio@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.npmjs.org/@protobufs/confio/-/confio-0.0.6.tgz#a6ddf44eca2cbe535384228312ae7ef5dff29644"
+  integrity sha512-abZ0ntTJBuB8q2aMBvOerAFk8CSzafB09YdttKFEqwxokZsLFZ3+o7YaH3RIk863oeM//8sonwTaxRV8r4rmSA==
+
+"@protobufs/cosmos@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.npmjs.org/@protobufs/cosmos/-/cosmos-0.0.11.tgz#68a1feaa044916a0f1fdf6a2922f08a6811e796f"
+  integrity sha512-r9XQikxQ3qaWVJ4EYePP7r/QL/lEEpgSeHiD0U5t4bOXux5gIWrz3AMLe5PIdFxBwkeqkF21Vz4JnVd3/XdC7Q==
+  dependencies:
+    "@protobufs/cosmos_proto" "^0.0.10"
+    "@protobufs/gogoproto" "^0.0.10"
+    "@protobufs/google" "^0.0.10"
+    "@protobufs/tendermint" "^0.0.10"
+
+"@protobufs/cosmos_proto@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.npmjs.org/@protobufs/cosmos_proto/-/cosmos_proto-0.0.10.tgz#622726ee227f220f608df180f938e5d8ebb1534a"
+  integrity sha512-4nMopXxN23udy1HEe+vS49zD9dxrA7i0E3n15QUz1x0tbrowYLHzJKeyCUNlsh5PKpEIXGxHXpPZWXs7vVCwUw==
+  dependencies:
+    "@protobufs/google" "^0.0.10"
+
+"@protobufs/cosmwasm@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.npmjs.org/@protobufs/cosmwasm/-/cosmwasm-0.0.11.tgz#a3cd756494735766260ff914af1c8c9645a75592"
+  integrity sha512-SiPtJRLltQQ/+OEqBpxXbZt6PuXvfR82P/jh4Xt+KB18A2siaossYPU6I4HIBhpkWT6LIH4QoH5UsWlIzIxbRg==
+  dependencies:
+    "@protobufs/cosmos" "^0.0.11"
+    "@protobufs/cosmos_proto" "^0.0.10"
+    "@protobufs/gogoproto" "^0.0.10"
+    "@protobufs/google" "^0.0.10"
+
+"@protobufs/gogoproto@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.npmjs.org/@protobufs/gogoproto/-/gogoproto-0.0.10.tgz#0181e17142c800b60c7ca5f92c76a614d86c5c54"
+  integrity sha512-u3eK1aSO3KOuX4RVFpqKPTaT/WLV50GFLuIC3slVGfD7Z1CfZ5ivHbFYUib96gihu1Mq2OZpNVj3dNws9YsVoQ==
+  dependencies:
+    "@protobufs/google" "^0.0.10"
+
+"@protobufs/google@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.npmjs.org/@protobufs/google/-/google-0.0.10.tgz#820f741b0c53f688550c74c7ddb25a5ee131a6bf"
+  integrity sha512-3yo+liabFM1519smwwfzh1C535CntXVsS7zT98xmo21tZUX7vxeFpQDMx38EzMGYSy/Reo8wEMWJUHqZzYsCUw==
+
+"@protobufs/ibc@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.npmjs.org/@protobufs/ibc/-/ibc-0.0.11.tgz#00f7ef9d4cb5a7857f701f8145543759d45e3657"
+  integrity sha512-f6D7AGpbbHvm8Mwpc8wirm/bT4rumyz2HZMHeAt2U45cAgV7fELAqXH4UtcXxIfLl1J21BsagPtf/E9KLEdnXw==
+  dependencies:
+    "@protobufs/confio" "^0.0.6"
+    "@protobufs/cosmos" "^0.0.11"
+    "@protobufs/gogoproto" "^0.0.10"
+    "@protobufs/google" "^0.0.10"
+    "@protobufs/tendermint" "^0.0.10"
+
+"@protobufs/tendermint@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.npmjs.org/@protobufs/tendermint/-/tendermint-0.0.10.tgz#816b27410afcecd8b6d403df149f3c2b9b80655e"
+  integrity sha512-hAAMLFhKdAovslKeWnLTp2gGn5bxSTDVcQLKs4C4cC91R/KfHOh+Klt4PqSGUv/APINAmREzsX2LDUbIQ2dCpg==
+  dependencies:
+    "@protobufs/gogoproto" "^0.0.10"
+    "@protobufs/google" "^0.0.10"
+
 "@pyramation/babel-preset-env@0.1.0":
   version "0.1.0"
   resolved "https://registry.npmjs.org/@pyramation/babel-preset-env/-/babel-preset-env-0.1.0.tgz#cb9bf3a507d79b9ceb8b7e83815ed1a672209952"
