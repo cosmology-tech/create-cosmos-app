@@ -1,16 +1,16 @@
-import React, { MouseEventHandler, ReactNode } from "react";
-import { Button, Icon } from "@chakra-ui/react";
+import React, { MouseEventHandler, ReactNode } from 'react';
+import { Button, Icon } from '@chakra-ui/react';
 
-import { WalletStatus } from "./types";
-import { IoWallet } from "react-icons/io5";
-import { ConnectWalletType } from "./types";
+import { WalletStatus } from './types';
+import { IoWallet } from 'react-icons/io5';
+import { ConnectWalletType } from './types';
 
 export const ConnectWalletButton = ({
   buttonText,
   isLoading,
   isDisabled,
   icon,
-  onClickConnectBtn,
+  onClickConnectBtn
 }: ConnectWalletType) => {
   return (
     <Button
@@ -25,25 +25,25 @@ export const ConnectWalletButton = ({
       transition="all .5s ease-in-out"
       _hover={{
         bgImage:
-          "linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)",
-        opacity: 0.75,
+          'linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)',
+        opacity: 0.75
       }}
       _active={{
         bgImage:
-          "linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)",
-        opacity: 0.9,
+          'linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)',
+        opacity: 0.9
       }}
       onClick={onClickConnectBtn}
     >
       <Icon as={icon ? icon : IoWallet} mr={2} />
-      {buttonText ? buttonText : "Connect Wallet"}
+      {buttonText ? buttonText : 'Connect Wallet'}
     </Button>
   );
 };
 
 export const Disconnect = ({
   buttonText,
-  onClick,
+  onClick
 }: {
   buttonText: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
@@ -55,7 +55,7 @@ export const Disconnect = ({
 
 export const Connected = ({
   buttonText,
-  onClick,
+  onClick
 }: {
   buttonText: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
@@ -83,7 +83,7 @@ export const ConnectWalletButtonStatus = ({
   connecting,
   connected,
   rejected,
-  notExist,
+  notExist
 }: {
   walletStatus: WalletStatus;
   disconnect: ReactNode;
