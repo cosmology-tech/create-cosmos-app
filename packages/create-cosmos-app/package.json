@@ -1,6 +1,6 @@
 {
   "name": "create-cosmos-app",
-  "version": "0.0.6",
+  "version": "0.2.2",
   "description": "create cosmos app",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/cosmology-tech/create-cosmos-app#readme",
@@ -88,5 +88,6 @@
     "minimist": "1.2.6",
     "mkdirp": "1.0.4",
     "shelljs": "0.8.5"
-  }
+  },
+  "gitHead": "b980ddd90034f9ab6fd81ef5f17a21851823b83a"
 }
