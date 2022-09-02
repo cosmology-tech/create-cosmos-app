@@ -20,7 +20,7 @@ export const createQuestionTemplate = (repo: string) => {
             return shell.exit(1);
         }
 
-        shell.exec(`git clone ${repo} ${name}`);
+        shell.exec(`git clone --depth 1 ${repo} ${name}`);
         shell.cd(name);
 
         const questions = JSON.parse(fs.readFileSync(`.questions.json`));
