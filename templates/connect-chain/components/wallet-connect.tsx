@@ -15,7 +15,8 @@ export const ConnectWalletButton = ({
   return (
     <Button
       w="full"
-      minW="fit-content"
+      minW={48}
+      px={2}
       size="lg"
       isLoading={isLoading}
       isDisabled={isDisabled}

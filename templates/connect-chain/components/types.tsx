@@ -27,6 +27,7 @@ export interface ConnectWalletType {
 }
 
 export interface ConnectedUserCardType {
+  walletIcon?: string;
   username?: string;
   icon?: ReactNode;
 }
