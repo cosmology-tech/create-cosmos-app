@@ -3,10 +3,8 @@ import { prompt } from './prompt';
 import { join, dirname } from 'path';
 import { sync as mkdirp } from 'mkdirp';
 import { tmpdir } from 'os'
-const dargs = require('dargs');
-const glob = require('glob').sync;
-const fs = require('fs');
-const path = require('path');
+import { sync as glob } from 'glob';
+import * as fs from 'fs';
 
 export const createGitApp = (repo: string) => {
     return async argv => {
