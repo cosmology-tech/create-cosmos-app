@@ -30,7 +30,7 @@ export const createGitApp = (repo: string) => {
         mkdirp(dir);
         const currentDirecotry = process.cwd();
         shell.cd(dir);
-        shell.exec(`git clone ${repo} ${name}`);
+        shell.exec(`git clone -–depth 1 ${repo} ${name}`);
         shell.cd(name);
         const list = shell.ls(`./${folderName}`);
 
