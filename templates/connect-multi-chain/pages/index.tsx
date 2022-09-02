@@ -1,5 +1,5 @@
-import { MouseEventHandler, useState } from 'react';
-import Head from 'next/head';
+import { MouseEventHandler, useState } from "react";
+import Head from "next/head";
 import {
   Box,
   Divider,
@@ -15,11 +15,11 @@ import {
   useColorMode,
   useColorModeValue,
   GridItem,
-  Center
-} from '@chakra-ui/react';
-import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
-import { FiAlertTriangle } from 'react-icons/fi';
-import { useWalletManager, useWallet } from '@cosmos-kit/react';
+  Center,
+} from "@chakra-ui/react";
+import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
+import { FiAlertTriangle } from "react-icons/fi";
+import { useWalletManager, useWallet } from "@cosmos-kit/react";
 import {
   Connected,
   ConnectedUserInfo,
@@ -37,11 +37,12 @@ import {
   Dependency,
   ConnectStatusWarn,
   RejectedWarn,
-  CopyAddressBtn
-} from '../components';
-import { mapStatusFromCosmosWallet } from '../utils';
-import { chainInfos, dependencies, products } from '../config';
-import { WalletStatus } from '../components';
+  CopyAddressBtn,
+  ConnectWalletCard,
+} from "../components";
+import { mapStatusFromCosmosWallet } from "../utils";
+import { chainInfos, dependencies, products } from "../config";
+import { WalletStatus } from "../components";
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -64,6 +65,7 @@ export default function Home() {
     if (selectedValue) {
       setChainId(selectedValue.chainId);
     }
+    if (selectedValue === null) setChainId(undefined);
   };
 
   const userInfo = walletStatus === WalletStatus.Loaded && (
@@ -118,14 +120,14 @@ export default function Home() {
       <Flex justifyContent="end" mb={4}>
         <Button variant="outline" px={0} onClick={toggleColorMode}>
           <Icon
-            as={colorMode === 'light' ? BsFillMoonStarsFill : BsFillSunFill}
+            as={colorMode === "light" ? BsFillMoonStarsFill : BsFillSunFill}
           />
         </Button>
       </Flex>
       <Box textAlign="center">
         <Heading
           as="h1"
-          fontSize={{ base: '3xl', sm: '4xl', md: '5xl' }}
+          fontSize={{ base: "3xl", sm: "4xl", md: "5xl" }}
           fontWeight="extrabold"
           mb={3}
         >
@@ -134,12 +136,12 @@ export default function Home() {
         <Heading
           as="h1"
           fontWeight="bold"
-          fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
+          fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
         >
           <Text as="span">Welcome to&nbsp;</Text>
           <Text
             as="span"
-            color={useColorModeValue('primary.500', 'primary.200')}
+            color={useColorModeValue("primary.500", "primary.200")}
           >
             CosmosKit + Telescope + Next.js
           </Text>
@@ -157,32 +159,18 @@ export default function Home() {
           <GridItem>{chooseChain}</GridItem>
           <GridItem>{connectWalletWarn}</GridItem>
           <GridItem px={6}>
-            <Stack
-              justifyContent="center"
-              alignItems="center"
-              borderRadius="lg"
-              bg={useColorModeValue('white', 'blackAlpha.400')}
-              boxShadow={useColorModeValue(
-                '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
-                '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
-              )}
-              spacing={4}
-              px={4}
-              py={{ base: 6, md: 12 }}
-            >
-              {userInfo}
-              {addressBtn}
-              <Box w="full" maxW={{ base: 52, md: 64 }}>
-                {connectWalletButton}
-              </Box>
-            </Stack>
+            <ConnectWalletCard
+              userInfo={userInfo}
+              addressBtn={addressBtn}
+              connectWalletButton={connectWalletButton}
+            />
           </GridItem>
         </Grid>
       </Center>
       <Grid
         templateColumns={{
-          md: 'repeat(2, 1fr)',
-          lg: 'repeat(3, 1fr)'
+          md: "repeat(2, 1fr)",
+          lg: "repeat(3, 1fr)",
         }}
         gap={8}
         mb={14}
@@ -191,7 +179,7 @@ export default function Home() {
           <Product key={product.title} {...product}></Product>
         ))}
       </Grid>
-      <Grid templateColumns={{ md: '1fr 1fr' }} gap={8} mb={20}>
+      <Grid templateColumns={{ md: "1fr 1fr" }} gap={8} mb={20}>
         {dependencies.map((dependency) => (
           <Dependency key={dependency.title} {...dependency}></Dependency>
         ))}
