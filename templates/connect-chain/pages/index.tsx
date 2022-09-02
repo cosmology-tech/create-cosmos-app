@@ -111,7 +111,7 @@ export default function Home() {
           fontWeight="extrabold"
           mb={3}
         >
-          Cosmos App Made Easy
+          Cosmos Apps Made Easy
         </Heading>
         <Heading
           as="h1"
