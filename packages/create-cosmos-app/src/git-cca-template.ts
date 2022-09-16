@@ -3,10 +3,8 @@ import { prompt } from './prompt';
 import { join, dirname } from 'path';
 import { sync as mkdirp } from 'mkdirp';
 import { tmpdir } from 'os'
-const dargs = require('dargs');
-const glob = require('glob').sync;
-const fs = require('fs');
-const path = require('path');
+import { sync as glob } from 'glob';
+import * as fs from 'fs';
 
 export const createGitApp = (repo: string) => {
     return async argv => {
@@ -30,7 +28,7 @@ export const createGitApp = (repo: string) => {
         mkdirp(dir);
         const currentDirecotry = process.cwd();
         shell.cd(dir);
-        shell.exec(`git clone ${repo} ${name}`);
+        shell.exec(`git clone --depth 1 ${repo} ${name}`);
         shell.cd(name);
         const list = shell.ls(`./${folderName}`);
 
