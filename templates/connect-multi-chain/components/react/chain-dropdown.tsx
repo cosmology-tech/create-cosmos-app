@@ -10,12 +10,9 @@ import {
   SystemStyleObject,
   SkeletonCircle,
   Skeleton,
-  Center,
 } from "@chakra-ui/react";
 import { Searcher } from "fast-fuzzy";
 import { FiChevronDown } from "react-icons/fi";
-import { FaSlash } from "react-icons/fa";
-import { HiOutlineLink } from "react-icons/hi";
 import {
   AsyncSelect,
   OptionProps,
@@ -23,13 +20,12 @@ import {
   GroupBase,
   DropdownIndicatorProps,
   PlaceholderProps,
-  ClearIndicatorProps,
 } from "chakra-react-select";
 import {
-  ChainOption,
+  DataType,
   ChangeChainDropdownType,
   ChangeChainMenuType,
-} from "./types";
+} from "../types";
 
 const SkeletonOptions = () => {
   return (
@@ -88,13 +84,15 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
         backgroundClip: "content-box",
       },
     }),
-    dropdownIndicator: (provided: SystemStyleObject) => ({
-      ...provided,
-      bg: "transparent",
-    }),
     clearIndicator: (provided: SystemStyleObject) => ({
       ...provided,
       borderRadius: "full",
+      color: useColorModeValue("blackAlpha.600", "whiteAlpha.600"),
+    }),
+    dropdownIndicator: (provided: SystemStyleObject) => ({
+      ...provided,
+      bg: "transparent",
+      pl: 1.5,
     }),
     option: (
       provided: SystemStyleObject,
@@ -111,15 +109,15 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
               ? "primary.200"
               : "primary.100"
             : state.isFocused
-            ? "blackAlpha.200"
-            : "transparent",
+              ? "blackAlpha.200"
+              : "transparent",
           state.isSelected
             ? state.isFocused
               ? "primary.600"
               : "primary.500"
             : state.isFocused
-            ? "whiteAlpha.200"
-            : "transparent"
+              ? "whiteAlpha.200"
+              : "transparent"
         ),
         _notFirst: {
           mt: 2,
@@ -134,30 +132,9 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
   const IndicatorSeparator = () => {
     return null;
   };
-  const ClearIndicator = (
-    props: ClearIndicatorProps<ChainOption, false, GroupBase<ChainOption>>
-  ) => (
-    <chakraComponents.ClearIndicator {...props}>
-      <Center position="relative">
-        <Icon
-          position="absolute"
-          as={FaSlash}
-          w={5}
-          h={5}
-          color={useColorModeValue("blackAlpha.500", "whiteAlpha.500")}
-        />
-        <Icon
-          as={HiOutlineLink}
-          w={5}
-          h={5}
-          color={useColorModeValue("blackAlpha.600", "whiteAlpha.600")}
-        />
-      </Center>
-    </chakraComponents.ClearIndicator>
-  );
   const DropdownIndicator = ({
     ...props
-  }: DropdownIndicatorProps<ChainOption, false, GroupBase<ChainOption>>) => {
+  }: DropdownIndicatorProps<DataType, false, GroupBase<DataType>>) => {
     return (
       <chakraComponents.DropdownIndicator {...props}>
         <Icon
@@ -169,7 +146,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
       </chakraComponents.DropdownIndicator>
     );
   };
-  const Placeholder = (props: PlaceholderProps<ChainOption>) => {
+  const Placeholder = (props: PlaceholderProps<DataType>) => {
     if (props.hasValue) {
       return (
         <chakraComponents.Placeholder {...props}>
@@ -215,7 +192,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
   const CustomOption = ({
     children,
     ...props
-  }: OptionProps<ChainOption, false, GroupBase<ChainOption>>) => {
+  }: OptionProps<DataType, false, GroupBase<DataType>>) => {
     return (
       <chakraComponents.Option {...props}>
         <Stack
@@ -261,7 +238,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
       chakraStyles={customStyles}
       isClearable={true}
       isMulti={false}
-      isOptionDisabled={(option) => option.isDisabled || false}
+      isOptionDisabled={(option) => option.isDisabled}
       blurInputOnSelect={true}
       controlShouldRenderValue={false}
       loadingMessage={() => <SkeletonOptions />}
@@ -277,7 +254,6 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
       components={{
         DropdownIndicator,
         IndicatorSeparator,
-        ClearIndicator,
         Placeholder,
         Option: CustomOption,
       }}
@@ -291,7 +267,7 @@ export const ChangeChainDropdown = ({
   onChange,
 }: ChangeChainDropdownType) => {
   return (
-    <Box w="full" position="relative" zIndex={50}>
+    <Box w="full" position="relative" zIndex={150}>
       <SelectOptions data={data} value={selectedItem} onChange={onChange} />
     </Box>
   );
