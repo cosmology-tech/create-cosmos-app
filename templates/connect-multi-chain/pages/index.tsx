@@ -1,4 +1,3 @@
-import { MouseEventHandler, useState } from "react";
 import Head from "next/head";
 import {
   Box,
@@ -14,101 +13,17 @@ import {
   Icon,
   useColorMode,
   useColorModeValue,
-  GridItem,
-  Center,
 } from "@chakra-ui/react";
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
-import { FiAlertTriangle } from "react-icons/fi";
-import { useWalletManager, useWallet } from "@cosmos-kit/react";
 import {
-  Connected,
-  ConnectedUserInfo,
-  Connecting,
-  Disconnect,
-  NotExist,
-  Rejected,
-  ConnectWalletButtonStatus,
-  Astronaut,
-  ChooseChain,
-  handleSelectChainDropdown,
-  ChainOption,
-  ConnectedShowAddress,
   Product,
   Dependency,
-  ConnectStatusWarn,
-  RejectedWarn,
-  CopyAddressBtn,
-  ConnectWalletCard,
+  WalletSection,
 } from "../components";
-import { mapStatusFromCosmosWallet } from "../utils";
-import { chainInfos, dependencies, products } from "../config";
-import { WalletStatus } from "../components";
+import { dependencies, products } from "../config";
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const [chainId, setChainId] = useState<string | undefined>();
-  const { connect, disconnect } = useWalletManager();
-  const { status, error, name, address } = useWallet(chainId);
-  const walletStatus = mapStatusFromCosmosWallet(status, error as Error);
-
-  const onClickConnect: MouseEventHandler = (e) => {
-    e.preventDefault();
-    connect();
-  };
-  const onClickDisconnect: MouseEventHandler = (e) => {
-    e.preventDefault();
-    disconnect();
-  };
-  const onChainChange: handleSelectChainDropdown = (
-    selectedValue: ChainOption | null
-  ) => {
-    if (selectedValue) {
-      setChainId(selectedValue.chainId);
-    }
-    if (selectedValue === null) setChainId(undefined);
-  };
-
-  const userInfo = walletStatus === WalletStatus.Loaded && (
-    <ConnectedUserInfo username={name} icon={<Astronaut />} />
-  );
-  const addressBtn = chainId && (
-    <CopyAddressBtn
-      walletStatus={walletStatus}
-      connected={<ConnectedShowAddress address={address} isLoading={false} />}
-    />
-  );
-  const connectWalletButton = (
-    <ConnectWalletButtonStatus
-      walletStatus={walletStatus}
-      disconnect={
-        <Disconnect buttonText="Connect Wallet" onClick={onClickConnect} />
-      }
-      connecting={<Connecting />}
-      connected={
-        <Connected buttonText="Disconnect" onClick={onClickDisconnect} />
-      }
-      rejected={<Rejected buttonText="Chain Rejected" />}
-      notExist={<NotExist buttonText="Not Exist" />}
-    />
-  );
-  const connectWalletWarn = (
-    <ConnectStatusWarn
-      walletStatus={walletStatus}
-      rejected={
-        <RejectedWarn
-          icon={<Icon as={FiAlertTriangle} mt={1} />}
-          wordOfWarning="Warning: There is not enough chain information to connect to this chain."
-        />
-      }
-    />
-  );
-  const chooseChain = (
-    <ChooseChain
-      chainId={chainId}
-      chainInfos={chainInfos}
-      onChange={onChainChange}
-    />
-  );
 
   return (
     <Container maxW="5xl" py={10}>
@@ -147,26 +62,7 @@ export default function Home() {
           </Text>
         </Heading>
       </Box>
-      <Center py={16}>
-        <Grid
-          w="full"
-          maxW="sm"
-          templateColumns="1fr"
-          rowGap={4}
-          alignItems="center"
-          justifyContent="center"
-        >
-          <GridItem>{chooseChain}</GridItem>
-          <GridItem>{connectWalletWarn}</GridItem>
-          <GridItem px={6}>
-            <ConnectWalletCard
-              userInfo={userInfo}
-              addressBtn={addressBtn}
-              connectWalletButton={connectWalletButton}
-            />
-          </GridItem>
-        </Grid>
-      </Center>
+      <WalletSection />
       <Grid
         templateColumns={{
           md: "repeat(2, 1fr)",
