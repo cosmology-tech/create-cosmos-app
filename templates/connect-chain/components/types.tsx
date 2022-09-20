@@ -2,7 +2,7 @@ import { MouseEventHandler, ReactNode } from "react";
 import { IconType } from "react-icons";
 
 export interface ChooseChainInfo {
-  chainId: string;
+  chainName: string;
   chainRoute?: string;
   label: string;
   value: string;
@@ -27,6 +27,7 @@ export interface ConnectWalletType {
 }
 
 export interface ConnectedUserCardType {
+  walletIcon?: string;
   username?: string;
   icon?: ReactNode;
 }
@@ -35,4 +36,9 @@ export interface FeatureProps {
   title: string;
   text: string;
   href: string;
+}
+
+export interface ChainCardProps {
+  prettyName: string;
+  icon?: string;
 }

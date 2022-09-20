@@ -1,8 +1,17 @@
 import { MouseEventHandler, ReactNode, RefObject } from "react";
 import { IconType } from "react-icons";
 
-export interface ChooseChainInfo {
+export interface DataType extends OptionBase {
+  isDisabled?: boolean;
+  label: string;
+  value: string;
+  icon?: string;
   chainId: string;
+  chainRoute?: string;
+}
+
+export interface ChooseChainInfo {
+  chainName: string;
   chainRoute?: string;
   label: string;
   value: string;
@@ -29,6 +38,7 @@ export interface ConnectWalletType {
 export interface ConnectedUserCardType {
   username?: string;
   icon?: ReactNode;
+  walletIcon?: string;
 }
 
 export interface OptionBase {
@@ -43,7 +53,7 @@ export interface ChainOption extends OptionBase {
   label: string;
   value: string;
   icon?: string;
-  chainId: string;
+  chainName: string;
   chainRoute?: string;
 }
 
