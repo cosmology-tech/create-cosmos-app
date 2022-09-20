@@ -7,7 +7,7 @@ import {
   useClipboard,
 } from "@chakra-ui/react";
 import { FaRegCopy } from "react-icons/fa";
-import { WalletStatus } from "./types";
+import { WalletStatus } from "@cosmos-kit/core";
 
 export const ConnectedShowAddress = ({
   address,
@@ -70,7 +70,7 @@ export const CopyAddressBtn = ({
   connected: ReactNode;
 }) => {
   switch (walletStatus) {
-    case WalletStatus.Loaded:
+    case WalletStatus.Connected:
       return <>{connected}</>;
     default:
       return <></>;

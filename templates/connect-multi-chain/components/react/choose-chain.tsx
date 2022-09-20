@@ -4,25 +4,25 @@ import {
   ChooseChainInfo,
   ChainOption,
   handleSelectChainDropdown,
-} from "./types";
+} from "../types";
 
 export function ChooseChain({
-  chainId,
+  chainName,
   chainInfos,
   onChange,
 }: {
-  chainId?: string;
+  chainName?: string;
   chainInfos: ChooseChainInfo[];
   onChange: handleSelectChainDropdown;
 }) {
   const [selectedItem, setSelectedItem] = useState<ChainOption | undefined>();
   useEffect(() => {
-    if (chainId && chainInfos.length > 0)
+    if (chainName && chainInfos.length > 0)
       setSelectedItem(
-        chainInfos.filter((options) => options.chainId === chainId)[0]
+        chainInfos.filter((options) => options.chainName === chainName)[0]
       );
-    if (!chainId) setSelectedItem(undefined);
-  }, [chainId]);
+    if (!chainName) setSelectedItem(undefined);
+  }, [chainName]);
   return (
     <ChangeChainDropdown
       data={chainInfos}

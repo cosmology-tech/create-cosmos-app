@@ -21,9 +21,14 @@ import {
   WalletSection,
 } from "../components";
 import { dependencies, products } from "../config";
+import { useRouter } from "next/router";
+
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
+  const router = useRouter();
+  let { chainName } = router.query;
+  chainName = chainName ? chainName as string : undefined;
 
   return (
     <Container maxW="5xl" py={10}>
@@ -62,7 +67,7 @@ export default function Home() {
           </Text>
         </Heading>
       </Box>
-      <WalletSection />
+      <WalletSection chainName={chainName} />
       <Grid
         templateColumns={{
           md: "repeat(2, 1fr)",
