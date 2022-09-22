@@ -3,7 +3,7 @@ import { Box, Center, Grid, GridItem, Icon, Stack, useColorModeValue, Text } fro
 import { MouseEventHandler, useEffect } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
 import { Astronaut, Error, Connected, ConnectedShowAddress, ConnectedUserInfo, Connecting, ConnectStatusWarn, CopyAddressBtn, Disconnected, NotExist, Rejected, RejectedWarn, WalletConnectComponent, ChainCard } from "../components";
-import { getWalletPrettyName } from "@cosmos-kit/registry";
+import { getWalletPrettyName } from "@cosmos-kit/config";
 import { ChainName } from "@cosmos-kit/core";
 import { chainInfos } from "../config/chain-infos";
 
