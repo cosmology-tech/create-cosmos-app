@@ -9,24 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@chakra-ui/icons": "^2.0.8",
-    "@chakra-ui/react": "^2.2.8",
+    "@chakra-ui/icons": "2.0.8",
+    "@chakra-ui/react": "2.2.8",
     "@cosmjs/cosmwasm-stargate": "0.28.13",
     "@cosmjs/stargate": "0.28.13",
-    "@cosmos-kit/core": "^0.12.3",
-    "@cosmos-kit/keplr": "^0.12.7",
-    "@cosmos-kit/react": "^0.12.7",
-    "@cosmos-kit/registry": "^0.12.6",
+    "@cosmos-kit/config": "0.13.2",
+    "@cosmos-kit/core": "0.13.2",
+    "@cosmos-kit/react": "0.13.2",
     "@emotion/react": "11.10.0",
     "@emotion/styled": "11.10.0",
-    "chain-registry": "^0.10.3",
-    "chakra-react-select": "^4.1.4",
-    "fast-fuzzy": "^1.11.2",
+    "chain-registry": "0.10.3",
+    "chakra-react-select": "4.1.4",
+    "fast-fuzzy": "1.11.2",
     "framer-motion": "7.2.1",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-icons": "^4.4.0"
+    "react-icons": "4.4.0"
   },
   "devDependencies": {
     "@types/node": "18.7.11",
