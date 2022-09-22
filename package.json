@@ -35,12 +35,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/cosmology-tech/create-cosmos-app"
-  },
-  "dependencies": {
-    "@cosmos-kit/config": "0.14.0",
-    "@cosmos-kit/core": "0.14.0",
-    "@cosmos-kit/keplr": "0.14.0",
-    "@cosmos-kit/react": "0.14.0",
-    "@cosmos-kit/registry": "0.12.6"
   }
 }
