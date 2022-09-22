@@ -9,7 +9,7 @@ import { chainInfos } from "../config/chain-infos";
 
 export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
     const walletManager = useWallet();
-    const { connect, disconnect, openModal, setCurrentChain,
+    const { connect, disconnect, openView, setCurrentChain,
         walletStatus, username, address, message,
         currentChainName, currentWalletName } = walletManager;
 
@@ -22,57 +22,27 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
     // Events
     const onClickConnect: MouseEventHandler = async (e) => {
         e.preventDefault();
-        openModal();
-        await connect();
+        openView();
+        if (currentWalletName) {
+            await connect();
+        }
     };
 
-    const onClickDisconnect: MouseEventHandler = async (e) => {
+    const onClickOpenView: MouseEventHandler = (e) => {
         e.preventDefault();
-        openModal();
-        // await disconnect();
-    };
-
-    const onClickOpenModal: MouseEventHandler = (e) => {
-        e.preventDefault();
-        openModal();
+        openView();
     };
 
     // Components
     const connectWalletButton = (
         <WalletConnectComponent
             walletStatus={walletStatus}
-            disconnect={
-                <Disconnected buttonText="Connect Wallet" onClick={
-                    currentWalletName
-                        ? onClickConnect
-                        : onClickOpenModal
-                } />
-            }
+            disconnect={<Disconnected buttonText="Connect Wallet" onClick={onClickConnect} />}
             connecting={<Connecting />}
-            connected={
-                <Connected buttonText={
-                    address
-                        ? `${address.slice(0, 7)}...${address.slice(-4)}`
-                        : "Disconnect"
-                } onClick={
-                    address
-                        ? onClickOpenModal
-                        : onClickDisconnect
-                } />
-            }
-            rejected={
-                <Rejected
-                    buttonText="Reconnect"
-                    onClick={onClickConnect}
-                />
-            }
-            error={
-                <Error
-                    buttonText="Change Wallet"
-                    onClick={onClickOpenModal}
-                />
-            }
-            notExist={<NotExist buttonText="Install Wallet" onClick={onClickOpenModal} />}
+            connected={<Connected buttonText={"My Wallet"} onClick={onClickOpenView} />}
+            rejected={<Rejected buttonText="Reconnect" onClick={onClickConnect} />}
+            error={<Error buttonText="Change Wallet" onClick={onClickOpenView} />}
+            notExist={<NotExist buttonText="Install Wallet" onClick={onClickOpenView} />}
         />
     );
 
