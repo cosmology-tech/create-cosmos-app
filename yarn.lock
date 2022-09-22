@@ -3672,7 +3672,7 @@
 
 "@cosmonauts/connect-chain-with-telescope-and-contracts@file:/Users/pyramation/code/cosmology/create-cosmos-app/examples/telescope-with-contracts":
   "resolved" "file:examples/telescope-with-contracts"
-  "version" "0.2.0"
+  "version" "0.3.0"
   dependencies:
     "@chakra-ui/icons" "^2.0.10"
     "@chakra-ui/react" "^2.3.4"
@@ -3692,7 +3692,7 @@
 
 "@cosmonauts/connect-chain-with-telescope@file:/Users/pyramation/code/cosmology/create-cosmos-app/examples/telescope":
   "resolved" "file:examples/telescope"
-  "version" "0.2.0"
+  "version" "0.3.0"
   dependencies:
     "@chakra-ui/icons" "^2.0.10"
     "@chakra-ui/react" "^2.3.4"
@@ -3712,7 +3712,7 @@
 
 "@cosmonauts/connect-chain@file:/Users/pyramation/code/cosmology/create-cosmos-app/templates/connect-chain":
   "resolved" "file:templates/connect-chain"
-  "version" "0.2.0"
+  "version" "0.3.0"
   dependencies:
     "@chakra-ui/icons" "2.0.10"
     "@chakra-ui/react" "2.3.4"
@@ -3732,7 +3732,7 @@
 
 "@cosmonauts/connect-multi-chain@file:/Users/pyramation/code/cosmology/create-cosmos-app/templates/connect-multi-chain":
   "resolved" "file:templates/connect-multi-chain"
-  "version" "0.2.0"
+  "version" "0.3.0"
   dependencies:
     "@chakra-ui/icons" "2.0.10"
     "@chakra-ui/react" "2.3.4"

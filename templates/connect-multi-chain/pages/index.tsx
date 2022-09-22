@@ -1,4 +1,4 @@
-import Head from "next/head";
+import Head from 'next/head';
 import {
   Box,
   Divider,
@@ -12,15 +12,11 @@ import {
   Flex,
   Icon,
   useColorMode,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
-import {
-  Product,
-  Dependency,
-  WalletSection,
-} from "../components";
-import { dependencies, products } from "../config";
+  useColorModeValue
+} from '@chakra-ui/react';
+import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
+import { Product, Dependency, WalletSection } from '../components';
+import { dependencies, products } from '../config';
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -35,38 +31,38 @@ export default function Home() {
       <Flex justifyContent="end" mb={4}>
         <Button variant="outline" px={0} onClick={toggleColorMode}>
           <Icon
-            as={colorMode === "light" ? BsFillMoonStarsFill : BsFillSunFill}
+            as={colorMode === 'light' ? BsFillMoonStarsFill : BsFillSunFill}
           />
         </Button>
       </Flex>
       <Box textAlign="center">
         <Heading
           as="h1"
-          fontSize={{ base: "3xl", sm: "4xl", md: "5xl" }}
+          fontSize={{ base: '3xl', sm: '4xl', md: '5xl' }}
           fontWeight="extrabold"
           mb={3}
         >
-          Cosmos Apps Made Easy
+          Create Cosmos App
         </Heading>
         <Heading
           as="h1"
           fontWeight="bold"
-          fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
+          fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
         >
           <Text as="span">Welcome to&nbsp;</Text>
           <Text
             as="span"
-            color={useColorModeValue("primary.500", "primary.200")}
+            color={useColorModeValue('primary.500', 'primary.200')}
           >
-            CosmosKit + Telescope + Next.js
+            CosmosKit + Next.js
           </Text>
         </Heading>
       </Box>
       <WalletSection />
       <Grid
         templateColumns={{
-          md: "repeat(2, 1fr)",
-          lg: "repeat(3, 1fr)",
+          md: 'repeat(2, 1fr)',
+          lg: 'repeat(3, 1fr)'
         }}
         gap={8}
         mb={14}
@@ -75,7 +71,7 @@ export default function Home() {
           <Product key={product.title} {...product}></Product>
         ))}
       </Grid>
-      <Grid templateColumns={{ md: "1fr 1fr" }} gap={8} mb={20}>
+      <Grid templateColumns={{ md: '1fr 1fr' }} gap={8} mb={20}>
         {dependencies.map((dependency) => (
           <Dependency key={dependency.title} {...dependency}></Dependency>
         ))}
