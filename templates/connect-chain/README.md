@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a Cosmos App project bootstrapped with [`create-cosmos-app`](https://github.com/cosmology-tech/create-cosmos-app).
 
 ## Getting Started
 
@@ -14,11 +14,44 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Learn More 
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Chain Registry
 
-## Learn More
+The npm package for the Official Cosmos chain registry. Get chain and token data for you application.
+
+* https://github.com/cosmology-tech/chain-registry
+
+### Cosmology Videos
+
+Checkout more videos for how to use various frontend tooling in the Cosmos!
+
+* https://cosmology.tech/learn
+
+### Cosmos Kit
+
+A wallet connector for the Cosmos ⚛️
+
+* https://github.com/cosmology-tech/cosmos-kit
+
+### Telescope
+
+A "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs. Telescope is used to generate libraries for Cosmos blockchains. Simply point to your protobuffer files and create developer-friendly Typescript libraries for teams to build on your blockchain.
+
+* https://github.com/osmosis-labs/telescope
+
+🎥 [Checkout the Telescope video playlist](https://www.youtube.com/watch?v=n82MsLe82mk&list=PL-lMkVv7GZwyQaK6bp6kMdOS5mzosxytC) to learn how to use `telescope`!
+
+### CosmWasm TS Codegen
+
+The quickest and easiest way to interact with CosmWasm Contracts. @cosmwasm/ts-codegen converts your CosmWasm smart contracts into dev-friendly TypeScript classes so you can focus on shipping code.
+
+* https://github.com/CosmWasm/ts-codegen
+
+🎥 [Checkout the CosmWasm/ts-codegne video playlist](https://www.youtube.com/watch?v=D_A5V2PfNLA&list=PL-lMkVv7GZwz1KO3jANwr5W4MoziruXwK) to learn how to use `ts-codegen`!
+
+
+## Learn More about Next.js
 
 To learn more about Next.js, take a look at the following resources:
 
