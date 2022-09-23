@@ -37,6 +37,10 @@ You **don’t** need to install or configure cosmjs, keplr, nextjs, webpack or B
 
 Everything is preconfigured, ready-to-go, so you can focus on your code!
 
+* ⚡️ Connect easily to keplr + keplr mobile via wallet connect 
+* ⚛️ Sign and broadcast with cosmjs stargate + cosmwasm signers
+* 🛠 Render pages with next.js hybrid static & server rendering
+* 🎨 Build awesome UI with Cosmos Kit and Chakra UI
 ## Education & Resources
 
 🎥 [Checkout our videos](https://cosmology.tech/learn) to learn to learn more about `create-cosmos-app` and tooling for building frontends in the Cosmos!
