@@ -31,14 +31,15 @@ yarn && yarn dev
 # now your app is running on localhost:3000!
 ```
 
-🎥 [Checkout our videos](https://cosmology.tech/learn) to learn to learn more about `create-cosmos-app` and tooling for building frontends in the Cosmos!
 ### Get Started Immediately
 
-You **don’t** need to install or configure tools like cosmjs, keplr, nextjs, webpack or Babel.
+You **don’t** need to install or configure cosmjs, keplr, nextjs, webpack or Babel.
 
-They are preconfigured so that you can focus on the code.
+Everything is preconfigured, ready-to-go, so you can focus on your code!
 
-Create a project, and you’re good to go.
+## Education & Resources
+
+🎥 [Checkout our videos](https://cosmology.tech/learn) to learn to learn more about `create-cosmos-app` and tooling for building frontends in the Cosmos!
 ## Creating an App
 
 To create a new app, you may choose one of the following methods:
