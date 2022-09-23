@@ -42,6 +42,11 @@ To create a new app, you may choose one of the following methods:
 
 ```sh
 npm install -g create-cosmos-app
+```
+
+Then run the command:
+
+```sh
 create-cosmos-app
 ```
 
@@ -54,17 +59,17 @@ cca
 ### npx
 
 ```sh
-npx create-cosmos-app my-app
+npx create-cosmos-app
 ```
 ### npm
 
 ```sh
-npm init cosmos-app my-app
+npm init cosmos-app 
 ```
 ### Yarn
 
 ```sh
-yarn create cosmos-app my-app
+yarn create cosmos-app 
 ```
 ## Credits
 
