@@ -10,6 +10,11 @@
 </p>
 
 Set up a modern Cosmos app by running one command ⚛️
+
+## Demo
+
+https://user-images.githubusercontent.com/545047/192061992-f0e1106d-f4b2-4879-ab0a-896f22ee4f49.mp4
+
 ## Overview
 
 ```
