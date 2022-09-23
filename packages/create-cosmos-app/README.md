@@ -9,38 +9,41 @@
    <a href="https://www.npmjs.com/package/create-cosmos-app"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/create-cosmos-app?filename=packages%2Fcreate-cosmos-app%2Fpackage.json"></a>
 </p>
 
-Set up a modern Cosmos app by running one command
+Set up a modern Cosmos app by running one command ⚛️
 ## Overview
 
 ```
-npx create-cosmos-app my-app
+# install
+npm install -g create-cosmos-app
+
+# run one command
+create-cosmos-app
+
+> name: my-app
 cd my-app
 yarn && yarn dev
-```
 
-Or you can install in globally
-
-```
-npm install -g create-cosmos-app
+# now your app is running on localhost:3000!
 ```
 ### Get Started Immediately
 
-You **don’t** need to install or configure tools like cosmjs, keplr, nextjs, webpack or Babel.<br>
+You **don’t** need to install or configure tools like cosmjs, keplr, nextjs, webpack or Babel.
+
 They are preconfigured so that you can focus on the code.
 
 Create a project, and you’re good to go.
 ## Creating an App
 
 To create a new app, you may choose one of the following methods:
-### npm global (preferred method)
 
-if you installed it globally, you can do one of two methods:
+### global install
 
 ```sh
+npm install -g create-cosmos-app
 create-cosmos-app
 ```
 
-or, which we prefer, we made an alias to `cca` which is much easier to type:
+we also made an alias `cca` if you don't want to type `create-cosmos-app`:
 
 ```sh
 cca
@@ -61,9 +64,6 @@ npm init cosmos-app my-app
 ```sh
 yarn create cosmos-app my-app
 ```
-
-It will create a directory called `my-app` inside the current folder.
-
 ## Credits
 
 🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
