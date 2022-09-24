@@ -10,6 +10,11 @@
 </p>
 
 Set up a modern Cosmos app by running one command ⚛️
+
+## Demo
+
+https://user-images.githubusercontent.com/545047/192061992-f0e1106d-f4b2-4879-ab0a-896f22ee4f49.mp4
+
 ## Overview
 
 ```
@@ -25,13 +30,24 @@ yarn && yarn dev
 
 # now your app is running on localhost:3000!
 ```
+
 ### Get Started Immediately
 
-You **don’t** need to install or configure tools like cosmjs, keplr, nextjs, webpack or Babel.
+You don’t need to install or configure cosmjs, keplr, nextjs, webpack or Babel.
 
-They are preconfigured so that you can focus on the code.
+Everything is preconfigured, ready-to-go, so you can focus on your code!
 
-Create a project, and you’re good to go.
+* ⚡️ Connect easily to keplr + keplr mobile via wallet connect 
+* ⚛️ Sign and broadcast with [cosmjs](https://github.com/cosmos/cosmjs) stargate + cosmwasm signers
+* 🛠 Render pages with [next.js](https://nextjs.org/) hybrid static & server rendering
+* 🎨 Build awesome UI with [Cosmos Kit](https://github.com/cosmology-tech/cosmos-kit) and [Chakra UI](https://chakra-ui.com/docs/components)
+* 📝 Leverage [chain-registry](https://github.com/cosmology-tech/chain-registry) for Chain and Asset info for all Cosmos chains
+## Education & Resources
+
+🎥 [Checkout our videos](https://cosmology.tech/learn) to learn to learn more about `create-cosmos-app` and tooling for building frontends in the Cosmos!
+
+Checkout [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit) for more docs as well as [cosmos-kit/react](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/react#2-signing-clients) for getting cosmjs stargate and cosmjs signers.
+
 ## Creating an App
 
 To create a new app, you may choose one of the following methods:
@@ -40,6 +56,11 @@ To create a new app, you may choose one of the following methods:
 
 ```sh
 npm install -g create-cosmos-app
+```
+
+Then run the command:
+
+```sh
 create-cosmos-app
 ```
 
@@ -52,17 +73,17 @@ cca
 ### npx
 
 ```sh
-npx create-cosmos-app my-app
+npx create-cosmos-app
 ```
 ### npm
 
 ```sh
-npm init cosmos-app my-app
+npm init cosmos-app 
 ```
 ### Yarn
 
 ```sh
-yarn create cosmos-app my-app
+yarn create cosmos-app 
 ```
 ## Credits
 
