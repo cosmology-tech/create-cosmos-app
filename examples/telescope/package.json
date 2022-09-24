@@ -14,7 +14,7 @@
     "@chakra-ui/react": "^2.3.4",
     "@cosmjs/cosmwasm-stargate": "0.29.0",
     "@cosmjs/stargate": "0.29.0",
-    "@cosmos-kit/react": "^0.16.0",
+    "@cosmos-kit/react": "^0.16.2",
     "@cosmos-kit/types": "^0.11.0",
     "@emotion/react": "11.10.4",
     "@emotion/styled": "11.10.4",

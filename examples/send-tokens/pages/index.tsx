@@ -59,8 +59,13 @@ const sendTokens = (
 };
 
 export default function Home() {
-  const { getStargateClient, address, setCurrentChain, walletStatus } =
-    useWallet();
+  const {
+    getStargateClient,
+    address,
+    setCurrentChain,
+    currentWallet,
+    walletStatus
+  } = useWallet();
 
   useEffect(() => {
     setCurrentChain(chainName);
@@ -74,9 +79,16 @@ export default function Home() {
       return;
     }
 
+    let restEndpoint = await currentWallet?.getRestEndpoint();
+
+    if (!restEndpoint) {
+      console.log('no rest endpoint — using a fallback');
+      restEndpoint = 'https://rest.cosmos.directory/cosmoshub';
+    }
+
     // get LCD client
     const client = await cosmos.ClientFactory.createLCDClient({
-      restEndpoint: 'https://rest.cosmos.directory/cosmoshub'
+      restEndpoint
     });
 
     // fetch balance
