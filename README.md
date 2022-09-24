@@ -33,14 +33,15 @@ yarn && yarn dev
 
 ### Get Started Immediately
 
-You **don’t** need to install or configure cosmjs, keplr, nextjs, webpack or Babel.
+You don’t need to install or configure cosmjs, keplr, nextjs, webpack or Babel.
 
 Everything is preconfigured, ready-to-go, so you can focus on your code!
 
 * ⚡️ Connect easily to keplr + keplr mobile via wallet connect 
-* ⚛️ Sign and broadcast with cosmjs stargate + cosmwasm signers
-* 🛠 Render pages with next.js hybrid static & server rendering
-* 🎨 Build awesome UI with Cosmos Kit and Chakra UI
+* ⚛️ Sign and broadcast with [cosmjs](https://github.com/cosmos/cosmjs) stargate + cosmwasm signers
+* 🛠 Render pages with [next.js](https://nextjs.org/) hybrid static & server rendering
+* 🎨 Build awesome UI with [Cosmos Kit](https://github.com/cosmology-tech/cosmos-kit) and [Chakra UI](https://chakra-ui.com/docs/components)
+* 📝 Leverage [chain-registry](https://github.com/cosmology-tech/chain-registry) for Chain and Asset info for all Cosmos chains
 ## Education & Resources
 
 🎥 [Checkout our videos](https://cosmology.tech/learn) to learn to learn more about `create-cosmos-app` and tooling for building frontends in the Cosmos!
