@@ -92,7 +92,21 @@ Explore examples!
 ```
 cca --example
 ```
+### Send Tokens
+
+<p align="center" width="100%">
+    <img height="48" src="https://user-images.githubusercontent.com/545047/186589196-e75c9540-86a7-4a71-8096-207be9a4216f.svg" />
+</p>
+
+```
+cca --name exampleapp --example --template send-tokens
+```
+
 ### Osmosis
+
+<p align="center" width="100%">
+    <img height="48" src="https://user-images.githubusercontent.com/545047/184519024-2d34bf20-2440-4837-943f-4915a46409f5.svg" />
+</p>
 
 ```
 cca --name myosmoapp --example --template osmosis
@@ -100,11 +114,20 @@ cca --name myosmoapp --example --template osmosis
 
 ### Juno
 
+<p align="center" width="100%">
+    <img height="48" src="https://user-images.githubusercontent.com/545047/184516834-4b8190b0-0721-4778-b4fb-fa19ed3f9279.svg" />
+</p>
+
+
 ```
 cca --name myjunoapp --example --template juno
 ```
 
 ### Stargaze
+
+<p align="center" width="100%">
+    <img height="48" src="https://user-images.githubusercontent.com/545047/184694732-f4a3d397-14fb-415a-9562-a532f510f812.png" />
+</p>
 
 ```
 cca --name mystarsapp --example --template stargaze
