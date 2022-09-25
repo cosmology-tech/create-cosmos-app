@@ -29,6 +29,12 @@ import { Product, Dependency, WalletSection } from '../components';
 import { cosmos } from 'juno-network';
 import Head from 'next/head';
 
+const library = {
+  title: 'Juno Network',
+  text: 'Typescript libraries for the Juno ecosystem',
+  href: 'https://github.com/CosmosContracts/typescript'
+};
+
 const chainName = 'juno';
 const chainassets: AssetList = assets.find(
   (chain) => chain.chain_name === chainName
@@ -159,7 +165,10 @@ export default function Home() {
         >
           <Text as="span">Welcome to&nbsp;</Text>
           <Text as="span" color={color}>
-            CosmosKit + Next.js
+            CosmosKit + Next.js +{' '}
+            <a href={library.href} target="_blank" rel="noreferrer">
+              {library.title}
+            </a>
           </Text>
         </Heading>
       </Box>
@@ -210,6 +219,12 @@ export default function Home() {
         </>
       )}
 
+      <Dependency key={library.title} {...library}></Dependency>
+
+      <Box mb={3}>
+        <Divider />
+      </Box>
+
       <Grid
         templateColumns={{
           md: 'repeat(2, 1fr)',
@@ -222,6 +237,7 @@ export default function Home() {
           <Product key={product.title} {...product}></Product>
         ))}
       </Grid>
+
       <Grid templateColumns={{ md: '1fr 1fr' }} gap={8} mb={20}>
         {dependencies.map((dependency) => (
           <Dependency key={dependency.title} {...dependency}></Dependency>
