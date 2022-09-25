@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
-import { ChangeChainDropdown } from "./chain-dropdown";
+import { useState, useEffect } from 'react';
+import { ChangeChainDropdown } from './chain-dropdown';
 import {
   ChooseChainInfo,
   ChainOption,
-  handleSelectChainDropdown,
-} from "../types";
+  handleSelectChainDropdown
+} from '../types';
 
 export function ChooseChain({
   chainName,
   chainInfos,
-  onChange,
+  onChange
 }: {
   chainName?: string;
   chainInfos: ChooseChainInfo[];

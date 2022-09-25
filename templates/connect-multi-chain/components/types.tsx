@@ -1,5 +1,5 @@
-import { MouseEventHandler, ReactNode, RefObject } from "react";
-import { IconType } from "react-icons";
+import { MouseEventHandler, ReactNode, RefObject } from 'react';
+import { IconType } from 'react-icons';
 
 export interface DataType extends OptionBase {
   isDisabled?: boolean;
@@ -20,11 +20,11 @@ export interface ChooseChainInfo {
 }
 
 export enum WalletStatus {
-  NotInit = "NotInit",
-  Loading = "Loading",
-  Loaded = "Loaded",
-  NotExist = "NotExist",
-  Rejected = "Rejected",
+  NotInit = 'NotInit',
+  Loading = 'Loading',
+  Loaded = 'Loaded',
+  NotExist = 'NotExist',
+  Rejected = 'Rejected'
 }
 
 export interface ConnectWalletType {
