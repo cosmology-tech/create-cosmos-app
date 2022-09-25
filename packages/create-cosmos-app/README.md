@@ -85,6 +85,31 @@ npm init cosmos-app
 ```sh
 yarn create cosmos-app 
 ```
+## Examples
+
+Explore examples!
+
+```
+cca --example
+```
+### Osmosis
+
+```
+cca --name myosmoapp --example --template osmosis
+```
+
+### Juno
+
+```
+cca --name myjunoapp --example --template juno
+```
+
+### Stargaze
+
+```
+cca --name mystarsapp --example --template stargaze
+```
+
 ## Credits
 
 🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
