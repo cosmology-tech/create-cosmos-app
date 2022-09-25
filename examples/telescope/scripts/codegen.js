@@ -38,5 +38,7 @@ telescope({
   }
 }).then(() => {
   console.log('✨ all done!');
+}).catch(e=>{
+  console.error(e);
 });
 
