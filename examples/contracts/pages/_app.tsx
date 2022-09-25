@@ -11,7 +11,7 @@ import { SignerOptions } from '@cosmos-kit/core';
 import { Chain } from '@chain-registry/types';
 import { GasPrice } from '@cosmjs/stargate';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
     stargate: (_chain: Chain) => {
       return getSigningCosmosClientOptions();
@@ -25,6 +25,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         case 'juno':
           return {
             gasPrice: GasPrice.fromString('0.0025ujuno')
+          };
+        case 'stargaze':
+          return {
+            gasPrice: GasPrice.fromString('0.0025ustars')
           };
       }
     }
@@ -43,4 +47,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default CreateCosmosApp;

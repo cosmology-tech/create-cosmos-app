@@ -10,7 +10,7 @@ import { getSigningCosmosClientOptions } from 'interchain';
 import { SignerOptions } from '@cosmos-kit/core';
 import { Chain } from '@chain-registry/types';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
     stargate: (_chain: Chain) => {
       return getSigningCosmosClientOptions();
@@ -30,4 +30,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default CreateCosmosApp;
