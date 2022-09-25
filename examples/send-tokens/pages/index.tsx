@@ -1,15 +1,15 @@
-import { Container, Button } from '@chakra-ui/react';
-import { WalletSection } from '../components';
-import { useWallet } from '@cosmos-kit/react';
 import { useEffect, useState } from 'react';
-
-import { cosmos } from 'interchain';
+import { Container, Button } from '@chakra-ui/react';
+import { useWallet } from '@cosmos-kit/react';
 import { StdFee } from '@cosmjs/amino';
 import { assets } from 'chain-registry';
 import { AssetList, Asset } from '@chain-registry/types';
 import { SigningStargateClient } from '@cosmjs/stargate';
-import { WalletStatus } from '@cosmos-kit/core';
 import BigNumber from 'bignumber.js';
+
+import { WalletStatus } from '@cosmos-kit/core';
+import { WalletSection } from '../components';
+import { cosmos } from 'interchain';
 
 const chainName = 'cosmoshub';
 const hubAssets: AssetList = assets.find(
@@ -83,7 +83,7 @@ export default function Home() {
 
     if (!restEndpoint) {
       console.log('no rest endpoint — using a fallback');
-      restEndpoint = 'https://rest.cosmos.directory/cosmoshub';
+      restEndpoint = `https://rest.cosmos.directory/${chainName}`;
     }
 
     // get LCD client
