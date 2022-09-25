@@ -15,7 +15,7 @@
     "@chakra-ui/react": "^2.3.4",
     "@cosmjs/cosmwasm-stargate": "0.29.0",
     "@cosmjs/stargate": "0.29.0",
-    "@cosmos-kit/react": "^0.16.2",
+    "@cosmos-kit/react": "^0.16.3",
     "@cosmos-kit/types": "^0.11.0",
     "@emotion/react": "11.10.4",
     "@emotion/styled": "11.10.4",
@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@cosmjson/wasmswap": "^0.0.9",
-    "@osmonauts/telescope": "0.31.0",
+    "@osmonauts/telescope": "0.33.0",
     "@protobufs/cosmos": "^0.0.11",
     "@protobufs/cosmwasm": "^0.0.11",
     "@protobufs/ibc": "^0.0.11",

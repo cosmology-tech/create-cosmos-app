@@ -26,15 +26,15 @@ import { dependencies, products } from '../config';
 
 import { WalletStatus } from '@cosmos-kit/core';
 import { Product, Dependency, WalletSection } from '../components';
-import { cosmos } from 'interchain';
+import { cosmos } from 'juno-network';
 import Head from 'next/head';
 
-const chainName = 'cosmoshub';
+const chainName = 'juno';
 const chainassets: AssetList = assets.find(
   (chain) => chain.chain_name === chainName
 ) as AssetList;
 const coin: Asset = chainassets.assets.find(
-  (asset) => asset.base === 'uatom'
+  (asset) => asset.base === 'ujuno'
 ) as Asset;
 
 const sendTokens = (
@@ -66,7 +66,7 @@ const sendTokens = (
       amount: [
         {
           denom: coin.base,
-          amount: '864'
+          amount: '2000'
         }
       ],
       gas: '86364'
