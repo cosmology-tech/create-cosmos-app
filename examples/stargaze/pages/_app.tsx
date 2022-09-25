@@ -6,14 +6,23 @@ import { defaultTheme } from '../config';
 import { wallets } from '@cosmos-kit/config';
 import { chains } from 'chain-registry';
 import { getSigningCosmosClientOptions } from 'stargaze-zone';
+import { GasPrice } from '@cosmjs/stargate';
 
 import { SignerOptions } from '@cosmos-kit/core';
 import { Chain } from '@chain-registry/types';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
     stargate: (_chain: Chain) => {
       return getSigningCosmosClientOptions();
+    },
+    cosmwasm: (chain: Chain) => {
+      switch (chain.chain_name) {
+        case 'stargaze':
+          return {
+            gasPrice: GasPrice.fromString('0.0025ustars')
+          };
+      }
     }
   };
 
@@ -30,4 +39,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default CreateCosmosApp;
