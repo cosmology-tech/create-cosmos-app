@@ -108,6 +108,8 @@ cca --name exampleapp --example --template send-tokens
     <img height="48" src="https://user-images.githubusercontent.com/545047/184519024-2d34bf20-2440-4837-943f-4915a46409f5.svg" />
 </p>
 
+uses [osmojs](https://github.com/osmosis-labs/osmojs)
+
 ```
 cca --name myosmoapp --example --template osmosis
 ```
@@ -117,6 +119,8 @@ cca --name myosmoapp --example --template osmosis
 <p align="center" width="100%">
     <img height="48" src="https://user-images.githubusercontent.com/545047/184516834-4b8190b0-0721-4778-b4fb-fa19ed3f9279.svg" />
 </p>
+
+uses [juno-network](https://github.com/CosmosContracts/typescript)
 
 
 ```
@@ -128,6 +132,8 @@ cca --name myjunoapp --example --template juno
 <p align="center" width="100%">
     <img height="48" src="https://user-images.githubusercontent.com/545047/184694732-f4a3d397-14fb-415a-9562-a532f510f812.png" />
 </p>
+
+uses [stargazejs](https://github.com/cosmology-tech/stargaze-zone)
 
 ```
 cca --name mystarsapp --example --template stargaze
