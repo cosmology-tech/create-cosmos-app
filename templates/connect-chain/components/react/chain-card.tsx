@@ -26,6 +26,7 @@ export const ChainCard = (props: ChainCardProps) => {
         overflow="hidden"
       >
         <Image
+          alt=""
           src={props.icon}
           fallbackSrc={'https://dummyimage.com/150/9e9e9e/ffffff&text=☒'}
         />

@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import {
   Box,
@@ -22,7 +24,7 @@ import {
   PlaceholderProps
 } from 'chakra-react-select';
 import {
-  DataType,
+  ChainOption,
   ChangeChainDropdownType,
   ChangeChainMenuType
 } from '../types';
@@ -134,7 +136,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
   };
   const DropdownIndicator = ({
     ...props
-  }: DropdownIndicatorProps<DataType, false, GroupBase<DataType>>) => {
+  }: DropdownIndicatorProps<ChainOption, false, GroupBase<ChainOption>>) => {
     return (
       <chakraComponents.DropdownIndicator {...props}>
         <Icon
@@ -146,7 +148,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
       </chakraComponents.DropdownIndicator>
     );
   };
-  const Placeholder = (props: PlaceholderProps<DataType>) => {
+  const Placeholder = (props: PlaceholderProps<ChainOption>) => {
     if (props.hasValue) {
       return (
         <chakraComponents.Placeholder {...props}>
@@ -176,6 +178,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
               overflow="hidden"
             >
               <Image
+                alt=""
                 src={props.getValue()[0].icon}
                 fallbackSrc={'https://dummyimage.com/150/9e9e9e/ffffff&text=☒'}
               />
@@ -192,7 +195,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
   const CustomOption = ({
     children,
     ...props
-  }: OptionProps<DataType, false, GroupBase<DataType>>) => {
+  }: OptionProps<ChainOption, false, GroupBase<ChainOption>>) => {
     return (
       <chakraComponents.Option {...props}>
         <Stack
@@ -218,6 +221,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
             overflow="hidden"
           >
             <Image
+              alt=""
               src={props.data?.icon}
               fallbackSrc={'https://dummyimage.com/150/9e9e9e/ffffff&text=☒'}
             />
@@ -238,7 +242,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
       chakraStyles={customStyles}
       isClearable={true}
       isMulti={false}
-      isOptionDisabled={(option) => option.isDisabled}
+      isOptionDisabled={(option) => option.isDisabled || false}
       blurInputOnSelect={true}
       controlShouldRenderValue={false}
       loadingMessage={() => <SkeletonOptions />}

@@ -78,6 +78,8 @@ export const Rejected = ({
   wordOfWarning?: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
+  const bg = useColorModeValue('orange.200', 'orange.300');
+
   return (
     <Stack>
       <ConnectWalletButton
@@ -89,7 +91,7 @@ export const Rejected = ({
         <Stack
           isInline={true}
           borderRadius="md"
-          bg={useColorModeValue('orange.200', 'orange.300')}
+          bg={bg}
           color="blackAlpha.900"
           p={4}
           spacing={1}
@@ -116,6 +118,8 @@ export const Error = ({
   wordOfWarning?: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
+  const bg = useColorModeValue('orange.200', 'orange.300');
+
   return (
     <Stack>
       <ConnectWalletButton
@@ -127,7 +131,7 @@ export const Error = ({
         <Stack
           isInline={true}
           borderRadius="md"
-          bg={useColorModeValue('orange.200', 'orange.300')}
+          bg={bg}
           color="blackAlpha.900"
           p={4}
           spacing={1}
