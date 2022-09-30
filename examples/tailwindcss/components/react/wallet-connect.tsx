@@ -1,16 +1,16 @@
-import React, { MouseEventHandler, ReactNode } from 'react'
-import { Button, Icon, Stack, Text, useColorModeValue } from '@chakra-ui/react'
-import { IoWallet } from 'react-icons/io5'
-import { ConnectWalletType } from '../types'
-import { FiAlertTriangle } from 'react-icons/fi'
-import { WalletStatus } from '@cosmos-kit/core'
+import React, { MouseEventHandler, ReactNode } from 'react';
+import { Button, Icon, Stack, Text, useColorModeValue } from '@chakra-ui/react';
+import { IoWallet } from 'react-icons/io5';
+import { ConnectWalletType } from '../types';
+import { FiAlertTriangle } from 'react-icons/fi';
+import { WalletStatus } from '@cosmos-kit/core';
 
 export const ConnectWalletButton = ({
   buttonText,
   isLoading,
   isDisabled,
   icon,
-  onClickConnectBtn,
+  onClickConnectBtn
 }: ConnectWalletType) => {
   return (
     <Button
@@ -26,59 +26,60 @@ export const ConnectWalletButton = ({
       _hover={{
         bgImage:
           'linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)',
-        opacity: 0.75,
+        opacity: 0.75
       }}
       _active={{
         bgImage:
           'linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)',
-        opacity: 0.9,
+        opacity: 0.9
       }}
       onClick={onClickConnectBtn}
     >
       <Icon as={icon ? icon : IoWallet} mr={2} />
       {buttonText ? buttonText : 'Connect Wallet'}
     </Button>
-  )
-}
+  );
+};
 
 export const Disconnected = ({
   buttonText,
-  onClick,
+  onClick
 }: {
-  buttonText: string
-  onClick: MouseEventHandler<HTMLButtonElement>
+  buttonText: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
     <ConnectWalletButton buttonText={buttonText} onClickConnectBtn={onClick} />
-  )
-}
+  );
+};
 
 export const Connected = ({
   buttonText,
-  onClick,
+  onClick
 }: {
-  buttonText: string
-  onClick: MouseEventHandler<HTMLButtonElement>
+  buttonText: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
     <ConnectWalletButton buttonText={buttonText} onClickConnectBtn={onClick} />
-  )
-}
+  );
+};
 
 export const Connecting = () => {
-  return <ConnectWalletButton isLoading={true} />
-}
+  return <ConnectWalletButton isLoading={true} />;
+};
 
 export const Rejected = ({
   buttonText,
   wordOfWarning,
-  onClick,
+  onClick
 }: {
-  buttonText: string
-  wordOfWarning?: string
-  onClick: MouseEventHandler<HTMLButtonElement>
+  buttonText: string;
+  wordOfWarning?: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
-  const bg = useColorModeValue('orange.200', 'orange.300')
+  const bg = useColorModeValue('orange.200', 'orange.300');
+
   return (
     <Stack>
       <ConnectWalletButton
@@ -105,19 +106,20 @@ export const Rejected = ({
         </Stack>
       )}
     </Stack>
-  )
-}
+  );
+};
 
 export const Error = ({
   buttonText,
   wordOfWarning,
-  onClick,
+  onClick
 }: {
-  buttonText: string
-  wordOfWarning?: string
-  onClick: MouseEventHandler<HTMLButtonElement>
+  buttonText: string;
+  wordOfWarning?: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
-  const bg = useColorModeValue('orange.200', 'orange.300')
+  const bg = useColorModeValue('orange.200', 'orange.300');
+
   return (
     <Stack>
       <ConnectWalletButton
@@ -144,15 +146,15 @@ export const Error = ({
         </Stack>
       )}
     </Stack>
-  )
-}
+  );
+};
 
 export const NotExist = ({
   buttonText,
-  onClick,
+  onClick
 }: {
-  buttonText: string
-  onClick: MouseEventHandler<HTMLButtonElement>
+  buttonText: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
     <ConnectWalletButton
@@ -160,8 +162,8 @@ export const NotExist = ({
       isDisabled={false}
       onClickConnectBtn={onClick}
     />
-  )
-}
+  );
+};
 
 export const WalletConnectComponent = ({
   walletStatus,
@@ -170,30 +172,30 @@ export const WalletConnectComponent = ({
   connected,
   rejected,
   error,
-  notExist,
+  notExist
 }: {
-  walletStatus: WalletStatus
-  disconnect: ReactNode
-  connecting: ReactNode
-  connected: ReactNode
-  rejected: ReactNode
-  error: ReactNode
-  notExist: ReactNode
+  walletStatus: WalletStatus;
+  disconnect: ReactNode;
+  connecting: ReactNode;
+  connected: ReactNode;
+  rejected: ReactNode;
+  error: ReactNode;
+  notExist: ReactNode;
 }) => {
   switch (walletStatus) {
     case WalletStatus.Disconnected:
-      return <>{disconnect}</>
+      return <>{disconnect}</>;
     case WalletStatus.Connecting:
-      return <>{connecting}</>
+      return <>{connecting}</>;
     case WalletStatus.Connected:
-      return <>{connected}</>
+      return <>{connected}</>;
     case WalletStatus.Rejected:
-      return <>{rejected}</>
+      return <>{rejected}</>;
     case WalletStatus.Error:
-      return <>{error}</>
+      return <>{error}</>;
     case WalletStatus.NotExist:
-      return <>{notExist}</>
+      return <>{notExist}</>;
     default:
-      return <>{disconnect}</>
+      return <>{disconnect}</>;
   }
-}
+};
