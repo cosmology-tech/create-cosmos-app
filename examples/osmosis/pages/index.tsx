@@ -35,7 +35,8 @@ const library = {
   href: 'https://github.com/osmosis-labs/osmojs'
 };
 
-const chainName = 'osmosis';
+// const chainName = 'osmosis';
+const chainName = 'osmosistestnet';
 const chainassets: AssetList = assets.find(
   (chain) => chain.chain_name === chainName
 ) as AssetList;
