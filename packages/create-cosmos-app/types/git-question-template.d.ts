@@ -1,1 +1,1 @@
-export declare const createApp: (repo: string) => (argv: any) => Promise<any>;
+export declare const createQuestionTemplate: (repo: string) => (argv: any) => Promise<any>;
