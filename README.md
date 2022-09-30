@@ -92,6 +92,12 @@ Explore examples!
 ```
 cca --example
 ```
+### Tailwind
+
+```
+cca --name exampleapp --example --template tailwindcss
+```
+
 ### Send Tokens
 
 <p align="center" width="100%">
