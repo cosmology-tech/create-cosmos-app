@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import { WalletProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { defaultTheme } from '../config';
-import { wallets } from '@cosmos-kit/config';
+import { wallets } from '@cosmos-kit/keplr';
 import { chains } from 'chain-registry';
 import { getSigningCosmosClientOptions } from '../codegen';
 
