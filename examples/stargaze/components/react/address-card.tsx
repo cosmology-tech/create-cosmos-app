@@ -1,28 +1,28 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode } from 'react';
 import {
   Text,
   useColorModeValue,
   Button,
   Icon,
-  useClipboard,
-} from "@chakra-ui/react";
-import { FaRegCopy } from "react-icons/fa";
-import { WalletStatus } from "@cosmos-kit/core";
+  useClipboard
+} from '@chakra-ui/react';
+import { FaRegCopy } from 'react-icons/fa';
+import { WalletStatus } from '@cosmos-kit/core';
 
 export const ConnectedShowAddress = ({
   address,
-  isLoading,
+  isLoading
 }: {
   address?: string;
   isLoading: boolean;
 }) => {
-  const { hasCopied, onCopy } = useClipboard(address ? address : "");
+  const { hasCopied, onCopy } = useClipboard(address ? address : '');
 
   return (
     <Button
       borderRadius="full"
-      bg={useColorModeValue("white", "blackAlpha.500")}
-      boxShadow={useColorModeValue("0 0 2px #ccc", "0 1px 2px #333")}
+      bg={useColorModeValue('white', 'blackAlpha.500')}
+      boxShadow={useColorModeValue('0 0 2px #ccc', '0 1px 2px #333')}
       w="fit-content"
       h="fit-content"
       px={4}
@@ -35,7 +35,7 @@ export const ConnectedShowAddress = ({
       <Text
         maxW={{ base: 40, md: 48 }}
         position="relative"
-        fontSize={{ base: "xs", md: "sm" }}
+        fontSize={{ base: 'xs', md: 'sm' }}
         fontWeight="normal"
         letterSpacing="0.4px"
         title={address}
@@ -44,19 +44,19 @@ export const ConnectedShowAddress = ({
         overflow="hidden"
         opacity={0.8}
         _before={{
-          content: "attr(title)",
-          width: "25%",
-          float: "right",
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          direction: "rtl",
+          content: 'attr(title)',
+          width: '25%',
+          float: 'right',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          direction: 'rtl'
         }}
         _hover={{
-          cursor: "inherit",
+          cursor: 'inherit'
         }}
       >
-        {address ? address : "address not identified yet"}
+        {address ? address : 'address not identified yet'}
       </Text>
     </Button>
   );
@@ -64,7 +64,7 @@ export const ConnectedShowAddress = ({
 
 export const CopyAddressBtn = ({
   walletStatus,
-  connected,
+  connected
 }: {
   walletStatus: WalletStatus;
   connected: ReactNode;
