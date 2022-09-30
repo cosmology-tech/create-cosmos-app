@@ -22,7 +22,7 @@ export function ChooseChain({
         chainInfos.filter((options) => options.chainName === chainName)[0]
       );
     if (!chainName) setSelectedItem(undefined);
-  }, [chainName]);
+  }, [chainInfos, chainName]);
   return (
     <ChangeChainDropdown
       data={chainInfos}
