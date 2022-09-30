@@ -1,4 +1,4 @@
-import { useWallet } from '@cosmos-kit/react'
+import { useWallet } from '@cosmos-kit/react';
 import {
   Box,
   Center,
@@ -7,10 +7,10 @@ import {
   Icon,
   Stack,
   useColorModeValue,
-  Text,
-} from '@chakra-ui/react'
-import { MouseEventHandler, useEffect } from 'react'
-import { FiAlertTriangle } from 'react-icons/fi'
+  Text
+} from '@chakra-ui/react';
+import { MouseEventHandler, useEffect, useMemo } from 'react';
+import { FiAlertTriangle } from 'react-icons/fi';
 import {
   Astronaut,
   Error,
@@ -25,46 +25,64 @@ import {
   Rejected,
   RejectedWarn,
   WalletConnectComponent,
-  ChainCard,
-} from '../components'
-import { getWalletPrettyName } from '@cosmos-kit/config'
-import { ChainName } from '@cosmos-kit/core'
-import { chainInfos } from '../config/chain-infos'
+  ChainCard
+} from '../components';
+import { getWalletPrettyName } from '@cosmos-kit/config';
+import { ChainName } from '@cosmos-kit/core';
+import { assets as chainAssets } from 'chain-registry';
 
 export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
-  const walletManager = useWallet()
+  const walletManager = useWallet();
   const {
     connect,
-    disconnect,
     openView,
     setCurrentChain,
     walletStatus,
     username,
     address,
     message,
-    currentChainName,
     currentWalletName,
-  } = walletManager
+    chains
+  } = walletManager;
 
-  const chain = chainInfos.find((c) => c.chainName === chainName)
+  const chainOptions = useMemo(
+    () =>
+      chains.map((chainRecord) => {
+        const assets = chainAssets.find(
+          (_chain) => _chain.chain_name === chainRecord.name
+        )?.assets;
+        return {
+          chainName: chainRecord.name,
+          label: chainRecord.chain.pretty_name,
+          value: chainRecord.name,
+          icon: assets
+            ? assets[0]?.logo_URIs?.svg || assets[0]?.logo_URIs?.png
+            : undefined,
+          disabled: false
+        };
+      }),
+    [chains]
+  );
+
+  const chain = chainOptions.find((c) => c.chainName === chainName);
 
   useEffect(() => {
-    setCurrentChain(chainName)
-  }, [chainName, setCurrentChain])
+    setCurrentChain(chainName);
+  }, [chainName, setCurrentChain]);
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
-    e.preventDefault()
-    openView()
+    e.preventDefault();
+    openView();
     if (currentWalletName) {
-      await connect()
+      await connect();
     }
-  }
+  };
 
   const onClickOpenView: MouseEventHandler = (e) => {
-    e.preventDefault()
-    openView()
-  }
+    e.preventDefault();
+    openView();
+  };
 
   // Components
   const connectWalletButton = (
@@ -83,7 +101,7 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
         <NotExist buttonText="Install Wallet" onClick={onClickOpenView} />
       }
     />
-  )
+  );
 
   const connectWalletWarn = (
     <ConnectStatusWarn
@@ -92,7 +110,7 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
         <RejectedWarn
           icon={<Icon as={FiAlertTriangle} mt={1} />}
           wordOfWarning={`${getWalletPrettyName(
-            currentWalletName,
+            currentWalletName
           )}: ${message}`}
         />
       }
@@ -100,27 +118,22 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
         <RejectedWarn
           icon={<Icon as={FiAlertTriangle} mt={1} />}
           wordOfWarning={`${getWalletPrettyName(
-            currentWalletName,
+            currentWalletName
           )}: ${message}`}
         />
       }
     />
-  )
+  );
 
   const userInfo = (
-    <ConnectedUserInfo
-      username={username}
-      icon={
-        <div className="w-16 h-16 rounded-full mx-auto bg-gradient-to-r from-purple-500 to-blue-500"></div>
-      }
-    />
-  )
+    <ConnectedUserInfo username={username} icon={<Astronaut />} />
+  );
   const addressBtn = chainName && (
     <CopyAddressBtn
       walletStatus={walletStatus}
       connected={<ConnectedShowAddress address={address} isLoading={false} />}
     />
-  )
+  );
 
   return (
     <Center py={16}>
@@ -148,7 +161,7 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
             bg={useColorModeValue('white', 'blackAlpha.400')}
             boxShadow={useColorModeValue(
               '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
-              '0 0 2px #363636, 0 0 8px -2px #4f4f4f',
+              '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
             )}
             spacing={4}
             px={4}
@@ -164,5 +177,5 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
         </GridItem>
       </Grid>
     </Center>
-  )
-}
+  );
+};
