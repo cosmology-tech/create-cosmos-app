@@ -2912,6 +2912,15 @@
     "@chain-registry/types" "^0.11.0"
     chain-registry "^0.14.0"
 
+"@cosmos-kit/core@0.17.1", "@cosmos-kit/core@^0.17.1":
+  version "0.17.1"
+  resolved "https://registry.npmjs.org/@cosmos-kit/core/-/core-0.17.1.tgz#80a7865b7199064e7b0553d0a402e57744d9136f"
+  integrity sha512-SAAKp2NEW75V8+GFyzAk0ScAfzCCNC2DXVyq80myH+szf4ZOxVGi9z+Ji1gdl1nAMje2joUKAajrbOD6fxdhVw==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@chain-registry/types" "^0.11.0"
+    chain-registry "^0.14.0"
+
 "@cosmos-kit/core@^0.16.2":
   version "0.16.2"
   resolved "https://registry.npmjs.org/@cosmos-kit/core/-/core-0.16.2.tgz#9c07eb2c89388f9a265fc95edfd3aaf62ec607f8"
@@ -2930,6 +2939,25 @@
     "@chain-registry/types" "^0.11.0"
     "@chakra-ui/react" "^2.2.9"
     "@cosmos-kit/core" "^0.17.0"
+    "@emotion/react" "^11"
+    "@emotion/styled" "^11"
+    "@keplr-wallet/types" "^0.11.3"
+    "@keplr-wallet/wc-client" "^0.11.3"
+    "@walletconnect/client" "1.8.0"
+    events "3.3.0"
+    react "18.2.0"
+    react-dom "18.2.0"
+    react-icons "^4.4.0"
+
+"@cosmos-kit/keplr@0.17.1":
+  version "0.17.1"
+  resolved "https://registry.npmjs.org/@cosmos-kit/keplr/-/keplr-0.17.1.tgz#f9aa89b64b008b696401aefb4a067a353ad2bbf6"
+  integrity sha512-TT6HeA5w4/p7QHZkhXkb2htVUnIHCXJMov56NYIc5tngz9vC9b0s9wAzIbD2g+lI9UWkejZ0e6TQ5Vjd1G/QVA==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@chain-registry/types" "^0.11.0"
+    "@chakra-ui/react" "^2.2.9"
+    "@cosmos-kit/core" "^0.17.1"
     "@emotion/react" "^11"
     "@emotion/styled" "^11"
     "@keplr-wallet/types" "^0.11.3"
@@ -2964,6 +2992,21 @@
   version "0.17.0"
   resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-0.17.0.tgz#8bdf2ce637fa59dcc2adbc9d28dad07424ab3d9a"
   integrity sha512-IVGCHP1axhXIWine3q39j6pEhDO0DZP2cYqy/reBDYY2he40tZb/jsjtBdYVLbNhG4VIrYhTrk+sywLGo3cpRg==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@chain-registry/types" "^0.11.0"
+    "@chakra-ui/react" "^2.2.9"
+    "@cosmos-kit/config" "^0.16.2"
+    "@emotion/react" "^11"
+    "@emotion/styled" "^11"
+    bowser "2.11.0"
+    qrcode.react "^3.1.0"
+    react-icons "^4.4.0"
+
+"@cosmos-kit/react@0.17.1":
+  version "0.17.1"
+  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-0.17.1.tgz#b3398d5721ed174cd18085ea3557d43def5d7d7b"
+  integrity sha512-/TTa11HQmcupwkh6tOG+MNmne90b04+TYVTdqXRQpbQ9sr7EKwF3fKLoXR6whGvN0J45IHvlhINNr6PMaCXObA==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chain-registry/types" "^0.11.0"
