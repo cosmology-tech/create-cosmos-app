@@ -1,0 +1,91 @@
+{
+  "name": "create-juno-app",
+  "version": "0.4.6",
+  "description": "Set up a modern Juno app by running one command ⚛️",
+  "author": "Dan Lynch <pyramation@gmail.com>",
+  "homepage": "https://github.com/cosmology-tech/create-cosmos-app#readme",
+  "license": "SEE LICENSE IN LICENSE",
+  "main": "main/index.js",
+  "typings": "types/index.d.ts",
+  "bin": {
+    "create-juno-app": "main/create-juno-app.js",
+    "cja": "main/create-juno-app.js"
+  },
+  "directories": {
+    "lib": "src",
+    "test": "__tests__"
+  },
+  "files": [
+    "types",
+    "main"
+  ],
+  "scripts": {
+    "build": "cross-env BABEL_ENV=production babel src --out-dir main --delete-dir-on-start --extensions \".tsx,.ts,.js\"",
+    "build:ts": "tsc --project ./tsconfig.json",
+    "prepare": "npm run build",
+    "dev": "cross-env NODE_ENV=development babel-node src/index --extensions \".tsx,.ts,.js\"",
+    "cli": "cross-env NODE_ENV=development babel-node src/create-juno-app --extensions \".tsx,.ts,.js\"",
+    "watch": "cross-env NODE_ENV=development babel-watch src/index --extensions \".tsx,.ts,.js\"",
+    "lint": "eslint .",
+    "format": "eslint --fix .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cosmology-tech/create-cosmos-app"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/cosmology-tech/create-cosmos-app/issues"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "main/",
+      "module/",
+      "types/"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "7.18.10",
+    "@babel/core": "7.18.13",
+    "@babel/eslint-parser": "^7.5.4",
+    "@babel/node": "^7.18.10",
+    "@babel/plugin-proposal-class-properties": "7.18.6",
+    "@babel/plugin-proposal-export-default-from": "7.18.10",
+    "@babel/plugin-proposal-object-rest-spread": "7.18.9",
+    "@babel/plugin-transform-runtime": "7.18.10",
+    "@babel/preset-env": "7.18.10",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/jest": "^28.1.7",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "28.1.3",
+    "babel-watch": "^7.0.0",
+    "case": "1.6.3",
+    "cross-env": "^7.0.2",
+    "eslint": "8.22.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "glob": "8.0.3",
+    "jest": "^28.1.3",
+    "jest-in-case": "^1.0.2",
+    "prettier": "^2.1.2",
+    "regenerator-runtime": "^0.13.7",
+    "ts-jest": "^28.0.8",
+    "typescript": "^4.6.2"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.11.2",
+    "create-cosmos-app": "^0.4.6",
+    "dargs": "7.0.0",
+    "fuzzy": "0.1.3",
+    "inquirerer": "0.1.3",
+    "minimist": "1.2.6",
+    "mkdirp": "1.0.4",
+    "shelljs": "0.8.5"
+  }
+}
