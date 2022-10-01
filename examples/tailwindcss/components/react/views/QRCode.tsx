@@ -1,18 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
-import { useWallet } from '@cosmos-kit/react'
-import { Dialog } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronLeftIcon } from '@heroicons/react/20/solid'
-import { QRCodeSVG } from 'qrcode.react'
+import { useWallet } from '@cosmos-kit/react';
+import { Dialog } from '@headlessui/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon } from '@heroicons/react/20/solid';
+import { QRCodeSVG } from 'qrcode.react';
 
 export const QRCode = ({
   onClose,
-  onReturn,
+  onReturn
 }: {
-  onClose: () => void
-  onReturn: () => void
+  onClose: () => void;
+  onReturn: () => void;
 }) => {
-  const { currentWallet } = useWallet()
+  const { currentWallet } = useWallet();
 
   return (
     <div className="mt-3 text-center sm:mt-1.5 sm:text-left">
@@ -53,5 +53,5 @@ export const QRCode = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

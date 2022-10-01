@@ -1,19 +1,19 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import { WalletProvider } from '@cosmos-kit/react'
-import { wallets } from '@cosmos-kit/keplr'
-import { TailwindModal } from '../components'
-import { ThemeProvider } from '../contexts/theme'
+import '../styles/globals.css';
+import type { AppProps } from 'next/app';
+import { WalletProvider } from '@cosmos-kit/react';
+import { wallets } from '@cosmos-kit/keplr';
+import { TailwindModal } from '../components';
+import { ThemeProvider } from '../contexts/theme';
 
-import { SignerOptions } from '@cosmos-kit/core'
-import { chains, assets } from 'chain-registry'
+import { SignerOptions } from '@cosmos-kit/core';
+import { chains, assets } from 'chain-registry';
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
     // stargate: (_chain: Chain) => {
     //   return getSigningCosmosClientOptions();
     // }
-  }
+  };
 
   return (
     <WalletProvider
@@ -29,7 +29,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         </div>
       </ThemeProvider>
     </WalletProvider>
-  )
+  );
 }
 
-export default CreateCosmosApp
+export default CreateCosmosApp;

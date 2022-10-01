@@ -1,20 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
-import { Dialog } from '@headlessui/react'
-import { XMarkIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline'
-import { ChevronLeftIcon } from '@heroicons/react/20/solid'
+import { Dialog } from '@headlessui/react';
+import { XMarkIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon } from '@heroicons/react/20/solid';
 
 export const NotExist = ({
   onClose,
   onReturn,
   onInstall,
   logo,
-  name,
+  name
 }: {
-  onClose: () => void
-  onReturn: () => void
-  onInstall: () => void
-  logo: string
-  name: string
+  onClose: () => void;
+  onReturn: () => void;
+  onInstall: () => void;
+  logo: string;
+  name: string;
 }) => {
   return (
     <div className="mt-3 text-center sm:mt-1.5">
@@ -63,5 +63,5 @@ export const NotExist = ({
         </button>
       </div>
     </div>
-  )
-}
+  );
+};

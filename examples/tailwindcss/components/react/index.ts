@@ -1,2 +1,2 @@
-export * from './chain-card'
-export * from './modal'
+export * from './chain-card';
+export * from './modal';

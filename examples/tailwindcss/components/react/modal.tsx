@@ -1,20 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
-import type { WalletModalProps } from '@cosmos-kit/core'
-import { WalletStatus } from '@cosmos-kit/core'
-import { useWallet } from '@cosmos-kit/react'
-import { useCallback, Fragment, useState, useMemo, useEffect } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import type { WalletModalProps } from '@cosmos-kit/core';
+import { WalletStatus } from '@cosmos-kit/core';
+import { useWallet } from '@cosmos-kit/react';
+import { useCallback, Fragment, useState, useMemo, useEffect } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
 import {
   Connected,
   Connecting,
   Error,
   NotExist,
   QRCode,
-  WalletList,
-} from './views'
-import { wallets } from '@cosmos-kit/config'
-import { useRouter } from 'next/router'
-import Bowser from 'bowser'
+  WalletList
+} from './views';
+import { wallets } from '@cosmos-kit/config';
+import { useRouter } from 'next/router';
+import Bowser from 'bowser';
 
 export enum ModalView {
   WalletList,
@@ -22,84 +22,80 @@ export enum ModalView {
   Connecting,
   Connected,
   Error,
-  NotExist,
+  NotExist
 }
 
 export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
-  const router = useRouter()
+  const router = useRouter();
 
   const [userBrowserInfo, setUserBrowserInfo] = useState<{
-    browser: string
-    device: string | undefined
-    os: string
-  }>()
+    browser: string;
+    device: string | undefined;
+    os: string;
+  }>();
 
   useEffect(() => {
-    const parser = Bowser.getParser(window.navigator.userAgent)
+    const parser = Bowser.getParser(window.navigator.userAgent);
     setUserBrowserInfo({
       browser: parser.getBrowserName(true),
       device: parser.getPlatform().type,
-      os: parser.getOSName(true),
-    })
-  }, [])
+      os: parser.getOSName(true)
+    });
+  }, []);
 
-  const {
-    setCurrentWallet,
-    connect,
-    walletStatus,
-    currentWalletName,
-  } = useWallet()
+  const { setCurrentWallet, connect, walletStatus, currentWalletName } =
+    useWallet();
 
   const [currentView, setCurrentView] = useState<ModalView>(
-    ModalView.WalletList,
-  )
+    ModalView.WalletList
+  );
 
   const currentWalletData = useMemo(() => {
-    return wallets.find((wallet) => wallet.name === currentWalletName)
-  }, [currentWalletName])
+    return wallets.find((wallet) => wallet.name === currentWalletName);
+  }, [currentWalletName]);
 
   useEffect(() => {
     if (isOpen) {
       switch (walletStatus) {
         case WalletStatus.Disconnected:
-          setCurrentView(ModalView.WalletList)
-          break
+          setCurrentView(ModalView.WalletList);
+          break;
         case WalletStatus.Connecting:
-          setCurrentView(ModalView.Connecting)
-          break
+          setCurrentView(ModalView.Connecting);
+          break;
         case WalletStatus.Connected:
-          setCurrentView(ModalView.Connected)
-          break
+          setCurrentView(ModalView.Connected);
+          break;
         case WalletStatus.Error:
-          setCurrentView(ModalView.Error)
-          break
+          setCurrentView(ModalView.Error);
+          break;
         case WalletStatus.Rejected:
-          setCurrentView(ModalView.Error)
-          break
+          setCurrentView(ModalView.Error);
+          break;
         case WalletStatus.NotExist:
-          setCurrentView(ModalView.NotExist)
-          break
+          setCurrentView(ModalView.NotExist);
+          break;
       }
     }
-  }, [isOpen, walletStatus, currentWalletName])
+  }, [isOpen, walletStatus, currentWalletName]);
 
   const onWalletClicked = useCallback(
     (name: string) => {
-      setCurrentWallet(name)
-      connect()
+      setCurrentWallet(name);
+      connect();
 
       // 1ms timeout prevents _render from determining the view to show first
       setTimeout(() => {
         if (wallets.find((wallet) => wallet.name === name)?.isQRCode)
-          setCurrentView(ModalView.QRCode)
-      }, 1)
+          setCurrentView(ModalView.QRCode);
+      }, 1);
     },
-    [setCurrentWallet, connect],
-  )
+    [setCurrentWallet, connect]
+  );
 
   const onCloseModal = useCallback(() => {
-    setOpen(false)
-  }, [setOpen])
+    setOpen(false);
+  }, [setOpen]);
 
   const _render = useMemo(() => {
     switch (currentView) {
@@ -109,7 +105,7 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
             onClose={onCloseModal}
             onWalletClicked={onWalletClicked}
           />
-        )
+        );
       case ModalView.Connected:
         return (
           <Connected
@@ -118,17 +114,15 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
             name={currentWalletData?.prettyName!}
             logo={currentWalletData?.logo!}
           />
-        )
+        );
       case ModalView.Connecting:
-        let subtitle: string
+        let subtitle: string;
         if (currentWalletData!.isQRCode) {
-          subtitle = `Approve ${
-            currentWalletData!.prettyName
-          } connection request on your mobile.`
+          subtitle = `Approve ${currentWalletData!.prettyName
+            } connection request on your mobile.`;
         } else {
-          subtitle = `Open the ${
-            currentWalletData!.prettyName
-          } browser extension to connect your wallet.`
+          subtitle = `Open the ${currentWalletData!.prettyName
+            } browser extension to connect your wallet.`;
         }
 
         return (
@@ -140,14 +134,14 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
             title="Requesting Connection"
             subtitle={subtitle}
           />
-        )
+        );
       case ModalView.QRCode:
         return (
           <QRCode
             onClose={onCloseModal}
             onReturn={() => setCurrentView(ModalView.WalletList)}
           />
-        )
+        );
       case ModalView.Error:
         return (
           <Error
@@ -156,11 +150,11 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
             logo={currentWalletData?.logo!}
             onReconnect={() => onWalletClicked(currentWalletData?.name!)}
           />
-        )
+        );
       case ModalView.NotExist:
-        type Device = 'desktop' | 'tablet' | 'mobile'
-        const device = userBrowserInfo?.device as Device
-        const downloads = currentWalletData?.downloads!
+        type Device = 'desktop' | 'tablet' | 'mobile';
+        const device = userBrowserInfo?.device as Device;
+        const downloads = currentWalletData?.downloads!;
         return (
           <NotExist
             onClose={onCloseModal}
@@ -170,14 +164,14 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
                 downloads[device]?.find(
                   ({ browser, os }) =>
                     browser === userBrowserInfo?.browser ||
-                    os === userBrowserInfo?.os,
-                )?.link || (currentWalletData?.downloads?.default as string),
+                    os === userBrowserInfo?.os
+                )?.link || (currentWalletData?.downloads?.default as string)
               )
             }
             logo={currentWalletData?.logo!}
             name={currentWalletData?.prettyName!}
           />
-        )
+        );
     }
   }, [
     currentView,
@@ -185,8 +179,8 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
     onWalletClicked,
     currentWalletData,
     router,
-    userBrowserInfo,
-  ])
+    userBrowserInfo
+  ]);
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -222,5 +216,5 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
         </div>
       </Dialog>
     </Transition.Root>
-  )
-}
+  );
+};

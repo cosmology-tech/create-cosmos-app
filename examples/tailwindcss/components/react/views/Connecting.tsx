@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { useWallet } from '@cosmos-kit/react'
-import { Dialog } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronLeftIcon } from '@heroicons/react/20/solid'
+import { useWallet } from '@cosmos-kit/react';
+import { Dialog } from '@headlessui/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon } from '@heroicons/react/20/solid';
 
 export const Connecting = ({
   onClose,
@@ -10,14 +10,14 @@ export const Connecting = ({
   name,
   logo,
   title,
-  subtitle,
+  subtitle
 }: {
-  onClose: () => void
-  onReturn: () => void
-  name: string
-  logo: string
-  title: string
-  subtitle: string
+  onClose: () => void;
+  onReturn: () => void;
+  name: string;
+  logo: string;
+  title: string;
+  subtitle: string;
 }) => {
   return (
     <div className="mt-3 text-center sm:mt-1.5">
@@ -57,5 +57,5 @@ export const Connecting = ({
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
