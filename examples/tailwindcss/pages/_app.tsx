@@ -1,12 +1,12 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { WalletProvider } from '@cosmos-kit/react'
-import { wallets } from '@cosmos-kit/config'
+import { wallets } from '@cosmos-kit/keplr'
 import { TailwindModal } from '../components'
 import { ThemeProvider } from '../contexts/theme'
 
 import { SignerOptions } from '@cosmos-kit/core'
-import { chains } from 'chain-registry'
+import { chains, assets } from 'chain-registry'
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
@@ -18,6 +18,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   return (
     <WalletProvider
       chains={chains}
+      assetLists={assets}
       wallets={wallets}
       signerOptions={signerOptions}
       walletModal={TailwindModal}
