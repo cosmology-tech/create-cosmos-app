@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { useWallet } from '@cosmos-kit/react'
 import { ChainName, WalletStatus } from '@cosmos-kit/core'
-import { assets as chainAssets } from 'chain-registry'
+import { chainInfos } from '../config/chain-infos'
 
 const buttons = {
   Disconnected: {
@@ -46,26 +46,7 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
     chains,
   } = walletManager
 
-  const chainOptions = useMemo(
-    () =>
-      chains.map((chainRecord) => {
-        const assets = chainAssets.find(
-          (_chain) => _chain.chain_name === chainRecord.name,
-        )?.assets
-        return {
-          chainName: chainRecord.name,
-          label: chainRecord.chain?.pretty_name,
-          value: chainRecord.name,
-          icon: assets
-            ? assets[0]?.logo_URIs?.svg || assets[0]?.logo_URIs?.png
-            : undefined,
-          disabled: false,
-        }
-      }),
-    [chains],
-  )
-
-  const chain = chainOptions.find((c) => c.chainName === chainName)
+  const chain = chainInfos.find((c) => c.chainName === chainName)
 
   useEffect(() => {
     setCurrentChain(chainName)
