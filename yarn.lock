@@ -1337,6 +1337,14 @@
     "@keplr-wallet/crypto" "^0.10.24"
     semver "^7.3.7"
 
+"@chain-registry/osmosis@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@chain-registry/osmosis/-/osmosis-1.0.0.tgz#268d195966fe7351436e5261506c4083d6105e9d"
+  integrity sha512-fKrydOUykie31SZjk72RxIoBgeCevQb/E3uMbwfcb+taTmcZkrN5TuA/5t3OvszazrdxbMD8h54uIqcu1kroFw==
+  dependencies:
+    "@babel/runtime" "^7.19.0"
+    "@chain-registry/types" "^0.11.0"
+
 "@chain-registry/types@0.11.0", "@chain-registry/types@^0.11.0":
   version "0.11.0"
   resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.11.0.tgz#86e7241f30812e3651d173379fd4edc22bb3ac2c"
@@ -3584,6 +3592,14 @@
   version "7.1.3"
   resolved "https://registry.npmjs.org/@jsdevtools/ono/-/ono-7.1.3.tgz"
   integrity sha512-4JQNk+3mVzK3xh2rqd6RB4J46qUR19azEHBneZyTZM+c456qOrbbM/5xcR8huNCCcbVt7+UmizG6GuUvPvKUYg==
+
+"@juno-network/assets@0.11.1":
+  version "0.11.1"
+  resolved "https://registry.npmjs.org/@juno-network/assets/-/assets-0.11.1.tgz#d80bb3f34d82c511f9dd120930ccf04f585bc459"
+  integrity sha512-7X4LzJVM3JLVHFexa71POLYsJ44Pk7TuZh16xgY+ty0rqQlo3egtyJyvINJCGtP9OG/c5VgnGCt/AeMjmN1MBg==
+  dependencies:
+    "@babel/runtime" "^7.19.0"
+    "@chain-registry/types" "0.11.0"
 
 "@keplr-wallet/common@0.11.3":
   version "0.11.3"
