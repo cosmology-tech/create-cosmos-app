@@ -1,7 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { WalletProvider } from '@cosmos-kit/react'
-import { ChakraProvider } from '@chakra-ui/react'
 import { wallets } from '@cosmos-kit/config'
 import { TailwindModal } from '../components'
 import { ThemeProvider } from '../contexts/theme'
