@@ -1,6 +1,4 @@
 import Head from 'next/head'
-import { Container, Button, Flex, Icon } from '@chakra-ui/react'
-import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs'
 import { Product, Dependency, WalletSection } from '../components'
 import { dependencies, products } from '../config'
 import { useTheme } from '../contexts/theme'
