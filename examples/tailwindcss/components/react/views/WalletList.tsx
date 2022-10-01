@@ -32,7 +32,7 @@ export const WalletList = ({
         </button>
       </div>
       <div className="flex flex-col w-full mt-2 space-y-2">
-        {wallets.map(({ name, prettyName, logo }) => (
+        {wallets.map(({ walletInfo: { name, prettyName, logo } }) => (
           <button
             key={name}
             onClick={() => onWalletClicked(name)}
