@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chain-registry/osmosis": "1.0.0",
     "@chain-registry/types": "0.11.0",
     "@chakra-ui/icons": "2.0.10",
     "@chakra-ui/react": "2.3.4",
