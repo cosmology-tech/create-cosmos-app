@@ -3029,6 +3029,39 @@
     shelljs "0.8.5"
     wasm-ast-types "^0.11.1"
 
+"@cosmwasm/ts-codegen@0.16.5":
+  version "0.16.5"
+  resolved "https://registry.npmjs.org/@cosmwasm/ts-codegen/-/ts-codegen-0.16.5.tgz#98618126000b28a4039572f501e61805ff5a5620"
+  integrity sha512-rGqxMsftRESspiT4CfeYP2hxFeRdpN5YPw3FezNbRT0pqO7yZVvFXl5cqGidOHbzlXhreo7/RAABRfGOW7arng==
+  dependencies:
+    "@babel/core" "7.18.10"
+    "@babel/generator" "7.18.12"
+    "@babel/parser" "7.18.11"
+    "@babel/plugin-proposal-class-properties" "7.18.6"
+    "@babel/plugin-proposal-export-default-from" "7.18.10"
+    "@babel/plugin-proposal-object-rest-spread" "7.18.9"
+    "@babel/plugin-transform-runtime" "7.18.10"
+    "@babel/preset-env" "7.18.10"
+    "@babel/preset-typescript" "^7.18.6"
+    "@babel/runtime" "^7.18.9"
+    "@babel/traverse" "7.18.11"
+    "@babel/types" "7.18.10"
+    "@pyramation/json-schema-to-typescript" " 11.0.4"
+    case "1.6.3"
+    dargs "7.0.0"
+    deepmerge "4.2.2"
+    dotty "0.1.2"
+    fuzzy "0.1.3"
+    glob "8.0.3"
+    inquirerer "0.1.3"
+    long "^5.2.0"
+    minimist "1.2.6"
+    mkdirp "1.0.4"
+    parse-package-name "1.0.0"
+    rimraf "3.0.2"
+    shelljs "0.8.5"
+    wasm-ast-types "^0.11.3"
+
 "@ctrl/tinycolor@^3.4.0":
   version "3.4.1"
   resolved "https://registry.npmjs.org/@ctrl/tinycolor/-/tinycolor-3.4.1.tgz"
@@ -12550,7 +12583,7 @@ walker@^1.0.8:
   dependencies:
     makeerror "1.0.12"
 
-wasm-ast-types@^0.11.1:
+wasm-ast-types@^0.11.1, wasm-ast-types@^0.11.3:
   version "0.11.3"
   resolved "https://registry.npmjs.org/wasm-ast-types/-/wasm-ast-types-0.11.3.tgz"
   integrity sha512-rNJNKznUMgt8Bb01xPoyjM13VQmXzDIBG49oV09k4RusRELZu7pQWejBy08lV5BQjcIYKpWkqiUnAZJp73ZmOA==

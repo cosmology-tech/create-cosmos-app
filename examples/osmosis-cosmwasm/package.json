@@ -1,0 +1,41 @@
+{
+  "name": "@cosmonauts/osmosis-cosmwasm",
+  "version": "0.8.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "codegen": "cross-env NODE_ENV=development babel-node scripts/codegen.js"
+  },
+  "dependencies": {
+    "@chain-registry/types": "0.11.0",
+    "@chakra-ui/icons": "2.0.10",
+    "@chakra-ui/react": "2.3.4",
+    "@cosmjs/cosmwasm-stargate": "0.29.0",
+    "@cosmjs/stargate": "0.29.0",
+    "@cosmos-kit/core": "0.18.0",
+    "@cosmos-kit/keplr": "0.18.0",
+    "@cosmos-kit/react": "0.18.0",
+    "@emotion/react": "11.10.4",
+    "@emotion/styled": "11.10.4",
+    "bignumber.js": "9.1.0",
+    "chain-registry": "1.0.0",
+    "framer-motion": "7.3.6",
+    "next": "12.2.5",
+    "osmojs": "0.24.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "4.4.0"
+  },
+  "devDependencies": {
+    "@cosmwasm/ts-codegen": "0.16.5",
+    "@types/node": "18.7.11",
+    "@types/react": "18.0.17",
+    "@types/react-dom": "18.0.6",
+    "eslint": "8.22.0",
+    "eslint-config-next": "12.2.5",
+    "typescript": "4.7.4"
+  }
+}
