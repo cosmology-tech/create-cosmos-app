@@ -1,33 +1,33 @@
 /* eslint-disable @next/next/no-img-element */
-import { useWallet } from '@cosmos-kit/react'
-import { Dialog } from '@headlessui/react'
+import { useWallet } from '@cosmos-kit/react';
+import { Dialog } from '@headlessui/react';
 import {
   XMarkIcon,
   ArrowRightOnRectangleIcon,
-  ClipboardDocumentIcon,
-} from '@heroicons/react/24/outline'
-import { ChevronLeftIcon, CheckIcon } from '@heroicons/react/20/solid'
-import copyToClipboard from 'copy-to-clipboard'
-import { useState } from 'react'
+  ClipboardDocumentIcon
+} from '@heroicons/react/24/outline';
+import { ChevronLeftIcon, CheckIcon } from '@heroicons/react/20/solid';
+import copyToClipboard from 'copy-to-clipboard';
+import { useState } from 'react';
 
 export function truncate(address: string) {
   return `${address.substring(0, 12)}...${address.substring(
     address.length - 8,
-    address.length,
-  )}`
+    address.length
+  )}`;
 }
 
 export const Address = ({ children: address }: { children: string }) => {
-  const [copied, setCopied] = useState<boolean>(false)
+  const [copied, setCopied] = useState<boolean>(false);
   return (
     <button
       className="inline-flex items-center justify-center px-6 py-1 mx-4 mb-4 space-x-2 text-sm text-gray-500 bg-white border rounded-full dark:text-white/75 dark:bg-gray-lightbg border-black/10 dark:border-white/10 hover:bg-zinc-200 dark:hover:bg-white/10 hover:border-zinc-200 dark:hover:border-white/10"
       onClick={() => {
-        copyToClipboard(address)
-        setCopied(true)
+        copyToClipboard(address);
+        setCopied(true);
         setTimeout(() => {
-          setCopied(false)
-        }, 1500)
+          setCopied(false);
+        }, 1500);
       }}
     >
       <p>{truncate(address || '')}</p>
@@ -37,21 +37,21 @@ export const Address = ({ children: address }: { children: string }) => {
         <ClipboardDocumentIcon className="w-3 h-3 text-gray-500 dark:text-white/75" />
       )}
     </button>
-  )
-}
+  );
+};
 
 export const Connected = ({
   onClose,
   onReturn,
   name,
-  logo,
+  logo
 }: {
-  onClose: () => void
-  onReturn: () => void
-  name: string
-  logo: string
+  onClose: () => void;
+  onReturn: () => void;
+  name: string;
+  logo: string;
 }) => {
-  const { disconnect, currentWallet } = useWallet()
+  const { disconnect, currentWallet } = useWallet();
 
   return (
     <div className="mt-3 text-center sm:mt-1.5 sm:text-left">
@@ -95,8 +95,8 @@ export const Connected = ({
         <button
           className="rounded-lg bg-purple-damp hover:bg-purple-damp/75 inline-flex justify-center items-center py-2.5 font-medium text-white"
           onClick={() => {
-            disconnect()
-            onClose()
+            disconnect();
+            onClose();
           }}
         >
           <ArrowRightOnRectangleIcon className="flex-shrink-0 w-5 h-5 mr-2 text-white" />
@@ -104,5 +104,5 @@ export const Connected = ({
         </button>
       </div>
     </div>
-  )
-}
+  );
+};

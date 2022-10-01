@@ -1,4 +1,4 @@
-import { ChainCardProps } from '../types'
+import { ChainCardProps } from '../types';
 
 export const ChainCard = (props: ChainCardProps) => {
   return (
@@ -6,5 +6,5 @@ export const ChainCard = (props: ChainCardProps) => {
       <img src={props.icon} className="w-8 h-8" />
       <p className="text-xl font-semibold">{props.prettyName}</p>
     </div>
-  )
-}
+  );
+};

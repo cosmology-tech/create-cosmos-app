@@ -1,19 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-import { useWallet } from '@cosmos-kit/react'
-import { Dialog } from '@headlessui/react'
-import { XMarkIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
-import { ChevronLeftIcon } from '@heroicons/react/20/solid'
+import { useWallet } from '@cosmos-kit/react';
+import { Dialog } from '@headlessui/react';
+import { XMarkIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon } from '@heroicons/react/20/solid';
 
 export const Error = ({
   onClose,
   onReturn,
   onReconnect,
-  logo,
+  logo
 }: {
-  onClose: () => void
-  onReturn: () => void
-  onReconnect: () => void
-  logo: string
+  onClose: () => void;
+  onReturn: () => void;
+  onReconnect: () => void;
+  logo: string;
 }) => {
   return (
     <div className="mt-3 text-center sm:mt-1.5">
@@ -60,5 +60,5 @@ export const Error = ({
         </button>
       </div>
     </div>
-  )
-}
+  );
+};

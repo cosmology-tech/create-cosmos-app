@@ -1,12 +1,12 @@
-import Head from 'next/head'
-import { Product, Dependency, WalletSection } from '../components'
-import { dependencies, products } from '../config'
-import { useTheme } from '../contexts/theme'
-import { MoonIcon, SunIcon } from '@heroicons/react/24/outline'
+import Head from 'next/head';
+import { Product, Dependency, WalletSection } from '../components';
+import { dependencies, products } from '../config';
+import { useTheme } from '../contexts/theme';
+import { MoonIcon, SunIcon } from '@heroicons/react/24/outline';
 
 export default function Home() {
-  const chainName = process.env.NEXT_PUBLIC_CHAIN
-  const { theme, toggleTheme } = useTheme()
+  const chainName = process.env.NEXT_PUBLIC_CHAIN ?? 'stargaze';
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <div className="max-w-5xl py-10 mx-6 lg:mx-auto">
@@ -65,5 +65,5 @@ export default function Home() {
         </span>
       </div>
     </div>
-  )
+  );
 }
