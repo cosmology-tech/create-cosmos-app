@@ -12,7 +12,12 @@ export const cli = async (argv) => {
     }
   ], argv);
 
-  argv.template = template;
+  if (template === 'osmosis') {
+    argv.template = 'osmosis-cosmwasm';
+  } else {
+    argv.template = template;
+  }
+
 
   await createCosmosApp(argv);
 };
