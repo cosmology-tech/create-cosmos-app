@@ -1,10 +1,7 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useWallet } from '@cosmos-kit/react';
 import { assets } from 'chain-registry';
 import { AssetList, Asset } from '@chain-registry/types';
-
-// import cosmwasm client generated with cosmwasm-ts-codegen
-import { HackCw20QueryClient } from '../codegen/HackCw20.client';
 
 import {
   Box,
@@ -19,7 +16,7 @@ import {
   Flex,
   Icon,
   useColorMode,
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
 import { dependencies, products } from '../config';
@@ -28,10 +25,12 @@ import { WalletStatus } from '@cosmos-kit/core';
 import { Product, Dependency, WalletSection } from '../components';
 import Head from 'next/head';
 
+import HackCw20 from '../components/react/hackcw20';
+
 const library = {
   title: 'OsmoJS',
   text: 'OsmoJS',
-  href: 'https://github.com/osmosis-labs/osmojs'
+  href: 'https://github.com/osmosis-labs/osmojs',
 };
 
 // const chainName = 'osmosis';
@@ -46,51 +45,13 @@ const coin: Asset = chainassets.assets.find(
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const {
-    getStargateClient,
-    getCosmWasmClient,
-    address,
-    setCurrentChain,
-    currentWallet,
-    walletStatus
-  } = useWallet();
+  const { walletStatus, setCurrentChain } = useWallet();
 
   useEffect(() => {
     setCurrentChain(chainName);
   }, [chainName]);
 
   const color = useColorModeValue('primary.500', 'primary.200');
-
-  // get cw20 balance
-  const [cw20Client, setCw20Client] = useState<HackCw20QueryClient | null>(
-    null
-  );
-  useEffect(() => {
-    getCosmWasmClient().then((cosmwasmClient) => {
-      if (!cosmwasmClient || !address) {
-        console.error('stargateClient undefined or address undefined.');
-        return;
-      }
-
-      setCw20Client(
-        new HackCw20QueryClient(
-          cosmwasmClient,
-          'osmo1y0ywcujptlmnx4fgstlqfp7nftc8w5qndsfds9wxwtm0ltjpzp4qdj09j8'
-        )
-      );
-    });
-  }, [address, getCosmWasmClient]);
-  const [cw20Bal, setCw20Bal] = useState<string | null>(null);
-  useEffect(() => {
-    if (cw20Client && address) {
-      cw20Client
-        .balance({
-          // TODO: replace with `address` !!!
-          address: 'osmo10vcqfvecwmvfr46cn0ju024xz7khutjtdsg5ga'
-        })
-        .then((b) => setCw20Bal(b.balance));
-    }
-  }, [cw20Client, address]);
 
   return (
     <Container maxW="5xl" py={10}>
@@ -131,12 +92,7 @@ export default function Home() {
       </Box>
       <WalletSection chainName={chainName} />
 
-      <div>
-        HackCW20 Balance:{' '}
-        {walletStatus === WalletStatus.Disconnected
-          ? 'Connect wallet!'
-          : cw20Bal ?? 'loading...'}
-      </div>
+      <HackCw20 />
 
       {walletStatus === WalletStatus.Disconnected && (
         <Box textAlign="center">
@@ -160,7 +116,7 @@ export default function Home() {
       <Grid
         templateColumns={{
           md: 'repeat(2, 1fr)',
-          lg: 'repeat(3, 1fr)'
+          lg: 'repeat(3, 1fr)',
         }}
         gap={8}
         mb={14}
