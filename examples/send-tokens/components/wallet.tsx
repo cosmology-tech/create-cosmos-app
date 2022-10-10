@@ -36,6 +36,7 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
   const {
     connect,
     openView,
+    disconnect,
     setCurrentChain,
     walletStatus,
     username,
@@ -73,15 +74,17 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
     e.preventDefault();
-    openView();
-    if (currentWalletName) {
-      await connect();
-    }
+    await connect();
   };
 
   const onClickOpenView: MouseEventHandler = (e) => {
     e.preventDefault();
     openView();
+  };
+
+  const onClickDisconnect: MouseEventHandler = async (e) => {
+    e.preventDefault();
+    await disconnect();
   };
 
   // Components
@@ -93,7 +96,7 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
       }
       connecting={<Connecting />}
       connected={
-        <Connected buttonText={'My Wallet'} onClick={onClickOpenView} />
+        <Connected buttonText={'My Wallet'} onClick={onClickDisconnect} />
       }
       rejected={<Rejected buttonText="Reconnect" onClick={onClickConnect} />}
       error={<Error buttonText="Change Wallet" onClick={onClickOpenView} />}
