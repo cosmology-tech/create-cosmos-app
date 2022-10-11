@@ -96,7 +96,7 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
       }
       connecting={<Connecting />}
       connected={
-        <Connected buttonText={'My Wallet'} onClick={onClickDisconnect} />
+        <Connected buttonText={'My Wallet'} onClick={onClickOpenView} />
       }
       rejected={<Rejected buttonText="Reconnect" onClick={onClickConnect} />}
       error={<Error buttonText="Change Wallet" onClick={onClickOpenView} />}

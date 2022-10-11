@@ -11,7 +11,8 @@
     "bootstrap": "lerna bootstrap --use-workspaces",
     "lint": "lerna run lint",
     "format": "lerna run format",
-    "test": "lerna run test --stream"
+    "test": "lerna run test --stream",
+    "update": "yarn upgrade-interactive --latest"
   },
   "devDependencies": {
     "@babel/cli": "7.18.10",
