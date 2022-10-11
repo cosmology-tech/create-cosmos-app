@@ -35,13 +35,13 @@ export const products: FeatureProps[] = [
 
 export const dependencies: FeatureProps[] = [
   {
-    title: 'Chakra UI',
-    text: 'A simple, modular and accessible React Component Library.',
-    href: 'https://chakra-ui.com/docs/components/'
+    title: 'Tailwind CSS',
+    text: 'An unopinionated CSS framework with a multitude of customizable styles for the modern web.',
+    href: 'https://tailwindcss.com'
   },
   {
     title: 'Next.js',
-    text: 'A React Framework supports hybrid static & server rendering.',
+    text: 'A React Framework for hybrid static & server-side rendering.',
     href: 'https://nextjs.org/'
   }
 ];

@@ -4,7 +4,7 @@ import { WalletProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { defaultTheme } from '../config';
 import { wallets } from '@cosmos-kit/keplr';
-import { chains } from 'chain-registry';
+import { chains, assets } from 'chain-registry';
 import { getSigningCosmosClientOptions } from '../codegen';
 
 import { SignerOptions } from '@cosmos-kit/core';
@@ -19,6 +19,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
     cosmwasm: (chain: Chain) => {
       switch (chain.chain_name) {
         case 'osmosis':
+        case 'osmosistestnet':
           return {
             gasPrice: GasPrice.fromString('0.0025uosmo')
           };
@@ -38,6 +39,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={defaultTheme}>
       <WalletProvider
         chains={chains}
+        assetLists={assets}
         wallets={wallets}
         signerOptions={signerOptions}
       >

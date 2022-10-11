@@ -1,6 +1,6 @@
 {
   "name": "@cosmonauts/tailwindcss",
-  "version": "0.6.2",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,13 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@chakra-ui/icons": "2.0.10",
-    "@chakra-ui/react": "2.3.4",
     "@cosmjs/cosmwasm-stargate": "0.29.0",
     "@cosmjs/stargate": "0.29.0",
-    "@cosmos-kit/keplr": "0.17.0",
-    "@cosmos-kit/core": "0.17.0",
-    "@cosmos-kit/react": "0.17.0",
+    "@cosmos-kit/core": "0.19.0",
+    "@cosmos-kit/keplr": "0.19.0",
+    "@cosmos-kit/react": "0.18.1",
     "@emotion/react": "11.10.4",
     "@emotion/styled": "11.10.4",
     "@headlessui/react": "^1.7.2",
@@ -29,7 +27,6 @@
     "qrcode.react": "^3.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-icons": "4.4.0",
     "tailwindcss": "^3.1.8"
   },
   "devDependencies": {

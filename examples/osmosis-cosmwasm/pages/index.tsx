@@ -1,4 +1,8 @@
-import Head from 'next/head';
+import { useEffect } from 'react';
+import { useWallet } from '@cosmos-kit/react';
+import { assets } from 'chain-registry';
+import { AssetList, Asset } from '@chain-registry/types';
+
 import {
   Box,
   Divider,
@@ -12,18 +16,42 @@ import {
   Flex,
   Icon,
   useColorMode,
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
-import { Product, Dependency, WalletSection } from '../components';
 import { dependencies, products } from '../config';
-import { useRouter } from 'next/router';
+
+import { WalletStatus } from '@cosmos-kit/core';
+import { Product, Dependency, WalletSection } from '../components';
+import Head from 'next/head';
+
+import HackCw20 from '../components/react/hackcw20';
+
+const library = {
+  title: 'OsmoJS',
+  text: 'OsmoJS',
+  href: 'https://github.com/osmosis-labs/osmojs',
+};
+
+// const chainName = 'osmosis';
+const chainName = 'osmosistestnet';
+const chainassets: AssetList = assets.find(
+  (chain) => chain.chain_name === chainName
+) as AssetList;
+const coin: Asset = chainassets.assets.find(
+  (asset) => asset.base === 'uosmo'
+) as Asset;
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const router = useRouter();
-  let { chainName } = router.query;
-  chainName = chainName ? (chainName as string) : undefined;
+
+  const { walletStatus, setCurrentChain } = useWallet();
+
+  useEffect(() => {
+    setCurrentChain(chainName);
+  }, [chainName]);
+
+  const color = useColorModeValue('primary.500', 'primary.200');
 
   return (
     <Container maxW="5xl" py={10}>
@@ -54,19 +82,41 @@ export default function Home() {
           fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
         >
           <Text as="span">Welcome to&nbsp;</Text>
-          <Text
-            as="span"
-            color={useColorModeValue('primary.500', 'primary.200')}
-          >
-            CosmosKit + Next.js
+          <Text as="span" color={color}>
+            CosmosKit + Next.js +{' '}
+            <a href={library.href} target="_blank" rel="noreferrer">
+              {library.title}
+            </a>
           </Text>
         </Heading>
       </Box>
       <WalletSection chainName={chainName} />
+
+      <HackCw20 />
+
+      {walletStatus === WalletStatus.Disconnected && (
+        <Box textAlign="center">
+          <Heading
+            as="h3"
+            fontSize={{ base: '1xl', sm: '2xl', md: '2xl' }}
+            fontWeight="extrabold"
+            m={30}
+          >
+            Connect your wallet!
+          </Heading>
+        </Box>
+      )}
+
+      <Dependency key={library.title} {...library}></Dependency>
+
+      <Box mb={3}>
+        <Divider />
+      </Box>
+
       <Grid
         templateColumns={{
           md: 'repeat(2, 1fr)',
-          lg: 'repeat(3, 1fr)'
+          lg: 'repeat(3, 1fr)',
         }}
         gap={8}
         mb={14}
@@ -75,6 +125,7 @@ export default function Home() {
           <Product key={product.title} {...product}></Product>
         ))}
       </Grid>
+
       <Grid templateColumns={{ md: '1fr 1fr' }} gap={8} mb={20}>
         {dependencies.map((dependency) => (
           <Dependency key={dependency.title} {...dependency}></Dependency>
