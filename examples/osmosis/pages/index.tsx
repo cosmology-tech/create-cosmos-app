@@ -35,7 +35,8 @@ const library = {
   href: 'https://github.com/osmosis-labs/osmojs'
 };
 
-const chainName = 'osmosis';
+// const chainName = 'osmosis';
+const chainName = 'osmosistestnet';
 const chainassets: AssetList = assets.find(
   (chain) => chain.chain_name === chainName
 ) as AssetList;
@@ -105,16 +106,16 @@ export default function Home() {
       return;
     }
 
-    let restEndpoint = await currentWallet?.getRestEndpoint();
+    let rpcEndpoint = await currentWallet?.getRpcEndpoint();
 
-    if (!restEndpoint) {
-      console.log('no rest endpoint — using a fallback');
-      restEndpoint = `https://rest.cosmos.directory/${chainName}`;
+    if (!rpcEndpoint) {
+      console.log('no rpc endpoint — using a fallback');
+      rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
     }
 
-    // get LCD client
-    const client = await cosmos.ClientFactory.createLCDClient({
-      restEndpoint
+    // get RPC client
+    const client = await cosmos.ClientFactory.createRPCQueryClient({
+      rpcEndpoint
     });
 
     // fetch balance

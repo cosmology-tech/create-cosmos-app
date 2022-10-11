@@ -4,7 +4,7 @@ import { WalletProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { defaultTheme } from '../config';
 import { wallets } from '@cosmos-kit/keplr';
-import { chains } from 'chain-registry';
+import { chains, assets } from 'chain-registry';
 import { getSigningCosmosClientOptions } from 'stargaze-zone';
 import { GasPrice } from '@cosmjs/stargate';
 
@@ -30,6 +30,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={defaultTheme}>
       <WalletProvider
         chains={chains}
+        assetLists={assets}
         wallets={wallets}
         signerOptions={signerOptions}
       >

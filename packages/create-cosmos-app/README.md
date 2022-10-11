@@ -92,11 +92,6 @@ Explore examples!
 ```
 cca --example
 ```
-### Tailwind
-
-```
-cca --name exampleapp --example --template tailwindcss
-```
 
 ### Send Tokens
 
@@ -120,6 +115,12 @@ uses [osmojs](https://github.com/osmosis-labs/osmojs)
 cca --name myosmoapp --example --template osmosis
 ```
 
+or the cosmwsam example:
+
+```
+cca --name myosmoapp --example --template osmosis-cosmwasm
+```
+
 ### Juno
 
 <p align="center" width="100%">
@@ -139,10 +140,16 @@ cca --name myjunoapp --example --template juno
     <img height="48" src="https://user-images.githubusercontent.com/545047/184694732-f4a3d397-14fb-415a-9562-a532f510f812.png" />
 </p>
 
-uses [stargazejs](https://github.com/cosmology-tech/stargaze-zone)
+uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
 
 ```
 cca --name mystarsapp --example --template stargaze
+```
+
+### Tailwind
+
+```
+cca --name exampleapp --example --template tailwindcss
 ```
 
 ## Credits
