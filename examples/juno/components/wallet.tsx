@@ -36,7 +36,6 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
   const {
     connect,
     openView,
-    disconnect,
     setCurrentChain,
     chains,
     walletStatus,
@@ -83,12 +82,6 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
     e.preventDefault();
     openView();
   };
-
-  const onClickDisconnect: MouseEventHandler = async (e) => {
-    e.preventDefault();
-    await disconnect();
-  };
-
   // Components
   const connectWalletButton = (
     <WalletConnectComponent
