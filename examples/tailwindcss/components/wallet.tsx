@@ -13,7 +13,7 @@ import { chainInfos } from '../config/chain-infos'
 const buttons = {
   Disconnected: {
     icon: WalletIcon,
-    title: 'Connect Wallet',
+    title: 'Connect Wallet'
   },
   Connected: {
     icon: WalletIcon,
@@ -38,7 +38,6 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
   const {
     connect,
     openView,
-    disconnect,
     setCurrentChain,
     walletStatus,
     username,

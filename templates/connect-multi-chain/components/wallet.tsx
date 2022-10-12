@@ -36,7 +36,6 @@ export const WalletSection = () => {
   const {
     connect,
     openView,
-    disconnect,
     setCurrentChain,
     walletStatus,
     username,
@@ -76,12 +75,6 @@ export const WalletSection = () => {
     e.preventDefault();
     openView();
   };
-
-  const onClickDisconnect: MouseEventHandler = async (e) => {
-    e.preventDefault();
-    await disconnect();
-  };
-
   const onChainChange: handleSelectChainDropdown = async (
     selectedValue: ChainOption | null
   ) => {
