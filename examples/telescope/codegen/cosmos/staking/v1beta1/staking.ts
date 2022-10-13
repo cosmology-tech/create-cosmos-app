@@ -4,7 +4,7 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
 import * as _m0 from "protobufjs/minimal";
-import { toTimestamp, fromTimestamp, Long } from "@osmonauts/helpers";
+import { toTimestamp, fromTimestamp, Long } from "../../../helpers";
 /** BondStatus is the status of a validator. */
 
 export enum BondStatus {
@@ -75,8 +75,9 @@ export function bondStatusToJSON(object: BondStatus): string {
     case BondStatus.BOND_STATUS_BONDED:
       return "BOND_STATUS_BONDED";
 
+    case BondStatus.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /**
@@ -87,7 +88,7 @@ export function bondStatusToJSON(object: BondStatus): string {
  */
 
 export interface HistoricalInfo {
-  header: Header | undefined;
+  header?: Header | undefined;
   valset: Validator[];
 }
 /**
@@ -98,7 +99,7 @@ export interface HistoricalInfo {
  */
 
 export interface HistoricalInfoSDKType {
-  header: HeaderSDKType | undefined;
+  header?: HeaderSDKType | undefined;
   valset: ValidatorSDKType[];
 }
 /**
@@ -135,19 +136,19 @@ export interface CommissionRatesSDKType {
 
 export interface Commission {
   /** commission_rates defines the initial commission rates to be used for creating a validator. */
-  commissionRates: CommissionRates | undefined;
+  commissionRates?: CommissionRates | undefined;
   /** update_time is the last time the commission rate was changed. */
 
-  updateTime: Date | undefined;
+  updateTime?: Date | undefined;
 }
 /** Commission defines commission parameters for a given validator. */
 
 export interface CommissionSDKType {
   /** commission_rates defines the initial commission rates to be used for creating a validator. */
-  commission_rates: CommissionRatesSDKType | undefined;
+  commission_rates?: CommissionRatesSDKType | undefined;
   /** update_time is the last time the commission rate was changed. */
 
-  update_time: Date | undefined;
+  update_time?: Date | undefined;
 }
 /** Description defines a validator description. */
 
@@ -201,7 +202,7 @@ export interface Validator {
   operatorAddress: string;
   /** consensus_pubkey is the consensus public key of the validator, as a Protobuf Any. */
 
-  consensusPubkey: Any | undefined;
+  consensusPubkey?: Any | undefined;
   /** jailed defined whether the validator has been jailed from bonded status or not. */
 
   jailed: boolean;
@@ -216,16 +217,16 @@ export interface Validator {
   delegatorShares: string;
   /** description defines the description terms for the validator. */
 
-  description: Description | undefined;
+  description?: Description | undefined;
   /** unbonding_height defines, if unbonding, the height at which this validator has begun unbonding. */
 
   unbondingHeight: Long;
   /** unbonding_time defines, if unbonding, the min time for the validator to complete unbonding. */
 
-  unbondingTime: Date | undefined;
+  unbondingTime?: Date | undefined;
   /** commission defines the commission parameters. */
 
-  commission: Commission | undefined;
+  commission?: Commission | undefined;
   /** min_self_delegation is the validator's self declared minimum self delegation. */
 
   minSelfDelegation: string;
@@ -246,7 +247,7 @@ export interface ValidatorSDKType {
   operator_address: string;
   /** consensus_pubkey is the consensus public key of the validator, as a Protobuf Any. */
 
-  consensus_pubkey: AnySDKType | undefined;
+  consensus_pubkey?: AnySDKType | undefined;
   /** jailed defined whether the validator has been jailed from bonded status or not. */
 
   jailed: boolean;
@@ -261,16 +262,16 @@ export interface ValidatorSDKType {
   delegator_shares: string;
   /** description defines the description terms for the validator. */
 
-  description: DescriptionSDKType | undefined;
+  description?: DescriptionSDKType | undefined;
   /** unbonding_height defines, if unbonding, the height at which this validator has begun unbonding. */
 
   unbonding_height: Long;
   /** unbonding_time defines, if unbonding, the min time for the validator to complete unbonding. */
 
-  unbonding_time: Date | undefined;
+  unbonding_time?: Date | undefined;
   /** commission defines the commission parameters. */
 
-  commission: CommissionSDKType | undefined;
+  commission?: CommissionSDKType | undefined;
   /** min_self_delegation is the validator's self declared minimum self delegation. */
 
   min_self_delegation: string;
@@ -418,7 +419,7 @@ export interface UnbondingDelegationEntry {
   creationHeight: Long;
   /** completion_time is the unix time for unbonding completion. */
 
-  completionTime: Date | undefined;
+  completionTime?: Date | undefined;
   /** initial_balance defines the tokens initially scheduled to receive at completion. */
 
   initialBalance: string;
@@ -433,7 +434,7 @@ export interface UnbondingDelegationEntrySDKType {
   creation_height: Long;
   /** completion_time is the unix time for unbonding completion. */
 
-  completion_time: Date | undefined;
+  completion_time?: Date | undefined;
   /** initial_balance defines the tokens initially scheduled to receive at completion. */
 
   initial_balance: string;
@@ -448,7 +449,7 @@ export interface RedelegationEntry {
   creationHeight: Long;
   /** completion_time defines the unix time for redelegation completion. */
 
-  completionTime: Date | undefined;
+  completionTime?: Date | undefined;
   /** initial_balance defines the initial balance when redelegation started. */
 
   initialBalance: string;
@@ -463,7 +464,7 @@ export interface RedelegationEntrySDKType {
   creation_height: Long;
   /** completion_time defines the unix time for redelegation completion. */
 
-  completion_time: Date | undefined;
+  completion_time?: Date | undefined;
   /** initial_balance defines the initial balance when redelegation started. */
 
   initial_balance: string;
@@ -511,7 +512,7 @@ export interface RedelegationSDKType {
 
 export interface Params {
   /** unbonding_time is the time duration of unbonding. */
-  unbondingTime: Duration | undefined;
+  unbondingTime?: Duration | undefined;
   /** max_validators is the maximum number of validators. */
 
   maxValidators: number;
@@ -532,7 +533,7 @@ export interface Params {
 
 export interface ParamsSDKType {
   /** unbonding_time is the time duration of unbonding. */
-  unbonding_time: DurationSDKType | undefined;
+  unbonding_time?: DurationSDKType | undefined;
   /** max_validators is the maximum number of validators. */
 
   max_validators: number;
@@ -555,8 +556,8 @@ export interface ParamsSDKType {
  */
 
 export interface DelegationResponse {
-  delegation: Delegation | undefined;
-  balance: Coin | undefined;
+  delegation?: Delegation | undefined;
+  balance?: Coin | undefined;
 }
 /**
  * DelegationResponse is equivalent to Delegation except that it contains a
@@ -564,8 +565,8 @@ export interface DelegationResponse {
  */
 
 export interface DelegationResponseSDKType {
-  delegation: DelegationSDKType | undefined;
-  balance: CoinSDKType | undefined;
+  delegation?: DelegationSDKType | undefined;
+  balance?: CoinSDKType | undefined;
 }
 /**
  * RedelegationEntryResponse is equivalent to a RedelegationEntry except that it
@@ -574,7 +575,7 @@ export interface DelegationResponseSDKType {
  */
 
 export interface RedelegationEntryResponse {
-  redelegationEntry: RedelegationEntry | undefined;
+  redelegationEntry?: RedelegationEntry | undefined;
   balance: string;
 }
 /**
@@ -584,7 +585,7 @@ export interface RedelegationEntryResponse {
  */
 
 export interface RedelegationEntryResponseSDKType {
-  redelegation_entry: RedelegationEntrySDKType | undefined;
+  redelegation_entry?: RedelegationEntrySDKType | undefined;
   balance: string;
 }
 /**
@@ -594,7 +595,7 @@ export interface RedelegationEntryResponseSDKType {
  */
 
 export interface RedelegationResponse {
-  redelegation: Redelegation | undefined;
+  redelegation?: Redelegation | undefined;
   entries: RedelegationEntryResponse[];
 }
 /**
@@ -604,7 +605,7 @@ export interface RedelegationResponse {
  */
 
 export interface RedelegationResponseSDKType {
-  redelegation: RedelegationSDKType | undefined;
+  redelegation?: RedelegationSDKType | undefined;
   entries: RedelegationEntryResponseSDKType[];
 }
 /**
@@ -1725,7 +1726,7 @@ export const Params = {
 
   fromPartial(object: Partial<Params>): Params {
     const message = createBaseParams();
-    message.unbondingTime = object.unbondingTime ?? undefined;
+    message.unbondingTime = object.unbondingTime !== undefined && object.unbondingTime !== null ? Duration.fromPartial(object.unbondingTime) : undefined;
     message.maxValidators = object.maxValidators ?? 0;
     message.maxEntries = object.maxEntries ?? 0;
     message.historicalEntries = object.historicalEntries ?? 0;

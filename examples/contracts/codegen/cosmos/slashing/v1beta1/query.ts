@@ -10,12 +10,12 @@ export interface QueryParamsRequestSDKType {}
 /** QueryParamsResponse is the response type for the Query/Params RPC method */
 
 export interface QueryParamsResponse {
-  params: Params | undefined;
+  params?: Params | undefined;
 }
 /** QueryParamsResponse is the response type for the Query/Params RPC method */
 
 export interface QueryParamsResponseSDKType {
-  params: ParamsSDKType | undefined;
+  params?: ParamsSDKType | undefined;
 }
 /**
  * QuerySigningInfoRequest is the request type for the Query/SigningInfo RPC
@@ -42,7 +42,7 @@ export interface QuerySigningInfoRequestSDKType {
 
 export interface QuerySigningInfoResponse {
   /** val_signing_info is the signing info of requested val cons address */
-  valSigningInfo: ValidatorSigningInfo | undefined;
+  valSigningInfo?: ValidatorSigningInfo | undefined;
 }
 /**
  * QuerySigningInfoResponse is the response type for the Query/SigningInfo RPC
@@ -51,7 +51,7 @@ export interface QuerySigningInfoResponse {
 
 export interface QuerySigningInfoResponseSDKType {
   /** val_signing_info is the signing info of requested val cons address */
-  val_signing_info: ValidatorSigningInfoSDKType | undefined;
+  val_signing_info?: ValidatorSigningInfoSDKType | undefined;
 }
 /**
  * QuerySigningInfosRequest is the request type for the Query/SigningInfos RPC
@@ -139,7 +139,7 @@ export const QueryParamsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();
@@ -229,7 +229,7 @@ export const QuerySigningInfoResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySigningInfoResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySigningInfoResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySigningInfoResponse();
@@ -324,7 +324,7 @@ export const QuerySigningInfosResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySigningInfosResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySigningInfosResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySigningInfosResponse();

@@ -1,4 +1,4 @@
-import { setPaginationParams } from "@osmonauts/helpers";
+import { setPaginationParams } from "../../../helpers";
 import { LCDClient } from "@osmonauts/lcd";
 import { QueryAllowanceRequest, QueryAllowanceResponseSDKType, QueryAllowancesRequest, QueryAllowancesResponseSDKType, QueryAllowancesByGranterRequest, QueryAllowancesByGranterResponseSDKType } from "./query";
 export class LCDQueryClient {
@@ -37,7 +37,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryAllowancesResponseSDKType>(endpoint, options);
   }
   /* AllowancesByGranter returns all the grants given by an address
-  Since v0.46 */
+   Since v0.46 */
 
 
   async allowancesByGranter(params: QueryAllowancesByGranterRequest): Promise<QueryAllowancesByGranterResponseSDKType> {

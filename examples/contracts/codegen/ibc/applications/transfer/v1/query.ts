@@ -26,7 +26,7 @@ export interface QueryDenomTraceRequestSDKType {
 
 export interface QueryDenomTraceResponse {
   /** denom_trace returns the requested denomination trace information. */
-  denomTrace: DenomTrace | undefined;
+  denomTrace?: DenomTrace | undefined;
 }
 /**
  * QueryDenomTraceResponse is the response type for the Query/DenomTrace RPC
@@ -35,7 +35,7 @@ export interface QueryDenomTraceResponse {
 
 export interface QueryDenomTraceResponseSDKType {
   /** denom_trace returns the requested denomination trace information. */
-  denom_trace: DenomTraceSDKType | undefined;
+  denom_trace?: DenomTraceSDKType | undefined;
 }
 /**
  * QueryConnectionsRequest is the request type for the Query/DenomTraces RPC
@@ -89,13 +89,13 @@ export interface QueryParamsRequestSDKType {}
 
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
-  params: Params | undefined;
+  params?: Params | undefined;
 }
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 
 export interface QueryParamsResponseSDKType {
   /** params defines the parameters of the module. */
-  params: ParamsSDKType | undefined;
+  params?: ParamsSDKType | undefined;
 }
 
 function createBaseQueryDenomTraceRequest(): QueryDenomTraceRequest {
@@ -158,7 +158,7 @@ export const QueryDenomTraceResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomTraceResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomTraceResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDenomTraceResponse();
@@ -253,7 +253,7 @@ export const QueryDenomTracesResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomTracesResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomTracesResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDenomTracesResponse();
@@ -337,7 +337,7 @@ export const QueryParamsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();

@@ -1,16 +1,16 @@
 import { Duration, DurationSDKType } from "../../google/protobuf/duration";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../helpers";
 /**
  * ConsensusParams contains consensus critical parameters that determine the
  * validity of blocks.
  */
 
 export interface ConsensusParams {
-  block: BlockParams | undefined;
-  evidence: EvidenceParams | undefined;
-  validator: ValidatorParams | undefined;
-  version: VersionParams | undefined;
+  block?: BlockParams | undefined;
+  evidence?: EvidenceParams | undefined;
+  validator?: ValidatorParams | undefined;
+  version?: VersionParams | undefined;
 }
 /**
  * ConsensusParams contains consensus critical parameters that determine the
@@ -18,10 +18,10 @@ export interface ConsensusParams {
  */
 
 export interface ConsensusParamsSDKType {
-  block: BlockParamsSDKType | undefined;
-  evidence: EvidenceParamsSDKType | undefined;
-  validator: ValidatorParamsSDKType | undefined;
-  version: VersionParamsSDKType | undefined;
+  block?: BlockParamsSDKType | undefined;
+  evidence?: EvidenceParamsSDKType | undefined;
+  validator?: ValidatorParamsSDKType | undefined;
+  version?: VersionParamsSDKType | undefined;
 }
 /** BlockParams contains limits on the block size. */
 
@@ -87,7 +87,7 @@ export interface EvidenceParams {
    * attacks](https://github.com/ethereum/wiki/wiki/Proof-of-Stake-FAQ#what-is-the-nothing-at-stake-problem-and-how-can-it-be-fixed).
    */
 
-  maxAgeDuration: Duration | undefined;
+  maxAgeDuration?: Duration | undefined;
   /**
    * This sets the maximum size of total evidence in bytes that can be committed in a single block.
    * and should fall comfortably under the max block bytes.
@@ -114,7 +114,7 @@ export interface EvidenceParamsSDKType {
    * attacks](https://github.com/ethereum/wiki/wiki/Proof-of-Stake-FAQ#what-is-the-nothing-at-stake-problem-and-how-can-it-be-fixed).
    */
 
-  max_age_duration: DurationSDKType | undefined;
+  max_age_duration?: DurationSDKType | undefined;
   /**
    * This sets the maximum size of total evidence in bytes that can be committed in a single block.
    * and should fall comfortably under the max block bytes.
@@ -368,7 +368,7 @@ export const EvidenceParams = {
   fromPartial(object: Partial<EvidenceParams>): EvidenceParams {
     const message = createBaseEvidenceParams();
     message.maxAgeNumBlocks = object.maxAgeNumBlocks !== undefined && object.maxAgeNumBlocks !== null ? Long.fromValue(object.maxAgeNumBlocks) : Long.ZERO;
-    message.maxAgeDuration = object.maxAgeDuration ?? undefined;
+    message.maxAgeDuration = object.maxAgeDuration !== undefined && object.maxAgeDuration !== null ? Duration.fromPartial(object.maxAgeDuration) : undefined;
     message.maxBytes = object.maxBytes !== undefined && object.maxBytes !== null ? Long.fromValue(object.maxBytes) : Long.ZERO;
     return message;
   }

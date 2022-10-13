@@ -6,22 +6,22 @@ export interface AppDescriptor {
    * AuthnDescriptor provides information on how to authenticate transactions on the application
    * NOTE: experimental and subject to change in future releases.
    */
-  authn: AuthnDescriptor | undefined;
+  authn?: AuthnDescriptor | undefined;
   /** chain provides the chain descriptor */
 
-  chain: ChainDescriptor | undefined;
+  chain?: ChainDescriptor | undefined;
   /** codec provides metadata information regarding codec related types */
 
-  codec: CodecDescriptor | undefined;
+  codec?: CodecDescriptor | undefined;
   /** configuration provides metadata information regarding the sdk.Config type */
 
-  configuration: ConfigurationDescriptor | undefined;
+  configuration?: ConfigurationDescriptor | undefined;
   /** query_services provides metadata information regarding the available queriable endpoints */
 
-  queryServices: QueryServicesDescriptor | undefined;
+  queryServices?: QueryServicesDescriptor | undefined;
   /** tx provides metadata information regarding how to send transactions to the given application */
 
-  tx: TxDescriptor | undefined;
+  tx?: TxDescriptor | undefined;
 }
 /** AppDescriptor describes a cosmos-sdk based application */
 
@@ -30,22 +30,22 @@ export interface AppDescriptorSDKType {
    * AuthnDescriptor provides information on how to authenticate transactions on the application
    * NOTE: experimental and subject to change in future releases.
    */
-  authn: AuthnDescriptorSDKType | undefined;
+  authn?: AuthnDescriptorSDKType | undefined;
   /** chain provides the chain descriptor */
 
-  chain: ChainDescriptorSDKType | undefined;
+  chain?: ChainDescriptorSDKType | undefined;
   /** codec provides metadata information regarding codec related types */
 
-  codec: CodecDescriptorSDKType | undefined;
+  codec?: CodecDescriptorSDKType | undefined;
   /** configuration provides metadata information regarding the sdk.Config type */
 
-  configuration: ConfigurationDescriptorSDKType | undefined;
+  configuration?: ConfigurationDescriptorSDKType | undefined;
   /** query_services provides metadata information regarding the available queriable endpoints */
 
-  query_services: QueryServicesDescriptorSDKType | undefined;
+  query_services?: QueryServicesDescriptorSDKType | undefined;
   /** tx provides metadata information regarding how to send transactions to the given application */
 
-  tx: TxDescriptorSDKType | undefined;
+  tx?: TxDescriptorSDKType | undefined;
 }
 /** TxDescriptor describes the accepted transaction type */
 
@@ -279,13 +279,13 @@ export interface GetAuthnDescriptorRequestSDKType {}
 
 export interface GetAuthnDescriptorResponse {
   /** authn describes how to authenticate to the application when sending transactions */
-  authn: AuthnDescriptor | undefined;
+  authn?: AuthnDescriptor | undefined;
 }
 /** GetAuthnDescriptorResponse is the response returned by the GetAuthnDescriptor RPC */
 
 export interface GetAuthnDescriptorResponseSDKType {
   /** authn describes how to authenticate to the application when sending transactions */
-  authn: AuthnDescriptorSDKType | undefined;
+  authn?: AuthnDescriptorSDKType | undefined;
 }
 /** GetChainDescriptorRequest is the request used for the GetChainDescriptor RPC */
 
@@ -297,13 +297,13 @@ export interface GetChainDescriptorRequestSDKType {}
 
 export interface GetChainDescriptorResponse {
   /** chain describes application chain information */
-  chain: ChainDescriptor | undefined;
+  chain?: ChainDescriptor | undefined;
 }
 /** GetChainDescriptorResponse is the response returned by the GetChainDescriptor RPC */
 
 export interface GetChainDescriptorResponseSDKType {
   /** chain describes application chain information */
-  chain: ChainDescriptorSDKType | undefined;
+  chain?: ChainDescriptorSDKType | undefined;
 }
 /** GetCodecDescriptorRequest is the request used for the GetCodecDescriptor RPC */
 
@@ -315,13 +315,13 @@ export interface GetCodecDescriptorRequestSDKType {}
 
 export interface GetCodecDescriptorResponse {
   /** codec describes the application codec such as registered interfaces and implementations */
-  codec: CodecDescriptor | undefined;
+  codec?: CodecDescriptor | undefined;
 }
 /** GetCodecDescriptorResponse is the response returned by the GetCodecDescriptor RPC */
 
 export interface GetCodecDescriptorResponseSDKType {
   /** codec describes the application codec such as registered interfaces and implementations */
-  codec: CodecDescriptorSDKType | undefined;
+  codec?: CodecDescriptorSDKType | undefined;
 }
 /** GetConfigurationDescriptorRequest is the request used for the GetConfigurationDescriptor RPC */
 
@@ -333,13 +333,13 @@ export interface GetConfigurationDescriptorRequestSDKType {}
 
 export interface GetConfigurationDescriptorResponse {
   /** config describes the application's sdk.Config */
-  config: ConfigurationDescriptor | undefined;
+  config?: ConfigurationDescriptor | undefined;
 }
 /** GetConfigurationDescriptorResponse is the response returned by the GetConfigurationDescriptor RPC */
 
 export interface GetConfigurationDescriptorResponseSDKType {
   /** config describes the application's sdk.Config */
-  config: ConfigurationDescriptorSDKType | undefined;
+  config?: ConfigurationDescriptorSDKType | undefined;
 }
 /** GetQueryServicesDescriptorRequest is the request used for the GetQueryServicesDescriptor RPC */
 
@@ -351,13 +351,13 @@ export interface GetQueryServicesDescriptorRequestSDKType {}
 
 export interface GetQueryServicesDescriptorResponse {
   /** queries provides information on the available queryable services */
-  queries: QueryServicesDescriptor | undefined;
+  queries?: QueryServicesDescriptor | undefined;
 }
 /** GetQueryServicesDescriptorResponse is the response returned by the GetQueryServicesDescriptor RPC */
 
 export interface GetQueryServicesDescriptorResponseSDKType {
   /** queries provides information on the available queryable services */
-  queries: QueryServicesDescriptorSDKType | undefined;
+  queries?: QueryServicesDescriptorSDKType | undefined;
 }
 /** GetTxDescriptorRequest is the request used for the GetTxDescriptor RPC */
 
@@ -372,7 +372,7 @@ export interface GetTxDescriptorResponse {
    * tx provides information on msgs that can be forwarded to the application
    * alongside the accepted transaction protobuf type
    */
-  tx: TxDescriptor | undefined;
+  tx?: TxDescriptor | undefined;
 }
 /** GetTxDescriptorResponse is the response returned by the GetTxDescriptor RPC */
 
@@ -381,7 +381,7 @@ export interface GetTxDescriptorResponseSDKType {
    * tx provides information on msgs that can be forwarded to the application
    * alongside the accepted transaction protobuf type
    */
-  tx: TxDescriptorSDKType | undefined;
+  tx?: TxDescriptorSDKType | undefined;
 }
 /** QueryServicesDescriptor contains the list of cosmos-sdk queriable services */
 
@@ -1116,7 +1116,7 @@ export const GetAuthnDescriptorResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetAuthnDescriptorResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetAuthnDescriptorResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetAuthnDescriptorResponse();
@@ -1195,7 +1195,7 @@ export const GetChainDescriptorResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetChainDescriptorResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetChainDescriptorResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetChainDescriptorResponse();
@@ -1274,7 +1274,7 @@ export const GetCodecDescriptorResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetCodecDescriptorResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetCodecDescriptorResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetCodecDescriptorResponse();
@@ -1353,7 +1353,7 @@ export const GetConfigurationDescriptorResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetConfigurationDescriptorResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetConfigurationDescriptorResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetConfigurationDescriptorResponse();
@@ -1432,7 +1432,7 @@ export const GetQueryServicesDescriptorResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetQueryServicesDescriptorResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetQueryServicesDescriptorResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetQueryServicesDescriptorResponse();
@@ -1511,7 +1511,7 @@ export const GetTxDescriptorResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetTxDescriptorResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetTxDescriptorResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetTxDescriptorResponse();

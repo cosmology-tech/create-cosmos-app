@@ -1,5 +1,5 @@
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../helpers";
 export interface Proof {
   total: Long;
   index: Long;
@@ -17,14 +17,14 @@ export interface ValueOp {
   key: Uint8Array;
   /** To encode in ProofOp.Data */
 
-  proof: Proof | undefined;
+  proof?: Proof | undefined;
 }
 export interface ValueOpSDKType {
   /** Encoded in ProofOp.Key. */
   key: Uint8Array;
   /** To encode in ProofOp.Data */
 
-  proof: ProofSDKType | undefined;
+  proof?: ProofSDKType | undefined;
 }
 export interface DominoOp {
   key: string;

@@ -1,6 +1,6 @@
 import { DecCoin, DecCoinSDKType, Coin, CoinSDKType } from "../../base/v1beta1/coin";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** Params defines the set of params for the distribution module. */
 
 export interface Params {
@@ -25,11 +25,11 @@ export interface ParamsSDKType {
  * The reference count indicates the number of objects
  * which might need to reference this historical entry at any point.
  * ReferenceCount =
- * number of outstanding delegations which ended the associated period (and
- * might need to read that record)
- * + number of slashes which ended the associated period (and might need to
- * read that record)
- * + one per validator for the zeroeth period, set on initialization
+ *    number of outstanding delegations which ended the associated period (and
+ *    might need to read that record)
+ *  + number of slashes which ended the associated period (and might need to
+ *  read that record)
+ *  + one per validator for the zeroeth period, set on initialization
  */
 
 export interface ValidatorHistoricalRewards {
@@ -44,11 +44,11 @@ export interface ValidatorHistoricalRewards {
  * The reference count indicates the number of objects
  * which might need to reference this historical entry at any point.
  * ReferenceCount =
- * number of outstanding delegations which ended the associated period (and
- * might need to read that record)
- * + number of slashes which ended the associated period (and might need to
- * read that record)
- * + one per validator for the zeroeth period, set on initialization
+ *    number of outstanding delegations which ended the associated period (and
+ *    might need to read that record)
+ *  + number of slashes which ended the associated period (and might need to
+ *  read that record)
+ *  + one per validator for the zeroeth period, set on initialization
  */
 
 export interface ValidatorHistoricalRewardsSDKType {

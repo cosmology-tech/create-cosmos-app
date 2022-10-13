@@ -1,28 +1,27 @@
-import { Rpc } from "@osmonauts/helpers";
+import { Rpc } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";
 import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
-import { GetNodeInfoRequest, GetNodeInfoResponse, GetNodeInfoResponseSDKType, GetSyncingRequest, GetSyncingResponse, GetSyncingResponseSDKType, GetLatestBlockRequest, GetLatestBlockResponse, GetLatestBlockResponseSDKType, GetBlockByHeightRequest, GetBlockByHeightResponse, GetBlockByHeightResponseSDKType, GetLatestValidatorSetRequest, GetLatestValidatorSetResponse, GetLatestValidatorSetResponseSDKType, GetValidatorSetByHeightRequest, GetValidatorSetByHeightResponse, GetValidatorSetByHeightResponseSDKType } from "./query";
-/** Service defines the RPC service */
+import { GetNodeInfoRequest, GetNodeInfoResponse, GetSyncingRequest, GetSyncingResponse, GetLatestBlockRequest, GetLatestBlockResponse, GetBlockByHeightRequest, GetBlockByHeightResponse, GetLatestValidatorSetRequest, GetLatestValidatorSetResponse, GetValidatorSetByHeightRequest, GetValidatorSetByHeightResponse } from "./query";
+/** Service defines the gRPC querier service for tendermint queries. */
 
 export interface Service {
-  getNodeInfo(request?: GetNodeInfoRequest): Promise<GetNodeInfoResponseSDKType>;
-  /*GetNodeInfo queries the current node info.*/
+  /** GetNodeInfo queries the current node info. */
+  getNodeInfo(request?: GetNodeInfoRequest): Promise<GetNodeInfoResponse>;
+  /** GetSyncing queries node syncing. */
 
-  getSyncing(request?: GetSyncingRequest): Promise<GetSyncingResponseSDKType>;
-  /*GetSyncing queries node syncing.*/
+  getSyncing(request?: GetSyncingRequest): Promise<GetSyncingResponse>;
+  /** GetLatestBlock returns the latest block. */
 
-  getLatestBlock(request?: GetLatestBlockRequest): Promise<GetLatestBlockResponseSDKType>;
-  /*GetLatestBlock returns the latest block.*/
+  getLatestBlock(request?: GetLatestBlockRequest): Promise<GetLatestBlockResponse>;
+  /** GetBlockByHeight queries block for given height. */
 
-  getBlockByHeight(request: GetBlockByHeightRequest): Promise<GetBlockByHeightResponseSDKType>;
-  /*GetBlockByHeight queries block for given height.*/
+  getBlockByHeight(request: GetBlockByHeightRequest): Promise<GetBlockByHeightResponse>;
+  /** GetLatestValidatorSet queries latest validator-set. */
 
-  getLatestValidatorSet(request?: GetLatestValidatorSetRequest): Promise<GetLatestValidatorSetResponseSDKType>;
-  /*GetLatestValidatorSet queries latest validator-set.*/
+  getLatestValidatorSet(request?: GetLatestValidatorSetRequest): Promise<GetLatestValidatorSetResponse>;
+  /** GetValidatorSetByHeight queries validator-set at a given height. */
 
-  getValidatorSetByHeight(request: GetValidatorSetByHeightRequest): Promise<GetValidatorSetByHeightResponseSDKType>;
-  /*GetValidatorSetByHeight queries validator-set at a given height.*/
-
+  getValidatorSetByHeight(request: GetValidatorSetByHeightRequest): Promise<GetValidatorSetByHeightResponse>;
 }
 export class QueryClientImpl implements Service {
   private readonly rpc: Rpc;
@@ -37,25 +36,25 @@ export class QueryClientImpl implements Service {
     this.getValidatorSetByHeight = this.getValidatorSetByHeight.bind(this);
   }
 
-  getNodeInfo(request: GetNodeInfoRequest = {}): Promise<GetNodeInfoResponseSDKType> {
+  getNodeInfo(request: GetNodeInfoRequest = {}): Promise<GetNodeInfoResponse> {
     const data = GetNodeInfoRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.base.tendermint.v1beta1.Service", "GetNodeInfo", data);
     return promise.then(data => GetNodeInfoResponse.decode(new _m0.Reader(data)));
   }
 
-  getSyncing(request: GetSyncingRequest = {}): Promise<GetSyncingResponseSDKType> {
+  getSyncing(request: GetSyncingRequest = {}): Promise<GetSyncingResponse> {
     const data = GetSyncingRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.base.tendermint.v1beta1.Service", "GetSyncing", data);
     return promise.then(data => GetSyncingResponse.decode(new _m0.Reader(data)));
   }
 
-  getLatestBlock(request: GetLatestBlockRequest = {}): Promise<GetLatestBlockResponseSDKType> {
+  getLatestBlock(request: GetLatestBlockRequest = {}): Promise<GetLatestBlockResponse> {
     const data = GetLatestBlockRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.base.tendermint.v1beta1.Service", "GetLatestBlock", data);
     return promise.then(data => GetLatestBlockResponse.decode(new _m0.Reader(data)));
   }
 
-  getBlockByHeight(request: GetBlockByHeightRequest): Promise<GetBlockByHeightResponseSDKType> {
+  getBlockByHeight(request: GetBlockByHeightRequest): Promise<GetBlockByHeightResponse> {
     const data = GetBlockByHeightRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.base.tendermint.v1beta1.Service", "GetBlockByHeight", data);
     return promise.then(data => GetBlockByHeightResponse.decode(new _m0.Reader(data)));
@@ -63,13 +62,13 @@ export class QueryClientImpl implements Service {
 
   getLatestValidatorSet(request: GetLatestValidatorSetRequest = {
     pagination: undefined
-  }): Promise<GetLatestValidatorSetResponseSDKType> {
+  }): Promise<GetLatestValidatorSetResponse> {
     const data = GetLatestValidatorSetRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.base.tendermint.v1beta1.Service", "GetLatestValidatorSet", data);
     return promise.then(data => GetLatestValidatorSetResponse.decode(new _m0.Reader(data)));
   }
 
-  getValidatorSetByHeight(request: GetValidatorSetByHeightRequest): Promise<GetValidatorSetByHeightResponseSDKType> {
+  getValidatorSetByHeight(request: GetValidatorSetByHeightRequest): Promise<GetValidatorSetByHeightResponse> {
     const data = GetValidatorSetByHeightRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.base.tendermint.v1beta1.Service", "GetValidatorSetByHeight", data);
     return promise.then(data => GetValidatorSetByHeightResponse.decode(new _m0.Reader(data)));
@@ -80,27 +79,27 @@ export const createRpcQueryExtension = (base: QueryClient) => {
   const rpc = createProtobufRpcClient(base);
   const queryService = new QueryClientImpl(rpc);
   return {
-    getNodeInfo(request?: GetNodeInfoRequest): Promise<GetNodeInfoResponseSDKType> {
+    getNodeInfo(request?: GetNodeInfoRequest): Promise<GetNodeInfoResponse> {
       return queryService.getNodeInfo(request);
     },
 
-    getSyncing(request?: GetSyncingRequest): Promise<GetSyncingResponseSDKType> {
+    getSyncing(request?: GetSyncingRequest): Promise<GetSyncingResponse> {
       return queryService.getSyncing(request);
     },
 
-    getLatestBlock(request?: GetLatestBlockRequest): Promise<GetLatestBlockResponseSDKType> {
+    getLatestBlock(request?: GetLatestBlockRequest): Promise<GetLatestBlockResponse> {
       return queryService.getLatestBlock(request);
     },
 
-    getBlockByHeight(request: GetBlockByHeightRequest): Promise<GetBlockByHeightResponseSDKType> {
+    getBlockByHeight(request: GetBlockByHeightRequest): Promise<GetBlockByHeightResponse> {
       return queryService.getBlockByHeight(request);
     },
 
-    getLatestValidatorSet(request?: GetLatestValidatorSetRequest): Promise<GetLatestValidatorSetResponseSDKType> {
+    getLatestValidatorSet(request?: GetLatestValidatorSetRequest): Promise<GetLatestValidatorSetResponse> {
       return queryService.getLatestValidatorSet(request);
     },
 
-    getValidatorSetByHeight(request: GetValidatorSetByHeightRequest): Promise<GetValidatorSetByHeightResponseSDKType> {
+    getValidatorSetByHeight(request: GetValidatorSetByHeightRequest): Promise<GetValidatorSetByHeightResponse> {
       return queryService.getValidatorSetByHeight(request);
     }
 

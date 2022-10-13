@@ -2,14 +2,14 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
 import { VoteOption, VoteOptionSDKType, WeightedVoteOption, WeightedVoteOptionSDKType } from "./gov";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /**
  * MsgSubmitProposal defines an sdk.Msg type that supports submitting arbitrary
  * proposal Content.
  */
 
 export interface MsgSubmitProposal {
-  content: Any | undefined;
+  content?: Any | undefined;
   initialDeposit: Coin[];
   proposer: string;
 }
@@ -19,7 +19,7 @@ export interface MsgSubmitProposal {
  */
 
 export interface MsgSubmitProposalSDKType {
-  content: AnySDKType | undefined;
+  content?: AnySDKType | undefined;
   initial_deposit: CoinSDKType[];
   proposer: string;
 }
@@ -190,7 +190,7 @@ export const MsgSubmitProposalResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSubmitProposalResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSubmitProposalResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgSubmitProposalResponse();
@@ -294,7 +294,7 @@ export const MsgVoteResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgVoteResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgVoteResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgVoteResponse();
@@ -393,7 +393,7 @@ export const MsgVoteWeightedResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgVoteWeightedResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgVoteWeightedResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgVoteWeightedResponse();
@@ -492,7 +492,7 @@ export const MsgDepositResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDepositResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDepositResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgDepositResponse();

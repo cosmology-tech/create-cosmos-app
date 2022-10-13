@@ -1,6 +1,6 @@
 import { ProposalExecutorResult, ProposalExecutorResultSDKType } from "./types";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** EventCreateGroup is an event emitted when a group is created. */
 
 export interface EventCreateGroup {

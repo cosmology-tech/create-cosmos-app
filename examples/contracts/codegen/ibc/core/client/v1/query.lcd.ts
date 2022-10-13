@@ -1,4 +1,4 @@
-import { setPaginationParams } from "@osmonauts/helpers";
+import { setPaginationParams } from "../../../../helpers";
 import { LCDClient } from "@osmonauts/lcd";
 import { QueryClientStateRequest, QueryClientStateResponseSDKType, QueryClientStatesRequest, QueryClientStatesResponseSDKType, QueryConsensusStateRequest, QueryConsensusStateResponseSDKType, QueryConsensusStatesRequest, QueryConsensusStatesResponseSDKType, QueryClientStatusRequest, QueryClientStatusResponseSDKType, QueryClientParamsRequest, QueryClientParamsResponseSDKType, QueryUpgradedClientStateRequest, QueryUpgradedClientStateResponseSDKType, QueryUpgradedConsensusStateRequest, QueryUpgradedConsensusStateResponseSDKType } from "./query";
 export class LCDQueryClient {
@@ -44,7 +44,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryClientStatesResponseSDKType>(endpoint, options);
   }
   /* ConsensusState queries a consensus state associated with a client state at
-  a given height. */
+   a given height. */
 
 
   async consensusState(params: QueryConsensusStateRequest): Promise<QueryConsensusStateResponseSDKType> {
@@ -60,7 +60,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryConsensusStateResponseSDKType>(endpoint, options);
   }
   /* ConsensusStates queries all the consensus state associated with a given
-  client. */
+   client. */
 
 
   async consensusStates(params: QueryConsensusStatesRequest): Promise<QueryConsensusStatesResponseSDKType> {

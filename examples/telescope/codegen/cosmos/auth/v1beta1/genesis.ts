@@ -5,7 +5,7 @@ import * as _m0 from "protobufjs/minimal";
 
 export interface GenesisState {
   /** params defines all the paramaters of the module. */
-  params: Params | undefined;
+  params?: Params | undefined;
   /** accounts are the accounts present at genesis. */
 
   accounts: Any[];
@@ -14,7 +14,7 @@ export interface GenesisState {
 
 export interface GenesisStateSDKType {
   /** params defines all the paramaters of the module. */
-  params: ParamsSDKType | undefined;
+  params?: ParamsSDKType | undefined;
   /** accounts are the accounts present at genesis. */
 
   accounts: AnySDKType[];

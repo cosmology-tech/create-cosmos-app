@@ -1,6 +1,6 @@
 import { Plan, PlanSDKType, ModuleVersion, ModuleVersionSDKType } from "./upgrade";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /**
  * QueryCurrentPlanRequest is the request type for the Query/CurrentPlan RPC
  * method.
@@ -20,7 +20,7 @@ export interface QueryCurrentPlanRequestSDKType {}
 
 export interface QueryCurrentPlanResponse {
   /** plan is the current upgrade plan. */
-  plan: Plan | undefined;
+  plan?: Plan | undefined;
 }
 /**
  * QueryCurrentPlanResponse is the response type for the Query/CurrentPlan RPC
@@ -29,7 +29,7 @@ export interface QueryCurrentPlanResponse {
 
 export interface QueryCurrentPlanResponseSDKType {
   /** plan is the current upgrade plan. */
-  plan: PlanSDKType | undefined;
+  plan?: PlanSDKType | undefined;
 }
 /**
  * QueryCurrentPlanRequest is the request type for the Query/AppliedPlan RPC
@@ -130,7 +130,7 @@ export interface QueryModuleVersionsRequest {
    * consensus version from state. Leaving this empty will
    * fetch the full list of module versions from state
    */
-  moduleName?: string;
+  moduleName: string;
 }
 /**
  * QueryModuleVersionsRequest is the request type for the Query/ModuleVersions
@@ -145,7 +145,7 @@ export interface QueryModuleVersionsRequestSDKType {
    * consensus version from state. Leaving this empty will
    * fetch the full list of module versions from state
    */
-  module_name?: string;
+  module_name: string;
 }
 /**
  * QueryModuleVersionsResponse is the response type for the Query/ModuleVersions
@@ -251,7 +251,7 @@ export const QueryCurrentPlanResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryCurrentPlanResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryCurrentPlanResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryCurrentPlanResponse();
@@ -341,7 +341,7 @@ export const QueryAppliedPlanResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAppliedPlanResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAppliedPlanResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAppliedPlanResponse();
@@ -431,7 +431,7 @@ export const QueryUpgradedConsensusStateResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryUpgradedConsensusStateResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryUpgradedConsensusStateResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryUpgradedConsensusStateResponse();
@@ -521,7 +521,7 @@ export const QueryModuleVersionsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryModuleVersionsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryModuleVersionsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryModuleVersionsResponse();
@@ -600,7 +600,7 @@ export const QueryAuthorityResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAuthorityResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAuthorityResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAuthorityResponse();

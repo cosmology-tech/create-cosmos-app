@@ -1,11 +1,11 @@
 import { Params, ParamsSDKType, Validator, ValidatorSDKType, Delegation, DelegationSDKType, UnbondingDelegation, UnbondingDelegationSDKType, Redelegation, RedelegationSDKType } from "./staking";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** GenesisState defines the staking module's genesis state. */
 
 export interface GenesisState {
   /** params defines all the paramaters of related to deposit. */
-  params: Params | undefined;
+  params?: Params | undefined;
   /**
    * last_total_power tracks the total amounts of bonded tokens recorded during
    * the previous end block.
@@ -36,7 +36,7 @@ export interface GenesisState {
 
 export interface GenesisStateSDKType {
   /** params defines all the paramaters of related to deposit. */
-  params: ParamsSDKType | undefined;
+  params?: ParamsSDKType | undefined;
   /**
    * last_total_power tracks the total amounts of bonded tokens recorded during
    * the previous end block.

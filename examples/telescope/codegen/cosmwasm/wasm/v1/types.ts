@@ -1,6 +1,6 @@
 import { Any, AnySDKType } from "../../../google/protobuf/any";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** AccessType permission types */
 
 export enum AccessType {
@@ -71,8 +71,9 @@ export function accessTypeToJSON(object: AccessType): string {
     case AccessType.ACCESS_TYPE_EVERYBODY:
       return "ACCESS_TYPE_EVERYBODY";
 
+    case AccessType.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /** ContractCodeHistoryOperationType actions that caused a code change */
@@ -145,8 +146,9 @@ export function contractCodeHistoryOperationTypeToJSON(object: ContractCodeHisto
     case ContractCodeHistoryOperationType.CONTRACT_CODE_HISTORY_OPERATION_TYPE_GENESIS:
       return "CONTRACT_CODE_HISTORY_OPERATION_TYPE_GENESIS";
 
+    case ContractCodeHistoryOperationType.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /** AccessTypeParam */
@@ -174,14 +176,14 @@ export interface AccessConfigSDKType {
 /** Params defines the set of wasm parameters. */
 
 export interface Params {
-  codeUploadAccess: AccessConfig | undefined;
+  codeUploadAccess?: AccessConfig | undefined;
   instantiateDefaultPermission: AccessType;
   maxWasmCodeSize: Long;
 }
 /** Params defines the set of wasm parameters. */
 
 export interface ParamsSDKType {
-  code_upload_access: AccessConfigSDKType | undefined;
+  code_upload_access?: AccessConfigSDKType | undefined;
   instantiate_default_permission: AccessTypeSDKType;
   max_wasm_code_size: Long;
 }
@@ -195,7 +197,7 @@ export interface CodeInfo {
   creator: string;
   /** InstantiateConfig access control to apply on contract creation, optional */
 
-  instantiateConfig: AccessConfig | undefined;
+  instantiateConfig?: AccessConfig | undefined;
 }
 /** CodeInfo is data for the uploaded contract WASM code */
 
@@ -207,7 +209,7 @@ export interface CodeInfoSDKType {
   creator: string;
   /** InstantiateConfig access control to apply on contract creation, optional */
 
-  instantiate_config: AccessConfigSDKType | undefined;
+  instantiate_config?: AccessConfigSDKType | undefined;
 }
 /** ContractInfo stores a WASM contract instance */
 
@@ -229,14 +231,14 @@ export interface ContractInfo {
    * use for sorting
    */
 
-  created: AbsoluteTxPosition | undefined;
+  created?: AbsoluteTxPosition | undefined;
   ibcPortId: string;
   /**
    * Extension is an extension point to store custom metadata within the
    * persistence model.
    */
 
-  extension: Any | undefined;
+  extension?: Any | undefined;
 }
 /** ContractInfo stores a WASM contract instance */
 
@@ -258,14 +260,14 @@ export interface ContractInfoSDKType {
    * use for sorting
    */
 
-  created: AbsoluteTxPositionSDKType | undefined;
+  created?: AbsoluteTxPositionSDKType | undefined;
   ibc_port_id: string;
   /**
    * Extension is an extension point to store custom metadata within the
    * persistence model.
    */
 
-  extension: AnySDKType | undefined;
+  extension?: AnySDKType | undefined;
 }
 /** ContractCodeHistoryEntry metadata to a contract. */
 
@@ -276,7 +278,7 @@ export interface ContractCodeHistoryEntry {
   codeId: Long;
   /** Updated Tx position when the operation was executed. */
 
-  updated: AbsoluteTxPosition | undefined;
+  updated?: AbsoluteTxPosition | undefined;
   msg: Uint8Array;
 }
 /** ContractCodeHistoryEntry metadata to a contract. */
@@ -288,7 +290,7 @@ export interface ContractCodeHistoryEntrySDKType {
   code_id: Long;
   /** Updated Tx position when the operation was executed. */
 
-  updated: AbsoluteTxPositionSDKType | undefined;
+  updated?: AbsoluteTxPositionSDKType | undefined;
   msg: Uint8Array;
 }
 /**

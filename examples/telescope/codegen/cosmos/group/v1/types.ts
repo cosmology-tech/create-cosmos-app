@@ -2,7 +2,7 @@ import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
 import * as _m0 from "protobufjs/minimal";
-import { toTimestamp, fromTimestamp, Long } from "@osmonauts/helpers";
+import { toTimestamp, fromTimestamp, Long } from "../../../helpers";
 /** VoteOption enumerates the valid vote options for a given proposal. */
 
 export enum VoteOption {
@@ -86,8 +86,9 @@ export function voteOptionToJSON(object: VoteOption): string {
     case VoteOption.VOTE_OPTION_NO_WITH_VETO:
       return "VOTE_OPTION_NO_WITH_VETO";
 
+    case VoteOption.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /** ProposalStatus defines proposal statuses. */
@@ -179,8 +180,9 @@ export function proposalStatusToJSON(object: ProposalStatus): string {
     case ProposalStatus.PROPOSAL_STATUS_WITHDRAWN:
       return "PROPOSAL_STATUS_WITHDRAWN";
 
+    case ProposalStatus.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /** ProposalResult defines types of proposal results. */
@@ -253,8 +255,9 @@ export function proposalResultToJSON(object: ProposalResult): string {
     case ProposalResult.PROPOSAL_RESULT_REJECTED:
       return "PROPOSAL_RESULT_REJECTED";
 
+    case ProposalResult.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /** ProposalExecutorResult defines types of proposal executor results. */
@@ -327,8 +330,9 @@ export function proposalExecutorResultToJSON(object: ProposalExecutorResult): st
     case ProposalExecutorResult.PROPOSAL_EXECUTOR_RESULT_FAILURE:
       return "PROPOSAL_EXECUTOR_RESULT_FAILURE";
 
+    case ProposalExecutorResult.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /**
@@ -347,7 +351,7 @@ export interface Member {
   metadata: string;
   /** added_at is a timestamp specifying when a member was added. */
 
-  addedAt: Date | undefined;
+  addedAt?: Date | undefined;
 }
 /**
  * Member represents a group member with an account address,
@@ -365,7 +369,7 @@ export interface MemberSDKType {
   metadata: string;
   /** added_at is a timestamp specifying when a member was added. */
 
-  added_at: Date | undefined;
+  added_at?: Date | undefined;
 }
 /** Members defines a repeated slice of Member objects. */
 
@@ -386,7 +390,7 @@ export interface ThresholdDecisionPolicy {
   threshold: string;
   /** windows defines the different windows for voting and execution. */
 
-  windows: DecisionPolicyWindows | undefined;
+  windows?: DecisionPolicyWindows | undefined;
 }
 /** ThresholdDecisionPolicy implements the DecisionPolicy interface */
 
@@ -395,7 +399,7 @@ export interface ThresholdDecisionPolicySDKType {
   threshold: string;
   /** windows defines the different windows for voting and execution. */
 
-  windows: DecisionPolicyWindowsSDKType | undefined;
+  windows?: DecisionPolicyWindowsSDKType | undefined;
 }
 /** PercentageDecisionPolicy implements the DecisionPolicy interface */
 
@@ -404,7 +408,7 @@ export interface PercentageDecisionPolicy {
   percentage: string;
   /** windows defines the different windows for voting and execution. */
 
-  windows: DecisionPolicyWindows | undefined;
+  windows?: DecisionPolicyWindows | undefined;
 }
 /** PercentageDecisionPolicy implements the DecisionPolicy interface */
 
@@ -413,7 +417,7 @@ export interface PercentageDecisionPolicySDKType {
   percentage: string;
   /** windows defines the different windows for voting and execution. */
 
-  windows: DecisionPolicyWindowsSDKType | undefined;
+  windows?: DecisionPolicyWindowsSDKType | undefined;
 }
 /** DecisionPolicyWindows defines the different windows for voting and execution. */
 
@@ -422,7 +426,7 @@ export interface DecisionPolicyWindows {
    * voting_period is the duration from submission of a proposal to the end of voting period
    * Within this times votes can be submitted with MsgVote.
    */
-  votingPeriod: Duration | undefined;
+  votingPeriod?: Duration | undefined;
   /**
    * min_execution_period is the minimum duration after the proposal submission
    * where members can start sending MsgExec. This means that the window for
@@ -437,7 +441,7 @@ export interface DecisionPolicyWindows {
    * won't be able to be executed.
    */
 
-  minExecutionPeriod: Duration | undefined;
+  minExecutionPeriod?: Duration | undefined;
 }
 /** DecisionPolicyWindows defines the different windows for voting and execution. */
 
@@ -446,7 +450,7 @@ export interface DecisionPolicyWindowsSDKType {
    * voting_period is the duration from submission of a proposal to the end of voting period
    * Within this times votes can be submitted with MsgVote.
    */
-  voting_period: DurationSDKType | undefined;
+  voting_period?: DurationSDKType | undefined;
   /**
    * min_execution_period is the minimum duration after the proposal submission
    * where members can start sending MsgExec. This means that the window for
@@ -461,7 +465,7 @@ export interface DecisionPolicyWindowsSDKType {
    * won't be able to be executed.
    */
 
-  min_execution_period: DurationSDKType | undefined;
+  min_execution_period?: DurationSDKType | undefined;
 }
 /** GroupInfo represents the high-level on-chain information for a group. */
 
@@ -487,7 +491,7 @@ export interface GroupInfo {
   totalWeight: string;
   /** created_at is a timestamp specifying when a group was created. */
 
-  createdAt: Date | undefined;
+  createdAt?: Date | undefined;
 }
 /** GroupInfo represents the high-level on-chain information for a group. */
 
@@ -513,7 +517,7 @@ export interface GroupInfoSDKType {
   total_weight: string;
   /** created_at is a timestamp specifying when a group was created. */
 
-  created_at: Date | undefined;
+  created_at?: Date | undefined;
 }
 /** GroupMember represents the relationship between a group and a member. */
 
@@ -522,7 +526,7 @@ export interface GroupMember {
   groupId: Long;
   /** member is the member data. */
 
-  member: Member | undefined;
+  member?: Member | undefined;
 }
 /** GroupMember represents the relationship between a group and a member. */
 
@@ -531,7 +535,7 @@ export interface GroupMemberSDKType {
   group_id: Long;
   /** member is the member data. */
 
-  member: MemberSDKType | undefined;
+  member?: MemberSDKType | undefined;
 }
 /** GroupPolicyInfo represents the high-level on-chain information for a group policy. */
 
@@ -555,10 +559,10 @@ export interface GroupPolicyInfo {
   version: Long;
   /** decision_policy specifies the group policy's decision policy. */
 
-  decisionPolicy: Any | undefined;
+  decisionPolicy?: Any | undefined;
   /** created_at is a timestamp specifying when a group policy was created. */
 
-  createdAt: Date | undefined;
+  createdAt?: Date | undefined;
 }
 /** GroupPolicyInfo represents the high-level on-chain information for a group policy. */
 
@@ -582,10 +586,10 @@ export interface GroupPolicyInfoSDKType {
   version: Long;
   /** decision_policy specifies the group policy's decision policy. */
 
-  decision_policy: AnySDKType | undefined;
+  decision_policy?: AnySDKType | undefined;
   /** created_at is a timestamp specifying when a group policy was created. */
 
-  created_at: Date | undefined;
+  created_at?: Date | undefined;
 }
 /**
  * Proposal defines a group proposal. Any member of a group can submit a proposal
@@ -608,7 +612,7 @@ export interface Proposal {
   proposers: string[];
   /** submit_time is a timestamp specifying when a proposal was submitted. */
 
-  submitTime: Date | undefined;
+  submitTime?: Date | undefined;
   /**
    * group_version tracks the version of the group that this proposal corresponds to.
    * When group membership is changed, existing proposals from previous group versions will become invalid.
@@ -637,7 +641,7 @@ export interface Proposal {
    * has ended.
    */
 
-  finalTallyResult: TallyResult | undefined;
+  finalTallyResult?: TallyResult | undefined;
   /**
    * voting_period_end is the timestamp before which voting must be done.
    * Unless a successfull MsgExec is called before (to execute a proposal whose
@@ -646,7 +650,7 @@ export interface Proposal {
    * as `status` and `result` fields will be accordingly updated.
    */
 
-  votingPeriodEnd: Date | undefined;
+  votingPeriodEnd?: Date | undefined;
   /** executor_result is the final result based on the votes and election rule. Initial value is NotRun. */
 
   executorResult: ProposalExecutorResult;
@@ -675,7 +679,7 @@ export interface ProposalSDKType {
   proposers: string[];
   /** submit_time is a timestamp specifying when a proposal was submitted. */
 
-  submit_time: Date | undefined;
+  submit_time?: Date | undefined;
   /**
    * group_version tracks the version of the group that this proposal corresponds to.
    * When group membership is changed, existing proposals from previous group versions will become invalid.
@@ -704,7 +708,7 @@ export interface ProposalSDKType {
    * has ended.
    */
 
-  final_tally_result: TallyResultSDKType | undefined;
+  final_tally_result?: TallyResultSDKType | undefined;
   /**
    * voting_period_end is the timestamp before which voting must be done.
    * Unless a successfull MsgExec is called before (to execute a proposal whose
@@ -713,7 +717,7 @@ export interface ProposalSDKType {
    * as `status` and `result` fields will be accordingly updated.
    */
 
-  voting_period_end: Date | undefined;
+  voting_period_end?: Date | undefined;
   /** executor_result is the final result based on the votes and election rule. Initial value is NotRun. */
 
   executor_result: ProposalExecutorResultSDKType;
@@ -767,7 +771,7 @@ export interface Vote {
   metadata: string;
   /** submit_time is the timestamp when the vote was submitted. */
 
-  submitTime: Date | undefined;
+  submitTime?: Date | undefined;
 }
 /** Vote represents a vote for a proposal. */
 
@@ -785,7 +789,7 @@ export interface VoteSDKType {
   metadata: string;
   /** submit_time is the timestamp when the vote was submitted. */
 
-  submit_time: Date | undefined;
+  submit_time?: Date | undefined;
 }
 
 function createBaseMember(): Member {
@@ -1066,8 +1070,8 @@ export const DecisionPolicyWindows = {
 
   fromPartial(object: Partial<DecisionPolicyWindows>): DecisionPolicyWindows {
     const message = createBaseDecisionPolicyWindows();
-    message.votingPeriod = object.votingPeriod ?? undefined;
-    message.minExecutionPeriod = object.minExecutionPeriod ?? undefined;
+    message.votingPeriod = object.votingPeriod !== undefined && object.votingPeriod !== null ? Duration.fromPartial(object.votingPeriod) : undefined;
+    message.minExecutionPeriod = object.minExecutionPeriod !== undefined && object.minExecutionPeriod !== null ? Duration.fromPartial(object.minExecutionPeriod) : undefined;
     return message;
   }
 

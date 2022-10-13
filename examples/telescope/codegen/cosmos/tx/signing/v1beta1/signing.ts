@@ -1,7 +1,7 @@
 import { CompactBitArray, CompactBitArraySDKType } from "../../../crypto/multisig/v1beta1/multisig";
 import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../../helpers";
 /**
  * SignMode represents a signing mode with its own security guarantees.
  * 
@@ -143,8 +143,9 @@ export function signModeToJSON(object: SignMode): string {
     case SignMode.SIGN_MODE_LEGACY_AMINO_JSON:
       return "SIGN_MODE_LEGACY_AMINO_JSON";
 
+    case SignMode.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /** SignatureDescriptors wraps multiple SignatureDescriptor's. */
@@ -168,8 +169,8 @@ export interface SignatureDescriptorsSDKType {
 
 export interface SignatureDescriptor {
   /** public_key is the public key of the signer */
-  publicKey: Any | undefined;
-  data: SignatureDescriptor_Data | undefined;
+  publicKey?: Any | undefined;
+  data?: SignatureDescriptor_Data | undefined;
   /**
    * sequence is the sequence of the account, which describes the
    * number of committed transactions signed by a given address. It is used to prevent
@@ -187,8 +188,8 @@ export interface SignatureDescriptor {
 
 export interface SignatureDescriptorSDKType {
   /** public_key is the public key of the signer */
-  public_key: AnySDKType | undefined;
-  data: SignatureDescriptor_DataSDKType | undefined;
+  public_key?: AnySDKType | undefined;
+  data?: SignatureDescriptor_DataSDKType | undefined;
   /**
    * sequence is the sequence of the account, which describes the
    * number of committed transactions signed by a given address. It is used to prevent
@@ -237,7 +238,7 @@ export interface SignatureDescriptor_Data_SingleSDKType {
 
 export interface SignatureDescriptor_Data_Multi {
   /** bitarray specifies which keys within the multisig are signing */
-  bitarray: CompactBitArray | undefined;
+  bitarray?: CompactBitArray | undefined;
   /** signatures is the signatures of the multi-signature */
 
   signatures: SignatureDescriptor_Data[];
@@ -246,7 +247,7 @@ export interface SignatureDescriptor_Data_Multi {
 
 export interface SignatureDescriptor_Data_MultiSDKType {
   /** bitarray specifies which keys within the multisig are signing */
-  bitarray: CompactBitArraySDKType | undefined;
+  bitarray?: CompactBitArraySDKType | undefined;
   /** signatures is the signatures of the multi-signature */
 
   signatures: SignatureDescriptor_DataSDKType[];

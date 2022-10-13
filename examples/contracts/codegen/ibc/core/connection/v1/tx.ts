@@ -2,7 +2,7 @@ import { Counterparty, CounterpartySDKType, Version, VersionSDKType } from "./co
 import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { Height, HeightSDKType } from "../../client/v1/client";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../../helpers";
 /**
  * MsgConnectionOpenInit defines the msg sent by an account on Chain A to
  * initialize a connection with Chain B.
@@ -10,8 +10,8 @@ import { Long } from "@osmonauts/helpers";
 
 export interface MsgConnectionOpenInit {
   clientId: string;
-  counterparty: Counterparty | undefined;
-  version: Version | undefined;
+  counterparty?: Counterparty | undefined;
+  version?: Version | undefined;
   delayPeriod: Long;
   signer: string;
 }
@@ -22,8 +22,8 @@ export interface MsgConnectionOpenInit {
 
 export interface MsgConnectionOpenInitSDKType {
   client_id: string;
-  counterparty: CounterpartySDKType | undefined;
-  version: VersionSDKType | undefined;
+  counterparty?: CounterpartySDKType | undefined;
+  version?: VersionSDKType | undefined;
   delay_period: Long;
   signer: string;
 }
@@ -52,11 +52,11 @@ export interface MsgConnectionOpenTry {
    */
 
   previousConnectionId: string;
-  clientState: Any | undefined;
-  counterparty: Counterparty | undefined;
+  clientState?: Any | undefined;
+  counterparty?: Counterparty | undefined;
   delayPeriod: Long;
   counterpartyVersions: Version[];
-  proofHeight: Height | undefined;
+  proofHeight?: Height | undefined;
   /**
    * proof of the initialization the connection on Chain A: `UNITIALIZED ->
    * INIT`
@@ -69,7 +69,7 @@ export interface MsgConnectionOpenTry {
   /** proof of client consensus state */
 
   proofConsensus: Uint8Array;
-  consensusHeight: Height | undefined;
+  consensusHeight?: Height | undefined;
   signer: string;
 }
 /**
@@ -85,11 +85,11 @@ export interface MsgConnectionOpenTrySDKType {
    */
 
   previous_connection_id: string;
-  client_state: AnySDKType | undefined;
-  counterparty: CounterpartySDKType | undefined;
+  client_state?: AnySDKType | undefined;
+  counterparty?: CounterpartySDKType | undefined;
   delay_period: Long;
   counterparty_versions: VersionSDKType[];
-  proof_height: HeightSDKType | undefined;
+  proof_height?: HeightSDKType | undefined;
   /**
    * proof of the initialization the connection on Chain A: `UNITIALIZED ->
    * INIT`
@@ -102,7 +102,7 @@ export interface MsgConnectionOpenTrySDKType {
   /** proof of client consensus state */
 
   proof_consensus: Uint8Array;
-  consensus_height: HeightSDKType | undefined;
+  consensus_height?: HeightSDKType | undefined;
   signer: string;
 }
 /** MsgConnectionOpenTryResponse defines the Msg/ConnectionOpenTry response type. */
@@ -119,9 +119,9 @@ export interface MsgConnectionOpenTryResponseSDKType {}
 export interface MsgConnectionOpenAck {
   connectionId: string;
   counterpartyConnectionId: string;
-  version: Version | undefined;
-  clientState: Any | undefined;
-  proofHeight: Height | undefined;
+  version?: Version | undefined;
+  clientState?: Any | undefined;
+  proofHeight?: Height | undefined;
   /**
    * proof of the initialization the connection on Chain B: `UNITIALIZED ->
    * TRYOPEN`
@@ -134,7 +134,7 @@ export interface MsgConnectionOpenAck {
   /** proof of client consensus state */
 
   proofConsensus: Uint8Array;
-  consensusHeight: Height | undefined;
+  consensusHeight?: Height | undefined;
   signer: string;
 }
 /**
@@ -145,9 +145,9 @@ export interface MsgConnectionOpenAck {
 export interface MsgConnectionOpenAckSDKType {
   connection_id: string;
   counterparty_connection_id: string;
-  version: VersionSDKType | undefined;
-  client_state: AnySDKType | undefined;
-  proof_height: HeightSDKType | undefined;
+  version?: VersionSDKType | undefined;
+  client_state?: AnySDKType | undefined;
+  proof_height?: HeightSDKType | undefined;
   /**
    * proof of the initialization the connection on Chain B: `UNITIALIZED ->
    * TRYOPEN`
@@ -160,7 +160,7 @@ export interface MsgConnectionOpenAckSDKType {
   /** proof of client consensus state */
 
   proof_consensus: Uint8Array;
-  consensus_height: HeightSDKType | undefined;
+  consensus_height?: HeightSDKType | undefined;
   signer: string;
 }
 /** MsgConnectionOpenAckResponse defines the Msg/ConnectionOpenAck response type. */
@@ -179,7 +179,7 @@ export interface MsgConnectionOpenConfirm {
   /** proof for the change of the connection state on Chain A: `INIT -> OPEN` */
 
   proofAck: Uint8Array;
-  proofHeight: Height | undefined;
+  proofHeight?: Height | undefined;
   signer: string;
 }
 /**
@@ -192,7 +192,7 @@ export interface MsgConnectionOpenConfirmSDKType {
   /** proof for the change of the connection state on Chain A: `INIT -> OPEN` */
 
   proof_ack: Uint8Array;
-  proof_height: HeightSDKType | undefined;
+  proof_height?: HeightSDKType | undefined;
   signer: string;
 }
 /**
@@ -302,7 +302,7 @@ export const MsgConnectionOpenInitResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenInitResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenInitResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConnectionOpenInitResponse();
@@ -491,7 +491,7 @@ export const MsgConnectionOpenTryResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenTryResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenTryResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConnectionOpenTryResponse();
@@ -660,7 +660,7 @@ export const MsgConnectionOpenAckResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenAckResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenAckResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConnectionOpenAckResponse();
@@ -769,7 +769,7 @@ export const MsgConnectionOpenConfirmResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenConfirmResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenConfirmResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConnectionOpenConfirmResponse();

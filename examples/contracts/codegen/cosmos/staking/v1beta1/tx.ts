@@ -3,28 +3,28 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
 import { Timestamp } from "../../../google/protobuf/timestamp";
 import * as _m0 from "protobufjs/minimal";
-import { toTimestamp, fromTimestamp } from "@osmonauts/helpers";
+import { toTimestamp, fromTimestamp } from "../../../helpers";
 /** MsgCreateValidator defines a SDK message for creating a new validator. */
 
 export interface MsgCreateValidator {
-  description: Description | undefined;
-  commission: CommissionRates | undefined;
+  description?: Description | undefined;
+  commission?: CommissionRates | undefined;
   minSelfDelegation: string;
   delegatorAddress: string;
   validatorAddress: string;
-  pubkey: Any | undefined;
-  value: Coin | undefined;
+  pubkey?: Any | undefined;
+  value?: Coin | undefined;
 }
 /** MsgCreateValidator defines a SDK message for creating a new validator. */
 
 export interface MsgCreateValidatorSDKType {
-  description: DescriptionSDKType | undefined;
-  commission: CommissionRatesSDKType | undefined;
+  description?: DescriptionSDKType | undefined;
+  commission?: CommissionRatesSDKType | undefined;
   min_self_delegation: string;
   delegator_address: string;
   validator_address: string;
-  pubkey: AnySDKType | undefined;
-  value: CoinSDKType | undefined;
+  pubkey?: AnySDKType | undefined;
+  value?: CoinSDKType | undefined;
 }
 /** MsgCreateValidatorResponse defines the Msg/CreateValidator response type. */
 
@@ -35,7 +35,7 @@ export interface MsgCreateValidatorResponseSDKType {}
 /** MsgEditValidator defines a SDK message for editing an existing validator. */
 
 export interface MsgEditValidator {
-  description: Description | undefined;
+  description?: Description | undefined;
   validatorAddress: string;
   /**
    * We pass a reference to the new commission rate and min self delegation as
@@ -50,7 +50,7 @@ export interface MsgEditValidator {
 /** MsgEditValidator defines a SDK message for editing an existing validator. */
 
 export interface MsgEditValidatorSDKType {
-  description: DescriptionSDKType | undefined;
+  description?: DescriptionSDKType | undefined;
   validator_address: string;
   /**
    * We pass a reference to the new commission rate and min self delegation as
@@ -76,7 +76,7 @@ export interface MsgEditValidatorResponseSDKType {}
 export interface MsgDelegate {
   delegatorAddress: string;
   validatorAddress: string;
-  amount: Coin | undefined;
+  amount?: Coin | undefined;
 }
 /**
  * MsgDelegate defines a SDK message for performing a delegation of coins
@@ -86,7 +86,7 @@ export interface MsgDelegate {
 export interface MsgDelegateSDKType {
   delegator_address: string;
   validator_address: string;
-  amount: CoinSDKType | undefined;
+  amount?: CoinSDKType | undefined;
 }
 /** MsgDelegateResponse defines the Msg/Delegate response type. */
 
@@ -103,7 +103,7 @@ export interface MsgBeginRedelegate {
   delegatorAddress: string;
   validatorSrcAddress: string;
   validatorDstAddress: string;
-  amount: Coin | undefined;
+  amount?: Coin | undefined;
 }
 /**
  * MsgBeginRedelegate defines a SDK message for performing a redelegation
@@ -114,17 +114,17 @@ export interface MsgBeginRedelegateSDKType {
   delegator_address: string;
   validator_src_address: string;
   validator_dst_address: string;
-  amount: CoinSDKType | undefined;
+  amount?: CoinSDKType | undefined;
 }
 /** MsgBeginRedelegateResponse defines the Msg/BeginRedelegate response type. */
 
 export interface MsgBeginRedelegateResponse {
-  completionTime: Date | undefined;
+  completionTime?: Date | undefined;
 }
 /** MsgBeginRedelegateResponse defines the Msg/BeginRedelegate response type. */
 
 export interface MsgBeginRedelegateResponseSDKType {
-  completion_time: Date | undefined;
+  completion_time?: Date | undefined;
 }
 /**
  * MsgUndelegate defines a SDK message for performing an undelegation from a
@@ -134,7 +134,7 @@ export interface MsgBeginRedelegateResponseSDKType {
 export interface MsgUndelegate {
   delegatorAddress: string;
   validatorAddress: string;
-  amount: Coin | undefined;
+  amount?: Coin | undefined;
 }
 /**
  * MsgUndelegate defines a SDK message for performing an undelegation from a
@@ -144,17 +144,17 @@ export interface MsgUndelegate {
 export interface MsgUndelegateSDKType {
   delegator_address: string;
   validator_address: string;
-  amount: CoinSDKType | undefined;
+  amount?: CoinSDKType | undefined;
 }
 /** MsgUndelegateResponse defines the Msg/Undelegate response type. */
 
 export interface MsgUndelegateResponse {
-  completionTime: Date | undefined;
+  completionTime?: Date | undefined;
 }
 /** MsgUndelegateResponse defines the Msg/Undelegate response type. */
 
 export interface MsgUndelegateResponseSDKType {
-  completion_time: Date | undefined;
+  completion_time?: Date | undefined;
 }
 
 function createBaseMsgCreateValidator(): MsgCreateValidator {
@@ -271,7 +271,7 @@ export const MsgCreateValidatorResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateValidatorResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateValidatorResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgCreateValidatorResponse();
@@ -380,7 +380,7 @@ export const MsgEditValidatorResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgEditValidatorResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgEditValidatorResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgEditValidatorResponse();
@@ -479,7 +479,7 @@ export const MsgDelegateResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDelegateResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDelegateResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgDelegateResponse();
@@ -594,7 +594,7 @@ export const MsgBeginRedelegateResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgBeginRedelegateResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgBeginRedelegateResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgBeginRedelegateResponse();
@@ -704,7 +704,7 @@ export const MsgUndelegateResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUndelegateResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUndelegateResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUndelegateResponse();

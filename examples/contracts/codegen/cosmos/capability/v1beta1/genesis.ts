@@ -1,6 +1,6 @@
 import { CapabilityOwners, CapabilityOwnersSDKType } from "./capability";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** GenesisOwners defines the capability owners with their corresponding index. */
 
 export interface GenesisOwners {
@@ -8,7 +8,7 @@ export interface GenesisOwners {
   index: Long;
   /** index_owners are the owners at the given index. */
 
-  indexOwners: CapabilityOwners | undefined;
+  indexOwners?: CapabilityOwners | undefined;
 }
 /** GenesisOwners defines the capability owners with their corresponding index. */
 
@@ -17,7 +17,7 @@ export interface GenesisOwnersSDKType {
   index: Long;
   /** index_owners are the owners at the given index. */
 
-  index_owners: CapabilityOwnersSDKType | undefined;
+  index_owners?: CapabilityOwnersSDKType | undefined;
 }
 /** GenesisState defines the capability module's genesis state. */
 

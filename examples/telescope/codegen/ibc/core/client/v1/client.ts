@@ -1,7 +1,7 @@
 import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { Plan, PlanSDKType } from "../../../../cosmos/upgrade/v1beta1/upgrade";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../../helpers";
 /**
  * IdentifiedClientState defines a client state with an additional client
  * identifier field.
@@ -12,7 +12,7 @@ export interface IdentifiedClientState {
   clientId: string;
   /** client state */
 
-  clientState: Any | undefined;
+  clientState?: Any | undefined;
 }
 /**
  * IdentifiedClientState defines a client state with an additional client
@@ -24,7 +24,7 @@ export interface IdentifiedClientStateSDKType {
   client_id: string;
   /** client state */
 
-  client_state: AnySDKType | undefined;
+  client_state?: AnySDKType | undefined;
 }
 /**
  * ConsensusStateWithHeight defines a consensus state with an additional height
@@ -33,10 +33,10 @@ export interface IdentifiedClientStateSDKType {
 
 export interface ConsensusStateWithHeight {
   /** consensus state height */
-  height: Height | undefined;
+  height?: Height | undefined;
   /** consensus state */
 
-  consensusState: Any | undefined;
+  consensusState?: Any | undefined;
 }
 /**
  * ConsensusStateWithHeight defines a consensus state with an additional height
@@ -45,10 +45,10 @@ export interface ConsensusStateWithHeight {
 
 export interface ConsensusStateWithHeightSDKType {
   /** consensus state height */
-  height: HeightSDKType | undefined;
+  height?: HeightSDKType | undefined;
   /** consensus state */
 
-  consensus_state: AnySDKType | undefined;
+  consensus_state?: AnySDKType | undefined;
 }
 /**
  * ClientConsensusStates defines all the stored consensus states for a given
@@ -128,7 +128,7 @@ export interface ClientUpdateProposalSDKType {
 export interface UpgradeProposal {
   title: string;
   description: string;
-  plan: Plan | undefined;
+  plan?: Plan | undefined;
   /**
    * An UpgradedClientState must be provided to perform an IBC breaking upgrade.
    * This will make the chain commit to the correct upgraded (self) client state
@@ -138,7 +138,7 @@ export interface UpgradeProposal {
    * planned chain upgrades
    */
 
-  upgradedClientState: Any | undefined;
+  upgradedClientState?: Any | undefined;
 }
 /**
  * UpgradeProposal is a gov Content type for initiating an IBC breaking
@@ -148,7 +148,7 @@ export interface UpgradeProposal {
 export interface UpgradeProposalSDKType {
   title: string;
   description: string;
-  plan: PlanSDKType | undefined;
+  plan?: PlanSDKType | undefined;
   /**
    * An UpgradedClientState must be provided to perform an IBC breaking upgrade.
    * This will make the chain commit to the correct upgraded (self) client state
@@ -158,7 +158,7 @@ export interface UpgradeProposalSDKType {
    * planned chain upgrades
    */
 
-  upgraded_client_state: AnySDKType | undefined;
+  upgraded_client_state?: AnySDKType | undefined;
 }
 /**
  * Height is a monotonically increasing data type

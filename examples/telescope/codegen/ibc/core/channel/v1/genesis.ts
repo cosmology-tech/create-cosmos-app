@@ -1,6 +1,6 @@
 import { IdentifiedChannel, IdentifiedChannelSDKType, PacketState, PacketStateSDKType } from "./channel";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../../helpers";
 /** GenesisState defines the ibc channel submodule's genesis state. */
 
 export interface GenesisState {

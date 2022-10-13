@@ -1,6 +1,6 @@
 import { AminoMsg, decodeBech32Pubkey, encodeBech32Pubkey } from "@cosmjs/amino";
 import { fromBase64, toBase64 } from "@cosmjs/encoding";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 import { MsgCreateValidator, MsgEditValidator, MsgDelegate, MsgBeginRedelegate, MsgUndelegate } from "./tx";
 export interface AminoMsgCreateValidator extends AminoMsg {
   type: "cosmos-sdk/MsgCreateValidator";

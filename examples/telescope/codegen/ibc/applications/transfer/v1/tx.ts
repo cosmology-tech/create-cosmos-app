@@ -1,7 +1,7 @@
 import { Coin, CoinSDKType } from "../../../../cosmos/base/v1beta1/coin";
 import { Height, HeightSDKType } from "../../../core/client/v1/client";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../../helpers";
 /**
  * MsgTransfer defines a msg to transfer fungible tokens (i.e Coins) between
  * ICS20 enabled chains. See ICS Spec here:
@@ -16,7 +16,7 @@ export interface MsgTransfer {
   sourceChannel: string;
   /** the tokens to be transferred */
 
-  token: Coin | undefined;
+  token?: Coin | undefined;
   /** the sender address */
 
   sender: string;
@@ -28,7 +28,7 @@ export interface MsgTransfer {
    * The timeout is disabled when set to 0.
    */
 
-  timeoutHeight: Height | undefined;
+  timeoutHeight?: Height | undefined;
   /**
    * Timeout timestamp (in nanoseconds) relative to the current block timestamp.
    * The timeout is disabled when set to 0.
@@ -50,7 +50,7 @@ export interface MsgTransferSDKType {
   source_channel: string;
   /** the tokens to be transferred */
 
-  token: CoinSDKType | undefined;
+  token?: CoinSDKType | undefined;
   /** the sender address */
 
   sender: string;
@@ -62,7 +62,7 @@ export interface MsgTransferSDKType {
    * The timeout is disabled when set to 0.
    */
 
-  timeout_height: HeightSDKType | undefined;
+  timeout_height?: HeightSDKType | undefined;
   /**
    * Timeout timestamp (in nanoseconds) relative to the current block timestamp.
    * The timeout is disabled when set to 0.
@@ -191,7 +191,7 @@ export const MsgTransferResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTransferResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTransferResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgTransferResponse();

@@ -4,7 +4,7 @@ import { BlockID, BlockIDSDKType } from "../../../../tendermint/types/types";
 import { Block, BlockSDKType } from "../../../../tendermint/types/block";
 import { NodeInfo, NodeInfoSDKType } from "../../../../tendermint/p2p/types";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../../helpers";
 /** GetValidatorSetByHeightRequest is the request type for the Query/GetValidatorSetByHeight RPC method. */
 
 export interface GetValidatorSetByHeightRequest {
@@ -73,7 +73,7 @@ export interface GetLatestValidatorSetResponseSDKType {
 
 export interface Validator {
   address: string;
-  pubKey: Any | undefined;
+  pubKey?: Any | undefined;
   votingPower: Long;
   proposerPriority: Long;
 }
@@ -81,7 +81,7 @@ export interface Validator {
 
 export interface ValidatorSDKType {
   address: string;
-  pub_key: AnySDKType | undefined;
+  pub_key?: AnySDKType | undefined;
   voting_power: Long;
   proposer_priority: Long;
 }
@@ -98,14 +98,14 @@ export interface GetBlockByHeightRequestSDKType {
 /** GetBlockByHeightResponse is the response type for the Query/GetBlockByHeight RPC method. */
 
 export interface GetBlockByHeightResponse {
-  blockId: BlockID | undefined;
-  block: Block | undefined;
+  blockId?: BlockID | undefined;
+  block?: Block | undefined;
 }
 /** GetBlockByHeightResponse is the response type for the Query/GetBlockByHeight RPC method. */
 
 export interface GetBlockByHeightResponseSDKType {
-  block_id: BlockIDSDKType | undefined;
-  block: BlockSDKType | undefined;
+  block_id?: BlockIDSDKType | undefined;
+  block?: BlockSDKType | undefined;
 }
 /** GetLatestBlockRequest is the request type for the Query/GetLatestBlock RPC method. */
 
@@ -116,14 +116,14 @@ export interface GetLatestBlockRequestSDKType {}
 /** GetLatestBlockResponse is the response type for the Query/GetLatestBlock RPC method. */
 
 export interface GetLatestBlockResponse {
-  blockId: BlockID | undefined;
-  block: Block | undefined;
+  blockId?: BlockID | undefined;
+  block?: Block | undefined;
 }
 /** GetLatestBlockResponse is the response type for the Query/GetLatestBlock RPC method. */
 
 export interface GetLatestBlockResponseSDKType {
-  block_id: BlockIDSDKType | undefined;
-  block: BlockSDKType | undefined;
+  block_id?: BlockIDSDKType | undefined;
+  block?: BlockSDKType | undefined;
 }
 /** GetSyncingRequest is the request type for the Query/GetSyncing RPC method. */
 
@@ -150,14 +150,14 @@ export interface GetNodeInfoRequestSDKType {}
 /** GetNodeInfoResponse is the response type for the Query/GetNodeInfo RPC method. */
 
 export interface GetNodeInfoResponse {
-  nodeInfo: NodeInfo | undefined;
-  applicationVersion: VersionInfo | undefined;
+  nodeInfo?: NodeInfo | undefined;
+  applicationVersion?: VersionInfo | undefined;
 }
 /** GetNodeInfoResponse is the response type for the Query/GetNodeInfo RPC method. */
 
 export interface GetNodeInfoResponseSDKType {
-  node_info: NodeInfoSDKType | undefined;
-  application_version: VersionInfoSDKType | undefined;
+  node_info?: NodeInfoSDKType | undefined;
+  application_version?: VersionInfoSDKType | undefined;
 }
 /** VersionInfo is the type for the GetNodeInfoResponse message. */
 
@@ -292,7 +292,7 @@ export const GetValidatorSetByHeightResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetValidatorSetByHeightResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetValidatorSetByHeightResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetValidatorSetByHeightResponse();
@@ -402,7 +402,7 @@ export const GetLatestValidatorSetResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetLatestValidatorSetResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetLatestValidatorSetResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetLatestValidatorSetResponse();
@@ -582,7 +582,7 @@ export const GetBlockByHeightResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetBlockByHeightResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetBlockByHeightResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetBlockByHeightResponse();
@@ -671,7 +671,7 @@ export const GetLatestBlockResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetLatestBlockResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetLatestBlockResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetLatestBlockResponse();
@@ -755,7 +755,7 @@ export const GetSyncingResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetSyncingResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetSyncingResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetSyncingResponse();
@@ -839,7 +839,7 @@ export const GetNodeInfoResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetNodeInfoResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetNodeInfoResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetNodeInfoResponse();

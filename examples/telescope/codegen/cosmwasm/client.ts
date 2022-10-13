@@ -2,6 +2,9 @@ import { OfflineSigner, GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { defaultRegistryTypes, AminoTypes, SigningStargateClient } from "@cosmjs/stargate";
 import * as cosmwasmWasmV1TxRegistry from "./wasm/v1/tx.registry";
 import * as cosmwasmWasmV1TxAmino from "./wasm/v1/tx.amino";
+export const cosmwasmAminoConverters = { ...cosmwasmWasmV1TxAmino.AminoConverter
+};
+export const cosmwasmProtoRegistry: ReadonlyArray<[string, GeneratedType]> = [...cosmwasmWasmV1TxRegistry.registry];
 export const getSigningCosmwasmClientOptions = ({
   defaultTypes = defaultRegistryTypes
 }: {
@@ -10,8 +13,8 @@ export const getSigningCosmwasmClientOptions = ({
   registry: Registry;
   aminoTypes: AminoTypes;
 } => {
-  const registry = new Registry([...defaultTypes, ...cosmwasmWasmV1TxRegistry.registry]);
-  const aminoTypes = new AminoTypes({ ...cosmwasmWasmV1TxAmino.AminoConverter
+  const registry = new Registry([...defaultTypes, ...cosmwasmProtoRegistry]);
+  const aminoTypes = new AminoTypes({ ...cosmwasmAminoConverters
   });
   return {
     registry,

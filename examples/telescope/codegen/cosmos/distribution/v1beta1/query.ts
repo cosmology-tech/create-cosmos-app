@@ -2,7 +2,7 @@ import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } fr
 import { Params, ParamsSDKType, ValidatorOutstandingRewards, ValidatorOutstandingRewardsSDKType, ValidatorAccumulatedCommission, ValidatorAccumulatedCommissionSDKType, ValidatorSlashEvent, ValidatorSlashEventSDKType, DelegationDelegatorReward, DelegationDelegatorRewardSDKType } from "./distribution";
 import { DecCoin, DecCoinSDKType } from "../../base/v1beta1/coin";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 
 export interface QueryParamsRequest {}
@@ -13,13 +13,13 @@ export interface QueryParamsRequestSDKType {}
 
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
-  params: Params | undefined;
+  params?: Params | undefined;
 }
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 
 export interface QueryParamsResponseSDKType {
   /** params defines the parameters of the module. */
-  params: ParamsSDKType | undefined;
+  params?: ParamsSDKType | undefined;
 }
 /**
  * QueryValidatorOutstandingRewardsRequest is the request type for the
@@ -45,7 +45,7 @@ export interface QueryValidatorOutstandingRewardsRequestSDKType {
  */
 
 export interface QueryValidatorOutstandingRewardsResponse {
-  rewards: ValidatorOutstandingRewards | undefined;
+  rewards?: ValidatorOutstandingRewards | undefined;
 }
 /**
  * QueryValidatorOutstandingRewardsResponse is the response type for the
@@ -53,7 +53,7 @@ export interface QueryValidatorOutstandingRewardsResponse {
  */
 
 export interface QueryValidatorOutstandingRewardsResponseSDKType {
-  rewards: ValidatorOutstandingRewardsSDKType | undefined;
+  rewards?: ValidatorOutstandingRewardsSDKType | undefined;
 }
 /**
  * QueryValidatorCommissionRequest is the request type for the
@@ -80,7 +80,7 @@ export interface QueryValidatorCommissionRequestSDKType {
 
 export interface QueryValidatorCommissionResponse {
   /** commission defines the commision the validator received. */
-  commission: ValidatorAccumulatedCommission | undefined;
+  commission?: ValidatorAccumulatedCommission | undefined;
 }
 /**
  * QueryValidatorCommissionResponse is the response type for the
@@ -89,7 +89,7 @@ export interface QueryValidatorCommissionResponse {
 
 export interface QueryValidatorCommissionResponseSDKType {
   /** commission defines the commision the validator received. */
-  commission: ValidatorAccumulatedCommissionSDKType | undefined;
+  commission?: ValidatorAccumulatedCommissionSDKType | undefined;
 }
 /**
  * QueryValidatorSlashesRequest is the request type for the
@@ -101,10 +101,10 @@ export interface QueryValidatorSlashesRequest {
   validatorAddress: string;
   /** starting_height defines the optional starting height to query the slashes. */
 
-  startingHeight?: Long;
+  startingHeight: Long;
   /** starting_height defines the optional ending height to query the slashes. */
 
-  endingHeight?: Long;
+  endingHeight: Long;
   /** pagination defines an optional pagination for the request. */
 
   pagination?: PageRequest | undefined;
@@ -119,10 +119,10 @@ export interface QueryValidatorSlashesRequestSDKType {
   validator_address: string;
   /** starting_height defines the optional starting height to query the slashes. */
 
-  starting_height?: Long;
+  starting_height: Long;
   /** starting_height defines the optional ending height to query the slashes. */
 
-  ending_height?: Long;
+  ending_height: Long;
   /** pagination defines an optional pagination for the request. */
 
   pagination?: PageRequestSDKType | undefined;
@@ -387,7 +387,7 @@ export const QueryParamsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();
@@ -477,7 +477,7 @@ export const QueryValidatorOutstandingRewardsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorOutstandingRewardsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorOutstandingRewardsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorOutstandingRewardsResponse();
@@ -567,7 +567,7 @@ export const QueryValidatorCommissionResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorCommissionResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorCommissionResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorCommissionResponse();
@@ -692,7 +692,7 @@ export const QueryValidatorSlashesResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorSlashesResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorSlashesResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorSlashesResponse();
@@ -797,7 +797,7 @@ export const QueryDelegationRewardsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegationRewardsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegationRewardsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegationRewardsResponse();
@@ -892,7 +892,7 @@ export const QueryDelegationTotalRewardsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegationTotalRewardsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegationTotalRewardsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegationTotalRewardsResponse();
@@ -987,7 +987,7 @@ export const QueryDelegatorValidatorsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorValidatorsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorValidatorsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorValidatorsResponse();
@@ -1077,7 +1077,7 @@ export const QueryDelegatorWithdrawAddressResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorWithdrawAddressResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorWithdrawAddressResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorWithdrawAddressResponse();
@@ -1156,7 +1156,7 @@ export const QueryCommunityPoolResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryCommunityPoolResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryCommunityPoolResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryCommunityPoolResponse();

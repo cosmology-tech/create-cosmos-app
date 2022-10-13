@@ -8,7 +8,7 @@ export interface Record {
   name: string;
   /** pub_key represents a public key in any format */
 
-  pubKey: Any | undefined;
+  pubKey?: Any | undefined;
   /** local stores the public information about a locally stored key */
 
   local?: Record_Local | undefined;
@@ -29,7 +29,7 @@ export interface RecordSDKType {
   name: string;
   /** pub_key represents a public key in any format */
 
-  pub_key: AnySDKType | undefined;
+  pub_key?: AnySDKType | undefined;
   /** local stores the public information about a locally stored key */
 
   local?: Record_LocalSDKType | undefined;
@@ -49,7 +49,7 @@ export interface RecordSDKType {
  */
 
 export interface Record_Local {
-  privKey: Any | undefined;
+  privKey?: Any | undefined;
   privKeyType: string;
 }
 /**
@@ -58,18 +58,18 @@ export interface Record_Local {
  */
 
 export interface Record_LocalSDKType {
-  priv_key: AnySDKType | undefined;
+  priv_key?: AnySDKType | undefined;
   priv_key_type: string;
 }
 /** Ledger item */
 
 export interface Record_Ledger {
-  path: BIP44Params | undefined;
+  path?: BIP44Params | undefined;
 }
 /** Ledger item */
 
 export interface Record_LedgerSDKType {
-  path: BIP44ParamsSDKType | undefined;
+  path?: BIP44ParamsSDKType | undefined;
 }
 /** Multi item */
 

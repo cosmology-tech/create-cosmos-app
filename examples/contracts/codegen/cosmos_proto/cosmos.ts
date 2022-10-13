@@ -42,8 +42,9 @@ export function scalarTypeToJSON(object: ScalarType): string {
     case ScalarType.SCALAR_TYPE_BYTES:
       return "SCALAR_TYPE_BYTES";
 
+    case ScalarType.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /**

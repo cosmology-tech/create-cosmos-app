@@ -4,11 +4,11 @@ import * as _m0 from "protobufjs/minimal";
 /** QueryGrantsRequest is the request type for the Query/Grants RPC method. */
 
 export interface QueryGrantsRequest {
-  granter?: string;
-  grantee?: string;
+  granter: string;
+  grantee: string;
   /** Optional, msg_type_url, when set, will query only grants matching given msg type. */
 
-  msgTypeUrl?: string;
+  msgTypeUrl: string;
   /** pagination defines an pagination for the request. */
 
   pagination?: PageRequest | undefined;
@@ -16,11 +16,11 @@ export interface QueryGrantsRequest {
 /** QueryGrantsRequest is the request type for the Query/Grants RPC method. */
 
 export interface QueryGrantsRequestSDKType {
-  granter?: string;
-  grantee?: string;
+  granter: string;
+  grantee: string;
   /** Optional, msg_type_url, when set, will query only grants matching given msg type. */
 
-  msg_type_url?: string;
+  msg_type_url: string;
   /** pagination defines an pagination for the request. */
 
   pagination?: PageRequestSDKType | undefined;
@@ -207,7 +207,7 @@ export const QueryGrantsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGrantsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGrantsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryGrantsResponse();
@@ -317,7 +317,7 @@ export const QueryGranterGrantsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGranterGrantsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGranterGrantsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryGranterGrantsResponse();
@@ -427,7 +427,7 @@ export const QueryGranteeGrantsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGranteeGrantsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGranteeGrantsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryGranteeGrantsResponse();

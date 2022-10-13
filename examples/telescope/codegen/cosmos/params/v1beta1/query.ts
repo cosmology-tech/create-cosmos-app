@@ -22,13 +22,13 @@ export interface QueryParamsRequestSDKType {
 
 export interface QueryParamsResponse {
   /** param defines the queried parameter. */
-  param: ParamChange | undefined;
+  param?: ParamChange | undefined;
 }
 /** QueryParamsResponse is response type for the Query/Params RPC method. */
 
 export interface QueryParamsResponseSDKType {
   /** param defines the queried parameter. */
-  param: ParamChangeSDKType | undefined;
+  param?: ParamChangeSDKType | undefined;
 }
 /**
  * QuerySubspacesRequest defines a request type for querying for all registered
@@ -147,7 +147,7 @@ export const QueryParamsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();
@@ -226,7 +226,7 @@ export const QuerySubspacesResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySubspacesResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySubspacesResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySubspacesResponse();
