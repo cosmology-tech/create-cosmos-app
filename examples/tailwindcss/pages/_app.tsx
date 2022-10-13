@@ -7,6 +7,7 @@ import { ThemeProvider } from '../contexts/theme';
 
 import { SignerOptions } from '@cosmos-kit/core';
 import { chains, assets } from 'chain-registry';
+import { chainName } from '../config';
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
@@ -17,8 +18,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
 
   return (
     <WalletProvider
-      chains={chains}
-      assetLists={assets}
+      chains={chains.filter(chain => chain.chain_name === chainName)}
+      assetLists={assets.filter(asset => asset.chain_name === chainName)}
       wallets={wallets}
       signerOptions={signerOptions}
       walletModal={TailwindModal}

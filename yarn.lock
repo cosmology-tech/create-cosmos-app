@@ -2922,10 +2922,10 @@
     "@cosmos-kit/core" "^0.16.2"
     "@cosmos-kit/keplr" "^0.16.2"
 
-"@cosmos-kit/core@0.19.1", "@cosmos-kit/core@^0.19.1":
-  version "0.19.1"
-  resolved "https://registry.npmjs.org/@cosmos-kit/core/-/core-0.19.1.tgz#fe9ceaed7d15dc592ef01fc9a2976629511f9f70"
-  integrity sha512-n7X7gxpbvYw9NFEbxf7kgL9sVlCD6z9++2IrrcieQm/DUCRNBtI6v80nekvvgWwOyOYsUtVa+q2m9gziiT/NJQ==
+"@cosmos-kit/core@0.19.3", "@cosmos-kit/core@^0.19.3":
+  version "0.19.3"
+  resolved "https://registry.npmjs.org/@cosmos-kit/core/-/core-0.19.3.tgz#1c065956e4c84c3a912ad1fce98028de01d4494a"
+  integrity sha512-0YqThC5hoLIFKmQdJn7BEI/og+4YlSxr/Rytmt29dICr8FXLIfdfjMHb/W+MqBUo7y0lLAal1l6RIcFbq2qKCg==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chain-registry/types" "^0.11.0"
@@ -2940,16 +2940,16 @@
     "@chain-registry/types" "^0.11.0"
     chain-registry "^0.14.0"
 
-"@cosmos-kit/keplr@0.19.1":
-  version "0.19.1"
-  resolved "https://registry.npmjs.org/@cosmos-kit/keplr/-/keplr-0.19.1.tgz#f637979bf0c4eab584e92aa4738ea2029d5c1528"
-  integrity sha512-JrGs/Z6R2EsR8SzZrp2SFUmu2a4a+SZQPN+jv1sz0yIC9qD5nvP/nJX/EJ03YaXHAD1RAhfPG0Nb1PAAzM9uhA==
+"@cosmos-kit/keplr@0.19.3":
+  version "0.19.3"
+  resolved "https://registry.npmjs.org/@cosmos-kit/keplr/-/keplr-0.19.3.tgz#fbbaad6dc5139883a89ac1f75aeb9b845727fad9"
+  integrity sha512-lm5jKrAVL8sWFCwo5jfqN4QrTwCYNgLoTdnQPi7+IqgsX8FAZke7qSkfSHyd32ST55RWnfgz5jAgLlWzIzlz4Q==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chain-registry/keplr" "1.0.0"
     "@chain-registry/types" "^0.11.0"
     "@chakra-ui/react" "^2.2.9"
-    "@cosmos-kit/core" "^0.19.1"
+    "@cosmos-kit/core" "^0.19.3"
     "@emotion/react" "^11"
     "@emotion/styled" "^11"
     "@keplr-wallet/types" "^0.11.3"
@@ -2980,10 +2980,30 @@
     react-dom "18.2.0"
     react-icons "^4.4.0"
 
-"@cosmos-kit/react@0.18.2", "@cosmos-kit/react@^0.18.2":
-  version "0.18.2"
-  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-0.18.2.tgz#4ca69f9c82bb3bc135d1ede32396127f8ed2766d"
-  integrity sha512-zm/XqjiHgmx1wUNfxhwiMpBBqakfp7UEdA0wBPDpquGa8zXsFhMEKT/6yKeXvZrxFwd9w5hJeEbBBlcNdyPBFw==
+"@cosmos-kit/leap@0.1.2":
+  version "0.1.2"
+  resolved "https://registry.npmjs.org/@cosmos-kit/leap/-/leap-0.1.2.tgz#7ddb6f809f64cc043f0f44265bff5c39c22f2a61"
+  integrity sha512-mh0BHlgmDoNoJf8i5Jp6q8GTMGCHSky4gnyulG9vCza/CXyvbjc9mFnQjLT0dKs8sJ7NGFtx1L42Hwzgr4mPng==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@chain-registry/keplr" "1.0.0"
+    "@chain-registry/types" "^0.11.0"
+    "@chakra-ui/react" "^2.2.9"
+    "@cosmos-kit/core" "^0.19.3"
+    "@emotion/react" "^11"
+    "@emotion/styled" "^11"
+    "@keplr-wallet/types" "^0.11.3"
+    "@keplr-wallet/wc-client" "^0.11.3"
+    "@walletconnect/client" "1.8.0"
+    events "3.3.0"
+    react "18.2.0"
+    react-dom "18.2.0"
+    react-icons "^4.4.0"
+
+"@cosmos-kit/react@0.18.4":
+  version "0.18.4"
+  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-0.18.4.tgz#f02cf5939a08595b8b7db82c388d3ccfb36be956"
+  integrity sha512-gRAPFE7Ln4CMiyKq3YxW5hqUbLvyqFAT1CUlvBFtb+wdrM3g+7JhdNLKZLV7I68gWYW3rO4ORC6jZxsgqmmsNg==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chain-registry/types" "^0.11.0"

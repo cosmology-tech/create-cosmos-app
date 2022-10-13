@@ -75,6 +75,7 @@ export const WalletSection = () => {
     e.preventDefault();
     openView();
   };
+
   const onChainChange: handleSelectChainDropdown = async (
     selectedValue: ChainOption | null
   ) => {

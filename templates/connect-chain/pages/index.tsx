@@ -20,7 +20,6 @@ import { dependencies, products } from '../config';
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const chainName = 'cosmoshub';
 
   return (
     <Container maxW="5xl" py={10}>
@@ -59,7 +58,7 @@ export default function Home() {
           </Text>
         </Heading>
       </Box>
-      <WalletSection chainName={chainName} />
+      <WalletSection />
       <Grid
         templateColumns={{
           md: 'repeat(2, 1fr)',
