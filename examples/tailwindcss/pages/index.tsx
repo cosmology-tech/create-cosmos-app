@@ -5,7 +5,6 @@ import { useTheme } from '../contexts/theme';
 import { MoonIcon, SunIcon } from '@heroicons/react/24/outline';
 
 export default function Home() {
-  const chainName = process.env.NEXT_PUBLIC_CHAIN ?? 'stargaze';
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -38,7 +37,7 @@ export default function Home() {
           </span>
         </h1>
       </div>
-      <WalletSection chainName={chainName} />
+      <WalletSection />
       <div className="grid gap-8 mb-14 md:grid-cols-2 lg:grid-cols-3">
         {products.map((product) => (
           <Product key={product.title} {...product}></Product>

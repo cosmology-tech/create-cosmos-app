@@ -1,8 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useWallet } from '@cosmos-kit/react';
-import { StdFee } from '@cosmjs/amino';
-import { assets } from 'chain-registry';
-import { AssetList, Asset } from '@chain-registry/types';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import BigNumber from 'bignumber.js';
 
@@ -22,59 +19,12 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
-import { dependencies, products } from '../config';
+import { chainassets, chainName, coin, dependencies, products, sendTokens } from '../config';
 
 import { WalletStatus } from '@cosmos-kit/core';
 import { Product, Dependency, WalletSection } from '../components';
 import { cosmos } from 'interchain';
 import Head from 'next/head';
-
-const chainName = 'cosmoshub';
-const chainassets: AssetList = assets.find(
-  (chain) => chain.chain_name === chainName
-) as AssetList;
-const coin: Asset = chainassets.assets.find(
-  (asset) => asset.base === 'uatom'
-) as Asset;
-
-const sendTokens = (
-  getStargateClient: () => Promise<SigningStargateClient>,
-  setResp: () => any,
-  address: string
-) => {
-  return async () => {
-    const stargateClient = await getStargateClient();
-    if (!stargateClient || !address) {
-      console.error('stargateClient undefined or address undefined.');
-      return;
-    }
-
-    const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
-
-    const msg = send({
-      amount: [
-        {
-          denom: coin.base,
-          amount: '1000'
-        }
-      ],
-      toAddress: address,
-      fromAddress: address
-    });
-
-    const fee: StdFee = {
-      amount: [
-        {
-          denom: coin.base,
-          amount: '864'
-        }
-      ],
-      gas: '86364'
-    };
-    const response = await stargateClient.signAndBroadcast(address, [msg], fee);
-    setResp(JSON.stringify(response, null, 2));
-  };
-};
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -82,14 +32,9 @@ export default function Home() {
   const {
     getStargateClient,
     address,
-    setCurrentChain,
     currentWallet,
     walletStatus
   } = useWallet();
-
-  useEffect(() => {
-    setCurrentChain(chainName);
-  }, [chainName]);
 
   const [balance, setBalance] = useState(new BigNumber(0));
   const [resp, setResp] = useState('');
@@ -163,7 +108,7 @@ export default function Home() {
           </Text>
         </Heading>
       </Box>
-      <WalletSection chainName={chainName} />
+      <WalletSection />
 
       {walletStatus === WalletStatus.Disconnected && (
         <Box textAlign="center">

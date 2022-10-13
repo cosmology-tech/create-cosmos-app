@@ -9,7 +9,7 @@ import {
   useColorModeValue,
   Text
 } from '@chakra-ui/react';
-import { MouseEventHandler, useEffect, useMemo } from 'react';
+import { MouseEventHandler, useMemo } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import {
   Astronaut,
@@ -28,28 +28,28 @@ import {
   ChainCard
 } from '../components';
 import { getWalletPrettyName } from '@cosmos-kit/config';
-import { ChainName } from '@cosmos-kit/core';
 import { assets as chainAssets } from 'chain-registry';
+import { ChainRecord } from '@cosmos-kit/core';
 
-export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
+export const WalletSection = () => {
   const walletManager = useWallet();
   const {
     connect,
     openView,
-    setCurrentChain,
-    chains,
     walletStatus,
     username,
     address,
     message,
-    currentChainName: chainName,
+    currentChainName,
     currentWalletName,
-    currentWallet
+    chains
   } = walletManager;
 
-  const chainOptions = useMemo(
-    () =>
-      chains.map((chainRecord) => {
+  const chainName = currentChainName;
+
+  const chain = useMemo(
+    () => {
+      const getChain = (chainRecord: ChainRecord) => {
         const assets = chainAssets.find(
           (_chain) => _chain.chain_name === chainRecord.name
         )?.assets;
@@ -62,15 +62,11 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
             : undefined,
           disabled: false
         };
-      }),
+      }
+      return getChain(chains[0]);
+    },
     [chains]
   );
-
-  const chain = chainOptions.find((c) => c.chainName === chainName);
-
-  useEffect(() => {
-    setCurrentChain(chainName);
-  }, [chainName, setCurrentChain]);
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
@@ -82,6 +78,7 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
     e.preventDefault();
     openView();
   };
+
   // Components
   const connectWalletButton = (
     <WalletConnectComponent
