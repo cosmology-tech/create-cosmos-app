@@ -68,10 +68,7 @@ export const WalletSection = () => {
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
     e.preventDefault();
-    openView();
-    if (currentWalletName) {
-      await connect();
-    }
+    await connect();
   };
 
   const onClickOpenView: MouseEventHandler = (e) => {
@@ -83,10 +80,7 @@ export const WalletSection = () => {
     selectedValue: ChainOption | null
   ) => {
     setCurrentChain(selectedValue?.chainName);
-    openView();
-    if (currentWalletName) {
-      await connect();
-    }
+    await connect();
   };
 
   // Components

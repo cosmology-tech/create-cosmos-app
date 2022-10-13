@@ -1,9 +1,6 @@
 import { Container, Button } from '@chakra-ui/react';
 import { useWallet } from '@cosmos-kit/react';
-import { useEffect, useState } from 'react';
-import { StdFee } from '@cosmjs/amino';
-import { assets } from 'chain-registry';
-import { AssetList, Asset } from '@chain-registry/types';
+import { useState } from 'react';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import { WalletStatus } from '@cosmos-kit/core';
 import BigNumber from 'bignumber.js';
@@ -11,65 +8,15 @@ import BigNumber from 'bignumber.js';
 import { WalletSection } from '../components';
 import { cosmos } from '../codegen';
 
-const chainName = 'osmosis';
-const chainassets: AssetList = assets.find(
-  (chain) => chain.chain_name === chainName
-) as AssetList;
-const baseAsset: Asset = chainassets.assets.find(
-  (asset) => asset.base === 'uosmo'
-) as Asset;
-
-const sendTokens = (
-  getStargateClient: () => Promise<SigningStargateClient>,
-  setResp: () => any,
-  address: string
-) => {
-  return async () => {
-    const stargateClient = await getStargateClient();
-    if (!stargateClient || !address) {
-      console.error('stargateClient undefined or address undefined.');
-      return;
-    }
-
-    const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
-
-    const msg = send({
-      amount: [
-        {
-          denom: baseAsset.base,
-          amount: '1000'
-        }
-      ],
-      toAddress: address,
-      fromAddress: address
-    });
-
-    const fee: StdFee = {
-      amount: [
-        {
-          denom: baseAsset.base,
-          amount: '0'
-        }
-      ],
-      gas: '86364'
-    };
-    const response = await stargateClient.signAndBroadcast(address, [msg], fee);
-    setResp(JSON.stringify(response, null, 2));
-  };
-};
+import { chainName, chainassets, baseAsset, sendTokens } from '../config';
 
 export default function Home() {
   const {
     getStargateClient,
     address,
-    setCurrentChain,
     currentWallet,
     walletStatus
   } = useWallet();
-
-  useEffect(() => {
-    setCurrentChain(chainName);
-  }, [chainName]);
 
   const [balance, setBalance] = useState(new BigNumber(0));
   const [resp, setResp] = useState('');
