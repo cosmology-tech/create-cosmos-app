@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { WalletProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
-import { defaultTheme } from '../config';
+import { defaultTheme, chainName } from '../config';
 import { wallets } from '@cosmos-kit/keplr';
 import { chains, assets } from 'chain-registry';
 import { getSigningCosmosClientOptions } from '../codegen';
@@ -37,8 +37,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={defaultTheme}>
       <WalletProvider
-        chains={chains}
-        assetLists={assets}
+        chains={chains.filter(chain => chain.chain_name === chainName)}
+        assetLists={assets.filter(asset => asset.chain_name === chainName)}
         wallets={wallets}
         signerOptions={signerOptions}
       >

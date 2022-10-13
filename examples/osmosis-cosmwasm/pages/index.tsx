@@ -1,7 +1,4 @@
-import { useEffect } from 'react';
 import { useWallet } from '@cosmos-kit/react';
-import { assets } from 'chain-registry';
-import { AssetList, Asset } from '@chain-registry/types';
 
 import {
   Box,
@@ -33,23 +30,10 @@ const library = {
   href: 'https://github.com/osmosis-labs/osmojs',
 };
 
-// const chainName = 'osmosis';
-const chainName = 'osmosistestnet';
-const chainassets: AssetList = assets.find(
-  (chain) => chain.chain_name === chainName
-) as AssetList;
-const coin: Asset = chainassets.assets.find(
-  (asset) => asset.base === 'uosmo'
-) as Asset;
-
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const { walletStatus, setCurrentChain } = useWallet();
-
-  useEffect(() => {
-    setCurrentChain(chainName);
-  }, [chainName]);
+  const { walletStatus } = useWallet();
 
   const color = useColorModeValue('primary.500', 'primary.200');
 
@@ -90,7 +74,7 @@ export default function Home() {
           </Text>
         </Heading>
       </Box>
-      <WalletSection chainName={chainName} />
+      <WalletSection />
 
       <HackCw20 />
 
