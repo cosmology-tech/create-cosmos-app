@@ -1,4 +1,4 @@
-import { setPaginationParams } from "@osmonauts/helpers";
+import { setPaginationParams } from "../../../helpers";
 import { LCDClient } from "@osmonauts/lcd";
 import { QueryValidatorsRequest, QueryValidatorsResponseSDKType, QueryValidatorRequest, QueryValidatorResponseSDKType, QueryValidatorDelegationsRequest, QueryValidatorDelegationsResponseSDKType, QueryValidatorUnbondingDelegationsRequest, QueryValidatorUnbondingDelegationsResponseSDKType, QueryDelegationRequest, QueryDelegationResponseSDKType, QueryUnbondingDelegationRequest, QueryUnbondingDelegationResponseSDKType, QueryDelegatorDelegationsRequest, QueryDelegatorDelegationsResponseSDKType, QueryDelegatorUnbondingDelegationsRequest, QueryDelegatorUnbondingDelegationsResponseSDKType, QueryRedelegationsRequest, QueryRedelegationsResponseSDKType, QueryDelegatorValidatorsRequest, QueryDelegatorValidatorsResponseSDKType, QueryDelegatorValidatorRequest, QueryDelegatorValidatorResponseSDKType, QueryHistoricalInfoRequest, QueryHistoricalInfoResponseSDKType, QueryPoolRequest, QueryPoolResponseSDKType, QueryParamsRequest, QueryParamsResponseSDKType } from "./query";
 export class LCDQueryClient {
@@ -89,7 +89,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryDelegationResponseSDKType>(endpoint);
   }
   /* UnbondingDelegation queries unbonding info for given validator delegator
-  pair. */
+   pair. */
 
 
   async unbondingDelegation(params: QueryUnbondingDelegationRequest): Promise<QueryUnbondingDelegationResponseSDKType> {
@@ -112,7 +112,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryDelegatorDelegationsResponseSDKType>(endpoint, options);
   }
   /* DelegatorUnbondingDelegations queries all unbonding delegations of a given
-  delegator address. */
+   delegator address. */
 
 
   async delegatorUnbondingDelegations(params: QueryDelegatorUnbondingDelegationsRequest): Promise<QueryDelegatorUnbondingDelegationsResponseSDKType> {
@@ -151,7 +151,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryRedelegationsResponseSDKType>(endpoint, options);
   }
   /* DelegatorValidators queries all validators info for given delegator
-  address. */
+   address. */
 
 
   async delegatorValidators(params: QueryDelegatorValidatorsRequest): Promise<QueryDelegatorValidatorsResponseSDKType> {
@@ -167,7 +167,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryDelegatorValidatorsResponseSDKType>(endpoint, options);
   }
   /* DelegatorValidator queries validator info for given delegator validator
-  pair. */
+   pair. */
 
 
   async delegatorValidator(params: QueryDelegatorValidatorRequest): Promise<QueryDelegatorValidatorResponseSDKType> {

@@ -1,12 +1,12 @@
 import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../base/query/v1beta1/pagination";
 import { Validator, ValidatorSDKType, DelegationResponse, DelegationResponseSDKType, UnbondingDelegation, UnbondingDelegationSDKType, RedelegationResponse, RedelegationResponseSDKType, HistoricalInfo, HistoricalInfoSDKType, Pool, PoolSDKType, Params, ParamsSDKType } from "./staking";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** QueryValidatorsRequest is request type for Query/Validators RPC method. */
 
 export interface QueryValidatorsRequest {
   /** status enables to query for validators matching a given status. */
-  status?: string;
+  status: string;
   /** pagination defines an optional pagination for the request. */
 
   pagination?: PageRequest | undefined;
@@ -15,7 +15,7 @@ export interface QueryValidatorsRequest {
 
 export interface QueryValidatorsRequestSDKType {
   /** status enables to query for validators matching a given status. */
-  status?: string;
+  status: string;
   /** pagination defines an optional pagination for the request. */
 
   pagination?: PageRequestSDKType | undefined;
@@ -54,13 +54,13 @@ export interface QueryValidatorRequestSDKType {
 
 export interface QueryValidatorResponse {
   /** validator defines the the validator info. */
-  validator: Validator | undefined;
+  validator?: Validator | undefined;
 }
 /** QueryValidatorResponse is response type for the Query/Validator RPC method */
 
 export interface QueryValidatorResponseSDKType {
   /** validator defines the the validator info. */
-  validator: ValidatorSDKType | undefined;
+  validator?: ValidatorSDKType | undefined;
 }
 /**
  * QueryValidatorDelegationsRequest is request type for the
@@ -176,13 +176,13 @@ export interface QueryDelegationRequestSDKType {
 
 export interface QueryDelegationResponse {
   /** delegation_responses defines the delegation info of a delegation. */
-  delegationResponse: DelegationResponse | undefined;
+  delegationResponse?: DelegationResponse | undefined;
 }
 /** QueryDelegationResponse is response type for the Query/Delegation RPC method. */
 
 export interface QueryDelegationResponseSDKType {
   /** delegation_responses defines the delegation info of a delegation. */
-  delegation_response: DelegationResponseSDKType | undefined;
+  delegation_response?: DelegationResponseSDKType | undefined;
 }
 /**
  * QueryUnbondingDelegationRequest is request type for the
@@ -215,7 +215,7 @@ export interface QueryUnbondingDelegationRequestSDKType {
 
 export interface QueryUnbondingDelegationResponse {
   /** unbond defines the unbonding information of a delegation. */
-  unbond: UnbondingDelegation | undefined;
+  unbond?: UnbondingDelegation | undefined;
 }
 /**
  * QueryDelegationResponse is response type for the Query/UnbondingDelegation
@@ -224,7 +224,7 @@ export interface QueryUnbondingDelegationResponse {
 
 export interface QueryUnbondingDelegationResponseSDKType {
   /** unbond defines the unbonding information of a delegation. */
-  unbond: UnbondingDelegationSDKType | undefined;
+  unbond?: UnbondingDelegationSDKType | undefined;
 }
 /**
  * QueryDelegatorDelegationsRequest is request type for the
@@ -330,10 +330,10 @@ export interface QueryRedelegationsRequest {
   delegatorAddr: string;
   /** src_validator_addr defines the validator address to redelegate from. */
 
-  srcValidatorAddr?: string;
+  srcValidatorAddr: string;
   /** dst_validator_addr defines the validator address to redelegate to. */
 
-  dstValidatorAddr?: string;
+  dstValidatorAddr: string;
   /** pagination defines an optional pagination for the request. */
 
   pagination?: PageRequest | undefined;
@@ -348,10 +348,10 @@ export interface QueryRedelegationsRequestSDKType {
   delegator_addr: string;
   /** src_validator_addr defines the validator address to redelegate from. */
 
-  src_validator_addr?: string;
+  src_validator_addr: string;
   /** dst_validator_addr defines the validator address to redelegate to. */
 
-  dst_validator_addr?: string;
+  dst_validator_addr: string;
   /** pagination defines an optional pagination for the request. */
 
   pagination?: PageRequestSDKType | undefined;
@@ -457,7 +457,7 @@ export interface QueryDelegatorValidatorRequestSDKType {
 
 export interface QueryDelegatorValidatorResponse {
   /** validator defines the the validator info. */
-  validator: Validator | undefined;
+  validator?: Validator | undefined;
 }
 /**
  * QueryDelegatorValidatorResponse response type for the
@@ -466,7 +466,7 @@ export interface QueryDelegatorValidatorResponse {
 
 export interface QueryDelegatorValidatorResponseSDKType {
   /** validator defines the the validator info. */
-  validator: ValidatorSDKType | undefined;
+  validator?: ValidatorSDKType | undefined;
 }
 /**
  * QueryHistoricalInfoRequest is request type for the Query/HistoricalInfo RPC
@@ -493,7 +493,7 @@ export interface QueryHistoricalInfoRequestSDKType {
 
 export interface QueryHistoricalInfoResponse {
   /** hist defines the historical info at the given height. */
-  hist: HistoricalInfo | undefined;
+  hist?: HistoricalInfo | undefined;
 }
 /**
  * QueryHistoricalInfoResponse is response type for the Query/HistoricalInfo RPC
@@ -502,7 +502,7 @@ export interface QueryHistoricalInfoResponse {
 
 export interface QueryHistoricalInfoResponseSDKType {
   /** hist defines the historical info at the given height. */
-  hist: HistoricalInfoSDKType | undefined;
+  hist?: HistoricalInfoSDKType | undefined;
 }
 /** QueryPoolRequest is request type for the Query/Pool RPC method. */
 
@@ -514,13 +514,13 @@ export interface QueryPoolRequestSDKType {}
 
 export interface QueryPoolResponse {
   /** pool defines the pool info. */
-  pool: Pool | undefined;
+  pool?: Pool | undefined;
 }
 /** QueryPoolResponse is response type for the Query/Pool RPC method. */
 
 export interface QueryPoolResponseSDKType {
   /** pool defines the pool info. */
-  pool: PoolSDKType | undefined;
+  pool?: PoolSDKType | undefined;
 }
 /** QueryParamsRequest is request type for the Query/Params RPC method. */
 
@@ -532,13 +532,13 @@ export interface QueryParamsRequestSDKType {}
 
 export interface QueryParamsResponse {
   /** params holds all the parameters of this module. */
-  params: Params | undefined;
+  params?: Params | undefined;
 }
 /** QueryParamsResponse is response type for the Query/Params RPC method. */
 
 export interface QueryParamsResponseSDKType {
   /** params holds all the parameters of this module. */
-  params: ParamsSDKType | undefined;
+  params?: ParamsSDKType | undefined;
 }
 
 function createBaseQueryValidatorsRequest(): QueryValidatorsRequest {
@@ -616,7 +616,7 @@ export const QueryValidatorsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorsResponse();
@@ -711,7 +711,7 @@ export const QueryValidatorResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorResponse();
@@ -816,7 +816,7 @@ export const QueryValidatorDelegationsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorDelegationsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorDelegationsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorDelegationsResponse();
@@ -926,7 +926,7 @@ export const QueryValidatorUnbondingDelegationsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorUnbondingDelegationsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorUnbondingDelegationsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorUnbondingDelegationsResponse();
@@ -1031,7 +1031,7 @@ export const QueryDelegationResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegationResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegationResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegationResponse();
@@ -1131,7 +1131,7 @@ export const QueryUnbondingDelegationResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryUnbondingDelegationResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryUnbondingDelegationResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryUnbondingDelegationResponse();
@@ -1236,7 +1236,7 @@ export const QueryDelegatorDelegationsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorDelegationsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorDelegationsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorDelegationsResponse();
@@ -1346,7 +1346,7 @@ export const QueryDelegatorUnbondingDelegationsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorUnbondingDelegationsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorUnbondingDelegationsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorUnbondingDelegationsResponse();
@@ -1476,7 +1476,7 @@ export const QueryRedelegationsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryRedelegationsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryRedelegationsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryRedelegationsResponse();
@@ -1586,7 +1586,7 @@ export const QueryDelegatorValidatorsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorValidatorsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorValidatorsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorValidatorsResponse();
@@ -1691,7 +1691,7 @@ export const QueryDelegatorValidatorResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorValidatorResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorValidatorResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorValidatorResponse();
@@ -1781,7 +1781,7 @@ export const QueryHistoricalInfoResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryHistoricalInfoResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryHistoricalInfoResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryHistoricalInfoResponse();
@@ -1860,7 +1860,7 @@ export const QueryPoolResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryPoolResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryPoolResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryPoolResponse();
@@ -1939,7 +1939,7 @@ export const QueryParamsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();

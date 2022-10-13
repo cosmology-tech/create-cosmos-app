@@ -49,7 +49,7 @@ export interface ModuleConfig {
    * define a ModuleDescriptor using the cosmos.app.v1alpha1.is_module extension.
    */
 
-  config: Any | undefined;
+  config?: Any | undefined;
 }
 /** ModuleConfig is a module configuration for an app. */
 
@@ -72,7 +72,7 @@ export interface ModuleConfigSDKType {
    * define a ModuleDescriptor using the cosmos.app.v1alpha1.is_module extension.
    */
 
-  config: AnySDKType | undefined;
+  config?: AnySDKType | undefined;
 }
 
 function createBaseConfig(): Config {

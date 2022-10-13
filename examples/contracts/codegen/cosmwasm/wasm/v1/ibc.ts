@@ -1,5 +1,5 @@
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** MsgIBCSend */
 
 export interface MsgIBCSend {

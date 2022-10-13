@@ -1,5 +1,5 @@
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../../helpers";
 /**
  * CommitInfo defines commit information used by the multi-store when committing
  * a version/height.
@@ -25,7 +25,7 @@ export interface CommitInfoSDKType {
 
 export interface StoreInfo {
   name: string;
-  commitId: CommitID | undefined;
+  commitId?: CommitID | undefined;
 }
 /**
  * StoreInfo defines store-specific commit information. It contains a reference
@@ -34,7 +34,7 @@ export interface StoreInfo {
 
 export interface StoreInfoSDKType {
   name: string;
-  commit_id: CommitIDSDKType | undefined;
+  commit_id?: CommitIDSDKType | undefined;
 }
 /**
  * CommitID defines the committment information when a specific store is

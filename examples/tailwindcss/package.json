@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@cosmjs/cosmwasm-stargate": "0.29.0",
-    "@cosmjs/stargate": "0.29.0",
+    "@cosmjs/cosmwasm-stargate": "0.29.2",
+    "@cosmjs/stargate": "0.29.2",
     "@cosmos-kit/core": "0.19.3",
     "@cosmos-kit/keplr": "0.19.3",
     "@cosmos-kit/react": "0.18.4",

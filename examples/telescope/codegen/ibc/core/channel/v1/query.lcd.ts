@@ -1,4 +1,4 @@
-import { setPaginationParams } from "@osmonauts/helpers";
+import { setPaginationParams } from "../../../../helpers";
 import { LCDClient } from "@osmonauts/lcd";
 import { QueryChannelRequest, QueryChannelResponseSDKType, QueryChannelsRequest, QueryChannelsResponseSDKType, QueryConnectionChannelsRequest, QueryConnectionChannelsResponseSDKType, QueryChannelClientStateRequest, QueryChannelClientStateResponseSDKType, QueryChannelConsensusStateRequest, QueryChannelConsensusStateResponseSDKType, QueryPacketCommitmentRequest, QueryPacketCommitmentResponseSDKType, QueryPacketCommitmentsRequest, QueryPacketCommitmentsResponseSDKType, QueryPacketReceiptRequest, QueryPacketReceiptResponseSDKType, QueryPacketAcknowledgementRequest, QueryPacketAcknowledgementResponseSDKType, QueryPacketAcknowledgementsRequest, QueryPacketAcknowledgementsResponseSDKType, QueryUnreceivedPacketsRequest, QueryUnreceivedPacketsResponseSDKType, QueryUnreceivedAcksRequest, QueryUnreceivedAcksResponseSDKType, QueryNextSequenceReceiveRequest, QueryNextSequenceReceiveResponseSDKType } from "./query";
 export class LCDQueryClient {
@@ -49,7 +49,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryChannelsResponseSDKType>(endpoint, options);
   }
   /* ConnectionChannels queries all the channels associated with a connection
-  end. */
+   end. */
 
 
   async connectionChannels(params: QueryConnectionChannelsRequest): Promise<QueryConnectionChannelsResponseSDKType> {
@@ -65,7 +65,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryConnectionChannelsResponseSDKType>(endpoint, options);
   }
   /* ChannelClientState queries for the client state for the channel associated
-  with the provided channel identifiers. */
+   with the provided channel identifiers. */
 
 
   async channelClientState(params: QueryChannelClientStateRequest): Promise<QueryChannelClientStateResponseSDKType> {
@@ -73,7 +73,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryChannelClientStateResponseSDKType>(endpoint);
   }
   /* ChannelConsensusState queries for the consensus state for the channel
-  associated with the provided channel identifiers. */
+   associated with the provided channel identifiers. */
 
 
   async channelConsensusState(params: QueryChannelConsensusStateRequest): Promise<QueryChannelConsensusStateResponseSDKType> {
@@ -88,7 +88,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryPacketCommitmentResponseSDKType>(endpoint);
   }
   /* PacketCommitments returns all the packet commitments hashes associated
-  with a channel. */
+   with a channel. */
 
 
   async packetCommitments(params: QueryPacketCommitmentsRequest): Promise<QueryPacketCommitmentsResponseSDKType> {
@@ -104,7 +104,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryPacketCommitmentsResponseSDKType>(endpoint, options);
   }
   /* PacketReceipt queries if a given packet sequence has been received on the
-  queried chain */
+   queried chain */
 
 
   async packetReceipt(params: QueryPacketReceiptRequest): Promise<QueryPacketReceiptResponseSDKType> {
@@ -119,7 +119,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryPacketAcknowledgementResponseSDKType>(endpoint);
   }
   /* PacketAcknowledgements returns all the packet acknowledgements associated
-  with a channel. */
+   with a channel. */
 
 
   async packetAcknowledgements(params: QueryPacketAcknowledgementsRequest): Promise<QueryPacketAcknowledgementsResponseSDKType> {
@@ -139,7 +139,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryPacketAcknowledgementsResponseSDKType>(endpoint, options);
   }
   /* UnreceivedPackets returns all the unreceived IBC packets associated with a
-  channel and sequences. */
+   channel and sequences. */
 
 
   async unreceivedPackets(params: QueryUnreceivedPacketsRequest): Promise<QueryUnreceivedPacketsResponseSDKType> {
@@ -147,7 +147,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryUnreceivedPacketsResponseSDKType>(endpoint);
   }
   /* UnreceivedAcks returns all the unreceived IBC acknowledgements associated
-  with a channel and sequences. */
+   with a channel and sequences. */
 
 
   async unreceivedAcks(params: QueryUnreceivedAcksRequest): Promise<QueryUnreceivedAcksResponseSDKType> {

@@ -1,5 +1,5 @@
 import { AminoMsg } from "@cosmjs/amino";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 import { MsgSoftwareUpgrade, MsgCancelUpgrade } from "./tx";
 export interface AminoMsgSoftwareUpgrade extends AminoMsg {
   type: "cosmos-sdk/MsgSoftwareUpgrade";

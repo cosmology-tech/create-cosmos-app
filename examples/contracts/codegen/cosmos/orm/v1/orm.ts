@@ -3,7 +3,7 @@ import * as _m0 from "protobufjs/minimal";
 
 export interface TableDescriptor {
   /** primary_key defines the primary key for the table. */
-  primaryKey: PrimaryKeyDescriptor | undefined;
+  primaryKey?: PrimaryKeyDescriptor | undefined;
   /** index defines one or more secondary indexes. */
 
   index: SecondaryIndexDescriptor[];
@@ -19,7 +19,7 @@ export interface TableDescriptor {
 
 export interface TableDescriptorSDKType {
   /** primary_key defines the primary key for the table. */
-  primary_key: PrimaryKeyDescriptorSDKType | undefined;
+  primary_key?: PrimaryKeyDescriptorSDKType | undefined;
   /** index defines one or more secondary indexes. */
 
   index: SecondaryIndexDescriptorSDKType[];
@@ -38,27 +38,27 @@ export interface PrimaryKeyDescriptor {
    * fields is a comma-separated list of fields in the primary key. Spaces are
    * not allowed. Supported field types, their encodings, and any applicable constraints
    * are described below.
-   * - uint32 are encoded as 2,3,4 or 5 bytes using a compact encoding that
-   * is suitable for sorted iteration (not varint encoding). This type is
-   * well-suited for small integers.
-   * - uint64 are encoded as 2,4,6 or 9 bytes using a compact encoding that
-   * is suitable for sorted iteration (not varint encoding). This type is
-   * well-suited for small integers such as auto-incrementing sequences.
-   * - fixed32, fixed64 are encoded as big-endian fixed width bytes and support
-   * sorted iteration. These types are well-suited for encoding fixed with
-   * decimals as integers.
-   * - string's are encoded as raw bytes in terminal key segments and null-terminated
-   * in non-terminal segments. Null characters are thus forbidden in strings.
-   * string fields support sorted iteration.
-   * - bytes are encoded as raw bytes in terminal segments and length-prefixed
-   * with a 32-bit unsigned varint in non-terminal segments.
-   * - int32, sint32, int64, sint64, sfixed32, sfixed64 are encoded as fixed width bytes with
-   * an encoding that enables sorted iteration.
-   * - google.protobuf.Timestamp and google.protobuf.Duration are encoded
-   * as 12 bytes using an encoding that enables sorted iteration.
-   * - enum fields are encoded using varint encoding and do not support sorted
-   * iteration.
-   * - bool fields are encoded as a single byte 0 or 1.
+   *   - uint32 are encoded as 2,3,4 or 5 bytes using a compact encoding that
+   *     is suitable for sorted iteration (not varint encoding). This type is
+   *     well-suited for small integers.
+   *   - uint64 are encoded as 2,4,6 or 9 bytes using a compact encoding that
+   *     is suitable for sorted iteration (not varint encoding). This type is
+   *     well-suited for small integers such as auto-incrementing sequences.
+   *   - fixed32, fixed64 are encoded as big-endian fixed width bytes and support
+   *   sorted iteration. These types are well-suited for encoding fixed with
+   *   decimals as integers.
+   *   - string's are encoded as raw bytes in terminal key segments and null-terminated
+   *   in non-terminal segments. Null characters are thus forbidden in strings.
+   *   string fields support sorted iteration.
+   *   - bytes are encoded as raw bytes in terminal segments and length-prefixed
+   *   with a 32-bit unsigned varint in non-terminal segments.
+   *   - int32, sint32, int64, sint64, sfixed32, sfixed64 are encoded as fixed width bytes with
+   *   an encoding that enables sorted iteration.
+   *   - google.protobuf.Timestamp and google.protobuf.Duration are encoded
+   *   as 12 bytes using an encoding that enables sorted iteration.
+   *   - enum fields are encoded using varint encoding and do not support sorted
+   *   iteration.
+   *   - bool fields are encoded as a single byte 0 or 1.
    * 
    * All other fields types are unsupported in keys including repeated and
    * oneof fields.
@@ -82,27 +82,27 @@ export interface PrimaryKeyDescriptorSDKType {
    * fields is a comma-separated list of fields in the primary key. Spaces are
    * not allowed. Supported field types, their encodings, and any applicable constraints
    * are described below.
-   * - uint32 are encoded as 2,3,4 or 5 bytes using a compact encoding that
-   * is suitable for sorted iteration (not varint encoding). This type is
-   * well-suited for small integers.
-   * - uint64 are encoded as 2,4,6 or 9 bytes using a compact encoding that
-   * is suitable for sorted iteration (not varint encoding). This type is
-   * well-suited for small integers such as auto-incrementing sequences.
-   * - fixed32, fixed64 are encoded as big-endian fixed width bytes and support
-   * sorted iteration. These types are well-suited for encoding fixed with
-   * decimals as integers.
-   * - string's are encoded as raw bytes in terminal key segments and null-terminated
-   * in non-terminal segments. Null characters are thus forbidden in strings.
-   * string fields support sorted iteration.
-   * - bytes are encoded as raw bytes in terminal segments and length-prefixed
-   * with a 32-bit unsigned varint in non-terminal segments.
-   * - int32, sint32, int64, sint64, sfixed32, sfixed64 are encoded as fixed width bytes with
-   * an encoding that enables sorted iteration.
-   * - google.protobuf.Timestamp and google.protobuf.Duration are encoded
-   * as 12 bytes using an encoding that enables sorted iteration.
-   * - enum fields are encoded using varint encoding and do not support sorted
-   * iteration.
-   * - bool fields are encoded as a single byte 0 or 1.
+   *   - uint32 are encoded as 2,3,4 or 5 bytes using a compact encoding that
+   *     is suitable for sorted iteration (not varint encoding). This type is
+   *     well-suited for small integers.
+   *   - uint64 are encoded as 2,4,6 or 9 bytes using a compact encoding that
+   *     is suitable for sorted iteration (not varint encoding). This type is
+   *     well-suited for small integers such as auto-incrementing sequences.
+   *   - fixed32, fixed64 are encoded as big-endian fixed width bytes and support
+   *   sorted iteration. These types are well-suited for encoding fixed with
+   *   decimals as integers.
+   *   - string's are encoded as raw bytes in terminal key segments and null-terminated
+   *   in non-terminal segments. Null characters are thus forbidden in strings.
+   *   string fields support sorted iteration.
+   *   - bytes are encoded as raw bytes in terminal segments and length-prefixed
+   *   with a 32-bit unsigned varint in non-terminal segments.
+   *   - int32, sint32, int64, sint64, sfixed32, sfixed64 are encoded as fixed width bytes with
+   *   an encoding that enables sorted iteration.
+   *   - google.protobuf.Timestamp and google.protobuf.Duration are encoded
+   *   as 12 bytes using an encoding that enables sorted iteration.
+   *   - enum fields are encoded using varint encoding and do not support sorted
+   *   iteration.
+   *   - bool fields are encoded as a single byte 0 or 1.
    * 
    * All other fields types are unsupported in keys including repeated and
    * oneof fields.

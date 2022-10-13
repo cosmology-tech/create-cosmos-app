@@ -3,7 +3,7 @@ import { Consensus, ConsensusSDKType } from "../version/types";
 import { Timestamp } from "../../google/protobuf/timestamp";
 import { ValidatorSet, ValidatorSetSDKType } from "./validator";
 import * as _m0 from "protobufjs/minimal";
-import { toTimestamp, Long, fromTimestamp } from "@osmonauts/helpers";
+import { toTimestamp, Long, fromTimestamp } from "../../helpers";
 /** BlockIdFlag indicates which BlcokID the signature is for */
 
 export enum BlockIDFlag {
@@ -60,8 +60,9 @@ export function blockIDFlagToJSON(object: BlockIDFlag): string {
     case BlockIDFlag.BLOCK_ID_FLAG_NIL:
       return "BLOCK_ID_FLAG_NIL";
 
+    case BlockIDFlag.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /** SignedMsgType is a type of signed message in the consensus. */
@@ -128,8 +129,9 @@ export function signedMsgTypeToJSON(object: SignedMsgType): string {
     case SignedMsgType.SIGNED_MSG_TYPE_PROPOSAL:
       return "SIGNED_MSG_TYPE_PROPOSAL";
 
+    case SignedMsgType.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /** PartsetHeader */
@@ -147,36 +149,36 @@ export interface PartSetHeaderSDKType {
 export interface Part {
   index: number;
   bytes: Uint8Array;
-  proof: Proof | undefined;
+  proof?: Proof | undefined;
 }
 export interface PartSDKType {
   index: number;
   bytes: Uint8Array;
-  proof: ProofSDKType | undefined;
+  proof?: ProofSDKType | undefined;
 }
 /** BlockID */
 
 export interface BlockID {
   hash: Uint8Array;
-  partSetHeader: PartSetHeader | undefined;
+  partSetHeader?: PartSetHeader | undefined;
 }
 /** BlockID */
 
 export interface BlockIDSDKType {
   hash: Uint8Array;
-  part_set_header: PartSetHeaderSDKType | undefined;
+  part_set_header?: PartSetHeaderSDKType | undefined;
 }
 /** Header defines the structure of a Tendermint block header. */
 
 export interface Header {
   /** basic block info */
-  version: Consensus | undefined;
+  version?: Consensus | undefined;
   chainId: string;
   height: Long;
-  time: Date | undefined;
+  time?: Date | undefined;
   /** prev block info */
 
-  lastBlockId: BlockID | undefined;
+  lastBlockId?: BlockID | undefined;
   /** hashes of block data */
 
   lastCommitHash: Uint8Array;
@@ -205,13 +207,13 @@ export interface Header {
 
 export interface HeaderSDKType {
   /** basic block info */
-  version: ConsensusSDKType | undefined;
+  version?: ConsensusSDKType | undefined;
   chain_id: string;
   height: Long;
-  time: Date | undefined;
+  time?: Date | undefined;
   /** prev block info */
 
-  last_block_id: BlockIDSDKType | undefined;
+  last_block_id?: BlockIDSDKType | undefined;
   /** hashes of block data */
 
   last_commit_hash: Uint8Array;
@@ -267,8 +269,8 @@ export interface Vote {
   round: number;
   /** zero if vote is nil. */
 
-  blockId: BlockID | undefined;
-  timestamp: Date | undefined;
+  blockId?: BlockID | undefined;
+  timestamp?: Date | undefined;
   validatorAddress: Uint8Array;
   validatorIndex: number;
   signature: Uint8Array;
@@ -284,8 +286,8 @@ export interface VoteSDKType {
   round: number;
   /** zero if vote is nil. */
 
-  block_id: BlockIDSDKType | undefined;
-  timestamp: Date | undefined;
+  block_id?: BlockIDSDKType | undefined;
+  timestamp?: Date | undefined;
   validator_address: Uint8Array;
   validator_index: number;
   signature: Uint8Array;
@@ -295,7 +297,7 @@ export interface VoteSDKType {
 export interface Commit {
   height: Long;
   round: number;
-  blockId: BlockID | undefined;
+  blockId?: BlockID | undefined;
   signatures: CommitSig[];
 }
 /** Commit contains the evidence that a block was committed by a set of validators. */
@@ -303,7 +305,7 @@ export interface Commit {
 export interface CommitSDKType {
   height: Long;
   round: number;
-  block_id: BlockIDSDKType | undefined;
+  block_id?: BlockIDSDKType | undefined;
   signatures: CommitSigSDKType[];
 }
 /** CommitSig is a part of the Vote included in a Commit. */
@@ -311,7 +313,7 @@ export interface CommitSDKType {
 export interface CommitSig {
   blockIdFlag: BlockIDFlag;
   validatorAddress: Uint8Array;
-  timestamp: Date | undefined;
+  timestamp?: Date | undefined;
   signature: Uint8Array;
 }
 /** CommitSig is a part of the Vote included in a Commit. */
@@ -319,7 +321,7 @@ export interface CommitSig {
 export interface CommitSigSDKType {
   block_id_flag: BlockIDFlagSDKType;
   validator_address: Uint8Array;
-  timestamp: Date | undefined;
+  timestamp?: Date | undefined;
   signature: Uint8Array;
 }
 export interface Proposal {
@@ -327,8 +329,8 @@ export interface Proposal {
   height: Long;
   round: number;
   polRound: number;
-  blockId: BlockID | undefined;
-  timestamp: Date | undefined;
+  blockId?: BlockID | undefined;
+  timestamp?: Date | undefined;
   signature: Uint8Array;
 }
 export interface ProposalSDKType {
@@ -336,36 +338,36 @@ export interface ProposalSDKType {
   height: Long;
   round: number;
   pol_round: number;
-  block_id: BlockIDSDKType | undefined;
-  timestamp: Date | undefined;
+  block_id?: BlockIDSDKType | undefined;
+  timestamp?: Date | undefined;
   signature: Uint8Array;
 }
 export interface SignedHeader {
-  header: Header | undefined;
-  commit: Commit | undefined;
+  header?: Header | undefined;
+  commit?: Commit | undefined;
 }
 export interface SignedHeaderSDKType {
-  header: HeaderSDKType | undefined;
-  commit: CommitSDKType | undefined;
+  header?: HeaderSDKType | undefined;
+  commit?: CommitSDKType | undefined;
 }
 export interface LightBlock {
-  signedHeader: SignedHeader | undefined;
-  validatorSet: ValidatorSet | undefined;
+  signedHeader?: SignedHeader | undefined;
+  validatorSet?: ValidatorSet | undefined;
 }
 export interface LightBlockSDKType {
-  signed_header: SignedHeaderSDKType | undefined;
-  validator_set: ValidatorSetSDKType | undefined;
+  signed_header?: SignedHeaderSDKType | undefined;
+  validator_set?: ValidatorSetSDKType | undefined;
 }
 export interface BlockMeta {
-  blockId: BlockID | undefined;
+  blockId?: BlockID | undefined;
   blockSize: Long;
-  header: Header | undefined;
+  header?: Header | undefined;
   numTxs: Long;
 }
 export interface BlockMetaSDKType {
-  block_id: BlockIDSDKType | undefined;
+  block_id?: BlockIDSDKType | undefined;
   block_size: Long;
-  header: HeaderSDKType | undefined;
+  header?: HeaderSDKType | undefined;
   num_txs: Long;
 }
 /** TxProof represents a Merkle proof of the presence of a transaction in the Merkle tree. */
@@ -373,14 +375,14 @@ export interface BlockMetaSDKType {
 export interface TxProof {
   rootHash: Uint8Array;
   data: Uint8Array;
-  proof: Proof | undefined;
+  proof?: Proof | undefined;
 }
 /** TxProof represents a Merkle proof of the presence of a transaction in the Merkle tree. */
 
 export interface TxProofSDKType {
   root_hash: Uint8Array;
   data: Uint8Array;
-  proof: ProofSDKType | undefined;
+  proof?: ProofSDKType | undefined;
 }
 
 function createBasePartSetHeader(): PartSetHeader {

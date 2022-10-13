@@ -140,8 +140,9 @@ export function storageTypeToJSON(object: StorageType): string {
     case StorageType.STORAGE_TYPE_COMMITMENT:
       return "STORAGE_TYPE_COMMITMENT";
 
+    case StorageType.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /** ModuleSchemaDescriptor describe's a module's ORM schema. */

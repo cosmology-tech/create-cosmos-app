@@ -1,4 +1,4 @@
-import { setPaginationParams } from "@osmonauts/helpers";
+import { setPaginationParams } from "../../../helpers";
 import { LCDClient } from "@osmonauts/lcd";
 import { GetTxRequest, GetTxResponseSDKType, GetTxsEventRequest, GetTxsEventResponseSDKType, GetBlockWithTxsRequest, GetBlockWithTxsResponseSDKType } from "./service";
 export class LCDQueryClient {
@@ -46,7 +46,7 @@ export class LCDQueryClient {
   }
   /* GetBlockWithTxs fetches a block with decoded txs.
   
-  Since: cosmos-sdk 0.45.2 */
+   Since: cosmos-sdk 0.45.2 */
 
 
   async getBlockWithTxs(params: GetBlockWithTxsRequest): Promise<GetBlockWithTxsResponseSDKType> {

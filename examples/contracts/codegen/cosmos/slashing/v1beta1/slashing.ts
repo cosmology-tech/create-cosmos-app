@@ -1,7 +1,7 @@
 import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import * as _m0 from "protobufjs/minimal";
-import { toTimestamp, Long, fromTimestamp } from "@osmonauts/helpers";
+import { toTimestamp, Long, fromTimestamp } from "../../../helpers";
 /**
  * ValidatorSigningInfo defines a validator's signing info for monitoring their
  * liveness activity.
@@ -21,7 +21,7 @@ export interface ValidatorSigningInfo {
   indexOffset: Long;
   /** Timestamp until which the validator is jailed due to liveness downtime. */
 
-  jailedUntil: Date | undefined;
+  jailedUntil?: Date | undefined;
   /**
    * Whether or not a validator has been tombstoned (killed out of validator set). It is set
    * once the validator commits an equivocation or for any other configured misbehiavor.
@@ -54,7 +54,7 @@ export interface ValidatorSigningInfoSDKType {
   index_offset: Long;
   /** Timestamp until which the validator is jailed due to liveness downtime. */
 
-  jailed_until: Date | undefined;
+  jailed_until?: Date | undefined;
   /**
    * Whether or not a validator has been tombstoned (killed out of validator set). It is set
    * once the validator commits an equivocation or for any other configured misbehiavor.
@@ -73,7 +73,7 @@ export interface ValidatorSigningInfoSDKType {
 export interface Params {
   signedBlocksWindow: Long;
   minSignedPerWindow: Uint8Array;
-  downtimeJailDuration: Duration | undefined;
+  downtimeJailDuration?: Duration | undefined;
   slashFractionDoubleSign: Uint8Array;
   slashFractionDowntime: Uint8Array;
 }
@@ -82,7 +82,7 @@ export interface Params {
 export interface ParamsSDKType {
   signed_blocks_window: Long;
   min_signed_per_window: Uint8Array;
-  downtime_jail_duration: DurationSDKType | undefined;
+  downtime_jail_duration?: DurationSDKType | undefined;
   slash_fraction_double_sign: Uint8Array;
   slash_fraction_downtime: Uint8Array;
 }
@@ -259,7 +259,7 @@ export const Params = {
     const message = createBaseParams();
     message.signedBlocksWindow = object.signedBlocksWindow !== undefined && object.signedBlocksWindow !== null ? Long.fromValue(object.signedBlocksWindow) : Long.ZERO;
     message.minSignedPerWindow = object.minSignedPerWindow ?? new Uint8Array();
-    message.downtimeJailDuration = object.downtimeJailDuration ?? undefined;
+    message.downtimeJailDuration = object.downtimeJailDuration !== undefined && object.downtimeJailDuration !== null ? Duration.fromPartial(object.downtimeJailDuration) : undefined;
     message.slashFractionDoubleSign = object.slashFractionDoubleSign ?? new Uint8Array();
     message.slashFractionDowntime = object.slashFractionDowntime ?? new Uint8Array();
     return message;

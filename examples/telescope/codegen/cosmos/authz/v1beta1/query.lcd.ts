@@ -1,4 +1,4 @@
-import { setPaginationParams } from "@osmonauts/helpers";
+import { setPaginationParams } from "../../../helpers";
 import { LCDClient } from "@osmonauts/lcd";
 import { QueryGrantsRequest, QueryGrantsResponseSDKType, QueryGranterGrantsRequest, QueryGranterGrantsResponseSDKType, QueryGranteeGrantsRequest, QueryGranteeGrantsResponseSDKType } from "./query";
 export class LCDQueryClient {
@@ -43,7 +43,7 @@ export class LCDQueryClient {
   }
   /* GranterGrants returns list of `GrantAuthorization`, granted by granter.
   
-  Since: cosmos-sdk 0.46 */
+   Since: cosmos-sdk 0.46 */
 
 
   async granterGrants(params: QueryGranterGrantsRequest): Promise<QueryGranterGrantsResponseSDKType> {
@@ -60,7 +60,7 @@ export class LCDQueryClient {
   }
   /* GranteeGrants returns a list of `GrantAuthorization` by grantee.
   
-  Since: cosmos-sdk 0.46 */
+   Since: cosmos-sdk 0.46 */
 
 
   async granteeGrants(params: QueryGranteeGrantsRequest): Promise<QueryGranteeGrantsResponseSDKType> {

@@ -4,19 +4,19 @@ import * as _m0 from "protobufjs/minimal";
 
 export interface GenesisState {
   /** minter is a space for holding current inflation information. */
-  minter: Minter | undefined;
+  minter?: Minter | undefined;
   /** params defines all the paramaters of the module. */
 
-  params: Params | undefined;
+  params?: Params | undefined;
 }
 /** GenesisState defines the mint module's genesis state. */
 
 export interface GenesisStateSDKType {
   /** minter is a space for holding current inflation information. */
-  minter: MinterSDKType | undefined;
+  minter?: MinterSDKType | undefined;
   /** params defines all the paramaters of the module. */
 
-  params: ParamsSDKType | undefined;
+  params?: ParamsSDKType | undefined;
 }
 
 function createBaseGenesisState(): GenesisState {

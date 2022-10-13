@@ -114,7 +114,7 @@ export const MsgSendResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSendResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSendResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgSendResponse();
@@ -203,7 +203,7 @@ export const MsgMultiSendResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgMultiSendResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgMultiSendResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgMultiSendResponse();

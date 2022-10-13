@@ -10,25 +10,25 @@ import * as _m0 from "protobufjs/minimal";
 
 export interface GenesisState {
   /** ICS002 - Clients genesis state */
-  clientGenesis: GenesisState1 | undefined;
+  clientGenesis?: GenesisState1 | undefined;
   /** ICS003 - Connections genesis state */
 
-  connectionGenesis: GenesisState2 | undefined;
+  connectionGenesis?: GenesisState2 | undefined;
   /** ICS004 - Channel genesis state */
 
-  channelGenesis: GenesisState3 | undefined;
+  channelGenesis?: GenesisState3 | undefined;
 }
 /** GenesisState defines the ibc module's genesis state. */
 
 export interface GenesisStateSDKType {
   /** ICS002 - Clients genesis state */
-  client_genesis: GenesisState1SDKType | undefined;
+  client_genesis?: GenesisState1SDKType | undefined;
   /** ICS003 - Connections genesis state */
 
-  connection_genesis: GenesisState2SDKType | undefined;
+  connection_genesis?: GenesisState2SDKType | undefined;
   /** ICS004 - Channel genesis state */
 
-  channel_genesis: GenesisState3SDKType | undefined;
+  channel_genesis?: GenesisState3SDKType | undefined;
 }
 
 function createBaseGenesisState(): GenesisState {
@@ -88,9 +88,9 @@ export const GenesisState = {
 
   fromPartial(object: Partial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.clientGenesis = object.clientGenesis !== undefined && object.clientGenesis !== null ? GenesisState.fromPartial(object.clientGenesis) : undefined;
-    message.connectionGenesis = object.connectionGenesis !== undefined && object.connectionGenesis !== null ? GenesisState.fromPartial(object.connectionGenesis) : undefined;
-    message.channelGenesis = object.channelGenesis !== undefined && object.channelGenesis !== null ? GenesisState.fromPartial(object.channelGenesis) : undefined;
+    message.clientGenesis = object.clientGenesis !== undefined && object.clientGenesis !== null ? GenesisState1.fromPartial(object.clientGenesis) : undefined;
+    message.connectionGenesis = object.connectionGenesis !== undefined && object.connectionGenesis !== null ? GenesisState2.fromPartial(object.connectionGenesis) : undefined;
+    message.channelGenesis = object.channelGenesis !== undefined && object.channelGenesis !== null ? GenesisState3.fromPartial(object.channelGenesis) : undefined;
     return message;
   }
 

@@ -8,42 +8,42 @@ import * as _m0 from "protobufjs/minimal";
  * 
  * Example 1: Pack and unpack a message in C++.
  * 
- * Foo foo = ...;
- * Any any;
- * any.PackFrom(foo);
- * ...
- * if (any.UnpackTo(&foo)) {
- * ...
- * }
+ *     Foo foo = ...;
+ *     Any any;
+ *     any.PackFrom(foo);
+ *     ...
+ *     if (any.UnpackTo(&foo)) {
+ *       ...
+ *     }
  * 
  * Example 2: Pack and unpack a message in Java.
  * 
- * Foo foo = ...;
- * Any any = Any.pack(foo);
- * ...
- * if (any.is(Foo.class)) {
- * foo = any.unpack(Foo.class);
- * }
+ *     Foo foo = ...;
+ *     Any any = Any.pack(foo);
+ *     ...
+ *     if (any.is(Foo.class)) {
+ *       foo = any.unpack(Foo.class);
+ *     }
  * 
- * Example 3: Pack and unpack a message in Python.
+ *  Example 3: Pack and unpack a message in Python.
  * 
- * foo = Foo(...)
- * any = Any()
- * any.Pack(foo)
- * ...
- * if any.Is(Foo.DESCRIPTOR):
- * any.Unpack(foo)
- * ...
+ *     foo = Foo(...)
+ *     any = Any()
+ *     any.Pack(foo)
+ *     ...
+ *     if any.Is(Foo.DESCRIPTOR):
+ *       any.Unpack(foo)
+ *       ...
  * 
- * Example 4: Pack and unpack a message in Go
+ *  Example 4: Pack and unpack a message in Go
  * 
- * foo := &pb.Foo{...}
- * any, err := ptypes.MarshalAny(foo)
- * ...
- * foo := &pb.Foo{}
- * if err := ptypes.UnmarshalAny(any, foo); err != nil {
- * ...
- * }
+ *      foo := &pb.Foo{...}
+ *      any, err := ptypes.MarshalAny(foo)
+ *      ...
+ *      foo := &pb.Foo{}
+ *      if err := ptypes.UnmarshalAny(any, foo); err != nil {
+ *        ...
+ *      }
  * 
  * The pack methods provided by protobuf library will by default use
  * 'type.googleapis.com/full.type.name' as the type URL and the unpack
@@ -58,27 +58,27 @@ import * as _m0 from "protobufjs/minimal";
  * representation of the deserialized, embedded message, with an
  * additional field `@type` which contains the type URL. Example:
  * 
- * package google.profile;
- * message Person {
- * string first_name = 1;
- * string last_name = 2;
- * }
+ *     package google.profile;
+ *     message Person {
+ *       string first_name = 1;
+ *       string last_name = 2;
+ *     }
  * 
- * {
- * "@type": "type.googleapis.com/google.profile.Person",
- * "firstName": <string>,
- * "lastName": <string>
- * }
+ *     {
+ *       "@type": "type.googleapis.com/google.profile.Person",
+ *       "firstName": <string>,
+ *       "lastName": <string>
+ *     }
  * 
  * If the embedded message type is well-known and has a custom JSON
  * representation, that representation will be embedded adding a field
  * `value` which holds the custom JSON in addition to the `@type`
  * field. Example (for message [google.protobuf.Duration][]):
  * 
- * {
- * "@type": "type.googleapis.com/google.protobuf.Duration",
- * "value": "1.212s"
- * }
+ *     {
+ *       "@type": "type.googleapis.com/google.protobuf.Duration",
+ *       "value": "1.212s"
+ *     }
  */
 
 export interface Any {
@@ -97,12 +97,12 @@ export interface Any {
    * 
    * * If no scheme is provided, `https` is assumed.
    * * An HTTP GET on the URL must yield a [google.protobuf.Type][]
-   * value in binary format, or produce an error.
+   *   value in binary format, or produce an error.
    * * Applications are allowed to cache lookup results based on the
-   * URL, or have them precompiled into a binary to avoid any
-   * lookup. Therefore, binary compatibility needs to be preserved
-   * on changes to types. (Use versioned type names to manage
-   * breaking changes.)
+   *   URL, or have them precompiled into a binary to avoid any
+   *   lookup. Therefore, binary compatibility needs to be preserved
+   *   on changes to types. (Use versioned type names to manage
+   *   breaking changes.)
    * 
    * Note: this functionality is not currently available in the official
    * protobuf release, and it is not used for type URLs beginning with
@@ -125,42 +125,42 @@ export interface Any {
  * 
  * Example 1: Pack and unpack a message in C++.
  * 
- * Foo foo = ...;
- * Any any;
- * any.PackFrom(foo);
- * ...
- * if (any.UnpackTo(&foo)) {
- * ...
- * }
+ *     Foo foo = ...;
+ *     Any any;
+ *     any.PackFrom(foo);
+ *     ...
+ *     if (any.UnpackTo(&foo)) {
+ *       ...
+ *     }
  * 
  * Example 2: Pack and unpack a message in Java.
  * 
- * Foo foo = ...;
- * Any any = Any.pack(foo);
- * ...
- * if (any.is(Foo.class)) {
- * foo = any.unpack(Foo.class);
- * }
+ *     Foo foo = ...;
+ *     Any any = Any.pack(foo);
+ *     ...
+ *     if (any.is(Foo.class)) {
+ *       foo = any.unpack(Foo.class);
+ *     }
  * 
- * Example 3: Pack and unpack a message in Python.
+ *  Example 3: Pack and unpack a message in Python.
  * 
- * foo = Foo(...)
- * any = Any()
- * any.Pack(foo)
- * ...
- * if any.Is(Foo.DESCRIPTOR):
- * any.Unpack(foo)
- * ...
+ *     foo = Foo(...)
+ *     any = Any()
+ *     any.Pack(foo)
+ *     ...
+ *     if any.Is(Foo.DESCRIPTOR):
+ *       any.Unpack(foo)
+ *       ...
  * 
- * Example 4: Pack and unpack a message in Go
+ *  Example 4: Pack and unpack a message in Go
  * 
- * foo := &pb.Foo{...}
- * any, err := ptypes.MarshalAny(foo)
- * ...
- * foo := &pb.Foo{}
- * if err := ptypes.UnmarshalAny(any, foo); err != nil {
- * ...
- * }
+ *      foo := &pb.Foo{...}
+ *      any, err := ptypes.MarshalAny(foo)
+ *      ...
+ *      foo := &pb.Foo{}
+ *      if err := ptypes.UnmarshalAny(any, foo); err != nil {
+ *        ...
+ *      }
  * 
  * The pack methods provided by protobuf library will by default use
  * 'type.googleapis.com/full.type.name' as the type URL and the unpack
@@ -175,27 +175,27 @@ export interface Any {
  * representation of the deserialized, embedded message, with an
  * additional field `@type` which contains the type URL. Example:
  * 
- * package google.profile;
- * message Person {
- * string first_name = 1;
- * string last_name = 2;
- * }
+ *     package google.profile;
+ *     message Person {
+ *       string first_name = 1;
+ *       string last_name = 2;
+ *     }
  * 
- * {
- * "@type": "type.googleapis.com/google.profile.Person",
- * "firstName": <string>,
- * "lastName": <string>
- * }
+ *     {
+ *       "@type": "type.googleapis.com/google.profile.Person",
+ *       "firstName": <string>,
+ *       "lastName": <string>
+ *     }
  * 
  * If the embedded message type is well-known and has a custom JSON
  * representation, that representation will be embedded adding a field
  * `value` which holds the custom JSON in addition to the `@type`
  * field. Example (for message [google.protobuf.Duration][]):
  * 
- * {
- * "@type": "type.googleapis.com/google.protobuf.Duration",
- * "value": "1.212s"
- * }
+ *     {
+ *       "@type": "type.googleapis.com/google.protobuf.Duration",
+ *       "value": "1.212s"
+ *     }
  */
 
 export interface AnySDKType {
@@ -214,12 +214,12 @@ export interface AnySDKType {
    * 
    * * If no scheme is provided, `https` is assumed.
    * * An HTTP GET on the URL must yield a [google.protobuf.Type][]
-   * value in binary format, or produce an error.
+   *   value in binary format, or produce an error.
    * * Applications are allowed to cache lookup results based on the
-   * URL, or have them precompiled into a binary to avoid any
-   * lookup. Therefore, binary compatibility needs to be preserved
-   * on changes to types. (Use versioned type names to manage
-   * breaking changes.)
+   *   URL, or have them precompiled into a binary to avoid any
+   *   lookup. Therefore, binary compatibility needs to be preserved
+   *   on changes to types. (Use versioned type names to manage
+   *   breaking changes.)
    * 
    * Note: this functionality is not currently available in the official
    * protobuf release, and it is not used for type URLs beginning with

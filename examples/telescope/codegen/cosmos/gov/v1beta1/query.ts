@@ -1,7 +1,7 @@
 import { ProposalStatus, ProposalStatusSDKType, Proposal, ProposalSDKType, Vote, VoteSDKType, VotingParams, VotingParamsSDKType, DepositParams, DepositParamsSDKType, TallyParams, TallyParamsSDKType, Deposit, DepositSDKType, TallyResult, TallyResultSDKType } from "./gov";
 import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../base/query/v1beta1/pagination";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** QueryProposalRequest is the request type for the Query/Proposal RPC method. */
 
 export interface QueryProposalRequest {
@@ -17,24 +17,24 @@ export interface QueryProposalRequestSDKType {
 /** QueryProposalResponse is the response type for the Query/Proposal RPC method. */
 
 export interface QueryProposalResponse {
-  proposal: Proposal | undefined;
+  proposal?: Proposal | undefined;
 }
 /** QueryProposalResponse is the response type for the Query/Proposal RPC method. */
 
 export interface QueryProposalResponseSDKType {
-  proposal: ProposalSDKType | undefined;
+  proposal?: ProposalSDKType | undefined;
 }
 /** QueryProposalsRequest is the request type for the Query/Proposals RPC method. */
 
 export interface QueryProposalsRequest {
   /** proposal_status defines the status of the proposals. */
-  proposalStatus?: ProposalStatus;
+  proposalStatus: ProposalStatus;
   /** voter defines the voter address for the proposals. */
 
-  voter?: string;
+  voter: string;
   /** depositor defines the deposit addresses from the proposals. */
 
-  depositor?: string;
+  depositor: string;
   /** pagination defines an optional pagination for the request. */
 
   pagination?: PageRequest | undefined;
@@ -43,13 +43,13 @@ export interface QueryProposalsRequest {
 
 export interface QueryProposalsRequestSDKType {
   /** proposal_status defines the status of the proposals. */
-  proposal_status?: ProposalStatusSDKType;
+  proposal_status: ProposalStatusSDKType;
   /** voter defines the voter address for the proposals. */
 
-  voter?: string;
+  voter: string;
   /** depositor defines the deposit addresses from the proposals. */
 
-  depositor?: string;
+  depositor: string;
   /** pagination defines an optional pagination for the request. */
 
   pagination?: PageRequestSDKType | undefined;
@@ -98,13 +98,13 @@ export interface QueryVoteRequestSDKType {
 
 export interface QueryVoteResponse {
   /** vote defined the queried vote. */
-  vote: Vote | undefined;
+  vote?: Vote | undefined;
 }
 /** QueryVoteResponse is the response type for the Query/Vote RPC method. */
 
 export interface QueryVoteResponseSDKType {
   /** vote defined the queried vote. */
-  vote: VoteSDKType | undefined;
+  vote?: VoteSDKType | undefined;
 }
 /** QueryVotesRequest is the request type for the Query/Votes RPC method. */
 
@@ -164,25 +164,25 @@ export interface QueryParamsRequestSDKType {
 
 export interface QueryParamsResponse {
   /** voting_params defines the parameters related to voting. */
-  votingParams: VotingParams | undefined;
+  votingParams?: VotingParams | undefined;
   /** deposit_params defines the parameters related to deposit. */
 
-  depositParams: DepositParams | undefined;
+  depositParams?: DepositParams | undefined;
   /** tally_params defines the parameters related to tally. */
 
-  tallyParams: TallyParams | undefined;
+  tallyParams?: TallyParams | undefined;
 }
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 
 export interface QueryParamsResponseSDKType {
   /** voting_params defines the parameters related to voting. */
-  voting_params: VotingParamsSDKType | undefined;
+  voting_params?: VotingParamsSDKType | undefined;
   /** deposit_params defines the parameters related to deposit. */
 
-  deposit_params: DepositParamsSDKType | undefined;
+  deposit_params?: DepositParamsSDKType | undefined;
   /** tally_params defines the parameters related to tally. */
 
-  tally_params: TallyParamsSDKType | undefined;
+  tally_params?: TallyParamsSDKType | undefined;
 }
 /** QueryDepositRequest is the request type for the Query/Deposit RPC method. */
 
@@ -206,13 +206,13 @@ export interface QueryDepositRequestSDKType {
 
 export interface QueryDepositResponse {
   /** deposit defines the requested deposit. */
-  deposit: Deposit | undefined;
+  deposit?: Deposit | undefined;
 }
 /** QueryDepositResponse is the response type for the Query/Deposit RPC method. */
 
 export interface QueryDepositResponseSDKType {
   /** deposit defines the requested deposit. */
-  deposit: DepositSDKType | undefined;
+  deposit?: DepositSDKType | undefined;
 }
 /** QueryDepositsRequest is the request type for the Query/Deposits RPC method. */
 
@@ -264,13 +264,13 @@ export interface QueryTallyResultRequestSDKType {
 
 export interface QueryTallyResultResponse {
   /** tally defines the requested tally. */
-  tally: TallyResult | undefined;
+  tally?: TallyResult | undefined;
 }
 /** QueryTallyResultResponse is the response type for the Query/Tally RPC method. */
 
 export interface QueryTallyResultResponseSDKType {
   /** tally defines the requested tally. */
-  tally: TallyResultSDKType | undefined;
+  tally?: TallyResultSDKType | undefined;
 }
 
 function createBaseQueryProposalRequest(): QueryProposalRequest {
@@ -333,7 +333,7 @@ export const QueryProposalResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProposalResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProposalResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryProposalResponse();
@@ -458,7 +458,7 @@ export const QueryProposalsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProposalsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProposalsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryProposalsResponse();
@@ -563,7 +563,7 @@ export const QueryVoteResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryVoteResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryVoteResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryVoteResponse();
@@ -668,7 +668,7 @@ export const QueryVotesResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryVotesResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryVotesResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryVotesResponse();
@@ -773,7 +773,7 @@ export const QueryParamsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();
@@ -883,7 +883,7 @@ export const QueryDepositResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDepositResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDepositResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDepositResponse();
@@ -988,7 +988,7 @@ export const QueryDepositsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDepositsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDepositsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDepositsResponse();
@@ -1083,7 +1083,7 @@ export const QueryTallyResultResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTallyResultResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTallyResultResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTallyResultResponse();

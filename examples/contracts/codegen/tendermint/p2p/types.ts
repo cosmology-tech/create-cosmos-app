@@ -1,6 +1,6 @@
 import { Timestamp } from "../../google/protobuf/timestamp";
 import * as _m0 from "protobufjs/minimal";
-import { Long, toTimestamp, fromTimestamp } from "@osmonauts/helpers";
+import { Long, toTimestamp, fromTimestamp } from "../../helpers";
 export interface ProtocolVersion {
   p2p: Long;
   block: Long;
@@ -12,24 +12,24 @@ export interface ProtocolVersionSDKType {
   app: Long;
 }
 export interface NodeInfo {
-  protocolVersion: ProtocolVersion | undefined;
+  protocolVersion?: ProtocolVersion | undefined;
   nodeId: string;
   listenAddr: string;
   network: string;
   version: string;
   channels: Uint8Array;
   moniker: string;
-  other: NodeInfoOther | undefined;
+  other?: NodeInfoOther | undefined;
 }
 export interface NodeInfoSDKType {
-  protocol_version: ProtocolVersionSDKType | undefined;
+  protocol_version?: ProtocolVersionSDKType | undefined;
   node_id: string;
   listen_addr: string;
   network: string;
   version: string;
   channels: Uint8Array;
   moniker: string;
-  other: NodeInfoOtherSDKType | undefined;
+  other?: NodeInfoOtherSDKType | undefined;
 }
 export interface NodeInfoOther {
   txIndex: string;
@@ -42,23 +42,23 @@ export interface NodeInfoOtherSDKType {
 export interface PeerInfo {
   id: string;
   addressInfo: PeerAddressInfo[];
-  lastConnected: Date | undefined;
+  lastConnected?: Date | undefined;
 }
 export interface PeerInfoSDKType {
   id: string;
   address_info: PeerAddressInfoSDKType[];
-  last_connected: Date | undefined;
+  last_connected?: Date | undefined;
 }
 export interface PeerAddressInfo {
   address: string;
-  lastDialSuccess: Date | undefined;
-  lastDialFailure: Date | undefined;
+  lastDialSuccess?: Date | undefined;
+  lastDialFailure?: Date | undefined;
   dialFailures: number;
 }
 export interface PeerAddressInfoSDKType {
   address: string;
-  last_dial_success: Date | undefined;
-  last_dial_failure: Date | undefined;
+  last_dial_success?: Date | undefined;
+  last_dial_failure?: Date | undefined;
   dial_failures: number;
 }
 

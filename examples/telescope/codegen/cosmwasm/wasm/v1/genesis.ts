@@ -1,11 +1,11 @@
 import { MsgStoreCode, MsgStoreCodeSDKType, MsgInstantiateContract, MsgInstantiateContractSDKType, MsgExecuteContract, MsgExecuteContractSDKType } from "./tx";
 import { Params, ParamsSDKType, CodeInfo, CodeInfoSDKType, ContractInfo, ContractInfoSDKType, Model, ModelSDKType } from "./types";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** GenesisState - genesis state of x/wasm */
 
 export interface GenesisState {
-  params: Params | undefined;
+  params?: Params | undefined;
   codes: Code[];
   contracts: Contract[];
   sequences: Sequence[];
@@ -14,7 +14,7 @@ export interface GenesisState {
 /** GenesisState - genesis state of x/wasm */
 
 export interface GenesisStateSDKType {
-  params: ParamsSDKType | undefined;
+  params?: ParamsSDKType | undefined;
   codes: CodeSDKType[];
   contracts: ContractSDKType[];
   sequences: SequenceSDKType[];
@@ -44,7 +44,7 @@ export interface GenesisState_GenMsgsSDKType {
 
 export interface Code {
   codeId: Long;
-  codeInfo: CodeInfo | undefined;
+  codeInfo?: CodeInfo | undefined;
   codeBytes: Uint8Array;
   /** Pinned to wasmvm cache */
 
@@ -54,7 +54,7 @@ export interface Code {
 
 export interface CodeSDKType {
   code_id: Long;
-  code_info: CodeInfoSDKType | undefined;
+  code_info?: CodeInfoSDKType | undefined;
   code_bytes: Uint8Array;
   /** Pinned to wasmvm cache */
 
@@ -64,14 +64,14 @@ export interface CodeSDKType {
 
 export interface Contract {
   contractAddress: string;
-  contractInfo: ContractInfo | undefined;
+  contractInfo?: ContractInfo | undefined;
   contractState: Model[];
 }
 /** Contract struct encompasses ContractAddress, ContractInfo, and ContractState */
 
 export interface ContractSDKType {
   contract_address: string;
-  contract_info: ContractInfoSDKType | undefined;
+  contract_info?: ContractInfoSDKType | undefined;
   contract_state: ModelSDKType[];
 }
 /** Sequence key and value of an id generation counter */
