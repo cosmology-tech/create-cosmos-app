@@ -1,6 +1,6 @@
 {
   "name": "create-cosmwasm-app",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Set up a modern CosmWasm app by running one command ⚛️",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/cosmology-tech/create-cosmos-app#readme",
@@ -80,7 +80,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "create-cosmos-app": "^0.4.10",
+    "create-cosmos-app": "^0.4.11",
     "dargs": "7.0.0",
     "fuzzy": "0.1.3",
     "inquirerer": "0.1.3",
