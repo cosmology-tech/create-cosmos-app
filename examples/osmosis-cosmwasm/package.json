@@ -12,8 +12,8 @@
   "dependencies": {
     "@chain-registry/osmosis": "1.0.0",
     "@chain-registry/types": "0.11.0",
-    "@chakra-ui/icons": "2.0.10",
-    "@chakra-ui/react": "2.3.4",
+    "@chakra-ui/icons": "2.0.11",
+    "@chakra-ui/react": "2.3.5",
     "@cosmjs/cosmwasm-stargate": "0.29.2",
     "@cosmjs/stargate": "0.29.2",
     "@cosmos-kit/core": "0.19.3",
@@ -25,7 +25,7 @@
     "chain-registry": "1.0.0",
     "framer-motion": "7.3.6",
     "next": "12.2.5",
-    "osmojs": "0.32.0",
+    "osmojs": "0.33.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.4.0"
