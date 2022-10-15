@@ -8,17 +8,23 @@ import * as fs from 'fs';
 
 export const createGitApp = (repo: string) => {
     return async argv => {
-        const { name } = await prompt([
+        if (!shell.which('git')) {
+            shell.echo('Sorry, this script requires git');
+            return shell.exit(1);
+        }
+        if (!shell.which('yarn')) {
+            shell.echo('Sorry, this script requires yarn');
+            return shell.exit(1);
+        }
+        let { name } = await prompt([
             {
                 name: 'name',
                 message: 'Enter your new app name',
                 required: true,
             }
         ], argv);
-        if (!shell.which('git')) {
-            shell.echo('Sorry, this script requires git');
-            return shell.exit(1);
-        }
+        name = name.replace(/\s/g, '-');
+
         let folderName: 'templates' | 'examples' = 'templates';
         if (argv.examples || argv.example || argv.ex) {
             folderName = 'examples';
@@ -63,6 +69,8 @@ export const createGitApp = (repo: string) => {
         }
         shell.cd(currentDirecotry);
         shell.rm('-rf', dir);
+        shell.cd(`./${name}`);
+        shell.cd(`yarn`);
         console.log(`
         
                  |              _   _
@@ -72,7 +80,9 @@ ooO--(_)--Ooo-ooO--(_)--Ooo-ooO--(_)--Ooo-
 
 ✨ Have fun! Now you can start on your project ⚛️
 
-cd ./${name} && yarn && yarn dev
+run this command: 
+
+yarn dev
       `);
     };
 };
