@@ -1,4 +1,5 @@
 import * as shell from 'shelljs';
+import * as c from 'ansi-colors';
 import { prompt } from './prompt';
 import { join, dirname } from 'path';
 import { sync as mkdirp } from 'mkdirp';
@@ -71,6 +72,9 @@ export const createGitApp = (repo: string) => {
         shell.rm('-rf', dir);
         shell.cd(`./${name}`);
         shell.exec(`yarn`);
+        shell.cd(currentDirecotry);
+        const cmd = `cd ./${name} && yarn dev`;
+
         console.log(`
         
                  |              _   _
@@ -82,7 +86,7 @@ ooO--(_)--Ooo-ooO--(_)--Ooo-ooO--(_)--Ooo-
 
 Now, run this command: 
 
-yarn dev
+${c.bold.whiteBright(cmd)}
       `);
     };
 };
