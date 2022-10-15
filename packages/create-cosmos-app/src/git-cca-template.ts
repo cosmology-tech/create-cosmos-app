@@ -80,7 +80,7 @@ ooO--(_)--Ooo-ooO--(_)--Ooo-ooO--(_)--Ooo-
 
 ✨ Have fun! Now you can start on your project ⚛️
 
-run this command: 
+Now, run this command: 
 
 yarn dev
       `);
