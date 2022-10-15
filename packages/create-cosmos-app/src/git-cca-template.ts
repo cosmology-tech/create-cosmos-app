@@ -69,7 +69,7 @@ export const createGitApp = (repo: string) => {
         }
         shell.cd(currentDirecotry);
         shell.rm('-rf', dir);
-        shell.cd(`./${name}`);
+        shell.cd(`cd ./${name}`);
         shell.cd(`yarn`);
         console.log(`
         
