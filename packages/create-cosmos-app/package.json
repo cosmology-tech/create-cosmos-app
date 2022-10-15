@@ -1,6 +1,6 @@
 {
   "name": "create-cosmos-app",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Set up a modern Cosmos app by running one command ⚛️",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/cosmology-tech/create-cosmos-app#readme",
