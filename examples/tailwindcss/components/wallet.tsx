@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { MouseEventHandler, useEffect, useMemo } from 'react'
 import { ChainCard } from '../components'
 import { Address, truncate } from './react/views'
@@ -7,8 +9,8 @@ import {
   WalletIcon,
 } from '@heroicons/react/24/outline'
 import { useWallet } from '@cosmos-kit/react'
-import { ChainName, WalletStatus } from '@cosmos-kit/core'
-import { chainInfos } from '../config/chain-infos'
+import { WalletStatus } from '@cosmos-kit/core'
+import { chainName } from '../config';
 
 const buttons = {
   Disconnected: {
@@ -33,7 +35,7 @@ const buttons = {
   },
 }
 
-export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
+export const WalletSection = () => {
   const walletManager = useWallet()
   const {
     connect,
@@ -42,15 +44,26 @@ export const WalletSection = ({ chainName }: { chainName?: ChainName }) => {
     walletStatus,
     username,
     address,
-    currentWalletName,
-    chains,
-  } = walletManager
+    currentChainName,
+    currentChainRecord,
+    getChainLogo,
+    setCurrentChain
+  } = walletManager;
 
-  const chain = chainInfos.find((c) => c.chainName === chainName)
+  useEffect(() => {
+    setCurrentChain(chainName);
+  }, [setCurrentChain]);
+
+  const chain = {
+    chainName: currentChainName,
+    label: currentChainRecord?.chain.pretty_name,
+    value: currentChainName,
+    icon: getChainLogo(currentChainName)
+  }
 
   useEffect(() => {
     setCurrentChain(chainName)
-  }, [chainName, setCurrentChain])
+  }, [setCurrentChain])
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
