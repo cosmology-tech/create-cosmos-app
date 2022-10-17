@@ -28,8 +28,7 @@ import {
   ChainCard
 } from '../components';
 import { getWalletPrettyName } from '@cosmos-kit/config';
-import { assets as chainAssets } from 'chain-registry';
-import { ChainRecord } from '@cosmos-kit/core';
+import { assets as chainRegAssets } from 'chain-registry';
 
 export const WalletSection = () => {
   const walletManager = useWallet();
@@ -46,27 +45,27 @@ export const WalletSection = () => {
   } = walletManager;
 
   const chainName = currentChainName;
-
   const chain = useMemo(
     () => {
-      const getChain = (chainRecord: ChainRecord) => {
-        const assets = chainAssets.find(
-          (_chain) => _chain.chain_name === chainRecord.name
-        )?.assets;
-        return {
-          chainName: chainRecord.name,
-          label: chainRecord.chain.pretty_name,
-          value: chainRecord.name,
-          icon: assets
-            ? assets[0]?.logo_URIs?.svg || assets[0]?.logo_URIs?.png
-            : undefined,
-          disabled: false
-        };
+      const chainInfo = chains.find(chain => chain.chain.chain_name === chainName);
+      const chainAssets = chainRegAssets.find(assets => assets.chain_name === chainName);
+      return {
+        chainName: chainInfo?.chain.chain_name,
+        label: chainInfo?.chain.pretty_name,
+        value: chainInfo?.chain.chain_name,
+        icon:
+          chainInfo?.chain.logo_URIs?.svg ||
+          chainInfo?.chain.logo_URIs?.png ||
+          chainInfo?.chain.logo_URIs?.jpeg ||
+          chainAssets?.assets[0]?.logo_URIs?.svg ||
+          chainAssets?.assets[0]?.logo_URIs?.png
+          || undefined,
+        disabled: false
       }
-      return getChain(chains[0]);
     },
-    [chains]
+    [chains, chainName]
   );
+
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {

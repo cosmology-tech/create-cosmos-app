@@ -38,8 +38,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={defaultTheme}>
       <WalletProvider
-        chains={chains.filter(chain => chain.chain_name === chainName)}
-        assetLists={assets.filter(asset => asset.chain_name === chainName)}
+        chains={chains}
+        assetLists={assets}
         wallets={wallets}
         signerOptions={signerOptions}
       >
