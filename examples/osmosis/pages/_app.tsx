@@ -11,9 +11,6 @@ import { GasPrice } from '@cosmjs/stargate';
 import { SignerOptions } from '@cosmos-kit/core';
 import { Chain } from '@chain-registry/types';
 
-// const chainName = 'osmosis';
-const chainName = 'osmosistestnet';
-
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
     stargate: (_chain: Chain) => {
@@ -33,8 +30,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={defaultTheme}>
       <WalletProvider
-        chains={chains.filter(chain => chain.chain_name === chainName)}
-        assetLists={assets.filter(asset => asset.chain_name === chainName)}
+        chains={chains}
+        assetLists={assets}
         wallets={wallets}
         signerOptions={signerOptions}
       >
