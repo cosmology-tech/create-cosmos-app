@@ -8,7 +8,7 @@ import {
   Stack,
   useColorModeValue
 } from '@chakra-ui/react';
-import { MouseEventHandler, useMemo } from 'react';
+import { MouseEventHandler, useEffect, useMemo } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import {
   Astronaut,
@@ -28,41 +28,34 @@ import {
   RejectedWarn,
   WalletConnectComponent
 } from '../components';
-import { getWalletPrettyName } from '@cosmos-kit/config';
-import { assets as chainAssets } from 'chain-registry';
 
 export const WalletSection = () => {
   const walletManager = useWallet();
   const {
     connect,
     openView,
-    setCurrentChain,
     walletStatus,
     username,
     address,
     message,
-    currentChainName: chainName,
-    currentWalletName,
-    chains
+    currentChainName,
+    currentWallet,
+    chains,
+    getChainLogo,
+    setCurrentChain
   } = walletManager;
 
   const chainOptions = useMemo(
     () =>
       chains.map((chainRecord) => {
-        const assets = chainAssets.find(
-          (_chain) => _chain.chain_name === chainRecord.name
-        )?.assets;
         return {
-          chainName: chainRecord.name,
-          label: chainRecord.chain.pretty_name,
-          value: chainRecord.name,
-          icon: assets
-            ? assets[0]?.logo_URIs?.svg || assets[0]?.logo_URIs?.png
-            : undefined,
-          disabled: false
+          chainName: chainRecord?.name,
+          label: chainRecord?.chain.pretty_name,
+          value: chainRecord?.name,
+          icon: getChainLogo(chainRecord.name)
         };
       }),
-    [chains]
+    [chains, getChainLogo]
   );
 
   // Events
@@ -108,24 +101,20 @@ export const WalletSection = () => {
       rejected={
         <RejectedWarn
           icon={<Icon as={FiAlertTriangle} mt={1} />}
-          wordOfWarning={`${getWalletPrettyName(
-            currentWalletName
-          )}: ${message}`}
+          wordOfWarning={`${currentWallet?.walletInfo.prettyName}: ${message}`}
         />
       }
       error={
         <RejectedWarn
           icon={<Icon as={FiAlertTriangle} mt={1} />}
-          wordOfWarning={`${getWalletPrettyName(
-            currentWalletName
-          )}: ${message}`}
+          wordOfWarning={`${currentWallet?.walletInfo.prettyName}: ${message}`}
         />
       }
     />
   );
   const chooseChain = (
     <ChooseChain
-      chainName={chainName}
+      chainName={currentChainName}
       chainInfos={chainOptions}
       onChange={onChainChange}
     />
@@ -134,7 +123,7 @@ export const WalletSection = () => {
   const userInfo = (
     <ConnectedUserInfo username={username} icon={<Astronaut />} />
   );
-  const addressBtn = chainName && (
+  const addressBtn = currentChainName && (
     <CopyAddressBtn
       walletStatus={walletStatus}
       connected={<ConnectedShowAddress address={address} isLoading={false} />}

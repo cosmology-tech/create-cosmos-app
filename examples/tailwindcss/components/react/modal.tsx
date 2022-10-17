@@ -12,7 +12,7 @@ import {
   QRCode,
   WalletList
 } from './views';
-import { wallets } from '@cosmos-kit/config';
+import { wallets } from '@cosmos-kit/keplr';
 import { useRouter } from 'next/router';
 import Bowser from 'bowser';
 
@@ -43,16 +43,14 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
     });
   }, []);
 
-  const { setCurrentWallet, connect, walletStatus, currentWalletName } =
+  const { setCurrentWallet, connect, walletStatus, currentWalletName, currentWallet, getWallet } =
     useWallet();
 
   const [currentView, setCurrentView] = useState<ModalView>(
     ModalView.WalletList
   );
 
-  const currentWalletData = useMemo(() => {
-    return wallets.find((wallet) => wallet.name === currentWalletName);
-  }, [currentWalletName]);
+  const currentWalletData = currentWallet?.walletInfo;
 
   useEffect(() => {
     if (isOpen) {
@@ -86,11 +84,11 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
       // 1ms timeout prevents _render from determining the view to show first
       setTimeout(() => {
-        if (wallets.find((wallet) => wallet.name === name)?.isQRCode)
+        if (getWallet(name)?.walletInfo.isQRCode)
           setCurrentView(ModalView.QRCode);
       }, 1);
     },
-    [setCurrentWallet, connect]
+    [setCurrentWallet, connect, getWallet]
   );
 
   const onCloseModal = useCallback(() => {
