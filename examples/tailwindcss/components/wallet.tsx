@@ -40,7 +40,6 @@ export const WalletSection = () => {
   const {
     connect,
     openView,
-    setCurrentChain,
     walletStatus,
     username,
     address,
