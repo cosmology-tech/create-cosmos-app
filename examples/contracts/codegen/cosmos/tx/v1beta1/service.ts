@@ -4,7 +4,7 @@ import { TxResponse, TxResponseSDKType, GasInfo, GasInfoSDKType, Result, ResultS
 import { BlockID, BlockIDSDKType } from "../../../tendermint/types/types";
 import { Block, BlockSDKType } from "../../../tendermint/types/block";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** OrderBy defines the sorting order */
 
 export enum OrderBy {
@@ -62,8 +62,9 @@ export function orderByToJSON(object: OrderBy): string {
     case OrderBy.ORDER_BY_DESC:
       return "ORDER_BY_DESC";
 
+    case OrderBy.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /** BroadcastMode specifies the broadcast mode for the TxService.Broadcast RPC method. */
@@ -154,8 +155,9 @@ export function broadcastModeToJSON(object: BroadcastMode): string {
     case BroadcastMode.BROADCAST_MODE_ASYNC:
       return "BROADCAST_MODE_ASYNC";
 
+    case BroadcastMode.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /**
@@ -165,11 +167,11 @@ export function broadcastModeToJSON(object: BroadcastMode): string {
 
 export interface GetTxsEventRequest {
   /** events is the list of transaction event type. */
-  events?: string[];
+  events: string[];
   /** pagination defines a pagination for the request. */
 
   pagination?: PageRequest | undefined;
-  orderBy?: OrderBy;
+  orderBy: OrderBy;
 }
 /**
  * GetTxsEventRequest is the request type for the Service.TxsByEvents
@@ -178,11 +180,11 @@ export interface GetTxsEventRequest {
 
 export interface GetTxsEventRequestSDKType {
   /** events is the list of transaction event type. */
-  events?: string[];
+  events: string[];
   /** pagination defines a pagination for the request. */
 
   pagination?: PageRequestSDKType | undefined;
-  order_by?: OrderBySDKType;
+  order_by: OrderBySDKType;
 }
 /**
  * GetTxsEventResponse is the response type for the Service.TxsByEvents
@@ -241,7 +243,7 @@ export interface BroadcastTxRequestSDKType {
 
 export interface BroadcastTxResponse {
   /** tx_response is the queried TxResponses. */
-  txResponse: TxResponse | undefined;
+  txResponse?: TxResponse | undefined;
 }
 /**
  * BroadcastTxResponse is the response type for the
@@ -250,7 +252,7 @@ export interface BroadcastTxResponse {
 
 export interface BroadcastTxResponseSDKType {
   /** tx_response is the queried TxResponses. */
-  tx_response: TxResponseSDKType | undefined;
+  tx_response?: TxResponseSDKType | undefined;
 }
 /**
  * SimulateRequest is the request type for the Service.Simulate
@@ -264,7 +266,7 @@ export interface SimulateRequest {
    */
 
   /** @deprecated */
-  tx: Tx | undefined;
+  tx?: Tx | undefined;
   /**
    * tx_bytes is the raw transaction.
    * 
@@ -285,7 +287,7 @@ export interface SimulateRequestSDKType {
    */
 
   /** @deprecated */
-  tx: TxSDKType | undefined;
+  tx?: TxSDKType | undefined;
   /**
    * tx_bytes is the raw transaction.
    * 
@@ -301,10 +303,10 @@ export interface SimulateRequestSDKType {
 
 export interface SimulateResponse {
   /** gas_info is the information about gas used in the simulation. */
-  gasInfo: GasInfo | undefined;
+  gasInfo?: GasInfo | undefined;
   /** result is the result of the simulation. */
 
-  result: Result | undefined;
+  result?: Result | undefined;
 }
 /**
  * SimulateResponse is the response type for the
@@ -313,10 +315,10 @@ export interface SimulateResponse {
 
 export interface SimulateResponseSDKType {
   /** gas_info is the information about gas used in the simulation. */
-  gas_info: GasInfoSDKType | undefined;
+  gas_info?: GasInfoSDKType | undefined;
   /** result is the result of the simulation. */
 
-  result: ResultSDKType | undefined;
+  result?: ResultSDKType | undefined;
 }
 /**
  * GetTxRequest is the request type for the Service.GetTx
@@ -340,19 +342,19 @@ export interface GetTxRequestSDKType {
 
 export interface GetTxResponse {
   /** tx is the queried transaction. */
-  tx: Tx | undefined;
+  tx?: Tx | undefined;
   /** tx_response is the queried TxResponses. */
 
-  txResponse: TxResponse | undefined;
+  txResponse?: TxResponse | undefined;
 }
 /** GetTxResponse is the response type for the Service.GetTx method. */
 
 export interface GetTxResponseSDKType {
   /** tx is the queried transaction. */
-  tx: TxSDKType | undefined;
+  tx?: TxSDKType | undefined;
   /** tx_response is the queried TxResponses. */
 
-  tx_response: TxResponseSDKType | undefined;
+  tx_response?: TxResponseSDKType | undefined;
 }
 /**
  * GetBlockWithTxsRequest is the request type for the Service.GetBlockWithTxs
@@ -391,8 +393,8 @@ export interface GetBlockWithTxsRequestSDKType {
 export interface GetBlockWithTxsResponse {
   /** txs are the transactions in the block. */
   txs: Tx[];
-  blockId: BlockID | undefined;
-  block: Block | undefined;
+  blockId?: BlockID | undefined;
+  block?: Block | undefined;
   /** pagination defines a pagination for the response. */
 
   pagination?: PageResponse | undefined;
@@ -406,8 +408,8 @@ export interface GetBlockWithTxsResponse {
 export interface GetBlockWithTxsResponseSDKType {
   /** txs are the transactions in the block. */
   txs: TxSDKType[];
-  block_id: BlockIDSDKType | undefined;
-  block: BlockSDKType | undefined;
+  block_id?: BlockIDSDKType | undefined;
+  block?: BlockSDKType | undefined;
   /** pagination defines a pagination for the response. */
 
   pagination?: PageResponseSDKType | undefined;
@@ -503,7 +505,7 @@ export const GetTxsEventResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetTxsEventResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetTxsEventResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetTxsEventResponse();
@@ -613,7 +615,7 @@ export const BroadcastTxResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): BroadcastTxResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): BroadcastTxResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBroadcastTxResponse();
@@ -718,7 +720,7 @@ export const SimulateResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): SimulateResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): SimulateResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSimulateResponse();
@@ -818,7 +820,7 @@ export const GetTxResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetTxResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetTxResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetTxResponse();
@@ -938,7 +940,7 @@ export const GetBlockWithTxsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetBlockWithTxsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetBlockWithTxsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetBlockWithTxsResponse();

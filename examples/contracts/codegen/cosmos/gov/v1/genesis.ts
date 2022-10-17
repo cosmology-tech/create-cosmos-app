@@ -1,6 +1,6 @@
 import { Deposit, DepositSDKType, Vote, VoteSDKType, Proposal, ProposalSDKType, DepositParams, DepositParamsSDKType, VotingParams, VotingParamsSDKType, TallyParams, TallyParamsSDKType } from "./gov";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** GenesisState defines the gov module's genesis state. */
 
 export interface GenesisState {
@@ -17,13 +17,13 @@ export interface GenesisState {
   proposals: Proposal[];
   /** params defines all the paramaters of related to deposit. */
 
-  depositParams: DepositParams | undefined;
+  depositParams?: DepositParams | undefined;
   /** params defines all the paramaters of related to voting. */
 
-  votingParams: VotingParams | undefined;
+  votingParams?: VotingParams | undefined;
   /** params defines all the paramaters of related to tally. */
 
-  tallyParams: TallyParams | undefined;
+  tallyParams?: TallyParams | undefined;
 }
 /** GenesisState defines the gov module's genesis state. */
 
@@ -41,13 +41,13 @@ export interface GenesisStateSDKType {
   proposals: ProposalSDKType[];
   /** params defines all the paramaters of related to deposit. */
 
-  deposit_params: DepositParamsSDKType | undefined;
+  deposit_params?: DepositParamsSDKType | undefined;
   /** params defines all the paramaters of related to voting. */
 
-  voting_params: VotingParamsSDKType | undefined;
+  voting_params?: VotingParamsSDKType | undefined;
   /** params defines all the paramaters of related to tally. */
 
-  tally_params: TallyParamsSDKType | undefined;
+  tally_params?: TallyParamsSDKType | undefined;
 }
 
 function createBaseGenesisState(): GenesisState {

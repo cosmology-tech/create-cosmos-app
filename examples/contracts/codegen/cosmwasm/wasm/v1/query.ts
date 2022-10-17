@@ -1,7 +1,7 @@
 import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../../cosmos/base/query/v1beta1/pagination";
 import { ContractInfo, ContractInfoSDKType, ContractCodeHistoryEntry, ContractCodeHistoryEntrySDKType, Model, ModelSDKType } from "./types";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /**
  * QueryContractInfoRequest is the request type for the Query/ContractInfo RPC
  * method
@@ -28,7 +28,7 @@ export interface QueryContractInfoRequestSDKType {
 export interface QueryContractInfoResponse {
   /** address is the address of the contract */
   address: string;
-  contractInfo: ContractInfo | undefined;
+  contractInfo?: ContractInfo | undefined;
 }
 /**
  * QueryContractInfoResponse is the response type for the Query/ContractInfo RPC
@@ -38,7 +38,7 @@ export interface QueryContractInfoResponse {
 export interface QueryContractInfoResponseSDKType {
   /** address is the address of the contract */
   address: string;
-  contract_info: ContractInfoSDKType | undefined;
+  contract_info?: ContractInfoSDKType | undefined;
 }
 /**
  * QueryContractHistoryRequest is the request type for the Query/ContractHistory
@@ -291,13 +291,13 @@ export interface CodeInfoResponseSDKType {
 /** QueryCodeResponse is the response type for the Query/Code RPC method */
 
 export interface QueryCodeResponse {
-  codeInfo: CodeInfoResponse | undefined;
+  codeInfo?: CodeInfoResponse | undefined;
   data: Uint8Array;
 }
 /** QueryCodeResponse is the response type for the Query/Code RPC method */
 
 export interface QueryCodeResponseSDKType {
-  code_info: CodeInfoResponseSDKType | undefined;
+  code_info?: CodeInfoResponseSDKType | undefined;
   data: Uint8Array;
 }
 /** QueryCodesRequest is the request type for the Query/Codes RPC method */
@@ -434,7 +434,7 @@ export const QueryContractInfoResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryContractInfoResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryContractInfoResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryContractInfoResponse();
@@ -544,7 +544,7 @@ export const QueryContractHistoryResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryContractHistoryResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryContractHistoryResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryContractHistoryResponse();
@@ -654,7 +654,7 @@ export const QueryContractsByCodeResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryContractsByCodeResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryContractsByCodeResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryContractsByCodeResponse();
@@ -764,7 +764,7 @@ export const QueryAllContractStateResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllContractStateResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllContractStateResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAllContractStateResponse();
@@ -869,7 +869,7 @@ export const QueryRawContractStateResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryRawContractStateResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryRawContractStateResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryRawContractStateResponse();
@@ -969,7 +969,7 @@ export const QuerySmartContractStateResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySmartContractStateResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySmartContractStateResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySmartContractStateResponse();
@@ -1129,7 +1129,7 @@ export const QueryCodeResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryCodeResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryCodeResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryCodeResponse();
@@ -1229,7 +1229,7 @@ export const QueryCodesResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryCodesResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryCodesResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryCodesResponse();
@@ -1333,7 +1333,7 @@ export const QueryPinnedCodesResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryPinnedCodesResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryPinnedCodesResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryPinnedCodesResponse();

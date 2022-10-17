@@ -1,4 +1,4 @@
-import { setPaginationParams } from "@osmonauts/helpers";
+import { setPaginationParams } from "../../../../helpers";
 import { LCDClient } from "@osmonauts/lcd";
 import { QueryConnectionRequest, QueryConnectionResponseSDKType, QueryConnectionsRequest, QueryConnectionsResponseSDKType, QueryClientConnectionsRequest, QueryClientConnectionsResponseSDKType, QueryConnectionClientStateRequest, QueryConnectionClientStateResponseSDKType, QueryConnectionConsensusStateRequest, QueryConnectionConsensusStateResponseSDKType } from "./query";
 export class LCDQueryClient {
@@ -41,7 +41,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryConnectionsResponseSDKType>(endpoint, options);
   }
   /* ClientConnections queries the connection paths associated with a client
-  state. */
+   state. */
 
 
   async clientConnections(params: QueryClientConnectionsRequest): Promise<QueryClientConnectionsResponseSDKType> {
@@ -49,7 +49,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryClientConnectionsResponseSDKType>(endpoint);
   }
   /* ConnectionClientState queries the client state associated with the
-  connection. */
+   connection. */
 
 
   async connectionClientState(params: QueryConnectionClientStateRequest): Promise<QueryConnectionClientStateResponseSDKType> {
@@ -57,7 +57,7 @@ export class LCDQueryClient {
     return await this.req.get<QueryConnectionClientStateResponseSDKType>(endpoint);
   }
   /* ConnectionConsensusState queries the consensus state associated with the
-  connection. */
+   connection. */
 
 
   async connectionConsensusState(params: QueryConnectionConsensusStateRequest): Promise<QueryConnectionConsensusStateResponseSDKType> {

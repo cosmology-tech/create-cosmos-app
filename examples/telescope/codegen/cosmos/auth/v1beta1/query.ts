@@ -70,25 +70,25 @@ export interface QueryModuleAccountsRequestSDKType {}
 
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
-  params: Params | undefined;
+  params?: Params | undefined;
 }
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 
 export interface QueryParamsResponseSDKType {
   /** params defines the parameters of the module. */
-  params: ParamsSDKType | undefined;
+  params?: ParamsSDKType | undefined;
 }
 /** QueryAccountResponse is the response type for the Query/Account RPC method. */
 
 export interface QueryAccountResponse {
   /** account defines the account of the corresponding address. */
-  account: Any | undefined;
+  account?: Any | undefined;
 }
 /** QueryAccountResponse is the response type for the Query/Account RPC method. */
 
 export interface QueryAccountResponseSDKType {
   /** account defines the account of the corresponding address. */
-  account: AnySDKType | undefined;
+  account?: AnySDKType | undefined;
 }
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 
@@ -228,7 +228,7 @@ export const QueryAccountsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAccountsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAccountsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAccountsResponse();
@@ -357,7 +357,7 @@ export const QueryParamsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();
@@ -402,7 +402,7 @@ export const QueryAccountResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAccountResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAccountResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAccountResponse();
@@ -481,7 +481,7 @@ export const QueryModuleAccountsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryModuleAccountsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryModuleAccountsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryModuleAccountsResponse();
@@ -560,7 +560,7 @@ export const Bech32PrefixResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): Bech32PrefixResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): Bech32PrefixResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBech32PrefixResponse();
@@ -650,7 +650,7 @@ export const AddressBytesToStringResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): AddressBytesToStringResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): AddressBytesToStringResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAddressBytesToStringResponse();
@@ -740,7 +740,7 @@ export const AddressStringToBytesResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): AddressStringToBytesResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): AddressStringToBytesResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAddressStringToBytesResponse();

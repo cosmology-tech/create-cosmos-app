@@ -1,13 +1,13 @@
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../../helpers";
 /**
  * PageRequest is to be embedded in gRPC request messages for efficient
  * pagination. Ex:
  * 
- * message SomeRequest {
- * Foo some_parameter = 1;
- * PageRequest pagination = 2;
- * }
+ *  message SomeRequest {
+ *          Foo some_parameter = 1;
+ *          PageRequest pagination = 2;
+ *  }
  */
 
 export interface PageRequest {
@@ -16,20 +16,20 @@ export interface PageRequest {
    * querying the next page most efficiently. Only one of offset or key
    * should be set.
    */
-  key?: Uint8Array;
+  key: Uint8Array;
   /**
    * offset is a numeric offset that can be used when key is unavailable.
    * It is less efficient than using key. Only one of offset or key should
    * be set.
    */
 
-  offset?: Long;
+  offset: Long;
   /**
    * limit is the total number of results to be returned in the result page.
    * If left empty it will default to a value to be set by each app.
    */
 
-  limit?: Long;
+  limit: Long;
   /**
    * count_total is set to true  to indicate that the result set should include
    * a count of the total number of items available for pagination in UIs.
@@ -37,23 +37,23 @@ export interface PageRequest {
    * is set.
    */
 
-  countTotal?: boolean;
+  countTotal: boolean;
   /**
    * reverse is set to true if results are to be returned in the descending order.
    * 
    * Since: cosmos-sdk 0.43
    */
 
-  reverse?: boolean;
+  reverse: boolean;
 }
 /**
  * PageRequest is to be embedded in gRPC request messages for efficient
  * pagination. Ex:
  * 
- * message SomeRequest {
- * Foo some_parameter = 1;
- * PageRequest pagination = 2;
- * }
+ *  message SomeRequest {
+ *          Foo some_parameter = 1;
+ *          PageRequest pagination = 2;
+ *  }
  */
 
 export interface PageRequestSDKType {
@@ -62,20 +62,20 @@ export interface PageRequestSDKType {
    * querying the next page most efficiently. Only one of offset or key
    * should be set.
    */
-  key?: Uint8Array;
+  key: Uint8Array;
   /**
    * offset is a numeric offset that can be used when key is unavailable.
    * It is less efficient than using key. Only one of offset or key should
    * be set.
    */
 
-  offset?: Long;
+  offset: Long;
   /**
    * limit is the total number of results to be returned in the result page.
    * If left empty it will default to a value to be set by each app.
    */
 
-  limit?: Long;
+  limit: Long;
   /**
    * count_total is set to true  to indicate that the result set should include
    * a count of the total number of items available for pagination in UIs.
@@ -83,23 +83,23 @@ export interface PageRequestSDKType {
    * is set.
    */
 
-  count_total?: boolean;
+  count_total: boolean;
   /**
    * reverse is set to true if results are to be returned in the descending order.
    * 
    * Since: cosmos-sdk 0.43
    */
 
-  reverse?: boolean;
+  reverse: boolean;
 }
 /**
  * PageResponse is to be embedded in gRPC response messages where the
  * corresponding request message has used PageRequest.
  * 
- * message SomeResponse {
- * repeated Bar results = 1;
- * PageResponse page = 2;
- * }
+ *  message SomeResponse {
+ *          repeated Bar results = 1;
+ *          PageResponse page = 2;
+ *  }
  */
 
 export interface PageResponse {
@@ -108,7 +108,7 @@ export interface PageResponse {
    * query the next page most efficiently. It will be empty if
    * there are no more results.
    */
-  nextKey?: Uint8Array;
+  nextKey: Uint8Array;
   /**
    * total is total number of results available if PageRequest.count_total
    * was set, its value is undefined otherwise
@@ -120,10 +120,10 @@ export interface PageResponse {
  * PageResponse is to be embedded in gRPC response messages where the
  * corresponding request message has used PageRequest.
  * 
- * message SomeResponse {
- * repeated Bar results = 1;
- * PageResponse page = 2;
- * }
+ *  message SomeResponse {
+ *          repeated Bar results = 1;
+ *          PageResponse page = 2;
+ *  }
  */
 
 export interface PageResponseSDKType {
@@ -132,7 +132,7 @@ export interface PageResponseSDKType {
    * query the next page most efficiently. It will be empty if
    * there are no more results.
    */
-  next_key?: Uint8Array;
+  next_key: Uint8Array;
   /**
    * total is total number of results available if PageRequest.count_total
    * was set, its value is undefined otherwise

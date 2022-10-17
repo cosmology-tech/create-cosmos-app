@@ -1,5 +1,5 @@
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 export interface BitArray {
   bits: Long;
   elems: Long[];

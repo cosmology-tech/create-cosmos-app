@@ -75,8 +75,9 @@ export function hashOpToJSON(object: HashOp): string {
     case HashOp.BITCOIN:
       return "BITCOIN";
 
+    case HashOp.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /**
@@ -224,8 +225,9 @@ export function lengthOpToJSON(object: LengthOp): string {
     case LengthOp.REQUIRE_64_BYTES:
       return "REQUIRE_64_BYTES";
 
+    case LengthOp.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /**
@@ -253,7 +255,7 @@ export function lengthOpToJSON(object: LengthOp): string {
 export interface ExistenceProof {
   key: Uint8Array;
   value: Uint8Array;
-  leaf: LeafOp | undefined;
+  leaf?: LeafOp | undefined;
   path: InnerOp[];
 }
 /**
@@ -281,7 +283,7 @@ export interface ExistenceProof {
 export interface ExistenceProofSDKType {
   key: Uint8Array;
   value: Uint8Array;
-  leaf: LeafOpSDKType | undefined;
+  leaf?: LeafOpSDKType | undefined;
   path: InnerOpSDKType[];
 }
 /**
@@ -293,8 +295,8 @@ export interface ExistenceProofSDKType {
 export interface NonExistenceProof {
   /** TODO: remove this as unnecessary??? we prove a range */
   key: Uint8Array;
-  left: ExistenceProof | undefined;
-  right: ExistenceProof | undefined;
+  left?: ExistenceProof | undefined;
+  right?: ExistenceProof | undefined;
 }
 /**
  * NonExistenceProof takes a proof of two neighbors, one left of the desired key,
@@ -305,8 +307,8 @@ export interface NonExistenceProof {
 export interface NonExistenceProofSDKType {
   /** TODO: remove this as unnecessary??? we prove a range */
   key: Uint8Array;
-  left: ExistenceProofSDKType | undefined;
-  right: ExistenceProofSDKType | undefined;
+  left?: ExistenceProofSDKType | undefined;
+  right?: ExistenceProofSDKType | undefined;
 }
 /** CommitmentProof is either an ExistenceProof or a NonExistenceProof, or a Batch of such messages */
 
@@ -446,8 +448,8 @@ export interface ProofSpec {
    * any field in the ExistenceProof must be the same as in this spec.
    * except Prefix, which is just the first bytes of prefix (spec can be longer)
    */
-  leafSpec: LeafOp | undefined;
-  innerSpec: InnerSpec | undefined;
+  leafSpec?: LeafOp | undefined;
+  innerSpec?: InnerSpec | undefined;
   /** max_depth (if > 0) is the maximum number of InnerOps allowed (mainly for fixed-depth tries) */
 
   maxDepth: number;
@@ -473,8 +475,8 @@ export interface ProofSpecSDKType {
    * any field in the ExistenceProof must be the same as in this spec.
    * except Prefix, which is just the first bytes of prefix (spec can be longer)
    */
-  leaf_spec: LeafOpSDKType | undefined;
-  inner_spec: InnerSpecSDKType | undefined;
+  leaf_spec?: LeafOpSDKType | undefined;
+  inner_spec?: InnerSpecSDKType | undefined;
   /** max_depth (if > 0) is the maximum number of InnerOps allowed (mainly for fixed-depth tries) */
 
   max_depth: number;
@@ -583,7 +585,7 @@ export interface CompressedBatchEntrySDKType {
 export interface CompressedExistenceProof {
   key: Uint8Array;
   value: Uint8Array;
-  leaf: LeafOp | undefined;
+  leaf?: LeafOp | undefined;
   /** these are indexes into the lookup_inners table in CompressedBatchProof */
 
   path: number[];
@@ -591,7 +593,7 @@ export interface CompressedExistenceProof {
 export interface CompressedExistenceProofSDKType {
   key: Uint8Array;
   value: Uint8Array;
-  leaf: LeafOpSDKType | undefined;
+  leaf?: LeafOpSDKType | undefined;
   /** these are indexes into the lookup_inners table in CompressedBatchProof */
 
   path: number[];
@@ -599,14 +601,14 @@ export interface CompressedExistenceProofSDKType {
 export interface CompressedNonExistenceProof {
   /** TODO: remove this as unnecessary??? we prove a range */
   key: Uint8Array;
-  left: CompressedExistenceProof | undefined;
-  right: CompressedExistenceProof | undefined;
+  left?: CompressedExistenceProof | undefined;
+  right?: CompressedExistenceProof | undefined;
 }
 export interface CompressedNonExistenceProofSDKType {
   /** TODO: remove this as unnecessary??? we prove a range */
   key: Uint8Array;
-  left: CompressedExistenceProofSDKType | undefined;
-  right: CompressedExistenceProofSDKType | undefined;
+  left?: CompressedExistenceProofSDKType | undefined;
+  right?: CompressedExistenceProofSDKType | undefined;
 }
 
 function createBaseExistenceProof(): ExistenceProof {

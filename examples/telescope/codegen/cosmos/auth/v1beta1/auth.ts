@@ -1,6 +1,6 @@
 import { Any, AnySDKType } from "../../../google/protobuf/any";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /**
  * BaseAccount defines a base account type. It contains all the necessary fields
  * for basic account functionality. Any custom account type should extend this
@@ -9,7 +9,7 @@ import { Long } from "@osmonauts/helpers";
 
 export interface BaseAccount {
   address: string;
-  pubKey: Any | undefined;
+  pubKey?: Any | undefined;
   accountNumber: Long;
   sequence: Long;
 }
@@ -21,21 +21,21 @@ export interface BaseAccount {
 
 export interface BaseAccountSDKType {
   address: string;
-  pub_key: AnySDKType | undefined;
+  pub_key?: AnySDKType | undefined;
   account_number: Long;
   sequence: Long;
 }
 /** ModuleAccount defines an account for modules that holds coins on a pool. */
 
 export interface ModuleAccount {
-  baseAccount: BaseAccount | undefined;
+  baseAccount?: BaseAccount | undefined;
   name: string;
   permissions: string[];
 }
 /** ModuleAccount defines an account for modules that holds coins on a pool. */
 
 export interface ModuleAccountSDKType {
-  base_account: BaseAccountSDKType | undefined;
+  base_account?: BaseAccountSDKType | undefined;
   name: string;
   permissions: string[];
 }

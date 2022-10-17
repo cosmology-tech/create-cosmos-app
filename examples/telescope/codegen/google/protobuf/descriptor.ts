@@ -1,6 +1,6 @@
 //@ts-nocheck
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../helpers";
 export enum FieldDescriptorProto_Type {
   /**
    * TYPE_DOUBLE - 0 is reserved for errors.
@@ -233,8 +233,9 @@ export function fieldDescriptorProto_TypeToJSON(object: FieldDescriptorProto_Typ
     case FieldDescriptorProto_Type.TYPE_SINT64:
       return "TYPE_SINT64";
 
+    case FieldDescriptorProto_Type.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 export enum FieldDescriptorProto_Label {
@@ -282,8 +283,9 @@ export function fieldDescriptorProto_LabelToJSON(object: FieldDescriptorProto_La
     case FieldDescriptorProto_Label.LABEL_REPEATED:
       return "LABEL_REPEATED";
 
+    case FieldDescriptorProto_Label.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /** Generated classes can be optimized for speed or code size. */
@@ -349,8 +351,9 @@ export function fileOptions_OptimizeModeToJSON(object: FileOptions_OptimizeMode)
     case FileOptions_OptimizeMode.LITE_RUNTIME:
       return "LITE_RUNTIME";
 
+    case FileOptions_OptimizeMode.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 export enum FieldOptions_CType {
@@ -398,8 +401,9 @@ export function fieldOptions_CTypeToJSON(object: FieldOptions_CType): string {
     case FieldOptions_CType.STRING_PIECE:
       return "STRING_PIECE";
 
+    case FieldOptions_CType.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 export enum FieldOptions_JSType {
@@ -455,8 +459,9 @@ export function fieldOptions_JSTypeToJSON(object: FieldOptions_JSType): string {
     case FieldOptions_JSType.JS_NUMBER:
       return "JS_NUMBER";
 
+    case FieldOptions_JSType.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /**
@@ -522,8 +527,9 @@ export function methodOptions_IdempotencyLevelToJSON(object: MethodOptions_Idemp
     case MethodOptions_IdempotencyLevel.IDEMPOTENT:
       return "IDEMPOTENT";
 
+    case MethodOptions_IdempotencyLevel.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /**
@@ -566,7 +572,7 @@ export interface FileDescriptorProto {
   enumType: EnumDescriptorProto[];
   service: ServiceDescriptorProto[];
   extension: FieldDescriptorProto[];
-  options: FileOptions | undefined;
+  options?: FileOptions | undefined;
   /**
    * This field contains optional information about the original source code.
    * You may safely remove this entire field without harming runtime
@@ -574,7 +580,7 @@ export interface FileDescriptorProto {
    * development tools.
    */
 
-  sourceCodeInfo: SourceCodeInfo | undefined;
+  sourceCodeInfo?: SourceCodeInfo | undefined;
   /**
    * The syntax of the proto file.
    * The supported values are "proto2" and "proto3".
@@ -606,7 +612,7 @@ export interface FileDescriptorProtoSDKType {
   enum_type: EnumDescriptorProtoSDKType[];
   service: ServiceDescriptorProtoSDKType[];
   extension: FieldDescriptorProtoSDKType[];
-  options: FileOptionsSDKType | undefined;
+  options?: FileOptionsSDKType | undefined;
   /**
    * This field contains optional information about the original source code.
    * You may safely remove this entire field without harming runtime
@@ -614,7 +620,7 @@ export interface FileDescriptorProtoSDKType {
    * development tools.
    */
 
-  source_code_info: SourceCodeInfoSDKType | undefined;
+  source_code_info?: SourceCodeInfoSDKType | undefined;
   /**
    * The syntax of the proto file.
    * The supported values are "proto2" and "proto3".
@@ -632,7 +638,7 @@ export interface DescriptorProto {
   enumType: EnumDescriptorProto[];
   extensionRange: DescriptorProto_ExtensionRange[];
   oneofDecl: OneofDescriptorProto[];
-  options: MessageOptions | undefined;
+  options?: MessageOptions | undefined;
   reservedRange: DescriptorProto_ReservedRange[];
   /**
    * Reserved field names, which may not be used by fields in the same message.
@@ -651,7 +657,7 @@ export interface DescriptorProtoSDKType {
   enum_type: EnumDescriptorProtoSDKType[];
   extension_range: DescriptorProto_ExtensionRangeSDKType[];
   oneof_decl: OneofDescriptorProtoSDKType[];
-  options: MessageOptionsSDKType | undefined;
+  options?: MessageOptionsSDKType | undefined;
   reserved_range: DescriptorProto_ReservedRangeSDKType[];
   /**
    * Reserved field names, which may not be used by fields in the same message.
@@ -666,7 +672,7 @@ export interface DescriptorProto_ExtensionRange {
   /** Exclusive. */
 
   end: number;
-  options: ExtensionRangeOptions | undefined;
+  options?: ExtensionRangeOptions | undefined;
 }
 export interface DescriptorProto_ExtensionRangeSDKType {
   /** Inclusive. */
@@ -674,7 +680,7 @@ export interface DescriptorProto_ExtensionRangeSDKType {
   /** Exclusive. */
 
   end: number;
-  options: ExtensionRangeOptionsSDKType | undefined;
+  options?: ExtensionRangeOptionsSDKType | undefined;
 }
 /**
  * Range of reserved tag numbers. Reserved tag numbers may not be used by
@@ -760,7 +766,7 @@ export interface FieldDescriptorProto {
    */
 
   jsonName: string;
-  options: FieldOptions | undefined;
+  options?: FieldOptions | undefined;
 }
 /** Describes a field within a message. */
 
@@ -812,26 +818,26 @@ export interface FieldDescriptorProtoSDKType {
    */
 
   json_name: string;
-  options: FieldOptionsSDKType | undefined;
+  options?: FieldOptionsSDKType | undefined;
 }
 /** Describes a oneof. */
 
 export interface OneofDescriptorProto {
   name: string;
-  options: OneofOptions | undefined;
+  options?: OneofOptions | undefined;
 }
 /** Describes a oneof. */
 
 export interface OneofDescriptorProtoSDKType {
   name: string;
-  options: OneofOptionsSDKType | undefined;
+  options?: OneofOptionsSDKType | undefined;
 }
 /** Describes an enum type. */
 
 export interface EnumDescriptorProto {
   name: string;
   value: EnumValueDescriptorProto[];
-  options: EnumOptions | undefined;
+  options?: EnumOptions | undefined;
   /**
    * Range of reserved numeric values. Reserved numeric values may not be used
    * by enum values in the same enum declaration. Reserved ranges may not
@@ -851,7 +857,7 @@ export interface EnumDescriptorProto {
 export interface EnumDescriptorProtoSDKType {
   name: string;
   value: EnumValueDescriptorProtoSDKType[];
-  options: EnumOptionsSDKType | undefined;
+  options?: EnumOptionsSDKType | undefined;
   /**
    * Range of reserved numeric values. Reserved numeric values may not be used
    * by enum values in the same enum declaration. Reserved ranges may not
@@ -903,28 +909,28 @@ export interface EnumDescriptorProto_EnumReservedRangeSDKType {
 export interface EnumValueDescriptorProto {
   name: string;
   number: number;
-  options: EnumValueOptions | undefined;
+  options?: EnumValueOptions | undefined;
 }
 /** Describes a value within an enum. */
 
 export interface EnumValueDescriptorProtoSDKType {
   name: string;
   number: number;
-  options: EnumValueOptionsSDKType | undefined;
+  options?: EnumValueOptionsSDKType | undefined;
 }
 /** Describes a service. */
 
 export interface ServiceDescriptorProto {
   name: string;
   method: MethodDescriptorProto[];
-  options: ServiceOptions | undefined;
+  options?: ServiceOptions | undefined;
 }
 /** Describes a service. */
 
 export interface ServiceDescriptorProtoSDKType {
   name: string;
   method: MethodDescriptorProtoSDKType[];
-  options: ServiceOptionsSDKType | undefined;
+  options?: ServiceOptionsSDKType | undefined;
 }
 /** Describes a method of a service. */
 
@@ -937,7 +943,7 @@ export interface MethodDescriptorProto {
 
   inputType: string;
   outputType: string;
-  options: MethodOptions | undefined;
+  options?: MethodOptions | undefined;
   /** Identifies if client streams multiple client messages */
 
   clientStreaming: boolean;
@@ -956,7 +962,7 @@ export interface MethodDescriptorProtoSDKType {
 
   input_type: string;
   output_type: string;
-  options: MethodOptionsSDKType | undefined;
+  options?: MethodOptionsSDKType | undefined;
   /** Identifies if client streams multiple client messages */
 
   client_streaming: boolean;
@@ -1010,9 +1016,9 @@ export interface FileOptions {
   /**
    * Sets the Go package where structs generated from this .proto will be
    * placed. If omitted, the Go package will be derived from the following:
-   * - The basename of the package import path, if provided.
-   * - Otherwise, the package statement in the .proto file, if present.
-   * - Otherwise, the basename of the .proto file, without extension.
+   *   - The basename of the package import path, if provided.
+   *   - Otherwise, the package statement in the .proto file, if present.
+   *   - Otherwise, the basename of the .proto file, without extension.
    */
 
   goPackage: string;
@@ -1144,9 +1150,9 @@ export interface FileOptionsSDKType {
   /**
    * Sets the Go package where structs generated from this .proto will be
    * placed. If omitted, the Go package will be derived from the following:
-   * - The basename of the package import path, if provided.
-   * - Otherwise, the package statement in the .proto file, if present.
-   * - Otherwise, the basename of the .proto file, without extension.
+   *   - The basename of the package import path, if provided.
+   *   - Otherwise, the package statement in the .proto file, if present.
+   *   - Otherwise, the basename of the .proto file, without extension.
    */
 
   go_package: string;
@@ -1240,10 +1246,10 @@ export interface MessageOptions {
    * efficient, has fewer features, and is more complicated.
    * 
    * The message must be defined exactly as follows:
-   * message Foo {
-   * option message_set_wire_format = true;
-   * extensions 4 to max;
-   * }
+   *   message Foo {
+   *     option message_set_wire_format = true;
+   *     extensions 4 to max;
+   *   }
    * Note that the message cannot have any defined fields; MessageSets only
    * have extensions.
    * 
@@ -1274,14 +1280,14 @@ export interface MessageOptions {
    * maps field.
    * 
    * For maps fields:
-   * map<KeyType, ValueType> map_field = 1;
+   *     map<KeyType, ValueType> map_field = 1;
    * The parsed descriptor looks like:
-   * message MapFieldEntry {
-   * option map_entry = true;
-   * optional KeyType key = 1;
-   * optional ValueType value = 2;
-   * }
-   * repeated MapFieldEntry map_field = 1;
+   *     message MapFieldEntry {
+   *         option map_entry = true;
+   *         optional KeyType key = 1;
+   *         optional ValueType value = 2;
+   *     }
+   *     repeated MapFieldEntry map_field = 1;
    * 
    * Implementations may choose not to generate the map_entry=true message, but
    * use a native map in the target language to hold the keys and values.
@@ -1306,10 +1312,10 @@ export interface MessageOptionsSDKType {
    * efficient, has fewer features, and is more complicated.
    * 
    * The message must be defined exactly as follows:
-   * message Foo {
-   * option message_set_wire_format = true;
-   * extensions 4 to max;
-   * }
+   *   message Foo {
+   *     option message_set_wire_format = true;
+   *     extensions 4 to max;
+   *   }
    * Note that the message cannot have any defined fields; MessageSets only
    * have extensions.
    * 
@@ -1340,14 +1346,14 @@ export interface MessageOptionsSDKType {
    * maps field.
    * 
    * For maps fields:
-   * map<KeyType, ValueType> map_field = 1;
+   *     map<KeyType, ValueType> map_field = 1;
    * The parsed descriptor looks like:
-   * message MapFieldEntry {
-   * option map_entry = true;
-   * optional KeyType key = 1;
-   * optional ValueType value = 2;
-   * }
-   * repeated MapFieldEntry map_field = 1;
+   *     message MapFieldEntry {
+   *         option map_entry = true;
+   *         optional KeyType key = 1;
+   *         optional ValueType value = 2;
+   *     }
+   *     repeated MapFieldEntry map_field = 1;
    * 
    * Implementations may choose not to generate the map_entry=true message, but
    * use a native map in the target language to hold the keys and values.
@@ -1723,43 +1729,43 @@ export interface SourceCodeInfo {
    * tools.
    * 
    * For example, say we have a file like:
-   * message Foo {
-   * optional string foo = 1;
-   * }
+   *   message Foo {
+   *     optional string foo = 1;
+   *   }
    * Let's look at just the field definition:
-   * optional string foo = 1;
-   * ^       ^^     ^^  ^  ^^^
-   * a       bc     de  f  ghi
+   *   optional string foo = 1;
+   *   ^       ^^     ^^  ^  ^^^
+   *   a       bc     de  f  ghi
    * We have the following locations:
-   * span   path               represents
-   * [a,i)  [ 4, 0, 2, 0 ]     The whole field definition.
-   * [a,b)  [ 4, 0, 2, 0, 4 ]  The label (optional).
-   * [c,d)  [ 4, 0, 2, 0, 5 ]  The type (string).
-   * [e,f)  [ 4, 0, 2, 0, 1 ]  The name (foo).
-   * [g,h)  [ 4, 0, 2, 0, 3 ]  The number (1).
+   *   span   path               represents
+   *   [a,i)  [ 4, 0, 2, 0 ]     The whole field definition.
+   *   [a,b)  [ 4, 0, 2, 0, 4 ]  The label (optional).
+   *   [c,d)  [ 4, 0, 2, 0, 5 ]  The type (string).
+   *   [e,f)  [ 4, 0, 2, 0, 1 ]  The name (foo).
+   *   [g,h)  [ 4, 0, 2, 0, 3 ]  The number (1).
    * 
    * Notes:
    * - A location may refer to a repeated field itself (i.e. not to any
-   * particular index within it).  This is used whenever a set of elements are
-   * logically enclosed in a single code segment.  For example, an entire
-   * extend block (possibly containing multiple extension definitions) will
-   * have an outer location whose path refers to the "extensions" repeated
-   * field without an index.
+   *   particular index within it).  This is used whenever a set of elements are
+   *   logically enclosed in a single code segment.  For example, an entire
+   *   extend block (possibly containing multiple extension definitions) will
+   *   have an outer location whose path refers to the "extensions" repeated
+   *   field without an index.
    * - Multiple locations may have the same path.  This happens when a single
-   * logical declaration is spread out across multiple places.  The most
-   * obvious example is the "extend" block again -- there may be multiple
-   * extend blocks in the same scope, each of which will have the same path.
+   *   logical declaration is spread out across multiple places.  The most
+   *   obvious example is the "extend" block again -- there may be multiple
+   *   extend blocks in the same scope, each of which will have the same path.
    * - A location's span is not always a subset of its parent's span.  For
-   * example, the "extendee" of an extension declaration appears at the
-   * beginning of the "extend" block and is shared by all extensions within
-   * the block.
+   *   example, the "extendee" of an extension declaration appears at the
+   *   beginning of the "extend" block and is shared by all extensions within
+   *   the block.
    * - Just because a location's span is a subset of some other location's span
-   * does not mean that it is a descendant.  For example, a "group" defines
-   * both a type and a field in a single declaration.  Thus, the locations
-   * corresponding to the type and field and their components will overlap.
+   *   does not mean that it is a descendant.  For example, a "group" defines
+   *   both a type and a field in a single declaration.  Thus, the locations
+   *   corresponding to the type and field and their components will overlap.
    * - Code which tries to interpret locations should probably be designed to
-   * ignore those that it doesn't understand, as more types of locations could
-   * be recorded in the future.
+   *   ignore those that it doesn't understand, as more types of locations could
+   *   be recorded in the future.
    */
   location: SourceCodeInfo_Location[];
 }
@@ -1776,43 +1782,43 @@ export interface SourceCodeInfoSDKType {
    * tools.
    * 
    * For example, say we have a file like:
-   * message Foo {
-   * optional string foo = 1;
-   * }
+   *   message Foo {
+   *     optional string foo = 1;
+   *   }
    * Let's look at just the field definition:
-   * optional string foo = 1;
-   * ^       ^^     ^^  ^  ^^^
-   * a       bc     de  f  ghi
+   *   optional string foo = 1;
+   *   ^       ^^     ^^  ^  ^^^
+   *   a       bc     de  f  ghi
    * We have the following locations:
-   * span   path               represents
-   * [a,i)  [ 4, 0, 2, 0 ]     The whole field definition.
-   * [a,b)  [ 4, 0, 2, 0, 4 ]  The label (optional).
-   * [c,d)  [ 4, 0, 2, 0, 5 ]  The type (string).
-   * [e,f)  [ 4, 0, 2, 0, 1 ]  The name (foo).
-   * [g,h)  [ 4, 0, 2, 0, 3 ]  The number (1).
+   *   span   path               represents
+   *   [a,i)  [ 4, 0, 2, 0 ]     The whole field definition.
+   *   [a,b)  [ 4, 0, 2, 0, 4 ]  The label (optional).
+   *   [c,d)  [ 4, 0, 2, 0, 5 ]  The type (string).
+   *   [e,f)  [ 4, 0, 2, 0, 1 ]  The name (foo).
+   *   [g,h)  [ 4, 0, 2, 0, 3 ]  The number (1).
    * 
    * Notes:
    * - A location may refer to a repeated field itself (i.e. not to any
-   * particular index within it).  This is used whenever a set of elements are
-   * logically enclosed in a single code segment.  For example, an entire
-   * extend block (possibly containing multiple extension definitions) will
-   * have an outer location whose path refers to the "extensions" repeated
-   * field without an index.
+   *   particular index within it).  This is used whenever a set of elements are
+   *   logically enclosed in a single code segment.  For example, an entire
+   *   extend block (possibly containing multiple extension definitions) will
+   *   have an outer location whose path refers to the "extensions" repeated
+   *   field without an index.
    * - Multiple locations may have the same path.  This happens when a single
-   * logical declaration is spread out across multiple places.  The most
-   * obvious example is the "extend" block again -- there may be multiple
-   * extend blocks in the same scope, each of which will have the same path.
+   *   logical declaration is spread out across multiple places.  The most
+   *   obvious example is the "extend" block again -- there may be multiple
+   *   extend blocks in the same scope, each of which will have the same path.
    * - A location's span is not always a subset of its parent's span.  For
-   * example, the "extendee" of an extension declaration appears at the
-   * beginning of the "extend" block and is shared by all extensions within
-   * the block.
+   *   example, the "extendee" of an extension declaration appears at the
+   *   beginning of the "extend" block and is shared by all extensions within
+   *   the block.
    * - Just because a location's span is a subset of some other location's span
-   * does not mean that it is a descendant.  For example, a "group" defines
-   * both a type and a field in a single declaration.  Thus, the locations
-   * corresponding to the type and field and their components will overlap.
+   *   does not mean that it is a descendant.  For example, a "group" defines
+   *   both a type and a field in a single declaration.  Thus, the locations
+   *   corresponding to the type and field and their components will overlap.
    * - Code which tries to interpret locations should probably be designed to
-   * ignore those that it doesn't understand, as more types of locations could
-   * be recorded in the future.
+   *   ignore those that it doesn't understand, as more types of locations could
+   *   be recorded in the future.
    */
   location: SourceCodeInfo_LocationSDKType[];
 }
@@ -1824,21 +1830,21 @@ export interface SourceCodeInfo_Location {
    * Each element is a field number or an index.  They form a path from
    * the root FileDescriptorProto to the place where the definition.  For
    * example, this path:
-   * [ 4, 3, 2, 7, 1 ]
+   *   [ 4, 3, 2, 7, 1 ]
    * refers to:
-   * file.message_type(3)  // 4, 3
-   * .field(7)         // 2, 7
-   * .name()           // 1
+   *   file.message_type(3)  // 4, 3
+   *       .field(7)         // 2, 7
+   *       .name()           // 1
    * This is because FileDescriptorProto.message_type has field number 4:
-   * repeated DescriptorProto message_type = 4;
+   *   repeated DescriptorProto message_type = 4;
    * and DescriptorProto.field has field number 2:
-   * repeated FieldDescriptorProto field = 2;
+   *   repeated FieldDescriptorProto field = 2;
    * and FieldDescriptorProto.name has field number 1:
-   * optional string name = 1;
+   *   optional string name = 1;
    * 
    * Thus, the above path gives the location of a field name.  If we removed
    * the last element:
-   * [ 4, 3, 2, 7 ]
+   *   [ 4, 3, 2, 7 ]
    * this path refers to the whole field declaration (from the beginning
    * of the label to the terminating semicolon).
    */
@@ -1872,34 +1878,34 @@ export interface SourceCodeInfo_Location {
    * 
    * Examples:
    * 
-   * optional int32 foo = 1;  // Comment attached to foo.
-   * // Comment attached to bar.
-   * optional int32 bar = 2;
+   *   optional int32 foo = 1;  // Comment attached to foo.
+   *   // Comment attached to bar.
+   *   optional int32 bar = 2;
    * 
-   * optional string baz = 3;
-   * // Comment attached to baz.
-   * // Another line attached to baz.
+   *   optional string baz = 3;
+   *   // Comment attached to baz.
+   *   // Another line attached to baz.
    * 
-   * // Comment attached to qux.
-   * //
-   * // Another line attached to qux.
-   * optional double qux = 4;
+   *   // Comment attached to qux.
+   *   //
+   *   // Another line attached to qux.
+   *   optional double qux = 4;
    * 
-   * // Detached comment for corge. This is not leading or trailing comments
-   * // to qux or corge because there are blank lines separating it from
-   * // both.
+   *   // Detached comment for corge. This is not leading or trailing comments
+   *   // to qux or corge because there are blank lines separating it from
+   *   // both.
    * 
-   * // Detached comment for corge paragraph 2.
+   *   // Detached comment for corge paragraph 2.
    * 
-   * optional string corge = 5;
-   * /* Block comment attached
-   * * to corge.  Leading asterisks
-   * * will be removed. *\/
-   * /* Block comment attached to
-   * * grault. *\/
-   * optional int32 grault = 6;
+   *   optional string corge = 5;
+   *   /* Block comment attached
+   *    * to corge.  Leading asterisks
+   *    * will be removed. *\/
+   *   /* Block comment attached to
+   *    * grault. *\/
+   *   optional int32 grault = 6;
    * 
-   * // ignored detached comments.
+   *   // ignored detached comments.
    */
 
   leadingComments: string;
@@ -1914,21 +1920,21 @@ export interface SourceCodeInfo_LocationSDKType {
    * Each element is a field number or an index.  They form a path from
    * the root FileDescriptorProto to the place where the definition.  For
    * example, this path:
-   * [ 4, 3, 2, 7, 1 ]
+   *   [ 4, 3, 2, 7, 1 ]
    * refers to:
-   * file.message_type(3)  // 4, 3
-   * .field(7)         // 2, 7
-   * .name()           // 1
+   *   file.message_type(3)  // 4, 3
+   *       .field(7)         // 2, 7
+   *       .name()           // 1
    * This is because FileDescriptorProto.message_type has field number 4:
-   * repeated DescriptorProto message_type = 4;
+   *   repeated DescriptorProto message_type = 4;
    * and DescriptorProto.field has field number 2:
-   * repeated FieldDescriptorProto field = 2;
+   *   repeated FieldDescriptorProto field = 2;
    * and FieldDescriptorProto.name has field number 1:
-   * optional string name = 1;
+   *   optional string name = 1;
    * 
    * Thus, the above path gives the location of a field name.  If we removed
    * the last element:
-   * [ 4, 3, 2, 7 ]
+   *   [ 4, 3, 2, 7 ]
    * this path refers to the whole field declaration (from the beginning
    * of the label to the terminating semicolon).
    */
@@ -1962,34 +1968,34 @@ export interface SourceCodeInfo_LocationSDKType {
    * 
    * Examples:
    * 
-   * optional int32 foo = 1;  // Comment attached to foo.
-   * // Comment attached to bar.
-   * optional int32 bar = 2;
+   *   optional int32 foo = 1;  // Comment attached to foo.
+   *   // Comment attached to bar.
+   *   optional int32 bar = 2;
    * 
-   * optional string baz = 3;
-   * // Comment attached to baz.
-   * // Another line attached to baz.
+   *   optional string baz = 3;
+   *   // Comment attached to baz.
+   *   // Another line attached to baz.
    * 
-   * // Comment attached to qux.
-   * //
-   * // Another line attached to qux.
-   * optional double qux = 4;
+   *   // Comment attached to qux.
+   *   //
+   *   // Another line attached to qux.
+   *   optional double qux = 4;
    * 
-   * // Detached comment for corge. This is not leading or trailing comments
-   * // to qux or corge because there are blank lines separating it from
-   * // both.
+   *   // Detached comment for corge. This is not leading or trailing comments
+   *   // to qux or corge because there are blank lines separating it from
+   *   // both.
    * 
-   * // Detached comment for corge paragraph 2.
+   *   // Detached comment for corge paragraph 2.
    * 
-   * optional string corge = 5;
-   * /* Block comment attached
-   * * to corge.  Leading asterisks
-   * * will be removed. *\/
-   * /* Block comment attached to
-   * * grault. *\/
-   * optional int32 grault = 6;
+   *   optional string corge = 5;
+   *   /* Block comment attached
+   *    * to corge.  Leading asterisks
+   *    * will be removed. *\/
+   *   /* Block comment attached to
+   *    * grault. *\/
+   *   optional int32 grault = 6;
    * 
-   * // ignored detached comments.
+   *   // ignored detached comments.
    */
 
   leading_comments: string;
@@ -2598,8 +2604,8 @@ function createBaseFieldDescriptorProto(): FieldDescriptorProto {
   return {
     name: "",
     number: 0,
-    label: 0,
-    type: 0,
+    label: 1,
+    type: 1,
     typeName: "",
     extendee: "",
     defaultValue: "",
@@ -2619,11 +2625,11 @@ export const FieldDescriptorProto = {
       writer.uint32(24).int32(message.number);
     }
 
-    if (message.label !== 0) {
+    if (message.label !== 1) {
       writer.uint32(32).int32(message.label);
     }
 
-    if (message.type !== 0) {
+    if (message.type !== 1) {
       writer.uint32(40).int32(message.type);
     }
 
@@ -2716,8 +2722,8 @@ export const FieldDescriptorProto = {
     const message = createBaseFieldDescriptorProto();
     message.name = object.name ?? "";
     message.number = object.number ?? 0;
-    message.label = object.label ?? 0;
-    message.type = object.type ?? 0;
+    message.label = object.label ?? 1;
+    message.type = object.type ?? 1;
     message.typeName = object.typeName ?? "";
     message.extendee = object.extendee ?? "";
     message.defaultValue = object.defaultValue ?? "";
@@ -3156,7 +3162,7 @@ function createBaseFileOptions(): FileOptions {
     javaMultipleFiles: false,
     javaGenerateEqualsAndHash: false,
     javaStringCheckUtf8: false,
-    optimizeFor: 0,
+    optimizeFor: 1,
     goPackage: "",
     ccGenericServices: false,
     javaGenericServices: false,
@@ -3197,7 +3203,7 @@ export const FileOptions = {
       writer.uint32(216).bool(message.javaStringCheckUtf8);
     }
 
-    if (message.optimizeFor !== 0) {
+    if (message.optimizeFor !== 1) {
       writer.uint32(72).int32(message.optimizeFor);
     }
 
@@ -3373,7 +3379,7 @@ export const FileOptions = {
     message.javaMultipleFiles = object.javaMultipleFiles ?? false;
     message.javaGenerateEqualsAndHash = object.javaGenerateEqualsAndHash ?? false;
     message.javaStringCheckUtf8 = object.javaStringCheckUtf8 ?? false;
-    message.optimizeFor = object.optimizeFor ?? 0;
+    message.optimizeFor = object.optimizeFor ?? 1;
     message.goPackage = object.goPackage ?? "";
     message.ccGenericServices = object.ccGenericServices ?? false;
     message.javaGenericServices = object.javaGenericServices ?? false;
@@ -3481,9 +3487,9 @@ export const MessageOptions = {
 
 function createBaseFieldOptions(): FieldOptions {
   return {
-    ctype: 0,
+    ctype: 1,
     packed: false,
-    jstype: 0,
+    jstype: 1,
     lazy: false,
     deprecated: false,
     weak: false,
@@ -3493,7 +3499,7 @@ function createBaseFieldOptions(): FieldOptions {
 
 export const FieldOptions = {
   encode(message: FieldOptions, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.ctype !== 0) {
+    if (message.ctype !== 1) {
       writer.uint32(8).int32(message.ctype);
     }
 
@@ -3501,7 +3507,7 @@ export const FieldOptions = {
       writer.uint32(16).bool(message.packed);
     }
 
-    if (message.jstype !== 0) {
+    if (message.jstype !== 1) {
       writer.uint32(48).int32(message.jstype);
     }
 
@@ -3572,9 +3578,9 @@ export const FieldOptions = {
 
   fromPartial(object: Partial<FieldOptions>): FieldOptions {
     const message = createBaseFieldOptions();
-    message.ctype = object.ctype ?? 0;
+    message.ctype = object.ctype ?? 1;
     message.packed = object.packed ?? false;
-    message.jstype = object.jstype ?? 0;
+    message.jstype = object.jstype ?? 1;
     message.lazy = object.lazy ?? false;
     message.deprecated = object.deprecated ?? false;
     message.weak = object.weak ?? false;
@@ -3807,7 +3813,7 @@ export const ServiceOptions = {
 function createBaseMethodOptions(): MethodOptions {
   return {
     deprecated: false,
-    idempotencyLevel: 0,
+    idempotencyLevel: 1,
     uninterpretedOption: []
   };
 }
@@ -3818,7 +3824,7 @@ export const MethodOptions = {
       writer.uint32(264).bool(message.deprecated);
     }
 
-    if (message.idempotencyLevel !== 0) {
+    if (message.idempotencyLevel !== 1) {
       writer.uint32(272).int32(message.idempotencyLevel);
     }
 
@@ -3862,7 +3868,7 @@ export const MethodOptions = {
   fromPartial(object: Partial<MethodOptions>): MethodOptions {
     const message = createBaseMethodOptions();
     message.deprecated = object.deprecated ?? false;
-    message.idempotencyLevel = object.idempotencyLevel ?? 0;
+    message.idempotencyLevel = object.idempotencyLevel ?? 1;
     message.uninterpretedOption = object.uninterpretedOption?.map(e => UninterpretedOption.fromPartial(e)) || [];
     return message;
   }

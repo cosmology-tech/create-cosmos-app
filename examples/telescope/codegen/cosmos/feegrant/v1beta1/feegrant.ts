@@ -3,7 +3,7 @@ import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
 import * as _m0 from "protobufjs/minimal";
-import { toTimestamp, fromTimestamp } from "@osmonauts/helpers";
+import { toTimestamp, fromTimestamp } from "../../../helpers";
 /**
  * BasicAllowance implements Allowance with a one-time grant of tokens
  * that optionally expires. The grantee can use up to SpendLimit to cover fees.
@@ -18,7 +18,7 @@ export interface BasicAllowance {
   spendLimit: Coin[];
   /** expiration specifies an optional time when this allowance expires */
 
-  expiration: Date | undefined;
+  expiration?: Date | undefined;
 }
 /**
  * BasicAllowance implements Allowance with a one-time grant of tokens
@@ -34,7 +34,7 @@ export interface BasicAllowanceSDKType {
   spend_limit: CoinSDKType[];
   /** expiration specifies an optional time when this allowance expires */
 
-  expiration: Date | undefined;
+  expiration?: Date | undefined;
 }
 /**
  * PeriodicAllowance extends Allowance to allow for both a maximum cap,
@@ -43,13 +43,13 @@ export interface BasicAllowanceSDKType {
 
 export interface PeriodicAllowance {
   /** basic specifies a struct of `BasicAllowance` */
-  basic: BasicAllowance | undefined;
+  basic?: BasicAllowance | undefined;
   /**
    * period specifies the time duration in which period_spend_limit coins can
    * be spent before that allowance is reset
    */
 
-  period: Duration | undefined;
+  period?: Duration | undefined;
   /**
    * period_spend_limit specifies the maximum number of coins that can be spent
    * in the period
@@ -65,7 +65,7 @@ export interface PeriodicAllowance {
    * last period ended
    */
 
-  periodReset: Date | undefined;
+  periodReset?: Date | undefined;
 }
 /**
  * PeriodicAllowance extends Allowance to allow for both a maximum cap,
@@ -74,13 +74,13 @@ export interface PeriodicAllowance {
 
 export interface PeriodicAllowanceSDKType {
   /** basic specifies a struct of `BasicAllowance` */
-  basic: BasicAllowanceSDKType | undefined;
+  basic?: BasicAllowanceSDKType | undefined;
   /**
    * period specifies the time duration in which period_spend_limit coins can
    * be spent before that allowance is reset
    */
 
-  period: DurationSDKType | undefined;
+  period?: DurationSDKType | undefined;
   /**
    * period_spend_limit specifies the maximum number of coins that can be spent
    * in the period
@@ -96,13 +96,13 @@ export interface PeriodicAllowanceSDKType {
    * last period ended
    */
 
-  period_reset: Date | undefined;
+  period_reset?: Date | undefined;
 }
 /** AllowedMsgAllowance creates allowance only for specified message types. */
 
 export interface AllowedMsgAllowance {
   /** allowance can be any of basic and periodic fee allowance. */
-  allowance: Any | undefined;
+  allowance?: Any | undefined;
   /** allowed_messages are the messages for which the grantee has the access. */
 
   allowedMessages: string[];
@@ -111,7 +111,7 @@ export interface AllowedMsgAllowance {
 
 export interface AllowedMsgAllowanceSDKType {
   /** allowance can be any of basic and periodic fee allowance. */
-  allowance: AnySDKType | undefined;
+  allowance?: AnySDKType | undefined;
   /** allowed_messages are the messages for which the grantee has the access. */
 
   allowed_messages: string[];
@@ -126,7 +126,7 @@ export interface Grant {
   grantee: string;
   /** allowance can be any of basic, periodic, allowed fee allowance. */
 
-  allowance: Any | undefined;
+  allowance?: Any | undefined;
 }
 /** Grant is stored in the KVStore to record a grant with full context */
 
@@ -138,7 +138,7 @@ export interface GrantSDKType {
   grantee: string;
   /** allowance can be any of basic, periodic, allowed fee allowance. */
 
-  allowance: AnySDKType | undefined;
+  allowance?: AnySDKType | undefined;
 }
 
 function createBaseBasicAllowance(): BasicAllowance {
@@ -272,7 +272,7 @@ export const PeriodicAllowance = {
   fromPartial(object: Partial<PeriodicAllowance>): PeriodicAllowance {
     const message = createBasePeriodicAllowance();
     message.basic = object.basic !== undefined && object.basic !== null ? BasicAllowance.fromPartial(object.basic) : undefined;
-    message.period = object.period ?? undefined;
+    message.period = object.period !== undefined && object.period !== null ? Duration.fromPartial(object.period) : undefined;
     message.periodSpendLimit = object.periodSpendLimit?.map(e => Coin.fromPartial(e)) || [];
     message.periodCanSpend = object.periodCanSpend?.map(e => Coin.fromPartial(e)) || [];
     message.periodReset = object.periodReset ?? undefined;

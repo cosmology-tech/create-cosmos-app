@@ -1,7 +1,7 @@
 import { Member, MemberSDKType, VoteOption, VoteOptionSDKType } from "./types";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** Exec defines modes of execution of a proposal on creation or on new vote. */
 
 export enum Exec {
@@ -62,8 +62,9 @@ export function execToJSON(object: Exec): string {
     case Exec.EXEC_TRY:
       return "EXEC_TRY";
 
+    case Exec.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /** MsgCreateGroup is the Msg/CreateGroup request type. */
@@ -211,7 +212,7 @@ export interface MsgCreateGroupPolicy {
   metadata: string;
   /** decision_policy specifies the group policy's decision policy. */
 
-  decisionPolicy: Any | undefined;
+  decisionPolicy?: Any | undefined;
 }
 /** MsgCreateGroupPolicy is the Msg/CreateGroupPolicy request type. */
 
@@ -226,7 +227,7 @@ export interface MsgCreateGroupPolicySDKType {
   metadata: string;
   /** decision_policy specifies the group policy's decision policy. */
 
-  decision_policy: AnySDKType | undefined;
+  decision_policy?: AnySDKType | undefined;
 }
 /** MsgCreateGroupPolicyResponse is the Msg/CreateGroupPolicy response type. */
 
@@ -283,7 +284,7 @@ export interface MsgCreateGroupWithPolicy {
   groupPolicyAsAdmin: boolean;
   /** decision_policy specifies the group policy's decision policy. */
 
-  decisionPolicy: Any | undefined;
+  decisionPolicy?: Any | undefined;
 }
 /** MsgCreateGroupWithPolicy is the Msg/CreateGroupWithPolicy request type. */
 
@@ -304,7 +305,7 @@ export interface MsgCreateGroupWithPolicySDKType {
   group_policy_as_admin: boolean;
   /** decision_policy specifies the group policy's decision policy. */
 
-  decision_policy: AnySDKType | undefined;
+  decision_policy?: AnySDKType | undefined;
 }
 /** MsgCreateGroupWithPolicyResponse is the Msg/CreateGroupWithPolicy response type. */
 
@@ -340,7 +341,7 @@ export interface MsgUpdateGroupPolicyDecisionPolicy {
   address: string;
   /** decision_policy is the updated group policy's decision policy. */
 
-  decisionPolicy: Any | undefined;
+  decisionPolicy?: Any | undefined;
 }
 /** MsgUpdateGroupPolicyDecisionPolicy is the Msg/UpdateGroupPolicyDecisionPolicy request type. */
 
@@ -352,7 +353,7 @@ export interface MsgUpdateGroupPolicyDecisionPolicySDKType {
   address: string;
   /** decision_policy is the updated group policy's decision policy. */
 
-  decision_policy: AnySDKType | undefined;
+  decision_policy?: AnySDKType | undefined;
 }
 /** MsgUpdateGroupPolicyDecisionPolicyResponse is the Msg/UpdateGroupPolicyDecisionPolicy response type. */
 
@@ -653,7 +654,7 @@ export const MsgCreateGroupResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateGroupResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateGroupResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgCreateGroupResponse();
@@ -757,7 +758,7 @@ export const MsgUpdateGroupMembersResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateGroupMembersResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateGroupMembersResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUpdateGroupMembersResponse();
@@ -856,7 +857,7 @@ export const MsgUpdateGroupAdminResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateGroupAdminResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateGroupAdminResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUpdateGroupAdminResponse();
@@ -955,7 +956,7 @@ export const MsgUpdateGroupMetadataResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateGroupMetadataResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateGroupMetadataResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUpdateGroupMetadataResponse();
@@ -1070,7 +1071,7 @@ export const MsgCreateGroupPolicyResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateGroupPolicyResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateGroupPolicyResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgCreateGroupPolicyResponse();
@@ -1280,7 +1281,7 @@ export const MsgCreateGroupWithPolicyResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateGroupWithPolicyResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateGroupWithPolicyResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgCreateGroupWithPolicyResponse();
@@ -1324,7 +1325,7 @@ export const MsgUpdateGroupPolicyAdminResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateGroupPolicyAdminResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateGroupPolicyAdminResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUpdateGroupPolicyAdminResponse();
@@ -1423,7 +1424,7 @@ export const MsgUpdateGroupPolicyDecisionPolicyResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateGroupPolicyDecisionPolicyResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateGroupPolicyDecisionPolicyResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUpdateGroupPolicyDecisionPolicyResponse();
@@ -1522,7 +1523,7 @@ export const MsgUpdateGroupPolicyMetadataResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateGroupPolicyMetadataResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateGroupPolicyMetadataResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUpdateGroupPolicyMetadataResponse();
@@ -1647,7 +1648,7 @@ export const MsgSubmitProposalResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSubmitProposalResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSubmitProposalResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgSubmitProposalResponse();
@@ -1741,7 +1742,7 @@ export const MsgWithdrawProposalResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgWithdrawProposalResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgWithdrawProposalResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgWithdrawProposalResponse();
@@ -1860,7 +1861,7 @@ export const MsgVoteResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgVoteResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgVoteResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgVoteResponse();
@@ -1949,7 +1950,7 @@ export const MsgExecResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgExecResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgExecResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgExecResponse();
@@ -2038,7 +2039,7 @@ export const MsgLeaveGroupResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgLeaveGroupResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgLeaveGroupResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgLeaveGroupResponse();

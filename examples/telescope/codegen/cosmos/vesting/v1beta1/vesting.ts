@@ -1,14 +1,14 @@
 import { BaseAccount, BaseAccountSDKType } from "../../auth/v1beta1/auth";
 import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /**
  * BaseVestingAccount implements the VestingAccount interface. It contains all
  * the necessary fields needed for any vesting account implementation.
  */
 
 export interface BaseVestingAccount {
-  baseAccount: BaseAccount | undefined;
+  baseAccount?: BaseAccount | undefined;
   originalVesting: Coin[];
   delegatedFree: Coin[];
   delegatedVesting: Coin[];
@@ -20,7 +20,7 @@ export interface BaseVestingAccount {
  */
 
 export interface BaseVestingAccountSDKType {
-  base_account: BaseAccountSDKType | undefined;
+  base_account?: BaseAccountSDKType | undefined;
   original_vesting: CoinSDKType[];
   delegated_free: CoinSDKType[];
   delegated_vesting: CoinSDKType[];
@@ -32,7 +32,7 @@ export interface BaseVestingAccountSDKType {
  */
 
 export interface ContinuousVestingAccount {
-  baseVestingAccount: BaseVestingAccount | undefined;
+  baseVestingAccount?: BaseVestingAccount | undefined;
   startTime: Long;
 }
 /**
@@ -41,7 +41,7 @@ export interface ContinuousVestingAccount {
  */
 
 export interface ContinuousVestingAccountSDKType {
-  base_vesting_account: BaseVestingAccountSDKType | undefined;
+  base_vesting_account?: BaseVestingAccountSDKType | undefined;
   start_time: Long;
 }
 /**
@@ -51,7 +51,7 @@ export interface ContinuousVestingAccountSDKType {
  */
 
 export interface DelayedVestingAccount {
-  baseVestingAccount: BaseVestingAccount | undefined;
+  baseVestingAccount?: BaseVestingAccount | undefined;
 }
 /**
  * DelayedVestingAccount implements the VestingAccount interface. It vests all
@@ -60,7 +60,7 @@ export interface DelayedVestingAccount {
  */
 
 export interface DelayedVestingAccountSDKType {
-  base_vesting_account: BaseVestingAccountSDKType | undefined;
+  base_vesting_account?: BaseVestingAccountSDKType | undefined;
 }
 /** Period defines a length of time and amount of coins that will vest. */
 
@@ -80,7 +80,7 @@ export interface PeriodSDKType {
  */
 
 export interface PeriodicVestingAccount {
-  baseVestingAccount: BaseVestingAccount | undefined;
+  baseVestingAccount?: BaseVestingAccount | undefined;
   startTime: Long;
   vestingPeriods: Period[];
 }
@@ -90,7 +90,7 @@ export interface PeriodicVestingAccount {
  */
 
 export interface PeriodicVestingAccountSDKType {
-  base_vesting_account: BaseVestingAccountSDKType | undefined;
+  base_vesting_account?: BaseVestingAccountSDKType | undefined;
   start_time: Long;
   vesting_periods: PeriodSDKType[];
 }
@@ -103,7 +103,7 @@ export interface PeriodicVestingAccountSDKType {
  */
 
 export interface PermanentLockedAccount {
-  baseVestingAccount: BaseVestingAccount | undefined;
+  baseVestingAccount?: BaseVestingAccount | undefined;
 }
 /**
  * PermanentLockedAccount implements the VestingAccount interface. It does
@@ -114,7 +114,7 @@ export interface PermanentLockedAccount {
  */
 
 export interface PermanentLockedAccountSDKType {
-  base_vesting_account: BaseVestingAccountSDKType | undefined;
+  base_vesting_account?: BaseVestingAccountSDKType | undefined;
 }
 
 function createBaseBaseVestingAccount(): BaseVestingAccount {

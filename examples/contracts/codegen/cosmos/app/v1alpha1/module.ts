@@ -100,7 +100,7 @@ export interface PackageReference {
    * This behavior ensures that:
    * * pinned proto images are up-to-date
    * * protobuf files are carefully annotated with revision comments which
-   * are important good client UX
+   *   are important good client UX
    * * protobuf files are changed in backwards and forwards compatible ways
    */
 
@@ -145,7 +145,7 @@ export interface PackageReferenceSDKType {
    * This behavior ensures that:
    * * pinned proto images are up-to-date
    * * protobuf files are carefully annotated with revision comments which
-   * are important good client UX
+   *   are important good client UX
    * * protobuf files are changed in backwards and forwards compatible ways
    */
 

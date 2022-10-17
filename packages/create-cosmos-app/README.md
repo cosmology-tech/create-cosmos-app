@@ -100,7 +100,7 @@ cca --example
 </p>
 
 ```
-cca --name exampleapp --example --template send-tokens
+cca --name cca-sendtokens --example --template send-tokens
 ```
 
 ### Osmosis
@@ -118,7 +118,7 @@ cca --name myosmoapp --example --template osmosis
 or the cosmwsam example:
 
 ```
-cca --name myosmoapp --example --template osmosis-cosmwasm
+cca --name osmowasm --example --template osmosis-cosmwasm
 ```
 
 ### Juno
@@ -149,7 +149,7 @@ cca --name mystarsapp --example --template stargaze
 ### Tailwind
 
 ```
-cca --name exampleapp --example --template tailwindcss
+cca --name cca-tailwind --example --template tailwindcss
 ```
 
 ## Credits

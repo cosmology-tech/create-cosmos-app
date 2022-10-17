@@ -1,7 +1,7 @@
 import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../base/query/v1beta1/pagination";
 import { GroupInfo, GroupInfoSDKType, GroupPolicyInfo, GroupPolicyInfoSDKType, GroupMember, GroupMemberSDKType, Proposal, ProposalSDKType, Vote, VoteSDKType, TallyResult, TallyResultSDKType } from "./types";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** QueryGroupInfoRequest is the Query/GroupInfo request type. */
 
 export interface QueryGroupInfoRequest {
@@ -18,13 +18,13 @@ export interface QueryGroupInfoRequestSDKType {
 
 export interface QueryGroupInfoResponse {
   /** info is the GroupInfo for the group. */
-  info: GroupInfo | undefined;
+  info?: GroupInfo | undefined;
 }
 /** QueryGroupInfoResponse is the Query/GroupInfo response type. */
 
 export interface QueryGroupInfoResponseSDKType {
   /** info is the GroupInfo for the group. */
-  info: GroupInfoSDKType | undefined;
+  info?: GroupInfoSDKType | undefined;
 }
 /** QueryGroupPolicyInfoRequest is the Query/GroupPolicyInfo request type. */
 
@@ -42,13 +42,13 @@ export interface QueryGroupPolicyInfoRequestSDKType {
 
 export interface QueryGroupPolicyInfoResponse {
   /** info is the GroupPolicyInfo for the group policy. */
-  info: GroupPolicyInfo | undefined;
+  info?: GroupPolicyInfo | undefined;
 }
 /** QueryGroupPolicyInfoResponse is the Query/GroupPolicyInfo response type. */
 
 export interface QueryGroupPolicyInfoResponseSDKType {
   /** info is the GroupPolicyInfo for the group policy. */
-  info: GroupPolicyInfoSDKType | undefined;
+  info?: GroupPolicyInfoSDKType | undefined;
 }
 /** QueryGroupMembersRequest is the Query/GroupMembers request type. */
 
@@ -210,13 +210,13 @@ export interface QueryProposalRequestSDKType {
 
 export interface QueryProposalResponse {
   /** proposal is the proposal info. */
-  proposal: Proposal | undefined;
+  proposal?: Proposal | undefined;
 }
 /** QueryProposalResponse is the Query/Proposal response type. */
 
 export interface QueryProposalResponseSDKType {
   /** proposal is the proposal info. */
-  proposal: ProposalSDKType | undefined;
+  proposal?: ProposalSDKType | undefined;
 }
 /** QueryProposalsByGroupPolicyRequest is the Query/ProposalByGroupPolicy request type. */
 
@@ -276,13 +276,13 @@ export interface QueryVoteByProposalVoterRequestSDKType {
 
 export interface QueryVoteByProposalVoterResponse {
   /** vote is the vote with given proposal_id and voter. */
-  vote: Vote | undefined;
+  vote?: Vote | undefined;
 }
 /** QueryVoteByProposalVoterResponse is the Query/VoteByProposalVoter response type. */
 
 export interface QueryVoteByProposalVoterResponseSDKType {
   /** vote is the vote with given proposal_id and voter. */
-  vote: VoteSDKType | undefined;
+  vote?: VoteSDKType | undefined;
 }
 /** QueryVotesByProposalRequest is the Query/VotesByProposal request type. */
 
@@ -408,13 +408,13 @@ export interface QueryTallyResultRequestSDKType {
 
 export interface QueryTallyResultResponse {
   /** tally defines the requested tally. */
-  tally: TallyResult | undefined;
+  tally?: TallyResult | undefined;
 }
 /** QueryTallyResultResponse is the Query/TallyResult response type. */
 
 export interface QueryTallyResultResponseSDKType {
   /** tally defines the requested tally. */
-  tally: TallyResultSDKType | undefined;
+  tally?: TallyResultSDKType | undefined;
 }
 
 function createBaseQueryGroupInfoRequest(): QueryGroupInfoRequest {
@@ -477,7 +477,7 @@ export const QueryGroupInfoResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupInfoResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupInfoResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryGroupInfoResponse();
@@ -567,7 +567,7 @@ export const QueryGroupPolicyInfoResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupPolicyInfoResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupPolicyInfoResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryGroupPolicyInfoResponse();
@@ -672,7 +672,7 @@ export const QueryGroupMembersResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupMembersResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupMembersResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryGroupMembersResponse();
@@ -782,7 +782,7 @@ export const QueryGroupsByAdminResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupsByAdminResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupsByAdminResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryGroupsByAdminResponse();
@@ -892,7 +892,7 @@ export const QueryGroupPoliciesByGroupResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupPoliciesByGroupResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupPoliciesByGroupResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryGroupPoliciesByGroupResponse();
@@ -1002,7 +1002,7 @@ export const QueryGroupPoliciesByAdminResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupPoliciesByAdminResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupPoliciesByAdminResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryGroupPoliciesByAdminResponse();
@@ -1097,7 +1097,7 @@ export const QueryProposalResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProposalResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProposalResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryProposalResponse();
@@ -1202,7 +1202,7 @@ export const QueryProposalsByGroupPolicyResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProposalsByGroupPolicyResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProposalsByGroupPolicyResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryProposalsByGroupPolicyResponse();
@@ -1307,7 +1307,7 @@ export const QueryVoteByProposalVoterResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryVoteByProposalVoterResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryVoteByProposalVoterResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryVoteByProposalVoterResponse();
@@ -1412,7 +1412,7 @@ export const QueryVotesByProposalResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryVotesByProposalResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryVotesByProposalResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryVotesByProposalResponse();
@@ -1522,7 +1522,7 @@ export const QueryVotesByVoterResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryVotesByVoterResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryVotesByVoterResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryVotesByVoterResponse();
@@ -1632,7 +1632,7 @@ export const QueryGroupsByMemberResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupsByMemberResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupsByMemberResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryGroupsByMemberResponse();
@@ -1727,7 +1727,7 @@ export const QueryTallyResultResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTallyResultResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTallyResultResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTallyResultResponse();
