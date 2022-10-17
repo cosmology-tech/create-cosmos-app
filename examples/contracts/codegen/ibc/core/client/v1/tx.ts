@@ -4,13 +4,13 @@ import * as _m0 from "protobufjs/minimal";
 
 export interface MsgCreateClient {
   /** light client state */
-  clientState: Any | undefined;
+  clientState?: Any | undefined;
   /**
    * consensus state associated with the client that corresponds to a given
    * height.
    */
 
-  consensusState: Any | undefined;
+  consensusState?: Any | undefined;
   /** signer address */
 
   signer: string;
@@ -19,13 +19,13 @@ export interface MsgCreateClient {
 
 export interface MsgCreateClientSDKType {
   /** light client state */
-  client_state: AnySDKType | undefined;
+  client_state?: AnySDKType | undefined;
   /**
    * consensus state associated with the client that corresponds to a given
    * height.
    */
 
-  consensus_state: AnySDKType | undefined;
+  consensus_state?: AnySDKType | undefined;
   /** signer address */
 
   signer: string;
@@ -46,7 +46,7 @@ export interface MsgUpdateClient {
   clientId: string;
   /** header to update the light client */
 
-  header: Any | undefined;
+  header?: Any | undefined;
   /** signer address */
 
   signer: string;
@@ -61,7 +61,7 @@ export interface MsgUpdateClientSDKType {
   client_id: string;
   /** header to update the light client */
 
-  header: AnySDKType | undefined;
+  header?: AnySDKType | undefined;
   /** signer address */
 
   signer: string;
@@ -82,13 +82,13 @@ export interface MsgUpgradeClient {
   clientId: string;
   /** upgraded client state */
 
-  clientState: Any | undefined;
+  clientState?: Any | undefined;
   /**
    * upgraded consensus state, only contains enough information to serve as a
    * basis of trust in update logic
    */
 
-  consensusState: Any | undefined;
+  consensusState?: Any | undefined;
   /** proof that old chain committed to new client */
 
   proofUpgradeClient: Uint8Array;
@@ -109,13 +109,13 @@ export interface MsgUpgradeClientSDKType {
   client_id: string;
   /** upgraded client state */
 
-  client_state: AnySDKType | undefined;
+  client_state?: AnySDKType | undefined;
   /**
    * upgraded consensus state, only contains enough information to serve as a
    * basis of trust in update logic
    */
 
-  consensus_state: AnySDKType | undefined;
+  consensus_state?: AnySDKType | undefined;
   /** proof that old chain committed to new client */
 
   proof_upgrade_client: Uint8Array;
@@ -142,7 +142,7 @@ export interface MsgSubmitMisbehaviour {
   clientId: string;
   /** misbehaviour used for freezing the light client */
 
-  misbehaviour: Any | undefined;
+  misbehaviour?: Any | undefined;
   /** signer address */
 
   signer: string;
@@ -157,7 +157,7 @@ export interface MsgSubmitMisbehaviourSDKType {
   client_id: string;
   /** misbehaviour used for freezing the light client */
 
-  misbehaviour: AnySDKType | undefined;
+  misbehaviour?: AnySDKType | undefined;
   /** signer address */
 
   signer: string;
@@ -249,7 +249,7 @@ export const MsgCreateClientResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateClientResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateClientResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgCreateClientResponse();
@@ -348,7 +348,7 @@ export const MsgUpdateClientResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateClientResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateClientResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUpdateClientResponse();
@@ -477,7 +477,7 @@ export const MsgUpgradeClientResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpgradeClientResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpgradeClientResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUpgradeClientResponse();
@@ -576,7 +576,7 @@ export const MsgSubmitMisbehaviourResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSubmitMisbehaviourResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSubmitMisbehaviourResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgSubmitMisbehaviourResponse();

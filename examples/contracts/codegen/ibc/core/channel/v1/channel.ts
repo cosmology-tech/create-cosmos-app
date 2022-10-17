@@ -1,6 +1,6 @@
 import { Height, HeightSDKType } from "../../client/v1/client";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../../helpers";
 /**
  * State defines if a channel is in one of the following states:
  * CLOSED, INIT, TRYOPEN, OPEN or UNINITIALIZED.
@@ -102,8 +102,9 @@ export function stateToJSON(object: State): string {
     case State.STATE_CLOSED:
       return "STATE_CLOSED";
 
+    case State.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /** Order defines if a channel is ORDERED or UNORDERED */
@@ -169,8 +170,9 @@ export function orderToJSON(object: Order): string {
     case Order.ORDER_ORDERED:
       return "ORDER_ORDERED";
 
+    case Order.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /**
@@ -187,7 +189,7 @@ export interface Channel {
   ordering: Order;
   /** counterparty channel end */
 
-  counterparty: Counterparty | undefined;
+  counterparty?: Counterparty | undefined;
   /**
    * list of connection identifiers, in order, along which packets sent on
    * this channel will travel
@@ -212,7 +214,7 @@ export interface ChannelSDKType {
   ordering: OrderSDKType;
   /** counterparty channel end */
 
-  counterparty: CounterpartySDKType | undefined;
+  counterparty?: CounterpartySDKType | undefined;
   /**
    * list of connection identifiers, in order, along which packets sent on
    * this channel will travel
@@ -236,7 +238,7 @@ export interface IdentifiedChannel {
   ordering: Order;
   /** counterparty channel end */
 
-  counterparty: Counterparty | undefined;
+  counterparty?: Counterparty | undefined;
   /**
    * list of connection identifiers, in order, along which packets sent on
    * this channel will travel
@@ -266,7 +268,7 @@ export interface IdentifiedChannelSDKType {
   ordering: OrderSDKType;
   /** counterparty channel end */
 
-  counterparty: CounterpartySDKType | undefined;
+  counterparty?: CounterpartySDKType | undefined;
   /**
    * list of connection identifiers, in order, along which packets sent on
    * this channel will travel
@@ -327,7 +329,7 @@ export interface Packet {
   data: Uint8Array;
   /** block height after which the packet times out */
 
-  timeoutHeight: Height | undefined;
+  timeoutHeight?: Height | undefined;
   /** block timestamp (in nanoseconds) after which the packet times out */
 
   timeoutTimestamp: Long;
@@ -358,7 +360,7 @@ export interface PacketSDKType {
   data: Uint8Array;
   /** block height after which the packet times out */
 
-  timeout_height: HeightSDKType | undefined;
+  timeout_height?: HeightSDKType | undefined;
   /** block timestamp (in nanoseconds) after which the packet times out */
 
   timeout_timestamp: Long;

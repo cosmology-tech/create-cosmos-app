@@ -1,4 +1,4 @@
-import { setPaginationParams } from "@osmonauts/helpers";
+import { setPaginationParams } from "../../../helpers";
 import { LCDClient } from "@osmonauts/lcd";
 import { QueryBalanceRequest, QueryBalanceResponseSDKType, QueryOwnerRequest, QueryOwnerResponseSDKType, QuerySupplyRequest, QuerySupplyResponseSDKType, QueryNFTsRequest, QueryNFTsResponseSDKType, QueryNFTRequest, QueryNFTResponseSDKType, QueryClassRequest, QueryClassResponseSDKType, QueryClassesRequest, QueryClassesResponseSDKType } from "./query";
 export class LCDQueryClient {
@@ -40,7 +40,7 @@ export class LCDQueryClient {
     return await this.req.get<QuerySupplyResponseSDKType>(endpoint);
   }
   /* NFTs queries all NFTs of a given class or owner,choose at least one of the two, similar to tokenByIndex in
-  ERC721Enumerable */
+   ERC721Enumerable */
 
 
   async nFTs(params: QueryNFTsRequest): Promise<QueryNFTsResponseSDKType> {

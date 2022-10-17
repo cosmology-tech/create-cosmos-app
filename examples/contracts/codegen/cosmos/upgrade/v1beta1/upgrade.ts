@@ -1,7 +1,7 @@
 import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
 import * as _m0 from "protobufjs/minimal";
-import { toTimestamp, fromTimestamp, Long } from "@osmonauts/helpers";
+import { toTimestamp, fromTimestamp, Long } from "../../../helpers";
 /** Plan specifies information about a planned upgrade and when it should occur. */
 
 export interface Plan {
@@ -23,7 +23,7 @@ export interface Plan {
 
   /** @deprecated */
 
-  time: Date | undefined;
+  time?: Date | undefined;
   /**
    * The height at which the upgrade must be performed.
    * Only used if Time is not set.
@@ -44,7 +44,7 @@ export interface Plan {
 
   /** @deprecated */
 
-  upgradedClientState: Any | undefined;
+  upgradedClientState?: Any | undefined;
 }
 /** Plan specifies information about a planned upgrade and when it should occur. */
 
@@ -67,7 +67,7 @@ export interface PlanSDKType {
 
   /** @deprecated */
 
-  time: Date | undefined;
+  time?: Date | undefined;
   /**
    * The height at which the upgrade must be performed.
    * Only used if Time is not set.
@@ -88,7 +88,7 @@ export interface PlanSDKType {
 
   /** @deprecated */
 
-  upgraded_client_state: AnySDKType | undefined;
+  upgraded_client_state?: AnySDKType | undefined;
 }
 /**
  * SoftwareUpgradeProposal is a gov Content type for initiating a software
@@ -102,7 +102,7 @@ export interface PlanSDKType {
 export interface SoftwareUpgradeProposal {
   title: string;
   description: string;
-  plan: Plan | undefined;
+  plan?: Plan | undefined;
 }
 /**
  * SoftwareUpgradeProposal is a gov Content type for initiating a software
@@ -116,7 +116,7 @@ export interface SoftwareUpgradeProposal {
 export interface SoftwareUpgradeProposalSDKType {
   title: string;
   description: string;
-  plan: PlanSDKType | undefined;
+  plan?: PlanSDKType | undefined;
 }
 /**
  * CancelSoftwareUpgradeProposal is a gov Content type for cancelling a software

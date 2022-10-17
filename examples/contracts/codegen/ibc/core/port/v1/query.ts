@@ -13,7 +13,7 @@ export interface QueryAppVersionRequest {
   ordering: Order;
   /** counterparty channel end */
 
-  counterparty: Counterparty | undefined;
+  counterparty?: Counterparty | undefined;
   /** proposed version */
 
   proposedVersion: string;
@@ -31,7 +31,7 @@ export interface QueryAppVersionRequestSDKType {
   ordering: OrderSDKType;
   /** counterparty channel end */
 
-  counterparty: CounterpartySDKType | undefined;
+  counterparty?: CounterpartySDKType | undefined;
   /** proposed version */
 
   proposed_version: string;
@@ -160,7 +160,7 @@ export const QueryAppVersionResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAppVersionResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAppVersionResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAppVersionResponse();

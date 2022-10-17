@@ -2,7 +2,7 @@ import { Vote, VoteSDKType, LightBlock, LightBlockSDKType } from "./types";
 import { Timestamp } from "../../google/protobuf/timestamp";
 import { Validator, ValidatorSDKType } from "./validator";
 import * as _m0 from "protobufjs/minimal";
-import { toTimestamp, Long, fromTimestamp } from "@osmonauts/helpers";
+import { toTimestamp, Long, fromTimestamp } from "../../helpers";
 export interface Evidence {
   duplicateVoteEvidence?: DuplicateVoteEvidence | undefined;
   lightClientAttackEvidence?: LightClientAttackEvidence | undefined;
@@ -14,38 +14,38 @@ export interface EvidenceSDKType {
 /** DuplicateVoteEvidence contains evidence of a validator signed two conflicting votes. */
 
 export interface DuplicateVoteEvidence {
-  voteA: Vote | undefined;
-  voteB: Vote | undefined;
+  voteA?: Vote | undefined;
+  voteB?: Vote | undefined;
   totalVotingPower: Long;
   validatorPower: Long;
-  timestamp: Date | undefined;
+  timestamp?: Date | undefined;
 }
 /** DuplicateVoteEvidence contains evidence of a validator signed two conflicting votes. */
 
 export interface DuplicateVoteEvidenceSDKType {
-  vote_a: VoteSDKType | undefined;
-  vote_b: VoteSDKType | undefined;
+  vote_a?: VoteSDKType | undefined;
+  vote_b?: VoteSDKType | undefined;
   total_voting_power: Long;
   validator_power: Long;
-  timestamp: Date | undefined;
+  timestamp?: Date | undefined;
 }
 /** LightClientAttackEvidence contains evidence of a set of validators attempting to mislead a light client. */
 
 export interface LightClientAttackEvidence {
-  conflictingBlock: LightBlock | undefined;
+  conflictingBlock?: LightBlock | undefined;
   commonHeight: Long;
   byzantineValidators: Validator[];
   totalVotingPower: Long;
-  timestamp: Date | undefined;
+  timestamp?: Date | undefined;
 }
 /** LightClientAttackEvidence contains evidence of a set of validators attempting to mislead a light client. */
 
 export interface LightClientAttackEvidenceSDKType {
-  conflicting_block: LightBlockSDKType | undefined;
+  conflicting_block?: LightBlockSDKType | undefined;
   common_height: Long;
   byzantine_validators: ValidatorSDKType[];
   total_voting_power: Long;
-  timestamp: Date | undefined;
+  timestamp?: Date | undefined;
 }
 export interface EvidenceList {
   evidence: Evidence[];

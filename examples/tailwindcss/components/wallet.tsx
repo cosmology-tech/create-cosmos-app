@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+
 import { MouseEventHandler, useEffect, useMemo } from 'react'
 import { ChainCard } from '../components'
 import { Address, truncate } from './react/views'
@@ -39,6 +40,7 @@ export const WalletSection = () => {
   const {
     connect,
     openView,
+    setCurrentChain,
     walletStatus,
     username,
     address,

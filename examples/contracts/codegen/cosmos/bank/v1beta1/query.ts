@@ -24,13 +24,13 @@ export interface QueryBalanceRequestSDKType {
 
 export interface QueryBalanceResponse {
   /** balance is the balance of the coin. */
-  balance: Coin | undefined;
+  balance?: Coin | undefined;
 }
 /** QueryBalanceResponse is the response type for the Query/Balance RPC method. */
 
 export interface QueryBalanceResponseSDKType {
   /** balance is the balance of the coin. */
-  balance: CoinSDKType | undefined;
+  balance?: CoinSDKType | undefined;
 }
 /** QueryBalanceRequest is the request type for the Query/AllBalances RPC method. */
 
@@ -184,25 +184,25 @@ export interface QueryTotalSupplyResponseSDKType {
 
 export interface QuerySupplyOfRequest {
   /** denom is the coin denom to query balances for. */
-  denom?: string;
+  denom: string;
 }
 /** QuerySupplyOfRequest is the request type for the Query/SupplyOf RPC method. */
 
 export interface QuerySupplyOfRequestSDKType {
   /** denom is the coin denom to query balances for. */
-  denom?: string;
+  denom: string;
 }
 /** QuerySupplyOfResponse is the response type for the Query/SupplyOf RPC method. */
 
 export interface QuerySupplyOfResponse {
   /** amount is the supply of the coin. */
-  amount: Coin | undefined;
+  amount?: Coin | undefined;
 }
 /** QuerySupplyOfResponse is the response type for the Query/SupplyOf RPC method. */
 
 export interface QuerySupplyOfResponseSDKType {
   /** amount is the supply of the coin. */
-  amount: CoinSDKType | undefined;
+  amount?: CoinSDKType | undefined;
 }
 /** QueryParamsRequest defines the request type for querying x/bank parameters. */
 
@@ -213,12 +213,12 @@ export interface QueryParamsRequestSDKType {}
 /** QueryParamsResponse defines the response type for querying x/bank parameters. */
 
 export interface QueryParamsResponse {
-  params: Params | undefined;
+  params?: Params | undefined;
 }
 /** QueryParamsResponse defines the response type for querying x/bank parameters. */
 
 export interface QueryParamsResponseSDKType {
-  params: ParamsSDKType | undefined;
+  params?: ParamsSDKType | undefined;
 }
 /** QueryDenomsMetadataRequest is the request type for the Query/DenomsMetadata RPC method. */
 
@@ -275,7 +275,7 @@ export interface QueryDenomMetadataRequestSDKType {
 
 export interface QueryDenomMetadataResponse {
   /** metadata describes and provides all the client information for the requested token. */
-  metadata: Metadata | undefined;
+  metadata?: Metadata | undefined;
 }
 /**
  * QueryDenomMetadataResponse is the response type for the Query/DenomMetadata RPC
@@ -284,7 +284,7 @@ export interface QueryDenomMetadataResponse {
 
 export interface QueryDenomMetadataResponseSDKType {
   /** metadata describes and provides all the client information for the requested token. */
-  metadata: MetadataSDKType | undefined;
+  metadata?: MetadataSDKType | undefined;
 }
 /**
  * QueryDenomOwnersRequest defines the request type for the DenomOwners RPC query,
@@ -323,7 +323,7 @@ export interface DenomOwner {
   address: string;
   /** balance is the balance of the denominated coin for an account. */
 
-  balance: Coin | undefined;
+  balance?: Coin | undefined;
 }
 /**
  * DenomOwner defines structure representing an account that owns or holds a
@@ -336,7 +336,7 @@ export interface DenomOwnerSDKType {
   address: string;
   /** balance is the balance of the denominated coin for an account. */
 
-  balance: CoinSDKType | undefined;
+  balance?: CoinSDKType | undefined;
 }
 /** QueryDenomOwnersResponse defines the RPC response of a DenomOwners RPC query. */
 
@@ -425,7 +425,7 @@ export const QueryBalanceResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryBalanceResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryBalanceResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryBalanceResponse();
@@ -530,7 +530,7 @@ export const QueryAllBalancesResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllBalancesResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllBalancesResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAllBalancesResponse();
@@ -640,7 +640,7 @@ export const QuerySpendableBalancesResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySpendableBalancesResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySpendableBalancesResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySpendableBalancesResponse();
@@ -740,7 +740,7 @@ export const QueryTotalSupplyResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTotalSupplyResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTotalSupplyResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTotalSupplyResponse();
@@ -835,7 +835,7 @@ export const QuerySupplyOfResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySupplyOfResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySupplyOfResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySupplyOfResponse();
@@ -914,7 +914,7 @@ export const QueryParamsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();
@@ -1009,7 +1009,7 @@ export const QueryDenomsMetadataResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomsMetadataResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomsMetadataResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDenomsMetadataResponse();
@@ -1104,7 +1104,7 @@ export const QueryDenomMetadataResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomMetadataResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomMetadataResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDenomMetadataResponse();
@@ -1264,7 +1264,7 @@ export const QueryDenomOwnersResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomOwnersResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomOwnersResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDenomOwnersResponse();

@@ -3,7 +3,7 @@ import { ConnectionEnd, ConnectionEndSDKType, IdentifiedConnection, IdentifiedCo
 import { Height, HeightSDKType, IdentifiedClientState, IdentifiedClientStateSDKType } from "../../client/v1/client";
 import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../../helpers";
 /**
  * QueryConnectionRequest is the request type for the Query/Connection RPC
  * method
@@ -30,13 +30,13 @@ export interface QueryConnectionRequestSDKType {
 
 export interface QueryConnectionResponse {
   /** connection associated with the request identifier */
-  connection: ConnectionEnd | undefined;
+  connection?: ConnectionEnd | undefined;
   /** merkle proof of existence */
 
   proof: Uint8Array;
   /** height at which the proof was retrieved */
 
-  proofHeight: Height | undefined;
+  proofHeight?: Height | undefined;
 }
 /**
  * QueryConnectionResponse is the response type for the Query/Connection RPC
@@ -46,13 +46,13 @@ export interface QueryConnectionResponse {
 
 export interface QueryConnectionResponseSDKType {
   /** connection associated with the request identifier */
-  connection: ConnectionEndSDKType | undefined;
+  connection?: ConnectionEndSDKType | undefined;
   /** merkle proof of existence */
 
   proof: Uint8Array;
   /** height at which the proof was retrieved */
 
-  proof_height: HeightSDKType | undefined;
+  proof_height?: HeightSDKType | undefined;
 }
 /**
  * QueryConnectionsRequest is the request type for the Query/Connections RPC
@@ -83,7 +83,7 @@ export interface QueryConnectionsResponse {
   pagination?: PageResponse | undefined;
   /** query block height */
 
-  height: Height | undefined;
+  height?: Height | undefined;
 }
 /**
  * QueryConnectionsResponse is the response type for the Query/Connections RPC
@@ -98,7 +98,7 @@ export interface QueryConnectionsResponseSDKType {
   pagination?: PageResponseSDKType | undefined;
   /** query block height */
 
-  height: HeightSDKType | undefined;
+  height?: HeightSDKType | undefined;
 }
 /**
  * QueryClientConnectionsRequest is the request type for the
@@ -131,7 +131,7 @@ export interface QueryClientConnectionsResponse {
   proof: Uint8Array;
   /** height at which the proof was generated */
 
-  proofHeight: Height | undefined;
+  proofHeight?: Height | undefined;
 }
 /**
  * QueryClientConnectionsResponse is the response type for the
@@ -146,7 +146,7 @@ export interface QueryClientConnectionsResponseSDKType {
   proof: Uint8Array;
   /** height at which the proof was generated */
 
-  proof_height: HeightSDKType | undefined;
+  proof_height?: HeightSDKType | undefined;
 }
 /**
  * QueryConnectionClientStateRequest is the request type for the
@@ -173,13 +173,13 @@ export interface QueryConnectionClientStateRequestSDKType {
 
 export interface QueryConnectionClientStateResponse {
   /** client state associated with the channel */
-  identifiedClientState: IdentifiedClientState | undefined;
+  identifiedClientState?: IdentifiedClientState | undefined;
   /** merkle proof of existence */
 
   proof: Uint8Array;
   /** height at which the proof was retrieved */
 
-  proofHeight: Height | undefined;
+  proofHeight?: Height | undefined;
 }
 /**
  * QueryConnectionClientStateResponse is the response type for the
@@ -188,13 +188,13 @@ export interface QueryConnectionClientStateResponse {
 
 export interface QueryConnectionClientStateResponseSDKType {
   /** client state associated with the channel */
-  identified_client_state: IdentifiedClientStateSDKType | undefined;
+  identified_client_state?: IdentifiedClientStateSDKType | undefined;
   /** merkle proof of existence */
 
   proof: Uint8Array;
   /** height at which the proof was retrieved */
 
-  proof_height: HeightSDKType | undefined;
+  proof_height?: HeightSDKType | undefined;
 }
 /**
  * QueryConnectionConsensusStateRequest is the request type for the
@@ -225,7 +225,7 @@ export interface QueryConnectionConsensusStateRequestSDKType {
 
 export interface QueryConnectionConsensusStateResponse {
   /** consensus state associated with the channel */
-  consensusState: Any | undefined;
+  consensusState?: Any | undefined;
   /** client ID associated with the consensus state */
 
   clientId: string;
@@ -234,7 +234,7 @@ export interface QueryConnectionConsensusStateResponse {
   proof: Uint8Array;
   /** height at which the proof was retrieved */
 
-  proofHeight: Height | undefined;
+  proofHeight?: Height | undefined;
 }
 /**
  * QueryConnectionConsensusStateResponse is the response type for the
@@ -243,7 +243,7 @@ export interface QueryConnectionConsensusStateResponse {
 
 export interface QueryConnectionConsensusStateResponseSDKType {
   /** consensus state associated with the channel */
-  consensus_state: AnySDKType | undefined;
+  consensus_state?: AnySDKType | undefined;
   /** client ID associated with the consensus state */
 
   client_id: string;
@@ -252,7 +252,7 @@ export interface QueryConnectionConsensusStateResponseSDKType {
   proof: Uint8Array;
   /** height at which the proof was retrieved */
 
-  proof_height: HeightSDKType | undefined;
+  proof_height?: HeightSDKType | undefined;
 }
 
 function createBaseQueryConnectionRequest(): QueryConnectionRequest {
@@ -325,7 +325,7 @@ export const QueryConnectionResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConnectionResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConnectionResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConnectionResponse();
@@ -435,7 +435,7 @@ export const QueryConnectionsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConnectionsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConnectionsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConnectionsResponse();
@@ -545,7 +545,7 @@ export const QueryClientConnectionsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClientConnectionsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClientConnectionsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClientConnectionsResponse();
@@ -655,7 +655,7 @@ export const QueryConnectionClientStateResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConnectionClientStateResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConnectionClientStateResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConnectionClientStateResponse();
@@ -790,7 +790,7 @@ export const QueryConnectionConsensusStateResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConnectionConsensusStateResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConnectionConsensusStateResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConnectionConsensusStateResponse();

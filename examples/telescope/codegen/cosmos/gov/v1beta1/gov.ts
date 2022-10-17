@@ -3,7 +3,7 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import * as _m0 from "protobufjs/minimal";
-import { Long, toTimestamp, fromTimestamp } from "@osmonauts/helpers";
+import { Long, toTimestamp, fromTimestamp } from "../../../helpers";
 /** VoteOption enumerates the valid vote options for a given governance proposal. */
 
 export enum VoteOption {
@@ -87,8 +87,9 @@ export function voteOptionToJSON(object: VoteOption): string {
     case VoteOption.VOTE_OPTION_NO_WITH_VETO:
       return "VOTE_OPTION_NO_WITH_VETO";
 
+    case VoteOption.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /** ProposalStatus enumerates the valid statuses of a proposal. */
@@ -217,8 +218,9 @@ export function proposalStatusToJSON(object: ProposalStatus): string {
     case ProposalStatus.PROPOSAL_STATUS_FAILED:
       return "PROPOSAL_STATUS_FAILED";
 
+    case ProposalStatus.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /**
@@ -283,7 +285,7 @@ export interface DepositSDKType {
 
 export interface Proposal {
   proposalId: Long;
-  content: Any | undefined;
+  content?: Any | undefined;
   status: ProposalStatus;
   /**
    * final_tally_result is the final tally result of the proposal. When
@@ -291,18 +293,18 @@ export interface Proposal {
    * proposal's voting period has ended.
    */
 
-  finalTallyResult: TallyResult | undefined;
-  submitTime: Date | undefined;
-  depositEndTime: Date | undefined;
+  finalTallyResult?: TallyResult | undefined;
+  submitTime?: Date | undefined;
+  depositEndTime?: Date | undefined;
   totalDeposit: Coin[];
-  votingStartTime: Date | undefined;
-  votingEndTime: Date | undefined;
+  votingStartTime?: Date | undefined;
+  votingEndTime?: Date | undefined;
 }
 /** Proposal defines the core field members of a governance proposal. */
 
 export interface ProposalSDKType {
   proposal_id: Long;
-  content: AnySDKType | undefined;
+  content?: AnySDKType | undefined;
   status: ProposalStatusSDKType;
   /**
    * final_tally_result is the final tally result of the proposal. When
@@ -310,12 +312,12 @@ export interface ProposalSDKType {
    * proposal's voting period has ended.
    */
 
-  final_tally_result: TallyResultSDKType | undefined;
-  submit_time: Date | undefined;
-  deposit_end_time: Date | undefined;
+  final_tally_result?: TallyResultSDKType | undefined;
+  submit_time?: Date | undefined;
+  deposit_end_time?: Date | undefined;
   total_deposit: CoinSDKType[];
-  voting_start_time: Date | undefined;
-  voting_end_time: Date | undefined;
+  voting_start_time?: Date | undefined;
+  voting_end_time?: Date | undefined;
 }
 /** TallyResult defines a standard tally for a governance proposal. */
 
@@ -382,10 +384,10 @@ export interface DepositParams {
   minDeposit: Coin[];
   /**
    * Maximum period for Atom holders to deposit on a proposal. Initial value: 2
-   * months.
+   *  months.
    */
 
-  maxDepositPeriod: Duration | undefined;
+  maxDepositPeriod?: Duration | undefined;
 }
 /** DepositParams defines the params for deposits on governance proposals. */
 
@@ -394,29 +396,29 @@ export interface DepositParamsSDKType {
   min_deposit: CoinSDKType[];
   /**
    * Maximum period for Atom holders to deposit on a proposal. Initial value: 2
-   * months.
+   *  months.
    */
 
-  max_deposit_period: DurationSDKType | undefined;
+  max_deposit_period?: DurationSDKType | undefined;
 }
 /** VotingParams defines the params for voting on governance proposals. */
 
 export interface VotingParams {
   /** Length of the voting period. */
-  votingPeriod: Duration | undefined;
+  votingPeriod?: Duration | undefined;
 }
 /** VotingParams defines the params for voting on governance proposals. */
 
 export interface VotingParamsSDKType {
   /** Length of the voting period. */
-  voting_period: DurationSDKType | undefined;
+  voting_period?: DurationSDKType | undefined;
 }
 /** TallyParams defines the params for tallying votes on governance proposals. */
 
 export interface TallyParams {
   /**
    * Minimum percentage of total stake needed to vote for a result to be
-   * considered valid.
+   *  considered valid.
    */
   quorum: Uint8Array;
   /** Minimum proportion of Yes votes for proposal to pass. Default value: 0.5. */
@@ -424,7 +426,7 @@ export interface TallyParams {
   threshold: Uint8Array;
   /**
    * Minimum value of Veto votes to Total votes ratio for proposal to be
-   * vetoed. Default value: 1/3.
+   *  vetoed. Default value: 1/3.
    */
 
   vetoThreshold: Uint8Array;
@@ -434,7 +436,7 @@ export interface TallyParams {
 export interface TallyParamsSDKType {
   /**
    * Minimum percentage of total stake needed to vote for a result to be
-   * considered valid.
+   *  considered valid.
    */
   quorum: Uint8Array;
   /** Minimum proportion of Yes votes for proposal to pass. Default value: 0.5. */
@@ -442,7 +444,7 @@ export interface TallyParamsSDKType {
   threshold: Uint8Array;
   /**
    * Minimum value of Veto votes to Total votes ratio for proposal to be
-   * vetoed. Default value: 1/3.
+   *  vetoed. Default value: 1/3.
    */
 
   veto_threshold: Uint8Array;
@@ -947,7 +949,7 @@ export const DepositParams = {
   fromPartial(object: Partial<DepositParams>): DepositParams {
     const message = createBaseDepositParams();
     message.minDeposit = object.minDeposit?.map(e => Coin.fromPartial(e)) || [];
-    message.maxDepositPeriod = object.maxDepositPeriod ?? undefined;
+    message.maxDepositPeriod = object.maxDepositPeriod !== undefined && object.maxDepositPeriod !== null ? Duration.fromPartial(object.maxDepositPeriod) : undefined;
     return message;
   }
 
@@ -992,7 +994,7 @@ export const VotingParams = {
 
   fromPartial(object: Partial<VotingParams>): VotingParams {
     const message = createBaseVotingParams();
-    message.votingPeriod = object.votingPeriod ?? undefined;
+    message.votingPeriod = object.votingPeriod !== undefined && object.votingPeriod !== null ? Duration.fromPartial(object.votingPeriod) : undefined;
     return message;
   }
 

@@ -6,7 +6,7 @@ import { MerkleRoot, MerkleRootSDKType } from "../../../core/commitment/v1/commi
 import { SignedHeader, SignedHeaderSDKType } from "../../../../tendermint/types/types";
 import { ValidatorSet, ValidatorSetSDKType } from "../../../../tendermint/types/validator";
 import * as _m0 from "protobufjs/minimal";
-import { toTimestamp, fromTimestamp, Long } from "@osmonauts/helpers";
+import { toTimestamp, fromTimestamp, Long } from "../../../../helpers";
 /**
  * ClientState from Tendermint tracks the current validator set, latest height,
  * and a possible frozen height.
@@ -14,25 +14,25 @@ import { toTimestamp, fromTimestamp, Long } from "@osmonauts/helpers";
 
 export interface ClientState {
   chainId: string;
-  trustLevel: Fraction | undefined;
+  trustLevel?: Fraction | undefined;
   /**
    * duration of the period since the LastestTimestamp during which the
    * submitted headers are valid for upgrade
    */
 
-  trustingPeriod: Duration | undefined;
+  trustingPeriod?: Duration | undefined;
   /** duration of the staking unbonding period */
 
-  unbondingPeriod: Duration | undefined;
+  unbondingPeriod?: Duration | undefined;
   /** defines how much new (untrusted) header's Time can drift into the future. */
 
-  maxClockDrift: Duration | undefined;
+  maxClockDrift?: Duration | undefined;
   /** Block height when the client was frozen due to a misbehaviour */
 
-  frozenHeight: Height | undefined;
+  frozenHeight?: Height | undefined;
   /** Latest height the client was updated to */
 
-  latestHeight: Height | undefined;
+  latestHeight?: Height | undefined;
   /** Proof specifications used in verifying counterparty state */
 
   proofSpecs: ProofSpec[];
@@ -67,25 +67,25 @@ export interface ClientState {
 
 export interface ClientStateSDKType {
   chain_id: string;
-  trust_level: FractionSDKType | undefined;
+  trust_level?: FractionSDKType | undefined;
   /**
    * duration of the period since the LastestTimestamp during which the
    * submitted headers are valid for upgrade
    */
 
-  trusting_period: DurationSDKType | undefined;
+  trusting_period?: DurationSDKType | undefined;
   /** duration of the staking unbonding period */
 
-  unbonding_period: DurationSDKType | undefined;
+  unbonding_period?: DurationSDKType | undefined;
   /** defines how much new (untrusted) header's Time can drift into the future. */
 
-  max_clock_drift: DurationSDKType | undefined;
+  max_clock_drift?: DurationSDKType | undefined;
   /** Block height when the client was frozen due to a misbehaviour */
 
-  frozen_height: HeightSDKType | undefined;
+  frozen_height?: HeightSDKType | undefined;
   /** Latest height the client was updated to */
 
-  latest_height: HeightSDKType | undefined;
+  latest_height?: HeightSDKType | undefined;
   /** Proof specifications used in verifying counterparty state */
 
   proof_specs: ProofSpecSDKType[];
@@ -120,10 +120,10 @@ export interface ConsensusState {
    * timestamp that corresponds to the block height in which the ConsensusState
    * was stored.
    */
-  timestamp: Date | undefined;
+  timestamp?: Date | undefined;
   /** commitment root (i.e app hash) */
 
-  root: MerkleRoot | undefined;
+  root?: MerkleRoot | undefined;
   nextValidatorsHash: Uint8Array;
 }
 /** ConsensusState defines the consensus state from Tendermint. */
@@ -133,10 +133,10 @@ export interface ConsensusStateSDKType {
    * timestamp that corresponds to the block height in which the ConsensusState
    * was stored.
    */
-  timestamp: Date | undefined;
+  timestamp?: Date | undefined;
   /** commitment root (i.e app hash) */
 
-  root: MerkleRootSDKType | undefined;
+  root?: MerkleRootSDKType | undefined;
   next_validators_hash: Uint8Array;
 }
 /**
@@ -146,8 +146,8 @@ export interface ConsensusStateSDKType {
 
 export interface Misbehaviour {
   clientId: string;
-  header_1: Header | undefined;
-  header_2: Header | undefined;
+  header1?: Header | undefined;
+  header2?: Header | undefined;
 }
 /**
  * Misbehaviour is a wrapper over two conflicting Headers
@@ -156,8 +156,8 @@ export interface Misbehaviour {
 
 export interface MisbehaviourSDKType {
   client_id: string;
-  header_1: HeaderSDKType | undefined;
-  header_2: HeaderSDKType | undefined;
+  header_1?: HeaderSDKType | undefined;
+  header_2?: HeaderSDKType | undefined;
 }
 /**
  * Header defines the Tendermint client consensus Header.
@@ -175,10 +175,10 @@ export interface MisbehaviourSDKType {
  */
 
 export interface Header {
-  signedHeader: SignedHeader | undefined;
-  validatorSet: ValidatorSet | undefined;
-  trustedHeight: Height | undefined;
-  trustedValidators: ValidatorSet | undefined;
+  signedHeader?: SignedHeader | undefined;
+  validatorSet?: ValidatorSet | undefined;
+  trustedHeight?: Height | undefined;
+  trustedValidators?: ValidatorSet | undefined;
 }
 /**
  * Header defines the Tendermint client consensus Header.
@@ -196,10 +196,10 @@ export interface Header {
  */
 
 export interface HeaderSDKType {
-  signed_header: SignedHeaderSDKType | undefined;
-  validator_set: ValidatorSetSDKType | undefined;
-  trusted_height: HeightSDKType | undefined;
-  trusted_validators: ValidatorSetSDKType | undefined;
+  signed_header?: SignedHeaderSDKType | undefined;
+  validator_set?: ValidatorSetSDKType | undefined;
+  trusted_height?: HeightSDKType | undefined;
+  trusted_validators?: ValidatorSetSDKType | undefined;
 }
 /**
  * Fraction defines the protobuf message type for tmmath.Fraction that only
@@ -351,9 +351,9 @@ export const ClientState = {
     const message = createBaseClientState();
     message.chainId = object.chainId ?? "";
     message.trustLevel = object.trustLevel !== undefined && object.trustLevel !== null ? Fraction.fromPartial(object.trustLevel) : undefined;
-    message.trustingPeriod = object.trustingPeriod ?? undefined;
-    message.unbondingPeriod = object.unbondingPeriod ?? undefined;
-    message.maxClockDrift = object.maxClockDrift ?? undefined;
+    message.trustingPeriod = object.trustingPeriod !== undefined && object.trustingPeriod !== null ? Duration.fromPartial(object.trustingPeriod) : undefined;
+    message.unbondingPeriod = object.unbondingPeriod !== undefined && object.unbondingPeriod !== null ? Duration.fromPartial(object.unbondingPeriod) : undefined;
+    message.maxClockDrift = object.maxClockDrift !== undefined && object.maxClockDrift !== null ? Duration.fromPartial(object.maxClockDrift) : undefined;
     message.frozenHeight = object.frozenHeight !== undefined && object.frozenHeight !== null ? Height.fromPartial(object.frozenHeight) : undefined;
     message.latestHeight = object.latestHeight !== undefined && object.latestHeight !== null ? Height.fromPartial(object.latestHeight) : undefined;
     message.proofSpecs = object.proofSpecs?.map(e => ProofSpec.fromPartial(e)) || [];
@@ -433,8 +433,8 @@ export const ConsensusState = {
 function createBaseMisbehaviour(): Misbehaviour {
   return {
     clientId: "",
-    header_1: undefined,
-    header_2: undefined
+    header1: undefined,
+    header2: undefined
   };
 }
 
@@ -444,12 +444,12 @@ export const Misbehaviour = {
       writer.uint32(10).string(message.clientId);
     }
 
-    if (message.header_1 !== undefined) {
-      Header.encode(message.header_1, writer.uint32(18).fork()).ldelim();
+    if (message.header1 !== undefined) {
+      Header.encode(message.header1, writer.uint32(18).fork()).ldelim();
     }
 
-    if (message.header_2 !== undefined) {
-      Header.encode(message.header_2, writer.uint32(26).fork()).ldelim();
+    if (message.header2 !== undefined) {
+      Header.encode(message.header2, writer.uint32(26).fork()).ldelim();
     }
 
     return writer;
@@ -469,11 +469,11 @@ export const Misbehaviour = {
           break;
 
         case 2:
-          message.header_1 = Header.decode(reader, reader.uint32());
+          message.header1 = Header.decode(reader, reader.uint32());
           break;
 
         case 3:
-          message.header_2 = Header.decode(reader, reader.uint32());
+          message.header2 = Header.decode(reader, reader.uint32());
           break;
 
         default:
@@ -488,8 +488,8 @@ export const Misbehaviour = {
   fromPartial(object: Partial<Misbehaviour>): Misbehaviour {
     const message = createBaseMisbehaviour();
     message.clientId = object.clientId ?? "";
-    message.header_1 = object.header_1 !== undefined && object.header_1 !== null ? Header.fromPartial(object.header_1) : undefined;
-    message.header_2 = object.header_2 !== undefined && object.header_2 !== null ? Header.fromPartial(object.header_2) : undefined;
+    message.header1 = object.header1 !== undefined && object.header1 !== null ? Header.fromPartial(object.header1) : undefined;
+    message.header2 = object.header2 !== undefined && object.header2 !== null ? Header.fromPartial(object.header2) : undefined;
     return message;
   }
 

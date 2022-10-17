@@ -1,6 +1,6 @@
 import { IdentifiedClientState, IdentifiedClientStateSDKType, ClientConsensusStates, ClientConsensusStatesSDKType, Params, ParamsSDKType } from "./client";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../../helpers";
 /** GenesisState defines the ibc client submodule's genesis state. */
 
 export interface GenesisState {
@@ -12,7 +12,7 @@ export interface GenesisState {
   /** metadata from each client */
 
   clientsMetadata: IdentifiedGenesisMetadata[];
-  params: Params | undefined;
+  params?: Params | undefined;
   /** create localhost on initialization */
 
   createLocalhost: boolean;
@@ -31,7 +31,7 @@ export interface GenesisStateSDKType {
   /** metadata from each client */
 
   clients_metadata: IdentifiedGenesisMetadataSDKType[];
-  params: ParamsSDKType | undefined;
+  params?: ParamsSDKType | undefined;
   /** create localhost on initialization */
 
   create_localhost: boolean;

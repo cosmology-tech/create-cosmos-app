@@ -10,13 +10,13 @@ export interface QueryConfigRequestSDKType {}
 
 export interface QueryConfigResponse {
   /** config is the current app config. */
-  config: Config | undefined;
+  config?: Config | undefined;
 }
 /** QueryConfigRequest is the Query/Config response type. */
 
 export interface QueryConfigResponseSDKType {
   /** config is the current app config. */
-  config: ConfigSDKType | undefined;
+  config?: ConfigSDKType | undefined;
 }
 
 function createBaseQueryConfigRequest(): QueryConfigRequest {
@@ -68,7 +68,7 @@ export const QueryConfigResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConfigResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConfigResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConfigResponse();

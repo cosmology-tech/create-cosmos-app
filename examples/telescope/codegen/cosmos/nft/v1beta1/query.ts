@@ -1,7 +1,7 @@
 import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../base/query/v1beta1/pagination";
 import { NFT, NFTSDKType, Class, ClassSDKType } from "./nft";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../helpers";
 /** QueryBalanceRequest is the request type for the Query/Balance RPC method */
 
 export interface QueryBalanceRequest {
@@ -69,15 +69,15 @@ export interface QuerySupplyResponseSDKType {
 /** QueryNFTstRequest is the request type for the Query/NFTs RPC method */
 
 export interface QueryNFTsRequest {
-  classId?: string;
-  owner?: string;
+  classId: string;
+  owner: string;
   pagination?: PageRequest | undefined;
 }
 /** QueryNFTstRequest is the request type for the Query/NFTs RPC method */
 
 export interface QueryNFTsRequestSDKType {
-  class_id?: string;
-  owner?: string;
+  class_id: string;
+  owner: string;
   pagination?: PageRequestSDKType | undefined;
 }
 /** QueryNFTsResponse is the response type for the Query/NFTs RPC methods */
@@ -107,12 +107,12 @@ export interface QueryNFTRequestSDKType {
 /** QueryNFTResponse is the response type for the Query/NFT RPC method */
 
 export interface QueryNFTResponse {
-  nft: NFT | undefined;
+  nft?: NFT | undefined;
 }
 /** QueryNFTResponse is the response type for the Query/NFT RPC method */
 
 export interface QueryNFTResponseSDKType {
-  nft: NFTSDKType | undefined;
+  nft?: NFTSDKType | undefined;
 }
 /** QueryClassRequest is the request type for the Query/Class RPC method */
 
@@ -127,12 +127,12 @@ export interface QueryClassRequestSDKType {
 /** QueryClassResponse is the response type for the Query/Class RPC method */
 
 export interface QueryClassResponse {
-  class: Class | undefined;
+  class?: Class | undefined;
 }
 /** QueryClassResponse is the response type for the Query/Class RPC method */
 
 export interface QueryClassResponseSDKType {
-  class: ClassSDKType | undefined;
+  class?: ClassSDKType | undefined;
 }
 /** QueryClassesRequest is the request type for the Query/Classes RPC method */
 
@@ -229,7 +229,7 @@ export const QueryBalanceResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryBalanceResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryBalanceResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryBalanceResponse();
@@ -329,7 +329,7 @@ export const QueryOwnerResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryOwnerResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryOwnerResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryOwnerResponse();
@@ -419,7 +419,7 @@ export const QuerySupplyResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySupplyResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySupplyResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySupplyResponse();
@@ -534,7 +534,7 @@ export const QueryNFTsResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryNFTsResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryNFTsResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryNFTsResponse();
@@ -639,7 +639,7 @@ export const QueryNFTResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryNFTResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryNFTResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryNFTResponse();
@@ -729,7 +729,7 @@ export const QueryClassResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClassResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClassResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClassResponse();
@@ -824,7 +824,7 @@ export const QueryClassesResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClassesResponseSDKType {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClassesResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClassesResponse();

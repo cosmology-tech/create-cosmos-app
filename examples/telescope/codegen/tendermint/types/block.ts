@@ -2,16 +2,16 @@ import { Header, HeaderSDKType, Data, DataSDKType, Commit, CommitSDKType } from 
 import { EvidenceList, EvidenceListSDKType } from "./evidence";
 import * as _m0 from "protobufjs/minimal";
 export interface Block {
-  header: Header | undefined;
-  data: Data | undefined;
-  evidence: EvidenceList | undefined;
-  lastCommit: Commit | undefined;
+  header?: Header | undefined;
+  data?: Data | undefined;
+  evidence?: EvidenceList | undefined;
+  lastCommit?: Commit | undefined;
 }
 export interface BlockSDKType {
-  header: HeaderSDKType | undefined;
-  data: DataSDKType | undefined;
-  evidence: EvidenceListSDKType | undefined;
-  last_commit: CommitSDKType | undefined;
+  header?: HeaderSDKType | undefined;
+  data?: DataSDKType | undefined;
+  evidence?: EvidenceListSDKType | undefined;
+  last_commit?: CommitSDKType | undefined;
 }
 
 function createBaseBlock(): Block {

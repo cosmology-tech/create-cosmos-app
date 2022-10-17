@@ -1,6 +1,6 @@
 import { MerklePrefix, MerklePrefixSDKType } from "../../commitment/v1/commitment";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../../../helpers";
 /**
  * State defines if a connection is in one of the following states:
  * INIT, TRYOPEN, OPEN or UNINITIALIZED.
@@ -83,8 +83,9 @@ export function stateToJSON(object: State): string {
     case State.STATE_OPEN:
       return "STATE_OPEN";
 
+    case State.UNRECOGNIZED:
     default:
-      return "UNKNOWN";
+      return "UNRECOGNIZED";
   }
 }
 /**
@@ -108,7 +109,7 @@ export interface ConnectionEnd {
   state: State;
   /** counterparty chain associated with this connection. */
 
-  counterparty: Counterparty | undefined;
+  counterparty?: Counterparty | undefined;
   /**
    * delay period that must pass before a consensus state can be used for
    * packet-verification NOTE: delay period logic is only implemented by some
@@ -138,7 +139,7 @@ export interface ConnectionEndSDKType {
   state: StateSDKType;
   /** counterparty chain associated with this connection. */
 
-  counterparty: CounterpartySDKType | undefined;
+  counterparty?: CounterpartySDKType | undefined;
   /**
    * delay period that must pass before a consensus state can be used for
    * packet-verification NOTE: delay period logic is only implemented by some
@@ -169,7 +170,7 @@ export interface IdentifiedConnection {
   state: State;
   /** counterparty chain associated with this connection. */
 
-  counterparty: Counterparty | undefined;
+  counterparty?: Counterparty | undefined;
   /** delay period associated with this connection. */
 
   delayPeriod: Long;
@@ -196,7 +197,7 @@ export interface IdentifiedConnectionSDKType {
   state: StateSDKType;
   /** counterparty chain associated with this connection. */
 
-  counterparty: CounterpartySDKType | undefined;
+  counterparty?: CounterpartySDKType | undefined;
   /** delay period associated with this connection. */
 
   delay_period: Long;
@@ -217,7 +218,7 @@ export interface Counterparty {
   connectionId: string;
   /** commitment merkle prefix of the counterparty chain. */
 
-  prefix: MerklePrefix | undefined;
+  prefix?: MerklePrefix | undefined;
 }
 /** Counterparty defines the counterparty chain associated with a connection end. */
 
@@ -235,7 +236,7 @@ export interface CounterpartySDKType {
   connection_id: string;
   /** commitment merkle prefix of the counterparty chain. */
 
-  prefix: MerklePrefixSDKType | undefined;
+  prefix?: MerklePrefixSDKType | undefined;
 }
 /** ClientPaths define all the connection paths for a client state. */
 

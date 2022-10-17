@@ -8,6 +8,12 @@ import * as ibcApplicationsTransferV1TxAmino from "./applications/transfer/v1/tx
 import * as ibcCoreChannelV1TxAmino from "./core/channel/v1/tx.amino";
 import * as ibcCoreClientV1TxAmino from "./core/client/v1/tx.amino";
 import * as ibcCoreConnectionV1TxAmino from "./core/connection/v1/tx.amino";
+export const ibcAminoConverters = { ...ibcApplicationsTransferV1TxAmino.AminoConverter,
+  ...ibcCoreChannelV1TxAmino.AminoConverter,
+  ...ibcCoreClientV1TxAmino.AminoConverter,
+  ...ibcCoreConnectionV1TxAmino.AminoConverter
+};
+export const ibcProtoRegistry: ReadonlyArray<[string, GeneratedType]> = [...ibcApplicationsTransferV1TxRegistry.registry, ...ibcCoreChannelV1TxRegistry.registry, ...ibcCoreClientV1TxRegistry.registry, ...ibcCoreConnectionV1TxRegistry.registry];
 export const getSigningIbcClientOptions = ({
   defaultTypes = defaultRegistryTypes
 }: {
@@ -16,11 +22,8 @@ export const getSigningIbcClientOptions = ({
   registry: Registry;
   aminoTypes: AminoTypes;
 } => {
-  const registry = new Registry([...defaultTypes, ...ibcApplicationsTransferV1TxRegistry.registry, ...ibcCoreChannelV1TxRegistry.registry, ...ibcCoreClientV1TxRegistry.registry, ...ibcCoreConnectionV1TxRegistry.registry]);
-  const aminoTypes = new AminoTypes({ ...ibcApplicationsTransferV1TxAmino.AminoConverter,
-    ...ibcCoreChannelV1TxAmino.AminoConverter,
-    ...ibcCoreClientV1TxAmino.AminoConverter,
-    ...ibcCoreConnectionV1TxAmino.AminoConverter
+  const registry = new Registry([...defaultTypes, ...ibcProtoRegistry]);
+  const aminoTypes = new AminoTypes({ ...ibcAminoConverters
   });
   return {
     registry,

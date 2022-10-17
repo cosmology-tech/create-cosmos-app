@@ -1,34 +1,34 @@
 import { PublicKey, PublicKeySDKType } from "../crypto/keys";
 import * as _m0 from "protobufjs/minimal";
-import { Long } from "@osmonauts/helpers";
+import { Long } from "../../helpers";
 export interface ValidatorSet {
   validators: Validator[];
-  proposer: Validator | undefined;
+  proposer?: Validator | undefined;
   totalVotingPower: Long;
 }
 export interface ValidatorSetSDKType {
   validators: ValidatorSDKType[];
-  proposer: ValidatorSDKType | undefined;
+  proposer?: ValidatorSDKType | undefined;
   total_voting_power: Long;
 }
 export interface Validator {
   address: Uint8Array;
-  pubKey: PublicKey | undefined;
+  pubKey?: PublicKey | undefined;
   votingPower: Long;
   proposerPriority: Long;
 }
 export interface ValidatorSDKType {
   address: Uint8Array;
-  pub_key: PublicKeySDKType | undefined;
+  pub_key?: PublicKeySDKType | undefined;
   voting_power: Long;
   proposer_priority: Long;
 }
 export interface SimpleValidator {
-  pubKey: PublicKey | undefined;
+  pubKey?: PublicKey | undefined;
   votingPower: Long;
 }
 export interface SimpleValidatorSDKType {
-  pub_key: PublicKeySDKType | undefined;
+  pub_key?: PublicKeySDKType | undefined;
   voting_power: Long;
 }
 
