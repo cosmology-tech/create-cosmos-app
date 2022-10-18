@@ -2,7 +2,7 @@
 
 import { MouseEventHandler, useEffect, useMemo } from 'react'
 import { ChainCard } from '../components'
-import { Address, truncate } from './react/views'
+import { Address } from './react/views'
 import {
   ArrowPathIcon,
   ArrowDownTrayIcon,
@@ -148,7 +148,7 @@ export const WalletSection = () => {
                 </div>
               )}
             </div>
-            {address ? <Address>{truncate(address)}</Address> : <></>}
+            {address ? <Address>{address}</Address> : <></>}
             <div className="w-full max-w-[52] md:max-w-[64]">
               {_renderConnectButton}
             </div>
