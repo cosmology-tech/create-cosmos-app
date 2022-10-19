@@ -18,7 +18,6 @@ import {
   Flex,
   Icon,
   useColorMode,
-  useColorModeValue,
   Center,
 } from "@chakra-ui/react";
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
@@ -92,10 +91,12 @@ export default function Home() {
     useWallet();
 
   const [balance, setBalance] = useState(new BigNumber(0));
+  const [isFetchingBalance, setFetchingBalance] = useState(false);
   const [resp, setResp] = useState("");
   const getBalance = async () => {
     if (!address) {
       setBalance(new BigNumber(0));
+      setFetchingBalance(false);
       return;
     }
 
@@ -126,9 +127,8 @@ export default function Home() {
     const a = new BigNumber(balance.balance.amount);
     const amount = a.multipliedBy(10 ** -exp);
     setBalance(amount);
+    setFetchingBalance(false);
   };
-
-  const color = useColorModeValue("primary.500", "primary.200");
 
   return (
     <Container maxW="5xl" py={10}>
@@ -163,7 +163,14 @@ export default function Home() {
           fontSize={{ base: "2xl", md: "4xl" }}
         >
           <Text as="span">Welcome to&nbsp;</Text>
-          <Text as="span" color={color}>
+          <Text
+            as="span"
+            color={handleChangeColorModeValue(
+              colorMode,
+              "primary.500",
+              "primary.200"
+            )}
+          >
             CosmosKit&nbsp;+&nbsp;Next.js&nbsp;+&nbsp;
             <Link href={library.href} target="_blank" rel="noreferrer">
               {library.title}
@@ -178,6 +185,7 @@ export default function Home() {
         <SendTokensCard
           isConnectWallet={walletStatus === WalletStatus.Connected}
           balance={balance.toNumber()}
+          isFetchingBalance={isFetchingBalance}
           response={resp}
           sendTokensButtonText="Send Tokens"
           handleClickSendTokens={sendTokens(
@@ -185,7 +193,10 @@ export default function Home() {
             setResp as () => any,
             address as string
           )}
-          handleClickGetBalance={getBalance}
+          handleClickGetBalance={() => {
+            setFetchingBalance(true);
+            getBalance();
+          }}
         />
       </Center>
 

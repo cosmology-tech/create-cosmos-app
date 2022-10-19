@@ -6,6 +6,7 @@ import {
   Flex,
   Heading,
   Icon,
+  Spinner,
   Stack,
   Text,
   useColorMode,
@@ -19,6 +20,7 @@ import { handleChangeColorModeValue } from "./handleChangeColor";
 export const SendTokensCard = ({
   balance,
   response,
+  isFetchingBalance,
   isConnectWallet,
   getBalanceButtonText,
   handleClickGetBalance,
@@ -27,6 +29,7 @@ export const SendTokensCard = ({
 }: {
   balance: number;
   response?: string;
+  isFetchingBalance: boolean;
   isConnectWallet: boolean;
   sendTokensButtonText?: string;
   handleClickSendTokens: () => void;
@@ -104,6 +107,7 @@ export const SendTokensCard = ({
             "whiteAlpha.900",
             "blackAlpha.500"
           )}
+          isLoading={isFetchingBalance}
           variant="outline"
           onClick={handleClickGetBalance}
         >
