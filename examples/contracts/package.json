@@ -11,7 +11,7 @@
     "codegen": "node scripts/codegen.js"
   },
   "dependencies": {
-    "@chain-registry/types": "0.11.0",
+    "@chain-registry/types": "0.13.0",
     "@chakra-ui/icons": "^2.0.11",
     "@chakra-ui/react": "^2.3.5",
     "@cosmjs/cosmwasm-stargate": "0.29.2",
