@@ -9,7 +9,7 @@ import {
   useColorModeValue,
   Text
 } from '@chakra-ui/react';
-import { MouseEventHandler, useEffect, useMemo } from 'react';
+import { MouseEventHandler, useEffect } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import {
   Astronaut,
