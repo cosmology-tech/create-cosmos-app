@@ -7,7 +7,7 @@ export const stakingDenom = 'uosmo';
 export const feeDenom = 'uosmo';
 
 // export const chainName = 'cosmwasmtestnet';
-// export const stakingDenom = 'umlga';
+// export const stakingDenom = 'umlg';
 // export const feeDenom = 'uand';
 
 export const cw20ContractAddress = 'osmo1y0ywcujptlmnx4fgstlqfp7nftc8w5qndsfds9wxwtm0ltjpzp4qdj09j8'
