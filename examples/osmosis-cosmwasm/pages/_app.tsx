@@ -23,6 +23,10 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
           return {
             gasPrice: GasPrice.fromString('0.0025uosmo')
           };
+        case 'cosmwasmtestnet':
+          return {
+            gasPrice: GasPrice.fromString('0.0025umlga')
+          };
       }
     }
   };
