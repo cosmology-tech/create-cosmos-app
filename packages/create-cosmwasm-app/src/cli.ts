@@ -8,7 +8,7 @@ export const cli = async (argv) => {
       type: 'list',
       name: 'template',
       message: 'Which template',
-      choices: ['osmosis', 'juno', 'stargaze']
+      choices: ['osmosis', 'juno', 'stargaze', 'cosmwasm']
     }
   ], argv);
 
