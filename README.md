@@ -115,7 +115,7 @@ uses [osmojs](https://github.com/osmosis-labs/osmojs)
 cca --name myosmoapp --example --template osmosis
 ```
 
-or the cosmwsam example:
+or the cosmwasm example:
 
 ```
 cca --name osmowasm --example --template osmosis-cosmwasm
