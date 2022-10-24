@@ -88,7 +88,7 @@ export default function Home() {
 
       <Box w="full" maxW="md" mx="auto">
         <HackCw20
-          balance={undefined}
+          balance={balance}
           isConnectWallet={walletStatus !== WalletStatus.Disconnected}
         />
       </Box>
