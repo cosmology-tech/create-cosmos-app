@@ -146,6 +146,18 @@ uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
 cca --name mystarsapp --example --template stargaze
 ```
 
+### CosmWasm
+
+<p align="center" width="100%">
+    <img height="48" src="https://user-images.githubusercontent.com/545047/197502724-4cb0f898-116c-4c14-89c8-3358e89eab70.svg" />
+</p>
+
+
+
+```
+cca --name mywasmapp --example --template cosmwasm
+```
+
 ### Tailwind
 
 ```
