@@ -29,8 +29,8 @@ import {
 import { useHackCw20Balance } from "../hooks/use-hack-cw20-balance";
 
 const library = {
-  title: "Interchain",
-  text: "Interchain",
+  title: "Telescope",
+  text: "telescope",
   href: "https://github.com/cosmology-tech/interchain",
 };
 
