@@ -1617,6 +1617,13 @@
     "@keplr-wallet/cosmos" "^0.10.24"
     "@keplr-wallet/crypto" "^0.10.24"
 
+"@chain-registry/types@^0.13.1":
+  version "0.13.1"
+  resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.13.1.tgz#be30130005448d6462d73a284e1fd26d080a06e8"
+  integrity sha512-NF4x7pqkQJ/zSQLoT28sYlBdzWUyCTFvWgVE9hJ2jkirX+It9VUHP5j1wtTq+vxQ74SZk2V8vRBo2uuoEYBB1A==
+  dependencies:
+    "@babel/runtime" "^7.19.4"
+
 "@chakra-ui/accordion@2.1.1":
   version "2.1.1"
   resolved "https://registry.npmjs.org/@chakra-ui/accordion/-/accordion-2.1.1.tgz#34a8ffe7eb5bd30f7e10db4ed61f80c53d8bfa18"
@@ -6680,13 +6687,13 @@ caseless@~0.12.0:
   resolved "https://registry.npmjs.org/caseless/-/caseless-0.12.0.tgz"
   integrity sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==
 
-chain-registry@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.3.0.tgz#e6eb74d2d4da09a5434b0375d79e6dcc5aebffb6"
-  integrity sha512-yK4G99PHYw0yH397fKHjo3ihmmfU96yFQ3H+8x2g1bM5lM7pG542SyEyTNzNmBnHiGzffpO21Iy/D6nuRZEfcQ==
+chain-registry@1.3.1:
+  version "1.3.1"
+  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.3.1.tgz#21f252909506cb8b341e5a79ea511f74c5d9619a"
+  integrity sha512-/3rHkZiO4Q0Sah6gtYiIpPn4PCCat+eZDkbDkgtK6g4dzcUeZFcZXfsO6YhmGDfc5HSMC63CWUNjkLD2AG78Kw==
   dependencies:
     "@babel/runtime" "^7.19.4"
-    "@chain-registry/types" "^0.13.0"
+    "@chain-registry/types" "^0.13.1"
 
 chain-registry@^0.14.0:
   version "0.14.0"
