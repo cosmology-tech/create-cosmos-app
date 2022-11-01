@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { cli } from './cli';
 import pkg from '../package.json';
+import { cli } from './cli';
 import * as shell from 'shelljs';
 
 var argv = require('minimist')(process.argv.slice(2));
