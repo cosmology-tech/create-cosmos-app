@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmwasm-app@1.4.1...create-cosmwasm-app@1.5.0) (2022-11-01)
+
+**Note:** Version bump only for package create-cosmwasm-app
+
+
+
+
+
 ## [1.4.1](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmwasm-app@1.4.0...create-cosmwasm-app@1.4.1) (2022-11-01)
 
 **Note:** Version bump only for package create-cosmwasm-app
