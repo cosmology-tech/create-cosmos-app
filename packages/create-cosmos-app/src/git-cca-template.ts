@@ -71,8 +71,19 @@ export const createGitApp = (repo: string) => {
         shell.cd(currentDirecotry);
         shell.rm('-rf', dir);
         shell.cd(`./${name}`);
+
+        // clean up lock-file business...
+        const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
+        delete pkg.scripts['locks:remove']
+        delete pkg.scripts['locks:create']
+        delete pkg.scripts['locks']
+        delete pkg.devDependencies['generate-lockfile']
+        fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2));
+
+        // now yarn...
         shell.exec(`yarn`);
         shell.cd(currentDirecotry);
+
         const cmd = `cd ./${name} && yarn dev`;
 
         console.log(`

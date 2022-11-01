@@ -1,5 +1,5 @@
 {
-  "name": "@cosmonauts/osmosis-cosmwasm",
+  "name": "@cosmology/osmosis-cosmwasm",
   "version": "1.2.1",
   "private": true,
   "scripts": {
