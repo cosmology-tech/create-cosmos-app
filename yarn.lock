@@ -5785,6 +5785,11 @@
   dependencies:
     "@walletconnect/window-getters" "^1.0.0"
 
+"@yarnpkg/lockfile@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
+  integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
+
 "@zag-js/element-size@0.1.0":
   version "0.1.0"
   resolved "https://registry.npmjs.org/@zag-js/element-size/-/element-size-0.1.0.tgz#dfdb3f66a70328d0c3149aae29b8f99c10590c22"
@@ -6833,6 +6838,13 @@ combined-stream@^1.0.6, combined-stream@^1.0.8, combined-stream@~1.0.6:
   integrity sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
   dependencies:
     delayed-stream "~1.0.0"
+
+commander-plus@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.npmjs.org/commander-plus/-/commander-plus-0.0.6.tgz#280e9d3e30a392d8cda0f3d2721b856c832f602b"
+  integrity sha512-exkj0VqadsWHY4waXhdcybPuUGeLlFM3MMUmla8G8GR0yQYsMo2Ldsx33nm/68082g8mJQvdVCVFmrOvgLcUWQ==
+  dependencies:
+    keypress "0.1.x"
 
 commander@^4.0.1:
   version "4.1.1"
@@ -8186,6 +8198,15 @@ gauge@~2.7.3:
     string-width "^1.0.1"
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
+
+generate-lockfile@0.0.12:
+  version "0.0.12"
+  resolved "https://registry.npmjs.org/generate-lockfile/-/generate-lockfile-0.0.12.tgz#677ebfa137ceaa89577dec1b40389031f78c618c"
+  integrity sha512-uqZ0ZoCtn2r2tH3fkzAwZjXEXamjL/ZCGHCgZ1FJcRVgRNHsVSZBt7ZfRTqPXrZGi45k2cT/OsTEP8y8hrnDUQ==
+  dependencies:
+    "@yarnpkg/lockfile" "^1.1.0"
+    chalk "^4.1.0"
+    commander-plus "^0.0.6"
 
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
@@ -9637,6 +9658,11 @@ juno-network@0.8.0:
     "@cosmjs/tendermint-rpc" "^0.29.1"
     "@osmonauts/lcd" "0.8.0"
     protobufjs "^6.11.2"
+
+keypress@0.1.x:
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/keypress/-/keypress-0.1.0.tgz#4a3188d4291b66b4f65edb99f806aa9ae293592a"
+  integrity sha512-x0yf9PL/nx9Nw9oLL8ZVErFAk85/lslwEP7Vz7s5SI1ODXZIgit3C5qyWjw4DxOuO/3Hb4866SQh28a1V1d+WA==
 
 keyvaluestorage-interface@^1.0.0:
   version "1.0.0"
