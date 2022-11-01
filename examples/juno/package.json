@@ -1,12 +1,15 @@
 {
-  "name": "@cosmonauts/juno",
+  "name": "@cosmology/juno",
   "version": "1.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "locks:remove": "rm -f yarn.lock",
+    "locks:create": "generate-lockfile --lockfile ../../yarn.lock --package package.json --write yarn.lock --force",
+    "locks": "npm run locks:remove && npm run locks:create"
   },
   "dependencies": {
     "@chain-registry/types": "0.13.1",
@@ -35,6 +38,7 @@
     "@types/react-dom": "18.0.6",
     "eslint": "8.22.0",
     "eslint-config-next": "12.2.5",
+    "generate-lockfile": "0.0.12",
     "typescript": "4.7.4"
   }
 }
