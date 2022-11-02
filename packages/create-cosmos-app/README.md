@@ -165,6 +165,24 @@ cca --name mywasmapp --example --template cosmwasm
 cca --name cca-tailwind --example --template tailwindcss
 ```
 
+## Development
+
+Because the nature of how template boilerplates are generated, we generate `yarn.lock` files inside of nested packages so we can fix versions to avoid non-deterministic installations.
+
+When adding packages, yarn workspaces will use the root `yarn.lock`. It could be ideal to remove it while adding packages, and when publishing or pushing new changes, generating the nested lock files.
+
+In the root, to remove all nested lock files:
+
+```
+yarn locks:remove
+```
+
+When you need to remove/generate locks for all nested packages, simply run `yarn locks` in the root:
+
+```
+yarn locks
+```
+
 ## Credits
 
 🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
