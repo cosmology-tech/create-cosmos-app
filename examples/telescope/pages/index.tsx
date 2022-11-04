@@ -12,7 +12,7 @@ import { chainName, chainassets, baseAsset, sendTokens } from '../config';
 
 export default function Home() {
   const {
-    getStargateClient,
+    getSigningStargateClient,
     address,
     currentWallet,
     walletStatus
@@ -72,7 +72,7 @@ export default function Home() {
 
           <Button
             onClick={sendTokens(
-              getStargateClient as () => Promise<SigningStargateClient>,
+              getSigningStargateClient as () => Promise<SigningStargateClient>,
               setResp as () => any,
               address as string
             )}

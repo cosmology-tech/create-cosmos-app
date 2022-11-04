@@ -46,12 +46,12 @@ const library = {
 };
 
 const sendTokens = (
-  getStargateClient: () => Promise<SigningStargateClient>,
+  getSigningStargateClient: () => Promise<SigningStargateClient>,
   setResp: () => any,
   address: string
 ) => {
   return async () => {
-    const stargateClient = await getStargateClient();
+    const stargateClient = await getSigningStargateClient();
     if (!stargateClient || !address) {
       console.error("stargateClient undefined or address undefined.");
       return;
@@ -87,7 +87,7 @@ const sendTokens = (
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const { getStargateClient, address, currentWallet, walletStatus } =
+  const { getSigningStargateClient, address, currentWallet, walletStatus } =
     useWallet();
 
   const [balance, setBalance] = useState(new BigNumber(0));
@@ -189,7 +189,7 @@ export default function Home() {
           response={resp}
           sendTokensButtonText="Send Tokens"
           handleClickSendTokens={sendTokens(
-            getStargateClient as () => Promise<SigningStargateClient>,
+            getSigningStargateClient as () => Promise<SigningStargateClient>,
             setResp as () => any,
             address as string
           )}
