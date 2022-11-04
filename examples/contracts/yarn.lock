@@ -63,7 +63,7 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@chain-registry/types@0.13.1":
+"@chain-registry/types@0.13.1", "@chain-registry/types@^0.13.1":
   version "0.13.1"
   resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.13.1.tgz#be30130005448d6462d73a284e1fd26d080a06e8"
   integrity sha512-NF4x7pqkQJ/zSQLoT28sYlBdzWUyCTFvWgVE9hJ2jkirX+It9VUHP5j1wtTq+vxQ74SZk2V8vRBo2uuoEYBB1A==
@@ -1086,13 +1086,13 @@
     react-dom "18.2.0"
     react-icons "^4.4.0"
 
-"@cosmos-kit/react@0.19.0":
-  version "0.19.0"
-  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-0.19.0.tgz#0976c9678f57bbb710b4c73494047d1b17512f10"
-  integrity sha512-w8v18Us7t6VD3ERFa1XZvJ2/30vW9qTQ6PGkvoeoIHy3KVIDlLb9hNPgq9rm+wn7/ohGt1KXHiWmd3K5qZiPKg==
+"@cosmos-kit/react@0.19.1":
+  version "0.19.1"
+  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-0.19.1.tgz#f79614a46327932404b72526e3ef98711ea64b6b"
+  integrity sha512-nzAfmeP0taROdLbHYC3xZR/zO+uVnnA7NW8CGWF39j1YmnnMlwdYk0dFa0WyQah5+eJj5rSbgCSAz4Wz8qlVyg==
   dependencies:
     "@babel/runtime" "^7.11.2"
-    "@chain-registry/types" "^0.11.0"
+    "@chain-registry/types" "^0.13.1"
     "@chakra-ui/react" "^2.2.9"
     "@cosmos-kit/config" "^0.16.2"
     "@emotion/react" "^11"
