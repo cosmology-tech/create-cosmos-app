@@ -13,12 +13,12 @@ export const baseAsset: Asset = chainassets.assets.find(
 ) as Asset;
 
 export const sendTokens = (
-    getStargateClient: () => Promise<SigningStargateClient>,
+    getSigningStargateClient: () => Promise<SigningStargateClient>,
     setResp: () => any,
     address: string
 ) => {
     return async () => {
-        const stargateClient = await getStargateClient();
+        const stargateClient = await getSigningStargateClient();
         if (!stargateClient || !address) {
             console.error('stargateClient undefined or address undefined.');
             return;

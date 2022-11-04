@@ -7,13 +7,13 @@ import { HackCw20QueryClient } from "../codegen/HackCw20.client";
 export function useHackCw20Balance(contractAddress: string): {
   balance: string | undefined;
 } {
-  const { getCosmWasmClient, address } = useWallet();
+  const { getSigningCosmWasmClient, address } = useWallet();
 
   const [cw20Client, setCw20Client] = useState<HackCw20QueryClient | null>(
     null
   );
   useEffect(() => {
-    getCosmWasmClient().then((cosmwasmClient) => {
+    getSigningCosmWasmClient().then((cosmwasmClient) => {
       if (!cosmwasmClient || !address) {
         console.error("cosmwasmClient undefined or address undefined.");
         return;
@@ -21,7 +21,7 @@ export function useHackCw20Balance(contractAddress: string): {
 
       setCw20Client(new HackCw20QueryClient(cosmwasmClient, contractAddress));
     });
-  }, [address, contractAddress, getCosmWasmClient]);
+  }, [address, contractAddress, getSigningCosmWasmClient]);
   const [cw20Bal, setCw20Bal] = useState<string | null>(null);
   useEffect(() => {
     if (cw20Client && address) {

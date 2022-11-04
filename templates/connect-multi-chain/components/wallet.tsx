@@ -40,14 +40,14 @@ export const WalletSection = () => {
     message,
     currentChainName,
     currentWallet,
-    chains,
+    chainRecords,
     getChainLogo,
     setCurrentChain
   } = walletManager;
 
   const chainOptions = useMemo(
     () =>
-      chains.map((chainRecord) => {
+      chainRecords.map((chainRecord) => {
         return {
           chainName: chainRecord?.name,
           label: chainRecord?.chain.pretty_name,
@@ -55,7 +55,7 @@ export const WalletSection = () => {
           icon: getChainLogo(chainRecord.name)
         };
       }),
-    [chains, getChainLogo]
+    [chainRecords, getChainLogo]
   );
 
   // Events
