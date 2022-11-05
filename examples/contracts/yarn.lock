@@ -957,10 +957,10 @@
   resolved "https://registry.npmjs.org/@cosmjs/utils/-/utils-0.29.3.tgz#d7e1f381267e61b7d3219ebd75d46defc397cd43"
   integrity sha512-UuKoBN2xiRXcBpz7jzCwagKhOnLOsRmR8mu3IzY+Yx38i8rW52FSXMbxC/yE83X0vLea+zgMQFPwv0gy4QWUJw==
 
-"@cosmos-kit/react@0.20.0":
-  version "0.20.0"
-  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-0.20.0.tgz#fb347d9a0537dc30898ab99668571b0163325e40"
-  integrity sha512-oiGUSDSIJ7dLbZzKXE7AMFEpGIUEbTexn4aV1tAA8uJy9hxbweUrvosbcueV+53LC9WVsPXAFyEhRjeFsZ/1Sw==
+"@cosmos-kit/react@0.21.0":
+  version "0.21.0"
+  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-0.21.0.tgz#a5dc92ad51e19e1f91e14ed465a425b8ce33628b"
+  integrity sha512-0d8O1mnV0PH6CCBh4/mvUC3uIx2GWhKt9CvhVTFlHVvslf5lqjKx7SuVDmaiMUBUt5r5nKP3x4WqhspGOkaG0A==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chain-registry/types" "^0.13.1"
