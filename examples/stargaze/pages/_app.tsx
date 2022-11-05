@@ -5,7 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { chainName, defaultTheme } from '../config';
 import { wallets } from '@cosmos-kit/keplr';
 import { chains, assets } from 'chain-registry';
-import { getSigningCosmosClientOptions } from 'stargaze-zone';
+import { getSigningCosmosClientOptions } from 'stargazejs';
 import { GasPrice } from '@cosmjs/stargate';
 
 import { SignerOptions } from '@cosmos-kit/core';

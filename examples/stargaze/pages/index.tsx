@@ -38,12 +38,12 @@ import {
 } from "../components";
 import { SendTokensCard } from "../components/react/send-tokens-card";
 
-import { cosmos } from 'stargaze-zone';
+import { cosmos } from 'stargazejs';
 
 const library = {
   title: 'StargazeJS',
   text: 'Typescript libraries for the Stargaze ecosystem',
-  href: 'https://github.com/cosmology-tech/stargaze-zone'
+  href: 'https://github.com/cosmology-tech/stargazejs'
 };
 
 const sendTokens = (

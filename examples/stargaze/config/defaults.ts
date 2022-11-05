@@ -2,7 +2,7 @@ import { StdFee } from '@cosmjs/amino';
 import { assets } from 'chain-registry';
 import { AssetList, Asset } from '@chain-registry/types';
 import { SigningStargateClient } from '@cosmjs/stargate';
-import { cosmos } from 'stargaze-zone';
+import { cosmos } from 'stargazejs';
 
 export const chainName = 'stargaze';
 

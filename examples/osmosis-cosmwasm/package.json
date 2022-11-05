@@ -19,9 +19,9 @@
     "@chakra-ui/react": "2.3.6",
     "@cosmjs/cosmwasm-stargate": "0.29.3",
     "@cosmjs/stargate": "0.29.3",
-    "@cosmos-kit/core": "0.20.1",
-    "@cosmos-kit/keplr": "0.20.1",
-    "@cosmos-kit/react": "0.19.1",
+    "@cosmos-kit/core": "0.21.0",
+    "@cosmos-kit/keplr": "0.21.0",
+    "@cosmos-kit/react": "0.20.0",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "bignumber.js": "9.1.0",
@@ -34,7 +34,7 @@
     "react-icons": "4.6.0"
   },
   "devDependencies": {
-    "@cosmwasm/ts-codegen": "0.19.0",
+    "@cosmwasm/ts-codegen": "0.20.0",
     "@types/node": "18.7.11",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
