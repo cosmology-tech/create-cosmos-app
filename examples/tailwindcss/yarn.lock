@@ -982,40 +982,42 @@
   resolved "https://registry.npmjs.org/@cosmjs/utils/-/utils-0.29.3.tgz#d7e1f381267e61b7d3219ebd75d46defc397cd43"
   integrity sha512-UuKoBN2xiRXcBpz7jzCwagKhOnLOsRmR8mu3IzY+Yx38i8rW52FSXMbxC/yE83X0vLea+zgMQFPwv0gy4QWUJw==
 
-"@cosmos-kit/core@0.21.0", "@cosmos-kit/core@^0.21.0":
-  version "0.21.0"
-  resolved "https://registry.npmjs.org/@cosmos-kit/core/-/core-0.21.0.tgz#b5f3eb96403755072da1b3eeba7f5b41e0036a40"
-  integrity sha512-cFR0O4YQY6Owg4hMrrOhmHHotQNhrl410WTiU+T1dt6qFrB29rzFalX3jwYsnwunRrpWGPEq5ypv84aXQdpNXA==
+"@cosmos-kit/core@0.22.0", "@cosmos-kit/core@^0.22.0":
+  version "0.22.0"
+  resolved "https://registry.npmjs.org/@cosmos-kit/core/-/core-0.22.0.tgz#39b835ee2b84ce1f434851f9a8565dcc7a78548c"
+  integrity sha512-tcWibmVG38rspEI+vlyT1K74Nj3YjfVTwN04u3095ijUzD+gCs2B36GSOHnghb3bQwaY7to1Wqj35f7TkGWWvQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chain-registry/types" "^0.13.0"
     "@walletconnect/browser-utils" "1.8.0"
+    "@walletconnect/types" "^1.8.0"
 
-"@cosmos-kit/keplr@0.22.0":
-  version "0.22.0"
-  resolved "https://registry.npmjs.org/@cosmos-kit/keplr/-/keplr-0.22.0.tgz#c3ec0ecc086b4244c2310ef00708d8884dd5e016"
-  integrity sha512-oYqrzzPTjLwLnqZ3nwCesAqpCXCYepnGD8OzOLmE2yA/BZB34+ZVNoouP4gu+jM4o8VtJaaFSJ5YRgvHTCcfrA==
+"@cosmos-kit/keplr@0.24.0":
+  version "0.24.0"
+  resolved "https://registry.npmjs.org/@cosmos-kit/keplr/-/keplr-0.24.0.tgz#d1c9401a0088cddd7d81196f25a9eb5c3098706e"
+  integrity sha512-U1LgQ8Spjvc1AGFgY11lmc2kD4/UnXeURPvEg0LD+0Sw8LuPL/cZaHExjGD10JVIyrHFVxKVEdE7tsCqQBWm+g==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chain-registry/keplr" "1.4.0"
     "@chain-registry/types" "^0.13.1"
     "@chakra-ui/react" "^2.2.9"
-    "@cosmos-kit/core" "^0.21.0"
+    "@cosmos-kit/core" "^0.22.0"
     "@emotion/react" "^11"
     "@emotion/styled" "^11"
-    "@keplr-wallet/types" "0.11.16"
-    "@keplr-wallet/wc-client" "0.11.16"
+    "@keplr-wallet/types" "0.11.16-alpha.0"
     "@walletconnect/browser-utils" "1.8.0"
     "@walletconnect/client" "1.8.0"
+    "@walletconnect/utils" "1.8.0"
+    deepmerge "4.2.2"
     events "3.3.0"
     react "18.2.0"
     react-dom "18.2.0"
     react-icons "^4.4.0"
 
-"@cosmos-kit/react@0.21.0":
-  version "0.21.0"
-  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-0.21.0.tgz#a5dc92ad51e19e1f91e14ed465a425b8ce33628b"
-  integrity sha512-0d8O1mnV0PH6CCBh4/mvUC3uIx2GWhKt9CvhVTFlHVvslf5lqjKx7SuVDmaiMUBUt5r5nKP3x4WqhspGOkaG0A==
+"@cosmos-kit/react@0.22.0":
+  version "0.22.0"
+  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-0.22.0.tgz#7d740d6fdb93d59f7830b744039eb49bc925c638"
+  integrity sha512-JVwQreWDE2r/pUbu9kz1sQXXog62vJlrHYZomYTVk/7rhcYz8/vVGYyvfPJs5T8e9S/XD/CcixRrsuaf3e7bjQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chain-registry/types" "^0.13.1"
@@ -1322,15 +1324,6 @@
   resolved "https://registry.npmjs.org/@iov/utils/-/utils-2.0.2.tgz#3527f376d26100e07ac823bf87bebd0f24680d1c"
   integrity sha512-4D8MEvTcFc/DVy5q25vHxRItmgJyeX85dixMH+MxdKr+yy71h3sYk+sVBEIn70uqGP7VqAJkGOPNFs08/XYELw==
 
-"@keplr-wallet/common@0.11.16":
-  version "0.11.16"
-  resolved "https://registry.npmjs.org/@keplr-wallet/common/-/common-0.11.16.tgz#a4b0112fc4e27daf194b8fc3ecf056632a9d224a"
-  integrity sha512-RTbfe8LkPzQQqYntx53dZTuDUgx+W6KRY4g3fIv1c59DS/bp9ZqjYfUDmj3yH0GQk822zqJJwCtjk+qsgvyebg==
-  dependencies:
-    "@keplr-wallet/crypto" "0.11.16"
-    buffer "^6.0.3"
-    delay "^4.4.0"
-
 "@keplr-wallet/common@0.11.16-rc.0":
   version "0.11.16-rc.0"
   resolved "https://registry.npmjs.org/@keplr-wallet/common/-/common-0.11.16-rc.0.tgz#63a3dc1698e4311731e8ad2731a50c7017346f75"
@@ -1357,20 +1350,6 @@
     long "^4.0.0"
     protobufjs "^6.11.2"
 
-"@keplr-wallet/crypto@0.11.16":
-  version "0.11.16"
-  resolved "https://registry.npmjs.org/@keplr-wallet/crypto/-/crypto-0.11.16.tgz#6cd39fdb7d1df44be05c78bf3244132262c821d4"
-  integrity sha512-th3t05Aq+uQLbhhiqIHbevY3pA4dBKr+vKcUpfdshcc78fI1eGpmzGcQKxlvbectBn4UwamTEANssyplXOGQqg==
-  dependencies:
-    "@ethersproject/keccak256" "^5.5.0"
-    bip32 "^2.0.6"
-    bip39 "^3.0.3"
-    bs58check "^2.1.2"
-    buffer "^6.0.3"
-    crypto-js "^4.0.0"
-    elliptic "^6.5.3"
-    sha.js "^2.4.11"
-
 "@keplr-wallet/crypto@0.11.16-rc.0":
   version "0.11.16-rc.0"
   resolved "https://registry.npmjs.org/@keplr-wallet/crypto/-/crypto-0.11.16-rc.0.tgz#60b518782942da348cc98175ce3e3b5b871ca2fc"
@@ -1393,27 +1372,10 @@
     long "^4.0.0"
     protobufjs "^6.11.2"
 
-"@keplr-wallet/provider@0.11.16":
-  version "0.11.16"
-  resolved "https://registry.npmjs.org/@keplr-wallet/provider/-/provider-0.11.16.tgz#77cc4a6285ba986083c935add270e020de75ac49"
-  integrity sha512-tHkkbDGo386OkrsScmN30IozRuGZieI88z8yoTySLfy/AUv9g2l+0C4D7zNotCYnwqUtPoRuWaubcuhA8OUKgA==
-  dependencies:
-    "@keplr-wallet/router" "0.11.16"
-    "@keplr-wallet/types" "0.11.16"
-    buffer "^6.0.3"
-    deepmerge "^4.2.2"
-    long "^4.0.0"
-    secretjs "0.17.7"
-
-"@keplr-wallet/router@0.11.16":
-  version "0.11.16"
-  resolved "https://registry.npmjs.org/@keplr-wallet/router/-/router-0.11.16.tgz#bb6512667989fdfe84865110a13c9b9532fcfee0"
-  integrity sha512-/n7496l8I1Xhj8ZOqT/sFMMJ2BTVdTU//TE4iRRBlcK/HfM+CPh1oA1lMd/L8B+KAwCh4SDBRnPAlBXGzi1MZg==
-
-"@keplr-wallet/types@0.11.16":
-  version "0.11.16"
-  resolved "https://registry.npmjs.org/@keplr-wallet/types/-/types-0.11.16.tgz#5080c3f01f89b607ee7167c32d2e59a6d0f614ea"
-  integrity sha512-jkBWj6bcw6BZqPavLms3EcaK6YG4suoTPA9PuO6+eFjj7TomUrzzYdhXyc7Mm0K/KVEz5CjPxjmx7LsPuWYKgg==
+"@keplr-wallet/types@0.11.16-alpha.0":
+  version "0.11.16-alpha.0"
+  resolved "https://registry.npmjs.org/@keplr-wallet/types/-/types-0.11.16-alpha.0.tgz#f7fd9b4601a416f254fc9f19e2355bf6de9e2aa6"
+  integrity sha512-7BWkruUlG1q4/skhJY/PCYTO6/D000hK4Egz+qEgFdTkMyIG4+rCm9RV2r92SAvQuweTpMaIMT8yRq2SrdySOw==
   dependencies:
     axios "^0.27.2"
     long "^4.0.0"
@@ -1436,20 +1398,6 @@
     "@keplr-wallet/types" "0.11.16-rc.0"
     big-integer "^1.6.48"
     utility-types "^3.10.0"
-
-"@keplr-wallet/wc-client@0.11.16":
-  version "0.11.16"
-  resolved "https://registry.npmjs.org/@keplr-wallet/wc-client/-/wc-client-0.11.16.tgz#cada89950de82ffaac0b9d5a510d205a9e9527de"
-  integrity sha512-5gh/OR0TyLwUlLsliUNhuFqxH1ocHDdbRINX6wTKcffGgfHH0CpRGTui3CClWUKzEWKdnNmbfGFYO79R8txM1A==
-  dependencies:
-    "@keplr-wallet/common" "0.11.16"
-    "@keplr-wallet/provider" "0.11.16"
-    "@keplr-wallet/types" "0.11.16"
-    "@walletconnect/types" "^1.6.4"
-    "@walletconnect/utils" "^1.6.4"
-    buffer "^6.0.3"
-    deepmerge "^4.2.2"
-    secretjs "0.17.7"
 
 "@motionone/animation@^10.13.1":
   version "10.14.0"
@@ -1803,12 +1751,12 @@
     "@walletconnect/utils" "^1.8.0"
     ws "7.5.3"
 
-"@walletconnect/types@^1.6.4", "@walletconnect/types@^1.8.0":
+"@walletconnect/types@^1.8.0":
   version "1.8.0"
   resolved "https://registry.npmjs.org/@walletconnect/types/-/types-1.8.0.tgz"
   integrity sha512-Cn+3I0V0vT9ghMuzh1KzZvCkiAxTq+1TR2eSqw5E5AVWfmCtECFkVZBP6uUJZ8YjwLqXheI+rnjqPy7sVM4Fyg==
 
-"@walletconnect/utils@^1.6.4", "@walletconnect/utils@^1.8.0":
+"@walletconnect/utils@1.8.0", "@walletconnect/utils@^1.8.0":
   version "1.8.0"
   resolved "https://registry.npmjs.org/@walletconnect/utils/-/utils-1.8.0.tgz"
   integrity sha512-zExzp8Mj1YiAIBfKNm5u622oNw44WOESzo6hj+Q3apSMIb0Jph9X3GDIdbZmvVZsNPxWDL7uodKgZcCInZv2vA==
@@ -2238,7 +2186,7 @@ decode-uri-component@^0.2.0:
   resolved "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
   integrity sha512-hjf+xovcEn31w/EUYdTXQh/8smFL/dzYjohQGEIgjyNavaJfBY2p5F527Bo1VPATxv0VYTUC2bOcXvqFwk78Og==
 
-deepmerge@^4.2.2:
+deepmerge@4.2.2:
   version "4.2.2"
   resolved "https://registry.npmjs.org/deepmerge/-/deepmerge-4.2.2.tgz#44d2ea3679b8f4d4ffba33f03d865fc1e7bf4955"
   integrity sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==
