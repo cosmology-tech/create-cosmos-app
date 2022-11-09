@@ -89,7 +89,7 @@ const sendTokens = (
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const { getSigningStargateClient, address, currentWallet, walletStatus } =
+  const { getSigningStargateClient, address, walletStatus, getRpcEndpoint } =
     useWallet();
 
   const [balance, setBalance] = useState(new BigNumber(0));
@@ -102,7 +102,7 @@ export default function Home() {
       return;
     }
 
-    let rpcEndpoint = await currentWallet?.getRpcEndpoint();
+    let rpcEndpoint = await getRpcEndpoint();
 
     if (!rpcEndpoint) {
       console.log("no rpc endpoint — using a fallback");
