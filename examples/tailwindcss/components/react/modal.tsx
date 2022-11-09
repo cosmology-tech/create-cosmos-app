@@ -12,7 +12,6 @@ import {
   QRCode,
   WalletList
 } from './views';
-import { wallets } from '@cosmos-kit/keplr';
 import { useRouter } from 'next/router';
 import Bowser from 'bowser';
 
@@ -84,7 +83,7 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
       // 1ms timeout prevents _render from determining the view to show first
       setTimeout(() => {
-        if (getWallet(name)?.walletInfo.isQRCode)
+        if (getWallet(name)?.walletInfo.mode === 'wallet-connect')
           setCurrentView(ModalView.QRCode);
       }, 1);
     },
@@ -115,7 +114,7 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
         );
       case ModalView.Connecting:
         let subtitle: string;
-        if (currentWalletData!.isQRCode) {
+        if (currentWalletData!.mode === 'wallet-connect') {
           subtitle = `Approve ${currentWalletData!.prettyName
             } connection request on your mobile.`;
         } else {
