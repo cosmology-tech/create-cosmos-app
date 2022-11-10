@@ -13,19 +13,19 @@
     "codegen": "node scripts/codegen.js"
   },
   "dependencies": {
-    "@chain-registry/osmosis": "1.3.1",
+    "@chain-registry/osmosis": "1.4.0",
     "@chain-registry/types": "0.13.1",
     "@chakra-ui/icons": "2.0.11",
     "@chakra-ui/react": "2.3.7",
     "@cosmjs/cosmwasm-stargate": "0.29.3",
     "@cosmjs/stargate": "0.29.3",
-    "@cosmos-kit/core": "0.23.0",
+    "@cosmos-kit/core": "0.24.0",
     "@cosmos-kit/keplr": "0.26.0",
-    "@cosmos-kit/react": "0.22.0",
+    "@cosmos-kit/react": "0.23.0",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "bignumber.js": "9.1.0",
-    "chain-registry": "1.3.1",
+    "chain-registry": "1.4.0",
     "framer-motion": "7.6.5",
     "next": "12.2.5",
     "osmojs": "0.36.0",
@@ -34,7 +34,7 @@
     "react-icons": "4.6.0"
   },
   "devDependencies": {
-    "@cosmwasm/ts-codegen": "0.20.0",
+    "@cosmwasm/ts-codegen": "0.21.1",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.8",
