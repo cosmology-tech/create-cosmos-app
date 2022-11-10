@@ -7,7 +7,7 @@ import {
   Icon,
   Stack,
   useColorModeValue,
-  Text
+  Text,
 } from '@chakra-ui/react';
 import { MouseEventHandler, useEffect, useMemo } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
@@ -25,7 +25,7 @@ import {
   Rejected,
   RejectedWarn,
   WalletConnectComponent,
-  ChainCard
+  ChainCard,
 } from '../components';
 import { chainName } from '../config';
 
@@ -42,7 +42,7 @@ export const WalletSection = () => {
     currentWallet,
     currentChainRecord,
     getChainLogo,
-    setCurrentChain
+    setCurrentChain,
   } = walletManager;
 
   useEffect(() => {
@@ -53,8 +53,8 @@ export const WalletSection = () => {
     chainName: currentChainName,
     label: currentChainRecord?.chain.pretty_name,
     value: currentChainName,
-    icon: getChainLogo(currentChainName)
-  }
+    icon: getChainLogo(currentChainName),
+  };
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
@@ -151,7 +151,7 @@ export const WalletSection = () => {
             <Box w="full" maxW={{ base: 52, md: 64 }}>
               {connectWalletButton}
             </Box>
-            <GridItem>{connectWalletWarn}</GridItem>
+            {connectWalletWarn && <GridItem>{connectWalletWarn}</GridItem>}
           </Stack>
         </GridItem>
       </Grid>
