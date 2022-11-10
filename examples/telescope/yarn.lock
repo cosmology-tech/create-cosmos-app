@@ -1176,10 +1176,10 @@
   resolved "https://registry.npmjs.org/@cosmjs/utils/-/utils-0.29.3.tgz#d7e1f381267e61b7d3219ebd75d46defc397cd43"
   integrity sha512-UuKoBN2xiRXcBpz7jzCwagKhOnLOsRmR8mu3IzY+Yx38i8rW52FSXMbxC/yE83X0vLea+zgMQFPwv0gy4QWUJw==
 
-"@cosmos-kit/react@0.22.0":
-  version "0.22.0"
-  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-0.22.0.tgz#7d740d6fdb93d59f7830b744039eb49bc925c638"
-  integrity sha512-JVwQreWDE2r/pUbu9kz1sQXXog62vJlrHYZomYTVk/7rhcYz8/vVGYyvfPJs5T8e9S/XD/CcixRrsuaf3e7bjQ==
+"@cosmos-kit/react@0.23.0":
+  version "0.23.0"
+  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-0.23.0.tgz#51b89545fbdad575d64361e454558c079a95a3a2"
+  integrity sha512-KLRJ/wjsQlBxIalzQ0zx8+9KlvK8uhVF/r+kdOTDRhsocOL+Ha9EDwVlzTSB3zY/1lkXO3sxG3ggW2hhAZ7sqw==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chain-registry/types" "^0.13.1"
