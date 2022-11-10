@@ -104,7 +104,7 @@ export const WalletSection = () => {
     />
   );
 
-  const userInfo = (
+  const userInfo = username && (
     <ConnectedUserInfo username={username} icon={<Astronaut />} />
   );
   const addressBtn = currentChainName && (
