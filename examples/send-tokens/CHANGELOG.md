@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/send-tokens@1.5.0...@cosmology/send-tokens@1.6.0) (2022-11-15)
+
+**Note:** Version bump only for package @cosmology/send-tokens
+
+
+
+
+
 # [1.5.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/send-tokens@1.4.0...@cosmology/send-tokens@1.5.0) (2022-11-14)
 
 **Note:** Version bump only for package @cosmology/send-tokens

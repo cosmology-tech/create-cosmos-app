@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/juno@1.5.0...@cosmology/juno@1.6.0) (2022-11-15)
+
+**Note:** Version bump only for package @cosmology/juno
+
+
+
+
+
 # [1.5.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/juno@1.4.0...@cosmology/juno@1.5.0) (2022-11-14)
 
 **Note:** Version bump only for package @cosmology/juno
