@@ -1,7 +1,10 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { WalletProvider } from '@cosmos-kit/react';
-import { wallets } from '@cosmos-kit/keplr';
+import { wallets as keplrWallets } from '@cosmos-kit/keplr';
+import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
+import { wallets as leapWallets } from '@cosmos-kit/leap';
+
 import { TailwindModal } from '../components';
 import { ThemeProvider } from '../contexts/theme';
 
@@ -19,7 +22,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
     <WalletProvider
       chains={chains}
       assetLists={assets}
-      wallets={wallets}
+      wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
       signerOptions={signerOptions}
       walletModal={TailwindModal}
     >

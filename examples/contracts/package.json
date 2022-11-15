@@ -1,6 +1,6 @@
 {
   "name": "@cosmology/connect-chain-with-telescope-and-contracts",
-  "version": "1.2.0",
+  "version": "1.5.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -17,9 +17,10 @@
     "@chain-registry/types": "0.13.1",
     "@chakra-ui/icons": "^2.0.11",
     "@chakra-ui/react": "^2.3.7",
+    "@cosmjs/amino": "0.29.3",
     "@cosmjs/cosmwasm-stargate": "0.29.3",
     "@cosmjs/stargate": "0.29.3",
-    "@cosmos-kit/react": "0.23.0",
+    "@cosmos-kit/react": "0.24.1",
     "@cosmos-kit/types": "^0.11.0",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
@@ -33,7 +34,7 @@
   },
   "devDependencies": {
     "@cosmjson/wasmswap": "^0.0.9",
-    "@osmonauts/telescope": "0.74.0",
+    "@osmonauts/telescope": "0.75.0",
     "@protobufs/cosmos": "^0.0.11",
     "@protobufs/cosmwasm": "^0.0.11",
     "@protobufs/ibc": "^0.0.11",
