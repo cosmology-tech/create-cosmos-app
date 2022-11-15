@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/osmosis@1.5.0...@cosmology/osmosis@1.6.0) (2022-11-15)
+
+**Note:** Version bump only for package @cosmology/osmosis
+
+
+
+
+
+# [1.5.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/osmosis@1.4.0...@cosmology/osmosis@1.5.0) (2022-11-14)
+
+**Note:** Version bump only for package @cosmology/osmosis
+
+
+
+
+
+# [1.4.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/osmosis@1.3.0...@cosmology/osmosis@1.4.0) (2022-11-10)
+
+**Note:** Version bump only for package @cosmology/osmosis
+
+
+
+
+
 # [1.3.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/osmosis@1.2.0...@cosmology/osmosis@1.3.0) (2022-11-09)
 
 **Note:** Version bump only for package @cosmology/osmosis

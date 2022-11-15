@@ -6,7 +6,7 @@ import {
   GridItem,
   Icon,
   Stack,
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { MouseEventHandler, useEffect, useMemo } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
@@ -26,7 +26,7 @@ import {
   NotExist,
   Rejected,
   RejectedWarn,
-  WalletConnectComponent
+  WalletConnectComponent,
 } from '../components';
 
 export const WalletSection = () => {
@@ -42,7 +42,7 @@ export const WalletSection = () => {
     currentWallet,
     chainRecords,
     getChainLogo,
-    setCurrentChain
+    setCurrentChain,
   } = walletManager;
 
   const chainOptions = useMemo(
@@ -52,7 +52,7 @@ export const WalletSection = () => {
           chainName: chainRecord?.name,
           label: chainRecord?.chain.pretty_name,
           value: chainRecord?.name,
-          icon: getChainLogo(chainRecord.name)
+          icon: getChainLogo(chainRecord.name),
         };
       }),
     [chainRecords, getChainLogo]
@@ -141,7 +141,7 @@ export const WalletSection = () => {
         justifyContent="center"
       >
         <GridItem>{chooseChain}</GridItem>
-        <GridItem>{connectWalletWarn}</GridItem>
+        {connectWalletWarn && <GridItem>{connectWalletWarn}</GridItem>}
         <GridItem px={6}>
           <Stack
             justifyContent="center"
