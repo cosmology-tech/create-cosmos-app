@@ -16,7 +16,7 @@ export const coin: Asset = chainassets.assets.find(
 
 export const sendTokens = (
     getSigningStargateClient: () => Promise<SigningStargateClient>,
-    setResp: () => any,
+    setResp: (resp: string) => any,
     address: string
 ) => {
     return async () => {
