@@ -1849,10 +1849,10 @@
     "@chain-registry/utils" "^1.3.0"
     "@cosmostation/extension-client" "0.1.11"
 
-"@chain-registry/keplr@1.7.0":
-  version "1.7.0"
-  resolved "https://registry.npmmirror.com/@chain-registry/keplr/-/keplr-1.7.0.tgz#bdd3fad1486b76afe79597d9f37e8b42d4aa94f3"
-  integrity sha512-3NaoS7+xeEeLaDzAszN2X/Bip0VUmii7OLkviKyJn10/pWhVHlOxAawUq0bMYCwy4Rdv5Q1rnp56QY14B4X5og==
+"@chain-registry/keplr@1.8.0":
+  version "1.8.0"
+  resolved "https://registry.npmjs.org/@chain-registry/keplr/-/keplr-1.8.0.tgz#1f99b9b93befb481d3a182c89218cb51ba893ce2"
+  integrity sha512-P1IyZihR/rZUBgFZm5DGs4LAVpMSJ7QfQ5YV1ofpMNeB0iXEEGC4BuuT8NonwgAyWGOw9/c8Z/cNN8f9m5nFkQ==
   dependencies:
     "@babel/runtime" "^7.19.4"
     "@chain-registry/types" "^0.13.1"
@@ -3363,10 +3363,10 @@
   resolved "https://registry.npmjs.org/@cosmjson/wasmswap/-/wasmswap-0.0.9.tgz"
   integrity sha512-ieZgG1FuaRAJbCnVFLiIgpX4Y60h+EGx27bftmv63sL2YRCaKg7QFbbTZD598pJZiCoLNbkvvMFSypGNGXE3rw==
 
-"@cosmos-kit/core@0.25.1", "@cosmos-kit/core@^0.25.1":
-  version "0.25.1"
-  resolved "https://registry.npmmirror.com/@cosmos-kit/core/-/core-0.25.1.tgz#160def940338315bf314154da9e261c7d7cadc55"
-  integrity sha512-eeUhbUmkL0b+9N6vqmaxcFmVasPBDPg3MxNy/Uzt7OkwB+iRWSJbgFhbqYjcaZ6pYdv583BHUiu6cteF8EP48A==
+"@cosmos-kit/core@0.25.4", "@cosmos-kit/core@^0.25.4":
+  version "0.25.4"
+  resolved "https://registry.npmjs.org/@cosmos-kit/core/-/core-0.25.4.tgz#cc990799c037a9a5bde13a154351fcfeb3515d01"
+  integrity sha512-5ogkEzdP69J8VLQp+6MCTQsh0N1b7Li4mAR/a6mZCL6Dk+p5IBGwvodDOSlSeFlGayKJ/ENfKmvdYgJR3rf0oQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chain-registry/types" "^0.13.0"
@@ -3374,16 +3374,16 @@
     bowser "2.11.0"
     events "3.3.0"
 
-"@cosmos-kit/cosmostation@0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmmirror.com/@cosmos-kit/cosmostation/-/cosmostation-0.11.0.tgz#76f5879e10bf94ea19f2818cb56961dd268a120d"
-  integrity sha512-UWDgjqmzcMYoGKNiAZXegohr0/2GGnZO9A9FnLdowbNfWmwtoBAT6WafALDWTmpc+LxjcZvks5tyM4eUI0ACyw==
+"@cosmos-kit/cosmostation@0.11.3":
+  version "0.11.3"
+  resolved "https://registry.npmjs.org/@cosmos-kit/cosmostation/-/cosmostation-0.11.3.tgz#e190710a88569b2c258fbb96a3760b89c431cc51"
+  integrity sha512-gnW4yqHxd/+V5xCEeRbjVLX4yhwpZ5HQvdGy2zr+rg/p9U1F/6sbmuo+RyyP4PqpBocvMf9qepN0C0G9zhqaMg==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chain-registry/cosmostation" "1.8.0"
     "@chain-registry/types" "^0.13.1"
     "@chakra-ui/react" "^2.2.9"
-    "@cosmos-kit/core" "^0.25.1"
+    "@cosmos-kit/core" "^0.25.4"
     "@cosmostation/cosmos-client" "0.0.4"
     "@emotion/react" "^11"
     "@emotion/styled" "^11"
@@ -3393,19 +3393,19 @@
     react-dom "18.2.0"
     react-icons "^4.4.0"
 
-"@cosmos-kit/keplr@0.29.0":
-  version "0.29.0"
-  resolved "https://registry.npmmirror.com/@cosmos-kit/keplr/-/keplr-0.29.0.tgz#a5152a391ec761deecf2ac00a78cb74e2f84901c"
-  integrity sha512-yK8PqH8GtyoaNQo5EiPIh+jv375/0AS8sFRe9u3nQAwRMtLTM7aca7LxQ3pzGVaFSfeSRwaoYK7D82sIP1AUIA==
+"@cosmos-kit/keplr@0.29.4":
+  version "0.29.4"
+  resolved "https://registry.npmjs.org/@cosmos-kit/keplr/-/keplr-0.29.4.tgz#e57320716392a2ba83ab03234fa751f0a647fe09"
+  integrity sha512-xr3JrPRk6t5pV3s/cwatLUwXYvTCkGklkV9ssdimv1tbkpceF2biwrY34Am4By2o1HaXllbD1609eYI6VcuUOA==
   dependencies:
     "@babel/runtime" "^7.11.2"
-    "@chain-registry/keplr" "1.7.0"
+    "@chain-registry/keplr" "1.8.0"
     "@chain-registry/types" "^0.13.1"
     "@chakra-ui/react" "^2.2.9"
-    "@cosmos-kit/core" "^0.25.1"
+    "@cosmos-kit/core" "^0.25.4"
     "@emotion/react" "^11"
     "@emotion/styled" "^11"
-    "@keplr-wallet/types" "0.11.16"
+    "@keplr-wallet/types" "0.11.17"
     "@walletconnect/client" "1.8.0"
     "@walletconnect/utils" "1.8.0"
     deepmerge "4.2.2"
@@ -3413,27 +3413,27 @@
     react-dom "18.2.0"
     react-icons "^4.4.0"
 
-"@cosmos-kit/leap@0.10.1":
-  version "0.10.1"
-  resolved "https://registry.npmmirror.com/@cosmos-kit/leap/-/leap-0.10.1.tgz#bfbebf883b399811715b21dae7ac8647c2abb35e"
-  integrity sha512-F7lP4cvrR6FFCoNF4tzLTH312ddKyHdpmfs6Iq5d9LTP0fOKwILtYPuxNg2ll09jM5F2F3b9nbfW7r1NE9MI9g==
+"@cosmos-kit/leap@0.10.5":
+  version "0.10.5"
+  resolved "https://registry.npmjs.org/@cosmos-kit/leap/-/leap-0.10.5.tgz#8fd31fb39527f632afa112a7d0284c4c31ad30d1"
+  integrity sha512-YRMl2IrCmGChVXYXfIW6XQfX8LsMeEzEP7rTUzOtSRTkg3De3LzgWsfxtOUseo8AMsZEe1YMKdzXb2UgoU9fLA==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chain-registry/types" "^0.13.1"
     "@chakra-ui/react" "^2.2.9"
-    "@cosmos-kit/core" "^0.25.1"
+    "@cosmos-kit/core" "^0.25.4"
     "@emotion/react" "^11"
     "@emotion/styled" "^11"
-    "@keplr-wallet/types" "0.11.16"
+    "@keplr-wallet/types" "0.11.17"
     "@walletconnect/client" "1.8.0"
     react "18.2.0"
     react-dom "18.2.0"
     react-icons "^4.4.0"
 
-"@cosmos-kit/react@0.24.8":
-  version "0.24.8"
-  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-0.24.8.tgz#bd73d7875821d5d05f5e316e363de9637d26b11c"
-  integrity sha512-N2eFUgFk5ddtY7tGpm7g6GXuSgLsH3HC1OoIMgYOLaSbdWwY3xWvNy7cHhPHt29tcSImdkKo6duBaeb734of4A==
+"@cosmos-kit/react@0.24.13":
+  version "0.24.13"
+  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-0.24.13.tgz#278312836ffb46d4337d2331bd6a5361a964be65"
+  integrity sha512-3USbCHcqB8f1iloMTavQfV9JaGpgt5wqNgY6gLQvlfGezrQ9WxXsNxWjfVxvlA4Gg5Mgu9pB4ebzHEYQrCyABw==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chain-registry/types" "^0.13.1"
@@ -4268,6 +4268,15 @@
   version "0.11.16"
   resolved "https://registry.npmjs.org/@keplr-wallet/types/-/types-0.11.16.tgz#5080c3f01f89b607ee7167c32d2e59a6d0f614ea"
   integrity sha512-jkBWj6bcw6BZqPavLms3EcaK6YG4suoTPA9PuO6+eFjj7TomUrzzYdhXyc7Mm0K/KVEz5CjPxjmx7LsPuWYKgg==
+  dependencies:
+    axios "^0.27.2"
+    long "^4.0.0"
+    secretjs "0.17.7"
+
+"@keplr-wallet/types@0.11.17":
+  version "0.11.17"
+  resolved "https://registry.npmjs.org/@keplr-wallet/types/-/types-0.11.17.tgz#ac6e1befff2a1c902785083357ebda044038c917"
+  integrity sha512-ks3+L8SR4Wnn/kqafpJB2g/wzgNVoW3Y48Qb8vddnWmgub/ib1g1Xs3RB7lRzvrgWsuj2xmNCK9BFLcdisW6+g==
   dependencies:
     axios "^0.27.2"
     long "^4.0.0"
