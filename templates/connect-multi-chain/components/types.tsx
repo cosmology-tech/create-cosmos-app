@@ -79,3 +79,12 @@ export interface FeatureProps {
   text: string;
   href: string;
 }
+
+export type CopyAddressType = {
+  address?: string;
+  walletIcon?: string;
+  isLoading?: boolean;
+  maxDisplayLength?: number;
+  isRound?: boolean;
+  size?: string;
+};
