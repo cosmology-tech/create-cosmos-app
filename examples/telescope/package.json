@@ -29,6 +29,7 @@
     "@emotion/styled": "11.10.5",
     "@osmonauts/lcd": "^0.8.0",
     "bignumber.js": "9.1.0",
+    "chain-registry": "1.5.0",
     "framer-motion": "7.6.5",
     "next": "12.2.5",
     "react": "18.2.0",
