@@ -15,7 +15,7 @@ import { Chain } from '@chain-registry/types';
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
-    stargate: (_chain: Chain) => {
+    signingStargate: (_chain: Chain) => {
       return getSigningCosmosClientOptions();
     }
   };
