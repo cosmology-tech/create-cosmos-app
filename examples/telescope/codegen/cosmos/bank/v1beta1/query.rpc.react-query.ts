@@ -14,7 +14,7 @@ interface ReactQueryParams<TResponse, TData = TResponse> {
 }
 
 export interface UseBalanceQuery<TData> extends ReactQueryParams<QueryBalanceResponse, TData> {
-    args: QueryBalanceRequest;
+    request: QueryBalanceRequest;
 }
 
 export const createRpcQueryHooks = (base: QueryClient) => {
@@ -22,11 +22,11 @@ export const createRpcQueryHooks = (base: QueryClient) => {
     const queryService = new QueryClientImpl(rpc);
     return {
         useBalance<TData = QueryBalanceResponse>({
-            args,
+            request,
             options
         }: UseBalanceQuery<TData>) {
-            return useQuery<QueryBalanceResponse, Error, TData>(["queryBalance", args], () => {
-                return queryService.balance(args)
+            return useQuery<QueryBalanceResponse, Error, TData>(["queryBalance", request], () => {
+                return queryService.balance(request)
             }, options);
         }
     };
