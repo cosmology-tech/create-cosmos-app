@@ -108,6 +108,17 @@ export default function Home() {
       rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
     }
 
+
+    const hooks = await cosmos.ClientFactory.createRPCQueryHooks({ rpcEndpoint });
+    const hookData = hooks.cosmos.bank.v1beta1.useBalance({
+      request: {
+        address,
+        denom: chainassets?.assets[0].base as string
+      }
+    });
+
+    console.log(hookData);
+
     // get RPC client
     const client = await cosmos.ClientFactory.createRPCQueryClient({
       rpcEndpoint,
