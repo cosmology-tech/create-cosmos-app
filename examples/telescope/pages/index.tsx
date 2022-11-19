@@ -90,8 +90,6 @@ export default function Home() {
 
   const [resp, setResp] = useState('')
 
-
-
   const {
     data: rpcEndpoint
   } = useRpcEndpoint({
@@ -114,6 +112,7 @@ export default function Home() {
     rpcClient
   })
 
+  //@ts-ignore 
   const cosmosHooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
 
   const {
