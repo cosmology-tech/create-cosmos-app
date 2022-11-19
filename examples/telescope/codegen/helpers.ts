@@ -3,7 +3,11 @@
   * DO NOT MODIFY BY HAND. Instead, download the latest proto files for your chain
   * and run the transpile command or yarn proto command to regenerate this bundle.
   */
- 
+
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from '@cosmjs/stargate'
+import { Tendermint34Client, HttpEndpoint } from "@cosmjs/tendermint-rpc";
+
+
 import * as _m0 from "protobufjs/minimal";
 import Long from 'long';
 
@@ -146,11 +150,11 @@ export const setPaginationParams = (options: Params, pagination?: PageRequest) =
         options.params['pagination.key'] = Buffer.from(pagination.key).toString('base64');
     }
     if (typeof pagination?.limit !== "undefined") {
-      options.params["pagination.limit"] = pagination.limit.toString()
+        options.params["pagination.limit"] = pagination.limit.toString()
     }
     if (typeof pagination?.offset !== "undefined") {
-      options.params["pagination.offset"] = pagination.offset.toString()
-    }    
+        options.params["pagination.offset"] = pagination.offset.toString()
+    }
     if (typeof pagination?.reverse !== "undefined") {
         options.params['pagination.reverse'] = pagination.reverse;
     }
@@ -219,22 +223,49 @@ const fromJSON = (object: any): Timestamp => {
 };
 
 const timestampFromJSON = (object: any): Timestamp => {
-  return {
-    seconds: isSet(object.seconds) ? Long.fromValue(object.seconds) : Long.ZERO,
-    nanos: isSet(object.nanos) ? Number(object.nanos) : 0,
-  };
+    return {
+        seconds: isSet(object.seconds) ? Long.fromValue(object.seconds) : Long.ZERO,
+        nanos: isSet(object.nanos) ? Number(object.nanos) : 0,
+    };
 }
-  
+
 export function fromJsonTimestamp(o: any): Timestamp {
-  if (o instanceof Date) {
-    return toTimestamp(o);
-  } else if (typeof o === "string") {
-    return toTimestamp(new Date(o));
-  } else {
-    return timestampFromJSON(o);
-  }
+    if (o instanceof Date) {
+        return toTimestamp(o);
+    } else if (typeof o === "string") {
+        return toTimestamp(new Date(o));
+    } else {
+        return timestampFromJSON(o);
+    }
 }
-  
+
 function numberToLong(number: number) {
     return Long.fromNumber(number);
+}
+
+const _rpcClients: Record<string, ProtobufRpcClient> = {};
+export const getRpcClient = async (rpcEndpoint: string | HttpEndpoint) => {
+    if (typeof rpcEndpoint === 'string' &&
+        _rpcClients.hasOwnProperty(rpcEndpoint)) {
+        return _rpcClients[rpcEndpoint];
+    } else if (
+        //@ts-ignore 
+        _rpcClients.hasOwnProperty(rpcEndpoint.url)
+    ) {
+        //@ts-ignore 
+        return _rpcClients[rpcEndpoint.url];
+    }
+
+    const tmClient = await Tendermint34Client.connect(rpcEndpoint);
+    //@ts-ignore
+    const client = new QueryClient(tmClient);
+    const rpc = createProtobufRpcClient(client);
+
+    if (typeof rpcEndpoint === 'string') {
+        _rpcClients[rpcEndpoint] = rpc;
+    } else {
+        //@ts-ignore 
+        _rpcClients[rpcEndpoint.url] = rpc;
+    }
+    return rpc;
 }

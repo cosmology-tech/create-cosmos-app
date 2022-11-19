@@ -7,7 +7,7 @@ import { wallets as keplrWallets } from '@cosmos-kit/keplr';
 import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
 import { wallets as leapWallets } from '@cosmos-kit/leap';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import { chains, assets } from 'chain-registry';
 import { getSigningCosmosClientOptions } from '../codegen';
@@ -52,7 +52,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         >
           <Component {...pageProps} />
         </WalletProvider>
-        <ReactQueryDevtools initialIsOpen={false}/>
+        {/* <ReactQueryDevtools initialIsOpen={false}/> */}
       </QueryClientProvider>
     </ChakraProvider>
   );
