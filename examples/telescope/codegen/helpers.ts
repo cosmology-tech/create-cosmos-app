@@ -244,28 +244,26 @@ function numberToLong(number: number) {
 }
 
 const _rpcClients: Record<string, ProtobufRpcClient> = {};
-export const getRpcClient = async (rpcEndpoint: string | HttpEndpoint) => {
-    if (typeof rpcEndpoint === 'string' &&
-        _rpcClients.hasOwnProperty(rpcEndpoint)) {
-        return _rpcClients[rpcEndpoint];
-    } else if (
-        //@ts-ignore 
-        _rpcClients.hasOwnProperty(rpcEndpoint.url)
-    ) {
-        //@ts-ignore 
-        return _rpcClients[rpcEndpoint.url];
-    }
 
+export const getRpcEndpointKey = (rpcEndpoint: string | HttpEndpoint) => {
+    if (typeof rpcEndpoint === 'string') {
+        return rpcEndpoint;
+    } else if (!!rpcEndpoint) {
+        //@ts-ignore 
+        return rpcEndpoint.url;
+    }
+}
+
+export const getRpcClient = async (rpcEndpoint: string | HttpEndpoint) => {
+    const key = getRpcEndpointKey(rpcEndpoint);
+    if (!key) return;
+    if (_rpcClients.hasOwnProperty(key)) {
+        return _rpcClients[key];
+    }
     const tmClient = await Tendermint34Client.connect(rpcEndpoint);
     //@ts-ignore
     const client = new QueryClient(tmClient);
     const rpc = createProtobufRpcClient(client);
-
-    if (typeof rpcEndpoint === 'string') {
-        _rpcClients[rpcEndpoint] = rpc;
-    } else {
-        //@ts-ignore 
-        _rpcClients[rpcEndpoint.url] = rpc;
-    }
+    _rpcClients[key] = rpc;
     return rpc;
 }
