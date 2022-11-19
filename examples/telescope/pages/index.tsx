@@ -29,6 +29,8 @@ import { Dependency, handleChangeColorModeValue, Product, WalletSection } from '
 import { SendTokensCard } from '../components/react/send-tokens-card'
 
 import { cosmos } from '../codegen'
+import { getRpcClient } from '../codegen/helpers'
+import { useRpcClient, useRpcEndpoint } from '../codegen/hooks'
 
 const library = {
   title: 'Telescope',
@@ -88,8 +90,31 @@ export default function Home() {
 
   const [resp, setResp] = useState('')
 
-  // this could be CONST
-  const cosmosHooks = cosmos.ClientFactory.createRPCQueryHooks({ rpcEndpoint: `https://rpc.cosmos.directory/${chainName}` })
+
+
+  const {
+    data: rpcEndpoint
+  } = useRpcEndpoint({
+    //@ts-ignore 
+    getter: getRpcEndpoint
+  });
+
+  const {
+    data: rpcClient
+  } = useRpcClient({
+    //@ts-ignore 
+    rpcEndpoint,
+    options: {
+      enabled: !!rpcEndpoint,
+    }
+  });
+
+  console.log({
+    rpcEndpoint,
+    rpcClient
+  })
+
+  const cosmosHooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
 
   const {
     data: balance,
@@ -102,7 +127,7 @@ export default function Home() {
       denom: chainassets?.assets[0].base as string,
     },
     options: {
-      enabled: !!address,
+      enabled: !!address && !!rpcClient,
       // transform the returned balance into a BigNumber
       select: ({ balance }) => new BigNumber(balance?.amount ?? 0).multipliedBy(10 ** -COIN_DISPLAY_EXPONENT),
     },
