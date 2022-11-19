@@ -42,9 +42,12 @@ export const createRpcQueryHooks = (rpcEndpoint: string | HttpEndpoint) => {
   const useBalance = <TData = QueryBalanceResponse>({
         request,
         options,
-      }: UseBalanceQuery<TData>) =>
-    useQuery<QueryBalanceResponse, Error, TData>(['queryBalance', request], async () => {
-      const tmClient = await Tendermint34Client.connect(rpcEndpoint)
+      }: UseBalanceQuery<TData>) => {
+    const { client: tmClient } = useTendermintClient({rpcEndpoint});
+    return useQuery<QueryBalanceResponse, Error, TData>(['queryBalance', request], async () => {
+      if (!tmClient)
+        throw new Error('Tendermint client not ready');
+
       //@ts-ignore
       const client = new QueryClient(tmClient)
 
@@ -53,6 +56,7 @@ export const createRpcQueryHooks = (rpcEndpoint: string | HttpEndpoint) => {
 
       return queryService.balance(request)
     }, options)
+  }
 
 
   return {
@@ -60,4 +64,28 @@ export const createRpcQueryHooks = (rpcEndpoint: string | HttpEndpoint) => {
   }
 }
 
-export default createRpcQueryHooks
+
+interface UseTendermintClient extends ReactQueryParams<Tendermint34Client> {
+  rpcEndpoint: string | HttpEndpoint;
+}
+
+/**
+ * Hook that uses react-query to cache a connected tendermint client.
+ */
+export const useTendermintClient = ({
+  rpcEndpoint,
+   options,
+ }: UseTendermintClient) => {
+  const { data: client } = useQuery<Tendermint34Client, Error, Tendermint34Client>(
+    ['client', 'tendermint', rpcEndpoint],
+    () => Tendermint34Client.connect(rpcEndpoint),
+    {
+      // allow overriding
+      onError: (e) => {
+        throw new Error(`Failed to connect to ${rpcEndpoint}`, e)
+      },
+      ...options,
+    }
+  )
+  return { client }
+}
