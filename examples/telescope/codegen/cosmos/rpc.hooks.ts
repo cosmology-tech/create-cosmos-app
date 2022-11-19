@@ -1,18 +1,16 @@
-import React from 'react'
-
-import { Tendermint34Client, HttpEndpoint } from "@cosmjs/tendermint-rpc";
 // We can't use async imports
-import { createRpcQueryHooks as createHooks } from './bank/v1beta1/query.rpc.react-query'
+import { ProtobufRpcClient } from '@cosmjs/stargate';
+import { createRpcQueryHooks as cosmosBankV1beta1Hooks } from './bank/v1beta1/query.rpc.react-query'
 
 export const createRPCQueryHooks = ({
-    rpcEndpoint
+    rpc
 }: {
-    rpcEndpoint: string | HttpEndpoint;
+    rpc: ProtobufRpcClient
 }) => {
     return {
         cosmos: {
             bank: {
-                v1beta1: createHooks(rpcEndpoint)
+                v1beta1: cosmosBankV1beta1Hooks(rpc)
             }
         }
     };

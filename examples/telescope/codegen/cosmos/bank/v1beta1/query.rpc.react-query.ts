@@ -20,14 +20,14 @@ import {
     QueryDenomOwnersRequest,
     QueryDenomOwnersResponse,
 } from './query'
-import { QueryClientImpl } from './query.rpc.Query'
 
-import { HttpEndpoint } from "@cosmjs/tendermint-rpc";
-
+import { QueryClientImpl } from './query.rpc.Query';
 import {
     useQuery,
     UseQueryOptions,
-} from '@tanstack/react-query'
+} from '@tanstack/react-query';
+
+import { HttpEndpoint, ProtobufRpcClient } from '@cosmjs/stargate';
 
 interface ReactQueryParams<TResponse, TData = TResponse> {
     options?: UseQueryOptions<TResponse, Error, TData>;
@@ -37,19 +37,21 @@ export interface UseBalanceQuery<TData> extends ReactQueryParams<QueryBalanceRes
     request: QueryBalanceRequest;
 }
 
-export const createRpcQueryHooks = (rpcEndpoint: string | HttpEndpoint) => {
+export const createRpcQueryHooks = (rpc: ProtobufRpcClient) => {
+
     const useBalance = <TData = QueryBalanceResponse>({
         request,
         options,
-    }: UseBalanceQuery<TData>) =>
-        useQuery<QueryBalanceResponse, Error, TData>(['queryBalance', request], async () => {
-            const rpc = await getRpcClient(rpcEndpoint)
-            const queryService = new QueryClientImpl(rpc)
+    }: UseBalanceQuery<TData>) => {
+        return useQuery<QueryBalanceResponse, Error, TData>(['queryBalance', request], async () => {
+            const queryService = new QueryClientImpl(rpc);
             return queryService.balance(request)
-        }, options)
+        }, options);
+    };
+
     return {
         useBalance
-    }
+    };
 }
 
 export default createRpcQueryHooks
