@@ -20,7 +20,7 @@
     "@cosmjs/amino": "0.29.3",
     "@cosmjs/cosmwasm-stargate": "0.29.3",
     "@cosmjs/stargate": "0.29.3",
-    "@cosmos-kit/react": "0.24.13",
+    "@cosmos-kit/react": "0.25.0",
     "@cosmos-kit/types": "^0.11.0",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@cosmjson/wasmswap": "^0.0.9",
-    "@osmonauts/telescope": "0.75.0",
+    "@osmonauts/telescope": "0.75.1",
     "@protobufs/cosmos": "^0.0.11",
     "@protobufs/cosmwasm": "^0.0.11",
     "@protobufs/ibc": "^0.0.11",
