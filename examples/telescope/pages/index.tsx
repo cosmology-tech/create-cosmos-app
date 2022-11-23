@@ -90,12 +90,14 @@ export default function Home() {
 
   const [resp, setResp] = useState('')
 
-  const {
-    data: rpcEndpoint
-  } = useRpcEndpoint({
-    //@ts-ignore 
-    getter: getRpcEndpoint
-  });
+  // const {
+  //   data: rpcEndpoint
+  // } = useRpcEndpoint({
+  //   //@ts-ignore 
+  //   getter: getRpcEndpoint
+  // });
+  
+  const rpcEndpoint = 'https://rpc.cosmos.directory/cosmoshub';
 
   const {
     data: rpcClient
