@@ -38,11 +38,9 @@ export interface UseBalanceQuery<TData> extends ReactQueryParams<QueryBalanceRes
 }
 
 const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap()
-const getQueryService = (rpc: ProtobufRpcClient): QueryClientImpl => {
-    //@ts-ignore
+const getQueryService = (rpc: ProtobufRpcClient|undefined): QueryClientImpl|undefined => {
     if (!rpc) return;
     if (_queryClients.has(rpc)) {
-        //@ts-ignore
         return _queryClients.get(rpc);
     }
     const queryService = new QueryClientImpl(rpc);
@@ -50,14 +48,15 @@ const getQueryService = (rpc: ProtobufRpcClient): QueryClientImpl => {
     return queryService;
 };
 
-export const createRpcQueryHooks = (rpc: ProtobufRpcClient) => {
+export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
     const queryService = getQueryService(rpc);
     const useBalance = <TData = QueryBalanceResponse>({
         request,
         options,
     }: UseBalanceQuery<TData>) => {
         return useQuery<QueryBalanceResponse, Error, TData>(['queryBalance', request], async () => {
-            return queryService.balance(request)
+          if (!queryService) throw new Error('Query Service not initialized');
+          return queryService.balance(request);
         }, options);
     };
 

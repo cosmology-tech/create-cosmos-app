@@ -5,7 +5,7 @@ import { createRpcQueryHooks as cosmosBankV1beta1Hooks } from './bank/v1beta1/qu
 export const createRPCQueryHooks = ({
     rpc
 }: {
-    rpc: ProtobufRpcClient
+    rpc: ProtobufRpcClient | undefined
 }) => {
     return {
         cosmos: {
