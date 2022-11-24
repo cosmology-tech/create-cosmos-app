@@ -29,7 +29,7 @@
     "chain-registry": "1.5.0",
     "framer-motion": "7.6.5",
     "next": "12.2.5",
-    "osmojs": "0.36.0",
+    "osmojs": "0.37.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.6.0"

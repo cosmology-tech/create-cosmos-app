@@ -56,7 +56,7 @@ export class LCDQueryClient {
       options.params.latest_height = params.latestHeight;
     }
 
-    const endpoint = `ibc/core/client/v1/consensus_states/${params.clientId}/revision/${params.revisionNumber}height/${params.revisionHeight}`;
+    const endpoint = `ibc/core/client/v1/consensus_states/${params.clientId}/revision/${params.revisionNumber}/height/${params.revisionHeight}`;
     return await this.req.get<QueryConsensusStateResponseSDKType>(endpoint, options);
   }
   /* ConsensusStates queries all the consensus state associated with a given

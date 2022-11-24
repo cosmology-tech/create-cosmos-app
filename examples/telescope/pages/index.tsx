@@ -28,9 +28,9 @@ import { WalletStatus } from '@cosmos-kit/core'
 import { Dependency, handleChangeColorModeValue, Product, WalletSection } from '../components'
 import { SendTokensCard } from '../components/react/send-tokens-card'
 
-import { cosmos } from '../codegen'
-import { getRpcClient } from '../codegen/helpers'
-import { useRpcClient, useRpcEndpoint } from '../codegen/hooks'
+import { cosmos, createRpcQueryHooks } from '../codegen'
+import { getRpcClient } from '../codegen'
+import { useRpcClient, useRpcEndpoint } from '../codegen'
 
 const library = {
   title: 'Telescope',
@@ -96,13 +96,12 @@ export default function Home() {
   //   //@ts-ignore 
   //   getter: getRpcEndpoint
   // });
-  
+
   const rpcEndpoint = 'https://rpc.cosmos.directory/cosmoshub';
 
   const {
     data: rpcClient
   } = useRpcClient({
-    //@ts-ignore 
     rpcEndpoint,
     options: {
       enabled: !!rpcEndpoint,
@@ -115,7 +114,8 @@ export default function Home() {
   })
 
   //@ts-ignore 
-  const cosmosHooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
+  // const cosmosHooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
+  const cosmosHooks = createRpcQueryHooks({ rpc: rpcClient })
 
   const {
     data: balance,
