@@ -3553,6 +3553,39 @@
     shelljs "0.8.5"
     wasm-ast-types "^0.15.0"
 
+"@cosmwasm/ts-codegen@0.22.0":
+  version "0.22.0"
+  resolved "https://registry.npmjs.org/@cosmwasm/ts-codegen/-/ts-codegen-0.22.0.tgz#fda2ce9008524cc56c3ab2cda9d63e8ca210e29f"
+  integrity sha512-3ApS7ThWvgLD6CiGImzIB10YEzTq1PeF8RQIqp5OBKnru+XRXPK0vdSVyaxP+0IxRf06JLXkrzgrDbpdO+RLoQ==
+  dependencies:
+    "@babel/core" "7.18.10"
+    "@babel/generator" "7.18.12"
+    "@babel/parser" "7.18.11"
+    "@babel/plugin-proposal-class-properties" "7.18.6"
+    "@babel/plugin-proposal-export-default-from" "7.18.10"
+    "@babel/plugin-proposal-object-rest-spread" "7.18.9"
+    "@babel/plugin-transform-runtime" "7.18.10"
+    "@babel/preset-env" "7.18.10"
+    "@babel/preset-typescript" "^7.18.6"
+    "@babel/runtime" "^7.18.9"
+    "@babel/traverse" "7.18.11"
+    "@babel/types" "7.18.10"
+    "@pyramation/json-schema-to-typescript" " 11.0.4"
+    case "1.6.3"
+    dargs "7.0.0"
+    deepmerge "4.2.2"
+    dotty "0.1.2"
+    fuzzy "0.1.3"
+    glob "8.0.3"
+    inquirerer "0.1.3"
+    long "^5.2.0"
+    minimist "1.2.6"
+    mkdirp "1.0.4"
+    parse-package-name "1.0.0"
+    rimraf "3.0.2"
+    shelljs "0.8.5"
+    wasm-ast-types "^0.15.0"
+
 "@ctrl/tinycolor@^3.4.0":
   version "3.4.1"
   resolved "https://registry.npmjs.org/@ctrl/tinycolor/-/tinycolor-3.4.1.tgz#75b4c27948c81e88ccd3a8902047bcd797f38d32"
@@ -5314,16 +5347,17 @@
     case "1.6.3"
     dotty "0.1.2"
 
-"@osmonauts/ast@^0.64.0":
-  version "0.64.0"
-  resolved "https://registry.npmjs.org/@osmonauts/ast/-/ast-0.64.0.tgz#9e64f1db6b7f0b86c24e575608839a19fbcc2b78"
-  integrity sha512-v0wrTKUOJWqILSx75lGBfK3Z/9JCQRyqaaX4uOhh6p16wTVqlZJB7fuk76GjNXA3zy0sXaZzqKBBwVvJ6GHZ4A==
+"@osmonauts/ast@^0.67.0":
+  version "0.67.0"
+  resolved "https://registry.npmjs.org/@osmonauts/ast/-/ast-0.67.0.tgz#20fe0bc3ba4faa3ae1c746ecfec92732beab1913"
+  integrity sha512-IccolYpojB0ygMl4yZYi4Dh9Yv40ONjT5DGupJYmdc9vj28z2aSET7+RLImTvphOfW5KvE0qylnIf+6FmirteQ==
   dependencies:
+    "@babel/parser" "^7.19.3"
     "@babel/runtime" "^7.19.0"
     "@babel/types" "7.19.3"
-    "@osmonauts/proto-parser" "^0.32.0"
-    "@osmonauts/types" "^0.24.0"
-    "@osmonauts/utils" "^0.7.0"
+    "@osmonauts/proto-parser" "^0.33.0"
+    "@osmonauts/types" "^0.25.0"
+    "@osmonauts/utils" "^0.8.0"
     case "1.6.3"
     dotty "0.1.2"
 
@@ -5347,10 +5381,22 @@
     glob "8.0.3"
     mkdirp "1.0.4"
 
-"@osmonauts/telescope@0.75.0":
-  version "0.75.0"
-  resolved "https://registry.npmjs.org/@osmonauts/telescope/-/telescope-0.75.0.tgz#0ba6c15938a865858ed7a41cda38016c7afdf87a"
-  integrity sha512-YE4d3TpwrCrcnJwoUTvjU1Ku0sQNkTSW+sbUQbFMdmS8D39bEqn+EXJ/zTAqZD5ZOpiWQJY7lBO+FpwteorH9w==
+"@osmonauts/proto-parser@^0.33.0":
+  version "0.33.0"
+  resolved "https://registry.npmjs.org/@osmonauts/proto-parser/-/proto-parser-0.33.0.tgz#ef14c74ba23be06a17744a7ed234df67d22a8287"
+  integrity sha512-HHknarxcKRBaYImELoZoj2t8Cbfs7EZhvc37al9VeK80vaPQL7m6PfuVsCtQLrb1YBTPjEHz5GpmlHqTGr9Psg==
+  dependencies:
+    "@babel/runtime" "^7.19.0"
+    "@osmonauts/types" "^0.25.0"
+    "@pyramation/protobufjs" "6.11.5"
+    dotty "0.1.2"
+    glob "8.0.3"
+    mkdirp "1.0.4"
+
+"@osmonauts/telescope@0.78.0":
+  version "0.78.0"
+  resolved "https://registry.npmjs.org/@osmonauts/telescope/-/telescope-0.78.0.tgz#4d6d4420ee66fc1b4ae6cad9e58c38640d4e6904"
+  integrity sha512-7yFDWUiGF/Uq7+Dt/xN1AEz3pV4WJk54TlDyRte4A7lGhuaQV8uI9ERPoIg5IeC45MCBqELL5t6fE4pvBX/+/Q==
   dependencies:
     "@babel/core" "7.19.3"
     "@babel/generator" "7.19.3"
@@ -5365,10 +5411,10 @@
     "@babel/traverse" "7.19.3"
     "@babel/types" "7.19.3"
     "@cosmwasm/ts-codegen" "0.21.1"
-    "@osmonauts/ast" "^0.64.0"
-    "@osmonauts/proto-parser" "^0.32.0"
-    "@osmonauts/types" "^0.24.0"
-    "@osmonauts/utils" "^0.7.0"
+    "@osmonauts/ast" "^0.67.0"
+    "@osmonauts/proto-parser" "^0.33.0"
+    "@osmonauts/types" "^0.25.0"
+    "@osmonauts/utils" "^0.8.0"
     "@types/parse-package-name" "0.1.0"
     case "1.6.3"
     dargs "7.0.0"
@@ -5432,10 +5478,26 @@
     "@osmonauts/utils" "^0.7.0"
     case "1.6.3"
 
+"@osmonauts/types@^0.25.0":
+  version "0.25.0"
+  resolved "https://registry.npmjs.org/@osmonauts/types/-/types-0.25.0.tgz#0b8d55711c81a1dea676001f85d10327d97e136a"
+  integrity sha512-OPaPPO5+sJa+LQkzMqD+zxc3P018aNsANGeV4Xohmr4f60Y3mxTXxDAuocHiJ+Wm4A64cqZjG6BA50WaQfRKxA==
+  dependencies:
+    "@babel/runtime" "^7.19.0"
+    "@osmonauts/utils" "^0.8.0"
+    case "1.6.3"
+
 "@osmonauts/utils@^0.7.0":
   version "0.7.0"
   resolved "https://registry.npmjs.org/@osmonauts/utils/-/utils-0.7.0.tgz#bd4978d403a99e8b5ade26ee7d2d31ea04e1cb31"
   integrity sha512-pGt1oAFgRYWporTcrSjRa0i51PqQ8K1vYb8BjDdTdF/b+Kb+UHUGZXUpbR+kAmIiBMTsRYoYzHjktxGlECIWaQ==
+  dependencies:
+    "@babel/runtime" "^7.19.0"
+
+"@osmonauts/utils@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.npmjs.org/@osmonauts/utils/-/utils-0.8.0.tgz#cab2a04d818284afcb3e99bc43a85b786aba6c45"
+  integrity sha512-EO6dSqr9pvczYzuVL/wEvdu4xub1tV4wttJcrgT8lrgq08PK6e7frX816OlBFUv7qQk8eEYPnIVpsN12ZxFwwQ==
   dependencies:
     "@babel/runtime" "^7.19.0"
 
@@ -11090,10 +11152,10 @@ osenv@^0.1.4:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
-osmojs@0.36.0:
-  version "0.36.0"
-  resolved "https://registry.npmjs.org/osmojs/-/osmojs-0.36.0.tgz#cae601b820057a32c850bc5218c0b5c4eb408af4"
-  integrity sha512-VKRMi1j7S3g1MmI9AurtioR3XOb9LSkhSRnfFs29CYKdIWx2QK8GIhkR8q1b80bJQvgpKnphcDKGPJGTedTuXA==
+osmojs@0.37.0:
+  version "0.37.0"
+  resolved "https://registry.npmjs.org/osmojs/-/osmojs-0.37.0.tgz#c5c1e332e6e5e165b59447d1a519a9cdc19f0780"
+  integrity sha512-Xc+JbdrA2hRXNMkP4Ib8pCSJUA50L/CuEjn75rZFYJcQwVs7MvbDG2qwSwDzwMbF3BRt+E9r5kLL1YnutgOLXA==
   dependencies:
     "@babel/runtime" "^7.19.0"
     "@cosmjs/amino" "0.29.3"
@@ -12491,10 +12553,10 @@ stack-utils@^2.0.3:
   dependencies:
     escape-string-regexp "^2.0.0"
 
-stargazejs@0.8.0:
-  version "0.8.0"
-  resolved "https://registry.npmjs.org/stargazejs/-/stargazejs-0.8.0.tgz#d2dfa468462ffa47be90dd1ca25e5b4badb62fea"
-  integrity sha512-rbwykgQ2wCNPuCtagtBu0Wf90D7l7oM7HzRLsrTSNxT+Kpx5Z3ys6bK4gD5XdrCPZZLiNcF21o4r0zFlNerbfQ==
+stargazejs@0.9.0:
+  version "0.9.0"
+  resolved "https://registry.npmjs.org/stargazejs/-/stargazejs-0.9.0.tgz#abd0c0371daf06f4ffac551e70af4594f8dcf394"
+  integrity sha512-IP4jsxdJtOSbmSWqBBEcyQL2q3f8fqxYqVVWQMNV9u327QNob4rgjuKLSS3YpD2xFDhvU06KdfTTOwukceLf7Q==
   dependencies:
     "@babel/runtime" "^7.19.4"
     "@cosmjs/amino" "0.29.1"
