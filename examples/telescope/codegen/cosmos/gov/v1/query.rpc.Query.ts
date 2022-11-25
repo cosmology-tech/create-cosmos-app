@@ -1,6 +1,8 @@
 import { Rpc } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { ReactQueryParams } from "../../../react-query";
+import { useQuery } from "@tanstack/react-query";
 import { QueryProposalRequest, QueryProposalResponse, QueryProposalsRequest, QueryProposalsResponse, QueryVoteRequest, QueryVoteResponse, QueryVotesRequest, QueryVotesResponse, QueryParamsRequest, QueryParamsResponse, QueryDepositRequest, QueryDepositResponse, QueryDepositsRequest, QueryDepositsResponse, QueryTallyResultRequest, QueryTallyResultResponse } from "./query";
 /** Query defines the gRPC querier service for gov module */
 
@@ -129,5 +131,155 @@ export const createRpcQueryExtension = (base: QueryClient) => {
       return queryService.tallyResult(request);
     }
 
+  };
+};
+export interface UseProposalQuery<TData> extends ReactQueryParams<QueryProposalResponse, TData> {
+  request: QueryProposalRequest;
+}
+export interface UseProposalsQuery<TData> extends ReactQueryParams<QueryProposalsResponse, TData> {
+  request: QueryProposalsRequest;
+}
+export interface UseVoteQuery<TData> extends ReactQueryParams<QueryVoteResponse, TData> {
+  request: QueryVoteRequest;
+}
+export interface UseVotesQuery<TData> extends ReactQueryParams<QueryVotesResponse, TData> {
+  request: QueryVotesRequest;
+}
+export interface UseParamsQuery<TData> extends ReactQueryParams<QueryParamsResponse, TData> {
+  request: QueryParamsRequest;
+}
+export interface UseDepositQuery<TData> extends ReactQueryParams<QueryDepositResponse, TData> {
+  request: QueryDepositRequest;
+}
+export interface UseDepositsQuery<TData> extends ReactQueryParams<QueryDepositsResponse, TData> {
+  request: QueryDepositsRequest;
+}
+export interface UseTallyResultQuery<TData> extends ReactQueryParams<QueryTallyResultResponse, TData> {
+  request: QueryTallyResultRequest;
+}
+
+const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
+
+const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
+  if (!rpc) return;
+
+  if (_queryClients.has(rpc)) {
+    return _queryClients.get(rpc);
+  }
+
+  const queryService = new QueryClientImpl(rpc);
+
+  _queryClients.set(rpc, queryService);
+
+  return queryService;
+};
+
+export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
+  const queryService = getQueryService(rpc);
+
+  const useProposal = <TData = QueryProposalResponse,>({
+    request,
+    options
+  }: UseProposalQuery<TData>) => {
+    return useQuery<QueryProposalResponse, Error, TData>(["proposalQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.proposal(request);
+    }, options);
+  };
+
+  const useProposals = <TData = QueryProposalsResponse,>({
+    request,
+    options
+  }: UseProposalsQuery<TData>) => {
+    return useQuery<QueryProposalsResponse, Error, TData>(["proposalsQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.proposals(request);
+    }, options);
+  };
+
+  const useVote = <TData = QueryVoteResponse,>({
+    request,
+    options
+  }: UseVoteQuery<TData>) => {
+    return useQuery<QueryVoteResponse, Error, TData>(["voteQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.vote(request);
+    }, options);
+  };
+
+  const useVotes = <TData = QueryVotesResponse,>({
+    request,
+    options
+  }: UseVotesQuery<TData>) => {
+    return useQuery<QueryVotesResponse, Error, TData>(["votesQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.votes(request);
+    }, options);
+  };
+
+  const useParams = <TData = QueryParamsResponse,>({
+    request,
+    options
+  }: UseParamsQuery<TData>) => {
+    return useQuery<QueryParamsResponse, Error, TData>(["paramsQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.params(request);
+    }, options);
+  };
+
+  const useDeposit = <TData = QueryDepositResponse,>({
+    request,
+    options
+  }: UseDepositQuery<TData>) => {
+    return useQuery<QueryDepositResponse, Error, TData>(["depositQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.deposit(request);
+    }, options);
+  };
+
+  const useDeposits = <TData = QueryDepositsResponse,>({
+    request,
+    options
+  }: UseDepositsQuery<TData>) => {
+    return useQuery<QueryDepositsResponse, Error, TData>(["depositsQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.deposits(request);
+    }, options);
+  };
+
+  const useTallyResult = <TData = QueryTallyResultResponse,>({
+    request,
+    options
+  }: UseTallyResultQuery<TData>) => {
+    return useQuery<QueryTallyResultResponse, Error, TData>(["tallyResultQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.tallyResult(request);
+    }, options);
+  };
+
+  return {
+    /** Proposal queries proposal details based on ProposalID. */
+    useProposal,
+
+    /** Proposals queries all proposals based on given status. */
+    useProposals,
+
+    /** Vote queries voted information based on proposalID, voterAddr. */
+    useVote,
+
+    /** Votes queries votes of a given proposal. */
+    useVotes,
+
+    /** Params queries all parameters of the gov module. */
+    useParams,
+
+    /** Deposit queries single deposit information based proposalID, depositAddr. */
+    useDeposit,
+
+    /** Deposits queries all deposits of a single proposal. */
+    useDeposits,
+
+    /** TallyResult queries the tally of a proposal vote. */
+    useTallyResult
   };
 };

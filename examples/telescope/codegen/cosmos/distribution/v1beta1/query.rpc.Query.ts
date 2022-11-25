@@ -1,6 +1,8 @@
 import { Rpc } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { ReactQueryParams } from "../../../react-query";
+import { useQuery } from "@tanstack/react-query";
 import { QueryParamsRequest, QueryParamsResponse, QueryValidatorOutstandingRewardsRequest, QueryValidatorOutstandingRewardsResponse, QueryValidatorCommissionRequest, QueryValidatorCommissionResponse, QueryValidatorSlashesRequest, QueryValidatorSlashesResponse, QueryDelegationRewardsRequest, QueryDelegationRewardsResponse, QueryDelegationTotalRewardsRequest, QueryDelegationTotalRewardsResponse, QueryDelegatorValidatorsRequest, QueryDelegatorValidatorsResponse, QueryDelegatorWithdrawAddressRequest, QueryDelegatorWithdrawAddressResponse, QueryCommunityPoolRequest, QueryCommunityPoolResponse } from "./query";
 /** Query defines the gRPC querier service for distribution module. */
 
@@ -146,5 +148,174 @@ export const createRpcQueryExtension = (base: QueryClient) => {
       return queryService.communityPool(request);
     }
 
+  };
+};
+export interface UseParamsQuery<TData> extends ReactQueryParams<QueryParamsResponse, TData> {
+  request?: QueryParamsRequest;
+}
+export interface UseValidatorOutstandingRewardsQuery<TData> extends ReactQueryParams<QueryValidatorOutstandingRewardsResponse, TData> {
+  request: QueryValidatorOutstandingRewardsRequest;
+}
+export interface UseValidatorCommissionQuery<TData> extends ReactQueryParams<QueryValidatorCommissionResponse, TData> {
+  request: QueryValidatorCommissionRequest;
+}
+export interface UseValidatorSlashesQuery<TData> extends ReactQueryParams<QueryValidatorSlashesResponse, TData> {
+  request: QueryValidatorSlashesRequest;
+}
+export interface UseDelegationRewardsQuery<TData> extends ReactQueryParams<QueryDelegationRewardsResponse, TData> {
+  request: QueryDelegationRewardsRequest;
+}
+export interface UseDelegationTotalRewardsQuery<TData> extends ReactQueryParams<QueryDelegationTotalRewardsResponse, TData> {
+  request: QueryDelegationTotalRewardsRequest;
+}
+export interface UseDelegatorValidatorsQuery<TData> extends ReactQueryParams<QueryDelegatorValidatorsResponse, TData> {
+  request: QueryDelegatorValidatorsRequest;
+}
+export interface UseDelegatorWithdrawAddressQuery<TData> extends ReactQueryParams<QueryDelegatorWithdrawAddressResponse, TData> {
+  request: QueryDelegatorWithdrawAddressRequest;
+}
+export interface UseCommunityPoolQuery<TData> extends ReactQueryParams<QueryCommunityPoolResponse, TData> {
+  request?: QueryCommunityPoolRequest;
+}
+
+const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
+
+const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
+  if (!rpc) return;
+
+  if (_queryClients.has(rpc)) {
+    return _queryClients.get(rpc);
+  }
+
+  const queryService = new QueryClientImpl(rpc);
+
+  _queryClients.set(rpc, queryService);
+
+  return queryService;
+};
+
+export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
+  const queryService = getQueryService(rpc);
+
+  const useParams = <TData = QueryParamsResponse,>({
+    request,
+    options
+  }: UseParamsQuery<TData>) => {
+    return useQuery<QueryParamsResponse, Error, TData>(["paramsQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.params(request);
+    }, options);
+  };
+
+  const useValidatorOutstandingRewards = <TData = QueryValidatorOutstandingRewardsResponse,>({
+    request,
+    options
+  }: UseValidatorOutstandingRewardsQuery<TData>) => {
+    return useQuery<QueryValidatorOutstandingRewardsResponse, Error, TData>(["validatorOutstandingRewardsQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.validatorOutstandingRewards(request);
+    }, options);
+  };
+
+  const useValidatorCommission = <TData = QueryValidatorCommissionResponse,>({
+    request,
+    options
+  }: UseValidatorCommissionQuery<TData>) => {
+    return useQuery<QueryValidatorCommissionResponse, Error, TData>(["validatorCommissionQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.validatorCommission(request);
+    }, options);
+  };
+
+  const useValidatorSlashes = <TData = QueryValidatorSlashesResponse,>({
+    request,
+    options
+  }: UseValidatorSlashesQuery<TData>) => {
+    return useQuery<QueryValidatorSlashesResponse, Error, TData>(["validatorSlashesQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.validatorSlashes(request);
+    }, options);
+  };
+
+  const useDelegationRewards = <TData = QueryDelegationRewardsResponse,>({
+    request,
+    options
+  }: UseDelegationRewardsQuery<TData>) => {
+    return useQuery<QueryDelegationRewardsResponse, Error, TData>(["delegationRewardsQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.delegationRewards(request);
+    }, options);
+  };
+
+  const useDelegationTotalRewards = <TData = QueryDelegationTotalRewardsResponse,>({
+    request,
+    options
+  }: UseDelegationTotalRewardsQuery<TData>) => {
+    return useQuery<QueryDelegationTotalRewardsResponse, Error, TData>(["delegationTotalRewardsQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.delegationTotalRewards(request);
+    }, options);
+  };
+
+  const useDelegatorValidators = <TData = QueryDelegatorValidatorsResponse,>({
+    request,
+    options
+  }: UseDelegatorValidatorsQuery<TData>) => {
+    return useQuery<QueryDelegatorValidatorsResponse, Error, TData>(["delegatorValidatorsQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.delegatorValidators(request);
+    }, options);
+  };
+
+  const useDelegatorWithdrawAddress = <TData = QueryDelegatorWithdrawAddressResponse,>({
+    request,
+    options
+  }: UseDelegatorWithdrawAddressQuery<TData>) => {
+    return useQuery<QueryDelegatorWithdrawAddressResponse, Error, TData>(["delegatorWithdrawAddressQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.delegatorWithdrawAddress(request);
+    }, options);
+  };
+
+  const useCommunityPool = <TData = QueryCommunityPoolResponse,>({
+    request,
+    options
+  }: UseCommunityPoolQuery<TData>) => {
+    return useQuery<QueryCommunityPoolResponse, Error, TData>(["communityPoolQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.communityPool(request);
+    }, options);
+  };
+
+  return {
+    /** Params queries params of the distribution module. */
+    useParams,
+
+    /** ValidatorOutstandingRewards queries rewards of a validator address. */
+    useValidatorOutstandingRewards,
+
+    /** ValidatorCommission queries accumulated commission for a validator. */
+    useValidatorCommission,
+
+    /** ValidatorSlashes queries slash events of a validator. */
+    useValidatorSlashes,
+
+    /** DelegationRewards queries the total rewards accrued by a delegation. */
+    useDelegationRewards,
+
+    /**
+     * DelegationTotalRewards queries the total rewards accrued by a each
+     * validator.
+     */
+    useDelegationTotalRewards,
+
+    /** DelegatorValidators queries the validators of a delegator. */
+    useDelegatorValidators,
+
+    /** DelegatorWithdrawAddress queries withdraw address of a delegator. */
+    useDelegatorWithdrawAddress,
+
+    /** CommunityPool queries the community pool coins. */
+    useCommunityPool
   };
 };
