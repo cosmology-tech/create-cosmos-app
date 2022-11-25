@@ -369,9 +369,8 @@ export const balance = selectorFamily<QueryBalanceResponse, BalanceSelectorType>
   key: 'balance',
   get: ({ rpcEndpoint, request }) => async () => {
     if (!rpcEndpoint) throw new Error("no rpc endpoint");
-    const rpc = getRpcClient(rpcEndpoint);
+    const rpc = await getRpcClient(rpcEndpoint);
     if (!rpc) throw new Error("RPC not initialized");
-    // @ts-ignore
     const queryService = getQueryService(rpc);
     if (!queryService) throw new Error("Query Service not initialized");
     return await queryService.balance(request);
