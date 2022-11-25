@@ -1,6 +1,8 @@
 import { Rpc } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { ReactQueryParams } from "../../../react-query";
+import { useQuery } from "@tanstack/react-query";
 import { QueryEvidenceRequest, QueryEvidenceResponse, QueryAllEvidenceRequest, QueryAllEvidenceResponse } from "./query";
 /** Query defines the gRPC querier service. */
 
@@ -47,5 +49,59 @@ export const createRpcQueryExtension = (base: QueryClient) => {
       return queryService.allEvidence(request);
     }
 
+  };
+};
+export interface UseEvidenceQuery<TData> extends ReactQueryParams<QueryEvidenceResponse, TData> {
+  request: QueryEvidenceRequest;
+}
+export interface UseAllEvidenceQuery<TData> extends ReactQueryParams<QueryAllEvidenceResponse, TData> {
+  request?: QueryAllEvidenceRequest;
+}
+
+const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
+
+const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
+  if (!rpc) return;
+
+  if (_queryClients.has(rpc)) {
+    return _queryClients.get(rpc);
+  }
+
+  const queryService = new QueryClientImpl(rpc);
+
+  _queryClients.set(rpc, queryService);
+
+  return queryService;
+};
+
+export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
+  const queryService = getQueryService(rpc);
+
+  const useEvidence = <TData = QueryEvidenceResponse,>({
+    request,
+    options
+  }: UseEvidenceQuery<TData>) => {
+    return useQuery<QueryEvidenceResponse, Error, TData>(["evidenceQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.evidence(request);
+    }, options);
+  };
+
+  const useAllEvidence = <TData = QueryAllEvidenceResponse,>({
+    request,
+    options
+  }: UseAllEvidenceQuery<TData>) => {
+    return useQuery<QueryAllEvidenceResponse, Error, TData>(["allEvidenceQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.allEvidence(request);
+    }, options);
+  };
+
+  return {
+    /** Evidence queries evidence based on evidence hash. */
+    useEvidence,
+
+    /** AllEvidence queries all evidence. */
+    useAllEvidence
   };
 };

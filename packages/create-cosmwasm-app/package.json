@@ -67,7 +67,7 @@
     "babel-watch": "^7.0.0",
     "case": "1.6.3",
     "cross-env": "^7.0.2",
-    "eslint": "8.27.0",
+    "eslint": "8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "glob": "8.0.3",
