@@ -3,7 +3,7 @@
   * DO NOT MODIFY BY HAND. Instead, download the latest proto files for your chain
   * and run the transpile command or yarn proto command to regenerate this bundle.
   */
- 
+
 export * from "./ics23/bundle";
 export * from "./cosmos_proto/bundle";
 export * from "./cosmos/bundle";
@@ -18,3 +18,4 @@ export * from "./tendermint/bundle";
 export * from "./hooks";
 export * from "./extern";
 export * from "./react-query";
+export * from "./recoil";
