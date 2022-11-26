@@ -3,7 +3,10 @@ import * as _m0 from "protobufjs/minimal";
 import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../react-query";
 import { useQuery } from "@tanstack/react-query";
+import { selectorFamily } from "recoil";
+
 import { QueryBalanceRequest, QueryBalanceResponse, QueryAllBalancesRequest, QueryAllBalancesResponse, QuerySpendableBalancesRequest, QuerySpendableBalancesResponse, QueryTotalSupplyRequest, QueryTotalSupplyResponse, QuerySupplyOfRequest, QuerySupplyOfResponse, QueryParamsRequest, QueryParamsResponse, QueryDenomMetadataRequest, QueryDenomMetadataResponse, QueryDenomsMetadataRequest, QueryDenomsMetadataResponse, QueryDenomOwnersRequest, QueryDenomOwnersResponse } from "./query";
+import { getRpcClient } from "../../../extern";
 /** Query defines the gRPC querier service. */
 
 export interface Query {
@@ -335,3 +338,69 @@ export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
     useDenomOwners
   };
 };
+
+type SelectorMapper<Type> = {
+  [Property in keyof Type]: Type[Property];
+};
+
+export const createRecoilSelectors = (rpc: ProtobufRpcClient | undefined) => {
+  const queryService = getQueryService(rpc);
+
+  const balance = selectorFamily<QueryBalanceResponse, SelectorMapper<QueryBalanceRequest>>({
+    key: 'balance',
+    get: request => async () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return await queryService.balance(request);
+    },
+  });
+
+  return {
+    /** Balance queries the balance of a single coin for a single account. */
+    balance
+  };
+};
+
+type BalanceSelectorType = {
+  rpcEndpoint: string;
+  request: SelectorMapper<QueryBalanceRequest>
+};
+
+type AllBalancesSelectorType = {
+  rpcEndpoint: string;
+  request: SelectorMapper<QueryAllBalancesRequest>
+};
+
+
+export const rpcClientSelector = selectorFamily({
+  key: 'rpcClientSelector',
+  get: (rpcEndpoint: string) => async () =>
+    await getRpcClient(rpcEndpoint)
+})
+
+export const rpcQueryService = selectorFamily({
+  key: 'rpcQueryService',
+  get: (rpcEndpoint: string) => async ({ get }) => {
+    const rpc = get(rpcClientSelector(rpcEndpoint));
+    const queryService = getQueryService(rpc);
+    return queryService;
+  },
+});
+
+export const balance = selectorFamily<QueryBalanceResponse, BalanceSelectorType>({
+  key: 'balance',
+  get: ({ rpcEndpoint, request }) => async ({ get }) => {
+    const queryService = get(rpcQueryService(rpcEndpoint))
+    if (!queryService) throw new Error("Query Service not initialized");
+    return await queryService.balance(request);
+  },
+});
+
+
+export const allBalances = selectorFamily<QueryAllBalancesResponse, AllBalancesSelectorType>({
+  key: 'allBalances',
+  get: ({ rpcEndpoint, request }) => async ({ get }) => {
+    const queryService = get(rpcQueryService(rpcEndpoint))
+    if (!queryService) throw new Error("Query Service not initialized");
+    return await queryService.allBalances(request);
+  },
+});

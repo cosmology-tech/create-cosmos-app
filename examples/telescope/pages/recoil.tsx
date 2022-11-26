@@ -28,8 +28,8 @@ import { WalletStatus } from '@cosmos-kit/core'
 import { Dependency, handleChangeColorModeValue, Product, WalletSection } from '../components'
 import { SendTokensCard } from '../components/react/send-tokens-card'
 
-import { cosmos, createRpcQueryHooks } from '../codegen'
-import { useRpcClient } from '../codegen'
+import { cosmos, selectors } from '../codegen'
+import { useRecoilValue } from 'recoil'
 
 const library = {
   title: 'Telescope',
@@ -84,61 +84,28 @@ const COIN_DISPLAY_EXPONENT = coin.denom_units.find((unit) => unit.denom === coi
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode()
 
-  const { getSigningStargateClient, address, walletStatus, getRpcEndpoint } =
-    useWallet()
+  const { getSigningStargateClient, address, walletStatus, getRpcEndpoint } = useWallet()
 
   const [resp, setResp] = useState('')
 
-  // const {
-  //   data: rpcEndpoint
-  // } = useRpcEndpoint({
-  //   //@ts-ignore 
-  //   getter: getRpcEndpoint
-  // });
-
   const rpcEndpoint = 'https://rpc.cosmos.directory/cosmoshub';
+  // const cosmosSelectors = createRecoilSelectors({ rpc: rpcClient })
 
-  const {
-    data: rpcClient
-  } = useRpcClient({
+  const request = {
+    address: address || 'cosmos144sh8vyv5nqfylmg4mlydnpe3l4w780jsrmf4k',
+    denom: chainassets?.assets[0].base as string,
+  };
+
+  const isBalanceLoaded = true;
+  const isFetchingBalance = false;
+  const refetchBalance = () => { };
+
+  const balance = useRecoilValue(selectors.cosmos.bank.v1beta1.balance({
     rpcEndpoint,
-    options: {
-      enabled: !!rpcEndpoint,
-    }
-  });
+    request
+  }))
 
-  console.log({
-    rpcEndpoint,
-    rpcClient
-  })
-
-  // const cosmosHooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
-  const cosmosHooks = createRpcQueryHooks({ rpc: rpcClient })
-
-  const {
-    data: balance,
-    isSuccess: isBalanceLoaded,
-    isLoading: isFetchingBalance,
-    refetch: refetchBalance,
-  } = cosmosHooks.cosmos.bank.v1beta1.useBalance({
-    request: {
-      address: address || '',
-      denom: chainassets?.assets[0].base as string,
-    },
-    options: {
-      enabled: !!address && !!rpcClient,
-      // transform the returned balance into a BigNumber
-      select: ({ balance }) => new BigNumber(balance?.amount ?? 0).multipliedBy(10 ** -COIN_DISPLAY_EXPONENT),
-    },
-  })
-
-  console.log(JSON.stringify({
-    address,
-    balance,
-    isBalanceLoaded,
-    isFetchingBalance,
-    refetchBalance
-  }, null, 2))
+  // const balance = BigNumber('1')
 
   return (
     <Container maxW="5xl" py={10}>
@@ -193,7 +160,7 @@ export default function Home() {
       <Center mb={16}>
         <SendTokensCard
           isConnectWallet={walletStatus === WalletStatus.Connected}
-          balance={isBalanceLoaded ? balance.toNumber() : 0}
+          balance={isBalanceLoaded ? balance : 0}
           isFetchingBalance={isFetchingBalance}
           response={resp}
           sendTokensButtonText="Send Tokens"

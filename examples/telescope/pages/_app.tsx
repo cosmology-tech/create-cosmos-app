@@ -8,6 +8,7 @@ import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
 import { wallets as leapWallets } from '@cosmos-kit/leap';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { RecoilRoot } from 'recoil'
 
 import { chains, assets } from 'chain-registry';
 import { getSigningCosmosClientOptions } from '../codegen';
@@ -42,19 +43,21 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ChakraProvider theme={defaultTheme}>
-      <QueryClientProvider client={queryClient} >
-        <WalletProvider
-          chains={chains}
-          assetLists={assets}
-          wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
-          signerOptions={signerOptions}
-        >
-          <Component {...pageProps} />
-        </WalletProvider>
-        {/* <ReactQueryDevtools initialIsOpen={false}/> */}
-      </QueryClientProvider>
-    </ChakraProvider>
+    <RecoilRoot>
+      <ChakraProvider theme={defaultTheme}>
+        <QueryClientProvider client={queryClient} >
+          <WalletProvider
+            chains={chains}
+            assetLists={assets}
+            wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
+            signerOptions={signerOptions}
+          >
+            <Component {...pageProps} />
+          </WalletProvider>
+          {/* <ReactQueryDevtools initialIsOpen={false}/> */}
+        </QueryClientProvider>
+      </ChakraProvider>
+    </RecoilRoot>
   );
 }
 
