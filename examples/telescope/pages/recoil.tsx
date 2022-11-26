@@ -28,8 +28,7 @@ import { WalletStatus } from '@cosmos-kit/core'
 import { Dependency, handleChangeColorModeValue, Product, WalletSection } from '../components'
 import { SendTokensCard } from '../components/react/send-tokens-card'
 
-import { cosmos, createRecoilSelectors, selectors } from '../codegen'
-import { useRpcClient } from '../codegen'
+import { cosmos, selectors } from '../codegen'
 import { useRecoilValue } from 'recoil'
 
 const library = {
@@ -93,7 +92,7 @@ export default function Home() {
   // const cosmosSelectors = createRecoilSelectors({ rpc: rpcClient })
 
   const request = {
-    address: address || '',
+    address: address || 'cosmos144sh8vyv5nqfylmg4mlydnpe3l4w780jsrmf4k',
     denom: chainassets?.assets[0].base as string,
   };
 
@@ -161,7 +160,7 @@ export default function Home() {
       <Center mb={16}>
         <SendTokensCard
           isConnectWallet={walletStatus === WalletStatus.Connected}
-          balance={isBalanceLoaded ? balance.toNumber() : 0}
+          balance={isBalanceLoaded ? balance : 0}
           isFetchingBalance={isFetchingBalance}
           response={resp}
           sendTokensButtonText="Send Tokens"
