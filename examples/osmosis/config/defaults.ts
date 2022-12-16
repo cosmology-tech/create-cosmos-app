@@ -1,8 +1,17 @@
-import { StdFee } from '@cosmjs/amino';
 import { assets } from 'chain-registry';
 import { AssetList, Asset } from '@chain-registry/types';
-import { SigningStargateClient } from '@cosmjs/stargate';
-import { cosmos } from 'osmojs';
+import { GeneratedType, Registry } from "@cosmjs/proto-signing";
+import { AminoTypes } from "@cosmjs/stargate";
+import { 
+    cosmosAminoConverters,
+    cosmosProtoRegistry,
+    cosmwasmAminoConverters,
+    cosmwasmProtoRegistry,
+    ibcProtoRegistry,
+    ibcAminoConverters,
+    osmosisAminoConverters,
+    osmosisProtoRegistry
+} from 'osmojs';
 
 export const chainName = 'osmosis';
 // export const chainName = 'osmosistestnet';
@@ -15,41 +24,19 @@ export const coin: Asset = chainassets.assets.find(
     (asset) => asset.base === 'uosmo'
 ) as Asset;
 
-export const sendTokens = (
-    getSigningStargateClient: () => Promise<SigningStargateClient>,
-    setResp: (resp: string) => any,
-    address: string
-) => {
-    return async () => {
-        const stargateClient = await getSigningStargateClient();
-        if (!stargateClient || !address) {
-            console.error('stargateClient undefined or address undefined.');
-            return;
-        }
+const protoRegistry: ReadonlyArray<[string, GeneratedType]> = [
+    ...cosmosProtoRegistry,
+    ...cosmwasmProtoRegistry,
+    ...ibcProtoRegistry,
+    ...osmosisProtoRegistry
+];
 
-        const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
-
-        const msg = send({
-            amount: [
-                {
-                    denom: coin.base,
-                    amount: '1000'
-                }
-            ],
-            toAddress: address,
-            fromAddress: address
-        });
-
-        const fee: StdFee = {
-            amount: [
-                {
-                    denom: coin.base,
-                    amount: '864'
-                }
-            ],
-            gas: '86364'
-        };
-        const response = await stargateClient.signAndBroadcast(address, [msg], fee);
-        setResp(JSON.stringify(response, null, 2));
-    };
+const aminoConverters = {
+    ...cosmosAminoConverters,
+    ...cosmwasmAminoConverters,
+    ...ibcAminoConverters,
+    ...osmosisAminoConverters
 };
+
+export const registry = new Registry(protoRegistry);
+export const aminoTypes = new AminoTypes(aminoConverters);
