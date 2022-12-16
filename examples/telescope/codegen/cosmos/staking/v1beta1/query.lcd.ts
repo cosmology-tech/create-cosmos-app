@@ -85,7 +85,7 @@ export class LCDQueryClient {
 
 
   async delegation(params: QueryDelegationRequest): Promise<QueryDelegationResponseSDKType> {
-    const endpoint = `cosmos/staking/v1beta1/validators/${params.validatorAddr}delegations/${params.delegatorAddr}`;
+    const endpoint = `cosmos/staking/v1beta1/validators/${params.validatorAddr}/delegations/${params.delegatorAddr}`;
     return await this.req.get<QueryDelegationResponseSDKType>(endpoint);
   }
   /* UnbondingDelegation queries unbonding info for given validator delegator
@@ -171,7 +171,7 @@ export class LCDQueryClient {
 
 
   async delegatorValidator(params: QueryDelegatorValidatorRequest): Promise<QueryDelegatorValidatorResponseSDKType> {
-    const endpoint = `cosmos/staking/v1beta1/delegators/${params.delegatorAddr}validators/${params.validatorAddr}`;
+    const endpoint = `cosmos/staking/v1beta1/delegators/${params.delegatorAddr}/validators/${params.validatorAddr}`;
     return await this.req.get<QueryDelegatorValidatorResponseSDKType>(endpoint);
   }
   /* HistoricalInfo queries the historical info for given height. */

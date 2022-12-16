@@ -1,6 +1,8 @@
 import { Rpc } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { ReactQueryParams } from "../../../react-query";
+import { useQuery } from "@tanstack/react-query";
 import { QueryParamsRequest, QueryParamsResponse, QueryInflationRequest, QueryInflationResponse, QueryAnnualProvisionsRequest, QueryAnnualProvisionsResponse } from "./query";
 /** Query provides defines the gRPC querier service. */
 
@@ -59,5 +61,75 @@ export const createRpcQueryExtension = (base: QueryClient) => {
       return queryService.annualProvisions(request);
     }
 
+  };
+};
+export interface UseParamsQuery<TData> extends ReactQueryParams<QueryParamsResponse, TData> {
+  request?: QueryParamsRequest;
+}
+export interface UseInflationQuery<TData> extends ReactQueryParams<QueryInflationResponse, TData> {
+  request?: QueryInflationRequest;
+}
+export interface UseAnnualProvisionsQuery<TData> extends ReactQueryParams<QueryAnnualProvisionsResponse, TData> {
+  request?: QueryAnnualProvisionsRequest;
+}
+
+const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
+
+const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
+  if (!rpc) return;
+
+  if (_queryClients.has(rpc)) {
+    return _queryClients.get(rpc);
+  }
+
+  const queryService = new QueryClientImpl(rpc);
+
+  _queryClients.set(rpc, queryService);
+
+  return queryService;
+};
+
+export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
+  const queryService = getQueryService(rpc);
+
+  const useParams = <TData = QueryParamsResponse,>({
+    request,
+    options
+  }: UseParamsQuery<TData>) => {
+    return useQuery<QueryParamsResponse, Error, TData>(["paramsQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.params(request);
+    }, options);
+  };
+
+  const useInflation = <TData = QueryInflationResponse,>({
+    request,
+    options
+  }: UseInflationQuery<TData>) => {
+    return useQuery<QueryInflationResponse, Error, TData>(["inflationQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.inflation(request);
+    }, options);
+  };
+
+  const useAnnualProvisions = <TData = QueryAnnualProvisionsResponse,>({
+    request,
+    options
+  }: UseAnnualProvisionsQuery<TData>) => {
+    return useQuery<QueryAnnualProvisionsResponse, Error, TData>(["annualProvisionsQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.annualProvisions(request);
+    }, options);
+  };
+
+  return {
+    /** Params returns the total set of minting parameters. */
+    useParams,
+
+    /** Inflation returns the current minting inflation value. */
+    useInflation,
+
+    /** AnnualProvisions current minting annual provisions value. */
+    useAnnualProvisions
   };
 };

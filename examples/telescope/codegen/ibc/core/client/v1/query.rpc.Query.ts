@@ -1,6 +1,8 @@
 import { Rpc } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { ReactQueryParams } from "../../../../react-query";
+import { useQuery } from "@tanstack/react-query";
 import { QueryClientStateRequest, QueryClientStateResponse, QueryClientStatesRequest, QueryClientStatesResponse, QueryConsensusStateRequest, QueryConsensusStateResponse, QueryConsensusStatesRequest, QueryConsensusStatesResponse, QueryClientStatusRequest, QueryClientStatusResponse, QueryClientParamsRequest, QueryClientParamsResponse, QueryUpgradedClientStateRequest, QueryUpgradedClientStateResponse, QueryUpgradedConsensusStateRequest, QueryUpgradedConsensusStateResponse } from "./query";
 /** Query provides defines the gRPC querier service */
 
@@ -137,5 +139,161 @@ export const createRpcQueryExtension = (base: QueryClient) => {
       return queryService.upgradedConsensusState(request);
     }
 
+  };
+};
+export interface UseClientStateQuery<TData> extends ReactQueryParams<QueryClientStateResponse, TData> {
+  request: QueryClientStateRequest;
+}
+export interface UseClientStatesQuery<TData> extends ReactQueryParams<QueryClientStatesResponse, TData> {
+  request?: QueryClientStatesRequest;
+}
+export interface UseConsensusStateQuery<TData> extends ReactQueryParams<QueryConsensusStateResponse, TData> {
+  request: QueryConsensusStateRequest;
+}
+export interface UseConsensusStatesQuery<TData> extends ReactQueryParams<QueryConsensusStatesResponse, TData> {
+  request: QueryConsensusStatesRequest;
+}
+export interface UseClientStatusQuery<TData> extends ReactQueryParams<QueryClientStatusResponse, TData> {
+  request: QueryClientStatusRequest;
+}
+export interface UseClientParamsQuery<TData> extends ReactQueryParams<QueryClientParamsResponse, TData> {
+  request?: QueryClientParamsRequest;
+}
+export interface UseUpgradedClientStateQuery<TData> extends ReactQueryParams<QueryUpgradedClientStateResponse, TData> {
+  request?: QueryUpgradedClientStateRequest;
+}
+export interface UseUpgradedConsensusStateQuery<TData> extends ReactQueryParams<QueryUpgradedConsensusStateResponse, TData> {
+  request?: QueryUpgradedConsensusStateRequest;
+}
+
+const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
+
+const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
+  if (!rpc) return;
+
+  if (_queryClients.has(rpc)) {
+    return _queryClients.get(rpc);
+  }
+
+  const queryService = new QueryClientImpl(rpc);
+
+  _queryClients.set(rpc, queryService);
+
+  return queryService;
+};
+
+export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
+  const queryService = getQueryService(rpc);
+
+  const useClientState = <TData = QueryClientStateResponse,>({
+    request,
+    options
+  }: UseClientStateQuery<TData>) => {
+    return useQuery<QueryClientStateResponse, Error, TData>(["clientStateQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.clientState(request);
+    }, options);
+  };
+
+  const useClientStates = <TData = QueryClientStatesResponse,>({
+    request,
+    options
+  }: UseClientStatesQuery<TData>) => {
+    return useQuery<QueryClientStatesResponse, Error, TData>(["clientStatesQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.clientStates(request);
+    }, options);
+  };
+
+  const useConsensusState = <TData = QueryConsensusStateResponse,>({
+    request,
+    options
+  }: UseConsensusStateQuery<TData>) => {
+    return useQuery<QueryConsensusStateResponse, Error, TData>(["consensusStateQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.consensusState(request);
+    }, options);
+  };
+
+  const useConsensusStates = <TData = QueryConsensusStatesResponse,>({
+    request,
+    options
+  }: UseConsensusStatesQuery<TData>) => {
+    return useQuery<QueryConsensusStatesResponse, Error, TData>(["consensusStatesQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.consensusStates(request);
+    }, options);
+  };
+
+  const useClientStatus = <TData = QueryClientStatusResponse,>({
+    request,
+    options
+  }: UseClientStatusQuery<TData>) => {
+    return useQuery<QueryClientStatusResponse, Error, TData>(["clientStatusQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.clientStatus(request);
+    }, options);
+  };
+
+  const useClientParams = <TData = QueryClientParamsResponse,>({
+    request,
+    options
+  }: UseClientParamsQuery<TData>) => {
+    return useQuery<QueryClientParamsResponse, Error, TData>(["clientParamsQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.clientParams(request);
+    }, options);
+  };
+
+  const useUpgradedClientState = <TData = QueryUpgradedClientStateResponse,>({
+    request,
+    options
+  }: UseUpgradedClientStateQuery<TData>) => {
+    return useQuery<QueryUpgradedClientStateResponse, Error, TData>(["upgradedClientStateQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.upgradedClientState(request);
+    }, options);
+  };
+
+  const useUpgradedConsensusState = <TData = QueryUpgradedConsensusStateResponse,>({
+    request,
+    options
+  }: UseUpgradedConsensusStateQuery<TData>) => {
+    return useQuery<QueryUpgradedConsensusStateResponse, Error, TData>(["upgradedConsensusStateQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.upgradedConsensusState(request);
+    }, options);
+  };
+
+  return {
+    /** ClientState queries an IBC light client. */
+    useClientState,
+
+    /** ClientStates queries all the IBC light clients of a chain. */
+    useClientStates,
+
+    /**
+     * ConsensusState queries a consensus state associated with a client state at
+     * a given height.
+     */
+    useConsensusState,
+
+    /**
+     * ConsensusStates queries all the consensus state associated with a given
+     * client.
+     */
+    useConsensusStates,
+
+    /** Status queries the status of an IBC client. */
+    useClientStatus,
+
+    /** ClientParams queries all parameters of the ibc client. */
+    useClientParams,
+
+    /** UpgradedClientState queries an Upgraded IBC light client. */
+    useUpgradedClientState,
+
+    /** UpgradedConsensusState queries an Upgraded IBC consensus state. */
+    useUpgradedConsensusState
   };
 };
