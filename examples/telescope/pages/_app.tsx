@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { WalletProvider } from '@cosmos-kit/react';
+import { defaultTheme, WalletProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { defaultTheme, chainName } from '../config';
 import { wallets as keplrWallets } from '@cosmos-kit/keplr';
