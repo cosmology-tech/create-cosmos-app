@@ -335,3 +335,8 @@ export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
     useDenomOwners
   };
 };
+
+export const createRpcStores = (rpc: ProtobufRpcClient | undefined) => {
+  const queryService = getQueryService(rpc);
+
+};
