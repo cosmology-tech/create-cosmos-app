@@ -6,6 +6,7 @@ import { chainName } from '../config';
 import { wallets as keplrWallets } from '@cosmos-kit/keplr';
 import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
 import { wallets as leapWallets } from '@cosmos-kit/leap';
+import { wallets as vectisWallets } from '@cosmos-kit/vectis';
 
 import { chains, assets } from 'chain-registry';
 import { getSigningCosmosClientOptions } from 'stargazejs';
@@ -13,7 +14,6 @@ import { GasPrice } from '@cosmjs/stargate';
 
 import { SignerOptions } from '@cosmos-kit/core';
 import { Chain } from '@chain-registry/types';
-
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
@@ -24,10 +24,10 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       switch (chain.chain_name) {
         case 'stargaze':
           return {
-            gasPrice: GasPrice.fromString('0.0025ustars')
+            gasPrice: GasPrice.fromString('0.0025ustars'),
           };
       }
-    }
+    },
   };
 
   return (
@@ -35,7 +35,12 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       <WalletProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
+        wallets={[
+          ...keplrWallets,
+          ...cosmostationWallets,
+          ...leapWallets,
+          ...vectisWallets,
+        ]}
         signerOptions={signerOptions}
       >
         <Component {...pageProps} />
