@@ -4,7 +4,6 @@ import { defaultTheme, WalletProvider } from '@cosmos-kit/react';
 import { wallets as keplrWallets } from '@cosmos-kit/keplr';
 import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
 import { wallets as leapWallets } from '@cosmos-kit/leap';
-import { wallets as vectisWallets } from '@cosmos-kit/vectis';
 
 import { TailwindModal } from '../components';
 import { ThemeProvider } from '../contexts/theme';
