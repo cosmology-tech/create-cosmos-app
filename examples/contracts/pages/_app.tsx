@@ -6,7 +6,6 @@ import { chainName } from '../config';
 import { wallets as keplrWallets } from '@cosmos-kit/keplr';
 import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
 import { wallets as leapWallets } from '@cosmos-kit/leap';
-import { wallets as vectisWallets } from '@cosmos-kit/vectis';
 
 import { chains, assets } from 'chain-registry';
 import { getSigningCosmosClientOptions } from '../codegen';
@@ -44,12 +43,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       <WalletProvider
         chains={chains}
         assetLists={assets}
-        wallets={[
-          ...keplrWallets,
-          ...cosmostationWallets,
-          ...leapWallets,
-          ...vectisWallets,
-        ]}
+        wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
         signerOptions={signerOptions}
       >
         <Component {...pageProps} />
