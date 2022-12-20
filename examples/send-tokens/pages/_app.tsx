@@ -1,8 +1,8 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { WalletProvider } from '@cosmos-kit/react';
+import { defaultTheme, WalletProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
-import { chainName, defaultTheme } from '../config';
+import { chainName } from '../config';
 import { wallets as keplrWallets } from '@cosmos-kit/keplr';
 import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
 import { wallets as leapWallets } from '@cosmos-kit/leap';
@@ -17,7 +17,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
     signingStargate: (_chain: Chain) => {
       return getSigningCosmosClientOptions();
-    }
+    },
   };
 
   return (
