@@ -23,10 +23,9 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       chains={chains}
       assetLists={assets}
       wallets={[
-        ...keplrWallet,
+        ...keplrWallets,
         ...cosmostationWallets,
         ...leapWallets,
-        ...vectisWallets,
       ]}
       signerOptions={signerOptions}
       walletModal={TailwindModal}
