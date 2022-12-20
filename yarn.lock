@@ -1540,17 +1540,17 @@
     "@babel/runtime" "^7.19.4"
     "@chain-registry/types" "^0.14.0"
 
+"@chain-registry/types@0.13.1", "@chain-registry/types@^0.13.1":
+  version "0.13.1"
+  resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.13.1.tgz#be30130005448d6462d73a284e1fd26d080a06e8"
+  integrity sha512-NF4x7pqkQJ/zSQLoT28sYlBdzWUyCTFvWgVE9hJ2jkirX+It9VUHP5j1wtTq+vxQ74SZk2V8vRBo2uuoEYBB1A==
+  dependencies:
+    "@babel/runtime" "^7.19.4"
+
 "@chain-registry/types@0.14.0", "@chain-registry/types@^0.14.0":
   version "0.14.0"
   resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.14.0.tgz#43ea04992adabdee2a0f03f8a519b01722ab354b"
   integrity sha512-TlIqc3CijT734no7RiYBfUvCG2fory0blwrBcK4XTYOCi2vANsxfDdiPLFQcaSETYDd14DdjhrdXwMocEeOnLQ==
-  dependencies:
-    "@babel/runtime" "^7.19.4"
-
-"@chain-registry/types@^0.13.1":
-  version "0.13.1"
-  resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.13.1.tgz#be30130005448d6462d73a284e1fd26d080a06e8"
-  integrity sha512-NF4x7pqkQJ/zSQLoT28sYlBdzWUyCTFvWgVE9hJ2jkirX+It9VUHP5j1wtTq+vxQ74SZk2V8vRBo2uuoEYBB1A==
   dependencies:
     "@babel/runtime" "^7.19.4"
 
@@ -3918,20 +3918,6 @@
     "@babel/runtime" "^7.11.2"
     "@walletconnect/client" "1.7.8"
     "@walletconnect/types" "1.7.8"
-
-"@cosmos-kit/vectis@0.14.14":
-  version "0.14.14"
-  resolved "https://registry.npmjs.org/@cosmos-kit/vectis/-/vectis-0.14.14.tgz#f201b7988f105be55ff72f04df69ab1131e27ea5"
-  integrity sha512-2r8Q2KW/3VwFlimFLZQUH3S5Gc8nWihoH/NTqMLwyZCvbTdhKr4B4zK+y6EXc6HEexs5gLWN/MXcAabzjSPrMQ==
-  dependencies:
-    "@babel/runtime" "7.11.2"
-    "@chain-registry/types" "0.13.1"
-    "@chakra-ui/react" "2.2.9"
-    "@cosmos-kit/core" "^0.27.13"
-    "@emotion/react" "11"
-    "@emotion/styled" "11"
-    "@vectis/extension-client" "0.6.0"
-    react-icons "4.4.0"
 
 "@cosmos-kit/walletconnect-v1@^0.1.2":
   version "0.1.2"
@@ -6394,11 +6380,6 @@
   dependencies:
     "@typescript-eslint/types" "5.44.0"
     eslint-visitor-keys "^3.3.0"
-
-"@vectis/extension-client@0.6.0":
-  version "0.6.0"
-  resolved "https://registry.npmjs.org/@vectis/extension-client/-/extension-client-0.6.0.tgz#17f727712040001b43c1581a3d147d7205dce30b"
-  integrity sha512-VthQXEY2vZJRPA5LRjcurgeoYAuymik0Zw2n9XpUUTGmiHLHieknCh9t/E5qF0R/4wIeOSAOL0heQITM1Lgimg==
 
 "@walletconnect/browser-utils@^1.6.5", "@walletconnect/browser-utils@^1.8.0":
   version "1.8.0"
