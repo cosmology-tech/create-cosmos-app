@@ -131,7 +131,7 @@ export default observer(function Home() {
     return new cosmosStores.cosmos.bank.v1beta1.BalanceStore();
   }, [rpcClient]);
   const {
-    data: balance,
+    data,
     isSuccess: isBalanceLoaded,
     isLoading: isFetchingBalance,
     refetch: refetchBalance,
@@ -140,11 +140,13 @@ export default observer(function Home() {
     denom: chainassets?.assets[0].base as string,
   });
 
+  const displayBalance = new BigNumber(data?.balance?.amount ?? 0).multipliedBy(10 ** -COIN_DISPLAY_EXPONENT);
+
   console.log(
     JSON.stringify(
       {
         address,
-        balance,
+        balance: data?.balance,
         isBalanceLoaded,
         isFetchingBalance,
         refetchBalance,
@@ -202,7 +204,7 @@ export default observer(function Home() {
       <Center mb={16}>
         <SendTokensCard
           isConnectWallet={walletStatus === WalletStatus.Connected}
-          balance={isBalanceLoaded ? balance?.toNumber() : 0}
+          balance={isBalanceLoaded ? displayBalance?.toNumber() : 0}
           isFetchingBalance={isFetchingBalance}
           response={resp}
           sendTokensButtonText="Send Tokens"
