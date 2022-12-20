@@ -1,11 +1,11 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { WalletProvider } from '@cosmos-kit/react';
+import { defaultTheme, WalletProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
-import { defaultTheme } from '../config';
 import { wallets as keplrWallets } from '@cosmos-kit/keplr';
 import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
 import { wallets as leapWallets } from '@cosmos-kit/leap';
+
 import { SignerOptions } from '@cosmos-kit/core';
 import { chains, assets } from 'chain-registry';
 

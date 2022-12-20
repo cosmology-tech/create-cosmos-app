@@ -1,8 +1,7 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { WalletProvider } from '@cosmos-kit/react';
+import { defaultTheme, WalletProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
-import { defaultTheme } from '../config';
 import { wallets as keplrWallets } from '@cosmos-kit/keplr';
 import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
 import { wallets as leapWallets } from '@cosmos-kit/leap';
@@ -23,10 +22,10 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       switch (chain.chain_name) {
         case 'cosmwasmtestnet':
           return {
-            gasPrice: GasPrice.fromString('0.0025umlga')
+            gasPrice: GasPrice.fromString('0.0025umlga'),
           };
       }
-    }
+    },
   };
 
   return (
@@ -38,8 +37,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         signerOptions={signerOptions}
         endpointOptions={{
           cosmwasmtestnet: {
-            rpc: ['https://rpc.malaga-420.cosmwasm.com/']
-          }
+            rpc: ['https://rpc.malaga-420.cosmwasm.com/'],
+          },
         }}
       >
         <Component {...pageProps} />
