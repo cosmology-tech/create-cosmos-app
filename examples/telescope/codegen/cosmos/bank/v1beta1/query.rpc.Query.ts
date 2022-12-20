@@ -497,6 +497,19 @@ export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
   };
 };
 
+interface MobxResponse {
+  isSuccess: boolean;
+  isLoading: boolean;
+  refetch: () => Promise<void>;
+}
+
+interface MobxQueryBalanceRequest {
+  data: QueryBalanceResponse | undefined;
+  isSuccess: boolean;
+  isLoading: boolean;
+  refetch: () => Promise<void>;
+}
+
 export const createRpcStores = (rpc: ProtobufRpcClient | undefined) => {
   const queryService = getQueryService(rpc);
 
@@ -517,7 +530,7 @@ export const createRpcStores = (rpc: ProtobufRpcClient | undefined) => {
       return this.state === 'success';
     }
 
-    refetch = async () => {
+    refetch = async (): Promise<void> => {
       runInAction(() => {
         this.response = void 0;
         this.state = 'loading';
@@ -537,10 +550,10 @@ export const createRpcStores = (rpc: ProtobufRpcClient | undefined) => {
       }
     };
 
-    balance(request: QueryBalanceRequest) {
+    balance(request: QueryBalanceRequest): MobxQueryBalanceRequest {
       this.request = request;
       return {
-        data: new BigNumber(this.response?.balance?.amount ?? 0),
+        data: this.response,
         isSuccess: this.isSuccess,
         isLoading: this.isLoading,
         refetch: this.refetch,
