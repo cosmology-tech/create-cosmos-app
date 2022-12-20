@@ -1,6 +1,14 @@
 import { Rpc } from '../../../helpers';
 import * as _m0 from 'protobufjs/minimal';
-import { makeAutoObservable, runInAction } from 'mobx';
+import {
+  action,
+  computed,
+  makeAutoObservable,
+  makeObservable,
+  observable,
+  override,
+  runInAction,
+} from 'mobx';
 import {
   QueryClient,
   createProtobufRpcClient,
@@ -497,7 +505,8 @@ export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
   };
 };
 
-interface MobxResponse {
+interface MobxResponse<T> {
+  data: T | undefined;
   isSuccess: boolean;
   isLoading: boolean;
   refetch: () => Promise<void>;
@@ -512,6 +521,64 @@ interface MobxQueryBalanceRequest {
 
 export const createRpcStores = (rpc: ProtobufRpcClient | undefined) => {
   const queryService = getQueryService(rpc);
+
+  class QueryStore<Request, Response> {
+    state?: QueryStatus;
+    request?: Request;
+    response?: Response;
+    fetchFunc?: (request: Request) => Promise<Response>;
+
+    constructor(fetchFunc?: (request: Request) => Promise<Response>) {
+      this.fetchFunc = fetchFunc;
+      makeObservable(this, {
+        state: observable,
+        isLoading: computed,
+        isSuccess: computed,
+        refetch: action,
+      });
+    }
+
+    get isLoading() {
+      return this.state === 'loading';
+    }
+
+    get isSuccess() {
+      return this.state === 'success';
+    }
+
+    refetch = async (): Promise<void> => {
+      runInAction(() => {
+        this.response = void 0;
+        this.state = 'loading';
+      });
+      try {
+        if (!this.fetchFunc)
+          throw new Error(
+            'Query Service not initialized or request function not implemented'
+          );
+        if (!this.request) throw new Error('Request not provided');
+        const response = await this.fetchFunc(this.request);
+        runInAction(() => {
+          this.response = response;
+          this.state = 'success';
+        });
+      } catch (e) {
+        runInAction(() => {
+          this.state = 'error';
+        });
+      }
+    };
+
+    getData(request: Request): MobxResponse<Response> {
+      this.request = request;
+      return {
+        data: this.response,
+        isSuccess: this.isSuccess,
+        isLoading: this.isLoading,
+        refetch: this.refetch,
+      };
+    }
+  }
 
   class BalanceStore {
     state?: QueryStatus;
@@ -561,7 +628,27 @@ export const createRpcStores = (rpc: ProtobufRpcClient | undefined) => {
     }
   }
 
+  class BalanceStoreInherited extends QueryStore<
+    QueryBalanceRequest,
+    QueryBalanceResponse
+  > {
+    constructor() {
+      super(queryService?.balance);
+      makeObservable(this, {
+        state: override,
+        isLoading: override,
+        isSuccess: override,
+        refetch: override,
+      });
+    }
+
+    balance(request: QueryBalanceRequest): MobxResponse<QueryBalanceResponse> {
+      return this.getData(request);
+    }
+  }
+
   return {
     BalanceStore,
+    BalanceStoreInherited,
   };
 };
