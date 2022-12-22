@@ -38,6 +38,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         endpointOptions={{
           cosmwasmtestnet: {
             rpc: ['https://rpc.malaga-420.cosmwasm.com/'],
+            rest: ['https://api.malaga-420.cosmwasm.com']
           },
         }}
       >
