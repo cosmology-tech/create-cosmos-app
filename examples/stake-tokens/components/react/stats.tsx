@@ -13,6 +13,7 @@ import { useWallet } from '@cosmos-kit/react';
 import { useState } from 'react';
 import { cosmos } from 'interchain';
 import { coin } from '../../config';
+import { Reward } from '../types';
 
 export const Token = ({ token, color }: { token?: string; color?: string }) => (
   <Text
@@ -32,7 +33,7 @@ const Stats = ({
   updateData,
 }: {
   balance: number;
-  rewards: object[];
+  rewards: Reward[];
   staked: number;
   totalReward: number;
   updateData: () => void;
