@@ -7,6 +7,7 @@ import { decodeCosmosSdkDecFromProto } from '@cosmjs/stargate';
 import Long from 'long';
 
 import Stats from './stats';
+import { Validator, DelegationResponse as Delegation, Reward } from '../types';
 import MyValidators from './my-validators';
 import AllValidators from './all-validators';
 import { chainName, chainassets, coin } from '../../config';
@@ -21,10 +22,20 @@ export const exponentiate = (num: number | string, exp: number) => {
 export const exp = coin.denom_units.find((unit) => unit.denom === coin.display)
   ?.exponent as number;
 
+interface StakingTokens {
+  balance: number;
+  rewards: Reward[];
+  totalReward: number;
+  staked: number;
+  delegations: Delegation[];
+  myValidators: Validator[];
+  allValidators: Validator[];
+}
+
 export const StakingSection = () => {
   const { address, getRpcEndpoint } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState({
+  const [data, setData] = useState<StakingTokens>({
     balance: 0,
     rewards: [],
     totalReward: 0,
@@ -106,6 +117,7 @@ export const StakingSection = () => {
       await client.cosmos.staking.v1beta1.delegatorDelegations({
         delegatorAddr: address,
       });
+    console.log('delegations', delegations);
 
     const stakedAmount = delegations
       .map((delegation) => exponentiate(delegation.balance!.amount, -exp))

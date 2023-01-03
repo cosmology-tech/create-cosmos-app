@@ -40,6 +40,12 @@ import { useState } from 'react';
 import { cosmos } from 'interchain';
 import { useWallet } from '@cosmos-kit/react';
 import { coin } from '../../config';
+import {
+  Validator,
+  MyValidator,
+  DelegationResponse as Delegation,
+  Reward,
+} from '../types';
 
 const MyValidators = ({
   validators,
@@ -48,6 +54,13 @@ const MyValidators = ({
   rewards,
   balance,
   updateData,
+}: {
+  validators: Validator[];
+  allValidator: Validator[];
+  delegations: Delegation[];
+  rewards: Reward[];
+  balance: number;
+  updateData: () => void;
 }) => {
   const toast = useToast();
   const { getSigningStargateClient, address } = useWallet();
@@ -55,8 +68,8 @@ const MyValidators = ({
   const [isDelegating, setIsDelegating] = useState(false);
   const [isUndelegating, setIsUndelegating] = useState(false);
   const [isRedelegating, setIsRedelegating] = useState(false);
-  const [currentValidator, setCurrentValidator] = useState();
-  const [selectedValidator, setSelectedValidator] = useState();
+  const [currentValidator, setCurrentValidator] = useState<MyValidator>();
+  const [selectedValidator, setSelectedValidator] = useState<Validator>();
 
   const { colorMode } = useColorMode();
 
@@ -110,9 +123,9 @@ const MyValidators = ({
     onClose: onRedelegateModalClose,
   } = useDisclosure();
 
-  const myValidators = validators.map((validator) => {
+  const myValidators = validators.map((validator: Validator) => {
     const delegation = delegations.filter(
-      (d) => d.delegation.validatorAddress === validator?.operatorAddress
+      (d) => d?.delegation?.validatorAddress === validator?.operatorAddress
     )[0];
     const reward = rewards.filter(
       (r) => r.validatorAddress === validator?.operatorAddress
@@ -123,10 +136,10 @@ const MyValidators = ({
         : 0;
 
     return {
-      details: validator.description.details,
-      name: validator.description.moniker,
+      details: validator?.description?.details,
+      name: validator?.description?.moniker,
       address: validator.operatorAddress,
-      staked: exponentiate(delegation.balance.amount, -exp),
+      staked: exponentiate(delegation.balance!.amount, -exp),
       reward: Number(exponentiate(rewardAmount, -exp).toFixed(6)),
     };
   });
@@ -164,7 +177,7 @@ const MyValidators = ({
 
     const stargateClient = await getSigningStargateClient();
 
-    if (!stargateClient || !address) {
+    if (!stargateClient || !address || !currentValidator?.address) {
       console.error('stargateClient undefined or address undefined.');
       return;
     }
@@ -175,7 +188,7 @@ const MyValidators = ({
 
     const msg = delegate({
       delegatorAddress: address,
-      validatorAddress: currentValidator?.address,
+      validatorAddress: currentValidator.address,
       amount: {
         amount: amountToDelegate,
         denom: coin.base,
@@ -211,7 +224,7 @@ const MyValidators = ({
 
     const stargateClient = await getSigningStargateClient();
 
-    if (!stargateClient || !address) {
+    if (!stargateClient || !address || !currentValidator?.address) {
       console.error('stargateClient undefined or address undefined.');
       return;
     }
@@ -225,7 +238,7 @@ const MyValidators = ({
 
     const msg = undelegate({
       delegatorAddress: address,
-      validatorAddress: currentValidator?.address,
+      validatorAddress: currentValidator.address,
       amount: {
         amount: amountToUndelegate,
         denom: coin.base,
@@ -261,7 +274,12 @@ const MyValidators = ({
 
     const stargateClient = await getSigningStargateClient();
 
-    if (!stargateClient || !address) {
+    if (
+      !stargateClient ||
+      !address ||
+      !currentValidator?.address ||
+      !selectedValidator?.operatorAddress
+    ) {
       console.error('stargateClient undefined or address undefined.');
       return;
     }
@@ -276,8 +294,8 @@ const MyValidators = ({
 
     const msg = beginRedelegate({
       delegatorAddress: address,
-      validatorSrcAddress: currentValidator?.address,
-      validatorDstAddress: selectedValidator?.operatorAddress,
+      validatorSrcAddress: currentValidator.address,
+      validatorDstAddress: selectedValidator.operatorAddress,
       amount: {
         denom: coin.base,
         amount: amountToRedelegate,
@@ -326,11 +344,11 @@ const MyValidators = ({
           <ModalBody>
             <ValidatorInfo
               imgUrl="https://wallet.keplr.app/_next/image?url=https%3A%2F%2Fs3.amazonaws.com%2Fkeybase_processed_uploads%2F909034c1d36c1d1f3e9191f668007805_360_360.jpeg&w=64&q=75"
-              name={currentValidator?.name}
+              name={currentValidator?.name || ''}
               commission={5}
               apr={22.08}
             />
-            <ValidatorDesc description={currentValidator?.details} />
+            <ValidatorDesc description={currentValidator?.details || ''} />
 
             <StatBox
               label="Your Delegation"
@@ -373,7 +391,7 @@ const MyValidators = ({
           <ModalBody>
             <ValidatorInfo
               imgUrl="https://wallet.keplr.app/_next/image?url=https%3A%2F%2Fs3.amazonaws.com%2Fkeybase_processed_uploads%2F909034c1d36c1d1f3e9191f668007805_360_360.jpeg&w=64&q=75"
-              name={currentValidator?.name}
+              name={currentValidator?.name || ''}
               commission={5}
               apr={22.08}
             />
@@ -415,7 +433,7 @@ const MyValidators = ({
           <ModalBody>
             <ValidatorInfo
               imgUrl="https://wallet.keplr.app/_next/image?url=https%3A%2F%2Fs3.amazonaws.com%2Fkeybase_processed_uploads%2F909034c1d36c1d1f3e9191f668007805_360_360.jpeg&w=64&q=75"
-              name={currentValidator?.name}
+              name={currentValidator?.name || ''}
               commission={5}
               apr={22.08}
             />
@@ -465,9 +483,9 @@ const MyValidators = ({
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {allValidator.map((validator, index: number) => (
+                  {allValidator.map((validator: Validator, index: number) => (
                     <Tr
-                      key={validator.description.moniker}
+                      key={validator?.description?.moniker}
                       onClick={() => {
                         onRedelegateModalOpen();
                         onSelectValidatorModalClose();
@@ -489,7 +507,7 @@ const MyValidators = ({
                             alt={validator.description.moniker}
                             mr={2}
                           /> */}
-                          <Text>{validator.description.moniker}</Text>
+                          <Text>{validator?.description?.moniker}</Text>
                         </Box>
                       </Td>
                       <Td>
