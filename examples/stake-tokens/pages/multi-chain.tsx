@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import NextLink from 'next/link';
 import {
   Box,
   Divider,
@@ -16,9 +15,13 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
-import { Product, Dependency } from '../components';
+import {
+  Product,
+  Dependency,
+  WalletSection,
+  StakingSection,
+} from '../components';
 import { dependencies, products } from '../config';
-import { ArrowForwardIcon } from '@chakra-ui/icons';
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -60,18 +63,9 @@ export default function Home() {
           </Text>
         </Heading>
       </Box>
-      <Stack direction="row" justifyContent="center" my={12} spacing={4}>
-        <NextLink href="single-chain">
-          <Button colorScheme="blue" rightIcon={<ArrowForwardIcon />}>
-            Single-Chain
-          </Button>
-        </NextLink>
-        <NextLink href="multi-chain">
-          <Button colorScheme="blue" rightIcon={<ArrowForwardIcon />}>
-            Multi-Chain
-          </Button>
-        </NextLink>
-      </Stack>
+      <WalletSection isMultiChain={true} />
+      <Divider />
+      <StakingSection />
       <Grid
         templateColumns={{
           md: 'repeat(2, 1fr)',

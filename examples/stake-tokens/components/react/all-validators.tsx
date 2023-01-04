@@ -34,10 +34,10 @@ import {
   ValidatorInfo,
 } from './delegate-modal';
 import { useState } from 'react';
-import { exponentiate, exp } from './staking';
+import { exponentiate, getExponent } from './staking';
 import { useWallet } from '@cosmos-kit/react';
 import { cosmos } from 'interchain';
-import { coin } from '../../config';
+import { getCoin } from '../../config';
 import { StdFee } from '@cosmjs/amino';
 import { Validator, DelegationResponse as Delegation } from '../types';
 
@@ -54,10 +54,13 @@ const AllValidators = ({
 }) => {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { getSigningStargateClient, address } = useWallet();
+  const { getSigningStargateClient, address, currentChainName } = useWallet();
   const { renderInputBox, amount, setAmount } = useInputBox(balance);
   const [currentValidator, setCurrentValidator] = useState<Validator>();
   const [isDelegating, setIsDelegating] = useState<boolean>(false);
+
+  const coin = getCoin(currentChainName);
+  const exp = getExponent(currentChainName);
 
   const { colorMode } = useColorMode();
 
@@ -161,14 +164,19 @@ const AllValidators = ({
             <Stack direction="row" spacing={4} my={4}>
               <StatBox
                 label="Your Delegation"
+                token={coin.symbol}
                 number={getDelegation(
                   currentValidator?.operatorAddress || '',
                   delegations
                 )}
               />
-              <StatBox label="Available to Delegate" number={balance} />
+              <StatBox
+                label="Available to Delegate"
+                number={balance}
+                token={coin.symbol}
+              />
             </Stack>
-            {renderInputBox('Amount to Delegate', 'ATOM')}
+            {renderInputBox('Amount to Delegate', coin.symbol)}
           </ModalBody>
 
           <ModalFooter>
@@ -199,7 +207,12 @@ const AllValidators = ({
             {validators.map((validator: Validator, index: number) => (
               <Tr key={validator?.description?.moniker}>
                 <Td>
-                  <Box display="flex" alignItems="center">
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    maxWidth={280}
+                    overflowX="hidden"
+                  >
                     <Text mr={4}>{index + 1}</Text>
                     {/* <Image
                     borderRadius="full"
@@ -213,7 +226,8 @@ const AllValidators = ({
                 </Td>
                 <Td>
                   {/* {validator.voting} <Token color="blackAlpha.800" /> */}
-                  10,000,000 <Token color="blackAlpha.800" />
+                  10,000,000&nbsp;
+                  <Token color="blackAlpha.800" token={coin.symbol} />
                 </Td>
                 {/* <Td>{validator.commission}</Td> */}
                 <Td>5%</Td>

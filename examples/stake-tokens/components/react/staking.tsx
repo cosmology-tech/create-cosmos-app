@@ -10,7 +10,8 @@ import Stats from './stats';
 import { Validator, DelegationResponse as Delegation, Reward } from '../types';
 import MyValidators from './my-validators';
 import AllValidators from './all-validators';
-import { chainName, chainassets, coin } from '../../config';
+import { getCoin } from '../../config';
+import router from 'next/router';
 
 export const exponentiate = (num: number | string, exp: number) => {
   return new BigNumber(num)
@@ -18,9 +19,11 @@ export const exponentiate = (num: number | string, exp: number) => {
     .toNumber();
 };
 
-// get the exponent from chain registry asset denom_units
-export const exp = coin.denom_units.find((unit) => unit.denom === coin.display)
-  ?.exponent as number;
+export const getExponent = (chainName: string) => {
+  return getCoin(chainName).denom_units.find(
+    (unit) => unit.denom === getCoin(chainName).display
+  )?.exponent as number;
+};
 
 interface StakingTokens {
   balance: number;
@@ -33,7 +36,7 @@ interface StakingTokens {
 }
 
 export const StakingSection = () => {
-  const { address, getRpcEndpoint } = useWallet();
+  const { address, getRpcEndpoint, disconnect, currentChainName } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<StakingTokens>({
     balance: 0,
@@ -44,6 +47,9 @@ export const StakingSection = () => {
     myValidators: [],
     allValidators: [],
   });
+
+  const coin = getCoin(currentChainName);
+  const exp = getExponent(currentChainName);
 
   const getData = useCallback(async () => {
     if (!address) {
@@ -65,7 +71,7 @@ export const StakingSection = () => {
 
     if (!rpcEndpoint) {
       console.log('no rpc endpoint — using a fallback');
-      rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
+      rpcEndpoint = `https://rpc.cosmos.directory/${currentChainName}`;
     }
 
     // get RPC client
@@ -76,7 +82,7 @@ export const StakingSection = () => {
     // AVAILABLE BALANCE
     const { balance } = await client.cosmos.bank.v1beta1.balance({
       address,
-      denom: chainassets?.assets[0].base as string,
+      denom: coin.base,
     });
 
     const amount = exponentiate(balance!.amount, -exp);
@@ -93,7 +99,11 @@ export const StakingSection = () => {
         delegatorAddress: address,
       });
 
-    const reward = decodeCosmosSdkDecFromProto(total[0].amount).toString();
+    const delegatorReward = total.find((item) => item.denom === coin.base);
+
+    const reward = decodeCosmosSdkDecFromProto(
+      delegatorReward ? delegatorReward.amount : '0'
+    ).toString();
 
     const totalReward = Number(exponentiate(reward, -exp).toFixed(6));
 
@@ -117,7 +127,6 @@ export const StakingSection = () => {
       await client.cosmos.staking.v1beta1.delegatorDelegations({
         delegatorAddr: address,
       });
-    console.log('delegations', delegations);
 
     const stakedAmount = delegations
       .map((delegation) => exponentiate(delegation.balance!.amount, -exp))
@@ -133,11 +142,19 @@ export const StakingSection = () => {
       allValidators,
     });
     setIsLoading(false);
-  }, [address, getRpcEndpoint]);
+  }, [address, coin, currentChainName, exp, getRpcEndpoint]);
 
   useEffect(() => {
     getData();
-  }, [address, getData]);
+
+    const handlePageLeave = () => disconnect();
+
+    router.events.on('routeChangeStart', handlePageLeave);
+
+    return () => {
+      router.events.off('routeChangeStart', handlePageLeave);
+    };
+  }, [address, disconnect, getData]);
 
   return (
     <Box my={14}>

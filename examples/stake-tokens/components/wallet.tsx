@@ -25,11 +25,14 @@ import {
   Rejected,
   RejectedWarn,
   WalletConnectComponent,
+  handleSelectChainDropdown,
   ChainCard,
+  ChooseChain,
+  ChainOption,
 } from '../components';
 import { chainName } from '../config';
 
-export const WalletSection = () => {
+export const WalletSection = ({ isMultiChain }: { isMultiChain: boolean }) => {
   const walletManager = useWallet();
   const {
     connect,
@@ -40,6 +43,7 @@ export const WalletSection = () => {
     message,
     currentChainName,
     currentWallet,
+    chainRecords,
     currentChainRecord,
     getChainLogo,
     setCurrentChain,
@@ -55,6 +59,19 @@ export const WalletSection = () => {
     value: currentChainName,
     icon: getChainLogo(currentChainName),
   };
+
+  const chainOptions = useMemo(
+    () =>
+      chainRecords.map((chainRecord) => {
+        return {
+          chainName: chainRecord?.name,
+          label: chainRecord?.chain.pretty_name,
+          value: chainRecord?.name,
+          icon: getChainLogo(chainRecord.name),
+        };
+      }),
+    [chainRecords, getChainLogo]
+  );
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
@@ -104,6 +121,21 @@ export const WalletSection = () => {
     />
   );
 
+  const onChainChange: handleSelectChainDropdown = async (
+    selectedValue: ChainOption | null
+  ) => {
+    setCurrentChain(selectedValue?.chainName);
+    await connect();
+  };
+
+  const chooseChain = (
+    <ChooseChain
+      chainName={currentChainName}
+      chainInfos={chainOptions}
+      onChange={onChainChange}
+    />
+  );
+
   const userInfo = username && (
     <ConnectedUserInfo username={username} icon={<Astronaut />} />
   );
@@ -124,13 +156,17 @@ export const WalletSection = () => {
         alignItems="center"
         justifyContent="center"
       >
-        {currentChainName && (
-          <GridItem marginBottom={'20px'}>
-            <ChainCard
-              prettyName={chain?.label || currentChainName}
-              icon={chain?.icon}
-            />
-          </GridItem>
+        {isMultiChain ? (
+          <GridItem>{chooseChain}</GridItem>
+        ) : (
+          currentChainName && (
+            <GridItem marginBottom={'20px'}>
+              <ChainCard
+                prettyName={chain?.label || currentChainName}
+                icon={chain?.icon}
+              />
+            </GridItem>
+          )
         )}
         <GridItem px={6}>
           <Stack
