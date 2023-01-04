@@ -34,12 +34,12 @@ import {
   UndelegateWarning,
   useInputBox,
 } from './delegate-modal';
-import { exponentiate, exp } from './staking';
+import { exponentiate, getExponent } from './staking';
 import { decodeCosmosSdkDecFromProto, StdFee } from '@cosmjs/stargate';
 import { useState } from 'react';
 import { cosmos } from 'interchain';
 import { useWallet } from '@cosmos-kit/react';
-import { coin } from '../../config';
+import { getCoin } from '../../config';
 import {
   Validator,
   MyValidator,
@@ -63,13 +63,16 @@ const MyValidators = ({
   updateData: () => void;
 }) => {
   const toast = useToast();
-  const { getSigningStargateClient, address } = useWallet();
+  const { getSigningStargateClient, address, currentChainName } = useWallet();
 
   const [isDelegating, setIsDelegating] = useState(false);
   const [isUndelegating, setIsUndelegating] = useState(false);
   const [isRedelegating, setIsRedelegating] = useState(false);
   const [currentValidator, setCurrentValidator] = useState<MyValidator>();
   const [selectedValidator, setSelectedValidator] = useState<Validator>();
+
+  const coin = getCoin(currentChainName);
+  const exp = getExponent(currentChainName);
 
   const { colorMode } = useColorMode();
 
@@ -127,12 +130,18 @@ const MyValidators = ({
     const delegation = delegations.filter(
       (d) => d?.delegation?.validatorAddress === validator?.operatorAddress
     )[0];
-    const reward = rewards.filter(
+
+    const delegatorReward = rewards.filter(
       (r) => r.validatorAddress === validator?.operatorAddress
     )[0];
+
+    const reward = delegatorReward.reward.find(
+      (item) => item.denom === coin.base
+    );
+
     const rewardAmount =
-      reward.reward.length > 0
-        ? decodeCosmosSdkDecFromProto(reward.reward[0]?.amount).toString()
+      delegatorReward.reward.length > 0
+        ? decodeCosmosSdkDecFromProto(reward ? reward.amount : '0').toString()
         : 0;
 
     return {
@@ -353,6 +362,7 @@ const MyValidators = ({
             <StatBox
               label="Your Delegation"
               number={currentValidator?.staked}
+              token={coin.symbol}
             />
           </ModalBody>
 
@@ -400,10 +410,15 @@ const MyValidators = ({
               <StatBox
                 label="Your Delegation"
                 number={currentValidator?.staked}
+                token={coin.symbol}
               />
-              <StatBox label="Available to Delegate" number={balance} />
+              <StatBox
+                label="Available to Delegate"
+                number={balance}
+                token={coin.symbol}
+              />
             </Stack>
-            {renderDelegateInputBox('Amount to Delegate', 'ATOM')}
+            {renderDelegateInputBox('Amount to Delegate', coin.symbol)}
           </ModalBody>
 
           <ModalFooter>
@@ -442,8 +457,9 @@ const MyValidators = ({
               <StatBox
                 label="Your Delegation"
                 number={currentValidator?.staked}
+                token={coin.symbol}
               />
-              {renderUndelegateInputBox('Amount to Undelegate', 'ATOM')}
+              {renderUndelegateInputBox('Amount to Undelegate', coin.symbol)}
             </Stack>
           </ModalBody>
 
@@ -498,7 +514,12 @@ const MyValidators = ({
                       }}
                     >
                       <Td>
-                        <Box display="flex" alignItems="center">
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          maxWidth={280}
+                          overflowX="hidden"
+                        >
                           <Text mr={4}>{index + 1}</Text>
                           {/* <Image
                             borderRadius="full"
@@ -512,7 +533,8 @@ const MyValidators = ({
                       </Td>
                       <Td>
                         {/* {validator.voting} <Token color="blackAlpha.800" /> */}
-                        10,000,000 <Token color="blackAlpha.800" />
+                        10,000,000&nbsp;
+                        <Token color="blackAlpha.800" token={coin.symbol} />
                       </Td>
                       {/* <Td>{validator.commission}</Td> */}
                       <Td>5%</Td>
@@ -551,6 +573,7 @@ const MyValidators = ({
             <StatBox
               label="Your Delegation"
               number={currentValidator?.staked}
+              token={coin.symbol}
             />
 
             <Stack direction="row" mt={8} mb={2}>
@@ -559,7 +582,7 @@ const MyValidators = ({
                 {selectedValidator?.description?.moniker}
               </Text>
             </Stack>
-            {renderRedelegateInputBox('Amount to Redelegate', 'ATOM')}
+            {renderRedelegateInputBox('Amount to Redelegate', coin.symbol)}
           </ModalBody>
 
           <ModalFooter>
@@ -588,7 +611,12 @@ const MyValidators = ({
             {myValidators.map((validator, index) => (
               <Tr key={validator.name}>
                 <Td>
-                  <Box display="flex" alignItems="center">
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    maxWidth={280}
+                    overflowX="hidden"
+                  >
                     <Text mr={4}>{index + 1}</Text>
                     {/* <Image
                       borderRadius="full"
@@ -601,12 +629,14 @@ const MyValidators = ({
                   </Box>
                 </Td>
                 <Td>
-                  {validator.staked} <Token color="blackAlpha.800" />
+                  {validator.staked}&nbsp;
+                  <Token color="blackAlpha.800" token={coin.symbol} />
                 </Td>
                 <Td>
                   <Box width="100%" display="flex" alignItems="center">
                     <span>
-                      {validator.reward} <Token color="blackAlpha.800" />
+                      {validator.reward}&nbsp;
+                      <Token color="blackAlpha.800" token={coin.symbol} />
                     </span>
                     <Button
                       variant="ghost"

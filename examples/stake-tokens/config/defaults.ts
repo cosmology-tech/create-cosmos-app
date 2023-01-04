@@ -3,10 +3,13 @@ import { AssetList, Asset } from '@chain-registry/types';
 
 export const chainName = 'cosmoshub';
 
-export const chainassets: AssetList = assets.find(
-  (chain) => chain.chain_name === chainName
-) as AssetList;
+const defaultChainName = chainName;
 
-export const coin: Asset = chainassets.assets.find(
-  (asset) => asset.base === 'uatom'
-) as Asset;
+export const getChainAssets = (chainName: string = defaultChainName) => {
+  return assets.find((chain) => chain.chain_name === chainName) as AssetList;
+};
+
+export const getCoin = (chainName: string = defaultChainName) => {
+  const chainAssets = getChainAssets(chainName);
+  return chainAssets.assets[0] as Asset;
+};

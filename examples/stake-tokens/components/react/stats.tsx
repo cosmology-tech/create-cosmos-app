@@ -12,16 +12,16 @@ import { StdFee } from '@cosmjs/stargate';
 import { useWallet } from '@cosmos-kit/react';
 import { useState } from 'react';
 import { cosmos } from 'interchain';
-import { coin } from '../../config';
+import { getCoin, getChainAssets } from '../../config';
 import { Reward } from '../types';
 
-export const Token = ({ token, color }: { token?: string; color?: string }) => (
+export const Token = ({ token, color }: { token: string; color?: string }) => (
   <Text
     fontSize="sm"
     as="span"
     color={useColorModeValue(color || 'blackAlpha.600', 'whiteAlpha.600')}
   >
-    {token || 'ATOM'}
+    {token}
   </Text>
 );
 
@@ -40,9 +40,10 @@ const Stats = ({
 }) => {
   const toast = useToast();
   const [isClaiming, setIsClaiming] = useState(false);
-  const { getSigningStargateClient, address } = useWallet();
+  const { getSigningStargateClient, address, currentChainName } = useWallet();
 
   const totalAmount = balance + staked + totalReward;
+  const coin = getCoin(currentChainName);
 
   const onClaimClick = async () => {
     setIsClaiming(true);
@@ -67,7 +68,7 @@ const Stats = ({
     const fee: StdFee = {
       amount: [
         {
-          denom: coin.base,
+          denom: getCoin(currentChainName).base,
           amount: '1000',
         },
       ],
@@ -98,10 +99,11 @@ const Stats = ({
           fontWeight="semibold"
           fontSize="md"
         >
-          Total ATOM Amount
+          Total {coin.symbol} Amount
         </StatLabel>
         <StatNumber>
-          {totalAmount === 0 ? totalAmount : totalAmount.toFixed(6)} <Token />
+          {totalAmount === 0 ? totalAmount : totalAmount.toFixed(6)}&nbsp;
+          <Token token={coin.symbol} />
         </StatNumber>
       </Stat>
 
@@ -114,7 +116,7 @@ const Stats = ({
           Available Balance
         </StatLabel>
         <StatNumber>
-          {balance} <Token />
+          {balance} <Token token={coin.symbol} />
         </StatNumber>
       </Stat>
 
@@ -127,7 +129,8 @@ const Stats = ({
           Staked Amount
         </StatLabel>
         <StatNumber>
-          {staked === 0 ? staked : staked.toFixed(6)} <Token />
+          {staked === 0 ? staked : staked.toFixed(6)}&nbsp;
+          <Token token={coin.symbol} />
         </StatNumber>
       </Stat>
 
@@ -147,9 +150,10 @@ const Stats = ({
           Claimable Rewards
         </StatLabel>
         <StatNumber>
-          {totalReward}{' '}
+          {totalReward}&nbsp;
           <Token
             color={useColorModeValue('blackAlpha.600', 'whiteAlpha.600')}
+            token={coin.symbol}
           />
         </StatNumber>
         <Button

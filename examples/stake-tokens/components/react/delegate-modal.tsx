@@ -117,10 +117,12 @@ export const StatBox = ({
   label,
   number,
   input,
+  token,
 }: {
   label: string;
   number?: number;
   input?: ReactElement;
+  token: string;
 }) => {
   return (
     <Box
@@ -139,7 +141,7 @@ export const StatBox = ({
           input
         ) : (
           <StatNumber>
-            {number} <Token color="blackAlpha.800" />
+            {number} <Token color="blackAlpha.800" token={token} />
           </StatNumber>
         )}
       </Stat>
@@ -162,6 +164,7 @@ export const InputBox = ({
 }) => (
   <StatBox
     label={label}
+    token={token}
     input={
       <InputGroup mt={2}>
         <Input type="number" value={value} onChange={onChange} />
