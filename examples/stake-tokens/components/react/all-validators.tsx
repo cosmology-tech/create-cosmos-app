@@ -23,13 +23,13 @@ import {
   Stack,
   Text,
   Image,
-  useToast,
   useColorMode,
 } from '@chakra-ui/react';
 import {
   DelegateWarning,
   StatBox,
   useInputBox,
+  useTransactionToast,
   ValidatorDesc,
   ValidatorInfo,
 } from './delegate-modal';
@@ -43,6 +43,7 @@ import type {
   Validator,
   DelegationResponse as Delegation,
 } from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
+import { TransactionResult } from '../types';
 
 const AllValidators = ({
   validators,
@@ -55,7 +56,6 @@ const AllValidators = ({
   delegations: Delegation[];
   updateData: () => void;
 }) => {
-  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { getSigningStargateClient, address, currentChainName } = useWallet();
   const { renderInputBox, amount, setAmount } = useInputBox(balance);
@@ -66,6 +66,7 @@ const AllValidators = ({
   const exp = getExponent(currentChainName);
 
   const { colorMode } = useColorMode();
+  const { showToast } = useTransactionToast();
 
   const getDelegation = (validatorAddr: string, delegations: Delegation[]) => {
     const delegation = delegations.filter(
@@ -83,16 +84,6 @@ const AllValidators = ({
     setAmount('');
     setIsDelegating(false);
     onClose();
-  };
-
-  const showToast = (code: number) => {
-    toast({
-      title: `Transaction ${code === 0 ? 'successful' : 'failed'}`,
-      status: code === 0 ? 'success' : 'error',
-      duration: 3000,
-      isClosable: true,
-      position: 'top-right',
-    });
   };
 
   const onDelegateClick = async () => {
@@ -128,17 +119,27 @@ const AllValidators = ({
       gas: '205559',
     };
 
-    const { code } = await stargateClient.signAndBroadcast(address, [msg], fee);
+    try {
+      const { code } = await stargateClient.signAndBroadcast(
+        address,
+        [msg],
+        fee
+      );
 
-    stargateClient.disconnect();
-    showToast(code);
-    setIsDelegating(false);
-    updateData();
+      stargateClient.disconnect();
+      showToast(code);
+      setIsDelegating(false);
+      updateData();
 
-    // delay the modal close for 1 sec to improve the visual effect
-    setTimeout(() => {
-      onModalClose();
-    }, 1000);
+      setTimeout(() => {
+        onModalClose();
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+      stargateClient.disconnect();
+      showToast(TransactionResult.Failed);
+      setIsDelegating(false);
+    }
   };
 
   return (

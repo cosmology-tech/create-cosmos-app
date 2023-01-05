@@ -18,6 +18,11 @@ export enum WalletStatus {
   Rejected = 'Rejected',
 }
 
+export enum TransactionResult {
+  Success = 0,
+  Failed = 1,
+}
+
 export interface ConnectWalletType {
   buttonText?: string;
   isLoading?: boolean;

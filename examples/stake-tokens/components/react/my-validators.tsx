@@ -21,7 +21,6 @@ import {
   useDisclosure,
   Text,
   Image,
-  useToast,
   useColorMode,
 } from '@chakra-ui/react';
 import { Token } from './stats';
@@ -33,6 +32,7 @@ import {
   StatBox,
   UndelegateWarning,
   useInputBox,
+  useTransactionToast,
 } from './delegate-modal';
 import { exponentiate, getExponent } from './staking';
 import { decodeCosmosSdkDecFromProto, StdFee } from '@cosmjs/stargate';
@@ -40,7 +40,7 @@ import { useState } from 'react';
 import { cosmos } from 'interchain';
 import { useWallet } from '@cosmos-kit/react';
 import { getCoin } from '../../config';
-import { MyValidator } from '../types';
+import { MyValidator, TransactionResult } from '../types';
 import type {
   Validator,
   DelegationResponse as Delegation,
@@ -62,7 +62,6 @@ const MyValidators = ({
   balance: number;
   updateData: () => void;
 }) => {
-  const toast = useToast();
   const { getSigningStargateClient, address, currentChainName } = useWallet();
 
   const [isDelegating, setIsDelegating] = useState(false);
@@ -75,6 +74,7 @@ const MyValidators = ({
   const exp = getExponent(currentChainName);
 
   const { colorMode } = useColorMode();
+  const { showToast } = useTransactionToast();
 
   const {
     renderInputBox: renderDelegateInputBox,
@@ -153,16 +153,6 @@ const MyValidators = ({
     };
   });
 
-  const showToast = (code: number) => {
-    toast({
-      title: `Transaction ${code === 0 ? 'successful' : 'failed'}`,
-      status: code === 0 ? 'success' : 'error',
-      duration: 3000,
-      isClosable: true,
-      position: 'top-right',
-    });
-  };
-
   const closeDelegateModal = () => {
     setDelegateAmount('');
     setIsDelegating(false);
@@ -214,18 +204,29 @@ const MyValidators = ({
       gas: '205559',
     };
 
-    const { code } = await stargateClient.signAndBroadcast(address, [msg], fee);
+    try {
+      const { code } = await stargateClient.signAndBroadcast(
+        address,
+        [msg],
+        fee
+      );
 
-    stargateClient.disconnect();
-    showToast(code);
-    setIsDelegating(false);
-    onValidatorModalClose();
-    updateData();
+      stargateClient.disconnect();
+      showToast(code);
+      setIsDelegating(false);
+      onValidatorModalClose();
+      updateData();
 
-    // delay the modal close for 1sec to improve the visual effect
-    setTimeout(() => {
-      closeDelegateModal();
-    }, 1000);
+      // delay the modal close for 1sec to improve the visual effect
+      setTimeout(() => {
+        closeDelegateModal();
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+      stargateClient.disconnect();
+      showToast(TransactionResult.Failed);
+      setIsDelegating(false);
+    }
   };
 
   const onUndelegateClick = async () => {
@@ -264,18 +265,28 @@ const MyValidators = ({
       gas: '238125',
     };
 
-    const { code } = await stargateClient.signAndBroadcast(address, [msg], fee);
+    try {
+      const { code } = await stargateClient.signAndBroadcast(
+        address,
+        [msg],
+        fee
+      );
 
-    stargateClient.disconnect();
-    showToast(code);
-    setIsUndelegating(false);
-    onValidatorModalClose();
-    updateData();
+      stargateClient.disconnect();
+      showToast(code);
+      setIsUndelegating(false);
+      onValidatorModalClose();
+      updateData();
 
-    // delay the modal close for 1sec to improve the visual effect
-    setTimeout(() => {
-      closeUndelegateModal();
-    }, 1000);
+      setTimeout(() => {
+        closeUndelegateModal();
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+      stargateClient.disconnect();
+      showToast(TransactionResult.Failed);
+      setIsUndelegating(false);
+    }
   };
 
   const onRedelegateClick = async () => {
@@ -321,16 +332,27 @@ const MyValidators = ({
       gas: '355188',
     };
 
-    const { code } = await stargateClient.signAndBroadcast(address, [msg], fee);
+    try {
+      const { code } = await stargateClient.signAndBroadcast(
+        address,
+        [msg],
+        fee
+      );
 
-    stargateClient.disconnect();
-    showToast(code);
-    setIsRedelegating(false);
-    updateData();
+      stargateClient.disconnect();
+      showToast(code);
+      setIsRedelegating(false);
+      updateData();
 
-    setTimeout(() => {
-      closeRedelegateModal();
-    }, 1000);
+      setTimeout(() => {
+        closeRedelegateModal();
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+      stargateClient.disconnect();
+      showToast(TransactionResult.Failed);
+      setIsRedelegating(false);
+    }
   };
 
   return (
