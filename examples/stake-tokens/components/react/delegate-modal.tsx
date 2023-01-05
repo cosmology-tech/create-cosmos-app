@@ -21,7 +21,9 @@ import {
   ListItem,
   UnorderedList,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
+import { TransactionResult } from '../types';
 
 export const ValidatorInfo = ({
   imgUrl,
@@ -224,4 +226,22 @@ export const useInputBox = (maxAmount?: number) => {
   };
 
   return { renderInputBox, amount, setAmount, setMax };
+};
+
+export const useTransactionToast = () => {
+  const toast = useToast();
+
+  const showToast = (code: number) => {
+    toast({
+      title: `Transaction ${
+        code === TransactionResult.Success ? 'successful' : 'failed'
+      }`,
+      status: code === TransactionResult.Success ? 'success' : 'error',
+      duration: 3000,
+      isClosable: true,
+      position: 'top-right',
+    });
+  };
+
+  return { showToast };
 };

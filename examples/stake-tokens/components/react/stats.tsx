@@ -6,7 +6,6 @@ import {
   Button,
   useColorModeValue,
   Text,
-  useToast,
 } from '@chakra-ui/react';
 import { StdFee } from '@cosmjs/stargate';
 import { useWallet } from '@cosmos-kit/react';
@@ -14,6 +13,8 @@ import { useState } from 'react';
 import { cosmos } from 'interchain';
 import { getCoin } from '../../config';
 import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
+import { useTransactionToast } from './delegate-modal';
+import { TransactionResult } from '../types';
 
 export const Token = ({ token, color }: { token: string; color?: string }) => (
   <Text
@@ -38,9 +39,9 @@ const Stats = ({
   totalReward: number;
   updateData: () => void;
 }) => {
-  const toast = useToast();
   const [isClaiming, setIsClaiming] = useState(false);
   const { getSigningStargateClient, address, currentChainName } = useWallet();
+  const { showToast } = useTransactionToast();
 
   const totalAmount = balance + staked + totalReward;
   const coin = getCoin(currentChainName);
@@ -75,20 +76,24 @@ const Stats = ({
       gas: '500000',
     };
 
-    const { code } = await stargateClient.signAndBroadcast(address, msgs, fee);
+    try {
+      const { code } = await stargateClient.signAndBroadcast(
+        address,
+        msgs,
+        fee
+      );
 
-    stargateClient.disconnect();
+      stargateClient.disconnect();
 
-    toast({
-      title: `Transaction ${code === 0 ? 'successful' : 'failed'}`,
-      status: code === 0 ? 'success' : 'error',
-      duration: 3000,
-      isClosable: true,
-      position: 'top-right',
-    });
-
-    setIsClaiming(false);
-    updateData();
+      showToast(code);
+      setIsClaiming(false);
+      updateData();
+    } catch (error) {
+      console.log(error);
+      stargateClient.disconnect();
+      showToast(TransactionResult.Failed);
+      setIsClaiming(false);
+    }
   };
 
   return (
