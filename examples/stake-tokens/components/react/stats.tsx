@@ -12,8 +12,8 @@ import { StdFee } from '@cosmjs/stargate';
 import { useWallet } from '@cosmos-kit/react';
 import { useState } from 'react';
 import { cosmos } from 'interchain';
-import { getCoin, getChainAssets } from '../../config';
-import { Reward } from '../types';
+import { getCoin } from '../../config';
+import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
 
 export const Token = ({ token, color }: { token: string; color?: string }) => (
   <Text

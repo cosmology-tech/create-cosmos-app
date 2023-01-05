@@ -39,7 +39,10 @@ import { useWallet } from '@cosmos-kit/react';
 import { cosmos } from 'interchain';
 import { getCoin } from '../../config';
 import { StdFee } from '@cosmjs/amino';
-import { Validator, DelegationResponse as Delegation } from '../types';
+import type {
+  Validator,
+  DelegationResponse as Delegation,
+} from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
 
 const AllValidators = ({
   validators,

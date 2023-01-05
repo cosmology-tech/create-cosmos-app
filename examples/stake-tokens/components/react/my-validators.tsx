@@ -40,12 +40,12 @@ import { useState } from 'react';
 import { cosmos } from 'interchain';
 import { useWallet } from '@cosmos-kit/react';
 import { getCoin } from '../../config';
-import {
+import { MyValidator } from '../types';
+import type {
   Validator,
-  MyValidator,
   DelegationResponse as Delegation,
-  Reward,
-} from '../types';
+} from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
+import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
 
 const MyValidators = ({
   validators,
