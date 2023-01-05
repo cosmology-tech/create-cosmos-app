@@ -5,9 +5,12 @@ import { cosmos } from 'interchain';
 import BigNumber from 'bignumber.js';
 import { decodeCosmosSdkDecFromProto } from '@cosmjs/stargate';
 import Long from 'long';
-
+import type {
+  Validator,
+  DelegationResponse as Delegation,
+} from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
+import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
 import Stats from './stats';
-import { Validator, DelegationResponse as Delegation, Reward } from '../types';
 import MyValidators from './my-validators';
 import AllValidators from './all-validators';
 import { getCoin } from '../../config';
