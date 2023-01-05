@@ -54,6 +54,7 @@ const MyValidators = ({
   rewards,
   balance,
   updateData,
+  unbondingDays,
 }: {
   validators: Validator[];
   allValidator: Validator[];
@@ -61,6 +62,7 @@ const MyValidators = ({
   rewards: Reward[];
   balance: number;
   updateData: () => void;
+  unbondingDays: number;
 }) => {
   const { getSigningStargateClient, address, currentChainName } = useWallet();
 
@@ -427,7 +429,7 @@ const MyValidators = ({
               commission={5}
               apr={22.08}
             />
-            <DelegateWarning unbondingDays={21} />
+            <DelegateWarning unbondingDays={unbondingDays} />
             <Stack direction="row" spacing={4} my={4}>
               <StatBox
                 label="Your Delegation"
@@ -475,7 +477,7 @@ const MyValidators = ({
               apr={22.08}
             />
             <Stack direction="column" spacing={4}>
-              <UndelegateWarning unbondingDays={21} />
+              <UndelegateWarning unbondingDays={unbondingDays} />
               <StatBox
                 label="Your Delegation"
                 number={currentValidator?.staked}

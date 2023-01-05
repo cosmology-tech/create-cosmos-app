@@ -50,11 +50,13 @@ const AllValidators = ({
   balance,
   delegations,
   updateData,
+  unbondingDays,
 }: {
   validators: Validator[];
   balance: number;
   delegations: Delegation[];
   updateData: () => void;
+  unbondingDays: number;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { getSigningStargateClient, address, currentChainName } = useWallet();
@@ -164,7 +166,7 @@ const AllValidators = ({
             <ValidatorDesc
               description={currentValidator?.description?.details || ''}
             />
-            <DelegateWarning unbondingDays={21} />
+            <DelegateWarning unbondingDays={unbondingDays} />
             <Stack direction="row" spacing={4} my={4}>
               <StatBox
                 label="Your Delegation"

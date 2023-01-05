@@ -36,6 +36,7 @@ interface StakingTokens {
   delegations: Delegation[];
   myValidators: Validator[];
   allValidators: Validator[];
+  unbondingDays: number;
 }
 
 export const StakingSection = () => {
@@ -49,6 +50,7 @@ export const StakingSection = () => {
     delegations: [],
     myValidators: [],
     allValidators: [],
+    unbondingDays: 0,
   });
 
   const coin = getCoin(currentChainName);
@@ -64,6 +66,7 @@ export const StakingSection = () => {
         delegations: [],
         myValidators: [],
         allValidators: [],
+        unbondingDays: 0,
       });
       return;
     }
@@ -135,6 +138,12 @@ export const StakingSection = () => {
       .map((delegation) => exponentiate(delegation.balance!.amount, -exp))
       .reduce((a, b) => a + b, 0);
 
+    // UNBONDING DAYS
+    const { params } = await client.cosmos.staking.v1beta1.params();
+    const unbondingDays = params?.unbondingTime
+      ? Number((params?.unbondingTime?.seconds.low / 86400).toFixed(0))
+      : 0;
+
     setData({
       rewards,
       totalReward,
@@ -143,6 +152,7 @@ export const StakingSection = () => {
       delegations,
       myValidators,
       allValidators,
+      unbondingDays,
     });
     setIsLoading(false);
   }, [address, coin, currentChainName, exp, getRpcEndpoint]);
@@ -179,6 +189,7 @@ export const StakingSection = () => {
             rewards={data.rewards}
             balance={data.balance}
             updateData={getData}
+            unbondingDays={data.unbondingDays}
           />
         </Skeleton>
       )}
@@ -189,6 +200,7 @@ export const StakingSection = () => {
             validators={data.allValidators}
             delegations={data.delegations}
             updateData={getData}
+            unbondingDays={data.unbondingDays}
           />
         </Skeleton>
       )}
