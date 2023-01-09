@@ -7,13 +7,14 @@ import {
   Icon,
   Stack,
   useColorModeValue,
-  Text,
 } from '@chakra-ui/react';
 import { MouseEventHandler, useEffect, useMemo } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import {
   Astronaut,
   Error,
+  ChainOption,
+  ChooseChain,
   Connected,
   ConnectedShowAddress,
   ConnectedUserInfo,
@@ -21,13 +22,12 @@ import {
   ConnectStatusWarn,
   CopyAddressBtn,
   Disconnected,
+  handleSelectChainDropdown,
   NotExist,
   Rejected,
   RejectedWarn,
   WalletConnectComponent,
-  ChainCard,
 } from '../components';
-import { chainName } from '../config';
 
 export const WalletSection = () => {
   const walletManager = useWallet();
@@ -40,21 +40,23 @@ export const WalletSection = () => {
     message,
     currentChainName,
     currentWallet,
-    currentChainRecord,
+    chainRecords,
     getChainLogo,
     setCurrentChain,
   } = walletManager;
 
-  useEffect(() => {
-    setCurrentChain(chainName);
-  }, [setCurrentChain]);
-
-  const chain = {
-    chainName: currentChainName,
-    label: currentChainRecord?.chain.pretty_name,
-    value: currentChainName,
-    icon: getChainLogo(currentChainName),
-  };
+  const chainOptions = useMemo(
+    () =>
+      chainRecords.map((chainRecord) => {
+        return {
+          chainName: chainRecord?.name,
+          label: chainRecord?.chain.pretty_name,
+          value: chainRecord?.name,
+          icon: getChainLogo(chainRecord.name),
+        };
+      }),
+    [chainRecords, getChainLogo]
+  );
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
@@ -65,6 +67,13 @@ export const WalletSection = () => {
   const onClickOpenView: MouseEventHandler = (e) => {
     e.preventDefault();
     openView();
+  };
+
+  const onChainChange: handleSelectChainDropdown = async (
+    selectedValue: ChainOption | null
+  ) => {
+    setCurrentChain(selectedValue?.chainName);
+    await connect();
   };
 
   // Components
@@ -103,6 +112,13 @@ export const WalletSection = () => {
       }
     />
   );
+  const chooseChain = (
+    <ChooseChain
+      chainName={currentChainName}
+      chainInfos={chainOptions}
+      onChange={onChainChange}
+    />
+  );
 
   const userInfo = username && (
     <ConnectedUserInfo username={username} icon={<Astronaut />} />
@@ -124,14 +140,8 @@ export const WalletSection = () => {
         alignItems="center"
         justifyContent="center"
       >
-        {currentChainName && (
-          <GridItem marginBottom={'20px'}>
-            <ChainCard
-              prettyName={chain?.label || currentChainName}
-              icon={chain?.icon}
-            />
-          </GridItem>
-        )}
+        <GridItem>{chooseChain}</GridItem>
+        {connectWalletWarn && <GridItem>{connectWalletWarn}</GridItem>}
         <GridItem px={6}>
           <Stack
             justifyContent="center"
@@ -151,7 +161,6 @@ export const WalletSection = () => {
             <Box w="full" maxW={{ base: 52, md: 64 }}>
               {connectWalletButton}
             </Box>
-            {connectWalletWarn && <GridItem>{connectWalletWarn}</GridItem>}
           </Stack>
         </GridItem>
       </Grid>

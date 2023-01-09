@@ -1,6 +1,6 @@
 {
-  "name": "@cosmology/ibc-transfer",
-  "version": "0.1.0",
+  "name": "@cosmology/connect-multi-chain",
+  "version": "0.14.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,6 +12,7 @@
     "locks": "npm run locks:remove && npm run locks:create"
   },
   "dependencies": {
+    "@chain-registry/types": "0.14.0",
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.4.1",
     "@cosmjs/cosmwasm-stargate": "0.29.5",
@@ -24,6 +25,8 @@
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "chain-registry": "1.6.0",
+    "chakra-react-select": "4.4.0",
+    "fast-fuzzy": "1.12.0",
     "framer-motion": "7.6.12",
     "next": "12.2.5",
     "react": "18.2.0",
