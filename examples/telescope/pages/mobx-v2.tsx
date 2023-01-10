@@ -97,7 +97,7 @@ const COIN_DISPLAY_EXPONENT = coin.denom_units.find(
 )?.exponent as number;
 
 export default observer(function Home() {
-  // trace(true);
+  trace(true);
   const { colorMode, toggleColorMode } = useColorMode();
 
   const { getSigningStargateClient, address, walletStatus, getRpcEndpoint } =
