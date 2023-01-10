@@ -131,7 +131,7 @@ export const WalletSection = () => {
   );
 
   return (
-    <Center py={16}>
+    <Center py={8}>
       <Grid
         w="full"
         maxW="sm"

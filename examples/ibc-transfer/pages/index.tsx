@@ -12,10 +12,10 @@ import {
   Flex,
   Icon,
   useColorMode,
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
-import { Product, Dependency, WalletSection } from '../components';
+import { Product, Dependency, FromChain, ToChain } from '../components';
 import { dependencies, products } from '../config';
 
 export default function Home() {
@@ -58,11 +58,12 @@ export default function Home() {
           </Text>
         </Heading>
       </Box>
-      <WalletSection />
+      <FromChain />
+      <ToChain />
       <Grid
         templateColumns={{
           md: 'repeat(2, 1fr)',
-          lg: 'repeat(3, 1fr)'
+          lg: 'repeat(3, 1fr)',
         }}
         gap={8}
         mb={14}
