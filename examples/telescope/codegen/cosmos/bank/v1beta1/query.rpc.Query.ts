@@ -7,6 +7,7 @@ import {
   makeObservable,
   observable,
   override,
+  reaction,
   runInAction,
 } from 'mobx';
 import {
@@ -532,10 +533,26 @@ export const createRpcStores = (rpc: ProtobufRpcClient | undefined) => {
       this.fetchFunc = fetchFunc;
       makeObservable(this, {
         state: observable,
+        request: observable.ref,
+        response: observable.ref,
         isLoading: computed,
         isSuccess: computed,
-        refetch: action,
+        refetch: action.bound,
+        getData: action.bound,
       });
+      // reaction(
+      //   () => this.request,
+      //   () => {
+      //     if (this.fetchFunc) {
+      //       console.log(
+      //         '%cquery.rpc.Query.ts line:544 1',
+      //         'color: #007acc;',
+      //         this.request
+      //       );
+      //       this.refetch();
+      //     }
+      //   }
+      // );
     }
 
     get isLoading() {
@@ -546,7 +563,7 @@ export const createRpcStores = (rpc: ProtobufRpcClient | undefined) => {
       return this.state === 'success';
     }
 
-    refetch = async (): Promise<void> => {
+    async refetch(): Promise<void> {
       runInAction(() => {
         this.response = void 0;
         this.state = 'loading';
@@ -562,15 +579,24 @@ export const createRpcStores = (rpc: ProtobufRpcClient | undefined) => {
           this.response = response;
           this.state = 'success';
         });
+        console.log(
+          '%cquery.rpc.Query.ts line:572 this.state',
+          'color: #007acc;',
+          this.state,
+          this.response
+        );
       } catch (e) {
+        console.error(e);
         runInAction(() => {
           this.state = 'error';
         });
       }
-    };
+    }
 
     getData(request: Request): MobxResponse<Response> {
-      this.request = request;
+      runInAction(() => {
+        this.request = request;
+      });
       return {
         data: this.response,
         isSuccess: this.isSuccess,
@@ -610,6 +636,12 @@ export const createRpcStores = (rpc: ProtobufRpcClient | undefined) => {
           this.response = response;
           this.state = 'success';
         });
+        console.log(
+          '%cquery.rpc.Query.ts line:572 this.state',
+          'color: #007acc;',
+          this.state,
+          this.response
+        );
       } catch (e) {
         runInAction(() => {
           this.state = 'error';
@@ -636,9 +668,12 @@ export const createRpcStores = (rpc: ProtobufRpcClient | undefined) => {
       super(queryService?.balance);
       makeObservable(this, {
         state: override,
+        request: override,
+        response: override,
         isLoading: override,
         isSuccess: override,
         refetch: override,
+        getData: override,
       });
     }
 
