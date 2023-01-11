@@ -1,0 +1,55 @@
+{
+  "name": "example",
+  "version": "0.35.2",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "export": "next build && next export",
+    "postexport": "npm run seo",
+    "seo": "node ./seo/seo.js",
+    "deploy": "AWS_PROFILE=webinc aws s3 sync out/ s3://test.cosmoskit.com",
+    "invalidate": "AWS_PROFILE=webinc aws cloudfront create-invalidation --distribution-id E1J4F8FDME5L4Z --paths \"/*\"",
+    "deploy:all": "npm run export && npm run deploy && ./seo/prepare.sh"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "2.4.3",
+    "@cosmos-kit/core": "^1.0.0",
+    "@cosmos-kit/cosmostation": "^0.14.16",
+    "@cosmos-kit/keplr": "^0.32.16",
+    "@cosmos-kit/leap": "^0.13.16",
+    "@cosmos-kit/react": "^1.0.0",
+    "@emotion/react": "11.10.5",
+    "@emotion/styled": "11.10.5",
+    "chain-registry": "1.4.0",
+    "cosmjs-utils": "0.1.0",
+    "framer-motion": "7.6.19",
+    "next": "12.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "4.7.1"
+  },
+  "resolutions": {
+    "@types/react": "18.0.20"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.20.7",
+    "@babel/plugin-syntax-bigint": "7.8.3",
+    "@babel/preset-env": "7.19.1",
+    "@babel/preset-react": "7.18.6",
+    "@babel/preset-typescript": "7.18.6",
+    "@types/node": "18.7.18",
+    "@types/react": "18.0.20",
+    "@types/react-dom": "18.0.6",
+    "babel-loader": "8.2.5",
+    "eslint": "8.23.1",
+    "eslint-config-next": "12.3.1",
+    "ts-loader": "9.4.1",
+    "typescript": "4.8.3"
+  },
+  "peerDependencies": {
+    "@cosmjs/math": "0.29.0"
+  }
+}

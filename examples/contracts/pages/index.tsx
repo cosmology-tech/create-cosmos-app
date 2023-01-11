@@ -1,5 +1,5 @@
 import { Container, Button } from '@chakra-ui/react';
-import { useWallet } from '@cosmos-kit/react';
+import { useChain } from '@cosmos-kit/react';
 import { useState } from 'react';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import { WalletStatus } from '@cosmos-kit/core';
@@ -10,12 +10,8 @@ import { cosmos } from '../codegen';
 import { baseAsset, chainassets, chainName, sendTokens } from '../config';
 
 export default function Home() {
-  const {
-    getSigningStargateClient,
-    address,
-    currentWallet,
-    walletStatus
-  } = useWallet();
+  const { getSigningStargateClient, address, getRestEndpoint, status } =
+    useChain(chainName);
 
   const [balance, setBalance] = useState(new BigNumber(0));
   const [resp, setResp] = useState('');
@@ -25,7 +21,7 @@ export default function Home() {
       return;
     }
 
-    let restEndpoint = await currentWallet?.getRestEndpoint();
+    let restEndpoint = await getRestEndpoint();
 
     if (!restEndpoint) {
       console.log('no rest endpoint — using a fallback');
@@ -34,13 +30,13 @@ export default function Home() {
 
     // get LCD client
     const client = await cosmos.ClientFactory.createLCDClient({
-      restEndpoint
+      restEndpoint,
     });
 
     // fetch balance
     const balance = await client.cosmos.bank.v1beta1.balance({
       address,
-      denom: chainassets?.assets[0].base as string
+      denom: chainassets?.assets[0].base as string,
     });
 
     // Get the display exponent
@@ -50,7 +46,7 @@ export default function Home() {
     )?.exponent as number;
 
     // show balance in display values by exponentiating it
-    const a = new BigNumber(balance.balance.amount);
+    const a = new BigNumber(balance.balance?.amount || 0);
     const amount = a.multipliedBy(10 ** -exp);
     setBalance(amount);
   };
@@ -59,11 +55,9 @@ export default function Home() {
     <Container maxW="5xl" py={10}>
       <WalletSection />
 
-      {walletStatus === WalletStatus.Disconnected && (
-        <>please connect your wallet!</>
-      )}
+      {status === WalletStatus.Disconnected && <>please connect your wallet!</>}
 
-      {walletStatus === WalletStatus.Connected && (
+      {status === WalletStatus.Connected && (
         <>
           <Container>Balance: {balance.toNumber()} </Container>
 

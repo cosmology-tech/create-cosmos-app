@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useWallet } from '@cosmos-kit/react';
+import { useChain } from '@cosmos-kit/react';
 import { Dialog } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronLeftIcon } from '@heroicons/react/20/solid';
@@ -10,7 +10,7 @@ export const Connecting = ({
   name,
   logo,
   title,
-  subtitle
+  subtitle,
 }: {
   onClose: () => void;
   onReturn: () => void;
