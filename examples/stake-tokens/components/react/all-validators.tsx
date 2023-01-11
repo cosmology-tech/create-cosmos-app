@@ -35,7 +35,7 @@ import {
 } from './delegate-modal';
 import { useState } from 'react';
 import { exponentiate, getExponent } from './staking';
-import { useWallet } from '@cosmos-kit/react';
+import { useChain } from '@cosmos-kit/react';
 import { cosmos } from 'interchain';
 import { getCoin } from '../../config';
 import { StdFee } from '@cosmjs/amino';
@@ -44,6 +44,7 @@ import type {
   DelegationResponse as Delegation,
 } from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
 import { TransactionResult } from '../types';
+import { ChainName } from '@cosmos-kit/core';
 
 const AllValidators = ({
   validators,
@@ -51,21 +52,23 @@ const AllValidators = ({
   delegations,
   updateData,
   unbondingDays,
+  chainName,
 }: {
   validators: Validator[];
   balance: number;
   delegations: Delegation[];
   updateData: () => void;
   unbondingDays: number;
+  chainName: ChainName;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { getSigningStargateClient, address, currentChainName } = useWallet();
+  const { getSigningStargateClient, address } = useChain(chainName);
   const { renderInputBox, amount, setAmount } = useInputBox(balance);
   const [currentValidator, setCurrentValidator] = useState<Validator>();
   const [isDelegating, setIsDelegating] = useState<boolean>(false);
 
-  const coin = getCoin(currentChainName);
-  const exp = getExponent(currentChainName);
+  const coin = getCoin(chainName);
+  const exp = getExponent(chainName);
 
   const { colorMode } = useColorMode();
   const { showToast } = useTransactionToast();

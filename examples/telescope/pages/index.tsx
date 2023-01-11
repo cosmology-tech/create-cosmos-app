@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import Head from 'next/head'
-import { useWallet } from '@cosmos-kit/react'
-import { StdFee } from '@cosmjs/amino'
-import { SigningStargateClient } from '@cosmjs/stargate'
-import BigNumber from 'bignumber.js'
+import { useState } from 'react';
+import Head from 'next/head';
+import { useChain } from '@cosmos-kit/react';
+import { StdFee } from '@cosmjs/amino';
+import { SigningStargateClient } from '@cosmjs/stargate';
+import BigNumber from 'bignumber.js';
 
 import {
   Box,
@@ -20,37 +20,48 @@ import {
   Text,
   useColorMode,
   useColorModeValue,
-} from '@chakra-ui/react'
-import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs'
-import { chainassets, chainName, coin, dependencies, products } from '../config'
+} from '@chakra-ui/react';
+import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
+import {
+  chainassets,
+  chainName,
+  coin,
+  dependencies,
+  products,
+} from '../config';
 
-import { WalletStatus } from '@cosmos-kit/core'
-import { Dependency, handleChangeColorModeValue, Product, WalletSection } from '../components'
-import { SendTokensCard } from '../components/react/send-tokens-card'
+import { WalletStatus } from '@cosmos-kit/core';
+import {
+  Dependency,
+  handleChangeColorModeValue,
+  Product,
+  WalletSection,
+} from '../components';
+import { SendTokensCard } from '../components/react/send-tokens-card';
 
-import { cosmos, createRpcQueryHooks } from '../codegen'
-import { getRpcClient } from '../codegen'
-import { useRpcClient, useRpcEndpoint } from '../codegen'
+import { cosmos, createRpcQueryHooks } from '../codegen';
+import { getRpcClient } from '../codegen';
+import { useRpcClient, useRpcEndpoint } from '../codegen';
 
 const library = {
   title: 'Telescope',
   text: 'telescope',
   href: 'https://github.com/osmosis-labs/telescope',
-}
+};
 
 const sendTokens = (
   getSigningStargateClient: () => Promise<SigningStargateClient>,
   setResp: (resp: string) => any,
-  address: string,
+  address: string
 ) => {
   return async () => {
-    const stargateClient = await getSigningStargateClient()
+    const stargateClient = await getSigningStargateClient();
     if (!stargateClient || !address) {
-      console.error('stargateClient undefined or address undefined.')
-      return
+      console.error('stargateClient undefined or address undefined.');
+      return;
     }
 
-    const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl
+    const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
 
     const msg = send({
       amount: [
@@ -61,7 +72,7 @@ const sendTokens = (
       ],
       toAddress: address,
       fromAddress: address,
-    })
+    });
 
     const fee: StdFee = {
       amount: [
@@ -71,51 +82,50 @@ const sendTokens = (
         },
       ],
       gas: '86364',
-    }
-    const response = await stargateClient.signAndBroadcast(address, [msg], fee)
-    setResp(JSON.stringify(response, null, 2))
-  }
-}
+    };
+    const response = await stargateClient.signAndBroadcast(address, [msg], fee);
+    setResp(JSON.stringify(response, null, 2));
+  };
+};
 
 // Get the display exponent
 // we can get the exponent from chain registry asset denom_units
-const COIN_DISPLAY_EXPONENT = coin.denom_units.find((unit) => unit.denom === coin.display)
-  ?.exponent as number
+const COIN_DISPLAY_EXPONENT = coin.denom_units.find(
+  (unit) => unit.denom === coin.display
+)?.exponent as number;
 
 export default function Home() {
-  const { colorMode, toggleColorMode } = useColorMode()
+  const { colorMode, toggleColorMode } = useColorMode();
 
-  const { getSigningStargateClient, address, walletStatus, getRpcEndpoint } =
-    useWallet()
+  const { getSigningStargateClient, address, status, getRpcEndpoint } =
+    useChain(chainName);
 
-  const [resp, setResp] = useState('')
+  const [resp, setResp] = useState('');
 
   // const {
   //   data: rpcEndpoint
   // } = useRpcEndpoint({
-  //   //@ts-ignore 
+  //   //@ts-ignore
   //   getter: getRpcEndpoint
   // });
 
   const rpcEndpoint = 'https://rpc.cosmos.directory/cosmoshub';
 
-  const {
-    data: rpcClient
-  } = useRpcClient({
+  const { data: rpcClient } = useRpcClient({
     rpcEndpoint,
     options: {
       enabled: !!rpcEndpoint,
-    }
+    },
   });
 
   console.log({
     rpcEndpoint,
-    rpcClient
-  })
+    rpcClient,
+  });
 
-  //@ts-ignore 
+  //@ts-ignore
   // const cosmosHooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
-  const cosmosHooks = createRpcQueryHooks({ rpc: rpcClient })
+  const cosmosHooks = createRpcQueryHooks({ rpc: rpcClient });
 
   const {
     data: balance,
@@ -130,17 +140,26 @@ export default function Home() {
     options: {
       enabled: !!address && !!rpcClient,
       // transform the returned balance into a BigNumber
-      select: ({ balance }) => new BigNumber(balance?.amount ?? 0).multipliedBy(10 ** -COIN_DISPLAY_EXPONENT),
+      select: ({ balance }) =>
+        new BigNumber(balance?.amount ?? 0).multipliedBy(
+          10 ** -COIN_DISPLAY_EXPONENT
+        ),
     },
-  })
+  });
 
-  console.log(JSON.stringify({
-    address,
-    balance,
-    isBalanceLoaded,
-    isFetchingBalance,
-    refetchBalance
-  }, null, 2))
+  console.log(
+    JSON.stringify(
+      {
+        address,
+        balance,
+        isBalanceLoaded,
+        isFetchingBalance,
+        refetchBalance,
+      },
+      null,
+      2
+    )
+  );
 
   return (
     <Container maxW="5xl" py={10}>
@@ -151,12 +170,7 @@ export default function Home() {
       </Head>
       <Flex justifyContent="end" mb={4}>
         <Button variant="outline" px={0} onClick={toggleColorMode}>
-          <Icon
-            as={useColorModeValue(
-              BsFillMoonStarsFill,
-              BsFillSunFill,
-            )}
-          />
+          <Icon as={useColorModeValue(BsFillMoonStarsFill, BsFillSunFill)} />
         </Button>
       </Flex>
       <Box textAlign="center">
@@ -179,7 +193,7 @@ export default function Home() {
             color={handleChangeColorModeValue(
               colorMode,
               'primary.500',
-              'primary.200',
+              'primary.200'
             )}
           >
             CosmosKit&nbsp;+&nbsp;Next.js&nbsp;+&nbsp;
@@ -194,7 +208,7 @@ export default function Home() {
 
       <Center mb={16}>
         <SendTokensCard
-          isConnectWallet={walletStatus === WalletStatus.Connected}
+          isConnectWallet={status === WalletStatus.Connected}
           balance={isBalanceLoaded ? balance.toNumber() : 0}
           isFetchingBalance={isFetchingBalance}
           response={resp}
@@ -202,7 +216,7 @@ export default function Home() {
           handleClickSendTokens={sendTokens(
             getSigningStargateClient as () => Promise<SigningStargateClient>,
             setResp as () => any,
-            address as string,
+            address as string
           )}
           handleClickGetBalance={refetchBalance}
         />
@@ -250,5 +264,5 @@ export default function Home() {
         </Link>
       </Stack>
     </Container>
-  )
+  );
 }

@@ -8,13 +8,14 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { StdFee } from '@cosmjs/stargate';
-import { useWallet } from '@cosmos-kit/react';
+import { useChain } from '@cosmos-kit/react';
 import { useState } from 'react';
 import { cosmos } from 'interchain';
 import { getCoin } from '../../config';
 import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
 import { useTransactionToast } from './delegate-modal';
 import { TransactionResult } from '../types';
+import { ChainName } from '@cosmos-kit/core';
 
 export const Token = ({ token, color }: { token: string; color?: string }) => (
   <Text
@@ -32,19 +33,21 @@ const Stats = ({
   staked,
   totalReward,
   updateData,
+  chainName,
 }: {
   balance: number;
   rewards: Reward[];
   staked: number;
   totalReward: number;
   updateData: () => void;
+  chainName: ChainName;
 }) => {
   const [isClaiming, setIsClaiming] = useState(false);
-  const { getSigningStargateClient, address, currentChainName } = useWallet();
+  const { getSigningStargateClient, address } = useChain(chainName);
   const { showToast } = useTransactionToast();
 
   const totalAmount = balance + staked + totalReward;
-  const coin = getCoin(currentChainName);
+  const coin = getCoin(chainName);
 
   const onClaimClick = async () => {
     setIsClaiming(true);
@@ -69,7 +72,7 @@ const Stats = ({
     const fee: StdFee = {
       amount: [
         {
-          denom: getCoin(currentChainName).base,
+          denom: getCoin(chainName).base,
           amount: '1000',
         },
       ],

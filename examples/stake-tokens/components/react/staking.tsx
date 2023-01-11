@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useWallet } from '@cosmos-kit/react';
+import { useChain } from '@cosmos-kit/react';
 import { Box, Skeleton } from '@chakra-ui/react';
 import { cosmos } from 'interchain';
 import BigNumber from 'bignumber.js';
@@ -15,6 +15,7 @@ import MyValidators from './my-validators';
 import AllValidators from './all-validators';
 import { getCoin } from '../../config';
 import router from 'next/router';
+import { ChainName } from '@cosmos-kit/core';
 
 export const exponentiate = (num: number | string, exp: number) => {
   return new BigNumber(num)
@@ -39,8 +40,8 @@ interface StakingTokens {
   unbondingDays: number;
 }
 
-export const StakingSection = () => {
-  const { address, getRpcEndpoint, disconnect, currentChainName } = useWallet();
+export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
+  const { address, getRpcEndpoint, disconnect } = useChain(chainName);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<StakingTokens>({
     balance: 0,
@@ -53,8 +54,8 @@ export const StakingSection = () => {
     unbondingDays: 0,
   });
 
-  const coin = getCoin(currentChainName);
-  const exp = getExponent(currentChainName);
+  const coin = getCoin(chainName);
+  const exp = getExponent(chainName);
 
   const getData = useCallback(async () => {
     if (!address) {
@@ -77,7 +78,7 @@ export const StakingSection = () => {
 
     if (!rpcEndpoint) {
       console.log('no rpc endpoint — using a fallback');
-      rpcEndpoint = `https://rpc.cosmos.directory/${currentChainName}`;
+      rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
     }
 
     // get RPC client
@@ -155,7 +156,7 @@ export const StakingSection = () => {
       unbondingDays,
     });
     setIsLoading(false);
-  }, [address, coin, currentChainName, exp, getRpcEndpoint]);
+  }, [address, coin, exp, getRpcEndpoint]);
 
   useEffect(() => {
     getData();
@@ -178,6 +179,7 @@ export const StakingSection = () => {
           totalReward={data.totalReward}
           staked={data.staked}
           updateData={getData}
+          chainName={chainName}
         />
       </Skeleton>
       {data.myValidators.length > 0 && (
@@ -190,6 +192,7 @@ export const StakingSection = () => {
             balance={data.balance}
             updateData={getData}
             unbondingDays={data.unbondingDays}
+            chainName={chainName}
           />
         </Skeleton>
       )}
@@ -201,6 +204,7 @@ export const StakingSection = () => {
             delegations={data.delegations}
             updateData={getData}
             unbondingDays={data.unbondingDays}
+            chainName={chainName}
           />
         </Skeleton>
       )}

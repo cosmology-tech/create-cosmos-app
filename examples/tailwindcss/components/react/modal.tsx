@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import type { WalletModalProps } from '@cosmos-kit/core';
 import { WalletStatus } from '@cosmos-kit/core';
-import { useWallet } from '@cosmos-kit/react';
+import { useChain } from '@cosmos-kit/react';
 import { useCallback, Fragment, useState, useMemo, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import {
@@ -10,7 +10,7 @@ import {
   Error,
   NotExist,
   QRCode,
-  WalletList
+  WalletList,
 } from './views';
 import { useRouter } from 'next/router';
 import Bowser from 'bowser';
@@ -21,7 +21,7 @@ export enum ModalView {
   Connecting,
   Connected,
   Error,
-  NotExist
+  NotExist,
 }
 
 export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
@@ -38,12 +38,18 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
     setUserBrowserInfo({
       browser: parser.getBrowserName(true),
       device: parser.getPlatform().type,
-      os: parser.getOSName(true)
+      os: parser.getOSName(true),
     });
   }, []);
 
-  const { setCurrentWallet, connect, walletStatus, currentWalletName, currentWallet, getWallet } =
-    useWallet();
+  const {
+    setCurrentWallet,
+    connect,
+    walletStatus,
+    currentWalletName,
+    currentWallet,
+    getWallet,
+  } = useChain();
 
   const [currentView, setCurrentView] = useState<ModalView>(
     ModalView.WalletList
@@ -115,11 +121,13 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
       case ModalView.Connecting:
         let subtitle: string;
         if (currentWalletData!.mode === 'wallet-connect') {
-          subtitle = `Approve ${currentWalletData!.prettyName
-            } connection request on your mobile.`;
+          subtitle = `Approve ${
+            currentWalletData!.prettyName
+          } connection request on your mobile.`;
         } else {
-          subtitle = `Open the ${currentWalletData!.prettyName
-            } browser extension to connect your wallet.`;
+          subtitle = `Open the ${
+            currentWalletData!.prettyName
+          } browser extension to connect your wallet.`;
         }
 
         return (
@@ -176,7 +184,7 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
     onWalletClicked,
     currentWalletData,
     router,
-    userBrowserInfo
+    userBrowserInfo,
   ]);
 
   return (
