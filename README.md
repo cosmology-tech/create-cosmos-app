@@ -101,7 +101,17 @@ cca --example
 </p>
 
 ```
-cca --name cca-sendtokens --example --template send-tokens
+cca --name mysendtokensapp --example --template send-tokens
+```
+
+### Stake Tokens
+
+<p align="center" width="100%">
+    <img height="48" src="https://user-images.githubusercontent.com/545047/186589196-e75c9540-86a7-4a71-8096-207be9a4216f.svg" />
+</p>
+
+```
+cca --name mystaketokensapp --example --template stake-tokens
 ```
 
 ### Osmosis
