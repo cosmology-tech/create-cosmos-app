@@ -1,4 +1,4 @@
-import { useWallet } from '@cosmos-kit/react';
+import { useChain, useManager } from '@cosmos-kit/react';
 import {
   Box,
   Center,
@@ -9,7 +9,7 @@ import {
   useColorModeValue,
   Text,
 } from '@chakra-ui/react';
-import { MouseEventHandler, useEffect, useMemo } from 'react';
+import { MouseEventHandler, useMemo, useState } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import {
   Astronaut,
@@ -31,33 +31,38 @@ import {
   ChainOption,
 } from '../components';
 import { defaultChainName } from '../config';
+import { ChainName } from '@cosmos-kit/core';
 
-export const WalletSection = ({ isMultiChain }: { isMultiChain: boolean }) => {
-  const walletManager = useWallet();
+export const WalletSection = ({
+  isMultiChain,
+  providedChainName = defaultChainName,
+}: {
+  isMultiChain: boolean;
+  providedChainName?: ChainName;
+}) => {
+  const [selectedChainName, setChainName] = useState<ChainName | undefined>(
+    defaultChainName
+  );
+  const { chainRecords, getChainLogo } = useManager();
   const {
     connect,
     openView,
-    walletStatus,
+    status,
     username,
     address,
     message,
-    currentChainName,
-    currentWallet,
-    chainRecords,
-    currentChainRecord,
-    getChainLogo,
-    setCurrentChain,
-  } = walletManager;
-
-  useEffect(() => {
-    if (!isMultiChain) setCurrentChain(defaultChainName);
-  }, [isMultiChain, setCurrentChain]);
+    wallet,
+    chain: chainInfo,
+    logoUrl,
+  } = useChain(
+    isMultiChain ? selectedChainName || defaultChainName : providedChainName
+  );
 
   const chain = {
-    chainName: currentChainName,
-    label: currentChainRecord?.chain.pretty_name,
-    value: currentChainName,
-    icon: getChainLogo(currentChainName),
+    chainName: providedChainName,
+    label: chainInfo.pretty_name,
+    value: providedChainName,
+    icon: logoUrl,
   };
 
   const chainOptions = useMemo(
@@ -87,7 +92,7 @@ export const WalletSection = ({ isMultiChain }: { isMultiChain: boolean }) => {
   // Components
   const connectWalletButton = (
     <WalletConnectComponent
-      walletStatus={walletStatus}
+      walletStatus={status}
       disconnect={
         <Disconnected buttonText="Connect Wallet" onClick={onClickConnect} />
       }
@@ -105,17 +110,17 @@ export const WalletSection = ({ isMultiChain }: { isMultiChain: boolean }) => {
 
   const connectWalletWarn = (
     <ConnectStatusWarn
-      walletStatus={walletStatus}
+      walletStatus={status}
       rejected={
         <RejectedWarn
           icon={<Icon as={FiAlertTriangle} mt={1} />}
-          wordOfWarning={`${currentWallet?.walletInfo.prettyName}: ${message}`}
+          wordOfWarning={`${wallet?.prettyName}: ${message}`}
         />
       }
       error={
         <RejectedWarn
           icon={<Icon as={FiAlertTriangle} mt={1} />}
-          wordOfWarning={`${currentWallet?.walletInfo.prettyName}: ${message}`}
+          wordOfWarning={`${wallet?.prettyName}: ${message}`}
         />
       }
     />
@@ -124,13 +129,12 @@ export const WalletSection = ({ isMultiChain }: { isMultiChain: boolean }) => {
   const onChainChange: handleSelectChainDropdown = async (
     selectedValue: ChainOption | null
   ) => {
-    setCurrentChain(selectedValue?.chainName);
-    await connect();
+    setChainName(selectedValue?.chainName);
   };
 
   const chooseChain = (
     <ChooseChain
-      chainName={currentChainName}
+      chainName={selectedChainName}
       chainInfos={chainOptions}
       onChange={onChainChange}
     />
@@ -139,9 +143,9 @@ export const WalletSection = ({ isMultiChain }: { isMultiChain: boolean }) => {
   const userInfo = username && (
     <ConnectedUserInfo username={username} icon={<Astronaut />} />
   );
-  const addressBtn = currentChainName && (
+  const addressBtn = (
     <CopyAddressBtn
-      walletStatus={walletStatus}
+      walletStatus={status}
       connected={<ConnectedShowAddress address={address} isLoading={false} />}
     />
   );
@@ -159,10 +163,10 @@ export const WalletSection = ({ isMultiChain }: { isMultiChain: boolean }) => {
         {isMultiChain ? (
           <GridItem>{chooseChain}</GridItem>
         ) : (
-          currentChainName && (
+          providedChainName && (
             <GridItem marginBottom={'20px'}>
               <ChainCard
-                prettyName={chain?.label || currentChainName}
+                prettyName={chain?.label || providedChainName}
                 icon={chain?.icon}
               />
             </GridItem>

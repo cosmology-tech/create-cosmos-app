@@ -1,17 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
-import { useWallet } from '@cosmos-kit/react';
+import { useChain } from '@cosmos-kit/react';
 import { Dialog } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
 
 export const WalletList = ({
   onClose,
-  onWalletClicked
+  onWalletClicked,
 }: {
   onClose: () => void;
   onWalletClicked: (name: string) => void;
 }) => {
-  const { wallets } = useWallet();
+  const { wallets } = useChain();
 
   return (
     <div className="mt-3 text-center sm:mt-1.5 sm:text-left">

@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import { useWallet } from '@cosmos-kit/react';
+import { useChain } from '@cosmos-kit/react';
 import { Dialog } from '@headlessui/react';
 import {
   XMarkIcon,
   ArrowRightOnRectangleIcon,
-  ClipboardDocumentIcon
+  ClipboardDocumentIcon,
 } from '@heroicons/react/24/outline';
 import { ChevronLeftIcon, CheckIcon } from '@heroicons/react/20/solid';
 import copyToClipboard from 'copy-to-clipboard';
@@ -44,14 +44,14 @@ export const Connected = ({
   onClose,
   onReturn,
   name,
-  logo
+  logo,
 }: {
   onClose: () => void;
   onReturn: () => void;
   name: string;
   logo: string;
 }) => {
-  const { disconnect, currentWallet } = useWallet();
+  const { disconnect, currentWallet } = useChain();
 
   return (
     <div className="mt-3 text-center sm:mt-1.5 sm:text-left">

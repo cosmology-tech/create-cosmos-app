@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import Head from 'next/head';
-import { useWallet } from '@cosmos-kit/react';
+import { useChain } from '@cosmos-kit/react';
 import { StdFee } from '@cosmjs/amino';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import BigNumber from 'bignumber.js';
@@ -100,8 +100,8 @@ export default observer(function Home() {
   trace(true);
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const { getSigningStargateClient, address, walletStatus, getRpcEndpoint } =
-    useWallet();
+  const { getSigningStargateClient, address, status, getRpcEndpoint } =
+    useChain(chainName);
 
   const [resp, setResp] = useState('');
 
@@ -205,7 +205,7 @@ export default observer(function Home() {
 
       <Center mb={16}>
         <SendTokensCard
-          isConnectWallet={walletStatus === WalletStatus.Connected}
+          isConnectWallet={status === WalletStatus.Connected}
           balance={isBalanceLoaded ? displayBalance?.toNumber() : 0}
           isFetchingBalance={isFetchingBalance}
           response={resp}

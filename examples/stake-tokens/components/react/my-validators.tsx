@@ -38,7 +38,7 @@ import { exponentiate, getExponent } from './staking';
 import { decodeCosmosSdkDecFromProto, StdFee } from '@cosmjs/stargate';
 import { useState } from 'react';
 import { cosmos } from 'interchain';
-import { useWallet } from '@cosmos-kit/react';
+import { useChain } from '@cosmos-kit/react';
 import { getCoin } from '../../config';
 import { MyValidator, TransactionResult } from '../types';
 import type {
@@ -46,6 +46,7 @@ import type {
   DelegationResponse as Delegation,
 } from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
 import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
+import { ChainName } from '@cosmos-kit/core';
 
 const MyValidators = ({
   validators,
@@ -55,6 +56,7 @@ const MyValidators = ({
   balance,
   updateData,
   unbondingDays,
+  chainName,
 }: {
   validators: Validator[];
   allValidator: Validator[];
@@ -63,8 +65,9 @@ const MyValidators = ({
   balance: number;
   updateData: () => void;
   unbondingDays: number;
+  chainName: ChainName;
 }) => {
-  const { getSigningStargateClient, address, currentChainName } = useWallet();
+  const { getSigningStargateClient, address } = useChain(chainName);
 
   const [isDelegating, setIsDelegating] = useState(false);
   const [isUndelegating, setIsUndelegating] = useState(false);
@@ -72,8 +75,8 @@ const MyValidators = ({
   const [currentValidator, setCurrentValidator] = useState<MyValidator>();
   const [selectedValidator, setSelectedValidator] = useState<Validator>();
 
-  const coin = getCoin(currentChainName);
-  const exp = getExponent(currentChainName);
+  const coin = getCoin(chainName);
+  const exp = getExponent(chainName);
 
   const { colorMode } = useColorMode();
   const { showToast } = useTransactionToast();
