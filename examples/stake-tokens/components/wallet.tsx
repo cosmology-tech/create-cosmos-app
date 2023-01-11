@@ -30,7 +30,7 @@ import {
   ChooseChain,
   ChainOption,
 } from '../components';
-import { chainName } from '../config';
+import { defaultChainName } from '../config';
 
 export const WalletSection = ({ isMultiChain }: { isMultiChain: boolean }) => {
   const walletManager = useWallet();
@@ -50,8 +50,8 @@ export const WalletSection = ({ isMultiChain }: { isMultiChain: boolean }) => {
   } = walletManager;
 
   useEffect(() => {
-    setCurrentChain(chainName);
-  }, [setCurrentChain]);
+    if (!isMultiChain) setCurrentChain(defaultChainName);
+  }, [isMultiChain, setCurrentChain]);
 
   const chain = {
     chainName: currentChainName,
