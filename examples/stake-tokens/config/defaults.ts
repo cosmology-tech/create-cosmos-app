@@ -1,7 +1,7 @@
 import { assets } from 'chain-registry';
 import { AssetList, Asset } from '@chain-registry/types';
 
-export const chainName = 'cosmoshub';
+export const chainName = 'osmosis';
 
 const defaultChainName = chainName;
 
