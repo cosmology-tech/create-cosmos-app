@@ -25,6 +25,7 @@
     "@emotion/styled": "11.10.5",
     "chain-registry": "1.6.0",
     "framer-motion": "7.6.12",
+    "interchain": "1.3.0",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
