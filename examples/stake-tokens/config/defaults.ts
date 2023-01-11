@@ -1,9 +1,7 @@
 import { assets } from 'chain-registry';
 import { AssetList, Asset } from '@chain-registry/types';
 
-export const chainName = 'cosmoshub';
-
-const defaultChainName = chainName;
+export const defaultChainName = 'osmosis';
 
 export const getChainAssets = (chainName: string = defaultChainName) => {
   return assets.find((chain) => chain.chain_name === chainName) as AssetList;
