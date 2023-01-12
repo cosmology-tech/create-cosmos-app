@@ -8,12 +8,12 @@ import { QRCodeSVG } from 'qrcode.react';
 export const QRCode = ({
   onClose,
   onReturn,
+  qrUri,
 }: {
   onClose: () => void;
   onReturn: () => void;
+  qrUri?: string;
 }) => {
-  const { currentWallet } = useChain();
-
   return (
     <div className="mt-3 text-center sm:mt-1.5 sm:text-left">
       <div className="flex flex-row items-center justify-between pl-3">
@@ -43,7 +43,7 @@ export const QRCode = ({
       <div className="w-full">
         <div className="mt-4">
           <QRCodeSVG
-            value={currentWallet?.qrUri}
+            value={qrUri || ''}
             bgColor={'#ffffff'}
             fgColor={'#000000'}
             level={'L'}
