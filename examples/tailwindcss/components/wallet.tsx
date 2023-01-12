@@ -129,7 +129,7 @@ export const WalletSection = () => {
           <div className="flex flex-col items-center justify-center px-4 py-6 mb-2 bg-white border rounded-lg border-black/10 dark:border-white/10 dark:bg-gray-lightbg md:py-12">
             <div>
               {username && (
-                <div className="flex flex-row items-center mx-auto space-x-2">
+                <div className="flex flex-row items-center mx-auto space-x-2 mb-2">
                   <div className="w-8 h-8 mx-auto rounded-full bg-gradient-to-r from-purple-500 to-blue-500"></div>
                   <p className="mt-2 mb-2 text-lg font-medium text-black dark:text-white">
                     {username}
@@ -138,7 +138,7 @@ export const WalletSection = () => {
               )}
             </div>
             {address ? <Address>{address}</Address> : <></>}
-            <div className="w-full max-w-[52] md:max-w-[64]">
+            <div className="w-full max-w-[52] md:max-w-[64] px-8">
               {_renderConnectButton}
             </div>
           </div>
