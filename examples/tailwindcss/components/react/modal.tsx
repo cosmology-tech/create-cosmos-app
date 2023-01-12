@@ -31,21 +31,6 @@ export const TailwindModal = ({
 }: WalletModalProps) => {
   const router = useRouter();
 
-  const [userBrowserInfo, setUserBrowserInfo] = useState<{
-    browser: string;
-    device: string | undefined;
-    os: string;
-  }>();
-
-  useEffect(() => {
-    const parser = Bowser.getParser(window.navigator.userAgent);
-    setUserBrowserInfo({
-      browser: parser.getBrowserName(true),
-      device: parser.getPlatform().type,
-      os: parser.getOSName(true),
-    });
-  }, []);
-
   const [currentView, setCurrentView] = useState<ModalView>(
     ModalView.WalletList
   );
@@ -207,7 +192,7 @@ export const TailwindModal = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-xl bg-white dark:bg-gray-lightbg px-4 pt-5 pb-4 [min-height:18rem] text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-4">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-xl bg-white dark:bg-gray-lightbg px-4 pt-2.5 pb-4 [min-height:18rem] text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xs sm:p-4">
                 <div className="h-full">{_render}</div>
               </Dialog.Panel>
             </Transition.Child>

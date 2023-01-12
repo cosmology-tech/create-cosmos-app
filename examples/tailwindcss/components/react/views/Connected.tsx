@@ -89,7 +89,7 @@ export const Connected = ({
           <img
             src={logo}
             alt={name}
-            className="flex-shrink-0 w-5 h-5 mt-1 aspect-1"
+            className="flex-shrink-0 w-4 h-4 mt-1 aspect-1"
           />
           <p className="mt-3 mb-2 text-lg font-medium text-black dark:text-white">
             {username || ''}
