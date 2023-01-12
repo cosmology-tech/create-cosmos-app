@@ -1,18 +1,18 @@
-import { useManager } from "@cosmos-kit/react";
-import { Center, Grid, GridItem } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
+import { useManager } from '@cosmos-kit/react';
+import { Center, Grid, GridItem } from '@chakra-ui/react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   ChainOption,
   ChooseChain,
   handleSelectChainDropdown,
   ConnectWalletButton,
-} from ".";
-import { ChainName } from "@cosmos-kit/core";
-import { WalletCardSection } from "./card";
+} from '.';
+import { ChainName } from '@cosmos-kit/core';
+import { WalletCardSection } from './card';
 
 export const WalletSection = () => {
   const [chainName, setChainName] = useState<ChainName | undefined>(
-    "cosmoshub"
+    'cosmoshub'
   );
   const { chainRecords, getChainLogo } = useManager();
 
@@ -29,10 +29,19 @@ export const WalletSection = () => {
     [chainRecords, getChainLogo]
   );
 
+  useEffect(() => {
+    setChainName(window.localStorage.getItem('selected-chain') || 'cosmoshub');
+  }, []);
+
   const onChainChange: handleSelectChainDropdown = async (
     selectedValue: ChainOption | null
   ) => {
     setChainName(selectedValue?.chainName);
+    if (selectedValue?.chainName) {
+      window?.localStorage.setItem('selected-chain', selectedValue?.chainName);
+    } else {
+      window?.localStorage.removeItem('selected-chain');
+    }
   };
 
   const chooseChain = (
@@ -57,7 +66,7 @@ export const WalletSection = () => {
         {chainName ? (
           <WalletCardSection chainName={chainName}></WalletCardSection>
         ) : (
-          <ConnectWalletButton buttonText={"Connect Wallet"} isDisabled />
+          <ConnectWalletButton buttonText={'Connect Wallet'} isDisabled />
         )}
       </Grid>
     </Center>

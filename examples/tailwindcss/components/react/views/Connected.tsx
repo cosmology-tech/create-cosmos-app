@@ -43,16 +43,20 @@ export const Address = ({ children: address }: { children: string }) => {
 export const Connected = ({
   onClose,
   onReturn,
+  disconnect,
   name,
   logo,
+  username,
+  address,
 }: {
   onClose: () => void;
   onReturn: () => void;
+  disconnect: () => void;
   name: string;
   logo: string;
+  username?: string;
+  address?: string;
 }) => {
-  const { disconnect, currentWallet } = useChain();
-
   return (
     <div className="mt-3 text-center sm:mt-1.5 sm:text-left">
       <div className="flex flex-row items-center justify-between pl-3">
@@ -88,10 +92,10 @@ export const Connected = ({
             className="flex-shrink-0 w-5 h-5 mt-1 aspect-1"
           />
           <p className="mt-3 mb-2 text-lg font-medium text-black dark:text-white">
-            {currentWallet?.username || ''}
+            {username || ''}
           </p>
         </div>
-        <Address>{currentWallet?.address || ''}</Address>
+        <Address>{address || ''}</Address>
         <button
           className="rounded-lg bg-purple-damp hover:bg-purple-damp/75 inline-flex justify-center items-center py-2.5 font-medium text-white"
           onClick={() => {

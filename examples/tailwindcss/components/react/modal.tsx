@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import type { WalletModalProps } from '@cosmos-kit/core';
 import { WalletStatus } from '@cosmos-kit/core';
-import { useChain } from '@cosmos-kit/react';
 import { useCallback, Fragment, useState, useMemo, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import {
@@ -14,6 +13,7 @@ import {
 } from './views';
 import { useRouter } from 'next/router';
 import Bowser from 'bowser';
+import { disconnect } from 'process';
 
 export enum ModalView {
   WalletList,
@@ -24,7 +24,11 @@ export enum ModalView {
   NotExist,
 }
 
-export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
+export const TailwindModal = ({
+  isOpen,
+  setOpen,
+  walletRepo,
+}: WalletModalProps) => {
   const router = useRouter();
 
   const [userBrowserInfo, setUserBrowserInfo] = useState<{
@@ -42,20 +46,14 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
     });
   }, []);
 
-  const {
-    setCurrentWallet,
-    connect,
-    walletStatus,
-    currentWalletName,
-    currentWallet,
-    getWallet,
-  } = useChain();
-
   const [currentView, setCurrentView] = useState<ModalView>(
     ModalView.WalletList
   );
 
-  const currentWalletData = currentWallet?.walletInfo;
+  const current = walletRepo?.current;
+  const currentWalletData = current?.walletInfo;
+  const walletStatus = current?.walletStatus || WalletStatus.Disconnected;
+  const currentWalletName = current?.walletName;
 
   useEffect(() => {
     if (isOpen) {
@@ -84,16 +82,15 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
   const onWalletClicked = useCallback(
     (name: string) => {
-      setCurrentWallet(name);
-      connect();
+      walletRepo?.connect(name);
 
       // 1ms timeout prevents _render from determining the view to show first
       setTimeout(() => {
-        if (getWallet(name)?.walletInfo.mode === 'wallet-connect')
+        if (walletRepo?.getWallet(name)?.walletInfo.mode === 'wallet-connect')
           setCurrentView(ModalView.QRCode);
       }, 1);
     },
-    [setCurrentWallet, connect, getWallet]
+    [walletRepo]
   );
 
   const onCloseModal = useCallback(() => {
@@ -107,6 +104,7 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
           <WalletList
             onClose={onCloseModal}
             onWalletClicked={onWalletClicked}
+            wallets={walletRepo?.wallets || []}
           />
         );
       case ModalView.Connected:
@@ -114,8 +112,11 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
           <Connected
             onClose={onCloseModal}
             onReturn={() => setCurrentView(ModalView.WalletList)}
+            disconnect={() => current?.disconnect()}
             name={currentWalletData?.prettyName!}
             logo={currentWalletData?.logo!}
+            username={current?.username}
+            address={current?.address}
           />
         );
       case ModalView.Connecting:
@@ -145,6 +146,7 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
           <QRCode
             onClose={onCloseModal}
             onReturn={() => setCurrentView(ModalView.WalletList)}
+            qrUri={current?.qrUrl}
           />
         );
       case ModalView.Error:
@@ -157,22 +159,14 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
           />
         );
       case ModalView.NotExist:
-        type Device = 'desktop' | 'tablet' | 'mobile';
-        const device = userBrowserInfo?.device as Device;
-        const downloads = currentWalletData?.downloads!;
         return (
           <NotExist
             onClose={onCloseModal}
             onReturn={() => setCurrentView(ModalView.WalletList)}
-            onInstall={() =>
-              router.push(
-                downloads[device]?.find(
-                  ({ browser, os }) =>
-                    browser === userBrowserInfo?.browser ||
-                    os === userBrowserInfo?.os
-                )?.link || (currentWalletData?.downloads?.default as string)
-              )
-            }
+            onInstall={() => {
+              const link = current?.downloadInfo?.link;
+              if (link) router.push(current?.downloadInfo?.link);
+            }}
             logo={currentWalletData?.logo!}
             name={currentWalletData?.prettyName!}
           />
@@ -184,7 +178,7 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
     onWalletClicked,
     currentWalletData,
     router,
-    userBrowserInfo,
+    current,
   ]);
 
   return (
