@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import type { WalletModalProps } from '@cosmos-kit/core';
 import { WalletStatus } from '@cosmos-kit/core';
-import { useWallet } from '@cosmos-kit/react';
 import { useCallback, Fragment, useState, useMemo, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import {
@@ -10,10 +9,11 @@ import {
   Error,
   NotExist,
   QRCode,
-  WalletList
+  WalletList,
 } from './views';
 import { useRouter } from 'next/router';
 import Bowser from 'bowser';
+import { disconnect } from 'process';
 
 export enum ModalView {
   WalletList,
@@ -21,35 +21,24 @@ export enum ModalView {
   Connecting,
   Connected,
   Error,
-  NotExist
+  NotExist,
 }
 
-export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
+export const TailwindModal = ({
+  isOpen,
+  setOpen,
+  walletRepo,
+}: WalletModalProps) => {
   const router = useRouter();
-
-  const [userBrowserInfo, setUserBrowserInfo] = useState<{
-    browser: string;
-    device: string | undefined;
-    os: string;
-  }>();
-
-  useEffect(() => {
-    const parser = Bowser.getParser(window.navigator.userAgent);
-    setUserBrowserInfo({
-      browser: parser.getBrowserName(true),
-      device: parser.getPlatform().type,
-      os: parser.getOSName(true)
-    });
-  }, []);
-
-  const { setCurrentWallet, connect, walletStatus, currentWalletName, currentWallet, getWallet } =
-    useWallet();
 
   const [currentView, setCurrentView] = useState<ModalView>(
     ModalView.WalletList
   );
 
-  const currentWalletData = currentWallet?.walletInfo;
+  const current = walletRepo?.current;
+  const currentWalletData = current?.walletInfo;
+  const walletStatus = current?.walletStatus || WalletStatus.Disconnected;
+  const currentWalletName = current?.walletName;
 
   useEffect(() => {
     if (isOpen) {
@@ -78,16 +67,15 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
   const onWalletClicked = useCallback(
     (name: string) => {
-      setCurrentWallet(name);
-      connect();
+      walletRepo?.connect(name);
 
       // 1ms timeout prevents _render from determining the view to show first
       setTimeout(() => {
-        if (getWallet(name)?.walletInfo.mode === 'wallet-connect')
+        if (walletRepo?.getWallet(name)?.walletInfo.mode === 'wallet-connect')
           setCurrentView(ModalView.QRCode);
       }, 1);
     },
-    [setCurrentWallet, connect, getWallet]
+    [walletRepo]
   );
 
   const onCloseModal = useCallback(() => {
@@ -101,6 +89,7 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
           <WalletList
             onClose={onCloseModal}
             onWalletClicked={onWalletClicked}
+            wallets={walletRepo?.wallets || []}
           />
         );
       case ModalView.Connected:
@@ -108,18 +97,23 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
           <Connected
             onClose={onCloseModal}
             onReturn={() => setCurrentView(ModalView.WalletList)}
+            disconnect={() => current?.disconnect()}
             name={currentWalletData?.prettyName!}
             logo={currentWalletData?.logo!}
+            username={current?.username}
+            address={current?.address}
           />
         );
       case ModalView.Connecting:
         let subtitle: string;
         if (currentWalletData!.mode === 'wallet-connect') {
-          subtitle = `Approve ${currentWalletData!.prettyName
-            } connection request on your mobile.`;
+          subtitle = `Approve ${
+            currentWalletData!.prettyName
+          } connection request on your mobile.`;
         } else {
-          subtitle = `Open the ${currentWalletData!.prettyName
-            } browser extension to connect your wallet.`;
+          subtitle = `Open the ${
+            currentWalletData!.prettyName
+          } browser extension to connect your wallet.`;
         }
 
         return (
@@ -137,6 +131,7 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
           <QRCode
             onClose={onCloseModal}
             onReturn={() => setCurrentView(ModalView.WalletList)}
+            qrUri={current?.qrUrl}
           />
         );
       case ModalView.Error:
@@ -149,22 +144,14 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
           />
         );
       case ModalView.NotExist:
-        type Device = 'desktop' | 'tablet' | 'mobile';
-        const device = userBrowserInfo?.device as Device;
-        const downloads = currentWalletData?.downloads!;
         return (
           <NotExist
             onClose={onCloseModal}
             onReturn={() => setCurrentView(ModalView.WalletList)}
-            onInstall={() =>
-              router.push(
-                downloads[device]?.find(
-                  ({ browser, os }) =>
-                    browser === userBrowserInfo?.browser ||
-                    os === userBrowserInfo?.os
-                )?.link || (currentWalletData?.downloads?.default as string)
-              )
-            }
+            onInstall={() => {
+              const link = current?.downloadInfo?.link;
+              if (link) router.push(current?.downloadInfo?.link);
+            }}
             logo={currentWalletData?.logo!}
             name={currentWalletData?.prettyName!}
           />
@@ -176,7 +163,7 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
     onWalletClicked,
     currentWalletData,
     router,
-    userBrowserInfo
+    current,
   ]);
 
   return (
@@ -205,7 +192,7 @@ export const TailwindModal = ({ isOpen, setOpen }: WalletModalProps) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-xl bg-white dark:bg-gray-lightbg px-4 pt-5 pb-4 [min-height:18rem] text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-4">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-xl bg-white dark:bg-gray-lightbg px-4 pt-2.5 pb-4 [min-height:18rem] text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xs sm:p-4">
                 <div className="h-full">{_render}</div>
               </Dialog.Panel>
             </Transition.Child>

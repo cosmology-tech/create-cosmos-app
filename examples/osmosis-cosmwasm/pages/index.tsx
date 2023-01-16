@@ -1,4 +1,4 @@
-import Head from "next/head";
+import Head from 'next/head';
 import {
   Box,
   Divider,
@@ -12,31 +12,36 @@ import {
   Flex,
   Icon,
   useColorMode,
-} from "@chakra-ui/react";
-import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
+} from '@chakra-ui/react';
+import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
 
-import { useWallet } from "@cosmos-kit/react";
-import { WalletStatus } from "@cosmos-kit/core";
+import { useChain } from '@cosmos-kit/react';
+import { WalletStatus } from '@cosmos-kit/core';
 
-import { cw20ContractAddress, dependencies, products } from "../config";
+import {
+  chainName,
+  cw20ContractAddress,
+  dependencies,
+  products,
+} from '../config';
 import {
   Product,
   Dependency,
   WalletSection,
   handleChangeColorModeValue,
   HackCw20,
-} from "../components";
-import { useHackCw20Balance } from "../hooks/use-hack-cw20-balance";
+} from '../components';
+import { useHackCw20Balance } from '../hooks/use-hack-cw20-balance';
 
 const library = {
-  title: "OsmoJS",
-  text: "OsmoJS",
-  href: "https://github.com/osmosis-labs/osmojs",
+  title: 'OsmoJS',
+  text: 'OsmoJS',
+  href: 'https://github.com/osmosis-labs/osmojs',
 };
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { walletStatus } = useWallet();
+  const { status } = useChain(chainName);
   const { balance } = useHackCw20Balance(cw20ContractAddress);
 
   return (
@@ -49,14 +54,14 @@ export default function Home() {
       <Flex justifyContent="end" mb={4}>
         <Button variant="outline" px={0} onClick={toggleColorMode}>
           <Icon
-            as={colorMode === "light" ? BsFillMoonStarsFill : BsFillSunFill}
+            as={colorMode === 'light' ? BsFillMoonStarsFill : BsFillSunFill}
           />
         </Button>
       </Flex>
       <Box textAlign="center">
         <Heading
           as="h1"
-          fontSize={{ base: "3xl", sm: "4xl", md: "5xl" }}
+          fontSize={{ base: '3xl', sm: '4xl', md: '5xl' }}
           fontWeight="extrabold"
           mb={3}
         >
@@ -65,18 +70,18 @@ export default function Home() {
         <Heading
           as="h1"
           fontWeight="bold"
-          fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
+          fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
         >
           <Text as="span">Welcome to&nbsp;</Text>
           <Text
             as="span"
             color={handleChangeColorModeValue(
               colorMode,
-              "primary.500",
-              "primary.200"
+              'primary.500',
+              'primary.200'
             )}
           >
-            CosmosKit + Next.js +{" "}
+            CosmosKit + Next.js +{' '}
             <a href={library.href} target="_blank" rel="noreferrer">
               {library.title}
             </a>
@@ -89,7 +94,7 @@ export default function Home() {
       <Box w="full" maxW="md" mx="auto">
         <HackCw20
           balance={balance}
-          isConnectWallet={walletStatus !== WalletStatus.Disconnected}
+          isConnectWallet={status !== WalletStatus.Disconnected}
         />
       </Box>
 
@@ -98,8 +103,8 @@ export default function Home() {
       </Box>
       <Grid
         templateColumns={{
-          md: "repeat(2, 1fr)",
-          lg: "repeat(3, 1fr)",
+          md: 'repeat(2, 1fr)',
+          lg: 'repeat(3, 1fr)',
         }}
         gap={8}
         mb={14}
@@ -108,7 +113,7 @@ export default function Home() {
           <Product key={product.title} {...product}></Product>
         ))}
       </Grid>
-      <Grid templateColumns={{ md: "repeat(3, 1fr)" }} gap={8} mb={20}>
+      <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={8} mb={20}>
         <Dependency {...library} />
         {dependencies.map((dependency) => (
           <Dependency key={dependency.title} {...dependency}></Dependency>
