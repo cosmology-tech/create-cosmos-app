@@ -8,23 +8,21 @@ import { chainName } from '../config';
 export function useHackCw20Balance(contractAddress: string): {
   balance: string | undefined;
 } {
-  const { getSigningCosmWasmClient, address, status } = useChain(chainName);
+  const { getSigningCosmWasmClient, address } = useChain(chainName);
 
   const [cw20Client, setCw20Client] = useState<HackCw20QueryClient | null>(
     null
   );
   useEffect(() => {
-    if (status === 'Connected') {
-      getSigningCosmWasmClient().then((cosmwasmClient) => {
-        if (!cosmwasmClient || !address) {
-          console.error('cosmwasmClient undefined or address undefined.');
-          return;
-        }
+    getSigningCosmWasmClient().then((cosmwasmClient) => {
+      if (!cosmwasmClient || !address) {
+        console.error('cosmwasmClient undefined or address undefined.');
+        return;
+      }
 
-        setCw20Client(new HackCw20QueryClient(cosmwasmClient, contractAddress));
-      });
-    }
-  }, [address, contractAddress, getSigningCosmWasmClient, status]);
+      setCw20Client(new HackCw20QueryClient(cosmwasmClient, contractAddress));
+    });
+  }, [address, contractAddress, getSigningCosmWasmClient]);
   const [cw20Bal, setCw20Bal] = useState<string | null>(null);
   useEffect(() => {
     if (cw20Client && address) {
