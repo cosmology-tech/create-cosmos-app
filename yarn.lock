@@ -3662,7 +3662,17 @@
     "@cosmjs/math" "^0.29.4"
     "@cosmjs/utils" "^0.29.4"
 
-"@cosmjs/amino@0.29.5", "@cosmjs/amino@^0.29.0", "@cosmjs/amino@^0.29.3", "@cosmjs/amino@^0.29.4", "@cosmjs/amino@^0.29.5":
+"@cosmjs/amino@0.29.5":
+  version "0.29.5"
+  resolved "https://registry.npmmirror.com/@cosmjs/amino/-/amino-0.29.5.tgz#053b4739a90b15b9e2b781ccd484faf64bd49aec"
+  integrity sha512-Qo8jpC0BiziTSUqpkNatBcwtKNhCovUnFul9SlT/74JUCdLYaeG5hxr3q1cssQt++l4LvlcpF+OUXL48XjNjLw==
+  dependencies:
+    "@cosmjs/crypto" "^0.29.5"
+    "@cosmjs/encoding" "^0.29.5"
+    "@cosmjs/math" "^0.29.5"
+    "@cosmjs/utils" "^0.29.5"
+
+"@cosmjs/amino@^0.29.0", "@cosmjs/amino@^0.29.3", "@cosmjs/amino@^0.29.4", "@cosmjs/amino@^0.29.5":
   version "0.29.5"
   resolved "https://registry.npmjs.org/@cosmjs/amino/-/amino-0.29.5.tgz#053b4739a90b15b9e2b781ccd484faf64bd49aec"
   integrity sha512-Qo8jpC0BiziTSUqpkNatBcwtKNhCovUnFul9SlT/74JUCdLYaeG5hxr3q1cssQt++l4LvlcpF+OUXL48XjNjLw==
@@ -7856,7 +7866,7 @@ bignumber.js@9.1.0:
 
 bignumber.js@9.1.1:
   version "9.1.1"
-  resolved "https://registry.npmjs.org/bignumber.js/-/bignumber.js-9.1.1.tgz#c4df7dc496bd849d4c9464344c1aa74228b4dac6"
+  resolved "https://registry.npmmirror.com/bignumber.js/-/bignumber.js-9.1.1.tgz#c4df7dc496bd849d4c9464344c1aa74228b4dac6"
   integrity sha512-pHm4LsMJ6lzgNGVfZHjMoO8sdoRhOzOH4MLmY65Jg70bpxCKu5iOHNJyfF6OyvYw7t8Fpf35RuzUyqnQsj8Vig==
 
 binary-extensions@^2.0.0:
@@ -10694,7 +10704,7 @@ inquirerer@0.1.3:
 
 interchain@1.3.0:
   version "1.3.0"
-  resolved "https://registry.npmjs.org/interchain/-/interchain-1.3.0.tgz#5e04899870ab5c11744724c59e3dcf9b25510293"
+  resolved "https://registry.npmmirror.com/interchain/-/interchain-1.3.0.tgz#5e04899870ab5c11744724c59e3dcf9b25510293"
   integrity sha512-c/xm5l4Rx/82adfwEZzLhpccLb3DmP3mlXxIyuEFgFc6BpMHI0rOfri/bf/8/MvQDltgMMfc/go4qSwVqtFP2Q==
   dependencies:
     "@babel/runtime" "^7.19.0"
