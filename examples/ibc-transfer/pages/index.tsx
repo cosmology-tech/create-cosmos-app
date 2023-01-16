@@ -15,7 +15,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
-import { Product, Dependency, FromChain, ToChain } from '../components';
+import { Product, Dependency, IbcTransfer } from '../components';
 import { dependencies, products } from '../config';
 
 export default function Home() {
@@ -58,8 +58,7 @@ export default function Home() {
           </Text>
         </Heading>
       </Box>
-      <FromChain />
-      <ToChain />
+      <IbcTransfer />
       <Grid
         templateColumns={{
           md: 'repeat(2, 1fr)',

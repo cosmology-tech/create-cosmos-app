@@ -24,7 +24,7 @@ export enum WalletStatus {
   Loading = 'Loading',
   Loaded = 'Loaded',
   NotExist = 'NotExist',
-  Rejected = 'Rejected'
+  Rejected = 'Rejected',
 }
 
 export interface ConnectWalletType {
@@ -55,6 +55,7 @@ export interface ChainOption extends OptionBase {
   icon?: string;
   chainName: string;
   chainRoute?: string;
+  id?: string;
 }
 
 export type handleSelectChainDropdown = (value: ChainOption | null) => void;
@@ -88,3 +89,16 @@ export type CopyAddressType = {
   isRound?: boolean;
   size?: string;
 };
+
+export interface Balance {
+  denom: string;
+  symbol: string;
+  amount: string;
+  displayAmount: number;
+  logoUrl?: string;
+}
+
+export enum TransactionResult {
+  Success = 0,
+  Failed = 1,
+}
