@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import { useWallet } from '@cosmos-kit/react';
+import { useChain } from '@cosmos-kit/react';
 import { Dialog } from '@headlessui/react';
 import {
   XMarkIcon,
   ArrowRightOnRectangleIcon,
-  ClipboardDocumentIcon
+  ClipboardDocumentIcon,
 } from '@heroicons/react/24/outline';
 import { ChevronLeftIcon, CheckIcon } from '@heroicons/react/20/solid';
 import copyToClipboard from 'copy-to-clipboard';
@@ -43,16 +43,20 @@ export const Address = ({ children: address }: { children: string }) => {
 export const Connected = ({
   onClose,
   onReturn,
+  disconnect,
   name,
-  logo
+  logo,
+  username,
+  address,
 }: {
   onClose: () => void;
   onReturn: () => void;
+  disconnect: () => void;
   name: string;
   logo: string;
+  username?: string;
+  address?: string;
 }) => {
-  const { disconnect, currentWallet } = useWallet();
-
   return (
     <div className="mt-3 text-center sm:mt-1.5 sm:text-left">
       <div className="flex flex-row items-center justify-between pl-3">
@@ -85,13 +89,13 @@ export const Connected = ({
           <img
             src={logo}
             alt={name}
-            className="flex-shrink-0 w-5 h-5 mt-1 aspect-1"
+            className="flex-shrink-0 w-4 h-4 mt-1 aspect-1"
           />
           <p className="mt-3 mb-2 text-lg font-medium text-black dark:text-white">
-            {currentWallet?.username || ''}
+            {username || ''}
           </p>
         </div>
-        <Address>{currentWallet?.address || ''}</Address>
+        <Address>{address || ''}</Address>
         <button
           className="rounded-lg bg-purple-damp hover:bg-purple-damp/75 inline-flex justify-center items-center py-2.5 font-medium text-white"
           onClick={() => {

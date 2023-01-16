@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useWallet } from '@cosmos-kit/react';
+import { useChain } from '@cosmos-kit/react';
 import { Dialog } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronLeftIcon } from '@heroicons/react/20/solid';
@@ -10,7 +10,7 @@ export const Connecting = ({
   name,
   logo,
   title,
-  subtitle
+  subtitle,
 }: {
   onClose: () => void;
   onReturn: () => void;
@@ -21,7 +21,7 @@ export const Connecting = ({
 }) => {
   return (
     <div className="mt-3 text-center sm:mt-1.5">
-      <div className="flex flex-row items-center justify-between pl-3">
+      <div className="flex flex-row items-center justify-between">
         <button
           type="button"
           className="p-2 text-black bg-white rounded-full hover:bg-gray-200 dark:text-white dark:bg-gray-lightbg dark:hover:bg-white/10"
@@ -49,10 +49,10 @@ export const Connecting = ({
         <img
           src={logo}
           alt={name}
-          className="flex-shrink-0 w-24 h-24 mx-auto aspect-1"
+          className="flex-shrink-0 w-20 h-20 mx-auto aspect-1"
         />
-        <p className="mt-6 font-medium text-black dark:text-white">{title}</p>
-        <p className="mt-2 text-sm text-gray-500 dark:text-white/75">
+        <p className="mt-3 font-medium text-black dark:text-white">{title}</p>
+        <p className="mt-1 text-sm text-gray-500 dark:text-white/75">
           {subtitle}
         </p>
       </div>

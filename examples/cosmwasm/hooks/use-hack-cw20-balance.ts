@@ -1,27 +1,30 @@
-import { useState, useEffect } from "react";
-import { useWallet } from "@cosmos-kit/react";
+import { useState, useEffect } from 'react';
+import { useChain } from '@cosmos-kit/react';
 
 // import cosmwasm client generated with cosmwasm-ts-codegen
-import { HackCw20QueryClient } from "../codegen/HackCw20.client";
+import { HackCw20QueryClient } from '../codegen/HackCw20.client';
+import { chainName } from '../config';
 
 export function useHackCw20Balance(contractAddress: string): {
   balance: string | undefined;
 } {
-  const { getSigningCosmWasmClient, address } = useWallet();
+  const { getSigningCosmWasmClient, address, status } = useChain(chainName);
 
   const [cw20Client, setCw20Client] = useState<HackCw20QueryClient | null>(
     null
   );
   useEffect(() => {
-    getSigningCosmWasmClient().then((cosmwasmClient) => {
-      if (!cosmwasmClient || !address) {
-        console.error("cosmwasmClient undefined or address undefined.");
-        return;
-      }
+    if (status === 'Connected') {
+      getSigningCosmWasmClient().then((cosmwasmClient) => {
+        if (!cosmwasmClient || !address) {
+          console.error('cosmwasmClient undefined or address undefined.');
+          return;
+        }
 
-      setCw20Client(new HackCw20QueryClient(cosmwasmClient, contractAddress));
-    });
-  }, [address, contractAddress, getSigningCosmWasmClient]);
+        setCw20Client(new HackCw20QueryClient(cosmwasmClient, contractAddress));
+      });
+    }
+  }, [address, contractAddress, getSigningCosmWasmClient, status]);
   const [cw20Bal, setCw20Bal] = useState<string | null>(null);
   useEffect(() => {
     if (cw20Client && address) {

@@ -21,7 +21,7 @@ import {
   WalletSection,
   StakingSection,
 } from '../components';
-import { dependencies, products } from '../config';
+import { defaultChainName, dependencies, products } from '../config';
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -65,7 +65,7 @@ export default function Home() {
       </Box>
       <WalletSection isMultiChain={false} />
       <Divider />
-      <StakingSection />
+      <StakingSection chainName={defaultChainName} />
       <Grid
         templateColumns={{
           md: 'repeat(2, 1fr)',

@@ -1,9 +1,9 @@
-import { useState } from "react";
-import Head from "next/head";
-import { useWallet } from "@cosmos-kit/react";
-import { StdFee } from "@cosmjs/amino";
-import { SigningStargateClient } from "@cosmjs/stargate";
-import BigNumber from "bignumber.js";
+import { useState } from 'react';
+import Head from 'next/head';
+import { useChain } from '@cosmos-kit/react';
+import { StdFee } from '@cosmjs/amino';
+import { SigningStargateClient } from '@cosmjs/stargate';
+import BigNumber from 'bignumber.js';
 
 import {
   Box,
@@ -19,30 +19,30 @@ import {
   Icon,
   useColorMode,
   Center,
-} from "@chakra-ui/react";
-import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
+} from '@chakra-ui/react';
+import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
 import {
   chainassets,
   chainName,
   coin,
   dependencies,
   products,
-} from "../config";
+} from '../config';
 
-import { WalletStatus } from "@cosmos-kit/core";
+import { WalletStatus } from '@cosmos-kit/core';
 import {
   Product,
   Dependency,
   WalletSection,
   handleChangeColorModeValue,
-} from "../components";
-import { cosmos } from "juno-network";
-import { SendTokensCard } from "../components/react/send-tokens-card";
+} from '../components';
+import { cosmos } from 'juno-network';
+import { SendTokensCard } from '../components/react/send-tokens-card';
 
 const library = {
-  title: "Juno Network",
-  text: "Typescript libraries for the Juno ecosystem",
-  href: "https://github.com/CosmosContracts/typescript",
+  title: 'Juno Network',
+  text: 'Typescript libraries for the Juno ecosystem',
+  href: 'https://github.com/CosmosContracts/typescript',
 };
 
 const sendTokens = (
@@ -53,7 +53,7 @@ const sendTokens = (
   return async () => {
     const stargateClient = await getSigningStargateClient();
     if (!stargateClient || !address) {
-      console.error("stargateClient undefined or address undefined.");
+      console.error('stargateClient undefined or address undefined.');
       return;
     }
 
@@ -63,7 +63,7 @@ const sendTokens = (
       amount: [
         {
           denom: coin.base,
-          amount: "1000",
+          amount: '1000',
         },
       ],
       toAddress: address,
@@ -74,10 +74,10 @@ const sendTokens = (
       amount: [
         {
           denom: coin.base,
-          amount: "2000",
+          amount: '2000',
         },
       ],
-      gas: "86364",
+      gas: '86364',
     };
     const response = await stargateClient.signAndBroadcast(address, [msg], fee);
     setResp(JSON.stringify(response, null, 2));
@@ -87,12 +87,12 @@ const sendTokens = (
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const { getSigningStargateClient, address, walletStatus, getRpcEndpoint } =
-    useWallet();
+  const { getSigningStargateClient, address, status, getRpcEndpoint } =
+    useChain(chainName);
 
   const [balance, setBalance] = useState(new BigNumber(0));
   const [isFetchingBalance, setFetchingBalance] = useState(false);
-  const [resp, setResp] = useState("");
+  const [resp, setResp] = useState('');
   const getBalance = async () => {
     if (!address) {
       setBalance(new BigNumber(0));
@@ -103,7 +103,7 @@ export default function Home() {
     let rpcEndpoint = await getRpcEndpoint();
 
     if (!rpcEndpoint) {
-      console.log("no rpc endpoint — using a fallback");
+      console.log('no rpc endpoint — using a fallback');
       rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
     }
 
@@ -151,7 +151,7 @@ export default function Home() {
       <Box textAlign="center">
         <Heading
           as="h1"
-          fontSize={{ base: "3xl", md: "5xl" }}
+          fontSize={{ base: '3xl', md: '5xl' }}
           fontWeight="extrabold"
           mb={3}
         >
@@ -160,15 +160,15 @@ export default function Home() {
         <Heading
           as="h1"
           fontWeight="bold"
-          fontSize={{ base: "2xl", md: "4xl" }}
+          fontSize={{ base: '2xl', md: '4xl' }}
         >
           <Text as="span">Welcome to&nbsp;</Text>
           <Text
             as="span"
             color={handleChangeColorModeValue(
               colorMode,
-              "primary.500",
-              "primary.200"
+              'primary.500',
+              'primary.200'
             )}
           >
             CosmosKit&nbsp;+&nbsp;Next.js&nbsp;+&nbsp;
@@ -183,7 +183,7 @@ export default function Home() {
 
       <Center mb={16}>
         <SendTokensCard
-          isConnectWallet={walletStatus === WalletStatus.Connected}
+          isConnectWallet={status === WalletStatus.Connected}
           balance={balance.toNumber()}
           isFetchingBalance={isFetchingBalance}
           response={resp}
@@ -205,8 +205,8 @@ export default function Home() {
       </Box>
       <Grid
         templateColumns={{
-          md: "repeat(2, 1fr)",
-          lg: "repeat(3, 1fr)",
+          md: 'repeat(2, 1fr)',
+          lg: 'repeat(3, 1fr)',
         }}
         gap={8}
         mb={14}
@@ -215,7 +215,7 @@ export default function Home() {
           <Product key={product.title} {...product} />
         ))}
       </Grid>
-      <Grid templateColumns={{ md: "repeat(3, 1fr)" }} gap={8} mb={20}>
+      <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={8} mb={20}>
         <Dependency {...library} />
         {dependencies.map((dependency) => (
           <Dependency key={dependency.title} {...dependency} />
