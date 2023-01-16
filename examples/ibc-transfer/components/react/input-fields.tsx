@@ -28,7 +28,7 @@ import { denomToExponent, getCoin, getExponent } from './ibc-transfer';
 import { Balance, TransactionResult } from '../types';
 import store from '../../store';
 
-const getIbcInfo = (fromChainName: string, toChainName: string) => {
+export const getIbcInfo = (fromChainName: string, toChainName: string) => {
   let flipped = false;
 
   let ibcInfo = ibc.find(

@@ -26,7 +26,7 @@ const exponentiate = (num: number | string, exp: number) => {
     .toNumber();
 };
 
-const denomToAsset = (denom: string): Asset | undefined => {
+export const denomToAsset = (denom: string): Asset | undefined => {
   for (const chain of assetLists) {
     for (const asset of chain.assets) {
       if (asset.base === denom) return asset;
