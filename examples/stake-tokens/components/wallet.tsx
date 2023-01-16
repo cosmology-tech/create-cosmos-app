@@ -6,8 +6,7 @@ import {
   GridItem,
   Icon,
   Stack,
-  useColorModeValue,
-  Text,
+  useColorMode,
 } from '@chakra-ui/react';
 import { MouseEventHandler, useEffect, useMemo, useState } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
@@ -29,6 +28,7 @@ import {
   ChainCard,
   ChooseChain,
   ChainOption,
+  ConnectWalletButton,
 } from '../components';
 import { defaultChainName } from '../config';
 import { ChainName } from '@cosmos-kit/core';
@@ -52,14 +52,14 @@ export const WalletSection = ({
     message,
     wallet,
     chain: chainInfo,
-    logoUrl,
   } = useChain(providedChainName || defaultChainName);
+  const { colorMode } = useColorMode();
 
   const chain = {
-    chainName: providedChainName,
+    chainName: defaultChainName,
     label: chainInfo.pretty_name,
-    value: providedChainName,
-    icon: logoUrl,
+    value: defaultChainName,
+    icon: getChainLogo(defaultChainName),
   };
 
   const chainOptions = useMemo(
@@ -124,9 +124,7 @@ export const WalletSection = ({
   );
 
   useEffect(() => {
-    setChainName?.(
-      window.localStorage.getItem('selected-chain') || 'cosmoshub'
-    );
+    setChainName?.(window.localStorage.getItem('selected-chain') || 'osmosis');
   }, [setChainName]);
 
   const onChainChange: handleSelectChainDropdown = async (
@@ -171,37 +169,40 @@ export const WalletSection = ({
         {isMultiChain ? (
           <GridItem>{chooseChain}</GridItem>
         ) : (
-          providedChainName && (
-            <GridItem marginBottom={'20px'}>
-              <ChainCard
-                prettyName={chain?.label || providedChainName}
-                icon={chain?.icon}
-              />
-            </GridItem>
-          )
+          <GridItem marginBottom={'20px'}>
+            <ChainCard
+              prettyName={chain?.label || defaultChainName}
+              icon={chain?.icon}
+            />
+          </GridItem>
         )}
-        <GridItem px={6}>
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            borderRadius="lg"
-            bg={useColorModeValue('white', 'blackAlpha.400')}
-            boxShadow={useColorModeValue(
-              '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
-              '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
-            )}
-            spacing={4}
-            px={4}
-            py={{ base: 6, md: 12 }}
-          >
-            {userInfo}
-            {addressBtn}
-            <Box w="full" maxW={{ base: 52, md: 64 }}>
-              {connectWalletButton}
-            </Box>
-            {connectWalletWarn && <GridItem>{connectWalletWarn}</GridItem>}
-          </Stack>
-        </GridItem>
+        {!providedChainName && isMultiChain ? (
+          <ConnectWalletButton buttonText={'Connect Wallet'} isDisabled />
+        ) : (
+          <GridItem px={6}>
+            <Stack
+              justifyContent="center"
+              alignItems="center"
+              borderRadius="lg"
+              bg={colorMode === 'light' ? 'white' : 'blackAlpha.400'}
+              boxShadow={
+                colorMode === 'light'
+                  ? '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3'
+                  : '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
+              }
+              spacing={4}
+              px={4}
+              py={{ base: 6, md: 12 }}
+            >
+              {userInfo}
+              {addressBtn}
+              <Box w="full" maxW={{ base: 52, md: 64 }}>
+                {connectWalletButton}
+              </Box>
+              {connectWalletWarn && <GridItem>{connectWalletWarn}</GridItem>}
+            </Stack>
+          </GridItem>
+        )}
       </Grid>
     </Center>
   );
