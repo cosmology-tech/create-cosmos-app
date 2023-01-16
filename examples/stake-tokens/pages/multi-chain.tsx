@@ -21,10 +21,15 @@ import {
   WalletSection,
   StakingSection,
 } from '../components';
-import { dependencies, products } from '../config';
+import { defaultChainName, dependencies, products } from '../config';
+import { useState } from 'react';
+import { ChainName } from '@cosmos-kit/core';
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
+  const [selectedChainName, setChainName] = useState<ChainName | undefined>(
+    defaultChainName
+  );
 
   return (
     <Container maxW="5xl" py={10}>
@@ -63,9 +68,13 @@ export default function Home() {
           </Text>
         </Heading>
       </Box>
-      <WalletSection isMultiChain={true} />
+      <WalletSection
+        isMultiChain={true}
+        providedChainName={selectedChainName}
+        setChainName={setChainName}
+      />
       <Divider />
-      <StakingSection />
+      {selectedChainName && <StakingSection chainName={selectedChainName} />}
       <Grid
         templateColumns={{
           md: 'repeat(2, 1fr)',
