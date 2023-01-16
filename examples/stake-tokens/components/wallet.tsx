@@ -9,7 +9,7 @@ import {
   useColorModeValue,
   Text,
 } from '@chakra-ui/react';
-import { MouseEventHandler, useMemo, useState } from 'react';
+import { MouseEventHandler, useEffect, useMemo, useState } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import {
   Astronaut,
@@ -35,14 +35,13 @@ import { ChainName } from '@cosmos-kit/core';
 
 export const WalletSection = ({
   isMultiChain,
-  providedChainName = defaultChainName,
+  providedChainName,
+  setChainName,
 }: {
   isMultiChain: boolean;
   providedChainName?: ChainName;
+  setChainName?: (chainName: ChainName | undefined) => void;
 }) => {
-  const [selectedChainName, setChainName] = useState<ChainName | undefined>(
-    defaultChainName
-  );
   const { chainRecords, getChainLogo } = useManager();
   const {
     connect,
@@ -54,9 +53,7 @@ export const WalletSection = ({
     wallet,
     chain: chainInfo,
     logoUrl,
-  } = useChain(
-    isMultiChain ? selectedChainName || defaultChainName : providedChainName
-  );
+  } = useChain(providedChainName || defaultChainName);
 
   const chain = {
     chainName: providedChainName,
@@ -126,15 +123,26 @@ export const WalletSection = ({
     />
   );
 
+  useEffect(() => {
+    setChainName?.(
+      window.localStorage.getItem('selected-chain') || 'cosmoshub'
+    );
+  }, [setChainName]);
+
   const onChainChange: handleSelectChainDropdown = async (
     selectedValue: ChainOption | null
   ) => {
-    setChainName(selectedValue?.chainName);
+    setChainName?.(selectedValue?.chainName);
+    if (selectedValue?.chainName) {
+      window?.localStorage.setItem('selected-chain', selectedValue?.chainName);
+    } else {
+      window?.localStorage.removeItem('selected-chain');
+    }
   };
 
   const chooseChain = (
     <ChooseChain
-      chainName={selectedChainName}
+      chainName={providedChainName}
       chainInfos={chainOptions}
       onChange={onChainChange}
     />
