@@ -9,10 +9,12 @@ export const QRCode = ({
   onClose,
   onReturn,
   qrUri,
+  name,
 }: {
   onClose: () => void;
   onReturn: () => void;
   qrUri?: string;
+  name?: string;
 }) => {
   return (
     <div className="mt-3 text-center sm:mt-1.5 sm:text-left">
@@ -29,7 +31,7 @@ export const QRCode = ({
           as="h3"
           className="font-medium leading-6 text-center text-gray-900 dark:text-white"
         >
-          Keplr Mobile
+          {name}
         </Dialog.Title>
         <button
           type="button"
