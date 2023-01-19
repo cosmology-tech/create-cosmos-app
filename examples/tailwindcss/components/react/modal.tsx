@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import type { WalletModalProps } from '@cosmos-kit/core';
+import type { ChainWalletBase, WalletModalProps } from '@cosmos-kit/core';
 import { WalletStatus } from '@cosmos-kit/core';
 import { useCallback, Fragment, useState, useMemo, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
@@ -34,6 +34,7 @@ export const TailwindModal = ({
   const [currentView, setCurrentView] = useState<ModalView>(
     ModalView.WalletList
   );
+  const [qrWallet, setQRWallet] = useState<ChainWalletBase | undefined>();
 
   const current = walletRepo?.current;
   const currentWalletData = current?.walletInfo;
@@ -71,8 +72,11 @@ export const TailwindModal = ({
 
       // 1ms timeout prevents _render from determining the view to show first
       setTimeout(() => {
-        if (walletRepo?.getWallet(name)?.walletInfo.mode === 'wallet-connect')
+        const wallet = walletRepo?.getWallet(name);
+        if (wallet?.walletInfo.mode === 'wallet-connect') {
           setCurrentView(ModalView.QRCode);
+          setQRWallet(wallet);
+        }
       }, 1);
     },
     [walletRepo]
@@ -131,7 +135,8 @@ export const TailwindModal = ({
           <QRCode
             onClose={onCloseModal}
             onReturn={() => setCurrentView(ModalView.WalletList)}
-            qrUri={current?.qrUrl}
+            qrUri={qrWallet?.qrUrl}
+            name={qrWallet?.walletInfo.prettyName}
           />
         );
       case ModalView.Error:
