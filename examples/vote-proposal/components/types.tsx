@@ -24,7 +24,7 @@ export enum WalletStatus {
   Loading = 'Loading',
   Loaded = 'Loaded',
   NotExist = 'NotExist',
-  Rejected = 'Rejected'
+  Rejected = 'Rejected',
 }
 
 export interface ConnectWalletType {
@@ -88,3 +88,10 @@ export type CopyAddressType = {
   isRound?: boolean;
   size?: string;
 };
+
+export enum VoteType {
+  YES = 'YES',
+  NO = 'NO',
+  NWV = 'NWV',
+  ABSTAIN = 'ABSTAIN',
+}

@@ -12,14 +12,23 @@ import {
   Flex,
   Icon,
   useColorMode,
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
-import { Product, Dependency, WalletSection } from '../components';
+import {
+  Product,
+  Dependency,
+  WalletSection,
+  VotingSection,
+} from '../components';
 import { dependencies, products } from '../config';
+import { useState } from 'react';
+import { ChainName } from '@cosmos-kit/core';
+import React from 'react';
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
+  const [chainName, setChainName] = useState<ChainName | undefined>('osmosis');
 
   return (
     <Container maxW="5xl" py={10}>
@@ -58,11 +67,12 @@ export default function Home() {
           </Text>
         </Heading>
       </Box>
-      <WalletSection />
+      <WalletSection chainName={chainName} setChainName={setChainName} />
+      {chainName && <VotingSection chainName={chainName} />}
       <Grid
         templateColumns={{
           md: 'repeat(2, 1fr)',
-          lg: 'repeat(3, 1fr)'
+          lg: 'repeat(3, 1fr)',
         }}
         gap={8}
         mb={14}
