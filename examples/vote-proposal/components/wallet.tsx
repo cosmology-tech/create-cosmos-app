@@ -7,13 +7,17 @@ import {
   handleSelectChainDropdown,
   ConnectWalletButton,
 } from '.';
-import { ChainName } from '@cosmos-kit/core';
 import { WalletCardSection } from './card';
+import { ChainName } from '@cosmos-kit/core';
+import React from 'react';
 
-export const WalletSection = () => {
-  const [chainName, setChainName] = useState<ChainName | undefined>(
-    'cosmoshub'
-  );
+export const WalletSection = ({
+  chainName,
+  setChainName,
+}: {
+  chainName: ChainName | undefined;
+  setChainName: (val: ChainName | undefined) => void;
+}) => {
   const { chainRecords, getChainLogo } = useManager();
 
   const chainOptions = useMemo(
@@ -30,8 +34,8 @@ export const WalletSection = () => {
   );
 
   useEffect(() => {
-    setChainName(window.localStorage.getItem('selected-chain') || 'cosmoshub');
-  }, []);
+    setChainName(window.localStorage.getItem('selected-chain') || 'osmosis');
+  }, [setChainName]);
 
   const onChainChange: handleSelectChainDropdown = async (
     selectedValue: ChainOption | null
