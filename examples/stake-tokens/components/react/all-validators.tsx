@@ -24,6 +24,7 @@ import {
   Text,
   Image,
   useColorMode,
+  Center,
 } from '@chakra-ui/react';
 import {
   DelegateWarning,
@@ -46,6 +47,34 @@ import type {
 import { TransactionResult } from '../types';
 import { ChainName } from '@cosmos-kit/core';
 
+export const Thumbnail = ({
+  identity,
+  name,
+  thumbnailUrl,
+}: {
+  identity: string | undefined;
+  name: string | undefined;
+  thumbnailUrl: string;
+}) => {
+  return (
+    <>
+      {identity && thumbnailUrl ? (
+        <Image
+          borderRadius="full"
+          boxSize="30px"
+          src={thumbnailUrl}
+          alt={name}
+          mr={2}
+        />
+      ) : (
+        <Center boxSize="30px" bgColor="gray.400" borderRadius="full" mr={2}>
+          {name && name.slice(0, 1).toUpperCase()}
+        </Center>
+      )}
+    </>
+  );
+};
+
 const AllValidators = ({
   validators,
   balance,
@@ -53,6 +82,7 @@ const AllValidators = ({
   updateData,
   unbondingDays,
   chainName,
+  thumbnails,
 }: {
   validators: Validator[];
   balance: number;
@@ -60,6 +90,9 @@ const AllValidators = ({
   updateData: () => void;
   unbondingDays: number;
   chainName: ChainName;
+  thumbnails: {
+    [key: string]: string;
+  };
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { getSigningStargateClient, address } = useChain(chainName);
@@ -161,7 +194,11 @@ const AllValidators = ({
 
           <ModalBody>
             <ValidatorInfo
-              imgUrl="https://wallet.keplr.app/_next/image?url=https%3A%2F%2Fs3.amazonaws.com%2Fkeybase_processed_uploads%2F909034c1d36c1d1f3e9191f668007805_360_360.jpeg&w=64&q=75"
+              imgUrl={
+                currentValidator?.description?.identity
+                  ? thumbnails[currentValidator.description.identity]
+                  : ''
+              }
               name={currentValidator?.description?.moniker || ''}
               commission={5}
               apr={22.08}
@@ -223,13 +260,15 @@ const AllValidators = ({
                     overflowX="hidden"
                   >
                     <Text mr={4}>{index + 1}</Text>
-                    {/* <Image
-                    borderRadius="full"
-                    boxSize="30px"
-                    src={validator.imgUrl}
-                    alt={validator.description.moniker}
-                    mr={2}
-                  /> */}
+                    <Thumbnail
+                      identity={validator.description?.identity}
+                      name={validator.description?.moniker}
+                      thumbnailUrl={
+                        validator.description?.identity
+                          ? thumbnails[validator.description.identity]
+                          : ''
+                      }
+                    />
                     <Text>{validator?.description?.moniker}</Text>
                   </Box>
                 </Td>
