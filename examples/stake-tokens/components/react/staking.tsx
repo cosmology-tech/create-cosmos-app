@@ -29,6 +29,15 @@ export const getExponent = (chainName: string) => {
   )?.exponent as number;
 };
 
+const splitIntoChunks = (arr: any[], chunkSize: number) => {
+  const res = [];
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    const chunk = arr.slice(i, i + chunkSize);
+    res.push(chunk);
+  }
+  return res;
+};
+
 interface StakingTokens {
   balance: number;
   rewards: Reward[];
@@ -38,6 +47,9 @@ interface StakingTokens {
   myValidators: Validator[];
   allValidators: Validator[];
   unbondingDays: number;
+  thumbnails: {
+    [key: string]: string;
+  };
 }
 
 export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
@@ -52,6 +64,7 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
     myValidators: [],
     allValidators: [],
     unbondingDays: 0,
+    thumbnails: {},
   });
 
   const coin = getCoin(chainName);
@@ -68,6 +81,7 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
         myValidators: [],
         allValidators: [],
         unbondingDays: 0,
+        thumbnails: {},
       });
       return;
     }
@@ -145,6 +159,49 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
       ? Number((params?.unbondingTime?.seconds.low / 86400).toFixed(0))
       : 0;
 
+    // THUMBNAILS
+    const validatorThumbnails = localStorage.getItem(
+      `${chainName}-validator-thumbnails`
+    );
+
+    let thumbnails = {};
+
+    if (validatorThumbnails) {
+      thumbnails = JSON.parse(validatorThumbnails);
+    } else {
+      const identities = allValidators.map(
+        (validator) => validator.description!.identity
+      );
+
+      const chunkedIdentities = splitIntoChunks(identities, 30);
+
+      let responses: any[] = [];
+
+      for (const chunk of chunkedIdentities) {
+        const thumbnailRequests = chunk.map((identity) => {
+          const url = `https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=${identity}&fields=pictures`;
+          return fetch(url).then((response) => response.json());
+        });
+        responses = [...responses, await Promise.all(thumbnailRequests)];
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+
+      const thumbnailUrls = responses
+        .flat()
+        .map((value) => value.them?.[0]?.pictures?.primary.url);
+
+      thumbnails = thumbnailUrls.reduce(
+        (prev, cur, idx) =>
+          identities[idx] && cur ? { ...prev, [identities[idx]]: cur } : prev,
+        {}
+      );
+
+      localStorage.setItem(
+        `${chainName}-validator-thumbnails`,
+        JSON.stringify(thumbnails)
+      );
+    }
+
     setData({
       rewards,
       totalReward,
@@ -154,9 +211,10 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
       myValidators,
       allValidators,
       unbondingDays,
+      thumbnails,
     });
     setIsLoading(false);
-  }, [address, coin, exp, getRpcEndpoint]);
+  }, [address, chainName, coin.base, exp, getRpcEndpoint]);
 
   useEffect(() => {
     getData();
@@ -193,6 +251,7 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
             updateData={getData}
             unbondingDays={data.unbondingDays}
             chainName={chainName}
+            thumbnails={data.thumbnails}
           />
         </Skeleton>
       )}
@@ -205,6 +264,7 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
             updateData={getData}
             unbondingDays={data.unbondingDays}
             chainName={chainName}
+            thumbnails={data.thumbnails}
           />
         </Skeleton>
       )}
