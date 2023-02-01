@@ -161,6 +161,7 @@ const MyValidators = ({
       address: validator.operatorAddress,
       staked: exponentiate(delegation.balance!.amount, -exp),
       reward: Number(exponentiate(rewardAmount, -exp).toFixed(6)),
+      commission: validator?.commission?.commissionRates?.rate,
     };
   });
 
@@ -391,7 +392,11 @@ const MyValidators = ({
                   : ''
               }
               name={currentValidator?.name || ''}
-              commission={5}
+              commission={
+                currentValidator?.commission
+                  ? exponentiate(currentValidator.commission, -16).toFixed(0)
+                  : 0
+              }
               apr={22.08}
             />
             <ValidatorDesc description={currentValidator?.details || ''} />
@@ -443,7 +448,11 @@ const MyValidators = ({
                   : ''
               }
               name={currentValidator?.name || ''}
-              commission={5}
+              commission={
+                currentValidator?.commission
+                  ? exponentiate(currentValidator.commission, -16).toFixed(0)
+                  : 0
+              }
               apr={22.08}
             />
             <DelegateWarning unbondingDays={unbondingDays} />
@@ -494,7 +503,11 @@ const MyValidators = ({
                   : ''
               }
               name={currentValidator?.name || ''}
-              commission={5}
+              commission={
+                currentValidator?.commission
+                  ? exponentiate(currentValidator.commission, -16).toFixed(0)
+                  : 0
+              }
               apr={22.08}
             />
             <Stack direction="column" spacing={4}>
@@ -579,12 +592,18 @@ const MyValidators = ({
                         </Box>
                       </Td>
                       <Td>
-                        {/* {validator.voting} <Token color="blackAlpha.800" /> */}
-                        10,000,000&nbsp;
+                        {Math.floor(exponentiate(validator.tokens, -exp))}
+                        &nbsp;
                         <Token color="blackAlpha.800" token={coin.symbol} />
                       </Td>
-                      {/* <Td>{validator.commission}</Td> */}
-                      <Td>5%</Td>
+                      <Td>
+                        {validator.commission?.commissionRates?.rate &&
+                          exponentiate(
+                            validator.commission.commissionRates.rate,
+                            -16
+                          ).toFixed(0)}
+                        %
+                      </Td>
                       <Td>
                         <Box width="100%" display="flex" alignItems="center">
                           {/* <Text>{validator.apr}</Text> */}

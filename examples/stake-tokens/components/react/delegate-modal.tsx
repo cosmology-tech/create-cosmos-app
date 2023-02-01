@@ -34,7 +34,7 @@ export const ValidatorInfo = ({
 }: {
   imgUrl: string;
   name: string;
-  commission: number;
+  commission: number | string;
   apr: number;
 }) => (
   <Flex alignItems="center" gap={4} mb={4}>
