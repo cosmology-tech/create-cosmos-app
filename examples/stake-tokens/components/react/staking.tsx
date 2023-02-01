@@ -129,19 +129,22 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
     const totalReward = Number(exponentiate(reward, -exp).toFixed(6));
 
     // ALL VALIDATORS
-    const { validators: allValidators } =
-      await client.cosmos.staking.v1beta1.validators({
-        status: cosmos.staking.v1beta1.bondStatusToJSON(
-          cosmos.staking.v1beta1.BondStatus.BOND_STATUS_BONDED
-        ),
-        pagination: {
-          key: new Uint8Array(),
-          offset: Long.fromNumber(0),
-          limit: Long.fromNumber(200),
-          countTotal: false,
-          reverse: false,
-        },
-      });
+    const { validators } = await client.cosmos.staking.v1beta1.validators({
+      status: cosmos.staking.v1beta1.bondStatusToJSON(
+        cosmos.staking.v1beta1.BondStatus.BOND_STATUS_BONDED
+      ),
+      pagination: {
+        key: new Uint8Array(),
+        offset: Long.fromNumber(0),
+        limit: Long.fromNumber(200),
+        countTotal: false,
+        reverse: false,
+      },
+    });
+
+    const allValidators = validators.sort((a, b) =>
+      new BigNumber(b.tokens).minus(new BigNumber(a.tokens)).toNumber()
+    );
 
     // DELEGATIONS
     const { delegationResponses: delegations } =

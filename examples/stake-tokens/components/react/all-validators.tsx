@@ -200,7 +200,14 @@ const AllValidators = ({
                   : ''
               }
               name={currentValidator?.description?.moniker || ''}
-              commission={5}
+              commission={
+                currentValidator?.commission?.commissionRates?.rate
+                  ? exponentiate(
+                      currentValidator.commission.commissionRates.rate,
+                      -16
+                    ).toFixed(0)
+                  : 0
+              }
               apr={22.08}
             />
             <ValidatorDesc
@@ -273,12 +280,18 @@ const AllValidators = ({
                   </Box>
                 </Td>
                 <Td>
-                  {/* {validator.voting} <Token color="blackAlpha.800" /> */}
-                  10,000,000&nbsp;
+                  {Math.floor(exponentiate(validator.tokens, -exp))}
+                  &nbsp;
                   <Token color="blackAlpha.800" token={coin.symbol} />
                 </Td>
-                {/* <Td>{validator.commission}</Td> */}
-                <Td>5%</Td>
+                <Td>
+                  {validator.commission?.commissionRates?.rate &&
+                    exponentiate(
+                      validator.commission.commissionRates.rate,
+                      -16
+                    ).toFixed(0)}
+                  %
+                </Td>
                 <Td>
                   <Box width="100%" display="flex" alignItems="center">
                     {/* <Text>{validator.apr}</Text> */}
