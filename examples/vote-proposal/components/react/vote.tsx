@@ -52,7 +52,7 @@ export const VotingSection = ({ chainName }: { chainName: ChainName }) => {
           <ProposalCard openModal={onOpen} />
         </Stack>
       </Box>
-      <VotingModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+      <VotingModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 };
