@@ -89,9 +89,14 @@ export type CopyAddressType = {
   size?: string;
 };
 
-export enum VoteType {
+export enum VoteOption {
   YES = 'YES',
   NO = 'NO',
   NWV = 'NWV',
   ABSTAIN = 'ABSTAIN',
+}
+
+export enum TransactionResult {
+  Success = 0,
+  Failed = 1,
 }

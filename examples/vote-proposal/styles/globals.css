@@ -24,3 +24,8 @@ a {
     background: black;
   }
 }
+
+.markdown-text a {
+  color: #4444eb;
+  text-decoration: underline;
+}
