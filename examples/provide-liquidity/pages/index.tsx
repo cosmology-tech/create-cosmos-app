@@ -19,6 +19,7 @@ import {
   Product,
   Dependency,
   WalletSection,
+  ProvideLiquidity,
   handleChangeColorModeValue,
 } from '../components';
 
@@ -75,9 +76,8 @@ export default function Home() {
           </Text>
         </Heading>
       </Box>
-
       <WalletSection />
-
+      <ProvideLiquidity />
       <Box mb={16}>
         <Divider />
       </Box>
