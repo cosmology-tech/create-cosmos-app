@@ -1,6 +1,6 @@
 {
-  "name": "@cosmology/osmosis",
-  "version": "1.7.1",
+  "name": "@cosmology/provide-liquidity",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -27,6 +27,7 @@
     "@emotion/styled": "11.10.5",
     "bignumber.js": "9.1.0",
     "chain-registry": "1.6.0",
+    "dayjs": "^1.11.7",
     "framer-motion": "7.6.12",
     "next": "12.2.5",
     "osmojs": "13.0.1",

@@ -1,35 +1,77 @@
 import React from 'react';
-import { useManager } from '@cosmos-kit/react';
 import { Box, Divider, Flex, Text, Image } from '@chakra-ui/react';
-import { chainName } from '../../config';
+import { Pool } from './provide-liquidity';
+import { getSymbolFromDenom, getLogoUrlFromDenom } from './pool-list';
 
-const PoolCard = () => {
-  const { getChainLogo } = useManager();
+// TODO: add white shadow to right side of the first icon in the card
 
+const formatNumber = (number: number) => {
+  const formatter = Intl.NumberFormat('en', {
+    notation: 'compact',
+    maximumFractionDigits: 1,
+  });
+  return formatter.format(number);
+};
+
+const ChainLogo = ({
+  isAtRight = false,
+  url,
+}: {
+  isAtRight?: boolean;
+  url: string | undefined;
+}) => {
+  const leftOffset = isAtRight ? '-10px' : 0;
+  if (!url)
+    return (
+      <Box
+        boxSize="40px"
+        border="none"
+        borderRadius="full"
+        bgColor="#cdd5f3e6"
+        position="relative"
+        left={leftOffset}
+      >
+        ?
+      </Box>
+    );
+  return (
+    <Image
+      alt=""
+      src={url}
+      boxSize="40px"
+      border="none"
+      borderRadius="full"
+      bgColor="#cdd5f3e6"
+      position="relative"
+      left={leftOffset}
+    />
+  );
+};
+
+const PoolCard = ({ pool }: { pool: Pool }) => {
   return (
     <Box
       w="236px"
-      h="282px"
+      h="200px"
       bg="#F5F7FB"
       borderRadius="7px"
       px="24px"
-      py="25px"
+      py="24px"
     >
-      <Flex alignItems="center" mb="36px">
-        <Image alt="" src={getChainLogo('cosmoshub')} w="40px" />
-        <Image
-          alt=""
-          src={getChainLogo(chainName)}
-          w="52px"
-          position="relative"
-          left="-18px"
+      <Flex alignItems="center" mb="28px">
+        <ChainLogo url={getLogoUrlFromDenom(pool.poolAssets[0].token?.denom)} />
+        <ChainLogo
+          url={getLogoUrlFromDenom(pool.poolAssets[1].token?.denom)}
+          isAtRight
         />
-        <Box position="relative" left="-8px">
-          <Text fontWeight="600" fontSize="14px" color="#2C3137">
-            ATOM/OSMO
+        <Box fontSize="14px">
+          <Text fontWeight="600" color="#2C3137">
+            {pool.poolAssets
+              .map(({ token }) => getSymbolFromDenom(token?.denom))
+              .join('/')}
           </Text>
-          <Text fontWeight="400" fontSize="14px" color="#697584">
-            Pool #1
+          <Text fontWeight="400" color="#697584">
+            Pool #{pool.id.low}
           </Text>
         </Box>
       </Flex>
@@ -44,39 +86,38 @@ const PoolCard = () => {
           <Text fontSize="14px">%</Text>
         </Flex>
       </Flex>
-      <Flex justifyContent="space-between" mb="4px">
-        <Text fontWeight="400" fontSize="14px" color="#697584">
-          Liquidity
-        </Text>
-        <Text fontWeight="600" fontSize="14px" color="#697584">
-          $68.8M
-        </Text>
+      <Flex
+        mb="4px"
+        justifyContent="space-between"
+        fontSize="14px"
+        color="#697584"
+      >
+        <Text fontWeight="400">Liquidity</Text>
+        <Text fontWeight="600">${formatNumber(pool.liquidity)}</Text>
       </Flex>
-      <Flex justifyContent="space-between" mb="12px">
-        <Text fontWeight="400" fontSize="14px" color="#697584">
-          7D Fees
-        </Text>
-        <Text fontWeight="600" fontSize="14px" color="#697584">
-          $58,534
-        </Text>
+      <Flex
+        justifyContent="space-between"
+        mb="12px"
+        fontSize="14px"
+        color="#697584"
+      >
+        <Text fontWeight="400">7D Fees</Text>
+        <Text fontWeight="600">${pool.fees7D.toLocaleString()}</Text>
       </Flex>
-      <Divider mb="15px" />
-      <Flex justifyContent="space-between" mb="6px">
-        <Text fontWeight="400" fontSize="14px" color="#2C3137">
-          Your Liquidity
-        </Text>
-        <Text fontWeight="600" fontSize="14px" color="#2C3137">
-          $1329.32
-        </Text>
+      {/* <Divider mb="15px" /> */}
+      {/* <Flex
+        justifyContent="space-between"
+        mb="6px"
+        fontSize="14px"
+        color="#2C3137"
+      >
+        <Text fontWeight="400">Your Liquidity</Text>
+        <Text fontWeight="600">$1329.32</Text>
       </Flex>
-      <Flex justifyContent="space-between">
-        <Text fontWeight="400" fontSize="14px" color="#2C3137">
-          Bonded
-        </Text>
-        <Text fontWeight="600" fontSize="14px" color="#2C3137">
-          $600.00
-        </Text>
-      </Flex>
+      <Flex justifyContent="space-between" fontSize="14px" color="#2C3137">
+        <Text fontWeight="400">Bonded</Text>
+        <Text fontWeight="600">$600.00</Text>
+      </Flex> */}
     </Box>
   );
 };
