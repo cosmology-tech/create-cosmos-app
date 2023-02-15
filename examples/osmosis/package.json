@@ -12,7 +12,7 @@
     "locks": "npm run locks:remove && npm run locks:create"
   },
   "dependencies": {
-    "@chain-registry/osmosis": "1.6.0",
+    "@chain-registry/osmosis": "1.7.0",
     "@chain-registry/types": "0.14.0",
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.4.1",
@@ -26,7 +26,7 @@
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "bignumber.js": "9.1.0",
-    "chain-registry": "1.6.0",
+    "chain-registry": "1.7.0",
     "framer-motion": "7.6.12",
     "next": "12.2.5",
     "osmojs": "13.0.1",
