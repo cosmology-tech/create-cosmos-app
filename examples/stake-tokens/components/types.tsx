@@ -96,4 +96,6 @@ export interface MyValidator {
   address: string;
   staked: number;
   reward: number;
+  identity: string | undefined;
+  commission: string | undefined;
 }
