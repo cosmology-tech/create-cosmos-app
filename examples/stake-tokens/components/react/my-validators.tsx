@@ -47,6 +47,7 @@ import type {
 } from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
 import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
 import { ChainName } from '@cosmos-kit/core';
+import { Thumbnail } from './all-validators';
 
 const MyValidators = ({
   validators,
@@ -57,6 +58,7 @@ const MyValidators = ({
   updateData,
   unbondingDays,
   chainName,
+  thumbnails,
 }: {
   validators: Validator[];
   allValidator: Validator[];
@@ -66,6 +68,9 @@ const MyValidators = ({
   updateData: () => void;
   unbondingDays: number;
   chainName: ChainName;
+  thumbnails: {
+    [key: string]: string;
+  };
 }) => {
   const { getSigningStargateClient, address } = useChain(chainName);
 
@@ -152,9 +157,11 @@ const MyValidators = ({
     return {
       details: validator?.description?.details,
       name: validator?.description?.moniker,
+      identity: validator?.description?.identity,
       address: validator.operatorAddress,
       staked: exponentiate(delegation.balance!.amount, -exp),
       reward: Number(exponentiate(rewardAmount, -exp).toFixed(6)),
+      commission: validator?.commission?.commissionRates?.rate,
     };
   });
 
@@ -379,9 +386,17 @@ const MyValidators = ({
 
           <ModalBody>
             <ValidatorInfo
-              imgUrl="https://wallet.keplr.app/_next/image?url=https%3A%2F%2Fs3.amazonaws.com%2Fkeybase_processed_uploads%2F909034c1d36c1d1f3e9191f668007805_360_360.jpeg&w=64&q=75"
+              imgUrl={
+                currentValidator?.identity
+                  ? thumbnails[currentValidator.identity]
+                  : ''
+              }
               name={currentValidator?.name || ''}
-              commission={5}
+              commission={
+                currentValidator?.commission
+                  ? exponentiate(currentValidator.commission, -16).toFixed(0)
+                  : 0
+              }
               apr={22.08}
             />
             <ValidatorDesc description={currentValidator?.details || ''} />
@@ -427,9 +442,17 @@ const MyValidators = ({
 
           <ModalBody>
             <ValidatorInfo
-              imgUrl="https://wallet.keplr.app/_next/image?url=https%3A%2F%2Fs3.amazonaws.com%2Fkeybase_processed_uploads%2F909034c1d36c1d1f3e9191f668007805_360_360.jpeg&w=64&q=75"
+              imgUrl={
+                currentValidator?.identity
+                  ? thumbnails[currentValidator.identity]
+                  : ''
+              }
               name={currentValidator?.name || ''}
-              commission={5}
+              commission={
+                currentValidator?.commission
+                  ? exponentiate(currentValidator.commission, -16).toFixed(0)
+                  : 0
+              }
               apr={22.08}
             />
             <DelegateWarning unbondingDays={unbondingDays} />
@@ -474,9 +497,17 @@ const MyValidators = ({
 
           <ModalBody>
             <ValidatorInfo
-              imgUrl="https://wallet.keplr.app/_next/image?url=https%3A%2F%2Fs3.amazonaws.com%2Fkeybase_processed_uploads%2F909034c1d36c1d1f3e9191f668007805_360_360.jpeg&w=64&q=75"
+              imgUrl={
+                currentValidator?.identity
+                  ? thumbnails[currentValidator.identity]
+                  : ''
+              }
               name={currentValidator?.name || ''}
-              commission={5}
+              commission={
+                currentValidator?.commission
+                  ? exponentiate(currentValidator.commission, -16).toFixed(0)
+                  : 0
+              }
               apr={22.08}
             />
             <Stack direction="column" spacing={4}>
@@ -548,23 +579,31 @@ const MyValidators = ({
                           overflowX="hidden"
                         >
                           <Text mr={4}>{index + 1}</Text>
-                          {/* <Image
-                            borderRadius="full"
-                            boxSize="30px"
-                            src={validator.imgUrl}
-                            alt={validator.description.moniker}
-                            mr={2}
-                          /> */}
+                          <Thumbnail
+                            identity={validator.description?.identity}
+                            name={validator.description?.moniker}
+                            thumbnailUrl={
+                              validator.description?.identity
+                                ? thumbnails[validator.description.identity]
+                                : ''
+                            }
+                          />
                           <Text>{validator?.description?.moniker}</Text>
                         </Box>
                       </Td>
                       <Td>
-                        {/* {validator.voting} <Token color="blackAlpha.800" /> */}
-                        10,000,000&nbsp;
+                        {Math.floor(exponentiate(validator.tokens, -exp))}
+                        &nbsp;
                         <Token color="blackAlpha.800" token={coin.symbol} />
                       </Td>
-                      {/* <Td>{validator.commission}</Td> */}
-                      <Td>5%</Td>
+                      <Td>
+                        {validator.commission?.commissionRates?.rate &&
+                          exponentiate(
+                            validator.commission.commissionRates.rate,
+                            -16
+                          ).toFixed(0)}
+                        %
+                      </Td>
                       <Td>
                         <Box width="100%" display="flex" alignItems="center">
                           {/* <Text>{validator.apr}</Text> */}
@@ -645,13 +684,13 @@ const MyValidators = ({
                     overflowX="hidden"
                   >
                     <Text mr={4}>{index + 1}</Text>
-                    {/* <Image
-                      borderRadius="full"
-                      boxSize="30px"
-                      src={validator.imgUrl}
-                      alt={validator.name}
-                      mr={2}
-                    /> */}
+                    <Thumbnail
+                      identity={validator.identity}
+                      name={validator.name}
+                      thumbnailUrl={
+                        validator.identity ? thumbnails[validator.identity] : ''
+                      }
+                    />
                     <Text>{validator.name}</Text>
                   </Box>
                 </Td>
