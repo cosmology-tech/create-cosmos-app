@@ -23,7 +23,7 @@
     "@cosmos-kit/react": "^1.0.0",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
-    "chain-registry": "1.4.0",
+    "chain-registry": "1.7.0",
     "cosmjs-utils": "0.1.0",
     "framer-motion": "7.6.19",
     "next": "12.3.1",

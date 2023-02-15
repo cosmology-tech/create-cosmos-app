@@ -26,7 +26,7 @@
     "@emotion/styled": "11.10.5",
     "@juno-network/assets": "0.16.0",
     "bignumber.js": "9.1.0",
-    "chain-registry": "1.6.0",
+    "chain-registry": "1.7.0",
     "framer-motion": "7.6.12",
     "juno-network": "0.11.0",
     "next": "12.2.5",
