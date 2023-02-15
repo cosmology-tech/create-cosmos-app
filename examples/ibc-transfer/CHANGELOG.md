@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.1.1 (2023-02-15)
+
+**Note:** Version bump only for package @cosmology/ibc-transfer
+
+
+
+
+
 # [0.14.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/connect-multi-chain@0.13.3...@cosmology/connect-multi-chain@0.14.0) (2022-12-17)
 
 **Note:** Version bump only for package @cosmology/connect-multi-chain
