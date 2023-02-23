@@ -387,9 +387,7 @@ const MyValidators = ({
           <ModalBody>
             <ValidatorInfo
               imgUrl={
-                currentValidator?.identity
-                  ? thumbnails[currentValidator.identity]
-                  : ''
+                currentValidator ? thumbnails[currentValidator.address] : ''
               }
               name={currentValidator?.name || ''}
               commission={
@@ -443,9 +441,7 @@ const MyValidators = ({
           <ModalBody>
             <ValidatorInfo
               imgUrl={
-                currentValidator?.identity
-                  ? thumbnails[currentValidator.identity]
-                  : ''
+                currentValidator ? thumbnails[currentValidator.address] : ''
               }
               name={currentValidator?.name || ''}
               commission={
@@ -498,9 +494,7 @@ const MyValidators = ({
           <ModalBody>
             <ValidatorInfo
               imgUrl={
-                currentValidator?.identity
-                  ? thumbnails[currentValidator.identity]
-                  : ''
+                currentValidator ? thumbnails[currentValidator.address] : ''
               }
               name={currentValidator?.name || ''}
               commission={
@@ -582,17 +576,15 @@ const MyValidators = ({
                           <Thumbnail
                             identity={validator.description?.identity}
                             name={validator.description?.moniker}
-                            thumbnailUrl={
-                              validator.description?.identity
-                                ? thumbnails[validator.description.identity]
-                                : ''
-                            }
+                            thumbnailUrl={thumbnails[validator.operatorAddress]}
                           />
                           <Text>{validator?.description?.moniker}</Text>
                         </Box>
                       </Td>
                       <Td>
-                        {Math.floor(exponentiate(validator.tokens, -exp))}
+                        {Math.floor(
+                          exponentiate(validator.tokens, -exp)
+                        ).toLocaleString()}
                         &nbsp;
                         <Token color="blackAlpha.800" token={coin.symbol} />
                       </Td>
@@ -687,9 +679,7 @@ const MyValidators = ({
                     <Thumbnail
                       identity={validator.identity}
                       name={validator.name}
-                      thumbnailUrl={
-                        validator.identity ? thumbnails[validator.identity] : ''
-                      }
+                      thumbnailUrl={thumbnails[validator.address]}
                     />
                     <Text>{validator.name}</Text>
                   </Box>

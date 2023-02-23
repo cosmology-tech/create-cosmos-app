@@ -99,3 +99,7 @@ export interface MyValidator {
   identity: string | undefined;
   commission: string | undefined;
 }
+
+export type ImageSource = {
+  imageSource: 'cosmostation' | 'keybase';
+};
