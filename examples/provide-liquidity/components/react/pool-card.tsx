@@ -13,12 +13,14 @@ const formatNumber = (number: number) => {
   return formatter.format(number);
 };
 
-const ChainLogo = ({
+export const ChainLogo = ({
   isAtRight = false,
   url,
+  width,
 }: {
   isAtRight?: boolean;
   url: string | undefined;
+  width?: string;
 }) => {
   const leftOffset = isAtRight ? '-10px' : 0;
   if (!url)
@@ -38,7 +40,7 @@ const ChainLogo = ({
     <Image
       alt=""
       src={url}
-      boxSize="40px"
+      boxSize={width || '40px'}
       border="none"
       borderRadius="full"
       bgColor="#cdd5f3e6"
@@ -48,7 +50,15 @@ const ChainLogo = ({
   );
 };
 
-const PoolCard = ({ pool }: { pool: Pool }) => {
+const PoolCard = ({
+  pool,
+  setPool,
+  openPoolDetailModal,
+}: {
+  pool: Pool;
+  setPool: (pool: Pool) => void;
+  openPoolDetailModal: () => void;
+}) => {
   return (
     <Box
       w="236px"
@@ -57,6 +67,15 @@ const PoolCard = ({ pool }: { pool: Pool }) => {
       borderRadius="7px"
       px="24px"
       py="24px"
+      cursor="pointer"
+      onClick={() => {
+        setPool(pool);
+        openPoolDetailModal();
+      }}
+      transition="all 0.1s linear"
+      _hover={{
+        opacity: 0.6,
+      }}
     >
       <Flex alignItems="center" mb="28px">
         <ChainLogo url={getLogoUrlFromDenom(pool.poolAssets[0].token?.denom)} />
