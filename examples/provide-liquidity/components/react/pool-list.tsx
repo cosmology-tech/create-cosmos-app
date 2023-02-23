@@ -13,12 +13,23 @@ import {
   Text,
   Center,
   Box,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Portal,
+  useDisclosure,
+  Button,
 } from '@chakra-ui/react';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { Asset, AssetList } from '@chain-registry/types';
 import { asset_lists as ibcAssets } from '@chain-registry/assets';
 import { assets } from 'chain-registry';
 import { Pool } from './provide-liquidity';
+import AddLiquidityModal from './add-liquidity-modal';
+import BondSharesModal from './bond-shares-modal';
+import RemoveLiquidityModal from './remove-liquidity-modal';
 
 const denomToAsset = (denom: string): Asset | undefined => {
   const isIbcDenom = denom.startsWith('ibc/');
@@ -32,7 +43,7 @@ const denomToAsset = (denom: string): Asset | undefined => {
 
 export const getSymbolFromDenom = (denom: string | undefined) => {
   if (!denom) return denom;
-  if (denom.startsWith('ibc/CD')) return 'TICK';
+  if (denom.startsWith('ibc/CD')) return 'TICK'; // TODO: fix this
   const asset = denomToAsset(denom);
   return asset?.symbol || denom.slice(0, 7) + '...';
 };
@@ -81,10 +92,34 @@ const ChainLogo = ({
 const PoolList = ({
   pools,
   isMyPools = false,
+  setPool,
+  openPoolDetailModal,
+  currentPool,
 }: {
   pools: Pool[];
   isMyPools?: boolean;
+  setPool: (pool: Pool) => void;
+  currentPool: Pool | undefined;
+  openPoolDetailModal: () => void;
 }) => {
+  const {
+    isOpen: isAddLiquidityOpen,
+    onOpen: onAddLiquidityOpen,
+    onClose: onAddLiquidityClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isRemoveLiquidityOpen,
+    onOpen: onRemoveLiquidityOpen,
+    onClose: onRemoveLiquidityClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isBondSharesOpen,
+    onOpen: onBondSharesOpen,
+    onClose: onBondSharesClose,
+  } = useDisclosure();
+
   const poolProperties = isMyPools
     ? ['My Liquidity', 'Bonded']
     : ['24H Volume', '7D Fees'];
@@ -102,6 +137,21 @@ const PoolList = ({
 
   return (
     <>
+      <AddLiquidityModal
+        isOpen={isAddLiquidityOpen}
+        onClose={onAddLiquidityClose}
+        currentPool={currentPool}
+      />
+      <RemoveLiquidityModal
+        isOpen={isRemoveLiquidityOpen}
+        onClose={onRemoveLiquidityClose}
+        currentPool={currentPool}
+      />
+      <BondSharesModal
+        isOpen={isBondSharesOpen}
+        onClose={onBondSharesClose}
+        currentPool={currentPool}
+      />
       <TableContainer mb="20px">
         <Table variant="unstyled">
           <Thead>
@@ -137,7 +187,17 @@ const PoolList = ({
               });
 
               return (
-                <Tr key={pool.id.low}>
+                <Tr
+                  key={pool.id.low}
+                  onClick={() => {
+                    setPool(pool);
+                    openPoolDetailModal();
+                  }}
+                  cursor="pointer"
+                  _hover={{
+                    backgroundColor: 'gray.200',
+                  }}
+                >
                   <Td p={0} w={0}>
                     <Flex w={isMyPools ? '60px' : '40px'} alignItems="center">
                       {pool.poolAssets.slice(0, 3).map(({ token }, i) => {
@@ -197,20 +257,68 @@ const PoolList = ({
                       </Text>
                     </Td>
                   ))}
-                  <Td px={0} py="14px">
-                    <Center
-                      w="38px"
-                      h="38px"
-                      ml="auto"
-                      borderRadius="4px"
-                      transition="all 0.2s linear"
-                      cursor="pointer"
-                      _hover={{
-                        backgroundColor: '#EEF2F8',
-                      }}
-                    >
-                      <Icon as={SlOptionsVertical} />
-                    </Center>
+                  <Td px={0} py="14px" position="relative">
+                    <Popover placement="bottom-end">
+                      <PopoverTrigger>
+                        <Center
+                          w="38px"
+                          h="38px"
+                          ml="auto"
+                          borderRadius="4px"
+                          transition="all 0.2s linear"
+                          cursor="pointer"
+                          _hover={{
+                            backgroundColor: '#EEF2F8',
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Icon as={SlOptionsVertical} />
+                        </Center>
+                      </PopoverTrigger>
+                      <Portal>
+                        <PopoverContent w="200px" bg="blackAlpha.800">
+                          <PopoverArrow bg="blackAlpha.800" />
+                          <PopoverBody cursor="pointer">
+                            <Box
+                              py="2px"
+                              pl="4px"
+                              bg="blackAlpha.100"
+                              color="white"
+                              _hover={{ background: 'whiteAlpha.400' }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setPool(pool);
+                                onAddLiquidityOpen();
+                              }}
+                            >
+                              Add liquidity
+                            </Box>
+                            <Box
+                              py="2px"
+                              pl="4px"
+                              bg="blackAlpha.100"
+                              color="white"
+                              _hover={{ background: 'whiteAlpha.400' }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onRemoveLiquidityOpen();
+                              }}
+                            >
+                              Remove liquidity
+                            </Box>
+                            <Box
+                              py="2px"
+                              pl="4px"
+                              bg="blackAlpha.100"
+                              color="white"
+                              _hover={{ background: 'whiteAlpha.400' }}
+                            >
+                              View detail
+                            </Box>
+                          </PopoverBody>
+                        </PopoverContent>
+                      </Portal>
+                    </Popover>
                   </Td>
                 </Tr>
               );

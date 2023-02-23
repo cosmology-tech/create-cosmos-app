@@ -1,20 +1,41 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { useChain, useManager } from '@cosmos-kit/react';
-import { Box, Flex, Heading, Text, Image } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Image,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { Pool as OsmosisPool } from 'osmojs/types/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { EpochInfo } from 'osmojs/types/codegen/osmosis/epochs/genesis';
 import BigNumber from 'bignumber.js';
-import { osmosis } from 'osmojs';
+import { osmosis, cosmos } from 'osmojs';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import Long from 'long';
+import {
+  calculateShareOutAmount,
+  calculateCoinsNeededInPoolForValue,
+  calculateMaxCoinsForPool,
+  makePoolsPretty,
+  makePoolsPrettyValues,
+  getPricesFromCoinGecko,
+  prettyPool,
+  getBalancerPools,
+} from '@cosmology/core';
 
 import { chainName } from '../../config';
 import PoolList from './pool-list';
 import PoolCard from './pool-card';
+import { PoolDetailModal } from './pool-detail-modal';
 
 // TODO: extract logic inside useEffect into functions
+// TODO: use react-error-boundary to handle errors
+// TODO: use Promose.allSettled to optimize all the requests, figure out the request flow
+// TODO: use existing approach (@cosmology/core, pretty pool, etc) to format the pool data
 
 dayjs.extend(duration);
 
@@ -79,18 +100,16 @@ export const ProvideLiquidity = () => {
   const [showAll, setShowAll] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [countdown, setCountdown] = useState(['00', '00', '00']);
-  const [data, setData] = useState<IData>({
-    myPools: [],
-    allPools: [],
-    allTokens: [],
-    highlightedPools: [],
-  });
+  const [pool, setPool] = useState<Pool>();
+  const [data, setData] = useState<IData>();
 
   const { getChainLogo } = useManager();
   const { address, getRpcEndpoint, assets } = useChain(chainName);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const osmoPrice =
-    data.allTokens.find((token) => token.denom === assets?.assets[0].base)
+    data?.allTokens.find((token) => token.denom === assets?.assets[0].base)
       ?.price || 0;
 
   const calcCountdown = (epochs: EpochInfo[]) => {
@@ -188,14 +207,47 @@ export const ProvideLiquidity = () => {
         rpcEndpoint,
       });
 
+      // get bondedTokensRatio() {
+      //     return this.stakedTokens / this.mintedTokens;
+      // };
+
+      // get apr() {
+      //     console.log(this.inflation, this.communityTax, this.bondedTokensRatio)
+      //     return (this.inflation * (1 - this.communityTax)) / this.bondedTokensRatio;
+      // };
+
+      // const res1 = await client.osmosis.mint.v1beta1.params(); // staking "250000000000000000"
+      // const res2 = await client.cosmos.distribution.v1beta1.params(); // communityTax: '0'
+      // const res3 = await client.cosmos.staking.v1beta1.params(); //minCommissionRate "50000000000000000"
+      // const res4 = await client.cosmos.staking.v1beta1.pool(); // bondedTokens "214352468432661" notBondedTokens "8090978063981"
+      // console.log('res4', res4);
+
       // GET APR
-      const response = await fetch(
-        'https://api-osmosis.imperator.co/apr/v2/all'
-      );
-      const data = await response.json();
+      // const response = await fetch(
+      //   'https://api-osmosis.imperator.co/apr/v2/staking'
+      // );
+      // const data = await response.json();
       // console.log(data);
 
+      // const { balances: allBalances } =
+      //   await client.cosmos.bank.v1beta1.allBalances({
+      //     address,
+      //   });
+      // console.log('allBalances', allBalances);
+
+      // const balancerPools = await getBalancerPools(client);
+      // console.log('balancerPools', balancerPools);
+
+      // const prices = await getPricesFromCoinGecko();
+      // console.log('prices', prices);
+
+      // const prettyPools = makePoolsPretty(prices, balancerPools);
+      // console.log('prettyPools', prettyPools);
+
+      // return;
+
       // GET EPOCHS
+      // TODO: use error handle
       const { epochs } = await client.osmosis.epochs.v1beta1.epochInfos();
       calcCountdown(epochs);
 
@@ -224,6 +276,8 @@ export const ProvideLiquidity = () => {
         .sort((a, b) => b.liquidity - a.liquidity)
         .slice(0, 100);
 
+      console.log('allPools', allPools);
+
       // GET SUPERFLUID POOLS
       const { assets: superfluidAssets } =
         await client.osmosis.superfluid.allAssets();
@@ -237,9 +291,13 @@ export const ProvideLiquidity = () => {
         .slice(0, 3);
 
       // GET MY POOLS
+      // TODO: handle fatch error
       const { balances } = await client.cosmos.bank.v1beta1.allBalances({
         address,
       });
+
+      console.log('balances', balances);
+
       // osmosis/lockup/v1beta1/account_locked_longer_duration
       const locks = client.osmosis.lockup.accountLockedLongerDuration({
         owner: address,
@@ -356,20 +414,35 @@ export const ProvideLiquidity = () => {
       </Flex>
 
       {/* MY POOLS */}
-      <Heading fontSize="18px" fontWeight="600" mb="20px" color="#697584">
-        My Pools
-      </Heading>
-      <Box mb="38px">
-        <PoolList pools={data.myPools} isMyPools />
-      </Box>
+      {data?.myPools && data?.myPools.length > 0 && (
+        <>
+          <Heading fontSize="18px" fontWeight="600" mb="20px" color="#697584">
+            My Pools
+          </Heading>
+          <Box mb="38px">
+            <PoolList
+              pools={data?.myPools || []}
+              setPool={setPool}
+              currentPool={pool}
+              openPoolDetailModal={onOpen}
+              isMyPools
+            />
+          </Box>
+        </>
+      )}
 
       {/* HIGHLIGHTED POOLS */}
       <Heading fontSize="18px" fontWeight="600" mb="34px" color="#697584">
         Highlighted Pools
       </Heading>
       <Flex justifyContent="space-between" mb="50px" wrap="wrap" rowGap="20px">
-        {data.highlightedPools.map((pool) => (
-          <PoolCard pool={pool} key={pool.id.low} />
+        {data?.highlightedPools.map((pool) => (
+          <PoolCard
+            pool={pool}
+            key={pool.id.low}
+            setPool={setPool}
+            openPoolDetailModal={onOpen}
+          />
         ))}
       </Flex>
 
@@ -378,36 +451,47 @@ export const ProvideLiquidity = () => {
         All Pools
       </Heading>
       <Box mb="100px" position="relative">
-        <PoolList pools={showAll ? data.allPools : data.allPools.slice(0, 6)} />
-        <Flex
-          w="100%"
-          h={showAll ? 'min-content' : '200px'}
-          position="absolute"
-          bottom="-50px"
-          alignItems="flex-end"
-          justifyContent="center"
-          zIndex={0}
-          css={{
-            background:
-              'linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.2) 100%)',
-          }}
-        >
-          <Text
-            color="#697584"
-            fontSize="14px"
-            fontWeight="600"
-            cursor="pointer"
-            onClick={() => setShowAll(!showAll)}
+        {data?.allPools && data?.allPools.length > 0 && (
+          <PoolList
+            pools={showAll ? data.allPools : data.allPools.slice(0, 6)}
+            setPool={setPool}
+            currentPool={pool}
+            openPoolDetailModal={onOpen}
+          />
+        )}
+        {data?.allPools && data?.allPools.length > 6 && (
+          <Flex
+            w="100%"
+            h={showAll ? 'min-content' : '200px'}
+            position="absolute"
+            bottom="-50px"
+            alignItems="flex-end"
+            justifyContent="center"
+            zIndex={0}
+            css={{
+              background:
+                'linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.2) 100%)',
+            }}
           >
-            {`Show ${showAll ? 'less' : 'more'}`}
-            {showAll ? (
-              <ChevronUpIcon boxSize={6} transform="translateY(-1px)" />
-            ) : (
-              <ChevronDownIcon boxSize={6} transform="translateY(-1px)" />
-            )}
-          </Text>
-        </Flex>
+            <Text
+              color="#697584"
+              fontSize="14px"
+              fontWeight="600"
+              cursor="pointer"
+              onClick={() => setShowAll(!showAll)}
+            >
+              {`Show ${showAll ? 'less' : 'more'}`}
+              {showAll ? (
+                <ChevronUpIcon boxSize={6} transform="translateY(-1px)" />
+              ) : (
+                <ChevronDownIcon boxSize={6} transform="translateY(-1px)" />
+              )}
+            </Text>
+          </Flex>
+        )}
       </Box>
+
+      <PoolDetailModal isOpen={isOpen} onClose={onClose} pool={pool} />
     </Box>
   );
 };
