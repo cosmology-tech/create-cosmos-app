@@ -67,8 +67,8 @@ export const Thumbnail = ({
           mr={2}
         />
       ) : (
-        <Center boxSize="30px" bgColor="gray.400" borderRadius="full" mr={2}>
-          {name && name.slice(0, 1).toUpperCase()}
+        <Center boxSize="30px" bgColor="gray.200" borderRadius="full" mr={2}>
+          {name && name.trim().slice(0, 1).toUpperCase()}
         </Center>
       )}
     </>
@@ -195,8 +195,8 @@ const AllValidators = ({
           <ModalBody>
             <ValidatorInfo
               imgUrl={
-                currentValidator?.description?.identity
-                  ? thumbnails[currentValidator.description.identity]
+                currentValidator
+                  ? thumbnails[currentValidator?.operatorAddress]
                   : ''
               }
               name={currentValidator?.description?.moniker || ''}
@@ -270,17 +270,15 @@ const AllValidators = ({
                     <Thumbnail
                       identity={validator.description?.identity}
                       name={validator.description?.moniker}
-                      thumbnailUrl={
-                        validator.description?.identity
-                          ? thumbnails[validator.description.identity]
-                          : ''
-                      }
+                      thumbnailUrl={thumbnails[validator.operatorAddress]}
                     />
                     <Text>{validator?.description?.moniker}</Text>
                   </Box>
                 </Td>
                 <Td>
-                  {Math.floor(exponentiate(validator.tokens, -exp))}
+                  {Math.floor(
+                    exponentiate(validator.tokens, -exp)
+                  ).toLocaleString()}
                   &nbsp;
                   <Token color="blackAlpha.800" token={coin.symbol} />
                 </Td>
