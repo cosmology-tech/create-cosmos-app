@@ -1,6 +1,6 @@
 {
   "name": "@cosmology/tailwindcss",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -24,7 +24,7 @@
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^2.0.13",
     "bowser": "^2.11.0",
-    "chain-registry": "1.6.0",
+    "chain-registry": "1.7.0",
     "copy-to-clipboard": "^3.3.2",
     "framer-motion": "7.6.12",
     "next": "12.2.5",
