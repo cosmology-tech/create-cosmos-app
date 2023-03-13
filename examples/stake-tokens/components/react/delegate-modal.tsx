@@ -22,6 +22,7 @@ import {
   UnorderedList,
   useColorModeValue,
   useToast,
+  Center,
 } from '@chakra-ui/react';
 import { TransactionResult } from '../types';
 
@@ -33,11 +34,17 @@ export const ValidatorInfo = ({
 }: {
   imgUrl: string;
   name: string;
-  commission: number;
+  commission: number | string;
   apr: number;
 }) => (
   <Flex alignItems="center" gap={4} mb={4}>
-    <Image borderRadius="full" boxSize="60px" src={imgUrl} alt={name} />
+    {imgUrl ? (
+      <Image borderRadius="full" boxSize="60px" src={imgUrl} alt={name} />
+    ) : (
+      <Center boxSize="60px" borderRadius="full" bgColor="gray.400">
+        {name.slice(0, 1).toUpperCase()}
+      </Center>
+    )}
     <Stack>
       <Heading as="h4" size="md">
         {name}
