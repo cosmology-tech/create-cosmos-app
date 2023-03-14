@@ -24,7 +24,7 @@ export function useHackCw20Balance(contractAddress: string): {
         setCw20Client(new HackCw20QueryClient(cosmwasmClient, contractAddress));
       });
     }
-  }, [address, contractAddress, getSigningCosmWasmClient, status]);
+  }, [address, contractAddress, status]);
   const [cw20Bal, setCw20Bal] = useState<string | null>(null);
   useEffect(() => {
     if (cw20Client && address) {
