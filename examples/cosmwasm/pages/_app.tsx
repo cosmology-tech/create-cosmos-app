@@ -54,6 +54,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
             rest: ['https://api.malaga-420.cosmwasm.com'],
           },
         }}
+        logLevel={'TRACE'}
       >
         <Component {...pageProps} />
       </ChainProvider>
