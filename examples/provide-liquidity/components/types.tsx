@@ -15,7 +15,7 @@ export enum WalletStatus {
   Loading = 'Loading',
   Loaded = 'Loaded',
   NotExist = 'NotExist',
-  Rejected = 'Rejected'
+  Rejected = 'Rejected',
 }
 
 export interface ConnectWalletType {
@@ -50,4 +50,24 @@ export type CopyAddressType = {
   maxDisplayLength?: number;
   isRound?: boolean;
   size?: string;
+};
+
+export enum TransactionResult {
+  Success = 0,
+  Failed = 1,
+}
+
+export type PoolReward = {
+  day_usd: number;
+  month_usd: number;
+  year_usd: number;
+};
+
+export type Rewards = {
+  pools: {
+    [key: number]: PoolReward;
+  };
+  total_day_usd: number;
+  total_month_usd: number;
+  total_year_usd: number;
 };
