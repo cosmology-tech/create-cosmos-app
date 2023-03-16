@@ -1,75 +1,35 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import { useChain, useManager } from '@cosmos-kit/react';
-import {
-  Box,
-  Flex,
-  Heading,
-  Text,
-  Image,
-  useDisclosure,
-} from '@chakra-ui/react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useChain } from '@cosmos-kit/react';
+import { Box, Flex, Heading, Text, useDisclosure } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { Pool as OsmosisPool } from 'osmojs/types/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
-import { EpochInfo } from 'osmojs/types/codegen/osmosis/epochs/genesis';
+import { Gauge } from 'osmojs/types/codegen/osmosis/incentives/gauge';
+import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
+import { PeriodLock } from 'osmojs/types/codegen/osmosis/lockup/lock';
 import BigNumber from 'bignumber.js';
-import { osmosis, cosmos } from 'osmojs';
-import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration';
+import { osmosis } from 'osmojs';
 import Long from 'long';
-import {
-  calculateShareOutAmount,
-  calculateCoinsNeededInPoolForValue,
-  calculateMaxCoinsForPool,
-  makePoolsPretty,
-  makePoolsPrettyValues,
-  getPricesFromCoinGecko,
-  prettyPool,
-  getBalancerPools,
-} from '@cosmology/core';
-
+import { getPrices } from '@cosmology/core';
 import { chainName } from '../../config';
 import PoolList from './pool-list';
 import PoolCard from './pool-card';
 import { PoolDetailModal } from './pool-detail-modal';
-
-// TODO: extract logic inside useEffect into functions
-// TODO: use react-error-boundary to handle errors
-// TODO: use Promose.allSettled to optimize all the requests, figure out the request flow
-// TODO: use existing approach (@cosmology/core, pretty pool, etc) to format the pool data
-
-dayjs.extend(duration);
-
-const StatBox = ({
-  children,
-  bgColor,
-}: {
-  bgColor?: string;
-  children: ReactElement;
-}) => (
-  <Box
-    w="234px"
-    h="92px"
-    borderRadius="7px"
-    bgColor={bgColor || '#F5F7FB'}
-    py="20px"
-    px="22px"
-  >
-    {children}
-  </Box>
-);
-
-const Colon = () => (
-  <Text mx="4px" transform="translateY(-2px)">
-    :
-  </Text>
-);
-
-const exponentiate = (num: number | string | undefined, exp: number) => {
-  if (!num) return 0;
-  return new BigNumber(num)
-    .multipliedBy(new BigNumber(10).exponentiatedBy(exp))
-    .toNumber();
-};
+import AddLiquidityModal from './add-liquidity-modal';
+import RemoveLiquidityModal from './remove-liquidity-modal';
+import BondSharesModal from './bond-shares-modal';
+import { Rewards } from '../types';
+import {
+  convertGammTokenToDollarValue,
+  convertGeckoPricesToDenomPriceHash,
+  osmosisAssets,
+  calcPoolAprs,
+} from '../../utils';
+import { PriceHash } from '../../utils/types';
+import { usePrevious } from './hooks';
+import { Duration } from 'osmojs/types/codegen/google/protobuf/duration';
+import { ActiveGaugesPerDenomResponse } from 'osmojs/types/codegen/osmosis/incentives/query';
+import { SuperfluidAsset } from 'osmojs/types/codegen/osmosis/superfluid/superfluid';
+import { PoolsOverview } from './pools-overview';
 
 type Token = {
   [key: string]: number | string;
@@ -79,31 +39,224 @@ type Fee = {
   [key: string]: number | string;
 };
 
+type PoolApr = { [K in '1' | '7' | '14']: ReturnType<typeof calcPoolAprs> };
+
 type ExtraPoolProperties = {
   fees7D: number;
   volume24H: number;
-  liquidity: number;
-  myLiquidity?: number;
-  bonded?: number;
+  volume7d: number;
+  liquidity: string | number;
+  myLiquidity?: string | number;
+  bonded?: string | number;
+  apr: PoolApr;
 };
 
 export type Pool = OsmosisPool & ExtraPoolProperties;
 
 interface IData {
+  locks: PeriodLock[];
+  balances: Coin[];
+  lockedCoins: Coin[];
   myPools: Pool[];
   allPools: Pool[];
   allTokens: Token[];
   highlightedPools: Pool[];
+  prices: PriceHash;
+  delegatedCoins: Coin[];
+  rewards: Rewards;
 }
+
+const exponentiate = (num: number | string | undefined, exp: number) => {
+  if (!num) return 0;
+  return new BigNumber(num)
+    .multipliedBy(new BigNumber(10).exponentiatedBy(exp))
+    .toNumber();
+};
+
+const splitIntoChunks = (arr: any[], chunkSize: number) => {
+  const res = [];
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    const chunk = arr.slice(i, i + chunkSize);
+    res.push(chunk);
+  }
+  return res;
+};
+
+const getSuperfluidApr = async () => {
+  const response = await fetch('https://api-osmosis.imperator.co/apr/v2/all');
+  const aprs = await response.json();
+
+  if (aprs.status_code === 500) return 0;
+
+  const superfluidApr = aprs
+    .find((apr: { apr_list: any[] }) =>
+      apr.apr_list.find((a) => a.symbol === 'ECH')
+    )
+    .apr_list.find(
+      (a: { symbol: string }) => a.symbol === 'ECH'
+    ).apr_superfluid;
+
+  return superfluidApr;
+};
+
+const getPoolsApr = async (
+  pools: Pool[],
+  durations: Duration[],
+  superfluidAssets: SuperfluidAsset[],
+  poolIds: { id: number; denom: string }[],
+  prices: PriceHash,
+  getActiveGauges: (denom: string) => Promise<ActiveGaugesPerDenomResponse>
+): Promise<{ [key: number]: PoolApr }> => {
+  const poolIdChunks: typeof poolIds[] = splitIntoChunks(poolIds, 10);
+
+  let allGauges: { poolId: number; gauges: Gauge[] }[] = [];
+
+  for (const [index, ids] of Object.entries(poolIdChunks)) {
+    const getGaugesRequests = ids.map(({ id, denom }) => {
+      return getActiveGauges(denom).then((res) => ({
+        poolId: id,
+        gauges: res.data,
+      }));
+    });
+
+    let gauges = [];
+
+    try {
+      gauges = await Promise.all(getGaugesRequests);
+    } catch (error) {
+      console.error(error);
+      break;
+    }
+
+    allGauges = [...allGauges, ...gauges];
+    console.log(allGauges.length);
+
+    if (Number(index) !== poolIdChunks.length - 1) {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+  }
+
+  console.log('get allGauges done!', allGauges.length);
+
+  const superfluidApr = await getSuperfluidApr();
+
+  const allPoolAprs = allGauges.reduce((prev, cur) => {
+    const pool = pools.find(({ id }) => id.low === cur.poolId)!;
+    const swapFee = new BigNumber(pool.poolParams!.swapFee)
+      .shiftedBy(-18)
+      .toString();
+
+    const apr = ['1', '7', '14'].reduce((aprs, duration) => {
+      return {
+        ...aprs,
+        [duration]: calcPoolAprs({
+          pool,
+          prices,
+          swapFee,
+          activeGauges: cur.gauges,
+          aprSuperfluid: superfluidApr,
+          lockupDurations: durations,
+          superfluidPools: superfluidAssets,
+          volume7d: pool.volume7d,
+          lockup: duration,
+        }),
+      };
+    }, {});
+
+    return { ...prev, [cur.poolId]: apr };
+  }, {});
+
+  return allPoolAprs;
+};
+
+const getPriceHash = async () => {
+  const geckoIds = [
+    ...new Set(
+      osmosisAssets.map((asset) => asset.coingecko_id).filter(Boolean)
+    ),
+  ] as string[];
+  const prices = await getPrices(geckoIds);
+  return convertGeckoPricesToDenomPriceHash(prices);
+};
+
+const getTokens = async () => {
+  const response = await fetch(
+    'https://api-osmosis.imperator.co/tokens/v2/all'
+  );
+  const tokens = (await response.json()) as Token[];
+  return tokens;
+};
+
+const getFees = async () => {
+  const response = await fetch(
+    'https://api-osmosis.imperator.co/fees/v1/pools'
+  );
+  const { data: fees }: { data: Fee[] } = await response.json();
+  return fees;
+};
+
+const getRewards = async (address: string): Promise<Rewards> => {
+  const response = await fetch(
+    `https://api-osmosis-chain.imperator.co/lp/v1/rewards/estimation/${address}`
+  );
+  const res = await response.json();
+  return res;
+};
+
+const handleResults = (results: any[]) => {
+  const errors = results
+    .filter((result) => result.status === 'rejected')
+    .map((result) => result.reason);
+
+  if (errors.length) {
+    throw new AggregateError(errors);
+  }
+
+  return results.map((result) => result.value);
+};
 
 export const ProvideLiquidity = () => {
   const [showAll, setShowAll] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [countdown, setCountdown] = useState(['00', '00', '00']);
+  const [isFetchingApr, setIsFetchingApr] = useState(false);
   const [pool, setPool] = useState<Pool>();
-  const [data, setData] = useState<IData>();
+  const [data, setData] = useState<IData>({
+    prices: {},
+    balances: [],
+    lockedCoins: [],
+    myPools: [],
+    allPools: [],
+    allTokens: [],
+    highlightedPools: [],
+    locks: [],
+    delegatedCoins: [],
+    rewards: {
+      pools: {},
+      total_day_usd: 0,
+      total_month_usd: 0,
+      total_year_usd: 0,
+    },
+  });
 
-  const { getChainLogo } = useManager();
+  const { prevData: prevAprs, addData: addAprs } = usePrevious<PoolApr>();
+
+  const {
+    isOpen: isAddLiquidityOpen,
+    onOpen: onAddLiquidityOpen,
+    onClose: onAddLiquidityClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isRemoveLiquidityOpen,
+    onOpen: onRemoveLiquidityOpen,
+    onClose: onRemoveLiquidityClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isBondSharesOpen,
+    onOpen: onBondSharesOpen,
+    onClose: onBondSharesClose,
+  } = useDisclosure();
+
   const { address, getRpcEndpoint, assets } = useChain(chainName);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -112,42 +265,13 @@ export const ProvideLiquidity = () => {
     data?.allTokens.find((token) => token.denom === assets?.assets[0].base)
       ?.price || 0;
 
-  const calcCountdown = (epochs: EpochInfo[]) => {
-    const currentEpoch = epochs.find(
-      (epoch) => epoch.identifier === 'day'
-    ) as EpochInfo;
-    const startTime = currentEpoch.currentEpochStartTime;
-    const duration = currentEpoch.duration?.seconds.low || 60 * 60 * 24;
-    const endTime = dayjs(startTime).add(duration, 'second');
-
-    const countdownInterval = setInterval(() => {
-      if (dayjs().isAfter(endTime)) clearInterval(countdownInterval);
-
-      const leftTime = dayjs.duration(endTime.diff(dayjs())).format('HH:mm:ss');
-      setCountdown(leftTime.split(':'));
-    }, 1000);
-  };
-
-  const getTokens = async () => {
-    const response = await fetch(
-      'https://api-osmosis.imperator.co/tokens/v2/all'
-    );
-    const tokens = (await response.json()) as Token[];
-    return tokens;
-  };
-
-  const getFees = async () => {
-    const response = await fetch(
-      'https://api-osmosis.imperator.co/fees/v1/pools'
-    );
-    const { data: fees }: { data: Fee[] } = await response.json();
-    return fees;
-  };
-
-  const addExtraPropertiesToPool = (
+  const addPropertiesToPool = (
     pool: OsmosisPool,
     tokens: Token[],
-    fees: Fee[]
+    fees: Fee[],
+    balances: Coin[],
+    lockedCoins: Coin[],
+    prices: PriceHash
   ) => {
     const liquidity = +pool.poolAssets
       .map(({ token }) => {
@@ -165,16 +289,45 @@ export const ProvideLiquidity = () => {
 
     const feeData = fees.find((fee) => fee.pool_id === pool.id.low.toString());
     const volume24H = Math.round(Number(feeData?.volume_24h || 0));
+    const volume7d = Math.round(Number(feeData?.volume_7d || 0));
     const fees7D = Math.round(Number(feeData?.fees_spent_7d || 0));
 
-    return { ...pool, liquidity, volume24H, fees7D };
+    const balanceCoin = balances.find(
+      ({ denom }) => denom === pool.totalShares?.denom
+    );
+    const myLiquidity = balanceCoin
+      ? convertGammTokenToDollarValue(balanceCoin, pool, prices)
+      : 0;
+
+    const lockedCoin = lockedCoins.find(
+      ({ denom }) => denom === pool.totalShares?.denom
+    );
+    const bonded = lockedCoin
+      ? convertGammTokenToDollarValue(lockedCoin, pool, prices)
+      : 0;
+
+    const apr = {
+      1: { totalApr: '0' },
+      7: { totalApr: '0' },
+      14: { totalApr: '0' },
+    };
+
+    return {
+      ...pool,
+      liquidity,
+      volume24H,
+      fees7D,
+      volume7d,
+      apr,
+      myLiquidity,
+      bonded,
+    };
   };
 
   const removeUnsupportedPools = (
     { poolAssets }: OsmosisPool,
     tokens: Token[]
   ) => {
-    // TODO: get token data from asset_list and coingecko if not found on osmosis tokens
     return !poolAssets.some(
       ({ token }) =>
         token?.denom.startsWith('gamm/pool') ||
@@ -182,254 +335,225 @@ export const ProvideLiquidity = () => {
     );
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      if (!address) {
-        setData({
-          myPools: [],
-          allPools: [],
-          allTokens: [],
-          highlightedPools: [],
-        });
-        return;
-      }
+  const getData = useCallback(async () => {
+    if (!address) {
+      setData((prev) => ({
+        ...prev,
+        myPools: [],
+      }));
+      return;
+    }
+    console.log('getting data...');
 
-      setIsLoading(true);
+    let rpcEndpoint = await getRpcEndpoint();
 
-      let rpcEndpoint = await getRpcEndpoint();
+    if (!rpcEndpoint) {
+      console.log('no rpc endpoint — using a fallback');
+      rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
+    }
 
-      if (!rpcEndpoint) {
-        console.log('no rpc endpoint — using a fallback');
-        rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
-      }
+    const client = await osmosis.ClientFactory.createRPCQueryClient({
+      rpcEndpoint,
+    });
 
-      const client = await osmosis.ClientFactory.createRPCQueryClient({
-        rpcEndpoint,
+    const results = await Promise.allSettled([
+      getRewards(address),
+      getPriceHash(),
+      getTokens(),
+      getFees(),
+    ]);
+
+    const [rewards, prices, allTokens, fees] = handleResults(results);
+
+    // GET DELEGATIONS
+    const { totalDelegatedCoins: delegatedCoins } =
+      await client.osmosis.superfluid.superfluidDelegationsByDelegator({
+        delegatorAddress: address,
       });
 
-      // get bondedTokensRatio() {
-      //     return this.stakedTokens / this.mintedTokens;
-      // };
+    // GET ALL POOLS
+    const { pools } = await client.osmosis.gamm.v1beta1.pools({
+      pagination: {
+        key: new Uint8Array(),
+        offset: Long.fromNumber(0),
+        limit: Long.fromNumber(1200),
+        countTotal: false,
+        reverse: false,
+      },
+    });
 
-      // get apr() {
-      //     console.log(this.inflation, this.communityTax, this.bondedTokensRatio)
-      //     return (this.inflation * (1 - this.communityTax)) / this.bondedTokensRatio;
-      // };
+    const { balances } = await client.cosmos.bank.v1beta1.allBalances({
+      address,
+    });
 
-      // const res1 = await client.osmosis.mint.v1beta1.params(); // staking "250000000000000000"
-      // const res2 = await client.cosmos.distribution.v1beta1.params(); // communityTax: '0'
-      // const res3 = await client.cosmos.staking.v1beta1.params(); //minCommissionRate "50000000000000000"
-      // const res4 = await client.cosmos.staking.v1beta1.pool(); // bondedTokens "214352468432661" notBondedTokens "8090978063981"
-      // console.log('res4', res4);
-
-      // GET APR
-      // const response = await fetch(
-      //   'https://api-osmosis.imperator.co/apr/v2/staking'
-      // );
-      // const data = await response.json();
-      // console.log(data);
-
-      // const { balances: allBalances } =
-      //   await client.cosmos.bank.v1beta1.allBalances({
-      //     address,
-      //   });
-      // console.log('allBalances', allBalances);
-
-      // const balancerPools = await getBalancerPools(client);
-      // console.log('balancerPools', balancerPools);
-
-      // const prices = await getPricesFromCoinGecko();
-      // console.log('prices', prices);
-
-      // const prettyPools = makePoolsPretty(prices, balancerPools);
-      // console.log('prettyPools', prettyPools);
-
-      // return;
-
-      // GET EPOCHS
-      // TODO: use error handle
-      const { epochs } = await client.osmosis.epochs.v1beta1.epochInfos();
-      calcCountdown(epochs);
-
-      // GET TOKENS
-      const allTokens = await getTokens();
-
-      // GET FEES
-      const fees = await getFees();
-
-      // GET ALL POOLS
-      const { pools } = await client.osmosis.gamm.v1beta1.pools({
-        pagination: {
-          key: new Uint8Array(),
-          offset: Long.fromNumber(0),
-          limit: Long.fromNumber(1200),
-          countTotal: false,
-          reverse: false,
-        },
-      });
-
-      const allPools = pools
-        .filter(({ typeUrl }) => !typeUrl.includes('stableswap'))
-        .map(({ value }) => osmosis.gamm.v1beta1.Pool.decode(value))
-        .filter((pool) => removeUnsupportedPools(pool, allTokens))
-        .map((pool) => addExtraPropertiesToPool(pool, allTokens, fees))
-        .sort((a, b) => b.liquidity - a.liquidity)
-        .slice(0, 100);
-
-      console.log('allPools', allPools);
-
-      // GET SUPERFLUID POOLS
-      const { assets: superfluidAssets } =
-        await client.osmosis.superfluid.allAssets();
-
-      const highlightedPools = superfluidAssets
-        .map(({ denom }) => {
-          const poolId = parseInt(denom.match(/\d+/)![0]);
-          return allPools.filter(({ id }) => id.low === poolId)[0];
-        })
-        .sort((a, b) => b.liquidity - a.liquidity)
-        .slice(0, 3);
-
-      // GET MY POOLS
-      // TODO: handle fatch error
-      const { balances } = await client.cosmos.bank.v1beta1.allBalances({
-        address,
-      });
-
-      console.log('balances', balances);
-
-      // osmosis/lockup/v1beta1/account_locked_longer_duration
-      const locks = client.osmosis.lockup.accountLockedLongerDuration({
+    const { coins: lockedCoins } =
+      await client.osmosis.lockup.accountLockedCoins({
         owner: address,
       });
 
-      const myPools: Pool[] = balances
-        .filter(({ denom }) => denom.startsWith('gamm/pool'))
-        .map(({ denom }) => {
-          const poolId = parseInt(denom.match(/\d+/)![0]);
-          const pool = allPools.filter(({ id }) => id.low === poolId)[0];
-          const myLiquidity = 0;
-          const bonded = 0;
-          return { ...pool, myLiquidity, bonded };
-        });
+    const formattedPools = pools
+      .filter(({ typeUrl }) => !typeUrl.includes('stableswap'))
+      .map(({ value }) => osmosis.gamm.v1beta1.Pool.decode(value))
+      .filter((pool) => removeUnsupportedPools(pool, allTokens))
+      .map((pool) =>
+        addPropertiesToPool(
+          pool,
+          allTokens,
+          fees,
+          balances,
+          lockedCoins,
+          prices
+        )
+      );
 
-      setData({
-        myPools,
-        allPools,
-        allTokens,
-        highlightedPools,
+    const allPools = formattedPools
+      .sort((a, b) => b.liquidity - a.liquidity)
+      .slice(0, 20);
+
+    // GET SUPERFLUID POOLS
+    const { assets: superfluidAssets } =
+      await client.osmosis.superfluid.allAssets();
+
+    const highlightedPools = superfluidAssets
+      .map(({ denom }) => {
+        const poolId = parseInt(denom.match(/\d+/)![0]);
+        return formattedPools.filter(({ id }) => id.low === poolId)[0];
+      })
+      .sort((a, b) => b.liquidity - a.liquidity)
+      .slice(0, 3);
+
+    // GET MY POOLS
+    const myPools: Pool[] = balances
+      .filter(({ denom }) => denom.startsWith('gamm/pool'))
+      .map((coin) => {
+        const poolId = parseInt(coin.denom.match(/\d+/)![0]);
+        return formattedPools.filter(({ id }) => id.low === poolId)[0];
       });
-      setIsLoading(false);
+
+    const { locks } = await client.osmosis.lockup.accountLockedLongerDuration({
+      owner: address,
+    });
+
+    setData({
+      prices,
+      balances,
+      lockedCoins,
+      myPools,
+      allPools,
+      allTokens,
+      highlightedPools,
+      locks,
+      delegatedCoins,
+      rewards,
+    });
+    console.log('getting data done!');
+
+    // ============
+    // GET APR PART
+    // ============
+    setIsFetchingApr(true);
+
+    const { lockableDurations } =
+      await client.osmosis.incentives.lockableDurations();
+
+    const poolIds = [...allPools, ...highlightedPools, ...myPools].map(
+      (pool) => pool.id.low
+    );
+
+    const poolIdsWithDenom: { id: number; denom: string }[] = [
+      ...new Set(poolIds),
+    ]
+      .map((id) => formattedPools.find((pool) => pool.id.low === id)!)
+      .map((pool) => ({
+        id: pool.id.low,
+        denom: pool.totalShares!.denom,
+      }))
+      .filter(({ id }) => !prevAprs[id]);
+
+    const getActiveGauges = (denom: string) => {
+      return client.osmosis.incentives.activeGaugesPerDenom({ denom });
     };
 
-    getData();
+    let poolsApr: { [key: number]: PoolApr } = {};
+
+    if (poolIdsWithDenom.length) {
+      const poolsAprNew = await getPoolsApr(
+        formattedPools,
+        lockableDurations,
+        superfluidAssets,
+        poolIdsWithDenom,
+        prices,
+        getActiveGauges
+      );
+      poolsApr = { ...prevAprs, ...poolsAprNew };
+      addAprs(poolsAprNew);
+      console.log('added new apr', Object.keys(poolsAprNew).length);
+    } else {
+      poolsApr = prevAprs;
+      console.log('use previous apr');
+    }
+
+    const addAprToPool = (pool: Pool) => {
+      return {
+        ...pool,
+        apr: poolsApr[pool.id.low] || {
+          1: { totalApr: '0' },
+          7: { totalApr: '0' },
+          14: { totalApr: '0' },
+        },
+      };
+    };
+
+    const myPoolsWithApr = myPools.map(addAprToPool);
+    const allPoolsWithApr = allPools.map(addAprToPool);
+    const highlightedPoolsWithApr = highlightedPools.map(addAprToPool);
+
+    setData((prev) => ({
+      ...prev,
+      myPools: myPoolsWithApr,
+      allPools: allPoolsWithApr,
+      highlightedPools: highlightedPoolsWithApr,
+    }));
+
+    setIsFetchingApr(false);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, getRpcEndpoint]);
 
+  useEffect(() => {
+    getData();
+  }, [getData]);
+
   return (
-    <Box mb={14} width="800px" mx="auto">
+    <Box mb={14} maxWidth="800px" mx="auto">
       <Heading fontSize="20px" fontWeight="600" mb="28px">
         Liquidity Pools
       </Heading>
 
-      <Flex justifyContent="space-between" mb="25px">
-        <StatBox>
-          <Flex h="100%" alignItems="center">
-            <Image
-              w="56px"
-              alt="Osmosis"
-              src={getChainLogo(chainName)}
-              transform="translateX(-8px)"
-            />
-            <Flex flexDir="column" justifyContent="space-between">
-              <Text color="#697584" fontWeight="600" fontSize="14px">
-                OSMO Price
-              </Text>
-              <Flex alignItems="flex-end" gap="1px">
-                <Text fontWeight="600" fontSize="14px" lineHeight="24px">
-                  $
-                </Text>
-                <Text
-                  color="#2C3137"
-                  fontWeight="600"
-                  fontSize="26px"
-                  lineHeight="30px"
-                >
-                  {Number(osmoPrice).toFixed(2)}
-                </Text>
-              </Flex>
-            </Flex>
-          </Flex>
-        </StatBox>
-
-        <StatBox>
-          <Flex
-            h="100%"
-            flexDir="column"
-            justifyContent="center"
-            fontWeight="600"
-          >
-            <Text color="#697584" fontSize="14px">
-              Reward distribution in
-            </Text>
-            <Flex
-              color="#2C3137"
-              fontSize="26px"
-              lineHeight="30px"
-              alignItems="center"
-            >
-              <Text>{countdown[0]}</Text>
-              <Colon />
-              <Text>{countdown[1]}</Text>
-              <Colon />
-              <Text>{countdown[2]}</Text>
-            </Flex>
-          </Flex>
-        </StatBox>
-
-        <StatBox bgColor="#E5FFE4">
-          <Flex
-            h="100%"
-            flexDir="column"
-            justifyContent="center"
-            fontWeight="600"
-          >
-            <Text color="#36BB35" fontSize="14px">
-              Yesterdays rewards
-            </Text>
-            <Flex alignItems="flex-end" gap="12px">
-              <Flex alignItems="flex-end" gap="2px">
-                <Text color="#36BB35" fontSize="26px" lineHeight="30px">
-                  18.82
-                </Text>
-                <Text color="#36BB35" fontSize="14px">
-                  OSMO
-                </Text>
-              </Flex>
-              <Text color="#36BB35" fontWeight="400" fontSize="14px">
-                $12.87
-              </Text>
-            </Flex>
-          </Flex>
-        </StatBox>
-      </Flex>
+      <PoolsOverview
+        osmoPrice={osmoPrice}
+        totalRewardPerDay={data.rewards.total_day_usd || 0}
+      />
 
       {/* MY POOLS */}
-      {data?.myPools && data?.myPools.length > 0 && (
-        <>
-          <Heading fontSize="18px" fontWeight="600" mb="20px" color="#697584">
-            My Pools
-          </Heading>
-          <Box mb="38px">
-            <PoolList
-              pools={data?.myPools || []}
-              setPool={setPool}
-              currentPool={pool}
-              openPoolDetailModal={onOpen}
-              isMyPools
-            />
-          </Box>
-        </>
-      )}
+      <Heading fontSize="18px" fontWeight="600" mb="20px" color="#697584">
+        My Pools
+      </Heading>
+      <Box mb="38px">
+        {data?.myPools && data?.myPools.length > 0 && (
+          <PoolList
+            pools={data?.myPools || []}
+            setPool={setPool}
+            isFetchingApr={isFetchingApr}
+            openPoolDetailModal={onOpen}
+            isMyPools
+            openModals={{
+              onAddLiquidityOpen,
+              onRemoveLiquidityOpen,
+            }}
+          />
+        )}
+      </Box>
 
       {/* HIGHLIGHTED POOLS */}
       <Heading fontSize="18px" fontWeight="600" mb="34px" color="#697584">
@@ -442,6 +566,7 @@ export const ProvideLiquidity = () => {
             key={pool.id.low}
             setPool={setPool}
             openPoolDetailModal={onOpen}
+            isFetchingApr={isFetchingApr}
           />
         ))}
       </Flex>
@@ -455,8 +580,12 @@ export const ProvideLiquidity = () => {
           <PoolList
             pools={showAll ? data.allPools : data.allPools.slice(0, 6)}
             setPool={setPool}
-            currentPool={pool}
+            isFetchingApr={isFetchingApr}
             openPoolDetailModal={onOpen}
+            openModals={{
+              onAddLiquidityOpen,
+              onRemoveLiquidityOpen,
+            }}
           />
         )}
         {data?.allPools && data?.allPools.length > 6 && (
@@ -491,7 +620,54 @@ export const ProvideLiquidity = () => {
         )}
       </Box>
 
-      <PoolDetailModal isOpen={isOpen} onClose={onClose} pool={pool} />
+      {pool && (
+        <PoolDetailModal
+          isOpen={isOpen}
+          onClose={onClose}
+          pool={pool}
+          prices={data.prices}
+          rewardPerDay={data.rewards?.pools?.[pool.id.low]?.day_usd || 0}
+          locks={data.locks}
+          delegatedCoins={data.delegatedCoins}
+          updatePoolsData={getData}
+          openModals={{
+            onAddLiquidityOpen,
+            onRemoveLiquidityOpen,
+            onBondSharesOpen,
+          }}
+        />
+      )}
+
+      {pool && (
+        <AddLiquidityModal
+          isOpen={isAddLiquidityOpen}
+          onClose={onAddLiquidityClose}
+          currentPool={pool}
+          balances={data.balances}
+          prices={data.prices}
+          updatePoolsData={getData}
+        />
+      )}
+
+      {pool && (
+        <RemoveLiquidityModal
+          isOpen={isRemoveLiquidityOpen}
+          onClose={onRemoveLiquidityClose}
+          currentPool={pool}
+          prices={data.prices}
+          updatePoolsData={getData}
+        />
+      )}
+
+      {pool && (
+        <BondSharesModal
+          isOpen={isBondSharesOpen}
+          onClose={onBondSharesClose}
+          currentPool={pool}
+          prices={data.prices}
+          updatePoolsData={getData}
+        />
+      )}
     </Box>
   );
 };

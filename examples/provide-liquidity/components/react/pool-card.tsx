@@ -1,16 +1,25 @@
 import React from 'react';
-import { Box, Divider, Flex, Text, Image } from '@chakra-ui/react';
+import {
+  Box,
+  Divider,
+  Flex,
+  Text,
+  Image,
+  Skeleton,
+  useMediaQuery,
+} from '@chakra-ui/react';
 import { Pool } from './provide-liquidity';
-import { getSymbolFromDenom, getLogoUrlFromDenom } from './pool-list';
+import { getLogoUrlFromDenom } from './pool-list';
+import BigNumber from 'bignumber.js';
+import { truncDecimals } from './pool-detail-modal';
+import { getSymbolForDenom } from '../../utils';
 
-// TODO: add white shadow to right side of the first icon in the card
-
-const formatNumber = (number: number) => {
+const formatNumber = (number: number | string) => {
   const formatter = Intl.NumberFormat('en', {
     notation: 'compact',
     maximumFractionDigits: 1,
   });
-  return formatter.format(number);
+  return formatter.format(new BigNumber(number).toNumber());
 };
 
 export const ChainLogo = ({
@@ -54,14 +63,18 @@ const PoolCard = ({
   pool,
   setPool,
   openPoolDetailModal,
+  isFetchingApr,
 }: {
   pool: Pool;
   setPool: (pool: Pool) => void;
   openPoolDetailModal: () => void;
+  isFetchingApr: boolean;
 }) => {
+  const [isMobile] = useMediaQuery('(max-width: 680px)');
+
   return (
     <Box
-      w="236px"
+      w={isMobile ? '100%' : { sm: '210px', md: '236px', lg: '236px' }}
       h="200px"
       bg="#F5F7FB"
       borderRadius="7px"
@@ -74,7 +87,7 @@ const PoolCard = ({
       }}
       transition="all 0.1s linear"
       _hover={{
-        opacity: 0.6,
+        bg: '#DDE3EB',
       }}
     >
       <Flex alignItems="center" mb="28px">
@@ -86,7 +99,7 @@ const PoolCard = ({
         <Box fontSize="14px">
           <Text fontWeight="600" color="#2C3137">
             {pool.poolAssets
-              .map(({ token }) => getSymbolFromDenom(token?.denom))
+              .map(({ token }) => getSymbolForDenom(token!.denom))
               .join('/')}
           </Text>
           <Text fontWeight="400" color="#697584">
@@ -98,12 +111,21 @@ const PoolCard = ({
         <Text fontWeight="400" fontSize="14px" color="#2C3137">
           APR
         </Text>
-        <Flex color="#2C3137" fontWeight="600" alignItems="flex-end" gap="2px">
-          <Text fontSize="22px" lineHeight="26px">
-            13.94
-          </Text>
-          <Text fontSize="14px">%</Text>
-        </Flex>
+        {isFetchingApr ? (
+          <Skeleton isLoaded={!isFetchingApr} height="18px" w="50px" />
+        ) : (
+          <Flex
+            color="#2C3137"
+            fontWeight="600"
+            alignItems="flex-end"
+            gap="2px"
+          >
+            <Text fontSize="22px" lineHeight="26px">
+              {truncDecimals(pool.apr['14'].totalApr, 2)}
+            </Text>
+            <Text fontSize="14px">%</Text>
+          </Flex>
+        )}
       </Flex>
       <Flex
         mb="4px"

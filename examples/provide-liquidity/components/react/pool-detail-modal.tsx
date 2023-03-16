@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -6,211 +6,217 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
-  Button as ChakraButton,
   Text,
   Flex,
   Box,
   Heading,
-  useDisclosure,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { Pool } from './provide-liquidity';
-import { getSymbolFromDenom, getLogoUrlFromDenom } from './pool-list';
+import { getLogoUrlFromDenom } from './pool-list';
 import { ChainLogo } from './pool-card';
-import AddLiquidityModal from './add-liquidity-modal';
-import RemoveLiquidityModal from './remove-liquidity-modal';
-import BondSharesModal from './bond-shares-modal';
+import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
+import {
+  NormalButton,
+  PoolAssetDisplay,
+  BondLiquidityCard,
+  RewardText,
+} from './modal-components';
+import { useTransactionToast } from './hooks';
+import BigNumber from 'bignumber.js';
+import {
+  convertDollarValueToShares,
+  convertDollarValueToCoins,
+  convertGammTokenToDollarValue,
+  getSymbolForDenom,
+} from '../../utils';
+import { PriceHash } from '../../utils/types';
+import { osmosis } from 'osmojs';
+import { useChain } from '@cosmos-kit/react';
+import { chainName } from '../../config/defaults';
+import { PeriodLock } from 'osmojs/types/codegen/osmosis/lockup/lock';
+import { daysToSeconds } from './bond-shares-modal';
+import Long from 'long';
+import dayjs from 'dayjs';
+import { coins as aminoCoins } from '@cosmjs/amino';
+import { TransactionResult } from '../types';
 
-const PoolAssetDisplay = ({
-  logoUrl,
-  amount,
-  token,
-  mt,
-}: {
-  logoUrl: string | undefined;
-  amount: number;
-  token: string;
-  mt?: string;
-}) => {
-  return (
-    <Flex alignItems="center" mt={mt || 0}>
-      <ChainLogo url={logoUrl} width="16px" />
-      <Text ml="8px" fontWeight="600" fontSize="14px" color="#697584">
-        {amount}
-      </Text>
-      <Text ml="4px" fontWeight="400" fontSize="14px" color="#697584">
-        {token}
-      </Text>
-    </Flex>
-  );
+export const truncDecimals = (
+  val: string | number | undefined,
+  decimals: number
+) => {
+  return new BigNumber(val || 0).decimalPlaces(decimals).toString();
 };
 
-const Button = ({
-  type,
-  size,
-  onClick,
-  text,
-  mr,
-}: {
-  type: 'solid' | 'outline';
-  size: { w: string; h: string };
-  onClick: () => void;
-  text: string;
-  mr?: string;
-}) => {
-  const baseStyle = {
-    solid: {
-      color: '#FFFFFF',
-      backgroundColor: '#2C3137',
-    },
-    outline: {
-      color: '#2C3137',
-      border: '2px solid #2C3137',
-      backgroundColor: 'transparent',
-    },
-  };
+const { beginUnlocking } = osmosis.lockup.MessageComposer.withTypeUrl;
+const { superfluidUnbondLock, superfluidUndelegate } =
+  osmosis.superfluid.MessageComposer.withTypeUrl;
 
-  return (
-    <ChakraButton
-      mr={mr}
-      w={size.w}
-      h={size.h}
-      fontWeight="600"
-      fontSize="14px"
-      css={{ ...baseStyle[type] }}
-      onClick={onClick}
-      _hover={{
-        opacity: 0.8,
-      }}
-    >
-      {text}
-    </ChakraButton>
-  );
-};
-
-const BondLiquidityCard = ({ period }: { period: number }) => {
-  return (
-    <Flex
-      w="226px"
-      h="242px"
-      bgColor="#F5F7FB"
-      borderRadius="7px"
-      flexDir="column"
-      justifyContent="space-between"
-      p="24px"
-    >
-      <Box>
-        <Text color="#697584" fontWeight="600" fontSize="14px">
-          Bonded {period} day
-        </Text>
-        <Flex mb="24px" alignItems="flex-end">
-          <Text color="#697584" fontWeight="600" fontSize="14px" mr="10px">
-            APR
-          </Text>
-          <Text
-            color="#697584"
-            fontWeight="600"
-            fontSize="26px"
-            lineHeight="28px"
-            mr="2px"
-          >
-            2.43
-          </Text>
-          <Text color="#697584" fontWeight="600" fontSize="14px">
-            %
-          </Text>
-        </Flex>
-        <Flex alignItems="flex-end">
-          <Text color="#2C3137" fontWeight="600" fontSize="14px" mr="4px">
-            $
-          </Text>
-          <Text
-            color="#2C3137"
-            fontWeight="600"
-            fontSize="26px"
-            lineHeight="26px"
-          >
-            2.94
-          </Text>
-        </Flex>
-        <Flex>
-          <Text color="#2C3137" fontWeight="600" fontSize="14px" mr="4px">
-            12.02
-          </Text>
-          <Text color="#2C3137" fontWeight="400" fontSize="14px">
-            pool shares
-          </Text>
-        </Flex>
-      </Box>
-      <Flex>
-        <Button
-          mr="12px"
-          text="unbond"
-          type="outline"
-          size={{ w: '74px', h: '32px' }}
-          onClick={() => console.log('unbond')}
-        />
-        <Button
-          type="solid"
-          text="Bond more"
-          size={{ w: '94px', h: '32px' }}
-          onClick={() => console.log('Bond more')}
-        />
-      </Flex>
-    </Flex>
-  );
-};
+const durations = ['1', '7', '14'] as const;
 
 export const PoolDetailModal = ({
   isOpen,
   onClose,
   pool,
+  prices,
+  openModals,
+  delegatedCoins,
+  updatePoolsData,
+  rewardPerDay,
+  locks,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  pool: Pool | undefined;
+  pool: Pool;
+  prices: PriceHash;
+  locks: PeriodLock[];
+  delegatedCoins: Coin[];
+  updatePoolsData: () => void;
+  rewardPerDay: number;
+  openModals: {
+    onAddLiquidityOpen: () => void;
+    onRemoveLiquidityOpen: () => void;
+    onBondSharesOpen: () => void;
+  };
 }) => {
+  const [unbondingStatus, setUnbondingStatus] = useState<{
+    [key: string]: boolean;
+  }>();
+
+  const { getSigningStargateClient, address } = useChain(chainName);
+  const { showToast } = useTransactionToast();
+  const [isMobile] = useMediaQuery('(max-width: 480px)');
+
   const poolId = pool?.id.low;
 
   const poolName = pool?.poolAssets.map(({ token }) =>
-    getSymbolFromDenom(token?.denom)
+    getSymbolForDenom(token!.denom)
   );
 
-  const {
-    isOpen: isAddLiquidityOpen,
-    onOpen: onAddLiquidityOpen,
-    onClose: onAddLiquidityClose,
-  } = useDisclosure();
+  const swapFee = new BigNumber(pool!.poolParams!.swapFee)
+    .shiftedBy(-16)
+    .toString();
 
-  const {
-    isOpen: isRemoveLiquidityOpen,
-    onOpen: onRemoveLiquidityOpen,
-    onClose: onRemoveLiquidityClose,
-  } = useDisclosure();
+  const totalBalance = new BigNumber(pool?.myLiquidity || 0).plus(
+    pool?.bonded || 0
+  );
 
-  const {
-    isOpen: isBondSharesOpen,
-    onOpen: onBondSharesOpen,
-    onClose: onBondSharesClose,
-  } = useDisclosure();
+  const totalShares = convertDollarValueToShares(
+    totalBalance.toString(),
+    pool,
+    prices
+  );
+
+  const coins = convertDollarValueToCoins(
+    totalBalance.toString(),
+    pool,
+    prices
+  );
+
+  const unbondedShares = convertDollarValueToShares(
+    pool?.myLiquidity || 0,
+    pool,
+    prices
+  );
+
+  const bondedData = durations.map((duration) => {
+    const lock = locks.find(
+      (l) =>
+        l.coins[0].denom === pool.totalShares?.denom &&
+        Number(daysToSeconds(duration)) === l.duration?.seconds.low &&
+        dayjs().isAfter(l.endTime)
+    );
+
+    if (!lock) {
+      return {
+        ID: '',
+        apr: pool.apr[duration],
+        value: '0',
+        shares: '0',
+        duration,
+      };
+    }
+
+    const value = convertGammTokenToDollarValue(lock.coins[0], pool, prices);
+    const shares = convertDollarValueToShares(value, pool, prices);
+
+    return {
+      ID: lock.ID.low.toString(),
+      apr: pool.apr[duration],
+      value,
+      shares,
+      duration,
+    };
+  });
+
+  const handleUnbondClick = async (ID: string | null, duration: string) => {
+    if (!ID) return;
+    setUnbondingStatus((prev) => ({ ...prev, [ID]: true }));
+
+    const stargateClient = await getSigningStargateClient();
+
+    if (!stargateClient || !address) {
+      console.error('stargateClient undefined or address undefined.');
+      return;
+    }
+
+    const hasOsmoToken = pool.poolAssets.some(
+      ({ token }) => token?.denom === 'uosmo'
+    );
+    const hasDelegatedCoin = delegatedCoins.some(
+      ({ denom }) => denom === pool.totalShares?.denom
+    );
+    const isSuperfluidBonded =
+      hasOsmoToken && duration === '14' && hasDelegatedCoin;
+
+    let msg = [];
+
+    if (isSuperfluidBonded) {
+      const superfluidUndelegateMsg = superfluidUndelegate({
+        lockId: Long.fromString(ID),
+        sender: address,
+      });
+      const superfluidUnbondLockMsg = superfluidUnbondLock({
+        lockId: Long.fromString(ID),
+        sender: address,
+      });
+      msg = [superfluidUndelegateMsg, superfluidUnbondLockMsg];
+    } else {
+      const beginUnlockingMsg = beginUnlocking({
+        ID: Long.fromString(ID),
+        coins: [],
+        owner: address,
+      });
+      msg.push(beginUnlockingMsg);
+    }
+
+    const fee = {
+      amount: aminoCoins(0, 'uosmo'),
+      gas: '600000',
+    };
+
+    try {
+      const res = await stargateClient.signAndBroadcast(address, msg, fee);
+      stargateClient.disconnect();
+      setUnbondingStatus((prev) => ({ ...prev, [ID]: false }));
+      showToast(res.code);
+      updatePoolsData();
+    } catch (error) {
+      console.log(error);
+      stargateClient.disconnect();
+      setUnbondingStatus((prev) => ({ ...prev, [ID]: false }));
+      showToast(TransactionResult.Failed);
+    }
+  };
 
   return (
     <>
-      <AddLiquidityModal
-        isOpen={isAddLiquidityOpen}
-        onClose={onAddLiquidityClose}
-        currentPool={pool}
-      />
-      <RemoveLiquidityModal
-        isOpen={isRemoveLiquidityOpen}
-        onClose={onRemoveLiquidityClose}
-        currentPool={pool}
-      />
-      <BondSharesModal
-        isOpen={isBondSharesOpen}
-        onClose={onBondSharesClose}
-        currentPool={pool}
-      />
-      <Modal isOpen={isOpen} onClose={onClose} size="6xl" isCentered>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size={isMobile ? 'xs' : { sm: 'sm', md: 'lg', lg: '6xl' }}
+        isCentered
+      >
         <ModalOverlay />
         <ModalContent w="768px">
           <ModalHeader>
@@ -223,45 +229,53 @@ export const PoolDetailModal = ({
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Flex mb="40px">
-              <ChainLogo
-                url={getLogoUrlFromDenom(pool?.poolAssets[0].token?.denom)}
-                width="54px"
-              />
-              <ChainLogo
-                url={getLogoUrlFromDenom(pool?.poolAssets[1].token?.denom)}
-                width="54px"
-                isAtRight
-              />
-              <Box ml="14px">
-                <Text fontWeight="600" fontSize="14px" color="#697584">
-                  Pool liquidity
-                </Text>
-                <Text fontWeight="600" fontSize="26px" color="#2C3137">
-                  $70,055,692
-                </Text>
-              </Box>
-              <Box ml="110px">
-                <Text fontWeight="600" fontSize="14px" color="#697584">
-                  Swap fee
-                </Text>
-                <Text fontWeight="600" fontSize="26px" color="#2C3137">
-                  0.2%
-                </Text>
-              </Box>
-              <Box ml="58px">
-                <Text fontWeight="600" fontSize="14px" color="#697584">
-                  24h trading volume
-                </Text>
-                <Text fontWeight="600" fontSize="26px" color="#2C3137">
-                  $70,055,692
-                </Text>
-              </Box>
+            <Flex mb="40px" wrap="wrap">
+              <Flex mb={{ sm: '16px', md: '16px', lg: 0 }}>
+                <ChainLogo
+                  url={getLogoUrlFromDenom(pool?.poolAssets[0].token?.denom)}
+                  width="54px"
+                />
+                <ChainLogo
+                  url={getLogoUrlFromDenom(pool?.poolAssets[1].token?.denom)}
+                  width="54px"
+                  isAtRight
+                />
+                <Box ml="14px">
+                  <Text fontWeight="600" fontSize="14px" color="#697584">
+                    Pool liquidity
+                  </Text>
+                  <Text fontWeight="600" fontSize="26px" color="#2C3137">
+                    ${pool?.liquidity.toLocaleString()}
+                  </Text>
+                </Box>
+              </Flex>
+              <Flex>
+                <Box ml={{ sm: 0, md: 0, lg: '110px' }}>
+                  <Text fontWeight="600" fontSize="14px" color="#697584">
+                    Swap fee
+                  </Text>
+                  <Text fontWeight="600" fontSize="26px" color="#2C3137">
+                    {swapFee}%
+                  </Text>
+                </Box>
+                <Box ml="58px">
+                  <Text fontWeight="600" fontSize="14px" color="#697584">
+                    24h trading volume
+                  </Text>
+                  <Text fontWeight="600" fontSize="26px" color="#2C3137">
+                    ${pool?.volume24H.toLocaleString()}
+                  </Text>
+                </Box>
+              </Flex>
             </Flex>
-            <Flex justifyContent="space-between" mb="36px">
+            <Flex
+              justifyContent="space-between"
+              mb="36px"
+              rowGap="16px"
+              wrap="wrap"
+            >
               <Box
-                w="476px"
-                h="192px"
+                w={isMobile ? '100%' : { sm: '100%', md: '100%', lg: '476px' }}
                 bgColor="#F5F7FB"
                 borderRadius="8px"
                 py="20px"
@@ -273,70 +287,63 @@ export const PoolDetailModal = ({
                 <Flex mb="28px">
                   <Box>
                     <Text fontWeight="600" fontSize="26px" lineHeight="30px">
-                      $128.02
+                      ${totalBalance.decimalPlaces(2).toString()}
                     </Text>
                     <Text fontWeight="400" fontSize="14px" color="#2C3137">
-                      212.0432 pool shares
+                      {truncDecimals(totalShares, 6)} pool shares
                     </Text>
                   </Box>
-                  <Flex ml="70px" flexDir="column" justifyContent="flex-end">
-                    <PoolAssetDisplay
-                      amount={45.321}
-                      logoUrl={getLogoUrlFromDenom(
-                        pool?.poolAssets[0].token?.denom
-                      )}
-                      token="ATOM"
-                    />
-                    <PoolAssetDisplay
-                      amount={12.043}
-                      logoUrl={getLogoUrlFromDenom(
-                        pool?.poolAssets[1].token?.denom
-                      )}
-                      token="OSMO"
-                      mt="6px"
-                    />
+                  <Flex
+                    ml={isMobile ? '20px' : '70px'}
+                    flexDir="column"
+                    justifyContent="flex-end"
+                    gap="6px"
+                  >
+                    {coins.map((coin) => (
+                      <PoolAssetDisplay
+                        amount={truncDecimals(coin.displayAmount, 4)}
+                        logoUrl={getLogoUrlFromDenom(coin.denom)}
+                        token={coin.symbol}
+                        key={coin.denom}
+                      />
+                    ))}
                   </Flex>
                 </Flex>
                 <Flex>
-                  <Button
-                    onClick={onAddLiquidityOpen}
+                  <NormalButton
+                    onClick={openModals.onAddLiquidityOpen}
                     size={{ w: '124px', h: '48px' }}
                     type="solid"
                     text="Add liquidity"
                     mr="20px"
                   />
-                  <Button
-                    onClick={onRemoveLiquidityOpen}
+                  <NormalButton
+                    onClick={openModals.onRemoveLiquidityOpen}
                     size={{ w: '156px', h: '48px' }}
                     type="outline"
                     text="Remove liquidity"
+                    disabled={new BigNumber(pool.myLiquidity || 0).lte(0)}
                   />
                 </Flex>
               </Box>
               <Box
-                w="220px"
-                h="192px"
+                w={isMobile ? '100%' : { sm: '100%', md: '100%', lg: '220px' }}
+                h={
+                  isMobile ? '100px' : { sm: '100px', md: '100px', lg: '192px' }
+                }
                 bgColor="#E5FFE4"
                 borderRadius="8px"
                 py="20px"
                 px="24px"
               >
-                <Text color="#36BB35" fontWeight="600" fontSize="14px">
-                  Yesterdays rewards
+                <Text color="#36BB35" fontWeight="600" fontSize="14px" mb="4px">
+                  Currently earning
                 </Text>
-                <Flex color="#36BB35" fontWeight="600" alignItems="flex-end">
-                  <Text fontSize="26px" lineHeight="30px">
-                    12.87
-                  </Text>
-                  <Text fontSize="14px">OSMO</Text>
-                </Flex>
-                <Text color="#36BB35" fontWeight="400" fontSize="14px">
-                  $12.87
-                </Text>
+                <RewardText reward={rewardPerDay} />
               </Box>
             </Flex>
-            <Flex mb="34px">
-              <Box>
+            <Flex mb="34px" wrap="wrap">
+              <Box mb={{ sm: '22px', md: '22px', lg: 0 }}>
                 <Heading fontWeight="600" fontSize="20px">
                   Bond your liquidity
                 </Heading>
@@ -345,25 +352,45 @@ export const PoolDetailModal = ({
                   fees.
                 </Text>
               </Box>
-              <Box ml="44px">
+              <Box ml={{ sm: 0, md: 0, lg: '44px' }}>
                 <Text color="#697584" fontWeight="600" fontSize="14px">
                   Unbonded
                 </Text>
                 <Text color="#2C3137" fontWeight="600" fontSize="26px">
-                  $22.51
+                  ${truncDecimals(pool?.myLiquidity, 2)}
                 </Text>
                 <Flex color="#2C3137" fontSize="14px">
-                  <Text fontWeight="600">12.02</Text>
+                  <Text fontWeight="600">
+                    {truncDecimals(unbondedShares, 4)}
+                  </Text>
                   <Text fontWeight="400" ml="4px">
                     pool shares
                   </Text>
                 </Flex>
               </Box>
             </Flex>
-            <Flex mb="40px" justifyContent="space-between">
-              <BondLiquidityCard period={1} />
-              <BondLiquidityCard period={7} />
-              <BondLiquidityCard period={14} />
+            <Flex
+              mb="40px"
+              justifyContent="space-between"
+              wrap="wrap"
+              rowGap="24px"
+            >
+              {bondedData.map((bonded) => (
+                <BondLiquidityCard
+                  duration={bonded.duration}
+                  apr={bonded.apr.totalApr}
+                  bondedShares={bonded.shares}
+                  bondedValue={bonded.value}
+                  openBondModal={openModals.onBondSharesOpen}
+                  onUnbondClick={() =>
+                    handleUnbondClick(bonded.ID, bonded.duration)
+                  }
+                  key={bonded.duration}
+                  isUnbonding={
+                    !!unbondingStatus && !!unbondingStatus[bonded.ID]
+                  }
+                />
+              ))}
             </Flex>
           </ModalBody>
         </ModalContent>
