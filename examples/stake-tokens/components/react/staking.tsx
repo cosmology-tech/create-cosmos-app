@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useChain } from '@cosmos-kit/react';
-import { Box, Skeleton } from '@chakra-ui/react';
+import { Box, SkeletonText } from '@chakra-ui/react';
 import { cosmos } from 'interchain';
 import BigNumber from 'bignumber.js';
 import { decodeCosmosSdkDecFromProto } from '@cosmjs/stargate';
@@ -16,6 +16,7 @@ import AllValidators from './all-validators';
 import { getCoin } from '../../config';
 import router from 'next/router';
 import { ChainName } from '@cosmos-kit/core';
+import { ImageSource } from '../types';
 
 export const exponentiate = (num: number | string, exp: number) => {
   return new BigNumber(num)
@@ -29,6 +30,118 @@ export const getExponent = (chainName: string) => {
   )?.exponent as number;
 };
 
+const splitIntoChunks = (arr: any[], chunkSize: number) => {
+  const res = [];
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    const chunk = arr.slice(i, i + chunkSize);
+    res.push(chunk);
+  }
+  return res;
+};
+
+const convertChainName = (chainName: string) => {
+  if (chainName.endsWith('testnet')) {
+    return chainName.replace('testnet', '-testnet');
+  }
+
+  switch (chainName) {
+    case 'cosmoshub':
+      return 'cosmos';
+    case 'assetmantle':
+      return 'asset-mantle';
+    case 'cryptoorgchain':
+      return 'crypto-org';
+    case 'dig':
+      return 'dig-chain';
+    case 'gravitybridge':
+      return 'gravity-bridge';
+    case 'kichain':
+      return 'ki-chain';
+    case 'oraichain':
+      return 'orai-chain';
+    case 'terra':
+      return 'terra-classic';
+    default:
+      return chainName;
+  }
+};
+
+const isUrlValid = async (url: string) => {
+  const res = await fetch(url, { method: 'HEAD' });
+  const contentType = res?.headers?.get('Content-Type') || '';
+  return contentType.startsWith('image');
+};
+
+const getCosmostationUrl = (chainName: string, validatorAddr: string) => {
+  const cosmostationChainName = convertChainName(chainName);
+  return `https://raw.githubusercontent.com/cosmostation/chainlist/main/chain/${cosmostationChainName}/moniker/${validatorAddr}.png`;
+};
+
+const addImageSource = async (
+  validator: Validator,
+  chainName: string
+): Promise<Validator & ImageSource> => {
+  const url = getCosmostationUrl(chainName, validator.operatorAddress);
+  const isValid = await isUrlValid(url);
+  return { ...validator, imageSource: isValid ? 'cosmostation' : 'keybase' };
+};
+
+const getKeybaseUrl = (identity: string) => {
+  return `https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=${identity}&fields=pictures`;
+};
+
+const getImgUrls = async (validators: Validator[], chainName: string) => {
+  const validatorsWithImgSource = await Promise.all(
+    validators.map((validator) => addImageSource(validator, chainName))
+  );
+
+  // cosmostation urls
+  const cosmostationUrls = validatorsWithImgSource
+    .filter((validator) => validator.imageSource === 'cosmostation')
+    .map(({ operatorAddress }) => {
+      return {
+        address: operatorAddress,
+        url: getCosmostationUrl(chainName, operatorAddress),
+      };
+    });
+
+  // keybase urls
+  const keybaseIdentities = validatorsWithImgSource
+    .filter((validator) => validator.imageSource === 'keybase')
+    .map((validator) => ({
+      address: validator.operatorAddress,
+      identity: validator.description?.identity || '',
+    }));
+
+  const chunkedIdentities = splitIntoChunks(keybaseIdentities, 20);
+
+  let responses: any[] = [];
+
+  for (const chunk of chunkedIdentities) {
+    const thumbnailRequests = chunk.map(({ address, identity }) => {
+      if (!identity) return { address, url: '' };
+
+      return fetch(getKeybaseUrl(identity))
+        .then((response) => response.json())
+        .then((res) => ({
+          address,
+          url: res.them?.[0]?.pictures?.primary.url || '',
+        }));
+    });
+    responses = [...responses, await Promise.all(thumbnailRequests)];
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+
+  const keybaseUrls = responses.flat();
+
+  const allUrls = [...cosmostationUrls, ...keybaseUrls].reduce(
+    (prev, cur) => ({ ...prev, [cur.address]: cur.url }),
+    {}
+  );
+
+  return allUrls;
+};
+
 interface StakingTokens {
   balance: number;
   rewards: Reward[];
@@ -38,6 +151,9 @@ interface StakingTokens {
   myValidators: Validator[];
   allValidators: Validator[];
   unbondingDays: number;
+  thumbnails: {
+    [key: string]: string;
+  };
 }
 
 export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
@@ -52,6 +168,7 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
     myValidators: [],
     allValidators: [],
     unbondingDays: 0,
+    thumbnails: {},
   });
 
   const coin = getCoin(chainName);
@@ -68,6 +185,7 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
         myValidators: [],
         allValidators: [],
         unbondingDays: 0,
+        thumbnails: {},
       });
       return;
     }
@@ -77,7 +195,7 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
     let rpcEndpoint = await getRpcEndpoint();
 
     if (!rpcEndpoint) {
-      console.log('no rpc endpoint — using a fallback');
+      console.log('no rpc endpoint — using a fallback');
       rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
     }
 
@@ -115,19 +233,22 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
     const totalReward = Number(exponentiate(reward, -exp).toFixed(6));
 
     // ALL VALIDATORS
-    const { validators: allValidators } =
-      await client.cosmos.staking.v1beta1.validators({
-        status: cosmos.staking.v1beta1.bondStatusToJSON(
-          cosmos.staking.v1beta1.BondStatus.BOND_STATUS_BONDED
-        ),
-        pagination: {
-          key: new Uint8Array(),
-          offset: Long.fromNumber(0),
-          limit: Long.fromNumber(200),
-          countTotal: false,
-          reverse: false,
-        },
-      });
+    const { validators } = await client.cosmos.staking.v1beta1.validators({
+      status: cosmos.staking.v1beta1.bondStatusToJSON(
+        cosmos.staking.v1beta1.BondStatus.BOND_STATUS_BONDED
+      ),
+      pagination: {
+        key: new Uint8Array(),
+        offset: Long.fromNumber(0),
+        limit: Long.fromNumber(200),
+        countTotal: false,
+        reverse: false,
+      },
+    });
+
+    const allValidators = validators.sort((a, b) =>
+      new BigNumber(b.tokens).minus(new BigNumber(a.tokens)).toNumber()
+    );
 
     // DELEGATIONS
     const { delegationResponses: delegations } =
@@ -145,6 +266,23 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
       ? Number((params?.unbondingTime?.seconds.low / 86400).toFixed(0))
       : 0;
 
+    // THUMBNAILS
+    let thumbnails = {};
+
+    const validatorThumbnails = localStorage.getItem(
+      `${chainName}-validator-thumbnails`
+    );
+
+    if (validatorThumbnails) {
+      thumbnails = JSON.parse(validatorThumbnails);
+    } else {
+      thumbnails = await getImgUrls(validators, chainName);
+      localStorage.setItem(
+        `${chainName}-validator-thumbnails`,
+        JSON.stringify(thumbnails)
+      );
+    }
+
     setData({
       rewards,
       totalReward,
@@ -154,9 +292,10 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
       myValidators,
       allValidators,
       unbondingDays,
+      thumbnails,
     });
     setIsLoading(false);
-  }, [address, coin, exp, getRpcEndpoint]);
+  }, [address, chainName, coin.base, exp, getRpcEndpoint]);
 
   useEffect(() => {
     getData();
@@ -172,7 +311,13 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
 
   return (
     <Box my={14}>
-      <Skeleton isLoaded={!isLoading}>
+      <SkeletonText
+        isLoaded={!isLoading}
+        mt="0"
+        noOfLines={4}
+        spacing="4"
+        skeletonHeight="4"
+      >
         <Stats
           balance={data.balance}
           rewards={data.rewards}
@@ -181,9 +326,7 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
           updateData={getData}
           chainName={chainName}
         />
-      </Skeleton>
-      {data.myValidators.length > 0 && (
-        <Skeleton isLoaded={!isLoading}>
+        {data.myValidators.length > 0 && (
           <MyValidators
             validators={data.myValidators}
             allValidator={data.allValidators}
@@ -193,11 +336,10 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
             updateData={getData}
             unbondingDays={data.unbondingDays}
             chainName={chainName}
+            thumbnails={data.thumbnails}
           />
-        </Skeleton>
-      )}
-      {data.allValidators.length > 0 && (
-        <Skeleton isLoaded={!isLoading}>
+        )}
+        {data.allValidators.length > 0 && (
           <AllValidators
             balance={data.balance}
             validators={data.allValidators}
@@ -205,9 +347,10 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
             updateData={getData}
             unbondingDays={data.unbondingDays}
             chainName={chainName}
+            thumbnails={data.thumbnails}
           />
-        </Skeleton>
-      )}
+        )}
+      </SkeletonText>
     </Box>
   );
 };
