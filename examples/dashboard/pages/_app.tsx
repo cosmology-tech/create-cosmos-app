@@ -18,6 +18,19 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={chains}
         assetLists={assets}
         wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
+        walletConnectOptions={{
+          signClient: {
+            projectId: 'a8510432ebb71e6948cfd6cde54b70f7',
+            relayUrl: 'wss://relay.walletconnect.org',
+            metadata: {
+              name: 'CosmosKit Template',
+              description: 'CosmosKit dapp template',
+              url: 'https://docs.cosmoskit.com/',
+              icons: [],
+            },
+          },
+        }}
+        wrappedWithChakra={true}
         signerOptions={{
           signingStargate: (chain: Chain) => {
             switch (chain.chain_name) {
