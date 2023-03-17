@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -20,7 +20,6 @@ import { Pool } from './provide-liquidity';
 import { LargeButton, PoolAssetDisplay } from './modal-components';
 import { useTransactionToast } from './hooks';
 import {
-  calcShareOutAmount,
   convertDollarValueToCoins,
   convertDollarValueToShares,
   getSymbolForDenom,
@@ -31,7 +30,7 @@ import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
 import { PriceHash } from '../../utils/types';
 import { getLogoUrlFromDenom } from './pool-list';
 import BigNumber from 'bignumber.js';
-import { FEES, osmosis } from 'osmojs';
+import { osmosis } from 'osmojs';
 import { chainName } from '../../config/defaults';
 import { useChain } from '@cosmos-kit/react';
 import { TransactionResult } from '../types';

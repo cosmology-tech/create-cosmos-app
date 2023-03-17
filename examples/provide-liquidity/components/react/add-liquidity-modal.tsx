@@ -16,7 +16,6 @@ import {
   CircularProgressLabel,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { coin } from '@cosmjs/amino';
 import { Pool } from './provide-liquidity';
 import { useChain } from '@cosmos-kit/react';
 import { osmosis } from 'osmojs';
@@ -41,7 +40,7 @@ import { PriceHash } from '../../utils/types';
 import BigNumber from 'bignumber.js';
 import { truncDecimals } from './pool-detail-modal';
 import { TransactionResult } from '../types';
-import { coins as aminoCoins } from '@cosmjs/amino';
+import { coin, coins as aminoCoins } from '@cosmjs/amino';
 import { useTransactionToast } from './hooks';
 
 type PrettyAsset = Pick<
