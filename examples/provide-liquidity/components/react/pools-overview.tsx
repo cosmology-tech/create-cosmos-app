@@ -6,6 +6,7 @@ import {
   Text,
   useMediaQuery,
   Box,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useChain, useManager } from '@cosmos-kit/react';
 import { EpochInfo } from 'osmojs/types/codegen/osmosis/epochs/genesis';
@@ -19,7 +20,7 @@ import { osmosis } from 'osmojs';
 dayjs.extend(duration);
 
 const Colon = () => (
-  <Text mx="4px" transform="translateY(-2px)">
+  <Text mx="4px" transform="translateY(-2px)" color="#697584">
     :
   </Text>
 );
@@ -32,18 +33,22 @@ const StatBox = ({
   bgColor?: string;
   children: ReactElement;
   width: { [key: string]: string } | string;
-}) => (
-  <Box
-    w={width}
-    h="92px"
-    borderRadius="7px"
-    bgColor={bgColor || '#F5F7FB'}
-    py="20px"
-    px="22px"
-  >
-    {children}
-  </Box>
-);
+}) => {
+  const defaultBgColor = useColorModeValue('#F5F7FB', '#1D2024');
+
+  return (
+    <Box
+      w={width}
+      h="92px"
+      borderRadius="7px"
+      bgColor={bgColor || defaultBgColor}
+      py="20px"
+      px="22px"
+    >
+      {children}
+    </Box>
+  );
+};
 
 export const PoolsOverview = ({
   osmoPrice,
@@ -99,6 +104,8 @@ export const PoolsOverview = ({
     }
   }, [getEpoch]);
 
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+  const amountColor = useColorModeValue('#2C3137', '#EEF2F8');
   return (
     <Grid
       mb="25px"
@@ -107,7 +114,7 @@ export const PoolsOverview = ({
       templateColumns={`repeat(${isMobile ? 2 : 3}, 1fr)`}
     >
       <GridItem colSpan={1}>
-        <StatBox width={'100%'}>
+        <StatBox width="100%">
           <Flex h="100%" alignItems="center">
             <Image
               w="56px"
@@ -116,7 +123,7 @@ export const PoolsOverview = ({
               transform="translateX(-8px)"
             />
             <Flex flexDir="column" justifyContent="space-between">
-              <Text color="#697584" fontWeight="600" fontSize="14px">
+              <Text color={titleColor} fontWeight="600" fontSize="14px">
                 OSMO Price
               </Text>
               <Flex alignItems="flex-end" gap="1px">
@@ -124,7 +131,7 @@ export const PoolsOverview = ({
                   $
                 </Text>
                 <Text
-                  color="#2C3137"
+                  color={amountColor}
                   fontWeight="600"
                   fontSize="26px"
                   lineHeight="30px"
@@ -138,18 +145,18 @@ export const PoolsOverview = ({
       </GridItem>
 
       <GridItem colSpan={1}>
-        <StatBox width={'100%'}>
+        <StatBox width="100%">
           <Flex
             h="100%"
             flexDir="column"
             justifyContent="center"
             fontWeight="600"
           >
-            <Text color="#697584" fontSize="14px">
+            <Text color={titleColor} fontSize="14px">
               Reward distribution in
             </Text>
             <Flex
-              color="#2C3137"
+              color={amountColor}
               fontSize="26px"
               lineHeight="30px"
               alignItems="center"
@@ -164,7 +171,7 @@ export const PoolsOverview = ({
         </StatBox>
       </GridItem>
       <GridItem colSpan={isMobile ? 2 : 1}>
-        <StatBox bgColor="#E5FFE4" width={'100%'}>
+        <StatBox bgColor={useColorModeValue('#E5FFE4', '#1D2024')} width="100%">
           <Flex
             h="100%"
             flexDir="column"
