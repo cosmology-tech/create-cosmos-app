@@ -38,6 +38,19 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         assetLists={assets}
         wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
         signerOptions={signerOptions}
+        walletConnectOptions={{
+          signClient: {
+            projectId: 'a8510432ebb71e6948cfd6cde54b70f7',
+            relayUrl: 'wss://relay.walletconnect.org',
+            metadata: {
+              name: 'CosmosKit Template',
+              description: 'CosmosKit dapp template',
+              url: 'https://docs.cosmoskit.com/',
+              icons: [],
+            },
+          },
+        }}
+        wrappedWithChakra={true}
       >
         <Component {...pageProps} />
       </ChainProvider>
