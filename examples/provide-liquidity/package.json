@@ -16,6 +16,7 @@
     "@chain-registry/types": "0.14.0",
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.4.1",
+    "@cosmjs/amino": "^0.30.0",
     "@cosmjs/cosmwasm-stargate": "0.29.5",
     "@cosmjs/stargate": "0.29.5",
     "@cosmology/core": "^1.17.0",

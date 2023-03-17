@@ -6,10 +6,8 @@ import {
   useMediaQuery,
   useRadio,
   UseRadioProps,
-  useToast,
 } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
-import { TransactionResult } from '../types';
 import { ChainLogo } from './pool-card';
 import { truncDecimals } from './pool-detail-modal';
 
