@@ -166,9 +166,9 @@ const TokenInput = ({
               onClick={handleIconClick}
             >
               {isSingleAsset && !isSelected ? (
-                <AddIcon boxSize={4} />
+                <AddIcon boxSize={12} />
               ) : (
-                <MinusIcon boxSize={4} />
+                <MinusIcon boxSize={12} />
               )}
             </Center>
           )}
@@ -194,6 +194,7 @@ const TokenInput = ({
           <NumberInput
             h="68px"
             value={amount}
+            step={0.1}
             bgColor="#EEF2F8"
             border="1px solid #D1D6DD"
             borderTopRightRadius="6px"
