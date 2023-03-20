@@ -47,7 +47,7 @@ export const NormalButton = ({
       mr={mr}
       w={size.w}
       h={size.h}
-      disabled={isDisabledState}
+      isDisabled={isDisabledState}
       fontWeight="600"
       fontSize="14px"
       css={{ ...baseStyle[type] }}
@@ -85,7 +85,7 @@ export const LargeButton = ({
   return (
     <Button
       isLoading={isLoading}
-      disabled={isLoading || disabled}
+      isDisabled={isLoading || disabled}
       onClick={handleClick}
       _hover={{
         opacity: isLoading || disabled ? 1 : 0.9,
