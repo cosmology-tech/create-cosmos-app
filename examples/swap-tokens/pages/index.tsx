@@ -77,6 +77,7 @@ export default function Home() {
         </Heading>
       </Box>
       <WalletSection />
+      <Divider mb="60px" />
       <SwapTokens />
       <Box mb={16}>
         <Divider />
