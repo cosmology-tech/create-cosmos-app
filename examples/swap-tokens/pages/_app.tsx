@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { defaultTheme, ChainProvider } from '@cosmos-kit/react';
+import { ChainProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { aminoTypes, registry } from '../config/defaults';
 import { wallets as keplrWallets } from '@cosmos-kit/keplr';
@@ -11,6 +11,7 @@ import { assets, chains } from 'chain-registry';
 import { GasPrice } from '@cosmjs/stargate';
 import { SignerOptions } from '@cosmos-kit/core';
 import { Chain } from '@chain-registry/types';
+import { ThemeProvider, defaultTheme } from '@cosmology-ui/react';
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
@@ -32,29 +33,31 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ChakraProvider theme={defaultTheme}>
-      <ChainProvider
-        chains={chains}
-        assetLists={assets}
-        wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
-        walletConnectOptions={{
-          signClient: {
-            projectId: 'a8510432ebb71e6948cfd6cde54b70f7',
-            relayUrl: 'wss://relay.walletconnect.org',
-            metadata: {
-              name: 'CosmosKit Template',
-              description: 'CosmosKit dapp template',
-              url: 'https://docs.cosmoskit.com/',
-              icons: [],
+    <ThemeProvider>
+      <ChakraProvider theme={defaultTheme}>
+        <ChainProvider
+          chains={chains}
+          assetLists={assets}
+          wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
+          walletConnectOptions={{
+            signClient: {
+              projectId: 'a8510432ebb71e6948cfd6cde54b70f7',
+              relayUrl: 'wss://relay.walletconnect.org',
+              metadata: {
+                name: 'CosmosKit Template',
+                description: 'CosmosKit dapp template',
+                url: 'https://docs.cosmoskit.com/',
+                icons: [],
+              },
             },
-          },
-        }}
-        wrappedWithChakra={true}
-        signerOptions={signerOptions}
-      >
-        <Component {...pageProps} />
-      </ChainProvider>
-    </ChakraProvider>
+          }}
+          wrappedWithChakra={true}
+          signerOptions={signerOptions}
+        >
+          <Component {...pageProps} />
+        </ChainProvider>
+      </ChakraProvider>
+    </ThemeProvider>
   );
 }
 
