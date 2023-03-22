@@ -49,12 +49,13 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         wrappedWithChakra={true}
         signerOptions={signerOptions}
         endpointOptions={{
-          cosmwasmtestnet: {
-            rpc: ['https://rpc.malaga-420.cosmwasm.com/'],
-            rest: ['https://api.malaga-420.cosmwasm.com'],
+          endpoints: {
+            cosmwasmtestnet: {
+              rpc: ['https://rpc.malaga-420.cosmwasm.com/'],
+              rest: ['https://api.malaga-420.cosmwasm.com'],
+            },
           },
         }}
-        logLevel={'TRACE'}
       >
         <Component {...pageProps} />
       </ChainProvider>
