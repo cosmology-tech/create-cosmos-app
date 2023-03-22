@@ -56,8 +56,10 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         wrappedWithChakra={true}
         signerOptions={signerOptions}
         endpointOptions={{
-          osmosistestnet: {
-            rpc: ['https://testnet-rpc.osmosis.zone/'],
+          endpoints: {
+            osmosistestnet: {
+              rpc: ['https://testnet-rpc.osmosis.zone/'],
+            },
           },
         }}
       >
