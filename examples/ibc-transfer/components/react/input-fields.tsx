@@ -84,7 +84,7 @@ export const InputFields = ({
 
   useEffect(() => {
     connect();
-  }, [connect]);
+  }, [toChainName]);
 
   useEffect(() => {
     setSelectedToken(undefined);
