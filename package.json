@@ -14,7 +14,8 @@
     "test": "lerna run test --stream",
     "locks": "lerna run locks --stream",
     "locks:remove": "lerna run locks:remove --stream",
-    "update": "yarn upgrade-interactive --latest"
+    "update": "yarn upgrade-interactive --latest",
+    "clear:node_modules": "find . -name 'node_modules' -type d -prune -print | xargs rm -rf"
   },
   "devDependencies": {
     "@babel/cli": "7.19.3",
