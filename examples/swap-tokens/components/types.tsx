@@ -1,3 +1,4 @@
+import { SwapDataType } from '@cosmology-ui/react';
 import { MouseEventHandler, ReactNode } from 'react';
 import { IconType } from 'react-icons';
 
@@ -15,7 +16,7 @@ export enum WalletStatus {
   Loading = 'Loading',
   Loaded = 'Loaded',
   NotExist = 'NotExist',
-  Rejected = 'Rejected'
+  Rejected = 'Rejected',
 }
 
 export interface ConnectWalletType {
@@ -51,3 +52,40 @@ export type CopyAddressType = {
   isRound?: boolean;
   size?: string;
 };
+
+export interface SwapToken {
+  selectedToken?: AssetOption;
+  tokenLoading: boolean;
+  dropdownLoading: boolean;
+}
+
+export interface InputData {
+  amountValue: string;
+  fiatValue: string;
+  invalid: boolean;
+  invalidText?: string;
+  isInputLoading?: boolean;
+  denom: string;
+}
+
+export type AssetOption = {
+  name: string;
+  label: string;
+  value: string;
+  symbol: string;
+  icon?: {
+    png?: string;
+    jpeg?: string;
+    svg?: string;
+  };
+  denom: string;
+  totalAmount: string;
+  totalValue: string;
+  amountValue: string;
+  fiatValue: string;
+};
+
+export enum Result {
+  Success = 0,
+  Failed = 1,
+}

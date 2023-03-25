@@ -24,3 +24,12 @@ a {
     background: black;
   }
 }
+
+.btn-disabled > button[disabled] {
+  background-color: #a7afe9 !important;
+  color: white !important;
+}
+
+.btn-disabled > button[disabled]:hover {
+  background-color: #a7afe9 !important;
+}
