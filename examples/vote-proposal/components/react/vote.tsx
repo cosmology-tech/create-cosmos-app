@@ -53,7 +53,8 @@ export const VotingSection = ({ chainName }: { chainName: ChainName }) => {
     }
 
     const client = await cosmos.ClientFactory.createRPCQueryClient({
-      rpcEndpoint,
+      rpcEndpoint:
+        typeof rpcEndpoint === 'string' ? rpcEndpoint : rpcEndpoint.url,
     });
 
     const { proposals: votedProposals } =
@@ -96,7 +97,8 @@ export const VotingSection = ({ chainName }: { chainName: ChainName }) => {
       }
 
       const client = await cosmos.ClientFactory.createRPCQueryClient({
-        rpcEndpoint,
+        rpcEndpoint:
+          typeof rpcEndpoint === 'string' ? rpcEndpoint : rpcEndpoint.url,
       });
 
       // Get proposals
