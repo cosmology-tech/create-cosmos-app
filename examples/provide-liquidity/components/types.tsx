@@ -71,3 +71,5 @@ export type Rewards = {
   total_month_usd: number;
   total_year_usd: number;
 };
+
+export type Peroid = '1' | '7' | '14';

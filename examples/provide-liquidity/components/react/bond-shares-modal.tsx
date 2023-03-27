@@ -8,14 +8,14 @@ import {
   ModalCloseButton,
   Text,
   Flex,
-  useRadioGroup,
   Center,
   NumberInput,
   NumberInputField,
   useMediaQuery,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { Pool } from './provide-liquidity';
-import { LargeButton, RadioCard } from './modal-components';
+import { LargeButton } from './modal-components';
 import { useTransactionToast } from './hooks';
 import { convertDollarValueToShares, getSymbolForDenom } from '../../utils';
 import { PriceHash } from '../../utils/types';
@@ -25,7 +25,7 @@ import { FEES, osmosis } from 'osmojs';
 import { useChain } from '@cosmos-kit/react';
 import { chainName } from '../../config/defaults';
 import Long from 'long';
-import { TransactionResult } from '../types';
+import { Peroid, TransactionResult } from '../types';
 
 const { lockTokens } = osmosis.lockup.MessageComposer.withTypeUrl;
 
@@ -39,33 +39,21 @@ const BondSharesModal = ({
   currentPool,
   prices,
   updatePoolsData,
+  period,
 }: {
   isOpen: boolean;
   onClose: () => void;
   currentPool: Pool;
   prices: PriceHash;
   updatePoolsData: () => void;
+  period: Peroid;
 }) => {
   const [inputShares, setInputShares] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [period, setPeriod] = useState('14');
 
   const { getSigningStargateClient, address } = useChain(chainName);
   const { showToast } = useTransactionToast();
   const [isMobile] = useMediaQuery('(max-width: 480px)');
-
-  // const options = [
-  //   { text: '1 day', apr: '20.23%', value: '1' },
-  //   { text: '7 days', apr: '32.23%', value: '7' },
-  //   { text: '14 days', apr: '40.23%', value: '14' },
-  // ];
-
-  // const { getRootProps, getRadioProps } = useRadioGroup({
-  //   defaultValue: '14',
-  //   onChange: setPeriod,
-  // });
-
-  // const group = getRootProps();
 
   const poolName = currentPool?.poolAssets.map(({ token }) =>
     getSymbolForDenom(token!.denom)
@@ -133,6 +121,11 @@ const BondSharesModal = ({
     }
   };
 
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+  const statColor = useColorModeValue('#2C3137', '#EEF2F8');
+  const bgColor = useColorModeValue('#EEF2F8', '#1D2024');
+  const borderColor = useColorModeValue('#D1D6DD', '#434B55');
+
   return (
     <Modal
       isOpen={isOpen}
@@ -141,33 +134,20 @@ const BondSharesModal = ({
       size={isMobile ? 'xs' : { sm: 'sm', md: 'md', lg: 'lg' }}
     >
       <ModalOverlay bg="blackAlpha.800" />
-      <ModalContent>
+      <ModalContent bg={useColorModeValue('#FFF', '#2C3137')}>
         <ModalHeader>
-          <Text fontWeight="600" fontSize="20px" color="#2C3137">
+          <Text fontWeight="600" fontSize="20px" color={statColor}>
             Bond LP Tokens
           </Text>
-          <Text fontWeight="400" fontSize="14px" color="#697584">
+          <Text fontWeight="400" fontSize="14px" color={titleColor}>
             {poolName?.join(' / ')}
           </Text>
         </ModalHeader>
-        <ModalCloseButton color="#697584" />
+        <ModalCloseButton color={titleColor} />
         <ModalBody>
-          {/* Unbonding period options */}
-          {/* <Text fontWeight="semibold" fontSize="18px" color="#697584" mb="22px">
-            Unbonding Period
-          </Text> */}
-
-          {/* <Flex {...group} justifyContent="space-between" mb="56px">
-            {options.map(({ value, text, apr }) => {
-              const radio = getRadioProps({ value });
-              return (
-                <RadioCard {...radio} key={value} title={text} apr={apr} />
-              );
-            })}
-          </Flex> */}
           <Flex
             justifyContent="space-between"
-            color="#697584"
+            color={titleColor}
             mx="auto"
             mb="12px"
             mt="10px"
@@ -194,8 +174,8 @@ const BondSharesModal = ({
             <NumberInput
               h="100%"
               w="100%"
-              bgColor="#EEF2F8"
-              border="1px solid #D1D6DD"
+              bgColor={bgColor}
+              border={`1px solid ${borderColor}`}
               borderRadius="6px"
               value={inputShares}
               onChange={(val) => setInputShares(val)}
@@ -207,7 +187,7 @@ const BondSharesModal = ({
                 pl="18px"
                 fontWeight="semibold"
                 fontSize="18px"
-                color="#2C3137"
+                color={statColor}
               />
             </NumberInput>
           </Flex>

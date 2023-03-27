@@ -36,7 +36,7 @@ export default function Home() {
     <Container
       maxW="5xl"
       py={10}
-      // bg={colorMode === 'light' ? '#FFFFFF' : '#2C3137'}
+      bg={colorMode === 'light' ? '#FFFFFF' : '#2C3137'}
     >
       <Head>
         <title>Create Cosmos App</title>

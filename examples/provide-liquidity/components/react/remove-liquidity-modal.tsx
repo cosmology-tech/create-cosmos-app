@@ -15,6 +15,7 @@ import {
   Box,
   Center,
   useMediaQuery,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { Pool } from './provide-liquidity';
 import { LargeButton, PoolAssetDisplay } from './modal-components';
@@ -143,6 +144,10 @@ const RemoveLiquidityModal = ({
     }
   };
 
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+  const statColor = useColorModeValue('#2C3137', '#EEF2F8');
+  const bgColor = useColorModeValue('#EEF2F8', '#1D2024');
+
   return (
     <Modal
       isOpen={isOpen}
@@ -151,22 +156,22 @@ const RemoveLiquidityModal = ({
       size={isMobile ? 'xs' : { sm: 'sm', md: 'md', lg: 'lg' }}
     >
       <ModalOverlay bg="blackAlpha.800" />
-      <ModalContent>
+      <ModalContent bg={useColorModeValue('#FFF', '#2C3137')}>
         <ModalHeader>
-          <Text fontWeight="600" fontSize="20px" color="#2C3137">
+          <Text fontWeight="600" fontSize="20px" color={statColor}>
             Remove liquidity
           </Text>
-          <Text fontWeight="400" fontSize="14px" color="#697584">
+          <Text fontWeight="400" fontSize="14px" color={titleColor}>
             {poolName?.join(' / ')}
           </Text>
         </ModalHeader>
-        <ModalCloseButton color="#697584" />
+        <ModalCloseButton color={titleColor} />
         <ModalBody>
           <Text
             textAlign="center"
             fontWeight="semibold"
             fontSize="32px"
-            color="#2C3137"
+            color={statColor}
             lineHeight="shorter"
             mb="10px"
           >
@@ -188,7 +193,7 @@ const RemoveLiquidityModal = ({
             lineHeight="shorter"
             fontSize="14px"
             mb="22px"
-            color="#2C3137"
+            color={statColor}
           >
             {truncDecimals(unbondedShares, 12)} pool shares
           </Text>
@@ -215,12 +220,12 @@ const RemoveLiquidityModal = ({
             max={100}
             onChange={(val) => setPercent(val)}
           >
-            <SliderTrack bgColor="#EEF2F8" h="4px">
-              <SliderFilledTrack bgColor="#697584" h="4px" />
+            <SliderTrack bgColor={bgColor} h="4px">
+              <SliderFilledTrack bgColor={titleColor} h="4px" />
             </SliderTrack>
             <SliderThumb
               boxSize="24px"
-              bgColor="#2C3137"
+              bgColor={statColor}
               boxShadow="0px 4px 10px rgba(0, 0, 0, 0.3)"
             />
           </Slider>
@@ -230,13 +235,13 @@ const RemoveLiquidityModal = ({
               <Box
                 px="6px"
                 py="5px"
-                bg="#eef2f8"
+                bg={bgColor}
                 borderRadius="4px"
                 cursor="pointer"
                 key={percent}
                 onClick={() => setPercent(percent)}
               >
-                <Text fontWeight="semibold" fontSize="14px" color="#697584">
+                <Text fontWeight="semibold" fontSize="14px" color={titleColor}>
                   {percent}%
                 </Text>
               </Box>

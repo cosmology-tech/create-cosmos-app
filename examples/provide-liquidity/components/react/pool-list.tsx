@@ -23,6 +23,7 @@ import {
   GridItem,
   Skeleton,
   useMediaQuery,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { Pool } from './provide-liquidity';
@@ -72,13 +73,17 @@ export const ChainLogo = ({
 };
 
 const PoolName = ({ isMyPools, pool }: { isMyPools: boolean; pool: Pool }) => {
+  const myPoolsColor = useColorModeValue('#2C3137', '#EEF2F8');
+  const allPoolsColor = useColorModeValue('#697584', '#A7B4C2');
+  const poolIdColor = useColorModeValue('#697584', '#A7B4C2');
+
   return (
     <Box>
       <Text
         mb="2px"
         fontWeight="600"
         fontSize="14px"
-        color={isMyPools ? '#2C3137' : '#697584'}
+        color={isMyPools ? myPoolsColor : allPoolsColor}
       >
         {pool.poolAssets.length > 2
           ? `${pool.poolAssets.length} Token Pool`
@@ -86,7 +91,7 @@ const PoolName = ({ isMyPools, pool }: { isMyPools: boolean; pool: Pool }) => {
               .map(({ token }) => getSymbolForDenom(token!.denom))
               .join('/')}
       </Text>
-      <Text fontWeight="400" fontSize="14px" color="#697584">
+      <Text fontWeight="400" fontSize="14px" color={poolIdColor}>
         Pool #{pool.id.low}
       </Text>
     </Box>
@@ -138,15 +143,23 @@ const PoolStat = ({
   amount: string;
   isMyPools: boolean;
 }) => {
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+  const myPoolsStatColor = useColorModeValue('#2C3137', '#EEF2F8');
+  const allPoolsStatColor = useColorModeValue('#697584', '#A7B4C2');
   return (
     <Flex flexDir="column" justifyContent="space-between" h="100%">
-      <Text fontWeight="400" fontSize="14px" color="#697584" lineHeight="short">
+      <Text
+        fontWeight="400"
+        fontSize="14px"
+        color={titleColor}
+        lineHeight="short"
+      >
         {name}
       </Text>
       <Text
         fontWeight="600"
         fontSize={isMyPools ? '14px' : '12px'}
-        color={isMyPools ? '#2C3137' : '#697584'}
+        color={isMyPools ? myPoolsStatColor : allPoolsStatColor}
         lineHeight="short"
       >
         {amount}
@@ -166,6 +179,7 @@ const MenuPopover = ({
   handleRemoveLiquidityClick: () => void;
   handleViewDetailClick: () => void;
 }) => {
+  const hoverBgColor = useColorModeValue('#EEF2F8', '#1D2024');
   return (
     <Popover placement="bottom-end">
       <PopoverTrigger>
@@ -177,7 +191,7 @@ const MenuPopover = ({
           transition="all 0.2s linear"
           cursor="pointer"
           _hover={{
-            backgroundColor: '#EEF2F8',
+            backgroundColor: hoverBgColor,
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -292,6 +306,11 @@ const PoolList = ({
     return formattedData;
   };
 
+  const tableHeaderColor = useColorModeValue('#697584', '#A7B4C2');
+  const myPoolsStatColor = useColorModeValue('#2C3137', '#EEF2F8');
+  const allPoolsStatColor = useColorModeValue('#697584', '#A7B4C2');
+  const rowHoverBgColor = useColorModeValue('#DDE3EB', '#1D2024');
+
   return (
     <>
       {isMobile ? (
@@ -369,7 +388,7 @@ const PoolList = ({
                     css={{ textTransform: 'none' }}
                     fontWeight="400"
                     fontSize="14px"
-                    color="#697584"
+                    color={tableHeaderColor}
                     transform={
                       header === 'Pool' && hasMultiTokens
                         ? 'translateX(26px)'
@@ -394,7 +413,7 @@ const PoolList = ({
                     }}
                     cursor="pointer"
                     _hover={{
-                      backgroundColor: '#DDE3EB',
+                      backgroundColor: rowHoverBgColor,
                     }}
                   >
                     <Td p={0} w={0}>
@@ -415,7 +434,9 @@ const PoolList = ({
                         <Text
                           fontWeight="600"
                           fontSize={isMyPools ? '14px' : '12px'}
-                          color={isMyPools ? '#2C3137' : '#697584'}
+                          color={
+                            isMyPools ? myPoolsStatColor : allPoolsStatColor
+                          }
                         >
                           {stat}
                         </Text>
@@ -426,7 +447,9 @@ const PoolList = ({
                         <Text
                           fontWeight="600"
                           fontSize={isMyPools ? '14px' : '12px'}
-                          color={isMyPools ? '#2C3137' : '#697584'}
+                          color={
+                            isMyPools ? myPoolsStatColor : allPoolsStatColor
+                          }
                         >
                           {truncDecimals(pool.apr['14'].totalApr, 2) + '%'}
                         </Text>

@@ -106,6 +106,7 @@ export const PoolsOverview = ({
 
   const titleColor = useColorModeValue('#697584', '#A7B4C2');
   const amountColor = useColorModeValue('#2C3137', '#EEF2F8');
+
   return (
     <Grid
       mb="25px"
@@ -171,14 +172,17 @@ export const PoolsOverview = ({
         </StatBox>
       </GridItem>
       <GridItem colSpan={isMobile ? 2 : 1}>
-        <StatBox bgColor={useColorModeValue('#E5FFE4', '#1D2024')} width="100%">
+        <StatBox bgColor={useColorModeValue('#E5FFE4', '#304139')} width="100%">
           <Flex
             h="100%"
             flexDir="column"
             justifyContent="center"
             fontWeight="600"
           >
-            <Text color="#36BB35" fontSize="14px">
+            <Text
+              color={useColorModeValue('#36BB35', '#AEFFAB')}
+              fontSize="14px"
+            >
               Currently earning
             </Text>
             <RewardText reward={totalRewardPerDay} />
