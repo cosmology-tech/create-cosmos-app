@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   Text,
+  useColorModeValue,
   useMediaQuery,
   useRadio,
   UseRadioProps,
@@ -30,12 +31,12 @@ export const NormalButton = ({
 }) => {
   const baseStyle = {
     solid: {
-      color: '#FFFFFF',
-      backgroundColor: '#2C3137',
+      color: useColorModeValue('#FFF', '#1D2024'),
+      backgroundColor: useColorModeValue('#2C3137', '#EEF2F8'),
     },
     outline: {
-      color: '#2C3137',
-      border: '2px solid #2C3137',
+      color: useColorModeValue('#2C3137', '#EEF2F8'),
+      border: `2px solid ${useColorModeValue('#2C3137', '#EEF2F8')}`,
       backgroundColor: 'transparent',
     },
   };
@@ -101,12 +102,12 @@ export const LargeButton = ({
       }}
       w={width}
       h="68px"
-      bgColor="#2C3137"
+      bgColor={useColorModeValue('#2C3137', '#EEF2F8')}
       boxShadow="0px 4px 10px rgba(0, 0, 0, 0.3)"
       borderRadius="6px"
       fontWeight="semibold"
       fontSize="18px"
-      color="#FFFFFF"
+      color={useColorModeValue('#FFF', '#1D2024')}
     >
       {btnText}
     </Button>
@@ -124,13 +125,15 @@ export const PoolAssetDisplay = ({
   token: string;
   mt?: string;
 }) => {
+  const textColor = useColorModeValue('#697584', '#A7B4C2');
+
   return (
     <Flex alignItems="center" mt={mt || 0}>
       <ChainLogo url={logoUrl} width="16px" />
-      <Text ml="8px" fontWeight="600" fontSize="14px" color="#697584">
+      <Text ml="8px" fontWeight="600" fontSize="14px" color={textColor}>
         {amount}
       </Text>
-      <Text ml="4px" fontWeight="400" fontSize="14px" color="#697584">
+      <Text ml="4px" fontWeight="400" fontSize="14px" color={textColor}>
         {token}
       </Text>
     </Flex>
@@ -158,26 +161,29 @@ export const BondLiquidityCard = ({
   const isValueTooSmall = val.lt(0.01) && val.gt(0);
   const [isMobile] = useMediaQuery('(max-width: 480px)');
 
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+  const statColor = useColorModeValue('#2C3137', '#EEF2F8');
+
   return (
     <Flex
       w={isMobile ? '100%' : { sm: '100%', md: '226px', lg: '226px' }}
       h="242px"
-      bgColor="#F5F7FB"
+      bgColor={useColorModeValue('#F5F7FB', '#1D2024')}
       borderRadius="7px"
       flexDir="column"
       justifyContent="space-between"
       p="24px"
     >
       <Box>
-        <Text color="#697584" fontWeight="600" fontSize="14px" mb="4px">
+        <Text color={titleColor} fontWeight="600" fontSize="14px" mb="4px">
           Bonded {duration} day
         </Text>
         <Flex mb="24px" alignItems="flex-end">
-          <Text color="#697584" fontWeight="600" fontSize="14px" mr="10px">
+          <Text color={titleColor} fontWeight="600" fontSize="14px" mr="10px">
             APR
           </Text>
           <Text
-            color="#697584"
+            color={titleColor}
             fontWeight="600"
             fontSize="26px"
             lineHeight="28px"
@@ -185,14 +191,14 @@ export const BondLiquidityCard = ({
           >
             {truncDecimals(apr, 2)}
           </Text>
-          <Text color="#697584" fontWeight="600" fontSize="14px">
+          <Text color={titleColor} fontWeight="600" fontSize="14px">
             %
           </Text>
         </Flex>
         <Flex alignItems="flex-end">
           {isValueTooSmall && (
             <Text
-              color="#2C3137"
+              color={statColor}
               fontWeight="600"
               fontSize="20px"
               lineHeight="shorter"
@@ -201,11 +207,11 @@ export const BondLiquidityCard = ({
               {'<'}
             </Text>
           )}
-          <Text color="#2C3137" fontWeight="600" fontSize="14px" mr="4px">
+          <Text color={statColor} fontWeight="600" fontSize="14px" mr="4px">
             $
           </Text>
           <Text
-            color="#2C3137"
+            color={statColor}
             fontWeight="600"
             fontSize="26px"
             lineHeight="26px"
@@ -214,10 +220,10 @@ export const BondLiquidityCard = ({
           </Text>
         </Flex>
         <Flex>
-          <Text color="#2C3137" fontWeight="600" fontSize="14px" mr="4px">
+          <Text color={statColor} fontWeight="600" fontSize="14px" mr="4px">
             {truncDecimals(bondedShares, 4)}
           </Text>
-          <Text color="#2C3137" fontWeight="400" fontSize="14px">
+          <Text color={statColor} fontWeight="400" fontSize="14px">
             pool shares
           </Text>
         </Flex>
@@ -294,7 +300,12 @@ export const RewardText = ({ reward }: { reward: number }) => {
   const isRewardTooSmall = rewardNum.lt(0.01) && rewardNum.gt(0);
 
   return (
-    <Flex alignItems="flex-end" gap="1px" color="#36BB35" fontWeight="600">
+    <Flex
+      alignItems="flex-end"
+      gap="1px"
+      color={useColorModeValue('#36BB35', '#AEFFAB')}
+      fontWeight="600"
+    >
       {isRewardTooSmall && (
         <Text fontSize="22px" lineHeight="26px" mr="5px">
           {'<'}

@@ -11,6 +11,7 @@ import {
   Box,
   Heading,
   useMediaQuery,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { Pool } from './provide-liquidity';
 import { getLogoUrlFromDenom } from './pool-list';
@@ -39,7 +40,7 @@ import { daysToSeconds } from './bond-shares-modal';
 import Long from 'long';
 import dayjs from 'dayjs';
 import { coins as aminoCoins } from '@cosmjs/amino';
-import { TransactionResult } from '../types';
+import { Peroid, TransactionResult } from '../types';
 
 export const truncDecimals = (
   val: string | number | undefined,
@@ -63,6 +64,7 @@ export const PoolDetailModal = ({
   delegatedCoins,
   updatePoolsData,
   rewardPerDay,
+  setPeroid,
   locks,
 }: {
   isOpen: boolean;
@@ -73,6 +75,7 @@ export const PoolDetailModal = ({
   delegatedCoins: Coin[];
   updatePoolsData: () => void;
   rewardPerDay: number;
+  setPeroid: (peroid: Peroid) => void;
   openModals: {
     onAddLiquidityOpen: () => void;
     onRemoveLiquidityOpen: () => void;
@@ -209,6 +212,9 @@ export const PoolDetailModal = ({
     }
   };
 
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+  const statColor = useColorModeValue('#2C3137', '#EEF2F8');
+
   return (
     <>
       <Modal
@@ -218,7 +224,7 @@ export const PoolDetailModal = ({
         isCentered
       >
         <ModalOverlay />
-        <ModalContent w="768px">
+        <ModalContent w="768px" bg={useColorModeValue('#FFF', '#2C3137')}>
           <ModalHeader>
             <Text fontWeight="600" fontSize="20px">
               {poolName?.join(' / ')}
@@ -241,28 +247,28 @@ export const PoolDetailModal = ({
                   isAtRight
                 />
                 <Box ml="14px">
-                  <Text fontWeight="600" fontSize="14px" color="#697584">
+                  <Text fontWeight="600" fontSize="14px" color={titleColor}>
                     Pool liquidity
                   </Text>
-                  <Text fontWeight="600" fontSize="26px" color="#2C3137">
+                  <Text fontWeight="600" fontSize="26px" color={statColor}>
                     ${pool?.liquidity.toLocaleString()}
                   </Text>
                 </Box>
               </Flex>
               <Flex>
                 <Box ml={{ sm: 0, md: 0, lg: '110px' }}>
-                  <Text fontWeight="600" fontSize="14px" color="#697584">
+                  <Text fontWeight="600" fontSize="14px" color={titleColor}>
                     Swap fee
                   </Text>
-                  <Text fontWeight="600" fontSize="26px" color="#2C3137">
+                  <Text fontWeight="600" fontSize="26px" color={statColor}>
                     {swapFee}%
                   </Text>
                 </Box>
                 <Box ml="58px">
-                  <Text fontWeight="600" fontSize="14px" color="#697584">
+                  <Text fontWeight="600" fontSize="14px" color={titleColor}>
                     24h trading volume
                   </Text>
-                  <Text fontWeight="600" fontSize="26px" color="#2C3137">
+                  <Text fontWeight="600" fontSize="26px" color={statColor}>
                     ${pool?.volume24H.toLocaleString()}
                   </Text>
                 </Box>
@@ -276,12 +282,17 @@ export const PoolDetailModal = ({
             >
               <Box
                 w={isMobile ? '100%' : { sm: '100%', md: '100%', lg: '476px' }}
-                bgColor="#F5F7FB"
+                bgColor={useColorModeValue('#F5F7FB', '#1D2024')}
                 borderRadius="8px"
                 py="20px"
                 px="24px"
               >
-                <Text fontWeight="600" fontSize="14px" color="#697584" mb="2px">
+                <Text
+                  fontWeight="600"
+                  fontSize="14px"
+                  color={titleColor}
+                  mb="2px"
+                >
                   Your pool balance
                 </Text>
                 <Flex mb="28px">
@@ -289,7 +300,7 @@ export const PoolDetailModal = ({
                     <Text fontWeight="600" fontSize="26px" lineHeight="30px">
                       ${totalBalance.decimalPlaces(2).toString()}
                     </Text>
-                    <Text fontWeight="400" fontSize="14px" color="#2C3137">
+                    <Text fontWeight="400" fontSize="14px" color={statColor}>
                       {truncDecimals(totalShares, 6)} pool shares
                     </Text>
                   </Box>
@@ -331,12 +342,17 @@ export const PoolDetailModal = ({
                 h={
                   isMobile ? '100px' : { sm: '100px', md: '100px', lg: '192px' }
                 }
-                bgColor="#E5FFE4"
+                bgColor={useColorModeValue('#E5FFE4', '#304139')}
                 borderRadius="8px"
                 py="20px"
                 px="24px"
               >
-                <Text color="#36BB35" fontWeight="600" fontSize="14px" mb="4px">
+                <Text
+                  color={useColorModeValue('#36BB35', '#AEFFAB')}
+                  fontWeight="600"
+                  fontSize="14px"
+                  mb="4px"
+                >
                   Currently earning
                 </Text>
                 <RewardText reward={rewardPerDay} />
@@ -347,19 +363,19 @@ export const PoolDetailModal = ({
                 <Heading fontWeight="600" fontSize="20px">
                   Bond your liquidity
                 </Heading>
-                <Text color="#2C3137" fontWeight="400" fontSize="14px">
+                <Text color={statColor} fontWeight="400" fontSize="14px">
                   Bond your tokens to earn additional OSMO rewards to the swap
                   fees.
                 </Text>
               </Box>
               <Box ml={{ sm: 0, md: 0, lg: '44px' }}>
-                <Text color="#697584" fontWeight="600" fontSize="14px">
+                <Text color={titleColor} fontWeight="600" fontSize="14px">
                   Unbonded
                 </Text>
-                <Text color="#2C3137" fontWeight="600" fontSize="26px">
+                <Text color={statColor} fontWeight="600" fontSize="26px">
                   ${truncDecimals(pool?.myLiquidity, 2)}
                 </Text>
-                <Flex color="#2C3137" fontSize="14px">
+                <Flex color={statColor} fontSize="14px">
                   <Text fontWeight="600">
                     {truncDecimals(unbondedShares, 4)}
                   </Text>
@@ -381,7 +397,10 @@ export const PoolDetailModal = ({
                   apr={bonded.apr.totalApr}
                   bondedShares={bonded.shares}
                   bondedValue={bonded.value}
-                  openBondModal={openModals.onBondSharesOpen}
+                  openBondModal={() => {
+                    setPeroid(bonded.duration);
+                    openModals.onBondSharesOpen();
+                  }}
                   onUnbondClick={() =>
                     handleUnbondClick(bonded.ID, bonded.duration)
                   }

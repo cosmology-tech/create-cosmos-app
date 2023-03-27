@@ -7,6 +7,7 @@ import {
   Image,
   Skeleton,
   useMediaQuery,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { Pool } from './provide-liquidity';
 import { getLogoUrlFromDenom } from './pool-list';
@@ -71,12 +72,15 @@ const PoolCard = ({
   isFetchingApr: boolean;
 }) => {
   const [isMobile] = useMediaQuery('(max-width: 680px)');
+  const poolNameColor = useColorModeValue('#2C3137', '#EEF2F8');
+  const poolIdColor = useColorModeValue('#697584', '#A7B4C2');
+  const aprTextColor = useColorModeValue('#2C3137', '#EEF2F8');
 
   return (
     <Box
       w={isMobile ? '100%' : { sm: '210px', md: '236px', lg: '236px' }}
       h="200px"
-      bg="#F5F7FB"
+      bg={useColorModeValue('#F5F7FB', '#1D2024')}
       borderRadius="7px"
       px="24px"
       py="24px"
@@ -87,7 +91,7 @@ const PoolCard = ({
       }}
       transition="all 0.1s linear"
       _hover={{
-        bg: '#DDE3EB',
+        bg: useColorModeValue('#DDE3EB', '#24282E'),
       }}
     >
       <Flex alignItems="center" mb="28px">
@@ -97,25 +101,25 @@ const PoolCard = ({
           isAtRight
         />
         <Box fontSize="14px">
-          <Text fontWeight="600" color="#2C3137">
+          <Text fontWeight="600" color={poolNameColor}>
             {pool.poolAssets
               .map(({ token }) => getSymbolForDenom(token!.denom))
               .join('/')}
           </Text>
-          <Text fontWeight="400" color="#697584">
+          <Text fontWeight="400" color={poolIdColor}>
             Pool #{pool.id.low}
           </Text>
         </Box>
       </Flex>
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
-        <Text fontWeight="400" fontSize="14px" color="#2C3137">
+        <Text fontWeight="400" fontSize="14px" color={aprTextColor}>
           APR
         </Text>
         {isFetchingApr ? (
           <Skeleton isLoaded={!isFetchingApr} height="18px" w="50px" />
         ) : (
           <Flex
-            color="#2C3137"
+            color={aprTextColor}
             fontWeight="600"
             alignItems="flex-end"
             gap="2px"

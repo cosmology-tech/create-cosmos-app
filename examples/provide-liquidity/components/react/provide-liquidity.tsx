@@ -1,6 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useChain } from '@cosmos-kit/react';
-import { Box, Flex, Heading, Text, useDisclosure } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  useColorMode,
+  useColorModeValue,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { Pool as OsmosisPool } from 'osmojs/types/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { Gauge } from 'osmojs/types/codegen/osmosis/incentives/gauge';
@@ -17,7 +25,7 @@ import { PoolDetailModal } from './pool-detail-modal';
 import AddLiquidityModal from './add-liquidity-modal';
 import RemoveLiquidityModal from './remove-liquidity-modal';
 import BondSharesModal from './bond-shares-modal';
-import { Rewards } from '../types';
+import { Peroid, Rewards } from '../types';
 import {
   convertGammTokenToDollarValue,
   convertGeckoPricesToDenomPriceHash,
@@ -129,14 +137,11 @@ const getPoolsApr = async (
     }
 
     allGauges = [...allGauges, ...gauges];
-    console.log(allGauges.length);
 
     if (Number(index) !== poolIdChunks.length - 1) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
   }
-
-  console.log('get allGauges done!', allGauges.length);
 
   const superfluidApr = await getSuperfluidApr();
 
@@ -218,6 +223,7 @@ const handleResults = (results: any[]) => {
 export const ProvideLiquidity = () => {
   const [showAll, setShowAll] = useState(false);
   const [isFetchingApr, setIsFetchingApr] = useState(false);
+  const [period, setPeriod] = useState<Peroid>('14');
   const [pool, setPool] = useState<Pool>();
   const [data, setData] = useState<IData>({
     prices: {},
@@ -260,6 +266,7 @@ export const ProvideLiquidity = () => {
   const { address, getRpcEndpoint, assets } = useChain(chainName);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode } = useColorMode();
 
   const osmoPrice =
     data?.allTokens.find((token) => token.denom === assets?.assets[0].base)
@@ -524,6 +531,8 @@ export const ProvideLiquidity = () => {
     getData();
   }, [getData]);
 
+  const headingColor = useColorModeValue('#697584', '#A7B4C2');
+
   return (
     <Box mb={14} maxWidth="800px" mx="auto">
       <Heading fontSize="20px" fontWeight="600" mb="28px">
@@ -536,7 +545,7 @@ export const ProvideLiquidity = () => {
       />
 
       {/* MY POOLS */}
-      <Heading fontSize="18px" fontWeight="600" mb="20px" color="#697584">
+      <Heading fontSize="18px" fontWeight="600" mb="20px" color={headingColor}>
         My Pools
       </Heading>
       <Box mb="38px">
@@ -556,7 +565,7 @@ export const ProvideLiquidity = () => {
       </Box>
 
       {/* HIGHLIGHTED POOLS */}
-      <Heading fontSize="18px" fontWeight="600" mb="34px" color="#697584">
+      <Heading fontSize="18px" fontWeight="600" mb="34px" color={headingColor}>
         Highlighted Pools
       </Heading>
       <Flex justifyContent="space-between" mb="50px" wrap="wrap" rowGap="20px">
@@ -572,7 +581,7 @@ export const ProvideLiquidity = () => {
       </Flex>
 
       {/* ALL POOLS */}
-      <Heading fontSize="18px" fontWeight="600" mb="20px" color="#697584">
+      <Heading fontSize="18px" fontWeight="600" mb="20px" color={headingColor}>
         All Pools
       </Heading>
       <Box mb="100px" position="relative">
@@ -599,11 +608,13 @@ export const ProvideLiquidity = () => {
             zIndex={0}
             css={{
               background:
-                'linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.2) 100%)',
+                colorMode === 'light'
+                  ? 'linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.2) 100%)'
+                  : 'linear-gradient(to top, rgba(44,49,55,1) 0%, rgba(44,49,55,0.8) 50%, rgba(44,49,55,0.2) 100%)',
             }}
           >
             <Text
-              color="#697584"
+              color={colorMode === 'light' ? '#697584' : '#A7B4C2'}
               fontSize="14px"
               fontWeight="600"
               cursor="pointer"
@@ -630,6 +641,7 @@ export const ProvideLiquidity = () => {
           locks={data.locks}
           delegatedCoins={data.delegatedCoins}
           updatePoolsData={getData}
+          setPeroid={setPeriod}
           openModals={{
             onAddLiquidityOpen,
             onRemoveLiquidityOpen,
@@ -666,6 +678,7 @@ export const ProvideLiquidity = () => {
           currentPool={pool}
           prices={data.prices}
           updatePoolsData={getData}
+          period={period}
         />
       )}
     </Box>
