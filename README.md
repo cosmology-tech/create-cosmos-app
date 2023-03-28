@@ -159,8 +159,10 @@ cca --name osmowasm --example --template osmosis-cosmwasm
 ### Swap Tokens
 
 <p align="center" width="100%">
-    <img height="48" src="https://user-images.githubusercontent.com/545047/186589196-e75c9540-86a7-4a71-8096-207be9a4216f.svg" />
+    <img height="48" src="https://user-images.githubusercontent.com/545047/184519024-2d34bf20-2440-4837-943f-4915a46409f5.svg" />
 </p>
+
+uses [osmojs](https://github.com/osmosis-labs/osmojs) to swap tokens
 
 ```
 cca --name myswaptokensapp --example --template swap-tokens
@@ -169,8 +171,10 @@ cca --name myswaptokensapp --example --template swap-tokens
 ### Provide Liquidity
 
 <p align="center" width="100%">
-    <img height="48" src="https://user-images.githubusercontent.com/545047/186589196-e75c9540-86a7-4a71-8096-207be9a4216f.svg" />
+    <img height="48" src="https://user-images.githubusercontent.com/545047/184519024-2d34bf20-2440-4837-943f-4915a46409f5.svg" />
 </p>
+
+uses [osmojs](https://github.com/osmosis-labs/osmojs) to provide liquidity
 
 ```
 cca --name myprovideliquidityapp --example --template provide-liquidity
