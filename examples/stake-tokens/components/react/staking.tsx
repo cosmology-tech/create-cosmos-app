@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from 'react';
 import { useChain } from '@cosmos-kit/react';
 import { Box, SkeletonText } from '@chakra-ui/react';
@@ -14,7 +15,6 @@ import Stats from './stats';
 import MyValidators from './my-validators';
 import AllValidators from './all-validators';
 import { getCoin } from '../../config';
-import router from 'next/router';
 import { ChainName } from '@cosmos-kit/core';
 import { ImageSource } from '../types';
 
@@ -157,7 +157,7 @@ interface StakingTokens {
 }
 
 export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
-  const { address, getRpcEndpoint, disconnect } = useChain(chainName);
+  const { address, getRpcEndpoint } = useChain(chainName);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<StakingTokens>({
     balance: 0,
@@ -201,7 +201,8 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
 
     // get RPC client
     const client = await cosmos.ClientFactory.createRPCQueryClient({
-      rpcEndpoint,
+      rpcEndpoint:
+        typeof rpcEndpoint === 'string' ? rpcEndpoint : rpcEndpoint.url,
     });
 
     // AVAILABLE BALANCE
@@ -295,19 +296,11 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
       thumbnails,
     });
     setIsLoading(false);
-  }, [address, chainName, coin.base, exp, getRpcEndpoint]);
+  }, [address]);
 
   useEffect(() => {
     getData();
-
-    const handlePageLeave = () => disconnect();
-
-    router.events.on('routeChangeStart', handlePageLeave);
-
-    return () => {
-      router.events.off('routeChangeStart', handlePageLeave);
-    };
-  }, [address, disconnect, getData]);
+  }, [getData]);
 
   return (
     <Box my={14}>
