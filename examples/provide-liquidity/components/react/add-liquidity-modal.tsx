@@ -40,6 +40,17 @@ type InputToken = {
   inputAmount: string;
 };
 
+export const calcAmountWithSlippage = (
+  amount: string,
+  slippage: number | string
+) => {
+  const remainingPercentage = new BigNumber(100).minus(slippage).div(100);
+  return new BigNumber(amount)
+    .multipliedBy(remainingPercentage)
+    .decimalPlaces(0)
+    .toString();
+};
+
 const { joinPool, joinSwapExternAmountIn } =
   osmosis.gamm.v1beta1.MessageComposer.withTypeUrl;
 
@@ -161,7 +172,8 @@ const AddLiquidityModal = ({
         inputCoin.amount
       );
       const coinsNeeded = convertDollarValueToCoins(inputValue, pool, prices);
-      const shareOutMinAmount = calcShareOutAmount(pool, coinsNeeded);
+      const shareOutAmount = calcShareOutAmount(pool, coinsNeeded);
+      const shareOutMinAmount = calcAmountWithSlippage(shareOutAmount, 2.5);
       const joinSwapExternAmountInMsg = joinSwapExternAmountIn({
         poolId: currentPool.id,
         sender: address,
@@ -190,7 +202,7 @@ const AddLiquidityModal = ({
 
     try {
       const res = await stargateClient.signAndBroadcast(address, msg, fee);
-      console.log(res);
+      if (res?.code !== TransactionResult.Success) throw res;
       stargateClient.disconnect();
       setIsLoading(false);
       showToast(res.code);
@@ -198,10 +210,10 @@ const AddLiquidityModal = ({
       closeDetailModal();
       updatePoolsData();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       stargateClient.disconnect();
       setIsLoading(false);
-      showToast(TransactionResult.Failed);
+      showToast(TransactionResult.Failed, error);
     }
   };
 

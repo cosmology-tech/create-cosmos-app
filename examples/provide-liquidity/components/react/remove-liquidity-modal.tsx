@@ -132,7 +132,7 @@ const RemoveLiquidityModal = ({
 
     try {
       const res = await stargateClient.signAndBroadcast(address, [msg], fee);
-      console.log(res);
+      if (res?.code !== TransactionResult.Success) throw res;
       stargateClient.disconnect();
       setIsLoading(false);
       showToast(res.code);
@@ -140,10 +140,10 @@ const RemoveLiquidityModal = ({
       closeDetailModal();
       updatePoolsData();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       stargateClient.disconnect();
       setIsLoading(false);
-      showToast(TransactionResult.Failed);
+      showToast(TransactionResult.Failed, error);
     }
   };
 

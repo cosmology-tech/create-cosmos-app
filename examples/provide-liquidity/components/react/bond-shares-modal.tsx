@@ -85,7 +85,6 @@ const BondSharesModal = ({
 
   const handleClick = async () => {
     setIsLoading(true);
-    console.log('period', { days: period, seconds: daysToSeconds(period) });
 
     const stargateClient = await getSigningStargateClient();
 
@@ -114,6 +113,7 @@ const BondSharesModal = ({
 
     try {
       const res = await stargateClient.signAndBroadcast(address, [msg], fee);
+      if (res?.code !== TransactionResult.Success) throw res;
       stargateClient.disconnect();
       setIsLoading(false);
       showToast(res.code);
@@ -121,10 +121,10 @@ const BondSharesModal = ({
       closeDetailModal();
       updatePoolsData();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       stargateClient.disconnect();
       setIsLoading(false);
-      showToast(TransactionResult.Failed);
+      showToast(TransactionResult.Failed, error);
     }
   };
 
