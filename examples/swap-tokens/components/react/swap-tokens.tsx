@@ -8,7 +8,6 @@ import {
   baseUnitsToDisplayUnits,
   baseUnitsToDollarValue,
   calcPoolLiquidity,
-  convertGeckoPricesToDenomPriceHash,
   getExponentByDenom,
   makePoolPairs,
   noDecimals,
@@ -19,7 +18,6 @@ import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
 import { Pool } from 'osmojs/types/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { PrettyPair, PriceHash } from '../../utils/types';
 import Long from 'long';
-import { getPrices } from '@cosmology/core';
 import BigNumber from 'bignumber.js';
 import { calcAmountWithSlippage, getRoutesForTrade } from '../../utils/swap';
 import { coin } from '@cosmjs/amino';
@@ -27,13 +25,27 @@ import { coin } from '@cosmjs/amino';
 const slippages = ['1%', '2.5%', '3%', '5%'];
 
 const getPriceHash = async () => {
-  const geckoIds = [
-    ...new Set(
-      osmosisAssets.map((asset) => asset.coingecko_id).filter(Boolean)
-    ),
-  ] as string[];
-  const prices = await getPrices(geckoIds);
-  return convertGeckoPricesToDenomPriceHash(prices);
+  let prices = [];
+
+  try {
+    const response = await fetch(
+      'https://api-osmosis.imperator.co/tokens/v2/all'
+    );
+    if (!response.ok) throw Error('Get price error');
+    prices = await response.json();
+  } catch (err) {
+    console.error(err);
+  }
+
+  const priceHash = prices.reduce(
+    (prev: any, cur: { denom: any; price: any }) => ({
+      ...prev,
+      [cur.denom]: cur.price,
+    }),
+    {}
+  );
+
+  return priceHash;
 };
 
 const truncDecimals = (val: string | number | undefined, decimals: number) => {
@@ -304,7 +316,6 @@ export const SwapTokens = () => {
 
       topActiveTokens = [...new Set(tokenDenoms.flat())];
     }
-    console.log('topActiveTokens', topActiveTokens.length);
 
     const balances = await client.cosmos.bank.v1beta1
       .allBalances({
