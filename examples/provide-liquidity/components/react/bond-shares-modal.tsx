@@ -21,11 +21,11 @@ import { convertDollarValueToShares, getSymbolForDenom } from '../../utils';
 import { PriceHash } from '../../utils/types';
 import { truncDecimals } from './pool-detail-modal';
 import BigNumber from 'bignumber.js';
-import { FEES, osmosis } from 'osmojs';
+import { osmosis } from 'osmojs';
 import { useChain } from '@cosmos-kit/react';
 import { chainName } from '../../config/defaults';
-import Long from 'long';
 import { Peroid, TransactionResult } from '../types';
+import { coins as aminoCoins } from '@cosmjs/amino';
 
 const { lockTokens } = osmosis.lockup.MessageComposer.withTypeUrl;
 
@@ -40,6 +40,7 @@ const BondSharesModal = ({
   prices,
   updatePoolsData,
   period,
+  closeDetailModal,
 }: {
   isOpen: boolean;
   onClose: () => void;
@@ -47,6 +48,7 @@ const BondSharesModal = ({
   prices: PriceHash;
   updatePoolsData: () => void;
   period: Peroid;
+  closeDetailModal: () => void;
 }) => {
   const [inputShares, setInputShares] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -83,6 +85,7 @@ const BondSharesModal = ({
 
   const handleClick = async () => {
     setIsLoading(true);
+    console.log('period', { days: period, seconds: daysToSeconds(period) });
 
     const stargateClient = await getSigningStargateClient();
 
@@ -101,10 +104,13 @@ const BondSharesModal = ({
     const msg = lockTokens({
       coins,
       owner: address,
-      duration: { seconds: Long.fromString(daysToSeconds(period)), nanos: 0 },
+      duration: daysToSeconds(period),
     });
 
-    const fee = FEES.osmosis.lockTokens('low');
+    const fee = {
+      amount: aminoCoins(0, 'uosmo'),
+      gas: '450000',
+    };
 
     try {
       const res = await stargateClient.signAndBroadcast(address, [msg], fee);
@@ -112,6 +118,7 @@ const BondSharesModal = ({
       setIsLoading(false);
       showToast(res.code);
       closeModal();
+      closeDetailModal();
       updatePoolsData();
     } catch (error) {
       console.log(error);

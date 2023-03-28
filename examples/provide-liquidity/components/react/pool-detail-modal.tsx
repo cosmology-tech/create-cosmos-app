@@ -203,6 +203,7 @@ export const PoolDetailModal = ({
       stargateClient.disconnect();
       setUnbondingStatus((prev) => ({ ...prev, [ID]: false }));
       showToast(res.code);
+      onClose();
       updatePoolsData();
     } catch (error) {
       console.log(error);
