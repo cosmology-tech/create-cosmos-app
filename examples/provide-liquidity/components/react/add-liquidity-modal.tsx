@@ -50,6 +50,7 @@ const AddLiquidityModal = ({
   balances,
   prices,
   updatePoolsData,
+  closeDetailModal,
 }: {
   isOpen: boolean;
   onClose: () => void;
@@ -57,6 +58,7 @@ const AddLiquidityModal = ({
   balances: Coin[];
   prices: PriceHash;
   updatePoolsData: () => void;
+  closeDetailModal: () => void;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [singleToken, setSingleToken] = useState<string | null>(null);
@@ -193,6 +195,7 @@ const AddLiquidityModal = ({
       setIsLoading(false);
       showToast(res.code);
       closeModal();
+      closeDetailModal();
       updatePoolsData();
     } catch (error) {
       console.log(error);

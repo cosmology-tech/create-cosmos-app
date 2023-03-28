@@ -45,12 +45,14 @@ const RemoveLiquidityModal = ({
   currentPool,
   prices,
   updatePoolsData,
+  closeDetailModal,
 }: {
   isOpen: boolean;
   onClose: () => void;
   currentPool: Pool;
   prices: PriceHash;
   updatePoolsData: () => void;
+  closeDetailModal: () => void;
 }) => {
   const [percent, setPercent] = useState(50);
   const [isLoading, setIsLoading] = useState(false);
@@ -135,6 +137,7 @@ const RemoveLiquidityModal = ({
       setIsLoading(false);
       showToast(res.code);
       closeModal();
+      closeDetailModal();
       updatePoolsData();
     } catch (error) {
       console.log(error);
