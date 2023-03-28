@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useChain } from '@cosmos-kit/react';
 import {
   Box,
+  Center,
   Flex,
   Heading,
+  Spinner,
   Text,
   useColorMode,
   useColorModeValue,
@@ -17,7 +19,6 @@ import { PeriodLock } from 'osmojs/types/codegen/osmosis/lockup/lock';
 import BigNumber from 'bignumber.js';
 import { osmosis } from 'osmojs';
 import Long from 'long';
-import { getPrices } from '@cosmology/core';
 import { chainName } from '../../config';
 import PoolList from './pool-list';
 import PoolCard from './pool-card';
@@ -26,14 +27,8 @@ import AddLiquidityModal from './add-liquidity-modal';
 import RemoveLiquidityModal from './remove-liquidity-modal';
 import BondSharesModal from './bond-shares-modal';
 import { Peroid, Rewards } from '../types';
-import {
-  convertGammTokenToDollarValue,
-  convertGeckoPricesToDenomPriceHash,
-  osmosisAssets,
-  calcPoolAprs,
-} from '../../utils';
+import { convertGammTokenToDollarValue, calcPoolAprs } from '../../utils';
 import { PriceHash } from '../../utils/types';
-import { usePrevious } from './hooks';
 import { Duration } from 'osmojs/types/codegen/google/protobuf/duration';
 import { ActiveGaugesPerDenomResponse } from 'osmojs/types/codegen/osmosis/incentives/query';
 import { SuperfluidAsset } from 'osmojs/types/codegen/osmosis/superfluid/superfluid';
@@ -174,16 +169,6 @@ const getPoolsApr = async (
   return allPoolAprs;
 };
 
-const getPriceHash = async () => {
-  const geckoIds = [
-    ...new Set(
-      osmosisAssets.map((asset) => asset.coingecko_id).filter(Boolean)
-    ),
-  ] as string[];
-  const prices = await getPrices(geckoIds);
-  return convertGeckoPricesToDenomPriceHash(prices);
-};
-
 const getTokens = async () => {
   const response = await fetch(
     'https://api-osmosis.imperator.co/tokens/v2/all'
@@ -223,6 +208,8 @@ const handleResults = (results: any[]) => {
 export const ProvideLiquidity = () => {
   const [showAll, setShowAll] = useState(false);
   const [isFetchingApr, setIsFetchingApr] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [allAprs, setAllAprs] = useState<{ [key: number]: PoolApr }>({});
   const [period, setPeriod] = useState<Peroid>('14');
   const [pool, setPool] = useState<Pool>();
   const [data, setData] = useState<IData>({
@@ -242,8 +229,6 @@ export const ProvideLiquidity = () => {
       total_year_usd: 0,
     },
   });
-
-  const { prevData: prevAprs, addData: addAprs } = usePrevious<PoolApr>();
 
   const {
     isOpen: isAddLiquidityOpen,
@@ -350,6 +335,7 @@ export const ProvideLiquidity = () => {
       }));
       return;
     }
+    setIsLoading(true);
     console.log('getting data...');
 
     let rpcEndpoint = await getRpcEndpoint();
@@ -365,12 +351,19 @@ export const ProvideLiquidity = () => {
 
     const results = await Promise.allSettled([
       getRewards(address),
-      getPriceHash(),
       getTokens(),
       getFees(),
     ]);
 
-    const [rewards, prices, allTokens, fees] = handleResults(results);
+    const [rewards, allTokens, fees] = handleResults(results);
+
+    const prices = allTokens.reduce(
+      (prev: any, cur: { denom: any; price: any }) => ({
+        ...prev,
+        [cur.denom]: cur.price,
+      }),
+      {}
+    );
 
     // GET DELEGATIONS
     const { totalDelegatedCoins: delegatedCoins } =
@@ -453,6 +446,7 @@ export const ProvideLiquidity = () => {
       delegatedCoins,
       rewards,
     });
+    setIsLoading(false);
     console.log('getting data done!');
 
     // ============
@@ -475,7 +469,7 @@ export const ProvideLiquidity = () => {
         id: pool.id.low,
         denom: pool.totalShares!.denom,
       }))
-      .filter(({ id }) => !prevAprs[id]);
+      .filter(({ id }) => !allAprs[id]);
 
     const getActiveGauges = (denom: string) => {
       return client.osmosis.incentives.activeGaugesPerDenom({ denom });
@@ -492,11 +486,11 @@ export const ProvideLiquidity = () => {
         prices,
         getActiveGauges
       );
-      poolsApr = { ...prevAprs, ...poolsAprNew };
-      addAprs(poolsAprNew);
+      poolsApr = { ...allAprs, ...poolsAprNew };
+      setAllAprs(poolsApr);
       console.log('added new apr', Object.keys(poolsAprNew).length);
     } else {
-      poolsApr = prevAprs;
+      poolsApr = allAprs;
       console.log('use previous apr');
     }
 
@@ -549,18 +543,26 @@ export const ProvideLiquidity = () => {
         My Pools
       </Heading>
       <Box mb="38px">
-        {data?.myPools && data?.myPools.length > 0 && (
-          <PoolList
-            pools={data?.myPools || []}
-            setPool={setPool}
-            isFetchingApr={isFetchingApr}
-            openPoolDetailModal={onOpen}
-            isMyPools
-            openModals={{
-              onAddLiquidityOpen,
-              onRemoveLiquidityOpen,
-            }}
-          />
+        {isLoading ? (
+          <Center h="100px">
+            <Spinner size="lg" />
+          </Center>
+        ) : (
+          <>
+            {data?.myPools && data?.myPools.length > 0 && (
+              <PoolList
+                pools={data?.myPools || []}
+                setPool={setPool}
+                isFetchingApr={isFetchingApr}
+                openPoolDetailModal={onOpen}
+                isMyPools
+                openModals={{
+                  onAddLiquidityOpen,
+                  onRemoveLiquidityOpen,
+                }}
+              />
+            )}
+          </>
         )}
       </Box>
 
@@ -658,6 +660,7 @@ export const ProvideLiquidity = () => {
           balances={data.balances}
           prices={data.prices}
           updatePoolsData={getData}
+          closeDetailModal={onClose}
         />
       )}
 
@@ -668,6 +671,7 @@ export const ProvideLiquidity = () => {
           currentPool={pool}
           prices={data.prices}
           updatePoolsData={getData}
+          closeDetailModal={onClose}
         />
       )}
 
@@ -679,6 +683,7 @@ export const ProvideLiquidity = () => {
           prices={data.prices}
           updatePoolsData={getData}
           period={period}
+          closeDetailModal={onClose}
         />
       )}
     </Box>
