@@ -461,6 +461,7 @@ export const ProvideLiquidity = () => {
       (pool) => pool.id.low
     );
 
+    console.log('allApr', Object.keys(allAprs).length);
     const poolIdsWithDenom: { id: number; denom: string }[] = [
       ...new Set(poolIds),
     ]
@@ -469,13 +470,15 @@ export const ProvideLiquidity = () => {
         id: pool.id.low,
         denom: pool.totalShares!.denom,
       }))
-      .filter(({ id }) => !allAprs[id]);
+      .filter(({ id }) => !Boolean(allAprs[id]));
 
     const getActiveGauges = (denom: string) => {
       return client.osmosis.incentives.activeGaugesPerDenom({ denom });
     };
 
     let poolsApr: { [key: number]: PoolApr } = {};
+
+    console.log('poolIdsWithDenom.length', poolIdsWithDenom.length);
 
     if (poolIdsWithDenom.length) {
       const poolsAprNew = await getPoolsApr(
