@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.2.0 (2023-03-28)
+
+
+### Bug Fixes
+
+* get price error ([bba5a52](https://github.com/cosmology-tech/create-cosmos-app/commit/bba5a52a76178a4a7345047de9842daa3ed199e0))
+
+
+### Features
+
+* add SwapView component ([0afc5d7](https://github.com/cosmology-tech/create-cosmos-app/commit/0afc5d74a9d2043ba97dff08ebf5b0defa9c11c7))
+* enable swap tokens ([afe140e](https://github.com/cosmology-tech/create-cosmos-app/commit/afe140e5ccd32ec03370677c60d3ddd159bdbf13))
+
+
+
+
+
 ## [1.7.2](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/osmosis@1.7.1...@cosmology/osmosis@1.7.2) (2023-02-15)
 
 **Note:** Version bump only for package @cosmology/osmosis
