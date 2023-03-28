@@ -200,16 +200,17 @@ export const PoolDetailModal = ({
 
     try {
       const res = await stargateClient.signAndBroadcast(address, msg, fee);
+      if (res?.code !== TransactionResult.Success) throw res;
       stargateClient.disconnect();
       setUnbondingStatus((prev) => ({ ...prev, [ID]: false }));
       showToast(res.code);
       onClose();
       updatePoolsData();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       stargateClient.disconnect();
       setUnbondingStatus((prev) => ({ ...prev, [ID]: false }));
-      showToast(TransactionResult.Failed);
+      showToast(TransactionResult.Failed, error);
     }
   };
 
