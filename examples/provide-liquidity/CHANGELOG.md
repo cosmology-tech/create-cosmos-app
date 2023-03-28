@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.1.1 (2023-03-28)
+
+
+### Bug Fixes
+
+* button and icon styles ([9fe1b4d](https://github.com/cosmology-tech/create-cosmos-app/commit/9fe1b4d723b83c1c5df53c05c20084f16b93dcae))
+* improve error displaying ([130596c](https://github.com/cosmology-tech/create-cosmos-app/commit/130596cfed96a59b454d3f426567c87f9e6f26b5))
+
+
+
+
+
 ## [1.7.1](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/osmosis@1.7.0...@cosmology/osmosis@1.7.1) (2023-01-11)
 
 **Note:** Version bump only for package @cosmology/osmosis
