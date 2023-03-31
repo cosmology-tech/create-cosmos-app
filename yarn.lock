@@ -1711,6 +1711,14 @@
     "@babel/runtime" "^7.19.4"
     "@chain-registry/types" "^0.14.0"
 
+"@chain-registry/osmosis@1.11.0":
+  version "1.11.0"
+  resolved "https://registry.npmmirror.com/@chain-registry/osmosis/-/osmosis-1.11.0.tgz#db33e56d91ce6bac509409130be1adfa2bcf7a47"
+  integrity sha512-tvA1VYZ70AYrxcdNLIfcpb6/+agBdy1qWA0h9qkoy6rQSFh3PIGSk/wuwUO7MUSiCY5hgCk0B2+FFWHDmd+41A==
+  dependencies:
+    "@babel/runtime" "^7.19.4"
+    "@chain-registry/types" "^0.14.0"
+
 "@chain-registry/osmosis@1.7.0":
   version "1.7.0"
   resolved "https://registry.npmmirror.com/@chain-registry/osmosis/-/osmosis-1.7.0.tgz#4e6aa66c40e8ea6d302e23931e3ec67dbe1182cb"

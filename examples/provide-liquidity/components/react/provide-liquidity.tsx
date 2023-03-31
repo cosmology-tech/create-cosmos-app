@@ -417,18 +417,24 @@ export const ProvideLiquidity = () => {
     const highlightedPools = superfluidAssets
       .map(({ denom }) => {
         const poolId = parseInt(denom.match(/\d+/)![0]);
-        return formattedPools.filter(({ id }) => id.low === poolId)[0];
+        const poolData = formattedPools.find(({ id }) => id.low === poolId);
+        if (!poolData) return;
+        return poolData;
       })
-      .sort((a, b) => b.liquidity - a.liquidity)
-      .slice(0, 3);
+      .filter(Boolean)
+      .sort((a, b) => b!.liquidity - a!.liquidity)
+      .slice(0, 3) as Pool[];
 
     // GET MY POOLS
-    const myPools: Pool[] = balances
+    const myPools = balances
       .filter(({ denom }) => denom.startsWith('gamm/pool'))
       .map((coin) => {
         const poolId = parseInt(coin.denom.match(/\d+/)![0]);
-        return formattedPools.filter(({ id }) => id.low === poolId)[0];
-      });
+        const poolData = formattedPools.find(({ id }) => id.low === poolId);
+        if (!poolData) return;
+        return poolData;
+      })
+      .filter(Boolean) as Pool[];
 
     const { locks } = await client.osmosis.lockup.accountLockedLongerDuration({
       owner: address,
@@ -452,6 +458,7 @@ export const ProvideLiquidity = () => {
     // ============
     // GET APR PART
     // ============
+
     setIsFetchingApr(true);
 
     const { lockableDurations } =
@@ -461,7 +468,6 @@ export const ProvideLiquidity = () => {
       (pool) => pool.id.low
     );
 
-    console.log('allApr', Object.keys(allAprs).length);
     const poolIdsWithDenom: { id: number; denom: string }[] = [
       ...new Set(poolIds),
     ]
@@ -478,8 +484,6 @@ export const ProvideLiquidity = () => {
 
     let poolsApr: { [key: number]: PoolApr } = {};
 
-    console.log('poolIdsWithDenom.length', poolIdsWithDenom.length);
-
     if (poolIdsWithDenom.length) {
       const poolsAprNew = await getPoolsApr(
         formattedPools,
@@ -491,10 +495,8 @@ export const ProvideLiquidity = () => {
       );
       poolsApr = { ...allAprs, ...poolsAprNew };
       setAllAprs(poolsApr);
-      console.log('added new apr', Object.keys(poolsAprNew).length);
     } else {
       poolsApr = allAprs;
-      console.log('use previous apr');
     }
 
     const addAprToPool = (pool: Pool) => {
