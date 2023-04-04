@@ -1,27 +1,39 @@
-import { useRequest } from './useRequest';
 import { osmosis } from 'osmojs';
-import { QueryAllBalancesRequest } from 'osmojs/types/codegen/cosmos/bank/v1beta1/query';
-import { useEffect } from 'react';
+import {
+  QueryAllBalancesRequest,
+  QueryBalanceRequest,
+} from 'osmojs/types/codegen/cosmos/bank/v1beta1/query';
+import { useState } from 'react';
 import { useClient } from './useClient';
 
 type Client = Awaited<
   ReturnType<typeof osmosis.ClientFactory.createRPCQueryClient>
 >;
 
-export const useOsmosisClient = () => {
-  const { getClient } = useClient();
-  const { data: client, request: fetchClient } = useRequest<Client>(getClient);
+export const useOsmosisClient = (chainName: string) => {
+  const { getClient: getClientRequest } = useClient(chainName);
+  const [osmosisClient, setOsmosisClient] = useState<Client | null>(null);
 
-  useEffect(() => {
-    fetchClient();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const getClient = async () => {
+    if (osmosisClient) return osmosisClient;
 
-  const getBalances = async (arg: QueryAllBalancesRequest) => {
-    if (!client) return;
+    console.log('get new Client...');
+    const newClient = await getClientRequest();
+    setOsmosisClient(newClient);
+    return newClient;
+  };
+
+  const getAllBalances = async (arg: QueryAllBalancesRequest) => {
+    const client = await getClient();
     const { balances } = await client.cosmos.bank.v1beta1.allBalances(arg);
     return balances;
   };
 
-  return { getBalances };
+  const getBalance = async (arg: QueryBalanceRequest) => {
+    const client = await getClient();
+    const { balance } = await client.cosmos.bank.v1beta1.balance(arg);
+    return balance;
+  };
+
+  return { getAllBalances, getBalance };
 };

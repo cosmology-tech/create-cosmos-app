@@ -1,13 +1,10 @@
 import { osmosis } from 'osmojs';
-import { chainName } from '../config';
 import { useChain } from '@cosmos-kit/react';
 
-export const useClient = () => {
+export const useClient = (chainName: string) => {
   const { getRpcEndpoint } = useChain(chainName);
 
   const getClient = async () => {
-    console.log('getClient run');
-
     let rpcEndpoint = await getRpcEndpoint();
 
     if (!rpcEndpoint) {

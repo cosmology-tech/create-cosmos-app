@@ -10,15 +10,67 @@ import {
   Box,
   useDisclosure,
 } from '@chakra-ui/react';
+import BigNumber from 'bignumber.js';
 import React, { useState } from 'react';
+import { PrettyAsset, PriceHash, Transfer, TransferInfo } from '../types';
 import { SimpleButton } from './buttons';
 import TransferModal from './transfer-modal';
+import { chainName as osmoChainName } from '../../config';
+import {
+  asset_list as osmosisAssetList,
+  assets as osmosisAssets,
+} from '@chain-registry/osmosis';
+import { useManager } from '@cosmos-kit/react';
+import { ChainRecord } from '@cosmos-kit/core';
 
-const OsmosisAssets: React.FC = () => {
+const isOsmosisAsset = ({ denom }: PrettyAsset) => {
+  return !!osmosisAssets.assets.find((asset) => asset.base === denom);
+};
+
+export const getChainName = (osmoDenom: string) => {
+  if (osmosisAssets.assets.find((asset) => asset.base === osmoDenom))
+    return osmosisAssets.chain_name;
+  const asset = osmosisAssetList.assets.find(
+    (asset) => asset.base === osmoDenom
+  )!;
+  const chainName = asset?.traces?.[0].counterparty.chain_name;
+  if (!chainName) throw Error('chainName not found: ' + osmoDenom);
+  return chainName;
+};
+
+export const getNativeDenom = (chainRecord: ChainRecord) => {
+  const denom = chainRecord.assetList?.assets[0].base;
+  if (!denom) throw Error('denom not found');
+  return denom;
+};
+
+export const truncDecimals = (
+  val: string | number | undefined,
+  decimals: number
+) => {
+  return new BigNumber(val || 0).decimalPlaces(decimals).toString();
+};
+
+const ZERO_AMOUNT = '0';
+
+interface IProps {
+  assets: PrettyAsset[];
+  prices: PriceHash;
+  updateBalances: () => void;
+}
+
+const OsmosisAssetsList: React.FC<IProps> = ({
+  assets,
+  prices,
+  updateBalances,
+}) => {
   const [showAll, setShowAll] = useState(false);
-  const { colorMode } = useColorMode();
+  const [transferInfo, setTransferInfo] = useState<TransferInfo>();
 
+  const { getChainRecord } = useManager();
+  const { colorMode } = useColorMode();
   const transferModalControl = useDisclosure();
+  const assetsToShow = showAll ? assets : assets.slice(0, 6);
 
   return (
     <Box position="relative" mb="100px">
@@ -27,34 +79,67 @@ const OsmosisAssets: React.FC = () => {
         <Header text="Balance" />
       </SimpleGrid>
 
-      {(showAll ? 'abcdefghijklmn' : 'abcdefg').split('').map((value) => {
+      {assetsToShow.map((asset) => {
         return (
-          <SimpleGrid columns={3} h="40px" key={value} mb="24px">
+          <SimpleGrid columns={3} h="40px" key={asset.denom} mb="24px">
             <HStack spacing="24px" h="100%">
-              <ChainLogo
-                logoWidth="40px"
-                url="https://raw.githubusercontent.com/cosmos/chain-registry/master/osmosis/images/osmo.png"
-              />
+              <ChainLogo logoWidth="40px" url={asset.logoUrl} />
               <Center>
-                <DataDisplay value="OSMO" helpText="Osmosis" />
+                <DataDisplay
+                  value={asset.symbol}
+                  helpText={asset.prettyChainName}
+                />
               </Center>
             </HStack>
 
             <Flex alignItems="center">
-              <DataDisplay value="102.614224" helpText="$101.02" />
+              <DataDisplay
+                value={truncDecimals(asset.displayAmount, 6)}
+                helpText={'$' + truncDecimals(asset.dollarValue, 2)}
+              />
             </Flex>
 
-            <Flex justifyContent="flex-end" alignItems="center">
-              <SimpleButton
-                onClick={transferModalControl.onOpen}
-                text="Deposit"
-                mr="12px"
-              />
-              <SimpleButton
-                onClick={transferModalControl.onOpen}
-                text="Withdraw"
-              />
-            </Flex>
+            {!isOsmosisAsset(asset) && (
+              <Flex justifyContent="flex-end" alignItems="center">
+                <SimpleButton
+                  onClick={() => {
+                    const sourceChainName = getChainName(asset.denom);
+                    const sourceChainRecord = getChainRecord(sourceChainName);
+                    const sourceChainAssetDenom =
+                      getNativeDenom(sourceChainRecord);
+                    setTransferInfo({
+                      sourceChainName,
+                      type: Transfer.Deposit,
+                      destChainName: osmoChainName,
+                      token: {
+                        ...asset,
+                        displayAmount: ZERO_AMOUNT,
+                        dollarValue: ZERO_AMOUNT,
+                        amount: ZERO_AMOUNT,
+                        denom: sourceChainAssetDenom,
+                      },
+                    });
+                    transferModalControl.onOpen();
+                  }}
+                  text={Transfer.Deposit}
+                  mr="12px"
+                />
+                <SimpleButton
+                  onClick={() => {
+                    const destChainName = getChainName(asset.denom);
+                    setTransferInfo({
+                      sourceChainName: osmoChainName,
+                      type: Transfer.Withdraw,
+                      destChainName,
+                      token: asset,
+                    });
+                    transferModalControl.onOpen();
+                  }}
+                  visible={new BigNumber(asset.amount).gt(0)}
+                  text={Transfer.Withdraw}
+                />
+              </Flex>
+            )}
           </SimpleGrid>
         );
       })}
@@ -90,7 +175,14 @@ const OsmosisAssets: React.FC = () => {
         </Text>
       </Flex>
 
-      <TransferModal modalControl={transferModalControl} />
+      {transferInfo && (
+        <TransferModal
+          prices={prices}
+          transferInfo={transferInfo}
+          updateBalances={updateBalances}
+          modalControl={transferModalControl}
+        />
+      )}
     </Box>
   );
 };
@@ -159,4 +251,4 @@ const Header = ({ text, ml }: { text: string; ml?: string }) => {
   );
 };
 
-export default OsmosisAssets;
+export default OsmosisAssetsList;

@@ -1,41 +1,85 @@
-import React, { useCallback, useEffect } from 'react';
-import { Box, Button, Text } from '@chakra-ui/react';
+import React, { useEffect, useMemo } from 'react';
+import { Box, Center, Spinner, Text } from '@chakra-ui/react';
 import AssetsOverview from './assets-overview';
-import OsmosisAssetsList from './osmosis-assets';
+import OsmosisAssetsList, { getChainName } from './osmosis-assets';
 import { chainName } from '../../config';
-import { useChain } from '@cosmos-kit/react';
+import { useChain, useManager } from '@cosmos-kit/react';
 import { useRequest, useOsmosisClient } from '../../hooks';
+import {
+  baseUnitsToDisplayUnits,
+  baseUnitsToDollarValue,
+  getOsmoAssetByDenom,
+  osmoDenomToSymbol,
+} from '../../utils';
+import { PrettyAsset, PriceHash, Token } from '../types';
+import BigNumber from 'bignumber.js';
+import tokensApi from '../../api/tokens';
+import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
 
-// TODO: in useRequest, add cache functionality and make this a choice
+const tokenToPriceHash = (prev: PriceHash, cur: Token): PriceHash => ({
+  ...prev,
+  [cur.denom]: cur.price,
+});
 
 export const AssetList = () => {
   const { address } = useChain(chainName);
-  const osmosisClient = useOsmosisClient();
-  const getBalances = useRequest(osmosisClient.getBalances);
+  const { getChainRecord } = useManager();
+  const osmosisClient = useOsmosisClient(chainName);
+  const getAllBalances = useRequest(osmosisClient.getAllBalances);
+  const getAllTokens = useRequest(tokensApi.getTokens);
 
-  const getData = () => {
+  const prices = useMemo(() => {
+    return getAllTokens.data?.reduce(tokenToPriceHash, {});
+  }, [getAllTokens.data]);
+
+  useEffect(() => {
     if (!address) return;
+
     console.log('getting data...');
-    getBalances.request({ address });
-  };
+    getAllBalances.request({ address });
+    getAllTokens.request();
 
-  if (!getBalances.loading) console.log('balances', getBalances.data);
-  // if (!getParams.loading) console.log('params', getParams.data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
 
-  // useEffect(() => {
-  //   getData();
-  // }, [getData]);
+  let assets: PrettyAsset[] = [];
+  if ((getAllBalances.data || [])?.length > 0 && prices) {
+    const balanceCoins: Coin[] = (getAllBalances.data || []).filter(
+      ({ denom }) => !denom.startsWith('gamm') && prices[denom]
+    );
+
+    const emptyCoins: Coin[] = (getAllTokens.data || [])
+      .filter(
+        (token) => !balanceCoins.find(({ denom }) => denom === token.denom)
+      )
+      .sort((tokenA, tokenB) => tokenB.liquidity - tokenA.liquidity)
+      .slice(0, 30)
+      .map(({ denom }) => ({ denom, amount: '0' }));
+
+    assets = [...balanceCoins, ...emptyCoins]
+      .map(({ amount, denom }) => {
+        const asset = getOsmoAssetByDenom(denom);
+        const chainName = getChainName(asset.base);
+        const chainRecord = getChainRecord(chainName);
+        const symbol = osmoDenomToSymbol(denom);
+        const dollarValue = baseUnitsToDollarValue(prices, symbol, amount);
+        return {
+          symbol,
+          logoUrl: asset.logo_URIs?.png,
+          prettyChainName: chainRecord.chain.pretty_name,
+          displayAmount: baseUnitsToDisplayUnits(symbol, amount),
+          dollarValue,
+          amount,
+          denom,
+        };
+      })
+      .sort((a, b) =>
+        new BigNumber(a.dollarValue).lt(b.dollarValue) ? 1 : -1
+      );
+  }
 
   return (
     <Box maxW="768px" mx="auto" mb="60px">
-      <Button onClick={getData}>Run</Button>
-      <Box>
-        {getBalances.loading
-          ? 'loading'
-          : getBalances.data?.map(({ denom }) => (
-              <Box key={denom}>{denom}</Box>
-            ))}
-      </Box>
       <Text
         fontSize="20px"
         fontWeight="600"
@@ -55,7 +99,23 @@ export const AssetList = () => {
       >
         On Osmosis
       </Text>
-      <OsmosisAssetsList />
+      {getAllBalances.loading || !prices ? (
+        <Loader />
+      ) : (
+        <OsmosisAssetsList
+          assets={assets}
+          prices={prices}
+          updateBalances={getAllBalances.request}
+        />
+      )}
     </Box>
+  );
+};
+
+const Loader = () => {
+  return (
+    <Center h="100px">
+      <Spinner size="md" color="#2C3137" emptyColor="#EEF2F8" />
+    </Center>
   );
 };

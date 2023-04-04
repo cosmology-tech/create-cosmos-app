@@ -4,10 +4,12 @@ import { ReactNode } from 'react';
 export const SimpleButton = ({
   onClick,
   text,
+  visible = true,
   mr,
 }: {
   onClick: () => void;
   text: string;
+  visible?: boolean;
   mr?: string;
 }) => {
   return (
@@ -15,6 +17,7 @@ export const SimpleButton = ({
       mr={mr}
       px="10px"
       h="32px"
+      visibility={visible ? 'visible' : 'hidden'}
       fontWeight="600"
       fontSize="14px"
       bg="#EEF2F8"
