@@ -26,7 +26,7 @@ const AssetsOverview = () => {
             lineHeight="30px"
           >
             <span style={{ fontSize: '14px', lineHeight: '16px' }}>$</span>
-            144.23
+            54.92
           </Text>
         </Box>
 
