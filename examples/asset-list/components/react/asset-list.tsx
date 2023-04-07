@@ -42,8 +42,9 @@ export const AssetList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
-  let assets: PrettyAsset[] = [];
-  if ((getAllBalances.data || [])?.length > 0 && prices) {
+  const assets: PrettyAsset[] = useMemo(() => {
+    if (!getAllBalances.data || !prices) return [];
+
     const balanceCoins: Coin[] = (getAllBalances.data || []).filter(
       ({ denom }) => !denom.startsWith('gamm') && prices[denom]
     );
@@ -56,7 +57,7 @@ export const AssetList = () => {
       .slice(0, 30)
       .map(({ denom }) => ({ denom, amount: '0' }));
 
-    assets = [...balanceCoins, ...emptyCoins]
+    const allAssets = [...balanceCoins, ...emptyCoins]
       .map(({ amount, denom }) => {
         const asset = getOsmoAssetByDenom(denom);
         const chainName = getChainName(asset.base);
@@ -76,7 +77,8 @@ export const AssetList = () => {
       .sort((a, b) =>
         new BigNumber(a.dollarValue).lt(b.dollarValue) ? 1 : -1
       );
-  }
+    return allAssets;
+  }, [getAllBalances.data, getAllTokens.data, getChainRecord, prices]);
 
   return (
     <Box maxW="768px" mx="auto" mb="60px">
@@ -89,7 +91,12 @@ export const AssetList = () => {
       >
         My assets
       </Text>
-      <AssetsOverview />
+      <AssetsOverview
+        assets={assets}
+        prices={prices}
+        isLoading={getAllBalances.loading}
+        updateBalances={getAllBalances.request}
+      />
       <Text
         fontSize="18px"
         fontWeight="600"

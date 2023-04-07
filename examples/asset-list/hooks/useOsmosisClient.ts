@@ -3,7 +3,7 @@ import {
   QueryAllBalancesRequest,
   QueryBalanceRequest,
 } from 'osmojs/types/codegen/cosmos/bank/v1beta1/query';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useClient } from './useClient';
 
 type Client = Awaited<
@@ -13,11 +13,14 @@ type Client = Awaited<
 export const useOsmosisClient = (chainName: string) => {
   const { getClient: getClientRequest } = useClient(chainName);
   const [osmosisClient, setOsmosisClient] = useState<Client | null>(null);
+  const prevChainName = useRef(chainName);
 
   const getClient = async () => {
-    if (osmosisClient) return osmosisClient;
+    if (chainName === prevChainName.current && osmosisClient)
+      return osmosisClient;
 
     console.log('get new Client...');
+    prevChainName.current = chainName;
     const newClient = await getClientRequest();
     setOsmosisClient(newClient);
     return newClient;

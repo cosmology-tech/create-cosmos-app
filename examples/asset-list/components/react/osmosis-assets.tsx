@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { PrettyAsset, PriceHash, Transfer, TransferInfo } from '../types';
 import { SimpleButton } from './buttons';
 import TransferModal from './transfer-modal';
@@ -23,7 +23,7 @@ import {
 import { useManager } from '@cosmos-kit/react';
 import { ChainRecord } from '@cosmos-kit/core';
 
-const isOsmosisAsset = ({ denom }: PrettyAsset) => {
+export const isOsmosisAsset = ({ denom }: PrettyAsset) => {
   return !!osmosisAssets.assets.find((asset) => asset.base === denom);
 };
 
@@ -70,7 +70,11 @@ const OsmosisAssetsList: React.FC<IProps> = ({
   const { getChainRecord } = useManager();
   const { colorMode } = useColorMode();
   const transferModalControl = useDisclosure();
-  const assetsToShow = showAll ? assets : assets.slice(0, 6);
+
+  const assetsToShow = useMemo(
+    () => (showAll ? assets : assets.slice(0, 6)),
+    [assets, showAll]
+  );
 
   return (
     <Box position="relative" mb="100px">

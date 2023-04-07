@@ -81,17 +81,12 @@ export type PriceHash = {
   [key: string]: number;
 };
 
-// export type AssetPair = {
-//   from: PrettyAsset;
-//   to: PrettyAsset;
-// };
-
 export const Transfer = {
   Deposit: 'Deposit',
   Withdraw: 'Withdraw',
 } as const;
 
-export type TransferValues = typeof Transfer[keyof typeof Transfer];
+export type TransferValues = (typeof Transfer)[keyof typeof Transfer];
 
 export enum TransactionResult {
   Success = 0,
@@ -104,3 +99,12 @@ export type TransferInfo = {
   destChainName: string;
   token: PrettyAsset;
 };
+
+export type AssetOption = {
+  label: string;
+  icon: { png: string | undefined };
+  amountValue: string;
+  fiatValue: string;
+};
+
+export type PrettyAssetOption = PrettyAsset & AssetOption;
