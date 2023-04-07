@@ -165,11 +165,6 @@ const TransferModal: React.FC<IProps> = ({
       )
       .then((res) => {
         if (res.code === TransactionResult.Success) {
-          console.log(
-            'updateBalances address',
-            transferType === Transfer.Deposit ? destAddress : sourceAddress
-          );
-
           showToast(res.code);
           updateBalances({
             address:
