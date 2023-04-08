@@ -127,10 +127,10 @@ const DropdownInput: React.FC<IProps> = ({
       })
       .map((asset) => ({
         ...asset,
-        label: asset.prettyChainName,
+        value: asset.prettyChainName,
         icon: { png: asset.logoUrl },
-        amountValue: asset.displayAmount,
-        fiatValue: '$' + truncDecimals(asset.dollarValue, 2),
+        amount: asset.displayAmount,
+        dollarValue: '$' + truncDecimals(asset.dollarValue, 2),
       }));
   }, [assets, isDeposit, transferToken]);
 

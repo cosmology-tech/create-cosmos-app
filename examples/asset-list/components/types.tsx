@@ -101,10 +101,8 @@ export type TransferInfo = {
 };
 
 export type AssetOption = {
-  label: string;
+  value: string;
   icon: { png: string | undefined };
-  amountValue: string;
-  fiatValue: string;
 };
 
 export type PrettyAssetOption = PrettyAsset & AssetOption;
