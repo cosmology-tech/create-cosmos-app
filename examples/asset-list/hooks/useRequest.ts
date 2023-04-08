@@ -1,19 +1,19 @@
 import { useState } from 'react';
 
-export const useRequest = <T>(requestFunc: (...args: any) => Promise<T>) => {
-  const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState('');
+export const useRequest = <T extends (...args: any) => any>(
+  requestFunc: (...args: Parameters<T>) => ReturnType<T>
+) => {
+  const [data, setData] = useState<Awaited<ReturnType<T>>>();
+  const [error, setError] = useState<any>();
   const [loading, setLoading] = useState(false);
 
-  const request = async (...args: any) => {
+  const request = async (...args: Parameters<T>) => {
     setLoading(true);
     try {
       const result = await requestFunc(...args);
       setData(result);
-      if (error) setError('');
     } catch (err) {
-      // setData(null);
-      setError(err?.message || 'Unexpected Error!');
+      setError(err || 'Unexpected Error!');
     } finally {
       setLoading(false);
     }

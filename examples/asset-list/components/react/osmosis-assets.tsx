@@ -22,6 +22,7 @@ import {
 } from '@chain-registry/osmosis';
 import { useManager } from '@cosmos-kit/react';
 import { ChainRecord } from '@cosmos-kit/core';
+import { QueryAllBalancesRequest } from 'osmojs/types/codegen/cosmos/bank/v1beta1/query';
 
 export const isOsmosisAsset = ({ denom }: PrettyAsset) => {
   return !!osmosisAssets.assets.find((asset) => asset.base === denom);
@@ -56,7 +57,7 @@ const ZERO_AMOUNT = '0';
 interface IProps {
   assets: PrettyAsset[];
   prices: PriceHash;
-  updateBalances: () => void;
+  updateBalances: (arg: QueryAllBalancesRequest) => Promise<void>;
 }
 
 const OsmosisAssetsList: React.FC<IProps> = ({

@@ -25,8 +25,12 @@ export const AssetList = () => {
   const { address } = useChain(chainName);
   const { getChainRecord } = useManager();
   const osmosisClient = useOsmosisClient(chainName);
-  const getAllBalances = useRequest(osmosisClient.getAllBalances);
-  const getAllTokens = useRequest(tokensApi.getTokens);
+  const getAllBalances = useRequest<typeof osmosisClient.getAllBalances>(
+    osmosisClient.getAllBalances
+  );
+  const getAllTokens = useRequest<typeof tokensApi.getTokens>(
+    tokensApi.getTokens
+  );
 
   const prices = useMemo(() => {
     return getAllTokens.data?.reduce(tokenToPriceHash, {});
@@ -51,7 +55,9 @@ export const AssetList = () => {
 
     const emptyCoins: Coin[] = (getAllTokens.data || [])
       .filter(
-        (token) => !balanceCoins.find(({ denom }) => denom === token.denom)
+        (token) =>
+          !balanceCoins.find(({ denom }) => denom === token.denom) &&
+          getOsmoAssetByDenom(token.denom)
       )
       .sort((tokenA, tokenB) => tokenB.liquidity - tokenA.liquidity)
       .slice(0, 30)
@@ -94,7 +100,8 @@ export const AssetList = () => {
       <AssetsOverview
         assets={assets}
         prices={prices}
-        isLoading={getAllBalances.loading}
+        balances={getAllBalances.data}
+        isGettingBalances={getAllBalances.loading}
         updateBalances={getAllBalances.request}
       />
       <Text
