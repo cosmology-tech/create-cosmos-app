@@ -13,6 +13,7 @@ import {
   Flex,
   Center,
   Icon,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import AmountInput from './amount-input';
@@ -153,6 +154,12 @@ const TransferModal: React.FC<IProps> = ({
       });
   };
 
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+  const statColor = useColorModeValue('#2C3137', '#EEF2F8');
+  const arrowColor = useColorModeValue('#4A5568', '#A7B4C2');
+  const bgColor = useColorModeValue('#EEF2F8', '#1D2024');
+  const cancelColor = useColorModeValue('#697584', '#EEF2F8');
+
   return (
     <Modal
       isOpen={modalControl.isOpen}
@@ -161,11 +168,11 @@ const TransferModal: React.FC<IProps> = ({
       isCentered
     >
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg={useColorModeValue('#FFF', '#2C3137')}>
         <ModalHeader
           fontWeight="600"
           fontSize="20px"
-          color="#2C3137"
+          color={statColor}
           py={0}
           pt="24px"
           mb="26px"
@@ -173,7 +180,7 @@ const TransferModal: React.FC<IProps> = ({
           {transferInfo.type}&nbsp;
           {transferInfo.token.symbol}
         </ModalHeader>
-        <ModalCloseButton color="#697584" size="lg" mt="10px" />
+        <ModalCloseButton color={titleColor} size="lg" mt="10px" />
         <ModalBody>
           <Flex justifyContent="space-between" alignItems="flex-end" mb="24px">
             <ChainAddress
@@ -183,7 +190,7 @@ const TransferModal: React.FC<IProps> = ({
               logoUrl={getChainLogo(transferInfo.sourceChainName)}
             />
             <Center h="54px">
-              <ArrowForwardIcon boxSize={5} color="#4A5568" />
+              <ArrowForwardIcon boxSize={5} color={arrowColor} />
             </Center>
             <ChainAddress
               type="destChain"
@@ -203,7 +210,7 @@ const TransferModal: React.FC<IProps> = ({
 
           <Flex
             h="40px"
-            bg="#EEF2F8"
+            bg={bgColor}
             borderRadius="6px"
             p="12px"
             alignItems="center"
@@ -212,7 +219,7 @@ const TransferModal: React.FC<IProps> = ({
             <Text
               fontWeight="400"
               fontSize="14px"
-              color="#2C3137"
+              color={statColor}
               lineHeight="shorter"
             >
               Estimated time:&nbsp;
@@ -236,7 +243,7 @@ const TransferModal: React.FC<IProps> = ({
           <Text
             fontWeight="600"
             fontSize="14px"
-            color="#697584"
+            color={cancelColor}
             mt="18px"
             mb="10px"
             lineHeight="shorter"
@@ -262,21 +269,24 @@ const ChainAddress = ({
   logoUrl: string | undefined;
   address: string | undefined;
 }) => {
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+  const bgColor = useColorModeValue('#EEF2F8', '#1D2024');
+
   return (
     <Box>
-      <Text fontWeight="600" fontSize="14px" color="#697584" mb="12px">
+      <Text fontWeight="600" fontSize="14px" color={titleColor} mb="12px">
         {type === 'sourceChain' ? 'From' : 'To'} {chainName}
       </Text>
       <Flex
         w="216px"
         h="54px"
-        bg="#EEF2F8"
+        bg={bgColor}
         borderRadius="6px"
         p="14px"
         alignItems="center"
       >
         <ChainLogo logoWidth="28px" url={logoUrl} />
-        <Text fontWeight="400" fontSize="14px" color="#697584" ml="8px">
+        <Text fontWeight="400" fontSize="14px" color={titleColor} ml="8px">
           {address && shortenAddress(address)}
         </Text>
       </Flex>

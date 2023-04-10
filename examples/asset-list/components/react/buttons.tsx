@@ -12,6 +12,9 @@ export const SimpleButton = ({
   visible?: boolean;
   mr?: string;
 }) => {
+  const bgColor = useColorModeValue('#EEF2F8', '#1D2024');
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+
   return (
     <Button
       mr={mr}
@@ -20,8 +23,8 @@ export const SimpleButton = ({
       visibility={visible ? 'visible' : 'hidden'}
       fontWeight="600"
       fontSize="14px"
-      bg="#EEF2F8"
-      color="#697584"
+      bg={bgColor}
+      color={titleColor}
       onClick={onClick}
       borderRadius="4px"
       _hover={{

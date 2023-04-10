@@ -79,6 +79,7 @@ const AmountInput: React.FC<IProps> = ({
   const statColor = useColorModeValue('#2C3137', '#EEF2F8');
   const bgColor = useColorModeValue('#EEF2F8', '#1D2024');
   const borderColor = useColorModeValue('#D1D6DD', '#434B55');
+  const symbolColor = useColorModeValue('#2C3137', '#A7B4C2');
 
   return (
     <Box mb="30px">
@@ -86,7 +87,7 @@ const AmountInput: React.FC<IProps> = ({
         <Text
           fontWeight="600"
           fontSize="18px"
-          color="#697584"
+          color={titleColor}
           lineHeight="22px"
         >
           Select amount
@@ -148,12 +149,12 @@ const AmountInput: React.FC<IProps> = ({
         </NumberInput>
 
         <Center h="68px" position="absolute" right="21px" bottom={0}>
-          <Flex alignItems="center">
+          <Flex>
             <Text
               fontWeight="semibold"
               lineHeight="shorter"
               fontSize="14px"
-              color={statColor}
+              color={symbolColor}
               mr="6px"
             >
               {transferToken.symbol}
@@ -196,16 +197,19 @@ const RatioLabel = ({
   label: string;
   onClick: () => void;
 }) => {
+  const bgColor = useColorModeValue('#EEF2F8', '#434B55');
+  const titleColor = useColorModeValue('#697584', '#EEF2F8');
+
   return (
     <Center
       h="28px"
-      bg="#EEF2F8"
+      bg={bgColor}
       px="7px"
       borderRadius="4px"
       onClick={onClick}
       cursor="pointer"
     >
-      <Text fontWeight="600" fontSize="14px" color="#697584">
+      <Text fontWeight="600" fontSize="14px" color={titleColor}>
         {label}
       </Text>
     </Center>

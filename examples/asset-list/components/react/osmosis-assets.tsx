@@ -9,6 +9,7 @@ import {
   useColorMode,
   Box,
   useDisclosure,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React, { useMemo, useState } from 'react';
@@ -194,12 +195,25 @@ const DataDisplay = ({
   value: string;
   helpText: string;
 }) => {
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+  const statColor = useColorModeValue('#2C3137', '#EEF2F8');
+
   return (
     <Flex flexDir="column" gap="4px">
-      <Text fontSize="14px" fontWeight="600" color="#2C3137" lineHeight="16px">
+      <Text
+        fontSize="14px"
+        fontWeight="600"
+        color={statColor}
+        lineHeight="16px"
+      >
         {value}
       </Text>
-      <Text fontSize="14px" fontWeight="400" color="#697584" lineHeight="16px">
+      <Text
+        fontSize="14px"
+        fontWeight="400"
+        color={titleColor}
+        lineHeight="16px"
+      >
         {helpText}
       </Text>
     </Flex>
@@ -238,11 +252,13 @@ export const ChainLogo = ({
 };
 
 const Header = ({ text, ml }: { text: string; ml?: string }) => {
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+
   return (
     <Text
       fontSize="14px"
       fontWeight="400"
-      color="#697584"
+      color={titleColor}
       lineHeight="16px"
       ml={ml}
     >
