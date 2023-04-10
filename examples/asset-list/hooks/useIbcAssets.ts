@@ -2,14 +2,13 @@ import { useManager } from '@cosmos-kit/react';
 import { useMemo } from 'react';
 import { Asset } from '@chain-registry/types';
 import { asset_lists as ibcAssetLists } from '@chain-registry/assets';
-import { assets as chainAssets } from 'chain-registry';
+import { assets as chainAssets, ibc } from 'chain-registry';
 import { getPrices } from '../api';
 import { CoinDenom, CoinSymbol, Exponent, PriceHash } from '../utils/types';
 import BigNumber from 'bignumber.js';
 import { Coin } from '@cosmjs/amino';
 import { PrettyAsset } from '../components';
 import { ChainName } from '@cosmos-kit/core';
-import { ibc } from 'chain-registry';
 
 export const useIbcAssets = (chainName: string) => {
   const { getChainRecord } = useManager();
