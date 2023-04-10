@@ -1,0 +1,51 @@
+{
+  "name": "@cosmology/asset-list",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "locks:remove": "rm -f yarn.lock",
+    "locks:create": "generate-lockfile --lockfile ../../yarn.lock --package package.json --write yarn.lock --force",
+    "locks": "npm run locks:remove && npm run locks:create"
+  },
+  "dependencies": {
+    "@chain-registry/assets": "1.11.0",
+    "@chain-registry/osmosis": "1.11.0",
+    "@chain-registry/types": "0.14.0",
+    "@chakra-ui/icons": "2.0.12",
+    "@chakra-ui/react": "2.5.1",
+    "@cosmjs/amino": "0.30.1",
+    "@cosmjs/cosmwasm-stargate": "0.29.5",
+    "@cosmjs/stargate": "0.29.5",
+    "@cosmology-ui/react": "0.1.8-beta.30",
+    "@cosmos-kit/core": "1.3.0",
+    "@cosmos-kit/cosmostation": "0.15.13",
+    "@cosmos-kit/keplr": "0.33.13",
+    "@cosmos-kit/leap": "0.14.12",
+    "@cosmos-kit/react": "1.3.11",
+    "@emotion/styled": "11.10.6",
+    "bignumber.js": "9.1.1",
+    "chain-registry": "1.7.0",
+    "chakra-react-select": "4.4.3",
+    "fast-fuzzy": "1.12.0",
+    "framer-motion": "9.0.7",
+    "long": "5.2.1",
+    "next": "12.2.5",
+    "osmojs": "14.0.0-rc.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "4.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.9",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9",
+    "eslint": "8.28.0",
+    "eslint-config-next": "13.0.5",
+    "generate-lockfile": "0.0.12",
+    "typescript": "4.9.3"
+  }
+}
