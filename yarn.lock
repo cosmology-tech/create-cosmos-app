@@ -1674,6 +1674,14 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@chain-registry/assets@1.11.0":
+  version "1.11.0"
+  resolved "https://registry.npmmirror.com/@chain-registry/assets/-/assets-1.11.0.tgz#89b859221b4810c2b51d5586c251dd3d077ed894"
+  integrity sha512-a30BrMLAPp0GWMo6yenMAnzkXujjW8W5H34OyJEcV0Y60WSfnJz44AOLgXhn2mC+E0DUjhiJks5yMIknHtmX6Q==
+  dependencies:
+    "@babel/runtime" "^7.19.4"
+    "@chain-registry/types" "^0.14.0"
+
 "@chain-registry/assets@1.7.0":
   version "1.7.0"
   resolved "https://registry.npmmirror.com/@chain-registry/assets/-/assets-1.7.0.tgz#443183212862b0a2aed31bc8d93c13d5103637a3"
