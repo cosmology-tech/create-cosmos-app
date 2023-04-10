@@ -1,80 +1,103 @@
 import React, { useEffect, useMemo } from 'react';
 import { Box, Center, Spinner, Text } from '@chakra-ui/react';
 import AssetsOverview from './assets-overview';
-import OsmosisAssetsList, { getChainName } from './osmosis-assets';
-import { chainName } from '../../config';
+import OsmosisAssetsList from './osmosis-assets';
 import { useChain, useManager } from '@cosmos-kit/react';
-import { useRequest, useOsmosisClient } from '../../hooks';
-import {
-  baseUnitsToDisplayUnits,
-  baseUnitsToDollarValue,
-  getOsmoAssetByDenom,
-  osmoDenomToSymbol,
-} from '../../utils';
-import { PrettyAsset, PriceHash, Token } from '../types';
+import { useRequest, useOsmosisClient, useIbcAssets } from '../../hooks';
+import { PrettyAsset } from '../types';
 import BigNumber from 'bignumber.js';
-import tokensApi from '../../api/tokens';
+import { getTokens } from '../../api';
 import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
+import { ChainName } from '@cosmos-kit/core';
 
-const tokenToPriceHash = (prev: PriceHash, cur: Token): PriceHash => ({
-  ...prev,
-  [cur.denom]: cur.price,
-});
+const MAX_TOP_TOKENS = 60;
+const MAX_TOKENS_TO_SHOW = 50;
 
-export const AssetList = () => {
-  const { address } = useChain(chainName);
+interface IProps {
+  selectedChainName: ChainName;
+}
+
+export const AssetList: React.FC<IProps> = ({ selectedChainName }) => {
   const { getChainRecord } = useManager();
-  const osmosisClient = useOsmosisClient(chainName);
+  const osmosisClient = useOsmosisClient(selectedChainName);
+  const { address, isWalletConnected, connect, chain } =
+    useChain(selectedChainName);
+
+  const {
+    ibcAssets,
+    getPriceHash,
+    getAssetByDenom,
+    convRawToDispAmount,
+    calcCoinDollarValue,
+    denomToSymbol,
+    getPrettyChainName,
+  } = useIbcAssets(selectedChainName);
+
+  const getAllTokens = useRequest<typeof getTokens>(getTokens);
+  const getPrices = useRequest<typeof getPriceHash>(getPriceHash);
   const getAllBalances = useRequest<typeof osmosisClient.getAllBalances>(
     osmosisClient.getAllBalances
   );
-  const getAllTokens = useRequest<typeof tokensApi.getTokens>(
-    tokensApi.getTokens
-  );
-
-  const prices = useMemo(() => {
-    return getAllTokens.data?.reduce(tokenToPriceHash, {});
-  }, [getAllTokens.data]);
 
   useEffect(() => {
     if (!address) return;
-
-    console.log('getting data...');
+    getPrices.request();
     getAllBalances.request({ address });
-    getAllTokens.request();
 
+    return () => {
+      getPrices.cleanUpData();
+      getAllBalances.cleanUpData();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
-  const assets: PrettyAsset[] = useMemo(() => {
-    if (!getAllBalances.data || !prices) return [];
+  useEffect(() => {
+    getAllTokens.request();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    const balanceCoins: Coin[] = (getAllBalances.data || []).filter(
+  const prices = getPrices.data;
+  const allTokens = getAllTokens.data;
+  const allBalances = getAllBalances.data;
+
+  const topTokensByLiquidity = useMemo(() => {
+    if (!allTokens) return;
+    return allTokens
+      .sort((a, b) => b.liquidity - a.liquidity)
+      .slice(0, MAX_TOP_TOKENS)
+      .map((token) => token.symbol);
+  }, [allTokens]);
+
+  const assets: PrettyAsset[] = useMemo(() => {
+    if (!allBalances || !prices || !topTokensByLiquidity) return [];
+
+    const nativeAndIbcBalances: Coin[] = allBalances.filter(
       ({ denom }) => !denom.startsWith('gamm') && prices[denom]
     );
 
-    const emptyCoins: Coin[] = (getAllTokens.data || [])
+    const emptyBalances: Coin[] = ibcAssets
       .filter(
-        (token) =>
-          !balanceCoins.find(({ denom }) => denom === token.denom) &&
-          getOsmoAssetByDenom(token.denom)
+        (asset) =>
+          !nativeAndIbcBalances.find(({ denom }) => denom === asset.base) &&
+          prices[asset.base]
       )
-      .sort((tokenA, tokenB) => tokenB.liquidity - tokenA.liquidity)
-      .slice(0, 30)
-      .map(({ denom }) => ({ denom, amount: '0' }));
+      .filter(
+        (asset) =>
+          ibcAssets.length <= MAX_TOKENS_TO_SHOW ||
+          topTokensByLiquidity.includes(asset.symbol)
+      )
+      .map((asset) => ({ denom: asset.base, amount: '0' }));
 
-    const allAssets = [...balanceCoins, ...emptyCoins]
+    const allAssets = [...nativeAndIbcBalances, ...emptyBalances]
       .map(({ amount, denom }) => {
-        const asset = getOsmoAssetByDenom(denom);
-        const chainName = getChainName(asset.base);
-        const chainRecord = getChainRecord(chainName);
-        const symbol = osmoDenomToSymbol(denom);
-        const dollarValue = baseUnitsToDollarValue(prices, symbol, amount);
+        const asset = getAssetByDenom(denom);
+        const symbol = denomToSymbol(denom);
+        const dollarValue = calcCoinDollarValue(prices, { amount, denom });
         return {
           symbol,
-          logoUrl: asset.logo_URIs?.png,
-          prettyChainName: chainRecord.chain.pretty_name,
-          displayAmount: baseUnitsToDisplayUnits(symbol, amount),
+          logoUrl: asset.logo_URIs?.png || asset.logo_URIs?.svg,
+          prettyChainName: getPrettyChainName(denom),
+          displayAmount: convRawToDispAmount(denom, amount),
           dollarValue,
           amount,
           denom,
@@ -84,25 +107,35 @@ export const AssetList = () => {
         new BigNumber(a.dollarValue).lt(b.dollarValue) ? 1 : -1
       );
     return allAssets;
-  }, [getAllBalances.data, getAllTokens.data, getChainRecord, prices]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allBalances, topTokensByLiquidity, prices, getChainRecord]);
+
+  if (!isWalletConnected) {
+    return (
+      <Box maxW="768px" mx="auto" mb="60px">
+        <SectionTitle />
+        <Center h="120px" bg="#F5F7FB" borderRadius="6px">
+          <Text fontSize="18px" color="#2C3137">
+            <span style={{ cursor: 'pointer' }} onClick={connect}>
+              Connect the wallet
+            </span>
+            &nbsp;<span style={{ color: '#697584' }}>to see the assets</span>
+          </Text>
+        </Center>
+      </Box>
+    );
+  }
 
   return (
     <Box maxW="768px" mx="auto" mb="60px">
-      <Text
-        fontSize="20px"
-        fontWeight="600"
-        color="#2C3137"
-        lineHeight="24px"
-        mb="26px"
-      >
-        My assets
-      </Text>
+      <SectionTitle />
       <AssetsOverview
         assets={assets}
         prices={prices}
-        balances={getAllBalances.data}
+        balances={allBalances}
         isGettingBalances={getAllBalances.loading}
         updateBalances={getAllBalances.request}
+        selectedChainName={selectedChainName}
       />
       <Text
         fontSize="18px"
@@ -111,7 +144,7 @@ export const AssetList = () => {
         lineHeight="22px"
         mb="20px"
       >
-        On Osmosis
+        On {chain.pretty_name}
       </Text>
       {getAllBalances.loading || !prices ? (
         <Loader />
@@ -120,11 +153,24 @@ export const AssetList = () => {
           assets={assets}
           prices={prices}
           updateBalances={getAllBalances.request}
+          selectedChainName={selectedChainName}
         />
       )}
     </Box>
   );
 };
+
+const SectionTitle = () => (
+  <Text
+    fontSize="20px"
+    fontWeight="600"
+    color="#2C3137"
+    lineHeight="24px"
+    mb="26px"
+  >
+    My Assets
+  </Text>
+);
 
 const Loader = () => {
   return (

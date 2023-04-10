@@ -14,7 +14,7 @@ import {
   Icon,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { ChainLogo, getChainName, getNativeDenom } from './osmosis-assets';
+import { ChainLogo } from './osmosis-assets';
 import { HiOutlineClock } from 'react-icons/hi';
 import { LargeButton } from './buttons';
 import DropdownInput from './dropdown-input';
@@ -27,12 +27,10 @@ import {
   TransferValues,
 } from '../types';
 import { useChain, useManager } from '@cosmos-kit/react';
-import { chainName as osmoChainName } from '../../config';
 import BigNumber from 'bignumber.js';
 import { StdFee } from '@cosmjs/amino';
-import { useTransactionToast } from '../../hooks';
-import { getExponentByDenom, symbolToOsmoDenom } from '../../utils';
-import { getIbcInfo } from './transfer-modal';
+import { useIbcAssets, useTransactionToast } from '../../hooks';
+import { ChainName } from '@cosmos-kit/core';
 
 const ZERO_AMOUNT = '0';
 
@@ -42,6 +40,7 @@ interface IProps {
   modalControl: UseDisclosureReturn;
   updateBalances: ({ address }: { address: string }) => void;
   transferType: TransferValues;
+  selectedChainName: ChainName;
 }
 
 const DropdownTransferModal: React.FC<IProps> = ({
@@ -50,14 +49,23 @@ const DropdownTransferModal: React.FC<IProps> = ({
   modalControl,
   transferType,
   updateBalances,
+  selectedChainName,
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const {
+    getChainName,
+    getNativeDenom,
+    symbolToDenom,
+    getExponentByDenom,
+    getIbcInfo,
+  } = useIbcAssets(selectedChainName);
+
   const [transferInfo, setTransferInfo] = useState<TransferInfo>({
     token: assets[0],
     type: Transfer.Withdraw,
-    sourceChainName: osmoChainName,
+    sourceChainName: selectedChainName,
     destChainName: getChainName(assets[0].denom),
   });
 
@@ -85,12 +93,11 @@ const DropdownTransferModal: React.FC<IProps> = ({
   useEffect(() => {
     if (transferType === Transfer.Deposit) {
       const sourceChainName = getChainName(assets[0].denom);
-      const sourceChainRecord = getChainRecord(sourceChainName);
-      const sourceChainAssetDenom = getNativeDenom(sourceChainRecord);
+      const sourceChainAssetDenom = getNativeDenom(sourceChainName);
       setTransferInfo({
         sourceChainName,
         type: Transfer.Deposit,
-        destChainName: osmoChainName,
+        destChainName: selectedChainName,
         token: {
           ...assets[0],
           displayAmount: ZERO_AMOUNT,
@@ -103,11 +110,12 @@ const DropdownTransferModal: React.FC<IProps> = ({
     }
     const destChainName = getChainName(assets[0].denom);
     setTransferInfo({
-      sourceChainName: osmoChainName,
+      sourceChainName: selectedChainName,
       type: Transfer.Withdraw,
       destChainName,
       token: assets[0],
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assets, transferType, getChainRecord]);
 
   const closeModal = () => {
@@ -120,7 +128,7 @@ const DropdownTransferModal: React.FC<IProps> = ({
     setIsLoading(true);
 
     const transferAmount = new BigNumber(inputValue)
-      .shiftedBy(getExponentByDenom(symbolToOsmoDenom(transferToken.symbol)))
+      .shiftedBy(getExponentByDenom(symbolToDenom(transferToken.symbol)))
       .toString();
 
     const currentTime = Math.floor(Date.now() / 1000);
@@ -210,6 +218,7 @@ const DropdownTransferModal: React.FC<IProps> = ({
               transferInfo={transferInfo}
               setTransferInfo={setTransferInfo}
               inputState={{ inputValue, setInputValue }}
+              selectedChainName={selectedChainName}
             />
           )}
           <Center mb="16px" mt="30px">

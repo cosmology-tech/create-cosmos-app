@@ -14,17 +14,20 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
-import { dependencies, products } from '../config';
-import NextLink from 'next/link';
+import {
+  chainName as defaultChainName,
+  dependencies,
+  products,
+} from '../config';
 import {
   Product,
   Dependency,
   WalletSection,
   handleChangeColorModeValue,
   AssetList,
-  NormalButton,
 } from '../components';
-import { ArrowForwardIcon } from '@chakra-ui/icons';
+import { useState } from 'react';
+import { ChainName } from '@cosmos-kit/core';
 
 const library = {
   title: 'OsmoJS',
@@ -34,6 +37,9 @@ const library = {
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
+  const [selectedChainName, setChainName] = useState<ChainName | undefined>(
+    defaultChainName
+  );
 
   return (
     <Container maxW="5xl" py={10}>
@@ -79,22 +85,15 @@ export default function Home() {
           </Text>
         </Heading>
       </Box>
-      <Stack direction="row" justifyContent="center" my="48px" spacing={4}>
-        <NextLink href="single-chain">
-          <Button
-            colorScheme="purple"
-            rightIcon={<ArrowForwardIcon />}
-            variant="outline"
-          >
-            Single-Chain
-          </Button>
-        </NextLink>
-        <NextLink href="multi-chain">
-          <Button colorScheme="purple" rightIcon={<ArrowForwardIcon />}>
-            Multi-Chain
-          </Button>
-        </NextLink>
-      </Stack>
+      <WalletSection
+        isMultiChain={true}
+        providedChainName={selectedChainName}
+        setChainName={setChainName}
+      />
+      {selectedChainName && <AssetList selectedChainName={selectedChainName} />}
+      <Box mb={16}>
+        <Divider />
+      </Box>
       <Grid
         templateColumns={{
           md: 'repeat(2, 1fr)',
