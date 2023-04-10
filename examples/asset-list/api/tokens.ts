@@ -1,9 +1,13 @@
-import client from './client';
-import { Token } from '../components/types';
+import { Token } from '../components';
 
-const getTokens: () => Promise<Token[]> = () => client.get('/tokens/v2/all');
+export const handleError = (resp: Response) => {
+  if (!resp.ok) throw Error(resp.statusText);
+  return resp;
+};
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default {
-  getTokens,
+export const getTokens = async (): Promise<Token[]> => {
+  const url = 'https://api-osmosis.imperator.co/tokens/v2/all';
+  return fetch(url)
+    .then(handleError)
+    .then((res) => res.json());
 };

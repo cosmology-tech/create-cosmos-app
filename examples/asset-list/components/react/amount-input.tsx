@@ -8,10 +8,10 @@ import {
   useColorModeValue,
   Skeleton,
 } from '@chakra-ui/react';
+import { ChainName } from '@cosmos-kit/core';
 import BigNumber from 'bignumber.js';
 import React, { useEffect } from 'react';
-import { useOsmosisClient, useRequest } from '../../hooks';
-import { baseUnitsToDisplayUnits, symbolToOsmoDenom } from '../../utils';
+import { useIbcAssets, useOsmosisClient, useRequest } from '../../hooks';
 import { PriceHash, Transfer, TransferInfo } from '../types';
 import { ChainLogo } from './osmosis-assets';
 
@@ -28,17 +28,21 @@ interface IProps {
   address: string | undefined;
   transferInfo: TransferInfo;
   inputState: { inputValue: string; setInputValue: (val: string) => void };
+  selectedChainName: ChainName;
 }
-
-// TODO: fix rerendering (2 times for getting the balance)
 
 const AmountInput: React.FC<IProps> = ({
   prices,
   address,
   inputState,
   transferInfo,
+  selectedChainName,
 }) => {
   const { inputValue, setInputValue } = inputState;
+
+  const { convRawToDispAmount, symbolToDenom } =
+    useIbcAssets(selectedChainName);
+
   const {
     type: transferType,
     token: transferToken,
@@ -60,14 +64,14 @@ const AmountInput: React.FC<IProps> = ({
       : transferToken.displayAmount;
 
   if (getBalance.data && transferType === Transfer.Deposit) {
-    availableAmount = baseUnitsToDisplayUnits(
+    availableAmount = convRawToDispAmount(
       transferToken.symbol,
       getBalance.data.amount
     );
   }
 
   const dollarValue = new BigNumber(inputValue)
-    .multipliedBy(prices[symbolToOsmoDenom(transferToken.symbol)])
+    .multipliedBy(prices[symbolToDenom(transferToken.symbol)])
     .decimalPlaces(2)
     .toString();
 

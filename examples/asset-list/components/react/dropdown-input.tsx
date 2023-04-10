@@ -11,12 +11,7 @@ import {
   useDisclosure,
   Skeleton,
 } from '@chakra-ui/react';
-import {
-  ChainLogo,
-  getChainName,
-  getNativeDenom,
-  truncDecimals,
-} from './osmosis-assets';
+import { ChainLogo, truncDecimals } from './osmosis-assets';
 import { SwapDropdown } from '@cosmology-ui/react';
 import {
   PrettyAsset,
@@ -26,9 +21,8 @@ import {
   TransferInfo,
 } from '../types';
 import BigNumber from 'bignumber.js';
-import { useManager } from '@cosmos-kit/react';
-import { useOsmosisClient, useRequest } from '../../hooks';
-import { baseUnitsToDisplayUnits, symbolToOsmoDenom } from '../../utils';
+import { useIbcAssets, useOsmosisClient, useRequest } from '../../hooks';
+import { ChainName } from '@cosmos-kit/core';
 
 const ZERO_AMOUNT = '0';
 
@@ -38,6 +32,7 @@ interface IProps {
   transferInfo: TransferInfo;
   address: string | undefined;
   setTransferInfo: React.Dispatch<React.SetStateAction<TransferInfo>>;
+  selectedChainName: ChainName;
   inputState: {
     inputValue: string;
     setInputValue: React.Dispatch<React.SetStateAction<string>>;
@@ -51,8 +46,13 @@ const DropdownInput: React.FC<IProps> = ({
   inputState,
   transferInfo,
   setTransferInfo,
+  selectedChainName,
 }) => {
   const { inputValue, setInputValue } = inputState;
+
+  const { convRawToDispAmount, symbolToDenom, getChainName, getNativeDenom } =
+    useIbcAssets(selectedChainName);
+
   const {
     type: transferType,
     token: transferToken,
@@ -60,7 +60,6 @@ const DropdownInput: React.FC<IProps> = ({
   } = transferInfo;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { getChainRecord } = useManager();
 
   const osmosisClient = useOsmosisClient(sourceChainName);
   const getBalance = useRequest(osmosisClient.getBalance);
@@ -78,14 +77,14 @@ const DropdownInput: React.FC<IProps> = ({
     : transferToken.displayAmount;
 
   if (getBalance.data && isDeposit) {
-    availableAmount = baseUnitsToDisplayUnits(
+    availableAmount = convRawToDispAmount(
       transferToken.symbol,
       getBalance.data.amount
     );
   }
 
   const dollarValue = new BigNumber(inputValue)
-    .multipliedBy(prices[symbolToOsmoDenom(transferToken.symbol)])
+    .multipliedBy(prices[symbolToDenom(transferToken.symbol)])
     .decimalPlaces(2)
     .toString();
 
@@ -98,8 +97,7 @@ const DropdownInput: React.FC<IProps> = ({
       }
 
       const sourceChainName = getChainName(assetOption.denom);
-      const sourceChainRecord = getChainRecord(sourceChainName);
-      const sourceChainAssetDenom = getNativeDenom(sourceChainRecord);
+      const sourceChainAssetDenom = getNativeDenom(sourceChainName);
       return {
         ...prev,
         sourceChainName,

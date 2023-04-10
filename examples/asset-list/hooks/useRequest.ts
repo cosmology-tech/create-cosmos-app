@@ -19,10 +19,15 @@ export const useRequest = <T extends (...args: any) => any>(
     }
   };
 
+  const cleanUpData = () => {
+    setData(undefined);
+  };
+
   return {
     data,
     error,
     loading,
     request,
+    cleanUpData,
   };
 };

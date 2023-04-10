@@ -11,20 +11,14 @@ import {
 import { NormalButton } from './buttons';
 import DropdownTransferModal from './dropdown-transfer-modal';
 import { PrettyAsset, PriceHash, Transfer, TransferValues } from '../types';
-import { isOsmosisAsset } from './osmosis-assets';
-import { chainName } from '../../config';
-import { useOsmosisClient, useRequest } from '../../hooks';
+import { useIbcAssets, useOsmosisClient, useRequest } from '../../hooks';
 import { useChain } from '@cosmos-kit/react';
 import { Coin } from '@cosmjs/amino';
 import { QueryAllBalancesRequest } from 'osmojs/types/codegen/cosmos/bank/v1beta1/query';
-import {
-  baseUnitsToDollarValue,
-  convertGammTokenToDollarValue,
-  osmoDenomToSymbol,
-} from '../../utils';
+import { convertGammTokenToDollarValue } from '../../utils';
 import BigNumber from 'bignumber.js';
-
-// TODO: no assets to deposit or withdraw
+import { ChainName } from '@cosmos-kit/core';
+import { chainName as osmoChainName } from '../../config';
 
 interface IProps {
   assets: PrettyAsset[];
@@ -32,6 +26,7 @@ interface IProps {
   balances: Coin[] | undefined;
   updateBalances: (arg: QueryAllBalancesRequest) => Promise<void>;
   isGettingBalances: boolean;
+  selectedChainName: ChainName;
 }
 
 const AssetsOverview: React.FC<IProps> = ({
@@ -40,11 +35,17 @@ const AssetsOverview: React.FC<IProps> = ({
   isGettingBalances,
   updateBalances,
   balances,
+  selectedChainName,
 }) => {
   const [transferType, setTransferType] = useState<TransferValues>();
-  const { address } = useChain(chainName);
-  const osmosisClient = useOsmosisClient(chainName);
+  const { address, chain } = useChain(selectedChainName);
+  const osmosisClient = useOsmosisClient(selectedChainName);
+
   const isMounted = useRef(false);
+  const isOsmosisChain = selectedChainName === osmoChainName;
+
+  const { calcCoinDollarValue, isNativeAsset } =
+    useIbcAssets(selectedChainName);
 
   const getPoolsByIds = useRequest<typeof osmosisClient.getPoolsByIds>(
     osmosisClient.getPoolsByIds
@@ -59,15 +60,18 @@ const AssetsOverview: React.FC<IProps> = ({
   const modalControl = useDisclosure();
 
   useEffect(() => {
-    if (!address || !prices) return;
-    getLockedCoins.request({ owner: address });
+    if (!address) return;
     getDelegations.request({ delegatorAddr: address });
+    if (isOsmosisChain) getLockedCoins.request({ owner: address });
 
+    return () => {
+      getDelegations.cleanUpData();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, prices]);
+  }, [address]);
 
   useEffect(() => {
-    if (isMounted.current) return;
+    if (isMounted.current || !isOsmosisChain) return;
     if (getLockedCoins.data && balances && prices) {
       isMounted.current = true;
       const gammTokensFromBalance = balances
@@ -80,7 +84,6 @@ const AssetsOverview: React.FC<IProps> = ({
       const poolIds = uniqueGameTokens.map((denom) => denom.split('/')[2]);
       getPoolsByIds.request(poolIds, prices);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [balances, getLockedCoins.data, prices]);
 
@@ -89,17 +92,32 @@ const AssetsOverview: React.FC<IProps> = ({
       const totalDelegation = getDelegations.data
         .map(({ balance }) => balance)
         .map((coin) => {
-          const symbol = osmoDenomToSymbol(coin!.denom);
-          return baseUnitsToDollarValue(prices, symbol, coin!.amount);
+          if (!coin) return '0';
+          return calcCoinDollarValue(prices, coin);
         })
         .reduce((total, cur) => total.plus(cur), new BigNumber(0));
       return totalDelegation.toString();
     }
     return '0';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getDelegations.data, prices]);
 
+  const assetsBalanceTotal = useMemo(() => {
+    if (balances && prices) {
+      const totalBalance = balances
+        .filter(({ denom }) => !denom.startsWith('gamm') && prices[denom])
+        .map(({ denom, amount }) =>
+          calcCoinDollarValue(prices, { denom, amount })
+        )
+        .reduce((total, cur) => total.plus(cur), new BigNumber(0));
+      return totalBalance.toString();
+    }
+    return '0';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [balances, prices]);
+
   const bondedTotal = useMemo(() => {
-    if (getPoolsByIds.data && prices && getLockedCoins.data) {
+    if (getPoolsByIds.data && prices && getLockedCoins.data && isOsmosisChain) {
       const totalBonded = getLockedCoins.data
         .map((coin) => {
           const poolData = getPoolsByIds.data!.find(
@@ -111,25 +129,11 @@ const AssetsOverview: React.FC<IProps> = ({
       return totalBonded.toString();
     }
     return '0';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getLockedCoins.data, getPoolsByIds.data, prices]);
 
-  const assetsBalanceTotal = useMemo(() => {
-    if (balances && prices) {
-      const totalBalance = balances
-        .filter(({ denom }) => !denom.startsWith('gamm') && prices[denom])
-        .map(({ denom, amount }) => {
-          const symbol = osmoDenomToSymbol(denom);
-          const dollarValue = baseUnitsToDollarValue(prices, symbol, amount);
-          return dollarValue;
-        })
-        .reduce((total, cur) => total.plus(cur), new BigNumber(0));
-      return totalBalance.toString();
-    }
-    return '0';
-  }, [balances, prices]);
-
   const poolLiquidityTotal = useMemo(() => {
-    if (getPoolsByIds.data && balances && prices) {
+    if (getPoolsByIds.data && balances && prices && isOsmosisChain) {
       const totalLiqudity = balances
         .filter(({ denom }) => denom.startsWith('gamm'))
         .map((coin) => {
@@ -142,6 +146,7 @@ const AssetsOverview: React.FC<IProps> = ({
       return totalLiqudity.toString();
     }
     return '0';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [balances, getPoolsByIds.data, prices]);
 
   const total = useMemo(() => {
@@ -152,8 +157,14 @@ const AssetsOverview: React.FC<IProps> = ({
   }, [assetsBalanceTotal, poolLiquidityTotal, bondedTotal, stakedTotal]);
 
   const transferableAssets = useMemo(
-    () => assets.filter((asset) => !isOsmosisAsset(asset)),
+    () => assets.filter((asset) => !isNativeAsset(asset)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [assets]
+  );
+
+  const hasNonEmptyBalance = useMemo(
+    () => transferableAssets.some((asset) => new BigNumber(asset.amount).gt(0)),
+    [transferableAssets]
   );
 
   const isLoading =
@@ -173,7 +184,7 @@ const AssetsOverview: React.FC<IProps> = ({
             lineHeight="16px"
             mb="4px"
           >
-            Total on Osmosis
+            Total on {chain.pretty_name}
           </Text>
           {isLoading ? (
             <Skeleton w="80px" h="26px" mt="8px" />
@@ -191,24 +202,28 @@ const AssetsOverview: React.FC<IProps> = ({
         </Box>
 
         <HStack spacing="26px">
-          <NormalButton
-            type="outline"
-            text={Transfer.Withdraw}
-            size={{ h: '48px', w: '160px' }}
-            onClick={() => {
-              setTransferType(Transfer.Withdraw);
-              modalControl.onOpen();
-            }}
-          />
-          <NormalButton
-            type="solid"
-            text="Deposit"
-            size={{ h: '48px', w: '160px' }}
-            onClick={() => {
-              setTransferType(Transfer.Deposit);
-              modalControl.onOpen();
-            }}
-          />
+          {hasNonEmptyBalance && (
+            <NormalButton
+              type="outline"
+              text={Transfer.Withdraw}
+              size={{ h: '48px', w: '160px' }}
+              onClick={() => {
+                setTransferType(Transfer.Withdraw);
+                modalControl.onOpen();
+              }}
+            />
+          )}
+          {transferableAssets.length > 0 && (
+            <NormalButton
+              type="solid"
+              text="Deposit"
+              size={{ h: '48px', w: '160px' }}
+              onClick={() => {
+                setTransferType(Transfer.Deposit);
+                modalControl.onOpen();
+              }}
+            />
+          )}
         </HStack>
       </Flex>
 
@@ -219,6 +234,7 @@ const AssetsOverview: React.FC<IProps> = ({
           transferType={transferType}
           modalControl={modalControl}
           updateBalances={updateBalances}
+          selectedChainName={selectedChainName}
         />
       )}
     </Box>

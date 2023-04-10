@@ -15,35 +15,9 @@ import React, { useMemo, useState } from 'react';
 import { PrettyAsset, PriceHash, Transfer, TransferInfo } from '../types';
 import { SimpleButton } from './buttons';
 import TransferModal from './transfer-modal';
-import { chainName as osmoChainName } from '../../config';
-import {
-  asset_list as osmosisAssetList,
-  assets as osmosisAssets,
-} from '@chain-registry/osmosis';
-import { useManager } from '@cosmos-kit/react';
-import { ChainRecord } from '@cosmos-kit/core';
+import { ChainName } from '@cosmos-kit/core';
 import { QueryAllBalancesRequest } from 'osmojs/types/codegen/cosmos/bank/v1beta1/query';
-
-export const isOsmosisAsset = ({ denom }: PrettyAsset) => {
-  return !!osmosisAssets.assets.find((asset) => asset.base === denom);
-};
-
-export const getChainName = (osmoDenom: string) => {
-  if (osmosisAssets.assets.find((asset) => asset.base === osmoDenom))
-    return osmosisAssets.chain_name;
-  const asset = osmosisAssetList.assets.find(
-    (asset) => asset.base === osmoDenom
-  )!;
-  const chainName = asset?.traces?.[0].counterparty.chain_name;
-  if (!chainName) throw Error('chainName not found: ' + osmoDenom);
-  return chainName;
-};
-
-export const getNativeDenom = (chainRecord: ChainRecord) => {
-  const denom = chainRecord.assetList?.assets[0].base;
-  if (!denom) throw Error('denom not found');
-  return denom;
-};
+import { useIbcAssets } from '../../hooks';
 
 export const truncDecimals = (
   val: string | number | undefined,
@@ -52,30 +26,51 @@ export const truncDecimals = (
   return new BigNumber(val || 0).decimalPlaces(decimals).toString();
 };
 
+export const formatDollarValue = (dollarValue: string, amount: string) => {
+  return new BigNumber(dollarValue).gt(0.01)
+    ? '$' + truncDecimals(dollarValue, 2)
+    : new BigNumber(amount).gt(0)
+    ? '< $0.01'
+    : '$0';
+};
+
 const ZERO_AMOUNT = '0';
 
 interface IProps {
   assets: PrettyAsset[];
   prices: PriceHash;
   updateBalances: (arg: QueryAllBalancesRequest) => Promise<void>;
+  selectedChainName: ChainName;
 }
 
 const OsmosisAssetsList: React.FC<IProps> = ({
   assets,
   prices,
   updateBalances,
+  selectedChainName,
 }) => {
   const [showAll, setShowAll] = useState(false);
   const [transferInfo, setTransferInfo] = useState<TransferInfo>();
 
-  const { getChainRecord } = useManager();
   const { colorMode } = useColorMode();
   const transferModalControl = useDisclosure();
+  const { getChainName, isNativeAsset, getNativeDenom } =
+    useIbcAssets(selectedChainName);
 
   const assetsToShow = useMemo(
     () => (showAll ? assets : assets.slice(0, 6)),
     [assets, showAll]
   );
+
+  if (assets.length === 0) {
+    return (
+      <Center>
+        <Text fontSize="16px" color="#2C3137" lineHeight="16px">
+          No assets on this chain
+        </Text>
+      </Center>
+    );
+  }
 
   return (
     <Box position="relative" mb="100px">
@@ -100,28 +95,27 @@ const OsmosisAssetsList: React.FC<IProps> = ({
             <Flex alignItems="center">
               <DataDisplay
                 value={truncDecimals(asset.displayAmount, 6)}
-                helpText={'$' + truncDecimals(asset.dollarValue, 2)}
+                helpText={formatDollarValue(asset.dollarValue, asset.amount)}
               />
             </Flex>
 
-            {!isOsmosisAsset(asset) && (
+            {!isNativeAsset(asset) && (
               <Flex justifyContent="flex-end" alignItems="center">
                 <SimpleButton
                   onClick={() => {
                     const sourceChainName = getChainName(asset.denom);
-                    const sourceChainRecord = getChainRecord(sourceChainName);
-                    const sourceChainAssetDenom =
-                      getNativeDenom(sourceChainRecord);
+                    const sourceChainNativeDenom =
+                      getNativeDenom(sourceChainName);
                     setTransferInfo({
                       sourceChainName,
                       type: Transfer.Deposit,
-                      destChainName: osmoChainName,
+                      destChainName: selectedChainName,
                       token: {
                         ...asset,
                         displayAmount: ZERO_AMOUNT,
                         dollarValue: ZERO_AMOUNT,
                         amount: ZERO_AMOUNT,
-                        denom: sourceChainAssetDenom,
+                        denom: sourceChainNativeDenom,
                       },
                     });
                     transferModalControl.onOpen();
@@ -133,7 +127,7 @@ const OsmosisAssetsList: React.FC<IProps> = ({
                   onClick={() => {
                     const destChainName = getChainName(asset.denom);
                     setTransferInfo({
-                      sourceChainName: osmoChainName,
+                      sourceChainName: selectedChainName,
                       type: Transfer.Withdraw,
                       destChainName,
                       token: asset,
@@ -186,6 +180,7 @@ const OsmosisAssetsList: React.FC<IProps> = ({
           transferInfo={transferInfo}
           updateBalances={updateBalances}
           modalControl={transferModalControl}
+          selectedChainName={selectedChainName}
         />
       )}
     </Box>

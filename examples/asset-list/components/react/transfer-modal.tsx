@@ -22,49 +22,12 @@ import { LargeButton } from './buttons';
 import { PriceHash, TransactionResult, Transfer, TransferInfo } from '../types';
 import { useChain, useManager } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
-import { ChainRecord } from '@cosmos-kit/core';
-import { getExponentByDenom, symbolToOsmoDenom } from '../../utils';
-import { ibc } from 'chain-registry';
+import { ChainName } from '@cosmos-kit/core';
 import { StdFee } from '@cosmjs/amino';
-import { useTransactionToast } from '../../hooks';
+import { useIbcAssets, useTransactionToast } from '../../hooks';
 
 const shortenAddress = (address: string) => {
   return address.slice(0, 9) + '...' + address.slice(-9);
-};
-
-export const getSymbol = (chainRecord: ChainRecord) => {
-  const symbol = chainRecord.assetList?.assets[0].symbol;
-  if (!symbol) throw Error('symbol not found');
-  return symbol;
-};
-
-export const getIbcInfo = (fromChainName: string, toChainName: string) => {
-  let flipped = false;
-
-  let ibcInfo = ibc.find(
-    (i) =>
-      i.chain_1.chain_name === fromChainName &&
-      i.chain_2.chain_name === toChainName
-  );
-
-  if (!ibcInfo) {
-    ibcInfo = ibc.find(
-      (i) =>
-        i.chain_1.chain_name === toChainName &&
-        i.chain_2.chain_name === fromChainName
-    );
-    flipped = true;
-  }
-
-  if (!ibcInfo) {
-    throw new Error('cannot find IBC info');
-  }
-
-  const key = flipped ? 'chain_2' : 'chain_1';
-  const sourcePort = ibcInfo.channels[0][key].port_id;
-  const sourceChannel = ibcInfo.channels[0][key].channel_id;
-
-  return { sourcePort, sourceChannel };
 };
 
 interface IProps {
@@ -72,6 +35,7 @@ interface IProps {
   transferInfo: TransferInfo;
   modalControl: UseDisclosureReturn;
   updateBalances: ({ address }: { address: string }) => void;
+  selectedChainName: ChainName;
 }
 
 const TransferModal: React.FC<IProps> = ({
@@ -79,9 +43,13 @@ const TransferModal: React.FC<IProps> = ({
   modalControl,
   transferInfo,
   updateBalances,
+  selectedChainName,
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const { getIbcInfo, symbolToDenom, getExponentByDenom } =
+    useIbcAssets(selectedChainName);
 
   const {
     type: transferType,
@@ -124,7 +92,7 @@ const TransferModal: React.FC<IProps> = ({
     setIsLoading(true);
 
     const transferAmount = new BigNumber(inputValue)
-      .shiftedBy(getExponentByDenom(symbolToOsmoDenom(transferToken.symbol)))
+      .shiftedBy(getExponentByDenom(symbolToDenom(transferToken.symbol)))
       .toString();
 
     const currentTime = Math.floor(Date.now() / 1000);
@@ -230,6 +198,7 @@ const TransferModal: React.FC<IProps> = ({
             address={sourceAddress}
             inputState={{ inputValue, setInputValue }}
             transferInfo={transferInfo}
+            selectedChainName={selectedChainName}
           />
 
           <Flex
