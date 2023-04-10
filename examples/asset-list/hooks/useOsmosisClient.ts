@@ -30,7 +30,6 @@ export const useOsmosisClient = (chainName: string) => {
     if (chainName === prevChainName.current && osmosisClient)
       return osmosisClient;
 
-    console.log('get new Client...');
     prevChainName.current = chainName;
     const newClient = await getClientRequest();
     setOsmosisClient(newClient);

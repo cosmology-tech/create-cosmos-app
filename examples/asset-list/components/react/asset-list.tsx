@@ -1,5 +1,11 @@
 import React, { useEffect, useMemo } from 'react';
-import { Box, Center, Spinner, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  Spinner,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import AssetsOverview from './assets-overview';
 import OsmosisAssetsList from './osmosis-assets';
 import { useChain, useManager } from '@cosmos-kit/react';
@@ -110,6 +116,8 @@ export const AssetList: React.FC<IProps> = ({ selectedChainName }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allBalances, topTokensByLiquidity, prices, getChainRecord]);
 
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+
   if (!isWalletConnected) {
     return (
       <Box maxW="768px" mx="auto" mb="60px">
@@ -140,7 +148,7 @@ export const AssetList: React.FC<IProps> = ({ selectedChainName }) => {
       <Text
         fontSize="18px"
         fontWeight="600"
-        color="#697584"
+        color={titleColor}
         lineHeight="22px"
         mb="20px"
       >
@@ -160,17 +168,20 @@ export const AssetList: React.FC<IProps> = ({ selectedChainName }) => {
   );
 };
 
-const SectionTitle = () => (
-  <Text
-    fontSize="20px"
-    fontWeight="600"
-    color="#2C3137"
-    lineHeight="24px"
-    mb="26px"
-  >
-    My Assets
-  </Text>
-);
+const SectionTitle = () => {
+  const textColor = useColorModeValue('#2C3137', '#EEF2F8');
+  return (
+    <Text
+      fontSize="20px"
+      fontWeight="600"
+      color={textColor}
+      lineHeight="24px"
+      mb="26px"
+    >
+      My Assets
+    </Text>
+  );
+};
 
 const Loader = () => {
   return (

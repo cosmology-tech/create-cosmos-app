@@ -12,6 +12,7 @@ import {
   Flex,
   Center,
   Icon,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { ChainLogo } from './osmosis-assets';
@@ -24,7 +25,6 @@ import {
   TransactionResult,
   Transfer,
   TransferInfo,
-  TransferValues,
 } from '../types';
 import { useChain, useManager } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
@@ -32,14 +32,17 @@ import { StdFee } from '@cosmjs/amino';
 import { useIbcAssets, useTransactionToast } from '../../hooks';
 import { ChainName } from '@cosmos-kit/core';
 
-const ZERO_AMOUNT = '0';
-
 interface IProps {
   prices: PriceHash;
   assets: PrettyAsset[];
   modalControl: UseDisclosureReturn;
   updateBalances: ({ address }: { address: string }) => void;
-  transferType: TransferValues;
+  transferInfoState: {
+    transferInfo: TransferInfo;
+    setTransferInfo: React.Dispatch<
+      React.SetStateAction<TransferInfo | undefined>
+    >;
+  };
   selectedChainName: ChainName;
 }
 
@@ -47,29 +50,24 @@ const DropdownTransferModal: React.FC<IProps> = ({
   assets,
   prices,
   modalControl,
-  transferType,
+  transferInfoState,
   updateBalances,
   selectedChainName,
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const { symbolToDenom, getExponentByDenom, getIbcInfo } =
+    useIbcAssets(selectedChainName);
+
+  const { transferInfo, setTransferInfo } = transferInfoState;
+
   const {
-    getChainName,
-    getNativeDenom,
-    symbolToDenom,
-    getExponentByDenom,
-    getIbcInfo,
-  } = useIbcAssets(selectedChainName);
-
-  const [transferInfo, setTransferInfo] = useState<TransferInfo>({
-    token: assets[0],
-    type: Transfer.Withdraw,
-    sourceChainName: selectedChainName,
-    destChainName: getChainName(assets[0].denom),
-  });
-
-  const { token: transferToken, destChainName, sourceChainName } = transferInfo;
+    type: transferType,
+    token: transferToken,
+    destChainName,
+    sourceChainName,
+  } = transferInfo;
 
   const {
     address: sourceAddress,
@@ -80,7 +78,7 @@ const DropdownTransferModal: React.FC<IProps> = ({
   const { address: destAddress, connect: connectDestChain } =
     useChain(destChainName);
 
-  const { getChainLogo, getChainRecord } = useManager();
+  const { getChainLogo } = useManager();
   const { showToast } = useTransactionToast();
 
   useEffect(() => {
@@ -89,34 +87,6 @@ const DropdownTransferModal: React.FC<IProps> = ({
     if (!destAddress) connectDestChain();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [destAddress, sourceAddress, modalControl]);
-
-  useEffect(() => {
-    if (transferType === Transfer.Deposit) {
-      const sourceChainName = getChainName(assets[0].denom);
-      const sourceChainAssetDenom = getNativeDenom(sourceChainName);
-      setTransferInfo({
-        sourceChainName,
-        type: Transfer.Deposit,
-        destChainName: selectedChainName,
-        token: {
-          ...assets[0],
-          displayAmount: ZERO_AMOUNT,
-          dollarValue: ZERO_AMOUNT,
-          amount: ZERO_AMOUNT,
-          denom: sourceChainAssetDenom,
-        },
-      });
-      return;
-    }
-    const destChainName = getChainName(assets[0].denom);
-    setTransferInfo({
-      sourceChainName: selectedChainName,
-      type: Transfer.Withdraw,
-      destChainName,
-      token: assets[0],
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assets, transferType, getChainRecord]);
 
   const closeModal = () => {
     modalControl.onClose();
@@ -189,6 +159,11 @@ const DropdownTransferModal: React.FC<IProps> = ({
       });
   };
 
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+  const statColor = useColorModeValue('#2C3137', '#EEF2F8');
+  const arrowColor = useColorModeValue('#4A5568', '#A7B4C2');
+  const cancelColor = useColorModeValue('#697584', '#EEF2F8');
+
   return (
     <Modal
       isOpen={modalControl.isOpen}
@@ -197,18 +172,18 @@ const DropdownTransferModal: React.FC<IProps> = ({
       isCentered
     >
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg={useColorModeValue('#FFF', '#2C3137')}>
         <ModalHeader
           fontWeight="600"
           fontSize="20px"
-          color="#2C3137"
+          color={statColor}
           py={0}
           pt="24px"
           mb="26px"
         >
           {transferType}
         </ModalHeader>
-        <ModalCloseButton color="#697584" size="lg" mt="10px" />
+        <ModalCloseButton color={titleColor} size="lg" mt="10px" />
         <ModalBody>
           {transferInfo && (
             <DropdownInput
@@ -229,7 +204,7 @@ const DropdownTransferModal: React.FC<IProps> = ({
                   logoWidth="50px"
                 />
                 <Center h="50px">
-                  <ArrowForwardIcon boxSize={7} color="#4A5568" />
+                  <ArrowForwardIcon boxSize={7} color={arrowColor} />
                 </Center>
                 <ChainLogo
                   url={getChainLogo(transferInfo?.destChainName)}
@@ -255,7 +230,7 @@ const DropdownTransferModal: React.FC<IProps> = ({
           <Text
             fontWeight="600"
             fontSize="14px"
-            color="#697584"
+            color={cancelColor}
             mt="18px"
             mb="4px"
             lineHeight="shorter"

@@ -31,7 +31,9 @@ interface IProps {
   assets: PrettyAsset[];
   transferInfo: TransferInfo;
   address: string | undefined;
-  setTransferInfo: React.Dispatch<React.SetStateAction<TransferInfo>>;
+  setTransferInfo: React.Dispatch<
+    React.SetStateAction<TransferInfo | undefined>
+  >;
   selectedChainName: ChainName;
   inputState: {
     inputValue: string;
@@ -91,6 +93,8 @@ const DropdownInput: React.FC<IProps> = ({
   const handleOnChange = (assetOption: PrettyAssetOption) => {
     setInputValue('');
     setTransferInfo((prev) => {
+      if (!prev) return;
+
       if (transferType === Transfer.Withdraw) {
         const destChainName = getChainName(assetOption.denom);
         return { ...prev, destChainName, token: assetOption };
@@ -112,8 +116,6 @@ const DropdownInput: React.FC<IProps> = ({
     });
   };
 
-  const titleColor = useColorModeValue('#697584', '#A7B4C2');
-
   const assetOptions: PrettyAssetOption[] = useMemo(() => {
     return assets
       .filter((asset) => {
@@ -132,8 +134,13 @@ const DropdownInput: React.FC<IProps> = ({
       }));
   }, [assets, isDeposit, transferToken]);
 
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+  const statColor = useColorModeValue('#2C3137', '#EEF2F8');
+  const bgColor = useColorModeValue('#EEF2F8', '#1D2024');
+  const labelBgColor = useColorModeValue('#A2AEBB', '#434B55');
+
   return (
-    <Box h="114px" bg="#EEF2F8" borderRadius="6px" py="10px">
+    <Box h="114px" bg={bgColor} borderRadius="6px" py="10px">
       <Flex
         h="26px"
         alignItems="center"
@@ -153,12 +160,12 @@ const DropdownInput: React.FC<IProps> = ({
           {getBalance.loading && isDeposit ? (
             <Skeleton w="30px" h="16px" />
           ) : (
-            <span style={{ color: '#2C3137' }}>{availableAmount}</span>
+            <span style={{ color: statColor }}>{availableAmount}</span>
           )}
         </Flex>
         <Center
           h="26px"
-          bg="#A2AEBB"
+          bg={labelBgColor}
           px="7px"
           borderRadius="4px"
           onClick={() => setInputValue(availableAmount)}
@@ -179,18 +186,18 @@ const DropdownInput: React.FC<IProps> = ({
                 fontWeight="600"
                 fontSize="22px"
                 lineHeight="26px"
-                color="#2C3137"
+                color={statColor}
                 mr="8px"
               >
                 {transferToken.symbol}
               </Text>
-              <ChevronDownIcon boxSize={6} color="#697584" />
+              <ChevronDownIcon boxSize={6} color={titleColor} />
             </Flex>
             <Text
               fontWeight="400"
               fontSize="14px"
               lineHeight="16px"
-              color="#697584"
+              color={titleColor}
             >
               {transferToken.prettyChainName}
             </Text>
@@ -207,7 +214,7 @@ const DropdownInput: React.FC<IProps> = ({
           <NumberInput
             h="28px"
             value={inputValue}
-            focusBorderColor="#EEF2F8"
+            focusBorderColor={bgColor}
             position="relative"
             onChange={(val) => {
               if (new BigNumber(val).gt(availableAmount)) {
@@ -225,7 +232,7 @@ const DropdownInput: React.FC<IProps> = ({
               fontSize="22px"
               lineHeight="26px"
               textAlign="right"
-              color="#2C3137"
+              color={statColor}
               border="none"
             />
             {!inputValue && (
@@ -248,7 +255,7 @@ const DropdownInput: React.FC<IProps> = ({
             fontWeight="400"
             fontSize="12px"
             lineHeight="14px"
-            color="#697584"
+            color={titleColor}
             visibility={
               !isOpen && new BigNumber(inputValue).gt(0) ? 'visible' : 'hidden'
             }

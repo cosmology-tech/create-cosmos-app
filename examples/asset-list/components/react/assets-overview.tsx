@@ -5,12 +5,12 @@ import {
   HStack,
   Skeleton,
   Text,
-  useColorMode,
+  useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
 import { NormalButton } from './buttons';
 import DropdownTransferModal from './dropdown-transfer-modal';
-import { PrettyAsset, PriceHash, Transfer, TransferValues } from '../types';
+import { PrettyAsset, PriceHash, Transfer, TransferInfo } from '../types';
 import { useIbcAssets, useOsmosisClient, useRequest } from '../../hooks';
 import { useChain } from '@cosmos-kit/react';
 import { Coin } from '@cosmjs/amino';
@@ -19,6 +19,8 @@ import { convertGammTokenToDollarValue } from '../../utils';
 import BigNumber from 'bignumber.js';
 import { ChainName } from '@cosmos-kit/core';
 import { chainName as osmoChainName } from '../../config';
+
+const ZERO_AMOUNT = '0';
 
 interface IProps {
   assets: PrettyAsset[];
@@ -37,12 +39,14 @@ const AssetsOverview: React.FC<IProps> = ({
   balances,
   selectedChainName,
 }) => {
-  const [transferType, setTransferType] = useState<TransferValues>();
+  const [transferInfo, setTransferInfo] = useState<TransferInfo>();
   const { address, chain } = useChain(selectedChainName);
   const osmosisClient = useOsmosisClient(selectedChainName);
 
   const isMounted = useRef(false);
   const isOsmosisChain = selectedChainName === osmoChainName;
+
+  const { getChainName, getNativeDenom } = useIbcAssets(selectedChainName);
 
   const { calcCoinDollarValue, isNativeAsset } =
     useIbcAssets(selectedChainName);
@@ -88,7 +92,7 @@ const AssetsOverview: React.FC<IProps> = ({
   }, [balances, getLockedCoins.data, prices]);
 
   const stakedTotal = useMemo(() => {
-    if (getDelegations.data && prices) {
+    if (getDelegations.data && prices && !isGettingBalances) {
       const totalDelegation = getDelegations.data
         .map(({ balance }) => balance)
         .map((coin) => {
@@ -156,15 +160,15 @@ const AssetsOverview: React.FC<IProps> = ({
       .toString();
   }, [assetsBalanceTotal, poolLiquidityTotal, bondedTotal, stakedTotal]);
 
-  const transferableAssets = useMemo(
+  const ibcAssets = useMemo(
     () => assets.filter((asset) => !isNativeAsset(asset)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [assets]
   );
 
   const hasNonEmptyBalance = useMemo(
-    () => transferableAssets.some((asset) => new BigNumber(asset.amount).gt(0)),
-    [transferableAssets]
+    () => ibcAssets.some((asset) => new BigNumber(asset.amount).gt(0)),
+    [ibcAssets]
   );
 
   const isLoading =
@@ -173,14 +177,18 @@ const AssetsOverview: React.FC<IProps> = ({
     getPoolsByIds.loading ||
     getDelegations.loading;
 
+  const bgColor = useColorModeValue('#F5F7FB', '#1D2024');
+  const titleColor = useColorModeValue('#697584', '#A7B4C2');
+  const statColor = useColorModeValue('#2C3137', '#EEF2F8');
+
   return (
-    <Box p="24px" bg="#F5F7FB" borderRadius="6px" mb="26px">
+    <Box p="24px" bg={bgColor} borderRadius="6px" mb="26px">
       <Flex justifyContent="space-between">
         <Box>
           <Text
             fontSize="14px"
             fontWeight="600"
-            color="#697584"
+            color={titleColor}
             lineHeight="16px"
             mb="4px"
           >
@@ -192,7 +200,7 @@ const AssetsOverview: React.FC<IProps> = ({
             <Text
               fontSize="26px"
               fontWeight="600"
-              color="#2C3137"
+              color={statColor}
               lineHeight="30px"
             >
               <span style={{ fontSize: '14px', lineHeight: '16px' }}>$</span>
@@ -208,18 +216,37 @@ const AssetsOverview: React.FC<IProps> = ({
               text={Transfer.Withdraw}
               size={{ h: '48px', w: '160px' }}
               onClick={() => {
-                setTransferType(Transfer.Withdraw);
+                const destChainName = getChainName(ibcAssets[0].denom);
+                setTransferInfo({
+                  sourceChainName: selectedChainName,
+                  type: Transfer.Withdraw,
+                  destChainName,
+                  token: ibcAssets[0],
+                });
                 modalControl.onOpen();
               }}
             />
           )}
-          {transferableAssets.length > 0 && (
+          {ibcAssets.length > 0 && (
             <NormalButton
               type="solid"
               text="Deposit"
               size={{ h: '48px', w: '160px' }}
               onClick={() => {
-                setTransferType(Transfer.Deposit);
+                const sourceChainName = getChainName(ibcAssets[0].denom);
+                const sourceChainAssetDenom = getNativeDenom(sourceChainName);
+                setTransferInfo({
+                  sourceChainName,
+                  type: Transfer.Deposit,
+                  destChainName: selectedChainName,
+                  token: {
+                    ...ibcAssets[0],
+                    displayAmount: ZERO_AMOUNT,
+                    dollarValue: ZERO_AMOUNT,
+                    amount: ZERO_AMOUNT,
+                    denom: sourceChainAssetDenom,
+                  },
+                });
                 modalControl.onOpen();
               }}
             />
@@ -227,11 +254,11 @@ const AssetsOverview: React.FC<IProps> = ({
         </HStack>
       </Flex>
 
-      {prices && transferType && (
+      {prices && transferInfo && (
         <DropdownTransferModal
           prices={prices}
-          assets={transferableAssets}
-          transferType={transferType}
+          assets={ibcAssets}
+          transferInfoState={{ transferInfo, setTransferInfo }}
           modalControl={modalControl}
           updateBalances={updateBalances}
           selectedChainName={selectedChainName}
