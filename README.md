@@ -176,6 +176,16 @@ cca --name myswaptokensapp --example --template swap-tokens
 cca --name myprovideliquidityapp --example --template provide-liquidity
 ```
 
+### Asset List
+
+<p align="center" width="100%">
+    <img height="48" src="https://user-images.githubusercontent.com/545047/184519024-2d34bf20-2440-4837-943f-4915a46409f5.svg" />
+</p>
+
+```
+cca --name myassetlistapp --example --template asset-list
+```
+
 ### Juno
 
 <p align="center" width="100%">
