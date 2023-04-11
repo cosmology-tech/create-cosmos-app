@@ -67,7 +67,8 @@ export const AssetList: React.FC<IProps> = ({ selectedChainName }) => {
   const allBalances = getAllBalances.data;
 
   const topTokensByLiquidity = useMemo(() => {
-    if (!allTokens) return;
+    if (!allTokens || !Array.isArray(allTokens)) return;
+
     return allTokens
       .sort((a, b) => b.liquidity - a.liquidity)
       .slice(0, MAX_TOP_TOKENS)
