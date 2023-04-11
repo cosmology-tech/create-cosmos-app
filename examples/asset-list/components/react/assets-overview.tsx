@@ -143,7 +143,8 @@ const AssetsOverview: React.FC<IProps> = ({
         .map((coin) => {
           const poolData = getPoolsByIds.data!.find(
             (pool) => pool.id.low.toString() === coin.denom.split('/')[2]
-          )!;
+          );
+          if (!poolData) return '0';
           return convertGammTokenToDollarValue(coin, poolData, prices);
         })
         .reduce((total, cur) => total.plus(cur), new BigNumber(0));
