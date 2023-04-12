@@ -27,7 +27,7 @@
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
     "bignumber.js": "9.1.0",
-    "chain-registry": "1.7.0",
+    "chain-registry": "1.10.0",
     "framer-motion": "9.0.7",
     "interchain": "1.3.0",
     "next": "12.2.5",
@@ -36,7 +36,7 @@
     "react-icons": "4.6.0"
   },
   "devDependencies": {
-    "@cosmwasm/ts-codegen": "0.24.0",
+    "@cosmwasm/ts-codegen": "0.26.0",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
