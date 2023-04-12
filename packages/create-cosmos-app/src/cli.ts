@@ -1,5 +1,6 @@
 import { createGitApp } from "./git-cca-template";
-const createCosmosApp = createGitApp('https://github.com/cosmology-tech/create-cosmos-app.git');
 export const cli = async (argv) => {
+  const url = argv.repo ?? 'https://github.com/cosmology-tech/create-cosmos-app.git';
+  const createCosmosApp = createGitApp(url);
   await createCosmosApp(argv);
 };
