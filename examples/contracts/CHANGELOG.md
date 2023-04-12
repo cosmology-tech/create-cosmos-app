@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/connect-chain-with-telescope-and-contracts@1.6.3...@cosmology/connect-chain-with-telescope-and-contracts@1.7.0) (2023-04-12)
+
+**Note:** Version bump only for package @cosmology/connect-chain-with-telescope-and-contracts
+
+
+
+
+
 ## [1.6.3](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/connect-chain-with-telescope-and-contracts@1.6.2...@cosmology/connect-chain-with-telescope-and-contracts@1.6.3) (2023-03-28)
 
 **Note:** Version bump only for package @cosmology/connect-chain-with-telescope-and-contracts

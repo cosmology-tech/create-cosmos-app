@@ -1,6 +1,6 @@
 {
   "name": "@cosmology/osmosis-cosmwasm",
-  "version": "1.8.3",
+  "version": "1.9.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
