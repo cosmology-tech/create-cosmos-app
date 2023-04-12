@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.2.0 (2023-04-12)
+
+
+### Bug Fixes
+
+* add missing deps ([b24c3c7](https://github.com/cosmology-tech/create-cosmos-app/commit/b24c3c7c882a0211abc5f01095ff247e5f663d02))
+* pool data error ([0739e1b](https://github.com/cosmology-tech/create-cosmos-app/commit/0739e1b28a4d6219ecf65678fe5f170103a48f8d))
+
+
+### Features
+
+* add dark mode ([9de3ec0](https://github.com/cosmology-tech/create-cosmos-app/commit/9de3ec001b801328ff2bbb24740cfa977ffb64be))
+* add multi-chain page ([776605f](https://github.com/cosmology-tech/create-cosmos-app/commit/776605f338a71230c062efe2da4d433329c2a640))
+* assets list deposit and withdraw ([c028a6a](https://github.com/cosmology-tech/create-cosmos-app/commit/c028a6aefd9cc67a0a1d0824ee9ee3c0985e65ea))
+* display total on osmosis ([297e70d](https://github.com/cosmology-tech/create-cosmos-app/commit/297e70dd558a80ea15bc2a623fc4109502899b59))
+* dropdown deposit and withdraw ([9d74b57](https://github.com/cosmology-tech/create-cosmos-app/commit/9d74b571c856f9600dcd3e54cbf278c14c804792))
+* finish the style ([cc2baab](https://github.com/cosmology-tech/create-cosmos-app/commit/cc2baab2db3a6b5c501ac3ddc32238977cf5bfa0))
+
+
+
+
+
 ## [1.7.2](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/osmosis@1.7.1...@cosmology/osmosis@1.7.2) (2023-02-15)
 
 **Note:** Version bump only for package @cosmology/osmosis
