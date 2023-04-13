@@ -105,7 +105,7 @@ cca --example
 </p>
 
 ```
-cca --name mysendtokensapp --example --template send-tokens
+cca --name send-example --example --template send-tokens
 ```
 
 ### Stake Tokens
@@ -115,7 +115,7 @@ cca --name mysendtokensapp --example --template send-tokens
 </p>
 
 ```
-cca --name mystaketokensapp --example --template stake-tokens
+cca --name stake-example --example --template stake-tokens
 ```
 
 ### Vote Proposal
@@ -125,7 +125,7 @@ cca --name mystaketokensapp --example --template stake-tokens
 </p>
 
 ```
-cca --name myvoteproposalapp --example --template vote-proposal
+cca --name vote-example --example --template vote-proposal
 ```
 
 ### IBC Transfer
@@ -135,7 +135,7 @@ cca --name myvoteproposalapp --example --template vote-proposal
 </p>
 
 ```
-cca --name myibctransferapp --example --template ibc-transfer
+cca --name ibc-example --example --template ibc-transfer
 ```
 
 ### Osmosis
@@ -147,13 +147,13 @@ cca --name myibctransferapp --example --template ibc-transfer
 uses [osmojs](https://github.com/osmosis-labs/osmojs)
 
 ```
-cca --name myosmoapp --example --template osmosis
+cca --name osmo-example --example --template osmosis
 ```
 
 or the cosmwasm example:
 
 ```
-cca --name osmowasm --example --template osmosis-cosmwasm
+cca --name osmowasm-example --example --template osmosis-cosmwasm
 ```
 
 ### Swap Tokens
@@ -165,7 +165,7 @@ cca --name osmowasm --example --template osmosis-cosmwasm
 uses [osmojs](https://github.com/osmosis-labs/osmojs) to swap tokens
 
 ```
-cca --name myswaptokensapp --example --template swap-tokens
+cca --name swap-example --example --template swap-tokens
 ```
 
 ### Provide Liquidity
@@ -177,7 +177,7 @@ cca --name myswaptokensapp --example --template swap-tokens
 uses [osmojs](https://github.com/osmosis-labs/osmojs) to provide liquidity
 
 ```
-cca --name myprovideliquidityapp --example --template provide-liquidity
+cca --name liquidity-example --example --template provide-liquidity
 ```
 
 ### Asset List
@@ -187,7 +187,7 @@ cca --name myprovideliquidityapp --example --template provide-liquidity
 </p>
 
 ```
-cca --name myassetlistapp --example --template asset-list
+cca --name asset-list-example --example --template asset-list
 ```
 
 ### Juno
@@ -199,7 +199,7 @@ cca --name myassetlistapp --example --template asset-list
 uses [juno-network](https://github.com/CosmosContracts/typescript)
 
 ```
-cca --name myjunoapp --example --template juno
+cca --name juno-example --example --template juno
 ```
 
 ### Stargaze
@@ -211,7 +211,7 @@ cca --name myjunoapp --example --template juno
 uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
 
 ```
-cca --name mystarsapp --example --template stargaze
+cca --name stargaze-example --example --template stargaze
 ```
 
 ### CosmWasm
@@ -221,13 +221,13 @@ cca --name mystarsapp --example --template stargaze
 </p>
 
 ```
-cca --name mywasmapp --example --template cosmwasm
+cca --name cosmwasm-example --example --template cosmwasm
 ```
 
 ### Tailwind
 
 ```
-cca --name cca-tailwind --example --template tailwindcss
+cca --name tailwind-example --example --template tailwindcss
 ```
 
 ## Development
