@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.1](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@0.11.0...create-cosmos-app@0.11.1) (2023-04-13)
+
+**Note:** Version bump only for package create-cosmos-app
+
+
+
+
+
 # [0.11.0](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@0.10.2...create-cosmos-app@0.11.0) (2023-04-12)
 
 **Note:** Version bump only for package create-cosmos-app
