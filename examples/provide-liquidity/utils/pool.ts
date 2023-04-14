@@ -40,7 +40,7 @@ export const getSymbolForDenom = (denom: CoinDenom): CoinSymbol => {
 export const getExponentByDenom = (denom: CoinDenom): Exponent => {
   const asset = getOsmoAssetByDenom(denom);
   const unit = asset.denom_units.find(({ denom }) => denom === asset.display);
-  return unit.exponent;
+  return unit?.exponent || 0;
 };
 
 export const convertGeckoPricesToDenomPriceHash = (
