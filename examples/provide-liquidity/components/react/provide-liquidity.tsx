@@ -274,7 +274,7 @@ export const ProvideLiquidity = () => {
   }, [addAprToPool, getSuperfluidAssets.data, prettyPools]);
 
   const myPools = useMemo(() => {
-    if (!getAllBalances.data || !prettyPools) return;
+    if (!getAllBalances.data || !prettyPools || !address) return;
     const poolsData = getAllBalances.data
       .filter(({ denom }) => denom.startsWith('gamm/pool'))
       .map((coin) => {
@@ -286,7 +286,7 @@ export const ProvideLiquidity = () => {
       .filter(Boolean) as Pool[];
 
     return poolsData.map(addAprToPool);
-  }, [addAprToPool, getAllBalances.data, prettyPools]);
+  }, [addAprToPool, getAllBalances.data, prettyPools, address]);
 
   useEffect(() => {
     if (!allPools || !highlightedPools || !myPools || !prettyPools) return;
@@ -332,8 +332,7 @@ export const ProvideLiquidity = () => {
     getRewards.loading ||
     getAllBalances.loading ||
     getLockedCoins.loading ||
-    getSuperfluidDelegations.loading ||
-    getAllPools.loading;
+    getSuperfluidDelegations.loading;
 
   return (
     <Box mb={14} maxWidth="800px" mx="auto">

@@ -316,5 +316,5 @@ export const calcShareOutAmount = (
         .decimalPlaces(0, BigNumber.ROUND_HALF_UP)
         .toString();
     })
-    .sort()[0];
+    .sort((a, b) => (new BigNumber(a).lt(b) ? -1 : 1))[0];
 };

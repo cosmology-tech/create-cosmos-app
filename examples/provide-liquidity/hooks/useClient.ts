@@ -5,8 +5,6 @@ export const useClient = (chainName: string) => {
   const { getRpcEndpoint } = useChain(chainName);
 
   const getClient = async () => {
-    console.log('get new client...');
-
     let rpcEndpoint = await getRpcEndpoint();
 
     if (!rpcEndpoint) {

@@ -122,35 +122,40 @@ export const PoolDetailModal = ({
     prices
   );
 
-  const bondedData = durations.map((duration) => {
-    const lock = locks.find(
-      (l) =>
-        l.coins[0].denom === pool.totalShares?.denom &&
-        Number(daysToSeconds(duration)) === l.duration?.seconds.low &&
-        dayjs().isAfter(l.endTime)
-    );
+  const bondedData = durations
+    .filter((duration) => {
+      const gaugeAprs = pool.apr[duration].gaugeAprs;
+      return gaugeAprs && gaugeAprs.length > 0;
+    })
+    .map((duration) => {
+      const lock = locks.find(
+        (l) =>
+          l.coins[0].denom === pool.totalShares?.denom &&
+          Number(daysToSeconds(duration)) === l.duration?.seconds.low &&
+          dayjs().isAfter(l.endTime)
+      );
 
-    if (!lock) {
+      if (!lock) {
+        return {
+          ID: '',
+          apr: pool.apr[duration],
+          value: '0',
+          shares: '0',
+          duration,
+        };
+      }
+
+      const value = convertGammTokenToDollarValue(lock.coins[0], pool, prices);
+      const shares = convertDollarValueToShares(value, pool, prices);
+
       return {
-        ID: '',
+        ID: lock.ID.low.toString(),
         apr: pool.apr[duration],
-        value: '0',
-        shares: '0',
+        value,
+        shares,
         duration,
       };
-    }
-
-    const value = convertGammTokenToDollarValue(lock.coins[0], pool, prices);
-    const shares = convertDollarValueToShares(value, pool, prices);
-
-    return {
-      ID: lock.ID.low.toString(),
-      apr: pool.apr[duration],
-      value,
-      shares,
-      duration,
-    };
-  });
+    });
 
   const handleUnbondClick = async (ID: string | null, duration: string) => {
     if (!ID) return;
@@ -363,7 +368,8 @@ export const PoolDetailModal = ({
             <Flex mb="34px" wrap="wrap">
               <Box mb={{ sm: '22px', md: '22px', lg: 0 }}>
                 <Heading fontWeight="600" fontSize="20px">
-                  Bond your liquidity
+                  Bond your liquidity&nbsp;
+                  {bondedData.length === 0 && <span>(unavailable)</span>}
                 </Heading>
                 <Text color={statColor} fontWeight="400" fontSize="14px">
                   Bond your tokens to earn additional OSMO rewards to the swap
