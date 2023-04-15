@@ -20,8 +20,6 @@ export const useQueuedRequests = <T>({
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState(false);
 
-  let round = 0;
-
   const sendQueuedRequests = async (requests: Promise<T>[]) => {
     setLoading(true);
     let results: T[] = [];
@@ -30,7 +28,6 @@ export const useQueuedRequests = <T>({
 
     for (const [index, requestQueue] of Object.entries(requestQueues)) {
       let queueResult: T[] = [];
-      console.log(`round ${round++}`);
 
       try {
         queueResult = await Promise.all(requestQueue);
@@ -38,10 +35,8 @@ export const useQueuedRequests = <T>({
       } catch (error) {
         console.error(error);
         setError(error || 'Unexpected Error!');
-        continue;
+        break;
       }
-
-      console.log({ results });
 
       if (Number(index) !== requestQueues.length - 1 && queueGap) {
         await new Promise((resolve) => setTimeout(resolve, queueGap));
