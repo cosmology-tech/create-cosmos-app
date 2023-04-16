@@ -14,28 +14,24 @@ export const MessageComposer = {
         value: MsgConnectionOpenInit.encode(value).finish()
       };
     },
-
     connectionOpenTry(value: MsgConnectionOpenTry) {
       return {
         typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenTry",
         value: MsgConnectionOpenTry.encode(value).finish()
       };
     },
-
     connectionOpenAck(value: MsgConnectionOpenAck) {
       return {
         typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenAck",
         value: MsgConnectionOpenAck.encode(value).finish()
       };
     },
-
     connectionOpenConfirm(value: MsgConnectionOpenConfirm) {
       return {
         typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenConfirm",
         value: MsgConnectionOpenConfirm.encode(value).finish()
       };
     }
-
   },
   withTypeUrl: {
     connectionOpenInit(value: MsgConnectionOpenInit) {
@@ -44,28 +40,24 @@ export const MessageComposer = {
         value
       };
     },
-
     connectionOpenTry(value: MsgConnectionOpenTry) {
       return {
         typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenTry",
         value
       };
     },
-
     connectionOpenAck(value: MsgConnectionOpenAck) {
       return {
         typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenAck",
         value
       };
     },
-
     connectionOpenConfirm(value: MsgConnectionOpenConfirm) {
       return {
         typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenConfirm",
         value
       };
     }
-
   },
   fromPartial: {
     connectionOpenInit(value: MsgConnectionOpenInit) {
@@ -74,27 +66,23 @@ export const MessageComposer = {
         value: MsgConnectionOpenInit.fromPartial(value)
       };
     },
-
     connectionOpenTry(value: MsgConnectionOpenTry) {
       return {
         typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenTry",
         value: MsgConnectionOpenTry.fromPartial(value)
       };
     },
-
     connectionOpenAck(value: MsgConnectionOpenAck) {
       return {
         typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenAck",
         value: MsgConnectionOpenAck.fromPartial(value)
       };
     },
-
     connectionOpenConfirm(value: MsgConnectionOpenConfirm) {
       return {
         typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenConfirm",
         value: MsgConnectionOpenConfirm.fromPartial(value)
       };
     }
-
   }
 };
