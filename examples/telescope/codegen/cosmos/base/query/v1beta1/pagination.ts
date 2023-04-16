@@ -1,5 +1,5 @@
-import * as _m0 from "protobufjs/minimal";
 import { Long } from "../../../../helpers";
+import * as _m0 from "protobufjs/minimal";
 /**
  * PageRequest is to be embedded in gRPC request messages for efficient
  * pagination. Ex:
@@ -9,7 +9,6 @@ import { Long } from "../../../../helpers";
  *          PageRequest pagination = 2;
  *  }
  */
-
 export interface PageRequest {
   /**
    * key is a value returned in PageResponse.next_key to begin
@@ -22,13 +21,11 @@ export interface PageRequest {
    * It is less efficient than using key. Only one of offset or key should
    * be set.
    */
-
   offset: Long;
   /**
    * limit is the total number of results to be returned in the result page.
    * If left empty it will default to a value to be set by each app.
    */
-
   limit: Long;
   /**
    * count_total is set to true  to indicate that the result set should include
@@ -36,14 +33,12 @@ export interface PageRequest {
    * count_total is only respected when offset is used. It is ignored when key
    * is set.
    */
-
   countTotal: boolean;
   /**
    * reverse is set to true if results are to be returned in the descending order.
    * 
    * Since: cosmos-sdk 0.43
    */
-
   reverse: boolean;
 }
 /**
@@ -55,41 +50,11 @@ export interface PageRequest {
  *          PageRequest pagination = 2;
  *  }
  */
-
 export interface PageRequestSDKType {
-  /**
-   * key is a value returned in PageResponse.next_key to begin
-   * querying the next page most efficiently. Only one of offset or key
-   * should be set.
-   */
   key: Uint8Array;
-  /**
-   * offset is a numeric offset that can be used when key is unavailable.
-   * It is less efficient than using key. Only one of offset or key should
-   * be set.
-   */
-
   offset: Long;
-  /**
-   * limit is the total number of results to be returned in the result page.
-   * If left empty it will default to a value to be set by each app.
-   */
-
   limit: Long;
-  /**
-   * count_total is set to true  to indicate that the result set should include
-   * a count of the total number of items available for pagination in UIs.
-   * count_total is only respected when offset is used. It is ignored when key
-   * is set.
-   */
-
   count_total: boolean;
-  /**
-   * reverse is set to true if results are to be returned in the descending order.
-   * 
-   * Since: cosmos-sdk 0.43
-   */
-
   reverse: boolean;
 }
 /**
@@ -101,7 +66,6 @@ export interface PageRequestSDKType {
  *          PageResponse page = 2;
  *  }
  */
-
 export interface PageResponse {
   /**
    * next_key is the key to be passed to PageRequest.key to
@@ -113,7 +77,6 @@ export interface PageResponse {
    * total is total number of results available if PageRequest.count_total
    * was set, its value is undefined otherwise
    */
-
   total: Long;
 }
 /**
@@ -125,22 +88,10 @@ export interface PageResponse {
  *          PageResponse page = 2;
  *  }
  */
-
 export interface PageResponseSDKType {
-  /**
-   * next_key is the key to be passed to PageRequest.key to
-   * query the next page most efficiently. It will be empty if
-   * there are no more results.
-   */
   next_key: Uint8Array;
-  /**
-   * total is total number of results available if PageRequest.count_total
-   * was set, its value is undefined otherwise
-   */
-
   total: Long;
 }
-
 function createBasePageRequest(): PageRequest {
   return {
     key: new Uint8Array(),
@@ -150,70 +101,54 @@ function createBasePageRequest(): PageRequest {
     reverse: false
   };
 }
-
 export const PageRequest = {
   encode(message: PageRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key);
     }
-
     if (!message.offset.isZero()) {
       writer.uint32(16).uint64(message.offset);
     }
-
     if (!message.limit.isZero()) {
       writer.uint32(24).uint64(message.limit);
     }
-
     if (message.countTotal === true) {
       writer.uint32(32).bool(message.countTotal);
     }
-
     if (message.reverse === true) {
       writer.uint32(40).bool(message.reverse);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): PageRequest {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePageRequest();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.key = reader.bytes();
           break;
-
         case 2:
           message.offset = (reader.uint64() as Long);
           break;
-
         case 3:
           message.limit = (reader.uint64() as Long);
           break;
-
         case 4:
           message.countTotal = reader.bool();
           break;
-
         case 5:
           message.reverse = reader.bool();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<PageRequest>): PageRequest {
     const message = createBasePageRequest();
     message.key = object.key ?? new Uint8Array();
@@ -223,60 +158,47 @@ export const PageRequest = {
     message.reverse = object.reverse ?? false;
     return message;
   }
-
 };
-
 function createBasePageResponse(): PageResponse {
   return {
     nextKey: new Uint8Array(),
     total: Long.UZERO
   };
 }
-
 export const PageResponse = {
   encode(message: PageResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.nextKey.length !== 0) {
       writer.uint32(10).bytes(message.nextKey);
     }
-
     if (!message.total.isZero()) {
       writer.uint32(16).uint64(message.total);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): PageResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePageResponse();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.nextKey = reader.bytes();
           break;
-
         case 2:
           message.total = (reader.uint64() as Long);
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<PageResponse>): PageResponse {
     const message = createBasePageResponse();
     message.nextKey = object.nextKey ?? new Uint8Array();
     message.total = object.total !== undefined && object.total !== null ? Long.fromValue(object.total) : Long.UZERO;
     return message;
   }
-
 };

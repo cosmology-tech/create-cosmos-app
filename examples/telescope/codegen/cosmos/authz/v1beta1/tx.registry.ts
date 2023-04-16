@@ -14,21 +14,18 @@ export const MessageComposer = {
         value: MsgGrant.encode(value).finish()
       };
     },
-
     exec(value: MsgExec) {
       return {
         typeUrl: "/cosmos.authz.v1beta1.MsgExec",
         value: MsgExec.encode(value).finish()
       };
     },
-
     revoke(value: MsgRevoke) {
       return {
         typeUrl: "/cosmos.authz.v1beta1.MsgRevoke",
         value: MsgRevoke.encode(value).finish()
       };
     }
-
   },
   withTypeUrl: {
     grant(value: MsgGrant) {
@@ -37,21 +34,18 @@ export const MessageComposer = {
         value
       };
     },
-
     exec(value: MsgExec) {
       return {
         typeUrl: "/cosmos.authz.v1beta1.MsgExec",
         value
       };
     },
-
     revoke(value: MsgRevoke) {
       return {
         typeUrl: "/cosmos.authz.v1beta1.MsgRevoke",
         value
       };
     }
-
   },
   fromPartial: {
     grant(value: MsgGrant) {
@@ -60,20 +54,17 @@ export const MessageComposer = {
         value: MsgGrant.fromPartial(value)
       };
     },
-
     exec(value: MsgExec) {
       return {
         typeUrl: "/cosmos.authz.v1beta1.MsgExec",
         value: MsgExec.fromPartial(value)
       };
     },
-
     revoke(value: MsgRevoke) {
       return {
         typeUrl: "/cosmos.authz.v1beta1.MsgRevoke",
         value: MsgRevoke.fromPartial(value)
       };
     }
-
   }
 };

@@ -172,14 +172,16 @@ import * as _247 from "./rpc.query";
 import * as _248 from "./rpc.tx";
 export namespace cosmos {
   export namespace app {
-    export const v1alpha1 = { ..._2,
+    export const v1alpha1 = {
+      ..._2,
       ..._3,
       ..._4,
       ..._188
     };
   }
   export namespace auth {
-    export const v1beta1 = { ..._5,
+    export const v1beta1 = {
+      ..._5,
       ..._6,
       ..._7,
       ..._171,
@@ -187,7 +189,8 @@ export namespace cosmos {
     };
   }
   export namespace authz {
-    export const v1beta1 = { ..._8,
+    export const v1beta1 = {
+      ..._8,
       ..._9,
       ..._10,
       ..._11,
@@ -200,7 +203,8 @@ export namespace cosmos {
     };
   }
   export namespace bank {
-    export const v1beta1 = { ..._13,
+    export const v1beta1 = {
+      ..._13,
       ..._14,
       ..._15,
       ..._16,
@@ -214,48 +218,59 @@ export namespace cosmos {
   }
   export namespace base {
     export namespace abci {
-      export const v1beta1 = { ..._18
+      export const v1beta1 = {
+        ..._18
       };
     }
     export namespace kv {
-      export const v1beta1 = { ..._19
+      export const v1beta1 = {
+        ..._19
       };
     }
     export namespace query {
-      export const v1beta1 = { ..._20
+      export const v1beta1 = {
+        ..._20
       };
     }
     export namespace reflection {
-      export const v1beta1 = { ..._21
+      export const v1beta1 = {
+        ..._21
       };
-      export const v2alpha1 = { ..._22
+      export const v2alpha1 = {
+        ..._22
       };
     }
     export namespace snapshots {
-      export const v1beta1 = { ..._23
+      export const v1beta1 = {
+        ..._23
       };
     }
     export namespace store {
-      export const v1beta1 = { ..._24,
+      export const v1beta1 = {
+        ..._24,
         ..._25
       };
     }
     export namespace tendermint {
-      export const v1beta1 = { ..._26,
+      export const v1beta1 = {
+        ..._26,
         ..._174,
         ..._192
       };
     }
-    export const v1beta1 = { ..._27
+    export const v1beta1 = {
+      ..._27
     };
   }
   export namespace capability {
-    export const v1beta1 = { ..._28,
+    export const v1beta1 = {
+      ..._28,
       ..._29
     };
   }
   export namespace crisis {
-    export const v1beta1 = { ..._30,
+    export const v1beta1 = {
+      ..._30,
       ..._31,
       ..._145,
       ..._159,
@@ -263,25 +278,32 @@ export namespace cosmos {
     };
   }
   export namespace crypto {
-    export const ed25519 = { ..._32
+    export const ed25519 = {
+      ..._32
     };
     export namespace hd {
-      export const v1 = { ..._33
+      export const v1 = {
+        ..._33
       };
     }
     export namespace keyring {
-      export const v1 = { ..._34
+      export const v1 = {
+        ..._34
       };
     }
-    export const multisig = { ..._35
+    export const multisig = {
+      ..._35
     };
-    export const secp256k1 = { ..._36
+    export const secp256k1 = {
+      ..._36
     };
-    export const secp256r1 = { ..._37
+    export const secp256r1 = {
+      ..._37
     };
   }
   export namespace distribution {
-    export const v1beta1 = { ..._38,
+    export const v1beta1 = {
+      ..._38,
       ..._39,
       ..._40,
       ..._41,
@@ -293,7 +315,8 @@ export namespace cosmos {
     };
   }
   export namespace evidence {
-    export const v1beta1 = { ..._42,
+    export const v1beta1 = {
+      ..._42,
       ..._43,
       ..._44,
       ..._45,
@@ -305,7 +328,8 @@ export namespace cosmos {
     };
   }
   export namespace feegrant {
-    export const v1beta1 = { ..._46,
+    export const v1beta1 = {
+      ..._46,
       ..._47,
       ..._48,
       ..._49,
@@ -317,11 +341,13 @@ export namespace cosmos {
     };
   }
   export namespace genutil {
-    export const v1beta1 = { ..._50
+    export const v1beta1 = {
+      ..._50
     };
   }
   export namespace gov {
-    export const v1 = { ..._51,
+    export const v1 = {
+      ..._51,
       ..._52,
       ..._53,
       ..._54,
@@ -331,7 +357,8 @@ export namespace cosmos {
       ..._196,
       ..._212
     };
-    export const v1beta1 = { ..._55,
+    export const v1beta1 = {
+      ..._55,
       ..._56,
       ..._57,
       ..._58,
@@ -343,7 +370,8 @@ export namespace cosmos {
     };
   }
   export namespace group {
-    export const v1 = { ..._59,
+    export const v1 = {
+      ..._59,
       ..._60,
       ..._61,
       ..._62,
@@ -356,7 +384,8 @@ export namespace cosmos {
     };
   }
   export namespace mint {
-    export const v1beta1 = { ..._64,
+    export const v1beta1 = {
+      ..._64,
       ..._65,
       ..._66,
       ..._181,
@@ -364,11 +393,13 @@ export namespace cosmos {
     };
   }
   export namespace msg {
-    export const v1 = { ..._67
+    export const v1 = {
+      ..._67
     };
   }
   export namespace nft {
-    export const v1beta1 = { ..._68,
+    export const v1beta1 = {
+      ..._68,
       ..._69,
       ..._70,
       ..._71,
@@ -381,20 +412,24 @@ export namespace cosmos {
     };
   }
   export namespace orm {
-    export const v1 = { ..._73
+    export const v1 = {
+      ..._73
     };
-    export const v1alpha1 = { ..._74
+    export const v1alpha1 = {
+      ..._74
     };
   }
   export namespace params {
-    export const v1beta1 = { ..._75,
+    export const v1beta1 = {
+      ..._75,
       ..._76,
       ..._183,
       ..._201
     };
   }
   export namespace slashing {
-    export const v1beta1 = { ..._77,
+    export const v1beta1 = {
+      ..._77,
       ..._78,
       ..._79,
       ..._80,
@@ -406,7 +441,8 @@ export namespace cosmos {
     };
   }
   export namespace staking {
-    export const v1beta1 = { ..._81,
+    export const v1beta1 = {
+      ..._81,
       ..._82,
       ..._83,
       ..._84,
@@ -420,17 +456,20 @@ export namespace cosmos {
   }
   export namespace tx {
     export namespace signing {
-      export const v1beta1 = { ..._86
+      export const v1beta1 = {
+        ..._86
       };
     }
-    export const v1beta1 = { ..._87,
+    export const v1beta1 = {
+      ..._87,
       ..._88,
       ..._186,
       ..._204
     };
   }
   export namespace upgrade {
-    export const v1beta1 = { ..._89,
+    export const v1beta1 = {
+      ..._89,
       ..._90,
       ..._91,
       ..._155,
@@ -441,14 +480,16 @@ export namespace cosmos {
     };
   }
   export namespace vesting {
-    export const v1beta1 = { ..._92,
+    export const v1beta1 = {
+      ..._92,
       ..._93,
       ..._156,
       ..._170,
       ..._219
     };
   }
-  export const ClientFactory = { ..._246,
+  export const ClientFactory = {
+    ..._246,
     ..._247,
     ..._248
   };

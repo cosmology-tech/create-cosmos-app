@@ -14,7 +14,6 @@ export const MessageComposer = {
         value: MsgTransfer.encode(value).finish()
       };
     }
-
   },
   withTypeUrl: {
     transfer(value: MsgTransfer) {
@@ -23,7 +22,6 @@ export const MessageComposer = {
         value
       };
     }
-
   },
   fromPartial: {
     transfer(value: MsgTransfer) {
@@ -32,6 +30,5 @@ export const MessageComposer = {
         value: MsgTransfer.fromPartial(value)
       };
     }
-
   }
 };
