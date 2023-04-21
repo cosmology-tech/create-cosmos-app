@@ -22,6 +22,7 @@ import {
   handleChangeColorModeValue,
   SwapTokens,
 } from '../components';
+import { useTheme, Themes } from '@cosmology-ui/react';
 
 const library = {
   title: 'OsmoJS',
@@ -31,6 +32,7 @@ const library = {
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
+  const { setTheme, theme } = useTheme();
 
   return (
     <Container maxW="5xl" py={10}>
@@ -40,7 +42,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Flex justifyContent="end" mb={4}>
-        <Button variant="outline" px={0} onClick={toggleColorMode}>
+        <Button
+          variant="outline"
+          px={0}
+          onClick={() => {
+            setTheme(theme === Themes.Light ? Themes.Dark : Themes.Light);
+            toggleColorMode();
+          }}
+        >
           <Icon
             as={colorMode === 'light' ? BsFillMoonStarsFill : BsFillSunFill}
           />

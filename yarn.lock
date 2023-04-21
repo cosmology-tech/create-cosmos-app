@@ -1974,6 +1974,13 @@
   dependencies:
     "@babel/runtime" "^7.19.4"
 
+"@chain-registry/types@^0.16.0":
+  version "0.16.0"
+  resolved "https://registry.npmmirror.com/@chain-registry/types/-/types-0.16.0.tgz#f76409186899a976d33693d7f458c33d71a66730"
+  integrity sha512-4j6vq2Vqn/nF+UBjvRPUVs6eM3+5rJ+dPmEWpd/OoNH3wTy1k6aoilcSTZRR//vGcI5EOVGsxhhJxUzo2qqweA==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+
 "@chain-registry/utils@^1.3.0":
   version "1.7.0"
   resolved "https://registry.npmmirror.com/@chain-registry/utils/-/utils-1.7.0.tgz#4e184a6fdc05935fbec195b4bd6e37681d0caf92"
@@ -3169,18 +3176,6 @@
   resolved "https://registry.npmjs.org/@cosmjson/wasmswap/-/wasmswap-0.0.9.tgz"
   integrity sha512-ieZgG1FuaRAJbCnVFLiIgpX4Y60h+EGx27bftmv63sL2YRCaKg7QFbbTZD598pJZiCoLNbkvvMFSypGNGXE3rw==
 
-"@cosmology-ui/animation@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/animation/-/animation-0.1.2-beta.89.tgz#f4ae4df6d1ee50ed8bafc678fc970987ebb7df28"
-  integrity sha512-TwJuNHYJzX6N1Gg/Fu1q9L9tGTdlJkbwyakq7B0MAoo/aqrIsV+f+ZDAw16FrVgYGCBZMywtNUxXmW0TC6Q/OQ==
-  dependencies:
-    "@babel/runtime" "^7.11.2"
-    "@chakra-ui/react" "^2.5.1"
-    "@emotion/react" "^11.10.6"
-    "@emotion/styled" "^11.10.6"
-    framer-motion "^9.0.7"
-    react-icons "^4.7.1"
-
 "@cosmology-ui/animation@^0.1.2-beta.90+4c33c60":
   version "0.1.2-beta.90"
   resolved "https://registry.npmmirror.com/@cosmology-ui/animation/-/animation-0.1.2-beta.90.tgz#f7ef4bcfe2058ba98d155d795366cee5694c52ac"
@@ -3193,10 +3188,10 @@
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
-"@cosmology-ui/base@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/base/-/base-0.1.2-beta.89.tgz#81c138a01591812e6d01c383f4259b54197c187d"
-  integrity sha512-iZitFnXvDtMSq1jzaeRKB0Nd1VWlRp2pUmubeMRz1EJa+A3AS+YHdrcyxCZW/KcNHcgnhH9sW7oP/uDWKzLrXQ==
+"@cosmology-ui/animation@^0.1.2-beta.93+a2ce777", "@cosmology-ui/animation@^0.1.2-beta.94+d00abad":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/animation/-/animation-0.1.2-beta.94.tgz#0ea22922aee180f4bc05c1cfefb24c51d75b5584"
+  integrity sha512-vaZ4DaC5SxfizieN8LP/a9pH93bIWsVYdDKdLaakZW4s9+chrQZft44jRx0V4BSSeV6RIw5c7TrvBg6Epoc1dg==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
@@ -3217,14 +3212,13 @@
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
-"@cosmology-ui/buttons@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/buttons/-/buttons-0.1.2-beta.89.tgz#5da787334103be91289aa2b590698d1a05ad6719"
-  integrity sha512-+C9RlwRfaUoD4O2TRyoLToRdwj5ANvBZrcglzaSvofdwQ6b2Bw218rpAax65ckc05xr7se/+llQ8pqFwzzqdqg==
+"@cosmology-ui/base@^0.1.2-beta.93+a2ce777", "@cosmology-ui/base@^0.1.2-beta.94+d00abad":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/base/-/base-0.1.2-beta.94.tgz#0726109ad69a225ef214466649f4a21875e51860"
+  integrity sha512-gVIrqJthDSKlNyfYIYd+FyvWjm5ulXizDrBBzNADP4B/A1k91chME9HWLv4T31EclMq/rO9gBCmqJkBlHh7Y+Q==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/theme" "^0.1.2-beta.89+52cb8ac"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
     framer-motion "^9.0.7"
@@ -3243,19 +3237,16 @@
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
-"@cosmology-ui/chain-dropdown@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/chain-dropdown/-/chain-dropdown-0.1.2-beta.89.tgz#7444ace0e3687adcf133418dcdbf502fe9ae3a99"
-  integrity sha512-3IRMdIzEjAhu5rNQ7NgWc9S8JEFhvrbowh59oMKO0rHl6vKzDWz3TlOyceL3Pije0ARyAI4AXSo2bzRBKCjdig==
+"@cosmology-ui/buttons@^0.1.2-beta.93+a2ce777":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/buttons/-/buttons-0.1.2-beta.94.tgz#c8c95f6c6f1026021a18bd474147bb9d9d4e39e2"
+  integrity sha512-9cAo7eu9vtAGy07GK6mK2g8VdK5+Tu6u4qQlNjOiVnxiqdWR6O9WmKGICtXqEblG8rm+YyYUH5luF0hHlUaBhQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/theme" "^0.1.2-beta.89+52cb8ac"
+    "@cosmology-ui/theme" "^0.1.2-beta.94+d00abad"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
-    chain-registry "^1.5.0"
-    chakra-react-select "^4.4.2"
-    fast-fuzzy "^1.12.0"
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
@@ -3275,22 +3266,21 @@
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
-"@cosmology-ui/connect-modal@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/connect-modal/-/connect-modal-0.1.2-beta.89.tgz#a3c7bb84cc809a4140a87a0b1fcbf62d5f6a34a2"
-  integrity sha512-xhyj0wx3/FqCat+lZOqPKsMlA7FzCD8dUp4rxPhchg7WLB6NrvbrAG4QrcBZRkAnrchRdIoifJqamlVOEqMseA==
+"@cosmology-ui/chain-dropdown@^0.1.2-beta.93+a2ce777":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/chain-dropdown/-/chain-dropdown-0.1.2-beta.94.tgz#8879848ab46fe507bc57d30bcc2a988a25c6e16a"
+  integrity sha512-s8oyVPCXKeI1FGibY0ZdT+X+w6x5vdaoNl4HLowGYXkIcIjgGMXRCyHySjE/R4v7z12ArQHW5WzaozXOmtzomQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/animation" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/theme" "^0.1.2-beta.89+52cb8ac"
+    "@cosmology-ui/theme" "^0.1.2-beta.94+d00abad"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
-    bowser "2.11.0"
+    chain-registry "^1.5.0"
+    chakra-react-select "^4.4.2"
+    fast-fuzzy "^1.12.0"
     framer-motion "^9.0.7"
-    qrcode.react "^3.1.0"
     react-icons "^4.7.1"
-    react-resize-detector "^8.0.3"
 
 "@cosmology-ui/connect-modal@^0.1.2-beta.90+4c33c60":
   version "0.1.2-beta.90"
@@ -3309,18 +3299,22 @@
     react-icons "^4.7.1"
     react-resize-detector "^8.0.3"
 
-"@cosmology-ui/copy-address-button@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/copy-address-button/-/copy-address-button-0.1.2-beta.89.tgz#c9d3cc88589e0c506c19b25f20b50c4139a1c618"
-  integrity sha512-xPGPcgHuiLj3WLikootLVhT3fVfQAtLN9gl0LAVEhT33mjSzg4rLd7n/AYjszz9TuOpFoRsqrD/ZbPz0fCDxbw==
+"@cosmology-ui/connect-modal@^0.1.2-beta.93+a2ce777":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/connect-modal/-/connect-modal-0.1.2-beta.94.tgz#74c7ece0905bc91c2db6f9606d9dd5649c2cf93c"
+  integrity sha512-AOZYhNvCvbbz8bQbl89FHoQx5rNqzDyuXDsA2HpAVVvY0ZNH4VnULjJzJz4asNNudh84yyj1cfljSa04YsBmlw==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/theme" "^0.1.2-beta.89+52cb8ac"
+    "@cosmology-ui/animation" "^0.1.2-beta.94+d00abad"
+    "@cosmology-ui/theme" "^0.1.2-beta.94+d00abad"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
+    bowser "2.11.0"
     framer-motion "^9.0.7"
+    qrcode.react "^3.1.0"
     react-icons "^4.7.1"
+    react-resize-detector "^8.0.3"
 
 "@cosmology-ui/copy-address-button@^0.1.2-beta.90+4c33c60":
   version "0.1.2-beta.90"
@@ -3335,32 +3329,18 @@
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
-"@cosmology-ui/react@0.1.8-beta.29":
-  version "0.1.8-beta.29"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/react/-/react-0.1.8-beta.29.tgz#e8608c22989f6038fb3ae37e587abfcffd7e147c"
-  integrity sha512-uJUgmNeRvlmDpMOMKgT+lKHi2s7th2SjcyWbQGIYepm9mllf+S6QoJo/DN50dzQMEM30T989gk9jotTktjYPAQ==
+"@cosmology-ui/copy-address-button@^0.1.2-beta.93+a2ce777":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/copy-address-button/-/copy-address-button-0.1.2-beta.94.tgz#74e22558f9bf28caf124a434b0396e9983c98768"
+  integrity sha512-G6bNTH1tFk5A8uN0ySvzw/eS8EewOqrVikvXEp257q96Uwsjq8K0/X7vE1opTKc8w8iCfMYmp6TyPxhdnPgNsg==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/animation" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/base" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/buttons" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/chain-dropdown" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/connect-modal" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/copy-address-button" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/swap" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/theme" "^0.1.2-beta.89+52cb8ac"
+    "@cosmology-ui/theme" "^0.1.2-beta.94+d00abad"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
-    bowser "2.11.0"
-    chain-registry "^1.5.0"
-    chakra-react-select "^4.4.2"
-    decimal.js "^10.4.3"
-    fast-fuzzy "^1.12.0"
     framer-motion "^9.0.7"
-    qrcode.react "^3.1.0"
     react-icons "^4.7.1"
-    react-resize-detector "^8.0.3"
 
 "@cosmology-ui/react@0.1.8-beta.30":
   version "0.1.8-beta.30"
@@ -3377,6 +3357,33 @@
     "@cosmology-ui/copy-address-button" "^0.1.2-beta.90+4c33c60"
     "@cosmology-ui/swap" "^0.1.2-beta.90+4c33c60"
     "@cosmology-ui/theme" "^0.1.2-beta.90+4c33c60"
+    "@emotion/react" "^11.10.6"
+    "@emotion/styled" "^11.10.6"
+    bowser "2.11.0"
+    chain-registry "^1.5.0"
+    chakra-react-select "^4.4.2"
+    decimal.js "^10.4.3"
+    fast-fuzzy "^1.12.0"
+    framer-motion "^9.0.7"
+    qrcode.react "^3.1.0"
+    react-icons "^4.7.1"
+    react-resize-detector "^8.0.3"
+
+"@cosmology-ui/react@0.1.8-beta.33":
+  version "0.1.8-beta.33"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/react/-/react-0.1.8-beta.33.tgz#f11bfdca8fbb05f2a22e0fd1590b5fd4994b2b1c"
+  integrity sha512-s/7r9UAGExZlPLUXBbs1XPGg9uvNDnhjE0nxMR6Fz+L8qMo10vO5N5B22Ed4+9F1WqHhUUadevmM9jW5cEzKQA==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@chakra-ui/react" "^2.5.1"
+    "@cosmology-ui/animation" "^0.1.2-beta.93+a2ce777"
+    "@cosmology-ui/base" "^0.1.2-beta.93+a2ce777"
+    "@cosmology-ui/buttons" "^0.1.2-beta.93+a2ce777"
+    "@cosmology-ui/chain-dropdown" "^0.1.2-beta.93+a2ce777"
+    "@cosmology-ui/connect-modal" "^0.1.2-beta.93+a2ce777"
+    "@cosmology-ui/copy-address-button" "^0.1.2-beta.93+a2ce777"
+    "@cosmology-ui/swap" "^0.1.2-beta.93+a2ce777"
+    "@cosmology-ui/theme" "^0.1.2-beta.93+a2ce777"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
     bowser "2.11.0"
@@ -3409,23 +3416,6 @@
     react-icons "^4.4.0"
     react-resize-detector "^8.0.3"
 
-"@cosmology-ui/swap@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/swap/-/swap-0.1.2-beta.89.tgz#e78a03ef6e5bcd47d7d26185ff8e1a68019f61d2"
-  integrity sha512-61hIGYjoQmzCj5ac8gITP/eqy7EiqISHbxjUK8BgMao/dJRYz9mgIDEWBeQgsOzResCwIoT1CWaJ8ONOp2up+g==
-  dependencies:
-    "@babel/runtime" "^7.11.2"
-    "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/animation" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/theme" "^0.1.2-beta.89+52cb8ac"
-    "@emotion/react" "^11.10.6"
-    "@emotion/styled" "^11.10.6"
-    chain-registry "^1.5.0"
-    chakra-react-select "^4.4.2"
-    decimal.js "^10.4.3"
-    framer-motion "^9.0.7"
-    react-icons "^4.7.1"
-
 "@cosmology-ui/swap@^0.1.2-beta.90+4c33c60":
   version "0.1.2-beta.90"
   resolved "https://registry.npmmirror.com/@cosmology-ui/swap/-/swap-0.1.2-beta.90.tgz#a2da37a157ac9a17195d21dcd06731b133f557ce"
@@ -3443,16 +3433,20 @@
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
-"@cosmology-ui/theme@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/theme/-/theme-0.1.2-beta.89.tgz#2a2209fe72a494452dc35fcfcdba923ce5f0df5b"
-  integrity sha512-onHf2bm2Wn756cgv02W0ZehVVMoWxcs2FXVj47FCowI8aIHua2rWVoijZ43JIDeuvPsnvWa2dHfhJRnwAzuLhw==
+"@cosmology-ui/swap@^0.1.2-beta.93+a2ce777":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/swap/-/swap-0.1.2-beta.94.tgz#83c0947ada92d439af7c584aba3d352d4916a23b"
+  integrity sha512-1teHqBUy+JpaNLr/kCu7PDjUi0I0i5aoGQYWyVaoIjqw3ROLhGTBOlLAqRZ6zHp367bS2ynx5/WG9duO/QmE8w==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/base" "^0.1.2-beta.89+52cb8ac"
+    "@cosmology-ui/animation" "^0.1.2-beta.94+d00abad"
+    "@cosmology-ui/theme" "^0.1.2-beta.94+d00abad"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
+    chain-registry "^1.5.0"
+    chakra-react-select "^4.4.2"
+    decimal.js "^10.4.3"
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
@@ -3464,6 +3458,19 @@
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
     "@cosmology-ui/base" "^0.1.2-beta.90+4c33c60"
+    "@emotion/react" "^11.10.6"
+    "@emotion/styled" "^11.10.6"
+    framer-motion "^9.0.7"
+    react-icons "^4.7.1"
+
+"@cosmology-ui/theme@^0.1.2-beta.93+a2ce777", "@cosmology-ui/theme@^0.1.2-beta.94+d00abad":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/theme/-/theme-0.1.2-beta.94.tgz#a80f7c8a8e2ee0022ec63adafd50c8f1ec778be3"
+  integrity sha512-/IHVhA/YCZ+foZJ9wm3VUgvD8M4UoG4XuiBiLNlAFiZdKr/YtVbNRog2hwtEK1ZCg1Y7o3C9Xrymflmdp0B+XQ==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@chakra-ui/react" "^2.5.1"
+    "@cosmology-ui/base" "^0.1.2-beta.94+d00abad"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
     framer-motion "^9.0.7"
@@ -3739,7 +3746,7 @@
 
 "@emotion/react@11.10.6", "@emotion/react@^11.10.6", "@emotion/react@^11.8.1":
   version "11.10.6"
-  resolved "https://registry.npmjs.org/@emotion/react/-/react-11.10.6.tgz#dbe5e650ab0f3b1d2e592e6ab1e006e75fd9ac11"
+  resolved "https://registry.npmmirror.com/@emotion/react/-/react-11.10.6.tgz#dbe5e650ab0f3b1d2e592e6ab1e006e75fd9ac11"
   integrity sha512-6HT8jBmcSkfzO7mc+N1L9uwvOnlcGoix8Zn7srt+9ga0MjREo6lRpuVX0kzo6Jp6oTqDhREOFsygN6Ew4fEQbw==
   dependencies:
     "@babel/runtime" "^7.18.3"
@@ -3769,7 +3776,7 @@
 
 "@emotion/styled@11.10.6", "@emotion/styled@^11.10.6":
   version "11.10.6"
-  resolved "https://registry.npmjs.org/@emotion/styled/-/styled-11.10.6.tgz#d886afdc51ef4d66c787ebde848f3cc8b117ebba"
+  resolved "https://registry.npmmirror.com/@emotion/styled/-/styled-11.10.6.tgz#d886afdc51ef4d66c787ebde848f3cc8b117ebba"
   integrity sha512-OXtBzOmDSJo5Q0AFemHCfl+bUueT8BIcPSxu0EGTpGk6DmI5dnhSzQANm1e1ze0YZL7TDyAyy6s/b/zmGOS3Og==
   dependencies:
     "@babel/runtime" "^7.18.3"
@@ -7670,6 +7677,14 @@ chain-registry@1.10.0:
     "@babel/runtime" "^7.19.4"
     "@chain-registry/types" "^0.14.0"
 
+chain-registry@1.13.0:
+  version "1.13.0"
+  resolved "https://registry.npmmirror.com/chain-registry/-/chain-registry-1.13.0.tgz#375d7cbc7288f9915bde11758355a49c90395b4d"
+  integrity sha512-LFfKuEN2fV1QHJuTdqz1VmdiMGy87yAAYODy6i6/9tC+m6hwDroIPhR8iwuY4BxyJMZj9yr2cpD8m+8X8cZ/PA==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@chain-registry/types" "^0.16.0"
+
 chain-registry@1.7.0:
   version "1.7.0"
   resolved "https://registry.npmmirror.com/chain-registry/-/chain-registry-1.7.0.tgz#cad6d47cddad92a631b89147e12a75fb6b66f109"
@@ -7700,7 +7715,7 @@ chakra-react-select@4.4.3:
   dependencies:
     react-select "5.7.0"
 
-chakra-react-select@^4.4.2:
+chakra-react-select@4.6.0, chakra-react-select@^4.4.2:
   version "4.6.0"
   resolved "https://registry.npmmirror.com/chakra-react-select/-/chakra-react-select-4.6.0.tgz#a1a35ee7c531db47ac9c8bd412fb0a3745e77321"
   integrity sha512-Ckcs+ofX5LxCc0oOz4SorDIRqF/afd5tAQOa694JVJiIckYorUmZASEUSSDdXaZltsUAtJE11CUmEZgVVsk9Eg==
@@ -8376,9 +8391,9 @@ decamelize@^4.0.0:
   resolved "https://registry.npmmirror.com/decamelize/-/decamelize-4.0.0.tgz"
   integrity sha512-9iE1PgSik9HeIIw2JO94IidnE3eBoQrFJ3w7sFuzSX4DpmZ3v5sZpUiV5Swcf6mQEF+Y0ru8Neo+p+nyh2J+hQ==
 
-decimal.js@^10.4.2, decimal.js@^10.4.3:
+decimal.js@10.4.3, decimal.js@^10.4.2, decimal.js@^10.4.3:
   version "10.4.3"
-  resolved "https://registry.npmjs.org/decimal.js/-/decimal.js-10.4.3.tgz"
+  resolved "https://registry.npmmirror.com/decimal.js/-/decimal.js-10.4.3.tgz#1044092884d245d1b7f65725fa4ad4c6f781cc23"
   integrity sha512-VBBaLc1MgL5XpzgIP7ny5Z6Nx3UrRkIViUkPUdtl9aya5amy3De1gsUUSB1g3+3sExYNjCAsAznmukyxCb1GRA==
 
 decode-named-character-reference@^1.0.0:

@@ -1,81 +1,84 @@
 import {
   Box,
-  Divider,
   Flex,
   IconButton,
   Image,
   Text,
-  useDisclosure
+  useDisclosure,
 } from '@chakra-ui/react';
-import { AnimateBox } from '@cosmology-ui/animation';
-import React from 'react';
+import { AnimateBox } from '@cosmology-ui/react';
+import React, { useEffect } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 
 import { SwapSkeletonPrice } from './swap-skeleton';
-import { SwapPriceDetail, SwapPriceType } from './type';
+import { SwapDetailsType, SwapPriceAndDetailsType } from './type';
+import Decimal from 'decimal.js';
 
-const SwapDetail = ({
+interface SwapDetailsProps extends SwapDetailsType {
+  tokenOutSymbol: string;
+}
+
+const SwapDetails = ({
   priceImpact,
   swapFee,
   expectedOutput,
   minimumReceived,
-  route
-}: SwapPriceDetail) => {
+  route,
+  tokenOutSymbol,
+}: SwapDetailsProps) => {
   return (
     <Box className="swap-price-detail-box">
-      {priceImpact ? (
+      {priceImpact && (
         <Flex className="swap-price-detail swap-price-impact">
           <Text className="swap-price-title">Price Impact</Text>
           <Text className="swap-price-value">{priceImpact}</Text>
         </Flex>
-      ) : undefined}
-      {swapFee ? (
+      )}
+      {swapFee && (
         <Flex className="swap-price-detail swap-fee">
           <Text className="swap-price-title">
-            Swap Fee{`(${swapFee.percentage})`}
+            Swap Fee {`(${swapFee.percentage})`}
           </Text>
           <Text className="swap-price-value">~ {swapFee.value}</Text>
         </Flex>
-      ) : undefined}
-      {expectedOutput ? (
+      )}
+      {expectedOutput && (
         <Flex className="swap-price-detail swap-expected-output">
           <Text className="swap-price-title">Expected Output</Text>
           <Text className="swap-price-value">
-            ~ {expectedOutput.value} {expectedOutput.symbol}
+            ~ {expectedOutput} {tokenOutSymbol}
           </Text>
         </Flex>
-      ) : undefined}
-      {minimumReceived ? (
+      )}
+      {minimumReceived && (
         <Flex className="swap-price-detail swap-minimum-received">
           <Text className="swap-price-title">
             Minimum received after slippage
           </Text>
           <Text className="swap-price-value">
-            {minimumReceived.value} {minimumReceived.symbol}
+            {minimumReceived} {tokenOutSymbol}
           </Text>
         </Flex>
-      ) : undefined}
-      {route ? (
+      )}
+      {route && (
         <Flex className="swap-price-detail swap-route">
           <Text className="swap-price-title swap-route-title">Route</Text>
           <Flex className="swap-route-details">
             <Image
               className="swap-route-sellToken swap-route-icon"
-              alt={route.sellToken.name}
+              alt={route.tokenIn.symbol}
               src={
-                route.sellToken.logoUrl
-                  ? route.sellToken.logoUrl.png ||
-                    route.sellToken.logoUrl.jpeg ||
-                    route.sellToken.logoUrl.svg
-                  : `https://dummyimage.com/400x400/A7B4C2/fff&text=${route.sellToken.name.slice(
+                route.tokenIn.logoUrl
+                  ? route.tokenIn.logoUrl.png ||
+                    route.tokenIn.logoUrl.jpeg ||
+                    route.tokenIn.logoUrl.svg
+                  : `https://dummyimage.com/400x400/A7B4C2/fff&text=${route.tokenIn.symbol.slice(
                       0,
                       1
                     )}`
               }
             />
-            <Box className="swap-route-divider-box">
-              <Divider className="swap-route-divider" />
-            </Box>
+            <Box className="swap-route-divider-box" />
             {route.routes.map(
               ({
                 poolId,
@@ -83,7 +86,7 @@ const SwapDetail = ({
                 baseLogo,
                 baseSymbol,
                 quoteLogo,
-                quoteSymbol
+                quoteSymbol,
               }) => {
                 return (
                   <>
@@ -114,22 +117,20 @@ const SwapDetail = ({
                       />
                     </Flex>
                     <Text className="swap-route-fee">{swapFee}</Text>
-                    <Box className="swap-route-divider-box">
-                      <Divider className="swap-route-divider" />
-                    </Box>
+                    <Box className="swap-route-divider-box" />
                   </>
                 );
               }
             )}
             <Image
               className="swap-route-buyToken swap-route-icon"
-              alt={route.buyToken.name}
+              alt={route.tokenOut.symbol}
               src={
-                route.buyToken.logoUrl
-                  ? route.buyToken.logoUrl.png ||
-                    route.buyToken.logoUrl.jpeg ||
-                    route.buyToken.logoUrl.svg
-                  : `https://dummyimage.com/400x400/A7B4C2/fff&text=${route.buyToken.name.slice(
+                route.tokenOut.logoUrl
+                  ? route.tokenOut.logoUrl.png ||
+                    route.tokenOut.logoUrl.jpeg ||
+                    route.tokenOut.logoUrl.svg
+                  : `https://dummyimage.com/400x400/A7B4C2/fff&text=${route.tokenOut.symbol.slice(
                       0,
                       1
                     )}`
@@ -137,52 +138,79 @@ const SwapDetail = ({
             />
           </Flex>
         </Flex>
-      ) : undefined}
+      )}
     </Box>
   );
 };
 
-export const SwapPrice = ({ loading, rate, detail }: SwapPriceType) => {
-  const { isOpen, onToggle } = useDisclosure();
+export const SwapPriceAndDetails = ({
+  price,
+  loading,
+  swapDetails,
+  tokenInSymbol,
+  tokenOutSymbol,
+}: SwapPriceAndDetailsType) => {
+  const { isOpen, onToggle, onClose } = useDisclosure();
 
-  if (loading) {
-    return <SwapSkeletonPrice />;
-  }
+  const showSwapDetailToggleBtn =
+    swapDetails &&
+    swapDetails.route?.routes &&
+    swapDetails.route?.routes?.length > 0;
+
+  const isZeroAmount = new Decimal(swapDetails?.expectedOutput || 0).equals(0);
+  const showSwapDetails =
+    showSwapDetailToggleBtn && isOpen && tokenOutSymbol && !isZeroAmount;
+
+  useEffect(() => {
+    if (isZeroAmount) onClose();
+  }, [isZeroAmount, onClose]);
+
   return (
     <Box className="swap-price-box">
       <Flex className="swap-price">
         <Text className="swap-price-title">Price</Text>
         <Box className="swap-price-value">
-          <Text as="span" className="swap-price-amount">
-            {rate.from.value} {rate.from.symbol}&nbsp;=&nbsp;
-            {rate.to.value} {rate.to.symbol}
-          </Text>
-          <Text as="span" className="swap-price-fiat">
-            ~&nbsp;{rate.dollar}
-          </Text>
-          {detail ? (
-            <IconButton
-              aria-label="swap-detail"
-              icon={<FiChevronDown />}
-              className={`swap-toggle-button ${
-                isOpen ? 'swap-detail-button-open' : ''
-              }`}
-              onClick={onToggle}
-            />
-          ) : undefined}
+          {loading ? (
+            <SwapSkeletonPrice />
+          ) : (
+            <>
+              <Text as="span" className="swap-price-amount">
+                {`1 ${tokenInSymbol} = ${
+                  price?.priceRate || 0
+                } ${tokenOutSymbol}`}
+              </Text>
+              <Text as="span" className="swap-price-fiat">
+                ~&nbsp;${price?.dollarValue || 0}
+              </Text>
+              {showSwapDetailToggleBtn && (
+                <IconButton
+                  aria-label="swap-detail"
+                  icon={<FiChevronDown size={20} />}
+                  className={`swap-toggle-button ${
+                    isOpen ? 'swap-detail-button-open' : ''
+                  }`}
+                  onClick={onToggle}
+                  isDisabled={isZeroAmount}
+                />
+              )}
+            </>
+          )}
         </Box>
       </Flex>
-      {detail && isOpen ? (
+      {showSwapDetails && (
         <AnimateBox
           className="swap-detail-animate"
-          transition={{ duration: 0.5 }}
+          transition={{
+            duration: 0.2,
+            ease: [0.075, 0.82, 0.165, 1],
+          }}
           initial={{ opacity: 0, y: -48 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
         >
-          <SwapDetail {...detail} />
+          <SwapDetails {...swapDetails} tokenOutSymbol={tokenOutSymbol} />
         </AnimateBox>
-      ) : undefined}
+      )}
     </Box>
   );
 };
