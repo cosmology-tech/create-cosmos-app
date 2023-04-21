@@ -9,10 +9,9 @@ import {
   SkeletonCircle,
   Stack,
   Text,
-  useOutsideClick
+  useOutsideClick,
 } from '@chakra-ui/react';
-import { AnimateBox, DropdownVariants } from '@cosmology-ui/animation';
-import { useTheme } from '@cosmology-ui/theme';
+import { AnimateBox, DropdownVariants, useTheme } from '@cosmology-ui/react';
 import {
   AsyncSelect,
   chakraComponents,
@@ -21,7 +20,7 @@ import {
   MenuListProps,
   OptionProps,
   PlaceholderProps,
-  SelectInstance
+  SelectInstance,
 } from 'chakra-react-select';
 import { Searcher } from 'fast-fuzzy';
 import { AnimatePresence } from 'framer-motion';
@@ -30,12 +29,12 @@ import { RiArrowDownSLine } from 'react-icons/ri';
 
 import {
   SwapSkeletonControlDropdownButton,
-  SwapSkeletonOptions
+  SwapSkeletonOptions,
 } from './swap-skeleton';
 import {
   SwapControlDropdownButtonType,
   SwapDropdownType,
-  SwapOptionDataType
+  SwapOptionType,
 } from './type';
 
 export const SwapDropdownMenuBaseShadowAnimate = (displayBlur: boolean) =>
@@ -45,16 +44,16 @@ export const SwapDropdownMenuBaseShadowAnimate = (displayBlur: boolean) =>
         height: 28,
         transition: {
           type: 'spring',
-          duration: 0.1
-        }
+          duration: 0.1,
+        },
       }
     : {
         height: 0,
         opacity: 0,
         transition: {
           type: 'spring',
-          duration: 0.2
-        }
+          duration: 0.2,
+        },
       };
 
 export const SwapIndicatorSeparator = () => {
@@ -66,7 +65,7 @@ export const SwapDropdownIndicator = () => {
 };
 
 export const SwapDropdownMenuList = (
-  props: MenuListProps<SwapOptionDataType, false, GroupBase<SwapOptionDataType>>
+  props: MenuListProps<SwapOptionType, false, GroupBase<SwapOptionType>>
 ) => {
   const menuListRef = useRef<HTMLDivElement>(null);
   const [displayBlur, setDisplayBlur] = useState(false);
@@ -77,6 +76,7 @@ export const SwapDropdownMenuList = (
 
     if (menuListRef.current) {
       const listEle = menuListRef.current.parentElement;
+      if (!listEle) return;
 
       const scrollHandler = () => {
         const height = Math.abs(
@@ -105,11 +105,7 @@ export const SwapDropdownMenuList = (
 };
 
 export const SwapPlaceholder = (
-  props: PlaceholderProps<
-    SwapOptionDataType,
-    false,
-    GroupBase<SwapOptionDataType>
-  >
+  props: PlaceholderProps<SwapOptionType, false, GroupBase<SwapOptionType>>
 ) => {
   return (
     <chakraComponents.Placeholder {...props}>
@@ -126,7 +122,7 @@ export const SwapPlaceholder = (
 };
 
 export const SwapOption = (
-  props: OptionProps<SwapOptionDataType, false, GroupBase<SwapOptionDataType>>
+  props: OptionProps<SwapOptionType, false, GroupBase<SwapOptionType>>
 ) => {
   const optionData = props.data;
   return (
@@ -134,18 +130,20 @@ export const SwapOption = (
       <Flex className="swap-dropdown-option">
         <Center>
           <Image
-            alt={optionData.value}
+            alt={optionData.chainName}
             src={
-              optionData.icon.png || optionData.icon.jpeg || optionData.icon.svg
+              optionData.icon?.png ||
+              optionData.icon?.jpeg ||
+              optionData.icon?.svg
             }
           />
         </Center>
         <Stack spacing={1}>
           <Text>{optionData.symbol}</Text>
-          <Text>{optionData.value}</Text>
+          <Text>{optionData.chainName}</Text>
         </Stack>
         <Stack spacing={1}>
-          <Text>{optionData.balanceDisplayAmount}</Text>
+          <Text>{optionData.displayAmount}</Text>
           <Text>{optionData.dollarValue}</Text>
         </Stack>
       </Flex>
@@ -155,9 +153,9 @@ export const SwapOption = (
 
 export const SwapDropdownBaseStyle = (theme: string) => {
   const dropdownStyle: ChakraStylesConfig<
-    SwapOptionDataType,
+    SwapOptionType,
     false,
-    GroupBase<SwapOptionDataType>
+    GroupBase<SwapOptionType>
   > = {
     control: (provided) => ({
       ...provided,
@@ -169,8 +167,8 @@ export const SwapDropdownBaseStyle = (theme: string) => {
       bg: `swap-dropdown-background-color-${theme}`,
       border: 'none',
       _focus: {
-        boxShadow: 'none'
-      }
+        boxShadow: 'none',
+      },
     }),
     loadingIndicator: (provided) => ({ ...provided, opacity: 0.55 }),
     loadingMessage: (provided) => ({
@@ -185,26 +183,26 @@ export const SwapDropdownBaseStyle = (theme: string) => {
         _last: { mb: 2 },
         '>.swap-skeleton-options-logo': {
           w: 12,
-          h: 12
+          h: 12,
         },
         '>.swap-skeleton-options-text': {
           justifyContent: 'center',
           borderRadius: 'base',
           '>:first-of-type': {
             w: 28,
-            h: 4
+            h: 4,
           },
           '>:last-of-type': {
             w: 20,
-            h: 3
+            h: 3,
           },
           _first: {
             flex: 1,
-            alignItems: 'start'
+            alignItems: 'start',
           },
-          _last: { flex: 1, alignItems: 'end' }
-        }
-      }
+          _last: { flex: 1, alignItems: 'end' },
+        },
+      },
     }),
     placeholder: (provided) => ({
       ...provided,
@@ -221,11 +219,11 @@ export const SwapDropdownBaseStyle = (theme: string) => {
           fontSize: 'lg',
           fontWeight: 'semibold',
           ml: 3,
-          opacity: 0.5
+          opacity: 0.5,
         },
         '>.swap-skeleton-options-logo': {
           w: 12,
-          h: 12
+          h: 12,
         },
         '>.swap-skeleton-options-text': {
           justifyContent: 'center',
@@ -233,19 +231,19 @@ export const SwapDropdownBaseStyle = (theme: string) => {
           '>:first-of-type': {
             w: 24,
             h: 5,
-            borderRadius: 'base'
+            borderRadius: 'base',
           },
           '>:last-of-type': {
             w: 16,
             h: 4,
-            borderRadius: 'base'
-          }
-        }
-      }
+            borderRadius: 'base',
+          },
+        },
+      },
     }),
     input: (provided, state) => ({
       ...provided,
-      ml: state.value ? 0 : 16
+      ml: state.value ? 0 : 16,
     }),
     menu: (provided) => ({
       ...provided,
@@ -264,9 +262,9 @@ export const SwapDropdownBaseStyle = (theme: string) => {
           bottom: 0,
           w: 'full',
           zIndex: 10,
-          bg: `var(--chakra-shadows-swap-dropdown-animation-background-color-${theme})`
-        }
-      }
+          bg: `var(--chakra-shadows-swap-dropdown-animation-background-color-${theme})`,
+        },
+      },
     }),
     menuList: (provided, state) => ({
       ...provided,
@@ -286,14 +284,14 @@ export const SwapDropdownBaseStyle = (theme: string) => {
       '&::-webkit-scrollbar': {
         width: '16px',
         background: `swap-dropdown-background-color-${theme}`,
-        borderRadius: '3px'
+        borderRadius: '3px',
       },
       '&::-webkit-scrollbar-thumb': {
         background: 'gray.400',
         borderRadius: '10px',
         border: '6px solid transparent', // make it like padding
-        backgroundClip: 'content-box'
-      }
+        backgroundClip: 'content-box',
+      },
     }),
     option: (provided, state) => ({
       ...provided,
@@ -312,13 +310,13 @@ export const SwapDropdownBaseStyle = (theme: string) => {
       _hover: {
         bg: state.isSelected
           ? `swap-dropdown-option-selected-background-color-${theme}`
-          : `swap-dropdown-option-hover-background-color-${theme}`
+          : `swap-dropdown-option-hover-background-color-${theme}`,
       },
       _disabled: {
         bg: 'transparent',
         _hover: {
-          bg: 'transparent'
-        }
+          bg: 'transparent',
+        },
       },
       '>.swap-dropdown-option': {
         w: 'full',
@@ -328,8 +326,8 @@ export const SwapDropdownBaseStyle = (theme: string) => {
           h: 10,
           mr: 3,
           '>img': {
-            w: 'full'
-          }
+            w: 'full',
+          },
         },
         '>:not(:first-of-type, :last-child)': {
           flex: 1,
@@ -337,31 +335,31 @@ export const SwapDropdownBaseStyle = (theme: string) => {
           '>:first-of-type': {
             fontSize: 'lg',
             fontWeight: 'semibold',
-            lineHeight: 'none'
+            lineHeight: 'none',
           },
           '>:last-child': {
             fontSize: 'xs',
             fontWeight: 'normal',
             lineHeight: 'none',
-            opacity: 0.7
-          }
+            opacity: 0.7,
+          },
         },
         '>:last-child': {
           textAlign: 'end',
           '>:first-of-type': {
             fontSize: 'lg',
             fontWeight: 'semibold',
-            lineHeight: 'none'
+            lineHeight: 'none',
           },
           '>:last-child': {
             fontSize: 'xs',
             fontWeight: 'base',
             lineHeight: 'none',
-            opacity: 0.7
-          }
-        }
-      }
-    })
+            opacity: 0.7,
+          },
+        },
+      },
+    }),
   };
   return dropdownStyle;
 };
@@ -371,21 +369,21 @@ export const SwapDropdown = ({
   dropdownData,
   selectedToken,
   onClose,
-  onDropdownChange
+  onDropdownChange,
 }: SwapDropdownType) => {
   const { theme } = useTheme();
   const menuRef = useRef<HTMLDivElement>(null);
   const selectRef =
-    useRef<
-      SelectInstance<SwapOptionDataType, false, GroupBase<SwapOptionDataType>>
-    >(null);
+    useRef<SelectInstance<SwapOptionType, false, GroupBase<SwapOptionType>>>(
+      null
+    );
 
   useOutsideClick({
     ref: menuRef,
-    handler: onClose
+    handler: onClose,
   });
 
-  const [active, setActive] = useState<Element>(null);
+  const [active, setActive] = useState<Element | null>(null);
 
   const handleFocusIn = () => {
     setActive(document.activeElement);
@@ -399,7 +397,7 @@ export const SwapDropdown = ({
   }, []);
 
   useEffect(() => {
-    if (active && isOpen && selectRef.current) {
+    if (active && isOpen && selectRef.current?.inputRef) {
       if (active.id === 'swap-control-dropdown-button') {
         selectRef.current.inputRef.focus();
       }
@@ -440,16 +438,16 @@ export const SwapDropdown = ({
             menuPlacement="auto"
             loadOptions={(inputValue, callback) => {
               const searchName = new Searcher(dropdownData, {
-                keySelector: (obj) => obj.value
+                keySelector: (obj) => obj.chainName,
               });
               const searchSymbol = new Searcher(dropdownData, {
-                keySelector: (obj) => obj.symbol
+                keySelector: (obj) => obj.symbol,
               });
               const array = [
                 ...searchName.search(inputValue),
-                ...searchSymbol.search(inputValue)
+                ...searchSymbol.search(inputValue),
               ];
-              const result: SwapOptionDataType[] = Object.values(
+              const result: SwapOptionType[] = Object.values(
                 array.reduce((a, c) => Object.assign(a, { [c.value]: c }), {})
               );
 
@@ -464,7 +462,7 @@ export const SwapDropdown = ({
               DropdownIndicator: SwapDropdownIndicator,
               Placeholder: SwapPlaceholder,
               MenuList: SwapDropdownMenuList,
-              Option: SwapOption
+              Option: SwapOption,
             }}
           />
         </AnimateBox>
@@ -476,38 +474,37 @@ export const SwapDropdown = ({
 export const SwapControlDropdownButton = ({
   loading,
   selectedToken,
-  onOpen
+  onOpen,
 }: SwapControlDropdownButtonType) => {
-  if (loading) {
+  if (loading || !selectedToken) {
     return <SwapSkeletonControlDropdownButton />;
   }
-  if (!loading && selectedToken)
-    return (
-      <Button
-        id="swap-control-dropdown-button"
-        className="swap-control-dropdown-button"
-        variant="unstyled"
-        onClick={onOpen}
-      >
-        <Center>
-          <Image
-            alt={selectedToken ? selectedToken.value : 'chain-icon'}
-            src={
-              selectedToken
-                ? selectedToken.icon.png ||
-                  selectedToken.icon.jpeg ||
-                  selectedToken.icon.svg
-                : undefined
-            }
-          />
-        </Center>
-        <Box>
-          <Text>
-            {selectedToken.symbol ? selectedToken.symbol : undefined}
-            <Icon as={RiArrowDownSLine} />
-          </Text>
-          <Text>{selectedToken.value ? selectedToken.value : undefined}</Text>
-        </Box>
-      </Button>
-    );
+  return (
+    <Button
+      id="swap-control-dropdown-button"
+      className="swap-control-dropdown-button"
+      variant="unstyled"
+      onClick={onOpen}
+    >
+      <Center>
+        <Image
+          alt={selectedToken ? selectedToken.chainName : 'chain-icon'}
+          src={
+            selectedToken.icon?.png ||
+            selectedToken.icon?.jpeg ||
+            selectedToken.icon?.svg
+          }
+        />
+      </Center>
+      <Box>
+        <Text>
+          {selectedToken.symbol ? selectedToken.symbol : undefined}
+          <Icon as={RiArrowDownSLine} />
+        </Text>
+        <Text>
+          {selectedToken.chainName ? selectedToken.chainName : undefined}
+        </Text>
+      </Box>
+    </Button>
+  );
 };
