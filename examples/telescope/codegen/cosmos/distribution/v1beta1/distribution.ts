@@ -1,6 +1,6 @@
 import { DecCoin, DecCoinSDKType, Coin, CoinSDKType } from "../../base/v1beta1/coin";
-import { Long } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../helpers";
 /** Params defines the set of params for the distribution module. */
 export interface Params {
   communityTax: string;
@@ -58,7 +58,7 @@ export interface ValidatorHistoricalRewardsSDKType {
  */
 export interface ValidatorCurrentRewards {
   rewards: DecCoin[];
-  period: Long;
+  period: bigint;
 }
 /**
  * ValidatorCurrentRewards represents current rewards and current
@@ -67,7 +67,7 @@ export interface ValidatorCurrentRewards {
  */
 export interface ValidatorCurrentRewardsSDKType {
   rewards: DecCoinSDKType[];
-  period: Long;
+  period: bigint;
 }
 /**
  * ValidatorAccumulatedCommission represents accumulated commission
@@ -104,7 +104,7 @@ export interface ValidatorOutstandingRewardsSDKType {
  * for delegations which are withdrawn after a slash has occurred.
  */
 export interface ValidatorSlashEvent {
-  validatorPeriod: Long;
+  validatorPeriod: bigint;
   fraction: string;
 }
 /**
@@ -114,7 +114,7 @@ export interface ValidatorSlashEvent {
  * for delegations which are withdrawn after a slash has occurred.
  */
 export interface ValidatorSlashEventSDKType {
-  validator_period: Long;
+  validator_period: bigint;
   fraction: string;
 }
 /** ValidatorSlashEvents is a collection of ValidatorSlashEvent messages. */
@@ -164,9 +164,9 @@ export interface CommunityPoolSpendProposalSDKType {
  * thus sdk.Dec is used.
  */
 export interface DelegatorStartingInfo {
-  previousPeriod: Long;
+  previousPeriod: bigint;
   stake: string;
-  height: Long;
+  height: bigint;
 }
 /**
  * DelegatorStartingInfo represents the starting info for a delegator reward
@@ -177,9 +177,9 @@ export interface DelegatorStartingInfo {
  * thus sdk.Dec is used.
  */
 export interface DelegatorStartingInfoSDKType {
-  previous_period: Long;
+  previous_period: bigint;
   stake: string;
-  height: Long;
+  height: bigint;
 }
 /**
  * DelegationDelegatorReward represents the properties
@@ -324,7 +324,7 @@ export const ValidatorHistoricalRewards = {
 function createBaseValidatorCurrentRewards(): ValidatorCurrentRewards {
   return {
     rewards: [],
-    period: Long.UZERO
+    period: BigInt("0")
   };
 }
 export const ValidatorCurrentRewards = {
@@ -332,8 +332,8 @@ export const ValidatorCurrentRewards = {
     for (const v of message.rewards) {
       DecCoin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
-    if (!message.period.isZero()) {
-      writer.uint32(16).uint64(message.period);
+    if (message.period !== BigInt(0)) {
+      writer.uint32(16).uint64(Long.fromString(message.period.toString()));
     }
     return writer;
   },
@@ -348,7 +348,7 @@ export const ValidatorCurrentRewards = {
           message.rewards.push(DecCoin.decode(reader, reader.uint32()));
           break;
         case 2:
-          message.period = (reader.uint64() as Long);
+          message.period = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -360,7 +360,7 @@ export const ValidatorCurrentRewards = {
   fromPartial(object: Partial<ValidatorCurrentRewards>): ValidatorCurrentRewards {
     const message = createBaseValidatorCurrentRewards();
     message.rewards = object.rewards?.map(e => DecCoin.fromPartial(e)) || [];
-    message.period = object.period !== undefined && object.period !== null ? Long.fromValue(object.period) : Long.UZERO;
+    message.period = object.period !== undefined && object.period !== null ? BigInt(object.period.toString()) : BigInt("0");
     return message;
   }
 };
@@ -436,14 +436,14 @@ export const ValidatorOutstandingRewards = {
 };
 function createBaseValidatorSlashEvent(): ValidatorSlashEvent {
   return {
-    validatorPeriod: Long.UZERO,
+    validatorPeriod: BigInt("0"),
     fraction: ""
   };
 }
 export const ValidatorSlashEvent = {
   encode(message: ValidatorSlashEvent, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.validatorPeriod.isZero()) {
-      writer.uint32(8).uint64(message.validatorPeriod);
+    if (message.validatorPeriod !== BigInt(0)) {
+      writer.uint32(8).uint64(Long.fromString(message.validatorPeriod.toString()));
     }
     if (message.fraction !== "") {
       writer.uint32(18).string(message.fraction);
@@ -458,7 +458,7 @@ export const ValidatorSlashEvent = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.validatorPeriod = (reader.uint64() as Long);
+          message.validatorPeriod = BigInt(reader.uint64().toString());
           break;
         case 2:
           message.fraction = reader.string();
@@ -472,7 +472,7 @@ export const ValidatorSlashEvent = {
   },
   fromPartial(object: Partial<ValidatorSlashEvent>): ValidatorSlashEvent {
     const message = createBaseValidatorSlashEvent();
-    message.validatorPeriod = object.validatorPeriod !== undefined && object.validatorPeriod !== null ? Long.fromValue(object.validatorPeriod) : Long.UZERO;
+    message.validatorPeriod = object.validatorPeriod !== undefined && object.validatorPeriod !== null ? BigInt(object.validatorPeriod.toString()) : BigInt("0");
     message.fraction = object.fraction ?? "";
     return message;
   }
@@ -608,21 +608,21 @@ export const CommunityPoolSpendProposal = {
 };
 function createBaseDelegatorStartingInfo(): DelegatorStartingInfo {
   return {
-    previousPeriod: Long.UZERO,
+    previousPeriod: BigInt("0"),
     stake: "",
-    height: Long.UZERO
+    height: BigInt("0")
   };
 }
 export const DelegatorStartingInfo = {
   encode(message: DelegatorStartingInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.previousPeriod.isZero()) {
-      writer.uint32(8).uint64(message.previousPeriod);
+    if (message.previousPeriod !== BigInt(0)) {
+      writer.uint32(8).uint64(Long.fromString(message.previousPeriod.toString()));
     }
     if (message.stake !== "") {
       writer.uint32(18).string(message.stake);
     }
-    if (!message.height.isZero()) {
-      writer.uint32(24).uint64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(24).uint64(Long.fromString(message.height.toString()));
     }
     return writer;
   },
@@ -634,13 +634,13 @@ export const DelegatorStartingInfo = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.previousPeriod = (reader.uint64() as Long);
+          message.previousPeriod = BigInt(reader.uint64().toString());
           break;
         case 2:
           message.stake = reader.string();
           break;
         case 3:
-          message.height = (reader.uint64() as Long);
+          message.height = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -651,9 +651,9 @@ export const DelegatorStartingInfo = {
   },
   fromPartial(object: Partial<DelegatorStartingInfo>): DelegatorStartingInfo {
     const message = createBaseDelegatorStartingInfo();
-    message.previousPeriod = object.previousPeriod !== undefined && object.previousPeriod !== null ? Long.fromValue(object.previousPeriod) : Long.UZERO;
+    message.previousPeriod = object.previousPeriod !== undefined && object.previousPeriod !== null ? BigInt(object.previousPeriod.toString()) : BigInt("0");
     message.stake = object.stake ?? "";
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     return message;
   }
 };

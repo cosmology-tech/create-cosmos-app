@@ -1,18 +1,18 @@
-import { Long } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../helpers";
 /**
  * Capability defines an implementation of an object capability. The index
  * provided to a Capability must be globally unique.
  */
 export interface Capability {
-  index: Long;
+  index: bigint;
 }
 /**
  * Capability defines an implementation of an object capability. The index
  * provided to a Capability must be globally unique.
  */
 export interface CapabilitySDKType {
-  index: Long;
+  index: bigint;
 }
 /**
  * Owner defines a single capability owner. An owner is defined by the name of
@@ -46,13 +46,13 @@ export interface CapabilityOwnersSDKType {
 }
 function createBaseCapability(): Capability {
   return {
-    index: Long.UZERO
+    index: BigInt("0")
   };
 }
 export const Capability = {
   encode(message: Capability, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.index.isZero()) {
-      writer.uint32(8).uint64(message.index);
+    if (message.index !== BigInt(0)) {
+      writer.uint32(8).uint64(Long.fromString(message.index.toString()));
     }
     return writer;
   },
@@ -64,7 +64,7 @@ export const Capability = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.index = (reader.uint64() as Long);
+          message.index = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -75,7 +75,7 @@ export const Capability = {
   },
   fromPartial(object: Partial<Capability>): Capability {
     const message = createBaseCapability();
-    message.index = object.index !== undefined && object.index !== null ? Long.fromValue(object.index) : Long.UZERO;
+    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt("0");
     return message;
   }
 };

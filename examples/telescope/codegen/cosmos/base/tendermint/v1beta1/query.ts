@@ -3,29 +3,29 @@ import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { BlockID, BlockIDSDKType } from "../../../../tendermint/types/types";
 import { Block, BlockSDKType } from "../../../../tendermint/types/block";
 import { NodeInfo, NodeInfoSDKType } from "../../../../tendermint/p2p/types";
-import { Long } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../../helpers";
 /** GetValidatorSetByHeightRequest is the request type for the Query/GetValidatorSetByHeight RPC method. */
 export interface GetValidatorSetByHeightRequest {
-  height: Long;
+  height: bigint;
   /** pagination defines an pagination for the request. */
   pagination?: PageRequest | undefined;
 }
 /** GetValidatorSetByHeightRequest is the request type for the Query/GetValidatorSetByHeight RPC method. */
 export interface GetValidatorSetByHeightRequestSDKType {
-  height: Long;
+  height: bigint;
   pagination?: PageRequestSDKType | undefined;
 }
 /** GetValidatorSetByHeightResponse is the response type for the Query/GetValidatorSetByHeight RPC method. */
 export interface GetValidatorSetByHeightResponse {
-  blockHeight: Long;
+  blockHeight: bigint;
   validators: Validator[];
   /** pagination defines an pagination for the response. */
   pagination?: PageResponse | undefined;
 }
 /** GetValidatorSetByHeightResponse is the response type for the Query/GetValidatorSetByHeight RPC method. */
 export interface GetValidatorSetByHeightResponseSDKType {
-  block_height: Long;
+  block_height: bigint;
   validators: ValidatorSDKType[];
   pagination?: PageResponseSDKType | undefined;
 }
@@ -40,14 +40,14 @@ export interface GetLatestValidatorSetRequestSDKType {
 }
 /** GetLatestValidatorSetResponse is the response type for the Query/GetValidatorSetByHeight RPC method. */
 export interface GetLatestValidatorSetResponse {
-  blockHeight: Long;
+  blockHeight: bigint;
   validators: Validator[];
   /** pagination defines an pagination for the response. */
   pagination?: PageResponse | undefined;
 }
 /** GetLatestValidatorSetResponse is the response type for the Query/GetValidatorSetByHeight RPC method. */
 export interface GetLatestValidatorSetResponseSDKType {
-  block_height: Long;
+  block_height: bigint;
   validators: ValidatorSDKType[];
   pagination?: PageResponseSDKType | undefined;
 }
@@ -55,23 +55,23 @@ export interface GetLatestValidatorSetResponseSDKType {
 export interface Validator {
   address: string;
   pubKey?: Any | undefined;
-  votingPower: Long;
-  proposerPriority: Long;
+  votingPower: bigint;
+  proposerPriority: bigint;
 }
 /** Validator is the type for the validator-set. */
 export interface ValidatorSDKType {
   address: string;
   pub_key?: AnySDKType | undefined;
-  voting_power: Long;
-  proposer_priority: Long;
+  voting_power: bigint;
+  proposer_priority: bigint;
 }
 /** GetBlockByHeightRequest is the request type for the Query/GetBlockByHeight RPC method. */
 export interface GetBlockByHeightRequest {
-  height: Long;
+  height: bigint;
 }
 /** GetBlockByHeightRequest is the request type for the Query/GetBlockByHeight RPC method. */
 export interface GetBlockByHeightRequestSDKType {
-  height: Long;
+  height: bigint;
 }
 /** GetBlockByHeightResponse is the response type for the Query/GetBlockByHeight RPC method. */
 export interface GetBlockByHeightResponse {
@@ -163,14 +163,14 @@ export interface ModuleSDKType {
 }
 function createBaseGetValidatorSetByHeightRequest(): GetValidatorSetByHeightRequest {
   return {
-    height: Long.ZERO,
+    height: BigInt("0"),
     pagination: undefined
   };
 }
 export const GetValidatorSetByHeightRequest = {
   encode(message: GetValidatorSetByHeightRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.height.isZero()) {
-      writer.uint32(8).int64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(8).int64(Long.fromString(message.height.toString()));
     }
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
@@ -185,7 +185,7 @@ export const GetValidatorSetByHeightRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = BigInt(reader.int64().toString());
           break;
         case 2:
           message.pagination = PageRequest.decode(reader, reader.uint32());
@@ -199,22 +199,22 @@ export const GetValidatorSetByHeightRequest = {
   },
   fromPartial(object: Partial<GetValidatorSetByHeightRequest>): GetValidatorSetByHeightRequest {
     const message = createBaseGetValidatorSetByHeightRequest();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
     return message;
   }
 };
 function createBaseGetValidatorSetByHeightResponse(): GetValidatorSetByHeightResponse {
   return {
-    blockHeight: Long.ZERO,
+    blockHeight: BigInt("0"),
     validators: [],
     pagination: undefined
   };
 }
 export const GetValidatorSetByHeightResponse = {
   encode(message: GetValidatorSetByHeightResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.blockHeight.isZero()) {
-      writer.uint32(8).int64(message.blockHeight);
+    if (message.blockHeight !== BigInt(0)) {
+      writer.uint32(8).int64(Long.fromString(message.blockHeight.toString()));
     }
     for (const v of message.validators) {
       Validator.encode(v!, writer.uint32(18).fork()).ldelim();
@@ -232,7 +232,7 @@ export const GetValidatorSetByHeightResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.blockHeight = (reader.int64() as Long);
+          message.blockHeight = BigInt(reader.int64().toString());
           break;
         case 2:
           message.validators.push(Validator.decode(reader, reader.uint32()));
@@ -249,7 +249,7 @@ export const GetValidatorSetByHeightResponse = {
   },
   fromPartial(object: Partial<GetValidatorSetByHeightResponse>): GetValidatorSetByHeightResponse {
     const message = createBaseGetValidatorSetByHeightResponse();
-    message.blockHeight = object.blockHeight !== undefined && object.blockHeight !== null ? Long.fromValue(object.blockHeight) : Long.ZERO;
+    message.blockHeight = object.blockHeight !== undefined && object.blockHeight !== null ? BigInt(object.blockHeight.toString()) : BigInt("0");
     message.validators = object.validators?.map(e => Validator.fromPartial(e)) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
     return message;
@@ -292,15 +292,15 @@ export const GetLatestValidatorSetRequest = {
 };
 function createBaseGetLatestValidatorSetResponse(): GetLatestValidatorSetResponse {
   return {
-    blockHeight: Long.ZERO,
+    blockHeight: BigInt("0"),
     validators: [],
     pagination: undefined
   };
 }
 export const GetLatestValidatorSetResponse = {
   encode(message: GetLatestValidatorSetResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.blockHeight.isZero()) {
-      writer.uint32(8).int64(message.blockHeight);
+    if (message.blockHeight !== BigInt(0)) {
+      writer.uint32(8).int64(Long.fromString(message.blockHeight.toString()));
     }
     for (const v of message.validators) {
       Validator.encode(v!, writer.uint32(18).fork()).ldelim();
@@ -318,7 +318,7 @@ export const GetLatestValidatorSetResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.blockHeight = (reader.int64() as Long);
+          message.blockHeight = BigInt(reader.int64().toString());
           break;
         case 2:
           message.validators.push(Validator.decode(reader, reader.uint32()));
@@ -335,7 +335,7 @@ export const GetLatestValidatorSetResponse = {
   },
   fromPartial(object: Partial<GetLatestValidatorSetResponse>): GetLatestValidatorSetResponse {
     const message = createBaseGetLatestValidatorSetResponse();
-    message.blockHeight = object.blockHeight !== undefined && object.blockHeight !== null ? Long.fromValue(object.blockHeight) : Long.ZERO;
+    message.blockHeight = object.blockHeight !== undefined && object.blockHeight !== null ? BigInt(object.blockHeight.toString()) : BigInt("0");
     message.validators = object.validators?.map(e => Validator.fromPartial(e)) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
     return message;
@@ -345,8 +345,8 @@ function createBaseValidator(): Validator {
   return {
     address: "",
     pubKey: undefined,
-    votingPower: Long.ZERO,
-    proposerPriority: Long.ZERO
+    votingPower: BigInt("0"),
+    proposerPriority: BigInt("0")
   };
 }
 export const Validator = {
@@ -357,11 +357,11 @@ export const Validator = {
     if (message.pubKey !== undefined) {
       Any.encode(message.pubKey, writer.uint32(18).fork()).ldelim();
     }
-    if (!message.votingPower.isZero()) {
-      writer.uint32(24).int64(message.votingPower);
+    if (message.votingPower !== BigInt(0)) {
+      writer.uint32(24).int64(Long.fromString(message.votingPower.toString()));
     }
-    if (!message.proposerPriority.isZero()) {
-      writer.uint32(32).int64(message.proposerPriority);
+    if (message.proposerPriority !== BigInt(0)) {
+      writer.uint32(32).int64(Long.fromString(message.proposerPriority.toString()));
     }
     return writer;
   },
@@ -379,10 +379,10 @@ export const Validator = {
           message.pubKey = Any.decode(reader, reader.uint32());
           break;
         case 3:
-          message.votingPower = (reader.int64() as Long);
+          message.votingPower = BigInt(reader.int64().toString());
           break;
         case 4:
-          message.proposerPriority = (reader.int64() as Long);
+          message.proposerPriority = BigInt(reader.int64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -395,20 +395,20 @@ export const Validator = {
     const message = createBaseValidator();
     message.address = object.address ?? "";
     message.pubKey = object.pubKey !== undefined && object.pubKey !== null ? Any.fromPartial(object.pubKey) : undefined;
-    message.votingPower = object.votingPower !== undefined && object.votingPower !== null ? Long.fromValue(object.votingPower) : Long.ZERO;
-    message.proposerPriority = object.proposerPriority !== undefined && object.proposerPriority !== null ? Long.fromValue(object.proposerPriority) : Long.ZERO;
+    message.votingPower = object.votingPower !== undefined && object.votingPower !== null ? BigInt(object.votingPower.toString()) : BigInt("0");
+    message.proposerPriority = object.proposerPriority !== undefined && object.proposerPriority !== null ? BigInt(object.proposerPriority.toString()) : BigInt("0");
     return message;
   }
 };
 function createBaseGetBlockByHeightRequest(): GetBlockByHeightRequest {
   return {
-    height: Long.ZERO
+    height: BigInt("0")
   };
 }
 export const GetBlockByHeightRequest = {
   encode(message: GetBlockByHeightRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.height.isZero()) {
-      writer.uint32(8).int64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(8).int64(Long.fromString(message.height.toString()));
     }
     return writer;
   },
@@ -420,7 +420,7 @@ export const GetBlockByHeightRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = BigInt(reader.int64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -431,7 +431,7 @@ export const GetBlockByHeightRequest = {
   },
   fromPartial(object: Partial<GetBlockByHeightRequest>): GetBlockByHeightRequest {
     const message = createBaseGetBlockByHeightRequest();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     return message;
   }
 };

@@ -1,6 +1,6 @@
 import { MerklePrefix, MerklePrefixSDKType } from "../../commitment/v1/commitment";
-import { Long } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../../helpers";
 /**
  * State defines if a connection is in one of the following states:
  * INIT, TRYOPEN, OPEN or UNINITIALIZED.
@@ -78,7 +78,7 @@ export interface ConnectionEnd {
    * packet-verification NOTE: delay period logic is only implemented by some
    * clients.
    */
-  delayPeriod: Long;
+  delayPeriod: bigint;
 }
 /**
  * ConnectionEnd defines a stateful object on a chain connected to another
@@ -91,7 +91,7 @@ export interface ConnectionEndSDKType {
   versions: VersionSDKType[];
   state: State;
   counterparty?: CounterpartySDKType | undefined;
-  delay_period: Long;
+  delay_period: bigint;
 }
 /**
  * IdentifiedConnection defines a connection with additional connection
@@ -112,7 +112,7 @@ export interface IdentifiedConnection {
   /** counterparty chain associated with this connection. */
   counterparty?: Counterparty | undefined;
   /** delay period associated with this connection. */
-  delayPeriod: Long;
+  delayPeriod: bigint;
 }
 /**
  * IdentifiedConnection defines a connection with additional connection
@@ -124,7 +124,7 @@ export interface IdentifiedConnectionSDKType {
   versions: VersionSDKType[];
   state: State;
   counterparty?: CounterpartySDKType | undefined;
-  delay_period: Long;
+  delay_period: bigint;
 }
 /** Counterparty defines the counterparty chain associated with a connection end. */
 export interface Counterparty {
@@ -193,11 +193,11 @@ export interface Params {
    * largest amount of time that the chain might reasonably take to produce the next block under normal operating
    * conditions. A safe choice is 3-5x the expected time per block.
    */
-  maxExpectedTimePerBlock: Long;
+  maxExpectedTimePerBlock: bigint;
 }
 /** Params defines the set of Connection parameters. */
 export interface ParamsSDKType {
-  max_expected_time_per_block: Long;
+  max_expected_time_per_block: bigint;
 }
 function createBaseConnectionEnd(): ConnectionEnd {
   return {
@@ -205,7 +205,7 @@ function createBaseConnectionEnd(): ConnectionEnd {
     versions: [],
     state: 0,
     counterparty: undefined,
-    delayPeriod: Long.UZERO
+    delayPeriod: BigInt("0")
   };
 }
 export const ConnectionEnd = {
@@ -222,8 +222,8 @@ export const ConnectionEnd = {
     if (message.counterparty !== undefined) {
       Counterparty.encode(message.counterparty, writer.uint32(34).fork()).ldelim();
     }
-    if (!message.delayPeriod.isZero()) {
-      writer.uint32(40).uint64(message.delayPeriod);
+    if (message.delayPeriod !== BigInt(0)) {
+      writer.uint32(40).uint64(Long.fromString(message.delayPeriod.toString()));
     }
     return writer;
   },
@@ -247,7 +247,7 @@ export const ConnectionEnd = {
           message.counterparty = Counterparty.decode(reader, reader.uint32());
           break;
         case 5:
-          message.delayPeriod = (reader.uint64() as Long);
+          message.delayPeriod = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -262,7 +262,7 @@ export const ConnectionEnd = {
     message.versions = object.versions?.map(e => Version.fromPartial(e)) || [];
     message.state = object.state ?? 0;
     message.counterparty = object.counterparty !== undefined && object.counterparty !== null ? Counterparty.fromPartial(object.counterparty) : undefined;
-    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? Long.fromValue(object.delayPeriod) : Long.UZERO;
+    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? BigInt(object.delayPeriod.toString()) : BigInt("0");
     return message;
   }
 };
@@ -273,7 +273,7 @@ function createBaseIdentifiedConnection(): IdentifiedConnection {
     versions: [],
     state: 0,
     counterparty: undefined,
-    delayPeriod: Long.UZERO
+    delayPeriod: BigInt("0")
   };
 }
 export const IdentifiedConnection = {
@@ -293,8 +293,8 @@ export const IdentifiedConnection = {
     if (message.counterparty !== undefined) {
       Counterparty.encode(message.counterparty, writer.uint32(42).fork()).ldelim();
     }
-    if (!message.delayPeriod.isZero()) {
-      writer.uint32(48).uint64(message.delayPeriod);
+    if (message.delayPeriod !== BigInt(0)) {
+      writer.uint32(48).uint64(Long.fromString(message.delayPeriod.toString()));
     }
     return writer;
   },
@@ -321,7 +321,7 @@ export const IdentifiedConnection = {
           message.counterparty = Counterparty.decode(reader, reader.uint32());
           break;
         case 6:
-          message.delayPeriod = (reader.uint64() as Long);
+          message.delayPeriod = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -337,7 +337,7 @@ export const IdentifiedConnection = {
     message.versions = object.versions?.map(e => Version.fromPartial(e)) || [];
     message.state = object.state ?? 0;
     message.counterparty = object.counterparty !== undefined && object.counterparty !== null ? Counterparty.fromPartial(object.counterparty) : undefined;
-    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? Long.fromValue(object.delayPeriod) : Long.UZERO;
+    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? BigInt(object.delayPeriod.toString()) : BigInt("0");
     return message;
   }
 };
@@ -515,13 +515,13 @@ export const Version = {
 };
 function createBaseParams(): Params {
   return {
-    maxExpectedTimePerBlock: Long.UZERO
+    maxExpectedTimePerBlock: BigInt("0")
   };
 }
 export const Params = {
   encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.maxExpectedTimePerBlock.isZero()) {
-      writer.uint32(8).uint64(message.maxExpectedTimePerBlock);
+    if (message.maxExpectedTimePerBlock !== BigInt(0)) {
+      writer.uint32(8).uint64(Long.fromString(message.maxExpectedTimePerBlock.toString()));
     }
     return writer;
   },
@@ -533,7 +533,7 @@ export const Params = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.maxExpectedTimePerBlock = (reader.uint64() as Long);
+          message.maxExpectedTimePerBlock = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -544,7 +544,7 @@ export const Params = {
   },
   fromPartial(object: Partial<Params>): Params {
     const message = createBaseParams();
-    message.maxExpectedTimePerBlock = object.maxExpectedTimePerBlock !== undefined && object.maxExpectedTimePerBlock !== null ? Long.fromValue(object.maxExpectedTimePerBlock) : Long.UZERO;
+    message.maxExpectedTimePerBlock = object.maxExpectedTimePerBlock !== undefined && object.maxExpectedTimePerBlock !== null ? BigInt(object.maxExpectedTimePerBlock.toString()) : BigInt("0");
     return message;
   }
 };

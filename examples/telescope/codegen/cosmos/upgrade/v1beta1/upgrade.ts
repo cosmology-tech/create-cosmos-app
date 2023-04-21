@@ -1,7 +1,7 @@
 import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
-import { Long, toTimestamp, fromTimestamp } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { toTimestamp, Long, fromTimestamp } from "../../../helpers";
 /** Plan specifies information about a planned upgrade and when it should occur. */
 export interface Plan {
   /**
@@ -25,7 +25,7 @@ export interface Plan {
    * The height at which the upgrade must be performed.
    * Only used if Time is not set.
    */
-  height: Long;
+  height: bigint;
   /**
    * Any application specific upgrade info to be included on-chain
    * such as a git commit that validators could automatically upgrade to
@@ -44,7 +44,7 @@ export interface PlanSDKType {
   name: string;
   /** @deprecated */
   time?: Date | undefined;
-  height: Long;
+  height: bigint;
   info: string;
   /** @deprecated */
   upgraded_client_state?: AnySDKType | undefined;
@@ -104,7 +104,7 @@ export interface ModuleVersion {
   /** name of the app module */
   name: string;
   /** consensus version of the app module */
-  version: Long;
+  version: bigint;
 }
 /**
  * ModuleVersion specifies a module and its consensus version.
@@ -113,13 +113,13 @@ export interface ModuleVersion {
  */
 export interface ModuleVersionSDKType {
   name: string;
-  version: Long;
+  version: bigint;
 }
 function createBasePlan(): Plan {
   return {
     name: "",
     time: undefined,
-    height: Long.ZERO,
+    height: BigInt("0"),
     info: "",
     upgradedClientState: undefined
   };
@@ -132,8 +132,8 @@ export const Plan = {
     if (message.time !== undefined) {
       Timestamp.encode(toTimestamp(message.time), writer.uint32(18).fork()).ldelim();
     }
-    if (!message.height.isZero()) {
-      writer.uint32(24).int64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(24).int64(Long.fromString(message.height.toString()));
     }
     if (message.info !== "") {
       writer.uint32(34).string(message.info);
@@ -157,7 +157,7 @@ export const Plan = {
           message.time = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         case 3:
-          message.height = (reader.int64() as Long);
+          message.height = BigInt(reader.int64().toString());
           break;
         case 4:
           message.info = reader.string();
@@ -176,7 +176,7 @@ export const Plan = {
     const message = createBasePlan();
     message.name = object.name ?? "";
     message.time = object.time ?? undefined;
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     message.info = object.info ?? "";
     message.upgradedClientState = object.upgradedClientState !== undefined && object.upgradedClientState !== null ? Any.fromPartial(object.upgradedClientState) : undefined;
     return message;
@@ -279,7 +279,7 @@ export const CancelSoftwareUpgradeProposal = {
 function createBaseModuleVersion(): ModuleVersion {
   return {
     name: "",
-    version: Long.UZERO
+    version: BigInt("0")
   };
 }
 export const ModuleVersion = {
@@ -287,8 +287,8 @@ export const ModuleVersion = {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
-    if (!message.version.isZero()) {
-      writer.uint32(16).uint64(message.version);
+    if (message.version !== BigInt(0)) {
+      writer.uint32(16).uint64(Long.fromString(message.version.toString()));
     }
     return writer;
   },
@@ -303,7 +303,7 @@ export const ModuleVersion = {
           message.name = reader.string();
           break;
         case 2:
-          message.version = (reader.uint64() as Long);
+          message.version = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -315,7 +315,7 @@ export const ModuleVersion = {
   fromPartial(object: Partial<ModuleVersion>): ModuleVersion {
     const message = createBaseModuleVersion();
     message.name = object.name ?? "";
-    message.version = object.version !== undefined && object.version !== null ? Long.fromValue(object.version) : Long.UZERO;
+    message.version = object.version !== undefined && object.version !== null ? BigInt(object.version.toString()) : BigInt("0");
     return message;
   }
 };

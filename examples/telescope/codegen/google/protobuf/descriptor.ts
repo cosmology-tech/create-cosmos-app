@@ -1,6 +1,6 @@
 //@ts-nocheck
-import { Long } from "../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../helpers";
 export enum FieldDescriptorProto_Type {
   /**
    * TYPE_DOUBLE - 0 is reserved for errors.
@@ -1033,8 +1033,8 @@ export interface UninterpretedOption {
    * identified it as during parsing. Exactly one of these should be set.
    */
   identifierValue: string;
-  positiveIntValue: Long;
-  negativeIntValue: Long;
+  positiveIntValue: bigint;
+  negativeIntValue: bigint;
   doubleValue: number;
   stringValue: Uint8Array;
   aggregateValue: string;
@@ -1050,8 +1050,8 @@ export interface UninterpretedOption {
 export interface UninterpretedOptionSDKType {
   name: UninterpretedOption_NamePartSDKType[];
   identifier_value: string;
-  positive_int_value: Long;
-  negative_int_value: Long;
+  positive_int_value: bigint;
+  negative_int_value: bigint;
   double_value: number;
   string_value: Uint8Array;
   aggregate_value: string;
@@ -2699,8 +2699,8 @@ function createBaseUninterpretedOption(): UninterpretedOption {
   return {
     name: [],
     identifierValue: "",
-    positiveIntValue: Long.UZERO,
-    negativeIntValue: Long.ZERO,
+    positiveIntValue: BigInt("0"),
+    negativeIntValue: BigInt("0"),
     doubleValue: 0,
     stringValue: new Uint8Array(),
     aggregateValue: ""
@@ -2714,11 +2714,11 @@ export const UninterpretedOption = {
     if (message.identifierValue !== "") {
       writer.uint32(26).string(message.identifierValue);
     }
-    if (!message.positiveIntValue.isZero()) {
-      writer.uint32(32).uint64(message.positiveIntValue);
+    if (message.positiveIntValue !== BigInt(0)) {
+      writer.uint32(32).uint64(Long.fromString(message.positiveIntValue.toString()));
     }
-    if (!message.negativeIntValue.isZero()) {
-      writer.uint32(40).int64(message.negativeIntValue);
+    if (message.negativeIntValue !== BigInt(0)) {
+      writer.uint32(40).int64(Long.fromString(message.negativeIntValue.toString()));
     }
     if (message.doubleValue !== 0) {
       writer.uint32(49).double(message.doubleValue);
@@ -2745,10 +2745,10 @@ export const UninterpretedOption = {
           message.identifierValue = reader.string();
           break;
         case 4:
-          message.positiveIntValue = (reader.uint64() as Long);
+          message.positiveIntValue = BigInt(reader.uint64().toString());
           break;
         case 5:
-          message.negativeIntValue = (reader.int64() as Long);
+          message.negativeIntValue = BigInt(reader.int64().toString());
           break;
         case 6:
           message.doubleValue = reader.double();
@@ -2770,8 +2770,8 @@ export const UninterpretedOption = {
     const message = createBaseUninterpretedOption();
     message.name = object.name?.map(e => UninterpretedOption_NamePart.fromPartial(e)) || [];
     message.identifierValue = object.identifierValue ?? "";
-    message.positiveIntValue = object.positiveIntValue !== undefined && object.positiveIntValue !== null ? Long.fromValue(object.positiveIntValue) : Long.UZERO;
-    message.negativeIntValue = object.negativeIntValue !== undefined && object.negativeIntValue !== null ? Long.fromValue(object.negativeIntValue) : Long.ZERO;
+    message.positiveIntValue = object.positiveIntValue !== undefined && object.positiveIntValue !== null ? BigInt(object.positiveIntValue.toString()) : BigInt("0");
+    message.negativeIntValue = object.negativeIntValue !== undefined && object.negativeIntValue !== null ? BigInt(object.negativeIntValue.toString()) : BigInt("0");
     message.doubleValue = object.doubleValue ?? 0;
     message.stringValue = object.stringValue ?? new Uint8Array();
     message.aggregateValue = object.aggregateValue ?? "";

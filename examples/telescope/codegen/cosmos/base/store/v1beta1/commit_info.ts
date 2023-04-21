@@ -1,11 +1,11 @@
-import { Long } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../../helpers";
 /**
  * CommitInfo defines commit information used by the multi-store when committing
  * a version/height.
  */
 export interface CommitInfo {
-  version: Long;
+  version: bigint;
   storeInfos: StoreInfo[];
 }
 /**
@@ -13,7 +13,7 @@ export interface CommitInfo {
  * a version/height.
  */
 export interface CommitInfoSDKType {
-  version: Long;
+  version: bigint;
   store_infos: StoreInfoSDKType[];
 }
 /**
@@ -37,7 +37,7 @@ export interface StoreInfoSDKType {
  * committed.
  */
 export interface CommitID {
-  version: Long;
+  version: bigint;
   hash: Uint8Array;
 }
 /**
@@ -45,19 +45,19 @@ export interface CommitID {
  * committed.
  */
 export interface CommitIDSDKType {
-  version: Long;
+  version: bigint;
   hash: Uint8Array;
 }
 function createBaseCommitInfo(): CommitInfo {
   return {
-    version: Long.ZERO,
+    version: BigInt("0"),
     storeInfos: []
   };
 }
 export const CommitInfo = {
   encode(message: CommitInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.version.isZero()) {
-      writer.uint32(8).int64(message.version);
+    if (message.version !== BigInt(0)) {
+      writer.uint32(8).int64(Long.fromString(message.version.toString()));
     }
     for (const v of message.storeInfos) {
       StoreInfo.encode(v!, writer.uint32(18).fork()).ldelim();
@@ -72,7 +72,7 @@ export const CommitInfo = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.version = (reader.int64() as Long);
+          message.version = BigInt(reader.int64().toString());
           break;
         case 2:
           message.storeInfos.push(StoreInfo.decode(reader, reader.uint32()));
@@ -86,7 +86,7 @@ export const CommitInfo = {
   },
   fromPartial(object: Partial<CommitInfo>): CommitInfo {
     const message = createBaseCommitInfo();
-    message.version = object.version !== undefined && object.version !== null ? Long.fromValue(object.version) : Long.ZERO;
+    message.version = object.version !== undefined && object.version !== null ? BigInt(object.version.toString()) : BigInt("0");
     message.storeInfos = object.storeInfos?.map(e => StoreInfo.fromPartial(e)) || [];
     return message;
   }
@@ -136,14 +136,14 @@ export const StoreInfo = {
 };
 function createBaseCommitID(): CommitID {
   return {
-    version: Long.ZERO,
+    version: BigInt("0"),
     hash: new Uint8Array()
   };
 }
 export const CommitID = {
   encode(message: CommitID, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.version.isZero()) {
-      writer.uint32(8).int64(message.version);
+    if (message.version !== BigInt(0)) {
+      writer.uint32(8).int64(Long.fromString(message.version.toString()));
     }
     if (message.hash.length !== 0) {
       writer.uint32(18).bytes(message.hash);
@@ -158,7 +158,7 @@ export const CommitID = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.version = (reader.int64() as Long);
+          message.version = BigInt(reader.int64().toString());
           break;
         case 2:
           message.hash = reader.bytes();
@@ -172,7 +172,7 @@ export const CommitID = {
   },
   fromPartial(object: Partial<CommitID>): CommitID {
     const message = createBaseCommitID();
-    message.version = object.version !== undefined && object.version !== null ? Long.fromValue(object.version) : Long.ZERO;
+    message.version = object.version !== undefined && object.version !== null ? BigInt(object.version.toString()) : BigInt("0");
     message.hash = object.hash ?? new Uint8Array();
     return message;
   }

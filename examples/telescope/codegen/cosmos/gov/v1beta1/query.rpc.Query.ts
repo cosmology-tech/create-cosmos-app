@@ -5,12 +5,17 @@ import { ReactQueryParams } from "../../../react-query";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../mobx";
 import { QueryProposalRequest, QueryProposalResponse, QueryProposalsRequest, QueryProposalsResponse, QueryVoteRequest, QueryVoteResponse, QueryVotesRequest, QueryVotesResponse, QueryParamsRequest, QueryParamsResponse, QueryDepositRequest, QueryDepositResponse, QueryDepositsRequest, QueryDepositsResponse, QueryTallyResultRequest, QueryTallyResultResponse } from "./query";
+
+import * as query from "../../../../bufcodegen/cosmos/gov/v1beta1/query_pb";
+
 /** Query defines the gRPC querier service for gov module */
 export interface Query {
   /** Proposal queries proposal details based on ProposalID. */
   proposal(request: QueryProposalRequest): Promise<QueryProposalResponse>;
   /** Proposals queries all proposals based on given status. */
   proposals(request: QueryProposalsRequest): Promise<QueryProposalsResponse>;
+    /** Proposals queries all proposals based on given status. */
+  proposals_pb(request: query.QueryProposalsRequest): Promise<query.QueryProposalsResponse>;
   /** Vote queries voted information based on proposalID, voterAddr. */
   vote(request: QueryVoteRequest): Promise<QueryVoteResponse>;
   /** Votes queries votes of a given proposal. */
@@ -46,6 +51,10 @@ export class QueryClientImpl implements Query {
     const data = QueryProposalsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.gov.v1beta1.Query", "Proposals", data);
     return promise.then(data => QueryProposalsResponse.decode(new _m0.Reader(data)));
+  }
+  proposals_pb(request: query.QueryProposalsRequest): Promise<query.QueryProposalsResponse> {
+    const promise = this.rpc.request("cosmos.gov.v1beta1.Query", "Proposals", request.toBinary());
+    return promise.then(data => query.QueryProposalsResponse.fromBinary(data));
   }
   vote(request: QueryVoteRequest): Promise<QueryVoteResponse> {
     const data = QueryVoteRequest.encode(request).finish();
@@ -87,6 +96,9 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     },
     proposals(request: QueryProposalsRequest): Promise<QueryProposalsResponse> {
       return queryService.proposals(request);
+    },
+    proposals_pb(request: query.QueryProposalsRequest): Promise<query.QueryProposalsResponse> {
+      return queryService.proposals_pb(request);
     },
     vote(request: QueryVoteRequest): Promise<QueryVoteResponse> {
       return queryService.vote(request);

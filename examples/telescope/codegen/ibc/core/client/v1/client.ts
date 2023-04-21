@@ -1,7 +1,7 @@
 import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { Plan, PlanSDKType } from "../../../../cosmos/upgrade/v1beta1/upgrade";
-import { Long } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../../helpers";
 /**
  * IdentifiedClientState defines a client state with an additional client
  * identifier field.
@@ -129,9 +129,9 @@ export interface UpgradeProposalSDKType {
  */
 export interface Height {
   /** the revision that the client is currently on */
-  revisionNumber: Long;
+  revisionNumber: bigint;
   /** the height within the given revision */
-  revisionHeight: Long;
+  revisionHeight: bigint;
 }
 /**
  * Height is a monotonically increasing data type
@@ -146,8 +146,8 @@ export interface Height {
  * gets reset
  */
 export interface HeightSDKType {
-  revision_number: Long;
-  revision_height: Long;
+  revision_number: bigint;
+  revision_height: bigint;
 }
 /** Params defines the set of IBC light client parameters. */
 export interface Params {
@@ -407,17 +407,17 @@ export const UpgradeProposal = {
 };
 function createBaseHeight(): Height {
   return {
-    revisionNumber: Long.UZERO,
-    revisionHeight: Long.UZERO
+    revisionNumber: BigInt("0"),
+    revisionHeight: BigInt("0")
   };
 }
 export const Height = {
   encode(message: Height, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.revisionNumber.isZero()) {
-      writer.uint32(8).uint64(message.revisionNumber);
+    if (message.revisionNumber !== BigInt(0)) {
+      writer.uint32(8).uint64(Long.fromString(message.revisionNumber.toString()));
     }
-    if (!message.revisionHeight.isZero()) {
-      writer.uint32(16).uint64(message.revisionHeight);
+    if (message.revisionHeight !== BigInt(0)) {
+      writer.uint32(16).uint64(Long.fromString(message.revisionHeight.toString()));
     }
     return writer;
   },
@@ -429,10 +429,10 @@ export const Height = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.revisionNumber = (reader.uint64() as Long);
+          message.revisionNumber = BigInt(reader.uint64().toString());
           break;
         case 2:
-          message.revisionHeight = (reader.uint64() as Long);
+          message.revisionHeight = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -443,8 +443,8 @@ export const Height = {
   },
   fromPartial(object: Partial<Height>): Height {
     const message = createBaseHeight();
-    message.revisionNumber = object.revisionNumber !== undefined && object.revisionNumber !== null ? Long.fromValue(object.revisionNumber) : Long.UZERO;
-    message.revisionHeight = object.revisionHeight !== undefined && object.revisionHeight !== null ? Long.fromValue(object.revisionHeight) : Long.UZERO;
+    message.revisionNumber = object.revisionNumber !== undefined && object.revisionNumber !== null ? BigInt(object.revisionNumber.toString()) : BigInt("0");
+    message.revisionHeight = object.revisionHeight !== undefined && object.revisionHeight !== null ? BigInt(object.revisionHeight.toString()) : BigInt("0");
     return message;
   }
 };

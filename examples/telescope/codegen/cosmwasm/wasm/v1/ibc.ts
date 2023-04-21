@@ -1,5 +1,5 @@
-import { Long } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../helpers";
 /** MsgIBCSend */
 export interface MsgIBCSend {
   /** the channel by which the packet will be sent */
@@ -8,12 +8,12 @@ export interface MsgIBCSend {
    * Timeout height relative to the current block height.
    * The timeout is disabled when set to 0.
    */
-  timeoutHeight: Long;
+  timeoutHeight: bigint;
   /**
    * Timeout timestamp (in nanoseconds) relative to the current block timestamp.
    * The timeout is disabled when set to 0.
    */
-  timeoutTimestamp: Long;
+  timeoutTimestamp: bigint;
   /**
    * Data is the payload to transfer. We must not make assumption what format or
    * content is in here.
@@ -23,8 +23,8 @@ export interface MsgIBCSend {
 /** MsgIBCSend */
 export interface MsgIBCSendSDKType {
   channel: string;
-  timeout_height: Long;
-  timeout_timestamp: Long;
+  timeout_height: bigint;
+  timeout_timestamp: bigint;
   data: Uint8Array;
 }
 /** MsgIBCCloseChannel port and channel need to be owned by the contract */
@@ -38,8 +38,8 @@ export interface MsgIBCCloseChannelSDKType {
 function createBaseMsgIBCSend(): MsgIBCSend {
   return {
     channel: "",
-    timeoutHeight: Long.UZERO,
-    timeoutTimestamp: Long.UZERO,
+    timeoutHeight: BigInt("0"),
+    timeoutTimestamp: BigInt("0"),
     data: new Uint8Array()
   };
 }
@@ -48,11 +48,11 @@ export const MsgIBCSend = {
     if (message.channel !== "") {
       writer.uint32(18).string(message.channel);
     }
-    if (!message.timeoutHeight.isZero()) {
-      writer.uint32(32).uint64(message.timeoutHeight);
+    if (message.timeoutHeight !== BigInt(0)) {
+      writer.uint32(32).uint64(Long.fromString(message.timeoutHeight.toString()));
     }
-    if (!message.timeoutTimestamp.isZero()) {
-      writer.uint32(40).uint64(message.timeoutTimestamp);
+    if (message.timeoutTimestamp !== BigInt(0)) {
+      writer.uint32(40).uint64(Long.fromString(message.timeoutTimestamp.toString()));
     }
     if (message.data.length !== 0) {
       writer.uint32(50).bytes(message.data);
@@ -70,10 +70,10 @@ export const MsgIBCSend = {
           message.channel = reader.string();
           break;
         case 4:
-          message.timeoutHeight = (reader.uint64() as Long);
+          message.timeoutHeight = BigInt(reader.uint64().toString());
           break;
         case 5:
-          message.timeoutTimestamp = (reader.uint64() as Long);
+          message.timeoutTimestamp = BigInt(reader.uint64().toString());
           break;
         case 6:
           message.data = reader.bytes();
@@ -88,8 +88,8 @@ export const MsgIBCSend = {
   fromPartial(object: Partial<MsgIBCSend>): MsgIBCSend {
     const message = createBaseMsgIBCSend();
     message.channel = object.channel ?? "";
-    message.timeoutHeight = object.timeoutHeight !== undefined && object.timeoutHeight !== null ? Long.fromValue(object.timeoutHeight) : Long.UZERO;
-    message.timeoutTimestamp = object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null ? Long.fromValue(object.timeoutTimestamp) : Long.UZERO;
+    message.timeoutHeight = object.timeoutHeight !== undefined && object.timeoutHeight !== null ? BigInt(object.timeoutHeight.toString()) : BigInt("0");
+    message.timeoutTimestamp = object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null ? BigInt(object.timeoutTimestamp.toString()) : BigInt("0");
     message.data = object.data ?? new Uint8Array();
     return message;
   }

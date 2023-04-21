@@ -1,5 +1,5 @@
 import { AminoMsg } from "@cosmjs/amino";
-import { AminoHeight, Long, omitDefault } from "../../../../helpers";
+import { AminoHeight, omitDefault } from "../../../../helpers";
 import { MsgTransfer } from "./tx";
 export interface MsgTransferAminoType extends AminoMsg {
   type: "cosmos-sdk/MsgTransfer";
@@ -33,7 +33,7 @@ export const AminoConverter = {
         source_channel: sourceChannel,
         token: {
           denom: token.denom,
-          amount: Long.fromValue(token.amount).toString()
+          amount: token.amount
         },
         sender,
         receiver,
@@ -63,10 +63,10 @@ export const AminoConverter = {
         sender,
         receiver,
         timeoutHeight: timeout_height ? {
-          revisionHeight: Long.fromString(timeout_height.revision_height || "0", true),
-          revisionNumber: Long.fromString(timeout_height.revision_number || "0", true)
+          revisionHeight: BigInt(timeout_height.revision_height || "0", true),
+          revisionNumber: BigInt(timeout_height.revision_number || "0", true)
         } : undefined,
-        timeoutTimestamp: Long.fromString(timeout_timestamp)
+        timeoutTimestamp: BigInt(timeout_timestamp)
       };
     }
   }
