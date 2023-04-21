@@ -5,8 +5,8 @@ import { Timestamp } from "../../../../google/protobuf/timestamp";
 import { MerkleRoot, MerkleRootSDKType } from "../../../core/commitment/v1/commitment";
 import { SignedHeader, SignedHeaderSDKType } from "../../../../tendermint/types/types";
 import { ValidatorSet, ValidatorSetSDKType } from "../../../../tendermint/types/validator";
-import { Long, toTimestamp, fromTimestamp } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { toTimestamp, fromTimestamp, Long } from "../../../../helpers";
 /**
  * ClientState from Tendermint tracks the current validator set, latest height,
  * and a possible frozen height.
@@ -147,16 +147,16 @@ export interface HeaderSDKType {
  * supports positive values.
  */
 export interface Fraction {
-  numerator: Long;
-  denominator: Long;
+  numerator: bigint;
+  denominator: bigint;
 }
 /**
  * Fraction defines the protobuf message type for tmmath.Fraction that only
  * supports positive values.
  */
 export interface FractionSDKType {
-  numerator: Long;
-  denominator: Long;
+  numerator: bigint;
+  denominator: bigint;
 }
 function createBaseClientState(): ClientState {
   return {
@@ -436,17 +436,17 @@ export const Header = {
 };
 function createBaseFraction(): Fraction {
   return {
-    numerator: Long.UZERO,
-    denominator: Long.UZERO
+    numerator: BigInt("0"),
+    denominator: BigInt("0")
   };
 }
 export const Fraction = {
   encode(message: Fraction, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.numerator.isZero()) {
-      writer.uint32(8).uint64(message.numerator);
+    if (message.numerator !== BigInt(0)) {
+      writer.uint32(8).uint64(Long.fromString(message.numerator.toString()));
     }
-    if (!message.denominator.isZero()) {
-      writer.uint32(16).uint64(message.denominator);
+    if (message.denominator !== BigInt(0)) {
+      writer.uint32(16).uint64(Long.fromString(message.denominator.toString()));
     }
     return writer;
   },
@@ -458,10 +458,10 @@ export const Fraction = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.numerator = (reader.uint64() as Long);
+          message.numerator = BigInt(reader.uint64().toString());
           break;
         case 2:
-          message.denominator = (reader.uint64() as Long);
+          message.denominator = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -472,8 +472,8 @@ export const Fraction = {
   },
   fromPartial(object: Partial<Fraction>): Fraction {
     const message = createBaseFraction();
-    message.numerator = object.numerator !== undefined && object.numerator !== null ? Long.fromValue(object.numerator) : Long.UZERO;
-    message.denominator = object.denominator !== undefined && object.denominator !== null ? Long.fromValue(object.denominator) : Long.UZERO;
+    message.numerator = object.numerator !== undefined && object.numerator !== null ? BigInt(object.numerator.toString()) : BigInt("0");
+    message.denominator = object.denominator !== undefined && object.denominator !== null ? BigInt(object.denominator.toString()) : BigInt("0");
     return message;
   }
 };

@@ -1,15 +1,15 @@
 import { Timestamp } from "../../google/protobuf/timestamp";
-import { Long, toTimestamp, fromTimestamp } from "../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long, toTimestamp, fromTimestamp } from "../../helpers";
 export interface ProtocolVersion {
-  p2p: Long;
-  block: Long;
-  app: Long;
+  p2p: bigint;
+  block: bigint;
+  app: bigint;
 }
 export interface ProtocolVersionSDKType {
-  p2p: Long;
-  block: Long;
-  app: Long;
+  p2p: bigint;
+  block: bigint;
+  app: bigint;
 }
 export interface NodeInfo {
   protocolVersion?: ProtocolVersion | undefined;
@@ -63,21 +63,21 @@ export interface PeerAddressInfoSDKType {
 }
 function createBaseProtocolVersion(): ProtocolVersion {
   return {
-    p2p: Long.UZERO,
-    block: Long.UZERO,
-    app: Long.UZERO
+    p2p: BigInt("0"),
+    block: BigInt("0"),
+    app: BigInt("0")
   };
 }
 export const ProtocolVersion = {
   encode(message: ProtocolVersion, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.p2p.isZero()) {
-      writer.uint32(8).uint64(message.p2p);
+    if (message.p2p !== BigInt(0)) {
+      writer.uint32(8).uint64(Long.fromString(message.p2p.toString()));
     }
-    if (!message.block.isZero()) {
-      writer.uint32(16).uint64(message.block);
+    if (message.block !== BigInt(0)) {
+      writer.uint32(16).uint64(Long.fromString(message.block.toString()));
     }
-    if (!message.app.isZero()) {
-      writer.uint32(24).uint64(message.app);
+    if (message.app !== BigInt(0)) {
+      writer.uint32(24).uint64(Long.fromString(message.app.toString()));
     }
     return writer;
   },
@@ -89,13 +89,13 @@ export const ProtocolVersion = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.p2p = (reader.uint64() as Long);
+          message.p2p = BigInt(reader.uint64().toString());
           break;
         case 2:
-          message.block = (reader.uint64() as Long);
+          message.block = BigInt(reader.uint64().toString());
           break;
         case 3:
-          message.app = (reader.uint64() as Long);
+          message.app = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -106,9 +106,9 @@ export const ProtocolVersion = {
   },
   fromPartial(object: Partial<ProtocolVersion>): ProtocolVersion {
     const message = createBaseProtocolVersion();
-    message.p2p = object.p2p !== undefined && object.p2p !== null ? Long.fromValue(object.p2p) : Long.UZERO;
-    message.block = object.block !== undefined && object.block !== null ? Long.fromValue(object.block) : Long.UZERO;
-    message.app = object.app !== undefined && object.app !== null ? Long.fromValue(object.app) : Long.UZERO;
+    message.p2p = object.p2p !== undefined && object.p2p !== null ? BigInt(object.p2p.toString()) : BigInt("0");
+    message.block = object.block !== undefined && object.block !== null ? BigInt(object.block.toString()) : BigInt("0");
+    message.app = object.app !== undefined && object.app !== null ? BigInt(object.app.toString()) : BigInt("0");
     return message;
   }
 };

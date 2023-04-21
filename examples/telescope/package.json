@@ -13,6 +13,7 @@
     "codegen": "node scripts/codegen.js"
   },
   "dependencies": {
+    "@bufbuild/protobuf": "1.2.0",
     "@chain-registry/types": "0.14.0",
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.5.1",

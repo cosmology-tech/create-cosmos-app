@@ -1,26 +1,26 @@
 import { IdentifiedConnection, IdentifiedConnectionSDKType, ConnectionPaths, ConnectionPathsSDKType, Params, ParamsSDKType } from "./connection";
-import { Long } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../../helpers";
 /** GenesisState defines the ibc connection submodule's genesis state. */
 export interface GenesisState {
   connections: IdentifiedConnection[];
   clientConnectionPaths: ConnectionPaths[];
   /** the sequence for the next generated connection identifier */
-  nextConnectionSequence: Long;
+  nextConnectionSequence: bigint;
   params?: Params | undefined;
 }
 /** GenesisState defines the ibc connection submodule's genesis state. */
 export interface GenesisStateSDKType {
   connections: IdentifiedConnectionSDKType[];
   client_connection_paths: ConnectionPathsSDKType[];
-  next_connection_sequence: Long;
+  next_connection_sequence: bigint;
   params?: ParamsSDKType | undefined;
 }
 function createBaseGenesisState(): GenesisState {
   return {
     connections: [],
     clientConnectionPaths: [],
-    nextConnectionSequence: Long.UZERO,
+    nextConnectionSequence: BigInt("0"),
     params: undefined
   };
 }
@@ -32,8 +32,8 @@ export const GenesisState = {
     for (const v of message.clientConnectionPaths) {
       ConnectionPaths.encode(v!, writer.uint32(18).fork()).ldelim();
     }
-    if (!message.nextConnectionSequence.isZero()) {
-      writer.uint32(24).uint64(message.nextConnectionSequence);
+    if (message.nextConnectionSequence !== BigInt(0)) {
+      writer.uint32(24).uint64(Long.fromString(message.nextConnectionSequence.toString()));
     }
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(34).fork()).ldelim();
@@ -54,7 +54,7 @@ export const GenesisState = {
           message.clientConnectionPaths.push(ConnectionPaths.decode(reader, reader.uint32()));
           break;
         case 3:
-          message.nextConnectionSequence = (reader.uint64() as Long);
+          message.nextConnectionSequence = BigInt(reader.uint64().toString());
           break;
         case 4:
           message.params = Params.decode(reader, reader.uint32());
@@ -70,7 +70,7 @@ export const GenesisState = {
     const message = createBaseGenesisState();
     message.connections = object.connections?.map(e => IdentifiedConnection.fromPartial(e)) || [];
     message.clientConnectionPaths = object.clientConnectionPaths?.map(e => ConnectionPaths.fromPartial(e)) || [];
-    message.nextConnectionSequence = object.nextConnectionSequence !== undefined && object.nextConnectionSequence !== null ? Long.fromValue(object.nextConnectionSequence) : Long.UZERO;
+    message.nextConnectionSequence = object.nextConnectionSequence !== undefined && object.nextConnectionSequence !== null ? BigInt(object.nextConnectionSequence.toString()) : BigInt("0");
     message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
     return message;
   }

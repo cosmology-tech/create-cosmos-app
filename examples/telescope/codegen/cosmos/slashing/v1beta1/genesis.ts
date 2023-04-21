@@ -1,6 +1,6 @@
 import { Params, ParamsSDKType, ValidatorSigningInfo, ValidatorSigningInfoSDKType } from "./slashing";
-import { Long } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../helpers";
 /** GenesisState defines the slashing module's genesis state. */
 export interface GenesisState {
   /** params defines all the paramaters of related to deposit. */
@@ -55,13 +55,13 @@ export interface ValidatorMissedBlocksSDKType {
 /** MissedBlock contains height and missed status as boolean. */
 export interface MissedBlock {
   /** index is the height at which the block was missed. */
-  index: Long;
+  index: bigint;
   /** missed is the missed status. */
   missed: boolean;
 }
 /** MissedBlock contains height and missed status as boolean. */
 export interface MissedBlockSDKType {
-  index: Long;
+  index: bigint;
   missed: boolean;
 }
 function createBaseGenesisState(): GenesisState {
@@ -203,14 +203,14 @@ export const ValidatorMissedBlocks = {
 };
 function createBaseMissedBlock(): MissedBlock {
   return {
-    index: Long.ZERO,
+    index: BigInt("0"),
     missed: false
   };
 }
 export const MissedBlock = {
   encode(message: MissedBlock, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.index.isZero()) {
-      writer.uint32(8).int64(message.index);
+    if (message.index !== BigInt(0)) {
+      writer.uint32(8).int64(Long.fromString(message.index.toString()));
     }
     if (message.missed === true) {
       writer.uint32(16).bool(message.missed);
@@ -225,7 +225,7 @@ export const MissedBlock = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.index = (reader.int64() as Long);
+          message.index = BigInt(reader.int64().toString());
           break;
         case 2:
           message.missed = reader.bool();
@@ -239,7 +239,7 @@ export const MissedBlock = {
   },
   fromPartial(object: Partial<MissedBlock>): MissedBlock {
     const message = createBaseMissedBlock();
-    message.index = object.index !== undefined && object.index !== null ? Long.fromValue(object.index) : Long.ZERO;
+    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt("0");
     message.missed = object.missed ?? false;
     return message;
   }

@@ -6,3 +6,7 @@ export * from "./address-card";
 export * from "./chain-card";
 export * from "./send-tokens-card";
 export * from "./handleChangeColor";
+export * from "./vote";
+export * from "./proposal-card";
+export * from "./proposal-modal";
+export * from './choose-chain';

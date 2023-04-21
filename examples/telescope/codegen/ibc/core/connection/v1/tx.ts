@@ -1,8 +1,8 @@
 import { Counterparty, CounterpartySDKType, Version, VersionSDKType } from "./connection";
 import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { Height, HeightSDKType } from "../../client/v1/client";
-import { Long } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../../helpers";
 /**
  * MsgConnectionOpenInit defines the msg sent by an account on Chain A to
  * initialize a connection with Chain B.
@@ -11,7 +11,7 @@ export interface MsgConnectionOpenInit {
   clientId: string;
   counterparty?: Counterparty | undefined;
   version?: Version | undefined;
-  delayPeriod: Long;
+  delayPeriod: bigint;
   signer: string;
 }
 /**
@@ -22,7 +22,7 @@ export interface MsgConnectionOpenInitSDKType {
   client_id: string;
   counterparty?: CounterpartySDKType | undefined;
   version?: VersionSDKType | undefined;
-  delay_period: Long;
+  delay_period: bigint;
   signer: string;
 }
 /**
@@ -48,7 +48,7 @@ export interface MsgConnectionOpenTry {
   previousConnectionId: string;
   clientState?: Any | undefined;
   counterparty?: Counterparty | undefined;
-  delayPeriod: Long;
+  delayPeriod: bigint;
   counterpartyVersions: Version[];
   proofHeight?: Height | undefined;
   /**
@@ -72,7 +72,7 @@ export interface MsgConnectionOpenTrySDKType {
   previous_connection_id: string;
   client_state?: AnySDKType | undefined;
   counterparty?: CounterpartySDKType | undefined;
-  delay_period: Long;
+  delay_period: bigint;
   counterparty_versions: VersionSDKType[];
   proof_height?: HeightSDKType | undefined;
   proof_init: Uint8Array;
@@ -163,7 +163,7 @@ function createBaseMsgConnectionOpenInit(): MsgConnectionOpenInit {
     clientId: "",
     counterparty: undefined,
     version: undefined,
-    delayPeriod: Long.UZERO,
+    delayPeriod: BigInt("0"),
     signer: ""
   };
 }
@@ -178,8 +178,8 @@ export const MsgConnectionOpenInit = {
     if (message.version !== undefined) {
       Version.encode(message.version, writer.uint32(26).fork()).ldelim();
     }
-    if (!message.delayPeriod.isZero()) {
-      writer.uint32(32).uint64(message.delayPeriod);
+    if (message.delayPeriod !== BigInt(0)) {
+      writer.uint32(32).uint64(Long.fromString(message.delayPeriod.toString()));
     }
     if (message.signer !== "") {
       writer.uint32(42).string(message.signer);
@@ -203,7 +203,7 @@ export const MsgConnectionOpenInit = {
           message.version = Version.decode(reader, reader.uint32());
           break;
         case 4:
-          message.delayPeriod = (reader.uint64() as Long);
+          message.delayPeriod = BigInt(reader.uint64().toString());
           break;
         case 5:
           message.signer = reader.string();
@@ -220,7 +220,7 @@ export const MsgConnectionOpenInit = {
     message.clientId = object.clientId ?? "";
     message.counterparty = object.counterparty !== undefined && object.counterparty !== null ? Counterparty.fromPartial(object.counterparty) : undefined;
     message.version = object.version !== undefined && object.version !== null ? Version.fromPartial(object.version) : undefined;
-    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? Long.fromValue(object.delayPeriod) : Long.UZERO;
+    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? BigInt(object.delayPeriod.toString()) : BigInt("0");
     message.signer = object.signer ?? "";
     return message;
   }
@@ -257,7 +257,7 @@ function createBaseMsgConnectionOpenTry(): MsgConnectionOpenTry {
     previousConnectionId: "",
     clientState: undefined,
     counterparty: undefined,
-    delayPeriod: Long.UZERO,
+    delayPeriod: BigInt("0"),
     counterpartyVersions: [],
     proofHeight: undefined,
     proofInit: new Uint8Array(),
@@ -281,8 +281,8 @@ export const MsgConnectionOpenTry = {
     if (message.counterparty !== undefined) {
       Counterparty.encode(message.counterparty, writer.uint32(34).fork()).ldelim();
     }
-    if (!message.delayPeriod.isZero()) {
-      writer.uint32(40).uint64(message.delayPeriod);
+    if (message.delayPeriod !== BigInt(0)) {
+      writer.uint32(40).uint64(Long.fromString(message.delayPeriod.toString()));
     }
     for (const v of message.counterpartyVersions) {
       Version.encode(v!, writer.uint32(50).fork()).ldelim();
@@ -327,7 +327,7 @@ export const MsgConnectionOpenTry = {
           message.counterparty = Counterparty.decode(reader, reader.uint32());
           break;
         case 5:
-          message.delayPeriod = (reader.uint64() as Long);
+          message.delayPeriod = BigInt(reader.uint64().toString());
           break;
         case 6:
           message.counterpartyVersions.push(Version.decode(reader, reader.uint32()));
@@ -363,7 +363,7 @@ export const MsgConnectionOpenTry = {
     message.previousConnectionId = object.previousConnectionId ?? "";
     message.clientState = object.clientState !== undefined && object.clientState !== null ? Any.fromPartial(object.clientState) : undefined;
     message.counterparty = object.counterparty !== undefined && object.counterparty !== null ? Counterparty.fromPartial(object.counterparty) : undefined;
-    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? Long.fromValue(object.delayPeriod) : Long.UZERO;
+    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? BigInt(object.delayPeriod.toString()) : BigInt("0");
     message.counterpartyVersions = object.counterpartyVersions?.map(e => Version.fromPartial(e)) || [];
     message.proofHeight = object.proofHeight !== undefined && object.proofHeight !== null ? Height.fromPartial(object.proofHeight) : undefined;
     message.proofInit = object.proofInit ?? new Uint8Array();

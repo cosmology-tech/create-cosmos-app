@@ -1,7 +1,7 @@
 import { MsgStoreCode, MsgStoreCodeSDKType, MsgInstantiateContract, MsgInstantiateContractSDKType, MsgExecuteContract, MsgExecuteContractSDKType } from "./tx";
 import { Params, ParamsSDKType, CodeInfo, CodeInfoSDKType, ContractInfo, ContractInfoSDKType, Model, ModelSDKType } from "./types";
-import { Long } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../helpers";
 /** GenesisState - genesis state of x/wasm */
 export interface GenesisState {
   params?: Params | undefined;
@@ -38,7 +38,7 @@ export interface GenesisState_GenMsgsSDKType {
 }
 /** Code struct encompasses CodeInfo and CodeBytes */
 export interface Code {
-  codeId: Long;
+  codeId: bigint;
   codeInfo?: CodeInfo | undefined;
   codeBytes: Uint8Array;
   /** Pinned to wasmvm cache */
@@ -46,7 +46,7 @@ export interface Code {
 }
 /** Code struct encompasses CodeInfo and CodeBytes */
 export interface CodeSDKType {
-  code_id: Long;
+  code_id: bigint;
   code_info?: CodeInfoSDKType | undefined;
   code_bytes: Uint8Array;
   pinned: boolean;
@@ -66,12 +66,12 @@ export interface ContractSDKType {
 /** Sequence key and value of an id generation counter */
 export interface Sequence {
   idKey: Uint8Array;
-  value: Long;
+  value: bigint;
 }
 /** Sequence key and value of an id generation counter */
 export interface SequenceSDKType {
   id_key: Uint8Array;
-  value: Long;
+  value: bigint;
 }
 function createBaseGenesisState(): GenesisState {
   return {
@@ -193,7 +193,7 @@ export const GenesisState_GenMsgs = {
 };
 function createBaseCode(): Code {
   return {
-    codeId: Long.UZERO,
+    codeId: BigInt("0"),
     codeInfo: undefined,
     codeBytes: new Uint8Array(),
     pinned: false
@@ -201,8 +201,8 @@ function createBaseCode(): Code {
 }
 export const Code = {
   encode(message: Code, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.codeId.isZero()) {
-      writer.uint32(8).uint64(message.codeId);
+    if (message.codeId !== BigInt(0)) {
+      writer.uint32(8).uint64(Long.fromString(message.codeId.toString()));
     }
     if (message.codeInfo !== undefined) {
       CodeInfo.encode(message.codeInfo, writer.uint32(18).fork()).ldelim();
@@ -223,7 +223,7 @@ export const Code = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.codeId = (reader.uint64() as Long);
+          message.codeId = BigInt(reader.uint64().toString());
           break;
         case 2:
           message.codeInfo = CodeInfo.decode(reader, reader.uint32());
@@ -243,7 +243,7 @@ export const Code = {
   },
   fromPartial(object: Partial<Code>): Code {
     const message = createBaseCode();
-    message.codeId = object.codeId !== undefined && object.codeId !== null ? Long.fromValue(object.codeId) : Long.UZERO;
+    message.codeId = object.codeId !== undefined && object.codeId !== null ? BigInt(object.codeId.toString()) : BigInt("0");
     message.codeInfo = object.codeInfo !== undefined && object.codeInfo !== null ? CodeInfo.fromPartial(object.codeInfo) : undefined;
     message.codeBytes = object.codeBytes ?? new Uint8Array();
     message.pinned = object.pinned ?? false;
@@ -304,7 +304,7 @@ export const Contract = {
 function createBaseSequence(): Sequence {
   return {
     idKey: new Uint8Array(),
-    value: Long.UZERO
+    value: BigInt("0")
   };
 }
 export const Sequence = {
@@ -312,8 +312,8 @@ export const Sequence = {
     if (message.idKey.length !== 0) {
       writer.uint32(10).bytes(message.idKey);
     }
-    if (!message.value.isZero()) {
-      writer.uint32(16).uint64(message.value);
+    if (message.value !== BigInt(0)) {
+      writer.uint32(16).uint64(Long.fromString(message.value.toString()));
     }
     return writer;
   },
@@ -328,7 +328,7 @@ export const Sequence = {
           message.idKey = reader.bytes();
           break;
         case 2:
-          message.value = (reader.uint64() as Long);
+          message.value = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -340,7 +340,7 @@ export const Sequence = {
   fromPartial(object: Partial<Sequence>): Sequence {
     const message = createBaseSequence();
     message.idKey = object.idKey ?? new Uint8Array();
-    message.value = object.value !== undefined && object.value !== null ? Long.fromValue(object.value) : Long.UZERO;
+    message.value = object.value !== undefined && object.value !== null ? BigInt(object.value.toString()) : BigInt("0");
     return message;
   }
 };

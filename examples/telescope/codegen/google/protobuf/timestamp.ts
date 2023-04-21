@@ -1,5 +1,5 @@
-import { Long } from "../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../helpers";
 /**
  * A Timestamp represents a point in time independent of any time zone or local
  * calendar, encoded as a count of seconds and fractions of seconds at
@@ -90,7 +90,7 @@ export interface Timestamp {
    * 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
    * 9999-12-31T23:59:59Z inclusive.
    */
-  seconds: Long;
+  seconds: bigint;
   /**
    * Non-negative fractions of a second at nanosecond resolution. Negative
    * second values with fractions must still have non-negative nanos values
@@ -184,19 +184,19 @@ export interface Timestamp {
  * ) to obtain a formatter capable of generating timestamps in this format.
  */
 export interface TimestampSDKType {
-  seconds: Long;
+  seconds: bigint;
   nanos: number;
 }
 function createBaseTimestamp(): Timestamp {
   return {
-    seconds: Long.ZERO,
+    seconds: BigInt("0"),
     nanos: 0
   };
 }
 export const Timestamp = {
   encode(message: Timestamp, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.seconds.isZero()) {
-      writer.uint32(8).int64(message.seconds);
+    if (message.seconds !== BigInt(0)) {
+      writer.uint32(8).int64(Long.fromString(message.seconds.toString()));
     }
     if (message.nanos !== 0) {
       writer.uint32(16).int32(message.nanos);
@@ -211,7 +211,7 @@ export const Timestamp = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.seconds = (reader.int64() as Long);
+          message.seconds = BigInt(reader.int64().toString());
           break;
         case 2:
           message.nanos = reader.int32();
@@ -225,7 +225,7 @@ export const Timestamp = {
   },
   fromPartial(object: Partial<Timestamp>): Timestamp {
     const message = createBaseTimestamp();
-    message.seconds = object.seconds !== undefined && object.seconds !== null ? Long.fromValue(object.seconds) : Long.ZERO;
+    message.seconds = object.seconds !== undefined && object.seconds !== null ? BigInt(object.seconds.toString()) : BigInt("0");
     message.nanos = object.nanos ?? 0;
     return message;
   }

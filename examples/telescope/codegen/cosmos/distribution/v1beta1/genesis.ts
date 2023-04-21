@@ -1,7 +1,7 @@
 import { DecCoin, DecCoinSDKType } from "../../base/v1beta1/coin";
 import { ValidatorAccumulatedCommission, ValidatorAccumulatedCommissionSDKType, ValidatorHistoricalRewards, ValidatorHistoricalRewardsSDKType, ValidatorCurrentRewards, ValidatorCurrentRewardsSDKType, DelegatorStartingInfo, DelegatorStartingInfoSDKType, ValidatorSlashEvent, ValidatorSlashEventSDKType, Params, ParamsSDKType, FeePool, FeePoolSDKType } from "./distribution";
-import { Long } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../helpers";
 /**
  * DelegatorWithdrawInfo is the address for where distributions rewards are
  * withdrawn to by default this struct is only used at genesis to feed in
@@ -60,7 +60,7 @@ export interface ValidatorHistoricalRewardsRecord {
   /** validator_address is the address of the validator. */
   validatorAddress: string;
   /** period defines the period the historical rewards apply to. */
-  period: Long;
+  period: bigint;
   /** rewards defines the historical rewards of a validator. */
   rewards?: ValidatorHistoricalRewards | undefined;
 }
@@ -70,7 +70,7 @@ export interface ValidatorHistoricalRewardsRecord {
  */
 export interface ValidatorHistoricalRewardsRecordSDKType {
   validator_address: string;
-  period: Long;
+  period: bigint;
   rewards?: ValidatorHistoricalRewardsSDKType | undefined;
 }
 /** ValidatorCurrentRewardsRecord is used for import / export via genesis json. */
@@ -105,17 +105,17 @@ export interface ValidatorSlashEventRecord {
   /** validator_address is the address of the validator. */
   validatorAddress: string;
   /** height defines the block height at which the slash event occured. */
-  height: Long;
+  height: bigint;
   /** period is the period of the slash event. */
-  period: Long;
+  period: bigint;
   /** validator_slash_event describes the slash event. */
   validatorSlashEvent?: ValidatorSlashEvent | undefined;
 }
 /** ValidatorSlashEventRecord is used for import / export via genesis json. */
 export interface ValidatorSlashEventRecordSDKType {
   validator_address: string;
-  height: Long;
-  period: Long;
+  height: bigint;
+  period: bigint;
   validator_slash_event?: ValidatorSlashEventSDKType | undefined;
 }
 /** GenesisState defines the distribution module's genesis state. */
@@ -286,7 +286,7 @@ export const ValidatorAccumulatedCommissionRecord = {
 function createBaseValidatorHistoricalRewardsRecord(): ValidatorHistoricalRewardsRecord {
   return {
     validatorAddress: "",
-    period: Long.UZERO,
+    period: BigInt("0"),
     rewards: undefined
   };
 }
@@ -295,8 +295,8 @@ export const ValidatorHistoricalRewardsRecord = {
     if (message.validatorAddress !== "") {
       writer.uint32(10).string(message.validatorAddress);
     }
-    if (!message.period.isZero()) {
-      writer.uint32(16).uint64(message.period);
+    if (message.period !== BigInt(0)) {
+      writer.uint32(16).uint64(Long.fromString(message.period.toString()));
     }
     if (message.rewards !== undefined) {
       ValidatorHistoricalRewards.encode(message.rewards, writer.uint32(26).fork()).ldelim();
@@ -314,7 +314,7 @@ export const ValidatorHistoricalRewardsRecord = {
           message.validatorAddress = reader.string();
           break;
         case 2:
-          message.period = (reader.uint64() as Long);
+          message.period = BigInt(reader.uint64().toString());
           break;
         case 3:
           message.rewards = ValidatorHistoricalRewards.decode(reader, reader.uint32());
@@ -329,7 +329,7 @@ export const ValidatorHistoricalRewardsRecord = {
   fromPartial(object: Partial<ValidatorHistoricalRewardsRecord>): ValidatorHistoricalRewardsRecord {
     const message = createBaseValidatorHistoricalRewardsRecord();
     message.validatorAddress = object.validatorAddress ?? "";
-    message.period = object.period !== undefined && object.period !== null ? Long.fromValue(object.period) : Long.UZERO;
+    message.period = object.period !== undefined && object.period !== null ? BigInt(object.period.toString()) : BigInt("0");
     message.rewards = object.rewards !== undefined && object.rewards !== null ? ValidatorHistoricalRewards.fromPartial(object.rewards) : undefined;
     return message;
   }
@@ -431,8 +431,8 @@ export const DelegatorStartingInfoRecord = {
 function createBaseValidatorSlashEventRecord(): ValidatorSlashEventRecord {
   return {
     validatorAddress: "",
-    height: Long.UZERO,
-    period: Long.UZERO,
+    height: BigInt("0"),
+    period: BigInt("0"),
     validatorSlashEvent: undefined
   };
 }
@@ -441,11 +441,11 @@ export const ValidatorSlashEventRecord = {
     if (message.validatorAddress !== "") {
       writer.uint32(10).string(message.validatorAddress);
     }
-    if (!message.height.isZero()) {
-      writer.uint32(16).uint64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(16).uint64(Long.fromString(message.height.toString()));
     }
-    if (!message.period.isZero()) {
-      writer.uint32(24).uint64(message.period);
+    if (message.period !== BigInt(0)) {
+      writer.uint32(24).uint64(Long.fromString(message.period.toString()));
     }
     if (message.validatorSlashEvent !== undefined) {
       ValidatorSlashEvent.encode(message.validatorSlashEvent, writer.uint32(34).fork()).ldelim();
@@ -463,10 +463,10 @@ export const ValidatorSlashEventRecord = {
           message.validatorAddress = reader.string();
           break;
         case 2:
-          message.height = (reader.uint64() as Long);
+          message.height = BigInt(reader.uint64().toString());
           break;
         case 3:
-          message.period = (reader.uint64() as Long);
+          message.period = BigInt(reader.uint64().toString());
           break;
         case 4:
           message.validatorSlashEvent = ValidatorSlashEvent.decode(reader, reader.uint32());
@@ -481,8 +481,8 @@ export const ValidatorSlashEventRecord = {
   fromPartial(object: Partial<ValidatorSlashEventRecord>): ValidatorSlashEventRecord {
     const message = createBaseValidatorSlashEventRecord();
     message.validatorAddress = object.validatorAddress ?? "";
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
-    message.period = object.period !== undefined && object.period !== null ? Long.fromValue(object.period) : Long.UZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
+    message.period = object.period !== undefined && object.period !== null ? BigInt(object.period.toString()) : BigInt("0");
     message.validatorSlashEvent = object.validatorSlashEvent !== undefined && object.validatorSlashEvent !== null ? ValidatorSlashEvent.fromPartial(object.validatorSlashEvent) : undefined;
     return message;
   }

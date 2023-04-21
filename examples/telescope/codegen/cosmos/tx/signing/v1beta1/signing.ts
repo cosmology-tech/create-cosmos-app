@@ -1,7 +1,7 @@
 import { CompactBitArray, CompactBitArraySDKType } from "../../../crypto/multisig/v1beta1/multisig";
 import { Any, AnySDKType } from "../../../../google/protobuf/any";
-import { Long } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../../helpers";
 /**
  * SignMode represents a signing mode with its own security guarantees.
  * 
@@ -110,7 +110,7 @@ export interface SignatureDescriptor {
    * number of committed transactions signed by a given address. It is used to prevent
    * replay attacks.
    */
-  sequence: Long;
+  sequence: bigint;
 }
 /**
  * SignatureDescriptor is a convenience type which represents the full data for
@@ -121,7 +121,7 @@ export interface SignatureDescriptor {
 export interface SignatureDescriptorSDKType {
   public_key?: AnySDKType | undefined;
   data?: SignatureDescriptor_DataSDKType | undefined;
-  sequence: Long;
+  sequence: bigint;
 }
 /** Data represents signature data */
 export interface SignatureDescriptor_Data {
@@ -198,7 +198,7 @@ function createBaseSignatureDescriptor(): SignatureDescriptor {
   return {
     publicKey: undefined,
     data: undefined,
-    sequence: Long.UZERO
+    sequence: BigInt("0")
   };
 }
 export const SignatureDescriptor = {
@@ -209,8 +209,8 @@ export const SignatureDescriptor = {
     if (message.data !== undefined) {
       SignatureDescriptor_Data.encode(message.data, writer.uint32(18).fork()).ldelim();
     }
-    if (!message.sequence.isZero()) {
-      writer.uint32(24).uint64(message.sequence);
+    if (message.sequence !== BigInt(0)) {
+      writer.uint32(24).uint64(Long.fromString(message.sequence.toString()));
     }
     return writer;
   },
@@ -228,7 +228,7 @@ export const SignatureDescriptor = {
           message.data = SignatureDescriptor_Data.decode(reader, reader.uint32());
           break;
         case 3:
-          message.sequence = (reader.uint64() as Long);
+          message.sequence = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -241,7 +241,7 @@ export const SignatureDescriptor = {
     const message = createBaseSignatureDescriptor();
     message.publicKey = object.publicKey !== undefined && object.publicKey !== null ? Any.fromPartial(object.publicKey) : undefined;
     message.data = object.data !== undefined && object.data !== null ? SignatureDescriptor_Data.fromPartial(object.data) : undefined;
-    message.sequence = object.sequence !== undefined && object.sequence !== null ? Long.fromValue(object.sequence) : Long.UZERO;
+    message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt("0");
     return message;
   }
 };

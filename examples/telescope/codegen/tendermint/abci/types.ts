@@ -3,8 +3,8 @@ import { Header, HeaderSDKType } from "../types/types";
 import { ProofOps, ProofOpsSDKType } from "../crypto/proof";
 import { EvidenceParams, EvidenceParamsSDKType, ValidatorParams, ValidatorParamsSDKType, VersionParams, VersionParamsSDKType } from "../types/params";
 import { PublicKey, PublicKeySDKType } from "../crypto/keys";
-import { Long, toTimestamp, fromTimestamp } from "../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long, toTimestamp, fromTimestamp } from "../../helpers";
 export enum CheckTxType {
   NEW = 0,
   RECHECK = 1,
@@ -239,13 +239,13 @@ export interface RequestFlush {}
 export interface RequestFlushSDKType {}
 export interface RequestInfo {
   version: string;
-  blockVersion: Long;
-  p2pVersion: Long;
+  blockVersion: bigint;
+  p2pVersion: bigint;
 }
 export interface RequestInfoSDKType {
   version: string;
-  block_version: Long;
-  p2p_version: Long;
+  block_version: bigint;
+  p2p_version: bigint;
 }
 /** nondeterministic */
 export interface RequestSetOption {
@@ -263,7 +263,7 @@ export interface RequestInitChain {
   consensusParams?: ConsensusParams | undefined;
   validators: ValidatorUpdate[];
   appStateBytes: Uint8Array;
-  initialHeight: Long;
+  initialHeight: bigint;
 }
 export interface RequestInitChainSDKType {
   time?: Date | undefined;
@@ -271,18 +271,18 @@ export interface RequestInitChainSDKType {
   consensus_params?: ConsensusParamsSDKType | undefined;
   validators: ValidatorUpdateSDKType[];
   app_state_bytes: Uint8Array;
-  initial_height: Long;
+  initial_height: bigint;
 }
 export interface RequestQuery {
   data: Uint8Array;
   path: string;
-  height: Long;
+  height: bigint;
   prove: boolean;
 }
 export interface RequestQuerySDKType {
   data: Uint8Array;
   path: string;
-  height: Long;
+  height: bigint;
   prove: boolean;
 }
 export interface RequestBeginBlock {
@@ -312,10 +312,10 @@ export interface RequestDeliverTxSDKType {
   tx: Uint8Array;
 }
 export interface RequestEndBlock {
-  height: Long;
+  height: bigint;
 }
 export interface RequestEndBlockSDKType {
-  height: Long;
+  height: bigint;
 }
 export interface RequestCommit {}
 export interface RequestCommitSDKType {}
@@ -337,13 +337,13 @@ export interface RequestOfferSnapshotSDKType {
 }
 /** loads a snapshot chunk */
 export interface RequestLoadSnapshotChunk {
-  height: Long;
+  height: bigint;
   format: number;
   chunk: number;
 }
 /** loads a snapshot chunk */
 export interface RequestLoadSnapshotChunkSDKType {
-  height: Long;
+  height: bigint;
   format: number;
   chunk: number;
 }
@@ -414,15 +414,15 @@ export interface ResponseFlushSDKType {}
 export interface ResponseInfo {
   data: string;
   version: string;
-  appVersion: Long;
-  lastBlockHeight: Long;
+  appVersion: bigint;
+  lastBlockHeight: bigint;
   lastBlockAppHash: Uint8Array;
 }
 export interface ResponseInfoSDKType {
   data: string;
   version: string;
-  app_version: Long;
-  last_block_height: Long;
+  app_version: bigint;
+  last_block_height: bigint;
   last_block_app_hash: Uint8Array;
 }
 /** nondeterministic */
@@ -454,22 +454,22 @@ export interface ResponseQuery {
   log: string;
   /** nondeterministic */
   info: string;
-  index: Long;
+  index: bigint;
   key: Uint8Array;
   value: Uint8Array;
   proofOps?: ProofOps | undefined;
-  height: Long;
+  height: bigint;
   codespace: string;
 }
 export interface ResponseQuerySDKType {
   code: number;
   log: string;
   info: string;
-  index: Long;
+  index: bigint;
   key: Uint8Array;
   value: Uint8Array;
   proof_ops?: ProofOpsSDKType | undefined;
-  height: Long;
+  height: bigint;
   codespace: string;
 }
 export interface ResponseBeginBlock {
@@ -485,8 +485,8 @@ export interface ResponseCheckTx {
   log: string;
   /** nondeterministic */
   info: string;
-  gasWanted: Long;
-  gasUsed: Long;
+  gasWanted: bigint;
+  gasUsed: bigint;
   events: Event[];
   codespace: string;
 }
@@ -495,8 +495,8 @@ export interface ResponseCheckTxSDKType {
   data: Uint8Array;
   log: string;
   info: string;
-  gas_wanted: Long;
-  gas_used: Long;
+  gas_wanted: bigint;
+  gas_used: bigint;
   events: EventSDKType[];
   codespace: string;
 }
@@ -507,8 +507,8 @@ export interface ResponseDeliverTx {
   log: string;
   /** nondeterministic */
   info: string;
-  gasWanted: Long;
-  gasUsed: Long;
+  gasWanted: bigint;
+  gasUsed: bigint;
   events: Event[];
   codespace: string;
 }
@@ -517,8 +517,8 @@ export interface ResponseDeliverTxSDKType {
   data: Uint8Array;
   log: string;
   info: string;
-  gas_wanted: Long;
-  gas_used: Long;
+  gas_wanted: bigint;
+  gas_used: bigint;
   events: EventSDKType[];
   codespace: string;
 }
@@ -535,11 +535,11 @@ export interface ResponseEndBlockSDKType {
 export interface ResponseCommit {
   /** reserve 1 */
   data: Uint8Array;
-  retainHeight: Long;
+  retainHeight: bigint;
 }
 export interface ResponseCommitSDKType {
   data: Uint8Array;
-  retain_height: Long;
+  retain_height: bigint;
 }
 export interface ResponseListSnapshots {
   snapshots: Snapshot[];
@@ -594,14 +594,14 @@ export interface ConsensusParamsSDKType {
 /** BlockParams contains limits on the block size. */
 export interface BlockParams {
   /** Note: must be greater than 0 */
-  maxBytes: Long;
+  maxBytes: bigint;
   /** Note: must be greater or equal to -1 */
-  maxGas: Long;
+  maxGas: bigint;
 }
 /** BlockParams contains limits on the block size. */
 export interface BlockParamsSDKType {
-  max_bytes: Long;
-  max_gas: Long;
+  max_bytes: bigint;
+  max_gas: bigint;
 }
 export interface LastCommitInfo {
   round: number;
@@ -648,7 +648,7 @@ export interface EventAttributeSDKType {
  * One usage is indexing transaction results.
  */
 export interface TxResult {
-  height: Long;
+  height: bigint;
   index: number;
   tx: Uint8Array;
   result?: ResponseDeliverTx | undefined;
@@ -659,7 +659,7 @@ export interface TxResult {
  * One usage is indexing transaction results.
  */
 export interface TxResultSDKType {
-  height: Long;
+  height: bigint;
   index: number;
   tx: Uint8Array;
   result?: ResponseDeliverTxSDKType | undefined;
@@ -672,22 +672,22 @@ export interface Validator {
    */
   address: Uint8Array;
   /** The voting power */
-  power: Long;
+  power: bigint;
 }
 /** Validator */
 export interface ValidatorSDKType {
   address: Uint8Array;
-  power: Long;
+  power: bigint;
 }
 /** ValidatorUpdate */
 export interface ValidatorUpdate {
   pubKey?: PublicKey | undefined;
-  power: Long;
+  power: bigint;
 }
 /** ValidatorUpdate */
 export interface ValidatorUpdateSDKType {
   pub_key?: PublicKeySDKType | undefined;
-  power: Long;
+  power: bigint;
 }
 /** VoteInfo */
 export interface VoteInfo {
@@ -704,7 +704,7 @@ export interface Evidence {
   /** The offending validator */
   validator?: Validator | undefined;
   /** The height when the offense occurred */
-  height: Long;
+  height: bigint;
   /** The corresponding time where the offense occurred */
   time?: Date | undefined;
   /**
@@ -712,18 +712,18 @@ export interface Evidence {
    * not store historical validators.
    * https://github.com/tendermint/tendermint/issues/4581
    */
-  totalVotingPower: Long;
+  totalVotingPower: bigint;
 }
 export interface EvidenceSDKType {
   type: EvidenceType;
   validator?: ValidatorSDKType | undefined;
-  height: Long;
+  height: bigint;
   time?: Date | undefined;
-  total_voting_power: Long;
+  total_voting_power: bigint;
 }
 export interface Snapshot {
   /** The height at which the snapshot was taken */
-  height: Long;
+  height: bigint;
   /** The application-specific snapshot format */
   format: number;
   /** Number of chunks in the snapshot */
@@ -734,7 +734,7 @@ export interface Snapshot {
   metadata: Uint8Array;
 }
 export interface SnapshotSDKType {
-  height: Long;
+  height: bigint;
   format: number;
   chunks: number;
   hash: Uint8Array;
@@ -951,8 +951,8 @@ export const RequestFlush = {
 function createBaseRequestInfo(): RequestInfo {
   return {
     version: "",
-    blockVersion: Long.UZERO,
-    p2pVersion: Long.UZERO
+    blockVersion: BigInt("0"),
+    p2pVersion: BigInt("0")
   };
 }
 export const RequestInfo = {
@@ -960,11 +960,11 @@ export const RequestInfo = {
     if (message.version !== "") {
       writer.uint32(10).string(message.version);
     }
-    if (!message.blockVersion.isZero()) {
-      writer.uint32(16).uint64(message.blockVersion);
+    if (message.blockVersion !== BigInt(0)) {
+      writer.uint32(16).uint64(Long.fromString(message.blockVersion.toString()));
     }
-    if (!message.p2pVersion.isZero()) {
-      writer.uint32(24).uint64(message.p2pVersion);
+    if (message.p2pVersion !== BigInt(0)) {
+      writer.uint32(24).uint64(Long.fromString(message.p2pVersion.toString()));
     }
     return writer;
   },
@@ -979,10 +979,10 @@ export const RequestInfo = {
           message.version = reader.string();
           break;
         case 2:
-          message.blockVersion = (reader.uint64() as Long);
+          message.blockVersion = BigInt(reader.uint64().toString());
           break;
         case 3:
-          message.p2pVersion = (reader.uint64() as Long);
+          message.p2pVersion = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -994,8 +994,8 @@ export const RequestInfo = {
   fromPartial(object: Partial<RequestInfo>): RequestInfo {
     const message = createBaseRequestInfo();
     message.version = object.version ?? "";
-    message.blockVersion = object.blockVersion !== undefined && object.blockVersion !== null ? Long.fromValue(object.blockVersion) : Long.UZERO;
-    message.p2pVersion = object.p2pVersion !== undefined && object.p2pVersion !== null ? Long.fromValue(object.p2pVersion) : Long.UZERO;
+    message.blockVersion = object.blockVersion !== undefined && object.blockVersion !== null ? BigInt(object.blockVersion.toString()) : BigInt("0");
+    message.p2pVersion = object.p2pVersion !== undefined && object.p2pVersion !== null ? BigInt(object.p2pVersion.toString()) : BigInt("0");
     return message;
   }
 };
@@ -1049,7 +1049,7 @@ function createBaseRequestInitChain(): RequestInitChain {
     consensusParams: undefined,
     validators: [],
     appStateBytes: new Uint8Array(),
-    initialHeight: Long.ZERO
+    initialHeight: BigInt("0")
   };
 }
 export const RequestInitChain = {
@@ -1069,8 +1069,8 @@ export const RequestInitChain = {
     if (message.appStateBytes.length !== 0) {
       writer.uint32(42).bytes(message.appStateBytes);
     }
-    if (!message.initialHeight.isZero()) {
-      writer.uint32(48).int64(message.initialHeight);
+    if (message.initialHeight !== BigInt(0)) {
+      writer.uint32(48).int64(Long.fromString(message.initialHeight.toString()));
     }
     return writer;
   },
@@ -1097,7 +1097,7 @@ export const RequestInitChain = {
           message.appStateBytes = reader.bytes();
           break;
         case 6:
-          message.initialHeight = (reader.int64() as Long);
+          message.initialHeight = BigInt(reader.int64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -1113,7 +1113,7 @@ export const RequestInitChain = {
     message.consensusParams = object.consensusParams !== undefined && object.consensusParams !== null ? ConsensusParams.fromPartial(object.consensusParams) : undefined;
     message.validators = object.validators?.map(e => ValidatorUpdate.fromPartial(e)) || [];
     message.appStateBytes = object.appStateBytes ?? new Uint8Array();
-    message.initialHeight = object.initialHeight !== undefined && object.initialHeight !== null ? Long.fromValue(object.initialHeight) : Long.ZERO;
+    message.initialHeight = object.initialHeight !== undefined && object.initialHeight !== null ? BigInt(object.initialHeight.toString()) : BigInt("0");
     return message;
   }
 };
@@ -1121,7 +1121,7 @@ function createBaseRequestQuery(): RequestQuery {
   return {
     data: new Uint8Array(),
     path: "",
-    height: Long.ZERO,
+    height: BigInt("0"),
     prove: false
   };
 }
@@ -1133,8 +1133,8 @@ export const RequestQuery = {
     if (message.path !== "") {
       writer.uint32(18).string(message.path);
     }
-    if (!message.height.isZero()) {
-      writer.uint32(24).int64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(24).int64(Long.fromString(message.height.toString()));
     }
     if (message.prove === true) {
       writer.uint32(32).bool(message.prove);
@@ -1155,7 +1155,7 @@ export const RequestQuery = {
           message.path = reader.string();
           break;
         case 3:
-          message.height = (reader.int64() as Long);
+          message.height = BigInt(reader.int64().toString());
           break;
         case 4:
           message.prove = reader.bool();
@@ -1171,7 +1171,7 @@ export const RequestQuery = {
     const message = createBaseRequestQuery();
     message.data = object.data ?? new Uint8Array();
     message.path = object.path ?? "";
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     message.prove = object.prove ?? false;
     return message;
   }
@@ -1315,13 +1315,13 @@ export const RequestDeliverTx = {
 };
 function createBaseRequestEndBlock(): RequestEndBlock {
   return {
-    height: Long.ZERO
+    height: BigInt("0")
   };
 }
 export const RequestEndBlock = {
   encode(message: RequestEndBlock, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.height.isZero()) {
-      writer.uint32(8).int64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(8).int64(Long.fromString(message.height.toString()));
     }
     return writer;
   },
@@ -1333,7 +1333,7 @@ export const RequestEndBlock = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = BigInt(reader.int64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -1344,7 +1344,7 @@ export const RequestEndBlock = {
   },
   fromPartial(object: Partial<RequestEndBlock>): RequestEndBlock {
     const message = createBaseRequestEndBlock();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     return message;
   }
 };
@@ -1445,15 +1445,15 @@ export const RequestOfferSnapshot = {
 };
 function createBaseRequestLoadSnapshotChunk(): RequestLoadSnapshotChunk {
   return {
-    height: Long.UZERO,
+    height: BigInt("0"),
     format: 0,
     chunk: 0
   };
 }
 export const RequestLoadSnapshotChunk = {
   encode(message: RequestLoadSnapshotChunk, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.height.isZero()) {
-      writer.uint32(8).uint64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(8).uint64(Long.fromString(message.height.toString()));
     }
     if (message.format !== 0) {
       writer.uint32(16).uint32(message.format);
@@ -1471,7 +1471,7 @@ export const RequestLoadSnapshotChunk = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.uint64() as Long);
+          message.height = BigInt(reader.uint64().toString());
           break;
         case 2:
           message.format = reader.uint32();
@@ -1488,7 +1488,7 @@ export const RequestLoadSnapshotChunk = {
   },
   fromPartial(object: Partial<RequestLoadSnapshotChunk>): RequestLoadSnapshotChunk {
     const message = createBaseRequestLoadSnapshotChunk();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     message.format = object.format ?? 0;
     message.chunk = object.chunk ?? 0;
     return message;
@@ -1800,8 +1800,8 @@ function createBaseResponseInfo(): ResponseInfo {
   return {
     data: "",
     version: "",
-    appVersion: Long.UZERO,
-    lastBlockHeight: Long.ZERO,
+    appVersion: BigInt("0"),
+    lastBlockHeight: BigInt("0"),
     lastBlockAppHash: new Uint8Array()
   };
 }
@@ -1813,11 +1813,11 @@ export const ResponseInfo = {
     if (message.version !== "") {
       writer.uint32(18).string(message.version);
     }
-    if (!message.appVersion.isZero()) {
-      writer.uint32(24).uint64(message.appVersion);
+    if (message.appVersion !== BigInt(0)) {
+      writer.uint32(24).uint64(Long.fromString(message.appVersion.toString()));
     }
-    if (!message.lastBlockHeight.isZero()) {
-      writer.uint32(32).int64(message.lastBlockHeight);
+    if (message.lastBlockHeight !== BigInt(0)) {
+      writer.uint32(32).int64(Long.fromString(message.lastBlockHeight.toString()));
     }
     if (message.lastBlockAppHash.length !== 0) {
       writer.uint32(42).bytes(message.lastBlockAppHash);
@@ -1838,10 +1838,10 @@ export const ResponseInfo = {
           message.version = reader.string();
           break;
         case 3:
-          message.appVersion = (reader.uint64() as Long);
+          message.appVersion = BigInt(reader.uint64().toString());
           break;
         case 4:
-          message.lastBlockHeight = (reader.int64() as Long);
+          message.lastBlockHeight = BigInt(reader.int64().toString());
           break;
         case 5:
           message.lastBlockAppHash = reader.bytes();
@@ -1857,8 +1857,8 @@ export const ResponseInfo = {
     const message = createBaseResponseInfo();
     message.data = object.data ?? "";
     message.version = object.version ?? "";
-    message.appVersion = object.appVersion !== undefined && object.appVersion !== null ? Long.fromValue(object.appVersion) : Long.UZERO;
-    message.lastBlockHeight = object.lastBlockHeight !== undefined && object.lastBlockHeight !== null ? Long.fromValue(object.lastBlockHeight) : Long.ZERO;
+    message.appVersion = object.appVersion !== undefined && object.appVersion !== null ? BigInt(object.appVersion.toString()) : BigInt("0");
+    message.lastBlockHeight = object.lastBlockHeight !== undefined && object.lastBlockHeight !== null ? BigInt(object.lastBlockHeight.toString()) : BigInt("0");
     message.lastBlockAppHash = object.lastBlockAppHash ?? new Uint8Array();
     return message;
   }
@@ -1970,11 +1970,11 @@ function createBaseResponseQuery(): ResponseQuery {
     code: 0,
     log: "",
     info: "",
-    index: Long.ZERO,
+    index: BigInt("0"),
     key: new Uint8Array(),
     value: new Uint8Array(),
     proofOps: undefined,
-    height: Long.ZERO,
+    height: BigInt("0"),
     codespace: ""
   };
 }
@@ -1989,8 +1989,8 @@ export const ResponseQuery = {
     if (message.info !== "") {
       writer.uint32(34).string(message.info);
     }
-    if (!message.index.isZero()) {
-      writer.uint32(40).int64(message.index);
+    if (message.index !== BigInt(0)) {
+      writer.uint32(40).int64(Long.fromString(message.index.toString()));
     }
     if (message.key.length !== 0) {
       writer.uint32(50).bytes(message.key);
@@ -2001,8 +2001,8 @@ export const ResponseQuery = {
     if (message.proofOps !== undefined) {
       ProofOps.encode(message.proofOps, writer.uint32(66).fork()).ldelim();
     }
-    if (!message.height.isZero()) {
-      writer.uint32(72).int64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(72).int64(Long.fromString(message.height.toString()));
     }
     if (message.codespace !== "") {
       writer.uint32(82).string(message.codespace);
@@ -2026,7 +2026,7 @@ export const ResponseQuery = {
           message.info = reader.string();
           break;
         case 5:
-          message.index = (reader.int64() as Long);
+          message.index = BigInt(reader.int64().toString());
           break;
         case 6:
           message.key = reader.bytes();
@@ -2038,7 +2038,7 @@ export const ResponseQuery = {
           message.proofOps = ProofOps.decode(reader, reader.uint32());
           break;
         case 9:
-          message.height = (reader.int64() as Long);
+          message.height = BigInt(reader.int64().toString());
           break;
         case 10:
           message.codespace = reader.string();
@@ -2055,11 +2055,11 @@ export const ResponseQuery = {
     message.code = object.code ?? 0;
     message.log = object.log ?? "";
     message.info = object.info ?? "";
-    message.index = object.index !== undefined && object.index !== null ? Long.fromValue(object.index) : Long.ZERO;
+    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt("0");
     message.key = object.key ?? new Uint8Array();
     message.value = object.value ?? new Uint8Array();
     message.proofOps = object.proofOps !== undefined && object.proofOps !== null ? ProofOps.fromPartial(object.proofOps) : undefined;
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     message.codespace = object.codespace ?? "";
     return message;
   }
@@ -2105,8 +2105,8 @@ function createBaseResponseCheckTx(): ResponseCheckTx {
     data: new Uint8Array(),
     log: "",
     info: "",
-    gasWanted: Long.ZERO,
-    gasUsed: Long.ZERO,
+    gasWanted: BigInt("0"),
+    gasUsed: BigInt("0"),
     events: [],
     codespace: ""
   };
@@ -2125,11 +2125,11 @@ export const ResponseCheckTx = {
     if (message.info !== "") {
       writer.uint32(34).string(message.info);
     }
-    if (!message.gasWanted.isZero()) {
-      writer.uint32(40).int64(message.gasWanted);
+    if (message.gasWanted !== BigInt(0)) {
+      writer.uint32(40).int64(Long.fromString(message.gasWanted.toString()));
     }
-    if (!message.gasUsed.isZero()) {
-      writer.uint32(48).int64(message.gasUsed);
+    if (message.gasUsed !== BigInt(0)) {
+      writer.uint32(48).int64(Long.fromString(message.gasUsed.toString()));
     }
     for (const v of message.events) {
       Event.encode(v!, writer.uint32(58).fork()).ldelim();
@@ -2159,10 +2159,10 @@ export const ResponseCheckTx = {
           message.info = reader.string();
           break;
         case 5:
-          message.gasWanted = (reader.int64() as Long);
+          message.gasWanted = BigInt(reader.int64().toString());
           break;
         case 6:
-          message.gasUsed = (reader.int64() as Long);
+          message.gasUsed = BigInt(reader.int64().toString());
           break;
         case 7:
           message.events.push(Event.decode(reader, reader.uint32()));
@@ -2183,8 +2183,8 @@ export const ResponseCheckTx = {
     message.data = object.data ?? new Uint8Array();
     message.log = object.log ?? "";
     message.info = object.info ?? "";
-    message.gasWanted = object.gasWanted !== undefined && object.gasWanted !== null ? Long.fromValue(object.gasWanted) : Long.ZERO;
-    message.gasUsed = object.gasUsed !== undefined && object.gasUsed !== null ? Long.fromValue(object.gasUsed) : Long.ZERO;
+    message.gasWanted = object.gasWanted !== undefined && object.gasWanted !== null ? BigInt(object.gasWanted.toString()) : BigInt("0");
+    message.gasUsed = object.gasUsed !== undefined && object.gasUsed !== null ? BigInt(object.gasUsed.toString()) : BigInt("0");
     message.events = object.events?.map(e => Event.fromPartial(e)) || [];
     message.codespace = object.codespace ?? "";
     return message;
@@ -2196,8 +2196,8 @@ function createBaseResponseDeliverTx(): ResponseDeliverTx {
     data: new Uint8Array(),
     log: "",
     info: "",
-    gasWanted: Long.ZERO,
-    gasUsed: Long.ZERO,
+    gasWanted: BigInt("0"),
+    gasUsed: BigInt("0"),
     events: [],
     codespace: ""
   };
@@ -2216,11 +2216,11 @@ export const ResponseDeliverTx = {
     if (message.info !== "") {
       writer.uint32(34).string(message.info);
     }
-    if (!message.gasWanted.isZero()) {
-      writer.uint32(40).int64(message.gasWanted);
+    if (message.gasWanted !== BigInt(0)) {
+      writer.uint32(40).int64(Long.fromString(message.gasWanted.toString()));
     }
-    if (!message.gasUsed.isZero()) {
-      writer.uint32(48).int64(message.gasUsed);
+    if (message.gasUsed !== BigInt(0)) {
+      writer.uint32(48).int64(Long.fromString(message.gasUsed.toString()));
     }
     for (const v of message.events) {
       Event.encode(v!, writer.uint32(58).fork()).ldelim();
@@ -2250,10 +2250,10 @@ export const ResponseDeliverTx = {
           message.info = reader.string();
           break;
         case 5:
-          message.gasWanted = (reader.int64() as Long);
+          message.gasWanted = BigInt(reader.int64().toString());
           break;
         case 6:
-          message.gasUsed = (reader.int64() as Long);
+          message.gasUsed = BigInt(reader.int64().toString());
           break;
         case 7:
           message.events.push(Event.decode(reader, reader.uint32()));
@@ -2274,8 +2274,8 @@ export const ResponseDeliverTx = {
     message.data = object.data ?? new Uint8Array();
     message.log = object.log ?? "";
     message.info = object.info ?? "";
-    message.gasWanted = object.gasWanted !== undefined && object.gasWanted !== null ? Long.fromValue(object.gasWanted) : Long.ZERO;
-    message.gasUsed = object.gasUsed !== undefined && object.gasUsed !== null ? Long.fromValue(object.gasUsed) : Long.ZERO;
+    message.gasWanted = object.gasWanted !== undefined && object.gasWanted !== null ? BigInt(object.gasWanted.toString()) : BigInt("0");
+    message.gasUsed = object.gasUsed !== undefined && object.gasUsed !== null ? BigInt(object.gasUsed.toString()) : BigInt("0");
     message.events = object.events?.map(e => Event.fromPartial(e)) || [];
     message.codespace = object.codespace ?? "";
     return message;
@@ -2335,7 +2335,7 @@ export const ResponseEndBlock = {
 function createBaseResponseCommit(): ResponseCommit {
   return {
     data: new Uint8Array(),
-    retainHeight: Long.ZERO
+    retainHeight: BigInt("0")
   };
 }
 export const ResponseCommit = {
@@ -2343,8 +2343,8 @@ export const ResponseCommit = {
     if (message.data.length !== 0) {
       writer.uint32(18).bytes(message.data);
     }
-    if (!message.retainHeight.isZero()) {
-      writer.uint32(24).int64(message.retainHeight);
+    if (message.retainHeight !== BigInt(0)) {
+      writer.uint32(24).int64(Long.fromString(message.retainHeight.toString()));
     }
     return writer;
   },
@@ -2359,7 +2359,7 @@ export const ResponseCommit = {
           message.data = reader.bytes();
           break;
         case 3:
-          message.retainHeight = (reader.int64() as Long);
+          message.retainHeight = BigInt(reader.int64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -2371,7 +2371,7 @@ export const ResponseCommit = {
   fromPartial(object: Partial<ResponseCommit>): ResponseCommit {
     const message = createBaseResponseCommit();
     message.data = object.data ?? new Uint8Array();
-    message.retainHeight = object.retainHeight !== undefined && object.retainHeight !== null ? Long.fromValue(object.retainHeight) : Long.ZERO;
+    message.retainHeight = object.retainHeight !== undefined && object.retainHeight !== null ? BigInt(object.retainHeight.toString()) : BigInt("0");
     return message;
   }
 };
@@ -2601,17 +2601,17 @@ export const ConsensusParams = {
 };
 function createBaseBlockParams(): BlockParams {
   return {
-    maxBytes: Long.ZERO,
-    maxGas: Long.ZERO
+    maxBytes: BigInt("0"),
+    maxGas: BigInt("0")
   };
 }
 export const BlockParams = {
   encode(message: BlockParams, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.maxBytes.isZero()) {
-      writer.uint32(8).int64(message.maxBytes);
+    if (message.maxBytes !== BigInt(0)) {
+      writer.uint32(8).int64(Long.fromString(message.maxBytes.toString()));
     }
-    if (!message.maxGas.isZero()) {
-      writer.uint32(16).int64(message.maxGas);
+    if (message.maxGas !== BigInt(0)) {
+      writer.uint32(16).int64(Long.fromString(message.maxGas.toString()));
     }
     return writer;
   },
@@ -2623,10 +2623,10 @@ export const BlockParams = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.maxBytes = (reader.int64() as Long);
+          message.maxBytes = BigInt(reader.int64().toString());
           break;
         case 2:
-          message.maxGas = (reader.int64() as Long);
+          message.maxGas = BigInt(reader.int64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -2637,8 +2637,8 @@ export const BlockParams = {
   },
   fromPartial(object: Partial<BlockParams>): BlockParams {
     const message = createBaseBlockParams();
-    message.maxBytes = object.maxBytes !== undefined && object.maxBytes !== null ? Long.fromValue(object.maxBytes) : Long.ZERO;
-    message.maxGas = object.maxGas !== undefined && object.maxGas !== null ? Long.fromValue(object.maxGas) : Long.ZERO;
+    message.maxBytes = object.maxBytes !== undefined && object.maxBytes !== null ? BigInt(object.maxBytes.toString()) : BigInt("0");
+    message.maxGas = object.maxGas !== undefined && object.maxGas !== null ? BigInt(object.maxGas.toString()) : BigInt("0");
     return message;
   }
 };
@@ -2781,7 +2781,7 @@ export const EventAttribute = {
 };
 function createBaseTxResult(): TxResult {
   return {
-    height: Long.ZERO,
+    height: BigInt("0"),
     index: 0,
     tx: new Uint8Array(),
     result: undefined
@@ -2789,8 +2789,8 @@ function createBaseTxResult(): TxResult {
 }
 export const TxResult = {
   encode(message: TxResult, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.height.isZero()) {
-      writer.uint32(8).int64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(8).int64(Long.fromString(message.height.toString()));
     }
     if (message.index !== 0) {
       writer.uint32(16).uint32(message.index);
@@ -2811,7 +2811,7 @@ export const TxResult = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = BigInt(reader.int64().toString());
           break;
         case 2:
           message.index = reader.uint32();
@@ -2831,7 +2831,7 @@ export const TxResult = {
   },
   fromPartial(object: Partial<TxResult>): TxResult {
     const message = createBaseTxResult();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     message.index = object.index ?? 0;
     message.tx = object.tx ?? new Uint8Array();
     message.result = object.result !== undefined && object.result !== null ? ResponseDeliverTx.fromPartial(object.result) : undefined;
@@ -2841,7 +2841,7 @@ export const TxResult = {
 function createBaseValidator(): Validator {
   return {
     address: new Uint8Array(),
-    power: Long.ZERO
+    power: BigInt("0")
   };
 }
 export const Validator = {
@@ -2849,8 +2849,8 @@ export const Validator = {
     if (message.address.length !== 0) {
       writer.uint32(10).bytes(message.address);
     }
-    if (!message.power.isZero()) {
-      writer.uint32(24).int64(message.power);
+    if (message.power !== BigInt(0)) {
+      writer.uint32(24).int64(Long.fromString(message.power.toString()));
     }
     return writer;
   },
@@ -2865,7 +2865,7 @@ export const Validator = {
           message.address = reader.bytes();
           break;
         case 3:
-          message.power = (reader.int64() as Long);
+          message.power = BigInt(reader.int64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -2877,14 +2877,14 @@ export const Validator = {
   fromPartial(object: Partial<Validator>): Validator {
     const message = createBaseValidator();
     message.address = object.address ?? new Uint8Array();
-    message.power = object.power !== undefined && object.power !== null ? Long.fromValue(object.power) : Long.ZERO;
+    message.power = object.power !== undefined && object.power !== null ? BigInt(object.power.toString()) : BigInt("0");
     return message;
   }
 };
 function createBaseValidatorUpdate(): ValidatorUpdate {
   return {
     pubKey: undefined,
-    power: Long.ZERO
+    power: BigInt("0")
   };
 }
 export const ValidatorUpdate = {
@@ -2892,8 +2892,8 @@ export const ValidatorUpdate = {
     if (message.pubKey !== undefined) {
       PublicKey.encode(message.pubKey, writer.uint32(10).fork()).ldelim();
     }
-    if (!message.power.isZero()) {
-      writer.uint32(16).int64(message.power);
+    if (message.power !== BigInt(0)) {
+      writer.uint32(16).int64(Long.fromString(message.power.toString()));
     }
     return writer;
   },
@@ -2908,7 +2908,7 @@ export const ValidatorUpdate = {
           message.pubKey = PublicKey.decode(reader, reader.uint32());
           break;
         case 2:
-          message.power = (reader.int64() as Long);
+          message.power = BigInt(reader.int64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -2920,7 +2920,7 @@ export const ValidatorUpdate = {
   fromPartial(object: Partial<ValidatorUpdate>): ValidatorUpdate {
     const message = createBaseValidatorUpdate();
     message.pubKey = object.pubKey !== undefined && object.pubKey !== null ? PublicKey.fromPartial(object.pubKey) : undefined;
-    message.power = object.power !== undefined && object.power !== null ? Long.fromValue(object.power) : Long.ZERO;
+    message.power = object.power !== undefined && object.power !== null ? BigInt(object.power.toString()) : BigInt("0");
     return message;
   }
 };
@@ -2971,9 +2971,9 @@ function createBaseEvidence(): Evidence {
   return {
     type: 0,
     validator: undefined,
-    height: Long.ZERO,
+    height: BigInt("0"),
     time: undefined,
-    totalVotingPower: Long.ZERO
+    totalVotingPower: BigInt("0")
   };
 }
 export const Evidence = {
@@ -2984,14 +2984,14 @@ export const Evidence = {
     if (message.validator !== undefined) {
       Validator.encode(message.validator, writer.uint32(18).fork()).ldelim();
     }
-    if (!message.height.isZero()) {
-      writer.uint32(24).int64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(24).int64(Long.fromString(message.height.toString()));
     }
     if (message.time !== undefined) {
       Timestamp.encode(toTimestamp(message.time), writer.uint32(34).fork()).ldelim();
     }
-    if (!message.totalVotingPower.isZero()) {
-      writer.uint32(40).int64(message.totalVotingPower);
+    if (message.totalVotingPower !== BigInt(0)) {
+      writer.uint32(40).int64(Long.fromString(message.totalVotingPower.toString()));
     }
     return writer;
   },
@@ -3009,13 +3009,13 @@ export const Evidence = {
           message.validator = Validator.decode(reader, reader.uint32());
           break;
         case 3:
-          message.height = (reader.int64() as Long);
+          message.height = BigInt(reader.int64().toString());
           break;
         case 4:
           message.time = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         case 5:
-          message.totalVotingPower = (reader.int64() as Long);
+          message.totalVotingPower = BigInt(reader.int64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -3028,15 +3028,15 @@ export const Evidence = {
     const message = createBaseEvidence();
     message.type = object.type ?? 0;
     message.validator = object.validator !== undefined && object.validator !== null ? Validator.fromPartial(object.validator) : undefined;
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     message.time = object.time ?? undefined;
-    message.totalVotingPower = object.totalVotingPower !== undefined && object.totalVotingPower !== null ? Long.fromValue(object.totalVotingPower) : Long.ZERO;
+    message.totalVotingPower = object.totalVotingPower !== undefined && object.totalVotingPower !== null ? BigInt(object.totalVotingPower.toString()) : BigInt("0");
     return message;
   }
 };
 function createBaseSnapshot(): Snapshot {
   return {
-    height: Long.UZERO,
+    height: BigInt("0"),
     format: 0,
     chunks: 0,
     hash: new Uint8Array(),
@@ -3045,8 +3045,8 @@ function createBaseSnapshot(): Snapshot {
 }
 export const Snapshot = {
   encode(message: Snapshot, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.height.isZero()) {
-      writer.uint32(8).uint64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(8).uint64(Long.fromString(message.height.toString()));
     }
     if (message.format !== 0) {
       writer.uint32(16).uint32(message.format);
@@ -3070,7 +3070,7 @@ export const Snapshot = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.uint64() as Long);
+          message.height = BigInt(reader.uint64().toString());
           break;
         case 2:
           message.format = reader.uint32();
@@ -3093,7 +3093,7 @@ export const Snapshot = {
   },
   fromPartial(object: Partial<Snapshot>): Snapshot {
     const message = createBaseSnapshot();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     message.format = object.format ?? 0;
     message.chunks = object.chunks ?? 0;
     message.hash = object.hash ?? new Uint8Array();

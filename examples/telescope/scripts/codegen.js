@@ -21,6 +21,7 @@ telescope({
       typingsFormat: {
         useDeepPartial: false,
         useExact: false,
+        longLibrary: "bigint",
         timestamp: 'date',
         duration: 'duration'
       },

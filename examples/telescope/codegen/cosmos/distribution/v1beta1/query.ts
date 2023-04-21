@@ -1,8 +1,8 @@
 import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../base/query/v1beta1/pagination";
 import { Params, ParamsSDKType, ValidatorOutstandingRewards, ValidatorOutstandingRewardsSDKType, ValidatorAccumulatedCommission, ValidatorAccumulatedCommissionSDKType, ValidatorSlashEvent, ValidatorSlashEventSDKType, DelegationDelegatorReward, DelegationDelegatorRewardSDKType } from "./distribution";
 import { DecCoin, DecCoinSDKType } from "../../base/v1beta1/coin";
-import { Long } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../helpers";
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
@@ -83,9 +83,9 @@ export interface QueryValidatorSlashesRequest {
   /** validator_address defines the validator address to query for. */
   validatorAddress: string;
   /** starting_height defines the optional starting height to query the slashes. */
-  startingHeight: Long;
+  startingHeight: bigint;
   /** starting_height defines the optional ending height to query the slashes. */
-  endingHeight: Long;
+  endingHeight: bigint;
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest | undefined;
 }
@@ -95,8 +95,8 @@ export interface QueryValidatorSlashesRequest {
  */
 export interface QueryValidatorSlashesRequestSDKType {
   validator_address: string;
-  starting_height: Long;
-  ending_height: Long;
+  starting_height: bigint;
+  ending_height: bigint;
   pagination?: PageRequestSDKType | undefined;
 }
 /**
@@ -472,8 +472,8 @@ export const QueryValidatorCommissionResponse = {
 function createBaseQueryValidatorSlashesRequest(): QueryValidatorSlashesRequest {
   return {
     validatorAddress: "",
-    startingHeight: Long.UZERO,
-    endingHeight: Long.UZERO,
+    startingHeight: BigInt("0"),
+    endingHeight: BigInt("0"),
     pagination: undefined
   };
 }
@@ -482,11 +482,11 @@ export const QueryValidatorSlashesRequest = {
     if (message.validatorAddress !== "") {
       writer.uint32(10).string(message.validatorAddress);
     }
-    if (!message.startingHeight.isZero()) {
-      writer.uint32(16).uint64(message.startingHeight);
+    if (message.startingHeight !== BigInt(0)) {
+      writer.uint32(16).uint64(Long.fromString(message.startingHeight.toString()));
     }
-    if (!message.endingHeight.isZero()) {
-      writer.uint32(24).uint64(message.endingHeight);
+    if (message.endingHeight !== BigInt(0)) {
+      writer.uint32(24).uint64(Long.fromString(message.endingHeight.toString()));
     }
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(34).fork()).ldelim();
@@ -504,10 +504,10 @@ export const QueryValidatorSlashesRequest = {
           message.validatorAddress = reader.string();
           break;
         case 2:
-          message.startingHeight = (reader.uint64() as Long);
+          message.startingHeight = BigInt(reader.uint64().toString());
           break;
         case 3:
-          message.endingHeight = (reader.uint64() as Long);
+          message.endingHeight = BigInt(reader.uint64().toString());
           break;
         case 4:
           message.pagination = PageRequest.decode(reader, reader.uint32());
@@ -522,8 +522,8 @@ export const QueryValidatorSlashesRequest = {
   fromPartial(object: Partial<QueryValidatorSlashesRequest>): QueryValidatorSlashesRequest {
     const message = createBaseQueryValidatorSlashesRequest();
     message.validatorAddress = object.validatorAddress ?? "";
-    message.startingHeight = object.startingHeight !== undefined && object.startingHeight !== null ? Long.fromValue(object.startingHeight) : Long.UZERO;
-    message.endingHeight = object.endingHeight !== undefined && object.endingHeight !== null ? Long.fromValue(object.endingHeight) : Long.UZERO;
+    message.startingHeight = object.startingHeight !== undefined && object.startingHeight !== null ? BigInt(object.startingHeight.toString()) : BigInt("0");
+    message.endingHeight = object.endingHeight !== undefined && object.endingHeight !== null ? BigInt(object.endingHeight.toString()) : BigInt("0");
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
     return message;
   }

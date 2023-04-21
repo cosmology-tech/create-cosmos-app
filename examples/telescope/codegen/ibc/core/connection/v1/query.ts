@@ -2,8 +2,8 @@ import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } fr
 import { ConnectionEnd, ConnectionEndSDKType, IdentifiedConnection, IdentifiedConnectionSDKType } from "./connection";
 import { Height, HeightSDKType, IdentifiedClientState, IdentifiedClientStateSDKType } from "../../client/v1/client";
 import { Any, AnySDKType } from "../../../../google/protobuf/any";
-import { Long } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../../../helpers";
 /**
  * QueryConnectionRequest is the request type for the Query/Connection RPC
  * method
@@ -156,8 +156,8 @@ export interface QueryConnectionClientStateResponseSDKType {
 export interface QueryConnectionConsensusStateRequest {
   /** connection identifier */
   connectionId: string;
-  revisionNumber: Long;
-  revisionHeight: Long;
+  revisionNumber: bigint;
+  revisionHeight: bigint;
 }
 /**
  * QueryConnectionConsensusStateRequest is the request type for the
@@ -165,8 +165,8 @@ export interface QueryConnectionConsensusStateRequest {
  */
 export interface QueryConnectionConsensusStateRequestSDKType {
   connection_id: string;
-  revision_number: Long;
-  revision_height: Long;
+  revision_number: bigint;
+  revision_height: bigint;
 }
 /**
  * QueryConnectionConsensusStateResponse is the response type for the
@@ -539,8 +539,8 @@ export const QueryConnectionClientStateResponse = {
 function createBaseQueryConnectionConsensusStateRequest(): QueryConnectionConsensusStateRequest {
   return {
     connectionId: "",
-    revisionNumber: Long.UZERO,
-    revisionHeight: Long.UZERO
+    revisionNumber: BigInt("0"),
+    revisionHeight: BigInt("0")
   };
 }
 export const QueryConnectionConsensusStateRequest = {
@@ -548,11 +548,11 @@ export const QueryConnectionConsensusStateRequest = {
     if (message.connectionId !== "") {
       writer.uint32(10).string(message.connectionId);
     }
-    if (!message.revisionNumber.isZero()) {
-      writer.uint32(16).uint64(message.revisionNumber);
+    if (message.revisionNumber !== BigInt(0)) {
+      writer.uint32(16).uint64(Long.fromString(message.revisionNumber.toString()));
     }
-    if (!message.revisionHeight.isZero()) {
-      writer.uint32(24).uint64(message.revisionHeight);
+    if (message.revisionHeight !== BigInt(0)) {
+      writer.uint32(24).uint64(Long.fromString(message.revisionHeight.toString()));
     }
     return writer;
   },
@@ -567,10 +567,10 @@ export const QueryConnectionConsensusStateRequest = {
           message.connectionId = reader.string();
           break;
         case 2:
-          message.revisionNumber = (reader.uint64() as Long);
+          message.revisionNumber = BigInt(reader.uint64().toString());
           break;
         case 3:
-          message.revisionHeight = (reader.uint64() as Long);
+          message.revisionHeight = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -582,8 +582,8 @@ export const QueryConnectionConsensusStateRequest = {
   fromPartial(object: Partial<QueryConnectionConsensusStateRequest>): QueryConnectionConsensusStateRequest {
     const message = createBaseQueryConnectionConsensusStateRequest();
     message.connectionId = object.connectionId ?? "";
-    message.revisionNumber = object.revisionNumber !== undefined && object.revisionNumber !== null ? Long.fromValue(object.revisionNumber) : Long.UZERO;
-    message.revisionHeight = object.revisionHeight !== undefined && object.revisionHeight !== null ? Long.fromValue(object.revisionHeight) : Long.UZERO;
+    message.revisionNumber = object.revisionNumber !== undefined && object.revisionNumber !== null ? BigInt(object.revisionNumber.toString()) : BigInt("0");
+    message.revisionHeight = object.revisionHeight !== undefined && object.revisionHeight !== null ? BigInt(object.revisionHeight.toString()) : BigInt("0");
     return message;
   }
 };

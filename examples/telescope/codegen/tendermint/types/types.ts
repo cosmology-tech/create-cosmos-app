@@ -2,8 +2,8 @@ import { Proof, ProofSDKType } from "../crypto/proof";
 import { Consensus, ConsensusSDKType } from "../version/types";
 import { Timestamp } from "../../google/protobuf/timestamp";
 import { ValidatorSet, ValidatorSetSDKType } from "./validator";
-import { Long, toTimestamp, fromTimestamp } from "../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long, toTimestamp, fromTimestamp } from "../../helpers";
 /** BlockIdFlag indicates which BlcokID the signature is for */
 export enum BlockIDFlag {
   BLOCK_ID_FLAG_UNKNOWN = 0,
@@ -129,7 +129,7 @@ export interface Header {
   /** basic block info */
   version?: Consensus | undefined;
   chainId: string;
-  height: Long;
+  height: bigint;
   time?: Date | undefined;
   /** prev block info */
   lastBlockId?: BlockID | undefined;
@@ -154,7 +154,7 @@ export interface Header {
 export interface HeaderSDKType {
   version?: ConsensusSDKType | undefined;
   chain_id: string;
-  height: Long;
+  height: bigint;
   time?: Date | undefined;
   last_block_id?: BlockIDSDKType | undefined;
   last_commit_hash: Uint8Array;
@@ -186,7 +186,7 @@ export interface DataSDKType {
  */
 export interface Vote {
   type: SignedMsgType;
-  height: Long;
+  height: bigint;
   round: number;
   /** zero if vote is nil. */
   blockId?: BlockID | undefined;
@@ -201,7 +201,7 @@ export interface Vote {
  */
 export interface VoteSDKType {
   type: SignedMsgType;
-  height: Long;
+  height: bigint;
   round: number;
   block_id?: BlockIDSDKType | undefined;
   timestamp?: Date | undefined;
@@ -211,14 +211,14 @@ export interface VoteSDKType {
 }
 /** Commit contains the evidence that a block was committed by a set of validators. */
 export interface Commit {
-  height: Long;
+  height: bigint;
   round: number;
   blockId?: BlockID | undefined;
   signatures: CommitSig[];
 }
 /** Commit contains the evidence that a block was committed by a set of validators. */
 export interface CommitSDKType {
-  height: Long;
+  height: bigint;
   round: number;
   block_id?: BlockIDSDKType | undefined;
   signatures: CommitSigSDKType[];
@@ -239,7 +239,7 @@ export interface CommitSigSDKType {
 }
 export interface Proposal {
   type: SignedMsgType;
-  height: Long;
+  height: bigint;
   round: number;
   polRound: number;
   blockId?: BlockID | undefined;
@@ -248,7 +248,7 @@ export interface Proposal {
 }
 export interface ProposalSDKType {
   type: SignedMsgType;
-  height: Long;
+  height: bigint;
   round: number;
   pol_round: number;
   block_id?: BlockIDSDKType | undefined;
@@ -273,15 +273,15 @@ export interface LightBlockSDKType {
 }
 export interface BlockMeta {
   blockId?: BlockID | undefined;
-  blockSize: Long;
+  blockSize: bigint;
   header?: Header | undefined;
-  numTxs: Long;
+  numTxs: bigint;
 }
 export interface BlockMetaSDKType {
   block_id?: BlockIDSDKType | undefined;
-  block_size: Long;
+  block_size: bigint;
   header?: HeaderSDKType | undefined;
-  num_txs: Long;
+  num_txs: bigint;
 }
 /** TxProof represents a Merkle proof of the presence of a transaction in the Merkle tree. */
 export interface TxProof {
@@ -436,7 +436,7 @@ function createBaseHeader(): Header {
   return {
     version: undefined,
     chainId: "",
-    height: Long.ZERO,
+    height: BigInt("0"),
     time: undefined,
     lastBlockId: undefined,
     lastCommitHash: new Uint8Array(),
@@ -458,8 +458,8 @@ export const Header = {
     if (message.chainId !== "") {
       writer.uint32(18).string(message.chainId);
     }
-    if (!message.height.isZero()) {
-      writer.uint32(24).int64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(24).int64(Long.fromString(message.height.toString()));
     }
     if (message.time !== undefined) {
       Timestamp.encode(toTimestamp(message.time), writer.uint32(34).fork()).ldelim();
@@ -510,7 +510,7 @@ export const Header = {
           message.chainId = reader.string();
           break;
         case 3:
-          message.height = (reader.int64() as Long);
+          message.height = BigInt(reader.int64().toString());
           break;
         case 4:
           message.time = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
@@ -556,7 +556,7 @@ export const Header = {
     const message = createBaseHeader();
     message.version = object.version !== undefined && object.version !== null ? Consensus.fromPartial(object.version) : undefined;
     message.chainId = object.chainId ?? "";
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     message.time = object.time ?? undefined;
     message.lastBlockId = object.lastBlockId !== undefined && object.lastBlockId !== null ? BlockID.fromPartial(object.lastBlockId) : undefined;
     message.lastCommitHash = object.lastCommitHash ?? new Uint8Array();
@@ -609,7 +609,7 @@ export const Data = {
 function createBaseVote(): Vote {
   return {
     type: 0,
-    height: Long.ZERO,
+    height: BigInt("0"),
     round: 0,
     blockId: undefined,
     timestamp: undefined,
@@ -623,8 +623,8 @@ export const Vote = {
     if (message.type !== 0) {
       writer.uint32(8).int32(message.type);
     }
-    if (!message.height.isZero()) {
-      writer.uint32(16).int64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(16).int64(Long.fromString(message.height.toString()));
     }
     if (message.round !== 0) {
       writer.uint32(24).int32(message.round);
@@ -657,7 +657,7 @@ export const Vote = {
           message.type = (reader.int32() as any);
           break;
         case 2:
-          message.height = (reader.int64() as Long);
+          message.height = BigInt(reader.int64().toString());
           break;
         case 3:
           message.round = reader.int32();
@@ -687,7 +687,7 @@ export const Vote = {
   fromPartial(object: Partial<Vote>): Vote {
     const message = createBaseVote();
     message.type = object.type ?? 0;
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     message.round = object.round ?? 0;
     message.blockId = object.blockId !== undefined && object.blockId !== null ? BlockID.fromPartial(object.blockId) : undefined;
     message.timestamp = object.timestamp ?? undefined;
@@ -699,7 +699,7 @@ export const Vote = {
 };
 function createBaseCommit(): Commit {
   return {
-    height: Long.ZERO,
+    height: BigInt("0"),
     round: 0,
     blockId: undefined,
     signatures: []
@@ -707,8 +707,8 @@ function createBaseCommit(): Commit {
 }
 export const Commit = {
   encode(message: Commit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.height.isZero()) {
-      writer.uint32(8).int64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(8).int64(Long.fromString(message.height.toString()));
     }
     if (message.round !== 0) {
       writer.uint32(16).int32(message.round);
@@ -729,7 +729,7 @@ export const Commit = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = BigInt(reader.int64().toString());
           break;
         case 2:
           message.round = reader.int32();
@@ -749,7 +749,7 @@ export const Commit = {
   },
   fromPartial(object: Partial<Commit>): Commit {
     const message = createBaseCommit();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     message.round = object.round ?? 0;
     message.blockId = object.blockId !== undefined && object.blockId !== null ? BlockID.fromPartial(object.blockId) : undefined;
     message.signatures = object.signatures?.map(e => CommitSig.fromPartial(e)) || [];
@@ -818,7 +818,7 @@ export const CommitSig = {
 function createBaseProposal(): Proposal {
   return {
     type: 0,
-    height: Long.ZERO,
+    height: BigInt("0"),
     round: 0,
     polRound: 0,
     blockId: undefined,
@@ -831,8 +831,8 @@ export const Proposal = {
     if (message.type !== 0) {
       writer.uint32(8).int32(message.type);
     }
-    if (!message.height.isZero()) {
-      writer.uint32(16).int64(message.height);
+    if (message.height !== BigInt(0)) {
+      writer.uint32(16).int64(Long.fromString(message.height.toString()));
     }
     if (message.round !== 0) {
       writer.uint32(24).int32(message.round);
@@ -862,7 +862,7 @@ export const Proposal = {
           message.type = (reader.int32() as any);
           break;
         case 2:
-          message.height = (reader.int64() as Long);
+          message.height = BigInt(reader.int64().toString());
           break;
         case 3:
           message.round = reader.int32();
@@ -889,7 +889,7 @@ export const Proposal = {
   fromPartial(object: Partial<Proposal>): Proposal {
     const message = createBaseProposal();
     message.type = object.type ?? 0;
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     message.round = object.round ?? 0;
     message.polRound = object.polRound ?? 0;
     message.blockId = object.blockId !== undefined && object.blockId !== null ? BlockID.fromPartial(object.blockId) : undefined;
@@ -987,9 +987,9 @@ export const LightBlock = {
 function createBaseBlockMeta(): BlockMeta {
   return {
     blockId: undefined,
-    blockSize: Long.ZERO,
+    blockSize: BigInt("0"),
     header: undefined,
-    numTxs: Long.ZERO
+    numTxs: BigInt("0")
   };
 }
 export const BlockMeta = {
@@ -997,14 +997,14 @@ export const BlockMeta = {
     if (message.blockId !== undefined) {
       BlockID.encode(message.blockId, writer.uint32(10).fork()).ldelim();
     }
-    if (!message.blockSize.isZero()) {
-      writer.uint32(16).int64(message.blockSize);
+    if (message.blockSize !== BigInt(0)) {
+      writer.uint32(16).int64(Long.fromString(message.blockSize.toString()));
     }
     if (message.header !== undefined) {
       Header.encode(message.header, writer.uint32(26).fork()).ldelim();
     }
-    if (!message.numTxs.isZero()) {
-      writer.uint32(32).int64(message.numTxs);
+    if (message.numTxs !== BigInt(0)) {
+      writer.uint32(32).int64(Long.fromString(message.numTxs.toString()));
     }
     return writer;
   },
@@ -1019,13 +1019,13 @@ export const BlockMeta = {
           message.blockId = BlockID.decode(reader, reader.uint32());
           break;
         case 2:
-          message.blockSize = (reader.int64() as Long);
+          message.blockSize = BigInt(reader.int64().toString());
           break;
         case 3:
           message.header = Header.decode(reader, reader.uint32());
           break;
         case 4:
-          message.numTxs = (reader.int64() as Long);
+          message.numTxs = BigInt(reader.int64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -1037,9 +1037,9 @@ export const BlockMeta = {
   fromPartial(object: Partial<BlockMeta>): BlockMeta {
     const message = createBaseBlockMeta();
     message.blockId = object.blockId !== undefined && object.blockId !== null ? BlockID.fromPartial(object.blockId) : undefined;
-    message.blockSize = object.blockSize !== undefined && object.blockSize !== null ? Long.fromValue(object.blockSize) : Long.ZERO;
+    message.blockSize = object.blockSize !== undefined && object.blockSize !== null ? BigInt(object.blockSize.toString()) : BigInt("0");
     message.header = object.header !== undefined && object.header !== null ? Header.fromPartial(object.header) : undefined;
-    message.numTxs = object.numTxs !== undefined && object.numTxs !== null ? Long.fromValue(object.numTxs) : Long.ZERO;
+    message.numTxs = object.numTxs !== undefined && object.numTxs !== null ? BigInt(object.numTxs.toString()) : BigInt("0");
     return message;
   }
 };

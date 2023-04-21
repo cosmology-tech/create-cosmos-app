@@ -1,14 +1,14 @@
-import { Long } from "../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long } from "../../helpers";
 export interface Proof {
-  total: Long;
-  index: Long;
+  total: bigint;
+  index: bigint;
   leafHash: Uint8Array;
   aunts: Uint8Array[];
 }
 export interface ProofSDKType {
-  total: Long;
-  index: Long;
+  total: bigint;
+  index: bigint;
   leaf_hash: Uint8Array;
   aunts: Uint8Array[];
 }
@@ -62,19 +62,19 @@ export interface ProofOpsSDKType {
 }
 function createBaseProof(): Proof {
   return {
-    total: Long.ZERO,
-    index: Long.ZERO,
+    total: BigInt("0"),
+    index: BigInt("0"),
     leafHash: new Uint8Array(),
     aunts: []
   };
 }
 export const Proof = {
   encode(message: Proof, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.total.isZero()) {
-      writer.uint32(8).int64(message.total);
+    if (message.total !== BigInt(0)) {
+      writer.uint32(8).int64(Long.fromString(message.total.toString()));
     }
-    if (!message.index.isZero()) {
-      writer.uint32(16).int64(message.index);
+    if (message.index !== BigInt(0)) {
+      writer.uint32(16).int64(Long.fromString(message.index.toString()));
     }
     if (message.leafHash.length !== 0) {
       writer.uint32(26).bytes(message.leafHash);
@@ -92,10 +92,10 @@ export const Proof = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.total = (reader.int64() as Long);
+          message.total = BigInt(reader.int64().toString());
           break;
         case 2:
-          message.index = (reader.int64() as Long);
+          message.index = BigInt(reader.int64().toString());
           break;
         case 3:
           message.leafHash = reader.bytes();
@@ -112,8 +112,8 @@ export const Proof = {
   },
   fromPartial(object: Partial<Proof>): Proof {
     const message = createBaseProof();
-    message.total = object.total !== undefined && object.total !== null ? Long.fromValue(object.total) : Long.ZERO;
-    message.index = object.index !== undefined && object.index !== null ? Long.fromValue(object.index) : Long.ZERO;
+    message.total = object.total !== undefined && object.total !== null ? BigInt(object.total.toString()) : BigInt("0");
+    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt("0");
     message.leafHash = object.leafHash ?? new Uint8Array();
     message.aunts = object.aunts?.map(e => e) || [];
     return message;
