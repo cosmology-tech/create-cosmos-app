@@ -1,15 +1,12 @@
 import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
-import { useTheme } from '@cosmology-ui/theme';
-import React, { useEffect, useState } from 'react';
+import { useTheme } from '@cosmology-ui/react';
+import React from 'react';
 
 import { SwapControlDropdownButton, SwapDropdown } from './swap-dropdown';
 import { SwapEditableInput, SwapInputControlPanel } from './swap-input';
 import { SwapSkeletonInputPanel } from './swap-skeleton';
-import { SwapControlPanelType, SwapInputConfig, SwapType } from './type';
-
-interface SwapInputPanel extends SwapInputConfig {
-  displayPanel: boolean;
-}
+import { SwapControlPanelType, SwapType } from './type';
+import Decimal from 'decimal.js';
 
 export const SwapPanelBaseStyle = (theme: string) => {
   return {
@@ -36,16 +33,16 @@ export const SwapPanelBaseStyle = (theme: string) => {
           '>p': { color: `swap-panel-available-value-color-${theme}`, mr: 0.5 },
           '>span': {
             color: `swap-panel-header-color-${theme}`,
-            mr: 2
+            mr: 2,
           },
           '>.swap-available-value-skeleton': {
             pr: 1.5,
             '>:first-of-type': {
               w: 12,
               h: 5,
-              borderRadius: 'base'
-            }
-          }
+              borderRadius: 'base',
+            },
+          },
         },
         '>button': {
           py: 0.5,
@@ -54,9 +51,9 @@ export const SwapPanelBaseStyle = (theme: string) => {
           w: 'fit-content',
           h: 'fit-content',
           bg: `swap-panel-input-control-button-background-color-${theme}`,
-          color: `swap-panel-input-control-button-color-${theme}`
-        }
-      }
+          color: `swap-panel-input-control-button-color-${theme}`,
+        },
+      },
     },
     '>.swap-control-panel-box': {
       display: 'flex',
@@ -75,8 +72,8 @@ export const SwapPanelBaseStyle = (theme: string) => {
           h: 12,
           mr: 4,
           '>img': {
-            w: 'full'
-          }
+            w: 'full',
+          },
         },
         '>:last-child>:first-of-type': {
           display: 'flex',
@@ -86,23 +83,23 @@ export const SwapPanelBaseStyle = (theme: string) => {
           lineHeight: 'none',
           mb: 1,
           '>svg': {
-            ml: 2
-          }
+            ml: 2,
+          },
         },
         '>:last-child>:last-child': {
           textAlign: 'start',
           fontSize: 'sm',
           fontWeight: 'normal',
           lineHeight: 'none',
-          opacity: 0.7
-        }
+          opacity: 0.7,
+        },
       },
       '>.swap-skeleton-dropdown-button': {
         flex: 1,
         alignItems: 'center',
         '>:first-of-type': {
           w: 12,
-          h: 12
+          h: 12,
         },
         '>.swap-dropdown-control-panel-skeleton': {
           justifyContent: 'center',
@@ -110,14 +107,14 @@ export const SwapPanelBaseStyle = (theme: string) => {
           '>:first-of-type': {
             w: 28,
             h: 5,
-            borderRadius: 'base'
+            borderRadius: 'base',
           },
           '>:last-of-type': {
             w: 20,
             h: 4,
-            borderRadius: 'base'
-          }
-        }
+            borderRadius: 'base',
+          },
+        },
       },
       '>.swap-input-panel': {
         flex: 1,
@@ -136,40 +133,40 @@ export const SwapPanelBaseStyle = (theme: string) => {
             border: 'none',
             borderRadius: 'none',
             _focus: {
-              boxShadow: 'none'
+              boxShadow: 'none',
             },
             _focusVisible: {
-              boxShadow: 'none'
+              boxShadow: 'none',
             },
             _invalid: {
               boxShadow: 'none',
-              color: `swap-editable-input-invalid-color-${theme}`
-            }
+              color: `swap-editable-input-invalid-color-${theme}`,
+            },
           },
           '>.swap-editable-text': {
             overflow: 'scroll',
             scrollbarWidth: 'none', // for firefox
             '::-webkit-scrollbar': {
-              display: 'none' // for chrome
+              display: 'none', // for chrome
             },
             fontSize: '2xl',
             fontWeight: 'semibold',
             lineHeight: 'none',
             pb: 0.5,
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
           },
           '>.swap-fiat-text': {
             overflow: 'scroll',
             scrollbarWidth: 'none', // for firefox
             '::-webkit-scrollbar': {
-              display: 'none' // for chrome
+              display: 'none', // for chrome
             },
             color: 'gray.500',
             fontSize: 'sm',
             lineHeight: 'normal',
-            whiteSpace: 'nowrap'
-          }
-        }
+            whiteSpace: 'nowrap',
+          },
+        },
       },
       '>.swap-skeleton-input-panel': {
         '>.swap-dropdown-control-panel-skeleton': {
@@ -178,17 +175,17 @@ export const SwapPanelBaseStyle = (theme: string) => {
           '>:first-of-type': {
             w: 24,
             h: 5,
-            borderRadius: 'base'
+            borderRadius: 'base',
           },
           '>:last-of-type': {
             w: 16,
             h: 4,
-            borderRadius: 'base'
-          }
-        }
+            borderRadius: 'base',
+          },
+        },
       },
       '&.swap-control-panel-hidden': {
-        visibility: 'hidden'
+        visibility: 'hidden',
       },
       '>.swap-display-box': {
         flex: 1,
@@ -200,34 +197,34 @@ export const SwapPanelBaseStyle = (theme: string) => {
           overflowX: 'scroll',
           scrollbarWidth: 'none', // for firefox
           '::-webkit-scrollbar': {
-            display: 'none' // for chrome
+            display: 'none', // for chrome
           },
           fontSize: '2xl',
           fontWeight: 'semibold',
           lineHeight: 'none',
           pb: 0.5,
-          whiteSpace: 'nowrap'
+          whiteSpace: 'nowrap',
         },
         '>.swap-fiat-text': {
           overflowX: 'scroll',
           whiteSpace: 'nowrap',
           scrollbarWidth: 'none', // for firefox
           '::-webkit-scrollbar': {
-            display: 'none' // for chrome
+            display: 'none', // for chrome
           },
           color: 'gray.500',
           fontSize: 'sm',
-          lineHeight: 'normal'
-        }
-      }
+          lineHeight: 'normal',
+        },
+      },
     },
     '>.swap-dropdown-box': {
       w: 'full',
       mx: -5,
       position: 'absolute',
       top: 12,
-      zIndex: 10
-    }
+      zIndex: 10,
+    },
   };
 };
 
@@ -237,32 +234,16 @@ export const SwapPanelBaseStyle = (theme: string) => {
  */
 export const SwapControlPanel = ({
   swapType,
-  inputConfig,
-  dropdownConfig,
+  inputData,
+  dropdownData,
   selectedToken,
   onDropdownChange,
-  onAmountInputChange
+  onAmountInputChange,
+  loading,
 }: SwapControlPanelType) => {
   const { theme } = useTheme();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { dropdownLoading, dropdownData } = dropdownConfig;
-  const [inputControlPanel, setInputControlPanel] = useState<SwapInputPanel>({
-    ...inputConfig,
-    displayPanel: swapType === SwapType.from ? true : false
-  });
-
-  useEffect(() => {
-    if (swapType === SwapType.from)
-      setInputControlPanel({
-        ...inputConfig,
-        displayPanel: true
-      });
-    if (swapType === SwapType.to)
-      setInputControlPanel({
-        ...inputConfig,
-        displayPanel: false
-      });
-  }, [inputConfig, swapType]);
+  const displayPanel = swapType === SwapType.from;
 
   return (
     <Box
@@ -271,12 +252,13 @@ export const SwapControlPanel = ({
     >
       <Flex className="swap-header">
         <Text>{swapType}</Text>
-        <SwapInputControlPanel
-          displayPanel={inputControlPanel.displayPanel}
-          loading={inputControlPanel.inputLoading}
-          amount={selectedToken?.balanceDisplayAmount}
-          onAmountInputChange={onAmountInputChange}
-        />
+        {displayPanel && (
+          <SwapInputControlPanel
+            loading={loading.initial || loading.afterSwap}
+            amount={selectedToken?.displayAmount}
+            onAmountInputChange={onAmountInputChange}
+          />
+        )}
       </Flex>
       <Flex
         className={`swap-control-panel-box ${
@@ -284,45 +266,45 @@ export const SwapControlPanel = ({
         }`}
       >
         <SwapControlDropdownButton
-          loading={dropdownLoading}
+          loading={loading.initial}
           selectedToken={selectedToken}
           onOpen={onOpen}
         />
-        {inputControlPanel.displayPanel ? (
-          inputControlPanel.inputLoading ? (
+        {displayPanel &&
+          (loading.initial || loading.afterSwap ? (
             <SwapSkeletonInputPanel />
           ) : (
             <Flex className="swap-input-panel">
               <SwapEditableInput
                 id="swap-amount-input"
-                inputAmount={inputControlPanel.inputAmount}
-                inputDollarValue={inputControlPanel.inputDollarValue}
-                invalid={inputControlPanel.invalid}
-                invalidText={inputControlPanel.invalidText}
+                inputAmount={inputData?.fromToken.inputAmount || '0'}
+                inputDollarValue={inputData?.fromToken.inputValue || '0'}
+                invalidText={inputData?.invalidText}
                 selectedToken={selectedToken}
                 onAmountInputChange={onAmountInputChange}
               />
             </Flex>
-          )
-        ) : undefined}
-        {!inputControlPanel.displayPanel ? (
-          dropdownLoading ? (
+          ))}
+        {!displayPanel &&
+          (loading.initial || loading.afterSwap ? (
             <SwapSkeletonInputPanel />
           ) : (
             <Box className="swap-display-box">
               <Text className="swap-amount-text">
-                {selectedToken && selectedToken.currentDisplayAmount
-                  ? selectedToken.currentDisplayAmount
-                  : '0'}
+                {inputData?.toToken.outputAmount || '0'}
               </Text>
-              <Text className="swap-fiat-text">
-                {selectedToken && selectedToken.currentDollarValue
-                  ? `~ ${selectedToken.currentDollarValue}`
-                  : undefined}
+              <Text
+                className="swap-fiat-text"
+                visibility={
+                  new Decimal(inputData?.toToken.outputAmount || 0).gt(0)
+                    ? 'visible'
+                    : 'hidden'
+                }
+              >
+                {`~ $${inputData?.toToken.outputValue || '0'}`}
               </Text>
             </Box>
-          )
-        ) : undefined}
+          ))}
       </Flex>
 
       <Box className="swap-dropdown-box">

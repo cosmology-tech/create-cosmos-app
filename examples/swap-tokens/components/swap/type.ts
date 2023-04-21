@@ -4,18 +4,23 @@ import { ActionMeta, OnChangeValue, OptionBase } from 'chakra-react-select';
  * Swap display `From` or `To`.
  */
 export enum SwapType {
-  from = 'from',
-  to = 'to'
+  from = 'From',
+  to = 'To',
 }
 
 export enum SwapInputType {
   INPUT = 'INPUT',
-  INVALID = 'INVALID'
+  INVALID = 'INVALID',
 }
 
-export interface SwapOptionDataType extends OptionBase {
+export enum LoadingMode {
+  INITIAL = 'initial',
+  AFTER_SWAP = 'afterSwap',
+}
+
+export interface SwapOptionType extends OptionBase {
   /**
-   * Required. Unique identifier for option, also the display chain name.
+   * Required. Unique identifier for option.
    */
   value: string;
   /**
@@ -33,31 +38,16 @@ export interface SwapOptionDataType extends OptionBase {
   /**
    * Unit of the chain.
    */
-  denom?: string;
-  /**
-   * Current balance of this chain.
-   */
-  balanceDisplayAmount: string;
-  /**
-   * Amount denominated in fiat currency.
-   */
+  denom: string;
+  amount: string;
+  displayAmount: string;
   dollarValue: string;
-}
-
-export interface SwapTokenType extends SwapOptionDataType {
-  /**
-   * Current balance of this chain.
-   */
-  currentDisplayAmount?: string;
-  /**
-   * Amount denominated in fiat currency.
-   */
-  currentDollarValue?: string;
+  chainName: string;
 }
 
 export type handleSwapDropdown = (
-  newValue: OnChangeValue<SwapOptionDataType, false>,
-  actionMeta: ActionMeta<SwapOptionDataType>
+  newValue: SwapOptionType,
+  actionMeta: ActionMeta<SwapOptionType>
 ) => void;
 
 export type handleSwapInput = (newValue: string) => void;
@@ -69,14 +59,14 @@ export type SwapDropdownType = {
   isOpen: boolean;
   /**
    * Data of options.
-   * @see {@link SwapOptionDataType}
+   * @see {@link SwapOptionType}
    */
-  dropdownData: SwapOptionDataType[];
+  dropdownData: SwapOptionType[];
   /**
    * Selected item.
-   * @see {@link SwapOptionDataType}
+   * @see {@link SwapOptionType}
    */
-  selectedToken?: SwapOptionDataType;
+  selectedToken?: SwapOptionType;
   /**
    * Close dropdown when selected token.
    */
@@ -92,9 +82,9 @@ export type SwapControlDropdownButtonType = {
   loading: boolean;
   /**
    * The selected item.
-   * @see {@link SwapTokenType}
+   * @see {@link SwapOptionType}
    */
-  selectedToken: SwapTokenType;
+  selectedToken?: SwapOptionType;
   /**
    * The function to open dropdown.
    */
@@ -102,7 +92,6 @@ export type SwapControlDropdownButtonType = {
 };
 
 export type SwapControlInputValuePanelType = {
-  displayPanel: boolean;
   loading: boolean;
   amount?: string;
   onAmountInputChange: handleSwapInput;
@@ -112,52 +101,32 @@ export type SwapEditableInputType = {
   id: string;
   inputAmount: string;
   inputDollarValue: string;
-  selectedToken?: SwapOptionDataType;
-  invalid?: boolean;
+  selectedToken?: SwapOptionType;
   invalidText?: string;
   onAmountInputChange: handleSwapInput;
 };
 
 export type SwapDisplayAmountType = {
   id: string;
-  selectedToken?: SwapOptionDataType;
+  selectedToken?: SwapOptionType;
 };
 
-export interface SwapInputConfig {
-  /**
-   * Display input loading skeleton.
-   */
-  inputLoading: boolean;
-  /**
-   * Amount of the token.
-   */
-  inputAmount?: string;
-  /**
-   * Equal to the fiat currency value.
-   */
-  inputDollarValue?: string;
-  /**
-   * Display input invalid style.
-   */
-  invalid?: boolean;
-  /**
-   * Tips text of why invalid.
-   */
+export interface SwapInputData {
+  fromToken: {
+    inputAmount: string;
+    inputValue: string;
+  };
+  toToken: {
+    outputAmount: string;
+    outputValue: string;
+  };
   invalidText?: string;
 }
 
-export type SwapDropdownConfig = {
-  /**
-   * Display dropdown loading skeleton.
-   */
-  dropdownLoading: boolean;
-  /**
-   * Data of dropdown options.
-   */
-  dropdownData?: SwapOptionDataType[];
-};
-
 export interface SwapControlPanelType {
+  loading: {
+    [k in LoadingMode]: boolean;
+  };
   /**
    * Required. Display `From` or `To` panel.
    * @see {@link SwapType}
@@ -165,19 +134,17 @@ export interface SwapControlPanelType {
   swapType: SwapType;
   /**
    * Selected options.
-   * @see {@link SwapTokenType}
+   * @see {@link SwapOptionType}
    */
-  selectedToken?: SwapTokenType;
+  selectedToken?: SwapOptionType;
   /**
    * Config to from token input.
-   * @see {@link SwapInputConfig}
+   * @see {@link SwapInputData}
    */
-  inputConfig?: SwapInputConfig;
-  /**
-   * Config to token dropdown.
-   * @see {@link SwapDropdownConfig}
-   */
-  dropdownConfig: SwapDropdownConfig;
+  inputData?: SwapInputData;
+
+  dropdownData: SwapOptionType[];
+
   /**
    * Can add a stable class name to control CSS.
    */
@@ -191,51 +158,21 @@ export interface SwapControlPanelType {
    * A function called to handle amount input change.
    * @see {@link handleSwapInput}
    */
-  onAmountInputChange?: handleSwapInput;
-}
-
-export interface SwapDropdownsViewFromConfig {
-  /**
-   * Selected options.
-   * @see {@link SwapTokenType}
-   */
-  selectedToken?: SwapTokenType;
-  /**
-   * Config to from token input.
-   * @see {@link SwapInputConfig}
-   */
-  inputConfig?: SwapInputConfig;
-  /**
-   * Config to token dropdown.
-   * @see {@link SwapDropdownConfig}
-   */
-  dropdownConfig: SwapDropdownConfig;
-}
-
-export interface SwapDropdownsViewToConfig {
-  /**
-   * Selected options.
-   * @see {@link SwapTokenType}
-   */
-  selectedToken?: SwapTokenType;
-  /**
-   * Config to token dropdown.
-   * @see {@link SwapDropdownConfig}
-   */
-  dropdownConfig: SwapDropdownConfig;
+  onAmountInputChange: handleSwapInput;
 }
 
 export interface SwapDropdownsViewType {
+  loading: {
+    [k in LoadingMode]: boolean;
+  };
+  fromToken?: SwapOptionType;
+  toToken?: SwapOptionType;
   /**
-   * Config to the `From` panel.
-   * @see {@link SwapDropdownsViewFromConfig}
+   * Config to from token input.
+   * @see {@link SwapInputData}
    */
-  fromConfig: SwapDropdownsViewFromConfig;
-  /**
-   * Config to the `To` panel.
-   * @see {@link SwapDropdownsViewToConfig}
-   */
-  toConfig: SwapDropdownsViewToConfig;
+  inputData?: SwapInputData;
+  dropdownData: SwapOptionType[];
   /**
    * A function called to handle dropdown change.
    * @see {@link handleSwapDropdown}
@@ -250,7 +187,7 @@ export interface SwapDropdownsViewType {
    * A function called to handle amount input change.
    * @see {@link handleSwapInput}
    */
-  onAmountInputChange?: handleSwapInput;
+  onAmountInputChange: handleSwapInput;
   /**
    *  A function called to handle switch dropdowns.
    */
@@ -261,30 +198,7 @@ export type SwapSwitchButtonType = {
   onSwapSwitch: () => void;
 };
 
-export type SwapSlippageConfig = {
-  /**
-   * Selected slippage.
-   */
-  slippages: string[];
-  /**
-   * Display slippages list.
-   */
-  selectedSlippage: string;
-};
-
-export type SwapPriceRate = {
-  from: {
-    symbol?: string;
-    value?: string;
-  };
-  to: {
-    symbol?: string;
-    value?: string;
-  };
-  dollar?: string;
-};
-
-export type SwapPriceDetailCoin = {
+export type SwapDetailCoin = {
   logoUrl:
     | {
         png?: string;
@@ -292,9 +206,7 @@ export type SwapPriceDetailCoin = {
         svg?: string;
       }
     | undefined;
-  denom: string;
-  amount: string;
-  name: string;
+  symbol: string;
 };
 
 export type SwapPriceDetailRoute = {
@@ -319,32 +231,33 @@ export type SwapPriceDetailRoute = {
 };
 
 export type SwapPriceDetailRouteDetail = {
-  sellToken: SwapPriceDetailCoin;
+  tokenIn: SwapDetailCoin;
   routes: SwapPriceDetailRoute[];
-  buyToken: SwapPriceDetailCoin;
+  tokenOut: SwapDetailCoin;
 };
 
-export type SwapPriceDetail = {
+export type SwapDetailsType = {
   priceImpact?: string;
   swapFee?: {
     percentage: string;
     value: string;
   };
-  expectedOutput?: {
-    value: string;
-    symbol: string;
-  };
-  minimumReceived?: {
-    value: string;
-    symbol: string;
-  };
+  expectedOutput?: string;
+  minimumReceived?: string;
   route?: SwapPriceDetailRouteDetail;
 };
 
 export interface SwapPriceType {
+  priceRate: string;
+  dollarValue: string;
+}
+
+export interface SwapPriceAndDetailsType {
   loading: boolean;
-  rate: SwapPriceRate;
-  detail?: SwapPriceDetail;
+  price: SwapPriceType;
+  tokenInSymbol?: string;
+  tokenOutSymbol?: string;
+  swapDetails?: SwapDetailsType;
 }
 
 export type SwapToggleSlippagesListButtonType = {
@@ -359,27 +272,41 @@ export type SwapSlippageButtonType = {
   onCloseSettingList: () => void;
 };
 
-export type SwapSettingType = {
-  /**
-   * Slippage tolerance config.
-   * @see {@link SwapSlippageConfig}
-   */
-  slippageConfig: SwapSlippageConfig;
-  /**
-   * A function called to set slippage.
-   */
-  setSelectedSlippage: (value: string) => void;
+export type SwapSlippageConfigType = {
+  slippageConfig: {
+    /**
+     * Selected slippage.
+     */
+    slippages: string[];
+    /**
+     * Display slippages list.
+     */
+    selectedSlippage: string;
+    /**
+     * A function called to set slippage.
+     */
+    setSelectedSlippage: (value: string) => void;
+  };
+};
+
+export type LoadingConfig = {
+  mode: `${LoadingMode}`;
+  isLoading: boolean;
 };
 
 /**
  * @see {@link SwapDropdownsViewType}
  */
-export interface SwapViewType extends SwapDropdownsViewType, SwapSettingType {
+export interface SwapViewType
+  extends Omit<SwapDropdownsViewType, 'loading'>,
+    SwapSlippageConfigType {
   /**
    * An object of the current price exchange rate.
    * @see {@link SwapPriceType}
    */
-  price: SwapPriceType;
+  tokenPrice: SwapPriceType;
+
+  swapDetails?: SwapDetailsType;
   /**
    * Submit button status.
    */
@@ -392,11 +319,16 @@ export interface SwapViewType extends SwapDropdownsViewType, SwapSettingType {
      * Submit button display disabled.
      */
     disabled?: boolean;
+    /**
+     * Change the button display text.
+     */
+    btnText?: string;
   };
   /**
    * A function called to control submit.
    */
   onSwapSubmit: () => void;
+  loadingConfig: LoadingConfig;
 }
 export interface SwapModalType extends SwapViewType {
   /**

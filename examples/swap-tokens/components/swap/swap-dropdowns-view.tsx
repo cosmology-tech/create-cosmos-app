@@ -1,6 +1,5 @@
 import { Box, Center, useDisclosure, useOutsideClick } from '@chakra-ui/react';
-import { AnimateIconButton } from '@cosmology-ui/animation';
-import { useTheme } from '@cosmology-ui/theme';
+import { AnimateIconButton, useTheme } from '@cosmology-ui/react';
 import React, { ReactNode, useRef, useState } from 'react';
 import { ImArrowDown2 } from 'react-icons/im';
 import { TbArrowsRightLeft } from 'react-icons/tb';
@@ -20,7 +19,7 @@ const SwapSwitchButton = ({ onSwapSwitch }: SwapSwitchButtonType) => {
       whileHover={{
         rotate: 90,
         scale: 1.1,
-        transition: { duration: 0.1, ease: 'circInOut' }
+        transition: { duration: 0.1, ease: 'circInOut' },
       }}
       onHoverStart={() => setIcon(<TbArrowsRightLeft />)}
       onHoverEnd={() => setIcon(<ImArrowDown2 />)}
@@ -51,9 +50,9 @@ export const SwapDropdownsViewBaseStyle = (theme: string) => {
         bg: `swap-dropdown-background-color-${theme}`,
         border: '3px solid',
         borderColor: `swap-dropdowns-view-switch-button-border-color-${theme}`,
-        color: `swap-dropdowns-view-switch-button-text-color-${theme}`
-      }
-    }
+        color: `swap-dropdowns-view-switch-button-text-color-${theme}`,
+      },
+    },
   };
 };
 
@@ -62,12 +61,15 @@ export const SwapDropdownsViewBaseStyle = (theme: string) => {
  * @see {@link SwapDropdownsViewType}
  */
 export const SwapDropdownsView = ({
-  fromConfig,
-  toConfig,
+  fromToken,
+  toToken,
+  inputData,
+  dropdownData,
   onSwapSwitch,
   onFromDropdownChange,
   onToDropdownChange,
-  onAmountInputChange
+  onAmountInputChange,
+  loading,
 }: SwapDropdownsViewType) => {
   const { theme } = useTheme();
   const fromMenuRef = useRef<HTMLDivElement>(null);
@@ -77,31 +79,35 @@ export const SwapDropdownsView = ({
 
   useOutsideClick({
     ref: fromMenuRef,
-    handler: onFromMenuClose
+    handler: onFromMenuClose,
   });
   useOutsideClick({
     ref: toMenuRef,
-    handler: onToMenuClose
+    handler: onToMenuClose,
   });
 
   return (
     <Box className="swap-dropdowns-view" sx={SwapDropdownsViewBaseStyle(theme)}>
       <SwapControlPanel
         swapType={SwapType.from}
-        selectedToken={fromConfig.selectedToken}
-        inputConfig={fromConfig.inputConfig}
-        dropdownConfig={fromConfig.dropdownConfig}
+        selectedToken={fromToken}
+        inputData={inputData}
+        dropdownData={dropdownData}
         onDropdownChange={onFromDropdownChange}
         onAmountInputChange={onAmountInputChange}
+        loading={loading}
       />
       <Center className="swap-switch-button-box">
         <SwapSwitchButton onSwapSwitch={onSwapSwitch} />
       </Center>
       <SwapControlPanel
         swapType={SwapType.to}
-        selectedToken={toConfig.selectedToken}
-        dropdownConfig={toConfig.dropdownConfig}
+        selectedToken={toToken}
+        inputData={inputData}
+        dropdownData={dropdownData}
         onDropdownChange={onToDropdownChange}
+        onAmountInputChange={onAmountInputChange}
+        loading={loading}
       />
     </Box>
   );
