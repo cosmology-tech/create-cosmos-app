@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactElement, useState } from 'react';
+import { ReactElement } from 'react';
 import { Token } from './stats';
 import {
   Flex,
@@ -14,17 +14,11 @@ import {
   Stat,
   StatLabel,
   StatNumber,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Tag,
   ListItem,
   UnorderedList,
   useColorModeValue,
-  useToast,
   Center,
 } from '@chakra-ui/react';
-import { TransactionResult } from '../types';
 
 export const ValidatorInfo = ({
   imgUrl,
@@ -164,99 +158,4 @@ export const StatBox = ({
       </Stat>
     </Box>
   );
-};
-
-export const InputBox = ({
-  label,
-  token,
-  value,
-  onChange,
-  onMaxClick,
-}: {
-  label: string;
-  token: string;
-  value: number | string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onMaxClick: () => void;
-}) => (
-  <StatBox
-    label={label}
-    token={token}
-    input={
-      <InputGroup mt={2}>
-        <Input type="number" value={value} onChange={onChange} />
-        <InputRightElement
-          mr={3}
-          width={24}
-          display="flex"
-          justifyContent="space-between"
-        >
-          <Tag
-            size="md"
-            variant="solid"
-            colorScheme="cyan"
-            fontWeight="bold"
-            onClick={onMaxClick}
-            _hover={{ cursor: 'pointer' }}
-          >
-            MAX
-          </Tag>
-          <Text fontSize="sm" fontWeight="bold" lineHeight="none">
-            {token}
-          </Text>
-        </InputRightElement>
-      </InputGroup>
-    }
-  />
-);
-
-export const useInputBox = (maxAmount?: number) => {
-  const [amount, setAmount] = useState<number | string>('');
-  const [max, setMax] = useState<number>(maxAmount || 0);
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (Number(e.target.value) > max) {
-      setAmount(max);
-      return;
-    }
-
-    if (e.target.value === '') {
-      setAmount('');
-      return;
-    }
-
-    setAmount(+Number(e.target.value).toFixed(6));
-  };
-
-  const renderInputBox = (label: string, token: string) => {
-    return (
-      <InputBox
-        label={label}
-        token={token}
-        value={amount}
-        onChange={(e) => handleInputChange(e)}
-        onMaxClick={() => setAmount(max)}
-      />
-    );
-  };
-
-  return { renderInputBox, amount, setAmount, setMax };
-};
-
-export const useTransactionToast = () => {
-  const toast = useToast();
-
-  const showToast = (code: number) => {
-    toast({
-      title: `Transaction ${
-        code === TransactionResult.Success ? 'successful' : 'failed'
-      }`,
-      status: code === TransactionResult.Success ? 'success' : 'error',
-      duration: 3000,
-      isClosable: true,
-      position: 'top-right',
-    });
-  };
-
-  return { showToast };
 };

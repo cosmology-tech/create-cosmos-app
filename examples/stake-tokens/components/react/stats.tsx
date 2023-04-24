@@ -7,15 +7,14 @@ import {
   useColorModeValue,
   Text,
 } from '@chakra-ui/react';
-import { StdFee } from '@cosmjs/stargate';
 import { useChain } from '@cosmos-kit/react';
 import { useState } from 'react';
 import { cosmos } from 'interchain';
 import { getCoin } from '../../config';
 import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
-import { useTransactionToast } from './delegate-modal';
 import { TransactionResult } from '../types';
 import { ChainName } from '@cosmos-kit/core';
+import { useFeeEstimation, useTransactionToast } from '../../hooks';
 
 export const Token = ({ token, color }: { token: string; color?: string }) => (
   <Text
@@ -45,6 +44,7 @@ const Stats = ({
   const [isClaiming, setIsClaiming] = useState(false);
   const { getSigningStargateClient, address } = useChain(chainName);
   const { showToast } = useTransactionToast();
+  const { estimateFee } = useFeeEstimation(chainName);
 
   const totalAmount = balance + staked + totalReward;
   const coin = getCoin(chainName);
@@ -69,32 +69,16 @@ const Stats = ({
       })
     );
 
-    const fee: StdFee = {
-      amount: [
-        {
-          denom: getCoin(chainName).base,
-          amount: '1000',
-        },
-      ],
-      gas: '500000',
-    };
-
     try {
-      const { code } = await stargateClient.signAndBroadcast(
-        address,
-        msgs,
-        fee
-      );
-
-      stargateClient.disconnect();
-
-      showToast(code);
-      setIsClaiming(false);
+      const fee = await estimateFee(address, msgs);
+      const res = await stargateClient.signAndBroadcast(address, msgs, fee);
+      showToast(res.code);
       updateData();
     } catch (error) {
       console.log(error);
+      showToast(TransactionResult.Failed, error);
+    } finally {
       stargateClient.disconnect();
-      showToast(TransactionResult.Failed);
       setIsClaiming(false);
     }
   };
@@ -171,7 +155,7 @@ const Stats = ({
           colorScheme="purple"
           size="sm"
           onClick={onClaimClick}
-          disabled={!Number(totalReward)}
+          isDisabled={!Number(totalReward)}
           isLoading={isClaiming}
         >
           Claim

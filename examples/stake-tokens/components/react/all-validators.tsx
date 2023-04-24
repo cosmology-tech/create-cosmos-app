@@ -29,8 +29,6 @@ import {
 import {
   DelegateWarning,
   StatBox,
-  useInputBox,
-  useTransactionToast,
   ValidatorDesc,
   ValidatorInfo,
 } from './delegate-modal';
@@ -46,6 +44,14 @@ import type {
 } from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
 import { TransactionResult } from '../types';
 import { ChainName } from '@cosmos-kit/core';
+import BigNumber from 'bignumber.js';
+import {
+  useFeeEstimation,
+  useInputBox,
+  useTransactionToast,
+} from '../../hooks';
+
+const { delegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
 
 export const Thumbnail = ({
   identity,
@@ -75,6 +81,11 @@ export const Thumbnail = ({
   );
 };
 
+export type MaxAmountAndFee = {
+  maxAmount: string;
+  fee: StdFee;
+};
+
 const AllValidators = ({
   validators,
   balance,
@@ -99,12 +110,15 @@ const AllValidators = ({
   const { renderInputBox, amount, setAmount } = useInputBox(balance);
   const [currentValidator, setCurrentValidator] = useState<Validator>();
   const [isDelegating, setIsDelegating] = useState<boolean>(false);
+  const [isSimulating, setIsSimulating] = useState(false);
+  const [maxAmountAndFee, setMaxAmountAndFee] = useState<MaxAmountAndFee>();
 
   const coin = getCoin(chainName);
   const exp = getExponent(chainName);
 
   const { colorMode } = useColorMode();
   const { showToast } = useTransactionToast();
+  const { estimateFee } = useFeeEstimation(chainName);
 
   const getDelegation = (validatorAddr: string, delegations: Delegation[]) => {
     const delegation = delegations.filter(
@@ -122,6 +136,7 @@ const AllValidators = ({
     setAmount('');
     setIsDelegating(false);
     onClose();
+    setIsSimulating(false);
   };
 
   const onDelegateClick = async () => {
@@ -134,51 +149,77 @@ const AllValidators = ({
       return;
     }
 
-    const { delegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
-
-    const amountToDelegate = (Number(amount) * 10 ** exp).toString();
+    const delegationAmount = new BigNumber(amount).shiftedBy(exp).toString();
 
     const msg = delegate({
       delegatorAddress: address,
       validatorAddress: currentValidator.operatorAddress,
       amount: {
-        amount: amountToDelegate,
+        amount: delegationAmount,
         denom: coin.base,
       },
     });
 
-    const fee: StdFee = {
-      amount: [
-        {
-          denom: coin.base,
-          amount: '1000',
-        },
-      ],
-      gas: '205559',
-    };
+    const isMaxAmountAndFeeExists =
+      maxAmountAndFee &&
+      new BigNumber(amount).isEqualTo(maxAmountAndFee.maxAmount);
 
     try {
-      const { code } = await stargateClient.signAndBroadcast(
-        address,
-        [msg],
-        fee
-      );
-
-      stargateClient.disconnect();
-      showToast(code);
-      setIsDelegating(false);
+      const fee = isMaxAmountAndFeeExists
+        ? maxAmountAndFee.fee
+        : await estimateFee(address, [msg]);
+      const res = await stargateClient.signAndBroadcast(address, [msg], fee);
+      showToast(res.code);
       updateData();
-
       setTimeout(() => {
         onModalClose();
       }, 1000);
     } catch (error) {
       console.log(error);
+      showToast(TransactionResult.Failed, error);
+    } finally {
       stargateClient.disconnect();
-      showToast(TransactionResult.Failed);
       setIsDelegating(false);
+      setMaxAmountAndFee(undefined);
     }
   };
+
+  const handleMaxClick = async () => {
+    if (!address || !currentValidator) return;
+
+    if (Number(balance) === 0) {
+      setAmount(0);
+      return;
+    }
+
+    setIsSimulating(true);
+
+    const delegationAmount = new BigNumber(balance).shiftedBy(exp).toString();
+    const msg = delegate({
+      delegatorAddress: address,
+      validatorAddress: currentValidator.operatorAddress,
+      amount: {
+        amount: delegationAmount,
+        denom: coin.base,
+      },
+    });
+
+    try {
+      const fee = await estimateFee(address, [msg]);
+      const feeAmount = new BigNumber(fee.amount[0].amount).shiftedBy(-exp);
+      const balanceAfterFee = new BigNumber(balance)
+        .minus(feeAmount)
+        .toString();
+      setMaxAmountAndFee({ fee, maxAmount: balanceAfterFee });
+      setAmount(balanceAfterFee);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSimulating(false);
+    }
+  };
+
+  const isAmountZero = new BigNumber(amount || 0).isEqualTo(0);
 
   return (
     <>
@@ -229,14 +270,19 @@ const AllValidators = ({
                 token={coin.symbol}
               />
             </Stack>
-            {renderInputBox('Amount to Delegate', coin.symbol)}
+            {renderInputBox(
+              'Amount to Delegate',
+              coin.symbol,
+              handleMaxClick,
+              isSimulating
+            )}
           </ModalBody>
 
           <ModalFooter>
             <Button
               colorScheme="primary"
               onClick={onDelegateClick}
-              disabled={!amount}
+              isDisabled={isAmountZero || isDelegating || isSimulating}
               isLoading={isDelegating}
             >
               Delegate
