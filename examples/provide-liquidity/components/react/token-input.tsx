@@ -17,10 +17,12 @@ import {
   prettyPool,
   osmosisAssets,
   baseUnitsToDisplayUnits,
+  calcMaxCoinsForPool,
+  getSymbolForDenom,
 } from '../../utils';
 import { getLogoUrlFromDenom } from './pool-list';
 import { ChainLogo } from './pool-card';
-import { PriceHash } from '../../utils/types';
+import { PoolPretty, PriceHash } from '../../utils/types';
 import BigNumber from 'bignumber.js';
 import { truncDecimals } from './pool-detail-modal';
 
@@ -44,6 +46,7 @@ export const TokenInput = ({
   singleToken,
   setSingleToken,
   balances,
+  poolData,
   prices,
   inputTokens,
   setInputTokens,
@@ -53,6 +56,7 @@ export const TokenInput = ({
   singleToken: string | null;
   setSingleToken: (symbol: string | null) => void;
   balances: Coin[];
+  poolData: PoolPretty;
   prices: PriceHash;
   inputTokens: InputToken[];
   setInputTokens: (
@@ -75,7 +79,7 @@ export const TokenInput = ({
 
   const availableBalance = balance
     ? baseUnitsToDisplayUnits(token.symbol, balance.amount)
-    : 0;
+    : '0';
 
   const displayAmountToValue = (amount: string) => {
     return new BigNumber(amount || 0)
@@ -97,6 +101,22 @@ export const TokenInput = ({
   const bgColor = useColorModeValue('#EEF2F8', '#1D2024');
   const borderColor = useColorModeValue('#D1D6DD', '#434B55');
 
+  const syncInputTokens = (inputTokens: InputToken[], displayAmount: string) =>
+    inputTokens.map((inputToken) => {
+      if (inputToken.denom === token.denom) {
+        return { ...inputToken, inputAmount: displayAmount };
+      }
+      return {
+        ...inputToken,
+        inputAmount: new BigNumber(displayAmount).gt(0)
+          ? new BigNumber(displayAmountToValue(displayAmount))
+              .dividedBy(prices[inputToken.denom])
+              .decimalPlaces(2)
+              .toString()
+          : '',
+      };
+    });
+
   return (
     <Box>
       <Text
@@ -108,7 +128,32 @@ export const TokenInput = ({
         opacity={isSingleAsset && !isSelected ? 0.3 : 1}
       >
         Available&nbsp;
-        <span style={{ fontWeight: '600' }}>
+        <span
+          style={{
+            fontWeight: '600',
+            cursor: isSingleAsset && !isSelected ? 'initial' : 'pointer',
+          }}
+          onClick={() => {
+            if (!isSingleAsset) {
+              const maxCoins = calcMaxCoinsForPool(prices, poolData, balances);
+              setInputTokens((prev: InputToken[]) =>
+                prev.map((inputToken) => {
+                  const coin = maxCoins.find(
+                    ({ denom }) => denom === inputToken.denom
+                  )!;
+                  const symbol = getSymbolForDenom(coin.denom);
+                  return {
+                    ...inputToken,
+                    inputAmount: baseUnitsToDisplayUnits(symbol, coin.amount),
+                  };
+                })
+              );
+              return;
+            }
+            if (!isSelected) return;
+            setInputTokens((prev) => syncInputTokens(prev, availableBalance));
+          }}
+        >
           {availableBalance} {token.symbol}
         </span>
       </Text>
@@ -185,22 +230,7 @@ export const TokenInput = ({
             borderTopRightRadius="6px"
             borderBottomRightRadius="6px"
             onChange={(val) => {
-              setInputTokens((prev: InputToken[]) =>
-                prev.map((inputToken) => {
-                  if (inputToken.denom === token.denom) {
-                    return { ...inputToken, inputAmount: val };
-                  }
-                  return {
-                    ...inputToken,
-                    inputAmount: new BigNumber(val).gt(0)
-                      ? new BigNumber(displayAmountToValue(val))
-                          .dividedBy(prices[inputToken.denom])
-                          .decimalPlaces(2)
-                          .toString()
-                      : '',
-                  };
-                })
-              );
+              setInputTokens((prev) => syncInputTokens(prev, val));
             }}
           >
             <NumberInputField

@@ -31,11 +31,9 @@ import {
   DelegateWarning,
   StatBox,
   UndelegateWarning,
-  useInputBox,
-  useTransactionToast,
 } from './delegate-modal';
 import { exponentiate, getExponent } from './staking';
-import { decodeCosmosSdkDecFromProto, StdFee } from '@cosmjs/stargate';
+import { decodeCosmosSdkDecFromProto } from '@cosmjs/stargate';
 import { useState } from 'react';
 import { cosmos } from 'interchain';
 import { useChain } from '@cosmos-kit/react';
@@ -47,7 +45,20 @@ import type {
 } from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
 import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
 import { ChainName } from '@cosmos-kit/core';
-import { Thumbnail } from './all-validators';
+import { MaxAmountAndFee, Thumbnail } from './all-validators';
+import {
+  useFeeEstimation,
+  useInputBox,
+  useTransactionToast,
+} from '../../hooks';
+import BigNumber from 'bignumber.js';
+
+const { delegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
+const { undelegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
+const { beginRedelegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
+
+const isAmountZero = (amount: string | number | undefined) =>
+  new BigNumber(amount || 0).isEqualTo(0);
 
 const MyValidators = ({
   validators,
@@ -79,12 +90,16 @@ const MyValidators = ({
   const [isRedelegating, setIsRedelegating] = useState(false);
   const [currentValidator, setCurrentValidator] = useState<MyValidator>();
   const [selectedValidator, setSelectedValidator] = useState<Validator>();
+  const [isSimulating, setIsSimulating] = useState(false);
+  const [maxDelegateAmountAndFee, setMaxDelegateAmountAndFee] =
+    useState<MaxAmountAndFee>();
 
   const coin = getCoin(chainName);
   const exp = getExponent(chainName);
 
   const { colorMode } = useColorMode();
   const { showToast } = useTransactionToast();
+  const { estimateFee } = useFeeEstimation(chainName);
 
   const {
     renderInputBox: renderDelegateInputBox,
@@ -193,8 +208,6 @@ const MyValidators = ({
       return;
     }
 
-    const { delegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
-
     const amountToDelegate = (Number(delegateAmount) * 10 ** exp).toString();
 
     const msg = delegate({
@@ -206,38 +219,64 @@ const MyValidators = ({
       },
     });
 
-    const fee: StdFee = {
-      amount: [
-        {
-          denom: coin.base,
-          amount: '1000',
-        },
-      ],
-      gas: '205559',
-    };
-
-    try {
-      const { code } = await stargateClient.signAndBroadcast(
-        address,
-        [msg],
-        fee
+    const isMaxAmountAndFeeExists =
+      maxDelegateAmountAndFee &&
+      new BigNumber(delegateAmount).isEqualTo(
+        maxDelegateAmountAndFee.maxAmount
       );
 
-      stargateClient.disconnect();
-      showToast(code);
-      setIsDelegating(false);
+    try {
+      const fee = isMaxAmountAndFeeExists
+        ? maxDelegateAmountAndFee.fee
+        : await estimateFee(address, [msg]);
+      const res = await stargateClient.signAndBroadcast(address, [msg], fee);
+      showToast(res.code);
       onValidatorModalClose();
       updateData();
-
-      // delay the modal close for 1sec to improve the visual effect
       setTimeout(() => {
         closeDelegateModal();
       }, 1000);
     } catch (error) {
       console.log(error);
+      showToast(TransactionResult.Failed, error);
+    } finally {
       stargateClient.disconnect();
-      showToast(TransactionResult.Failed);
       setIsDelegating(false);
+    }
+  };
+
+  const handleMaxClick = async () => {
+    if (!address || !currentValidator) return;
+
+    if (Number(balance) === 0) {
+      setDelegateAmount(0);
+      return;
+    }
+
+    setIsSimulating(true);
+
+    const delegationAmount = new BigNumber(balance).shiftedBy(exp).toString();
+    const msg = delegate({
+      delegatorAddress: address,
+      validatorAddress: currentValidator.address,
+      amount: {
+        amount: delegationAmount,
+        denom: coin.base,
+      },
+    });
+
+    try {
+      const fee = await estimateFee(address, [msg]);
+      const feeAmount = new BigNumber(fee.amount[0].amount).shiftedBy(-exp);
+      const balanceAfterFee = new BigNumber(balance)
+        .minus(feeAmount)
+        .toString();
+      setMaxDelegateAmountAndFee({ fee, maxAmount: balanceAfterFee });
+      setDelegateAmount(balanceAfterFee);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSimulating(false);
     }
   };
 
@@ -250,8 +289,6 @@ const MyValidators = ({
       console.error('stargateClient undefined or address undefined.');
       return;
     }
-
-    const { undelegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
 
     const amountToUndelegate = (
       Number(undelegateAmount) *
@@ -267,36 +304,20 @@ const MyValidators = ({
       },
     });
 
-    const fee: StdFee = {
-      amount: [
-        {
-          denom: coin.base,
-          amount: '1000',
-        },
-      ],
-      gas: '238125',
-    };
-
     try {
-      const { code } = await stargateClient.signAndBroadcast(
-        address,
-        [msg],
-        fee
-      );
-
-      stargateClient.disconnect();
-      showToast(code);
-      setIsUndelegating(false);
+      const fee = await estimateFee(address, [msg]);
+      const res = await stargateClient.signAndBroadcast(address, [msg], fee);
+      showToast(res.code);
       onValidatorModalClose();
       updateData();
-
       setTimeout(() => {
         closeUndelegateModal();
       }, 1000);
     } catch (error) {
       console.log(error);
+      showToast(TransactionResult.Failed, error);
+    } finally {
       stargateClient.disconnect();
-      showToast(TransactionResult.Failed);
       setIsUndelegating(false);
     }
   };
@@ -316,9 +337,6 @@ const MyValidators = ({
       return;
     }
 
-    const { beginRedelegate } =
-      cosmos.staking.v1beta1.MessageComposer.fromPartial;
-
     const amountToRedelegate = (
       Number(redelegateAmount) *
       10 ** exp
@@ -334,35 +352,19 @@ const MyValidators = ({
       },
     });
 
-    const fee: StdFee = {
-      amount: [
-        {
-          denom: coin.base,
-          amount: '1000',
-        },
-      ],
-      gas: '355188',
-    };
-
     try {
-      const { code } = await stargateClient.signAndBroadcast(
-        address,
-        [msg],
-        fee
-      );
-
-      stargateClient.disconnect();
-      showToast(code);
-      setIsRedelegating(false);
+      const fee = await estimateFee(address, [msg]);
+      const res = await stargateClient.signAndBroadcast(address, [msg], fee);
+      showToast(res.code);
       updateData();
-
       setTimeout(() => {
         closeRedelegateModal();
       }, 1000);
     } catch (error) {
       console.log(error);
+      showToast(TransactionResult.Failed, error);
+    } finally {
       stargateClient.disconnect();
-      showToast(TransactionResult.Failed);
       setIsRedelegating(false);
     }
   };
@@ -464,7 +466,12 @@ const MyValidators = ({
                 token={coin.symbol}
               />
             </Stack>
-            {renderDelegateInputBox('Amount to Delegate', coin.symbol)}
+            {renderDelegateInputBox(
+              'Amount to Delegate',
+              coin.symbol,
+              handleMaxClick,
+              isSimulating
+            )}
           </ModalBody>
 
           <ModalFooter>
@@ -472,7 +479,9 @@ const MyValidators = ({
               colorScheme="primary"
               onClick={onDelegateClick}
               isLoading={isDelegating}
-              disabled={!delegateAmount}
+              isDisabled={
+                isAmountZero(delegateAmount) || isDelegating || isSimulating
+              }
             >
               Delegate
             </Button>
@@ -520,7 +529,7 @@ const MyValidators = ({
               colorScheme="primary"
               onClick={onUndelegateClick}
               isLoading={isUndelegating}
-              disabled={!undelegateAmount}
+              isDisabled={isAmountZero(undelegateAmount) || isUndelegating}
             >
               Undelegate
             </Button>
@@ -648,7 +657,7 @@ const MyValidators = ({
               colorScheme="primary"
               onClick={onRedelegateClick}
               isLoading={isRedelegating}
-              disabled={!redelegateAmount}
+              isDisabled={isAmountZero(redelegateAmount) || isRedelegating}
             >
               Redelegate
             </Button>
