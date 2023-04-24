@@ -40,6 +40,8 @@ type InputToken = {
   inputAmount: string;
 };
 
+const DEFAULT_SLIPPAGE = 2.5;
+
 export const calcAmountWithSlippage = (
   amount: string,
   slippage: number | string
@@ -173,12 +175,14 @@ const AddLiquidityModal = ({
       );
       const coinsNeeded = convertDollarValueToCoins(inputValue, pool, prices);
       const shareOutAmount = calcShareOutAmount(pool, coinsNeeded);
-      const shareOutMinAmount = calcAmountWithSlippage(shareOutAmount, 2.5);
       const joinSwapExternAmountInMsg = joinSwapExternAmountIn({
         poolId: currentPool.id,
         sender: address,
         tokenIn: inputCoin,
-        shareOutMinAmount,
+        shareOutMinAmount: calcAmountWithSlippage(
+          shareOutAmount,
+          DEFAULT_SLIPPAGE
+        ),
       });
       msg.push(joinSwapExternAmountInMsg);
     } else {
@@ -189,7 +193,10 @@ const AddLiquidityModal = ({
       const joinPoolMsg = joinPool({
         poolId: currentPool.id,
         sender: address,
-        shareOutAmount,
+        shareOutAmount: calcAmountWithSlippage(
+          shareOutAmount,
+          DEFAULT_SLIPPAGE
+        ),
         tokenInMaxs,
       });
       msg.push(joinPoolMsg);
@@ -249,6 +256,7 @@ const AddLiquidityModal = ({
                 setSingleToken={setSingleToken}
                 allTokens={pool.poolAssetsPretty}
                 token={token}
+                poolData={pool}
                 balances={balances}
                 prices={prices}
                 inputTokens={inputTokens}

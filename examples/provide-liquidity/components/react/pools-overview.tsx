@@ -66,8 +66,6 @@ export const PoolsOverview = ({
   const [isMobile] = useMediaQuery('(max-width: 660px)');
 
   const getEpoch = useCallback(async () => {
-    console.log('getEpoch run');
-
     let rpcEndpoint = await getRpcEndpoint();
 
     if (!rpcEndpoint) {
