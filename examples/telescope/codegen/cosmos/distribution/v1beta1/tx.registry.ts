@@ -14,28 +14,24 @@ export const MessageComposer = {
         value: MsgSetWithdrawAddress.encode(value).finish()
       };
     },
-
     withdrawDelegatorReward(value: MsgWithdrawDelegatorReward) {
       return {
         typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
         value: MsgWithdrawDelegatorReward.encode(value).finish()
       };
     },
-
     withdrawValidatorCommission(value: MsgWithdrawValidatorCommission) {
       return {
         typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
         value: MsgWithdrawValidatorCommission.encode(value).finish()
       };
     },
-
     fundCommunityPool(value: MsgFundCommunityPool) {
       return {
         typeUrl: "/cosmos.distribution.v1beta1.MsgFundCommunityPool",
         value: MsgFundCommunityPool.encode(value).finish()
       };
     }
-
   },
   withTypeUrl: {
     setWithdrawAddress(value: MsgSetWithdrawAddress) {
@@ -44,28 +40,24 @@ export const MessageComposer = {
         value
       };
     },
-
     withdrawDelegatorReward(value: MsgWithdrawDelegatorReward) {
       return {
         typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
         value
       };
     },
-
     withdrawValidatorCommission(value: MsgWithdrawValidatorCommission) {
       return {
         typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
         value
       };
     },
-
     fundCommunityPool(value: MsgFundCommunityPool) {
       return {
         typeUrl: "/cosmos.distribution.v1beta1.MsgFundCommunityPool",
         value
       };
     }
-
   },
   fromPartial: {
     setWithdrawAddress(value: MsgSetWithdrawAddress) {
@@ -74,27 +66,23 @@ export const MessageComposer = {
         value: MsgSetWithdrawAddress.fromPartial(value)
       };
     },
-
     withdrawDelegatorReward(value: MsgWithdrawDelegatorReward) {
       return {
         typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
         value: MsgWithdrawDelegatorReward.fromPartial(value)
       };
     },
-
     withdrawValidatorCommission(value: MsgWithdrawValidatorCommission) {
       return {
         typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
         value: MsgWithdrawValidatorCommission.fromPartial(value)
       };
     },
-
     fundCommunityPool(value: MsgFundCommunityPool) {
       return {
         typeUrl: "/cosmos.distribution.v1beta1.MsgFundCommunityPool",
         value: MsgFundCommunityPool.fromPartial(value)
       };
     }
-
   }
 };

@@ -3,28 +3,22 @@ import { Header, HeaderSDKType } from "../types/types";
 import { ProofOps, ProofOpsSDKType } from "../crypto/proof";
 import { EvidenceParams, EvidenceParamsSDKType, ValidatorParams, ValidatorParamsSDKType, VersionParams, VersionParamsSDKType } from "../types/params";
 import { PublicKey, PublicKeySDKType } from "../crypto/keys";
-import * as _m0 from "protobufjs/minimal";
 import { Long, toTimestamp, fromTimestamp } from "../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export enum CheckTxType {
   NEW = 0,
   RECHECK = 1,
   UNRECOGNIZED = -1,
 }
-export enum CheckTxTypeSDKType {
-  NEW = 0,
-  RECHECK = 1,
-  UNRECOGNIZED = -1,
-}
+export const CheckTxTypeSDKType = CheckTxType;
 export function checkTxTypeFromJSON(object: any): CheckTxType {
   switch (object) {
     case 0:
     case "NEW":
       return CheckTxType.NEW;
-
     case 1:
     case "RECHECK":
       return CheckTxType.RECHECK;
-
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -35,10 +29,8 @@ export function checkTxTypeToJSON(object: CheckTxType): string {
   switch (object) {
     case CheckTxType.NEW:
       return "NEW";
-
     case CheckTxType.RECHECK:
       return "RECHECK";
-
     case CheckTxType.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -47,69 +39,39 @@ export function checkTxTypeToJSON(object: CheckTxType): string {
 export enum ResponseOfferSnapshot_Result {
   /** UNKNOWN - Unknown result, abort all snapshot restoration */
   UNKNOWN = 0,
-
   /** ACCEPT - Snapshot accepted, apply chunks */
   ACCEPT = 1,
-
   /** ABORT - Abort all snapshot restoration */
   ABORT = 2,
-
   /** REJECT - Reject this specific snapshot, try others */
   REJECT = 3,
-
   /** REJECT_FORMAT - Reject all snapshots of this format, try others */
   REJECT_FORMAT = 4,
-
   /** REJECT_SENDER - Reject all snapshots from the sender(s), try others */
   REJECT_SENDER = 5,
   UNRECOGNIZED = -1,
 }
-export enum ResponseOfferSnapshot_ResultSDKType {
-  /** UNKNOWN - Unknown result, abort all snapshot restoration */
-  UNKNOWN = 0,
-
-  /** ACCEPT - Snapshot accepted, apply chunks */
-  ACCEPT = 1,
-
-  /** ABORT - Abort all snapshot restoration */
-  ABORT = 2,
-
-  /** REJECT - Reject this specific snapshot, try others */
-  REJECT = 3,
-
-  /** REJECT_FORMAT - Reject all snapshots of this format, try others */
-  REJECT_FORMAT = 4,
-
-  /** REJECT_SENDER - Reject all snapshots from the sender(s), try others */
-  REJECT_SENDER = 5,
-  UNRECOGNIZED = -1,
-}
+export const ResponseOfferSnapshot_ResultSDKType = ResponseOfferSnapshot_Result;
 export function responseOfferSnapshot_ResultFromJSON(object: any): ResponseOfferSnapshot_Result {
   switch (object) {
     case 0:
     case "UNKNOWN":
       return ResponseOfferSnapshot_Result.UNKNOWN;
-
     case 1:
     case "ACCEPT":
       return ResponseOfferSnapshot_Result.ACCEPT;
-
     case 2:
     case "ABORT":
       return ResponseOfferSnapshot_Result.ABORT;
-
     case 3:
     case "REJECT":
       return ResponseOfferSnapshot_Result.REJECT;
-
     case 4:
     case "REJECT_FORMAT":
       return ResponseOfferSnapshot_Result.REJECT_FORMAT;
-
     case 5:
     case "REJECT_SENDER":
       return ResponseOfferSnapshot_Result.REJECT_SENDER;
-
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -120,22 +82,16 @@ export function responseOfferSnapshot_ResultToJSON(object: ResponseOfferSnapshot
   switch (object) {
     case ResponseOfferSnapshot_Result.UNKNOWN:
       return "UNKNOWN";
-
     case ResponseOfferSnapshot_Result.ACCEPT:
       return "ACCEPT";
-
     case ResponseOfferSnapshot_Result.ABORT:
       return "ABORT";
-
     case ResponseOfferSnapshot_Result.REJECT:
       return "REJECT";
-
     case ResponseOfferSnapshot_Result.REJECT_FORMAT:
       return "REJECT_FORMAT";
-
     case ResponseOfferSnapshot_Result.REJECT_SENDER:
       return "REJECT_SENDER";
-
     case ResponseOfferSnapshot_Result.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -144,69 +100,39 @@ export function responseOfferSnapshot_ResultToJSON(object: ResponseOfferSnapshot
 export enum ResponseApplySnapshotChunk_Result {
   /** UNKNOWN - Unknown result, abort all snapshot restoration */
   UNKNOWN = 0,
-
   /** ACCEPT - Chunk successfully accepted */
   ACCEPT = 1,
-
   /** ABORT - Abort all snapshot restoration */
   ABORT = 2,
-
   /** RETRY - Retry chunk (combine with refetch and reject) */
   RETRY = 3,
-
   /** RETRY_SNAPSHOT - Retry snapshot (combine with refetch and reject) */
   RETRY_SNAPSHOT = 4,
-
   /** REJECT_SNAPSHOT - Reject this snapshot, try others */
   REJECT_SNAPSHOT = 5,
   UNRECOGNIZED = -1,
 }
-export enum ResponseApplySnapshotChunk_ResultSDKType {
-  /** UNKNOWN - Unknown result, abort all snapshot restoration */
-  UNKNOWN = 0,
-
-  /** ACCEPT - Chunk successfully accepted */
-  ACCEPT = 1,
-
-  /** ABORT - Abort all snapshot restoration */
-  ABORT = 2,
-
-  /** RETRY - Retry chunk (combine with refetch and reject) */
-  RETRY = 3,
-
-  /** RETRY_SNAPSHOT - Retry snapshot (combine with refetch and reject) */
-  RETRY_SNAPSHOT = 4,
-
-  /** REJECT_SNAPSHOT - Reject this snapshot, try others */
-  REJECT_SNAPSHOT = 5,
-  UNRECOGNIZED = -1,
-}
+export const ResponseApplySnapshotChunk_ResultSDKType = ResponseApplySnapshotChunk_Result;
 export function responseApplySnapshotChunk_ResultFromJSON(object: any): ResponseApplySnapshotChunk_Result {
   switch (object) {
     case 0:
     case "UNKNOWN":
       return ResponseApplySnapshotChunk_Result.UNKNOWN;
-
     case 1:
     case "ACCEPT":
       return ResponseApplySnapshotChunk_Result.ACCEPT;
-
     case 2:
     case "ABORT":
       return ResponseApplySnapshotChunk_Result.ABORT;
-
     case 3:
     case "RETRY":
       return ResponseApplySnapshotChunk_Result.RETRY;
-
     case 4:
     case "RETRY_SNAPSHOT":
       return ResponseApplySnapshotChunk_Result.RETRY_SNAPSHOT;
-
     case 5:
     case "REJECT_SNAPSHOT":
       return ResponseApplySnapshotChunk_Result.REJECT_SNAPSHOT;
-
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -217,22 +143,16 @@ export function responseApplySnapshotChunk_ResultToJSON(object: ResponseApplySna
   switch (object) {
     case ResponseApplySnapshotChunk_Result.UNKNOWN:
       return "UNKNOWN";
-
     case ResponseApplySnapshotChunk_Result.ACCEPT:
       return "ACCEPT";
-
     case ResponseApplySnapshotChunk_Result.ABORT:
       return "ABORT";
-
     case ResponseApplySnapshotChunk_Result.RETRY:
       return "RETRY";
-
     case ResponseApplySnapshotChunk_Result.RETRY_SNAPSHOT:
       return "RETRY_SNAPSHOT";
-
     case ResponseApplySnapshotChunk_Result.REJECT_SNAPSHOT:
       return "REJECT_SNAPSHOT";
-
     case ResponseApplySnapshotChunk_Result.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -244,26 +164,18 @@ export enum EvidenceType {
   LIGHT_CLIENT_ATTACK = 2,
   UNRECOGNIZED = -1,
 }
-export enum EvidenceTypeSDKType {
-  UNKNOWN = 0,
-  DUPLICATE_VOTE = 1,
-  LIGHT_CLIENT_ATTACK = 2,
-  UNRECOGNIZED = -1,
-}
+export const EvidenceTypeSDKType = EvidenceType;
 export function evidenceTypeFromJSON(object: any): EvidenceType {
   switch (object) {
     case 0:
     case "UNKNOWN":
       return EvidenceType.UNKNOWN;
-
     case 1:
     case "DUPLICATE_VOTE":
       return EvidenceType.DUPLICATE_VOTE;
-
     case 2:
     case "LIGHT_CLIENT_ATTACK":
       return EvidenceType.LIGHT_CLIENT_ATTACK;
-
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -274,13 +186,10 @@ export function evidenceTypeToJSON(object: EvidenceType): string {
   switch (object) {
     case EvidenceType.UNKNOWN:
       return "UNKNOWN";
-
     case EvidenceType.DUPLICATE_VOTE:
       return "DUPLICATE_VOTE";
-
     case EvidenceType.LIGHT_CLIENT_ATTACK:
       return "LIGHT_CLIENT_ATTACK";
-
     case EvidenceType.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -339,13 +248,11 @@ export interface RequestInfoSDKType {
   p2p_version: Long;
 }
 /** nondeterministic */
-
 export interface RequestSetOption {
   key: string;
   value: string;
 }
 /** nondeterministic */
-
 export interface RequestSetOptionSDKType {
   key: string;
   value: string;
@@ -396,7 +303,7 @@ export interface RequestCheckTx {
 }
 export interface RequestCheckTxSDKType {
   tx: Uint8Array;
-  type: CheckTxTypeSDKType;
+  type: CheckTxType;
 }
 export interface RequestDeliverTx {
   tx: Uint8Array;
@@ -413,52 +320,40 @@ export interface RequestEndBlockSDKType {
 export interface RequestCommit {}
 export interface RequestCommitSDKType {}
 /** lists available snapshots */
-
 export interface RequestListSnapshots {}
 /** lists available snapshots */
-
 export interface RequestListSnapshotsSDKType {}
 /** offers a snapshot to the application */
-
 export interface RequestOfferSnapshot {
   /** snapshot offered by peers */
   snapshot?: Snapshot | undefined;
   /** light client-verified app hash for snapshot height */
-
   appHash: Uint8Array;
 }
 /** offers a snapshot to the application */
-
 export interface RequestOfferSnapshotSDKType {
-  /** snapshot offered by peers */
   snapshot?: SnapshotSDKType | undefined;
-  /** light client-verified app hash for snapshot height */
-
   app_hash: Uint8Array;
 }
 /** loads a snapshot chunk */
-
 export interface RequestLoadSnapshotChunk {
   height: Long;
   format: number;
   chunk: number;
 }
 /** loads a snapshot chunk */
-
 export interface RequestLoadSnapshotChunkSDKType {
   height: Long;
   format: number;
   chunk: number;
 }
 /** Applies a snapshot chunk */
-
 export interface RequestApplySnapshotChunk {
   index: number;
   chunk: Uint8Array;
   sender: string;
 }
 /** Applies a snapshot chunk */
-
 export interface RequestApplySnapshotChunkSDKType {
   index: number;
   chunk: Uint8Array;
@@ -501,12 +396,10 @@ export interface ResponseSDKType {
   apply_snapshot_chunk?: ResponseApplySnapshotChunkSDKType | undefined;
 }
 /** nondeterministic */
-
 export interface ResponseException {
   error: string;
 }
 /** nondeterministic */
-
 export interface ResponseExceptionSDKType {
   error: string;
 }
@@ -533,20 +426,15 @@ export interface ResponseInfoSDKType {
   last_block_app_hash: Uint8Array;
 }
 /** nondeterministic */
-
 export interface ResponseSetOption {
   code: number;
   /** bytes data = 2; */
-
   log: string;
   info: string;
 }
 /** nondeterministic */
-
 export interface ResponseSetOptionSDKType {
   code: number;
-  /** bytes data = 2; */
-
   log: string;
   info: string;
 }
@@ -563,10 +451,8 @@ export interface ResponseInitChainSDKType {
 export interface ResponseQuery {
   code: number;
   /** bytes data = 2; // use "value" instead. */
-
   log: string;
   /** nondeterministic */
-
   info: string;
   index: Long;
   key: Uint8Array;
@@ -577,11 +463,7 @@ export interface ResponseQuery {
 }
 export interface ResponseQuerySDKType {
   code: number;
-  /** bytes data = 2; // use "value" instead. */
-
   log: string;
-  /** nondeterministic */
-
   info: string;
   index: Long;
   key: Uint8Array;
@@ -600,10 +482,8 @@ export interface ResponseCheckTx {
   code: number;
   data: Uint8Array;
   /** nondeterministic */
-
   log: string;
   /** nondeterministic */
-
   info: string;
   gasWanted: Long;
   gasUsed: Long;
@@ -613,11 +493,7 @@ export interface ResponseCheckTx {
 export interface ResponseCheckTxSDKType {
   code: number;
   data: Uint8Array;
-  /** nondeterministic */
-
   log: string;
-  /** nondeterministic */
-
   info: string;
   gas_wanted: Long;
   gas_used: Long;
@@ -628,10 +504,8 @@ export interface ResponseDeliverTx {
   code: number;
   data: Uint8Array;
   /** nondeterministic */
-
   log: string;
   /** nondeterministic */
-
   info: string;
   gasWanted: Long;
   gasUsed: Long;
@@ -641,11 +515,7 @@ export interface ResponseDeliverTx {
 export interface ResponseDeliverTxSDKType {
   code: number;
   data: Uint8Array;
-  /** nondeterministic */
-
   log: string;
-  /** nondeterministic */
-
   info: string;
   gas_wanted: Long;
   gas_used: Long;
@@ -668,7 +538,6 @@ export interface ResponseCommit {
   retainHeight: Long;
 }
 export interface ResponseCommitSDKType {
-  /** reserve 1 */
   data: Uint8Array;
   retain_height: Long;
 }
@@ -682,7 +551,7 @@ export interface ResponseOfferSnapshot {
   result: ResponseOfferSnapshot_Result;
 }
 export interface ResponseOfferSnapshotSDKType {
-  result: ResponseOfferSnapshot_ResultSDKType;
+  result: ResponseOfferSnapshot_Result;
 }
 export interface ResponseLoadSnapshotChunk {
   chunk: Uint8Array;
@@ -693,26 +562,19 @@ export interface ResponseLoadSnapshotChunkSDKType {
 export interface ResponseApplySnapshotChunk {
   result: ResponseApplySnapshotChunk_Result;
   /** Chunks to refetch and reapply */
-
   refetchChunks: number[];
   /** Chunk senders to reject and ban */
-
   rejectSenders: string[];
 }
 export interface ResponseApplySnapshotChunkSDKType {
-  result: ResponseApplySnapshotChunk_ResultSDKType;
-  /** Chunks to refetch and reapply */
-
+  result: ResponseApplySnapshotChunk_Result;
   refetch_chunks: number[];
-  /** Chunk senders to reject and ban */
-
   reject_senders: string[];
 }
 /**
  * ConsensusParams contains all consensus-relevant parameters
  * that can be adjusted by the abci app
  */
-
 export interface ConsensusParams {
   block?: BlockParams | undefined;
   evidence?: EvidenceParams | undefined;
@@ -723,7 +585,6 @@ export interface ConsensusParams {
  * ConsensusParams contains all consensus-relevant parameters
  * that can be adjusted by the abci app
  */
-
 export interface ConsensusParamsSDKType {
   block?: BlockParamsSDKType | undefined;
   evidence?: EvidenceParamsSDKType | undefined;
@@ -731,21 +592,15 @@ export interface ConsensusParamsSDKType {
   version?: VersionParamsSDKType | undefined;
 }
 /** BlockParams contains limits on the block size. */
-
 export interface BlockParams {
   /** Note: must be greater than 0 */
   maxBytes: Long;
   /** Note: must be greater or equal to -1 */
-
   maxGas: Long;
 }
 /** BlockParams contains limits on the block size. */
-
 export interface BlockParamsSDKType {
-  /** Note: must be greater than 0 */
   max_bytes: Long;
-  /** Note: must be greater or equal to -1 */
-
   max_gas: Long;
 }
 export interface LastCommitInfo {
@@ -761,7 +616,6 @@ export interface LastCommitInfoSDKType {
  * ResponseBeginBlock, ResponseEndBlock, ResponseCheckTx and ResponseDeliverTx.
  * Later, transactions may be queried using these events.
  */
-
 export interface Event {
   type: string;
   attributes: EventAttribute[];
@@ -771,27 +625,21 @@ export interface Event {
  * ResponseBeginBlock, ResponseEndBlock, ResponseCheckTx and ResponseDeliverTx.
  * Later, transactions may be queried using these events.
  */
-
 export interface EventSDKType {
   type: string;
   attributes: EventAttributeSDKType[];
 }
 /** EventAttribute is a single key-value pair, associated with an event. */
-
 export interface EventAttribute {
   key: Uint8Array;
   value: Uint8Array;
   /** nondeterministic */
-
   index: boolean;
 }
 /** EventAttribute is a single key-value pair, associated with an event. */
-
 export interface EventAttributeSDKType {
   key: Uint8Array;
   value: Uint8Array;
-  /** nondeterministic */
-
   index: boolean;
 }
 /**
@@ -799,7 +647,6 @@ export interface EventAttributeSDKType {
  * 
  * One usage is indexing transaction results.
  */
-
 export interface TxResult {
   height: Long;
   index: number;
@@ -811,7 +658,6 @@ export interface TxResult {
  * 
  * One usage is indexing transaction results.
  */
-
 export interface TxResultSDKType {
   height: Long;
   index: number;
@@ -819,7 +665,6 @@ export interface TxResultSDKType {
   result?: ResponseDeliverTxSDKType | undefined;
 }
 /** Validator */
-
 export interface Validator {
   /**
    * The first 20 bytes of SHA256(public key)
@@ -827,41 +672,29 @@ export interface Validator {
    */
   address: Uint8Array;
   /** The voting power */
-
   power: Long;
 }
 /** Validator */
-
 export interface ValidatorSDKType {
-  /**
-   * The first 20 bytes of SHA256(public key)
-   * PubKey pub_key = 2 [(gogoproto.nullable)=false];
-   */
   address: Uint8Array;
-  /** The voting power */
-
   power: Long;
 }
 /** ValidatorUpdate */
-
 export interface ValidatorUpdate {
   pubKey?: PublicKey | undefined;
   power: Long;
 }
 /** ValidatorUpdate */
-
 export interface ValidatorUpdateSDKType {
   pub_key?: PublicKeySDKType | undefined;
   power: Long;
 }
 /** VoteInfo */
-
 export interface VoteInfo {
   validator?: Validator | undefined;
   signedLastBlock: boolean;
 }
 /** VoteInfo */
-
 export interface VoteInfoSDKType {
   validator?: ValidatorSDKType | undefined;
   signed_last_block: boolean;
@@ -869,74 +702,44 @@ export interface VoteInfoSDKType {
 export interface Evidence {
   type: EvidenceType;
   /** The offending validator */
-
   validator?: Validator | undefined;
   /** The height when the offense occurred */
-
   height: Long;
   /** The corresponding time where the offense occurred */
-
   time?: Date | undefined;
   /**
    * Total voting power of the validator set in case the ABCI application does
    * not store historical validators.
    * https://github.com/tendermint/tendermint/issues/4581
    */
-
   totalVotingPower: Long;
 }
 export interface EvidenceSDKType {
-  type: EvidenceTypeSDKType;
-  /** The offending validator */
-
+  type: EvidenceType;
   validator?: ValidatorSDKType | undefined;
-  /** The height when the offense occurred */
-
   height: Long;
-  /** The corresponding time where the offense occurred */
-
   time?: Date | undefined;
-  /**
-   * Total voting power of the validator set in case the ABCI application does
-   * not store historical validators.
-   * https://github.com/tendermint/tendermint/issues/4581
-   */
-
   total_voting_power: Long;
 }
 export interface Snapshot {
   /** The height at which the snapshot was taken */
   height: Long;
   /** The application-specific snapshot format */
-
   format: number;
   /** Number of chunks in the snapshot */
-
   chunks: number;
   /** Arbitrary snapshot hash, equal only if identical */
-
   hash: Uint8Array;
   /** Arbitrary application metadata */
-
   metadata: Uint8Array;
 }
 export interface SnapshotSDKType {
-  /** The height at which the snapshot was taken */
   height: Long;
-  /** The application-specific snapshot format */
-
   format: number;
-  /** Number of chunks in the snapshot */
-
   chunks: number;
-  /** Arbitrary snapshot hash, equal only if identical */
-
   hash: Uint8Array;
-  /** Arbitrary application metadata */
-
   metadata: Uint8Array;
 }
-
 function createBaseRequest(): Request {
   return {
     echo: undefined,
@@ -956,150 +759,114 @@ function createBaseRequest(): Request {
     applySnapshotChunk: undefined
   };
 }
-
 export const Request = {
   encode(message: Request, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.echo !== undefined) {
       RequestEcho.encode(message.echo, writer.uint32(10).fork()).ldelim();
     }
-
     if (message.flush !== undefined) {
       RequestFlush.encode(message.flush, writer.uint32(18).fork()).ldelim();
     }
-
     if (message.info !== undefined) {
       RequestInfo.encode(message.info, writer.uint32(26).fork()).ldelim();
     }
-
     if (message.setOption !== undefined) {
       RequestSetOption.encode(message.setOption, writer.uint32(34).fork()).ldelim();
     }
-
     if (message.initChain !== undefined) {
       RequestInitChain.encode(message.initChain, writer.uint32(42).fork()).ldelim();
     }
-
     if (message.query !== undefined) {
       RequestQuery.encode(message.query, writer.uint32(50).fork()).ldelim();
     }
-
     if (message.beginBlock !== undefined) {
       RequestBeginBlock.encode(message.beginBlock, writer.uint32(58).fork()).ldelim();
     }
-
     if (message.checkTx !== undefined) {
       RequestCheckTx.encode(message.checkTx, writer.uint32(66).fork()).ldelim();
     }
-
     if (message.deliverTx !== undefined) {
       RequestDeliverTx.encode(message.deliverTx, writer.uint32(74).fork()).ldelim();
     }
-
     if (message.endBlock !== undefined) {
       RequestEndBlock.encode(message.endBlock, writer.uint32(82).fork()).ldelim();
     }
-
     if (message.commit !== undefined) {
       RequestCommit.encode(message.commit, writer.uint32(90).fork()).ldelim();
     }
-
     if (message.listSnapshots !== undefined) {
       RequestListSnapshots.encode(message.listSnapshots, writer.uint32(98).fork()).ldelim();
     }
-
     if (message.offerSnapshot !== undefined) {
       RequestOfferSnapshot.encode(message.offerSnapshot, writer.uint32(106).fork()).ldelim();
     }
-
     if (message.loadSnapshotChunk !== undefined) {
       RequestLoadSnapshotChunk.encode(message.loadSnapshotChunk, writer.uint32(114).fork()).ldelim();
     }
-
     if (message.applySnapshotChunk !== undefined) {
       RequestApplySnapshotChunk.encode(message.applySnapshotChunk, writer.uint32(122).fork()).ldelim();
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): Request {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequest();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.echo = RequestEcho.decode(reader, reader.uint32());
           break;
-
         case 2:
           message.flush = RequestFlush.decode(reader, reader.uint32());
           break;
-
         case 3:
           message.info = RequestInfo.decode(reader, reader.uint32());
           break;
-
         case 4:
           message.setOption = RequestSetOption.decode(reader, reader.uint32());
           break;
-
         case 5:
           message.initChain = RequestInitChain.decode(reader, reader.uint32());
           break;
-
         case 6:
           message.query = RequestQuery.decode(reader, reader.uint32());
           break;
-
         case 7:
           message.beginBlock = RequestBeginBlock.decode(reader, reader.uint32());
           break;
-
         case 8:
           message.checkTx = RequestCheckTx.decode(reader, reader.uint32());
           break;
-
         case 9:
           message.deliverTx = RequestDeliverTx.decode(reader, reader.uint32());
           break;
-
         case 10:
           message.endBlock = RequestEndBlock.decode(reader, reader.uint32());
           break;
-
         case 11:
           message.commit = RequestCommit.decode(reader, reader.uint32());
           break;
-
         case 12:
           message.listSnapshots = RequestListSnapshots.decode(reader, reader.uint32());
           break;
-
         case 13:
           message.offerSnapshot = RequestOfferSnapshot.decode(reader, reader.uint32());
           break;
-
         case 14:
           message.loadSnapshotChunk = RequestLoadSnapshotChunk.decode(reader, reader.uint32());
           break;
-
         case 15:
           message.applySnapshotChunk = RequestApplySnapshotChunk.decode(reader, reader.uint32());
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<Request>): Request {
     const message = createBaseRequest();
     message.echo = object.echo !== undefined && object.echo !== null ? RequestEcho.fromPartial(object.echo) : undefined;
@@ -1119,88 +886,68 @@ export const Request = {
     message.applySnapshotChunk = object.applySnapshotChunk !== undefined && object.applySnapshotChunk !== null ? RequestApplySnapshotChunk.fromPartial(object.applySnapshotChunk) : undefined;
     return message;
   }
-
 };
-
 function createBaseRequestEcho(): RequestEcho {
   return {
     message: ""
   };
 }
-
 export const RequestEcho = {
   encode(message: RequestEcho, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.message !== "") {
       writer.uint32(10).string(message.message);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestEcho {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestEcho();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.message = reader.string();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<RequestEcho>): RequestEcho {
     const message = createBaseRequestEcho();
     message.message = object.message ?? "";
     return message;
   }
-
 };
-
 function createBaseRequestFlush(): RequestFlush {
   return {};
 }
-
 export const RequestFlush = {
   encode(_: RequestFlush, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestFlush {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestFlush();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(_: Partial<RequestFlush>): RequestFlush {
     const message = createBaseRequestFlush();
     return message;
   }
-
 };
-
 function createBaseRequestInfo(): RequestInfo {
   return {
     version: "",
@@ -1208,54 +955,42 @@ function createBaseRequestInfo(): RequestInfo {
     p2pVersion: Long.UZERO
   };
 }
-
 export const RequestInfo = {
   encode(message: RequestInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.version !== "") {
       writer.uint32(10).string(message.version);
     }
-
     if (!message.blockVersion.isZero()) {
       writer.uint32(16).uint64(message.blockVersion);
     }
-
     if (!message.p2pVersion.isZero()) {
       writer.uint32(24).uint64(message.p2pVersion);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestInfo {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestInfo();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.version = reader.string();
           break;
-
         case 2:
           message.blockVersion = (reader.uint64() as Long);
           break;
-
         case 3:
           message.p2pVersion = (reader.uint64() as Long);
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<RequestInfo>): RequestInfo {
     const message = createBaseRequestInfo();
     message.version = object.version ?? "";
@@ -1263,64 +998,50 @@ export const RequestInfo = {
     message.p2pVersion = object.p2pVersion !== undefined && object.p2pVersion !== null ? Long.fromValue(object.p2pVersion) : Long.UZERO;
     return message;
   }
-
 };
-
 function createBaseRequestSetOption(): RequestSetOption {
   return {
     key: "",
     value: ""
   };
 }
-
 export const RequestSetOption = {
   encode(message: RequestSetOption, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
-
     if (message.value !== "") {
       writer.uint32(18).string(message.value);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestSetOption {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestSetOption();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.key = reader.string();
           break;
-
         case 2:
           message.value = reader.string();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<RequestSetOption>): RequestSetOption {
     const message = createBaseRequestSetOption();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
     return message;
   }
-
 };
-
 function createBaseRequestInitChain(): RequestInitChain {
   return {
     time: undefined,
@@ -1331,78 +1052,60 @@ function createBaseRequestInitChain(): RequestInitChain {
     initialHeight: Long.ZERO
   };
 }
-
 export const RequestInitChain = {
   encode(message: RequestInitChain, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.time !== undefined) {
       Timestamp.encode(toTimestamp(message.time), writer.uint32(10).fork()).ldelim();
     }
-
     if (message.chainId !== "") {
       writer.uint32(18).string(message.chainId);
     }
-
     if (message.consensusParams !== undefined) {
       ConsensusParams.encode(message.consensusParams, writer.uint32(26).fork()).ldelim();
     }
-
     for (const v of message.validators) {
       ValidatorUpdate.encode(v!, writer.uint32(34).fork()).ldelim();
     }
-
     if (message.appStateBytes.length !== 0) {
       writer.uint32(42).bytes(message.appStateBytes);
     }
-
     if (!message.initialHeight.isZero()) {
       writer.uint32(48).int64(message.initialHeight);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestInitChain {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestInitChain();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.time = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
-
         case 2:
           message.chainId = reader.string();
           break;
-
         case 3:
           message.consensusParams = ConsensusParams.decode(reader, reader.uint32());
           break;
-
         case 4:
           message.validators.push(ValidatorUpdate.decode(reader, reader.uint32()));
           break;
-
         case 5:
           message.appStateBytes = reader.bytes();
           break;
-
         case 6:
           message.initialHeight = (reader.int64() as Long);
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<RequestInitChain>): RequestInitChain {
     const message = createBaseRequestInitChain();
     message.time = object.time ?? undefined;
@@ -1413,9 +1116,7 @@ export const RequestInitChain = {
     message.initialHeight = object.initialHeight !== undefined && object.initialHeight !== null ? Long.fromValue(object.initialHeight) : Long.ZERO;
     return message;
   }
-
 };
-
 function createBaseRequestQuery(): RequestQuery {
   return {
     data: new Uint8Array(),
@@ -1424,62 +1125,48 @@ function createBaseRequestQuery(): RequestQuery {
     prove: false
   };
 }
-
 export const RequestQuery = {
   encode(message: RequestQuery, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.data.length !== 0) {
       writer.uint32(10).bytes(message.data);
     }
-
     if (message.path !== "") {
       writer.uint32(18).string(message.path);
     }
-
     if (!message.height.isZero()) {
       writer.uint32(24).int64(message.height);
     }
-
     if (message.prove === true) {
       writer.uint32(32).bool(message.prove);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestQuery {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestQuery();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.data = reader.bytes();
           break;
-
         case 2:
           message.path = reader.string();
           break;
-
         case 3:
           message.height = (reader.int64() as Long);
           break;
-
         case 4:
           message.prove = reader.bool();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<RequestQuery>): RequestQuery {
     const message = createBaseRequestQuery();
     message.data = object.data ?? new Uint8Array();
@@ -1488,9 +1175,7 @@ export const RequestQuery = {
     message.prove = object.prove ?? false;
     return message;
   }
-
 };
-
 function createBaseRequestBeginBlock(): RequestBeginBlock {
   return {
     hash: new Uint8Array(),
@@ -1499,62 +1184,48 @@ function createBaseRequestBeginBlock(): RequestBeginBlock {
     byzantineValidators: []
   };
 }
-
 export const RequestBeginBlock = {
   encode(message: RequestBeginBlock, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.hash.length !== 0) {
       writer.uint32(10).bytes(message.hash);
     }
-
     if (message.header !== undefined) {
       Header.encode(message.header, writer.uint32(18).fork()).ldelim();
     }
-
     if (message.lastCommitInfo !== undefined) {
       LastCommitInfo.encode(message.lastCommitInfo, writer.uint32(26).fork()).ldelim();
     }
-
     for (const v of message.byzantineValidators) {
       Evidence.encode(v!, writer.uint32(34).fork()).ldelim();
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestBeginBlock {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestBeginBlock();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.hash = reader.bytes();
           break;
-
         case 2:
           message.header = Header.decode(reader, reader.uint32());
           break;
-
         case 3:
           message.lastCommitInfo = LastCommitInfo.decode(reader, reader.uint32());
           break;
-
         case 4:
           message.byzantineValidators.push(Evidence.decode(reader, reader.uint32()));
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<RequestBeginBlock>): RequestBeginBlock {
     const message = createBaseRequestBeginBlock();
     message.hash = object.hash ?? new Uint8Array();
@@ -1563,277 +1234,215 @@ export const RequestBeginBlock = {
     message.byzantineValidators = object.byzantineValidators?.map(e => Evidence.fromPartial(e)) || [];
     return message;
   }
-
 };
-
 function createBaseRequestCheckTx(): RequestCheckTx {
   return {
     tx: new Uint8Array(),
     type: 0
   };
 }
-
 export const RequestCheckTx = {
   encode(message: RequestCheckTx, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.tx.length !== 0) {
       writer.uint32(10).bytes(message.tx);
     }
-
     if (message.type !== 0) {
       writer.uint32(16).int32(message.type);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestCheckTx {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestCheckTx();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.tx = reader.bytes();
           break;
-
         case 2:
           message.type = (reader.int32() as any);
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<RequestCheckTx>): RequestCheckTx {
     const message = createBaseRequestCheckTx();
     message.tx = object.tx ?? new Uint8Array();
     message.type = object.type ?? 0;
     return message;
   }
-
 };
-
 function createBaseRequestDeliverTx(): RequestDeliverTx {
   return {
     tx: new Uint8Array()
   };
 }
-
 export const RequestDeliverTx = {
   encode(message: RequestDeliverTx, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.tx.length !== 0) {
       writer.uint32(10).bytes(message.tx);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestDeliverTx {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestDeliverTx();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.tx = reader.bytes();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<RequestDeliverTx>): RequestDeliverTx {
     const message = createBaseRequestDeliverTx();
     message.tx = object.tx ?? new Uint8Array();
     return message;
   }
-
 };
-
 function createBaseRequestEndBlock(): RequestEndBlock {
   return {
     height: Long.ZERO
   };
 }
-
 export const RequestEndBlock = {
   encode(message: RequestEndBlock, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.height.isZero()) {
       writer.uint32(8).int64(message.height);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestEndBlock {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestEndBlock();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.height = (reader.int64() as Long);
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<RequestEndBlock>): RequestEndBlock {
     const message = createBaseRequestEndBlock();
     message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
     return message;
   }
-
 };
-
 function createBaseRequestCommit(): RequestCommit {
   return {};
 }
-
 export const RequestCommit = {
   encode(_: RequestCommit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestCommit {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestCommit();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(_: Partial<RequestCommit>): RequestCommit {
     const message = createBaseRequestCommit();
     return message;
   }
-
 };
-
 function createBaseRequestListSnapshots(): RequestListSnapshots {
   return {};
 }
-
 export const RequestListSnapshots = {
   encode(_: RequestListSnapshots, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestListSnapshots {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestListSnapshots();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(_: Partial<RequestListSnapshots>): RequestListSnapshots {
     const message = createBaseRequestListSnapshots();
     return message;
   }
-
 };
-
 function createBaseRequestOfferSnapshot(): RequestOfferSnapshot {
   return {
     snapshot: undefined,
     appHash: new Uint8Array()
   };
 }
-
 export const RequestOfferSnapshot = {
   encode(message: RequestOfferSnapshot, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.snapshot !== undefined) {
       Snapshot.encode(message.snapshot, writer.uint32(10).fork()).ldelim();
     }
-
     if (message.appHash.length !== 0) {
       writer.uint32(18).bytes(message.appHash);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestOfferSnapshot {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestOfferSnapshot();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.snapshot = Snapshot.decode(reader, reader.uint32());
           break;
-
         case 2:
           message.appHash = reader.bytes();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<RequestOfferSnapshot>): RequestOfferSnapshot {
     const message = createBaseRequestOfferSnapshot();
     message.snapshot = object.snapshot !== undefined && object.snapshot !== null ? Snapshot.fromPartial(object.snapshot) : undefined;
     message.appHash = object.appHash ?? new Uint8Array();
     return message;
   }
-
 };
-
 function createBaseRequestLoadSnapshotChunk(): RequestLoadSnapshotChunk {
   return {
     height: Long.UZERO,
@@ -1841,54 +1450,42 @@ function createBaseRequestLoadSnapshotChunk(): RequestLoadSnapshotChunk {
     chunk: 0
   };
 }
-
 export const RequestLoadSnapshotChunk = {
   encode(message: RequestLoadSnapshotChunk, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.height.isZero()) {
       writer.uint32(8).uint64(message.height);
     }
-
     if (message.format !== 0) {
       writer.uint32(16).uint32(message.format);
     }
-
     if (message.chunk !== 0) {
       writer.uint32(24).uint32(message.chunk);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestLoadSnapshotChunk {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestLoadSnapshotChunk();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.height = (reader.uint64() as Long);
           break;
-
         case 2:
           message.format = reader.uint32();
           break;
-
         case 3:
           message.chunk = reader.uint32();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<RequestLoadSnapshotChunk>): RequestLoadSnapshotChunk {
     const message = createBaseRequestLoadSnapshotChunk();
     message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
@@ -1896,9 +1493,7 @@ export const RequestLoadSnapshotChunk = {
     message.chunk = object.chunk ?? 0;
     return message;
   }
-
 };
-
 function createBaseRequestApplySnapshotChunk(): RequestApplySnapshotChunk {
   return {
     index: 0,
@@ -1906,54 +1501,42 @@ function createBaseRequestApplySnapshotChunk(): RequestApplySnapshotChunk {
     sender: ""
   };
 }
-
 export const RequestApplySnapshotChunk = {
   encode(message: RequestApplySnapshotChunk, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.index !== 0) {
       writer.uint32(8).uint32(message.index);
     }
-
     if (message.chunk.length !== 0) {
       writer.uint32(18).bytes(message.chunk);
     }
-
     if (message.sender !== "") {
       writer.uint32(26).string(message.sender);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): RequestApplySnapshotChunk {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRequestApplySnapshotChunk();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.index = reader.uint32();
           break;
-
         case 2:
           message.chunk = reader.bytes();
           break;
-
         case 3:
           message.sender = reader.string();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<RequestApplySnapshotChunk>): RequestApplySnapshotChunk {
     const message = createBaseRequestApplySnapshotChunk();
     message.index = object.index ?? 0;
@@ -1961,9 +1544,7 @@ export const RequestApplySnapshotChunk = {
     message.sender = object.sender ?? "";
     return message;
   }
-
 };
-
 function createBaseResponse(): Response {
   return {
     exception: undefined,
@@ -1984,158 +1565,120 @@ function createBaseResponse(): Response {
     applySnapshotChunk: undefined
   };
 }
-
 export const Response = {
   encode(message: Response, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.exception !== undefined) {
       ResponseException.encode(message.exception, writer.uint32(10).fork()).ldelim();
     }
-
     if (message.echo !== undefined) {
       ResponseEcho.encode(message.echo, writer.uint32(18).fork()).ldelim();
     }
-
     if (message.flush !== undefined) {
       ResponseFlush.encode(message.flush, writer.uint32(26).fork()).ldelim();
     }
-
     if (message.info !== undefined) {
       ResponseInfo.encode(message.info, writer.uint32(34).fork()).ldelim();
     }
-
     if (message.setOption !== undefined) {
       ResponseSetOption.encode(message.setOption, writer.uint32(42).fork()).ldelim();
     }
-
     if (message.initChain !== undefined) {
       ResponseInitChain.encode(message.initChain, writer.uint32(50).fork()).ldelim();
     }
-
     if (message.query !== undefined) {
       ResponseQuery.encode(message.query, writer.uint32(58).fork()).ldelim();
     }
-
     if (message.beginBlock !== undefined) {
       ResponseBeginBlock.encode(message.beginBlock, writer.uint32(66).fork()).ldelim();
     }
-
     if (message.checkTx !== undefined) {
       ResponseCheckTx.encode(message.checkTx, writer.uint32(74).fork()).ldelim();
     }
-
     if (message.deliverTx !== undefined) {
       ResponseDeliverTx.encode(message.deliverTx, writer.uint32(82).fork()).ldelim();
     }
-
     if (message.endBlock !== undefined) {
       ResponseEndBlock.encode(message.endBlock, writer.uint32(90).fork()).ldelim();
     }
-
     if (message.commit !== undefined) {
       ResponseCommit.encode(message.commit, writer.uint32(98).fork()).ldelim();
     }
-
     if (message.listSnapshots !== undefined) {
       ResponseListSnapshots.encode(message.listSnapshots, writer.uint32(106).fork()).ldelim();
     }
-
     if (message.offerSnapshot !== undefined) {
       ResponseOfferSnapshot.encode(message.offerSnapshot, writer.uint32(114).fork()).ldelim();
     }
-
     if (message.loadSnapshotChunk !== undefined) {
       ResponseLoadSnapshotChunk.encode(message.loadSnapshotChunk, writer.uint32(122).fork()).ldelim();
     }
-
     if (message.applySnapshotChunk !== undefined) {
       ResponseApplySnapshotChunk.encode(message.applySnapshotChunk, writer.uint32(130).fork()).ldelim();
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): Response {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponse();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.exception = ResponseException.decode(reader, reader.uint32());
           break;
-
         case 2:
           message.echo = ResponseEcho.decode(reader, reader.uint32());
           break;
-
         case 3:
           message.flush = ResponseFlush.decode(reader, reader.uint32());
           break;
-
         case 4:
           message.info = ResponseInfo.decode(reader, reader.uint32());
           break;
-
         case 5:
           message.setOption = ResponseSetOption.decode(reader, reader.uint32());
           break;
-
         case 6:
           message.initChain = ResponseInitChain.decode(reader, reader.uint32());
           break;
-
         case 7:
           message.query = ResponseQuery.decode(reader, reader.uint32());
           break;
-
         case 8:
           message.beginBlock = ResponseBeginBlock.decode(reader, reader.uint32());
           break;
-
         case 9:
           message.checkTx = ResponseCheckTx.decode(reader, reader.uint32());
           break;
-
         case 10:
           message.deliverTx = ResponseDeliverTx.decode(reader, reader.uint32());
           break;
-
         case 11:
           message.endBlock = ResponseEndBlock.decode(reader, reader.uint32());
           break;
-
         case 12:
           message.commit = ResponseCommit.decode(reader, reader.uint32());
           break;
-
         case 13:
           message.listSnapshots = ResponseListSnapshots.decode(reader, reader.uint32());
           break;
-
         case 14:
           message.offerSnapshot = ResponseOfferSnapshot.decode(reader, reader.uint32());
           break;
-
         case 15:
           message.loadSnapshotChunk = ResponseLoadSnapshotChunk.decode(reader, reader.uint32());
           break;
-
         case 16:
           message.applySnapshotChunk = ResponseApplySnapshotChunk.decode(reader, reader.uint32());
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<Response>): Response {
     const message = createBaseResponse();
     message.exception = object.exception !== undefined && object.exception !== null ? ResponseException.fromPartial(object.exception) : undefined;
@@ -2156,133 +1699,103 @@ export const Response = {
     message.applySnapshotChunk = object.applySnapshotChunk !== undefined && object.applySnapshotChunk !== null ? ResponseApplySnapshotChunk.fromPartial(object.applySnapshotChunk) : undefined;
     return message;
   }
-
 };
-
 function createBaseResponseException(): ResponseException {
   return {
     error: ""
   };
 }
-
 export const ResponseException = {
   encode(message: ResponseException, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.error !== "") {
       writer.uint32(10).string(message.error);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseException {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseException();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.error = reader.string();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseException>): ResponseException {
     const message = createBaseResponseException();
     message.error = object.error ?? "";
     return message;
   }
-
 };
-
 function createBaseResponseEcho(): ResponseEcho {
   return {
     message: ""
   };
 }
-
 export const ResponseEcho = {
   encode(message: ResponseEcho, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.message !== "") {
       writer.uint32(10).string(message.message);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseEcho {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseEcho();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.message = reader.string();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseEcho>): ResponseEcho {
     const message = createBaseResponseEcho();
     message.message = object.message ?? "";
     return message;
   }
-
 };
-
 function createBaseResponseFlush(): ResponseFlush {
   return {};
 }
-
 export const ResponseFlush = {
   encode(_: ResponseFlush, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseFlush {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseFlush();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(_: Partial<ResponseFlush>): ResponseFlush {
     const message = createBaseResponseFlush();
     return message;
   }
-
 };
-
 function createBaseResponseInfo(): ResponseInfo {
   return {
     data: "",
@@ -2292,70 +1805,54 @@ function createBaseResponseInfo(): ResponseInfo {
     lastBlockAppHash: new Uint8Array()
   };
 }
-
 export const ResponseInfo = {
   encode(message: ResponseInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.data !== "") {
       writer.uint32(10).string(message.data);
     }
-
     if (message.version !== "") {
       writer.uint32(18).string(message.version);
     }
-
     if (!message.appVersion.isZero()) {
       writer.uint32(24).uint64(message.appVersion);
     }
-
     if (!message.lastBlockHeight.isZero()) {
       writer.uint32(32).int64(message.lastBlockHeight);
     }
-
     if (message.lastBlockAppHash.length !== 0) {
       writer.uint32(42).bytes(message.lastBlockAppHash);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseInfo {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseInfo();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.data = reader.string();
           break;
-
         case 2:
           message.version = reader.string();
           break;
-
         case 3:
           message.appVersion = (reader.uint64() as Long);
           break;
-
         case 4:
           message.lastBlockHeight = (reader.int64() as Long);
           break;
-
         case 5:
           message.lastBlockAppHash = reader.bytes();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseInfo>): ResponseInfo {
     const message = createBaseResponseInfo();
     message.data = object.data ?? "";
@@ -2365,9 +1862,7 @@ export const ResponseInfo = {
     message.lastBlockAppHash = object.lastBlockAppHash ?? new Uint8Array();
     return message;
   }
-
 };
-
 function createBaseResponseSetOption(): ResponseSetOption {
   return {
     code: 0,
@@ -2375,54 +1870,42 @@ function createBaseResponseSetOption(): ResponseSetOption {
     info: ""
   };
 }
-
 export const ResponseSetOption = {
   encode(message: ResponseSetOption, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.code !== 0) {
       writer.uint32(8).uint32(message.code);
     }
-
     if (message.log !== "") {
       writer.uint32(26).string(message.log);
     }
-
     if (message.info !== "") {
       writer.uint32(34).string(message.info);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseSetOption {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseSetOption();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.code = reader.uint32();
           break;
-
         case 3:
           message.log = reader.string();
           break;
-
         case 4:
           message.info = reader.string();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseSetOption>): ResponseSetOption {
     const message = createBaseResponseSetOption();
     message.code = object.code ?? 0;
@@ -2430,9 +1913,7 @@ export const ResponseSetOption = {
     message.info = object.info ?? "";
     return message;
   }
-
 };
-
 function createBaseResponseInitChain(): ResponseInitChain {
   return {
     consensusParams: undefined,
@@ -2440,54 +1921,42 @@ function createBaseResponseInitChain(): ResponseInitChain {
     appHash: new Uint8Array()
   };
 }
-
 export const ResponseInitChain = {
   encode(message: ResponseInitChain, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.consensusParams !== undefined) {
       ConsensusParams.encode(message.consensusParams, writer.uint32(10).fork()).ldelim();
     }
-
     for (const v of message.validators) {
       ValidatorUpdate.encode(v!, writer.uint32(18).fork()).ldelim();
     }
-
     if (message.appHash.length !== 0) {
       writer.uint32(26).bytes(message.appHash);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseInitChain {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseInitChain();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.consensusParams = ConsensusParams.decode(reader, reader.uint32());
           break;
-
         case 2:
           message.validators.push(ValidatorUpdate.decode(reader, reader.uint32()));
           break;
-
         case 3:
           message.appHash = reader.bytes();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseInitChain>): ResponseInitChain {
     const message = createBaseResponseInitChain();
     message.consensusParams = object.consensusParams !== undefined && object.consensusParams !== null ? ConsensusParams.fromPartial(object.consensusParams) : undefined;
@@ -2495,9 +1964,7 @@ export const ResponseInitChain = {
     message.appHash = object.appHash ?? new Uint8Array();
     return message;
   }
-
 };
-
 function createBaseResponseQuery(): ResponseQuery {
   return {
     code: 0,
@@ -2511,102 +1978,78 @@ function createBaseResponseQuery(): ResponseQuery {
     codespace: ""
   };
 }
-
 export const ResponseQuery = {
   encode(message: ResponseQuery, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.code !== 0) {
       writer.uint32(8).uint32(message.code);
     }
-
     if (message.log !== "") {
       writer.uint32(26).string(message.log);
     }
-
     if (message.info !== "") {
       writer.uint32(34).string(message.info);
     }
-
     if (!message.index.isZero()) {
       writer.uint32(40).int64(message.index);
     }
-
     if (message.key.length !== 0) {
       writer.uint32(50).bytes(message.key);
     }
-
     if (message.value.length !== 0) {
       writer.uint32(58).bytes(message.value);
     }
-
     if (message.proofOps !== undefined) {
       ProofOps.encode(message.proofOps, writer.uint32(66).fork()).ldelim();
     }
-
     if (!message.height.isZero()) {
       writer.uint32(72).int64(message.height);
     }
-
     if (message.codespace !== "") {
       writer.uint32(82).string(message.codespace);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseQuery {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseQuery();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.code = reader.uint32();
           break;
-
         case 3:
           message.log = reader.string();
           break;
-
         case 4:
           message.info = reader.string();
           break;
-
         case 5:
           message.index = (reader.int64() as Long);
           break;
-
         case 6:
           message.key = reader.bytes();
           break;
-
         case 7:
           message.value = reader.bytes();
           break;
-
         case 8:
           message.proofOps = ProofOps.decode(reader, reader.uint32());
           break;
-
         case 9:
           message.height = (reader.int64() as Long);
           break;
-
         case 10:
           message.codespace = reader.string();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseQuery>): ResponseQuery {
     const message = createBaseResponseQuery();
     message.code = object.code ?? 0;
@@ -2620,54 +2063,42 @@ export const ResponseQuery = {
     message.codespace = object.codespace ?? "";
     return message;
   }
-
 };
-
 function createBaseResponseBeginBlock(): ResponseBeginBlock {
   return {
     events: []
   };
 }
-
 export const ResponseBeginBlock = {
   encode(message: ResponseBeginBlock, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.events) {
       Event.encode(v!, writer.uint32(10).fork()).ldelim();
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseBeginBlock {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseBeginBlock();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.events.push(Event.decode(reader, reader.uint32()));
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseBeginBlock>): ResponseBeginBlock {
     const message = createBaseResponseBeginBlock();
     message.events = object.events?.map(e => Event.fromPartial(e)) || [];
     return message;
   }
-
 };
-
 function createBaseResponseCheckTx(): ResponseCheckTx {
   return {
     code: 0,
@@ -2680,94 +2111,72 @@ function createBaseResponseCheckTx(): ResponseCheckTx {
     codespace: ""
   };
 }
-
 export const ResponseCheckTx = {
   encode(message: ResponseCheckTx, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.code !== 0) {
       writer.uint32(8).uint32(message.code);
     }
-
     if (message.data.length !== 0) {
       writer.uint32(18).bytes(message.data);
     }
-
     if (message.log !== "") {
       writer.uint32(26).string(message.log);
     }
-
     if (message.info !== "") {
       writer.uint32(34).string(message.info);
     }
-
     if (!message.gasWanted.isZero()) {
       writer.uint32(40).int64(message.gasWanted);
     }
-
     if (!message.gasUsed.isZero()) {
       writer.uint32(48).int64(message.gasUsed);
     }
-
     for (const v of message.events) {
       Event.encode(v!, writer.uint32(58).fork()).ldelim();
     }
-
     if (message.codespace !== "") {
       writer.uint32(66).string(message.codespace);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseCheckTx {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseCheckTx();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.code = reader.uint32();
           break;
-
         case 2:
           message.data = reader.bytes();
           break;
-
         case 3:
           message.log = reader.string();
           break;
-
         case 4:
           message.info = reader.string();
           break;
-
         case 5:
           message.gasWanted = (reader.int64() as Long);
           break;
-
         case 6:
           message.gasUsed = (reader.int64() as Long);
           break;
-
         case 7:
           message.events.push(Event.decode(reader, reader.uint32()));
           break;
-
         case 8:
           message.codespace = reader.string();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseCheckTx>): ResponseCheckTx {
     const message = createBaseResponseCheckTx();
     message.code = object.code ?? 0;
@@ -2780,9 +2189,7 @@ export const ResponseCheckTx = {
     message.codespace = object.codespace ?? "";
     return message;
   }
-
 };
-
 function createBaseResponseDeliverTx(): ResponseDeliverTx {
   return {
     code: 0,
@@ -2795,94 +2202,72 @@ function createBaseResponseDeliverTx(): ResponseDeliverTx {
     codespace: ""
   };
 }
-
 export const ResponseDeliverTx = {
   encode(message: ResponseDeliverTx, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.code !== 0) {
       writer.uint32(8).uint32(message.code);
     }
-
     if (message.data.length !== 0) {
       writer.uint32(18).bytes(message.data);
     }
-
     if (message.log !== "") {
       writer.uint32(26).string(message.log);
     }
-
     if (message.info !== "") {
       writer.uint32(34).string(message.info);
     }
-
     if (!message.gasWanted.isZero()) {
       writer.uint32(40).int64(message.gasWanted);
     }
-
     if (!message.gasUsed.isZero()) {
       writer.uint32(48).int64(message.gasUsed);
     }
-
     for (const v of message.events) {
       Event.encode(v!, writer.uint32(58).fork()).ldelim();
     }
-
     if (message.codespace !== "") {
       writer.uint32(66).string(message.codespace);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseDeliverTx {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseDeliverTx();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.code = reader.uint32();
           break;
-
         case 2:
           message.data = reader.bytes();
           break;
-
         case 3:
           message.log = reader.string();
           break;
-
         case 4:
           message.info = reader.string();
           break;
-
         case 5:
           message.gasWanted = (reader.int64() as Long);
           break;
-
         case 6:
           message.gasUsed = (reader.int64() as Long);
           break;
-
         case 7:
           message.events.push(Event.decode(reader, reader.uint32()));
           break;
-
         case 8:
           message.codespace = reader.string();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseDeliverTx>): ResponseDeliverTx {
     const message = createBaseResponseDeliverTx();
     message.code = object.code ?? 0;
@@ -2895,9 +2280,7 @@ export const ResponseDeliverTx = {
     message.codespace = object.codespace ?? "";
     return message;
   }
-
 };
-
 function createBaseResponseEndBlock(): ResponseEndBlock {
   return {
     validatorUpdates: [],
@@ -2905,54 +2288,42 @@ function createBaseResponseEndBlock(): ResponseEndBlock {
     events: []
   };
 }
-
 export const ResponseEndBlock = {
   encode(message: ResponseEndBlock, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.validatorUpdates) {
       ValidatorUpdate.encode(v!, writer.uint32(10).fork()).ldelim();
     }
-
     if (message.consensusParamUpdates !== undefined) {
       ConsensusParams.encode(message.consensusParamUpdates, writer.uint32(18).fork()).ldelim();
     }
-
     for (const v of message.events) {
       Event.encode(v!, writer.uint32(26).fork()).ldelim();
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseEndBlock {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseEndBlock();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.validatorUpdates.push(ValidatorUpdate.decode(reader, reader.uint32()));
           break;
-
         case 2:
           message.consensusParamUpdates = ConsensusParams.decode(reader, reader.uint32());
           break;
-
         case 3:
           message.events.push(Event.decode(reader, reader.uint32()));
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseEndBlock>): ResponseEndBlock {
     const message = createBaseResponseEndBlock();
     message.validatorUpdates = object.validatorUpdates?.map(e => ValidatorUpdate.fromPartial(e)) || [];
@@ -2960,199 +2331,155 @@ export const ResponseEndBlock = {
     message.events = object.events?.map(e => Event.fromPartial(e)) || [];
     return message;
   }
-
 };
-
 function createBaseResponseCommit(): ResponseCommit {
   return {
     data: new Uint8Array(),
     retainHeight: Long.ZERO
   };
 }
-
 export const ResponseCommit = {
   encode(message: ResponseCommit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.data.length !== 0) {
       writer.uint32(18).bytes(message.data);
     }
-
     if (!message.retainHeight.isZero()) {
       writer.uint32(24).int64(message.retainHeight);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseCommit {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseCommit();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 2:
           message.data = reader.bytes();
           break;
-
         case 3:
           message.retainHeight = (reader.int64() as Long);
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseCommit>): ResponseCommit {
     const message = createBaseResponseCommit();
     message.data = object.data ?? new Uint8Array();
     message.retainHeight = object.retainHeight !== undefined && object.retainHeight !== null ? Long.fromValue(object.retainHeight) : Long.ZERO;
     return message;
   }
-
 };
-
 function createBaseResponseListSnapshots(): ResponseListSnapshots {
   return {
     snapshots: []
   };
 }
-
 export const ResponseListSnapshots = {
   encode(message: ResponseListSnapshots, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.snapshots) {
       Snapshot.encode(v!, writer.uint32(10).fork()).ldelim();
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseListSnapshots {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseListSnapshots();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.snapshots.push(Snapshot.decode(reader, reader.uint32()));
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseListSnapshots>): ResponseListSnapshots {
     const message = createBaseResponseListSnapshots();
     message.snapshots = object.snapshots?.map(e => Snapshot.fromPartial(e)) || [];
     return message;
   }
-
 };
-
 function createBaseResponseOfferSnapshot(): ResponseOfferSnapshot {
   return {
     result: 0
   };
 }
-
 export const ResponseOfferSnapshot = {
   encode(message: ResponseOfferSnapshot, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.result !== 0) {
       writer.uint32(8).int32(message.result);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseOfferSnapshot {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseOfferSnapshot();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.result = (reader.int32() as any);
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseOfferSnapshot>): ResponseOfferSnapshot {
     const message = createBaseResponseOfferSnapshot();
     message.result = object.result ?? 0;
     return message;
   }
-
 };
-
 function createBaseResponseLoadSnapshotChunk(): ResponseLoadSnapshotChunk {
   return {
     chunk: new Uint8Array()
   };
 }
-
 export const ResponseLoadSnapshotChunk = {
   encode(message: ResponseLoadSnapshotChunk, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.chunk.length !== 0) {
       writer.uint32(10).bytes(message.chunk);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseLoadSnapshotChunk {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseLoadSnapshotChunk();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.chunk = reader.bytes();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseLoadSnapshotChunk>): ResponseLoadSnapshotChunk {
     const message = createBaseResponseLoadSnapshotChunk();
     message.chunk = object.chunk ?? new Uint8Array();
     return message;
   }
-
 };
-
 function createBaseResponseApplySnapshotChunk(): ResponseApplySnapshotChunk {
   return {
     result: 0,
@@ -3160,67 +2487,51 @@ function createBaseResponseApplySnapshotChunk(): ResponseApplySnapshotChunk {
     rejectSenders: []
   };
 }
-
 export const ResponseApplySnapshotChunk = {
   encode(message: ResponseApplySnapshotChunk, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.result !== 0) {
       writer.uint32(8).int32(message.result);
     }
-
     writer.uint32(18).fork();
-
     for (const v of message.refetchChunks) {
       writer.uint32(v);
     }
-
     writer.ldelim();
-
     for (const v of message.rejectSenders) {
       writer.uint32(26).string(v!);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ResponseApplySnapshotChunk {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResponseApplySnapshotChunk();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.result = (reader.int32() as any);
           break;
-
         case 2:
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
-
             while (reader.pos < end2) {
               message.refetchChunks.push(reader.uint32());
             }
           } else {
             message.refetchChunks.push(reader.uint32());
           }
-
           break;
-
         case 3:
           message.rejectSenders.push(reader.string());
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ResponseApplySnapshotChunk>): ResponseApplySnapshotChunk {
     const message = createBaseResponseApplySnapshotChunk();
     message.result = object.result ?? 0;
@@ -3228,9 +2539,7 @@ export const ResponseApplySnapshotChunk = {
     message.rejectSenders = object.rejectSenders?.map(e => e) || [];
     return message;
   }
-
 };
-
 function createBaseConsensusParams(): ConsensusParams {
   return {
     block: undefined,
@@ -3239,62 +2548,48 @@ function createBaseConsensusParams(): ConsensusParams {
     version: undefined
   };
 }
-
 export const ConsensusParams = {
   encode(message: ConsensusParams, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.block !== undefined) {
       BlockParams.encode(message.block, writer.uint32(10).fork()).ldelim();
     }
-
     if (message.evidence !== undefined) {
       EvidenceParams.encode(message.evidence, writer.uint32(18).fork()).ldelim();
     }
-
     if (message.validator !== undefined) {
       ValidatorParams.encode(message.validator, writer.uint32(26).fork()).ldelim();
     }
-
     if (message.version !== undefined) {
       VersionParams.encode(message.version, writer.uint32(34).fork()).ldelim();
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ConsensusParams {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConsensusParams();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.block = BlockParams.decode(reader, reader.uint32());
           break;
-
         case 2:
           message.evidence = EvidenceParams.decode(reader, reader.uint32());
           break;
-
         case 3:
           message.validator = ValidatorParams.decode(reader, reader.uint32());
           break;
-
         case 4:
           message.version = VersionParams.decode(reader, reader.uint32());
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ConsensusParams>): ConsensusParams {
     const message = createBaseConsensusParams();
     message.block = object.block !== undefined && object.block !== null ? BlockParams.fromPartial(object.block) : undefined;
@@ -3303,174 +2598,136 @@ export const ConsensusParams = {
     message.version = object.version !== undefined && object.version !== null ? VersionParams.fromPartial(object.version) : undefined;
     return message;
   }
-
 };
-
 function createBaseBlockParams(): BlockParams {
   return {
     maxBytes: Long.ZERO,
     maxGas: Long.ZERO
   };
 }
-
 export const BlockParams = {
   encode(message: BlockParams, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.maxBytes.isZero()) {
       writer.uint32(8).int64(message.maxBytes);
     }
-
     if (!message.maxGas.isZero()) {
       writer.uint32(16).int64(message.maxGas);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): BlockParams {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBlockParams();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.maxBytes = (reader.int64() as Long);
           break;
-
         case 2:
           message.maxGas = (reader.int64() as Long);
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<BlockParams>): BlockParams {
     const message = createBaseBlockParams();
     message.maxBytes = object.maxBytes !== undefined && object.maxBytes !== null ? Long.fromValue(object.maxBytes) : Long.ZERO;
     message.maxGas = object.maxGas !== undefined && object.maxGas !== null ? Long.fromValue(object.maxGas) : Long.ZERO;
     return message;
   }
-
 };
-
 function createBaseLastCommitInfo(): LastCommitInfo {
   return {
     round: 0,
     votes: []
   };
 }
-
 export const LastCommitInfo = {
   encode(message: LastCommitInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.round !== 0) {
       writer.uint32(8).int32(message.round);
     }
-
     for (const v of message.votes) {
       VoteInfo.encode(v!, writer.uint32(18).fork()).ldelim();
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): LastCommitInfo {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseLastCommitInfo();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.round = reader.int32();
           break;
-
         case 2:
           message.votes.push(VoteInfo.decode(reader, reader.uint32()));
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<LastCommitInfo>): LastCommitInfo {
     const message = createBaseLastCommitInfo();
     message.round = object.round ?? 0;
     message.votes = object.votes?.map(e => VoteInfo.fromPartial(e)) || [];
     return message;
   }
-
 };
-
 function createBaseEvent(): Event {
   return {
     type: "",
     attributes: []
   };
 }
-
 export const Event = {
   encode(message: Event, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.type !== "") {
       writer.uint32(10).string(message.type);
     }
-
     for (const v of message.attributes) {
       EventAttribute.encode(v!, writer.uint32(18).fork()).ldelim();
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): Event {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEvent();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.type = reader.string();
           break;
-
         case 2:
           message.attributes.push(EventAttribute.decode(reader, reader.uint32()));
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<Event>): Event {
     const message = createBaseEvent();
     message.type = object.type ?? "";
     message.attributes = object.attributes?.map(e => EventAttribute.fromPartial(e)) || [];
     return message;
   }
-
 };
-
 function createBaseEventAttribute(): EventAttribute {
   return {
     key: new Uint8Array(),
@@ -3478,54 +2735,42 @@ function createBaseEventAttribute(): EventAttribute {
     index: false
   };
 }
-
 export const EventAttribute = {
   encode(message: EventAttribute, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key);
     }
-
     if (message.value.length !== 0) {
       writer.uint32(18).bytes(message.value);
     }
-
     if (message.index === true) {
       writer.uint32(24).bool(message.index);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): EventAttribute {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEventAttribute();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.key = reader.bytes();
           break;
-
         case 2:
           message.value = reader.bytes();
           break;
-
         case 3:
           message.index = reader.bool();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<EventAttribute>): EventAttribute {
     const message = createBaseEventAttribute();
     message.key = object.key ?? new Uint8Array();
@@ -3533,9 +2778,7 @@ export const EventAttribute = {
     message.index = object.index ?? false;
     return message;
   }
-
 };
-
 function createBaseTxResult(): TxResult {
   return {
     height: Long.ZERO,
@@ -3544,62 +2787,48 @@ function createBaseTxResult(): TxResult {
     result: undefined
   };
 }
-
 export const TxResult = {
   encode(message: TxResult, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.height.isZero()) {
       writer.uint32(8).int64(message.height);
     }
-
     if (message.index !== 0) {
       writer.uint32(16).uint32(message.index);
     }
-
     if (message.tx.length !== 0) {
       writer.uint32(26).bytes(message.tx);
     }
-
     if (message.result !== undefined) {
       ResponseDeliverTx.encode(message.result, writer.uint32(34).fork()).ldelim();
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): TxResult {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTxResult();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.height = (reader.int64() as Long);
           break;
-
         case 2:
           message.index = reader.uint32();
           break;
-
         case 3:
           message.tx = reader.bytes();
           break;
-
         case 4:
           message.result = ResponseDeliverTx.decode(reader, reader.uint32());
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<TxResult>): TxResult {
     const message = createBaseTxResult();
     message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
@@ -3608,174 +2837,136 @@ export const TxResult = {
     message.result = object.result !== undefined && object.result !== null ? ResponseDeliverTx.fromPartial(object.result) : undefined;
     return message;
   }
-
 };
-
 function createBaseValidator(): Validator {
   return {
     address: new Uint8Array(),
     power: Long.ZERO
   };
 }
-
 export const Validator = {
   encode(message: Validator, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.address.length !== 0) {
       writer.uint32(10).bytes(message.address);
     }
-
     if (!message.power.isZero()) {
       writer.uint32(24).int64(message.power);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): Validator {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseValidator();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.address = reader.bytes();
           break;
-
         case 3:
           message.power = (reader.int64() as Long);
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<Validator>): Validator {
     const message = createBaseValidator();
     message.address = object.address ?? new Uint8Array();
     message.power = object.power !== undefined && object.power !== null ? Long.fromValue(object.power) : Long.ZERO;
     return message;
   }
-
 };
-
 function createBaseValidatorUpdate(): ValidatorUpdate {
   return {
     pubKey: undefined,
     power: Long.ZERO
   };
 }
-
 export const ValidatorUpdate = {
   encode(message: ValidatorUpdate, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.pubKey !== undefined) {
       PublicKey.encode(message.pubKey, writer.uint32(10).fork()).ldelim();
     }
-
     if (!message.power.isZero()) {
       writer.uint32(16).int64(message.power);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): ValidatorUpdate {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseValidatorUpdate();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.pubKey = PublicKey.decode(reader, reader.uint32());
           break;
-
         case 2:
           message.power = (reader.int64() as Long);
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<ValidatorUpdate>): ValidatorUpdate {
     const message = createBaseValidatorUpdate();
     message.pubKey = object.pubKey !== undefined && object.pubKey !== null ? PublicKey.fromPartial(object.pubKey) : undefined;
     message.power = object.power !== undefined && object.power !== null ? Long.fromValue(object.power) : Long.ZERO;
     return message;
   }
-
 };
-
 function createBaseVoteInfo(): VoteInfo {
   return {
     validator: undefined,
     signedLastBlock: false
   };
 }
-
 export const VoteInfo = {
   encode(message: VoteInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.validator !== undefined) {
       Validator.encode(message.validator, writer.uint32(10).fork()).ldelim();
     }
-
     if (message.signedLastBlock === true) {
       writer.uint32(16).bool(message.signedLastBlock);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): VoteInfo {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVoteInfo();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.validator = Validator.decode(reader, reader.uint32());
           break;
-
         case 2:
           message.signedLastBlock = reader.bool();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<VoteInfo>): VoteInfo {
     const message = createBaseVoteInfo();
     message.validator = object.validator !== undefined && object.validator !== null ? Validator.fromPartial(object.validator) : undefined;
     message.signedLastBlock = object.signedLastBlock ?? false;
     return message;
   }
-
 };
-
 function createBaseEvidence(): Evidence {
   return {
     type: 0,
@@ -3785,70 +2976,54 @@ function createBaseEvidence(): Evidence {
     totalVotingPower: Long.ZERO
   };
 }
-
 export const Evidence = {
   encode(message: Evidence, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.type !== 0) {
       writer.uint32(8).int32(message.type);
     }
-
     if (message.validator !== undefined) {
       Validator.encode(message.validator, writer.uint32(18).fork()).ldelim();
     }
-
     if (!message.height.isZero()) {
       writer.uint32(24).int64(message.height);
     }
-
     if (message.time !== undefined) {
       Timestamp.encode(toTimestamp(message.time), writer.uint32(34).fork()).ldelim();
     }
-
     if (!message.totalVotingPower.isZero()) {
       writer.uint32(40).int64(message.totalVotingPower);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): Evidence {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEvidence();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.type = (reader.int32() as any);
           break;
-
         case 2:
           message.validator = Validator.decode(reader, reader.uint32());
           break;
-
         case 3:
           message.height = (reader.int64() as Long);
           break;
-
         case 4:
           message.time = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
-
         case 5:
           message.totalVotingPower = (reader.int64() as Long);
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<Evidence>): Evidence {
     const message = createBaseEvidence();
     message.type = object.type ?? 0;
@@ -3858,9 +3033,7 @@ export const Evidence = {
     message.totalVotingPower = object.totalVotingPower !== undefined && object.totalVotingPower !== null ? Long.fromValue(object.totalVotingPower) : Long.ZERO;
     return message;
   }
-
 };
-
 function createBaseSnapshot(): Snapshot {
   return {
     height: Long.UZERO,
@@ -3870,70 +3043,54 @@ function createBaseSnapshot(): Snapshot {
     metadata: new Uint8Array()
   };
 }
-
 export const Snapshot = {
   encode(message: Snapshot, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.height.isZero()) {
       writer.uint32(8).uint64(message.height);
     }
-
     if (message.format !== 0) {
       writer.uint32(16).uint32(message.format);
     }
-
     if (message.chunks !== 0) {
       writer.uint32(24).uint32(message.chunks);
     }
-
     if (message.hash.length !== 0) {
       writer.uint32(34).bytes(message.hash);
     }
-
     if (message.metadata.length !== 0) {
       writer.uint32(42).bytes(message.metadata);
     }
-
     return writer;
   },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): Snapshot {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSnapshot();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.height = (reader.uint64() as Long);
           break;
-
         case 2:
           message.format = reader.uint32();
           break;
-
         case 3:
           message.chunks = reader.uint32();
           break;
-
         case 4:
           message.hash = reader.bytes();
           break;
-
         case 5:
           message.metadata = reader.bytes();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromPartial(object: Partial<Snapshot>): Snapshot {
     const message = createBaseSnapshot();
     message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
@@ -3943,5 +3100,4 @@ export const Snapshot = {
     message.metadata = object.metadata ?? new Uint8Array();
     return message;
   }
-
 };

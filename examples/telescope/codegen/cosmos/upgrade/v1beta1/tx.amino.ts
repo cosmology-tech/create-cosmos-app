@@ -1,7 +1,7 @@
 import { AminoMsg } from "@cosmjs/amino";
 import { Long } from "../../../helpers";
 import { MsgSoftwareUpgrade, MsgCancelUpgrade } from "./tx";
-export interface AminoMsgSoftwareUpgrade extends AminoMsg {
+export interface MsgSoftwareUpgradeAminoType extends AminoMsg {
   type: "cosmos-sdk/MsgSoftwareUpgrade";
   value: {
     authority: string;
@@ -20,7 +20,7 @@ export interface AminoMsgSoftwareUpgrade extends AminoMsg {
     };
   };
 }
-export interface AminoMsgCancelUpgrade extends AminoMsg {
+export interface MsgCancelUpgradeAminoType extends AminoMsg {
   type: "cosmos-sdk/MsgCancelUpgrade";
   value: {
     authority: string;
@@ -32,7 +32,7 @@ export const AminoConverter = {
     toAmino: ({
       authority,
       plan
-    }: MsgSoftwareUpgrade): AminoMsgSoftwareUpgrade["value"] => {
+    }: MsgSoftwareUpgrade): MsgSoftwareUpgradeAminoType["value"] => {
       return {
         authority,
         plan: {
@@ -50,7 +50,7 @@ export const AminoConverter = {
     fromAmino: ({
       authority,
       plan
-    }: AminoMsgSoftwareUpgrade["value"]): MsgSoftwareUpgrade => {
+    }: MsgSoftwareUpgradeAminoType["value"]): MsgSoftwareUpgrade => {
       return {
         authority,
         plan: {
@@ -70,14 +70,14 @@ export const AminoConverter = {
     aminoType: "cosmos-sdk/MsgCancelUpgrade",
     toAmino: ({
       authority
-    }: MsgCancelUpgrade): AminoMsgCancelUpgrade["value"] => {
+    }: MsgCancelUpgrade): MsgCancelUpgradeAminoType["value"] => {
       return {
         authority
       };
     },
     fromAmino: ({
       authority
-    }: AminoMsgCancelUpgrade["value"]): MsgCancelUpgrade => {
+    }: MsgCancelUpgradeAminoType["value"]): MsgCancelUpgrade => {
       return {
         authority
       };

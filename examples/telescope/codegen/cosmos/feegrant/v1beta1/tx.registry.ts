@@ -14,14 +14,12 @@ export const MessageComposer = {
         value: MsgGrantAllowance.encode(value).finish()
       };
     },
-
     revokeAllowance(value: MsgRevokeAllowance) {
       return {
         typeUrl: "/cosmos.feegrant.v1beta1.MsgRevokeAllowance",
         value: MsgRevokeAllowance.encode(value).finish()
       };
     }
-
   },
   withTypeUrl: {
     grantAllowance(value: MsgGrantAllowance) {
@@ -30,14 +28,12 @@ export const MessageComposer = {
         value
       };
     },
-
     revokeAllowance(value: MsgRevokeAllowance) {
       return {
         typeUrl: "/cosmos.feegrant.v1beta1.MsgRevokeAllowance",
         value
       };
     }
-
   },
   fromPartial: {
     grantAllowance(value: MsgGrantAllowance) {
@@ -46,13 +42,11 @@ export const MessageComposer = {
         value: MsgGrantAllowance.fromPartial(value)
       };
     },
-
     revokeAllowance(value: MsgRevokeAllowance) {
       return {
         typeUrl: "/cosmos.feegrant.v1beta1.MsgRevokeAllowance",
         value: MsgRevokeAllowance.fromPartial(value)
       };
     }
-
   }
 };

@@ -37,6 +37,9 @@ telescope({
     },
     reactQuery: {
       enabled: true
+    },
+    mobx: {
+      enabled: true
     }
   }
 }).then(() => {
