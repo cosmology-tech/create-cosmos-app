@@ -14,7 +14,6 @@ export const MessageComposer = {
         value: MsgSubmitEvidence.encode(value).finish()
       };
     }
-
   },
   withTypeUrl: {
     submitEvidence(value: MsgSubmitEvidence) {
@@ -23,7 +22,6 @@ export const MessageComposer = {
         value
       };
     }
-
   },
   fromPartial: {
     submitEvidence(value: MsgSubmitEvidence) {
@@ -32,6 +30,5 @@ export const MessageComposer = {
         value: MsgSubmitEvidence.fromPartial(value)
       };
     }
-
   }
 };

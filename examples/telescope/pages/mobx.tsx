@@ -39,7 +39,11 @@ import {
 } from '../components';
 import { SendTokensCard } from '../components/react/send-tokens-card';
 
-import { cosmos, createRpcQueryHooks, createRpcStores } from '../codegen';
+import {
+  cosmos,
+  createRpcQueryHooks,
+  createRpcQueryMobxStores,
+} from '../codegen';
 import { getRpcClient } from '../codegen';
 import { useRpcClient, useRpcEndpoint } from '../codegen';
 import { observer } from 'mobx-react';
@@ -126,9 +130,9 @@ export default observer(function Home() {
     rpcClient,
   });
 
-  const cosmosStores = createRpcStores({ rpc: rpcClient });
+  const cosmosStores = createRpcQueryMobxStores({ rpc: rpcClient });
   const store = useMemo(() => {
-    return new cosmosStores.cosmos.bank.v1beta1.BalanceStore();
+    return new cosmosStores.cosmos.bank.v1beta1.QueryBalanceStore();
   }, [rpcClient]);
   const {
     data,

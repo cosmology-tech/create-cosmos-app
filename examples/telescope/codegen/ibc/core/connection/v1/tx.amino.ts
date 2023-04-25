@@ -1,7 +1,7 @@
 import { AminoMsg } from "@cosmjs/amino";
 import { AminoHeight, Long, omitDefault } from "../../../../helpers";
 import { MsgConnectionOpenInit, MsgConnectionOpenTry, MsgConnectionOpenAck, MsgConnectionOpenConfirm } from "./tx";
-export interface AminoMsgConnectionOpenInit extends AminoMsg {
+export interface MsgConnectionOpenInitAminoType extends AminoMsg {
   type: "cosmos-sdk/MsgConnectionOpenInit";
   value: {
     client_id: string;
@@ -20,7 +20,7 @@ export interface AminoMsgConnectionOpenInit extends AminoMsg {
     signer: string;
   };
 }
-export interface AminoMsgConnectionOpenTry extends AminoMsg {
+export interface MsgConnectionOpenTryAminoType extends AminoMsg {
   type: "cosmos-sdk/MsgConnectionOpenTry";
   value: {
     client_id: string;
@@ -49,7 +49,7 @@ export interface AminoMsgConnectionOpenTry extends AminoMsg {
     signer: string;
   };
 }
-export interface AminoMsgConnectionOpenAck extends AminoMsg {
+export interface MsgConnectionOpenAckAminoType extends AminoMsg {
   type: "cosmos-sdk/MsgConnectionOpenAck";
   value: {
     connection_id: string;
@@ -70,7 +70,7 @@ export interface AminoMsgConnectionOpenAck extends AminoMsg {
     signer: string;
   };
 }
-export interface AminoMsgConnectionOpenConfirm extends AminoMsg {
+export interface MsgConnectionOpenConfirmAminoType extends AminoMsg {
   type: "cosmos-sdk/MsgConnectionOpenConfirm";
   value: {
     connection_id: string;
@@ -88,7 +88,7 @@ export const AminoConverter = {
       version,
       delayPeriod,
       signer
-    }: MsgConnectionOpenInit): AminoMsgConnectionOpenInit["value"] => {
+    }: MsgConnectionOpenInit): MsgConnectionOpenInitAminoType["value"] => {
       return {
         client_id: clientId,
         counterparty: {
@@ -112,7 +112,7 @@ export const AminoConverter = {
       version,
       delay_period,
       signer
-    }: AminoMsgConnectionOpenInit["value"]): MsgConnectionOpenInit => {
+    }: MsgConnectionOpenInitAminoType["value"]): MsgConnectionOpenInit => {
       return {
         clientId: client_id,
         counterparty: {
@@ -146,7 +146,7 @@ export const AminoConverter = {
       proofConsensus,
       consensusHeight,
       signer
-    }: MsgConnectionOpenTry): AminoMsgConnectionOpenTry["value"] => {
+    }: MsgConnectionOpenTry): MsgConnectionOpenTryAminoType["value"] => {
       return {
         client_id: clientId,
         previous_connection_id: previousConnectionId,
@@ -193,7 +193,7 @@ export const AminoConverter = {
       proof_consensus,
       consensus_height,
       signer
-    }: AminoMsgConnectionOpenTry["value"]): MsgConnectionOpenTry => {
+    }: MsgConnectionOpenTryAminoType["value"]): MsgConnectionOpenTry => {
       return {
         clientId: client_id,
         previousConnectionId: previous_connection_id,
@@ -241,7 +241,7 @@ export const AminoConverter = {
       proofConsensus,
       consensusHeight,
       signer
-    }: MsgConnectionOpenAck): AminoMsgConnectionOpenAck["value"] => {
+    }: MsgConnectionOpenAck): MsgConnectionOpenAckAminoType["value"] => {
       return {
         connection_id: connectionId,
         counterparty_connection_id: counterpartyConnectionId,
@@ -278,7 +278,7 @@ export const AminoConverter = {
       proof_consensus,
       consensus_height,
       signer
-    }: AminoMsgConnectionOpenAck["value"]): MsgConnectionOpenAck => {
+    }: MsgConnectionOpenAckAminoType["value"]): MsgConnectionOpenAck => {
       return {
         connectionId: connection_id,
         counterpartyConnectionId: counterparty_connection_id,
@@ -312,7 +312,7 @@ export const AminoConverter = {
       proofAck,
       proofHeight,
       signer
-    }: MsgConnectionOpenConfirm): AminoMsgConnectionOpenConfirm["value"] => {
+    }: MsgConnectionOpenConfirm): MsgConnectionOpenConfirmAminoType["value"] => {
       return {
         connection_id: connectionId,
         proof_ack: proofAck,
@@ -328,7 +328,7 @@ export const AminoConverter = {
       proof_ack,
       proof_height,
       signer
-    }: AminoMsgConnectionOpenConfirm["value"]): MsgConnectionOpenConfirm => {
+    }: MsgConnectionOpenConfirmAminoType["value"]): MsgConnectionOpenConfirm => {
       return {
         connectionId: connection_id,
         proofAck: proof_ack,

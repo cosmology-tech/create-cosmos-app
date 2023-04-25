@@ -14,28 +14,24 @@ export const MessageComposer = {
         value: MsgCreateClient.encode(value).finish()
       };
     },
-
     updateClient(value: MsgUpdateClient) {
       return {
         typeUrl: "/ibc.core.client.v1.MsgUpdateClient",
         value: MsgUpdateClient.encode(value).finish()
       };
     },
-
     upgradeClient(value: MsgUpgradeClient) {
       return {
         typeUrl: "/ibc.core.client.v1.MsgUpgradeClient",
         value: MsgUpgradeClient.encode(value).finish()
       };
     },
-
     submitMisbehaviour(value: MsgSubmitMisbehaviour) {
       return {
         typeUrl: "/ibc.core.client.v1.MsgSubmitMisbehaviour",
         value: MsgSubmitMisbehaviour.encode(value).finish()
       };
     }
-
   },
   withTypeUrl: {
     createClient(value: MsgCreateClient) {
@@ -44,28 +40,24 @@ export const MessageComposer = {
         value
       };
     },
-
     updateClient(value: MsgUpdateClient) {
       return {
         typeUrl: "/ibc.core.client.v1.MsgUpdateClient",
         value
       };
     },
-
     upgradeClient(value: MsgUpgradeClient) {
       return {
         typeUrl: "/ibc.core.client.v1.MsgUpgradeClient",
         value
       };
     },
-
     submitMisbehaviour(value: MsgSubmitMisbehaviour) {
       return {
         typeUrl: "/ibc.core.client.v1.MsgSubmitMisbehaviour",
         value
       };
     }
-
   },
   fromPartial: {
     createClient(value: MsgCreateClient) {
@@ -74,27 +66,23 @@ export const MessageComposer = {
         value: MsgCreateClient.fromPartial(value)
       };
     },
-
     updateClient(value: MsgUpdateClient) {
       return {
         typeUrl: "/ibc.core.client.v1.MsgUpdateClient",
         value: MsgUpdateClient.fromPartial(value)
       };
     },
-
     upgradeClient(value: MsgUpgradeClient) {
       return {
         typeUrl: "/ibc.core.client.v1.MsgUpgradeClient",
         value: MsgUpgradeClient.fromPartial(value)
       };
     },
-
     submitMisbehaviour(value: MsgSubmitMisbehaviour) {
       return {
         typeUrl: "/ibc.core.client.v1.MsgSubmitMisbehaviour",
         value: MsgSubmitMisbehaviour.fromPartial(value)
       };
     }
-
   }
 };
