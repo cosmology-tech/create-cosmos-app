@@ -214,6 +214,18 @@ uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
 cca --name stargaze-example --example --template stargaze
 ```
 
+### Mint NFTs
+
+<p align="center" width="100%">
+    <img height="48" src="https://user-images.githubusercontent.com/545047/184694732-f4a3d397-14fb-415a-9562-a532f510f812.png" />
+</p>
+
+uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
+
+```
+cca --name mint-nfts-example --example --template mint-nfts
+```
+
 ### CosmWasm
 
 <p align="center" width="100%">

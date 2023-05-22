@@ -10,3 +10,7 @@ export const chainassets: AssetList = assets.find(
 export const coin: Asset = chainassets.assets.find(
   (asset) => asset.base === 'ustars'
 ) as Asset;
+
+export const exponent = coin.denom_units.find(
+  (unit) => unit.denom === coin.display
+)?.exponent as number;

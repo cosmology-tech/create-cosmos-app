@@ -1,5 +1,16 @@
 import { MouseEventHandler, ReactNode } from 'react';
 import { IconType } from 'react-icons';
+import {
+  ConfigResponse as VendingMinterConfigResponse,
+  MintCountResponse,
+  MintableNumTokensResponse,
+  MintPriceResponse,
+} from 'stargazejs/types/codegen/VendingMinter.types';
+import { ConfigResponse as WhitelistConfigResponse } from 'stargazejs/types/codegen/Whitelist.types';
+import {
+  ContractInfoResponse,
+  CollectionInfoResponse,
+} from 'stargazejs/types/codegen/SG721Base.types';
 
 export interface ChooseChainInfo {
   chainName: string;
@@ -15,7 +26,7 @@ export enum WalletStatus {
   Loading = 'Loading',
   Loaded = 'Loaded',
   NotExist = 'NotExist',
-  Rejected = 'Rejected'
+  Rejected = 'Rejected',
 }
 
 export interface ConnectWalletType {
@@ -50,4 +61,53 @@ export type CopyAddressType = {
   maxDisplayLength?: number;
   isRound?: boolean;
   size?: string;
+};
+
+export type Rename<T, K extends keyof T, R extends PropertyKey> = Omit<T, K> & {
+  [P in R]: T[K];
+};
+
+export type Minter = VendingMinterConfigResponse &
+  Rename<MintableNumTokensResponse, 'count', 'remaining_tokens'> &
+  Rename<Omit<MintCountResponse, 'address'>, 'count', 'user_minted'> & {
+    all_prices: MintPriceResponse;
+  };
+
+export type SG721 = CollectionInfoResponse & ContractInfoResponse;
+
+export type Whitelist = WhitelistConfigResponse;
+
+export enum TransactionResult {
+  Success = 0,
+  Failed = 1,
+}
+
+export type TData = {
+  balanceAmount: string;
+  starsPrice: number;
+  collectionInfo: {
+    minter: Minter;
+    sg721: SG721;
+    whitelist?: Whitelist;
+  };
+};
+
+export type Collections = {
+  collections: {
+    collections: {
+      collectionAddr: string;
+      floorPrice: number;
+    }[];
+  };
+};
+
+export type Collection = {
+  collection: {
+    image: string;
+  };
+};
+
+export type ContractsAddress = {
+  minter: string;
+  sg721: string;
 };

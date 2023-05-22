@@ -5,6 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { wallets as keplrWallets } from '@cosmos-kit/keplr';
 import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
 import { wallets as leapWallets } from '@cosmos-kit/leap';
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 
 import { chains, assets } from 'chain-registry';
 import { getSigningCosmosClientOptions } from 'stargazejs';
@@ -12,6 +13,11 @@ import { GasPrice } from '@cosmjs/stargate';
 
 import { SignerOptions } from '@cosmos-kit/core';
 import { Chain } from '@chain-registry/types';
+
+const client = new ApolloClient({
+  uri: 'https://constellations-api.mainnet.stargaze-apis.com/graphql',
+  cache: new InMemoryCache(),
+});
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
@@ -49,7 +55,9 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         wrappedWithChakra={true}
         signerOptions={signerOptions}
       >
-        <Component {...pageProps} />
+        <ApolloProvider client={client}>
+          <Component {...pageProps} />
+        </ApolloProvider>
       </ChainProvider>
     </ChakraProvider>
   );
