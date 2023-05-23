@@ -22,6 +22,8 @@ import {
   COLLECTION,
   COLLECTIONS,
   exponent,
+  getHttpUrl,
+  toDisplayAmount,
 } from '../../config';
 import { getPrices } from '../../api';
 import dayjs from 'dayjs';
@@ -41,15 +43,6 @@ import {
 import { useQuery, useLazyQuery } from '@apollo/client';
 
 dayjs.extend(relativeTime);
-
-const toDisplayAmount = (amount: string, exponent: number) => {
-  return new BigNumber(amount).shiftedBy(-exponent).decimalPlaces(2).toString();
-};
-
-const getHttpUrl = (ipfsLink: string | undefined) => {
-  if (!ipfsLink) return '';
-  return `https://ipfs-gw.stargaze-apis.com/ipfs/${ipfsLink.slice(7)}`;
-};
 
 export const MintNfts = () => {
   const [isLoading, setIsLoading] = useState(true);
