@@ -15,6 +15,25 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
+"@apollo/client@3.7.14":
+  version "3.7.14"
+  resolved "https://registry.npmmirror.com/@apollo/client/-/client-3.7.14.tgz#40ef90390e6690e94917457cd82bdeb29e8b6af9"
+  integrity sha512-BRvdkwq5PAXBkjXjboO12uksDm3nrZEqDi4xF97Fk3Mnaa0zDOEfJa7hoKTY9b9KA1EkeWv9BL3i7hSd4SfGBg==
+  dependencies:
+    "@graphql-typed-document-node/core" "^3.1.1"
+    "@wry/context" "^0.7.0"
+    "@wry/equality" "^0.5.0"
+    "@wry/trie" "^0.3.0"
+    graphql-tag "^2.12.6"
+    hoist-non-react-statics "^3.3.2"
+    optimism "^0.16.2"
+    prop-types "^15.7.2"
+    response-iterator "^0.2.6"
+    symbol-observable "^4.0.0"
+    ts-invariant "^0.10.3"
+    tslib "^2.3.0"
+    zen-observable-ts "^1.2.5"
+
 "@babel/cli@7.19.3":
   version "7.19.3"
   resolved "https://registry.npmjs.org/@babel/cli/-/cli-7.19.3.tgz"
@@ -1979,6 +1998,13 @@
   dependencies:
     "@babel/runtime" "^7.19.4"
 
+"@chain-registry/types@^0.16.0":
+  version "0.16.0"
+  resolved "https://registry.npmmirror.com/@chain-registry/types/-/types-0.16.0.tgz#f76409186899a976d33693d7f458c33d71a66730"
+  integrity sha512-4j6vq2Vqn/nF+UBjvRPUVs6eM3+5rJ+dPmEWpd/OoNH3wTy1k6aoilcSTZRR//vGcI5EOVGsxhhJxUzo2qqweA==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+
 "@chain-registry/utils@^1.3.0":
   version "1.7.0"
   resolved "https://registry.npmmirror.com/@chain-registry/utils/-/utils-1.7.0.tgz#4e184a6fdc05935fbec195b4bd6e37681d0caf92"
@@ -3174,18 +3200,6 @@
   resolved "https://registry.npmjs.org/@cosmjson/wasmswap/-/wasmswap-0.0.9.tgz"
   integrity sha512-ieZgG1FuaRAJbCnVFLiIgpX4Y60h+EGx27bftmv63sL2YRCaKg7QFbbTZD598pJZiCoLNbkvvMFSypGNGXE3rw==
 
-"@cosmology-ui/animation@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/animation/-/animation-0.1.2-beta.89.tgz#f4ae4df6d1ee50ed8bafc678fc970987ebb7df28"
-  integrity sha512-TwJuNHYJzX6N1Gg/Fu1q9L9tGTdlJkbwyakq7B0MAoo/aqrIsV+f+ZDAw16FrVgYGCBZMywtNUxXmW0TC6Q/OQ==
-  dependencies:
-    "@babel/runtime" "^7.11.2"
-    "@chakra-ui/react" "^2.5.1"
-    "@emotion/react" "^11.10.6"
-    "@emotion/styled" "^11.10.6"
-    framer-motion "^9.0.7"
-    react-icons "^4.7.1"
-
 "@cosmology-ui/animation@^0.1.2-beta.90+4c33c60":
   version "0.1.2-beta.90"
   resolved "https://registry.npmmirror.com/@cosmology-ui/animation/-/animation-0.1.2-beta.90.tgz#f7ef4bcfe2058ba98d155d795366cee5694c52ac"
@@ -3198,10 +3212,10 @@
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
-"@cosmology-ui/base@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/base/-/base-0.1.2-beta.89.tgz#81c138a01591812e6d01c383f4259b54197c187d"
-  integrity sha512-iZitFnXvDtMSq1jzaeRKB0Nd1VWlRp2pUmubeMRz1EJa+A3AS+YHdrcyxCZW/KcNHcgnhH9sW7oP/uDWKzLrXQ==
+"@cosmology-ui/animation@^0.1.2-beta.93+a2ce777", "@cosmology-ui/animation@^0.1.2-beta.94+d00abad":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/animation/-/animation-0.1.2-beta.94.tgz#0ea22922aee180f4bc05c1cfefb24c51d75b5584"
+  integrity sha512-vaZ4DaC5SxfizieN8LP/a9pH93bIWsVYdDKdLaakZW4s9+chrQZft44jRx0V4BSSeV6RIw5c7TrvBg6Epoc1dg==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
@@ -3222,14 +3236,13 @@
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
-"@cosmology-ui/buttons@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/buttons/-/buttons-0.1.2-beta.89.tgz#5da787334103be91289aa2b590698d1a05ad6719"
-  integrity sha512-+C9RlwRfaUoD4O2TRyoLToRdwj5ANvBZrcglzaSvofdwQ6b2Bw218rpAax65ckc05xr7se/+llQ8pqFwzzqdqg==
+"@cosmology-ui/base@^0.1.2-beta.93+a2ce777", "@cosmology-ui/base@^0.1.2-beta.94+d00abad":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/base/-/base-0.1.2-beta.94.tgz#0726109ad69a225ef214466649f4a21875e51860"
+  integrity sha512-gVIrqJthDSKlNyfYIYd+FyvWjm5ulXizDrBBzNADP4B/A1k91chME9HWLv4T31EclMq/rO9gBCmqJkBlHh7Y+Q==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/theme" "^0.1.2-beta.89+52cb8ac"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
     framer-motion "^9.0.7"
@@ -3248,19 +3261,16 @@
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
-"@cosmology-ui/chain-dropdown@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/chain-dropdown/-/chain-dropdown-0.1.2-beta.89.tgz#7444ace0e3687adcf133418dcdbf502fe9ae3a99"
-  integrity sha512-3IRMdIzEjAhu5rNQ7NgWc9S8JEFhvrbowh59oMKO0rHl6vKzDWz3TlOyceL3Pije0ARyAI4AXSo2bzRBKCjdig==
+"@cosmology-ui/buttons@^0.1.2-beta.93+a2ce777":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/buttons/-/buttons-0.1.2-beta.94.tgz#c8c95f6c6f1026021a18bd474147bb9d9d4e39e2"
+  integrity sha512-9cAo7eu9vtAGy07GK6mK2g8VdK5+Tu6u4qQlNjOiVnxiqdWR6O9WmKGICtXqEblG8rm+YyYUH5luF0hHlUaBhQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/theme" "^0.1.2-beta.89+52cb8ac"
+    "@cosmology-ui/theme" "^0.1.2-beta.94+d00abad"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
-    chain-registry "^1.5.0"
-    chakra-react-select "^4.4.2"
-    fast-fuzzy "^1.12.0"
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
@@ -3280,22 +3290,21 @@
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
-"@cosmology-ui/connect-modal@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/connect-modal/-/connect-modal-0.1.2-beta.89.tgz#a3c7bb84cc809a4140a87a0b1fcbf62d5f6a34a2"
-  integrity sha512-xhyj0wx3/FqCat+lZOqPKsMlA7FzCD8dUp4rxPhchg7WLB6NrvbrAG4QrcBZRkAnrchRdIoifJqamlVOEqMseA==
+"@cosmology-ui/chain-dropdown@^0.1.2-beta.93+a2ce777":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/chain-dropdown/-/chain-dropdown-0.1.2-beta.94.tgz#8879848ab46fe507bc57d30bcc2a988a25c6e16a"
+  integrity sha512-s8oyVPCXKeI1FGibY0ZdT+X+w6x5vdaoNl4HLowGYXkIcIjgGMXRCyHySjE/R4v7z12ArQHW5WzaozXOmtzomQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/animation" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/theme" "^0.1.2-beta.89+52cb8ac"
+    "@cosmology-ui/theme" "^0.1.2-beta.94+d00abad"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
-    bowser "2.11.0"
+    chain-registry "^1.5.0"
+    chakra-react-select "^4.4.2"
+    fast-fuzzy "^1.12.0"
     framer-motion "^9.0.7"
-    qrcode.react "^3.1.0"
     react-icons "^4.7.1"
-    react-resize-detector "^8.0.3"
 
 "@cosmology-ui/connect-modal@^0.1.2-beta.90+4c33c60":
   version "0.1.2-beta.90"
@@ -3314,18 +3323,22 @@
     react-icons "^4.7.1"
     react-resize-detector "^8.0.3"
 
-"@cosmology-ui/copy-address-button@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/copy-address-button/-/copy-address-button-0.1.2-beta.89.tgz#c9d3cc88589e0c506c19b25f20b50c4139a1c618"
-  integrity sha512-xPGPcgHuiLj3WLikootLVhT3fVfQAtLN9gl0LAVEhT33mjSzg4rLd7n/AYjszz9TuOpFoRsqrD/ZbPz0fCDxbw==
+"@cosmology-ui/connect-modal@^0.1.2-beta.93+a2ce777":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/connect-modal/-/connect-modal-0.1.2-beta.94.tgz#74c7ece0905bc91c2db6f9606d9dd5649c2cf93c"
+  integrity sha512-AOZYhNvCvbbz8bQbl89FHoQx5rNqzDyuXDsA2HpAVVvY0ZNH4VnULjJzJz4asNNudh84yyj1cfljSa04YsBmlw==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/theme" "^0.1.2-beta.89+52cb8ac"
+    "@cosmology-ui/animation" "^0.1.2-beta.94+d00abad"
+    "@cosmology-ui/theme" "^0.1.2-beta.94+d00abad"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
+    bowser "2.11.0"
     framer-motion "^9.0.7"
+    qrcode.react "^3.1.0"
     react-icons "^4.7.1"
+    react-resize-detector "^8.0.3"
 
 "@cosmology-ui/copy-address-button@^0.1.2-beta.90+4c33c60":
   version "0.1.2-beta.90"
@@ -3340,32 +3353,18 @@
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
-"@cosmology-ui/react@0.1.8-beta.29":
-  version "0.1.8-beta.29"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/react/-/react-0.1.8-beta.29.tgz#e8608c22989f6038fb3ae37e587abfcffd7e147c"
-  integrity sha512-uJUgmNeRvlmDpMOMKgT+lKHi2s7th2SjcyWbQGIYepm9mllf+S6QoJo/DN50dzQMEM30T989gk9jotTktjYPAQ==
+"@cosmology-ui/copy-address-button@^0.1.2-beta.93+a2ce777":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/copy-address-button/-/copy-address-button-0.1.2-beta.94.tgz#74e22558f9bf28caf124a434b0396e9983c98768"
+  integrity sha512-G6bNTH1tFk5A8uN0ySvzw/eS8EewOqrVikvXEp257q96Uwsjq8K0/X7vE1opTKc8w8iCfMYmp6TyPxhdnPgNsg==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/animation" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/base" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/buttons" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/chain-dropdown" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/connect-modal" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/copy-address-button" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/swap" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/theme" "^0.1.2-beta.89+52cb8ac"
+    "@cosmology-ui/theme" "^0.1.2-beta.94+d00abad"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
-    bowser "2.11.0"
-    chain-registry "^1.5.0"
-    chakra-react-select "^4.4.2"
-    decimal.js "^10.4.3"
-    fast-fuzzy "^1.12.0"
     framer-motion "^9.0.7"
-    qrcode.react "^3.1.0"
     react-icons "^4.7.1"
-    react-resize-detector "^8.0.3"
 
 "@cosmology-ui/react@0.1.8-beta.30":
   version "0.1.8-beta.30"
@@ -3382,6 +3381,33 @@
     "@cosmology-ui/copy-address-button" "^0.1.2-beta.90+4c33c60"
     "@cosmology-ui/swap" "^0.1.2-beta.90+4c33c60"
     "@cosmology-ui/theme" "^0.1.2-beta.90+4c33c60"
+    "@emotion/react" "^11.10.6"
+    "@emotion/styled" "^11.10.6"
+    bowser "2.11.0"
+    chain-registry "^1.5.0"
+    chakra-react-select "^4.4.2"
+    decimal.js "^10.4.3"
+    fast-fuzzy "^1.12.0"
+    framer-motion "^9.0.7"
+    qrcode.react "^3.1.0"
+    react-icons "^4.7.1"
+    react-resize-detector "^8.0.3"
+
+"@cosmology-ui/react@0.1.8-beta.33":
+  version "0.1.8-beta.33"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/react/-/react-0.1.8-beta.33.tgz#f11bfdca8fbb05f2a22e0fd1590b5fd4994b2b1c"
+  integrity sha512-s/7r9UAGExZlPLUXBbs1XPGg9uvNDnhjE0nxMR6Fz+L8qMo10vO5N5B22Ed4+9F1WqHhUUadevmM9jW5cEzKQA==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@chakra-ui/react" "^2.5.1"
+    "@cosmology-ui/animation" "^0.1.2-beta.93+a2ce777"
+    "@cosmology-ui/base" "^0.1.2-beta.93+a2ce777"
+    "@cosmology-ui/buttons" "^0.1.2-beta.93+a2ce777"
+    "@cosmology-ui/chain-dropdown" "^0.1.2-beta.93+a2ce777"
+    "@cosmology-ui/connect-modal" "^0.1.2-beta.93+a2ce777"
+    "@cosmology-ui/copy-address-button" "^0.1.2-beta.93+a2ce777"
+    "@cosmology-ui/swap" "^0.1.2-beta.93+a2ce777"
+    "@cosmology-ui/theme" "^0.1.2-beta.93+a2ce777"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
     bowser "2.11.0"
@@ -3414,23 +3440,6 @@
     react-icons "^4.4.0"
     react-resize-detector "^8.0.3"
 
-"@cosmology-ui/swap@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/swap/-/swap-0.1.2-beta.89.tgz#e78a03ef6e5bcd47d7d26185ff8e1a68019f61d2"
-  integrity sha512-61hIGYjoQmzCj5ac8gITP/eqy7EiqISHbxjUK8BgMao/dJRYz9mgIDEWBeQgsOzResCwIoT1CWaJ8ONOp2up+g==
-  dependencies:
-    "@babel/runtime" "^7.11.2"
-    "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/animation" "^0.1.2-beta.89+52cb8ac"
-    "@cosmology-ui/theme" "^0.1.2-beta.89+52cb8ac"
-    "@emotion/react" "^11.10.6"
-    "@emotion/styled" "^11.10.6"
-    chain-registry "^1.5.0"
-    chakra-react-select "^4.4.2"
-    decimal.js "^10.4.3"
-    framer-motion "^9.0.7"
-    react-icons "^4.7.1"
-
 "@cosmology-ui/swap@^0.1.2-beta.90+4c33c60":
   version "0.1.2-beta.90"
   resolved "https://registry.npmmirror.com/@cosmology-ui/swap/-/swap-0.1.2-beta.90.tgz#a2da37a157ac9a17195d21dcd06731b133f557ce"
@@ -3448,16 +3457,20 @@
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
-"@cosmology-ui/theme@^0.1.2-beta.89+52cb8ac":
-  version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/theme/-/theme-0.1.2-beta.89.tgz#2a2209fe72a494452dc35fcfcdba923ce5f0df5b"
-  integrity sha512-onHf2bm2Wn756cgv02W0ZehVVMoWxcs2FXVj47FCowI8aIHua2rWVoijZ43JIDeuvPsnvWa2dHfhJRnwAzuLhw==
+"@cosmology-ui/swap@^0.1.2-beta.93+a2ce777":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/swap/-/swap-0.1.2-beta.94.tgz#83c0947ada92d439af7c584aba3d352d4916a23b"
+  integrity sha512-1teHqBUy+JpaNLr/kCu7PDjUi0I0i5aoGQYWyVaoIjqw3ROLhGTBOlLAqRZ6zHp367bS2ynx5/WG9duO/QmE8w==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/base" "^0.1.2-beta.89+52cb8ac"
+    "@cosmology-ui/animation" "^0.1.2-beta.94+d00abad"
+    "@cosmology-ui/theme" "^0.1.2-beta.94+d00abad"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
+    chain-registry "^1.5.0"
+    chakra-react-select "^4.4.2"
+    decimal.js "^10.4.3"
     framer-motion "^9.0.7"
     react-icons "^4.7.1"
 
@@ -3469,6 +3482,19 @@
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
     "@cosmology-ui/base" "^0.1.2-beta.90+4c33c60"
+    "@emotion/react" "^11.10.6"
+    "@emotion/styled" "^11.10.6"
+    framer-motion "^9.0.7"
+    react-icons "^4.7.1"
+
+"@cosmology-ui/theme@^0.1.2-beta.93+a2ce777", "@cosmology-ui/theme@^0.1.2-beta.94+d00abad":
+  version "0.1.2-beta.94"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/theme/-/theme-0.1.2-beta.94.tgz#a80f7c8a8e2ee0022ec63adafd50c8f1ec778be3"
+  integrity sha512-/IHVhA/YCZ+foZJ9wm3VUgvD8M4UoG4XuiBiLNlAFiZdKr/YtVbNRog2hwtEK1ZCg1Y7o3C9Xrymflmdp0B+XQ==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@chakra-ui/react" "^2.5.1"
+    "@cosmology-ui/base" "^0.1.2-beta.94+d00abad"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
     framer-motion "^9.0.7"
@@ -3883,6 +3909,11 @@
   version "1.1.3"
   resolved "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.3.tgz"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
+
+"@graphql-typed-document-node/core@^3.1.1":
+  version "3.2.0"
+  resolved "https://registry.npmmirror.com/@graphql-typed-document-node/core/-/core-3.2.0.tgz#5f3d96ec6b2354ad6d8a28bf216a1d97b5426861"
+  integrity sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==
 
 "@headlessui/react@^1.7.4":
   version "1.7.13"
@@ -6835,6 +6866,27 @@
     "@walletconnect/window-getters" "^1.0.1"
     tslib "1.14.1"
 
+"@wry/context@^0.7.0":
+  version "0.7.3"
+  resolved "https://registry.npmmirror.com/@wry/context/-/context-0.7.3.tgz#240f6dfd4db5ef54f81f6597f6714e58d4f476a1"
+  integrity sha512-Nl8WTesHp89RF803Se9X3IiHjdmLBrIvPMaJkl+rKVJAYyPsz1TEUbu89943HpvujtSJgDUx9W4vZw3K1Mr3sA==
+  dependencies:
+    tslib "^2.3.0"
+
+"@wry/equality@^0.5.0":
+  version "0.5.6"
+  resolved "https://registry.npmmirror.com/@wry/equality/-/equality-0.5.6.tgz#cd4a533c72c3752993ab8cbf682d3d20e3cb601e"
+  integrity sha512-D46sfMTngaYlrH+OspKf8mIJETntFnf6Hsjb0V41jAXJ7Bx2kB8Rv8RCUujuVWYttFtHkUNp7g+FwxNQAr6mXA==
+  dependencies:
+    tslib "^2.3.0"
+
+"@wry/trie@^0.3.0":
+  version "0.3.2"
+  resolved "https://registry.npmmirror.com/@wry/trie/-/trie-0.3.2.tgz#a06f235dc184bd26396ba456711f69f8c35097e6"
+  integrity sha512-yRTyhWSls2OY/pYLfwff867r8ekooZ4UI+/gxot5Wj8EFwSf2rG+n+Mo/6LoLQm1TKA4GRj2+LCpbfS937dClQ==
+  dependencies:
+    tslib "^2.3.0"
+
 "@yarnpkg/lockfile@^1.1.0":
   version "1.1.0"
   resolved "https://registry.npmjs.org/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz"
@@ -7749,6 +7801,14 @@ chain-registry@1.10.0:
     "@babel/runtime" "^7.19.4"
     "@chain-registry/types" "^0.14.0"
 
+chain-registry@1.13.0:
+  version "1.13.0"
+  resolved "https://registry.npmmirror.com/chain-registry/-/chain-registry-1.13.0.tgz#375d7cbc7288f9915bde11758355a49c90395b4d"
+  integrity sha512-LFfKuEN2fV1QHJuTdqz1VmdiMGy87yAAYODy6i6/9tC+m6hwDroIPhR8iwuY4BxyJMZj9yr2cpD8m+8X8cZ/PA==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@chain-registry/types" "^0.16.0"
+
 chain-registry@1.7.0:
   version "1.7.0"
   resolved "https://registry.npmmirror.com/chain-registry/-/chain-registry-1.7.0.tgz#cad6d47cddad92a631b89147e12a75fb6b66f109"
@@ -7779,7 +7839,7 @@ chakra-react-select@4.4.3:
   dependencies:
     react-select "5.7.0"
 
-chakra-react-select@^4.4.2:
+chakra-react-select@4.6.0, chakra-react-select@^4.4.2:
   version "4.6.0"
   resolved "https://registry.npmmirror.com/chakra-react-select/-/chakra-react-select-4.6.0.tgz#a1a35ee7c531db47ac9c8bd412fb0a3745e77321"
   integrity sha512-Ckcs+ofX5LxCc0oOz4SorDIRqF/afd5tAQOa694JVJiIckYorUmZASEUSSDdXaZltsUAtJE11CUmEZgVVsk9Eg==
@@ -8413,7 +8473,7 @@ dateformat@^3.0.0:
   resolved "https://registry.npmmirror.com/dateformat/-/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
   integrity sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==
 
-dayjs@^1.11.7:
+dayjs@1.11.7, dayjs@^1.11.7:
   version "1.11.7"
   resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.7.tgz"
   integrity sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==
@@ -8455,7 +8515,7 @@ decamelize@^4.0.0:
   resolved "https://registry.npmmirror.com/decamelize/-/decamelize-4.0.0.tgz"
   integrity sha512-9iE1PgSik9HeIIw2JO94IidnE3eBoQrFJ3w7sFuzSX4DpmZ3v5sZpUiV5Swcf6mQEF+Y0ru8Neo+p+nyh2J+hQ==
 
-decimal.js@^10.4.2, decimal.js@^10.4.3:
+decimal.js@10.4.3, decimal.js@^10.4.2, decimal.js@^10.4.3:
   version "10.4.3"
   resolved "https://registry.npmjs.org/decimal.js/-/decimal.js-10.4.3.tgz"
   integrity sha512-VBBaLc1MgL5XpzgIP7ny5Z6Nx3UrRkIViUkPUdtl9aya5amy3De1gsUUSB1g3+3sExYNjCAsAznmukyxCb1GRA==
@@ -10058,6 +10118,18 @@ graphemesplit@^2.4.1:
     js-base64 "^3.6.0"
     unicode-trie "^2.0.0"
 
+graphql-tag@^2.12.6:
+  version "2.12.6"
+  resolved "https://registry.npmmirror.com/graphql-tag/-/graphql-tag-2.12.6.tgz#d441a569c1d2537ef10ca3d1633b48725329b5f1"
+  integrity sha512-FdSNcu2QQcWnM2VNvSCCDCVS5PpPqpzgFT8+GXzqJuoDd0CBncxCY278u4mhRO7tMgo2JjgJA5aZ+nWSQ/Z+xg==
+  dependencies:
+    tslib "^2.1.0"
+
+graphql@16.6.0:
+  version "16.6.0"
+  resolved "https://registry.npmmirror.com/graphql/-/graphql-16.6.0.tgz#c2dcffa4649db149f6282af726c8c83f1c7c5fdb"
+  integrity sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==
+
 handlebars@^4.7.7:
   version "4.7.7"
   resolved "https://registry.npmjs.org/handlebars/-/handlebars-4.7.7.tgz"
@@ -10187,7 +10259,7 @@ hmac-drbg@^1.0.1:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hoist-non-react-statics@^3.3.1:
+hoist-non-react-statics@^3.3.1, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -12975,6 +13047,14 @@ open@^8.4.0:
     is-docker "^2.1.1"
     is-wsl "^2.2.0"
 
+optimism@^0.16.2:
+  version "0.16.2"
+  resolved "https://registry.npmmirror.com/optimism/-/optimism-0.16.2.tgz#519b0c78b3b30954baed0defe5143de7776bf081"
+  integrity sha512-zWNbgWj+3vLEjZNIh/okkY2EUfX+vB9TJopzIZwT1xxaMqC5hRLLraePod4c5n4He08xuXNH+zhKFFCu390wiQ==
+  dependencies:
+    "@wry/context" "^0.7.0"
+    "@wry/trie" "^0.3.0"
+
 optionator@^0.8.1:
   version "0.8.3"
   resolved "https://registry.npmjs.org/optionator/-/optionator-0.8.3.tgz"
@@ -13553,7 +13633,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@^15.0.0, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.8.1:
+prop-types@^15.0.0, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -14183,6 +14263,11 @@ resolve@^2.0.0-next.4:
     path-parse "^1.0.7"
     supports-preserve-symlinks-flag "^1.0.0"
 
+response-iterator@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.npmmirror.com/response-iterator/-/response-iterator-0.2.6.tgz#249005fb14d2e4eeb478a3f735a28fd8b4c9f3da"
+  integrity sha512-pVzEEzrsg23Sh053rmDUvLSkGXluZio0qu8VT6ukrYuvtjVfCbDZH9d6PGXb8HZfzdNZt8feXv/jvUzlhRgLnw==
+
 restore-cursor@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/restore-cursor/-/restore-cursor-2.0.0.tgz"
@@ -14652,6 +14737,20 @@ stargazejs@0.10.0:
     "@osmonauts/lcd" "0.8.0"
     protobufjs "^6.11.2"
 
+stargazejs@0.13.0:
+  version "0.13.0"
+  resolved "https://registry.npmmirror.com/stargazejs/-/stargazejs-0.13.0.tgz#f13fac8eeeb6f3b189428f323e599884a612f32a"
+  integrity sha512-bEik8X78eB+KqfbjLvvsstZ7ngzYqpW73r/QTK8KEOTtvoyxyzMCo/5EOT+1fmOK0Og8Mo9QHukrNFJ/a1STNw==
+  dependencies:
+    "@babel/runtime" "^7.19.4"
+    "@cosmjs/amino" "0.29.5"
+    "@cosmjs/cosmwasm-stargate" "^0.29.5"
+    "@cosmjs/proto-signing" "0.29.5"
+    "@cosmjs/stargate" "0.29.5"
+    "@cosmjs/tendermint-rpc" "^0.29.5"
+    "@osmonauts/lcd" "0.8.0"
+    protobufjs "^6.11.2"
+
 stop-iteration-iterator@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmmirror.com/stop-iteration-iterator/-/stop-iteration-iterator-1.0.0.tgz#6a60be0b4ee757d1ed5254858ec66b10c49285e4"
@@ -14892,6 +14991,11 @@ symbol-observable@^2.0.3:
   version "2.0.3"
   resolved "https://registry.npmjs.org/symbol-observable/-/symbol-observable-2.0.3.tgz"
   integrity sha512-sQV7phh2WCYAn81oAkakC5qjq2Ml0g8ozqz03wOGnx9dDlG1de6yrF+0RAzSJD8fPUow3PTSMf2SAbOGxb93BA==
+
+symbol-observable@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmmirror.com/symbol-observable/-/symbol-observable-4.0.0.tgz#5b425f192279e87f2f9b937ac8540d1984b39205"
+  integrity sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ==
 
 symbol-tree@^3.2.4:
   version "3.2.4"
@@ -15164,6 +15268,13 @@ trough@^2.0.0:
   resolved "https://registry.npmjs.org/trough/-/trough-2.1.0.tgz"
   integrity sha512-AqTiAOLcj85xS7vQ8QkAV41hPDIJ71XJB4RCUrzo/1GM2CQwhkJGaf9Hgr7BOugMRpgGUrqRg/DrBDl4H40+8g==
 
+ts-invariant@^0.10.3:
+  version "0.10.3"
+  resolved "https://registry.npmmirror.com/ts-invariant/-/ts-invariant-0.10.3.tgz#3e048ff96e91459ffca01304dbc7f61c1f642f6c"
+  integrity sha512-uivwYcQaxAucv1CzRp2n/QdYPo4ILf9VXgH19zEIjFx2EJufV16P0JtJVpYHy89DItG6Kwj2oIUjrcK5au+4tQ==
+  dependencies:
+    tslib "^2.1.0"
+
 ts-jest@^29.0.3:
   version "29.0.5"
   resolved "https://registry.npmmirror.com/ts-jest/-/ts-jest-29.0.5.tgz#c5557dcec8fe434fcb8b70c3e21c6b143bfce066"
@@ -15231,6 +15342,11 @@ tslib@^2.0.0, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.3.1, tslib@^2.4.0, tslib@^2.5
   version "2.5.0"
   resolved "https://registry.npmmirror.com/tslib/-/tslib-2.5.0.tgz#42bfed86f5787aeb41d031866c8f402429e0fddf"
   integrity sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==
+
+tslib@^2.3.0:
+  version "2.5.2"
+  resolved "https://registry.npmmirror.com/tslib/-/tslib-2.5.2.tgz#1b6f07185c881557b0ffa84b111a0106989e8338"
+  integrity sha512-5svOrSA2w3iGFDs1HibEVBGbDrAY82bFQ3HZ3ixB+88nsbsWQoKqDRb5UBYAUPEzbBn6dAp5gRNXglySbx1MlA==
 
 tsutils@^3.21.0:
   version "3.21.0"
@@ -16024,3 +16140,15 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zen-observable-ts@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.npmmirror.com/zen-observable-ts/-/zen-observable-ts-1.2.5.tgz#6c6d9ea3d3a842812c6e9519209365a122ba8b58"
+  integrity sha512-QZWQekv6iB72Naeake9hS1KxHlotfRpe+WGNbNx5/ta+R3DNjVO2bswf63gXlWDcs+EMd7XY8HfVQyP1X6T4Zg==
+  dependencies:
+    zen-observable "0.8.15"
+
+zen-observable@0.8.15:
+  version "0.8.15"
+  resolved "https://registry.npmmirror.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
+  integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
