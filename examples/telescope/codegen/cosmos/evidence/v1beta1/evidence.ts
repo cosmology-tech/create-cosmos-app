@@ -1,6 +1,6 @@
 import { Timestamp } from "../../../google/protobuf/timestamp";
-import * as _m0 from "protobufjs/minimal";
-import { Long, toTimestamp, fromTimestamp } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { toTimestamp, fromTimestamp } from "../../../helpers";
 /**
  * Equivocation implements the Evidence interface and defines evidence of double
  * signing misbehavior.
@@ -30,23 +30,23 @@ function createBaseEquivocation(): Equivocation {
   };
 }
 export const Equivocation = {
-  encode(message: Equivocation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Equivocation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.height !== BigInt(0)) {
-      writer.uint32(8).int64(Long.fromString(message.height.toString()));
+      writer.uint32(8).int64(message.height);
     }
     if (message.time !== undefined) {
       Timestamp.encode(toTimestamp(message.time), writer.uint32(18).fork()).ldelim();
     }
     if (message.power !== BigInt(0)) {
-      writer.uint32(24).int64(Long.fromString(message.power.toString()));
+      writer.uint32(24).int64(message.power);
     }
     if (message.consensusAddress !== "") {
       writer.uint32(34).string(message.consensusAddress);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Equivocation {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Equivocation {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEquivocation();
     while (reader.pos < end) {

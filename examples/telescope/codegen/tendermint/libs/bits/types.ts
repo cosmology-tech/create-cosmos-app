@@ -1,5 +1,4 @@
-import * as _m0 from "protobufjs/minimal";
-import { Long } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 export interface BitArray {
   bits: bigint;
   elems: bigint[];
@@ -15,19 +14,19 @@ function createBaseBitArray(): BitArray {
   };
 }
 export const BitArray = {
-  encode(message: BitArray, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BitArray, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.bits !== BigInt(0)) {
-      writer.uint32(8).int64(Long.fromString(message.bits.toString()));
+      writer.uint32(8).int64(message.bits);
     }
     writer.uint32(18).fork();
     for (const v of message.elems) {
-      writer.uint64(Long.fromString(v.toString()));
+      writer.uint64(v);
     }
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BitArray {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BitArray {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBitArray();
     while (reader.pos < end) {

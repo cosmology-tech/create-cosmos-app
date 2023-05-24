@@ -1,5 +1,5 @@
 import { Rpc } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader } from "../../../../binary";
 import { MsgCreateClient, MsgCreateClientResponse, MsgUpdateClient, MsgUpdateClientResponse, MsgUpgradeClient, MsgUpgradeClientResponse, MsgSubmitMisbehaviour, MsgSubmitMisbehaviourResponse } from "./tx";
 /** Msg defines the ibc/client Msg service. */
 export interface Msg {
@@ -24,21 +24,21 @@ export class MsgClientImpl implements Msg {
   createClient(request: MsgCreateClient): Promise<MsgCreateClientResponse> {
     const data = MsgCreateClient.encode(request).finish();
     const promise = this.rpc.request("ibc.core.client.v1.Msg", "CreateClient", data);
-    return promise.then(data => MsgCreateClientResponse.decode(new _m0.Reader(data)));
+    return promise.then(data => MsgCreateClientResponse.decode(new BinaryReader(data)));
   }
   updateClient(request: MsgUpdateClient): Promise<MsgUpdateClientResponse> {
     const data = MsgUpdateClient.encode(request).finish();
     const promise = this.rpc.request("ibc.core.client.v1.Msg", "UpdateClient", data);
-    return promise.then(data => MsgUpdateClientResponse.decode(new _m0.Reader(data)));
+    return promise.then(data => MsgUpdateClientResponse.decode(new BinaryReader(data)));
   }
   upgradeClient(request: MsgUpgradeClient): Promise<MsgUpgradeClientResponse> {
     const data = MsgUpgradeClient.encode(request).finish();
     const promise = this.rpc.request("ibc.core.client.v1.Msg", "UpgradeClient", data);
-    return promise.then(data => MsgUpgradeClientResponse.decode(new _m0.Reader(data)));
+    return promise.then(data => MsgUpgradeClientResponse.decode(new BinaryReader(data)));
   }
   submitMisbehaviour(request: MsgSubmitMisbehaviour): Promise<MsgSubmitMisbehaviourResponse> {
     const data = MsgSubmitMisbehaviour.encode(request).finish();
     const promise = this.rpc.request("ibc.core.client.v1.Msg", "SubmitMisbehaviour", data);
-    return promise.then(data => MsgSubmitMisbehaviourResponse.decode(new _m0.Reader(data)));
+    return promise.then(data => MsgSubmitMisbehaviourResponse.decode(new BinaryReader(data)));
   }
 }

@@ -1,5 +1,4 @@
-import * as _m0 from "protobufjs/minimal";
-import { Long } from "../../helpers";
+import { BinaryReader, BinaryWriter } from "../../binary";
 /**
  * A Duration represents a signed, fixed-length span of time represented
  * as a count of seconds and fractions of seconds at nanosecond
@@ -148,17 +147,17 @@ function createBaseDuration(): Duration {
   };
 }
 export const Duration = {
-  encode(message: Duration, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Duration, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.seconds !== BigInt(0)) {
-      writer.uint32(8).int64(Long.fromString(message.seconds.toString()));
+      writer.uint32(8).int64(message.seconds);
     }
     if (message.nanos !== 0) {
       writer.uint32(16).int32(message.nanos);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Duration {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Duration {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDuration();
     while (reader.pos < end) {

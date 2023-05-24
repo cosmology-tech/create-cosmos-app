@@ -15,9 +15,9 @@ import {
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
-import * as gov from '../../bufcodegen/cosmos/gov/v1beta1/gov_pb';
+import { Proposal } from '../../codegen/cosmos/gov/v1beta1/gov';
 
-const ProposalStatus_pb = gov.ProposalStatus;
+const ProposalStatus = cosmos.gov.v1beta1.ProposalStatus;
 
 export const getTitleFromDecoded = (decodedStr: string) => {
   return decodedStr.slice(0, 250).match(/[A-Z][A-Za-z].*(?=\u0012)/)?.[0];
@@ -43,21 +43,21 @@ export const StatusBadge = ({ status }: { status: number }) => {
   };
 
   switch (status) {
-    case ProposalStatus_pb.DEPOSIT_PERIOD:
+    case ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD:
       break;
-    case ProposalStatus_pb.VOTING_PERIOD:
+    case ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD:
       statusConfig = {
         color: 'twitter',
         name: 'Voting Period',
       };
       break;
-    case ProposalStatus_pb.PASSED:
+    case ProposalStatus.PROPOSAL_STATUS_PASSED:
       statusConfig = {
         color: 'green',
         name: 'Passed',
       };
       break;
-    case ProposalStatus_pb.REJECTED:
+    case ProposalStatus.PROPOSAL_STATUS_REJECTED:
       statusConfig = {
         color: 'red',
         name: 'Rejected',
@@ -85,7 +85,7 @@ export const ProposalCard = ({
   handleClick,
   votes,
 }: {
-  proposal: gov.Proposal;
+  proposal: Proposal;
   handleClick: () => void;
   votes: Votes | undefined;
 }) => {
@@ -134,7 +134,8 @@ export const ProposalCard = ({
           <Flex flexDirection="column" h="44%">
             <Flex alignItems="center" fontSize="sm">
               <Text color={useColorModeValue('gray.600', 'gray.400')}>
-                {proposal.status === ProposalStatus_pb.DEPOSIT_PERIOD
+                {proposal.status ===
+                ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD
                   ? 'Deposit'
                   : 'Voting'}
                 &nbsp;end time: &nbsp;
@@ -144,9 +145,10 @@ export const ProposalCard = ({
                 fontWeight="semibold"
               >
                 {dayjs(
-                  proposal.status === ProposalStatus_pb.DEPOSIT_PERIOD
-                    ? proposal.depositEndTime?.toDate()
-                    : proposal.votingEndTime?.toDate()
+                  proposal.status ===
+                    ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD
+                    ? proposal.depositEndTime
+                    : proposal.votingEndTime
                 ).format('YYYY-MM-DD hh:mm')}
               </Text>
             </Flex>

@@ -12,7 +12,6 @@ import {
   StatusBadge,
   VoteColor,
 } from './proposal-card';
-import * as gov from '../../bufcodegen/cosmos/gov/v1beta1/gov_pb';
 import dayjs from 'dayjs';
 import { cosmos } from '../../codegen';
 import BigNumber from 'bignumber.js';
@@ -47,10 +46,11 @@ import {
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { Proposal, ProposalStatus } from '../../codegen/cosmos/gov/v1beta1/gov';
 
 const VoteType = cosmos.gov.v1beta1.VoteOption;
 
-const ProposalStatus_pb = gov.ProposalStatus;
+const proposalStatus = ProposalStatus;
 
 const getChainAssets = (chainName: string) => {
   return assets.find((chain) => chain.chain_name === chainName) as AssetList;
@@ -216,7 +216,7 @@ export const ProposalModal = ({
 }: {
   isOpen: boolean;
   onClose: () => void;
-  proposal: gov.Proposal;
+  proposal: Proposal;
   chainName: string;
   quorum: number | undefined;
   bondedTokens: string | undefined;
@@ -280,9 +280,11 @@ export const ProposalModal = ({
 
   const isVoted = !!(votes && votes[proposal.proposalId.toString()]);
 
-  const isDepositPeriod = proposal.status === ProposalStatus_pb.DEPOSIT_PERIOD;
+  const isDepositPeriod =
+    proposal.status === proposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD;
 
-  const isVotingPeriod = proposal.status === ProposalStatus_pb.VOTING_PERIOD;
+  const isVotingPeriod =
+    proposal.status === proposalStatus.PROPOSAL_STATUS_VOTING_PERIOD;
 
   const turnout = totalVotes / Number(bondedTokens);
 
@@ -463,14 +465,14 @@ export const ProposalModal = ({
             <Flex justifyContent="space-between" alignItems="center">
               <TimeDisplay
                 title="Submit Time"
-                time={formatDate(proposal.submitTime?.toDate())}
+                time={formatDate(proposal.submitTime)}
               />
               <TimeDisplay
                 title="Voting Starts"
                 time={
                   isDepositPeriod
                     ? 'Not Specified Yet'
-                    : formatDate(proposal.votingStartTime?.toDate())
+                    : formatDate(proposal.votingStartTime)
                 }
               />
               <TimeDisplay
@@ -478,7 +480,7 @@ export const ProposalModal = ({
                 time={
                   isDepositPeriod
                     ? 'Not Specified Yet'
-                    : formatDate(proposal.votingEndTime?.toDate())
+                    : formatDate(proposal.votingEndTime)
                 }
               />
               <Button
