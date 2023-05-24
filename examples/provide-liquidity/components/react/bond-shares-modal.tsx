@@ -67,9 +67,13 @@ const BondSharesModal = ({
     prices
   );
 
+  const unbondedSharesDisplay = new BigNumber(unbondedShares)
+    .decimalPlaces(18, BigNumber.ROUND_DOWN)
+    .toString();
+
   const isAmountEmpty = new BigNumber(inputShares || 0).lte(0);
   const isAmountInsufficient = new BigNumber(inputShares || 0).gt(
-    unbondedShares
+    unbondedSharesDisplay
   );
 
   const btnText = isAmountEmpty
@@ -138,7 +142,7 @@ const BondSharesModal = ({
       isOpen={isOpen}
       onClose={closeModal}
       isCentered
-      size={isMobile ? 'xs' : { sm: 'sm', md: 'md', lg: 'lg' }}
+      size={isMobile ? 'xs' : { sm: 'sm', md: 'md', lg: 'xl' }}
     >
       <ModalOverlay bg="blackAlpha.800" />
       <ModalContent bg={useColorModeValue('#FFF', '#2C3137')}>
@@ -168,11 +172,14 @@ const BondSharesModal = ({
               }
               alignItems="flex-end"
             >
-              <Text fontSize="14px">
-                Available&nbsp;{isMobile && 'shares'}{' '}
-              </Text>
-              <Text fontWeight="600" fontSize="14px">
-                {truncDecimals(unbondedShares, 12)} {!isMobile && 'shares'}
+              <Text fontSize="14px">Available&nbsp;{isMobile && 'shares'}</Text>
+              <Text
+                fontWeight="600"
+                fontSize="14px"
+                cursor="pointer"
+                onClick={() => setInputShares(unbondedSharesDisplay)}
+              >
+                {unbondedSharesDisplay} {!isMobile && 'shares'}
               </Text>
             </Flex>
           </Flex>
@@ -205,7 +212,7 @@ const BondSharesModal = ({
               handleClick={handleClick}
               isLoading={isLoading}
               disabled={isAmountEmpty || isAmountInsufficient}
-              width="512px"
+              width="100%"
             />
           </Center>
         </ModalBody>

@@ -101,6 +101,7 @@ export const InputFields = ({
   };
 
   const onSelectChange = (e: any) => {
+    setAmount('');
     setSelectedToken(
       balances.find((balance) => balance.denom === e.target.value)
     );
@@ -249,7 +250,10 @@ export const InputFields = ({
               Amount
             </FormLabel>
             {selectedToken && (
-              <Text>
+              <Text
+                cursor="pointer"
+                onClick={() => setAmount(selectedToken?.displayAmount)}
+              >
                 Balance: {selectedToken?.displayAmount} {selectedToken?.symbol}
               </Text>
             )}

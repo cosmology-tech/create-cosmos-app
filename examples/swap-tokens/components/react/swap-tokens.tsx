@@ -1,28 +1,36 @@
-import { SwapDataType, SwapView } from '@cosmology-ui/react';
-import { useCallback, useEffect, useState } from 'react';
-import { Box, Center, Text, useToast } from '@chakra-ui/react';
-import { AssetOption, InputData, Result, SwapToken } from '../types';
-import { useChain } from '@cosmos-kit/react';
+import {
+  assets as nativeAssets,
+  asset_list as ibcAssets,
+} from '@chain-registry/osmosis';
+import { Asset } from '@chain-registry/types';
+import { Box, Center, Text } from '@chakra-ui/react';
+import { coin } from '@cosmjs/amino';
+import { useChain, useManager } from '@cosmos-kit/react';
+import BigNumber from 'bignumber.js';
+import Long from 'long';
+import { FEES, osmosis } from 'osmojs';
+import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
+import { Pool } from 'osmojs/types/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { chainName } from '../../config';
+import { useTransactionToast } from '../../hooks/useTransactionToast';
 import {
   baseUnitsToDisplayUnits,
   baseUnitsToDollarValue,
-  calcPoolLiquidity,
+  calcAmountWithSlippage,
+  calcPriceImpactGivenIn,
+  calcPriceImpactGivenOut,
   getExponentByDenom,
+  getOsmoAssetByDenom,
+  getRoutesForTrade,
   makePoolPairs,
   noDecimals,
+  osmoDenomToSymbol,
   osmosisAssets,
 } from '../../utils';
-import { osmosis, FEES } from 'osmojs';
-import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
-import { Pool } from 'osmojs/types/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
-import { PrettyPair, PriceHash } from '../../utils/types';
-import Long from 'long';
-import BigNumber from 'bignumber.js';
-import { calcAmountWithSlippage, getRoutesForTrade } from '../../utils/swap';
-import { coin } from '@cosmjs/amino';
-
-const slippages = ['1%', '2.5%', '3%', '5%'];
+import { CoinDenom, PriceHash } from '../../utils/types';
+import { TransactionResult } from '../types';
+import { LoadingConfig, LoadingMode, SwapOptionType, SwapView } from '../swap';
 
 const getPriceHash = async () => {
   let prices = [];
@@ -48,78 +56,102 @@ const getPriceHash = async () => {
   return priceHash;
 };
 
-const truncDecimals = (val: string | number | undefined, decimals: number) => {
+const truncDecimals = (val: string | undefined, decimals: number) => {
   return new BigNumber(val || 0).decimalPlaces(decimals).toString();
 };
 
-interface DataNeeded {
-  balances: Coin[];
-  pools: Pool[];
-  pairs: PrettyPair[];
-  prices: PriceHash;
-  assetOptions: SwapDataType[];
-  topActiveTokens: string[];
-}
+const getChainName = (ibcDenom: CoinDenom) => {
+  if (nativeAssets.assets.find((asset) => asset.base === ibcDenom)) {
+    return chainName;
+  }
+  const asset = ibcAssets.assets.find((asset) => asset.base === ibcDenom);
+  const ibcChainName = asset?.traces?.[0].counterparty.chain_name;
+  if (!ibcChainName) throw Error('chainName not found: ' + ibcDenom);
+  return ibcChainName;
+};
+
+const isEmptyArray = (arr: any[]) => arr.length === 0;
+
+const slippages = ['1%', '2.5%', '3%', '5%'];
+
+const emptyInput = {
+  fromToken: {
+    inputAmount: '0',
+    inputValue: '0',
+  },
+  toToken: {
+    outputAmount: '0',
+    outputValue: '0',
+  },
+};
 
 const { swapExactAmountIn } = osmosis.gamm.v1beta1.MessageComposer.withTypeUrl;
 
+interface FetchedData {
+  pools: Pool[];
+  prices: PriceHash;
+  balances: Coin[];
+}
+
 export const SwapTokens = () => {
-  const [fromToken, setFromToken] = useState<SwapToken>({
-    selectedToken: undefined,
-    tokenLoading: true,
-    dropdownLoading: true,
-  });
-  const [toToken, setToToken] = useState<SwapToken>({
-    selectedToken: undefined,
-    tokenLoading: true,
-    dropdownLoading: true,
-  });
-  const [inputData, setInputData] = useState<InputData>({
-    amountValue: '0',
-    fiatValue: '$-',
-    denom: '',
-    invalid: false,
-    invalidText: undefined,
-    isInputLoading: true,
-  });
+  const [fromToken, setFromToken] = useState<SwapOptionType>();
+  const [toToken, setToToken] = useState<SwapOptionType>();
+  const [inputAmount, setInputAmount] = useState<string>('');
   const [selectedSlippage, setSelectedSlippage] = useState<string>(
     slippages[0]
   );
-  const [dataNeeded, setDataNeeded] = useState<DataNeeded>({
+  const [fetchedData, setFetchedData] = useState<FetchedData>({
     pools: [],
-    pairs: [],
     prices: {},
     balances: [],
-    assetOptions: [],
-    topActiveTokens: [],
-  });
-  const [priceValue, setPrice] = useState({
-    loading: true,
-    amountValue: '0',
-    fiatValue: '$-',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loadingConfig, setLoadingConfig] = useState<LoadingConfig>({
+    mode: LoadingMode.INITIAL,
+    isLoading: false,
+  });
 
   const { address, getRpcEndpoint, getSigningStargateClient, connect } =
     useChain(chainName);
 
-  const toast = useToast();
+  const { getChainRecord } = useManager();
+  const { showToast } = useTransactionToast();
 
-  const showToast = (code: number) => {
-    toast({
-      title: `Transaction ${code === 0 ? 'successful' : 'failed'}`,
-      status: code === 0 ? 'success' : 'error',
-      duration: 5000,
-      isClosable: true,
-      position: 'top-right',
-    });
-  };
+  const getPrettyChainName = useCallback(
+    (ibcDenom: CoinDenom) => {
+      const chainName = getChainName(ibcDenom);
+      const chainRecord = getChainRecord(chainName);
+      return chainRecord.chain.pretty_name;
+    },
+    [getChainRecord]
+  );
+
+  const inputData = useMemo(() => {
+    if (!fromToken || !toToken) return emptyInput;
+
+    const dollarValue = new BigNumber(inputAmount || '0').multipliedBy(
+      fetchedData.prices[fromToken.denom]
+    );
+
+    const toTokenAmount = dollarValue.div(fetchedData.prices[toToken.denom]);
+
+    return {
+      fromToken: {
+        inputAmount: parseFloat(inputAmount || '0').toString(),
+        inputValue: dollarValue.decimalPlaces(2).toString(),
+      },
+      toToken: {
+        outputAmount: toTokenAmount.decimalPlaces(6).toString(),
+        outputValue: dollarValue.decimalPlaces(2).toString(),
+      },
+    };
+  }, [fetchedData.prices, fromToken, inputAmount, toToken]);
 
   const handleInputChange = (value: string) => {
-    if (!fromToken.selectedToken || !toToken.selectedToken) return;
+    if (!fromToken) return;
 
     const val = new BigNumber(value);
-    const inputMaxAmount = fromToken.selectedToken?.amountValue || '0';
+    const inputMaxAmount = fromToken?.displayAmount || '0';
     const isValueNumericAndPositive = !isNaN(Number(value)) && val.gt(0);
 
     const inputAmount = !isValueNumericAndPositive
@@ -128,119 +160,81 @@ export const SwapTokens = () => {
       ? inputMaxAmount
       : value;
 
-    const dollarValue = new BigNumber(inputAmount).multipliedBy(
-      dataNeeded.prices[inputData.denom]
-    );
-
-    const toTokenAmount = dollarValue.div(
-      dataNeeded.prices[toToken.selectedToken.denom]
-    );
-
-    setInputData((prev) => ({
-      ...prev,
-      amountValue: parseFloat(inputAmount).toString(),
-      fiatValue: '$' + dollarValue.decimalPlaces(2).toString(),
-    }));
-    setToToken({
-      dropdownLoading: false,
-      tokenLoading: false,
-      selectedToken: {
-        ...toToken.selectedToken,
-        fiatValue: '$' + dollarValue.decimalPlaces(2).toString(),
-        amountValue: toTokenAmount.decimalPlaces(6).toString(),
-      },
-    });
+    setInputAmount(inputAmount);
   };
 
-  const handleFromDropdownChange = (option: AssetOption) => {
-    const dollarValue = new BigNumber(inputData.amountValue || 0)
-      .multipliedBy(dataNeeded.prices[option.denom])
-      .toString();
-    const fiatValue = '$' + truncDecimals(dollarValue, 2);
+  const handleFromDropdownChange = (option: SwapOptionType) =>
+    setFromToken(option);
 
-    if (option) {
-      setInputData({
-        ...inputData,
-        fiatValue,
-        amountValue: inputData.amountValue,
-        denom: option.denom,
-      });
+  const handleToDropdownChange = (option: SwapOptionType) => setToToken(option);
 
-      setFromToken((prev) => ({ ...prev, selectedToken: option }));
-
-      if (toToken.selectedToken) {
-        const amountValue = new BigNumber(dollarValue)
-          .div(dataNeeded.prices[toToken.selectedToken.denom])
-          .decimalPlaces(6)
-          .toString();
-        setToToken({
-          tokenLoading: false,
-          dropdownLoading: false,
-          selectedToken: { ...toToken.selectedToken, amountValue, fiatValue },
-        });
-      }
-    }
+  const handleSwapSwitch = () => {
+    if (!fromToken || !toToken) return;
+    setFromToken(toToken);
+    setToToken(fromToken);
+    setInputAmount(inputData?.toToken.outputAmount || '0');
   };
 
-  const handleToDropdownChange = (option: AssetOption) => {
-    if (option && toToken.selectedToken) {
-      const amountValue = new BigNumber(inputData.amountValue || 0)
-        .multipliedBy(dataNeeded.prices[inputData.denom])
-        .div(dataNeeded.prices[option.denom])
-        .decimalPlaces(6)
-        .toString();
+  const pairs = useMemo(() => {
+    const pools = fetchedData.pools;
+    const prices = fetchedData.prices;
+    if (isEmptyArray(pools) || isEmptyArray(Object.keys(prices))) return [];
+    return makePoolPairs(pools, prices);
+  }, [fetchedData.pools, fetchedData.prices]);
 
-      setToToken({
-        dropdownLoading: false,
-        tokenLoading: false,
-        selectedToken: {
-          ...option,
-          amountValue,
-          fiatValue: toToken.selectedToken.fiatValue,
-        },
-      });
-    }
-  };
+  const swapTokenDenoms = useMemo(() => {
+    if (isEmptyArray(pairs)) return [];
+    return [
+      ...new Set(
+        pairs.map((pair) => [pair.baseAddress, pair.quoteAddress]).flat()
+      ),
+    ];
+  }, [pairs]);
 
-  const handleSwapSwitch = useCallback(() => {
-    if (
-      !fromToken.selectedToken ||
-      !toToken.selectedToken ||
-      !inputData.amountValue
-    )
-      return;
+  const assetOptions = useMemo(() => {
+    const balances = fetchedData.balances;
+    const prices = fetchedData.prices;
+    if ([swapTokenDenoms, balances, Object.keys(prices)].some(isEmptyArray))
+      return [];
+    return swapTokenDenoms
+      .map((denom) => {
+        const asset = getOsmoAssetByDenom(denom);
+        const symbol = asset.symbol;
+        const coin = balances.find(({ denom }) => denom === asset.base);
+        const displayAmount = coin
+          ? baseUnitsToDisplayUnits(symbol, coin.amount)
+          : '0';
+        const dollarValue = coin
+          ? baseUnitsToDollarValue(prices, symbol, coin.amount)
+          : '0';
+        const prettyChainName = getPrettyChainName(denom);
 
-    setFromToken({
-      dropdownLoading: false,
-      tokenLoading: false,
-      selectedToken: {
-        ...toToken.selectedToken,
-        amountValue: truncDecimals(toToken.selectedToken.totalAmount, 6),
-        fiatValue: truncDecimals(toToken.selectedToken.totalValue, 2),
-      },
-    });
-
-    setToToken({
-      dropdownLoading: false,
-      tokenLoading: false,
-      selectedToken: {
-        ...fromToken.selectedToken,
-        amountValue: inputData.amountValue,
-        fiatValue: inputData.fiatValue,
-      },
-    });
-
-    setInputData({
-      isInputLoading: false,
-      invalid: false,
-      amountValue: toToken.selectedToken.amountValue,
-      fiatValue: toToken.selectedToken.fiatValue,
-      denom: toToken.selectedToken.denom,
-    });
-  }, [inputData, fromToken.selectedToken, toToken.selectedToken]);
+        return {
+          symbol,
+          value: asset.base,
+          icon: asset.logo_URIs,
+          denom: asset.base,
+          amount: coin?.amount || '0',
+          displayAmount,
+          dollarValue,
+          chainName: prettyChainName,
+        } as SwapOptionType;
+      })
+      .sort((a, b) => (new BigNumber(a.dollarValue).lt(b.dollarValue) ? 1 : -1))
+      .map((asset) => ({
+        ...asset,
+        dollarValue: '$' + truncDecimals(asset.dollarValue, 2),
+      }));
+  }, [
+    fetchedData.balances,
+    fetchedData.prices,
+    getPrettyChainName,
+    swapTokenDenoms,
+  ]);
 
   const getData = useCallback(async () => {
     if (!address) return;
+    setLoadingConfig((prev) => ({ ...prev, isLoading: true }));
     console.log('getting data...');
 
     let rpcEndpoint = await getRpcEndpoint();
@@ -254,10 +248,15 @@ export const SwapTokens = () => {
       rpcEndpoint,
     });
 
-    let pools: Pool[] = [];
-    if (dataNeeded.pools.length > 0) {
-      pools = dataNeeded.pools;
+    let prices: PriceHash = {};
+    if (isEmptyArray(Object.keys(fetchedData.prices))) {
+      prices = await getPriceHash();
     } else {
+      prices = fetchedData.prices;
+    }
+
+    let pools: Pool[] = [];
+    if (isEmptyArray(fetchedData.pools)) {
       const { pools: encodedPools } = await client.osmosis.gamm.v1beta1.pools({
         pagination: {
           key: new Uint8Array(),
@@ -270,51 +269,15 @@ export const SwapTokens = () => {
       pools = encodedPools
         .filter(({ typeUrl }) => !typeUrl.includes('stableswap'))
         .map(({ value }) => osmosis.gamm.v1beta1.Pool.decode(value))
-        .filter(
-          ({ poolAssets }) =>
-            !poolAssets.some(({ token }) => token?.denom.startsWith('gamm'))
+        .filter(({ poolAssets }) =>
+          poolAssets.every(
+            ({ token }) =>
+              prices[token!.denom] &&
+              osmosisAssets.find((asset) => asset.base === token!.denom)
+          )
         );
-    }
-
-    let pairs: PrettyPair[] = [];
-    if (dataNeeded.pairs.length > 0) {
-      pairs = dataNeeded.pairs;
     } else {
-      pairs = makePoolPairs(pools);
-    }
-
-    let prices: PriceHash = {};
-    if (Object.keys(dataNeeded.prices).length > 0) {
-      prices = dataNeeded.prices;
-    } else {
-      prices = await getPriceHash();
-    }
-
-    let topActiveTokens: string[] = [];
-    if (dataNeeded.topActiveTokens.length > 0) {
-      topActiveTokens = dataNeeded.topActiveTokens;
-    } else {
-      const tokenDenoms = pools
-        .filter(
-          ({ poolAssets }) =>
-            !poolAssets.some(
-              ({ token }) =>
-                !osmosisAssets.find((asset) => asset.base === token?.denom) ||
-                !getExponentByDenom(token!.denom) ||
-                !prices[token!.denom]
-            )
-        )
-        .map((pool) => ({
-          ...pool,
-          liquidity: calcPoolLiquidity(pool, prices),
-        }))
-        .sort((poolA, poolB) =>
-          new BigNumber(poolA.liquidity).lt(poolB.liquidity) ? 1 : -1
-        )
-        .slice(0, 100)
-        .map((pool) => pool.poolAssets.map((asset) => asset.token!.denom));
-
-      topActiveTokens = [...new Set(tokenDenoms.flat())];
+      pools = fetchedData.pools;
     }
 
     const balances = await client.cosmos.bank.v1beta1
@@ -325,78 +288,13 @@ export const SwapTokens = () => {
         balances.filter((coin) => !coin.denom.startsWith('gamm'))
       );
 
-    const assetOptions: AssetOption[] = osmosisAssets
-      .filter((asset) => topActiveTokens.includes(asset.base))
-      .map((asset) => {
-        const symbol = asset.symbol;
-        const coin = balances.find(({ denom }) => denom === asset.base);
-        const displayAmount = coin
-          ? baseUnitsToDisplayUnits(symbol, coin.amount)
-          : '0';
-        const dollarValue = coin
-          ? baseUnitsToDollarValue(prices, symbol, coin.amount)
-          : '0';
-
-        return {
-          name: asset.name,
-          label: asset.name,
-          value: asset.name,
-          symbol,
-          icon: {
-            jpeg: asset.logo_URIs?.jpeg,
-            png: asset.logo_URIs?.png,
-            svg: asset.logo_URIs?.svg,
-          },
-          denom: asset.base,
-          totalAmount: displayAmount,
-          totalValue: dollarValue,
-          amountValue: truncDecimals(displayAmount, 6),
-          fiatValue: dollarValue,
-        };
-      })
-      .sort((a, b) => (new BigNumber(a.fiatValue).lt(b.fiatValue) ? 1 : -1))
-      .map((asset) => ({
-        ...asset,
-        fiatValue: '$' + truncDecimals(asset.fiatValue, 2),
-      }));
-
-    setFromToken((prev) => ({
-      ...prev,
-      dropdownLoading: false,
-      tokenLoading: false,
-      selectedToken: prev.selectedToken
-        ? assetOptions.find(
-            (option) => option.denom === prev.selectedToken?.denom
-          )
-        : assetOptions[0],
-    }));
-    setToToken((prev) => ({
-      ...prev,
-      dropdownLoading: false,
-      tokenLoading: false,
-      selectedToken: {
-        ...(prev.selectedToken ? prev.selectedToken : assetOptions[1]),
-        amountValue: '0',
-        fiatValue: '$-',
-      },
-    }));
-    setInputData((prev) => ({
-      ...prev,
-      isInputLoading: false,
-      amountValue: '0',
-      fiatValue: '$-',
-      denom: prev.denom ? prev.denom : assetOptions[0].denom,
-    }));
-
-    setDataNeeded({
+    setFetchedData({
       pools,
-      pairs,
       prices,
       balances,
-      assetOptions,
-      topActiveTokens,
     });
 
+    setLoadingConfig((prev) => ({ ...prev, isLoading: false }));
     console.log('get data done!');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, getRpcEndpoint]);
@@ -406,61 +304,47 @@ export const SwapTokens = () => {
   }, [getData]);
 
   useEffect(() => {
-    if (fromToken.selectedToken && toToken.selectedToken) {
-      const fromTokenUnitValue = new BigNumber(
-        dataNeeded.prices[fromToken.selectedToken.denom]
-      )
-        .div(dataNeeded.prices[toToken.selectedToken.denom])
-        .decimalPlaces(6)
-        .toString();
-      const fromTokenPrice = truncDecimals(
-        dataNeeded.prices[fromToken.selectedToken.denom],
-        4
-      );
+    if (isEmptyArray(assetOptions)) return;
 
-      setPrice({
-        loading: false,
-        amountValue:
-          `1 ${fromToken.selectedToken.symbol} ≈ ` + fromTokenUnitValue,
-        fiatValue: '$' + fromTokenPrice,
-      });
-    }
-  }, [dataNeeded.prices, fromToken.selectedToken, toToken.selectedToken]);
+    setFromToken((prev) =>
+      prev
+        ? assetOptions.find((option) => option.denom === prev.denom)
+        : assetOptions[0]
+    );
 
-  const handleSubmit = async () => {
-    if (!address || !toToken.selectedToken) return;
+    setToToken((prev) =>
+      prev
+        ? assetOptions.find((option) => option.denom === prev.denom)
+        : assetOptions[1]
+    );
 
-    setIsSubmitting(true);
+    setInputAmount('');
+  }, [assetOptions]);
 
-    const stargateClient = await getSigningStargateClient();
+  const swapTokensWithRoutes = useMemo(() => {
+    if (!fromToken || !toToken) return;
 
-    if (!stargateClient) {
-      console.error('stargateClient undefined or address undefined.');
-      setIsSubmitting(false);
-      return;
-    }
-
-    const tokenInAmount = new BigNumber(inputData.amountValue)
-      .shiftedBy(getExponentByDenom(inputData.denom))
+    const tokenInAmount = new BigNumber(inputData.fromToken.inputAmount)
+      .shiftedBy(getExponentByDenom(fromToken.denom))
       .toString();
 
-    const tokenOutAmount = new BigNumber(toToken.selectedToken.amountValue)
-      .shiftedBy(getExponentByDenom(toToken.selectedToken.denom))
+    const tokenOutAmount = new BigNumber(inputData.toToken.outputAmount)
+      .shiftedBy(getExponentByDenom(toToken.denom))
       .toString();
 
-    const tokenOutAmountWithSlippage = calcAmountWithSlippage(
+    const tokenOutAmountAfterSlippage = calcAmountWithSlippage(
       tokenOutAmount,
       selectedSlippage.split('%')[0]
     );
 
     const tokenIn = {
-      denom: inputData.denom,
+      denom: fromToken.denom,
       amount: tokenInAmount,
     };
 
     const tokenOut = {
-      denom: toToken.selectedToken.denom,
-      amount: tokenOutAmountWithSlippage,
+      denom: toToken.denom,
+      amount: tokenOutAmountAfterSlippage,
     };
 
     const routes = getRoutesForTrade({
@@ -474,82 +358,266 @@ export const SwapTokens = () => {
           amount: tokenOutAmount,
         },
       },
-      pairs: dataNeeded.pairs,
+      pairs,
     });
 
-    if (routes.length === 0) {
-      console.error('no routes found for swap');
+    return {
+      tokenIn,
+      tokenOut,
+      routes,
+    };
+  }, [fromToken, toToken, inputData, pairs, selectedSlippage]);
+
+  const swapDetails = useMemo(() => {
+    if (!swapTokensWithRoutes || !toToken) return;
+    const { tokenIn, tokenOut, routes } = swapTokensWithRoutes;
+    if (routes.length === 0) return;
+    const pools = fetchedData.pools;
+    const tokenOutSymbol = toToken.symbol;
+
+    let swapFee = '';
+    let priceImpact = '';
+    if (new BigNumber(tokenIn.amount).isEqualTo(0)) {
+      priceImpact = '0';
+    } else if (routes.length === 1) {
+      const pool = pools.find((pool) => pool.id.low === routes[0].poolId.low)!;
+      priceImpact = calcPriceImpactGivenIn(tokenIn, tokenOut.denom, pool);
+      swapFee = new BigNumber(pool.poolParams?.swapFee || 0)
+        .shiftedBy(-18)
+        .toString();
+    } else {
+      const tokenInRoute = routes.find(
+        (route) => route.tokenOutDenom !== tokenOut.denom
+      )!;
+      const tokenOutRoute = routes.find(
+        (route) => route.tokenOutDenom === tokenOut.denom
+      )!;
+
+      const tokenInPool = pools.find(
+        (pool) => pool.id.low === tokenInRoute.poolId.low
+      )!;
+      const tokenOutPool = pools.find(
+        (pool) => pool.id.low === tokenOutRoute.poolId.low
+      )!;
+
+      swapFee = new BigNumber(tokenInPool.poolParams?.swapFee || 0)
+        .shiftedBy(-18)
+        .toString();
+
+      const priceImpactIn = calcPriceImpactGivenIn(
+        tokenIn,
+        tokenInRoute.tokenOutDenom,
+        tokenInPool
+      );
+      const priceImpactOut = calcPriceImpactGivenOut(
+        tokenOut,
+        tokenInRoute.tokenOutDenom,
+        tokenOutPool
+      );
+      priceImpact = new BigNumber(priceImpactIn)
+        .plus(priceImpactOut)
+        .toString();
+    }
+
+    const swapFeeValue = new BigNumber(inputData.fromToken.inputValue)
+      .multipliedBy(swapFee)
+      .decimalPlaces(2, BigNumber.ROUND_DOWN);
+
+    let swapRoutes = [];
+    if (routes.length === 1) {
+      swapRoutes = routes.map((route) => {
+        const baseAsset = getOsmoAssetByDenom(tokenIn.denom);
+        const quoteAsset = getOsmoAssetByDenom(tokenOut.denom);
+        return {
+          poolId: route.poolId.low.toString(),
+          swapFee: new BigNumber(swapFee).shiftedBy(2).toString() + '%',
+          baseLogo: baseAsset.logo_URIs,
+          baseSymbol: baseAsset.symbol,
+          quoteLogo: quoteAsset.logo_URIs,
+          quoteSymbol: quoteAsset.symbol,
+        };
+      });
+    } else {
+      let swapFees: BigNumber[] = [];
+      swapRoutes = routes
+        .map((route) => {
+          const pool = pools.find((pool) => pool.id.low === route.poolId.low);
+          let baseAsset: Asset;
+          let quoteAsset: Asset;
+          if (route.tokenOutDenom !== tokenOut.denom) {
+            baseAsset = getOsmoAssetByDenom(tokenIn.denom);
+            quoteAsset = getOsmoAssetByDenom(route.tokenOutDenom);
+          } else {
+            const tokenInDenom = pool?.poolAssets.find(
+              ({ token }) => token!.denom !== tokenOut.denom
+            )?.token?.denom!;
+            baseAsset = getOsmoAssetByDenom(tokenInDenom);
+            quoteAsset = getOsmoAssetByDenom(tokenOut.denom);
+          }
+          const fee = new BigNumber(pool?.poolParams?.swapFee || 0).shiftedBy(
+            -16
+          );
+          swapFees.push(fee);
+          return {
+            poolId: route.poolId.low.toString(),
+            swapFee: fee,
+            baseLogo: baseAsset.logo_URIs,
+            baseSymbol: baseAsset.symbol,
+            quoteLogo: quoteAsset.logo_URIs,
+            quoteSymbol: quoteAsset.symbol,
+          };
+        })
+        .map((route) => {
+          const totalFee = swapFees.reduce(
+            (total, cur) => total.plus(cur),
+            new BigNumber(0)
+          );
+          const highestFee = swapFees.sort((a, b) => (a.lt(b) ? 1 : -1))[0];
+          const feeRatio = highestFee.div(totalFee);
+          return {
+            ...route,
+            swapFee: route.swapFee.multipliedBy(feeRatio).toString() + '%',
+          };
+        });
+    }
+
+    return {
+      priceImpact: new BigNumber(priceImpact).shiftedBy(2).gt(0.001)
+        ? new BigNumber(priceImpact).decimalPlaces(5).shiftedBy(2) + '%'
+        : '< 0.001%',
+      swapFee: {
+        percentage: new BigNumber(swapFee).shiftedBy(2).toString() + '%',
+        value: swapFeeValue.gt(0.01) ? '$' + swapFeeValue : '< $0.01',
+      },
+      expectedOutput: inputData.toToken.outputAmount,
+      minimumReceived: truncDecimals(
+        baseUnitsToDisplayUnits(tokenOutSymbol, tokenOut.amount),
+        6
+      ),
+      route: {
+        tokenIn: {
+          logoUrl: getOsmoAssetByDenom(tokenIn.denom).logo_URIs,
+          symbol: osmoDenomToSymbol(tokenIn.denom),
+        },
+        tokenOut: {
+          logoUrl: getOsmoAssetByDenom(tokenOut.denom).logo_URIs,
+          symbol: osmoDenomToSymbol(tokenOut.denom),
+        },
+        routes: swapRoutes,
+      },
+    };
+  }, [fetchedData.pools, inputData, swapTokensWithRoutes, toToken]);
+
+  const handleSubmit = async () => {
+    if (!address || !swapTokensWithRoutes) return;
+    setIsSubmitting(true);
+    const stargateClient = await getSigningStargateClient();
+    if (!stargateClient) {
+      console.error('stargateClient undefined or address undefined.');
       setIsSubmitting(false);
       return;
     }
-
+    const { tokenIn, tokenOut, routes } = swapTokensWithRoutes;
     const msg = swapExactAmountIn({
       sender: address,
       routes,
       tokenIn: coin(noDecimals(tokenIn.amount), tokenIn.denom),
       tokenOutMinAmount: noDecimals(tokenOut.amount),
     });
-
     const fee = FEES.osmosis.swapExactAmountIn('low');
-
     try {
       const res = await stargateClient.signAndBroadcast(address, [msg], fee);
-      console.log('res', res);
-      stargateClient.disconnect();
-      setIsSubmitting(false);
       showToast(res.code);
-
-      setToToken((prev) => ({ ...prev, tokenLoading: true }));
-      setFromToken((prev) => ({ ...prev, tokenLoading: true }));
+      setIsSubmitting(false);
+      setLoadingConfig({ mode: LoadingMode.AFTER_SWAP, isLoading: true });
       await getData();
-      setToToken((prev) => ({ ...prev, tokenLoading: false }));
-      setFromToken((prev) => ({ ...prev, tokenLoading: false }));
+      setLoadingConfig((prev) => ({ ...prev, isLoading: false }));
     } catch (error) {
       console.log(error);
-      stargateClient.disconnect();
       setIsSubmitting(false);
-      showToast(Result.Failed);
+      showToast(TransactionResult.Failed, error);
+    } finally {
+      stargateClient.disconnect();
     }
   };
 
-  const isAmountEmpty = new BigNumber(inputData.amountValue).isEqualTo(0);
-  const isAmountOverMaximum = new BigNumber(inputData.amountValue).gt(
-    fromToken.selectedToken?.amountValue || 0
+  const tokenPrice = useMemo(() => {
+    if (!fromToken || !toToken)
+      return {
+        priceRate: '0',
+        dollarValue: '0',
+      };
+
+    const priceRate = new BigNumber(fetchedData.prices[fromToken.denom])
+      .div(fetchedData.prices[toToken.denom])
+      .decimalPlaces(6)
+      .toString();
+
+    const fromTokenPrice = truncDecimals(
+      fetchedData.prices[fromToken.denom].toString(),
+      4
+    );
+
+    return {
+      priceRate,
+      dollarValue: fromTokenPrice,
+    };
+  }, [fetchedData.prices, fromToken, toToken]);
+
+  const isAmountEmpty = new BigNumber(
+    inputData.fromToken.inputAmount
+  ).isEqualTo(0);
+  const isAmountOverMaximum = new BigNumber(inputData.fromToken.inputAmount).gt(
+    fromToken?.displayAmount || 0
   );
+  const hasRoute =
+    swapTokensWithRoutes?.routes && swapTokensWithRoutes.routes?.length > 0;
+
+  const btnText =
+    !hasRoute && !loadingConfig.isLoading
+      ? 'No route for this trade'
+      : isAmountOverMaximum
+      ? 'Insufficient balance'
+      : '';
+
+  const dropdownData = useMemo(() => {
+    return assetOptions.filter(
+      ({ symbol }) => symbol !== fromToken?.symbol && symbol !== toToken?.symbol
+    );
+  }, [assetOptions, fromToken?.symbol, toToken?.symbol]);
 
   return (
     <>
       {address ? (
         <Box width="500px" mx="auto" mb="60px">
           <SwapView
-            dropdownData={dataNeeded.assetOptions.filter(
-              ({ symbol }) =>
-                symbol !== fromToken.selectedToken?.symbol &&
-                symbol !== toToken.selectedToken?.symbol
-            )}
-            fromDropdownLoading={fromToken.dropdownLoading}
-            fromInputLoading={fromToken.tokenLoading}
-            fromToken={fromToken.selectedToken}
-            toDropdownLoading={toToken.dropdownLoading}
-            toInputLoading={toToken.tokenLoading}
-            toToken={toToken.selectedToken}
-            amountValue={inputData.amountValue}
-            fiatValue={inputData.fiatValue}
-            settingToken={selectedSlippage}
-            tokenArray={slippages}
-            priceValue={priceValue}
-            submitDisabled={
-              isSubmitting || isAmountEmpty || isAmountOverMaximum
-            }
-            onSelectSetting={setSelectedSlippage}
+            toToken={toToken}
+            fromToken={fromToken}
+            dropdownData={dropdownData}
+            inputData={inputData}
             onAmountInputChange={handleInputChange}
             onFromDropdownChange={handleFromDropdownChange}
             onToDropdownChange={handleToDropdownChange}
             onSwapSwitch={handleSwapSwitch}
             onSwapSubmit={handleSubmit}
-            invalid={inputData.invalid}
-            invalidText={inputData.invalidText}
-            className="btn-disabled"
+            slippageConfig={{
+              slippages,
+              selectedSlippage,
+              setSelectedSlippage,
+            }}
+            tokenPrice={tokenPrice}
+            swapDetails={swapDetails}
+            submitButtonConfig={{
+              disabled:
+                !hasRoute ||
+                isSubmitting ||
+                isAmountEmpty ||
+                isAmountOverMaximum ||
+                loadingConfig.isLoading,
+              loading: isSubmitting,
+              btnText,
+            }}
+            loadingConfig={loadingConfig}
           />
         </Box>
       ) : (

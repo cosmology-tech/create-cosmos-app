@@ -1174,9 +1174,9 @@
   resolved "https://registry.npmmirror.com/@cosmjs/utils/-/utils-0.30.1.tgz#6d92582341be3c2ec8d82090253cfa4b7f959edb"
   integrity sha512-KvvX58MGMWh7xA+N+deCfunkA/ZNDvFLw4YbOmX3f/XBIkqrVY7qlotfy2aNb1kgp6h4B6Yc8YawJPDTfvWX7g==
 
-"@cosmology-ui/animation@^0.1.2-beta.89+52cb8ac":
+"@cosmology-ui/react@^0.1.2-beta.89+52cb8ac":
   version "0.1.2-beta.89"
-  resolved "https://registry.npmmirror.com/@cosmology-ui/animation/-/animation-0.1.2-beta.89.tgz#f4ae4df6d1ee50ed8bafc678fc970987ebb7df28"
+  resolved "https://registry.npmmirror.com/@cosmology-ui/react/-/animation-0.1.2-beta.89.tgz#f4ae4df6d1ee50ed8bafc678fc970987ebb7df28"
   integrity sha512-TwJuNHYJzX6N1Gg/Fu1q9L9tGTdlJkbwyakq7B0MAoo/aqrIsV+f+ZDAw16FrVgYGCBZMywtNUxXmW0TC6Q/OQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
@@ -1234,7 +1234,7 @@
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/animation" "^0.1.2-beta.89+52cb8ac"
+    "@cosmology-ui/react" "^0.1.2-beta.89+52cb8ac"
     "@cosmology-ui/theme" "^0.1.2-beta.89+52cb8ac"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
@@ -1264,7 +1264,7 @@
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/animation" "^0.1.2-beta.89+52cb8ac"
+    "@cosmology-ui/react" "^0.1.2-beta.89+52cb8ac"
     "@cosmology-ui/base" "^0.1.2-beta.89+52cb8ac"
     "@cosmology-ui/buttons" "^0.1.2-beta.89+52cb8ac"
     "@cosmology-ui/chain-dropdown" "^0.1.2-beta.89+52cb8ac"
@@ -1311,7 +1311,7 @@
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/animation" "^0.1.2-beta.89+52cb8ac"
+    "@cosmology-ui/react" "^0.1.2-beta.89+52cb8ac"
     "@cosmology-ui/theme" "^0.1.2-beta.89+52cb8ac"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"

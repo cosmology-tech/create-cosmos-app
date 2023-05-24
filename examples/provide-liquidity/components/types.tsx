@@ -1,5 +1,7 @@
+import { Gauge } from 'osmojs/types/codegen/osmosis/incentives/gauge';
 import { MouseEventHandler, ReactNode } from 'react';
 import { IconType } from 'react-icons';
+import { calcPoolAprs } from '../utils';
 
 export interface ChooseChainInfo {
   chainName: string;
@@ -57,19 +59,23 @@ export enum TransactionResult {
   Failed = 1,
 }
 
-export type PoolReward = {
-  day_usd: number;
-  month_usd: number;
-  year_usd: number;
-};
-
-export type Rewards = {
-  pools: {
-    [key: number]: PoolReward;
-  };
-  total_day_usd: number;
-  total_month_usd: number;
-  total_year_usd: number;
-};
-
 export type Peroid = '1' | '7' | '14';
+
+export type PoolApr = {
+  [K in Peroid]: ReturnType<typeof calcPoolAprs>;
+};
+
+export type ExtraPoolProperties = {
+  fees7D: number;
+  volume24H: number;
+  volume7d: number;
+  liquidity: string | number;
+  myLiquidity?: string | number;
+  bonded?: string | number;
+  apr: PoolApr;
+};
+
+export type GaugeQueryResult = {
+  poolId: number;
+  gauges: Gauge[];
+};

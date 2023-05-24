@@ -240,12 +240,17 @@ export const calcShareOutAmount = (
     .sort()[0];
 };
 
-export const makePoolPairs = (pools: Pool[]): PrettyPair[] => {
+export const makePoolPairs = (
+  pools: Pool[],
+  prices: PriceHash,
+  liquidityLimit = 100_000
+): PrettyPair[] => {
   return pools
     .filter(
       (pool) =>
         pool.poolAssets.length === 2 &&
-        pool.poolAssets.every(({ token }) => !token.denom.startsWith("gamm"))
+        pool.poolAssets.every(({ token }) => !token.denom.startsWith("gamm")) &&
+        new BigNumber(calcPoolLiquidity(pool, prices)).gte(liquidityLimit)
     )
     .map((pool) => {
       const assetA = pool.poolAssets[0].token;
