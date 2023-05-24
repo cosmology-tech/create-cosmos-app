@@ -14,6 +14,8 @@ export * from "./gogoproto/bundle";
 export * from "./google/bundle";
 export * from "./ibc/bundle";
 export * from "./ibc/client";
+export * from "./osmosis/bundle";
+export * from "./osmosis/client";
 export * from "./tendermint/bundle";
 export * from "./hooks";
 export * from "./mobx.stores";
