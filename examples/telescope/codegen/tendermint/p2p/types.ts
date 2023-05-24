@@ -1,6 +1,6 @@
 import { Timestamp } from "../../google/protobuf/timestamp";
-import * as _m0 from "protobufjs/minimal";
-import { Long, toTimestamp, fromTimestamp } from "../../helpers";
+import { BinaryReader, BinaryWriter } from "../../binary";
+import { toTimestamp, fromTimestamp } from "../../helpers";
 export interface ProtocolVersion {
   p2p: bigint;
   block: bigint;
@@ -69,20 +69,20 @@ function createBaseProtocolVersion(): ProtocolVersion {
   };
 }
 export const ProtocolVersion = {
-  encode(message: ProtocolVersion, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ProtocolVersion, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.p2p !== BigInt(0)) {
-      writer.uint32(8).uint64(Long.fromString(message.p2p.toString()));
+      writer.uint32(8).uint64(message.p2p);
     }
     if (message.block !== BigInt(0)) {
-      writer.uint32(16).uint64(Long.fromString(message.block.toString()));
+      writer.uint32(16).uint64(message.block);
     }
     if (message.app !== BigInt(0)) {
-      writer.uint32(24).uint64(Long.fromString(message.app.toString()));
+      writer.uint32(24).uint64(message.app);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ProtocolVersion {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ProtocolVersion {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseProtocolVersion();
     while (reader.pos < end) {
@@ -125,7 +125,7 @@ function createBaseNodeInfo(): NodeInfo {
   };
 }
 export const NodeInfo = {
-  encode(message: NodeInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: NodeInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.protocolVersion !== undefined) {
       ProtocolVersion.encode(message.protocolVersion, writer.uint32(10).fork()).ldelim();
     }
@@ -152,8 +152,8 @@ export const NodeInfo = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): NodeInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): NodeInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseNodeInfo();
     while (reader.pos < end) {
@@ -210,7 +210,7 @@ function createBaseNodeInfoOther(): NodeInfoOther {
   };
 }
 export const NodeInfoOther = {
-  encode(message: NodeInfoOther, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: NodeInfoOther, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.txIndex !== "") {
       writer.uint32(10).string(message.txIndex);
     }
@@ -219,8 +219,8 @@ export const NodeInfoOther = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): NodeInfoOther {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): NodeInfoOther {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseNodeInfoOther();
     while (reader.pos < end) {
@@ -254,7 +254,7 @@ function createBasePeerInfo(): PeerInfo {
   };
 }
 export const PeerInfo = {
-  encode(message: PeerInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: PeerInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
@@ -266,8 +266,8 @@ export const PeerInfo = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PeerInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PeerInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePeerInfo();
     while (reader.pos < end) {
@@ -306,7 +306,7 @@ function createBasePeerAddressInfo(): PeerAddressInfo {
   };
 }
 export const PeerAddressInfo = {
-  encode(message: PeerAddressInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: PeerAddressInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -321,8 +321,8 @@ export const PeerAddressInfo = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PeerAddressInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PeerAddressInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePeerAddressInfo();
     while (reader.pos < end) {

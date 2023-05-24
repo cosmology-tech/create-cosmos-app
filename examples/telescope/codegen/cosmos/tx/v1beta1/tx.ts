@@ -2,8 +2,7 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { SignMode } from "../signing/v1beta1/signing";
 import { CompactBitArray, CompactBitArraySDKType } from "../../crypto/multisig/v1beta1/multisig";
 import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
-import * as _m0 from "protobufjs/minimal";
-import { Long } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 /** Tx is the standard type used for broadcasting transactions. */
 export interface Tx {
   /** body is the processable content of the transaction */
@@ -395,7 +394,7 @@ function createBaseTx(): Tx {
   };
 }
 export const Tx = {
-  encode(message: Tx, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Tx, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.body !== undefined) {
       TxBody.encode(message.body, writer.uint32(10).fork()).ldelim();
     }
@@ -407,8 +406,8 @@ export const Tx = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Tx {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Tx {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTx();
     while (reader.pos < end) {
@@ -446,7 +445,7 @@ function createBaseTxRaw(): TxRaw {
   };
 }
 export const TxRaw = {
-  encode(message: TxRaw, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: TxRaw, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.bodyBytes.length !== 0) {
       writer.uint32(10).bytes(message.bodyBytes);
     }
@@ -458,8 +457,8 @@ export const TxRaw = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): TxRaw {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): TxRaw {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTxRaw();
     while (reader.pos < end) {
@@ -498,7 +497,7 @@ function createBaseSignDoc(): SignDoc {
   };
 }
 export const SignDoc = {
-  encode(message: SignDoc, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SignDoc, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.bodyBytes.length !== 0) {
       writer.uint32(10).bytes(message.bodyBytes);
     }
@@ -509,12 +508,12 @@ export const SignDoc = {
       writer.uint32(26).string(message.chainId);
     }
     if (message.accountNumber !== BigInt(0)) {
-      writer.uint32(32).uint64(Long.fromString(message.accountNumber.toString()));
+      writer.uint32(32).uint64(message.accountNumber);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SignDoc {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SignDoc {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSignDoc();
     while (reader.pos < end) {
@@ -559,7 +558,7 @@ function createBaseSignDocDirectAux(): SignDocDirectAux {
   };
 }
 export const SignDocDirectAux = {
-  encode(message: SignDocDirectAux, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SignDocDirectAux, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.bodyBytes.length !== 0) {
       writer.uint32(10).bytes(message.bodyBytes);
     }
@@ -570,18 +569,18 @@ export const SignDocDirectAux = {
       writer.uint32(26).string(message.chainId);
     }
     if (message.accountNumber !== BigInt(0)) {
-      writer.uint32(32).uint64(Long.fromString(message.accountNumber.toString()));
+      writer.uint32(32).uint64(message.accountNumber);
     }
     if (message.sequence !== BigInt(0)) {
-      writer.uint32(40).uint64(Long.fromString(message.sequence.toString()));
+      writer.uint32(40).uint64(message.sequence);
     }
     if (message.tip !== undefined) {
       Tip.encode(message.tip, writer.uint32(50).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SignDocDirectAux {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SignDocDirectAux {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSignDocDirectAux();
     while (reader.pos < end) {
@@ -633,7 +632,7 @@ function createBaseTxBody(): TxBody {
   };
 }
 export const TxBody = {
-  encode(message: TxBody, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: TxBody, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.messages) {
       Any.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -641,7 +640,7 @@ export const TxBody = {
       writer.uint32(18).string(message.memo);
     }
     if (message.timeoutHeight !== BigInt(0)) {
-      writer.uint32(24).uint64(Long.fromString(message.timeoutHeight.toString()));
+      writer.uint32(24).uint64(message.timeoutHeight);
     }
     for (const v of message.extensionOptions) {
       Any.encode(v!, writer.uint32(8186).fork()).ldelim();
@@ -651,8 +650,8 @@ export const TxBody = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): TxBody {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): TxBody {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTxBody();
     while (reader.pos < end) {
@@ -698,7 +697,7 @@ function createBaseAuthInfo(): AuthInfo {
   };
 }
 export const AuthInfo = {
-  encode(message: AuthInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: AuthInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.signerInfos) {
       SignerInfo.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -710,8 +709,8 @@ export const AuthInfo = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): AuthInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): AuthInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAuthInfo();
     while (reader.pos < end) {
@@ -749,7 +748,7 @@ function createBaseSignerInfo(): SignerInfo {
   };
 }
 export const SignerInfo = {
-  encode(message: SignerInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SignerInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.publicKey !== undefined) {
       Any.encode(message.publicKey, writer.uint32(10).fork()).ldelim();
     }
@@ -757,12 +756,12 @@ export const SignerInfo = {
       ModeInfo.encode(message.modeInfo, writer.uint32(18).fork()).ldelim();
     }
     if (message.sequence !== BigInt(0)) {
-      writer.uint32(24).uint64(Long.fromString(message.sequence.toString()));
+      writer.uint32(24).uint64(message.sequence);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SignerInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SignerInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSignerInfo();
     while (reader.pos < end) {
@@ -799,7 +798,7 @@ function createBaseModeInfo(): ModeInfo {
   };
 }
 export const ModeInfo = {
-  encode(message: ModeInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ModeInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.single !== undefined) {
       ModeInfo_Single.encode(message.single, writer.uint32(10).fork()).ldelim();
     }
@@ -808,8 +807,8 @@ export const ModeInfo = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ModeInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ModeInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModeInfo();
     while (reader.pos < end) {
@@ -841,14 +840,14 @@ function createBaseModeInfo_Single(): ModeInfo_Single {
   };
 }
 export const ModeInfo_Single = {
-  encode(message: ModeInfo_Single, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ModeInfo_Single, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.mode !== 0) {
       writer.uint32(8).int32(message.mode);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ModeInfo_Single {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ModeInfo_Single {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModeInfo_Single();
     while (reader.pos < end) {
@@ -877,7 +876,7 @@ function createBaseModeInfo_Multi(): ModeInfo_Multi {
   };
 }
 export const ModeInfo_Multi = {
-  encode(message: ModeInfo_Multi, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ModeInfo_Multi, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.bitarray !== undefined) {
       CompactBitArray.encode(message.bitarray, writer.uint32(10).fork()).ldelim();
     }
@@ -886,8 +885,8 @@ export const ModeInfo_Multi = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ModeInfo_Multi {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ModeInfo_Multi {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModeInfo_Multi();
     while (reader.pos < end) {
@@ -922,12 +921,12 @@ function createBaseFee(): Fee {
   };
 }
 export const Fee = {
-  encode(message: Fee, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Fee, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.amount) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     if (message.gasLimit !== BigInt(0)) {
-      writer.uint32(16).uint64(Long.fromString(message.gasLimit.toString()));
+      writer.uint32(16).uint64(message.gasLimit);
     }
     if (message.payer !== "") {
       writer.uint32(26).string(message.payer);
@@ -937,8 +936,8 @@ export const Fee = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Fee {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Fee {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseFee();
     while (reader.pos < end) {
@@ -979,7 +978,7 @@ function createBaseTip(): Tip {
   };
 }
 export const Tip = {
-  encode(message: Tip, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Tip, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.amount) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -988,8 +987,8 @@ export const Tip = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Tip {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Tip {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTip();
     while (reader.pos < end) {
@@ -1024,7 +1023,7 @@ function createBaseAuxSignerData(): AuxSignerData {
   };
 }
 export const AuxSignerData = {
-  encode(message: AuxSignerData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: AuxSignerData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -1039,8 +1038,8 @@ export const AuxSignerData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): AuxSignerData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): AuxSignerData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAuxSignerData();
     while (reader.pos < end) {

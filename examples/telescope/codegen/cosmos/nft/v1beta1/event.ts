@@ -1,4 +1,4 @@
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 /** EventSend is emitted on Msg/Send */
 export interface EventSend {
   classId: string;
@@ -46,7 +46,7 @@ function createBaseEventSend(): EventSend {
   };
 }
 export const EventSend = {
-  encode(message: EventSend, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: EventSend, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.classId !== "") {
       writer.uint32(10).string(message.classId);
     }
@@ -61,8 +61,8 @@ export const EventSend = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): EventSend {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): EventSend {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEventSend();
     while (reader.pos < end) {
@@ -104,7 +104,7 @@ function createBaseEventMint(): EventMint {
   };
 }
 export const EventMint = {
-  encode(message: EventMint, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: EventMint, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.classId !== "") {
       writer.uint32(10).string(message.classId);
     }
@@ -116,8 +116,8 @@ export const EventMint = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): EventMint {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): EventMint {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEventMint();
     while (reader.pos < end) {
@@ -155,7 +155,7 @@ function createBaseEventBurn(): EventBurn {
   };
 }
 export const EventBurn = {
-  encode(message: EventBurn, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: EventBurn, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.classId !== "") {
       writer.uint32(10).string(message.classId);
     }
@@ -167,8 +167,8 @@ export const EventBurn = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): EventBurn {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): EventBurn {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEventBurn();
     while (reader.pos < end) {

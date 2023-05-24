@@ -1,7 +1,7 @@
 import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
-import * as _m0 from "protobufjs/minimal";
-import { toTimestamp, Long, fromTimestamp } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { toTimestamp, fromTimestamp } from "../../../helpers";
 /** Plan specifies information about a planned upgrade and when it should occur. */
 export interface Plan {
   /**
@@ -125,7 +125,7 @@ function createBasePlan(): Plan {
   };
 }
 export const Plan = {
-  encode(message: Plan, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Plan, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -133,7 +133,7 @@ export const Plan = {
       Timestamp.encode(toTimestamp(message.time), writer.uint32(18).fork()).ldelim();
     }
     if (message.height !== BigInt(0)) {
-      writer.uint32(24).int64(Long.fromString(message.height.toString()));
+      writer.uint32(24).int64(message.height);
     }
     if (message.info !== "") {
       writer.uint32(34).string(message.info);
@@ -143,8 +143,8 @@ export const Plan = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Plan {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Plan {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePlan();
     while (reader.pos < end) {
@@ -190,7 +190,7 @@ function createBaseSoftwareUpgradeProposal(): SoftwareUpgradeProposal {
   };
 }
 export const SoftwareUpgradeProposal = {
-  encode(message: SoftwareUpgradeProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SoftwareUpgradeProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -202,8 +202,8 @@ export const SoftwareUpgradeProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SoftwareUpgradeProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SoftwareUpgradeProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSoftwareUpgradeProposal();
     while (reader.pos < end) {
@@ -240,7 +240,7 @@ function createBaseCancelSoftwareUpgradeProposal(): CancelSoftwareUpgradeProposa
   };
 }
 export const CancelSoftwareUpgradeProposal = {
-  encode(message: CancelSoftwareUpgradeProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CancelSoftwareUpgradeProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -249,8 +249,8 @@ export const CancelSoftwareUpgradeProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CancelSoftwareUpgradeProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CancelSoftwareUpgradeProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCancelSoftwareUpgradeProposal();
     while (reader.pos < end) {
@@ -283,17 +283,17 @@ function createBaseModuleVersion(): ModuleVersion {
   };
 }
 export const ModuleVersion = {
-  encode(message: ModuleVersion, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ModuleVersion, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     if (message.version !== BigInt(0)) {
-      writer.uint32(16).uint64(Long.fromString(message.version.toString()));
+      writer.uint32(16).uint64(message.version);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ModuleVersion {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ModuleVersion {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModuleVersion();
     while (reader.pos < end) {

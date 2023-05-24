@@ -1,8 +1,7 @@
 import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { ConnectionEnd, ConnectionEndSDKType } from "../../../core/connection/v1/connection";
 import { Channel, ChannelSDKType } from "../../../core/channel/v1/channel";
-import * as _m0 from "protobufjs/minimal";
-import { Long } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 /**
  * DataType defines the type of solo machine proof being created. This is done
  * to preserve uniqueness of different data sign byte encodings.
@@ -380,9 +379,9 @@ function createBaseClientState(): ClientState {
   };
 }
 export const ClientState = {
-  encode(message: ClientState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ClientState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.sequence !== BigInt(0)) {
-      writer.uint32(8).uint64(Long.fromString(message.sequence.toString()));
+      writer.uint32(8).uint64(message.sequence);
     }
     if (message.isFrozen === true) {
       writer.uint32(16).bool(message.isFrozen);
@@ -395,8 +394,8 @@ export const ClientState = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ClientState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ClientState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseClientState();
     while (reader.pos < end) {
@@ -438,7 +437,7 @@ function createBaseConsensusState(): ConsensusState {
   };
 }
 export const ConsensusState = {
-  encode(message: ConsensusState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConsensusState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.publicKey !== undefined) {
       Any.encode(message.publicKey, writer.uint32(10).fork()).ldelim();
     }
@@ -446,12 +445,12 @@ export const ConsensusState = {
       writer.uint32(18).string(message.diversifier);
     }
     if (message.timestamp !== BigInt(0)) {
-      writer.uint32(24).uint64(Long.fromString(message.timestamp.toString()));
+      writer.uint32(24).uint64(message.timestamp);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConsensusState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConsensusState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConsensusState();
     while (reader.pos < end) {
@@ -491,12 +490,12 @@ function createBaseHeader(): Header {
   };
 }
 export const Header = {
-  encode(message: Header, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Header, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.sequence !== BigInt(0)) {
-      writer.uint32(8).uint64(Long.fromString(message.sequence.toString()));
+      writer.uint32(8).uint64(message.sequence);
     }
     if (message.timestamp !== BigInt(0)) {
-      writer.uint32(16).uint64(Long.fromString(message.timestamp.toString()));
+      writer.uint32(16).uint64(message.timestamp);
     }
     if (message.signature.length !== 0) {
       writer.uint32(26).bytes(message.signature);
@@ -509,8 +508,8 @@ export const Header = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Header {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Header {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHeader();
     while (reader.pos < end) {
@@ -557,12 +556,12 @@ function createBaseMisbehaviour(): Misbehaviour {
   };
 }
 export const Misbehaviour = {
-  encode(message: Misbehaviour, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Misbehaviour, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
     if (message.sequence !== BigInt(0)) {
-      writer.uint32(16).uint64(Long.fromString(message.sequence.toString()));
+      writer.uint32(16).uint64(message.sequence);
     }
     if (message.signatureOne !== undefined) {
       SignatureAndData.encode(message.signatureOne, writer.uint32(26).fork()).ldelim();
@@ -572,8 +571,8 @@ export const Misbehaviour = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Misbehaviour {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Misbehaviour {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMisbehaviour();
     while (reader.pos < end) {
@@ -616,7 +615,7 @@ function createBaseSignatureAndData(): SignatureAndData {
   };
 }
 export const SignatureAndData = {
-  encode(message: SignatureAndData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SignatureAndData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.signature.length !== 0) {
       writer.uint32(10).bytes(message.signature);
     }
@@ -627,12 +626,12 @@ export const SignatureAndData = {
       writer.uint32(26).bytes(message.data);
     }
     if (message.timestamp !== BigInt(0)) {
-      writer.uint32(32).uint64(Long.fromString(message.timestamp.toString()));
+      writer.uint32(32).uint64(message.timestamp);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SignatureAndData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SignatureAndData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSignatureAndData();
     while (reader.pos < end) {
@@ -673,17 +672,17 @@ function createBaseTimestampedSignatureData(): TimestampedSignatureData {
   };
 }
 export const TimestampedSignatureData = {
-  encode(message: TimestampedSignatureData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: TimestampedSignatureData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.signatureData.length !== 0) {
       writer.uint32(10).bytes(message.signatureData);
     }
     if (message.timestamp !== BigInt(0)) {
-      writer.uint32(16).uint64(Long.fromString(message.timestamp.toString()));
+      writer.uint32(16).uint64(message.timestamp);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): TimestampedSignatureData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): TimestampedSignatureData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTimestampedSignatureData();
     while (reader.pos < end) {
@@ -719,12 +718,12 @@ function createBaseSignBytes(): SignBytes {
   };
 }
 export const SignBytes = {
-  encode(message: SignBytes, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SignBytes, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.sequence !== BigInt(0)) {
-      writer.uint32(8).uint64(Long.fromString(message.sequence.toString()));
+      writer.uint32(8).uint64(message.sequence);
     }
     if (message.timestamp !== BigInt(0)) {
-      writer.uint32(16).uint64(Long.fromString(message.timestamp.toString()));
+      writer.uint32(16).uint64(message.timestamp);
     }
     if (message.diversifier !== "") {
       writer.uint32(26).string(message.diversifier);
@@ -737,8 +736,8 @@ export const SignBytes = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SignBytes {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SignBytes {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSignBytes();
     while (reader.pos < end) {
@@ -783,7 +782,7 @@ function createBaseHeaderData(): HeaderData {
   };
 }
 export const HeaderData = {
-  encode(message: HeaderData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: HeaderData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.newPubKey !== undefined) {
       Any.encode(message.newPubKey, writer.uint32(10).fork()).ldelim();
     }
@@ -792,8 +791,8 @@ export const HeaderData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): HeaderData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): HeaderData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHeaderData();
     while (reader.pos < end) {
@@ -826,7 +825,7 @@ function createBaseClientStateData(): ClientStateData {
   };
 }
 export const ClientStateData = {
-  encode(message: ClientStateData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ClientStateData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
@@ -835,8 +834,8 @@ export const ClientStateData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ClientStateData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ClientStateData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseClientStateData();
     while (reader.pos < end) {
@@ -869,7 +868,7 @@ function createBaseConsensusStateData(): ConsensusStateData {
   };
 }
 export const ConsensusStateData = {
-  encode(message: ConsensusStateData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConsensusStateData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
@@ -878,8 +877,8 @@ export const ConsensusStateData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConsensusStateData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConsensusStateData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConsensusStateData();
     while (reader.pos < end) {
@@ -912,7 +911,7 @@ function createBaseConnectionStateData(): ConnectionStateData {
   };
 }
 export const ConnectionStateData = {
-  encode(message: ConnectionStateData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConnectionStateData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
@@ -921,8 +920,8 @@ export const ConnectionStateData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConnectionStateData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConnectionStateData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConnectionStateData();
     while (reader.pos < end) {
@@ -955,7 +954,7 @@ function createBaseChannelStateData(): ChannelStateData {
   };
 }
 export const ChannelStateData = {
-  encode(message: ChannelStateData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ChannelStateData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
@@ -964,8 +963,8 @@ export const ChannelStateData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ChannelStateData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ChannelStateData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseChannelStateData();
     while (reader.pos < end) {
@@ -998,7 +997,7 @@ function createBasePacketCommitmentData(): PacketCommitmentData {
   };
 }
 export const PacketCommitmentData = {
-  encode(message: PacketCommitmentData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: PacketCommitmentData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
@@ -1007,8 +1006,8 @@ export const PacketCommitmentData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PacketCommitmentData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PacketCommitmentData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePacketCommitmentData();
     while (reader.pos < end) {
@@ -1041,7 +1040,7 @@ function createBasePacketAcknowledgementData(): PacketAcknowledgementData {
   };
 }
 export const PacketAcknowledgementData = {
-  encode(message: PacketAcknowledgementData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: PacketAcknowledgementData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
@@ -1050,8 +1049,8 @@ export const PacketAcknowledgementData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PacketAcknowledgementData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PacketAcknowledgementData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePacketAcknowledgementData();
     while (reader.pos < end) {
@@ -1083,14 +1082,14 @@ function createBasePacketReceiptAbsenceData(): PacketReceiptAbsenceData {
   };
 }
 export const PacketReceiptAbsenceData = {
-  encode(message: PacketReceiptAbsenceData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: PacketReceiptAbsenceData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PacketReceiptAbsenceData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PacketReceiptAbsenceData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePacketReceiptAbsenceData();
     while (reader.pos < end) {
@@ -1119,17 +1118,17 @@ function createBaseNextSequenceRecvData(): NextSequenceRecvData {
   };
 }
 export const NextSequenceRecvData = {
-  encode(message: NextSequenceRecvData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: NextSequenceRecvData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
     if (message.nextSeqRecv !== BigInt(0)) {
-      writer.uint32(16).uint64(Long.fromString(message.nextSeqRecv.toString()));
+      writer.uint32(16).uint64(message.nextSeqRecv);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): NextSequenceRecvData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): NextSequenceRecvData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseNextSequenceRecvData();
     while (reader.pos < end) {

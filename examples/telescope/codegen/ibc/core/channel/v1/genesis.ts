@@ -1,6 +1,5 @@
 import { IdentifiedChannel, IdentifiedChannelSDKType, PacketState, PacketStateSDKType } from "./channel";
-import * as _m0 from "protobufjs/minimal";
-import { Long } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 /** GenesisState defines the ibc channel submodule's genesis state. */
 export interface GenesisState {
   channels: IdentifiedChannel[];
@@ -55,7 +54,7 @@ function createBaseGenesisState(): GenesisState {
   };
 }
 export const GenesisState = {
-  encode(message: GenesisState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.channels) {
       IdentifiedChannel.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -78,12 +77,12 @@ export const GenesisState = {
       PacketSequence.encode(v!, writer.uint32(58).fork()).ldelim();
     }
     if (message.nextChannelSequence !== BigInt(0)) {
-      writer.uint32(64).uint64(Long.fromString(message.nextChannelSequence.toString()));
+      writer.uint32(64).uint64(message.nextChannelSequence);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GenesisState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GenesisState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenesisState();
     while (reader.pos < end) {
@@ -141,7 +140,7 @@ function createBasePacketSequence(): PacketSequence {
   };
 }
 export const PacketSequence = {
-  encode(message: PacketSequence, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: PacketSequence, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.portId !== "") {
       writer.uint32(10).string(message.portId);
     }
@@ -149,12 +148,12 @@ export const PacketSequence = {
       writer.uint32(18).string(message.channelId);
     }
     if (message.sequence !== BigInt(0)) {
-      writer.uint32(24).uint64(Long.fromString(message.sequence.toString()));
+      writer.uint32(24).uint64(message.sequence);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PacketSequence {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PacketSequence {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePacketSequence();
     while (reader.pos < end) {

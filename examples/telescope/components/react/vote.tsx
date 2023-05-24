@@ -14,11 +14,11 @@ import { ProposalCard } from './proposal-card';
 import { ProposalModal } from './proposal-modal';
 import { useChain } from '@cosmos-kit/react';
 import { cosmos } from '../../codegen';
-import * as gov from '../../bufcodegen/cosmos/gov/v1beta1/gov_pb';
-import * as query from '../../bufcodegen/cosmos/gov/v1beta1/query_pb';
 import BigNumber from 'bignumber.js';
+import { Proposal, ProposalStatus } from '../../codegen/cosmos/gov/v1beta1/gov';
+import { QueryProposalsRequest } from '../../codegen/cosmos/gov/v1beta1/query';
 
-const ProposalStatus_pb = gov.ProposalStatus;
+const proposalStatus = ProposalStatus;
 
 export interface Votes {
   [key: string]: number;
@@ -27,7 +27,7 @@ export interface Votes {
 interface VotingData {
   votes?: Votes;
   quorum?: number;
-  proposals?: gov.Proposal[];
+  proposals?: Proposal[];
   bondedTokens?: string | undefined;
 }
 
@@ -41,7 +41,7 @@ export const VotingSection = ({ chainName }: { chainName: ChainName }) => {
   const { address, getRpcEndpoint } = useChain(chainName);
   const [data, setData] = useState<VotingData>();
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedProposal, setSelectedProposal] = useState<gov.Proposal>();
+  const [selectedProposal, setSelectedProposal] = useState<Proposal>();
 
   const getVotes = useCallback(async () => {
     if (!address) return;
@@ -59,9 +59,9 @@ export const VotingSection = ({ chainName }: { chainName: ChainName }) => {
     });
 
     const { proposals: votedProposals } =
-      await client.cosmos.gov.v1beta1.proposals_pb(
-        query.QueryProposalsRequest.fromJson({
-          proposalStatus: ProposalStatus_pb.UNSPECIFIED,
+      await client.cosmos.gov.v1beta1.proposals(
+        QueryProposalsRequest.fromPartial({
+          proposalStatus: proposalStatus.PROPOSAL_STATUS_UNSPECIFIED,
           voter: address,
           depositor: '',
         })
@@ -105,9 +105,9 @@ export const VotingSection = ({ chainName }: { chainName: ChainName }) => {
       });
 
       // Get proposals
-      const { proposals } = await client.cosmos.gov.v1beta1.proposals_pb(
-        query.QueryProposalsRequest.fromJson({
-          proposalStatus: ProposalStatus_pb.UNSPECIFIED,
+      const { proposals } = await client.cosmos.gov.v1beta1.proposals(
+        QueryProposalsRequest.fromPartial({
+          proposalStatus: proposalStatus.PROPOSAL_STATUS_UNSPECIFIED,
           voter: '',
           depositor: '',
         })
@@ -118,11 +118,13 @@ export const VotingSection = ({ chainName }: { chainName: ChainName }) => {
       );
 
       const votingProposals = sortedProposal.filter(
-        (proposal) => proposal.status === ProposalStatus_pb.VOTING_PERIOD
+        (proposal) =>
+          proposal.status === proposalStatus.PROPOSAL_STATUS_VOTING_PERIOD
       );
 
       const nonVotingProposals = sortedProposal.filter(
-        (proposal) => proposal.status !== ProposalStatus_pb.VOTING_PERIOD
+        (proposal) =>
+          proposal.status !== proposalStatus.PROPOSAL_STATUS_VOTING_PERIOD
       );
 
       const formattedProposal = [...votingProposals, ...nonVotingProposals];

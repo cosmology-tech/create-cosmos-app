@@ -1,7 +1,7 @@
 import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
-import * as _m0 from "protobufjs/minimal";
-import { Long, toTimestamp, fromTimestamp } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { toTimestamp, fromTimestamp } from "../../../helpers";
 /**
  * ValidatorSigningInfo defines a validator's signing info for monitoring their
  * liveness activity.
@@ -68,15 +68,15 @@ function createBaseValidatorSigningInfo(): ValidatorSigningInfo {
   };
 }
 export const ValidatorSigningInfo = {
-  encode(message: ValidatorSigningInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ValidatorSigningInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
     if (message.startHeight !== BigInt(0)) {
-      writer.uint32(16).int64(Long.fromString(message.startHeight.toString()));
+      writer.uint32(16).int64(message.startHeight);
     }
     if (message.indexOffset !== BigInt(0)) {
-      writer.uint32(24).int64(Long.fromString(message.indexOffset.toString()));
+      writer.uint32(24).int64(message.indexOffset);
     }
     if (message.jailedUntil !== undefined) {
       Timestamp.encode(toTimestamp(message.jailedUntil), writer.uint32(34).fork()).ldelim();
@@ -85,12 +85,12 @@ export const ValidatorSigningInfo = {
       writer.uint32(40).bool(message.tombstoned);
     }
     if (message.missedBlocksCounter !== BigInt(0)) {
-      writer.uint32(48).int64(Long.fromString(message.missedBlocksCounter.toString()));
+      writer.uint32(48).int64(message.missedBlocksCounter);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ValidatorSigningInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ValidatorSigningInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseValidatorSigningInfo();
     while (reader.pos < end) {
@@ -142,9 +142,9 @@ function createBaseParams(): Params {
   };
 }
 export const Params = {
-  encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.signedBlocksWindow !== BigInt(0)) {
-      writer.uint32(8).int64(Long.fromString(message.signedBlocksWindow.toString()));
+      writer.uint32(8).int64(message.signedBlocksWindow);
     }
     if (message.minSignedPerWindow.length !== 0) {
       writer.uint32(18).bytes(message.minSignedPerWindow);
@@ -160,8 +160,8 @@ export const Params = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Params {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Params {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParams();
     while (reader.pos < end) {

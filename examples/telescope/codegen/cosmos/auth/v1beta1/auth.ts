@@ -1,6 +1,5 @@
 import { Any, AnySDKType } from "../../../google/protobuf/any";
-import * as _m0 from "protobufjs/minimal";
-import { Long } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 /**
  * BaseAccount defines a base account type. It contains all the necessary fields
  * for basic account functionality. Any custom account type should extend this
@@ -60,7 +59,7 @@ function createBaseBaseAccount(): BaseAccount {
   };
 }
 export const BaseAccount = {
-  encode(message: BaseAccount, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BaseAccount, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -68,15 +67,15 @@ export const BaseAccount = {
       Any.encode(message.pubKey, writer.uint32(18).fork()).ldelim();
     }
     if (message.accountNumber !== BigInt(0)) {
-      writer.uint32(24).uint64(Long.fromString(message.accountNumber.toString()));
+      writer.uint32(24).uint64(message.accountNumber);
     }
     if (message.sequence !== BigInt(0)) {
-      writer.uint32(32).uint64(Long.fromString(message.sequence.toString()));
+      writer.uint32(32).uint64(message.sequence);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BaseAccount {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BaseAccount {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBaseAccount();
     while (reader.pos < end) {
@@ -118,7 +117,7 @@ function createBaseModuleAccount(): ModuleAccount {
   };
 }
 export const ModuleAccount = {
-  encode(message: ModuleAccount, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ModuleAccount, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.baseAccount !== undefined) {
       BaseAccount.encode(message.baseAccount, writer.uint32(10).fork()).ldelim();
     }
@@ -130,8 +129,8 @@ export const ModuleAccount = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ModuleAccount {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ModuleAccount {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModuleAccount();
     while (reader.pos < end) {
@@ -171,26 +170,26 @@ function createBaseParams(): Params {
   };
 }
 export const Params = {
-  encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.maxMemoCharacters !== BigInt(0)) {
-      writer.uint32(8).uint64(Long.fromString(message.maxMemoCharacters.toString()));
+      writer.uint32(8).uint64(message.maxMemoCharacters);
     }
     if (message.txSigLimit !== BigInt(0)) {
-      writer.uint32(16).uint64(Long.fromString(message.txSigLimit.toString()));
+      writer.uint32(16).uint64(message.txSigLimit);
     }
     if (message.txSizeCostPerByte !== BigInt(0)) {
-      writer.uint32(24).uint64(Long.fromString(message.txSizeCostPerByte.toString()));
+      writer.uint32(24).uint64(message.txSizeCostPerByte);
     }
     if (message.sigVerifyCostEd25519 !== BigInt(0)) {
-      writer.uint32(32).uint64(Long.fromString(message.sigVerifyCostEd25519.toString()));
+      writer.uint32(32).uint64(message.sigVerifyCostEd25519);
     }
     if (message.sigVerifyCostSecp256k1 !== BigInt(0)) {
-      writer.uint32(40).uint64(Long.fromString(message.sigVerifyCostSecp256k1.toString()));
+      writer.uint32(40).uint64(message.sigVerifyCostSecp256k1);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Params {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Params {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParams();
     while (reader.pos < end) {

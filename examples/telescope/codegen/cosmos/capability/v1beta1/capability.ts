@@ -1,5 +1,4 @@
-import * as _m0 from "protobufjs/minimal";
-import { Long } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 /**
  * Capability defines an implementation of an object capability. The index
  * provided to a Capability must be globally unique.
@@ -50,14 +49,14 @@ function createBaseCapability(): Capability {
   };
 }
 export const Capability = {
-  encode(message: Capability, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Capability, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.index !== BigInt(0)) {
-      writer.uint32(8).uint64(Long.fromString(message.index.toString()));
+      writer.uint32(8).uint64(message.index);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Capability {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Capability {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCapability();
     while (reader.pos < end) {
@@ -86,7 +85,7 @@ function createBaseOwner(): Owner {
   };
 }
 export const Owner = {
-  encode(message: Owner, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Owner, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.module !== "") {
       writer.uint32(10).string(message.module);
     }
@@ -95,8 +94,8 @@ export const Owner = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Owner {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Owner {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOwner();
     while (reader.pos < end) {
@@ -128,14 +127,14 @@ function createBaseCapabilityOwners(): CapabilityOwners {
   };
 }
 export const CapabilityOwners = {
-  encode(message: CapabilityOwners, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CapabilityOwners, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.owners) {
       Owner.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CapabilityOwners {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CapabilityOwners {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCapabilityOwners();
     while (reader.pos < end) {
