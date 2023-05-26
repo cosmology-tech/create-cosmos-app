@@ -1,5 +1,5 @@
 import { Rpc } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader } from "../../../binary";
 import { MsgGrantAllowance, MsgGrantAllowanceResponse, MsgRevokeAllowance, MsgRevokeAllowanceResponse } from "./tx";
 /** Msg defines the feegrant msg service. */
 export interface Msg {
@@ -24,11 +24,11 @@ export class MsgClientImpl implements Msg {
   grantAllowance(request: MsgGrantAllowance): Promise<MsgGrantAllowanceResponse> {
     const data = MsgGrantAllowance.encode(request).finish();
     const promise = this.rpc.request("cosmos.feegrant.v1beta1.Msg", "GrantAllowance", data);
-    return promise.then(data => MsgGrantAllowanceResponse.decode(new _m0.Reader(data)));
+    return promise.then(data => MsgGrantAllowanceResponse.decode(new BinaryReader(data)));
   }
   revokeAllowance(request: MsgRevokeAllowance): Promise<MsgRevokeAllowanceResponse> {
     const data = MsgRevokeAllowance.encode(request).finish();
     const promise = this.rpc.request("cosmos.feegrant.v1beta1.Msg", "RevokeAllowance", data);
-    return promise.then(data => MsgRevokeAllowanceResponse.decode(new _m0.Reader(data)));
+    return promise.then(data => MsgRevokeAllowanceResponse.decode(new BinaryReader(data)));
   }
 }

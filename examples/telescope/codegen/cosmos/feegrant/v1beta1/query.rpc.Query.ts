@@ -1,5 +1,5 @@
 import { Rpc } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader } from "../../../binary";
 import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../react-query";
 import { useQuery } from "@tanstack/react-query";
@@ -28,17 +28,17 @@ export class QueryClientImpl implements Query {
   allowance(request: QueryAllowanceRequest): Promise<QueryAllowanceResponse> {
     const data = QueryAllowanceRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.feegrant.v1beta1.Query", "Allowance", data);
-    return promise.then(data => QueryAllowanceResponse.decode(new _m0.Reader(data)));
+    return promise.then(data => QueryAllowanceResponse.decode(new BinaryReader(data)));
   }
   allowances(request: QueryAllowancesRequest): Promise<QueryAllowancesResponse> {
     const data = QueryAllowancesRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.feegrant.v1beta1.Query", "Allowances", data);
-    return promise.then(data => QueryAllowancesResponse.decode(new _m0.Reader(data)));
+    return promise.then(data => QueryAllowancesResponse.decode(new BinaryReader(data)));
   }
   allowancesByGranter(request: QueryAllowancesByGranterRequest): Promise<QueryAllowancesByGranterResponse> {
     const data = QueryAllowancesByGranterRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.feegrant.v1beta1.Query", "AllowancesByGranter", data);
-    return promise.then(data => QueryAllowancesByGranterResponse.decode(new _m0.Reader(data)));
+    return promise.then(data => QueryAllowancesByGranterResponse.decode(new BinaryReader(data)));
   }
 }
 export const createRpcQueryExtension = (base: QueryClient) => {

@@ -1,8 +1,8 @@
 import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
-import { Long, toTimestamp, fromTimestamp } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { toTimestamp, fromTimestamp } from "../../../helpers";
 /** VoteOption enumerates the valid vote options for a given proposal. */
 export enum VoteOption {
   /** VOTE_OPTION_UNSPECIFIED - VOTE_OPTION_UNSPECIFIED defines a no-op vote option. */
@@ -299,7 +299,7 @@ export interface DecisionPolicyWindowsSDKType {
 /** GroupInfo represents the high-level on-chain information for a group. */
 export interface GroupInfo {
   /** id is the unique ID of the group. */
-  id: Long;
+  id: bigint;
   /** admin is the account address of the group's admin. */
   admin: string;
   /** metadata is any arbitrary metadata to attached to the group. */
@@ -310,7 +310,7 @@ export interface GroupInfo {
    * or any member is added or removed this version is incremented and will
    * cause proposals based on older versions of this group to fail
    */
-  version: Long;
+  version: bigint;
   /** total_weight is the sum of the group members' weights. */
   totalWeight: string;
   /** created_at is a timestamp specifying when a group was created. */
@@ -318,23 +318,23 @@ export interface GroupInfo {
 }
 /** GroupInfo represents the high-level on-chain information for a group. */
 export interface GroupInfoSDKType {
-  id: Long;
+  id: bigint;
   admin: string;
   metadata: string;
-  version: Long;
+  version: bigint;
   total_weight: string;
   created_at?: Date | undefined;
 }
 /** GroupMember represents the relationship between a group and a member. */
 export interface GroupMember {
   /** group_id is the unique ID of the group. */
-  groupId: Long;
+  groupId: bigint;
   /** member is the member data. */
   member?: Member | undefined;
 }
 /** GroupMember represents the relationship between a group and a member. */
 export interface GroupMemberSDKType {
-  group_id: Long;
+  group_id: bigint;
   member?: MemberSDKType | undefined;
 }
 /** GroupPolicyInfo represents the high-level on-chain information for a group policy. */
@@ -342,7 +342,7 @@ export interface GroupPolicyInfo {
   /** address is the account address of group policy. */
   address: string;
   /** group_id is the unique ID of the group. */
-  groupId: Long;
+  groupId: bigint;
   /** admin is the account address of the group admin. */
   admin: string;
   /** metadata is any arbitrary metadata to attached to the group policy. */
@@ -351,7 +351,7 @@ export interface GroupPolicyInfo {
    * version is used to track changes to a group's GroupPolicyInfo structure that
    * would create a different result on a running proposal.
    */
-  version: Long;
+  version: bigint;
   /** decision_policy specifies the group policy's decision policy. */
   decisionPolicy?: Any | undefined;
   /** created_at is a timestamp specifying when a group policy was created. */
@@ -360,10 +360,10 @@ export interface GroupPolicyInfo {
 /** GroupPolicyInfo represents the high-level on-chain information for a group policy. */
 export interface GroupPolicyInfoSDKType {
   address: string;
-  group_id: Long;
+  group_id: bigint;
   admin: string;
   metadata: string;
-  version: Long;
+  version: bigint;
   decision_policy?: AnySDKType | undefined;
   created_at?: Date | undefined;
 }
@@ -375,7 +375,7 @@ export interface GroupPolicyInfoSDKType {
  */
 export interface Proposal {
   /** id is the unique id of the proposal. */
-  id: Long;
+  id: bigint;
   /** address is the account address of group policy. */
   address: string;
   /** metadata is any arbitrary metadata to attached to the proposal. */
@@ -388,12 +388,12 @@ export interface Proposal {
    * group_version tracks the version of the group that this proposal corresponds to.
    * When group membership is changed, existing proposals from previous group versions will become invalid.
    */
-  groupVersion: Long;
+  groupVersion: bigint;
   /**
    * group_policy_version tracks the version of the group policy that this proposal corresponds to.
    * When a decision policy is changed, existing proposals from previous policy versions will become invalid.
    */
-  groupPolicyVersion: Long;
+  groupPolicyVersion: bigint;
   /** status represents the high level position in the life cycle of the proposal. Initial value is Submitted. */
   status: ProposalStatus;
   /**
@@ -428,13 +428,13 @@ export interface Proposal {
  * passes as well as some optional metadata associated with the proposal.
  */
 export interface ProposalSDKType {
-  id: Long;
+  id: bigint;
   address: string;
   metadata: string;
   proposers: string[];
   submit_time?: Date | undefined;
-  group_version: Long;
-  group_policy_version: Long;
+  group_version: bigint;
+  group_policy_version: bigint;
   status: ProposalStatus;
   result: ProposalResult;
   final_tally_result?: TallyResultSDKType | undefined;
@@ -463,7 +463,7 @@ export interface TallyResultSDKType {
 /** Vote represents a vote for a proposal. */
 export interface Vote {
   /** proposal is the unique ID of the proposal. */
-  proposalId: Long;
+  proposalId: bigint;
   /** voter is the account address of the voter. */
   voter: string;
   /** option is the voter's choice on the proposal. */
@@ -475,7 +475,7 @@ export interface Vote {
 }
 /** Vote represents a vote for a proposal. */
 export interface VoteSDKType {
-  proposal_id: Long;
+  proposal_id: bigint;
   voter: string;
   option: VoteOption;
   metadata: string;
@@ -490,7 +490,7 @@ function createBaseMember(): Member {
   };
 }
 export const Member = {
-  encode(message: Member, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Member, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -505,8 +505,8 @@ export const Member = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Member {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Member {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMember();
     while (reader.pos < end) {
@@ -546,14 +546,14 @@ function createBaseMembers(): Members {
   };
 }
 export const Members = {
-  encode(message: Members, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Members, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.members) {
       Member.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Members {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Members {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMembers();
     while (reader.pos < end) {
@@ -582,7 +582,7 @@ function createBaseThresholdDecisionPolicy(): ThresholdDecisionPolicy {
   };
 }
 export const ThresholdDecisionPolicy = {
-  encode(message: ThresholdDecisionPolicy, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ThresholdDecisionPolicy, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.threshold !== "") {
       writer.uint32(10).string(message.threshold);
     }
@@ -591,8 +591,8 @@ export const ThresholdDecisionPolicy = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ThresholdDecisionPolicy {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ThresholdDecisionPolicy {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseThresholdDecisionPolicy();
     while (reader.pos < end) {
@@ -625,7 +625,7 @@ function createBasePercentageDecisionPolicy(): PercentageDecisionPolicy {
   };
 }
 export const PercentageDecisionPolicy = {
-  encode(message: PercentageDecisionPolicy, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: PercentageDecisionPolicy, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.percentage !== "") {
       writer.uint32(10).string(message.percentage);
     }
@@ -634,8 +634,8 @@ export const PercentageDecisionPolicy = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PercentageDecisionPolicy {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PercentageDecisionPolicy {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePercentageDecisionPolicy();
     while (reader.pos < end) {
@@ -668,7 +668,7 @@ function createBaseDecisionPolicyWindows(): DecisionPolicyWindows {
   };
 }
 export const DecisionPolicyWindows = {
-  encode(message: DecisionPolicyWindows, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DecisionPolicyWindows, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.votingPeriod !== undefined) {
       Duration.encode(message.votingPeriod, writer.uint32(10).fork()).ldelim();
     }
@@ -677,8 +677,8 @@ export const DecisionPolicyWindows = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DecisionPolicyWindows {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DecisionPolicyWindows {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDecisionPolicyWindows();
     while (reader.pos < end) {
@@ -706,17 +706,17 @@ export const DecisionPolicyWindows = {
 };
 function createBaseGroupInfo(): GroupInfo {
   return {
-    id: Long.UZERO,
+    id: BigInt("0"),
     admin: "",
     metadata: "",
-    version: Long.UZERO,
+    version: BigInt("0"),
     totalWeight: "",
     createdAt: undefined
   };
 }
 export const GroupInfo = {
-  encode(message: GroupInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.isZero()) {
+  encode(message: GroupInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
     }
     if (message.admin !== "") {
@@ -725,7 +725,7 @@ export const GroupInfo = {
     if (message.metadata !== "") {
       writer.uint32(26).string(message.metadata);
     }
-    if (!message.version.isZero()) {
+    if (message.version !== BigInt(0)) {
       writer.uint32(32).uint64(message.version);
     }
     if (message.totalWeight !== "") {
@@ -736,15 +736,15 @@ export const GroupInfo = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GroupInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GroupInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGroupInfo();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.id = (reader.uint64() as Long);
+          message.id = BigInt(reader.uint64().toString());
           break;
         case 2:
           message.admin = reader.string();
@@ -753,7 +753,7 @@ export const GroupInfo = {
           message.metadata = reader.string();
           break;
         case 4:
-          message.version = (reader.uint64() as Long);
+          message.version = BigInt(reader.uint64().toString());
           break;
         case 5:
           message.totalWeight = reader.string();
@@ -770,10 +770,10 @@ export const GroupInfo = {
   },
   fromPartial(object: Partial<GroupInfo>): GroupInfo {
     const message = createBaseGroupInfo();
-    message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
+    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt("0");
     message.admin = object.admin ?? "";
     message.metadata = object.metadata ?? "";
-    message.version = object.version !== undefined && object.version !== null ? Long.fromValue(object.version) : Long.UZERO;
+    message.version = object.version !== undefined && object.version !== null ? BigInt(object.version.toString()) : BigInt("0");
     message.totalWeight = object.totalWeight ?? "";
     message.createdAt = object.createdAt ?? undefined;
     return message;
@@ -781,13 +781,13 @@ export const GroupInfo = {
 };
 function createBaseGroupMember(): GroupMember {
   return {
-    groupId: Long.UZERO,
+    groupId: BigInt("0"),
     member: undefined
   };
 }
 export const GroupMember = {
-  encode(message: GroupMember, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.groupId.isZero()) {
+  encode(message: GroupMember, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.groupId !== BigInt(0)) {
       writer.uint32(8).uint64(message.groupId);
     }
     if (message.member !== undefined) {
@@ -795,15 +795,15 @@ export const GroupMember = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GroupMember {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GroupMember {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGroupMember();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.groupId = (reader.uint64() as Long);
+          message.groupId = BigInt(reader.uint64().toString());
           break;
         case 2:
           message.member = Member.decode(reader, reader.uint32());
@@ -817,7 +817,7 @@ export const GroupMember = {
   },
   fromPartial(object: Partial<GroupMember>): GroupMember {
     const message = createBaseGroupMember();
-    message.groupId = object.groupId !== undefined && object.groupId !== null ? Long.fromValue(object.groupId) : Long.UZERO;
+    message.groupId = object.groupId !== undefined && object.groupId !== null ? BigInt(object.groupId.toString()) : BigInt("0");
     message.member = object.member !== undefined && object.member !== null ? Member.fromPartial(object.member) : undefined;
     return message;
   }
@@ -825,20 +825,20 @@ export const GroupMember = {
 function createBaseGroupPolicyInfo(): GroupPolicyInfo {
   return {
     address: "",
-    groupId: Long.UZERO,
+    groupId: BigInt("0"),
     admin: "",
     metadata: "",
-    version: Long.UZERO,
+    version: BigInt("0"),
     decisionPolicy: undefined,
     createdAt: undefined
   };
 }
 export const GroupPolicyInfo = {
-  encode(message: GroupPolicyInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GroupPolicyInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
-    if (!message.groupId.isZero()) {
+    if (message.groupId !== BigInt(0)) {
       writer.uint32(16).uint64(message.groupId);
     }
     if (message.admin !== "") {
@@ -847,7 +847,7 @@ export const GroupPolicyInfo = {
     if (message.metadata !== "") {
       writer.uint32(34).string(message.metadata);
     }
-    if (!message.version.isZero()) {
+    if (message.version !== BigInt(0)) {
       writer.uint32(40).uint64(message.version);
     }
     if (message.decisionPolicy !== undefined) {
@@ -858,8 +858,8 @@ export const GroupPolicyInfo = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GroupPolicyInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GroupPolicyInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGroupPolicyInfo();
     while (reader.pos < end) {
@@ -869,7 +869,7 @@ export const GroupPolicyInfo = {
           message.address = reader.string();
           break;
         case 2:
-          message.groupId = (reader.uint64() as Long);
+          message.groupId = BigInt(reader.uint64().toString());
           break;
         case 3:
           message.admin = reader.string();
@@ -878,7 +878,7 @@ export const GroupPolicyInfo = {
           message.metadata = reader.string();
           break;
         case 5:
-          message.version = (reader.uint64() as Long);
+          message.version = BigInt(reader.uint64().toString());
           break;
         case 6:
           message.decisionPolicy = Any.decode(reader, reader.uint32());
@@ -896,10 +896,10 @@ export const GroupPolicyInfo = {
   fromPartial(object: Partial<GroupPolicyInfo>): GroupPolicyInfo {
     const message = createBaseGroupPolicyInfo();
     message.address = object.address ?? "";
-    message.groupId = object.groupId !== undefined && object.groupId !== null ? Long.fromValue(object.groupId) : Long.UZERO;
+    message.groupId = object.groupId !== undefined && object.groupId !== null ? BigInt(object.groupId.toString()) : BigInt("0");
     message.admin = object.admin ?? "";
     message.metadata = object.metadata ?? "";
-    message.version = object.version !== undefined && object.version !== null ? Long.fromValue(object.version) : Long.UZERO;
+    message.version = object.version !== undefined && object.version !== null ? BigInt(object.version.toString()) : BigInt("0");
     message.decisionPolicy = object.decisionPolicy !== undefined && object.decisionPolicy !== null ? Any.fromPartial(object.decisionPolicy) : undefined;
     message.createdAt = object.createdAt ?? undefined;
     return message;
@@ -907,13 +907,13 @@ export const GroupPolicyInfo = {
 };
 function createBaseProposal(): Proposal {
   return {
-    id: Long.UZERO,
+    id: BigInt("0"),
     address: "",
     metadata: "",
     proposers: [],
     submitTime: undefined,
-    groupVersion: Long.UZERO,
-    groupPolicyVersion: Long.UZERO,
+    groupVersion: BigInt("0"),
+    groupPolicyVersion: BigInt("0"),
     status: 0,
     result: 0,
     finalTallyResult: undefined,
@@ -923,8 +923,8 @@ function createBaseProposal(): Proposal {
   };
 }
 export const Proposal = {
-  encode(message: Proposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.isZero()) {
+  encode(message: Proposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
     }
     if (message.address !== "") {
@@ -939,10 +939,10 @@ export const Proposal = {
     if (message.submitTime !== undefined) {
       Timestamp.encode(toTimestamp(message.submitTime), writer.uint32(42).fork()).ldelim();
     }
-    if (!message.groupVersion.isZero()) {
+    if (message.groupVersion !== BigInt(0)) {
       writer.uint32(48).uint64(message.groupVersion);
     }
-    if (!message.groupPolicyVersion.isZero()) {
+    if (message.groupPolicyVersion !== BigInt(0)) {
       writer.uint32(56).uint64(message.groupPolicyVersion);
     }
     if (message.status !== 0) {
@@ -965,15 +965,15 @@ export const Proposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Proposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Proposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseProposal();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.id = (reader.uint64() as Long);
+          message.id = BigInt(reader.uint64().toString());
           break;
         case 2:
           message.address = reader.string();
@@ -988,10 +988,10 @@ export const Proposal = {
           message.submitTime = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         case 6:
-          message.groupVersion = (reader.uint64() as Long);
+          message.groupVersion = BigInt(reader.uint64().toString());
           break;
         case 7:
-          message.groupPolicyVersion = (reader.uint64() as Long);
+          message.groupPolicyVersion = BigInt(reader.uint64().toString());
           break;
         case 8:
           message.status = (reader.int32() as any);
@@ -1020,13 +1020,13 @@ export const Proposal = {
   },
   fromPartial(object: Partial<Proposal>): Proposal {
     const message = createBaseProposal();
-    message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
+    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt("0");
     message.address = object.address ?? "";
     message.metadata = object.metadata ?? "";
     message.proposers = object.proposers?.map(e => e) || [];
     message.submitTime = object.submitTime ?? undefined;
-    message.groupVersion = object.groupVersion !== undefined && object.groupVersion !== null ? Long.fromValue(object.groupVersion) : Long.UZERO;
-    message.groupPolicyVersion = object.groupPolicyVersion !== undefined && object.groupPolicyVersion !== null ? Long.fromValue(object.groupPolicyVersion) : Long.UZERO;
+    message.groupVersion = object.groupVersion !== undefined && object.groupVersion !== null ? BigInt(object.groupVersion.toString()) : BigInt("0");
+    message.groupPolicyVersion = object.groupPolicyVersion !== undefined && object.groupPolicyVersion !== null ? BigInt(object.groupPolicyVersion.toString()) : BigInt("0");
     message.status = object.status ?? 0;
     message.result = object.result ?? 0;
     message.finalTallyResult = object.finalTallyResult !== undefined && object.finalTallyResult !== null ? TallyResult.fromPartial(object.finalTallyResult) : undefined;
@@ -1045,7 +1045,7 @@ function createBaseTallyResult(): TallyResult {
   };
 }
 export const TallyResult = {
-  encode(message: TallyResult, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: TallyResult, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.yesCount !== "") {
       writer.uint32(10).string(message.yesCount);
     }
@@ -1060,8 +1060,8 @@ export const TallyResult = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): TallyResult {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): TallyResult {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTallyResult();
     while (reader.pos < end) {
@@ -1097,7 +1097,7 @@ export const TallyResult = {
 };
 function createBaseVote(): Vote {
   return {
-    proposalId: Long.UZERO,
+    proposalId: BigInt("0"),
     voter: "",
     option: 0,
     metadata: "",
@@ -1105,8 +1105,8 @@ function createBaseVote(): Vote {
   };
 }
 export const Vote = {
-  encode(message: Vote, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.proposalId.isZero()) {
+  encode(message: Vote, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.proposalId !== BigInt(0)) {
       writer.uint32(8).uint64(message.proposalId);
     }
     if (message.voter !== "") {
@@ -1123,15 +1123,15 @@ export const Vote = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Vote {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Vote {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVote();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.proposalId = (reader.uint64() as Long);
+          message.proposalId = BigInt(reader.uint64().toString());
           break;
         case 2:
           message.voter = reader.string();
@@ -1154,7 +1154,7 @@ export const Vote = {
   },
   fromPartial(object: Partial<Vote>): Vote {
     const message = createBaseVote();
-    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? Long.fromValue(object.proposalId) : Long.UZERO;
+    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt("0");
     message.voter = object.voter ?? "";
     message.option = object.option ?? 0;
     message.metadata = object.metadata ?? "";

@@ -1,5 +1,4 @@
 import { AminoMsg } from "@cosmjs/amino";
-import { Long } from "../../../helpers";
 import { MsgSoftwareUpgrade, MsgCancelUpgrade } from "./tx";
 export interface MsgSoftwareUpgradeAminoType extends AminoMsg {
   type: "cosmos-sdk/MsgSoftwareUpgrade";
@@ -56,7 +55,7 @@ export const AminoConverter = {
         plan: {
           name: plan.name,
           time: plan.time,
-          height: Long.fromString(plan.height),
+          height: BigInt(plan.height),
           info: plan.info,
           upgradedClientState: {
             typeUrl: plan.upgraded_client_state.type_url,

@@ -1,5 +1,5 @@
 import { Rpc } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader } from "../../../binary";
 import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../react-query";
 import { useQuery } from "@tanstack/react-query";
@@ -22,14 +22,14 @@ export class QueryClientImpl implements Query {
   evidence(request: QueryEvidenceRequest): Promise<QueryEvidenceResponse> {
     const data = QueryEvidenceRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.evidence.v1beta1.Query", "Evidence", data);
-    return promise.then(data => QueryEvidenceResponse.decode(new _m0.Reader(data)));
+    return promise.then(data => QueryEvidenceResponse.decode(new BinaryReader(data)));
   }
   allEvidence(request: QueryAllEvidenceRequest = {
     pagination: undefined
   }): Promise<QueryAllEvidenceResponse> {
     const data = QueryAllEvidenceRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.evidence.v1beta1.Query", "AllEvidence", data);
-    return promise.then(data => QueryAllEvidenceResponse.decode(new _m0.Reader(data)));
+    return promise.then(data => QueryAllEvidenceResponse.decode(new BinaryReader(data)));
   }
 }
 export const createRpcQueryExtension = (base: QueryClient) => {

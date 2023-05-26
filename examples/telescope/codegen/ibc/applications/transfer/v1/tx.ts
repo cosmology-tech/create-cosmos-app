@@ -1,7 +1,6 @@
 import { Coin, CoinSDKType } from "../../../../cosmos/base/v1beta1/coin";
 import { Height, HeightSDKType } from "../../../core/client/v1/client";
-import { Long } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 /**
  * MsgTransfer defines a msg to transfer fungible tokens (i.e Coins) between
  * ICS20 enabled chains. See ICS Spec here:
@@ -27,7 +26,7 @@ export interface MsgTransfer {
    * Timeout timestamp (in nanoseconds) relative to the current block timestamp.
    * The timeout is disabled when set to 0.
    */
-  timeoutTimestamp: Long;
+  timeoutTimestamp: bigint;
 }
 /**
  * MsgTransfer defines a msg to transfer fungible tokens (i.e Coins) between
@@ -41,7 +40,7 @@ export interface MsgTransferSDKType {
   sender: string;
   receiver: string;
   timeout_height?: HeightSDKType | undefined;
-  timeout_timestamp: Long;
+  timeout_timestamp: bigint;
 }
 /** MsgTransferResponse defines the Msg/Transfer response type. */
 export interface MsgTransferResponse {}
@@ -55,11 +54,11 @@ function createBaseMsgTransfer(): MsgTransfer {
     sender: "",
     receiver: "",
     timeoutHeight: undefined,
-    timeoutTimestamp: Long.UZERO
+    timeoutTimestamp: BigInt("0")
   };
 }
 export const MsgTransfer = {
-  encode(message: MsgTransfer, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgTransfer, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.sourcePort !== "") {
       writer.uint32(10).string(message.sourcePort);
     }
@@ -78,13 +77,13 @@ export const MsgTransfer = {
     if (message.timeoutHeight !== undefined) {
       Height.encode(message.timeoutHeight, writer.uint32(50).fork()).ldelim();
     }
-    if (!message.timeoutTimestamp.isZero()) {
+    if (message.timeoutTimestamp !== BigInt(0)) {
       writer.uint32(56).uint64(message.timeoutTimestamp);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTransfer {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgTransfer {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgTransfer();
     while (reader.pos < end) {
@@ -109,7 +108,7 @@ export const MsgTransfer = {
           message.timeoutHeight = Height.decode(reader, reader.uint32());
           break;
         case 7:
-          message.timeoutTimestamp = (reader.uint64() as Long);
+          message.timeoutTimestamp = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -126,7 +125,7 @@ export const MsgTransfer = {
     message.sender = object.sender ?? "";
     message.receiver = object.receiver ?? "";
     message.timeoutHeight = object.timeoutHeight !== undefined && object.timeoutHeight !== null ? Height.fromPartial(object.timeoutHeight) : undefined;
-    message.timeoutTimestamp = object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null ? Long.fromValue(object.timeoutTimestamp) : Long.UZERO;
+    message.timeoutTimestamp = object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null ? BigInt(object.timeoutTimestamp.toString()) : BigInt("0");
     return message;
   }
 };
@@ -134,11 +133,11 @@ function createBaseMsgTransferResponse(): MsgTransferResponse {
   return {};
 }
 export const MsgTransferResponse = {
-  encode(_: MsgTransferResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgTransferResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTransferResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgTransferResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgTransferResponse();
     while (reader.pos < end) {

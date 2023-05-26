@@ -1,5 +1,4 @@
-import { Long } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 /** Minter represents the minting state. */
 export interface Minter {
   /** current annual inflation rate */
@@ -25,7 +24,7 @@ export interface Params {
   /** goal of percent bonded atoms */
   goalBonded: string;
   /** expected blocks per year */
-  blocksPerYear: Long;
+  blocksPerYear: bigint;
 }
 /** Params holds parameters for the mint module. */
 export interface ParamsSDKType {
@@ -34,7 +33,7 @@ export interface ParamsSDKType {
   inflation_max: string;
   inflation_min: string;
   goal_bonded: string;
-  blocks_per_year: Long;
+  blocks_per_year: bigint;
 }
 function createBaseMinter(): Minter {
   return {
@@ -43,7 +42,7 @@ function createBaseMinter(): Minter {
   };
 }
 export const Minter = {
-  encode(message: Minter, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Minter, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.inflation !== "") {
       writer.uint32(10).string(message.inflation);
     }
@@ -52,8 +51,8 @@ export const Minter = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Minter {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Minter {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMinter();
     while (reader.pos < end) {
@@ -86,11 +85,11 @@ function createBaseParams(): Params {
     inflationMax: "",
     inflationMin: "",
     goalBonded: "",
-    blocksPerYear: Long.UZERO
+    blocksPerYear: BigInt("0")
   };
 }
 export const Params = {
-  encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.mintDenom !== "") {
       writer.uint32(10).string(message.mintDenom);
     }
@@ -106,13 +105,13 @@ export const Params = {
     if (message.goalBonded !== "") {
       writer.uint32(42).string(message.goalBonded);
     }
-    if (!message.blocksPerYear.isZero()) {
+    if (message.blocksPerYear !== BigInt(0)) {
       writer.uint32(48).uint64(message.blocksPerYear);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Params {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Params {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParams();
     while (reader.pos < end) {
@@ -134,7 +133,7 @@ export const Params = {
           message.goalBonded = reader.string();
           break;
         case 6:
-          message.blocksPerYear = (reader.uint64() as Long);
+          message.blocksPerYear = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -150,7 +149,7 @@ export const Params = {
     message.inflationMax = object.inflationMax ?? "";
     message.inflationMin = object.inflationMin ?? "";
     message.goalBonded = object.goalBonded ?? "";
-    message.blocksPerYear = object.blocksPerYear !== undefined && object.blocksPerYear !== null ? Long.fromValue(object.blocksPerYear) : Long.UZERO;
+    message.blocksPerYear = object.blocksPerYear !== undefined && object.blocksPerYear !== null ? BigInt(object.blocksPerYear.toString()) : BigInt("0");
     return message;
   }
 };

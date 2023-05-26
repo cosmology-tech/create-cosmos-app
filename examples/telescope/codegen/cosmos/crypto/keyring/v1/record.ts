@@ -1,6 +1,6 @@
 import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { BIP44Params, BIP44ParamsSDKType } from "../../hd/v1/hd";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 /** Record is used for representing a key in the keyring. */
 export interface Record {
   /** name represents a name of Record */
@@ -68,7 +68,7 @@ function createBaseRecord(): Record {
   };
 }
 export const Record = {
-  encode(message: Record, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Record, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -89,8 +89,8 @@ export const Record = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Record {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Record {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRecord();
     while (reader.pos < end) {
@@ -139,7 +139,7 @@ function createBaseRecord_Local(): Record_Local {
   };
 }
 export const Record_Local = {
-  encode(message: Record_Local, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Record_Local, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.privKey !== undefined) {
       Any.encode(message.privKey, writer.uint32(10).fork()).ldelim();
     }
@@ -148,8 +148,8 @@ export const Record_Local = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Record_Local {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Record_Local {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRecord_Local();
     while (reader.pos < end) {
@@ -181,14 +181,14 @@ function createBaseRecord_Ledger(): Record_Ledger {
   };
 }
 export const Record_Ledger = {
-  encode(message: Record_Ledger, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Record_Ledger, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path !== undefined) {
       BIP44Params.encode(message.path, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Record_Ledger {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Record_Ledger {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRecord_Ledger();
     while (reader.pos < end) {
@@ -214,11 +214,11 @@ function createBaseRecord_Multi(): Record_Multi {
   return {};
 }
 export const Record_Multi = {
-  encode(_: Record_Multi, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: Record_Multi, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Record_Multi {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Record_Multi {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRecord_Multi();
     while (reader.pos < end) {
@@ -240,11 +240,11 @@ function createBaseRecord_Offline(): Record_Offline {
   return {};
 }
 export const Record_Offline = {
-  encode(_: Record_Offline, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: Record_Offline, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Record_Offline {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Record_Offline {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRecord_Offline();
     while (reader.pos < end) {

@@ -1,8 +1,7 @@
-import { Long } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 /** Snapshot contains Tendermint state sync snapshot info. */
 export interface Snapshot {
-  height: Long;
+  height: bigint;
   format: number;
   chunks: number;
   hash: Uint8Array;
@@ -10,7 +9,7 @@ export interface Snapshot {
 }
 /** Snapshot contains Tendermint state sync snapshot info. */
 export interface SnapshotSDKType {
-  height: Long;
+  height: bigint;
   format: number;
   chunks: number;
   hash: Uint8Array;
@@ -56,7 +55,7 @@ export interface SnapshotIAVLItem {
   key: Uint8Array;
   value: Uint8Array;
   /** version is block height */
-  version: Long;
+  version: bigint;
   /** height is depth of the tree. */
   height: number;
 }
@@ -64,7 +63,7 @@ export interface SnapshotIAVLItem {
 export interface SnapshotIAVLItemSDKType {
   key: Uint8Array;
   value: Uint8Array;
-  version: Long;
+  version: bigint;
   height: number;
 }
 /** SnapshotExtensionMeta contains metadata about an external snapshotter. */
@@ -105,7 +104,7 @@ export interface SnapshotSchemaSDKType {
 }
 function createBaseSnapshot(): Snapshot {
   return {
-    height: Long.UZERO,
+    height: BigInt("0"),
     format: 0,
     chunks: 0,
     hash: new Uint8Array(),
@@ -113,8 +112,8 @@ function createBaseSnapshot(): Snapshot {
   };
 }
 export const Snapshot = {
-  encode(message: Snapshot, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.height.isZero()) {
+  encode(message: Snapshot, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.height !== BigInt(0)) {
       writer.uint32(8).uint64(message.height);
     }
     if (message.format !== 0) {
@@ -131,15 +130,15 @@ export const Snapshot = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Snapshot {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Snapshot {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSnapshot();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.uint64() as Long);
+          message.height = BigInt(reader.uint64().toString());
           break;
         case 2:
           message.format = reader.uint32();
@@ -162,7 +161,7 @@ export const Snapshot = {
   },
   fromPartial(object: Partial<Snapshot>): Snapshot {
     const message = createBaseSnapshot();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     message.format = object.format ?? 0;
     message.chunks = object.chunks ?? 0;
     message.hash = object.hash ?? new Uint8Array();
@@ -176,14 +175,14 @@ function createBaseMetadata(): Metadata {
   };
 }
 export const Metadata = {
-  encode(message: Metadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Metadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.chunkHashes) {
       writer.uint32(10).bytes(v!);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Metadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Metadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMetadata();
     while (reader.pos < end) {
@@ -216,7 +215,7 @@ function createBaseSnapshotItem(): SnapshotItem {
   };
 }
 export const SnapshotItem = {
-  encode(message: SnapshotItem, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SnapshotItem, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.store !== undefined) {
       SnapshotStoreItem.encode(message.store, writer.uint32(10).fork()).ldelim();
     }
@@ -237,8 +236,8 @@ export const SnapshotItem = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SnapshotItem {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SnapshotItem {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSnapshotItem();
     while (reader.pos < end) {
@@ -286,14 +285,14 @@ function createBaseSnapshotStoreItem(): SnapshotStoreItem {
   };
 }
 export const SnapshotStoreItem = {
-  encode(message: SnapshotStoreItem, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SnapshotStoreItem, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SnapshotStoreItem {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SnapshotStoreItem {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSnapshotStoreItem();
     while (reader.pos < end) {
@@ -319,19 +318,19 @@ function createBaseSnapshotIAVLItem(): SnapshotIAVLItem {
   return {
     key: new Uint8Array(),
     value: new Uint8Array(),
-    version: Long.ZERO,
+    version: BigInt("0"),
     height: 0
   };
 }
 export const SnapshotIAVLItem = {
-  encode(message: SnapshotIAVLItem, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SnapshotIAVLItem, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key);
     }
     if (message.value.length !== 0) {
       writer.uint32(18).bytes(message.value);
     }
-    if (!message.version.isZero()) {
+    if (message.version !== BigInt(0)) {
       writer.uint32(24).int64(message.version);
     }
     if (message.height !== 0) {
@@ -339,8 +338,8 @@ export const SnapshotIAVLItem = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SnapshotIAVLItem {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SnapshotIAVLItem {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSnapshotIAVLItem();
     while (reader.pos < end) {
@@ -353,7 +352,7 @@ export const SnapshotIAVLItem = {
           message.value = reader.bytes();
           break;
         case 3:
-          message.version = (reader.int64() as Long);
+          message.version = BigInt(reader.int64().toString());
           break;
         case 4:
           message.height = reader.int32();
@@ -369,7 +368,7 @@ export const SnapshotIAVLItem = {
     const message = createBaseSnapshotIAVLItem();
     message.key = object.key ?? new Uint8Array();
     message.value = object.value ?? new Uint8Array();
-    message.version = object.version !== undefined && object.version !== null ? Long.fromValue(object.version) : Long.ZERO;
+    message.version = object.version !== undefined && object.version !== null ? BigInt(object.version.toString()) : BigInt("0");
     message.height = object.height ?? 0;
     return message;
   }
@@ -381,7 +380,7 @@ function createBaseSnapshotExtensionMeta(): SnapshotExtensionMeta {
   };
 }
 export const SnapshotExtensionMeta = {
-  encode(message: SnapshotExtensionMeta, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SnapshotExtensionMeta, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -390,8 +389,8 @@ export const SnapshotExtensionMeta = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SnapshotExtensionMeta {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SnapshotExtensionMeta {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSnapshotExtensionMeta();
     while (reader.pos < end) {
@@ -423,14 +422,14 @@ function createBaseSnapshotExtensionPayload(): SnapshotExtensionPayload {
   };
 }
 export const SnapshotExtensionPayload = {
-  encode(message: SnapshotExtensionPayload, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SnapshotExtensionPayload, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.payload.length !== 0) {
       writer.uint32(10).bytes(message.payload);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SnapshotExtensionPayload {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SnapshotExtensionPayload {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSnapshotExtensionPayload();
     while (reader.pos < end) {
@@ -459,7 +458,7 @@ function createBaseSnapshotKVItem(): SnapshotKVItem {
   };
 }
 export const SnapshotKVItem = {
-  encode(message: SnapshotKVItem, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SnapshotKVItem, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key);
     }
@@ -468,8 +467,8 @@ export const SnapshotKVItem = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SnapshotKVItem {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SnapshotKVItem {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSnapshotKVItem();
     while (reader.pos < end) {
@@ -501,14 +500,14 @@ function createBaseSnapshotSchema(): SnapshotSchema {
   };
 }
 export const SnapshotSchema = {
-  encode(message: SnapshotSchema, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SnapshotSchema, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.keys) {
       writer.uint32(10).bytes(v!);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SnapshotSchema {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SnapshotSchema {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSnapshotSchema();
     while (reader.pos < end) {
