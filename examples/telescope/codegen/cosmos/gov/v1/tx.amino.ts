@@ -1,6 +1,5 @@
 import { voteOptionFromJSON } from "./gov";
 import { AminoMsg } from "@cosmjs/amino";
-import { Long } from "../../../helpers";
 import { MsgSubmitProposal, MsgExecLegacyContent, MsgVote, MsgVoteWeighted, MsgDeposit } from "./tx";
 export interface MsgSubmitProposalAminoType extends AminoMsg {
   type: "cosmos-sdk/v1/MsgSubmitProposal";
@@ -150,7 +149,7 @@ export const AminoConverter = {
       metadata
     }: MsgVoteAminoType["value"]): MsgVote => {
       return {
-        proposalId: Long.fromString(proposal_id),
+        proposalId: BigInt(proposal_id),
         voter,
         option: voteOptionFromJSON(option),
         metadata
@@ -182,7 +181,7 @@ export const AminoConverter = {
       metadata
     }: MsgVoteWeightedAminoType["value"]): MsgVoteWeighted => {
       return {
-        proposalId: Long.fromString(proposal_id),
+        proposalId: BigInt(proposal_id),
         voter,
         options: options.map(el0 => ({
           option: voteOptionFromJSON(el0.option),
@@ -214,7 +213,7 @@ export const AminoConverter = {
       amount
     }: MsgDepositAminoType["value"]): MsgDeposit => {
       return {
-        proposalId: Long.fromString(proposal_id),
+        proposalId: BigInt(proposal_id),
         depositor,
         amount: amount.map(el0 => ({
           denom: el0.denom,

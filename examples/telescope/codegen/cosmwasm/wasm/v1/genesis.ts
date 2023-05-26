@@ -1,7 +1,6 @@
 import { MsgStoreCode, MsgStoreCodeSDKType, MsgInstantiateContract, MsgInstantiateContractSDKType, MsgExecuteContract, MsgExecuteContractSDKType } from "./tx";
 import { Params, ParamsSDKType, CodeInfo, CodeInfoSDKType, ContractInfo, ContractInfoSDKType, Model, ModelSDKType } from "./types";
-import { Long } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 /** GenesisState - genesis state of x/wasm */
 export interface GenesisState {
   params?: Params | undefined;
@@ -38,7 +37,7 @@ export interface GenesisState_GenMsgsSDKType {
 }
 /** Code struct encompasses CodeInfo and CodeBytes */
 export interface Code {
-  codeId: Long;
+  codeId: bigint;
   codeInfo?: CodeInfo | undefined;
   codeBytes: Uint8Array;
   /** Pinned to wasmvm cache */
@@ -46,7 +45,7 @@ export interface Code {
 }
 /** Code struct encompasses CodeInfo and CodeBytes */
 export interface CodeSDKType {
-  code_id: Long;
+  code_id: bigint;
   code_info?: CodeInfoSDKType | undefined;
   code_bytes: Uint8Array;
   pinned: boolean;
@@ -66,12 +65,12 @@ export interface ContractSDKType {
 /** Sequence key and value of an id generation counter */
 export interface Sequence {
   idKey: Uint8Array;
-  value: Long;
+  value: bigint;
 }
 /** Sequence key and value of an id generation counter */
 export interface SequenceSDKType {
   id_key: Uint8Array;
-  value: Long;
+  value: bigint;
 }
 function createBaseGenesisState(): GenesisState {
   return {
@@ -83,7 +82,7 @@ function createBaseGenesisState(): GenesisState {
   };
 }
 export const GenesisState = {
-  encode(message: GenesisState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
@@ -101,8 +100,8 @@ export const GenesisState = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GenesisState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GenesisState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenesisState();
     while (reader.pos < end) {
@@ -148,7 +147,7 @@ function createBaseGenesisState_GenMsgs(): GenesisState_GenMsgs {
   };
 }
 export const GenesisState_GenMsgs = {
-  encode(message: GenesisState_GenMsgs, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GenesisState_GenMsgs, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.storeCode !== undefined) {
       MsgStoreCode.encode(message.storeCode, writer.uint32(10).fork()).ldelim();
     }
@@ -160,8 +159,8 @@ export const GenesisState_GenMsgs = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GenesisState_GenMsgs {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GenesisState_GenMsgs {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenesisState_GenMsgs();
     while (reader.pos < end) {
@@ -193,15 +192,15 @@ export const GenesisState_GenMsgs = {
 };
 function createBaseCode(): Code {
   return {
-    codeId: Long.UZERO,
+    codeId: BigInt("0"),
     codeInfo: undefined,
     codeBytes: new Uint8Array(),
     pinned: false
   };
 }
 export const Code = {
-  encode(message: Code, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.codeId.isZero()) {
+  encode(message: Code, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.codeId !== BigInt(0)) {
       writer.uint32(8).uint64(message.codeId);
     }
     if (message.codeInfo !== undefined) {
@@ -215,15 +214,15 @@ export const Code = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Code {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Code {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCode();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.codeId = (reader.uint64() as Long);
+          message.codeId = BigInt(reader.uint64().toString());
           break;
         case 2:
           message.codeInfo = CodeInfo.decode(reader, reader.uint32());
@@ -243,7 +242,7 @@ export const Code = {
   },
   fromPartial(object: Partial<Code>): Code {
     const message = createBaseCode();
-    message.codeId = object.codeId !== undefined && object.codeId !== null ? Long.fromValue(object.codeId) : Long.UZERO;
+    message.codeId = object.codeId !== undefined && object.codeId !== null ? BigInt(object.codeId.toString()) : BigInt("0");
     message.codeInfo = object.codeInfo !== undefined && object.codeInfo !== null ? CodeInfo.fromPartial(object.codeInfo) : undefined;
     message.codeBytes = object.codeBytes ?? new Uint8Array();
     message.pinned = object.pinned ?? false;
@@ -258,7 +257,7 @@ function createBaseContract(): Contract {
   };
 }
 export const Contract = {
-  encode(message: Contract, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Contract, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contractAddress !== "") {
       writer.uint32(10).string(message.contractAddress);
     }
@@ -270,8 +269,8 @@ export const Contract = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Contract {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Contract {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseContract();
     while (reader.pos < end) {
@@ -304,21 +303,21 @@ export const Contract = {
 function createBaseSequence(): Sequence {
   return {
     idKey: new Uint8Array(),
-    value: Long.UZERO
+    value: BigInt("0")
   };
 }
 export const Sequence = {
-  encode(message: Sequence, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Sequence, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.idKey.length !== 0) {
       writer.uint32(10).bytes(message.idKey);
     }
-    if (!message.value.isZero()) {
+    if (message.value !== BigInt(0)) {
       writer.uint32(16).uint64(message.value);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Sequence {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Sequence {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSequence();
     while (reader.pos < end) {
@@ -328,7 +327,7 @@ export const Sequence = {
           message.idKey = reader.bytes();
           break;
         case 2:
-          message.value = (reader.uint64() as Long);
+          message.value = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -340,7 +339,7 @@ export const Sequence = {
   fromPartial(object: Partial<Sequence>): Sequence {
     const message = createBaseSequence();
     message.idKey = object.idKey ?? new Uint8Array();
-    message.value = object.value !== undefined && object.value !== null ? Long.fromValue(object.value) : Long.UZERO;
+    message.value = object.value !== undefined && object.value !== null ? BigInt(object.value.toString()) : BigInt("0");
     return message;
   }
 };

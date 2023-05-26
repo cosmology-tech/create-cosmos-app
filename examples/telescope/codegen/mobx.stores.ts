@@ -23,6 +23,19 @@ import * as _IbcCoreChannelV1Queryrpc from "./ibc/core/channel/v1/query.rpc.Quer
 import * as _IbcCoreClientV1Queryrpc from "./ibc/core/client/v1/query.rpc.Query";
 import * as _IbcCoreConnectionV1Queryrpc from "./ibc/core/connection/v1/query.rpc.Query";
 import * as _IbcCorePortV1Queryrpc from "./ibc/core/port/v1/query.rpc.Query";
+import * as _OsmosisClaimV1beta1Queryrpc from "./osmosis/claim/v1beta1/query.rpc.Query";
+import * as _OsmosisEpochsQueryrpc from "./osmosis/epochs/query.rpc.Query";
+import * as _OsmosisGammV1beta1Queryrpc from "./osmosis/gamm/v1beta1/query.rpc.Query";
+import * as _OsmosisGammV2Queryrpc from "./osmosis/gamm/v2/query.rpc.Query";
+import * as _OsmosisIbcratelimitV1beta1Queryrpc from "./osmosis/ibc-rate-limit/v1beta1/query.rpc.Query";
+import * as _OsmosisIncentivesQueryrpc from "./osmosis/incentives/query.rpc.Query";
+import * as _OsmosisLockupQueryrpc from "./osmosis/lockup/query.rpc.Query";
+import * as _OsmosisMintV1beta1Queryrpc from "./osmosis/mint/v1beta1/query.rpc.Query";
+import * as _OsmosisPoolincentivesV1beta1Queryrpc from "./osmosis/pool-incentives/v1beta1/query.rpc.Query";
+import * as _OsmosisSuperfluidQueryrpc from "./osmosis/superfluid/query.rpc.Query";
+import * as _OsmosisTokenfactoryV1beta1Queryrpc from "./osmosis/tokenfactory/v1beta1/query.rpc.Query";
+import * as _OsmosisTwapV1beta1Queryrpc from "./osmosis/twap/v1beta1/query.rpc.Query";
+import * as _OsmosisTxfeesV1beta1Queryrpc from "./osmosis/txfees/v1beta1/query.rpc.Query";
 export const createRpcQueryMobxStores = ({
   rpc
 }: {
@@ -109,6 +122,39 @@ export const createRpcQueryMobxStores = ({
         port: {
           v1: _IbcCorePortV1Queryrpc.createRpcQueryMobxStores(rpc)
         }
+      }
+    },
+    osmosis: {
+      claim: {
+        v1beta1: _OsmosisClaimV1beta1Queryrpc.createRpcQueryMobxStores(rpc)
+      },
+      epochs: {
+        v1beta1: _OsmosisEpochsQueryrpc.createRpcQueryMobxStores(rpc)
+      },
+      gamm: {
+        v1beta1: _OsmosisGammV1beta1Queryrpc.createRpcQueryMobxStores(rpc),
+        v2: _OsmosisGammV2Queryrpc.createRpcQueryMobxStores(rpc)
+      },
+      ibcratelimit: {
+        v1beta1: _OsmosisIbcratelimitV1beta1Queryrpc.createRpcQueryMobxStores(rpc)
+      },
+      incentives: _OsmosisIncentivesQueryrpc.createRpcQueryMobxStores(rpc),
+      lockup: _OsmosisLockupQueryrpc.createRpcQueryMobxStores(rpc),
+      mint: {
+        v1beta1: _OsmosisMintV1beta1Queryrpc.createRpcQueryMobxStores(rpc)
+      },
+      poolincentives: {
+        v1beta1: _OsmosisPoolincentivesV1beta1Queryrpc.createRpcQueryMobxStores(rpc)
+      },
+      superfluid: _OsmosisSuperfluidQueryrpc.createRpcQueryMobxStores(rpc),
+      tokenfactory: {
+        v1beta1: _OsmosisTokenfactoryV1beta1Queryrpc.createRpcQueryMobxStores(rpc)
+      },
+      twap: {
+        v1beta1: _OsmosisTwapV1beta1Queryrpc.createRpcQueryMobxStores(rpc)
+      },
+      txfees: {
+        v1beta1: _OsmosisTxfeesV1beta1Queryrpc.createRpcQueryMobxStores(rpc)
       }
     }
   };

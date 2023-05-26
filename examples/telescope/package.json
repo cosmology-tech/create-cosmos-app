@@ -13,6 +13,7 @@
     "codegen": "node scripts/codegen.js"
   },
   "dependencies": {
+    "@bufbuild/protobuf": "1.2.0",
     "@chain-registry/types": "0.14.0",
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.5.1",
@@ -41,7 +42,7 @@
   },
   "devDependencies": {
     "@cosmjson/wasmswap": "^0.0.9",
-    "@osmonauts/telescope": "^0.94.0",
+    "@osmonauts/telescope": "^0.96.0",
     "@protobufs/cosmos": "^0.1.0",
     "@protobufs/cosmwasm": "^0.1.1",
     "@protobufs/ibc": "^0.1.0",

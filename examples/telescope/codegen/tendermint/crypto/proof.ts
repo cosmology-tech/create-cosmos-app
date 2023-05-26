@@ -1,14 +1,13 @@
-import { Long } from "../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../binary";
 export interface Proof {
-  total: Long;
-  index: Long;
+  total: bigint;
+  index: bigint;
   leafHash: Uint8Array;
   aunts: Uint8Array[];
 }
 export interface ProofSDKType {
-  total: Long;
-  index: Long;
+  total: bigint;
+  index: bigint;
   leaf_hash: Uint8Array;
   aunts: Uint8Array[];
 }
@@ -62,18 +61,18 @@ export interface ProofOpsSDKType {
 }
 function createBaseProof(): Proof {
   return {
-    total: Long.ZERO,
-    index: Long.ZERO,
+    total: BigInt("0"),
+    index: BigInt("0"),
     leafHash: new Uint8Array(),
     aunts: []
   };
 }
 export const Proof = {
-  encode(message: Proof, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.total.isZero()) {
+  encode(message: Proof, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.total !== BigInt(0)) {
       writer.uint32(8).int64(message.total);
     }
-    if (!message.index.isZero()) {
+    if (message.index !== BigInt(0)) {
       writer.uint32(16).int64(message.index);
     }
     if (message.leafHash.length !== 0) {
@@ -84,18 +83,18 @@ export const Proof = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Proof {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Proof {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseProof();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.total = (reader.int64() as Long);
+          message.total = BigInt(reader.int64().toString());
           break;
         case 2:
-          message.index = (reader.int64() as Long);
+          message.index = BigInt(reader.int64().toString());
           break;
         case 3:
           message.leafHash = reader.bytes();
@@ -112,8 +111,8 @@ export const Proof = {
   },
   fromPartial(object: Partial<Proof>): Proof {
     const message = createBaseProof();
-    message.total = object.total !== undefined && object.total !== null ? Long.fromValue(object.total) : Long.ZERO;
-    message.index = object.index !== undefined && object.index !== null ? Long.fromValue(object.index) : Long.ZERO;
+    message.total = object.total !== undefined && object.total !== null ? BigInt(object.total.toString()) : BigInt("0");
+    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt("0");
     message.leafHash = object.leafHash ?? new Uint8Array();
     message.aunts = object.aunts?.map(e => e) || [];
     return message;
@@ -126,7 +125,7 @@ function createBaseValueOp(): ValueOp {
   };
 }
 export const ValueOp = {
-  encode(message: ValueOp, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ValueOp, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key);
     }
@@ -135,8 +134,8 @@ export const ValueOp = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ValueOp {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ValueOp {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseValueOp();
     while (reader.pos < end) {
@@ -170,7 +169,7 @@ function createBaseDominoOp(): DominoOp {
   };
 }
 export const DominoOp = {
-  encode(message: DominoOp, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DominoOp, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -182,8 +181,8 @@ export const DominoOp = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DominoOp {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DominoOp {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDominoOp();
     while (reader.pos < end) {
@@ -221,7 +220,7 @@ function createBaseProofOp(): ProofOp {
   };
 }
 export const ProofOp = {
-  encode(message: ProofOp, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ProofOp, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.type !== "") {
       writer.uint32(10).string(message.type);
     }
@@ -233,8 +232,8 @@ export const ProofOp = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ProofOp {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ProofOp {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseProofOp();
     while (reader.pos < end) {
@@ -270,14 +269,14 @@ function createBaseProofOps(): ProofOps {
   };
 }
 export const ProofOps = {
-  encode(message: ProofOps, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ProofOps, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.ops) {
       ProofOp.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ProofOps {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ProofOps {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseProofOps();
     while (reader.pos < end) {

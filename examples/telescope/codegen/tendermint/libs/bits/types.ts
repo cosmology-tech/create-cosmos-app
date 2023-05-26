@@ -1,22 +1,21 @@
-import { Long } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 export interface BitArray {
-  bits: Long;
-  elems: Long[];
+  bits: bigint;
+  elems: bigint[];
 }
 export interface BitArraySDKType {
-  bits: Long;
-  elems: Long[];
+  bits: bigint;
+  elems: bigint[];
 }
 function createBaseBitArray(): BitArray {
   return {
-    bits: Long.ZERO,
+    bits: BigInt("0"),
     elems: []
   };
 }
 export const BitArray = {
-  encode(message: BitArray, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.bits.isZero()) {
+  encode(message: BitArray, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.bits !== BigInt(0)) {
       writer.uint32(8).int64(message.bits);
     }
     writer.uint32(18).fork();
@@ -26,24 +25,24 @@ export const BitArray = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BitArray {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BitArray {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBitArray();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.bits = (reader.int64() as Long);
+          message.bits = BigInt(reader.int64().toString());
           break;
         case 2:
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
-              message.elems.push((reader.uint64() as Long));
+              message.elems.push(BigInt(reader.uint64().toString()));
             }
           } else {
-            message.elems.push((reader.uint64() as Long));
+            message.elems.push(BigInt(reader.uint64().toString()));
           }
           break;
         default:
@@ -55,8 +54,8 @@ export const BitArray = {
   },
   fromPartial(object: Partial<BitArray>): BitArray {
     const message = createBaseBitArray();
-    message.bits = object.bits !== undefined && object.bits !== null ? Long.fromValue(object.bits) : Long.ZERO;
-    message.elems = object.elems?.map(e => Long.fromValue(e)) || [];
+    message.bits = object.bits !== undefined && object.bits !== null ? BigInt(object.bits.toString()) : BigInt("0");
+    message.elems = object.elems?.map(e => BigInt(e.toString())) || [];
     return message;
   }
 };

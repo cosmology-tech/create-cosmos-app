@@ -1,5 +1,5 @@
 import { CommitmentProof, CommitmentProofSDKType } from "../../../../confio/proofs";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 /**
  * MerkleRoot defines a merkle root hash.
  * In the Cosmos SDK, the AppHash of a block header becomes the root.
@@ -72,14 +72,14 @@ function createBaseMerkleRoot(): MerkleRoot {
   };
 }
 export const MerkleRoot = {
-  encode(message: MerkleRoot, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MerkleRoot, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.hash.length !== 0) {
       writer.uint32(10).bytes(message.hash);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MerkleRoot {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MerkleRoot {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMerkleRoot();
     while (reader.pos < end) {
@@ -107,14 +107,14 @@ function createBaseMerklePrefix(): MerklePrefix {
   };
 }
 export const MerklePrefix = {
-  encode(message: MerklePrefix, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MerklePrefix, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.keyPrefix.length !== 0) {
       writer.uint32(10).bytes(message.keyPrefix);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MerklePrefix {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MerklePrefix {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMerklePrefix();
     while (reader.pos < end) {
@@ -142,14 +142,14 @@ function createBaseMerklePath(): MerklePath {
   };
 }
 export const MerklePath = {
-  encode(message: MerklePath, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MerklePath, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.keyPath) {
       writer.uint32(10).string(v!);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MerklePath {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MerklePath {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMerklePath();
     while (reader.pos < end) {
@@ -177,14 +177,14 @@ function createBaseMerkleProof(): MerkleProof {
   };
 }
 export const MerkleProof = {
-  encode(message: MerkleProof, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MerkleProof, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.proofs) {
       CommitmentProof.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MerkleProof {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MerkleProof {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMerkleProof();
     while (reader.pos < end) {

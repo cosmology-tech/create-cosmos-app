@@ -1,5 +1,5 @@
 import { Rpc } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader } from "../../../../binary";
 import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../../react-query";
 import { useQuery } from "@tanstack/react-query";
@@ -19,7 +19,7 @@ export class QueryClientImpl implements Query {
   appVersion(request: QueryAppVersionRequest): Promise<QueryAppVersionResponse> {
     const data = QueryAppVersionRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.port.v1.Query", "AppVersion", data);
-    return promise.then(data => QueryAppVersionResponse.decode(new _m0.Reader(data)));
+    return promise.then(data => QueryAppVersionResponse.decode(new BinaryReader(data)));
   }
 }
 export const createRpcQueryExtension = (base: QueryClient) => {
