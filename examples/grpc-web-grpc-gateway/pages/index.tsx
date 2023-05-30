@@ -61,14 +61,14 @@ export default function Home() {
         </Heading>
       </Box>
       <Stack direction="row" justifyContent="center" my={12} spacing={4}>
-        <NextLink href="single-chain">
+        <NextLink href="grpc-gateway">
           <Button colorScheme="blue" rightIcon={<ArrowForwardIcon />}>
-            Single-Chain
+            Grpc-gateway
           </Button>
         </NextLink>
-        <NextLink href="multi-chain">
+        <NextLink href="grpc-web">
           <Button colorScheme="blue" rightIcon={<ArrowForwardIcon />}>
-            Multi-Chain
+            Grpc-web
           </Button>
         </NextLink>
       </Stack>
