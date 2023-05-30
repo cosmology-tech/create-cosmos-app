@@ -11,3 +11,7 @@ export const getCoin = (chainName: string = defaultChainName) => {
   const chainAssets = getChainAssets(chainName);
   return chainAssets.assets[0] as Asset;
 };
+
+export const coin: Asset = getChainAssets(defaultChainName).assets.find(
+  (asset) => asset.base === 'uosmo'
+) as Asset;
