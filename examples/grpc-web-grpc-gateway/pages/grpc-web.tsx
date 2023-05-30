@@ -1,4 +1,11 @@
+import { useState } from 'react';
 import Head from 'next/head';
+import { useChain } from '@cosmos-kit/react';
+import { StdFee } from '@cosmjs/amino';
+import { SignerData, SigningStargateClient } from '@cosmjs/stargate';
+import BigNumber from 'bignumber.js';
+import { cosmos } from '../codegen_grpc_web';
+
 import {
   Box,
   Divider,
@@ -12,19 +19,152 @@ import {
   Flex,
   Icon,
   useColorMode,
-  useColorModeValue,
+  Center,
 } from '@chakra-ui/react';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
+import {
+  getChainAssets,
+  defaultChainName,
+  coin,
+  dependencies,
+  products,
+} from '../config';
+
+import { WalletStatus } from '@cosmos-kit/core';
 import {
   Product,
   Dependency,
   WalletSection,
-  StakingSection,
+  handleChangeColorModeValue,
 } from '../components';
-import { defaultChainName, dependencies, products } from '../config';
+import { SendTokensCard } from '../components/react/send-tokens-card';
+import { TxRaw } from '../codegen_grpc_web/cosmos/tx/v1beta1/tx';
+
+// import { cosmos } from 'interchain';
+
+const library = {
+  title: 'Interchain',
+  text: 'Interchain',
+  href: 'https://github.com/cosmology-tech/interchain',
+};
+
+const sendTokens = (
+  getGrpcWebClient: () => any,
+  getSigningStargateClient: () => Promise<SigningStargateClient>,
+  setResp: (resp: string) => any,
+  address: string
+) => {
+  return async () => {
+    const grpcWebClient = await getGrpcWebClient();
+    const stargateClient = await getSigningStargateClient();
+    if (!stargateClient || !address) {
+      console.error('stargateClient undefined or address undefined.');
+      return;
+    }
+
+    const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
+
+    const msg = send({
+      amount: [
+        {
+          denom: coin.base,
+          amount: '1000',
+        },
+      ],
+      toAddress: address,
+      fromAddress: address,
+    });
+
+    const fee: StdFee = {
+      amount: [
+        {
+          denom: coin.base,
+          amount: '2000',
+        },
+      ],
+      gas: '86364',
+    };
+    // const response = await stargateClient.signAndBroadcast(address, [msg], fee);
+
+    // fetch account data
+    const account = await grpcWebClient.cosmos.auth.v1beta1.account({
+      address
+    });
+
+    const baseAccount =
+      account.account as import("./../codegen_grpc_web/cosmos/auth/v1beta1/auth").BaseAccount;
+    const signerData = {
+      accountNumber: Number(baseAccount.accountNumber),
+      sequence: Number(baseAccount.sequence),
+      chainId: 'osmosis-1'
+    };
+
+    const signed_tx = await stargateClient.sign(address, [msg], fee, 'sent through telescope grpc-web', signerData)
+    const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
+    const response = await grpcWebClient.cosmos.tx.v1beta1.broadcastTx(  
+      {
+        txBytes: txRawBytes,
+        mode: 1
+      }
+    )
+
+    setResp(JSON.stringify(response, null, 2));
+  };
+};
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
+
+  const { getSigningStargateClient, address, status, getRpcEndpoint } =
+    useChain(defaultChainName);
+
+  const [balance, setBalance] = useState(new BigNumber(0));
+  const [isFetchingBalance, setFetchingBalance] = useState(false);
+  const [resp, setResp] = useState('');
+  const getBalance = async () => {
+    if (!address) {
+      setBalance(new BigNumber(0));
+      setFetchingBalance(false);
+      return;
+    }
+
+    // let rpcEndpoint = await getRpcEndpoint();
+
+    // if (!rpcEndpoint) {
+    //   console.log('no rpc endpoint — using a fallback');
+    //   rpcEndpoint = `https://rpc.cosmos.directory/${defaultChainName}`;
+    // }
+    const client = await getGrpcWebClient();
+
+    // fetch balance
+    const balance = await client.cosmos.bank.v1beta1.balance({
+      address,
+      denom: getChainAssets(defaultChainName)?.assets[0].base as string,
+    });
+
+    // Get the display exponent
+    // we can get the exponent from chain registry asset denom_units
+    const exp = coin.denom_units.find((unit) => unit.denom === coin.display)
+      ?.exponent as number;
+
+    // show balance in display values by exponentiating it
+    const a = new BigNumber(balance.balance.amount);
+    const amount = a.multipliedBy(10 ** -exp);
+    setBalance(amount);
+    setFetchingBalance(false);
+  };
+
+  const getGrpcWebClient = async () => {
+    // grpc-web endpoint
+    const rpcEndpoint = 'https://osmosis-grpc-web.polkachu.com';
+
+    // get gRPC-web client
+    const client = await cosmos.ClientFactory.createGrpcWebClient({
+      endpoint: rpcEndpoint,
+    });
+
+    return client;
+  }
 
   return (
     <Container maxW="5xl" py={10}>
@@ -36,14 +176,18 @@ export default function Home() {
       <Flex justifyContent="end" mb={4}>
         <Button variant="outline" px={0} onClick={toggleColorMode}>
           <Icon
-            as={colorMode === 'light' ? BsFillMoonStarsFill : BsFillSunFill}
+            as={handleChangeColorModeValue(
+              colorMode,
+              BsFillMoonStarsFill,
+              BsFillSunFill
+            )}
           />
         </Button>
       </Flex>
       <Box textAlign="center">
         <Heading
           as="h1"
-          fontSize={{ base: '3xl', sm: '4xl', md: '5xl' }}
+          fontSize={{ base: '3xl', md: '5xl' }}
           fontWeight="extrabold"
           mb={3}
         >
@@ -52,20 +196,50 @@ export default function Home() {
         <Heading
           as="h1"
           fontWeight="bold"
-          fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
+          fontSize={{ base: '2xl', md: '4xl' }}
         >
           <Text as="span">Welcome to&nbsp;</Text>
           <Text
             as="span"
-            color={useColorModeValue('primary.500', 'primary.200')}
+            color={handleChangeColorModeValue(
+              colorMode,
+              'primary.500',
+              'primary.200'
+            )}
           >
-            CosmosKit + Next.js
+            CosmosKit&nbsp;+&nbsp;Next.js&nbsp;+&nbsp;
+            <Link href={library.href} target="_blank" rel="noreferrer">
+              {library.title}
+            </Link>
           </Text>
         </Heading>
       </Box>
-      <WalletSection isMultiChain={false} />
-      <Divider />
-      <StakingSection chainName={defaultChainName} />
+
+      <WalletSection />
+
+      <Center mb={16}>
+        <SendTokensCard
+          isConnectWallet={status === WalletStatus.Connected}
+          balance={balance.toNumber()}
+          isFetchingBalance={isFetchingBalance}
+          response={resp}
+          sendTokensButtonText="Send Tokens"
+          handleClickSendTokens={sendTokens(
+            getGrpcWebClient as () => any,
+            getSigningStargateClient as () => Promise<SigningStargateClient>,
+            setResp as () => any,
+            address as string
+          )}
+          handleClickGetBalance={() => {
+            setFetchingBalance(true);
+            getBalance();
+          }}
+        />
+      </Center>
+
+      <Box mb={16}>
+        <Divider />
+      </Box>
       <Grid
         templateColumns={{
           md: 'repeat(2, 1fr)',
@@ -75,14 +249,16 @@ export default function Home() {
         mb={14}
       >
         {products.map((product) => (
-          <Product key={product.title} {...product}></Product>
+          <Product key={product.title} {...product} />
         ))}
       </Grid>
-      <Grid templateColumns={{ md: '1fr 1fr' }} gap={8} mb={20}>
+      <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={8} mb={20}>
+        <Dependency {...library} />
         {dependencies.map((dependency) => (
-          <Dependency key={dependency.title} {...dependency}></Dependency>
+          <Dependency key={dependency.title} {...dependency} />
         ))}
       </Grid>
+
       <Box mb={3}>
         <Divider />
       </Box>
