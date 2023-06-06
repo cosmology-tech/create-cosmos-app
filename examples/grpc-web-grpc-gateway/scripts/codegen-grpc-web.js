@@ -15,9 +15,36 @@ telescope({
       ]
     },
     prototypes: {
-      allowUndefinedTypes: true,
-      fieldDefaultIsOptional: true,
-      includePackageVar: false,
+      enabled: true,
+    parser: {
+      keepCase: false
+    },
+    addAminoTypeToObjects: true,
+    addTypeUrlToObjects: true,
+
+    methods: {
+        encode: true,
+        decode: true,
+        fromJSON: true,
+        toJSON: true,
+        fromPartial: true,
+        toSDK: true,
+        fromSDK: true,
+        //
+        toAmino: true,
+        fromAmino: true,
+        fromProto: true,
+        toProto: true
+      },
+      includePackageVar: true,
+      fieldDefaultIsOptional: false,
+      useOptionalNullable: true,
+      allowUndefinedTypes: false,
+      excluded: {
+        protos: [
+          'cosmos/authz/v1beta1/event.proto'
+        ]
+      },
       typingsFormat: {
         useDeepPartial: false,
         useExact: false,
