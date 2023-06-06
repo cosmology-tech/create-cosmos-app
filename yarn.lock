@@ -5660,10 +5660,10 @@
     minimatch "5.1.0"
     mkdirp "3.0.0"
 
-"@osmonauts/telescope@0.93.0":
-  version "0.93.0"
-  resolved "https://registry.npmjs.org/@osmonauts/telescope/-/telescope-0.93.0.tgz#a78992365a41c4f4eb607a4e1bc260a6fea29db4"
-  integrity sha512-ItKwAcj8t6xwdneNcw1YSk7s7dYKiz0oVvgSfNCt4WtzyHtY6mu6F2b/TLL2qzpkyHg0pkZfLujIt3lsQGmOlA==
+"@osmonauts/telescope@0.96.0":
+  version "0.96.0"
+  resolved "https://registry.npmjs.org/@osmonauts/telescope/-/telescope-0.96.0.tgz#c4420899caa7c7f06105cb4273e4695da3666da2"
+  integrity sha512-00vaRkVThxky+6EvDmNOZpsqqB1OJmHouDpQevKtUPP0gL+Z6oX/lo6JupJVXaNcLX+l0v2o1K8W2iLfGxf5vQ==
   dependencies:
     "@babel/core" "7.21.4"
     "@babel/generator" "7.21.4"
@@ -5678,9 +5678,9 @@
     "@babel/traverse" "7.21.4"
     "@babel/types" "7.21.4"
     "@cosmwasm/ts-codegen" "0.26.0"
-    "@osmonauts/ast" "^0.79.2"
-    "@osmonauts/proto-parser" "^0.41.2"
-    "@osmonauts/types" "^0.33.1"
+    "@osmonauts/ast" "^0.82.0"
+    "@osmonauts/proto-parser" "^0.43.0"
+    "@osmonauts/types" "^0.35.0"
     "@osmonauts/utils" "^0.11.1"
     "@types/parse-package-name" "0.1.0"
     case "1.6.3"
