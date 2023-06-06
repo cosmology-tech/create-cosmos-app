@@ -80,7 +80,6 @@ export class GrpcWebImpl {
           if (response.status === grpc.Code.OK) {
             resolve(response.message);
           } else {
-            console.log(response.message)
             const err = (new Error(response.statusMessage) as any);
             err.code = response.status;
             err.metadata = response.trailers;

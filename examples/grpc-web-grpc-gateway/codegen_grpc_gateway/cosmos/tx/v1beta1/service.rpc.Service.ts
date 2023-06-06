@@ -24,11 +24,12 @@ export class Service {
     });
   }
   /** BroadcastTx broadcast transaction. */
-  static broadcastTx(req: BroadcastTxRequest, initReq?: fm.InitReq): Promise<BroadcastTxResponse> {
-    return fm.fetchReq<BroadcastTxRequest, BroadcastTxResponse>(`/cosmos/tx/v1beta1/txs`, {
-      ...initReq,
+  static broadcastTx(request: BroadcastTxRequest, initRequest?: fm.InitReq): Promise<BroadcastTxResponse> {
+    return fm.fetchReq(`/cosmos/tx/v1beta1/txs`, {
+      ...initRequest,
       method: "POST",
-      body: JSON.stringify(req, fm.replacer)})
+      body: JSON.stringify(request, fm.replacer)
+    });
   }
   /** GetTxsEvent fetches txs by event. */
   static getTxsEvent(request: GetTxsEventRequest, initRequest?: fm.InitReq): Promise<GetTxsEventResponse> {
