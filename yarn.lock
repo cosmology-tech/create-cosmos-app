@@ -5612,6 +5612,20 @@
   dependencies:
     "@octokit/openapi-types" "^12.11.0"
 
+"@osmonauts/ast@0.82.0", "@osmonauts/ast@^0.82.0":
+  version "0.82.0"
+  resolved "https://registry.npmjs.org/@osmonauts/ast/-/ast-0.82.0.tgz#4c6cbc78f27047041b3b57768fbeef3812b2ab76"
+  integrity sha512-WgtjVYej6cuEA1Ur9n2NwO4wj45yI2UPxHY61RZIbTqDSwQWQA9OFRsvuYsA/F/ohLoQhvz+kBPSDflPSM7uTw==
+  dependencies:
+    "@babel/parser" "^7.21.4"
+    "@babel/runtime" "^7.21.0"
+    "@babel/types" "7.21.4"
+    "@osmonauts/proto-parser" "^0.43.0"
+    "@osmonauts/types" "^0.35.0"
+    "@osmonauts/utils" "^0.11.1"
+    case "1.6.3"
+    dotty "0.1.2"
+
 "@osmonauts/ast@^0.64.1":
   version "0.64.1"
   resolved "https://registry.npmjs.org/@osmonauts/ast/-/ast-0.64.1.tgz"
@@ -5635,20 +5649,6 @@
     "@babel/types" "7.21.4"
     "@osmonauts/proto-parser" "^0.41.2"
     "@osmonauts/types" "^0.33.1"
-    "@osmonauts/utils" "^0.11.1"
-    case "1.6.3"
-    dotty "0.1.2"
-
-"@osmonauts/ast@^0.82.0":
-  version "0.82.0"
-  resolved "https://registry.npmmirror.com/@osmonauts/ast/-/ast-0.82.0.tgz#4c6cbc78f27047041b3b57768fbeef3812b2ab76"
-  integrity sha512-WgtjVYej6cuEA1Ur9n2NwO4wj45yI2UPxHY61RZIbTqDSwQWQA9OFRsvuYsA/F/ohLoQhvz+kBPSDflPSM7uTw==
-  dependencies:
-    "@babel/parser" "^7.21.4"
-    "@babel/runtime" "^7.21.0"
-    "@babel/types" "7.21.4"
-    "@osmonauts/proto-parser" "^0.43.0"
-    "@osmonauts/types" "^0.35.0"
     "@osmonauts/utils" "^0.11.1"
     case "1.6.3"
     dotty "0.1.2"
@@ -5820,6 +5820,15 @@
     parse-package-name "1.0.0"
     rimraf "3.0.2"
     shelljs "0.8.5"
+
+"@osmonauts/types@0.35.0":
+  version "0.35.0"
+  resolved "https://registry.npmjs.org/@osmonauts/types/-/types-0.35.0.tgz#1a1d2b1588e017fb9c04227d01a97be9c3b416ce"
+  integrity sha512-RHjc/hGpZ9Q0okWiRMO98V8NduFAB4YQIb0BwP9jQJC39R6uSBtYUGKuk6CxnMyitmA6JeMV0EslOoh/OX0Dyg==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@osmonauts/utils" "^0.11.1"
+    case "1.6.3"
 
 "@osmonauts/types@^0.24.0":
   version "0.24.0"
