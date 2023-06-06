@@ -1,21 +1,9 @@
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet } from "../../../helpers";
 export const protobufPackage = "cosmos.slashing.v1beta1";
 /** MsgUnjail defines the Msg/Unjail request type */
 export interface MsgUnjail {
   validatorAddr: string;
-}
-export interface MsgUnjailProtoMsg {
-  typeUrl: "/cosmos.slashing.v1beta1.MsgUnjail";
-  value: Uint8Array;
-}
-/** MsgUnjail defines the Msg/Unjail request type */
-export interface MsgUnjailAmino {
-  validator_addr: string;
-}
-export interface MsgUnjailAminoMsg {
-  type: "cosmos-sdk/MsgUnjail";
-  value: MsgUnjailAmino;
 }
 /** MsgUnjail defines the Msg/Unjail request type */
 export interface MsgUnjailSDKType {
@@ -23,16 +11,6 @@ export interface MsgUnjailSDKType {
 }
 /** MsgUnjailResponse defines the Msg/Unjail response type */
 export interface MsgUnjailResponse {}
-export interface MsgUnjailResponseProtoMsg {
-  typeUrl: "/cosmos.slashing.v1beta1.MsgUnjailResponse";
-  value: Uint8Array;
-}
-/** MsgUnjailResponse defines the Msg/Unjail response type */
-export interface MsgUnjailResponseAmino {}
-export interface MsgUnjailResponseAminoMsg {
-  type: "cosmos-sdk/MsgUnjailResponse";
-  value: MsgUnjailResponseAmino;
-}
 /** MsgUnjailResponse defines the Msg/Unjail response type */
 export interface MsgUnjailResponseSDKType {}
 function createBaseMsgUnjail(): MsgUnjail {
@@ -43,14 +21,14 @@ function createBaseMsgUnjail(): MsgUnjail {
 export const MsgUnjail = {
   typeUrl: "/cosmos.slashing.v1beta1.MsgUnjail",
   aminoType: "cosmos-sdk/MsgUnjail",
-  encode(message: MsgUnjail, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgUnjail, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.validatorAddr !== "") {
       writer.uint32(10).string(message.validatorAddr);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUnjail {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgUnjail {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUnjail();
     while (reader.pos < end) {
@@ -76,7 +54,7 @@ export const MsgUnjail = {
     message.validatorAddr !== undefined && (obj.validatorAddr = message.validatorAddr);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgUnjail>): MsgUnjail {
+  fromPartial(object: Partial<MsgUnjail>): MsgUnjail {
     const message = createBaseMsgUnjail();
     message.validatorAddr = object.validatorAddr ?? "";
     return message;
@@ -129,11 +107,11 @@ function createBaseMsgUnjailResponse(): MsgUnjailResponse {
 export const MsgUnjailResponse = {
   typeUrl: "/cosmos.slashing.v1beta1.MsgUnjailResponse",
   aminoType: "cosmos-sdk/MsgUnjailResponse",
-  encode(_: MsgUnjailResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgUnjailResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUnjailResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgUnjailResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUnjailResponse();
     while (reader.pos < end) {
@@ -153,7 +131,7 @@ export const MsgUnjailResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgUnjailResponse>): MsgUnjailResponse {
+  fromPartial(_: Partial<MsgUnjailResponse>): MsgUnjailResponse {
     const message = createBaseMsgUnjailResponse();
     return message;
   },

@@ -1,5 +1,6 @@
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, isObject } from "../../helpers";
+//@ts-nocheck
+import { BinaryReader, BinaryWriter } from "../../binary";
+import { isSet, isObject } from "../../helpers";
 export const protobufPackage = "google.protobuf";
 /**
  * `NullValue` is a singleton enumeration to represent the null value for the
@@ -13,7 +14,6 @@ export enum NullValue {
   UNRECOGNIZED = -1,
 }
 export const NullValueSDKType = NullValue;
-export const NullValueAmino = NullValue;
 export function nullValueFromJSON(object: any): NullValue {
   switch (object) {
     case 0:
@@ -38,18 +38,6 @@ export interface Struct_FieldsEntry {
   key: string;
   value?: Value;
 }
-export interface Struct_FieldsEntryProtoMsg {
-  typeUrl: string;
-  value: Uint8Array;
-}
-export interface Struct_FieldsEntryAmino {
-  key: string;
-  value?: ValueAmino;
-}
-export interface Struct_FieldsEntryAminoMsg {
-  type: string;
-  value: Struct_FieldsEntryAmino;
-}
 export interface Struct_FieldsEntrySDKType {
   key: string;
   value?: ValueSDKType;
@@ -69,30 +57,6 @@ export interface Struct {
   fields?: {
     [key: string]: Value;
   };
-}
-export interface StructProtoMsg {
-  typeUrl: "/google.protobuf.Struct";
-  value: Uint8Array;
-}
-/**
- * `Struct` represents a structured data value, consisting of fields
- * which map to dynamically typed values. In some languages, `Struct`
- * might be supported by a native representation. For example, in
- * scripting languages like JS a struct is represented as an
- * object. The details of that representation are described together
- * with the proto support for the language.
- * 
- * The JSON representation for `Struct` is JSON object.
- */
-export interface StructAmino {
-  /** Unordered map of dynamically typed values. */
-  fields?: {
-    [key: string]: ValueAmino;
-  };
-}
-export interface StructAminoMsg {
-  type: "/google.protobuf.Struct";
-  value: StructAmino;
 }
 /**
  * `Struct` represents a structured data value, consisting of fields
@@ -131,36 +95,6 @@ export interface Value {
   /** Represents a repeated `Value`. */
   listValue?: ListValue;
 }
-export interface ValueProtoMsg {
-  typeUrl: "/google.protobuf.Value";
-  value: Uint8Array;
-}
-/**
- * `Value` represents a dynamically typed value which can be either
- * null, a number, a string, a boolean, a recursive struct value, or a
- * list of values. A producer of value is expected to set one of that
- * variants, absence of any variant indicates an error.
- * 
- * The JSON representation for `Value` is JSON value.
- */
-export interface ValueAmino {
-  /** Represents a null value. */
-  null_value?: NullValue;
-  /** Represents a double value. */
-  number_value?: number;
-  /** Represents a string value. */
-  string_value?: string;
-  /** Represents a boolean value. */
-  bool_value?: boolean;
-  /** Represents a structured value. */
-  struct_value?: StructAmino;
-  /** Represents a repeated `Value`. */
-  list_value?: ListValueAmino;
-}
-export interface ValueAminoMsg {
-  type: "/google.protobuf.Value";
-  value: ValueAmino;
-}
 /**
  * `Value` represents a dynamically typed value which can be either
  * null, a number, a string, a boolean, a recursive struct value, or a
@@ -186,23 +120,6 @@ export interface ListValue {
   /** Repeated field of dynamically typed values. */
   values: Value[];
 }
-export interface ListValueProtoMsg {
-  typeUrl: "/google.protobuf.ListValue";
-  value: Uint8Array;
-}
-/**
- * `ListValue` is a wrapper around a repeated field of values.
- * 
- * The JSON representation for `ListValue` is JSON array.
- */
-export interface ListValueAmino {
-  /** Repeated field of dynamically typed values. */
-  values: ValueAmino[];
-}
-export interface ListValueAminoMsg {
-  type: "/google.protobuf.ListValue";
-  value: ListValueAmino;
-}
 /**
  * `ListValue` is a wrapper around a repeated field of values.
  * 
@@ -218,7 +135,7 @@ function createBaseStruct_FieldsEntry(): Struct_FieldsEntry {
   };
 }
 export const Struct_FieldsEntry = {
-  encode(message: Struct_FieldsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Struct_FieldsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -227,8 +144,8 @@ export const Struct_FieldsEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Struct_FieldsEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Struct_FieldsEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseStruct_FieldsEntry();
     while (reader.pos < end) {
@@ -259,7 +176,7 @@ export const Struct_FieldsEntry = {
     message.value !== undefined && (obj.value = message.value ? Value.toJSON(message.value) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<Struct_FieldsEntry>): Struct_FieldsEntry {
+  fromPartial(object: Partial<Struct_FieldsEntry>): Struct_FieldsEntry {
     const message = createBaseStruct_FieldsEntry();
     message.key = object.key ?? "";
     message.value = object.value !== undefined && object.value !== null ? Value.fromPartial(object.value) : undefined;
@@ -306,7 +223,7 @@ function createBaseStruct(): Struct {
 }
 export const Struct = {
   typeUrl: "/google.protobuf.Struct",
-  encode(message: Struct, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Struct, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     Object.entries(message.fields).forEach(([key, value]) => {
       Struct_FieldsEntry.encode({
         key: (key as any),
@@ -315,8 +232,8 @@ export const Struct = {
     });
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Struct {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Struct {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseStruct();
     while (reader.pos < end) {
@@ -355,7 +272,7 @@ export const Struct = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<Struct>): Struct {
+  fromPartial(object: Partial<Struct>): Struct {
     const message = createBaseStruct();
     message.fields = Object.entries(object.fields ?? {}).reduce<{
       [key: string]: Value;
@@ -435,7 +352,7 @@ function createBaseValue(): Value {
 }
 export const Value = {
   typeUrl: "/google.protobuf.Value",
-  encode(message: Value, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Value, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.nullValue !== undefined) {
       writer.uint32(8).int32(message.nullValue);
     }
@@ -456,8 +373,8 @@ export const Value = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Value {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Value {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseValue();
     while (reader.pos < end) {
@@ -508,7 +425,7 @@ export const Value = {
     message.listValue !== undefined && (obj.listValue = message.listValue ? ListValue.toJSON(message.listValue) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<Value>): Value {
+  fromPartial(object: Partial<Value>): Value {
     const message = createBaseValue();
     message.nullValue = object.nullValue ?? undefined;
     message.numberValue = object.numberValue ?? undefined;
@@ -581,14 +498,14 @@ function createBaseListValue(): ListValue {
 }
 export const ListValue = {
   typeUrl: "/google.protobuf.ListValue",
-  encode(message: ListValue, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListValue, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.values) {
       Value.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListValue {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListValue {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListValue();
     while (reader.pos < end) {
@@ -618,7 +535,7 @@ export const ListValue = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<ListValue>): ListValue {
+  fromPartial(object: Partial<ListValue>): ListValue {
     const message = createBaseListValue();
     message.values = object.values?.map(e => Value.fromPartial(e)) || [];
     return message;

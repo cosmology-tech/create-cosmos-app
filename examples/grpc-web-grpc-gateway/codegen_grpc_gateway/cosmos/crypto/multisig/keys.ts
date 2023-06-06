@@ -1,6 +1,6 @@
-import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../../helpers";
+import { Any, AnySDKType } from "../../../google/protobuf/any";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet } from "../../../helpers";
 export const protobufPackage = "cosmos.crypto.multisig";
 /**
  * LegacyAminoPubKey specifies a public key type
@@ -10,23 +10,6 @@ export const protobufPackage = "cosmos.crypto.multisig";
 export interface LegacyAminoPubKey {
   threshold: number;
   publicKeys: Any[];
-}
-export interface LegacyAminoPubKeyProtoMsg {
-  typeUrl: "/cosmos.crypto.multisig.LegacyAminoPubKey";
-  value: Uint8Array;
-}
-/**
- * LegacyAminoPubKey specifies a public key type
- * which nests multiple public keys and a threshold,
- * it uses legacy amino address rules.
- */
-export interface LegacyAminoPubKeyAmino {
-  threshold: number;
-  public_keys: AnyAmino[];
-}
-export interface LegacyAminoPubKeyAminoMsg {
-  type: "cosmos-sdk/LegacyAminoPubKey";
-  value: LegacyAminoPubKeyAmino;
 }
 /**
  * LegacyAminoPubKey specifies a public key type
@@ -46,7 +29,7 @@ function createBaseLegacyAminoPubKey(): LegacyAminoPubKey {
 export const LegacyAminoPubKey = {
   typeUrl: "/cosmos.crypto.multisig.LegacyAminoPubKey",
   aminoType: "cosmos-sdk/LegacyAminoPubKey",
-  encode(message: LegacyAminoPubKey, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: LegacyAminoPubKey, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.threshold !== 0) {
       writer.uint32(8).uint32(message.threshold);
     }
@@ -55,8 +38,8 @@ export const LegacyAminoPubKey = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): LegacyAminoPubKey {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): LegacyAminoPubKey {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseLegacyAminoPubKey();
     while (reader.pos < end) {
@@ -91,7 +74,7 @@ export const LegacyAminoPubKey = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<LegacyAminoPubKey>): LegacyAminoPubKey {
+  fromPartial(object: Partial<LegacyAminoPubKey>): LegacyAminoPubKey {
     const message = createBaseLegacyAminoPubKey();
     message.threshold = object.threshold ?? 0;
     message.publicKeys = object.publicKeys?.map(e => Any.fromPartial(e)) || [];

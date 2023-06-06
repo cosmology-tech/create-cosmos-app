@@ -1,7 +1,7 @@
-import { QuotaView, QuotaViewSDKType, QuotaOverride, QuotaOverrideAmino, QuotaOverrideSDKType, QuotaSafetyCheck, QuotaSafetyCheckSDKType, OverrideInlineSource, OverrideInlineSourceAmino, OverrideInlineSourceSDKType, Service, ServiceAmino, ServiceSDKType, ConsumerQuotaMetric, ConsumerQuotaMetricAmino, ConsumerQuotaMetricSDKType, AdminQuotaPolicy, AdminQuotaPolicyAmino, AdminQuotaPolicySDKType, ServiceIdentity, ServiceIdentityAmino, ServiceIdentitySDKType, quotaViewFromJSON, quotaViewToJSON, quotaSafetyCheckFromJSON, quotaSafetyCheckToJSON } from "./resources";
-import { FieldMask, FieldMaskAmino, FieldMaskSDKType } from "../../../protobuf/field_mask";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../../../helpers";
+import { QuotaView, QuotaOverride, QuotaOverrideSDKType, QuotaSafetyCheck, OverrideInlineSource, OverrideInlineSourceSDKType, Service, ServiceSDKType, ConsumerQuotaMetric, ConsumerQuotaMetricSDKType, AdminQuotaPolicy, AdminQuotaPolicySDKType, ServiceIdentity, ServiceIdentitySDKType, quotaViewFromJSON, quotaViewToJSON, quotaSafetyCheckFromJSON, quotaSafetyCheckToJSON } from "./resources";
+import { FieldMask, FieldMaskSDKType } from "../../../protobuf/field_mask";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet } from "../../../../helpers";
 export const protobufPackage = "google.api.serviceusage.v1beta1";
 /** Enum for service identity state. */
 export enum GetServiceIdentityResponse_IdentityState {
@@ -15,7 +15,6 @@ export enum GetServiceIdentityResponse_IdentityState {
   UNRECOGNIZED = -1,
 }
 export const GetServiceIdentityResponse_IdentityStateSDKType = GetServiceIdentityResponse_IdentityState;
-export const GetServiceIdentityResponse_IdentityStateAmino = GetServiceIdentityResponse_IdentityState;
 export function getServiceIdentityResponse_IdentityStateFromJSON(object: any): GetServiceIdentityResponse_IdentityState {
   switch (object) {
     case 0:
@@ -58,31 +57,6 @@ export interface EnableServiceRequest {
    */
   name: string;
 }
-export interface EnableServiceRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.EnableServiceRequest";
-  value: Uint8Array;
-}
-/** Request message for the `EnableService` method. */
-export interface EnableServiceRequestAmino {
-  /**
-   * Name of the consumer and service to enable the service on.
-   * 
-   * The `EnableService` and `DisableService` methods currently only support
-   * projects.
-   * 
-   * Enabling a service requires that the service is public or is shared with
-   * the user enabling the service.
-   * 
-   * An example name would be:
-   * `projects/123/services/serviceusage.googleapis.com`
-   * where `123` is the project number (not project ID).
-   */
-  name: string;
-}
-export interface EnableServiceRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.EnableServiceRequest";
-  value: EnableServiceRequestAmino;
-}
 /** Request message for the `EnableService` method. */
 export interface EnableServiceRequestSDKType {
   name: string;
@@ -100,27 +74,6 @@ export interface DisableServiceRequest {
    */
   name: string;
 }
-export interface DisableServiceRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.DisableServiceRequest";
-  value: Uint8Array;
-}
-/** Request message for the `DisableService` method. */
-export interface DisableServiceRequestAmino {
-  /**
-   * Name of the consumer and service to disable the service on.
-   * 
-   * The enable and disable methods currently only support projects.
-   * 
-   * An example name would be:
-   * `projects/123/services/serviceusage.googleapis.com`
-   * where `123` is the project number (not project ID).
-   */
-  name: string;
-}
-export interface DisableServiceRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.DisableServiceRequest";
-  value: DisableServiceRequestAmino;
-}
 /** Request message for the `DisableService` method. */
 export interface DisableServiceRequestSDKType {
   name: string;
@@ -135,25 +88,6 @@ export interface GetServiceRequest {
    * where `123` is the project number (not project ID).
    */
   name: string;
-}
-export interface GetServiceRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.GetServiceRequest";
-  value: Uint8Array;
-}
-/** Request message for the `GetService` method. */
-export interface GetServiceRequestAmino {
-  /**
-   * Name of the consumer and service to get the `ConsumerState` for.
-   * 
-   * An example name would be:
-   * `projects/123/services/serviceusage.googleapis.com`
-   * where `123` is the project number (not project ID).
-   */
-  name: string;
-}
-export interface GetServiceRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.GetServiceRequest";
-  value: GetServiceRequestAmino;
 }
 /** Request message for the `GetService` method. */
 export interface GetServiceRequestSDKType {
@@ -186,41 +120,6 @@ export interface ListServicesRequest {
    */
   filter: string;
 }
-export interface ListServicesRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ListServicesRequest";
-  value: Uint8Array;
-}
-/** Request message for the `ListServices` method. */
-export interface ListServicesRequestAmino {
-  /**
-   * Parent to search for services on.
-   * 
-   * An example name would be:
-   * `projects/123`
-   * where `123` is the project number (not project ID).
-   */
-  parent: string;
-  /**
-   * Requested size of the next page of data.
-   * Requested page size cannot exceed 200.
-   *  If not set, the default page size is 50.
-   */
-  page_size: number;
-  /**
-   * Token identifying which result to start with, which is returned by a
-   * previous list call.
-   */
-  page_token: string;
-  /**
-   * Only list services that conform to the given filter.
-   * The allowed filter strings are `state:ENABLED` and `state:DISABLED`.
-   */
-  filter: string;
-}
-export interface ListServicesRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ListServicesRequest";
-  value: ListServicesRequestAmino;
-}
 /** Request message for the `ListServices` method. */
 export interface ListServicesRequestSDKType {
   parent: string;
@@ -237,24 +136,6 @@ export interface ListServicesResponse {
    * query.
    */
   nextPageToken: string;
-}
-export interface ListServicesResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ListServicesResponse";
-  value: Uint8Array;
-}
-/** Response message for the `ListServices` method. */
-export interface ListServicesResponseAmino {
-  /** The available services for the requested project. */
-  services: ServiceAmino[];
-  /**
-   * Token that can be passed to `ListServices` to resume a paginated
-   * query.
-   */
-  next_page_token: string;
-}
-export interface ListServicesResponseAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ListServicesResponse";
-  value: ListServicesResponseAmino;
 }
 /** Response message for the `ListServices` method. */
 export interface ListServicesResponseSDKType {
@@ -291,44 +172,6 @@ export interface BatchEnableServicesRequest {
    */
   serviceIds: string[];
 }
-export interface BatchEnableServicesRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.BatchEnableServicesRequest";
-  value: Uint8Array;
-}
-/** Request message for the `BatchEnableServices` method. */
-export interface BatchEnableServicesRequestAmino {
-  /**
-   * Parent to enable services on.
-   * 
-   * An example name would be:
-   * `projects/123`
-   * where `123` is the project number (not project ID).
-   * 
-   * The `BatchEnableServices` method currently only supports projects.
-   */
-  parent: string;
-  /**
-   * The identifiers of the services to enable on the project.
-   * 
-   * A valid identifier would be:
-   * serviceusage.googleapis.com
-   * 
-   * Enabling services requires that each service is public or is shared with
-   * the user enabling the service.
-   * 
-   * Two or more services must be specified. To enable a single service,
-   * use the `EnableService` method instead.
-   * 
-   * A single request can enable a maximum of 20 services at a time. If more
-   * than 20 services are specified, the request will fail, and no state changes
-   * will occur.
-   */
-  service_ids: string[];
-}
-export interface BatchEnableServicesRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.BatchEnableServicesRequest";
-  value: BatchEnableServicesRequestAmino;
-}
 /** Request message for the `BatchEnableServices` method. */
 export interface BatchEnableServicesRequestSDKType {
   parent: string;
@@ -355,35 +198,6 @@ export interface ListConsumerQuotaMetricsRequest {
   /** Specifies the level of detail for quota information in the response. */
   view: QuotaView;
 }
-export interface ListConsumerQuotaMetricsRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerQuotaMetricsRequest";
-  value: Uint8Array;
-}
-/** Request message for ListConsumerQuotaMetrics */
-export interface ListConsumerQuotaMetricsRequestAmino {
-  /**
-   * Parent of the quotas resource.
-   * 
-   * Some example names would be:
-   * `projects/123/services/serviceconsumermanagement.googleapis.com`
-   * `folders/345/services/serviceconsumermanagement.googleapis.com`
-   * `organizations/456/services/serviceconsumermanagement.googleapis.com`
-   */
-  parent: string;
-  /** Requested size of the next page of data. */
-  page_size: number;
-  /**
-   * Token identifying which result to start with; returned by a previous list
-   * call.
-   */
-  page_token: string;
-  /** Specifies the level of detail for quota information in the response. */
-  view: QuotaView;
-}
-export interface ListConsumerQuotaMetricsRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ListConsumerQuotaMetricsRequest";
-  value: ListConsumerQuotaMetricsRequestAmino;
-}
 /** Request message for ListConsumerQuotaMetrics */
 export interface ListConsumerQuotaMetricsRequestSDKType {
   parent: string;
@@ -400,24 +214,6 @@ export interface ListConsumerQuotaMetricsResponse {
    * call.
    */
   nextPageToken: string;
-}
-export interface ListConsumerQuotaMetricsResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerQuotaMetricsResponse";
-  value: Uint8Array;
-}
-/** Response message for ListConsumerQuotaMetrics */
-export interface ListConsumerQuotaMetricsResponseAmino {
-  /** Quota settings for the consumer, organized by quota metric. */
-  metrics: ConsumerQuotaMetricAmino[];
-  /**
-   * Token identifying which result to start with; returned by a previous list
-   * call.
-   */
-  next_page_token: string;
-}
-export interface ListConsumerQuotaMetricsResponseAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ListConsumerQuotaMetricsResponse";
-  value: ListConsumerQuotaMetricsResponseAmino;
 }
 /** Response message for ListConsumerQuotaMetrics */
 export interface ListConsumerQuotaMetricsResponseSDKType {
@@ -436,26 +232,6 @@ export interface GetConsumerQuotaMetricRequest {
   /** Specifies the level of detail for quota information in the response. */
   view: QuotaView;
 }
-export interface GetConsumerQuotaMetricRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.GetConsumerQuotaMetricRequest";
-  value: Uint8Array;
-}
-/** Request message for GetConsumerQuotaMetric */
-export interface GetConsumerQuotaMetricRequestAmino {
-  /**
-   * The resource name of the quota limit.
-   * 
-   * An example name would be:
-   * `projects/123/services/serviceusage.googleapis.com/quotas/metrics/serviceusage.googleapis.com%2Fmutate_requests`
-   */
-  name: string;
-  /** Specifies the level of detail for quota information in the response. */
-  view: QuotaView;
-}
-export interface GetConsumerQuotaMetricRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.GetConsumerQuotaMetricRequest";
-  value: GetConsumerQuotaMetricRequestAmino;
-}
 /** Request message for GetConsumerQuotaMetric */
 export interface GetConsumerQuotaMetricRequestSDKType {
   name: string;
@@ -472,26 +248,6 @@ export interface GetConsumerQuotaLimitRequest {
   name: string;
   /** Specifies the level of detail for quota information in the response. */
   view: QuotaView;
-}
-export interface GetConsumerQuotaLimitRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.GetConsumerQuotaLimitRequest";
-  value: Uint8Array;
-}
-/** Request message for GetConsumerQuotaLimit */
-export interface GetConsumerQuotaLimitRequestAmino {
-  /**
-   * The resource name of the quota limit.
-   * 
-   * Use the quota limit resource name returned by previous
-   * ListConsumerQuotaMetrics and GetConsumerQuotaMetric API calls.
-   */
-  name: string;
-  /** Specifies the level of detail for quota information in the response. */
-  view: QuotaView;
-}
-export interface GetConsumerQuotaLimitRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.GetConsumerQuotaLimitRequest";
-  value: GetConsumerQuotaLimitRequestAmino;
 }
 /** Request message for GetConsumerQuotaLimit */
 export interface GetConsumerQuotaLimitRequestSDKType {
@@ -523,40 +279,6 @@ export interface CreateAdminOverrideRequest {
    * still enforced. The 'force' and 'force_only' fields cannot both be set.
    */
   forceOnly: QuotaSafetyCheck[];
-}
-export interface CreateAdminOverrideRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.CreateAdminOverrideRequest";
-  value: Uint8Array;
-}
-/** Request message for CreateAdminOverride. */
-export interface CreateAdminOverrideRequestAmino {
-  /**
-   * The resource name of the parent quota limit, returned by a
-   * ListConsumerQuotaMetrics or GetConsumerQuotaMetric call.
-   * 
-   * An example name would be:
-   * `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion`
-   */
-  parent: string;
-  /** The admin override to create. */
-  override?: QuotaOverrideAmino;
-  /**
-   * Whether to force the creation of the quota override.
-   * Setting the force parameter to 'true' ignores all quota safety checks that
-   * would fail the request. QuotaSafetyCheck lists all such validations.
-   */
-  force: boolean;
-  /**
-   * The list of quota safety checks to ignore before the override mutation.
-   * Unlike 'force' field that ignores all the quota safety checks, the
-   * 'force_only' field ignores only the specified checks; other checks are
-   * still enforced. The 'force' and 'force_only' fields cannot both be set.
-   */
-  force_only: QuotaSafetyCheck[];
-}
-export interface CreateAdminOverrideRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.CreateAdminOverrideRequest";
-  value: CreateAdminOverrideRequestAmino;
 }
 /** Request message for CreateAdminOverride. */
 export interface CreateAdminOverrideRequestSDKType {
@@ -598,47 +320,6 @@ export interface UpdateAdminOverrideRequest {
    */
   forceOnly: QuotaSafetyCheck[];
 }
-export interface UpdateAdminOverrideRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.UpdateAdminOverrideRequest";
-  value: Uint8Array;
-}
-/** Request message for UpdateAdminOverride. */
-export interface UpdateAdminOverrideRequestAmino {
-  /**
-   * The resource name of the override to update.
-   * 
-   * An example name would be:
-   * `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/adminOverrides/4a3f2c1d`
-   */
-  name: string;
-  /**
-   * The new override.
-   * Only the override_value is updated; all other fields are ignored.
-   */
-  override?: QuotaOverrideAmino;
-  /**
-   * Whether to force the update of the quota override.
-   * Setting the force parameter to 'true' ignores all quota safety checks that
-   * would fail the request. QuotaSafetyCheck lists all such validations.
-   */
-  force: boolean;
-  /**
-   * Update only the specified fields of the override.
-   * If unset, all fields will be updated.
-   */
-  update_mask?: FieldMaskAmino;
-  /**
-   * The list of quota safety checks to ignore before the override mutation.
-   * Unlike 'force' field that ignores all the quota safety checks, the
-   * 'force_only' field ignores only the specified checks; other checks are
-   * still enforced. The 'force' and 'force_only' fields cannot both be set.
-   */
-  force_only: QuotaSafetyCheck[];
-}
-export interface UpdateAdminOverrideRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.UpdateAdminOverrideRequest";
-  value: UpdateAdminOverrideRequestAmino;
-}
 /** Request message for UpdateAdminOverride. */
 export interface UpdateAdminOverrideRequestSDKType {
   name: string;
@@ -670,37 +351,6 @@ export interface DeleteAdminOverrideRequest {
    */
   forceOnly: QuotaSafetyCheck[];
 }
-export interface DeleteAdminOverrideRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.DeleteAdminOverrideRequest";
-  value: Uint8Array;
-}
-/** Request message for DeleteAdminOverride. */
-export interface DeleteAdminOverrideRequestAmino {
-  /**
-   * The resource name of the override to delete.
-   * 
-   * An example name would be:
-   * `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/adminOverrides/4a3f2c1d`
-   */
-  name: string;
-  /**
-   * Whether to force the deletion of the quota override.
-   * Setting the force parameter to 'true' ignores all quota safety checks that
-   * would fail the request. QuotaSafetyCheck lists all such validations.
-   */
-  force: boolean;
-  /**
-   * The list of quota safety checks to ignore before the override mutation.
-   * Unlike 'force' field that ignores all the quota safety checks, the
-   * 'force_only' field ignores only the specified checks; other checks are
-   * still enforced. The 'force' and 'force_only' fields cannot both be set.
-   */
-  force_only: QuotaSafetyCheck[];
-}
-export interface DeleteAdminOverrideRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.DeleteAdminOverrideRequest";
-  value: DeleteAdminOverrideRequestAmino;
-}
 /** Request message for DeleteAdminOverride. */
 export interface DeleteAdminOverrideRequestSDKType {
   name: string;
@@ -725,32 +375,6 @@ export interface ListAdminOverridesRequest {
    */
   pageToken: string;
 }
-export interface ListAdminOverridesRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ListAdminOverridesRequest";
-  value: Uint8Array;
-}
-/** Request message for ListAdminOverrides */
-export interface ListAdminOverridesRequestAmino {
-  /**
-   * The resource name of the parent quota limit, returned by a
-   * ListConsumerQuotaMetrics or GetConsumerQuotaMetric call.
-   * 
-   * An example name would be:
-   * `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion`
-   */
-  parent: string;
-  /** Requested size of the next page of data. */
-  page_size: number;
-  /**
-   * Token identifying which result to start with; returned by a previous list
-   * call.
-   */
-  page_token: string;
-}
-export interface ListAdminOverridesRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ListAdminOverridesRequest";
-  value: ListAdminOverridesRequestAmino;
-}
 /** Request message for ListAdminOverrides */
 export interface ListAdminOverridesRequestSDKType {
   parent: string;
@@ -767,24 +391,6 @@ export interface ListAdminOverridesResponse {
    */
   nextPageToken: string;
 }
-export interface ListAdminOverridesResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ListAdminOverridesResponse";
-  value: Uint8Array;
-}
-/** Response message for ListAdminOverrides. */
-export interface ListAdminOverridesResponseAmino {
-  /** Admin overrides on this limit. */
-  overrides: QuotaOverrideAmino[];
-  /**
-   * Token identifying which result to start with; returned by a previous list
-   * call.
-   */
-  next_page_token: string;
-}
-export interface ListAdminOverridesResponseAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ListAdminOverridesResponse";
-  value: ListAdminOverridesResponseAmino;
-}
 /** Response message for ListAdminOverrides. */
 export interface ListAdminOverridesResponseSDKType {
   overrides: QuotaOverrideSDKType[];
@@ -794,19 +400,6 @@ export interface ListAdminOverridesResponseSDKType {
 export interface BatchCreateAdminOverridesResponse {
   /** The overrides that were created. */
   overrides: QuotaOverride[];
-}
-export interface BatchCreateAdminOverridesResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.BatchCreateAdminOverridesResponse";
-  value: Uint8Array;
-}
-/** Response message for BatchCreateAdminOverrides */
-export interface BatchCreateAdminOverridesResponseAmino {
-  /** The overrides that were created. */
-  overrides: QuotaOverrideAmino[];
-}
-export interface BatchCreateAdminOverridesResponseAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.BatchCreateAdminOverridesResponse";
-  value: BatchCreateAdminOverridesResponseAmino;
 }
 /** Response message for BatchCreateAdminOverrides */
 export interface BatchCreateAdminOverridesResponseSDKType {
@@ -837,39 +430,6 @@ export interface ImportAdminOverridesRequest {
    */
   forceOnly: QuotaSafetyCheck[];
 }
-export interface ImportAdminOverridesRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminOverridesRequest";
-  value: Uint8Array;
-}
-/** Request message for ImportAdminOverrides */
-export interface ImportAdminOverridesRequestAmino {
-  /**
-   * The resource name of the consumer.
-   * 
-   * An example name would be:
-   * `projects/123/services/compute.googleapis.com`
-   */
-  parent: string;
-  /** The import data is specified in the request message itself */
-  inline_source?: OverrideInlineSourceAmino;
-  /**
-   * Whether to force the creation of the quota overrides.
-   * Setting the force parameter to 'true' ignores all quota safety checks that
-   * would fail the request. QuotaSafetyCheck lists all such validations.
-   */
-  force: boolean;
-  /**
-   * The list of quota safety checks to ignore before the override mutation.
-   * Unlike 'force' field that ignores all the quota safety checks, the
-   * 'force_only' field ignores only the specified checks; other checks are
-   * still enforced. The 'force' and 'force_only' fields cannot both be set.
-   */
-  force_only: QuotaSafetyCheck[];
-}
-export interface ImportAdminOverridesRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ImportAdminOverridesRequest";
-  value: ImportAdminOverridesRequestAmino;
-}
 /** Request message for ImportAdminOverrides */
 export interface ImportAdminOverridesRequestSDKType {
   parent: string;
@@ -882,19 +442,6 @@ export interface ImportAdminOverridesResponse {
   /** The overrides that were created from the imported data. */
   overrides: QuotaOverride[];
 }
-export interface ImportAdminOverridesResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminOverridesResponse";
-  value: Uint8Array;
-}
-/** Response message for ImportAdminOverrides */
-export interface ImportAdminOverridesResponseAmino {
-  /** The overrides that were created from the imported data. */
-  overrides: QuotaOverrideAmino[];
-}
-export interface ImportAdminOverridesResponseAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ImportAdminOverridesResponse";
-  value: ImportAdminOverridesResponseAmino;
-}
 /** Response message for ImportAdminOverrides */
 export interface ImportAdminOverridesResponseSDKType {
   overrides: QuotaOverrideSDKType[];
@@ -905,20 +452,6 @@ export interface ImportAdminOverridesResponseSDKType {
  * of LRO returned by ImportAdminOverrides.
  */
 export interface ImportAdminOverridesMetadata {}
-export interface ImportAdminOverridesMetadataProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminOverridesMetadata";
-  value: Uint8Array;
-}
-/**
- * Metadata message that provides information such as progress,
- * partial failures, and similar information on each GetOperation call
- * of LRO returned by ImportAdminOverrides.
- */
-export interface ImportAdminOverridesMetadataAmino {}
-export interface ImportAdminOverridesMetadataAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ImportAdminOverridesMetadata";
-  value: ImportAdminOverridesMetadataAmino;
-}
 /**
  * Metadata message that provides information such as progress,
  * partial failures, and similar information on each GetOperation call
@@ -950,40 +483,6 @@ export interface CreateConsumerOverrideRequest {
    * still enforced. The 'force' and 'force_only' fields cannot both be set.
    */
   forceOnly: QuotaSafetyCheck[];
-}
-export interface CreateConsumerOverrideRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.CreateConsumerOverrideRequest";
-  value: Uint8Array;
-}
-/** Request message for CreateConsumerOverride. */
-export interface CreateConsumerOverrideRequestAmino {
-  /**
-   * The resource name of the parent quota limit, returned by a
-   * ListConsumerQuotaMetrics or GetConsumerQuotaMetric call.
-   * 
-   * An example name would be:
-   * `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion`
-   */
-  parent: string;
-  /** The override to create. */
-  override?: QuotaOverrideAmino;
-  /**
-   * Whether to force the creation of the quota override.
-   * Setting the force parameter to 'true' ignores all quota safety checks that
-   * would fail the request. QuotaSafetyCheck lists all such validations.
-   */
-  force: boolean;
-  /**
-   * The list of quota safety checks to ignore before the override mutation.
-   * Unlike 'force' field that ignores all the quota safety checks, the
-   * 'force_only' field ignores only the specified checks; other checks are
-   * still enforced. The 'force' and 'force_only' fields cannot both be set.
-   */
-  force_only: QuotaSafetyCheck[];
-}
-export interface CreateConsumerOverrideRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.CreateConsumerOverrideRequest";
-  value: CreateConsumerOverrideRequestAmino;
 }
 /** Request message for CreateConsumerOverride. */
 export interface CreateConsumerOverrideRequestSDKType {
@@ -1025,47 +524,6 @@ export interface UpdateConsumerOverrideRequest {
    */
   forceOnly: QuotaSafetyCheck[];
 }
-export interface UpdateConsumerOverrideRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.UpdateConsumerOverrideRequest";
-  value: Uint8Array;
-}
-/** Request message for UpdateConsumerOverride. */
-export interface UpdateConsumerOverrideRequestAmino {
-  /**
-   * The resource name of the override to update.
-   * 
-   * An example name would be:
-   * `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/consumerOverrides/4a3f2c1d`
-   */
-  name: string;
-  /**
-   * The new override.
-   * Only the override_value is updated; all other fields are ignored.
-   */
-  override?: QuotaOverrideAmino;
-  /**
-   * Whether to force the update of the quota override.
-   * Setting the force parameter to 'true' ignores all quota safety checks that
-   * would fail the request. QuotaSafetyCheck lists all such validations.
-   */
-  force: boolean;
-  /**
-   * Update only the specified fields of the override.
-   * If unset, all fields will be updated.
-   */
-  update_mask?: FieldMaskAmino;
-  /**
-   * The list of quota safety checks to ignore before the override mutation.
-   * Unlike 'force' field that ignores all the quota safety checks, the
-   * 'force_only' field ignores only the specified checks; other checks are
-   * still enforced. The 'force' and 'force_only' fields cannot both be set.
-   */
-  force_only: QuotaSafetyCheck[];
-}
-export interface UpdateConsumerOverrideRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.UpdateConsumerOverrideRequest";
-  value: UpdateConsumerOverrideRequestAmino;
-}
 /** Request message for UpdateConsumerOverride. */
 export interface UpdateConsumerOverrideRequestSDKType {
   name: string;
@@ -1097,37 +555,6 @@ export interface DeleteConsumerOverrideRequest {
    */
   forceOnly: QuotaSafetyCheck[];
 }
-export interface DeleteConsumerOverrideRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.DeleteConsumerOverrideRequest";
-  value: Uint8Array;
-}
-/** Request message for DeleteConsumerOverride. */
-export interface DeleteConsumerOverrideRequestAmino {
-  /**
-   * The resource name of the override to delete.
-   * 
-   * An example name would be:
-   * `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/consumerOverrides/4a3f2c1d`
-   */
-  name: string;
-  /**
-   * Whether to force the deletion of the quota override.
-   * Setting the force parameter to 'true' ignores all quota safety checks that
-   * would fail the request. QuotaSafetyCheck lists all such validations.
-   */
-  force: boolean;
-  /**
-   * The list of quota safety checks to ignore before the override mutation.
-   * Unlike 'force' field that ignores all the quota safety checks, the
-   * 'force_only' field ignores only the specified checks; other checks are
-   * still enforced. The 'force' and 'force_only' fields cannot both be set.
-   */
-  force_only: QuotaSafetyCheck[];
-}
-export interface DeleteConsumerOverrideRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.DeleteConsumerOverrideRequest";
-  value: DeleteConsumerOverrideRequestAmino;
-}
 /** Request message for DeleteConsumerOverride. */
 export interface DeleteConsumerOverrideRequestSDKType {
   name: string;
@@ -1152,32 +579,6 @@ export interface ListConsumerOverridesRequest {
    */
   pageToken: string;
 }
-export interface ListConsumerOverridesRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerOverridesRequest";
-  value: Uint8Array;
-}
-/** Request message for ListConsumerOverrides */
-export interface ListConsumerOverridesRequestAmino {
-  /**
-   * The resource name of the parent quota limit, returned by a
-   * ListConsumerQuotaMetrics or GetConsumerQuotaMetric call.
-   * 
-   * An example name would be:
-   * `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion`
-   */
-  parent: string;
-  /** Requested size of the next page of data. */
-  page_size: number;
-  /**
-   * Token identifying which result to start with; returned by a previous list
-   * call.
-   */
-  page_token: string;
-}
-export interface ListConsumerOverridesRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ListConsumerOverridesRequest";
-  value: ListConsumerOverridesRequestAmino;
-}
 /** Request message for ListConsumerOverrides */
 export interface ListConsumerOverridesRequestSDKType {
   parent: string;
@@ -1194,24 +595,6 @@ export interface ListConsumerOverridesResponse {
    */
   nextPageToken: string;
 }
-export interface ListConsumerOverridesResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerOverridesResponse";
-  value: Uint8Array;
-}
-/** Response message for ListConsumerOverrides. */
-export interface ListConsumerOverridesResponseAmino {
-  /** Consumer overrides on this limit. */
-  overrides: QuotaOverrideAmino[];
-  /**
-   * Token identifying which result to start with; returned by a previous list
-   * call.
-   */
-  next_page_token: string;
-}
-export interface ListConsumerOverridesResponseAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ListConsumerOverridesResponse";
-  value: ListConsumerOverridesResponseAmino;
-}
 /** Response message for ListConsumerOverrides. */
 export interface ListConsumerOverridesResponseSDKType {
   overrides: QuotaOverrideSDKType[];
@@ -1221,19 +604,6 @@ export interface ListConsumerOverridesResponseSDKType {
 export interface BatchCreateConsumerOverridesResponse {
   /** The overrides that were created. */
   overrides: QuotaOverride[];
-}
-export interface BatchCreateConsumerOverridesResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.BatchCreateConsumerOverridesResponse";
-  value: Uint8Array;
-}
-/** Response message for BatchCreateConsumerOverrides */
-export interface BatchCreateConsumerOverridesResponseAmino {
-  /** The overrides that were created. */
-  overrides: QuotaOverrideAmino[];
-}
-export interface BatchCreateConsumerOverridesResponseAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.BatchCreateConsumerOverridesResponse";
-  value: BatchCreateConsumerOverridesResponseAmino;
 }
 /** Response message for BatchCreateConsumerOverrides */
 export interface BatchCreateConsumerOverridesResponseSDKType {
@@ -1264,39 +634,6 @@ export interface ImportConsumerOverridesRequest {
    */
   forceOnly: QuotaSafetyCheck[];
 }
-export interface ImportConsumerOverridesRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesRequest";
-  value: Uint8Array;
-}
-/** Request message for ImportConsumerOverrides */
-export interface ImportConsumerOverridesRequestAmino {
-  /**
-   * The resource name of the consumer.
-   * 
-   * An example name would be:
-   * `projects/123/services/compute.googleapis.com`
-   */
-  parent: string;
-  /** The import data is specified in the request message itself */
-  inline_source?: OverrideInlineSourceAmino;
-  /**
-   * Whether to force the creation of the quota overrides.
-   * Setting the force parameter to 'true' ignores all quota safety checks that
-   * would fail the request. QuotaSafetyCheck lists all such validations.
-   */
-  force: boolean;
-  /**
-   * The list of quota safety checks to ignore before the override mutation.
-   * Unlike 'force' field that ignores all the quota safety checks, the
-   * 'force_only' field ignores only the specified checks; other checks are
-   * still enforced. The 'force' and 'force_only' fields cannot both be set.
-   */
-  force_only: QuotaSafetyCheck[];
-}
-export interface ImportConsumerOverridesRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesRequest";
-  value: ImportConsumerOverridesRequestAmino;
-}
 /** Request message for ImportConsumerOverrides */
 export interface ImportConsumerOverridesRequestSDKType {
   parent: string;
@@ -1309,19 +646,6 @@ export interface ImportConsumerOverridesResponse {
   /** The overrides that were created from the imported data. */
   overrides: QuotaOverride[];
 }
-export interface ImportConsumerOverridesResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesResponse";
-  value: Uint8Array;
-}
-/** Response message for ImportConsumerOverrides */
-export interface ImportConsumerOverridesResponseAmino {
-  /** The overrides that were created from the imported data. */
-  overrides: QuotaOverrideAmino[];
-}
-export interface ImportConsumerOverridesResponseAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesResponse";
-  value: ImportConsumerOverridesResponseAmino;
-}
 /** Response message for ImportConsumerOverrides */
 export interface ImportConsumerOverridesResponseSDKType {
   overrides: QuotaOverrideSDKType[];
@@ -1332,20 +656,6 @@ export interface ImportConsumerOverridesResponseSDKType {
  * of LRO returned by ImportConsumerOverrides.
  */
 export interface ImportConsumerOverridesMetadata {}
-export interface ImportConsumerOverridesMetadataProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesMetadata";
-  value: Uint8Array;
-}
-/**
- * Metadata message that provides information such as progress,
- * partial failures, and similar information on each GetOperation call
- * of LRO returned by ImportConsumerOverrides.
- */
-export interface ImportConsumerOverridesMetadataAmino {}
-export interface ImportConsumerOverridesMetadataAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesMetadata";
-  value: ImportConsumerOverridesMetadataAmino;
-}
 /**
  * Metadata message that provides information such as progress,
  * partial failures, and similar information on each GetOperation call
@@ -1357,19 +667,6 @@ export interface ImportAdminQuotaPoliciesResponse {
   /** The policies that were created from the imported data. */
   policies: AdminQuotaPolicy[];
 }
-export interface ImportAdminQuotaPoliciesResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminQuotaPoliciesResponse";
-  value: Uint8Array;
-}
-/** Response message for ImportAdminQuotaPolicies */
-export interface ImportAdminQuotaPoliciesResponseAmino {
-  /** The policies that were created from the imported data. */
-  policies: AdminQuotaPolicyAmino[];
-}
-export interface ImportAdminQuotaPoliciesResponseAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ImportAdminQuotaPoliciesResponse";
-  value: ImportAdminQuotaPoliciesResponseAmino;
-}
 /** Response message for ImportAdminQuotaPolicies */
 export interface ImportAdminQuotaPoliciesResponseSDKType {
   policies: AdminQuotaPolicySDKType[];
@@ -1380,20 +677,6 @@ export interface ImportAdminQuotaPoliciesResponseSDKType {
  * of LRO returned by ImportAdminQuotaPolicies.
  */
 export interface ImportAdminQuotaPoliciesMetadata {}
-export interface ImportAdminQuotaPoliciesMetadataProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminQuotaPoliciesMetadata";
-  value: Uint8Array;
-}
-/**
- * Metadata message that provides information such as progress,
- * partial failures, and similar information on each GetOperation call
- * of LRO returned by ImportAdminQuotaPolicies.
- */
-export interface ImportAdminQuotaPoliciesMetadataAmino {}
-export interface ImportAdminQuotaPoliciesMetadataAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ImportAdminQuotaPoliciesMetadata";
-  value: ImportAdminQuotaPoliciesMetadataAmino;
-}
 /**
  * Metadata message that provides information such as progress,
  * partial failures, and similar information on each GetOperation call
@@ -1406,20 +689,6 @@ export interface ImportAdminQuotaPoliciesMetadataSDKType {}
  * of LRO returned by CreateAdminQuotaPolicy.
  */
 export interface CreateAdminQuotaPolicyMetadata {}
-export interface CreateAdminQuotaPolicyMetadataProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.CreateAdminQuotaPolicyMetadata";
-  value: Uint8Array;
-}
-/**
- * Metadata message that provides information such as progress,
- * partial failures, and similar information on each GetOperation call
- * of LRO returned by CreateAdminQuotaPolicy.
- */
-export interface CreateAdminQuotaPolicyMetadataAmino {}
-export interface CreateAdminQuotaPolicyMetadataAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.CreateAdminQuotaPolicyMetadata";
-  value: CreateAdminQuotaPolicyMetadataAmino;
-}
 /**
  * Metadata message that provides information such as progress,
  * partial failures, and similar information on each GetOperation call
@@ -1432,20 +701,6 @@ export interface CreateAdminQuotaPolicyMetadataSDKType {}
  * of LRO returned by UpdateAdminQuotaPolicy.
  */
 export interface UpdateAdminQuotaPolicyMetadata {}
-export interface UpdateAdminQuotaPolicyMetadataProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.UpdateAdminQuotaPolicyMetadata";
-  value: Uint8Array;
-}
-/**
- * Metadata message that provides information such as progress,
- * partial failures, and similar information on each GetOperation call
- * of LRO returned by UpdateAdminQuotaPolicy.
- */
-export interface UpdateAdminQuotaPolicyMetadataAmino {}
-export interface UpdateAdminQuotaPolicyMetadataAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.UpdateAdminQuotaPolicyMetadata";
-  value: UpdateAdminQuotaPolicyMetadataAmino;
-}
 /**
  * Metadata message that provides information such as progress,
  * partial failures, and similar information on each GetOperation call
@@ -1458,20 +713,6 @@ export interface UpdateAdminQuotaPolicyMetadataSDKType {}
  * of LRO returned by DeleteAdminQuotaPolicy.
  */
 export interface DeleteAdminQuotaPolicyMetadata {}
-export interface DeleteAdminQuotaPolicyMetadataProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.DeleteAdminQuotaPolicyMetadata";
-  value: Uint8Array;
-}
-/**
- * Metadata message that provides information such as progress,
- * partial failures, and similar information on each GetOperation call
- * of LRO returned by DeleteAdminQuotaPolicy.
- */
-export interface DeleteAdminQuotaPolicyMetadataAmino {}
-export interface DeleteAdminQuotaPolicyMetadataAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.DeleteAdminQuotaPolicyMetadata";
-  value: DeleteAdminQuotaPolicyMetadataAmino;
-}
 /**
  * Metadata message that provides information such as progress,
  * partial failures, and similar information on each GetOperation call
@@ -1491,27 +732,6 @@ export interface GenerateServiceIdentityRequest {
    */
   parent: string;
 }
-export interface GenerateServiceIdentityRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.GenerateServiceIdentityRequest";
-  value: Uint8Array;
-}
-/** Request message for generating service identity. */
-export interface GenerateServiceIdentityRequestAmino {
-  /**
-   * Name of the consumer and service to generate an identity for.
-   * 
-   * The `GenerateServiceIdentity` methods currently only support projects.
-   * 
-   * An example name would be:
-   * `projects/123/services/example.googleapis.com` where `123` is the
-   * project number.
-   */
-  parent: string;
-}
-export interface GenerateServiceIdentityRequestAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.GenerateServiceIdentityRequest";
-  value: GenerateServiceIdentityRequestAmino;
-}
 /** Request message for generating service identity. */
 export interface GenerateServiceIdentityRequestSDKType {
   parent: string;
@@ -1527,25 +747,6 @@ export interface GetServiceIdentityResponse {
   /** Service identity state. */
   state: GetServiceIdentityResponse_IdentityState;
 }
-export interface GetServiceIdentityResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.GetServiceIdentityResponse";
-  value: Uint8Array;
-}
-/** Response message for getting service identity. */
-export interface GetServiceIdentityResponseAmino {
-  /**
-   * Service identity that service producer can use to access consumer
-   * resources. If exists is true, it contains email and unique_id. If exists is
-   * false, it contains pre-constructed email and empty unique_id.
-   */
-  identity?: ServiceIdentityAmino;
-  /** Service identity state. */
-  state: GetServiceIdentityResponse_IdentityState;
-}
-export interface GetServiceIdentityResponseAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.GetServiceIdentityResponse";
-  value: GetServiceIdentityResponseAmino;
-}
 /** Response message for getting service identity. */
 export interface GetServiceIdentityResponseSDKType {
   identity?: ServiceIdentitySDKType;
@@ -1553,16 +754,6 @@ export interface GetServiceIdentityResponseSDKType {
 }
 /** Metadata for the `GetServiceIdentity` method. */
 export interface GetServiceIdentityMetadata {}
-export interface GetServiceIdentityMetadataProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.GetServiceIdentityMetadata";
-  value: Uint8Array;
-}
-/** Metadata for the `GetServiceIdentity` method. */
-export interface GetServiceIdentityMetadataAmino {}
-export interface GetServiceIdentityMetadataAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.GetServiceIdentityMetadata";
-  value: GetServiceIdentityMetadataAmino;
-}
 /** Metadata for the `GetServiceIdentity` method. */
 export interface GetServiceIdentityMetadataSDKType {}
 function createBaseEnableServiceRequest(): EnableServiceRequest {
@@ -1572,14 +763,14 @@ function createBaseEnableServiceRequest(): EnableServiceRequest {
 }
 export const EnableServiceRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.EnableServiceRequest",
-  encode(message: EnableServiceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: EnableServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): EnableServiceRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): EnableServiceRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEnableServiceRequest();
     while (reader.pos < end) {
@@ -1605,7 +796,7 @@ export const EnableServiceRequest = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial(object: DeepPartial<EnableServiceRequest>): EnableServiceRequest {
+  fromPartial(object: Partial<EnableServiceRequest>): EnableServiceRequest {
     const message = createBaseEnableServiceRequest();
     message.name = object.name ?? "";
     return message;
@@ -1653,14 +844,14 @@ function createBaseDisableServiceRequest(): DisableServiceRequest {
 }
 export const DisableServiceRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.DisableServiceRequest",
-  encode(message: DisableServiceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DisableServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DisableServiceRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DisableServiceRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDisableServiceRequest();
     while (reader.pos < end) {
@@ -1686,7 +877,7 @@ export const DisableServiceRequest = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial(object: DeepPartial<DisableServiceRequest>): DisableServiceRequest {
+  fromPartial(object: Partial<DisableServiceRequest>): DisableServiceRequest {
     const message = createBaseDisableServiceRequest();
     message.name = object.name ?? "";
     return message;
@@ -1734,14 +925,14 @@ function createBaseGetServiceRequest(): GetServiceRequest {
 }
 export const GetServiceRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.GetServiceRequest",
-  encode(message: GetServiceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GetServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetServiceRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GetServiceRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetServiceRequest();
     while (reader.pos < end) {
@@ -1767,7 +958,7 @@ export const GetServiceRequest = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial(object: DeepPartial<GetServiceRequest>): GetServiceRequest {
+  fromPartial(object: Partial<GetServiceRequest>): GetServiceRequest {
     const message = createBaseGetServiceRequest();
     message.name = object.name ?? "";
     return message;
@@ -1818,7 +1009,7 @@ function createBaseListServicesRequest(): ListServicesRequest {
 }
 export const ListServicesRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListServicesRequest",
-  encode(message: ListServicesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListServicesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -1833,8 +1024,8 @@ export const ListServicesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListServicesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListServicesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListServicesRequest();
     while (reader.pos < end) {
@@ -1875,7 +1066,7 @@ export const ListServicesRequest = {
     message.filter !== undefined && (obj.filter = message.filter);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListServicesRequest>): ListServicesRequest {
+  fromPartial(object: Partial<ListServicesRequest>): ListServicesRequest {
     const message = createBaseListServicesRequest();
     message.parent = object.parent ?? "";
     message.pageSize = object.pageSize ?? 0;
@@ -1939,7 +1130,7 @@ function createBaseListServicesResponse(): ListServicesResponse {
 }
 export const ListServicesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListServicesResponse",
-  encode(message: ListServicesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListServicesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.services) {
       Service.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1948,8 +1139,8 @@ export const ListServicesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListServicesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListServicesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListServicesResponse();
     while (reader.pos < end) {
@@ -1984,7 +1175,7 @@ export const ListServicesResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListServicesResponse>): ListServicesResponse {
+  fromPartial(object: Partial<ListServicesResponse>): ListServicesResponse {
     const message = createBaseListServicesResponse();
     message.services = object.services?.map(e => Service.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -2046,7 +1237,7 @@ function createBaseBatchEnableServicesRequest(): BatchEnableServicesRequest {
 }
 export const BatchEnableServicesRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.BatchEnableServicesRequest",
-  encode(message: BatchEnableServicesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BatchEnableServicesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -2055,8 +1246,8 @@ export const BatchEnableServicesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BatchEnableServicesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BatchEnableServicesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBatchEnableServicesRequest();
     while (reader.pos < end) {
@@ -2091,7 +1282,7 @@ export const BatchEnableServicesRequest = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<BatchEnableServicesRequest>): BatchEnableServicesRequest {
+  fromPartial(object: Partial<BatchEnableServicesRequest>): BatchEnableServicesRequest {
     const message = createBaseBatchEnableServicesRequest();
     message.parent = object.parent ?? "";
     message.serviceIds = object.serviceIds?.map(e => e) || [];
@@ -2155,7 +1346,7 @@ function createBaseListConsumerQuotaMetricsRequest(): ListConsumerQuotaMetricsRe
 }
 export const ListConsumerQuotaMetricsRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerQuotaMetricsRequest",
-  encode(message: ListConsumerQuotaMetricsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListConsumerQuotaMetricsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -2170,8 +1361,8 @@ export const ListConsumerQuotaMetricsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListConsumerQuotaMetricsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListConsumerQuotaMetricsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListConsumerQuotaMetricsRequest();
     while (reader.pos < end) {
@@ -2212,7 +1403,7 @@ export const ListConsumerQuotaMetricsRequest = {
     message.view !== undefined && (obj.view = quotaViewToJSON(message.view));
     return obj;
   },
-  fromPartial(object: DeepPartial<ListConsumerQuotaMetricsRequest>): ListConsumerQuotaMetricsRequest {
+  fromPartial(object: Partial<ListConsumerQuotaMetricsRequest>): ListConsumerQuotaMetricsRequest {
     const message = createBaseListConsumerQuotaMetricsRequest();
     message.parent = object.parent ?? "";
     message.pageSize = object.pageSize ?? 0;
@@ -2276,7 +1467,7 @@ function createBaseListConsumerQuotaMetricsResponse(): ListConsumerQuotaMetricsR
 }
 export const ListConsumerQuotaMetricsResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerQuotaMetricsResponse",
-  encode(message: ListConsumerQuotaMetricsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListConsumerQuotaMetricsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.metrics) {
       ConsumerQuotaMetric.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -2285,8 +1476,8 @@ export const ListConsumerQuotaMetricsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListConsumerQuotaMetricsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListConsumerQuotaMetricsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListConsumerQuotaMetricsResponse();
     while (reader.pos < end) {
@@ -2321,7 +1512,7 @@ export const ListConsumerQuotaMetricsResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListConsumerQuotaMetricsResponse>): ListConsumerQuotaMetricsResponse {
+  fromPartial(object: Partial<ListConsumerQuotaMetricsResponse>): ListConsumerQuotaMetricsResponse {
     const message = createBaseListConsumerQuotaMetricsResponse();
     message.metrics = object.metrics?.map(e => ConsumerQuotaMetric.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -2383,7 +1574,7 @@ function createBaseGetConsumerQuotaMetricRequest(): GetConsumerQuotaMetricReques
 }
 export const GetConsumerQuotaMetricRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.GetConsumerQuotaMetricRequest",
-  encode(message: GetConsumerQuotaMetricRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GetConsumerQuotaMetricRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -2392,8 +1583,8 @@ export const GetConsumerQuotaMetricRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetConsumerQuotaMetricRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GetConsumerQuotaMetricRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetConsumerQuotaMetricRequest();
     while (reader.pos < end) {
@@ -2424,7 +1615,7 @@ export const GetConsumerQuotaMetricRequest = {
     message.view !== undefined && (obj.view = quotaViewToJSON(message.view));
     return obj;
   },
-  fromPartial(object: DeepPartial<GetConsumerQuotaMetricRequest>): GetConsumerQuotaMetricRequest {
+  fromPartial(object: Partial<GetConsumerQuotaMetricRequest>): GetConsumerQuotaMetricRequest {
     const message = createBaseGetConsumerQuotaMetricRequest();
     message.name = object.name ?? "";
     message.view = object.view ?? 0;
@@ -2478,7 +1669,7 @@ function createBaseGetConsumerQuotaLimitRequest(): GetConsumerQuotaLimitRequest 
 }
 export const GetConsumerQuotaLimitRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.GetConsumerQuotaLimitRequest",
-  encode(message: GetConsumerQuotaLimitRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GetConsumerQuotaLimitRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -2487,8 +1678,8 @@ export const GetConsumerQuotaLimitRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetConsumerQuotaLimitRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GetConsumerQuotaLimitRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetConsumerQuotaLimitRequest();
     while (reader.pos < end) {
@@ -2519,7 +1710,7 @@ export const GetConsumerQuotaLimitRequest = {
     message.view !== undefined && (obj.view = quotaViewToJSON(message.view));
     return obj;
   },
-  fromPartial(object: DeepPartial<GetConsumerQuotaLimitRequest>): GetConsumerQuotaLimitRequest {
+  fromPartial(object: Partial<GetConsumerQuotaLimitRequest>): GetConsumerQuotaLimitRequest {
     const message = createBaseGetConsumerQuotaLimitRequest();
     message.name = object.name ?? "";
     message.view = object.view ?? 0;
@@ -2575,7 +1766,7 @@ function createBaseCreateAdminOverrideRequest(): CreateAdminOverrideRequest {
 }
 export const CreateAdminOverrideRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.CreateAdminOverrideRequest",
-  encode(message: CreateAdminOverrideRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CreateAdminOverrideRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -2592,8 +1783,8 @@ export const CreateAdminOverrideRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CreateAdminOverrideRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateAdminOverrideRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCreateAdminOverrideRequest();
     while (reader.pos < end) {
@@ -2645,7 +1836,7 @@ export const CreateAdminOverrideRequest = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<CreateAdminOverrideRequest>): CreateAdminOverrideRequest {
+  fromPartial(object: Partial<CreateAdminOverrideRequest>): CreateAdminOverrideRequest {
     const message = createBaseCreateAdminOverrideRequest();
     message.parent = object.parent ?? "";
     message.override = object.override !== undefined && object.override !== null ? QuotaOverride.fromPartial(object.override) : undefined;
@@ -2720,7 +1911,7 @@ function createBaseUpdateAdminOverrideRequest(): UpdateAdminOverrideRequest {
 }
 export const UpdateAdminOverrideRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.UpdateAdminOverrideRequest",
-  encode(message: UpdateAdminOverrideRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: UpdateAdminOverrideRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -2740,8 +1931,8 @@ export const UpdateAdminOverrideRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): UpdateAdminOverrideRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateAdminOverrideRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUpdateAdminOverrideRequest();
     while (reader.pos < end) {
@@ -2798,7 +1989,7 @@ export const UpdateAdminOverrideRequest = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<UpdateAdminOverrideRequest>): UpdateAdminOverrideRequest {
+  fromPartial(object: Partial<UpdateAdminOverrideRequest>): UpdateAdminOverrideRequest {
     const message = createBaseUpdateAdminOverrideRequest();
     message.name = object.name ?? "";
     message.override = object.override !== undefined && object.override !== null ? QuotaOverride.fromPartial(object.override) : undefined;
@@ -2876,7 +2067,7 @@ function createBaseDeleteAdminOverrideRequest(): DeleteAdminOverrideRequest {
 }
 export const DeleteAdminOverrideRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.DeleteAdminOverrideRequest",
-  encode(message: DeleteAdminOverrideRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DeleteAdminOverrideRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -2890,8 +2081,8 @@ export const DeleteAdminOverrideRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DeleteAdminOverrideRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteAdminOverrideRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDeleteAdminOverrideRequest();
     while (reader.pos < end) {
@@ -2938,7 +2129,7 @@ export const DeleteAdminOverrideRequest = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<DeleteAdminOverrideRequest>): DeleteAdminOverrideRequest {
+  fromPartial(object: Partial<DeleteAdminOverrideRequest>): DeleteAdminOverrideRequest {
     const message = createBaseDeleteAdminOverrideRequest();
     message.name = object.name ?? "";
     message.force = object.force ?? false;
@@ -3006,7 +2197,7 @@ function createBaseListAdminOverridesRequest(): ListAdminOverridesRequest {
 }
 export const ListAdminOverridesRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListAdminOverridesRequest",
-  encode(message: ListAdminOverridesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListAdminOverridesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -3018,8 +2209,8 @@ export const ListAdminOverridesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListAdminOverridesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListAdminOverridesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListAdminOverridesRequest();
     while (reader.pos < end) {
@@ -3055,7 +2246,7 @@ export const ListAdminOverridesRequest = {
     message.pageToken !== undefined && (obj.pageToken = message.pageToken);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListAdminOverridesRequest>): ListAdminOverridesRequest {
+  fromPartial(object: Partial<ListAdminOverridesRequest>): ListAdminOverridesRequest {
     const message = createBaseListAdminOverridesRequest();
     message.parent = object.parent ?? "";
     message.pageSize = object.pageSize ?? 0;
@@ -3114,7 +2305,7 @@ function createBaseListAdminOverridesResponse(): ListAdminOverridesResponse {
 }
 export const ListAdminOverridesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListAdminOverridesResponse",
-  encode(message: ListAdminOverridesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListAdminOverridesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overrides) {
       QuotaOverride.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -3123,8 +2314,8 @@ export const ListAdminOverridesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListAdminOverridesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListAdminOverridesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListAdminOverridesResponse();
     while (reader.pos < end) {
@@ -3159,7 +2350,7 @@ export const ListAdminOverridesResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListAdminOverridesResponse>): ListAdminOverridesResponse {
+  fromPartial(object: Partial<ListAdminOverridesResponse>): ListAdminOverridesResponse {
     const message = createBaseListAdminOverridesResponse();
     message.overrides = object.overrides?.map(e => QuotaOverride.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -3220,14 +2411,14 @@ function createBaseBatchCreateAdminOverridesResponse(): BatchCreateAdminOverride
 }
 export const BatchCreateAdminOverridesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.BatchCreateAdminOverridesResponse",
-  encode(message: BatchCreateAdminOverridesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BatchCreateAdminOverridesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overrides) {
       QuotaOverride.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BatchCreateAdminOverridesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BatchCreateAdminOverridesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBatchCreateAdminOverridesResponse();
     while (reader.pos < end) {
@@ -3257,7 +2448,7 @@ export const BatchCreateAdminOverridesResponse = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<BatchCreateAdminOverridesResponse>): BatchCreateAdminOverridesResponse {
+  fromPartial(object: Partial<BatchCreateAdminOverridesResponse>): BatchCreateAdminOverridesResponse {
     const message = createBaseBatchCreateAdminOverridesResponse();
     message.overrides = object.overrides?.map(e => QuotaOverride.fromPartial(e)) || [];
     return message;
@@ -3316,7 +2507,7 @@ function createBaseImportAdminOverridesRequest(): ImportAdminOverridesRequest {
 }
 export const ImportAdminOverridesRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminOverridesRequest",
-  encode(message: ImportAdminOverridesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ImportAdminOverridesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -3333,8 +2524,8 @@ export const ImportAdminOverridesRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportAdminOverridesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportAdminOverridesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportAdminOverridesRequest();
     while (reader.pos < end) {
@@ -3386,7 +2577,7 @@ export const ImportAdminOverridesRequest = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<ImportAdminOverridesRequest>): ImportAdminOverridesRequest {
+  fromPartial(object: Partial<ImportAdminOverridesRequest>): ImportAdminOverridesRequest {
     const message = createBaseImportAdminOverridesRequest();
     message.parent = object.parent ?? "";
     message.inlineSource = object.inlineSource !== undefined && object.inlineSource !== null ? OverrideInlineSource.fromPartial(object.inlineSource) : undefined;
@@ -3457,14 +2648,14 @@ function createBaseImportAdminOverridesResponse(): ImportAdminOverridesResponse 
 }
 export const ImportAdminOverridesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminOverridesResponse",
-  encode(message: ImportAdminOverridesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ImportAdminOverridesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overrides) {
       QuotaOverride.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportAdminOverridesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportAdminOverridesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportAdminOverridesResponse();
     while (reader.pos < end) {
@@ -3494,7 +2685,7 @@ export const ImportAdminOverridesResponse = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<ImportAdminOverridesResponse>): ImportAdminOverridesResponse {
+  fromPartial(object: Partial<ImportAdminOverridesResponse>): ImportAdminOverridesResponse {
     const message = createBaseImportAdminOverridesResponse();
     message.overrides = object.overrides?.map(e => QuotaOverride.fromPartial(e)) || [];
     return message;
@@ -3548,11 +2739,11 @@ function createBaseImportAdminOverridesMetadata(): ImportAdminOverridesMetadata 
 }
 export const ImportAdminOverridesMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminOverridesMetadata",
-  encode(_: ImportAdminOverridesMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: ImportAdminOverridesMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportAdminOverridesMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportAdminOverridesMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportAdminOverridesMetadata();
     while (reader.pos < end) {
@@ -3572,7 +2763,7 @@ export const ImportAdminOverridesMetadata = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<ImportAdminOverridesMetadata>): ImportAdminOverridesMetadata {
+  fromPartial(_: Partial<ImportAdminOverridesMetadata>): ImportAdminOverridesMetadata {
     const message = createBaseImportAdminOverridesMetadata();
     return message;
   },
@@ -3616,7 +2807,7 @@ function createBaseCreateConsumerOverrideRequest(): CreateConsumerOverrideReques
 }
 export const CreateConsumerOverrideRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.CreateConsumerOverrideRequest",
-  encode(message: CreateConsumerOverrideRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CreateConsumerOverrideRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -3633,8 +2824,8 @@ export const CreateConsumerOverrideRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CreateConsumerOverrideRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateConsumerOverrideRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCreateConsumerOverrideRequest();
     while (reader.pos < end) {
@@ -3686,7 +2877,7 @@ export const CreateConsumerOverrideRequest = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<CreateConsumerOverrideRequest>): CreateConsumerOverrideRequest {
+  fromPartial(object: Partial<CreateConsumerOverrideRequest>): CreateConsumerOverrideRequest {
     const message = createBaseCreateConsumerOverrideRequest();
     message.parent = object.parent ?? "";
     message.override = object.override !== undefined && object.override !== null ? QuotaOverride.fromPartial(object.override) : undefined;
@@ -3761,7 +2952,7 @@ function createBaseUpdateConsumerOverrideRequest(): UpdateConsumerOverrideReques
 }
 export const UpdateConsumerOverrideRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.UpdateConsumerOverrideRequest",
-  encode(message: UpdateConsumerOverrideRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: UpdateConsumerOverrideRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -3781,8 +2972,8 @@ export const UpdateConsumerOverrideRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): UpdateConsumerOverrideRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateConsumerOverrideRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUpdateConsumerOverrideRequest();
     while (reader.pos < end) {
@@ -3839,7 +3030,7 @@ export const UpdateConsumerOverrideRequest = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<UpdateConsumerOverrideRequest>): UpdateConsumerOverrideRequest {
+  fromPartial(object: Partial<UpdateConsumerOverrideRequest>): UpdateConsumerOverrideRequest {
     const message = createBaseUpdateConsumerOverrideRequest();
     message.name = object.name ?? "";
     message.override = object.override !== undefined && object.override !== null ? QuotaOverride.fromPartial(object.override) : undefined;
@@ -3917,7 +3108,7 @@ function createBaseDeleteConsumerOverrideRequest(): DeleteConsumerOverrideReques
 }
 export const DeleteConsumerOverrideRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.DeleteConsumerOverrideRequest",
-  encode(message: DeleteConsumerOverrideRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DeleteConsumerOverrideRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -3931,8 +3122,8 @@ export const DeleteConsumerOverrideRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DeleteConsumerOverrideRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteConsumerOverrideRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDeleteConsumerOverrideRequest();
     while (reader.pos < end) {
@@ -3979,7 +3170,7 @@ export const DeleteConsumerOverrideRequest = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<DeleteConsumerOverrideRequest>): DeleteConsumerOverrideRequest {
+  fromPartial(object: Partial<DeleteConsumerOverrideRequest>): DeleteConsumerOverrideRequest {
     const message = createBaseDeleteConsumerOverrideRequest();
     message.name = object.name ?? "";
     message.force = object.force ?? false;
@@ -4047,7 +3238,7 @@ function createBaseListConsumerOverridesRequest(): ListConsumerOverridesRequest 
 }
 export const ListConsumerOverridesRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerOverridesRequest",
-  encode(message: ListConsumerOverridesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListConsumerOverridesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -4059,8 +3250,8 @@ export const ListConsumerOverridesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListConsumerOverridesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListConsumerOverridesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListConsumerOverridesRequest();
     while (reader.pos < end) {
@@ -4096,7 +3287,7 @@ export const ListConsumerOverridesRequest = {
     message.pageToken !== undefined && (obj.pageToken = message.pageToken);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListConsumerOverridesRequest>): ListConsumerOverridesRequest {
+  fromPartial(object: Partial<ListConsumerOverridesRequest>): ListConsumerOverridesRequest {
     const message = createBaseListConsumerOverridesRequest();
     message.parent = object.parent ?? "";
     message.pageSize = object.pageSize ?? 0;
@@ -4155,7 +3346,7 @@ function createBaseListConsumerOverridesResponse(): ListConsumerOverridesRespons
 }
 export const ListConsumerOverridesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerOverridesResponse",
-  encode(message: ListConsumerOverridesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListConsumerOverridesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overrides) {
       QuotaOverride.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -4164,8 +3355,8 @@ export const ListConsumerOverridesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListConsumerOverridesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListConsumerOverridesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListConsumerOverridesResponse();
     while (reader.pos < end) {
@@ -4200,7 +3391,7 @@ export const ListConsumerOverridesResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListConsumerOverridesResponse>): ListConsumerOverridesResponse {
+  fromPartial(object: Partial<ListConsumerOverridesResponse>): ListConsumerOverridesResponse {
     const message = createBaseListConsumerOverridesResponse();
     message.overrides = object.overrides?.map(e => QuotaOverride.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -4261,14 +3452,14 @@ function createBaseBatchCreateConsumerOverridesResponse(): BatchCreateConsumerOv
 }
 export const BatchCreateConsumerOverridesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.BatchCreateConsumerOverridesResponse",
-  encode(message: BatchCreateConsumerOverridesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BatchCreateConsumerOverridesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overrides) {
       QuotaOverride.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BatchCreateConsumerOverridesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BatchCreateConsumerOverridesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBatchCreateConsumerOverridesResponse();
     while (reader.pos < end) {
@@ -4298,7 +3489,7 @@ export const BatchCreateConsumerOverridesResponse = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<BatchCreateConsumerOverridesResponse>): BatchCreateConsumerOverridesResponse {
+  fromPartial(object: Partial<BatchCreateConsumerOverridesResponse>): BatchCreateConsumerOverridesResponse {
     const message = createBaseBatchCreateConsumerOverridesResponse();
     message.overrides = object.overrides?.map(e => QuotaOverride.fromPartial(e)) || [];
     return message;
@@ -4357,7 +3548,7 @@ function createBaseImportConsumerOverridesRequest(): ImportConsumerOverridesRequ
 }
 export const ImportConsumerOverridesRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesRequest",
-  encode(message: ImportConsumerOverridesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ImportConsumerOverridesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -4374,8 +3565,8 @@ export const ImportConsumerOverridesRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportConsumerOverridesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportConsumerOverridesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportConsumerOverridesRequest();
     while (reader.pos < end) {
@@ -4427,7 +3618,7 @@ export const ImportConsumerOverridesRequest = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<ImportConsumerOverridesRequest>): ImportConsumerOverridesRequest {
+  fromPartial(object: Partial<ImportConsumerOverridesRequest>): ImportConsumerOverridesRequest {
     const message = createBaseImportConsumerOverridesRequest();
     message.parent = object.parent ?? "";
     message.inlineSource = object.inlineSource !== undefined && object.inlineSource !== null ? OverrideInlineSource.fromPartial(object.inlineSource) : undefined;
@@ -4498,14 +3689,14 @@ function createBaseImportConsumerOverridesResponse(): ImportConsumerOverridesRes
 }
 export const ImportConsumerOverridesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesResponse",
-  encode(message: ImportConsumerOverridesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ImportConsumerOverridesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overrides) {
       QuotaOverride.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportConsumerOverridesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportConsumerOverridesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportConsumerOverridesResponse();
     while (reader.pos < end) {
@@ -4535,7 +3726,7 @@ export const ImportConsumerOverridesResponse = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<ImportConsumerOverridesResponse>): ImportConsumerOverridesResponse {
+  fromPartial(object: Partial<ImportConsumerOverridesResponse>): ImportConsumerOverridesResponse {
     const message = createBaseImportConsumerOverridesResponse();
     message.overrides = object.overrides?.map(e => QuotaOverride.fromPartial(e)) || [];
     return message;
@@ -4589,11 +3780,11 @@ function createBaseImportConsumerOverridesMetadata(): ImportConsumerOverridesMet
 }
 export const ImportConsumerOverridesMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesMetadata",
-  encode(_: ImportConsumerOverridesMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: ImportConsumerOverridesMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportConsumerOverridesMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportConsumerOverridesMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportConsumerOverridesMetadata();
     while (reader.pos < end) {
@@ -4613,7 +3804,7 @@ export const ImportConsumerOverridesMetadata = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<ImportConsumerOverridesMetadata>): ImportConsumerOverridesMetadata {
+  fromPartial(_: Partial<ImportConsumerOverridesMetadata>): ImportConsumerOverridesMetadata {
     const message = createBaseImportConsumerOverridesMetadata();
     return message;
   },
@@ -4654,14 +3845,14 @@ function createBaseImportAdminQuotaPoliciesResponse(): ImportAdminQuotaPoliciesR
 }
 export const ImportAdminQuotaPoliciesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminQuotaPoliciesResponse",
-  encode(message: ImportAdminQuotaPoliciesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ImportAdminQuotaPoliciesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.policies) {
       AdminQuotaPolicy.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportAdminQuotaPoliciesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportAdminQuotaPoliciesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportAdminQuotaPoliciesResponse();
     while (reader.pos < end) {
@@ -4691,7 +3882,7 @@ export const ImportAdminQuotaPoliciesResponse = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<ImportAdminQuotaPoliciesResponse>): ImportAdminQuotaPoliciesResponse {
+  fromPartial(object: Partial<ImportAdminQuotaPoliciesResponse>): ImportAdminQuotaPoliciesResponse {
     const message = createBaseImportAdminQuotaPoliciesResponse();
     message.policies = object.policies?.map(e => AdminQuotaPolicy.fromPartial(e)) || [];
     return message;
@@ -4745,11 +3936,11 @@ function createBaseImportAdminQuotaPoliciesMetadata(): ImportAdminQuotaPoliciesM
 }
 export const ImportAdminQuotaPoliciesMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminQuotaPoliciesMetadata",
-  encode(_: ImportAdminQuotaPoliciesMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: ImportAdminQuotaPoliciesMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportAdminQuotaPoliciesMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportAdminQuotaPoliciesMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportAdminQuotaPoliciesMetadata();
     while (reader.pos < end) {
@@ -4769,7 +3960,7 @@ export const ImportAdminQuotaPoliciesMetadata = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<ImportAdminQuotaPoliciesMetadata>): ImportAdminQuotaPoliciesMetadata {
+  fromPartial(_: Partial<ImportAdminQuotaPoliciesMetadata>): ImportAdminQuotaPoliciesMetadata {
     const message = createBaseImportAdminQuotaPoliciesMetadata();
     return message;
   },
@@ -4808,11 +3999,11 @@ function createBaseCreateAdminQuotaPolicyMetadata(): CreateAdminQuotaPolicyMetad
 }
 export const CreateAdminQuotaPolicyMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.CreateAdminQuotaPolicyMetadata",
-  encode(_: CreateAdminQuotaPolicyMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: CreateAdminQuotaPolicyMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CreateAdminQuotaPolicyMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateAdminQuotaPolicyMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCreateAdminQuotaPolicyMetadata();
     while (reader.pos < end) {
@@ -4832,7 +4023,7 @@ export const CreateAdminQuotaPolicyMetadata = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<CreateAdminQuotaPolicyMetadata>): CreateAdminQuotaPolicyMetadata {
+  fromPartial(_: Partial<CreateAdminQuotaPolicyMetadata>): CreateAdminQuotaPolicyMetadata {
     const message = createBaseCreateAdminQuotaPolicyMetadata();
     return message;
   },
@@ -4871,11 +4062,11 @@ function createBaseUpdateAdminQuotaPolicyMetadata(): UpdateAdminQuotaPolicyMetad
 }
 export const UpdateAdminQuotaPolicyMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.UpdateAdminQuotaPolicyMetadata",
-  encode(_: UpdateAdminQuotaPolicyMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: UpdateAdminQuotaPolicyMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): UpdateAdminQuotaPolicyMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateAdminQuotaPolicyMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUpdateAdminQuotaPolicyMetadata();
     while (reader.pos < end) {
@@ -4895,7 +4086,7 @@ export const UpdateAdminQuotaPolicyMetadata = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<UpdateAdminQuotaPolicyMetadata>): UpdateAdminQuotaPolicyMetadata {
+  fromPartial(_: Partial<UpdateAdminQuotaPolicyMetadata>): UpdateAdminQuotaPolicyMetadata {
     const message = createBaseUpdateAdminQuotaPolicyMetadata();
     return message;
   },
@@ -4934,11 +4125,11 @@ function createBaseDeleteAdminQuotaPolicyMetadata(): DeleteAdminQuotaPolicyMetad
 }
 export const DeleteAdminQuotaPolicyMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.DeleteAdminQuotaPolicyMetadata",
-  encode(_: DeleteAdminQuotaPolicyMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: DeleteAdminQuotaPolicyMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DeleteAdminQuotaPolicyMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteAdminQuotaPolicyMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDeleteAdminQuotaPolicyMetadata();
     while (reader.pos < end) {
@@ -4958,7 +4149,7 @@ export const DeleteAdminQuotaPolicyMetadata = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<DeleteAdminQuotaPolicyMetadata>): DeleteAdminQuotaPolicyMetadata {
+  fromPartial(_: Partial<DeleteAdminQuotaPolicyMetadata>): DeleteAdminQuotaPolicyMetadata {
     const message = createBaseDeleteAdminQuotaPolicyMetadata();
     return message;
   },
@@ -4999,14 +4190,14 @@ function createBaseGenerateServiceIdentityRequest(): GenerateServiceIdentityRequ
 }
 export const GenerateServiceIdentityRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.GenerateServiceIdentityRequest",
-  encode(message: GenerateServiceIdentityRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GenerateServiceIdentityRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GenerateServiceIdentityRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GenerateServiceIdentityRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenerateServiceIdentityRequest();
     while (reader.pos < end) {
@@ -5032,7 +4223,7 @@ export const GenerateServiceIdentityRequest = {
     message.parent !== undefined && (obj.parent = message.parent);
     return obj;
   },
-  fromPartial(object: DeepPartial<GenerateServiceIdentityRequest>): GenerateServiceIdentityRequest {
+  fromPartial(object: Partial<GenerateServiceIdentityRequest>): GenerateServiceIdentityRequest {
     const message = createBaseGenerateServiceIdentityRequest();
     message.parent = object.parent ?? "";
     return message;
@@ -5081,7 +4272,7 @@ function createBaseGetServiceIdentityResponse(): GetServiceIdentityResponse {
 }
 export const GetServiceIdentityResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.GetServiceIdentityResponse",
-  encode(message: GetServiceIdentityResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GetServiceIdentityResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.identity !== undefined) {
       ServiceIdentity.encode(message.identity, writer.uint32(10).fork()).ldelim();
     }
@@ -5090,8 +4281,8 @@ export const GetServiceIdentityResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetServiceIdentityResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GetServiceIdentityResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetServiceIdentityResponse();
     while (reader.pos < end) {
@@ -5122,7 +4313,7 @@ export const GetServiceIdentityResponse = {
     message.state !== undefined && (obj.state = getServiceIdentityResponse_IdentityStateToJSON(message.state));
     return obj;
   },
-  fromPartial(object: DeepPartial<GetServiceIdentityResponse>): GetServiceIdentityResponse {
+  fromPartial(object: Partial<GetServiceIdentityResponse>): GetServiceIdentityResponse {
     const message = createBaseGetServiceIdentityResponse();
     message.identity = object.identity !== undefined && object.identity !== null ? ServiceIdentity.fromPartial(object.identity) : undefined;
     message.state = object.state ?? 0;
@@ -5173,11 +4364,11 @@ function createBaseGetServiceIdentityMetadata(): GetServiceIdentityMetadata {
 }
 export const GetServiceIdentityMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.GetServiceIdentityMetadata",
-  encode(_: GetServiceIdentityMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: GetServiceIdentityMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetServiceIdentityMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GetServiceIdentityMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetServiceIdentityMetadata();
     while (reader.pos < end) {
@@ -5197,7 +4388,7 @@ export const GetServiceIdentityMetadata = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<GetServiceIdentityMetadata>): GetServiceIdentityMetadata {
+  fromPartial(_: Partial<GetServiceIdentityMetadata>): GetServiceIdentityMetadata {
     const message = createBaseGetServiceIdentityMetadata();
     return message;
   },

@@ -1,13 +1,13 @@
-import { Api, ApiAmino, ApiSDKType } from "../../../protobuf/api";
-import { Documentation, DocumentationAmino, DocumentationSDKType } from "../../documentation";
-import { Quota, QuotaAmino, QuotaSDKType } from "../../quota";
-import { Authentication, AuthenticationAmino, AuthenticationSDKType } from "../../auth";
-import { Usage, UsageAmino, UsageSDKType } from "../../usage";
-import { Endpoint, EndpointAmino, EndpointSDKType } from "../../endpoint";
-import { MonitoredResourceDescriptor, MonitoredResourceDescriptorAmino, MonitoredResourceDescriptorSDKType } from "../../monitored_resource";
-import { Monitoring, MonitoringAmino, MonitoringSDKType } from "../../monitoring";
-import { Long, isSet, DeepPartial, isObject } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { Api, ApiSDKType } from "../../../protobuf/api";
+import { Documentation, DocumentationSDKType } from "../../documentation";
+import { Quota, QuotaSDKType } from "../../quota";
+import { Authentication, AuthenticationSDKType } from "../../auth";
+import { Usage, UsageSDKType } from "../../usage";
+import { Endpoint, EndpointSDKType } from "../../endpoint";
+import { MonitoredResourceDescriptor, MonitoredResourceDescriptorSDKType } from "../../monitored_resource";
+import { Monitoring, MonitoringSDKType } from "../../monitoring";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.serviceusage.v1beta1";
 /** Whether or not a service has been enabled for use by a consumer. */
 export enum State {
@@ -27,7 +27,6 @@ export enum State {
   UNRECOGNIZED = -1,
 }
 export const StateSDKType = State;
-export const StateAmino = State;
 export function stateFromJSON(object: any): State {
   switch (object) {
     case 0:
@@ -82,7 +81,6 @@ export enum QuotaView {
   UNRECOGNIZED = -1,
 }
 export const QuotaViewSDKType = QuotaView;
-export const QuotaViewAmino = QuotaView;
 export function quotaViewFromJSON(object: any): QuotaView {
   switch (object) {
     case 0:
@@ -130,7 +128,6 @@ export enum QuotaSafetyCheck {
   UNRECOGNIZED = -1,
 }
 export const QuotaSafetyCheckSDKType = QuotaSafetyCheck;
-export const QuotaSafetyCheckAmino = QuotaSafetyCheck;
 export function quotaSafetyCheckFromJSON(object: any): QuotaSafetyCheck {
   switch (object) {
     case 0:
@@ -187,40 +184,6 @@ export interface Service {
   /** Whether or not the service has been enabled for use by the consumer. */
   state: State;
 }
-export interface ServiceProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.Service";
-  value: Uint8Array;
-}
-/** A service that is available for use by the consumer. */
-export interface ServiceAmino {
-  /**
-   * The resource name of the consumer and service.
-   * 
-   * A valid name would be:
-   * - `projects/123/services/serviceusage.googleapis.com`
-   */
-  name: string;
-  /**
-   * The resource name of the consumer.
-   * 
-   * A valid name would be:
-   * - `projects/123`
-   */
-  parent: string;
-  /**
-   * The service configuration of the available service.
-   * Some fields may be filtered out of the configuration in responses to
-   * the `ListServices` method. These fields are present only in responses to
-   * the `GetService` method.
-   */
-  config?: ServiceConfigAmino;
-  /** Whether or not the service has been enabled for use by the consumer. */
-  state: State;
-}
-export interface ServiceAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.Service";
-  value: ServiceAmino;
-}
 /** A service that is available for use by the consumer. */
 export interface ServiceSDKType {
   name: string;
@@ -271,57 +234,6 @@ export interface ServiceConfig {
    */
   monitoring?: Monitoring;
 }
-export interface ServiceConfigProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ServiceConfig";
-  value: Uint8Array;
-}
-/** The configuration of the service. */
-export interface ServiceConfigAmino {
-  /**
-   * The DNS address at which this service is available.
-   * 
-   * An example DNS address would be:
-   * `calendar.googleapis.com`.
-   */
-  name: string;
-  /** The product title for this service. */
-  title: string;
-  /**
-   * A list of API interfaces exported by this service. Contains only the names,
-   * versions, and method names of the interfaces.
-   */
-  apis: ApiAmino[];
-  /**
-   * Additional API documentation. Contains only the summary and the
-   * documentation URL.
-   */
-  documentation?: DocumentationAmino;
-  /** Quota configuration. */
-  quota?: QuotaAmino;
-  /** Auth configuration. Contains only the OAuth rules. */
-  authentication?: AuthenticationAmino;
-  /** Configuration controlling usage of this service. */
-  usage?: UsageAmino;
-  /**
-   * Configuration for network endpoints. Contains only the names and aliases
-   * of the endpoints.
-   */
-  endpoints: EndpointAmino[];
-  /**
-   * Defines the monitored resources used by this service. This is required
-   * by the [Service.monitoring][google.api.Service.monitoring] and [Service.logging][google.api.Service.logging] configurations.
-   */
-  monitored_resources: MonitoredResourceDescriptorAmino[];
-  /**
-   * Monitoring configuration.
-   * This should not include the 'producer_destinations' field.
-   */
-  monitoring?: MonitoringAmino;
-}
-export interface ServiceConfigAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ServiceConfig";
-  value: ServiceConfigAmino;
-}
 /** The configuration of the service. */
 export interface ServiceConfigSDKType {
   name: string;
@@ -342,22 +254,6 @@ export interface OperationMetadata {
    * associated with.
    */
   resourceNames: string[];
-}
-export interface OperationMetadataProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.OperationMetadata";
-  value: Uint8Array;
-}
-/** The operation metadata returned for the batchend services operation. */
-export interface OperationMetadataAmino {
-  /**
-   * The full name of the resources that this operation is directly
-   * associated with.
-   */
-  resource_names: string[];
-}
-export interface OperationMetadataAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.OperationMetadata";
-  value: OperationMetadataAmino;
 }
 /** The operation metadata returned for the batchend services operation. */
 export interface OperationMetadataSDKType {
@@ -405,57 +301,6 @@ export interface ConsumerQuotaMetric {
   descendantConsumerQuotaLimits: ConsumerQuotaLimit[];
   /** The units in which the metric value is reported. */
   unit: string;
-}
-export interface ConsumerQuotaMetricProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ConsumerQuotaMetric";
-  value: Uint8Array;
-}
-/** Consumer quota settings for a quota metric. */
-export interface ConsumerQuotaMetricAmino {
-  /**
-   * The resource name of the quota settings on this metric for this consumer.
-   * 
-   * An example name would be:
-   * `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus`
-   * 
-   * The resource name is intended to be opaque and should not be parsed for
-   * its component strings, since its representation could change in the future.
-   */
-  name: string;
-  /**
-   * The name of the metric.
-   * 
-   * An example name would be:
-   * `compute.googleapis.com/cpus`
-   */
-  metric: string;
-  /**
-   * The display name of the metric.
-   * 
-   * An example name would be:
-   * `CPUs`
-   */
-  display_name: string;
-  /** The consumer quota for each quota limit defined on the metric. */
-  consumer_quota_limits: ConsumerQuotaLimitAmino[];
-  /**
-   * The quota limits targeting the descendant containers of the
-   * consumer in request.
-   * 
-   * If the consumer in request is of type `organizations`
-   * or `folders`, the field will list per-project limits in the metric; if the
-   * consumer in request is of type `project`, the field will be empty.
-   * 
-   * The `quota_buckets` field of each descendant consumer quota limit will not
-   * be populated.
-   */
-  descendant_consumer_quota_limits: ConsumerQuotaLimitAmino[];
-  /** The units in which the metric value is reported. */
-  unit: string;
-}
-export interface ConsumerQuotaMetricAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ConsumerQuotaMetric";
-  value: ConsumerQuotaMetricAmino;
 }
 /** Consumer quota settings for a quota metric. */
 export interface ConsumerQuotaMetricSDKType {
@@ -505,53 +350,6 @@ export interface ConsumerQuotaLimit {
    */
   quotaBuckets: QuotaBucket[];
 }
-export interface ConsumerQuotaLimitProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ConsumerQuotaLimit";
-  value: Uint8Array;
-}
-/** Consumer quota settings for a quota limit. */
-export interface ConsumerQuotaLimitAmino {
-  /**
-   * The resource name of the quota limit.
-   * 
-   * An example name would be:
-   * `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion`
-   * 
-   * The resource name is intended to be opaque and should not be parsed for
-   * its component strings, since its representation could change in the future.
-   */
-  name: string;
-  /**
-   * The name of the parent metric of this limit.
-   * 
-   * An example name would be:
-   * `compute.googleapis.com/cpus`
-   */
-  metric: string;
-  /**
-   * The limit unit.
-   * 
-   * An example unit would be
-   * `1/{project}/{region}`
-   * Note that `{project}` and `{region}` are not placeholders in this example;
-   * the literal characters `{` and `}` occur in the string.
-   */
-  unit: string;
-  /** Whether this limit is precise or imprecise. */
-  is_precise: boolean;
-  /** Whether admin overrides are allowed on this limit */
-  allows_admin_overrides: boolean;
-  /**
-   * Summary of the enforced quota buckets, organized by quota dimension,
-   * ordered from least specific to most specific (for example, the global
-   * default bucket, with no quota dimensions, will always appear first).
-   */
-  quota_buckets: QuotaBucketAmino[];
-}
-export interface ConsumerQuotaLimitAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ConsumerQuotaLimit";
-  value: ConsumerQuotaLimitAmino;
-}
 /** Consumer quota settings for a quota limit. */
 export interface ConsumerQuotaLimitSDKType {
   name: string;
@@ -565,18 +363,6 @@ export interface QuotaBucket_DimensionsEntry {
   key: string;
   value: string;
 }
-export interface QuotaBucket_DimensionsEntryProtoMsg {
-  typeUrl: string;
-  value: Uint8Array;
-}
-export interface QuotaBucket_DimensionsEntryAmino {
-  key: string;
-  value: string;
-}
-export interface QuotaBucket_DimensionsEntryAminoMsg {
-  type: string;
-  value: QuotaBucket_DimensionsEntryAmino;
-}
 export interface QuotaBucket_DimensionsEntrySDKType {
   key: string;
   value: string;
@@ -587,12 +373,12 @@ export interface QuotaBucket {
    * The effective limit of this quota bucket. Equal to default_limit if there
    * are no overrides.
    */
-  effectiveLimit: Long;
+  effectiveLimit: bigint;
   /**
    * The default limit of this quota bucket, as specified by the service
    * configuration.
    */
-  defaultLimit: Long;
+  defaultLimit: bigint;
   /** Producer override on this quota bucket. */
   producerOverride?: QuotaOverride;
   /** Consumer override on this quota bucket. */
@@ -616,53 +402,10 @@ export interface QuotaBucket {
     [key: string]: string;
   };
 }
-export interface QuotaBucketProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.QuotaBucket";
-  value: Uint8Array;
-}
-/** A quota bucket is a quota provisioning unit for a specific set of dimensions. */
-export interface QuotaBucketAmino {
-  /**
-   * The effective limit of this quota bucket. Equal to default_limit if there
-   * are no overrides.
-   */
-  effective_limit: string;
-  /**
-   * The default limit of this quota bucket, as specified by the service
-   * configuration.
-   */
-  default_limit: string;
-  /** Producer override on this quota bucket. */
-  producer_override?: QuotaOverrideAmino;
-  /** Consumer override on this quota bucket. */
-  consumer_override?: QuotaOverrideAmino;
-  /** Admin override on this quota bucket. */
-  admin_override?: QuotaOverrideAmino;
-  /**
-   * The dimensions of this quota bucket.
-   * 
-   * If this map is empty, this is the global bucket, which is the default quota
-   * value applied to all requests that do not have a more specific override.
-   * 
-   * If this map is nonempty, the default limit, effective limit, and quota
-   * overrides apply only to requests that have the dimensions given in the map.
-   * 
-   * For example, if the map has key `region` and value `us-east-1`, then the
-   * specified effective limit is only effective in that region, and the
-   * specified overrides apply only in that region.
-   */
-  dimensions: {
-    [key: string]: string;
-  };
-}
-export interface QuotaBucketAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.QuotaBucket";
-  value: QuotaBucketAmino;
-}
 /** A quota bucket is a quota provisioning unit for a specific set of dimensions. */
 export interface QuotaBucketSDKType {
-  effective_limit: Long;
-  default_limit: Long;
+  effective_limit: bigint;
+  default_limit: bigint;
   producer_override?: QuotaOverrideSDKType;
   consumer_override?: QuotaOverrideSDKType;
   admin_override?: QuotaOverrideSDKType;
@@ -673,18 +416,6 @@ export interface QuotaBucketSDKType {
 export interface QuotaOverride_DimensionsEntry {
   key: string;
   value: string;
-}
-export interface QuotaOverride_DimensionsEntryProtoMsg {
-  typeUrl: string;
-  value: Uint8Array;
-}
-export interface QuotaOverride_DimensionsEntryAmino {
-  key: string;
-  value: string;
-}
-export interface QuotaOverride_DimensionsEntryAminoMsg {
-  type: string;
-  value: QuotaOverride_DimensionsEntryAmino;
 }
 export interface QuotaOverride_DimensionsEntrySDKType {
   key: string;
@@ -708,7 +439,7 @@ export interface QuotaOverride {
    * The overriding quota limit value.
    * Can be any nonnegative integer, or -1 (unlimited quota).
    */
-  overrideValue: Long;
+  overrideValue: bigint;
   /**
    * If this map is nonempty, then this override applies only to specific values
    * for dimensions defined in the limit unit.
@@ -759,87 +490,10 @@ export interface QuotaOverride {
    */
   adminOverrideAncestor: string;
 }
-export interface QuotaOverrideProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.QuotaOverride";
-  value: Uint8Array;
-}
-/** A quota override */
-export interface QuotaOverrideAmino {
-  /**
-   * The resource name of the override.
-   * This name is generated by the server when the override is created.
-   * 
-   * Example names would be:
-   * `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/adminOverrides/4a3f2c1d`
-   * `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/consumerOverrides/4a3f2c1d`
-   * 
-   * The resource name is intended to be opaque and should not be parsed for
-   * its component strings, since its representation could change in the future.
-   */
-  name: string;
-  /**
-   * The overriding quota limit value.
-   * Can be any nonnegative integer, or -1 (unlimited quota).
-   */
-  override_value: string;
-  /**
-   * If this map is nonempty, then this override applies only to specific values
-   * for dimensions defined in the limit unit.
-   * 
-   * For example, an override on a limit with the unit `1/{project}/{region}`
-   * could contain an entry with the key `region` and the value `us-east-1`;
-   * the override is only applied to quota consumed in that region.
-   * 
-   * This map has the following restrictions:
-   * 
-   * *   Keys that are not defined in the limit's unit are not valid keys.
-   *     Any string appearing in `{brackets}` in the unit (besides `{project}`
-   *     or
-   *     `{user}`) is a defined key.
-   * *   `project` is not a valid key; the project is already specified in
-   *     the parent resource name.
-   * *   `user` is not a valid key; the API does not support quota overrides
-   *     that apply only to a specific user.
-   * *   If `region` appears as a key, its value must be a valid Cloud region.
-   * *   If `zone` appears as a key, its value must be a valid Cloud zone.
-   * *   If any valid key other than `region` or `zone` appears in the map, then
-   *     all valid keys other than `region` or `zone` must also appear in the
-   *     map.
-   */
-  dimensions: {
-    [key: string]: string;
-  };
-  /**
-   * The name of the metric to which this override applies.
-   * 
-   * An example name would be:
-   * `compute.googleapis.com/cpus`
-   */
-  metric: string;
-  /**
-   * The limit unit of the limit to which this override applies.
-   * 
-   * An example unit would be:
-   * `1/{project}/{region}`
-   * Note that `{project}` and `{region}` are not placeholders in this example;
-   * the literal characters `{` and `}` occur in the string.
-   */
-  unit: string;
-  /**
-   * The resource name of the ancestor that requested the override. For example:
-   * `organizations/12345` or `folders/67890`.
-   * Used by admin overrides only.
-   */
-  admin_override_ancestor: string;
-}
-export interface QuotaOverrideAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.QuotaOverride";
-  value: QuotaOverrideAmino;
-}
 /** A quota override */
 export interface QuotaOverrideSDKType {
   name: string;
-  override_value: Long;
+  override_value: bigint;
   dimensions: {
     [key: string]: string;
   };
@@ -857,24 +511,6 @@ export interface OverrideInlineSource {
    */
   overrides: QuotaOverride[];
 }
-export interface OverrideInlineSourceProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.OverrideInlineSource";
-  value: Uint8Array;
-}
-/** Import data embedded in the request message */
-export interface OverrideInlineSourceAmino {
-  /**
-   * The overrides to create.
-   * Each override must have a value for 'metric' and 'unit', to specify
-   * which metric and which limit the override should be applied to.
-   * The 'name' field of the override does not need to be set; it is ignored.
-   */
-  overrides: QuotaOverrideAmino[];
-}
-export interface OverrideInlineSourceAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.OverrideInlineSource";
-  value: OverrideInlineSourceAmino;
-}
 /** Import data embedded in the request message */
 export interface OverrideInlineSourceSDKType {
   overrides: QuotaOverrideSDKType[];
@@ -882,18 +518,6 @@ export interface OverrideInlineSourceSDKType {
 export interface AdminQuotaPolicy_DimensionsEntry {
   key: string;
   value: string;
-}
-export interface AdminQuotaPolicy_DimensionsEntryProtoMsg {
-  typeUrl: string;
-  value: Uint8Array;
-}
-export interface AdminQuotaPolicy_DimensionsEntryAmino {
-  key: string;
-  value: string;
-}
-export interface AdminQuotaPolicy_DimensionsEntryAminoMsg {
-  type: string;
-  value: AdminQuotaPolicy_DimensionsEntryAmino;
 }
 export interface AdminQuotaPolicy_DimensionsEntrySDKType {
   key: string;
@@ -913,7 +537,7 @@ export interface AdminQuotaPolicy {
    * The quota policy value.
    * Can be any nonnegative integer, or -1 (unlimited quota).
    */
-  policyValue: Long;
+  policyValue: bigint;
   /**
    * If this map is nonempty, then this policy applies only to specific values
    * for dimensions defined in the limit unit.
@@ -952,73 +576,11 @@ export interface AdminQuotaPolicy {
    * format is `{container_type}/{container_number}`
    */
   container: string;
-}
-export interface AdminQuotaPolicyProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.AdminQuotaPolicy";
-  value: Uint8Array;
-}
-/** Quota policy created by quota administrator. */
-export interface AdminQuotaPolicyAmino {
-  /**
-   * The resource name of the policy.
-   * This name is generated by the server when the policy is created.
-   * 
-   * Example names would be:
-   * `organizations/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/adminQuotaPolicies/4a3f2c1d`
-   */
-  name: string;
-  /**
-   * The quota policy value.
-   * Can be any nonnegative integer, or -1 (unlimited quota).
-   */
-  policy_value: string;
-  /**
-   * If this map is nonempty, then this policy applies only to specific values
-   * for dimensions defined in the limit unit.
-   * 
-   * For example, an policy on a limit with the unit `1/{project}/{region}`
-   * could contain an entry with the key `region` and the value `us-east-1`;
-   * the policy is only applied to quota consumed in that region.
-   * 
-   * This map has the following restrictions:
-   * 
-   * *   If `region` appears as a key, its value must be a valid Cloud region.
-   * *   If `zone` appears as a key, its value must be a valid Cloud zone.
-   * *   Keys other than `region` or `zone` are not valid.
-   */
-  dimensions: {
-    [key: string]: string;
-  };
-  /**
-   * The name of the metric to which this policy applies.
-   * 
-   * An example name would be:
-   * `compute.googleapis.com/cpus`
-   */
-  metric: string;
-  /**
-   * The limit unit of the limit to which this policy applies.
-   * 
-   * An example unit would be:
-   * `1/{project}/{region}`
-   * Note that `{project}` and `{region}` are not placeholders in this example;
-   * the literal characters `{` and `}` occur in the string.
-   */
-  unit: string;
-  /**
-   * The cloud resource container at which the quota policy is created. The
-   * format is `{container_type}/{container_number}`
-   */
-  container: string;
-}
-export interface AdminQuotaPolicyAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.AdminQuotaPolicy";
-  value: AdminQuotaPolicyAmino;
 }
 /** Quota policy created by quota administrator. */
 export interface AdminQuotaPolicySDKType {
   name: string;
-  policy_value: Long;
+  policy_value: bigint;
   dimensions: {
     [key: string]: string;
   };
@@ -1042,30 +604,6 @@ export interface ServiceIdentity {
    */
   uniqueId: string;
 }
-export interface ServiceIdentityProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1beta1.ServiceIdentity";
-  value: Uint8Array;
-}
-/**
- * Service identity for a service. This is the identity that service producer
- * should use to access consumer resources.
- */
-export interface ServiceIdentityAmino {
-  /**
-   * The email address of the service account that a service producer would use
-   * to access consumer resources.
-   */
-  email: string;
-  /**
-   * The unique and stable id of the service account.
-   * https://cloud.google.com/iam/reference/rest/v1/projects.serviceAccounts#ServiceAccount
-   */
-  unique_id: string;
-}
-export interface ServiceIdentityAminoMsg {
-  type: "/google.api.serviceusage.v1beta1.ServiceIdentity";
-  value: ServiceIdentityAmino;
-}
 /**
  * Service identity for a service. This is the identity that service producer
  * should use to access consumer resources.
@@ -1084,7 +622,7 @@ function createBaseService(): Service {
 }
 export const Service = {
   typeUrl: "/google.api.serviceusage.v1beta1.Service",
-  encode(message: Service, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Service, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -1099,8 +637,8 @@ export const Service = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Service {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Service {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseService();
     while (reader.pos < end) {
@@ -1141,7 +679,7 @@ export const Service = {
     message.state !== undefined && (obj.state = stateToJSON(message.state));
     return obj;
   },
-  fromPartial(object: DeepPartial<Service>): Service {
+  fromPartial(object: Partial<Service>): Service {
     const message = createBaseService();
     message.name = object.name ?? "";
     message.parent = object.parent ?? "";
@@ -1213,7 +751,7 @@ function createBaseServiceConfig(): ServiceConfig {
 }
 export const ServiceConfig = {
   typeUrl: "/google.api.serviceusage.v1beta1.ServiceConfig",
-  encode(message: ServiceConfig, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ServiceConfig, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -1246,8 +784,8 @@ export const ServiceConfig = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ServiceConfig {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ServiceConfig {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseServiceConfig();
     while (reader.pos < end) {
@@ -1330,7 +868,7 @@ export const ServiceConfig = {
     message.monitoring !== undefined && (obj.monitoring = message.monitoring ? Monitoring.toJSON(message.monitoring) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<ServiceConfig>): ServiceConfig {
+  fromPartial(object: Partial<ServiceConfig>): ServiceConfig {
     const message = createBaseServiceConfig();
     message.name = object.name ?? "";
     message.title = object.title ?? "";
@@ -1447,14 +985,14 @@ function createBaseOperationMetadata(): OperationMetadata {
 }
 export const OperationMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.OperationMetadata",
-  encode(message: OperationMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: OperationMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.resourceNames) {
       writer.uint32(18).string(v!);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): OperationMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): OperationMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOperationMetadata();
     while (reader.pos < end) {
@@ -1484,7 +1022,7 @@ export const OperationMetadata = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<OperationMetadata>): OperationMetadata {
+  fromPartial(object: Partial<OperationMetadata>): OperationMetadata {
     const message = createBaseOperationMetadata();
     message.resourceNames = object.resourceNames?.map(e => e) || [];
     return message;
@@ -1545,7 +1083,7 @@ function createBaseConsumerQuotaMetric(): ConsumerQuotaMetric {
 }
 export const ConsumerQuotaMetric = {
   typeUrl: "/google.api.serviceusage.v1beta1.ConsumerQuotaMetric",
-  encode(message: ConsumerQuotaMetric, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConsumerQuotaMetric, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -1566,8 +1104,8 @@ export const ConsumerQuotaMetric = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConsumerQuotaMetric {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConsumerQuotaMetric {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConsumerQuotaMetric();
     while (reader.pos < end) {
@@ -1626,7 +1164,7 @@ export const ConsumerQuotaMetric = {
     message.unit !== undefined && (obj.unit = message.unit);
     return obj;
   },
-  fromPartial(object: DeepPartial<ConsumerQuotaMetric>): ConsumerQuotaMetric {
+  fromPartial(object: Partial<ConsumerQuotaMetric>): ConsumerQuotaMetric {
     const message = createBaseConsumerQuotaMetric();
     message.name = object.name ?? "";
     message.metric = object.metric ?? "";
@@ -1720,7 +1258,7 @@ function createBaseConsumerQuotaLimit(): ConsumerQuotaLimit {
 }
 export const ConsumerQuotaLimit = {
   typeUrl: "/google.api.serviceusage.v1beta1.ConsumerQuotaLimit",
-  encode(message: ConsumerQuotaLimit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConsumerQuotaLimit, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -1741,8 +1279,8 @@ export const ConsumerQuotaLimit = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConsumerQuotaLimit {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConsumerQuotaLimit {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConsumerQuotaLimit();
     while (reader.pos < end) {
@@ -1797,7 +1335,7 @@ export const ConsumerQuotaLimit = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<ConsumerQuotaLimit>): ConsumerQuotaLimit {
+  fromPartial(object: Partial<ConsumerQuotaLimit>): ConsumerQuotaLimit {
     const message = createBaseConsumerQuotaLimit();
     message.name = object.name ?? "";
     message.metric = object.metric ?? "";
@@ -1878,7 +1416,7 @@ function createBaseQuotaBucket_DimensionsEntry(): QuotaBucket_DimensionsEntry {
   };
 }
 export const QuotaBucket_DimensionsEntry = {
-  encode(message: QuotaBucket_DimensionsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QuotaBucket_DimensionsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -1887,8 +1425,8 @@ export const QuotaBucket_DimensionsEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuotaBucket_DimensionsEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QuotaBucket_DimensionsEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuotaBucket_DimensionsEntry();
     while (reader.pos < end) {
@@ -1919,7 +1457,7 @@ export const QuotaBucket_DimensionsEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: DeepPartial<QuotaBucket_DimensionsEntry>): QuotaBucket_DimensionsEntry {
+  fromPartial(object: Partial<QuotaBucket_DimensionsEntry>): QuotaBucket_DimensionsEntry {
     const message = createBaseQuotaBucket_DimensionsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -1961,8 +1499,8 @@ export const QuotaBucket_DimensionsEntry = {
 };
 function createBaseQuotaBucket(): QuotaBucket {
   return {
-    effectiveLimit: Long.ZERO,
-    defaultLimit: Long.ZERO,
+    effectiveLimit: BigInt("0"),
+    defaultLimit: BigInt("0"),
     producerOverride: undefined,
     consumerOverride: undefined,
     adminOverride: undefined,
@@ -1971,11 +1509,11 @@ function createBaseQuotaBucket(): QuotaBucket {
 }
 export const QuotaBucket = {
   typeUrl: "/google.api.serviceusage.v1beta1.QuotaBucket",
-  encode(message: QuotaBucket, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.effectiveLimit.isZero()) {
+  encode(message: QuotaBucket, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.effectiveLimit !== BigInt(0)) {
       writer.uint32(8).int64(message.effectiveLimit);
     }
-    if (!message.defaultLimit.isZero()) {
+    if (message.defaultLimit !== BigInt(0)) {
       writer.uint32(16).int64(message.defaultLimit);
     }
     if (message.producerOverride !== undefined) {
@@ -1995,18 +1533,18 @@ export const QuotaBucket = {
     });
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuotaBucket {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QuotaBucket {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuotaBucket();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.effectiveLimit = (reader.int64() as Long);
+          message.effectiveLimit = BigInt(reader.int64().toString());
           break;
         case 2:
-          message.defaultLimit = (reader.int64() as Long);
+          message.defaultLimit = BigInt(reader.int64().toString());
           break;
         case 3:
           message.producerOverride = QuotaOverride.decode(reader, reader.uint32());
@@ -2032,8 +1570,8 @@ export const QuotaBucket = {
   },
   fromJSON(object: any): QuotaBucket {
     return {
-      effectiveLimit: isSet(object.effectiveLimit) ? Long.fromValue(object.effectiveLimit) : Long.ZERO,
-      defaultLimit: isSet(object.defaultLimit) ? Long.fromValue(object.defaultLimit) : Long.ZERO,
+      effectiveLimit: isSet(object.effectiveLimit) ? BigInt(object.effectiveLimit.toString()) : BigInt("0"),
+      defaultLimit: isSet(object.defaultLimit) ? BigInt(object.defaultLimit.toString()) : BigInt("0"),
       producerOverride: isSet(object.producerOverride) ? QuotaOverride.fromJSON(object.producerOverride) : undefined,
       consumerOverride: isSet(object.consumerOverride) ? QuotaOverride.fromJSON(object.consumerOverride) : undefined,
       adminOverride: isSet(object.adminOverride) ? QuotaOverride.fromJSON(object.adminOverride) : undefined,
@@ -2047,8 +1585,8 @@ export const QuotaBucket = {
   },
   toJSON(message: QuotaBucket): unknown {
     const obj: any = {};
-    message.effectiveLimit !== undefined && (obj.effectiveLimit = (message.effectiveLimit || Long.ZERO).toString());
-    message.defaultLimit !== undefined && (obj.defaultLimit = (message.defaultLimit || Long.ZERO).toString());
+    message.effectiveLimit !== undefined && (obj.effectiveLimit = (message.effectiveLimit || BigInt("0")).toString());
+    message.defaultLimit !== undefined && (obj.defaultLimit = (message.defaultLimit || BigInt("0")).toString());
     message.producerOverride !== undefined && (obj.producerOverride = message.producerOverride ? QuotaOverride.toJSON(message.producerOverride) : undefined);
     message.consumerOverride !== undefined && (obj.consumerOverride = message.consumerOverride ? QuotaOverride.toJSON(message.consumerOverride) : undefined);
     message.adminOverride !== undefined && (obj.adminOverride = message.adminOverride ? QuotaOverride.toJSON(message.adminOverride) : undefined);
@@ -2060,10 +1598,10 @@ export const QuotaBucket = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<QuotaBucket>): QuotaBucket {
+  fromPartial(object: Partial<QuotaBucket>): QuotaBucket {
     const message = createBaseQuotaBucket();
-    message.effectiveLimit = object.effectiveLimit !== undefined && object.effectiveLimit !== null ? Long.fromValue(object.effectiveLimit) : Long.ZERO;
-    message.defaultLimit = object.defaultLimit !== undefined && object.defaultLimit !== null ? Long.fromValue(object.defaultLimit) : Long.ZERO;
+    message.effectiveLimit = object.effectiveLimit !== undefined && object.effectiveLimit !== null ? BigInt(object.effectiveLimit.toString()) : BigInt("0");
+    message.defaultLimit = object.defaultLimit !== undefined && object.defaultLimit !== null ? BigInt(object.defaultLimit.toString()) : BigInt("0");
     message.producerOverride = object.producerOverride !== undefined && object.producerOverride !== null ? QuotaOverride.fromPartial(object.producerOverride) : undefined;
     message.consumerOverride = object.consumerOverride !== undefined && object.consumerOverride !== null ? QuotaOverride.fromPartial(object.consumerOverride) : undefined;
     message.adminOverride = object.adminOverride !== undefined && object.adminOverride !== null ? QuotaOverride.fromPartial(object.adminOverride) : undefined;
@@ -2109,8 +1647,8 @@ export const QuotaBucket = {
   },
   fromAmino(object: QuotaBucketAmino): QuotaBucket {
     return {
-      effectiveLimit: Long.fromString(object.effective_limit),
-      defaultLimit: Long.fromString(object.default_limit),
+      effectiveLimit: BigInt(object.effective_limit),
+      defaultLimit: BigInt(object.default_limit),
       producerOverride: object?.producer_override ? QuotaOverride.fromAmino(object.producer_override) : undefined,
       consumerOverride: object?.consumer_override ? QuotaOverride.fromAmino(object.consumer_override) : undefined,
       adminOverride: object?.admin_override ? QuotaOverride.fromAmino(object.admin_override) : undefined,
@@ -2160,7 +1698,7 @@ function createBaseQuotaOverride_DimensionsEntry(): QuotaOverride_DimensionsEntr
   };
 }
 export const QuotaOverride_DimensionsEntry = {
-  encode(message: QuotaOverride_DimensionsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QuotaOverride_DimensionsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -2169,8 +1707,8 @@ export const QuotaOverride_DimensionsEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuotaOverride_DimensionsEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QuotaOverride_DimensionsEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuotaOverride_DimensionsEntry();
     while (reader.pos < end) {
@@ -2201,7 +1739,7 @@ export const QuotaOverride_DimensionsEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: DeepPartial<QuotaOverride_DimensionsEntry>): QuotaOverride_DimensionsEntry {
+  fromPartial(object: Partial<QuotaOverride_DimensionsEntry>): QuotaOverride_DimensionsEntry {
     const message = createBaseQuotaOverride_DimensionsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -2244,7 +1782,7 @@ export const QuotaOverride_DimensionsEntry = {
 function createBaseQuotaOverride(): QuotaOverride {
   return {
     name: "",
-    overrideValue: Long.ZERO,
+    overrideValue: BigInt("0"),
     dimensions: {},
     metric: "",
     unit: "",
@@ -2253,11 +1791,11 @@ function createBaseQuotaOverride(): QuotaOverride {
 }
 export const QuotaOverride = {
   typeUrl: "/google.api.serviceusage.v1beta1.QuotaOverride",
-  encode(message: QuotaOverride, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QuotaOverride, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
-    if (!message.overrideValue.isZero()) {
+    if (message.overrideValue !== BigInt(0)) {
       writer.uint32(16).int64(message.overrideValue);
     }
     Object.entries(message.dimensions).forEach(([key, value]) => {
@@ -2277,8 +1815,8 @@ export const QuotaOverride = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuotaOverride {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QuotaOverride {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuotaOverride();
     while (reader.pos < end) {
@@ -2288,7 +1826,7 @@ export const QuotaOverride = {
           message.name = reader.string();
           break;
         case 2:
-          message.overrideValue = (reader.int64() as Long);
+          message.overrideValue = BigInt(reader.int64().toString());
           break;
         case 3:
           const entry3 = QuotaOverride_DimensionsEntry.decode(reader, reader.uint32());
@@ -2315,7 +1853,7 @@ export const QuotaOverride = {
   fromJSON(object: any): QuotaOverride {
     return {
       name: isSet(object.name) ? String(object.name) : "",
-      overrideValue: isSet(object.overrideValue) ? Long.fromValue(object.overrideValue) : Long.ZERO,
+      overrideValue: isSet(object.overrideValue) ? BigInt(object.overrideValue.toString()) : BigInt("0"),
       dimensions: isObject(object.dimensions) ? Object.entries(object.dimensions).reduce<{
         [key: string]: string;
       }>((acc, [key, value]) => {
@@ -2330,7 +1868,7 @@ export const QuotaOverride = {
   toJSON(message: QuotaOverride): unknown {
     const obj: any = {};
     message.name !== undefined && (obj.name = message.name);
-    message.overrideValue !== undefined && (obj.overrideValue = (message.overrideValue || Long.ZERO).toString());
+    message.overrideValue !== undefined && (obj.overrideValue = (message.overrideValue || BigInt("0")).toString());
     obj.dimensions = {};
     if (message.dimensions) {
       Object.entries(message.dimensions).forEach(([k, v]) => {
@@ -2342,10 +1880,10 @@ export const QuotaOverride = {
     message.adminOverrideAncestor !== undefined && (obj.adminOverrideAncestor = message.adminOverrideAncestor);
     return obj;
   },
-  fromPartial(object: DeepPartial<QuotaOverride>): QuotaOverride {
+  fromPartial(object: Partial<QuotaOverride>): QuotaOverride {
     const message = createBaseQuotaOverride();
     message.name = object.name ?? "";
-    message.overrideValue = object.overrideValue !== undefined && object.overrideValue !== null ? Long.fromValue(object.overrideValue) : Long.ZERO;
+    message.overrideValue = object.overrideValue !== undefined && object.overrideValue !== null ? BigInt(object.overrideValue.toString()) : BigInt("0");
     message.dimensions = Object.entries(object.dimensions ?? {}).reduce<{
       [key: string]: string;
     }>((acc, [key, value]) => {
@@ -2392,7 +1930,7 @@ export const QuotaOverride = {
   fromAmino(object: QuotaOverrideAmino): QuotaOverride {
     return {
       name: object.name,
-      overrideValue: Long.fromString(object.override_value),
+      overrideValue: BigInt(object.override_value),
       dimensions: isObject(object.dimensions) ? Object.entries(object.dimensions).reduce<{
         [key: string]: string;
       }>((acc, [key, value]) => {
@@ -2442,14 +1980,14 @@ function createBaseOverrideInlineSource(): OverrideInlineSource {
 }
 export const OverrideInlineSource = {
   typeUrl: "/google.api.serviceusage.v1beta1.OverrideInlineSource",
-  encode(message: OverrideInlineSource, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: OverrideInlineSource, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overrides) {
       QuotaOverride.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): OverrideInlineSource {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): OverrideInlineSource {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOverrideInlineSource();
     while (reader.pos < end) {
@@ -2479,7 +2017,7 @@ export const OverrideInlineSource = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<OverrideInlineSource>): OverrideInlineSource {
+  fromPartial(object: Partial<OverrideInlineSource>): OverrideInlineSource {
     const message = createBaseOverrideInlineSource();
     message.overrides = object.overrides?.map(e => QuotaOverride.fromPartial(e)) || [];
     return message;
@@ -2535,7 +2073,7 @@ function createBaseAdminQuotaPolicy_DimensionsEntry(): AdminQuotaPolicy_Dimensio
   };
 }
 export const AdminQuotaPolicy_DimensionsEntry = {
-  encode(message: AdminQuotaPolicy_DimensionsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: AdminQuotaPolicy_DimensionsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -2544,8 +2082,8 @@ export const AdminQuotaPolicy_DimensionsEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): AdminQuotaPolicy_DimensionsEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): AdminQuotaPolicy_DimensionsEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAdminQuotaPolicy_DimensionsEntry();
     while (reader.pos < end) {
@@ -2576,7 +2114,7 @@ export const AdminQuotaPolicy_DimensionsEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: DeepPartial<AdminQuotaPolicy_DimensionsEntry>): AdminQuotaPolicy_DimensionsEntry {
+  fromPartial(object: Partial<AdminQuotaPolicy_DimensionsEntry>): AdminQuotaPolicy_DimensionsEntry {
     const message = createBaseAdminQuotaPolicy_DimensionsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -2619,7 +2157,7 @@ export const AdminQuotaPolicy_DimensionsEntry = {
 function createBaseAdminQuotaPolicy(): AdminQuotaPolicy {
   return {
     name: "",
-    policyValue: Long.ZERO,
+    policyValue: BigInt("0"),
     dimensions: {},
     metric: "",
     unit: "",
@@ -2628,11 +2166,11 @@ function createBaseAdminQuotaPolicy(): AdminQuotaPolicy {
 }
 export const AdminQuotaPolicy = {
   typeUrl: "/google.api.serviceusage.v1beta1.AdminQuotaPolicy",
-  encode(message: AdminQuotaPolicy, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: AdminQuotaPolicy, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
-    if (!message.policyValue.isZero()) {
+    if (message.policyValue !== BigInt(0)) {
       writer.uint32(16).int64(message.policyValue);
     }
     Object.entries(message.dimensions).forEach(([key, value]) => {
@@ -2652,8 +2190,8 @@ export const AdminQuotaPolicy = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): AdminQuotaPolicy {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): AdminQuotaPolicy {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAdminQuotaPolicy();
     while (reader.pos < end) {
@@ -2663,7 +2201,7 @@ export const AdminQuotaPolicy = {
           message.name = reader.string();
           break;
         case 2:
-          message.policyValue = (reader.int64() as Long);
+          message.policyValue = BigInt(reader.int64().toString());
           break;
         case 3:
           const entry3 = AdminQuotaPolicy_DimensionsEntry.decode(reader, reader.uint32());
@@ -2690,7 +2228,7 @@ export const AdminQuotaPolicy = {
   fromJSON(object: any): AdminQuotaPolicy {
     return {
       name: isSet(object.name) ? String(object.name) : "",
-      policyValue: isSet(object.policyValue) ? Long.fromValue(object.policyValue) : Long.ZERO,
+      policyValue: isSet(object.policyValue) ? BigInt(object.policyValue.toString()) : BigInt("0"),
       dimensions: isObject(object.dimensions) ? Object.entries(object.dimensions).reduce<{
         [key: string]: string;
       }>((acc, [key, value]) => {
@@ -2705,7 +2243,7 @@ export const AdminQuotaPolicy = {
   toJSON(message: AdminQuotaPolicy): unknown {
     const obj: any = {};
     message.name !== undefined && (obj.name = message.name);
-    message.policyValue !== undefined && (obj.policyValue = (message.policyValue || Long.ZERO).toString());
+    message.policyValue !== undefined && (obj.policyValue = (message.policyValue || BigInt("0")).toString());
     obj.dimensions = {};
     if (message.dimensions) {
       Object.entries(message.dimensions).forEach(([k, v]) => {
@@ -2717,10 +2255,10 @@ export const AdminQuotaPolicy = {
     message.container !== undefined && (obj.container = message.container);
     return obj;
   },
-  fromPartial(object: DeepPartial<AdminQuotaPolicy>): AdminQuotaPolicy {
+  fromPartial(object: Partial<AdminQuotaPolicy>): AdminQuotaPolicy {
     const message = createBaseAdminQuotaPolicy();
     message.name = object.name ?? "";
-    message.policyValue = object.policyValue !== undefined && object.policyValue !== null ? Long.fromValue(object.policyValue) : Long.ZERO;
+    message.policyValue = object.policyValue !== undefined && object.policyValue !== null ? BigInt(object.policyValue.toString()) : BigInt("0");
     message.dimensions = Object.entries(object.dimensions ?? {}).reduce<{
       [key: string]: string;
     }>((acc, [key, value]) => {
@@ -2767,7 +2305,7 @@ export const AdminQuotaPolicy = {
   fromAmino(object: AdminQuotaPolicyAmino): AdminQuotaPolicy {
     return {
       name: object.name,
-      policyValue: Long.fromString(object.policy_value),
+      policyValue: BigInt(object.policy_value),
       dimensions: isObject(object.dimensions) ? Object.entries(object.dimensions).reduce<{
         [key: string]: string;
       }>((acc, [key, value]) => {
@@ -2818,7 +2356,7 @@ function createBaseServiceIdentity(): ServiceIdentity {
 }
 export const ServiceIdentity = {
   typeUrl: "/google.api.serviceusage.v1beta1.ServiceIdentity",
-  encode(message: ServiceIdentity, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ServiceIdentity, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.email !== "") {
       writer.uint32(10).string(message.email);
     }
@@ -2827,8 +2365,8 @@ export const ServiceIdentity = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ServiceIdentity {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ServiceIdentity {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseServiceIdentity();
     while (reader.pos < end) {
@@ -2859,7 +2397,7 @@ export const ServiceIdentity = {
     message.uniqueId !== undefined && (obj.uniqueId = message.uniqueId);
     return obj;
   },
-  fromPartial(object: DeepPartial<ServiceIdentity>): ServiceIdentity {
+  fromPartial(object: Partial<ServiceIdentity>): ServiceIdentity {
     const message = createBaseServiceIdentity();
     message.email = object.email ?? "";
     message.uniqueId = object.uniqueId ?? "";

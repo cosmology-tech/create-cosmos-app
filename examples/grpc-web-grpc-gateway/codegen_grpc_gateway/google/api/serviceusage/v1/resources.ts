@@ -1,13 +1,13 @@
-import { Api, ApiAmino, ApiSDKType } from "../../../protobuf/api";
-import { Documentation, DocumentationAmino, DocumentationSDKType } from "../../documentation";
-import { Quota, QuotaAmino, QuotaSDKType } from "../../quota";
-import { Authentication, AuthenticationAmino, AuthenticationSDKType } from "../../auth";
-import { Usage, UsageAmino, UsageSDKType } from "../../usage";
-import { Endpoint, EndpointAmino, EndpointSDKType } from "../../endpoint";
-import { MonitoredResourceDescriptor, MonitoredResourceDescriptorAmino, MonitoredResourceDescriptorSDKType } from "../../monitored_resource";
-import { Monitoring, MonitoringAmino, MonitoringSDKType } from "../../monitoring";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../../../helpers";
+import { Api, ApiSDKType } from "../../../protobuf/api";
+import { Documentation, DocumentationSDKType } from "../../documentation";
+import { Quota, QuotaSDKType } from "../../quota";
+import { Authentication, AuthenticationSDKType } from "../../auth";
+import { Usage, UsageSDKType } from "../../usage";
+import { Endpoint, EndpointSDKType } from "../../endpoint";
+import { MonitoredResourceDescriptor, MonitoredResourceDescriptorSDKType } from "../../monitored_resource";
+import { Monitoring, MonitoringSDKType } from "../../monitoring";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet } from "../../../../helpers";
 export const protobufPackage = "google.api.serviceusage.v1";
 /** Whether or not a service has been enabled for use by a consumer. */
 export enum State {
@@ -27,7 +27,6 @@ export enum State {
   UNRECOGNIZED = -1,
 }
 export const StateSDKType = State;
-export const StateAmino = State;
 export function stateFromJSON(object: any): State {
   switch (object) {
     case 0:
@@ -84,40 +83,6 @@ export interface Service {
   /** Whether or not the service has been enabled for use by the consumer. */
   state: State;
 }
-export interface ServiceProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.Service";
-  value: Uint8Array;
-}
-/** A service that is available for use by the consumer. */
-export interface ServiceAmino {
-  /**
-   * The resource name of the consumer and service.
-   * 
-   * A valid name would be:
-   * - projects/123/services/serviceusage.googleapis.com
-   */
-  name: string;
-  /**
-   * The resource name of the consumer.
-   * 
-   * A valid name would be:
-   * - projects/123
-   */
-  parent: string;
-  /**
-   * The service configuration of the available service.
-   * Some fields may be filtered out of the configuration in responses to
-   * the `ListServices` method. These fields are present only in responses to
-   * the `GetService` method.
-   */
-  config?: ServiceConfigAmino;
-  /** Whether or not the service has been enabled for use by the consumer. */
-  state: State;
-}
-export interface ServiceAminoMsg {
-  type: "/google.api.serviceusage.v1.Service";
-  value: ServiceAmino;
-}
 /** A service that is available for use by the consumer. */
 export interface ServiceSDKType {
   name: string;
@@ -168,57 +133,6 @@ export interface ServiceConfig {
    */
   monitoring?: Monitoring;
 }
-export interface ServiceConfigProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.ServiceConfig";
-  value: Uint8Array;
-}
-/** The configuration of the service. */
-export interface ServiceConfigAmino {
-  /**
-   * The DNS address at which this service is available.
-   * 
-   * An example DNS address would be:
-   * `calendar.googleapis.com`.
-   */
-  name: string;
-  /** The product title for this service. */
-  title: string;
-  /**
-   * A list of API interfaces exported by this service. Contains only the names,
-   * versions, and method names of the interfaces.
-   */
-  apis: ApiAmino[];
-  /**
-   * Additional API documentation. Contains only the summary and the
-   * documentation URL.
-   */
-  documentation?: DocumentationAmino;
-  /** Quota configuration. */
-  quota?: QuotaAmino;
-  /** Auth configuration. Contains only the OAuth rules. */
-  authentication?: AuthenticationAmino;
-  /** Configuration controlling usage of this service. */
-  usage?: UsageAmino;
-  /**
-   * Configuration for network endpoints. Contains only the names and aliases
-   * of the endpoints.
-   */
-  endpoints: EndpointAmino[];
-  /**
-   * Defines the monitored resources used by this service. This is required
-   * by the [Service.monitoring][google.api.Service.monitoring] and [Service.logging][google.api.Service.logging] configurations.
-   */
-  monitored_resources: MonitoredResourceDescriptorAmino[];
-  /**
-   * Monitoring configuration.
-   * This should not include the 'producer_destinations' field.
-   */
-  monitoring?: MonitoringAmino;
-}
-export interface ServiceConfigAminoMsg {
-  type: "/google.api.serviceusage.v1.ServiceConfig";
-  value: ServiceConfigAmino;
-}
 /** The configuration of the service. */
 export interface ServiceConfigSDKType {
   name: string;
@@ -240,22 +154,6 @@ export interface OperationMetadata {
    */
   resourceNames: string[];
 }
-export interface OperationMetadataProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.OperationMetadata";
-  value: Uint8Array;
-}
-/** The operation metadata returned for the batchend services operation. */
-export interface OperationMetadataAmino {
-  /**
-   * The full name of the resources that this operation is directly
-   * associated with.
-   */
-  resource_names: string[];
-}
-export interface OperationMetadataAminoMsg {
-  type: "/google.api.serviceusage.v1.OperationMetadata";
-  value: OperationMetadataAmino;
-}
 /** The operation metadata returned for the batchend services operation. */
 export interface OperationMetadataSDKType {
   resource_names: string[];
@@ -270,7 +168,7 @@ function createBaseService(): Service {
 }
 export const Service = {
   typeUrl: "/google.api.serviceusage.v1.Service",
-  encode(message: Service, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Service, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -285,8 +183,8 @@ export const Service = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Service {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Service {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseService();
     while (reader.pos < end) {
@@ -327,7 +225,7 @@ export const Service = {
     message.state !== undefined && (obj.state = stateToJSON(message.state));
     return obj;
   },
-  fromPartial(object: DeepPartial<Service>): Service {
+  fromPartial(object: Partial<Service>): Service {
     const message = createBaseService();
     message.name = object.name ?? "";
     message.parent = object.parent ?? "";
@@ -399,7 +297,7 @@ function createBaseServiceConfig(): ServiceConfig {
 }
 export const ServiceConfig = {
   typeUrl: "/google.api.serviceusage.v1.ServiceConfig",
-  encode(message: ServiceConfig, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ServiceConfig, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -432,8 +330,8 @@ export const ServiceConfig = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ServiceConfig {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ServiceConfig {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseServiceConfig();
     while (reader.pos < end) {
@@ -516,7 +414,7 @@ export const ServiceConfig = {
     message.monitoring !== undefined && (obj.monitoring = message.monitoring ? Monitoring.toJSON(message.monitoring) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<ServiceConfig>): ServiceConfig {
+  fromPartial(object: Partial<ServiceConfig>): ServiceConfig {
     const message = createBaseServiceConfig();
     message.name = object.name ?? "";
     message.title = object.title ?? "";
@@ -633,14 +531,14 @@ function createBaseOperationMetadata(): OperationMetadata {
 }
 export const OperationMetadata = {
   typeUrl: "/google.api.serviceusage.v1.OperationMetadata",
-  encode(message: OperationMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: OperationMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.resourceNames) {
       writer.uint32(18).string(v!);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): OperationMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): OperationMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOperationMetadata();
     while (reader.pos < end) {
@@ -670,7 +568,7 @@ export const OperationMetadata = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<OperationMetadata>): OperationMetadata {
+  fromPartial(object: Partial<OperationMetadata>): OperationMetadata {
     const message = createBaseOperationMetadata();
     message.resourceNames = object.resourceNames?.map(e => e) || [];
     return message;

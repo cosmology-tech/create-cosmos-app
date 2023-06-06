@@ -41,7 +41,6 @@ export enum LogSeverity {
   UNRECOGNIZED = -1,
 }
 export const LogSeveritySDKType = LogSeverity;
-export const LogSeverityAmino = LogSeverity;
 export function logSeverityFromJSON(object: any): LogSeverity {
   switch (object) {
     case 0:

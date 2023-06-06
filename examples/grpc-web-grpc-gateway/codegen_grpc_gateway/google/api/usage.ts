@@ -1,5 +1,5 @@
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../helpers";
+import { BinaryReader, BinaryWriter } from "../../binary";
+import { isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /** Configuration controlling usage of a service. */
 export interface Usage {
@@ -32,46 +32,6 @@ export interface Usage {
    * documented in https://cloud.google.com/pubsub/docs/overview.
    */
   producerNotificationChannel: string;
-}
-export interface UsageProtoMsg {
-  typeUrl: "/google.api.Usage";
-  value: Uint8Array;
-}
-/** Configuration controlling usage of a service. */
-export interface UsageAmino {
-  /**
-   * Requirements that must be satisfied before a consumer project can use the
-   * service. Each requirement is of the form <service.name>/<requirement-id>;
-   * for example 'serviceusage.googleapis.com/billing-enabled'.
-   * 
-   * For Google APIs, a Terms of Service requirement must be included here.
-   * Google Cloud APIs must include "serviceusage.googleapis.com/tos/cloud".
-   * Other Google APIs should include
-   * "serviceusage.googleapis.com/tos/universal". Additional ToS can be
-   * included based on the business needs.
-   */
-  requirements: string[];
-  /**
-   * A list of usage rules that apply to individual API methods.
-   * 
-   * **NOTE:** All service configuration rules follow "last one wins" order.
-   */
-  rules: UsageRuleAmino[];
-  /**
-   * The full resource name of a channel used for sending notifications to the
-   * service producer.
-   * 
-   * Google Service Management currently only supports
-   * [Google Cloud Pub/Sub](https://cloud.google.com/pubsub) as a notification
-   * channel. To use Google Cloud Pub/Sub as the channel, this must be the name
-   * of a Cloud Pub/Sub topic that uses the Cloud Pub/Sub topic name format
-   * documented in https://cloud.google.com/pubsub/docs/overview.
-   */
-  producer_notification_channel: string;
-}
-export interface UsageAminoMsg {
-  type: "/google.api.Usage";
-  value: UsageAmino;
 }
 /** Configuration controlling usage of a service. */
 export interface UsageSDKType {
@@ -127,62 +87,6 @@ export interface UsageRule {
    */
   skipServiceControl: boolean;
 }
-export interface UsageRuleProtoMsg {
-  typeUrl: "/google.api.UsageRule";
-  value: Uint8Array;
-}
-/**
- * Usage configuration rules for the service.
- * 
- * NOTE: Under development.
- * 
- * 
- * Use this rule to configure unregistered calls for the service. Unregistered
- * calls are calls that do not contain consumer project identity.
- * (Example: calls that do not contain an API key).
- * By default, API methods do not allow unregistered calls, and each method call
- * must be identified by a consumer project identity. Use this rule to
- * allow/disallow unregistered calls.
- * 
- * Example of an API that wants to allow unregistered calls for entire service.
- * 
- *     usage:
- *       rules:
- *       - selector: "*"
- *         allow_unregistered_calls: true
- * 
- * Example of a method that wants to allow unregistered calls.
- * 
- *     usage:
- *       rules:
- *       - selector: "google.example.library.v1.LibraryService.CreateBook"
- *         allow_unregistered_calls: true
- */
-export interface UsageRuleAmino {
-  /**
-   * Selects the methods to which this rule applies. Use '*' to indicate all
-   * methods in all APIs.
-   * 
-   * Refer to [selector][google.api.DocumentationRule.selector] for syntax details.
-   */
-  selector: string;
-  /**
-   * If true, the selected method allows unregistered calls, e.g. calls
-   * that don't identify any user or application.
-   */
-  allow_unregistered_calls: boolean;
-  /**
-   * If true, the selected method should skip service control and the control
-   * plane features, such as quota and billing, will not be available.
-   * This flag is used by Google Cloud Endpoints to bypass checks for internal
-   * methods, such as service health check methods.
-   */
-  skip_service_control: boolean;
-}
-export interface UsageRuleAminoMsg {
-  type: "/google.api.UsageRule";
-  value: UsageRuleAmino;
-}
 /**
  * Usage configuration rules for the service.
  * 
@@ -224,7 +128,7 @@ function createBaseUsage(): Usage {
 }
 export const Usage = {
   typeUrl: "/google.api.Usage",
-  encode(message: Usage, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Usage, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.requirements) {
       writer.uint32(10).string(v!);
     }
@@ -236,8 +140,8 @@ export const Usage = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Usage {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Usage {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUsage();
     while (reader.pos < end) {
@@ -281,7 +185,7 @@ export const Usage = {
     message.producerNotificationChannel !== undefined && (obj.producerNotificationChannel = message.producerNotificationChannel);
     return obj;
   },
-  fromPartial(object: DeepPartial<Usage>): Usage {
+  fromPartial(object: Partial<Usage>): Usage {
     const message = createBaseUsage();
     message.requirements = object.requirements?.map(e => e) || [];
     message.rules = object.rules?.map(e => UsageRule.fromPartial(e)) || [];
@@ -357,7 +261,7 @@ function createBaseUsageRule(): UsageRule {
 }
 export const UsageRule = {
   typeUrl: "/google.api.UsageRule",
-  encode(message: UsageRule, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: UsageRule, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.selector !== "") {
       writer.uint32(10).string(message.selector);
     }
@@ -369,8 +273,8 @@ export const UsageRule = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): UsageRule {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): UsageRule {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUsageRule();
     while (reader.pos < end) {
@@ -406,7 +310,7 @@ export const UsageRule = {
     message.skipServiceControl !== undefined && (obj.skipServiceControl = message.skipServiceControl);
     return obj;
   },
-  fromPartial(object: DeepPartial<UsageRule>): UsageRule {
+  fromPartial(object: Partial<UsageRule>): UsageRule {
     const message = createBaseUsageRule();
     message.selector = object.selector ?? "";
     message.allowUnregisteredCalls = object.allowUnregisteredCalls ?? false;

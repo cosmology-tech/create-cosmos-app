@@ -1,9 +1,9 @@
-import { ParsedExpr, ParsedExprAmino, ParsedExprSDKType, SourcePosition, SourcePositionAmino, SourcePositionSDKType } from "../../v1alpha1/syntax";
-import { Decl, DeclAmino, DeclSDKType, CheckedExpr, CheckedExprAmino, CheckedExprSDKType } from "../../v1alpha1/checked";
-import { ExprValue, ExprValueAmino, ExprValueSDKType } from "../../v1alpha1/eval";
-import { Status, StatusAmino, StatusSDKType } from "../../../../rpc/status";
-import { Long, isSet, DeepPartial, isObject } from "../../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { ParsedExpr, ParsedExprSDKType, SourcePosition, SourcePositionSDKType } from "../../v1alpha1/syntax";
+import { Decl, DeclSDKType, CheckedExpr, CheckedExprSDKType } from "../../v1alpha1/checked";
+import { ExprValue, ExprValueSDKType } from "../../v1alpha1/eval";
+import { Status, StatusSDKType } from "../../../../rpc/status";
+import { BinaryReader, BinaryWriter } from "../../../../../binary";
+import { isSet, isObject } from "../../../../../helpers";
 export const protobufPackage = "google.api.expr.conformance.v1alpha1";
 /** Severities of issues. */
 export enum IssueDetails_Severity {
@@ -21,7 +21,6 @@ export enum IssueDetails_Severity {
   UNRECOGNIZED = -1,
 }
 export const IssueDetails_SeveritySDKType = IssueDetails_Severity;
-export const IssueDetails_SeverityAmino = IssueDetails_Severity;
 export function issueDetails_SeverityFromJSON(object: any): IssueDetails_Severity {
   switch (object) {
     case 0:
@@ -68,25 +67,6 @@ export interface ParseRequest {
   /** Prevent macro expansion.  See "Macros" in Language Defiinition. */
   disableMacros: boolean;
 }
-export interface ParseRequestProtoMsg {
-  typeUrl: "/google.api.expr.conformance.v1alpha1.ParseRequest";
-  value: Uint8Array;
-}
-/** Request message for the Parse method. */
-export interface ParseRequestAmino {
-  /** Required. Source text in CEL syntax. */
-  cel_source: string;
-  /** Tag for version of CEL syntax, for future use. */
-  syntax_version: string;
-  /** File or resource for source text, used in [SourceInfo][google.api.SourceInfo]. */
-  source_location: string;
-  /** Prevent macro expansion.  See "Macros" in Language Defiinition. */
-  disable_macros: boolean;
-}
-export interface ParseRequestAminoMsg {
-  type: "/google.api.expr.conformance.v1alpha1.ParseRequest";
-  value: ParseRequestAmino;
-}
 /** Request message for the Parse method. */
 export interface ParseRequestSDKType {
   cel_source: string;
@@ -100,21 +80,6 @@ export interface ParseResponse {
   parsedExpr?: ParsedExpr;
   /** Any number of issues with [StatusDetails][] as the details. */
   issues: Status[];
-}
-export interface ParseResponseProtoMsg {
-  typeUrl: "/google.api.expr.conformance.v1alpha1.ParseResponse";
-  value: Uint8Array;
-}
-/** Response message for the Parse method. */
-export interface ParseResponseAmino {
-  /** The parsed representation, or unset if parsing failed. */
-  parsed_expr?: ParsedExprAmino;
-  /** Any number of issues with [StatusDetails][] as the details. */
-  issues: StatusAmino[];
-}
-export interface ParseResponseAminoMsg {
-  type: "/google.api.expr.conformance.v1alpha1.ParseResponse";
-  value: ParseResponseAmino;
 }
 /** Response message for the Parse method. */
 export interface ParseResponseSDKType {
@@ -143,36 +108,6 @@ export interface CheckRequest {
    */
   noStdEnv: boolean;
 }
-export interface CheckRequestProtoMsg {
-  typeUrl: "/google.api.expr.conformance.v1alpha1.CheckRequest";
-  value: Uint8Array;
-}
-/** Request message for the Check method. */
-export interface CheckRequestAmino {
-  /** Required. The parsed representation of the CEL program. */
-  parsed_expr?: ParsedExprAmino;
-  /**
-   * Declarations of types for external variables and functions.
-   * Required if program uses external variables or functions
-   * not in the default environment.
-   */
-  type_env: DeclAmino[];
-  /**
-   * The protocol buffer context.  See "Name Resolution" in the
-   * Language Definition.
-   */
-  container: string;
-  /**
-   * If true, use only the declarations in [type_env][google.api.expr.conformance.v1alpha1.CheckRequest.type_env].  If false (default),
-   * add declarations for the standard definitions to the type environment.  See
-   * "Standard Definitions" in the Language Definition.
-   */
-  no_std_env: boolean;
-}
-export interface CheckRequestAminoMsg {
-  type: "/google.api.expr.conformance.v1alpha1.CheckRequest";
-  value: CheckRequestAmino;
-}
 /** Request message for the Check method. */
 export interface CheckRequestSDKType {
   parsed_expr?: ParsedExprSDKType;
@@ -187,21 +122,6 @@ export interface CheckResponse {
   /** Any number of issues with [StatusDetails][] as the details. */
   issues: Status[];
 }
-export interface CheckResponseProtoMsg {
-  typeUrl: "/google.api.expr.conformance.v1alpha1.CheckResponse";
-  value: Uint8Array;
-}
-/** Response message for the Check method. */
-export interface CheckResponseAmino {
-  /** The annotated representation, or unset if checking failed. */
-  checked_expr?: CheckedExprAmino;
-  /** Any number of issues with [StatusDetails][] as the details. */
-  issues: StatusAmino[];
-}
-export interface CheckResponseAminoMsg {
-  type: "/google.api.expr.conformance.v1alpha1.CheckResponse";
-  value: CheckResponseAmino;
-}
 /** Response message for the Check method. */
 export interface CheckResponseSDKType {
   checked_expr?: CheckedExprSDKType;
@@ -210,18 +130,6 @@ export interface CheckResponseSDKType {
 export interface EvalRequest_BindingsEntry {
   key: string;
   value?: ExprValue;
-}
-export interface EvalRequest_BindingsEntryProtoMsg {
-  typeUrl: string;
-  value: Uint8Array;
-}
-export interface EvalRequest_BindingsEntryAmino {
-  key: string;
-  value?: ExprValueAmino;
-}
-export interface EvalRequest_BindingsEntryAminoMsg {
-  type: string;
-  value: EvalRequest_BindingsEntryAmino;
 }
 export interface EvalRequest_BindingsEntrySDKType {
   key: string;
@@ -242,30 +150,6 @@ export interface EvalRequest {
   };
   /** SHOULD be the same container as used in [CheckRequest][google.api.expr.conformance.v1alpha1.CheckRequest], if checked. */
   container: string;
-}
-export interface EvalRequestProtoMsg {
-  typeUrl: "/google.api.expr.conformance.v1alpha1.EvalRequest";
-  value: Uint8Array;
-}
-/** Request message for the Eval method. */
-export interface EvalRequestAmino {
-  /** Evaluate based on the parsed representation. */
-  parsed_expr?: ParsedExprAmino;
-  /** Evaluate based on the checked representation. */
-  checked_expr?: CheckedExprAmino;
-  /**
-   * Bindings for the external variables.  The types SHOULD be compatible
-   * with the type environment in [CheckRequest][google.api.expr.conformance.v1alpha1.CheckRequest], if checked.
-   */
-  bindings?: {
-    [key: string]: ExprValueAmino;
-  };
-  /** SHOULD be the same container as used in [CheckRequest][google.api.expr.conformance.v1alpha1.CheckRequest], if checked. */
-  container: string;
-}
-export interface EvalRequestAminoMsg {
-  type: "/google.api.expr.conformance.v1alpha1.EvalRequest";
-  value: EvalRequestAmino;
 }
 /** Request message for the Eval method. */
 export interface EvalRequestSDKType {
@@ -288,26 +172,6 @@ export interface EvalResponse {
    */
   issues: Status[];
 }
-export interface EvalResponseProtoMsg {
-  typeUrl: "/google.api.expr.conformance.v1alpha1.EvalResponse";
-  value: Uint8Array;
-}
-/** Response message for the Eval method. */
-export interface EvalResponseAmino {
-  /** The execution result, or unset if execution couldn't start. */
-  result?: ExprValueAmino;
-  /**
-   * Any number of issues with [StatusDetails][] as the details.
-   * Note that CEL execution errors are reified into [ExprValue][].
-   * Nevertheless, we'll allow out-of-band issues to be raised,
-   * which also makes the replies more regular.
-   */
-  issues: StatusAmino[];
-}
-export interface EvalResponseAminoMsg {
-  type: "/google.api.expr.conformance.v1alpha1.EvalResponse";
-  value: EvalResponseAmino;
-}
 /** Response message for the Eval method. */
 export interface EvalResponseSDKType {
   result?: ExprValueSDKType;
@@ -324,28 +188,7 @@ export interface IssueDetails {
   /** Position in the source, if known. */
   position?: SourcePosition;
   /** Expression ID from [Expr][], 0 if unknown. */
-  id: Long;
-}
-export interface IssueDetailsProtoMsg {
-  typeUrl: "/google.api.expr.conformance.v1alpha1.IssueDetails";
-  value: Uint8Array;
-}
-/**
- * Warnings or errors in service execution are represented by
- * [google.rpc.Status][google.rpc.Status] messages, with the following message
- * in the details field.
- */
-export interface IssueDetailsAmino {
-  /** The severity of the issue. */
-  severity: IssueDetails_Severity;
-  /** Position in the source, if known. */
-  position?: SourcePositionAmino;
-  /** Expression ID from [Expr][], 0 if unknown. */
-  id: string;
-}
-export interface IssueDetailsAminoMsg {
-  type: "/google.api.expr.conformance.v1alpha1.IssueDetails";
-  value: IssueDetailsAmino;
+  id: bigint;
 }
 /**
  * Warnings or errors in service execution are represented by
@@ -355,7 +198,7 @@ export interface IssueDetailsAminoMsg {
 export interface IssueDetailsSDKType {
   severity: IssueDetails_Severity;
   position?: SourcePositionSDKType;
-  id: Long;
+  id: bigint;
 }
 function createBaseParseRequest(): ParseRequest {
   return {
@@ -367,7 +210,7 @@ function createBaseParseRequest(): ParseRequest {
 }
 export const ParseRequest = {
   typeUrl: "/google.api.expr.conformance.v1alpha1.ParseRequest",
-  encode(message: ParseRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ParseRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.celSource !== "") {
       writer.uint32(10).string(message.celSource);
     }
@@ -382,8 +225,8 @@ export const ParseRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ParseRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ParseRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParseRequest();
     while (reader.pos < end) {
@@ -424,7 +267,7 @@ export const ParseRequest = {
     message.disableMacros !== undefined && (obj.disableMacros = message.disableMacros);
     return obj;
   },
-  fromPartial(object: DeepPartial<ParseRequest>): ParseRequest {
+  fromPartial(object: Partial<ParseRequest>): ParseRequest {
     const message = createBaseParseRequest();
     message.celSource = object.celSource ?? "";
     message.syntaxVersion = object.syntaxVersion ?? "";
@@ -488,7 +331,7 @@ function createBaseParseResponse(): ParseResponse {
 }
 export const ParseResponse = {
   typeUrl: "/google.api.expr.conformance.v1alpha1.ParseResponse",
-  encode(message: ParseResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ParseResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parsedExpr !== undefined) {
       ParsedExpr.encode(message.parsedExpr, writer.uint32(10).fork()).ldelim();
     }
@@ -497,8 +340,8 @@ export const ParseResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ParseResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ParseResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParseResponse();
     while (reader.pos < end) {
@@ -533,7 +376,7 @@ export const ParseResponse = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<ParseResponse>): ParseResponse {
+  fromPartial(object: Partial<ParseResponse>): ParseResponse {
     const message = createBaseParseResponse();
     message.parsedExpr = object.parsedExpr !== undefined && object.parsedExpr !== null ? ParsedExpr.fromPartial(object.parsedExpr) : undefined;
     message.issues = object.issues?.map(e => Status.fromPartial(e)) || [];
@@ -597,7 +440,7 @@ function createBaseCheckRequest(): CheckRequest {
 }
 export const CheckRequest = {
   typeUrl: "/google.api.expr.conformance.v1alpha1.CheckRequest",
-  encode(message: CheckRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CheckRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parsedExpr !== undefined) {
       ParsedExpr.encode(message.parsedExpr, writer.uint32(10).fork()).ldelim();
     }
@@ -612,8 +455,8 @@ export const CheckRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CheckRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CheckRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCheckRequest();
     while (reader.pos < end) {
@@ -658,7 +501,7 @@ export const CheckRequest = {
     message.noStdEnv !== undefined && (obj.noStdEnv = message.noStdEnv);
     return obj;
   },
-  fromPartial(object: DeepPartial<CheckRequest>): CheckRequest {
+  fromPartial(object: Partial<CheckRequest>): CheckRequest {
     const message = createBaseCheckRequest();
     message.parsedExpr = object.parsedExpr !== undefined && object.parsedExpr !== null ? ParsedExpr.fromPartial(object.parsedExpr) : undefined;
     message.typeEnv = object.typeEnv?.map(e => Decl.fromPartial(e)) || [];
@@ -730,7 +573,7 @@ function createBaseCheckResponse(): CheckResponse {
 }
 export const CheckResponse = {
   typeUrl: "/google.api.expr.conformance.v1alpha1.CheckResponse",
-  encode(message: CheckResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CheckResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.checkedExpr !== undefined) {
       CheckedExpr.encode(message.checkedExpr, writer.uint32(10).fork()).ldelim();
     }
@@ -739,8 +582,8 @@ export const CheckResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CheckResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CheckResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCheckResponse();
     while (reader.pos < end) {
@@ -775,7 +618,7 @@ export const CheckResponse = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<CheckResponse>): CheckResponse {
+  fromPartial(object: Partial<CheckResponse>): CheckResponse {
     const message = createBaseCheckResponse();
     message.checkedExpr = object.checkedExpr !== undefined && object.checkedExpr !== null ? CheckedExpr.fromPartial(object.checkedExpr) : undefined;
     message.issues = object.issues?.map(e => Status.fromPartial(e)) || [];
@@ -836,7 +679,7 @@ function createBaseEvalRequest_BindingsEntry(): EvalRequest_BindingsEntry {
   };
 }
 export const EvalRequest_BindingsEntry = {
-  encode(message: EvalRequest_BindingsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: EvalRequest_BindingsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -845,8 +688,8 @@ export const EvalRequest_BindingsEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): EvalRequest_BindingsEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): EvalRequest_BindingsEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEvalRequest_BindingsEntry();
     while (reader.pos < end) {
@@ -877,7 +720,7 @@ export const EvalRequest_BindingsEntry = {
     message.value !== undefined && (obj.value = message.value ? google.api.expr.v1alpha1.ExprValue.toJSON(message.value) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<EvalRequest_BindingsEntry>): EvalRequest_BindingsEntry {
+  fromPartial(object: Partial<EvalRequest_BindingsEntry>): EvalRequest_BindingsEntry {
     const message = createBaseEvalRequest_BindingsEntry();
     message.key = object.key ?? "";
     message.value = object.value !== undefined && object.value !== null ? google.api.expr.v1alpha1.ExprValue.fromPartial(object.value) : undefined;
@@ -927,7 +770,7 @@ function createBaseEvalRequest(): EvalRequest {
 }
 export const EvalRequest = {
   typeUrl: "/google.api.expr.conformance.v1alpha1.EvalRequest",
-  encode(message: EvalRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: EvalRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parsedExpr !== undefined) {
       ParsedExpr.encode(message.parsedExpr, writer.uint32(10).fork()).ldelim();
     }
@@ -945,8 +788,8 @@ export const EvalRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): EvalRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): EvalRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEvalRequest();
     while (reader.pos < end) {
@@ -1000,7 +843,7 @@ export const EvalRequest = {
     message.container !== undefined && (obj.container = message.container);
     return obj;
   },
-  fromPartial(object: DeepPartial<EvalRequest>): EvalRequest {
+  fromPartial(object: Partial<EvalRequest>): EvalRequest {
     const message = createBaseEvalRequest();
     message.parsedExpr = object.parsedExpr !== undefined && object.parsedExpr !== null ? ParsedExpr.fromPartial(object.parsedExpr) : undefined;
     message.checkedExpr = object.checkedExpr !== undefined && object.checkedExpr !== null ? CheckedExpr.fromPartial(object.checkedExpr) : undefined;
@@ -1091,7 +934,7 @@ function createBaseEvalResponse(): EvalResponse {
 }
 export const EvalResponse = {
   typeUrl: "/google.api.expr.conformance.v1alpha1.EvalResponse",
-  encode(message: EvalResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: EvalResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.result !== undefined) {
       ExprValue.encode(message.result, writer.uint32(10).fork()).ldelim();
     }
@@ -1100,8 +943,8 @@ export const EvalResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): EvalResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): EvalResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEvalResponse();
     while (reader.pos < end) {
@@ -1136,7 +979,7 @@ export const EvalResponse = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<EvalResponse>): EvalResponse {
+  fromPartial(object: Partial<EvalResponse>): EvalResponse {
     const message = createBaseEvalResponse();
     message.result = object.result !== undefined && object.result !== null ? ExprValue.fromPartial(object.result) : undefined;
     message.issues = object.issues?.map(e => Status.fromPartial(e)) || [];
@@ -1194,25 +1037,25 @@ function createBaseIssueDetails(): IssueDetails {
   return {
     severity: 0,
     position: undefined,
-    id: Long.ZERO
+    id: BigInt("0")
   };
 }
 export const IssueDetails = {
   typeUrl: "/google.api.expr.conformance.v1alpha1.IssueDetails",
-  encode(message: IssueDetails, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: IssueDetails, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.severity !== 0) {
       writer.uint32(8).int32(message.severity);
     }
     if (message.position !== undefined) {
       SourcePosition.encode(message.position, writer.uint32(18).fork()).ldelim();
     }
-    if (!message.id.isZero()) {
+    if (message.id !== BigInt(0)) {
       writer.uint32(24).int64(message.id);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): IssueDetails {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): IssueDetails {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseIssueDetails();
     while (reader.pos < end) {
@@ -1225,7 +1068,7 @@ export const IssueDetails = {
           message.position = SourcePosition.decode(reader, reader.uint32());
           break;
         case 3:
-          message.id = (reader.int64() as Long);
+          message.id = BigInt(reader.int64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -1238,21 +1081,21 @@ export const IssueDetails = {
     return {
       severity: isSet(object.severity) ? issueDetails_SeverityFromJSON(object.severity) : 0,
       position: isSet(object.position) ? SourcePosition.fromJSON(object.position) : undefined,
-      id: isSet(object.id) ? Long.fromValue(object.id) : Long.ZERO
+      id: isSet(object.id) ? BigInt(object.id.toString()) : BigInt("0")
     };
   },
   toJSON(message: IssueDetails): unknown {
     const obj: any = {};
     message.severity !== undefined && (obj.severity = issueDetails_SeverityToJSON(message.severity));
     message.position !== undefined && (obj.position = message.position ? SourcePosition.toJSON(message.position) : undefined);
-    message.id !== undefined && (obj.id = (message.id || Long.ZERO).toString());
+    message.id !== undefined && (obj.id = (message.id || BigInt("0")).toString());
     return obj;
   },
-  fromPartial(object: DeepPartial<IssueDetails>): IssueDetails {
+  fromPartial(object: Partial<IssueDetails>): IssueDetails {
     const message = createBaseIssueDetails();
     message.severity = object.severity ?? 0;
     message.position = object.position !== undefined && object.position !== null ? SourcePosition.fromPartial(object.position) : undefined;
-    message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.ZERO;
+    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt("0");
     return message;
   },
   fromSDK(object: IssueDetailsSDKType): IssueDetails {
@@ -1273,7 +1116,7 @@ export const IssueDetails = {
     return {
       severity: isSet(object.severity) ? issueDetails_SeverityFromJSON(object.severity) : 0,
       position: object?.position ? SourcePosition.fromAmino(object.position) : undefined,
-      id: Long.fromString(object.id)
+      id: BigInt(object.id)
     };
   },
   toAmino(message: IssueDetails): IssueDetailsAmino {

@@ -1,7 +1,7 @@
-import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../base/query/v1beta1/pagination";
-import { Validator, ValidatorAmino, ValidatorSDKType, DelegationResponse, DelegationResponseAmino, DelegationResponseSDKType, UnbondingDelegation, UnbondingDelegationAmino, UnbondingDelegationSDKType, RedelegationResponse, RedelegationResponseAmino, RedelegationResponseSDKType, HistoricalInfo, HistoricalInfoAmino, HistoricalInfoSDKType, Pool, PoolAmino, PoolSDKType, Params, ParamsAmino, ParamsSDKType } from "./staking";
-import { Long, isSet, DeepPartial } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../base/query/v1beta1/pagination";
+import { Validator, ValidatorSDKType, DelegationResponse, DelegationResponseSDKType, UnbondingDelegation, UnbondingDelegationSDKType, RedelegationResponse, RedelegationResponseSDKType, HistoricalInfo, HistoricalInfoSDKType, Pool, PoolSDKType, Params, ParamsSDKType } from "./staking";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet } from "../../../helpers";
 export const protobufPackage = "cosmos.staking.v1beta1";
 /** QueryValidatorsRequest is request type for Query/Validators RPC method. */
 export interface QueryValidatorsRequest {
@@ -9,21 +9,6 @@ export interface QueryValidatorsRequest {
   status: string;
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
-}
-export interface QueryValidatorsRequestProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryValidatorsRequest";
-  value: Uint8Array;
-}
-/** QueryValidatorsRequest is request type for Query/Validators RPC method. */
-export interface QueryValidatorsRequestAmino {
-  /** status enables to query for validators matching a given status. */
-  status: string;
-  /** pagination defines an optional pagination for the request. */
-  pagination?: PageRequestAmino;
-}
-export interface QueryValidatorsRequestAminoMsg {
-  type: "cosmos-sdk/QueryValidatorsRequest";
-  value: QueryValidatorsRequestAmino;
 }
 /** QueryValidatorsRequest is request type for Query/Validators RPC method. */
 export interface QueryValidatorsRequestSDKType {
@@ -37,21 +22,6 @@ export interface QueryValidatorsResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
-export interface QueryValidatorsResponseProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryValidatorsResponse";
-  value: Uint8Array;
-}
-/** QueryValidatorsResponse is response type for the Query/Validators RPC method */
-export interface QueryValidatorsResponseAmino {
-  /** validators contains all the queried validators. */
-  validators: ValidatorAmino[];
-  /** pagination defines the pagination in the response. */
-  pagination?: PageResponseAmino;
-}
-export interface QueryValidatorsResponseAminoMsg {
-  type: "cosmos-sdk/QueryValidatorsResponse";
-  value: QueryValidatorsResponseAmino;
-}
 /** QueryValidatorsResponse is response type for the Query/Validators RPC method */
 export interface QueryValidatorsResponseSDKType {
   validators: ValidatorSDKType[];
@@ -62,19 +32,6 @@ export interface QueryValidatorRequest {
   /** validator_addr defines the validator address to query for. */
   validatorAddr: string;
 }
-export interface QueryValidatorRequestProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryValidatorRequest";
-  value: Uint8Array;
-}
-/** QueryValidatorRequest is response type for the Query/Validator RPC method */
-export interface QueryValidatorRequestAmino {
-  /** validator_addr defines the validator address to query for. */
-  validator_addr: string;
-}
-export interface QueryValidatorRequestAminoMsg {
-  type: "cosmos-sdk/QueryValidatorRequest";
-  value: QueryValidatorRequestAmino;
-}
 /** QueryValidatorRequest is response type for the Query/Validator RPC method */
 export interface QueryValidatorRequestSDKType {
   validator_addr: string;
@@ -83,19 +40,6 @@ export interface QueryValidatorRequestSDKType {
 export interface QueryValidatorResponse {
   /** validator defines the the validator info. */
   validator?: Validator;
-}
-export interface QueryValidatorResponseProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryValidatorResponse";
-  value: Uint8Array;
-}
-/** QueryValidatorResponse is response type for the Query/Validator RPC method */
-export interface QueryValidatorResponseAmino {
-  /** validator defines the the validator info. */
-  validator?: ValidatorAmino;
-}
-export interface QueryValidatorResponseAminoMsg {
-  type: "cosmos-sdk/QueryValidatorResponse";
-  value: QueryValidatorResponseAmino;
 }
 /** QueryValidatorResponse is response type for the Query/Validator RPC method */
 export interface QueryValidatorResponseSDKType {
@@ -110,24 +54,6 @@ export interface QueryValidatorDelegationsRequest {
   validatorAddr: string;
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
-}
-export interface QueryValidatorDelegationsRequestProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryValidatorDelegationsRequest";
-  value: Uint8Array;
-}
-/**
- * QueryValidatorDelegationsRequest is request type for the
- * Query/ValidatorDelegations RPC method
- */
-export interface QueryValidatorDelegationsRequestAmino {
-  /** validator_addr defines the validator address to query for. */
-  validator_addr: string;
-  /** pagination defines an optional pagination for the request. */
-  pagination?: PageRequestAmino;
-}
-export interface QueryValidatorDelegationsRequestAminoMsg {
-  type: "cosmos-sdk/QueryValidatorDelegationsRequest";
-  value: QueryValidatorDelegationsRequestAmino;
 }
 /**
  * QueryValidatorDelegationsRequest is request type for the
@@ -145,23 +71,6 @@ export interface QueryValidatorDelegationsResponse {
   delegationResponses: DelegationResponse[];
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
-}
-export interface QueryValidatorDelegationsResponseProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryValidatorDelegationsResponse";
-  value: Uint8Array;
-}
-/**
- * QueryValidatorDelegationsResponse is response type for the
- * Query/ValidatorDelegations RPC method
- */
-export interface QueryValidatorDelegationsResponseAmino {
-  delegation_responses: DelegationResponseAmino[];
-  /** pagination defines the pagination in the response. */
-  pagination?: PageResponseAmino;
-}
-export interface QueryValidatorDelegationsResponseAminoMsg {
-  type: "cosmos-sdk/QueryValidatorDelegationsResponse";
-  value: QueryValidatorDelegationsResponseAmino;
 }
 /**
  * QueryValidatorDelegationsResponse is response type for the
@@ -181,24 +90,6 @@ export interface QueryValidatorUnbondingDelegationsRequest {
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
 }
-export interface QueryValidatorUnbondingDelegationsRequestProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryValidatorUnbondingDelegationsRequest";
-  value: Uint8Array;
-}
-/**
- * QueryValidatorUnbondingDelegationsRequest is required type for the
- * Query/ValidatorUnbondingDelegations RPC method
- */
-export interface QueryValidatorUnbondingDelegationsRequestAmino {
-  /** validator_addr defines the validator address to query for. */
-  validator_addr: string;
-  /** pagination defines an optional pagination for the request. */
-  pagination?: PageRequestAmino;
-}
-export interface QueryValidatorUnbondingDelegationsRequestAminoMsg {
-  type: "cosmos-sdk/QueryValidatorUnbondingDelegationsRequest";
-  value: QueryValidatorUnbondingDelegationsRequestAmino;
-}
 /**
  * QueryValidatorUnbondingDelegationsRequest is required type for the
  * Query/ValidatorUnbondingDelegations RPC method
@@ -216,23 +107,6 @@ export interface QueryValidatorUnbondingDelegationsResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
-export interface QueryValidatorUnbondingDelegationsResponseProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryValidatorUnbondingDelegationsResponse";
-  value: Uint8Array;
-}
-/**
- * QueryValidatorUnbondingDelegationsResponse is response type for the
- * Query/ValidatorUnbondingDelegations RPC method.
- */
-export interface QueryValidatorUnbondingDelegationsResponseAmino {
-  unbonding_responses: UnbondingDelegationAmino[];
-  /** pagination defines the pagination in the response. */
-  pagination?: PageResponseAmino;
-}
-export interface QueryValidatorUnbondingDelegationsResponseAminoMsg {
-  type: "cosmos-sdk/QueryValidatorUnbondingDelegationsResponse";
-  value: QueryValidatorUnbondingDelegationsResponseAmino;
-}
 /**
  * QueryValidatorUnbondingDelegationsResponse is response type for the
  * Query/ValidatorUnbondingDelegations RPC method.
@@ -248,21 +122,6 @@ export interface QueryDelegationRequest {
   /** validator_addr defines the validator address to query for. */
   validatorAddr: string;
 }
-export interface QueryDelegationRequestProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryDelegationRequest";
-  value: Uint8Array;
-}
-/** QueryDelegationRequest is request type for the Query/Delegation RPC method. */
-export interface QueryDelegationRequestAmino {
-  /** delegator_addr defines the delegator address to query for. */
-  delegator_addr: string;
-  /** validator_addr defines the validator address to query for. */
-  validator_addr: string;
-}
-export interface QueryDelegationRequestAminoMsg {
-  type: "cosmos-sdk/QueryDelegationRequest";
-  value: QueryDelegationRequestAmino;
-}
 /** QueryDelegationRequest is request type for the Query/Delegation RPC method. */
 export interface QueryDelegationRequestSDKType {
   delegator_addr: string;
@@ -272,19 +131,6 @@ export interface QueryDelegationRequestSDKType {
 export interface QueryDelegationResponse {
   /** delegation_responses defines the delegation info of a delegation. */
   delegationResponse?: DelegationResponse;
-}
-export interface QueryDelegationResponseProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryDelegationResponse";
-  value: Uint8Array;
-}
-/** QueryDelegationResponse is response type for the Query/Delegation RPC method. */
-export interface QueryDelegationResponseAmino {
-  /** delegation_responses defines the delegation info of a delegation. */
-  delegation_response?: DelegationResponseAmino;
-}
-export interface QueryDelegationResponseAminoMsg {
-  type: "cosmos-sdk/QueryDelegationResponse";
-  value: QueryDelegationResponseAmino;
 }
 /** QueryDelegationResponse is response type for the Query/Delegation RPC method. */
 export interface QueryDelegationResponseSDKType {
@@ -299,24 +145,6 @@ export interface QueryUnbondingDelegationRequest {
   delegatorAddr: string;
   /** validator_addr defines the validator address to query for. */
   validatorAddr: string;
-}
-export interface QueryUnbondingDelegationRequestProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryUnbondingDelegationRequest";
-  value: Uint8Array;
-}
-/**
- * QueryUnbondingDelegationRequest is request type for the
- * Query/UnbondingDelegation RPC method.
- */
-export interface QueryUnbondingDelegationRequestAmino {
-  /** delegator_addr defines the delegator address to query for. */
-  delegator_addr: string;
-  /** validator_addr defines the validator address to query for. */
-  validator_addr: string;
-}
-export interface QueryUnbondingDelegationRequestAminoMsg {
-  type: "cosmos-sdk/QueryUnbondingDelegationRequest";
-  value: QueryUnbondingDelegationRequestAmino;
 }
 /**
  * QueryUnbondingDelegationRequest is request type for the
@@ -334,22 +162,6 @@ export interface QueryUnbondingDelegationResponse {
   /** unbond defines the unbonding information of a delegation. */
   unbond?: UnbondingDelegation;
 }
-export interface QueryUnbondingDelegationResponseProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryUnbondingDelegationResponse";
-  value: Uint8Array;
-}
-/**
- * QueryDelegationResponse is response type for the Query/UnbondingDelegation
- * RPC method.
- */
-export interface QueryUnbondingDelegationResponseAmino {
-  /** unbond defines the unbonding information of a delegation. */
-  unbond?: UnbondingDelegationAmino;
-}
-export interface QueryUnbondingDelegationResponseAminoMsg {
-  type: "cosmos-sdk/QueryUnbondingDelegationResponse";
-  value: QueryUnbondingDelegationResponseAmino;
-}
 /**
  * QueryDelegationResponse is response type for the Query/UnbondingDelegation
  * RPC method.
@@ -366,24 +178,6 @@ export interface QueryDelegatorDelegationsRequest {
   delegatorAddr: string;
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
-}
-export interface QueryDelegatorDelegationsRequestProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorDelegationsRequest";
-  value: Uint8Array;
-}
-/**
- * QueryDelegatorDelegationsRequest is request type for the
- * Query/DelegatorDelegations RPC method.
- */
-export interface QueryDelegatorDelegationsRequestAmino {
-  /** delegator_addr defines the delegator address to query for. */
-  delegator_addr: string;
-  /** pagination defines an optional pagination for the request. */
-  pagination?: PageRequestAmino;
-}
-export interface QueryDelegatorDelegationsRequestAminoMsg {
-  type: "cosmos-sdk/QueryDelegatorDelegationsRequest";
-  value: QueryDelegatorDelegationsRequestAmino;
 }
 /**
  * QueryDelegatorDelegationsRequest is request type for the
@@ -403,24 +197,6 @@ export interface QueryDelegatorDelegationsResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
-export interface QueryDelegatorDelegationsResponseProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorDelegationsResponse";
-  value: Uint8Array;
-}
-/**
- * QueryDelegatorDelegationsResponse is response type for the
- * Query/DelegatorDelegations RPC method.
- */
-export interface QueryDelegatorDelegationsResponseAmino {
-  /** delegation_responses defines all the delegations' info of a delegator. */
-  delegation_responses: DelegationResponseAmino[];
-  /** pagination defines the pagination in the response. */
-  pagination?: PageResponseAmino;
-}
-export interface QueryDelegatorDelegationsResponseAminoMsg {
-  type: "cosmos-sdk/QueryDelegatorDelegationsResponse";
-  value: QueryDelegatorDelegationsResponseAmino;
-}
 /**
  * QueryDelegatorDelegationsResponse is response type for the
  * Query/DelegatorDelegations RPC method.
@@ -439,24 +215,6 @@ export interface QueryDelegatorUnbondingDelegationsRequest {
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
 }
-export interface QueryDelegatorUnbondingDelegationsRequestProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorUnbondingDelegationsRequest";
-  value: Uint8Array;
-}
-/**
- * QueryDelegatorUnbondingDelegationsRequest is request type for the
- * Query/DelegatorUnbondingDelegations RPC method.
- */
-export interface QueryDelegatorUnbondingDelegationsRequestAmino {
-  /** delegator_addr defines the delegator address to query for. */
-  delegator_addr: string;
-  /** pagination defines an optional pagination for the request. */
-  pagination?: PageRequestAmino;
-}
-export interface QueryDelegatorUnbondingDelegationsRequestAminoMsg {
-  type: "cosmos-sdk/QueryDelegatorUnbondingDelegationsRequest";
-  value: QueryDelegatorUnbondingDelegationsRequestAmino;
-}
 /**
  * QueryDelegatorUnbondingDelegationsRequest is request type for the
  * Query/DelegatorUnbondingDelegations RPC method.
@@ -473,23 +231,6 @@ export interface QueryDelegatorUnbondingDelegationsResponse {
   unbondingResponses: UnbondingDelegation[];
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
-}
-export interface QueryDelegatorUnbondingDelegationsResponseProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorUnbondingDelegationsResponse";
-  value: Uint8Array;
-}
-/**
- * QueryUnbondingDelegatorDelegationsResponse is response type for the
- * Query/UnbondingDelegatorDelegations RPC method.
- */
-export interface QueryDelegatorUnbondingDelegationsResponseAmino {
-  unbonding_responses: UnbondingDelegationAmino[];
-  /** pagination defines the pagination in the response. */
-  pagination?: PageResponseAmino;
-}
-export interface QueryDelegatorUnbondingDelegationsResponseAminoMsg {
-  type: "cosmos-sdk/QueryDelegatorUnbondingDelegationsResponse";
-  value: QueryDelegatorUnbondingDelegationsResponseAmino;
 }
 /**
  * QueryUnbondingDelegatorDelegationsResponse is response type for the
@@ -513,28 +254,6 @@ export interface QueryRedelegationsRequest {
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
 }
-export interface QueryRedelegationsRequestProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryRedelegationsRequest";
-  value: Uint8Array;
-}
-/**
- * QueryRedelegationsRequest is request type for the Query/Redelegations RPC
- * method.
- */
-export interface QueryRedelegationsRequestAmino {
-  /** delegator_addr defines the delegator address to query for. */
-  delegator_addr: string;
-  /** src_validator_addr defines the validator address to redelegate from. */
-  src_validator_addr: string;
-  /** dst_validator_addr defines the validator address to redelegate to. */
-  dst_validator_addr: string;
-  /** pagination defines an optional pagination for the request. */
-  pagination?: PageRequestAmino;
-}
-export interface QueryRedelegationsRequestAminoMsg {
-  type: "cosmos-sdk/QueryRedelegationsRequest";
-  value: QueryRedelegationsRequestAmino;
-}
 /**
  * QueryRedelegationsRequest is request type for the Query/Redelegations RPC
  * method.
@@ -554,23 +273,6 @@ export interface QueryRedelegationsResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
-export interface QueryRedelegationsResponseProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryRedelegationsResponse";
-  value: Uint8Array;
-}
-/**
- * QueryRedelegationsResponse is response type for the Query/Redelegations RPC
- * method.
- */
-export interface QueryRedelegationsResponseAmino {
-  redelegation_responses: RedelegationResponseAmino[];
-  /** pagination defines the pagination in the response. */
-  pagination?: PageResponseAmino;
-}
-export interface QueryRedelegationsResponseAminoMsg {
-  type: "cosmos-sdk/QueryRedelegationsResponse";
-  value: QueryRedelegationsResponseAmino;
-}
 /**
  * QueryRedelegationsResponse is response type for the Query/Redelegations RPC
  * method.
@@ -588,24 +290,6 @@ export interface QueryDelegatorValidatorsRequest {
   delegatorAddr: string;
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
-}
-export interface QueryDelegatorValidatorsRequestProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorValidatorsRequest";
-  value: Uint8Array;
-}
-/**
- * QueryDelegatorValidatorsRequest is request type for the
- * Query/DelegatorValidators RPC method.
- */
-export interface QueryDelegatorValidatorsRequestAmino {
-  /** delegator_addr defines the delegator address to query for. */
-  delegator_addr: string;
-  /** pagination defines an optional pagination for the request. */
-  pagination?: PageRequestAmino;
-}
-export interface QueryDelegatorValidatorsRequestAminoMsg {
-  type: "cosmos-sdk/QueryDelegatorValidatorsRequest";
-  value: QueryDelegatorValidatorsRequestAmino;
 }
 /**
  * QueryDelegatorValidatorsRequest is request type for the
@@ -625,24 +309,6 @@ export interface QueryDelegatorValidatorsResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
-export interface QueryDelegatorValidatorsResponseProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorValidatorsResponse";
-  value: Uint8Array;
-}
-/**
- * QueryDelegatorValidatorsResponse is response type for the
- * Query/DelegatorValidators RPC method.
- */
-export interface QueryDelegatorValidatorsResponseAmino {
-  /** validators defines the the validators' info of a delegator. */
-  validators: ValidatorAmino[];
-  /** pagination defines the pagination in the response. */
-  pagination?: PageResponseAmino;
-}
-export interface QueryDelegatorValidatorsResponseAminoMsg {
-  type: "cosmos-sdk/QueryDelegatorValidatorsResponse";
-  value: QueryDelegatorValidatorsResponseAmino;
-}
 /**
  * QueryDelegatorValidatorsResponse is response type for the
  * Query/DelegatorValidators RPC method.
@@ -661,24 +327,6 @@ export interface QueryDelegatorValidatorRequest {
   /** validator_addr defines the validator address to query for. */
   validatorAddr: string;
 }
-export interface QueryDelegatorValidatorRequestProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorValidatorRequest";
-  value: Uint8Array;
-}
-/**
- * QueryDelegatorValidatorRequest is request type for the
- * Query/DelegatorValidator RPC method.
- */
-export interface QueryDelegatorValidatorRequestAmino {
-  /** delegator_addr defines the delegator address to query for. */
-  delegator_addr: string;
-  /** validator_addr defines the validator address to query for. */
-  validator_addr: string;
-}
-export interface QueryDelegatorValidatorRequestAminoMsg {
-  type: "cosmos-sdk/QueryDelegatorValidatorRequest";
-  value: QueryDelegatorValidatorRequestAmino;
-}
 /**
  * QueryDelegatorValidatorRequest is request type for the
  * Query/DelegatorValidator RPC method.
@@ -695,22 +343,6 @@ export interface QueryDelegatorValidatorResponse {
   /** validator defines the the validator info. */
   validator?: Validator;
 }
-export interface QueryDelegatorValidatorResponseProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorValidatorResponse";
-  value: Uint8Array;
-}
-/**
- * QueryDelegatorValidatorResponse response type for the
- * Query/DelegatorValidator RPC method.
- */
-export interface QueryDelegatorValidatorResponseAmino {
-  /** validator defines the the validator info. */
-  validator?: ValidatorAmino;
-}
-export interface QueryDelegatorValidatorResponseAminoMsg {
-  type: "cosmos-sdk/QueryDelegatorValidatorResponse";
-  value: QueryDelegatorValidatorResponseAmino;
-}
 /**
  * QueryDelegatorValidatorResponse response type for the
  * Query/DelegatorValidator RPC method.
@@ -724,30 +356,14 @@ export interface QueryDelegatorValidatorResponseSDKType {
  */
 export interface QueryHistoricalInfoRequest {
   /** height defines at which height to query the historical info. */
-  height: Long;
-}
-export interface QueryHistoricalInfoRequestProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryHistoricalInfoRequest";
-  value: Uint8Array;
-}
-/**
- * QueryHistoricalInfoRequest is request type for the Query/HistoricalInfo RPC
- * method.
- */
-export interface QueryHistoricalInfoRequestAmino {
-  /** height defines at which height to query the historical info. */
-  height: string;
-}
-export interface QueryHistoricalInfoRequestAminoMsg {
-  type: "cosmos-sdk/QueryHistoricalInfoRequest";
-  value: QueryHistoricalInfoRequestAmino;
+  height: bigint;
 }
 /**
  * QueryHistoricalInfoRequest is request type for the Query/HistoricalInfo RPC
  * method.
  */
 export interface QueryHistoricalInfoRequestSDKType {
-  height: Long;
+  height: bigint;
 }
 /**
  * QueryHistoricalInfoResponse is response type for the Query/HistoricalInfo RPC
@@ -756,22 +372,6 @@ export interface QueryHistoricalInfoRequestSDKType {
 export interface QueryHistoricalInfoResponse {
   /** hist defines the historical info at the given height. */
   hist?: HistoricalInfo;
-}
-export interface QueryHistoricalInfoResponseProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryHistoricalInfoResponse";
-  value: Uint8Array;
-}
-/**
- * QueryHistoricalInfoResponse is response type for the Query/HistoricalInfo RPC
- * method.
- */
-export interface QueryHistoricalInfoResponseAmino {
-  /** hist defines the historical info at the given height. */
-  hist?: HistoricalInfoAmino;
-}
-export interface QueryHistoricalInfoResponseAminoMsg {
-  type: "cosmos-sdk/QueryHistoricalInfoResponse";
-  value: QueryHistoricalInfoResponseAmino;
 }
 /**
  * QueryHistoricalInfoResponse is response type for the Query/HistoricalInfo RPC
@@ -782,16 +382,6 @@ export interface QueryHistoricalInfoResponseSDKType {
 }
 /** QueryPoolRequest is request type for the Query/Pool RPC method. */
 export interface QueryPoolRequest {}
-export interface QueryPoolRequestProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryPoolRequest";
-  value: Uint8Array;
-}
-/** QueryPoolRequest is request type for the Query/Pool RPC method. */
-export interface QueryPoolRequestAmino {}
-export interface QueryPoolRequestAminoMsg {
-  type: "cosmos-sdk/QueryPoolRequest";
-  value: QueryPoolRequestAmino;
-}
 /** QueryPoolRequest is request type for the Query/Pool RPC method. */
 export interface QueryPoolRequestSDKType {}
 /** QueryPoolResponse is response type for the Query/Pool RPC method. */
@@ -799,54 +389,18 @@ export interface QueryPoolResponse {
   /** pool defines the pool info. */
   pool?: Pool;
 }
-export interface QueryPoolResponseProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryPoolResponse";
-  value: Uint8Array;
-}
-/** QueryPoolResponse is response type for the Query/Pool RPC method. */
-export interface QueryPoolResponseAmino {
-  /** pool defines the pool info. */
-  pool?: PoolAmino;
-}
-export interface QueryPoolResponseAminoMsg {
-  type: "cosmos-sdk/QueryPoolResponse";
-  value: QueryPoolResponseAmino;
-}
 /** QueryPoolResponse is response type for the Query/Pool RPC method. */
 export interface QueryPoolResponseSDKType {
   pool?: PoolSDKType;
 }
 /** QueryParamsRequest is request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
-export interface QueryParamsRequestProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryParamsRequest";
-  value: Uint8Array;
-}
-/** QueryParamsRequest is request type for the Query/Params RPC method. */
-export interface QueryParamsRequestAmino {}
-export interface QueryParamsRequestAminoMsg {
-  type: "cosmos-sdk/QueryParamsRequest";
-  value: QueryParamsRequestAmino;
-}
 /** QueryParamsRequest is request type for the Query/Params RPC method. */
 export interface QueryParamsRequestSDKType {}
 /** QueryParamsResponse is response type for the Query/Params RPC method. */
 export interface QueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: Params;
-}
-export interface QueryParamsResponseProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.QueryParamsResponse";
-  value: Uint8Array;
-}
-/** QueryParamsResponse is response type for the Query/Params RPC method. */
-export interface QueryParamsResponseAmino {
-  /** params holds all the parameters of this module. */
-  params?: ParamsAmino;
-}
-export interface QueryParamsResponseAminoMsg {
-  type: "cosmos-sdk/QueryParamsResponse";
-  value: QueryParamsResponseAmino;
 }
 /** QueryParamsResponse is response type for the Query/Params RPC method. */
 export interface QueryParamsResponseSDKType {
@@ -861,7 +415,7 @@ function createBaseQueryValidatorsRequest(): QueryValidatorsRequest {
 export const QueryValidatorsRequest = {
   typeUrl: "/cosmos.staking.v1beta1.QueryValidatorsRequest",
   aminoType: "cosmos-sdk/QueryValidatorsRequest",
-  encode(message: QueryValidatorsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryValidatorsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.status !== "") {
       writer.uint32(10).string(message.status);
     }
@@ -870,8 +424,8 @@ export const QueryValidatorsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorsRequest();
     while (reader.pos < end) {
@@ -902,7 +456,7 @@ export const QueryValidatorsRequest = {
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryValidatorsRequest>): QueryValidatorsRequest {
+  fromPartial(object: Partial<QueryValidatorsRequest>): QueryValidatorsRequest {
     const message = createBaseQueryValidatorsRequest();
     message.status = object.status ?? "";
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
@@ -963,7 +517,7 @@ function createBaseQueryValidatorsResponse(): QueryValidatorsResponse {
 export const QueryValidatorsResponse = {
   typeUrl: "/cosmos.staking.v1beta1.QueryValidatorsResponse",
   aminoType: "cosmos-sdk/QueryValidatorsResponse",
-  encode(message: QueryValidatorsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryValidatorsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.validators) {
       Validator.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -972,8 +526,8 @@ export const QueryValidatorsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorsResponse();
     while (reader.pos < end) {
@@ -1008,7 +562,7 @@ export const QueryValidatorsResponse = {
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryValidatorsResponse>): QueryValidatorsResponse {
+  fromPartial(object: Partial<QueryValidatorsResponse>): QueryValidatorsResponse {
     const message = createBaseQueryValidatorsResponse();
     message.validators = object.validators?.map(e => Validator.fromPartial(e)) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
@@ -1076,14 +630,14 @@ function createBaseQueryValidatorRequest(): QueryValidatorRequest {
 export const QueryValidatorRequest = {
   typeUrl: "/cosmos.staking.v1beta1.QueryValidatorRequest",
   aminoType: "cosmos-sdk/QueryValidatorRequest",
-  encode(message: QueryValidatorRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryValidatorRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.validatorAddr !== "") {
       writer.uint32(10).string(message.validatorAddr);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorRequest();
     while (reader.pos < end) {
@@ -1109,7 +663,7 @@ export const QueryValidatorRequest = {
     message.validatorAddr !== undefined && (obj.validatorAddr = message.validatorAddr);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryValidatorRequest>): QueryValidatorRequest {
+  fromPartial(object: Partial<QueryValidatorRequest>): QueryValidatorRequest {
     const message = createBaseQueryValidatorRequest();
     message.validatorAddr = object.validatorAddr ?? "";
     return message;
@@ -1164,14 +718,14 @@ function createBaseQueryValidatorResponse(): QueryValidatorResponse {
 export const QueryValidatorResponse = {
   typeUrl: "/cosmos.staking.v1beta1.QueryValidatorResponse",
   aminoType: "cosmos-sdk/QueryValidatorResponse",
-  encode(message: QueryValidatorResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryValidatorResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.validator !== undefined) {
       Validator.encode(message.validator, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorResponse();
     while (reader.pos < end) {
@@ -1197,7 +751,7 @@ export const QueryValidatorResponse = {
     message.validator !== undefined && (obj.validator = message.validator ? Validator.toJSON(message.validator) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryValidatorResponse>): QueryValidatorResponse {
+  fromPartial(object: Partial<QueryValidatorResponse>): QueryValidatorResponse {
     const message = createBaseQueryValidatorResponse();
     message.validator = object.validator !== undefined && object.validator !== null ? Validator.fromPartial(object.validator) : undefined;
     return message;
@@ -1253,7 +807,7 @@ function createBaseQueryValidatorDelegationsRequest(): QueryValidatorDelegations
 export const QueryValidatorDelegationsRequest = {
   typeUrl: "/cosmos.staking.v1beta1.QueryValidatorDelegationsRequest",
   aminoType: "cosmos-sdk/QueryValidatorDelegationsRequest",
-  encode(message: QueryValidatorDelegationsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryValidatorDelegationsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.validatorAddr !== "") {
       writer.uint32(10).string(message.validatorAddr);
     }
@@ -1262,8 +816,8 @@ export const QueryValidatorDelegationsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorDelegationsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorDelegationsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorDelegationsRequest();
     while (reader.pos < end) {
@@ -1294,7 +848,7 @@ export const QueryValidatorDelegationsRequest = {
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryValidatorDelegationsRequest>): QueryValidatorDelegationsRequest {
+  fromPartial(object: Partial<QueryValidatorDelegationsRequest>): QueryValidatorDelegationsRequest {
     const message = createBaseQueryValidatorDelegationsRequest();
     message.validatorAddr = object.validatorAddr ?? "";
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
@@ -1355,7 +909,7 @@ function createBaseQueryValidatorDelegationsResponse(): QueryValidatorDelegation
 export const QueryValidatorDelegationsResponse = {
   typeUrl: "/cosmos.staking.v1beta1.QueryValidatorDelegationsResponse",
   aminoType: "cosmos-sdk/QueryValidatorDelegationsResponse",
-  encode(message: QueryValidatorDelegationsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryValidatorDelegationsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.delegationResponses) {
       DelegationResponse.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1364,8 +918,8 @@ export const QueryValidatorDelegationsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorDelegationsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorDelegationsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorDelegationsResponse();
     while (reader.pos < end) {
@@ -1400,7 +954,7 @@ export const QueryValidatorDelegationsResponse = {
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryValidatorDelegationsResponse>): QueryValidatorDelegationsResponse {
+  fromPartial(object: Partial<QueryValidatorDelegationsResponse>): QueryValidatorDelegationsResponse {
     const message = createBaseQueryValidatorDelegationsResponse();
     message.delegationResponses = object.delegationResponses?.map(e => DelegationResponse.fromPartial(e)) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
@@ -1469,7 +1023,7 @@ function createBaseQueryValidatorUnbondingDelegationsRequest(): QueryValidatorUn
 export const QueryValidatorUnbondingDelegationsRequest = {
   typeUrl: "/cosmos.staking.v1beta1.QueryValidatorUnbondingDelegationsRequest",
   aminoType: "cosmos-sdk/QueryValidatorUnbondingDelegationsRequest",
-  encode(message: QueryValidatorUnbondingDelegationsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryValidatorUnbondingDelegationsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.validatorAddr !== "") {
       writer.uint32(10).string(message.validatorAddr);
     }
@@ -1478,8 +1032,8 @@ export const QueryValidatorUnbondingDelegationsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorUnbondingDelegationsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorUnbondingDelegationsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorUnbondingDelegationsRequest();
     while (reader.pos < end) {
@@ -1510,7 +1064,7 @@ export const QueryValidatorUnbondingDelegationsRequest = {
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryValidatorUnbondingDelegationsRequest>): QueryValidatorUnbondingDelegationsRequest {
+  fromPartial(object: Partial<QueryValidatorUnbondingDelegationsRequest>): QueryValidatorUnbondingDelegationsRequest {
     const message = createBaseQueryValidatorUnbondingDelegationsRequest();
     message.validatorAddr = object.validatorAddr ?? "";
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
@@ -1571,7 +1125,7 @@ function createBaseQueryValidatorUnbondingDelegationsResponse(): QueryValidatorU
 export const QueryValidatorUnbondingDelegationsResponse = {
   typeUrl: "/cosmos.staking.v1beta1.QueryValidatorUnbondingDelegationsResponse",
   aminoType: "cosmos-sdk/QueryValidatorUnbondingDelegationsResponse",
-  encode(message: QueryValidatorUnbondingDelegationsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryValidatorUnbondingDelegationsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.unbondingResponses) {
       UnbondingDelegation.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1580,8 +1134,8 @@ export const QueryValidatorUnbondingDelegationsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorUnbondingDelegationsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorUnbondingDelegationsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorUnbondingDelegationsResponse();
     while (reader.pos < end) {
@@ -1616,7 +1170,7 @@ export const QueryValidatorUnbondingDelegationsResponse = {
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryValidatorUnbondingDelegationsResponse>): QueryValidatorUnbondingDelegationsResponse {
+  fromPartial(object: Partial<QueryValidatorUnbondingDelegationsResponse>): QueryValidatorUnbondingDelegationsResponse {
     const message = createBaseQueryValidatorUnbondingDelegationsResponse();
     message.unbondingResponses = object.unbondingResponses?.map(e => UnbondingDelegation.fromPartial(e)) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
@@ -1685,7 +1239,7 @@ function createBaseQueryDelegationRequest(): QueryDelegationRequest {
 export const QueryDelegationRequest = {
   typeUrl: "/cosmos.staking.v1beta1.QueryDelegationRequest",
   aminoType: "cosmos-sdk/QueryDelegationRequest",
-  encode(message: QueryDelegationRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDelegationRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
     }
@@ -1694,8 +1248,8 @@ export const QueryDelegationRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegationRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegationRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegationRequest();
     while (reader.pos < end) {
@@ -1726,7 +1280,7 @@ export const QueryDelegationRequest = {
     message.validatorAddr !== undefined && (obj.validatorAddr = message.validatorAddr);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryDelegationRequest>): QueryDelegationRequest {
+  fromPartial(object: Partial<QueryDelegationRequest>): QueryDelegationRequest {
     const message = createBaseQueryDelegationRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
     message.validatorAddr = object.validatorAddr ?? "";
@@ -1786,14 +1340,14 @@ function createBaseQueryDelegationResponse(): QueryDelegationResponse {
 export const QueryDelegationResponse = {
   typeUrl: "/cosmos.staking.v1beta1.QueryDelegationResponse",
   aminoType: "cosmos-sdk/QueryDelegationResponse",
-  encode(message: QueryDelegationResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDelegationResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegationResponse !== undefined) {
       DelegationResponse.encode(message.delegationResponse, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegationResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegationResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegationResponse();
     while (reader.pos < end) {
@@ -1819,7 +1373,7 @@ export const QueryDelegationResponse = {
     message.delegationResponse !== undefined && (obj.delegationResponse = message.delegationResponse ? DelegationResponse.toJSON(message.delegationResponse) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryDelegationResponse>): QueryDelegationResponse {
+  fromPartial(object: Partial<QueryDelegationResponse>): QueryDelegationResponse {
     const message = createBaseQueryDelegationResponse();
     message.delegationResponse = object.delegationResponse !== undefined && object.delegationResponse !== null ? DelegationResponse.fromPartial(object.delegationResponse) : undefined;
     return message;
@@ -1875,7 +1429,7 @@ function createBaseQueryUnbondingDelegationRequest(): QueryUnbondingDelegationRe
 export const QueryUnbondingDelegationRequest = {
   typeUrl: "/cosmos.staking.v1beta1.QueryUnbondingDelegationRequest",
   aminoType: "cosmos-sdk/QueryUnbondingDelegationRequest",
-  encode(message: QueryUnbondingDelegationRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryUnbondingDelegationRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
     }
@@ -1884,8 +1438,8 @@ export const QueryUnbondingDelegationRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryUnbondingDelegationRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryUnbondingDelegationRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryUnbondingDelegationRequest();
     while (reader.pos < end) {
@@ -1916,7 +1470,7 @@ export const QueryUnbondingDelegationRequest = {
     message.validatorAddr !== undefined && (obj.validatorAddr = message.validatorAddr);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryUnbondingDelegationRequest>): QueryUnbondingDelegationRequest {
+  fromPartial(object: Partial<QueryUnbondingDelegationRequest>): QueryUnbondingDelegationRequest {
     const message = createBaseQueryUnbondingDelegationRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
     message.validatorAddr = object.validatorAddr ?? "";
@@ -1976,14 +1530,14 @@ function createBaseQueryUnbondingDelegationResponse(): QueryUnbondingDelegationR
 export const QueryUnbondingDelegationResponse = {
   typeUrl: "/cosmos.staking.v1beta1.QueryUnbondingDelegationResponse",
   aminoType: "cosmos-sdk/QueryUnbondingDelegationResponse",
-  encode(message: QueryUnbondingDelegationResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryUnbondingDelegationResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.unbond !== undefined) {
       UnbondingDelegation.encode(message.unbond, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryUnbondingDelegationResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryUnbondingDelegationResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryUnbondingDelegationResponse();
     while (reader.pos < end) {
@@ -2009,7 +1563,7 @@ export const QueryUnbondingDelegationResponse = {
     message.unbond !== undefined && (obj.unbond = message.unbond ? UnbondingDelegation.toJSON(message.unbond) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryUnbondingDelegationResponse>): QueryUnbondingDelegationResponse {
+  fromPartial(object: Partial<QueryUnbondingDelegationResponse>): QueryUnbondingDelegationResponse {
     const message = createBaseQueryUnbondingDelegationResponse();
     message.unbond = object.unbond !== undefined && object.unbond !== null ? UnbondingDelegation.fromPartial(object.unbond) : undefined;
     return message;
@@ -2065,7 +1619,7 @@ function createBaseQueryDelegatorDelegationsRequest(): QueryDelegatorDelegations
 export const QueryDelegatorDelegationsRequest = {
   typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorDelegationsRequest",
   aminoType: "cosmos-sdk/QueryDelegatorDelegationsRequest",
-  encode(message: QueryDelegatorDelegationsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDelegatorDelegationsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
     }
@@ -2074,8 +1628,8 @@ export const QueryDelegatorDelegationsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorDelegationsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorDelegationsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorDelegationsRequest();
     while (reader.pos < end) {
@@ -2106,7 +1660,7 @@ export const QueryDelegatorDelegationsRequest = {
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryDelegatorDelegationsRequest>): QueryDelegatorDelegationsRequest {
+  fromPartial(object: Partial<QueryDelegatorDelegationsRequest>): QueryDelegatorDelegationsRequest {
     const message = createBaseQueryDelegatorDelegationsRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
@@ -2167,7 +1721,7 @@ function createBaseQueryDelegatorDelegationsResponse(): QueryDelegatorDelegation
 export const QueryDelegatorDelegationsResponse = {
   typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorDelegationsResponse",
   aminoType: "cosmos-sdk/QueryDelegatorDelegationsResponse",
-  encode(message: QueryDelegatorDelegationsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDelegatorDelegationsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.delegationResponses) {
       DelegationResponse.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -2176,8 +1730,8 @@ export const QueryDelegatorDelegationsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorDelegationsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorDelegationsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorDelegationsResponse();
     while (reader.pos < end) {
@@ -2212,7 +1766,7 @@ export const QueryDelegatorDelegationsResponse = {
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryDelegatorDelegationsResponse>): QueryDelegatorDelegationsResponse {
+  fromPartial(object: Partial<QueryDelegatorDelegationsResponse>): QueryDelegatorDelegationsResponse {
     const message = createBaseQueryDelegatorDelegationsResponse();
     message.delegationResponses = object.delegationResponses?.map(e => DelegationResponse.fromPartial(e)) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
@@ -2281,7 +1835,7 @@ function createBaseQueryDelegatorUnbondingDelegationsRequest(): QueryDelegatorUn
 export const QueryDelegatorUnbondingDelegationsRequest = {
   typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorUnbondingDelegationsRequest",
   aminoType: "cosmos-sdk/QueryDelegatorUnbondingDelegationsRequest",
-  encode(message: QueryDelegatorUnbondingDelegationsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDelegatorUnbondingDelegationsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
     }
@@ -2290,8 +1844,8 @@ export const QueryDelegatorUnbondingDelegationsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorUnbondingDelegationsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorUnbondingDelegationsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorUnbondingDelegationsRequest();
     while (reader.pos < end) {
@@ -2322,7 +1876,7 @@ export const QueryDelegatorUnbondingDelegationsRequest = {
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryDelegatorUnbondingDelegationsRequest>): QueryDelegatorUnbondingDelegationsRequest {
+  fromPartial(object: Partial<QueryDelegatorUnbondingDelegationsRequest>): QueryDelegatorUnbondingDelegationsRequest {
     const message = createBaseQueryDelegatorUnbondingDelegationsRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
@@ -2383,7 +1937,7 @@ function createBaseQueryDelegatorUnbondingDelegationsResponse(): QueryDelegatorU
 export const QueryDelegatorUnbondingDelegationsResponse = {
   typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorUnbondingDelegationsResponse",
   aminoType: "cosmos-sdk/QueryDelegatorUnbondingDelegationsResponse",
-  encode(message: QueryDelegatorUnbondingDelegationsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDelegatorUnbondingDelegationsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.unbondingResponses) {
       UnbondingDelegation.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -2392,8 +1946,8 @@ export const QueryDelegatorUnbondingDelegationsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorUnbondingDelegationsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorUnbondingDelegationsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorUnbondingDelegationsResponse();
     while (reader.pos < end) {
@@ -2428,7 +1982,7 @@ export const QueryDelegatorUnbondingDelegationsResponse = {
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryDelegatorUnbondingDelegationsResponse>): QueryDelegatorUnbondingDelegationsResponse {
+  fromPartial(object: Partial<QueryDelegatorUnbondingDelegationsResponse>): QueryDelegatorUnbondingDelegationsResponse {
     const message = createBaseQueryDelegatorUnbondingDelegationsResponse();
     message.unbondingResponses = object.unbondingResponses?.map(e => UnbondingDelegation.fromPartial(e)) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
@@ -2499,7 +2053,7 @@ function createBaseQueryRedelegationsRequest(): QueryRedelegationsRequest {
 export const QueryRedelegationsRequest = {
   typeUrl: "/cosmos.staking.v1beta1.QueryRedelegationsRequest",
   aminoType: "cosmos-sdk/QueryRedelegationsRequest",
-  encode(message: QueryRedelegationsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryRedelegationsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
     }
@@ -2514,8 +2068,8 @@ export const QueryRedelegationsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryRedelegationsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryRedelegationsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryRedelegationsRequest();
     while (reader.pos < end) {
@@ -2556,7 +2110,7 @@ export const QueryRedelegationsRequest = {
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryRedelegationsRequest>): QueryRedelegationsRequest {
+  fromPartial(object: Partial<QueryRedelegationsRequest>): QueryRedelegationsRequest {
     const message = createBaseQueryRedelegationsRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
     message.srcValidatorAddr = object.srcValidatorAddr ?? "";
@@ -2627,7 +2181,7 @@ function createBaseQueryRedelegationsResponse(): QueryRedelegationsResponse {
 export const QueryRedelegationsResponse = {
   typeUrl: "/cosmos.staking.v1beta1.QueryRedelegationsResponse",
   aminoType: "cosmos-sdk/QueryRedelegationsResponse",
-  encode(message: QueryRedelegationsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryRedelegationsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.redelegationResponses) {
       RedelegationResponse.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -2636,8 +2190,8 @@ export const QueryRedelegationsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryRedelegationsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryRedelegationsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryRedelegationsResponse();
     while (reader.pos < end) {
@@ -2672,7 +2226,7 @@ export const QueryRedelegationsResponse = {
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryRedelegationsResponse>): QueryRedelegationsResponse {
+  fromPartial(object: Partial<QueryRedelegationsResponse>): QueryRedelegationsResponse {
     const message = createBaseQueryRedelegationsResponse();
     message.redelegationResponses = object.redelegationResponses?.map(e => RedelegationResponse.fromPartial(e)) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
@@ -2741,7 +2295,7 @@ function createBaseQueryDelegatorValidatorsRequest(): QueryDelegatorValidatorsRe
 export const QueryDelegatorValidatorsRequest = {
   typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorValidatorsRequest",
   aminoType: "cosmos-sdk/QueryDelegatorValidatorsRequest",
-  encode(message: QueryDelegatorValidatorsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDelegatorValidatorsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
     }
@@ -2750,8 +2304,8 @@ export const QueryDelegatorValidatorsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorValidatorsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorValidatorsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorValidatorsRequest();
     while (reader.pos < end) {
@@ -2782,7 +2336,7 @@ export const QueryDelegatorValidatorsRequest = {
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryDelegatorValidatorsRequest>): QueryDelegatorValidatorsRequest {
+  fromPartial(object: Partial<QueryDelegatorValidatorsRequest>): QueryDelegatorValidatorsRequest {
     const message = createBaseQueryDelegatorValidatorsRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
@@ -2843,7 +2397,7 @@ function createBaseQueryDelegatorValidatorsResponse(): QueryDelegatorValidatorsR
 export const QueryDelegatorValidatorsResponse = {
   typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorValidatorsResponse",
   aminoType: "cosmos-sdk/QueryDelegatorValidatorsResponse",
-  encode(message: QueryDelegatorValidatorsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDelegatorValidatorsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.validators) {
       Validator.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -2852,8 +2406,8 @@ export const QueryDelegatorValidatorsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorValidatorsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorValidatorsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorValidatorsResponse();
     while (reader.pos < end) {
@@ -2888,7 +2442,7 @@ export const QueryDelegatorValidatorsResponse = {
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryDelegatorValidatorsResponse>): QueryDelegatorValidatorsResponse {
+  fromPartial(object: Partial<QueryDelegatorValidatorsResponse>): QueryDelegatorValidatorsResponse {
     const message = createBaseQueryDelegatorValidatorsResponse();
     message.validators = object.validators?.map(e => Validator.fromPartial(e)) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
@@ -2957,7 +2511,7 @@ function createBaseQueryDelegatorValidatorRequest(): QueryDelegatorValidatorRequ
 export const QueryDelegatorValidatorRequest = {
   typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorValidatorRequest",
   aminoType: "cosmos-sdk/QueryDelegatorValidatorRequest",
-  encode(message: QueryDelegatorValidatorRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDelegatorValidatorRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
     }
@@ -2966,8 +2520,8 @@ export const QueryDelegatorValidatorRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorValidatorRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorValidatorRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorValidatorRequest();
     while (reader.pos < end) {
@@ -2998,7 +2552,7 @@ export const QueryDelegatorValidatorRequest = {
     message.validatorAddr !== undefined && (obj.validatorAddr = message.validatorAddr);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryDelegatorValidatorRequest>): QueryDelegatorValidatorRequest {
+  fromPartial(object: Partial<QueryDelegatorValidatorRequest>): QueryDelegatorValidatorRequest {
     const message = createBaseQueryDelegatorValidatorRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
     message.validatorAddr = object.validatorAddr ?? "";
@@ -3058,14 +2612,14 @@ function createBaseQueryDelegatorValidatorResponse(): QueryDelegatorValidatorRes
 export const QueryDelegatorValidatorResponse = {
   typeUrl: "/cosmos.staking.v1beta1.QueryDelegatorValidatorResponse",
   aminoType: "cosmos-sdk/QueryDelegatorValidatorResponse",
-  encode(message: QueryDelegatorValidatorResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDelegatorValidatorResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.validator !== undefined) {
       Validator.encode(message.validator, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorValidatorResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorValidatorResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorValidatorResponse();
     while (reader.pos < end) {
@@ -3091,7 +2645,7 @@ export const QueryDelegatorValidatorResponse = {
     message.validator !== undefined && (obj.validator = message.validator ? Validator.toJSON(message.validator) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryDelegatorValidatorResponse>): QueryDelegatorValidatorResponse {
+  fromPartial(object: Partial<QueryDelegatorValidatorResponse>): QueryDelegatorValidatorResponse {
     const message = createBaseQueryDelegatorValidatorResponse();
     message.validator = object.validator !== undefined && object.validator !== null ? Validator.fromPartial(object.validator) : undefined;
     return message;
@@ -3140,27 +2694,27 @@ export const QueryDelegatorValidatorResponse = {
 };
 function createBaseQueryHistoricalInfoRequest(): QueryHistoricalInfoRequest {
   return {
-    height: Long.ZERO
+    height: BigInt("0")
   };
 }
 export const QueryHistoricalInfoRequest = {
   typeUrl: "/cosmos.staking.v1beta1.QueryHistoricalInfoRequest",
   aminoType: "cosmos-sdk/QueryHistoricalInfoRequest",
-  encode(message: QueryHistoricalInfoRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.height.isZero()) {
+  encode(message: QueryHistoricalInfoRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.height !== BigInt(0)) {
       writer.uint32(8).int64(message.height);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryHistoricalInfoRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryHistoricalInfoRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryHistoricalInfoRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = BigInt(reader.int64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -3171,17 +2725,17 @@ export const QueryHistoricalInfoRequest = {
   },
   fromJSON(object: any): QueryHistoricalInfoRequest {
     return {
-      height: isSet(object.height) ? Long.fromValue(object.height) : Long.ZERO
+      height: isSet(object.height) ? BigInt(object.height.toString()) : BigInt("0")
     };
   },
   toJSON(message: QueryHistoricalInfoRequest): unknown {
     const obj: any = {};
-    message.height !== undefined && (obj.height = (message.height || Long.ZERO).toString());
+    message.height !== undefined && (obj.height = (message.height || BigInt("0")).toString());
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryHistoricalInfoRequest>): QueryHistoricalInfoRequest {
+  fromPartial(object: Partial<QueryHistoricalInfoRequest>): QueryHistoricalInfoRequest {
     const message = createBaseQueryHistoricalInfoRequest();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
     return message;
   },
   fromSDK(object: QueryHistoricalInfoRequestSDKType): QueryHistoricalInfoRequest {
@@ -3196,7 +2750,7 @@ export const QueryHistoricalInfoRequest = {
   },
   fromAmino(object: QueryHistoricalInfoRequestAmino): QueryHistoricalInfoRequest {
     return {
-      height: Long.fromString(object.height)
+      height: BigInt(object.height)
     };
   },
   toAmino(message: QueryHistoricalInfoRequest): QueryHistoricalInfoRequestAmino {
@@ -3234,14 +2788,14 @@ function createBaseQueryHistoricalInfoResponse(): QueryHistoricalInfoResponse {
 export const QueryHistoricalInfoResponse = {
   typeUrl: "/cosmos.staking.v1beta1.QueryHistoricalInfoResponse",
   aminoType: "cosmos-sdk/QueryHistoricalInfoResponse",
-  encode(message: QueryHistoricalInfoResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryHistoricalInfoResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.hist !== undefined) {
       HistoricalInfo.encode(message.hist, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryHistoricalInfoResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryHistoricalInfoResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryHistoricalInfoResponse();
     while (reader.pos < end) {
@@ -3267,7 +2821,7 @@ export const QueryHistoricalInfoResponse = {
     message.hist !== undefined && (obj.hist = message.hist ? HistoricalInfo.toJSON(message.hist) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryHistoricalInfoResponse>): QueryHistoricalInfoResponse {
+  fromPartial(object: Partial<QueryHistoricalInfoResponse>): QueryHistoricalInfoResponse {
     const message = createBaseQueryHistoricalInfoResponse();
     message.hist = object.hist !== undefined && object.hist !== null ? HistoricalInfo.fromPartial(object.hist) : undefined;
     return message;
@@ -3320,11 +2874,11 @@ function createBaseQueryPoolRequest(): QueryPoolRequest {
 export const QueryPoolRequest = {
   typeUrl: "/cosmos.staking.v1beta1.QueryPoolRequest",
   aminoType: "cosmos-sdk/QueryPoolRequest",
-  encode(_: QueryPoolRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryPoolRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryPoolRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryPoolRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryPoolRequest();
     while (reader.pos < end) {
@@ -3344,7 +2898,7 @@ export const QueryPoolRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<QueryPoolRequest>): QueryPoolRequest {
+  fromPartial(_: Partial<QueryPoolRequest>): QueryPoolRequest {
     const message = createBaseQueryPoolRequest();
     return message;
   },
@@ -3392,14 +2946,14 @@ function createBaseQueryPoolResponse(): QueryPoolResponse {
 export const QueryPoolResponse = {
   typeUrl: "/cosmos.staking.v1beta1.QueryPoolResponse",
   aminoType: "cosmos-sdk/QueryPoolResponse",
-  encode(message: QueryPoolResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryPoolResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pool !== undefined) {
       Pool.encode(message.pool, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryPoolResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryPoolResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryPoolResponse();
     while (reader.pos < end) {
@@ -3425,7 +2979,7 @@ export const QueryPoolResponse = {
     message.pool !== undefined && (obj.pool = message.pool ? Pool.toJSON(message.pool) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryPoolResponse>): QueryPoolResponse {
+  fromPartial(object: Partial<QueryPoolResponse>): QueryPoolResponse {
     const message = createBaseQueryPoolResponse();
     message.pool = object.pool !== undefined && object.pool !== null ? Pool.fromPartial(object.pool) : undefined;
     return message;
@@ -3478,11 +3032,11 @@ function createBaseQueryParamsRequest(): QueryParamsRequest {
 export const QueryParamsRequest = {
   typeUrl: "/cosmos.staking.v1beta1.QueryParamsRequest",
   aminoType: "cosmos-sdk/QueryParamsRequest",
-  encode(_: QueryParamsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryParamsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsRequest();
     while (reader.pos < end) {
@@ -3502,7 +3056,7 @@ export const QueryParamsRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<QueryParamsRequest>): QueryParamsRequest {
+  fromPartial(_: Partial<QueryParamsRequest>): QueryParamsRequest {
     const message = createBaseQueryParamsRequest();
     return message;
   },
@@ -3550,14 +3104,14 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
 export const QueryParamsResponse = {
   typeUrl: "/cosmos.staking.v1beta1.QueryParamsResponse",
   aminoType: "cosmos-sdk/QueryParamsResponse",
-  encode(message: QueryParamsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryParamsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();
     while (reader.pos < end) {
@@ -3583,7 +3137,7 @@ export const QueryParamsResponse = {
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryParamsResponse>): QueryParamsResponse {
+  fromPartial(object: Partial<QueryParamsResponse>): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
     message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
     return message;

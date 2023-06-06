@@ -1,5 +1,5 @@
-import { Long, isSet, DeepPartial } from "../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../binary";
+import { isSet } from "../../helpers";
 export const protobufPackage = "google.protobuf";
 /**
  * A Duration represents a signed, fixed-length span of time represented
@@ -67,7 +67,7 @@ export interface Duration {
    * to +315,576,000,000 inclusive. Note: these bounds are computed from:
    * 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
    */
-  seconds: Long;
+  seconds: bigint;
   /**
    * Signed fractions of a second at nanosecond resolution of the span
    * of time. Durations less than one second are represented with a 0
@@ -77,75 +77,6 @@ export interface Duration {
    * to +999,999,999 inclusive.
    */
   nanos: number;
-}
-export interface DurationProtoMsg {
-  typeUrl: "/google.protobuf.Duration";
-  value: Uint8Array;
-}
-/**
- * A Duration represents a signed, fixed-length span of time represented
- * as a count of seconds and fractions of seconds at nanosecond
- * resolution. It is independent of any calendar and concepts like "day"
- * or "month". It is related to Timestamp in that the difference between
- * two Timestamp values is a Duration and it can be added or subtracted
- * from a Timestamp. Range is approximately +-10,000 years.
- * 
- * # Examples
- * 
- * Example 1: Compute Duration from two Timestamps in pseudo code.
- * 
- *     Timestamp start = ...;
- *     Timestamp end = ...;
- *     Duration duration = ...;
- * 
- *     duration.seconds = end.seconds - start.seconds;
- *     duration.nanos = end.nanos - start.nanos;
- * 
- *     if (duration.seconds < 0 && duration.nanos > 0) {
- *       duration.seconds += 1;
- *       duration.nanos -= 1000000000;
- *     } else if (durations.seconds > 0 && duration.nanos < 0) {
- *       duration.seconds -= 1;
- *       duration.nanos += 1000000000;
- *     }
- * 
- * Example 2: Compute Timestamp from Timestamp + Duration in pseudo code.
- * 
- *     Timestamp start = ...;
- *     Duration duration = ...;
- *     Timestamp end = ...;
- * 
- *     end.seconds = start.seconds + duration.seconds;
- *     end.nanos = start.nanos + duration.nanos;
- * 
- *     if (end.nanos < 0) {
- *       end.seconds -= 1;
- *       end.nanos += 1000000000;
- *     } else if (end.nanos >= 1000000000) {
- *       end.seconds += 1;
- *       end.nanos -= 1000000000;
- *     }
- * 
- * Example 3: Compute Duration from datetime.timedelta in Python.
- * 
- *     td = datetime.timedelta(days=3, minutes=10)
- *     duration = Duration()
- *     duration.FromTimedelta(td)
- * 
- * # JSON Mapping
- * 
- * In JSON format, the Duration type is encoded as a string rather than an
- * object, where the string ends in the suffix "s" (indicating seconds) and
- * is preceded by the number of seconds, with nanoseconds expressed as
- * fractional seconds. For example, 3 seconds with 0 nanoseconds should be
- * encoded in JSON format as "3s", while 3 seconds and 1 nanosecond should
- * be expressed in JSON format as "3.000000001s", and 3 seconds and 1
- * microsecond should be expressed in JSON format as "3.000001s".
- */
-export type DurationAmino = string;
-export interface DurationAminoMsg {
-  type: "/google.protobuf.Duration";
-  value: DurationAmino;
 }
 /**
  * A Duration represents a signed, fixed-length span of time represented
@@ -208,19 +139,19 @@ export interface DurationAminoMsg {
  * microsecond should be expressed in JSON format as "3.000001s".
  */
 export interface DurationSDKType {
-  seconds: Long;
+  seconds: bigint;
   nanos: number;
 }
 function createBaseDuration(): Duration {
   return {
-    seconds: Long.ZERO,
+    seconds: BigInt("0"),
     nanos: 0
   };
 }
 export const Duration = {
   typeUrl: "/google.protobuf.Duration",
-  encode(message: Duration, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.seconds.isZero()) {
+  encode(message: Duration, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.seconds !== BigInt(0)) {
       writer.uint32(8).int64(message.seconds);
     }
     if (message.nanos !== 0) {
@@ -228,15 +159,15 @@ export const Duration = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Duration {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Duration {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDuration();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.seconds = (reader.int64() as Long);
+          message.seconds = BigInt(reader.int64().toString());
           break;
         case 2:
           message.nanos = reader.int32();
@@ -250,19 +181,19 @@ export const Duration = {
   },
   fromJSON(object: any): Duration {
     return {
-      seconds: isSet(object.seconds) ? Long.fromValue(object.seconds) : Long.ZERO,
+      seconds: isSet(object.seconds) ? BigInt(object.seconds.toString()) : BigInt("0"),
       nanos: isSet(object.nanos) ? Number(object.nanos) : 0
     };
   },
   toJSON(message: Duration): unknown {
     const obj: any = {};
-    message.seconds !== undefined && (obj.seconds = (message.seconds || Long.ZERO).toString());
+    message.seconds !== undefined && (obj.seconds = (message.seconds || BigInt("0")).toString());
     message.nanos !== undefined && (obj.nanos = Math.round(message.nanos));
     return obj;
   },
-  fromPartial(object: DeepPartial<Duration>): Duration {
+  fromPartial(object: Partial<Duration>): Duration {
     const message = createBaseDuration();
-    message.seconds = object.seconds !== undefined && object.seconds !== null ? Long.fromValue(object.seconds) : Long.ZERO;
+    message.seconds = object.seconds !== undefined && object.seconds !== null ? BigInt(object.seconds.toString()) : BigInt("0");
     message.nanos = object.nanos ?? 0;
     return message;
   },
@@ -281,7 +212,7 @@ export const Duration = {
   fromAmino(object: DurationAmino): Duration {
     const value = parseInt(object);
     return {
-      seconds: Long.fromNumber(Math.floor(value / 1_000_000_000)),
+      seconds: BigInt(Math.floor(value / 1_000_000_000)),
       nanos: value % 1_000_000_000
     };
   },

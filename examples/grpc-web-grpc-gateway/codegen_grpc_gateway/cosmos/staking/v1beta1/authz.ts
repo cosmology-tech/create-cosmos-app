@@ -1,6 +1,6 @@
-import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../../helpers";
+import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet } from "../../../helpers";
 export const protobufPackage = "cosmos.staking.v1beta1";
 /**
  * AuthorizationType defines the type of staking module authorization type
@@ -19,7 +19,6 @@ export enum AuthorizationType {
   UNRECOGNIZED = -1,
 }
 export const AuthorizationTypeSDKType = AuthorizationType;
-export const AuthorizationTypeAmino = AuthorizationType;
 export function authorizationTypeFromJSON(object: any): AuthorizationType {
   switch (object) {
     case 0:
@@ -76,35 +75,6 @@ export interface StakeAuthorization {
   /** authorization_type defines one of AuthorizationType. */
   authorizationType: AuthorizationType;
 }
-export interface StakeAuthorizationProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.StakeAuthorization";
-  value: Uint8Array;
-}
-/**
- * StakeAuthorization defines authorization for delegate/undelegate/redelegate.
- * 
- * Since: cosmos-sdk 0.43
- */
-export interface StakeAuthorizationAmino {
-  /**
-   * max_tokens specifies the maximum amount of tokens can be delegate to a validator. If it is
-   * empty, there is no spend limit and any amount of coins can be delegated.
-   */
-  max_tokens?: CoinAmino;
-  /**
-   * allow_list specifies list of validator addresses to whom grantee can delegate tokens on behalf of granter's
-   * account.
-   */
-  allow_list?: StakeAuthorization_ValidatorsAmino;
-  /** deny_list specifies list of validator addresses to whom grantee can not delegate tokens. */
-  deny_list?: StakeAuthorization_ValidatorsAmino;
-  /** authorization_type defines one of AuthorizationType. */
-  authorization_type: AuthorizationType;
-}
-export interface StakeAuthorizationAminoMsg {
-  type: "cosmos-sdk/StakeAuthorization";
-  value: StakeAuthorizationAmino;
-}
 /**
  * StakeAuthorization defines authorization for delegate/undelegate/redelegate.
  * 
@@ -119,18 +89,6 @@ export interface StakeAuthorizationSDKType {
 /** Validators defines list of validator addresses. */
 export interface StakeAuthorization_Validators {
   address: string[];
-}
-export interface StakeAuthorization_ValidatorsProtoMsg {
-  typeUrl: "/cosmos.staking.v1beta1.Validators";
-  value: Uint8Array;
-}
-/** Validators defines list of validator addresses. */
-export interface StakeAuthorization_ValidatorsAmino {
-  address: string[];
-}
-export interface StakeAuthorization_ValidatorsAminoMsg {
-  type: "cosmos-sdk/Validators";
-  value: StakeAuthorization_ValidatorsAmino;
 }
 /** Validators defines list of validator addresses. */
 export interface StakeAuthorization_ValidatorsSDKType {
@@ -147,7 +105,7 @@ function createBaseStakeAuthorization(): StakeAuthorization {
 export const StakeAuthorization = {
   typeUrl: "/cosmos.staking.v1beta1.StakeAuthorization",
   aminoType: "cosmos-sdk/StakeAuthorization",
-  encode(message: StakeAuthorization, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: StakeAuthorization, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.maxTokens !== undefined) {
       Coin.encode(message.maxTokens, writer.uint32(10).fork()).ldelim();
     }
@@ -162,8 +120,8 @@ export const StakeAuthorization = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): StakeAuthorization {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): StakeAuthorization {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseStakeAuthorization();
     while (reader.pos < end) {
@@ -204,7 +162,7 @@ export const StakeAuthorization = {
     message.authorizationType !== undefined && (obj.authorizationType = authorizationTypeToJSON(message.authorizationType));
     return obj;
   },
-  fromPartial(object: DeepPartial<StakeAuthorization>): StakeAuthorization {
+  fromPartial(object: Partial<StakeAuthorization>): StakeAuthorization {
     const message = createBaseStakeAuthorization();
     message.maxTokens = object.maxTokens !== undefined && object.maxTokens !== null ? Coin.fromPartial(object.maxTokens) : undefined;
     message.allowList = object.allowList !== undefined && object.allowList !== null ? StakeAuthorization_Validators.fromPartial(object.allowList) : undefined;
@@ -274,14 +232,14 @@ function createBaseStakeAuthorization_Validators(): StakeAuthorization_Validator
 export const StakeAuthorization_Validators = {
   typeUrl: "/cosmos.staking.v1beta1.Validators",
   aminoType: "cosmos-sdk/Validators",
-  encode(message: StakeAuthorization_Validators, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: StakeAuthorization_Validators, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.address) {
       writer.uint32(10).string(v!);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): StakeAuthorization_Validators {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): StakeAuthorization_Validators {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseStakeAuthorization_Validators();
     while (reader.pos < end) {
@@ -311,7 +269,7 @@ export const StakeAuthorization_Validators = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<StakeAuthorization_Validators>): StakeAuthorization_Validators {
+  fromPartial(object: Partial<StakeAuthorization_Validators>): StakeAuthorization_Validators {
     const message = createBaseStakeAuthorization_Validators();
     message.address = object.address?.map(e => e) || [];
     return message;

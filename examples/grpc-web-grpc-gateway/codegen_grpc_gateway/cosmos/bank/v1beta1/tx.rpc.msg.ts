@@ -1,7 +1,5 @@
-import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
-import { Input, InputSDKType, Output, OutputSDKType } from "./bank";
 import * as fm from "../../../grpc-gateway";
-import { MsgSend, MsgSendSDKType, MsgSendResponse, MsgSendResponseSDKType, MsgMultiSend, MsgMultiSendSDKType, MsgMultiSendResponse, MsgMultiSendResponseSDKType } from "./tx";
+import { MsgSend, MsgSendResponse, MsgMultiSend, MsgMultiSendResponse } from "./tx";
 export class Msg {
   /** Send defines a method for sending coins from one account to another account. */
   static send(request: MsgSend, initRequest?: fm.InitReq): Promise<MsgSendResponse> {

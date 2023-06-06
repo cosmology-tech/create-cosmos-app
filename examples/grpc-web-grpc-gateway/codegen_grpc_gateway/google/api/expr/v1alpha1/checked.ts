@@ -1,8 +1,8 @@
-import { SourceInfo, SourceInfoAmino, SourceInfoSDKType, Expr, ExprAmino, ExprSDKType, Constant, ConstantAmino, ConstantSDKType } from "./syntax";
-import { Empty, EmptyAmino, EmptySDKType } from "../../../protobuf/empty";
-import { NullValue, NullValueSDKType, nullValueFromJSON, nullValueToJSON } from "../../../protobuf/struct";
-import { Long, isSet, DeepPartial, isObject } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { SourceInfo, SourceInfoSDKType, Expr, ExprSDKType, Constant, ConstantSDKType } from "./syntax";
+import { Empty, EmptySDKType } from "../../../protobuf/empty";
+import { NullValue, nullValueFromJSON, nullValueToJSON } from "../../../protobuf/struct";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.expr.v1alpha1";
 /** CEL primitive types. */
 export enum Type_PrimitiveType {
@@ -35,7 +35,6 @@ export enum Type_PrimitiveType {
   UNRECOGNIZED = -1,
 }
 export const Type_PrimitiveTypeSDKType = Type_PrimitiveType;
-export const Type_PrimitiveTypeAmino = Type_PrimitiveType;
 export function type_PrimitiveTypeFromJSON(object: any): Type_PrimitiveType {
   switch (object) {
     case 0:
@@ -105,7 +104,6 @@ export enum Type_WellKnownType {
   UNRECOGNIZED = -1,
 }
 export const Type_WellKnownTypeSDKType = Type_WellKnownType;
-export const Type_WellKnownTypeAmino = Type_WellKnownType;
 export function type_WellKnownTypeFromJSON(object: any): Type_WellKnownType {
   switch (object) {
     case 0:
@@ -142,43 +140,19 @@ export function type_WellKnownTypeToJSON(object: Type_WellKnownType): string {
   }
 }
 export interface CheckedExpr_ReferenceMapEntry {
-  key: Long;
+  key: bigint;
   value?: Reference;
 }
-export interface CheckedExpr_ReferenceMapEntryProtoMsg {
-  typeUrl: string;
-  value: Uint8Array;
-}
-export interface CheckedExpr_ReferenceMapEntryAmino {
-  key: string;
-  value?: ReferenceAmino;
-}
-export interface CheckedExpr_ReferenceMapEntryAminoMsg {
-  type: string;
-  value: CheckedExpr_ReferenceMapEntryAmino;
-}
 export interface CheckedExpr_ReferenceMapEntrySDKType {
-  key: Long;
+  key: bigint;
   value?: ReferenceSDKType;
 }
 export interface CheckedExpr_TypeMapEntry {
-  key: Long;
+  key: bigint;
   value?: Type;
 }
-export interface CheckedExpr_TypeMapEntryProtoMsg {
-  typeUrl: string;
-  value: Uint8Array;
-}
-export interface CheckedExpr_TypeMapEntryAmino {
-  key: string;
-  value?: TypeAmino;
-}
-export interface CheckedExpr_TypeMapEntryAminoMsg {
-  type: string;
-  value: CheckedExpr_TypeMapEntryAmino;
-}
 export interface CheckedExpr_TypeMapEntrySDKType {
-  key: Long;
+  key: bigint;
   value?: TypeSDKType;
 }
 /** A CEL expression which has been successfully type checked. */
@@ -201,7 +175,7 @@ export interface CheckedExpr {
    *   the message.
    */
   referenceMap?: {
-    [key: Long]: Reference;
+    [key: bigint]: Reference;
   };
   /**
    * A map from expression ids to types.
@@ -211,7 +185,7 @@ export interface CheckedExpr {
    * space.
    */
   typeMap?: {
-    [key: Long]: Type;
+    [key: bigint]: Type;
   };
   /**
    * The source info derived from input that generated the parsed `expr` and
@@ -234,74 +208,13 @@ export interface CheckedExpr {
    */
   expr?: Expr;
 }
-export interface CheckedExprProtoMsg {
-  typeUrl: "/google.api.expr.v1alpha1.CheckedExpr";
-  value: Uint8Array;
-}
-/** A CEL expression which has been successfully type checked. */
-export interface CheckedExprAmino {
-  /**
-   * A map from expression ids to resolved references.
-   * 
-   * The following entries are in this table:
-   * 
-   * - An Ident or Select expression is represented here if it resolves to a
-   *   declaration. For instance, if `a.b.c` is represented by
-   *   `select(select(id(a), b), c)`, and `a.b` resolves to a declaration,
-   *   while `c` is a field selection, then the reference is attached to the
-   *   nested select expression (but not to the id or or the outer select).
-   *   In turn, if `a` resolves to a declaration and `b.c` are field selections,
-   *   the reference is attached to the ident expression.
-   * - Every Call expression has an entry here, identifying the function being
-   *   called.
-   * - Every CreateStruct expression for a message has an entry, identifying
-   *   the message.
-   */
-  reference_map?: {
-    [key: string]: ReferenceAmino;
-  };
-  /**
-   * A map from expression ids to types.
-   * 
-   * Every expression node which has a type different than DYN has a mapping
-   * here. If an expression has type DYN, it is omitted from this map to save
-   * space.
-   */
-  type_map?: {
-    [key: string]: TypeAmino;
-  };
-  /**
-   * The source info derived from input that generated the parsed `expr` and
-   * any optimizations made during the type-checking pass.
-   */
-  source_info?: SourceInfoAmino;
-  /**
-   * The expr version indicates the major / minor version number of the `expr`
-   * representation.
-   * 
-   * The most common reason for a version change will be to indicate to the CEL
-   * runtimes that transformations have been performed on the expr during static
-   * analysis. In some cases, this will save the runtime the work of applying
-   * the same or similar transformations prior to evaluation.
-   */
-  expr_version: string;
-  /**
-   * The checked expression. Semantically equivalent to the parsed `expr`, but
-   * may have structural differences.
-   */
-  expr?: ExprAmino;
-}
-export interface CheckedExprAminoMsg {
-  type: "/google.api.expr.v1alpha1.CheckedExpr";
-  value: CheckedExprAmino;
-}
 /** A CEL expression which has been successfully type checked. */
 export interface CheckedExprSDKType {
   reference_map?: {
-    [key: Long]: ReferenceSDKType;
+    [key: bigint]: ReferenceSDKType;
   };
   type_map?: {
-    [key: Long]: TypeSDKType;
+    [key: bigint]: TypeSDKType;
   };
   source_info?: SourceInfoSDKType;
   expr_version: string;
@@ -358,65 +271,6 @@ export interface Type {
   /** Abstract, application defined type. */
   abstractType?: Type_AbstractType;
 }
-export interface TypeProtoMsg {
-  typeUrl: "/google.api.expr.v1alpha1.Type";
-  value: Uint8Array;
-}
-/** Represents a CEL type. */
-export interface TypeAmino {
-  /** Dynamic type. */
-  dyn?: EmptyAmino;
-  /** Null value. */
-  null?: NullValue;
-  /** Primitive types: `true`, `1u`, `-2.0`, `'string'`, `b'bytes'`. */
-  primitive?: Type_PrimitiveType;
-  /** Wrapper of a primitive type, e.g. `google.protobuf.Int64Value`. */
-  wrapper?: Type_PrimitiveType;
-  /** Well-known protobuf type such as `google.protobuf.Timestamp`. */
-  well_known?: Type_WellKnownType;
-  /** Parameterized list with elements of `list_type`, e.g. `list<timestamp>`. */
-  list_type?: Type_ListTypeAmino;
-  /** Parameterized map with typed keys and values. */
-  map_type?: Type_MapTypeAmino;
-  /** Function type. */
-  function?: Type_FunctionTypeAmino;
-  /**
-   * Protocol buffer message type.
-   * 
-   * The `message_type` string specifies the qualified message type name. For
-   * example, `google.plus.Profile`.
-   */
-  message_type?: string;
-  /**
-   * Type param type.
-   * 
-   * The `type_param` string specifies the type parameter name, e.g. `list<E>`
-   * would be a `list_type` whose element type was a `type_param` type
-   * named `E`.
-   */
-  type_param?: string;
-  /**
-   * Type type.
-   * 
-   * The `type` value specifies the target type. e.g. int is type with a
-   * target type of `Primitive.INT`.
-   */
-  type?: TypeAmino;
-  /**
-   * Error type.
-   * 
-   * During type-checking if an expression is an error, its type is propagated
-   * as the `ERROR` type. This permits the type-checker to discover other
-   * errors present in the expression.
-   */
-  error?: EmptyAmino;
-  /** Abstract, application defined type. */
-  abstract_type?: Type_AbstractTypeAmino;
-}
-export interface TypeAminoMsg {
-  type: "/google.api.expr.v1alpha1.Type";
-  value: TypeAmino;
-}
 /** Represents a CEL type. */
 export interface TypeSDKType {
   dyn?: EmptySDKType;
@@ -438,19 +292,6 @@ export interface Type_ListType {
   /** The element type. */
   elemType?: Type;
 }
-export interface Type_ListTypeProtoMsg {
-  typeUrl: "/google.api.expr.v1alpha1.ListType";
-  value: Uint8Array;
-}
-/** List type with typed elements, e.g. `list<example.proto.MyMessage>`. */
-export interface Type_ListTypeAmino {
-  /** The element type. */
-  elem_type?: TypeAmino;
-}
-export interface Type_ListTypeAminoMsg {
-  type: "/google.api.expr.v1alpha1.ListType";
-  value: Type_ListTypeAmino;
-}
 /** List type with typed elements, e.g. `list<example.proto.MyMessage>`. */
 export interface Type_ListTypeSDKType {
   elem_type?: TypeSDKType;
@@ -461,21 +302,6 @@ export interface Type_MapType {
   keyType?: Type;
   /** The type of the value. */
   valueType?: Type;
-}
-export interface Type_MapTypeProtoMsg {
-  typeUrl: "/google.api.expr.v1alpha1.MapType";
-  value: Uint8Array;
-}
-/** Map type with parameterized key and value types, e.g. `map<string, int>`. */
-export interface Type_MapTypeAmino {
-  /** The type of the key. */
-  key_type?: TypeAmino;
-  /** The type of the value. */
-  value_type?: TypeAmino;
-}
-export interface Type_MapTypeAminoMsg {
-  type: "/google.api.expr.v1alpha1.MapType";
-  value: Type_MapTypeAmino;
 }
 /** Map type with parameterized key and value types, e.g. `map<string, int>`. */
 export interface Type_MapTypeSDKType {
@@ -489,21 +315,6 @@ export interface Type_FunctionType {
   /** Argument types of the function. */
   argTypes: Type[];
 }
-export interface Type_FunctionTypeProtoMsg {
-  typeUrl: "/google.api.expr.v1alpha1.FunctionType";
-  value: Uint8Array;
-}
-/** Function type with result and arg types. */
-export interface Type_FunctionTypeAmino {
-  /** Result type of the function. */
-  result_type?: TypeAmino;
-  /** Argument types of the function. */
-  arg_types: TypeAmino[];
-}
-export interface Type_FunctionTypeAminoMsg {
-  type: "/google.api.expr.v1alpha1.FunctionType";
-  value: Type_FunctionTypeAmino;
-}
 /** Function type with result and arg types. */
 export interface Type_FunctionTypeSDKType {
   result_type?: TypeSDKType;
@@ -515,21 +326,6 @@ export interface Type_AbstractType {
   name: string;
   /** Parameter types for this abstract type. */
   parameterTypes: Type[];
-}
-export interface Type_AbstractTypeProtoMsg {
-  typeUrl: "/google.api.expr.v1alpha1.AbstractType";
-  value: Uint8Array;
-}
-/** Application defined abstract type. */
-export interface Type_AbstractTypeAmino {
-  /** The fully qualified name of this abstract type. */
-  name: string;
-  /** Parameter types for this abstract type. */
-  parameter_types: TypeAmino[];
-}
-export interface Type_AbstractTypeAminoMsg {
-  type: "/google.api.expr.v1alpha1.AbstractType";
-  value: Type_AbstractTypeAmino;
 }
 /** Application defined abstract type. */
 export interface Type_AbstractTypeSDKType {
@@ -558,37 +354,6 @@ export interface Decl {
   ident?: Decl_IdentDecl;
   /** Function declaration. */
   function?: Decl_FunctionDecl;
-}
-export interface DeclProtoMsg {
-  typeUrl: "/google.api.expr.v1alpha1.Decl";
-  value: Uint8Array;
-}
-/**
- * Represents a declaration of a named value or function.
- * 
- * A declaration is part of the contract between the expression, the agent
- * evaluating that expression, and the caller requesting evaluation.
- */
-export interface DeclAmino {
-  /**
-   * The fully qualified name of the declaration.
-   * 
-   * Declarations are organized in containers and this represents the full path
-   * to the declaration in its container, as in `google.api.expr.Decl`.
-   * 
-   * Declarations used as [FunctionDecl.Overload][google.api.expr.v1alpha1.Decl.FunctionDecl.Overload] parameters may or may not
-   * have a name depending on whether the overload is function declaration or a
-   * function definition containing a result [Expr][google.api.expr.v1alpha1.Expr].
-   */
-  name: string;
-  /** Identifier declaration. */
-  ident?: Decl_IdentDeclAmino;
-  /** Function declaration. */
-  function?: Decl_FunctionDeclAmino;
-}
-export interface DeclAminoMsg {
-  type: "/google.api.expr.v1alpha1.Decl";
-  value: DeclAmino;
 }
 /**
  * Represents a declaration of a named value or function.
@@ -620,33 +385,6 @@ export interface Decl_IdentDecl {
   /** Documentation string for the identifier. */
   doc: string;
 }
-export interface Decl_IdentDeclProtoMsg {
-  typeUrl: "/google.api.expr.v1alpha1.IdentDecl";
-  value: Uint8Array;
-}
-/**
- * Identifier declaration which specifies its type and optional `Expr` value.
- * 
- * An identifier without a value is a declaration that must be provided at
- * evaluation time. An identifier with a value should resolve to a constant,
- * but may be used in conjunction with other identifiers bound at evaluation
- * time.
- */
-export interface Decl_IdentDeclAmino {
-  /** Required. The type of the identifier. */
-  type?: TypeAmino;
-  /**
-   * The constant value of the identifier. If not specified, the identifier
-   * must be supplied at evaluation time.
-   */
-  value?: ConstantAmino;
-  /** Documentation string for the identifier. */
-  doc: string;
-}
-export interface Decl_IdentDeclAminoMsg {
-  type: "/google.api.expr.v1alpha1.IdentDecl";
-  value: Decl_IdentDeclAmino;
-}
 /**
  * Identifier declaration which specifies its type and optional `Expr` value.
  * 
@@ -670,25 +408,6 @@ export interface Decl_IdentDeclSDKType {
 export interface Decl_FunctionDecl {
   /** Required. List of function overloads, must contain at least one overload. */
   overloads: Decl_FunctionDecl_Overload[];
-}
-export interface Decl_FunctionDeclProtoMsg {
-  typeUrl: "/google.api.expr.v1alpha1.FunctionDecl";
-  value: Uint8Array;
-}
-/**
- * Function declaration specifies one or more overloads which indicate the
- * function's parameter types and return type.
- * 
- * Functions have no observable side-effects (there may be side-effects like
- * logging which are not observable from CEL).
- */
-export interface Decl_FunctionDeclAmino {
-  /** Required. List of function overloads, must contain at least one overload. */
-  overloads: Decl_FunctionDecl_OverloadAmino[];
-}
-export interface Decl_FunctionDeclAminoMsg {
-  type: "/google.api.expr.v1alpha1.FunctionDecl";
-  value: Decl_FunctionDeclAmino;
 }
 /**
  * Function declaration specifies one or more overloads which indicate the
@@ -757,71 +476,6 @@ export interface Decl_FunctionDecl_Overload {
   /** Documentation string for the overload. */
   doc: string;
 }
-export interface Decl_FunctionDecl_OverloadProtoMsg {
-  typeUrl: "/google.api.expr.v1alpha1.Overload";
-  value: Uint8Array;
-}
-/**
- * An overload indicates a function's parameter types and return type, and
- * may optionally include a function body described in terms of [Expr][google.api.expr.v1alpha1.Expr]
- * values.
- * 
- * Functions overloads are declared in either a function or method
- * call-style. For methods, the `params[0]` is the expected type of the
- * target receiver.
- * 
- * Overloads must have non-overlapping argument types after erasure of all
- * parameterized type variables (similar as type erasure in Java).
- */
-export interface Decl_FunctionDecl_OverloadAmino {
-  /**
-   * Required. Globally unique overload name of the function which reflects
-   * the function name and argument types.
-   * 
-   * This will be used by a [Reference][google.api.expr.v1alpha1.Reference] to indicate the `overload_id` that
-   * was resolved for the function `name`.
-   */
-  overload_id: string;
-  /**
-   * List of function parameter [Type][google.api.expr.v1alpha1.Type] values.
-   * 
-   * Param types are disjoint after generic type parameters have been
-   * replaced with the type `DYN`. Since the `DYN` type is compatible with
-   * any other type, this means that if `A` is a type parameter, the
-   * function types `int<A>` and `int<int>` are not disjoint. Likewise,
-   * `map<string, string>` is not disjoint from `map<K, V>`.
-   * 
-   * When the `result_type` of a function is a generic type param, the
-   * type param name also appears as the `type` of on at least one params.
-   */
-  params: TypeAmino[];
-  /**
-   * The type param names associated with the function declaration.
-   * 
-   * For example, `function ex<K,V>(K key, map<K, V> map) : V` would yield
-   * the type params of `K, V`.
-   */
-  type_params: string[];
-  /**
-   * Required. The result type of the function. For example, the operator
-   * `string.isEmpty()` would have `result_type` of `kind: BOOL`.
-   */
-  result_type?: TypeAmino;
-  /**
-   * Whether the function is to be used in a method call-style `x.f(...)`
-   * of a function call-style `f(x, ...)`.
-   * 
-   * For methods, the first parameter declaration, `params[0]` is the
-   * expected type of the target receiver.
-   */
-  is_instance_function: boolean;
-  /** Documentation string for the overload. */
-  doc: string;
-}
-export interface Decl_FunctionDecl_OverloadAminoMsg {
-  type: "/google.api.expr.v1alpha1.Overload";
-  value: Decl_FunctionDecl_OverloadAmino;
-}
 /**
  * An overload indicates a function's parameter types and return type, and
  * may optionally include a function body described in terms of [Expr][google.api.expr.v1alpha1.Expr]
@@ -863,35 +517,6 @@ export interface Reference {
    */
   value?: Constant;
 }
-export interface ReferenceProtoMsg {
-  typeUrl: "/google.api.expr.v1alpha1.Reference";
-  value: Uint8Array;
-}
-/** Describes a resolved reference to a declaration. */
-export interface ReferenceAmino {
-  /** The fully qualified name of the declaration. */
-  name: string;
-  /**
-   * For references to functions, this is a list of `Overload.overload_id`
-   * values which match according to typing rules.
-   * 
-   * If the list has more than one element, overload resolution among the
-   * presented candidates must happen at runtime because of dynamic types. The
-   * type checker attempts to narrow down this list as much as possible.
-   * 
-   * Empty if this is not a reference to a [Decl.FunctionDecl][google.api.expr.v1alpha1.Decl.FunctionDecl].
-   */
-  overload_id: string[];
-  /**
-   * For references to constants, this may contain the value of the
-   * constant if known at compile time.
-   */
-  value?: ConstantAmino;
-}
-export interface ReferenceAminoMsg {
-  type: "/google.api.expr.v1alpha1.Reference";
-  value: ReferenceAmino;
-}
 /** Describes a resolved reference to a declaration. */
 export interface ReferenceSDKType {
   name: string;
@@ -900,13 +525,13 @@ export interface ReferenceSDKType {
 }
 function createBaseCheckedExpr_ReferenceMapEntry(): CheckedExpr_ReferenceMapEntry {
   return {
-    key: Long.ZERO,
+    key: BigInt("0"),
     value: undefined
   };
 }
 export const CheckedExpr_ReferenceMapEntry = {
-  encode(message: CheckedExpr_ReferenceMapEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.key.isZero()) {
+  encode(message: CheckedExpr_ReferenceMapEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.key !== BigInt(0)) {
       writer.uint32(8).int64(message.key);
     }
     if (message.value !== undefined) {
@@ -914,15 +539,15 @@ export const CheckedExpr_ReferenceMapEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CheckedExpr_ReferenceMapEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CheckedExpr_ReferenceMapEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCheckedExpr_ReferenceMapEntry();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.key = (reader.int64() as Long);
+          message.key = BigInt(reader.int64().toString());
           break;
         case 2:
           message.value = Reference.decode(reader, reader.uint32());
@@ -936,19 +561,19 @@ export const CheckedExpr_ReferenceMapEntry = {
   },
   fromJSON(object: any): CheckedExpr_ReferenceMapEntry {
     return {
-      key: isSet(object.key) ? Long.fromValue(object.key) : Long.ZERO,
+      key: isSet(object.key) ? BigInt(object.key.toString()) : BigInt("0"),
       value: isSet(object.value) ? Reference.fromJSON(object.value) : undefined
     };
   },
   toJSON(message: CheckedExpr_ReferenceMapEntry): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = (message.key || Long.ZERO).toString());
+    message.key !== undefined && (obj.key = (message.key || BigInt("0")).toString());
     message.value !== undefined && (obj.value = message.value ? Reference.toJSON(message.value) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<CheckedExpr_ReferenceMapEntry>): CheckedExpr_ReferenceMapEntry {
+  fromPartial(object: Partial<CheckedExpr_ReferenceMapEntry>): CheckedExpr_ReferenceMapEntry {
     const message = createBaseCheckedExpr_ReferenceMapEntry();
-    message.key = object.key !== undefined && object.key !== null ? Long.fromValue(object.key) : Long.ZERO;
+    message.key = object.key !== undefined && object.key !== null ? BigInt(object.key.toString()) : BigInt("0");
     message.value = object.value !== undefined && object.value !== null ? Reference.fromPartial(object.value) : undefined;
     return message;
   },
@@ -966,7 +591,7 @@ export const CheckedExpr_ReferenceMapEntry = {
   },
   fromAmino(object: CheckedExpr_ReferenceMapEntryAmino): CheckedExpr_ReferenceMapEntry {
     return {
-      key: Long.fromString(object.key),
+      key: BigInt(object.key),
       value: object?.value ? Reference.fromAmino(object.value) : undefined
     };
   },
@@ -988,13 +613,13 @@ export const CheckedExpr_ReferenceMapEntry = {
 };
 function createBaseCheckedExpr_TypeMapEntry(): CheckedExpr_TypeMapEntry {
   return {
-    key: Long.ZERO,
+    key: BigInt("0"),
     value: undefined
   };
 }
 export const CheckedExpr_TypeMapEntry = {
-  encode(message: CheckedExpr_TypeMapEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.key.isZero()) {
+  encode(message: CheckedExpr_TypeMapEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.key !== BigInt(0)) {
       writer.uint32(8).int64(message.key);
     }
     if (message.value !== undefined) {
@@ -1002,15 +627,15 @@ export const CheckedExpr_TypeMapEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CheckedExpr_TypeMapEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CheckedExpr_TypeMapEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCheckedExpr_TypeMapEntry();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.key = (reader.int64() as Long);
+          message.key = BigInt(reader.int64().toString());
           break;
         case 2:
           message.value = Type.decode(reader, reader.uint32());
@@ -1024,19 +649,19 @@ export const CheckedExpr_TypeMapEntry = {
   },
   fromJSON(object: any): CheckedExpr_TypeMapEntry {
     return {
-      key: isSet(object.key) ? Long.fromValue(object.key) : Long.ZERO,
+      key: isSet(object.key) ? BigInt(object.key.toString()) : BigInt("0"),
       value: isSet(object.value) ? Type.fromJSON(object.value) : undefined
     };
   },
   toJSON(message: CheckedExpr_TypeMapEntry): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = (message.key || Long.ZERO).toString());
+    message.key !== undefined && (obj.key = (message.key || BigInt("0")).toString());
     message.value !== undefined && (obj.value = message.value ? Type.toJSON(message.value) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<CheckedExpr_TypeMapEntry>): CheckedExpr_TypeMapEntry {
+  fromPartial(object: Partial<CheckedExpr_TypeMapEntry>): CheckedExpr_TypeMapEntry {
     const message = createBaseCheckedExpr_TypeMapEntry();
-    message.key = object.key !== undefined && object.key !== null ? Long.fromValue(object.key) : Long.ZERO;
+    message.key = object.key !== undefined && object.key !== null ? BigInt(object.key.toString()) : BigInt("0");
     message.value = object.value !== undefined && object.value !== null ? Type.fromPartial(object.value) : undefined;
     return message;
   },
@@ -1054,7 +679,7 @@ export const CheckedExpr_TypeMapEntry = {
   },
   fromAmino(object: CheckedExpr_TypeMapEntryAmino): CheckedExpr_TypeMapEntry {
     return {
-      key: Long.fromString(object.key),
+      key: BigInt(object.key),
       value: object?.value ? Type.fromAmino(object.value) : undefined
     };
   },
@@ -1085,7 +710,7 @@ function createBaseCheckedExpr(): CheckedExpr {
 }
 export const CheckedExpr = {
   typeUrl: "/google.api.expr.v1alpha1.CheckedExpr",
-  encode(message: CheckedExpr, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CheckedExpr, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     Object.entries(message.referenceMap).forEach(([key, value]) => {
       CheckedExpr_ReferenceMapEntry.encode({
         key: (key as any),
@@ -1109,8 +734,8 @@ export const CheckedExpr = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CheckedExpr {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CheckedExpr {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCheckedExpr();
     while (reader.pos < end) {
@@ -1147,13 +772,13 @@ export const CheckedExpr = {
   fromJSON(object: any): CheckedExpr {
     return {
       referenceMap: isObject(object.referenceMap) ? Object.entries(object.referenceMap).reduce<{
-        [key: Long]: Reference;
+        [key: bigint]: Reference;
       }>((acc, [key, value]) => {
         acc[Number(key)] = Reference.fromJSON(value);
         return acc;
       }, {}) : {},
       typeMap: isObject(object.typeMap) ? Object.entries(object.typeMap).reduce<{
-        [key: Long]: Type;
+        [key: bigint]: Type;
       }>((acc, [key, value]) => {
         acc[Number(key)] = Type.fromJSON(value);
         return acc;
@@ -1182,10 +807,10 @@ export const CheckedExpr = {
     message.expr !== undefined && (obj.expr = message.expr ? Expr.toJSON(message.expr) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<CheckedExpr>): CheckedExpr {
+  fromPartial(object: Partial<CheckedExpr>): CheckedExpr {
     const message = createBaseCheckedExpr();
     message.referenceMap = Object.entries(object.referenceMap ?? {}).reduce<{
-      [key: Long]: Reference;
+      [key: bigint]: Reference;
     }>((acc, [key, value]) => {
       if (value !== undefined) {
         acc[Number(key)] = Reference.fromPartial(value);
@@ -1193,7 +818,7 @@ export const CheckedExpr = {
       return acc;
     }, {});
     message.typeMap = Object.entries(object.typeMap ?? {}).reduce<{
-      [key: Long]: Type;
+      [key: bigint]: Type;
     }>((acc, [key, value]) => {
       if (value !== undefined) {
         acc[Number(key)] = Type.fromPartial(value);
@@ -1208,13 +833,13 @@ export const CheckedExpr = {
   fromSDK(object: CheckedExprSDKType): CheckedExpr {
     return {
       referenceMap: isObject(object.reference_map) ? Object.entries(object.reference_map).reduce<{
-        [key: Long]: Reference;
+        [key: bigint]: Reference;
       }>((acc, [key, value]) => {
         acc[Number(key)] = Reference.fromSDK(value);
         return acc;
       }, {}) : {},
       typeMap: isObject(object.type_map) ? Object.entries(object.type_map).reduce<{
-        [key: Long]: Type;
+        [key: bigint]: Type;
       }>((acc, [key, value]) => {
         acc[Number(key)] = Type.fromSDK(value);
         return acc;
@@ -1246,13 +871,13 @@ export const CheckedExpr = {
   fromAmino(object: CheckedExprAmino): CheckedExpr {
     return {
       referenceMap: isObject(object.reference_map) ? Object.entries(object.reference_map).reduce<{
-        [key: Long]: Reference;
+        [key: bigint]: Reference;
       }>((acc, [key, value]) => {
         acc[Number(key)] = Reference.fromAmino(value);
         return acc;
       }, {}) : {},
       typeMap: isObject(object.type_map) ? Object.entries(object.type_map).reduce<{
-        [key: Long]: Type;
+        [key: bigint]: Type;
       }>((acc, [key, value]) => {
         acc[Number(key)] = Type.fromAmino(value);
         return acc;
@@ -1316,7 +941,7 @@ function createBaseType(): Type {
 }
 export const Type = {
   typeUrl: "/google.api.expr.v1alpha1.Type",
-  encode(message: Type, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Type, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.dyn !== undefined) {
       Empty.encode(message.dyn, writer.uint32(10).fork()).ldelim();
     }
@@ -1358,8 +983,8 @@ export const Type = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Type {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Type {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseType();
     while (reader.pos < end) {
@@ -1445,7 +1070,7 @@ export const Type = {
     message.abstractType !== undefined && (obj.abstractType = message.abstractType ? Type_AbstractType.toJSON(message.abstractType) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<Type>): Type {
+  fromPartial(object: Partial<Type>): Type {
     const message = createBaseType();
     message.dyn = object.dyn !== undefined && object.dyn !== null ? Empty.fromPartial(object.dyn) : undefined;
     message.null = object.null ?? undefined;
@@ -1553,14 +1178,14 @@ function createBaseType_ListType(): Type_ListType {
 }
 export const Type_ListType = {
   typeUrl: "/google.api.expr.v1alpha1.ListType",
-  encode(message: Type_ListType, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Type_ListType, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.elemType !== undefined) {
       Type.encode(message.elemType, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Type_ListType {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Type_ListType {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseType_ListType();
     while (reader.pos < end) {
@@ -1586,7 +1211,7 @@ export const Type_ListType = {
     message.elemType !== undefined && (obj.elemType = message.elemType ? Type.toJSON(message.elemType) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<Type_ListType>): Type_ListType {
+  fromPartial(object: Partial<Type_ListType>): Type_ListType {
     const message = createBaseType_ListType();
     message.elemType = object.elemType !== undefined && object.elemType !== null ? Type.fromPartial(object.elemType) : undefined;
     return message;
@@ -1635,7 +1260,7 @@ function createBaseType_MapType(): Type_MapType {
 }
 export const Type_MapType = {
   typeUrl: "/google.api.expr.v1alpha1.MapType",
-  encode(message: Type_MapType, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Type_MapType, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.keyType !== undefined) {
       Type.encode(message.keyType, writer.uint32(10).fork()).ldelim();
     }
@@ -1644,8 +1269,8 @@ export const Type_MapType = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Type_MapType {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Type_MapType {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseType_MapType();
     while (reader.pos < end) {
@@ -1676,7 +1301,7 @@ export const Type_MapType = {
     message.valueType !== undefined && (obj.valueType = message.valueType ? Type.toJSON(message.valueType) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<Type_MapType>): Type_MapType {
+  fromPartial(object: Partial<Type_MapType>): Type_MapType {
     const message = createBaseType_MapType();
     message.keyType = object.keyType !== undefined && object.keyType !== null ? Type.fromPartial(object.keyType) : undefined;
     message.valueType = object.valueType !== undefined && object.valueType !== null ? Type.fromPartial(object.valueType) : undefined;
@@ -1730,7 +1355,7 @@ function createBaseType_FunctionType(): Type_FunctionType {
 }
 export const Type_FunctionType = {
   typeUrl: "/google.api.expr.v1alpha1.FunctionType",
-  encode(message: Type_FunctionType, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Type_FunctionType, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.resultType !== undefined) {
       Type.encode(message.resultType, writer.uint32(10).fork()).ldelim();
     }
@@ -1739,8 +1364,8 @@ export const Type_FunctionType = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Type_FunctionType {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Type_FunctionType {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseType_FunctionType();
     while (reader.pos < end) {
@@ -1775,7 +1400,7 @@ export const Type_FunctionType = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<Type_FunctionType>): Type_FunctionType {
+  fromPartial(object: Partial<Type_FunctionType>): Type_FunctionType {
     const message = createBaseType_FunctionType();
     message.resultType = object.resultType !== undefined && object.resultType !== null ? Type.fromPartial(object.resultType) : undefined;
     message.argTypes = object.argTypes?.map(e => Type.fromPartial(e)) || [];
@@ -1837,7 +1462,7 @@ function createBaseType_AbstractType(): Type_AbstractType {
 }
 export const Type_AbstractType = {
   typeUrl: "/google.api.expr.v1alpha1.AbstractType",
-  encode(message: Type_AbstractType, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Type_AbstractType, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -1846,8 +1471,8 @@ export const Type_AbstractType = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Type_AbstractType {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Type_AbstractType {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseType_AbstractType();
     while (reader.pos < end) {
@@ -1882,7 +1507,7 @@ export const Type_AbstractType = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<Type_AbstractType>): Type_AbstractType {
+  fromPartial(object: Partial<Type_AbstractType>): Type_AbstractType {
     const message = createBaseType_AbstractType();
     message.name = object.name ?? "";
     message.parameterTypes = object.parameterTypes?.map(e => Type.fromPartial(e)) || [];
@@ -1945,7 +1570,7 @@ function createBaseDecl(): Decl {
 }
 export const Decl = {
   typeUrl: "/google.api.expr.v1alpha1.Decl",
-  encode(message: Decl, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Decl, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -1957,8 +1582,8 @@ export const Decl = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Decl {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Decl {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDecl();
     while (reader.pos < end) {
@@ -1994,7 +1619,7 @@ export const Decl = {
     message.function !== undefined && (obj.function = message.function ? Decl_FunctionDecl.toJSON(message.function) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<Decl>): Decl {
+  fromPartial(object: Partial<Decl>): Decl {
     const message = createBaseDecl();
     message.name = object.name ?? "";
     message.ident = object.ident !== undefined && object.ident !== null ? Decl_IdentDecl.fromPartial(object.ident) : undefined;
@@ -2054,7 +1679,7 @@ function createBaseDecl_IdentDecl(): Decl_IdentDecl {
 }
 export const Decl_IdentDecl = {
   typeUrl: "/google.api.expr.v1alpha1.IdentDecl",
-  encode(message: Decl_IdentDecl, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Decl_IdentDecl, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.type !== undefined) {
       Type.encode(message.type, writer.uint32(10).fork()).ldelim();
     }
@@ -2066,8 +1691,8 @@ export const Decl_IdentDecl = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Decl_IdentDecl {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Decl_IdentDecl {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDecl_IdentDecl();
     while (reader.pos < end) {
@@ -2103,7 +1728,7 @@ export const Decl_IdentDecl = {
     message.doc !== undefined && (obj.doc = message.doc);
     return obj;
   },
-  fromPartial(object: DeepPartial<Decl_IdentDecl>): Decl_IdentDecl {
+  fromPartial(object: Partial<Decl_IdentDecl>): Decl_IdentDecl {
     const message = createBaseDecl_IdentDecl();
     message.type = object.type !== undefined && object.type !== null ? Type.fromPartial(object.type) : undefined;
     message.value = object.value !== undefined && object.value !== null ? Constant.fromPartial(object.value) : undefined;
@@ -2161,14 +1786,14 @@ function createBaseDecl_FunctionDecl(): Decl_FunctionDecl {
 }
 export const Decl_FunctionDecl = {
   typeUrl: "/google.api.expr.v1alpha1.FunctionDecl",
-  encode(message: Decl_FunctionDecl, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Decl_FunctionDecl, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overloads) {
       Decl_FunctionDecl_Overload.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Decl_FunctionDecl {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Decl_FunctionDecl {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDecl_FunctionDecl();
     while (reader.pos < end) {
@@ -2198,7 +1823,7 @@ export const Decl_FunctionDecl = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<Decl_FunctionDecl>): Decl_FunctionDecl {
+  fromPartial(object: Partial<Decl_FunctionDecl>): Decl_FunctionDecl {
     const message = createBaseDecl_FunctionDecl();
     message.overloads = object.overloads?.map(e => Decl_FunctionDecl_Overload.fromPartial(e)) || [];
     return message;
@@ -2259,7 +1884,7 @@ function createBaseDecl_FunctionDecl_Overload(): Decl_FunctionDecl_Overload {
 }
 export const Decl_FunctionDecl_Overload = {
   typeUrl: "/google.api.expr.v1alpha1.Overload",
-  encode(message: Decl_FunctionDecl_Overload, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Decl_FunctionDecl_Overload, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.overloadId !== "") {
       writer.uint32(10).string(message.overloadId);
     }
@@ -2280,8 +1905,8 @@ export const Decl_FunctionDecl_Overload = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Decl_FunctionDecl_Overload {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Decl_FunctionDecl_Overload {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDecl_FunctionDecl_Overload();
     while (reader.pos < end) {
@@ -2340,7 +1965,7 @@ export const Decl_FunctionDecl_Overload = {
     message.doc !== undefined && (obj.doc = message.doc);
     return obj;
   },
-  fromPartial(object: DeepPartial<Decl_FunctionDecl_Overload>): Decl_FunctionDecl_Overload {
+  fromPartial(object: Partial<Decl_FunctionDecl_Overload>): Decl_FunctionDecl_Overload {
     const message = createBaseDecl_FunctionDecl_Overload();
     message.overloadId = object.overloadId ?? "";
     message.params = object.params?.map(e => Type.fromPartial(e)) || [];
@@ -2431,7 +2056,7 @@ function createBaseReference(): Reference {
 }
 export const Reference = {
   typeUrl: "/google.api.expr.v1alpha1.Reference",
-  encode(message: Reference, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Reference, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -2443,8 +2068,8 @@ export const Reference = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Reference {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Reference {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseReference();
     while (reader.pos < end) {
@@ -2484,7 +2109,7 @@ export const Reference = {
     message.value !== undefined && (obj.value = message.value ? Constant.toJSON(message.value) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<Reference>): Reference {
+  fromPartial(object: Partial<Reference>): Reference {
     const message = createBaseReference();
     message.name = object.name ?? "";
     message.overloadId = object.overloadId?.map(e => e) || [];

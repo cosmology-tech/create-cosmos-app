@@ -1,5 +1,5 @@
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet } from "../../../helpers";
 export const protobufPackage = "cosmos.nft.v1beta1";
 /** MsgSend represents a message to send a nft from one account to another account. */
 export interface MsgSend {
@@ -12,25 +12,6 @@ export interface MsgSend {
   /** receiver is the receiver address of nft */
   receiver: string;
 }
-export interface MsgSendProtoMsg {
-  typeUrl: "/cosmos.nft.v1beta1.MsgSend";
-  value: Uint8Array;
-}
-/** MsgSend represents a message to send a nft from one account to another account. */
-export interface MsgSendAmino {
-  /** class_id defines the unique identifier of the nft classification, similar to the contract address of ERC721 */
-  class_id: string;
-  /** id defines the unique identification of nft */
-  id: string;
-  /** sender is the address of the owner of nft */
-  sender: string;
-  /** receiver is the receiver address of nft */
-  receiver: string;
-}
-export interface MsgSendAminoMsg {
-  type: "cosmos-sdk/MsgNFTSend";
-  value: MsgSendAmino;
-}
 /** MsgSend represents a message to send a nft from one account to another account. */
 export interface MsgSendSDKType {
   class_id: string;
@@ -40,16 +21,6 @@ export interface MsgSendSDKType {
 }
 /** MsgSendResponse defines the Msg/Send response type. */
 export interface MsgSendResponse {}
-export interface MsgSendResponseProtoMsg {
-  typeUrl: "/cosmos.nft.v1beta1.MsgSendResponse";
-  value: Uint8Array;
-}
-/** MsgSendResponse defines the Msg/Send response type. */
-export interface MsgSendResponseAmino {}
-export interface MsgSendResponseAminoMsg {
-  type: "cosmos-sdk/MsgSendResponse";
-  value: MsgSendResponseAmino;
-}
 /** MsgSendResponse defines the Msg/Send response type. */
 export interface MsgSendResponseSDKType {}
 function createBaseMsgSend(): MsgSend {
@@ -63,7 +34,7 @@ function createBaseMsgSend(): MsgSend {
 export const MsgSend = {
   typeUrl: "/cosmos.nft.v1beta1.MsgSend",
   aminoType: "cosmos-sdk/MsgNFTSend",
-  encode(message: MsgSend, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgSend, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.classId !== "") {
       writer.uint32(10).string(message.classId);
     }
@@ -78,8 +49,8 @@ export const MsgSend = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSend {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgSend {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgSend();
     while (reader.pos < end) {
@@ -120,7 +91,7 @@ export const MsgSend = {
     message.receiver !== undefined && (obj.receiver = message.receiver);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgSend>): MsgSend {
+  fromPartial(object: Partial<MsgSend>): MsgSend {
     const message = createBaseMsgSend();
     message.classId = object.classId ?? "";
     message.id = object.id ?? "";
@@ -188,11 +159,11 @@ function createBaseMsgSendResponse(): MsgSendResponse {
 export const MsgSendResponse = {
   typeUrl: "/cosmos.nft.v1beta1.MsgSendResponse",
   aminoType: "cosmos-sdk/MsgSendResponse",
-  encode(_: MsgSendResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgSendResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSendResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgSendResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgSendResponse();
     while (reader.pos < end) {
@@ -212,7 +183,7 @@ export const MsgSendResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgSendResponse>): MsgSendResponse {
+  fromPartial(_: Partial<MsgSendResponse>): MsgSendResponse {
     const message = createBaseMsgSendResponse();
     return message;
   },

@@ -1,5 +1,5 @@
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../helpers";
+import { BinaryReader, BinaryWriter } from "../../binary";
+import { isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /** Value types that can be used as label values. */
 export enum LabelDescriptor_ValueType {
@@ -12,7 +12,6 @@ export enum LabelDescriptor_ValueType {
   UNRECOGNIZED = -1,
 }
 export const LabelDescriptor_ValueTypeSDKType = LabelDescriptor_ValueType;
-export const LabelDescriptor_ValueTypeAmino = LabelDescriptor_ValueType;
 export function labelDescriptor_ValueTypeFromJSON(object: any): LabelDescriptor_ValueType {
   switch (object) {
     case 0:
@@ -52,23 +51,6 @@ export interface LabelDescriptor {
   /** A human-readable description for the label. */
   description: string;
 }
-export interface LabelDescriptorProtoMsg {
-  typeUrl: "/google.api.LabelDescriptor";
-  value: Uint8Array;
-}
-/** A description of a label. */
-export interface LabelDescriptorAmino {
-  /** The label key. */
-  key: string;
-  /** The type of data that can be assigned to the label. */
-  value_type: LabelDescriptor_ValueType;
-  /** A human-readable description for the label. */
-  description: string;
-}
-export interface LabelDescriptorAminoMsg {
-  type: "/google.api.LabelDescriptor";
-  value: LabelDescriptorAmino;
-}
 /** A description of a label. */
 export interface LabelDescriptorSDKType {
   key: string;
@@ -84,7 +66,7 @@ function createBaseLabelDescriptor(): LabelDescriptor {
 }
 export const LabelDescriptor = {
   typeUrl: "/google.api.LabelDescriptor",
-  encode(message: LabelDescriptor, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: LabelDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -96,8 +78,8 @@ export const LabelDescriptor = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): LabelDescriptor {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): LabelDescriptor {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseLabelDescriptor();
     while (reader.pos < end) {
@@ -133,7 +115,7 @@ export const LabelDescriptor = {
     message.description !== undefined && (obj.description = message.description);
     return obj;
   },
-  fromPartial(object: DeepPartial<LabelDescriptor>): LabelDescriptor {
+  fromPartial(object: Partial<LabelDescriptor>): LabelDescriptor {
     const message = createBaseLabelDescriptor();
     message.key = object.key ?? "";
     message.valueType = object.valueType ?? 0;

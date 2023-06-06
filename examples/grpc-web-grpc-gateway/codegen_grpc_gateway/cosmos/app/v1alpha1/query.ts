@@ -1,38 +1,15 @@
-import { Config, ConfigAmino, ConfigSDKType } from "./config";
-import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, isSet } from "../../../helpers";
+import { Config, ConfigSDKType } from "./config";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet } from "../../../helpers";
 export const protobufPackage = "cosmos.app.v1alpha1";
 /** QueryConfigRequest is the Query/Config request type. */
 export interface QueryConfigRequest {}
-export interface QueryConfigRequestProtoMsg {
-  typeUrl: "/cosmos.app.v1alpha1.QueryConfigRequest";
-  value: Uint8Array;
-}
-/** QueryConfigRequest is the Query/Config request type. */
-export interface QueryConfigRequestAmino {}
-export interface QueryConfigRequestAminoMsg {
-  type: "cosmos-sdk/QueryConfigRequest";
-  value: QueryConfigRequestAmino;
-}
 /** QueryConfigRequest is the Query/Config request type. */
 export interface QueryConfigRequestSDKType {}
 /** QueryConfigRequest is the Query/Config response type. */
 export interface QueryConfigResponse {
   /** config is the current app config. */
   config?: Config;
-}
-export interface QueryConfigResponseProtoMsg {
-  typeUrl: "/cosmos.app.v1alpha1.QueryConfigResponse";
-  value: Uint8Array;
-}
-/** QueryConfigRequest is the Query/Config response type. */
-export interface QueryConfigResponseAmino {
-  /** config is the current app config. */
-  config?: ConfigAmino;
-}
-export interface QueryConfigResponseAminoMsg {
-  type: "cosmos-sdk/QueryConfigResponse";
-  value: QueryConfigResponseAmino;
 }
 /** QueryConfigRequest is the Query/Config response type. */
 export interface QueryConfigResponseSDKType {
@@ -44,11 +21,11 @@ function createBaseQueryConfigRequest(): QueryConfigRequest {
 export const QueryConfigRequest = {
   typeUrl: "/cosmos.app.v1alpha1.QueryConfigRequest",
   aminoType: "cosmos-sdk/QueryConfigRequest",
-  encode(_: QueryConfigRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryConfigRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConfigRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryConfigRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConfigRequest();
     while (reader.pos < end) {
@@ -68,7 +45,7 @@ export const QueryConfigRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<QueryConfigRequest>): QueryConfigRequest {
+  fromPartial(_: Partial<QueryConfigRequest>): QueryConfigRequest {
     const message = createBaseQueryConfigRequest();
     return message;
   },
@@ -116,14 +93,14 @@ function createBaseQueryConfigResponse(): QueryConfigResponse {
 export const QueryConfigResponse = {
   typeUrl: "/cosmos.app.v1alpha1.QueryConfigResponse",
   aminoType: "cosmos-sdk/QueryConfigResponse",
-  encode(message: QueryConfigResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryConfigResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.config !== undefined) {
       Config.encode(message.config, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConfigResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryConfigResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConfigResponse();
     while (reader.pos < end) {
@@ -149,7 +126,7 @@ export const QueryConfigResponse = {
     message.config !== undefined && (obj.config = message.config ? Config.toJSON(message.config) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryConfigResponse>): QueryConfigResponse {
+  fromPartial(object: Partial<QueryConfigResponse>): QueryConfigResponse {
     const message = createBaseQueryConfigResponse();
     message.config = object.config !== undefined && object.config !== null ? Config.fromPartial(object.config) : undefined;
     return message;

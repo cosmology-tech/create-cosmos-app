@@ -1,5 +1,4 @@
-import * as _m0 from "protobufjs/minimal";
-import { DeepPartial } from "../../helpers";
+import { BinaryReader, BinaryWriter } from "../../binary";
 export const protobufPackage = "google.protobuf";
 /**
  * A generic empty message that you can re-use to avoid defining duplicated
@@ -13,26 +12,6 @@ export const protobufPackage = "google.protobuf";
  * The JSON representation for `Empty` is empty JSON object `{}`.
  */
 export interface Empty {}
-export interface EmptyProtoMsg {
-  typeUrl: "/google.protobuf.Empty";
-  value: Uint8Array;
-}
-/**
- * A generic empty message that you can re-use to avoid defining duplicated
- * empty messages in your APIs. A typical example is to use it as the request
- * or the response type of an API method. For instance:
- * 
- *     service Foo {
- *       rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
- *     }
- * 
- * The JSON representation for `Empty` is empty JSON object `{}`.
- */
-export interface EmptyAmino {}
-export interface EmptyAminoMsg {
-  type: "/google.protobuf.Empty";
-  value: EmptyAmino;
-}
 /**
  * A generic empty message that you can re-use to avoid defining duplicated
  * empty messages in your APIs. A typical example is to use it as the request
@@ -50,11 +29,11 @@ function createBaseEmpty(): Empty {
 }
 export const Empty = {
   typeUrl: "/google.protobuf.Empty",
-  encode(_: Empty, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: Empty, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Empty {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Empty {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEmpty();
     while (reader.pos < end) {
@@ -74,7 +53,7 @@ export const Empty = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<Empty>): Empty {
+  fromPartial(_: Partial<Empty>): Empty {
     const message = createBaseEmpty();
     return message;
   },

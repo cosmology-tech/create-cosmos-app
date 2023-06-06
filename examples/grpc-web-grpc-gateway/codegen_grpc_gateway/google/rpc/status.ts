@@ -1,6 +1,6 @@
-import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../protobuf/any";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../helpers";
+import { Any, AnySDKType } from "../protobuf/any";
+import { BinaryReader, BinaryWriter } from "../../binary";
+import { isSet } from "../../helpers";
 export const protobufPackage = "google.rpc";
 /**
  * The `Status` type defines a logical error model that is suitable for
@@ -26,38 +26,6 @@ export interface Status {
    */
   details: Any[];
 }
-export interface StatusProtoMsg {
-  typeUrl: "/google.rpc.Status";
-  value: Uint8Array;
-}
-/**
- * The `Status` type defines a logical error model that is suitable for
- * different programming environments, including REST APIs and RPC APIs. It is
- * used by [gRPC](https://github.com/grpc). Each `Status` message contains
- * three pieces of data: error code, error message, and error details.
- * 
- * You can find out more about this error model and how to work with it in the
- * [API Design Guide](https://cloud.google.com/apis/design/errors).
- */
-export interface StatusAmino {
-  /** The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]. */
-  code: number;
-  /**
-   * A developer-facing error message, which should be in English. Any
-   * user-facing error message should be localized and sent in the
-   * [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-   */
-  message: string;
-  /**
-   * A list of messages that carry the error details.  There is a common set of
-   * message types for APIs to use.
-   */
-  details: AnyAmino[];
-}
-export interface StatusAminoMsg {
-  type: "/google.rpc.Status";
-  value: StatusAmino;
-}
 /**
  * The `Status` type defines a logical error model that is suitable for
  * different programming environments, including REST APIs and RPC APIs. It is
@@ -81,7 +49,7 @@ function createBaseStatus(): Status {
 }
 export const Status = {
   typeUrl: "/google.rpc.Status",
-  encode(message: Status, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Status, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.code !== 0) {
       writer.uint32(8).int32(message.code);
     }
@@ -93,8 +61,8 @@ export const Status = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Status {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Status {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseStatus();
     while (reader.pos < end) {
@@ -134,7 +102,7 @@ export const Status = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<Status>): Status {
+  fromPartial(object: Partial<Status>): Status {
     const message = createBaseStatus();
     message.code = object.code ?? 0;
     message.message = object.message ?? "";

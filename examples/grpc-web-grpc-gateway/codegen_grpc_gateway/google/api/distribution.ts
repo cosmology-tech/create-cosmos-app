@@ -1,7 +1,7 @@
-import { Timestamp, TimestampAmino, TimestampSDKType } from "../protobuf/timestamp";
-import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../protobuf/any";
-import { Long, isSet, DeepPartial, toTimestamp, fromTimestamp } from "../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { Timestamp } from "../protobuf/timestamp";
+import { Any, AnySDKType } from "../protobuf/any";
+import { BinaryReader, BinaryWriter } from "../../binary";
+import { isSet, toTimestamp, fromTimestamp, fromJsonTimestamp } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * `Distribution` contains summary statistics for a population of values. It
@@ -25,7 +25,7 @@ export interface Distribution {
    * must equal the sum of the values in `bucket_counts` if a histogram is
    * provided.
    */
-  count: Long;
+  count: bigint;
   /**
    * The arithmetic mean of the values in the population. If `count` is zero
    * then this field must be zero.
@@ -70,88 +70,9 @@ export interface Distribution {
    * counts for the finite buckets (number 1 through N-2). The N'th value in
    * `bucket_counts` is the count for the overflow bucket (number N-1).
    */
-  bucketCounts: Long[];
+  bucketCounts: bigint[];
   /** Must be in increasing order of `value` field. */
   exemplars: Distribution_Exemplar[];
-}
-export interface DistributionProtoMsg {
-  typeUrl: "/google.api.Distribution";
-  value: Uint8Array;
-}
-/**
- * `Distribution` contains summary statistics for a population of values. It
- * optionally contains a histogram representing the distribution of those values
- * across a set of buckets.
- * 
- * The summary statistics are the count, mean, sum of the squared deviation from
- * the mean, the minimum, and the maximum of the set of population of values.
- * The histogram is based on a sequence of buckets and gives a count of values
- * that fall into each bucket. The boundaries of the buckets are given either
- * explicitly or by formulas for buckets of fixed or exponentially increasing
- * widths.
- * 
- * Although it is not forbidden, it is generally a bad idea to include
- * non-finite values (infinities or NaNs) in the population of values, as this
- * will render the `mean` and `sum_of_squared_deviation` fields meaningless.
- */
-export interface DistributionAmino {
-  /**
-   * The number of values in the population. Must be non-negative. This value
-   * must equal the sum of the values in `bucket_counts` if a histogram is
-   * provided.
-   */
-  count: string;
-  /**
-   * The arithmetic mean of the values in the population. If `count` is zero
-   * then this field must be zero.
-   */
-  mean: number;
-  /**
-   * The sum of squared deviations from the mean of the values in the
-   * population. For values x_i this is:
-   * 
-   *     Sum[i=1..n]((x_i - mean)^2)
-   * 
-   * Knuth, "The Art of Computer Programming", Vol. 2, page 232, 3rd edition
-   * describes Welford's method for accumulating this sum in one pass.
-   * 
-   * If `count` is zero then this field must be zero.
-   */
-  sum_of_squared_deviation: number;
-  /**
-   * If specified, contains the range of the population values. The field
-   * must not be present if the `count` is zero.
-   */
-  range?: Distribution_RangeAmino;
-  /**
-   * Defines the histogram bucket boundaries. If the distribution does not
-   * contain a histogram, then omit this field.
-   */
-  bucket_options?: Distribution_BucketOptionsAmino;
-  /**
-   * The number of values in each bucket of the histogram, as described in
-   * `bucket_options`. If the distribution does not have a histogram, then omit
-   * this field. If there is a histogram, then the sum of the values in
-   * `bucket_counts` must equal the value in the `count` field of the
-   * distribution.
-   * 
-   * If present, `bucket_counts` should contain N values, where N is the number
-   * of buckets specified in `bucket_options`. If you supply fewer than N
-   * values, the remaining values are assumed to be 0.
-   * 
-   * The order of the values in `bucket_counts` follows the bucket numbering
-   * schemes described for the three bucket types. The first value must be the
-   * count for the underflow bucket (number 0). The next N-2 values are the
-   * counts for the finite buckets (number 1 through N-2). The N'th value in
-   * `bucket_counts` is the count for the overflow bucket (number N-1).
-   */
-  bucket_counts: string[];
-  /** Must be in increasing order of `value` field. */
-  exemplars: Distribution_ExemplarAmino[];
-}
-export interface DistributionAminoMsg {
-  type: "/google.api.Distribution";
-  value: DistributionAmino;
 }
 /**
  * `Distribution` contains summary statistics for a population of values. It
@@ -170,12 +91,12 @@ export interface DistributionAminoMsg {
  * will render the `mean` and `sum_of_squared_deviation` fields meaningless.
  */
 export interface DistributionSDKType {
-  count: Long;
+  count: bigint;
   mean: number;
   sum_of_squared_deviation: number;
   range?: Distribution_RangeSDKType;
   bucket_options?: Distribution_BucketOptionsSDKType;
-  bucket_counts: Long[];
+  bucket_counts: bigint[];
   exemplars: Distribution_ExemplarSDKType[];
 }
 /** The range of the population values. */
@@ -184,21 +105,6 @@ export interface Distribution_Range {
   min: number;
   /** The maximum of the population values. */
   max: number;
-}
-export interface Distribution_RangeProtoMsg {
-  typeUrl: "/google.api.Range";
-  value: Uint8Array;
-}
-/** The range of the population values. */
-export interface Distribution_RangeAmino {
-  /** The minimum of the population values. */
-  min: number;
-  /** The maximum of the population values. */
-  max: number;
-}
-export interface Distribution_RangeAminoMsg {
-  type: "/google.api.Range";
-  value: Distribution_RangeAmino;
 }
 /** The range of the population values. */
 export interface Distribution_RangeSDKType {
@@ -229,39 +135,6 @@ export interface Distribution_BucketOptions {
   exponentialBuckets?: Distribution_BucketOptions_Exponential;
   /** The explicit buckets. */
   explicitBuckets?: Distribution_BucketOptions_Explicit;
-}
-export interface Distribution_BucketOptionsProtoMsg {
-  typeUrl: "/google.api.BucketOptions";
-  value: Uint8Array;
-}
-/**
- * `BucketOptions` describes the bucket boundaries used to create a histogram
- * for the distribution. The buckets can be in a linear sequence, an
- * exponential sequence, or each bucket can be specified explicitly.
- * `BucketOptions` does not include the number of values in each bucket.
- * 
- * A bucket has an inclusive lower bound and exclusive upper bound for the
- * values that are counted for that bucket. The upper bound of a bucket must
- * be strictly greater than the lower bound. The sequence of N buckets for a
- * distribution consists of an underflow bucket (number 0), zero or more
- * finite buckets (number 1 through N - 2) and an overflow bucket (number N -
- * 1). The buckets are contiguous: the lower bound of bucket i (i > 0) is the
- * same as the upper bound of bucket i - 1. The buckets span the whole range
- * of finite values: lower bound of the underflow bucket is -infinity and the
- * upper bound of the overflow bucket is +infinity. The finite buckets are
- * so-called because both bounds are finite.
- */
-export interface Distribution_BucketOptionsAmino {
-  /** The linear bucket. */
-  linear_buckets?: Distribution_BucketOptions_LinearAmino;
-  /** The exponential buckets. */
-  exponential_buckets?: Distribution_BucketOptions_ExponentialAmino;
-  /** The explicit buckets. */
-  explicit_buckets?: Distribution_BucketOptions_ExplicitAmino;
-}
-export interface Distribution_BucketOptionsAminoMsg {
-  type: "/google.api.BucketOptions";
-  value: Distribution_BucketOptionsAmino;
 }
 /**
  * `BucketOptions` describes the bucket boundaries used to create a histogram
@@ -304,33 +177,6 @@ export interface Distribution_BucketOptions_Linear {
   /** Lower bound of the first bucket. */
   offset: number;
 }
-export interface Distribution_BucketOptions_LinearProtoMsg {
-  typeUrl: "/google.api.Linear";
-  value: Uint8Array;
-}
-/**
- * Specifies a linear sequence of buckets that all have the same width
- * (except overflow and underflow). Each bucket represents a constant
- * absolute uncertainty on the specific value in the bucket.
- * 
- * There are `num_finite_buckets + 2` (= N) buckets. Bucket `i` has the
- * following boundaries:
- * 
- *    Upper bound (0 <= i < N-1):     offset + (width * i).
- *    Lower bound (1 <= i < N):       offset + (width * (i - 1)).
- */
-export interface Distribution_BucketOptions_LinearAmino {
-  /** Must be greater than 0. */
-  num_finite_buckets: number;
-  /** Must be greater than 0. */
-  width: number;
-  /** Lower bound of the first bucket. */
-  offset: number;
-}
-export interface Distribution_BucketOptions_LinearAminoMsg {
-  type: "/google.api.Linear";
-  value: Distribution_BucketOptions_LinearAmino;
-}
 /**
  * Specifies a linear sequence of buckets that all have the same width
  * (except overflow and underflow). Each bucket represents a constant
@@ -366,33 +212,6 @@ export interface Distribution_BucketOptions_Exponential {
   /** Must be greater than 0. */
   scale: number;
 }
-export interface Distribution_BucketOptions_ExponentialProtoMsg {
-  typeUrl: "/google.api.Exponential";
-  value: Uint8Array;
-}
-/**
- * Specifies an exponential sequence of buckets that have a width that is
- * proportional to the value of the lower bound. Each bucket represents a
- * constant relative uncertainty on a specific value in the bucket.
- * 
- * There are `num_finite_buckets + 2` (= N) buckets. Bucket `i` has the
- * following boundaries:
- * 
- *    Upper bound (0 <= i < N-1):     scale * (growth_factor ^ i).
- *    Lower bound (1 <= i < N):       scale * (growth_factor ^ (i - 1)).
- */
-export interface Distribution_BucketOptions_ExponentialAmino {
-  /** Must be greater than 0. */
-  num_finite_buckets: number;
-  /** Must be greater than 1. */
-  growth_factor: number;
-  /** Must be greater than 0. */
-  scale: number;
-}
-export interface Distribution_BucketOptions_ExponentialAminoMsg {
-  type: "/google.api.Exponential";
-  value: Distribution_BucketOptions_ExponentialAmino;
-}
 /**
  * Specifies an exponential sequence of buckets that have a width that is
  * proportional to the value of the lower bound. Each bucket represents a
@@ -425,31 +244,6 @@ export interface Distribution_BucketOptions_ExponentialSDKType {
 export interface Distribution_BucketOptions_Explicit {
   /** The values must be monotonically increasing. */
   bounds: number[];
-}
-export interface Distribution_BucketOptions_ExplicitProtoMsg {
-  typeUrl: "/google.api.Explicit";
-  value: Uint8Array;
-}
-/**
- * Specifies a set of buckets with arbitrary widths.
- * 
- * There are `size(bounds) + 1` (= N) buckets. Bucket `i` has the following
- * boundaries:
- * 
- *    Upper bound (0 <= i < N-1):     bounds[i]
- *    Lower bound (1 <= i < N);       bounds[i - 1]
- * 
- * The `bounds` field must contain at least one element. If `bounds` has
- * only one element, then there are no finite buckets, and that single
- * element is the common boundary of the overflow and underflow buckets.
- */
-export interface Distribution_BucketOptions_ExplicitAmino {
-  /** The values must be monotonically increasing. */
-  bounds: number[];
-}
-export interface Distribution_BucketOptions_ExplicitAminoMsg {
-  type: "/google.api.Explicit";
-  value: Distribution_BucketOptions_ExplicitAmino;
 }
 /**
  * Specifies a set of buckets with arbitrary widths.
@@ -497,44 +291,6 @@ export interface Distribution_Exemplar {
    */
   attachments: Any[];
 }
-export interface Distribution_ExemplarProtoMsg {
-  typeUrl: "/google.api.Exemplar";
-  value: Uint8Array;
-}
-/**
- * Exemplars are example points that may be used to annotate aggregated
- * distribution values. They are metadata that gives information about a
- * particular value added to a Distribution bucket, such as a trace ID that
- * was active when a value was added. They may contain further information,
- * such as a example values and timestamps, origin, etc.
- */
-export interface Distribution_ExemplarAmino {
-  /**
-   * Value of the exemplar point. This value determines to which bucket the
-   * exemplar belongs.
-   */
-  value: number;
-  /** The observation (sampling) time of the above value. */
-  timestamp?: Date;
-  /**
-   * Contextual information about the example value. Examples are:
-   * 
-   *   Trace: type.googleapis.com/google.monitoring.v3.SpanContext
-   * 
-   *   Literal string: type.googleapis.com/google.protobuf.StringValue
-   * 
-   *   Labels dropped during aggregation:
-   *     type.googleapis.com/google.monitoring.v3.DroppedLabels
-   * 
-   * There may be only a single attachment of any given message type in a
-   * single exemplar, and this is enforced by the system.
-   */
-  attachments: AnyAmino[];
-}
-export interface Distribution_ExemplarAminoMsg {
-  type: "/google.api.Exemplar";
-  value: Distribution_ExemplarAmino;
-}
 /**
  * Exemplars are example points that may be used to annotate aggregated
  * distribution values. They are metadata that gives information about a
@@ -549,7 +305,7 @@ export interface Distribution_ExemplarSDKType {
 }
 function createBaseDistribution(): Distribution {
   return {
-    count: Long.ZERO,
+    count: BigInt("0"),
     mean: 0,
     sumOfSquaredDeviation: 0,
     range: undefined,
@@ -560,8 +316,8 @@ function createBaseDistribution(): Distribution {
 }
 export const Distribution = {
   typeUrl: "/google.api.Distribution",
-  encode(message: Distribution, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.count.isZero()) {
+  encode(message: Distribution, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.count !== BigInt(0)) {
       writer.uint32(8).int64(message.count);
     }
     if (message.mean !== 0) {
@@ -586,15 +342,15 @@ export const Distribution = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Distribution {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.count = (reader.int64() as Long);
+          message.count = BigInt(reader.int64().toString());
           break;
         case 2:
           message.mean = reader.double();
@@ -612,10 +368,10 @@ export const Distribution = {
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
-              message.bucketCounts.push((reader.int64() as Long));
+              message.bucketCounts.push(BigInt(reader.int64().toString()));
             }
           } else {
-            message.bucketCounts.push((reader.int64() as Long));
+            message.bucketCounts.push(BigInt(reader.int64().toString()));
           }
           break;
         case 10:
@@ -630,24 +386,24 @@ export const Distribution = {
   },
   fromJSON(object: any): Distribution {
     return {
-      count: isSet(object.count) ? Long.fromValue(object.count) : Long.ZERO,
+      count: isSet(object.count) ? BigInt(object.count.toString()) : BigInt("0"),
       mean: isSet(object.mean) ? Number(object.mean) : 0,
       sumOfSquaredDeviation: isSet(object.sumOfSquaredDeviation) ? Number(object.sumOfSquaredDeviation) : 0,
       range: isSet(object.range) ? Distribution_Range.fromJSON(object.range) : undefined,
       bucketOptions: isSet(object.bucketOptions) ? Distribution_BucketOptions.fromJSON(object.bucketOptions) : undefined,
-      bucketCounts: Array.isArray(object?.bucketCounts) ? object.bucketCounts.map((e: any) => Long.fromValue(e)) : [],
+      bucketCounts: Array.isArray(object?.bucketCounts) ? object.bucketCounts.map((e: any) => BigInt(e.toString())) : [],
       exemplars: Array.isArray(object?.exemplars) ? object.exemplars.map((e: any) => Distribution_Exemplar.fromJSON(e)) : []
     };
   },
   toJSON(message: Distribution): unknown {
     const obj: any = {};
-    message.count !== undefined && (obj.count = (message.count || Long.ZERO).toString());
+    message.count !== undefined && (obj.count = (message.count || BigInt("0")).toString());
     message.mean !== undefined && (obj.mean = message.mean);
     message.sumOfSquaredDeviation !== undefined && (obj.sumOfSquaredDeviation = message.sumOfSquaredDeviation);
     message.range !== undefined && (obj.range = message.range ? Distribution_Range.toJSON(message.range) : undefined);
     message.bucketOptions !== undefined && (obj.bucketOptions = message.bucketOptions ? Distribution_BucketOptions.toJSON(message.bucketOptions) : undefined);
     if (message.bucketCounts) {
-      obj.bucketCounts = message.bucketCounts.map(e => (e || Long.ZERO).toString());
+      obj.bucketCounts = message.bucketCounts.map(e => (e || BigInt("0")).toString());
     } else {
       obj.bucketCounts = [];
     }
@@ -658,14 +414,14 @@ export const Distribution = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<Distribution>): Distribution {
+  fromPartial(object: Partial<Distribution>): Distribution {
     const message = createBaseDistribution();
-    message.count = object.count !== undefined && object.count !== null ? Long.fromValue(object.count) : Long.ZERO;
+    message.count = object.count !== undefined && object.count !== null ? BigInt(object.count.toString()) : BigInt("0");
     message.mean = object.mean ?? 0;
     message.sumOfSquaredDeviation = object.sumOfSquaredDeviation ?? 0;
     message.range = object.range !== undefined && object.range !== null ? Distribution_Range.fromPartial(object.range) : undefined;
     message.bucketOptions = object.bucketOptions !== undefined && object.bucketOptions !== null ? Distribution_BucketOptions.fromPartial(object.bucketOptions) : undefined;
-    message.bucketCounts = object.bucketCounts?.map(e => Long.fromValue(e)) || [];
+    message.bucketCounts = object.bucketCounts?.map(e => BigInt(e.toString())) || [];
     message.exemplars = object.exemplars?.map(e => Distribution_Exemplar.fromPartial(e)) || [];
     return message;
   },
@@ -701,7 +457,7 @@ export const Distribution = {
   },
   fromAmino(object: DistributionAmino): Distribution {
     return {
-      count: Long.fromString(object.count),
+      count: BigInt(object.count),
       mean: object.mean,
       sumOfSquaredDeviation: object.sum_of_squared_deviation,
       range: object?.range ? Distribution_Range.fromAmino(object.range) : undefined,
@@ -753,7 +509,7 @@ function createBaseDistribution_Range(): Distribution_Range {
 }
 export const Distribution_Range = {
   typeUrl: "/google.api.Range",
-  encode(message: Distribution_Range, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Distribution_Range, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.min !== 0) {
       writer.uint32(9).double(message.min);
     }
@@ -762,8 +518,8 @@ export const Distribution_Range = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_Range {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_Range {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_Range();
     while (reader.pos < end) {
@@ -794,7 +550,7 @@ export const Distribution_Range = {
     message.max !== undefined && (obj.max = message.max);
     return obj;
   },
-  fromPartial(object: DeepPartial<Distribution_Range>): Distribution_Range {
+  fromPartial(object: Partial<Distribution_Range>): Distribution_Range {
     const message = createBaseDistribution_Range();
     message.min = object.min ?? 0;
     message.max = object.max ?? 0;
@@ -849,7 +605,7 @@ function createBaseDistribution_BucketOptions(): Distribution_BucketOptions {
 }
 export const Distribution_BucketOptions = {
   typeUrl: "/google.api.BucketOptions",
-  encode(message: Distribution_BucketOptions, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Distribution_BucketOptions, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.linearBuckets !== undefined) {
       Distribution_BucketOptions_Linear.encode(message.linearBuckets, writer.uint32(10).fork()).ldelim();
     }
@@ -861,8 +617,8 @@ export const Distribution_BucketOptions = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_BucketOptions {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_BucketOptions {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_BucketOptions();
     while (reader.pos < end) {
@@ -898,7 +654,7 @@ export const Distribution_BucketOptions = {
     message.explicitBuckets !== undefined && (obj.explicitBuckets = message.explicitBuckets ? Distribution_BucketOptions_Explicit.toJSON(message.explicitBuckets) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<Distribution_BucketOptions>): Distribution_BucketOptions {
+  fromPartial(object: Partial<Distribution_BucketOptions>): Distribution_BucketOptions {
     const message = createBaseDistribution_BucketOptions();
     message.linearBuckets = object.linearBuckets !== undefined && object.linearBuckets !== null ? Distribution_BucketOptions_Linear.fromPartial(object.linearBuckets) : undefined;
     message.exponentialBuckets = object.exponentialBuckets !== undefined && object.exponentialBuckets !== null ? Distribution_BucketOptions_Exponential.fromPartial(object.exponentialBuckets) : undefined;
@@ -958,7 +714,7 @@ function createBaseDistribution_BucketOptions_Linear(): Distribution_BucketOptio
 }
 export const Distribution_BucketOptions_Linear = {
   typeUrl: "/google.api.Linear",
-  encode(message: Distribution_BucketOptions_Linear, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Distribution_BucketOptions_Linear, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.numFiniteBuckets !== 0) {
       writer.uint32(8).int32(message.numFiniteBuckets);
     }
@@ -970,8 +726,8 @@ export const Distribution_BucketOptions_Linear = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_BucketOptions_Linear {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_BucketOptions_Linear {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_BucketOptions_Linear();
     while (reader.pos < end) {
@@ -1007,7 +763,7 @@ export const Distribution_BucketOptions_Linear = {
     message.offset !== undefined && (obj.offset = message.offset);
     return obj;
   },
-  fromPartial(object: DeepPartial<Distribution_BucketOptions_Linear>): Distribution_BucketOptions_Linear {
+  fromPartial(object: Partial<Distribution_BucketOptions_Linear>): Distribution_BucketOptions_Linear {
     const message = createBaseDistribution_BucketOptions_Linear();
     message.numFiniteBuckets = object.numFiniteBuckets ?? 0;
     message.width = object.width ?? 0;
@@ -1067,7 +823,7 @@ function createBaseDistribution_BucketOptions_Exponential(): Distribution_Bucket
 }
 export const Distribution_BucketOptions_Exponential = {
   typeUrl: "/google.api.Exponential",
-  encode(message: Distribution_BucketOptions_Exponential, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Distribution_BucketOptions_Exponential, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.numFiniteBuckets !== 0) {
       writer.uint32(8).int32(message.numFiniteBuckets);
     }
@@ -1079,8 +835,8 @@ export const Distribution_BucketOptions_Exponential = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_BucketOptions_Exponential {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_BucketOptions_Exponential {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_BucketOptions_Exponential();
     while (reader.pos < end) {
@@ -1116,7 +872,7 @@ export const Distribution_BucketOptions_Exponential = {
     message.scale !== undefined && (obj.scale = message.scale);
     return obj;
   },
-  fromPartial(object: DeepPartial<Distribution_BucketOptions_Exponential>): Distribution_BucketOptions_Exponential {
+  fromPartial(object: Partial<Distribution_BucketOptions_Exponential>): Distribution_BucketOptions_Exponential {
     const message = createBaseDistribution_BucketOptions_Exponential();
     message.numFiniteBuckets = object.numFiniteBuckets ?? 0;
     message.growthFactor = object.growthFactor ?? 0;
@@ -1174,7 +930,7 @@ function createBaseDistribution_BucketOptions_Explicit(): Distribution_BucketOpt
 }
 export const Distribution_BucketOptions_Explicit = {
   typeUrl: "/google.api.Explicit",
-  encode(message: Distribution_BucketOptions_Explicit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Distribution_BucketOptions_Explicit, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     writer.uint32(10).fork();
     for (const v of message.bounds) {
       writer.double(v);
@@ -1182,8 +938,8 @@ export const Distribution_BucketOptions_Explicit = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_BucketOptions_Explicit {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_BucketOptions_Explicit {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_BucketOptions_Explicit();
     while (reader.pos < end) {
@@ -1220,7 +976,7 @@ export const Distribution_BucketOptions_Explicit = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<Distribution_BucketOptions_Explicit>): Distribution_BucketOptions_Explicit {
+  fromPartial(object: Partial<Distribution_BucketOptions_Explicit>): Distribution_BucketOptions_Explicit {
     const message = createBaseDistribution_BucketOptions_Explicit();
     message.bounds = object.bounds?.map(e => e) || [];
     return message;
@@ -1278,7 +1034,7 @@ function createBaseDistribution_Exemplar(): Distribution_Exemplar {
 }
 export const Distribution_Exemplar = {
   typeUrl: "/google.api.Exemplar",
-  encode(message: Distribution_Exemplar, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Distribution_Exemplar, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.value !== 0) {
       writer.uint32(9).double(message.value);
     }
@@ -1290,8 +1046,8 @@ export const Distribution_Exemplar = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_Exemplar {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_Exemplar {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_Exemplar();
     while (reader.pos < end) {
@@ -1316,7 +1072,7 @@ export const Distribution_Exemplar = {
   fromJSON(object: any): Distribution_Exemplar {
     return {
       value: isSet(object.value) ? Number(object.value) : 0,
-      timestamp: isSet(object.timestamp) ? new Date(object.timestamp) : undefined,
+      timestamp: isSet(object.timestamp) ? fromJsonTimestamp(object.timestamp) : undefined,
       attachments: Array.isArray(object?.attachments) ? object.attachments.map((e: any) => Any.fromJSON(e)) : []
     };
   },
@@ -1331,7 +1087,7 @@ export const Distribution_Exemplar = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<Distribution_Exemplar>): Distribution_Exemplar {
+  fromPartial(object: Partial<Distribution_Exemplar>): Distribution_Exemplar {
     const message = createBaseDistribution_Exemplar();
     message.value = object.value ?? 0;
     message.timestamp = object.timestamp ?? undefined;
@@ -1341,14 +1097,14 @@ export const Distribution_Exemplar = {
   fromSDK(object: Distribution_ExemplarSDKType): Distribution_Exemplar {
     return {
       value: object?.value,
-      timestamp: object.timestamp ?? undefined,
+      timestamp: object.timestamp ? Timestamp.fromSDK(object.timestamp) : undefined,
       attachments: Array.isArray(object?.attachments) ? object.attachments.map((e: any) => Any.fromSDK(e)) : []
     };
   },
   toSDK(message: Distribution_Exemplar): Distribution_ExemplarSDKType {
     const obj: any = {};
     obj.value = message.value;
-    message.timestamp !== undefined && (obj.timestamp = message.timestamp ?? undefined);
+    message.timestamp !== undefined && (obj.timestamp = message.timestamp ? Timestamp.toSDK(message.timestamp) : undefined);
     if (message.attachments) {
       obj.attachments = message.attachments.map(e => e ? Any.toSDK(e) : undefined);
     } else {

@@ -1,5 +1,5 @@
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../helpers";
+import { BinaryReader, BinaryWriter } from "../../binary";
+import { isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * Selects and configures the service controller used by the service.  The
@@ -12,26 +12,6 @@ export interface Control {
    * feature (like quota and billing) will be enabled.
    */
   environment: string;
-}
-export interface ControlProtoMsg {
-  typeUrl: "/google.api.Control";
-  value: Uint8Array;
-}
-/**
- * Selects and configures the service controller used by the service.  The
- * service controller handles features like abuse, quota, billing, logging,
- * monitoring, etc.
- */
-export interface ControlAmino {
-  /**
-   * The service control environment to use. If empty, no control plane
-   * feature (like quota and billing) will be enabled.
-   */
-  environment: string;
-}
-export interface ControlAminoMsg {
-  type: "/google.api.Control";
-  value: ControlAmino;
 }
 /**
  * Selects and configures the service controller used by the service.  The
@@ -48,14 +28,14 @@ function createBaseControl(): Control {
 }
 export const Control = {
   typeUrl: "/google.api.Control",
-  encode(message: Control, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Control, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.environment !== "") {
       writer.uint32(10).string(message.environment);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Control {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Control {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseControl();
     while (reader.pos < end) {
@@ -81,7 +61,7 @@ export const Control = {
     message.environment !== undefined && (obj.environment = message.environment);
     return obj;
   },
-  fromPartial(object: DeepPartial<Control>): Control {
+  fromPartial(object: Partial<Control>): Control {
     const message = createBaseControl();
     message.environment = object.environment ?? "";
     return message;

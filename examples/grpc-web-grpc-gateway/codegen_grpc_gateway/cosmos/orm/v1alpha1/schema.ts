@@ -1,5 +1,5 @@
-import * as _m0 from "protobufjs/minimal";
-import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes } from "../../../helpers";
 export const protobufPackage = "cosmos.orm.v1alpha1";
 /** StorageType */
 export enum StorageType {
@@ -45,7 +45,6 @@ export enum StorageType {
   UNRECOGNIZED = -1,
 }
 export const StorageTypeSDKType = StorageType;
-export const StorageTypeAmino = StorageType;
 export function storageTypeFromJSON(object: any): StorageType {
   switch (object) {
     case 0:
@@ -95,23 +94,6 @@ export interface ModuleSchemaDescriptor {
    */
   prefix: Uint8Array;
 }
-export interface ModuleSchemaDescriptorProtoMsg {
-  typeUrl: "/cosmos.orm.v1alpha1.ModuleSchemaDescriptor";
-  value: Uint8Array;
-}
-/** ModuleSchemaDescriptor describe's a module's ORM schema. */
-export interface ModuleSchemaDescriptorAmino {
-  schema_file: ModuleSchemaDescriptor_FileEntryAmino[];
-  /**
-   * prefix is an optional prefix that precedes all keys in this module's
-   * store.
-   */
-  prefix: Uint8Array;
-}
-export interface ModuleSchemaDescriptorAminoMsg {
-  type: "cosmos-sdk/ModuleSchemaDescriptor";
-  value: ModuleSchemaDescriptorAmino;
-}
 /** ModuleSchemaDescriptor describe's a module's ORM schema. */
 export interface ModuleSchemaDescriptorSDKType {
   schema_file: ModuleSchemaDescriptor_FileEntrySDKType[];
@@ -137,34 +119,6 @@ export interface ModuleSchemaDescriptor_FileEntry {
    */
   storageType: StorageType;
 }
-export interface ModuleSchemaDescriptor_FileEntryProtoMsg {
-  typeUrl: "/cosmos.orm.v1alpha1.FileEntry";
-  value: Uint8Array;
-}
-/** FileEntry describes an ORM file used in a module. */
-export interface ModuleSchemaDescriptor_FileEntryAmino {
-  /**
-   * id is a prefix that will be varint encoded and prepended to all the
-   * table keys specified in the file's tables.
-   */
-  id: number;
-  /**
-   * proto_file_name is the name of a file .proto in that contains
-   * table definitions. The .proto file must be in a package that the
-   * module has referenced using cosmos.app.v1.ModuleDescriptor.use_package.
-   */
-  proto_file_name: string;
-  /**
-   * storage_type optionally indicates the type of storage this file's
-   * tables should used. If it is left unspecified, the default KV-storage
-   * of the app will be used.
-   */
-  storage_type: StorageType;
-}
-export interface ModuleSchemaDescriptor_FileEntryAminoMsg {
-  type: "cosmos-sdk/FileEntry";
-  value: ModuleSchemaDescriptor_FileEntryAmino;
-}
 /** FileEntry describes an ORM file used in a module. */
 export interface ModuleSchemaDescriptor_FileEntrySDKType {
   id: number;
@@ -180,7 +134,7 @@ function createBaseModuleSchemaDescriptor(): ModuleSchemaDescriptor {
 export const ModuleSchemaDescriptor = {
   typeUrl: "/cosmos.orm.v1alpha1.ModuleSchemaDescriptor",
   aminoType: "cosmos-sdk/ModuleSchemaDescriptor",
-  encode(message: ModuleSchemaDescriptor, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ModuleSchemaDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.schemaFile) {
       ModuleSchemaDescriptor_FileEntry.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -189,8 +143,8 @@ export const ModuleSchemaDescriptor = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ModuleSchemaDescriptor {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ModuleSchemaDescriptor {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModuleSchemaDescriptor();
     while (reader.pos < end) {
@@ -225,7 +179,7 @@ export const ModuleSchemaDescriptor = {
     message.prefix !== undefined && (obj.prefix = base64FromBytes(message.prefix !== undefined ? message.prefix : new Uint8Array()));
     return obj;
   },
-  fromPartial(object: DeepPartial<ModuleSchemaDescriptor>): ModuleSchemaDescriptor {
+  fromPartial(object: Partial<ModuleSchemaDescriptor>): ModuleSchemaDescriptor {
     const message = createBaseModuleSchemaDescriptor();
     message.schemaFile = object.schemaFile?.map(e => ModuleSchemaDescriptor_FileEntry.fromPartial(e)) || [];
     message.prefix = object.prefix ?? new Uint8Array();
@@ -295,7 +249,7 @@ function createBaseModuleSchemaDescriptor_FileEntry(): ModuleSchemaDescriptor_Fi
 export const ModuleSchemaDescriptor_FileEntry = {
   typeUrl: "/cosmos.orm.v1alpha1.FileEntry",
   aminoType: "cosmos-sdk/FileEntry",
-  encode(message: ModuleSchemaDescriptor_FileEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ModuleSchemaDescriptor_FileEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== 0) {
       writer.uint32(8).uint32(message.id);
     }
@@ -307,8 +261,8 @@ export const ModuleSchemaDescriptor_FileEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ModuleSchemaDescriptor_FileEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ModuleSchemaDescriptor_FileEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModuleSchemaDescriptor_FileEntry();
     while (reader.pos < end) {
@@ -344,7 +298,7 @@ export const ModuleSchemaDescriptor_FileEntry = {
     message.storageType !== undefined && (obj.storageType = storageTypeToJSON(message.storageType));
     return obj;
   },
-  fromPartial(object: DeepPartial<ModuleSchemaDescriptor_FileEntry>): ModuleSchemaDescriptor_FileEntry {
+  fromPartial(object: Partial<ModuleSchemaDescriptor_FileEntry>): ModuleSchemaDescriptor_FileEntry {
     const message = createBaseModuleSchemaDescriptor_FileEntry();
     message.id = object.id ?? 0;
     message.protoFileName = object.protoFileName ?? "";

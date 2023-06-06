@@ -1,5 +1,5 @@
-import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, isSet } from "../../helpers";
+import { BinaryReader, BinaryWriter } from "../../binary";
+import { isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * Path Translation specifies how to combine the backend address with the
@@ -63,7 +63,6 @@ export enum BackendRule_PathTranslation {
   UNRECOGNIZED = -1,
 }
 export const BackendRule_PathTranslationSDKType = BackendRule_PathTranslation;
-export const BackendRule_PathTranslationAmino = BackendRule_PathTranslation;
 export function backendRule_PathTranslationFromJSON(object: any): BackendRule_PathTranslation {
   switch (object) {
     case 0:
@@ -102,23 +101,6 @@ export interface Backend {
    * **NOTE:** All service configuration rules follow "last one wins" order.
    */
   rules: BackendRule[];
-}
-export interface BackendProtoMsg {
-  typeUrl: "/google.api.Backend";
-  value: Uint8Array;
-}
-/** `Backend` defines the backend configuration for a service. */
-export interface BackendAmino {
-  /**
-   * A list of API backend rules that apply to individual API methods.
-   * 
-   * **NOTE:** All service configuration rules follow "last one wins" order.
-   */
-  rules: BackendRuleAmino[];
-}
-export interface BackendAminoMsg {
-  type: "/google.api.Backend";
-  value: BackendAmino;
 }
 /** `Backend` defines the backend configuration for a service. */
 export interface BackendSDKType {
@@ -209,99 +191,6 @@ export interface BackendRule {
    */
   protocol: string;
 }
-export interface BackendRuleProtoMsg {
-  typeUrl: "/google.api.BackendRule";
-  value: Uint8Array;
-}
-/** A backend rule provides configuration for an individual API element. */
-export interface BackendRuleAmino {
-  /**
-   * Selects the methods to which this rule applies.
-   * 
-   * Refer to [selector][google.api.DocumentationRule.selector] for syntax details.
-   */
-  selector: string;
-  /**
-   * The address of the API backend.
-   * 
-   * The scheme is used to determine the backend protocol and security.
-   * The following schemes are accepted:
-   * 
-   *    SCHEME        PROTOCOL    SECURITY
-   *    http://       HTTP        None
-   *    https://      HTTP        TLS
-   *    grpc://       gRPC        None
-   *    grpcs://      gRPC        TLS
-   * 
-   * It is recommended to explicitly include a scheme. Leaving out the scheme
-   * may cause constrasting behaviors across platforms.
-   * 
-   * If the port is unspecified, the default is:
-   * - 80 for schemes without TLS
-   * - 443 for schemes with TLS
-   * 
-   * For HTTP backends, use [protocol][google.api.BackendRule.protocol]
-   * to specify the protocol version.
-   */
-  address: string;
-  /**
-   * The number of seconds to wait for a response from a request. The default
-   * varies based on the request protocol and deployment environment.
-   */
-  deadline: number;
-  /**
-   * Minimum deadline in seconds needed for this method. Calls having deadline
-   * value lower than this will be rejected.
-   */
-  min_deadline: number;
-  /**
-   * The number of seconds to wait for the completion of a long running
-   * operation. The default is no deadline.
-   */
-  operation_deadline: number;
-  path_translation: BackendRule_PathTranslation;
-  /**
-   * The JWT audience is used when generating a JWT ID token for the backend.
-   * This ID token will be added in the HTTP "authorization" header, and sent
-   * to the backend.
-   */
-  jwt_audience?: string;
-  /**
-   * When disable_auth is true, a JWT ID token won't be generated and the
-   * original "Authorization" HTTP header will be preserved. If the header is
-   * used to carry the original token and is expected by the backend, this
-   * field must be set to true to preserve the header.
-   */
-  disable_auth?: boolean;
-  /**
-   * The protocol used for sending a request to the backend.
-   * The supported values are "http/1.1" and "h2".
-   * 
-   * The default value is inferred from the scheme in the
-   * [address][google.api.BackendRule.address] field:
-   * 
-   *    SCHEME        PROTOCOL
-   *    http://       http/1.1
-   *    https://      http/1.1
-   *    grpc://       h2
-   *    grpcs://      h2
-   * 
-   * For secure HTTP backends (https://) that support HTTP/2, set this field
-   * to "h2" for improved performance.
-   * 
-   * Configuring this field to non-default values is only supported for secure
-   * HTTP backends. This field will be ignored for all other backends.
-   * 
-   * See
-   * https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids
-   * for more details on the supported values.
-   */
-  protocol: string;
-}
-export interface BackendRuleAminoMsg {
-  type: "/google.api.BackendRule";
-  value: BackendRuleAmino;
-}
 /** A backend rule provides configuration for an individual API element. */
 export interface BackendRuleSDKType {
   selector: string;
@@ -321,14 +210,14 @@ function createBaseBackend(): Backend {
 }
 export const Backend = {
   typeUrl: "/google.api.Backend",
-  encode(message: Backend, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Backend, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.rules) {
       BackendRule.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Backend {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Backend {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBackend();
     while (reader.pos < end) {
@@ -358,7 +247,7 @@ export const Backend = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<Backend>): Backend {
+  fromPartial(object: Partial<Backend>): Backend {
     const message = createBaseBackend();
     message.rules = object.rules?.map(e => BackendRule.fromPartial(e)) || [];
     return message;
@@ -422,7 +311,7 @@ function createBaseBackendRule(): BackendRule {
 }
 export const BackendRule = {
   typeUrl: "/google.api.BackendRule",
-  encode(message: BackendRule, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BackendRule, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.selector !== "") {
       writer.uint32(10).string(message.selector);
     }
@@ -452,8 +341,8 @@ export const BackendRule = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BackendRule {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BackendRule {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBackendRule();
     while (reader.pos < end) {
@@ -519,7 +408,7 @@ export const BackendRule = {
     message.protocol !== undefined && (obj.protocol = message.protocol);
     return obj;
   },
-  fromPartial(object: DeepPartial<BackendRule>): BackendRule {
+  fromPartial(object: Partial<BackendRule>): BackendRule {
     const message = createBaseBackendRule();
     message.selector = object.selector ?? "";
     message.address = object.address ?? "";

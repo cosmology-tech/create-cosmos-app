@@ -1,6 +1,5 @@
-import { Plan, PlanSDKType } from "./upgrade";
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
-import { MsgSoftwareUpgrade, MsgSoftwareUpgradeSDKType, MsgCancelUpgrade, MsgCancelUpgradeSDKType } from "./tx";
+import { MsgSoftwareUpgrade, MsgCancelUpgrade } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade", MsgSoftwareUpgrade], ["/cosmos.upgrade.v1beta1.MsgCancelUpgrade", MsgCancelUpgrade]];
 export const load = (protoRegistry: Registry) => {
   registry.forEach(([typeUrl, mod]) => {

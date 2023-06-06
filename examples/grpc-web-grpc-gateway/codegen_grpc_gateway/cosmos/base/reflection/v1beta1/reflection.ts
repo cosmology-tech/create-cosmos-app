@@ -1,37 +1,14 @@
-import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, isSet } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet } from "../../../../helpers";
 export const protobufPackage = "cosmos.base.reflection.v1beta1";
 /** ListAllInterfacesRequest is the request type of the ListAllInterfaces RPC. */
 export interface ListAllInterfacesRequest {}
-export interface ListAllInterfacesRequestProtoMsg {
-  typeUrl: "/cosmos.base.reflection.v1beta1.ListAllInterfacesRequest";
-  value: Uint8Array;
-}
-/** ListAllInterfacesRequest is the request type of the ListAllInterfaces RPC. */
-export interface ListAllInterfacesRequestAmino {}
-export interface ListAllInterfacesRequestAminoMsg {
-  type: "cosmos-sdk/ListAllInterfacesRequest";
-  value: ListAllInterfacesRequestAmino;
-}
 /** ListAllInterfacesRequest is the request type of the ListAllInterfaces RPC. */
 export interface ListAllInterfacesRequestSDKType {}
 /** ListAllInterfacesResponse is the response type of the ListAllInterfaces RPC. */
 export interface ListAllInterfacesResponse {
   /** interface_names is an array of all the registered interfaces. */
   interfaceNames: string[];
-}
-export interface ListAllInterfacesResponseProtoMsg {
-  typeUrl: "/cosmos.base.reflection.v1beta1.ListAllInterfacesResponse";
-  value: Uint8Array;
-}
-/** ListAllInterfacesResponse is the response type of the ListAllInterfaces RPC. */
-export interface ListAllInterfacesResponseAmino {
-  /** interface_names is an array of all the registered interfaces. */
-  interface_names: string[];
-}
-export interface ListAllInterfacesResponseAminoMsg {
-  type: "cosmos-sdk/ListAllInterfacesResponse";
-  value: ListAllInterfacesResponseAmino;
 }
 /** ListAllInterfacesResponse is the response type of the ListAllInterfaces RPC. */
 export interface ListAllInterfacesResponseSDKType {
@@ -44,22 +21,6 @@ export interface ListAllInterfacesResponseSDKType {
 export interface ListImplementationsRequest {
   /** interface_name defines the interface to query the implementations for. */
   interfaceName: string;
-}
-export interface ListImplementationsRequestProtoMsg {
-  typeUrl: "/cosmos.base.reflection.v1beta1.ListImplementationsRequest";
-  value: Uint8Array;
-}
-/**
- * ListImplementationsRequest is the request type of the ListImplementations
- * RPC.
- */
-export interface ListImplementationsRequestAmino {
-  /** interface_name defines the interface to query the implementations for. */
-  interface_name: string;
-}
-export interface ListImplementationsRequestAminoMsg {
-  type: "cosmos-sdk/ListImplementationsRequest";
-  value: ListImplementationsRequestAmino;
 }
 /**
  * ListImplementationsRequest is the request type of the ListImplementations
@@ -75,21 +36,6 @@ export interface ListImplementationsRequestSDKType {
 export interface ListImplementationsResponse {
   implementationMessageNames: string[];
 }
-export interface ListImplementationsResponseProtoMsg {
-  typeUrl: "/cosmos.base.reflection.v1beta1.ListImplementationsResponse";
-  value: Uint8Array;
-}
-/**
- * ListImplementationsResponse is the response type of the ListImplementations
- * RPC.
- */
-export interface ListImplementationsResponseAmino {
-  implementation_message_names: string[];
-}
-export interface ListImplementationsResponseAminoMsg {
-  type: "cosmos-sdk/ListImplementationsResponse";
-  value: ListImplementationsResponseAmino;
-}
 /**
  * ListImplementationsResponse is the response type of the ListImplementations
  * RPC.
@@ -103,11 +49,11 @@ function createBaseListAllInterfacesRequest(): ListAllInterfacesRequest {
 export const ListAllInterfacesRequest = {
   typeUrl: "/cosmos.base.reflection.v1beta1.ListAllInterfacesRequest",
   aminoType: "cosmos-sdk/ListAllInterfacesRequest",
-  encode(_: ListAllInterfacesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: ListAllInterfacesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListAllInterfacesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListAllInterfacesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListAllInterfacesRequest();
     while (reader.pos < end) {
@@ -127,7 +73,7 @@ export const ListAllInterfacesRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<ListAllInterfacesRequest>): ListAllInterfacesRequest {
+  fromPartial(_: Partial<ListAllInterfacesRequest>): ListAllInterfacesRequest {
     const message = createBaseListAllInterfacesRequest();
     return message;
   },
@@ -175,14 +121,14 @@ function createBaseListAllInterfacesResponse(): ListAllInterfacesResponse {
 export const ListAllInterfacesResponse = {
   typeUrl: "/cosmos.base.reflection.v1beta1.ListAllInterfacesResponse",
   aminoType: "cosmos-sdk/ListAllInterfacesResponse",
-  encode(message: ListAllInterfacesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListAllInterfacesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.interfaceNames) {
       writer.uint32(10).string(v!);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListAllInterfacesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListAllInterfacesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListAllInterfacesResponse();
     while (reader.pos < end) {
@@ -212,7 +158,7 @@ export const ListAllInterfacesResponse = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<ListAllInterfacesResponse>): ListAllInterfacesResponse {
+  fromPartial(object: Partial<ListAllInterfacesResponse>): ListAllInterfacesResponse {
     const message = createBaseListAllInterfacesResponse();
     message.interfaceNames = object.interfaceNames?.map(e => e) || [];
     return message;
@@ -275,14 +221,14 @@ function createBaseListImplementationsRequest(): ListImplementationsRequest {
 export const ListImplementationsRequest = {
   typeUrl: "/cosmos.base.reflection.v1beta1.ListImplementationsRequest",
   aminoType: "cosmos-sdk/ListImplementationsRequest",
-  encode(message: ListImplementationsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListImplementationsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.interfaceName !== "") {
       writer.uint32(10).string(message.interfaceName);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListImplementationsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListImplementationsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListImplementationsRequest();
     while (reader.pos < end) {
@@ -308,7 +254,7 @@ export const ListImplementationsRequest = {
     message.interfaceName !== undefined && (obj.interfaceName = message.interfaceName);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListImplementationsRequest>): ListImplementationsRequest {
+  fromPartial(object: Partial<ListImplementationsRequest>): ListImplementationsRequest {
     const message = createBaseListImplementationsRequest();
     message.interfaceName = object.interfaceName ?? "";
     return message;
@@ -363,14 +309,14 @@ function createBaseListImplementationsResponse(): ListImplementationsResponse {
 export const ListImplementationsResponse = {
   typeUrl: "/cosmos.base.reflection.v1beta1.ListImplementationsResponse",
   aminoType: "cosmos-sdk/ListImplementationsResponse",
-  encode(message: ListImplementationsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListImplementationsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.implementationMessageNames) {
       writer.uint32(10).string(v!);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListImplementationsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListImplementationsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListImplementationsResponse();
     while (reader.pos < end) {
@@ -400,7 +346,7 @@ export const ListImplementationsResponse = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<ListImplementationsResponse>): ListImplementationsResponse {
+  fromPartial(object: Partial<ListImplementationsResponse>): ListImplementationsResponse {
     const message = createBaseListImplementationsResponse();
     message.implementationMessageNames = object.implementationMessageNames?.map(e => e) || [];
     return message;
