@@ -91,6 +91,9 @@ const sendTokens = (
       address
     });
 
+    console.log(account);
+    
+
     const baseAccount =
       account.account as import("./../codegen_grpc_web/cosmos/auth/v1beta1/auth").BaseAccount;
     const signerData = {
@@ -98,8 +101,11 @@ const sendTokens = (
       sequence: Number(baseAccount.sequence),
       chainId: 'osmosis-1'
     };
-
+    console.log("address:", address, "sequence:", Number(baseAccount.sequence));
+    
     const signed_tx = await stargateClient.sign(address, [msg], fee, 'sent through telescope grpc-web', signerData)
+    console.log(signed_tx);
+    
     const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
     const response = await grpcWebClient.cosmos.tx.v1beta1.broadcastTx(  
       {
@@ -159,7 +165,7 @@ export default function Home() {
     const rpcEndpoint = 'https://osmosis-grpc-web.polkachu.com';
 
     // get gRPC-web client
-    const client = await cosmos.ClientFactory.createGrpcWebClient({
+    const client = await cosmos.ClientFactory.getGrpcWebClient({
       endpoint: rpcEndpoint,
     });
 

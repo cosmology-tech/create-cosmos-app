@@ -6,29 +6,21 @@ export const createGrpcWebClient = async ({
   endpoint: string;
 }) => {
   endpoint = endpoint.replace(/\/*$/, "");
-  console.log(endpoint);
-  
   const {
     GrpcWebImpl
-  } = await import("./app/v1alpha1/query.rpc.Query");
+  } = await import("../cosmos/app/v1alpha1/query.rpc.Query");
   let grpcWeb;
-  console.log('creating');
-  
   if (typeof document !== "undefined") {
-    console.log('browser');
     grpcWeb = new GrpcWebImpl(endpoint, {
       transport: grpc.CrossBrowserHttpTransport({
         withCredentials: false
       })
-      // transport: NodeHttpTransport()
     });
   } else if (typeof navigator !== "undefined" && navigator.product === "ReactNative") {
-    console.log('react-native');
     grpcWeb = new GrpcWebImpl(endpoint, {
       transport: NodeHttpTransport()
     });
   } else {
-    console.log('node.js');
     grpcWeb = new GrpcWebImpl(endpoint, {
       transport: NodeHttpTransport()
     });

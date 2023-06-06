@@ -21,4 +21,6 @@ export * from "./ibc/client";
 export * from "./osmosis/bundle";
 export * from "./osmosis/client";
 export * from "./tendermint/bundle";
+export * from "./websocket";
+export * from "./ws";
 export * from "./grpc-gateway";
