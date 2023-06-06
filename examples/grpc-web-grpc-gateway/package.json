@@ -20,7 +20,7 @@
     "@cosmjs/stargate": "0.29.5",
     "@cosmos-kit/core": "1.3.0",
     "@cosmos-kit/cosmostation": "0.15.13",
-    "@cosmos-kit/keplr": "0.33.13",
+    "@cosmos-kit/keplr": "0.33.34",
     "@cosmos-kit/leap": "0.14.12",
     "@cosmos-kit/react": "1.3.11",
     "@emotion/react": "11.10.6",
