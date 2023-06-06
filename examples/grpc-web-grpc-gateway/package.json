@@ -9,7 +9,9 @@
     "lint": "next lint",
     "locks:remove": "rm -f yarn.lock",
     "locks:create": "generate-lockfile --lockfile ../../yarn.lock --package package.json --write yarn.lock --force",
-    "locks": "npm run locks:remove && npm run locks:create"
+    "locks": "npm run locks:remove && npm run locks:create",
+    "codegen:grpc-web": "node scripts/codegen-grcp-web.js",
+    "codegen:grpc-gateway": "node scripts/codegen-grpc-gateway.js"
   },
   "dependencies": {
     "@chakra-ui/icons": "2.0.12",
