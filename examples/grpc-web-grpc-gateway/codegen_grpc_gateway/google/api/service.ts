@@ -1,25 +1,25 @@
-import { Api, ApiAmino, ApiSDKType } from "../protobuf/api";
-import { Type, TypeAmino, TypeSDKType, Enum, EnumAmino, EnumSDKType } from "../protobuf/type";
-import { Documentation, DocumentationAmino, DocumentationSDKType } from "./documentation";
-import { Backend, BackendAmino, BackendSDKType } from "./backend";
-import { Http, HttpAmino, HttpSDKType } from "./http";
-import { Quota, QuotaAmino, QuotaSDKType } from "./quota";
-import { Authentication, AuthenticationAmino, AuthenticationSDKType } from "./auth";
-import { Context, ContextAmino, ContextSDKType } from "./context";
-import { Usage, UsageAmino, UsageSDKType } from "./usage";
-import { Endpoint, EndpointAmino, EndpointSDKType } from "./endpoint";
-import { Control, ControlAmino, ControlSDKType } from "./control";
-import { LogDescriptor, LogDescriptorAmino, LogDescriptorSDKType } from "./log";
-import { MetricDescriptor, MetricDescriptorAmino, MetricDescriptorSDKType } from "./metric";
-import { MonitoredResourceDescriptor, MonitoredResourceDescriptorAmino, MonitoredResourceDescriptorSDKType } from "./monitored_resource";
-import { Billing, BillingAmino, BillingSDKType } from "./billing";
-import { Logging, LoggingAmino, LoggingSDKType } from "./logging";
-import { Monitoring, MonitoringAmino, MonitoringSDKType } from "./monitoring";
-import { SystemParameters, SystemParametersAmino, SystemParametersSDKType } from "./system_parameter";
-import { SourceInfo, SourceInfoAmino, SourceInfoSDKType } from "./source_info";
-import { UInt32Value, UInt32ValueAmino, UInt32ValueSDKType } from "../protobuf/wrappers";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../helpers";
+import { Api, ApiSDKType } from "../protobuf/api";
+import { Type, TypeSDKType, Enum, EnumSDKType } from "../protobuf/type";
+import { Documentation, DocumentationSDKType } from "./documentation";
+import { Backend, BackendSDKType } from "./backend";
+import { Http, HttpSDKType } from "./http";
+import { Quota, QuotaSDKType } from "./quota";
+import { Authentication, AuthenticationSDKType } from "./auth";
+import { Context, ContextSDKType } from "./context";
+import { Usage, UsageSDKType } from "./usage";
+import { Endpoint, EndpointSDKType } from "./endpoint";
+import { Control, ControlSDKType } from "./control";
+import { LogDescriptor, LogDescriptorSDKType } from "./log";
+import { MetricDescriptor, MetricDescriptorSDKType } from "./metric";
+import { MonitoredResourceDescriptor, MonitoredResourceDescriptorSDKType } from "./monitored_resource";
+import { Billing, BillingSDKType } from "./billing";
+import { Logging, LoggingSDKType } from "./logging";
+import { Monitoring, MonitoringSDKType } from "./monitoring";
+import { SystemParameters, SystemParametersSDKType } from "./system_parameter";
+import { SourceInfo, SourceInfoSDKType } from "./source_info";
+import { UInt32Value, UInt32ValueSDKType } from "../protobuf/wrappers";
+import { BinaryReader, BinaryWriter } from "../../binary";
+import { isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * `Service` is the root object of Google service configuration schema. It
@@ -143,136 +143,6 @@ export interface Service {
   /** @deprecated */
   configVersion?: UInt32Value;
 }
-export interface ServiceProtoMsg {
-  typeUrl: "/google.api.Service";
-  value: Uint8Array;
-}
-/**
- * `Service` is the root object of Google service configuration schema. It
- * describes basic information about a service, such as the name and the
- * title, and delegates other aspects to sub-sections. Each sub-section is
- * either a proto message or a repeated proto message that configures a
- * specific aspect, such as auth. See each proto message definition for details.
- * 
- * Example:
- * 
- *     type: google.api.Service
- *     name: calendar.googleapis.com
- *     title: Google Calendar API
- *     apis:
- *     - name: google.calendar.v3.Calendar
- *     authentication:
- *       providers:
- *       - id: google_calendar_auth
- *         jwks_uri: https://www.googleapis.com/oauth2/v1/certs
- *         issuer: https://securetoken.google.com
- *       rules:
- *       - selector: "*"
- *         requirements:
- *           provider_id: google_calendar_auth
- */
-export interface ServiceAmino {
-  /**
-   * The service name, which is a DNS-like logical identifier for the
-   * service, such as `calendar.googleapis.com`. The service name
-   * typically goes through DNS verification to make sure the owner
-   * of the service also owns the DNS name.
-   */
-  name: string;
-  /** The product title for this service. */
-  title: string;
-  /** The Google project that owns this service. */
-  producer_project_id: string;
-  /**
-   * A unique ID for a specific instance of this message, typically assigned
-   * by the client for tracking purpose. Must be no longer than 63 characters
-   * and only lower case letters, digits, '.', '_' and '-' are allowed. If
-   * empty, the server may choose to generate one instead.
-   */
-  id: string;
-  /**
-   * A list of API interfaces exported by this service. Only the `name` field
-   * of the [google.protobuf.Api][google.protobuf.Api] needs to be provided by the configuration
-   * author, as the remaining fields will be derived from the IDL during the
-   * normalization process. It is an error to specify an API interface here
-   * which cannot be resolved against the associated IDL files.
-   */
-  apis: ApiAmino[];
-  /**
-   * A list of all proto message types included in this API service.
-   * Types referenced directly or indirectly by the `apis` are
-   * automatically included.  Messages which are not referenced but
-   * shall be included, such as types used by the `google.protobuf.Any` type,
-   * should be listed here by name. Example:
-   * 
-   *     types:
-   *     - name: google.protobuf.Int32
-   */
-  types: TypeAmino[];
-  /**
-   * A list of all enum types included in this API service.  Enums
-   * referenced directly or indirectly by the `apis` are automatically
-   * included.  Enums which are not referenced but shall be included
-   * should be listed here by name. Example:
-   * 
-   *     enums:
-   *     - name: google.someapi.v1.SomeEnum
-   */
-  enums: EnumAmino[];
-  /** Additional API documentation. */
-  documentation?: DocumentationAmino;
-  /** API backend configuration. */
-  backend?: BackendAmino;
-  /** HTTP configuration. */
-  http?: HttpAmino;
-  /** Quota configuration. */
-  quota?: QuotaAmino;
-  /** Auth configuration. */
-  authentication?: AuthenticationAmino;
-  /** Context configuration. */
-  context?: ContextAmino;
-  /** Configuration controlling usage of this service. */
-  usage?: UsageAmino;
-  /**
-   * Configuration for network endpoints.  If this is empty, then an endpoint
-   * with the same name as the service is automatically generated to service all
-   * defined APIs.
-   */
-  endpoints: EndpointAmino[];
-  /** Configuration for the service control plane. */
-  control?: ControlAmino;
-  /** Defines the logs used by this service. */
-  logs: LogDescriptorAmino[];
-  /** Defines the metrics used by this service. */
-  metrics: MetricDescriptorAmino[];
-  /**
-   * Defines the monitored resources used by this service. This is required
-   * by the [Service.monitoring][google.api.Service.monitoring] and [Service.logging][google.api.Service.logging] configurations.
-   */
-  monitored_resources: MonitoredResourceDescriptorAmino[];
-  /** Billing configuration. */
-  billing?: BillingAmino;
-  /** Logging configuration. */
-  logging?: LoggingAmino;
-  /** Monitoring configuration. */
-  monitoring?: MonitoringAmino;
-  /** System parameter configuration. */
-  system_parameters?: SystemParametersAmino;
-  /** Output only. The source information for this configuration if available. */
-  source_info?: SourceInfoAmino;
-  /**
-   * Obsolete. Do not use.
-   * 
-   * This field has no semantic meaning. The service config compiler always
-   * sets this field to `3`.
-   */
-  /** @deprecated */
-  config_version?: UInt32ValueAmino;
-}
-export interface ServiceAminoMsg {
-  type: "/google.api.Service";
-  value: ServiceAmino;
-}
 /**
  * `Service` is the root object of Google service configuration schema. It
  * describes basic information about a service, such as the name and the
@@ -356,7 +226,7 @@ function createBaseService(): Service {
 }
 export const Service = {
   typeUrl: "/google.api.Service",
-  encode(message: Service, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Service, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -434,8 +304,8 @@ export const Service = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Service {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Service {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseService();
     while (reader.pos < end) {
@@ -609,7 +479,7 @@ export const Service = {
     message.configVersion !== undefined && (obj.configVersion = message.configVersion ? UInt32Value.toJSON(message.configVersion) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<Service>): Service {
+  fromPartial(object: Partial<Service>): Service {
     const message = createBaseService();
     message.name = object.name ?? "";
     message.title = object.title ?? "";

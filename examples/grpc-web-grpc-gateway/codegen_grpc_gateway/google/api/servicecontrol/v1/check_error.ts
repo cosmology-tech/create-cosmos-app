@@ -1,6 +1,6 @@
-import { Status, StatusAmino, StatusSDKType } from "../../../rpc/status";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../../../helpers";
+import { Status, StatusSDKType } from "../../../rpc/status";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /** Error codes for Check responses. */
 export enum CheckError_Code {
@@ -70,7 +70,6 @@ export enum CheckError_Code {
   UNRECOGNIZED = -1,
 }
 export const CheckError_CodeSDKType = CheckError_Code;
-export const CheckError_CodeAmino = CheckError_Code;
 export function checkError_CodeFromJSON(object: any): CheckError_Code {
   switch (object) {
     case 0:
@@ -216,39 +215,6 @@ export interface CheckError {
    */
   status?: Status;
 }
-export interface CheckErrorProtoMsg {
-  typeUrl: "/google.api.servicecontrol.v1.CheckError";
-  value: Uint8Array;
-}
-/**
- * Defines the errors to be returned in
- * [google.api.servicecontrol.v1.CheckResponse.check_errors][google.api.servicecontrol.v1.CheckResponse.check_errors].
- */
-export interface CheckErrorAmino {
-  /** The error code. */
-  code: CheckError_Code;
-  /**
-   * Subject to whom this error applies. See the specific code enum for more
-   * details on this field. For example:
-   * 
-   * - "project:<project-id or project-number>"
-   * - "folder:<folder-id>"
-   * - "organization:<organization-id>"
-   */
-  subject: string;
-  /** Free-form text providing details on the error cause of the error. */
-  detail: string;
-  /**
-   * Contains public information about the check error. If available,
-   * `status.code` will be non zero and client can propagate it out as public
-   * error.
-   */
-  status?: StatusAmino;
-}
-export interface CheckErrorAminoMsg {
-  type: "/google.api.servicecontrol.v1.CheckError";
-  value: CheckErrorAmino;
-}
 /**
  * Defines the errors to be returned in
  * [google.api.servicecontrol.v1.CheckResponse.check_errors][google.api.servicecontrol.v1.CheckResponse.check_errors].
@@ -269,7 +235,7 @@ function createBaseCheckError(): CheckError {
 }
 export const CheckError = {
   typeUrl: "/google.api.servicecontrol.v1.CheckError",
-  encode(message: CheckError, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CheckError, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.code !== 0) {
       writer.uint32(8).int32(message.code);
     }
@@ -284,8 +250,8 @@ export const CheckError = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CheckError {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CheckError {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCheckError();
     while (reader.pos < end) {
@@ -326,7 +292,7 @@ export const CheckError = {
     message.status !== undefined && (obj.status = message.status ? Status.toJSON(message.status) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<CheckError>): CheckError {
+  fromPartial(object: Partial<CheckError>): CheckError {
     const message = createBaseCheckError();
     message.code = object.code ?? 0;
     message.subject = object.subject ?? "";

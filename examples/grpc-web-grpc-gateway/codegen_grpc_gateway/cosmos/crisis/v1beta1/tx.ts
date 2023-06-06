@@ -1,25 +1,11 @@
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet } from "../../../helpers";
 export const protobufPackage = "cosmos.crisis.v1beta1";
 /** MsgVerifyInvariant represents a message to verify a particular invariance. */
 export interface MsgVerifyInvariant {
   sender: string;
   invariantModuleName: string;
   invariantRoute: string;
-}
-export interface MsgVerifyInvariantProtoMsg {
-  typeUrl: "/cosmos.crisis.v1beta1.MsgVerifyInvariant";
-  value: Uint8Array;
-}
-/** MsgVerifyInvariant represents a message to verify a particular invariance. */
-export interface MsgVerifyInvariantAmino {
-  sender: string;
-  invariant_module_name: string;
-  invariant_route: string;
-}
-export interface MsgVerifyInvariantAminoMsg {
-  type: "cosmos-sdk/MsgVerifyInvariant";
-  value: MsgVerifyInvariantAmino;
 }
 /** MsgVerifyInvariant represents a message to verify a particular invariance. */
 export interface MsgVerifyInvariantSDKType {
@@ -29,16 +15,6 @@ export interface MsgVerifyInvariantSDKType {
 }
 /** MsgVerifyInvariantResponse defines the Msg/VerifyInvariant response type. */
 export interface MsgVerifyInvariantResponse {}
-export interface MsgVerifyInvariantResponseProtoMsg {
-  typeUrl: "/cosmos.crisis.v1beta1.MsgVerifyInvariantResponse";
-  value: Uint8Array;
-}
-/** MsgVerifyInvariantResponse defines the Msg/VerifyInvariant response type. */
-export interface MsgVerifyInvariantResponseAmino {}
-export interface MsgVerifyInvariantResponseAminoMsg {
-  type: "cosmos-sdk/MsgVerifyInvariantResponse";
-  value: MsgVerifyInvariantResponseAmino;
-}
 /** MsgVerifyInvariantResponse defines the Msg/VerifyInvariant response type. */
 export interface MsgVerifyInvariantResponseSDKType {}
 function createBaseMsgVerifyInvariant(): MsgVerifyInvariant {
@@ -51,7 +27,7 @@ function createBaseMsgVerifyInvariant(): MsgVerifyInvariant {
 export const MsgVerifyInvariant = {
   typeUrl: "/cosmos.crisis.v1beta1.MsgVerifyInvariant",
   aminoType: "cosmos-sdk/MsgVerifyInvariant",
-  encode(message: MsgVerifyInvariant, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgVerifyInvariant, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.sender !== "") {
       writer.uint32(10).string(message.sender);
     }
@@ -63,8 +39,8 @@ export const MsgVerifyInvariant = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgVerifyInvariant {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgVerifyInvariant {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgVerifyInvariant();
     while (reader.pos < end) {
@@ -100,7 +76,7 @@ export const MsgVerifyInvariant = {
     message.invariantRoute !== undefined && (obj.invariantRoute = message.invariantRoute);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgVerifyInvariant>): MsgVerifyInvariant {
+  fromPartial(object: Partial<MsgVerifyInvariant>): MsgVerifyInvariant {
     const message = createBaseMsgVerifyInvariant();
     message.sender = object.sender ?? "";
     message.invariantModuleName = object.invariantModuleName ?? "";
@@ -163,11 +139,11 @@ function createBaseMsgVerifyInvariantResponse(): MsgVerifyInvariantResponse {
 export const MsgVerifyInvariantResponse = {
   typeUrl: "/cosmos.crisis.v1beta1.MsgVerifyInvariantResponse",
   aminoType: "cosmos-sdk/MsgVerifyInvariantResponse",
-  encode(_: MsgVerifyInvariantResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgVerifyInvariantResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgVerifyInvariantResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgVerifyInvariantResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgVerifyInvariantResponse();
     while (reader.pos < end) {
@@ -187,7 +163,7 @@ export const MsgVerifyInvariantResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgVerifyInvariantResponse>): MsgVerifyInvariantResponse {
+  fromPartial(_: Partial<MsgVerifyInvariantResponse>): MsgVerifyInvariantResponse {
     const message = createBaseMsgVerifyInvariantResponse();
     return message;
   },

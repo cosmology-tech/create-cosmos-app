@@ -1,7 +1,7 @@
-import { Channel, ChannelAmino, ChannelSDKType, Packet, PacketAmino, PacketSDKType } from "./channel";
-import { Height, HeightAmino, HeightSDKType } from "../../client/v1/client";
-import { Long, isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { Channel, ChannelSDKType, Packet, PacketSDKType } from "./channel";
+import { Height, HeightSDKType } from "../../client/v1/client";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "ibc.core.channel.v1";
 /**
  * MsgChannelOpenInit defines an sdk.Msg to initialize a channel handshake. It
@@ -11,23 +11,6 @@ export interface MsgChannelOpenInit {
   portId: string;
   channel?: Channel;
   signer: string;
-}
-export interface MsgChannelOpenInitProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgChannelOpenInit";
-  value: Uint8Array;
-}
-/**
- * MsgChannelOpenInit defines an sdk.Msg to initialize a channel handshake. It
- * is called by a relayer on Chain A.
- */
-export interface MsgChannelOpenInitAmino {
-  port_id: string;
-  channel?: ChannelAmino;
-  signer: string;
-}
-export interface MsgChannelOpenInitAminoMsg {
-  type: "cosmos-sdk/MsgChannelOpenInit";
-  value: MsgChannelOpenInitAmino;
 }
 /**
  * MsgChannelOpenInit defines an sdk.Msg to initialize a channel handshake. It
@@ -40,16 +23,6 @@ export interface MsgChannelOpenInitSDKType {
 }
 /** MsgChannelOpenInitResponse defines the Msg/ChannelOpenInit response type. */
 export interface MsgChannelOpenInitResponse {}
-export interface MsgChannelOpenInitResponseProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgChannelOpenInitResponse";
-  value: Uint8Array;
-}
-/** MsgChannelOpenInitResponse defines the Msg/ChannelOpenInit response type. */
-export interface MsgChannelOpenInitResponseAmino {}
-export interface MsgChannelOpenInitResponseAminoMsg {
-  type: "cosmos-sdk/MsgChannelOpenInitResponse";
-  value: MsgChannelOpenInitResponseAmino;
-}
 /** MsgChannelOpenInitResponse defines the Msg/ChannelOpenInit response type. */
 export interface MsgChannelOpenInitResponseSDKType {}
 /**
@@ -69,31 +42,6 @@ export interface MsgChannelOpenTry {
   proofHeight?: Height;
   signer: string;
 }
-export interface MsgChannelOpenTryProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgChannelOpenTry";
-  value: Uint8Array;
-}
-/**
- * MsgChannelOpenInit defines a msg sent by a Relayer to try to open a channel
- * on Chain B.
- */
-export interface MsgChannelOpenTryAmino {
-  port_id: string;
-  /**
-   * in the case of crossing hello's, when both chains call OpenInit, we need
-   * the channel identifier of the previous channel in state INIT
-   */
-  previous_channel_id: string;
-  channel?: ChannelAmino;
-  counterparty_version: string;
-  proof_init: Uint8Array;
-  proof_height?: HeightAmino;
-  signer: string;
-}
-export interface MsgChannelOpenTryAminoMsg {
-  type: "cosmos-sdk/MsgChannelOpenTry";
-  value: MsgChannelOpenTryAmino;
-}
 /**
  * MsgChannelOpenInit defines a msg sent by a Relayer to try to open a channel
  * on Chain B.
@@ -109,16 +57,6 @@ export interface MsgChannelOpenTrySDKType {
 }
 /** MsgChannelOpenTryResponse defines the Msg/ChannelOpenTry response type. */
 export interface MsgChannelOpenTryResponse {}
-export interface MsgChannelOpenTryResponseProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgChannelOpenTryResponse";
-  value: Uint8Array;
-}
-/** MsgChannelOpenTryResponse defines the Msg/ChannelOpenTry response type. */
-export interface MsgChannelOpenTryResponseAmino {}
-export interface MsgChannelOpenTryResponseAminoMsg {
-  type: "cosmos-sdk/MsgChannelOpenTryResponse";
-  value: MsgChannelOpenTryResponseAmino;
-}
 /** MsgChannelOpenTryResponse defines the Msg/ChannelOpenTry response type. */
 export interface MsgChannelOpenTryResponseSDKType {}
 /**
@@ -133,27 +71,6 @@ export interface MsgChannelOpenAck {
   proofTry: Uint8Array;
   proofHeight?: Height;
   signer: string;
-}
-export interface MsgChannelOpenAckProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgChannelOpenAck";
-  value: Uint8Array;
-}
-/**
- * MsgChannelOpenAck defines a msg sent by a Relayer to Chain A to acknowledge
- * the change of channel state to TRYOPEN on Chain B.
- */
-export interface MsgChannelOpenAckAmino {
-  port_id: string;
-  channel_id: string;
-  counterparty_channel_id: string;
-  counterparty_version: string;
-  proof_try: Uint8Array;
-  proof_height?: HeightAmino;
-  signer: string;
-}
-export interface MsgChannelOpenAckAminoMsg {
-  type: "cosmos-sdk/MsgChannelOpenAck";
-  value: MsgChannelOpenAckAmino;
 }
 /**
  * MsgChannelOpenAck defines a msg sent by a Relayer to Chain A to acknowledge
@@ -170,16 +87,6 @@ export interface MsgChannelOpenAckSDKType {
 }
 /** MsgChannelOpenAckResponse defines the Msg/ChannelOpenAck response type. */
 export interface MsgChannelOpenAckResponse {}
-export interface MsgChannelOpenAckResponseProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgChannelOpenAckResponse";
-  value: Uint8Array;
-}
-/** MsgChannelOpenAckResponse defines the Msg/ChannelOpenAck response type. */
-export interface MsgChannelOpenAckResponseAmino {}
-export interface MsgChannelOpenAckResponseAminoMsg {
-  type: "cosmos-sdk/MsgChannelOpenAckResponse";
-  value: MsgChannelOpenAckResponseAmino;
-}
 /** MsgChannelOpenAckResponse defines the Msg/ChannelOpenAck response type. */
 export interface MsgChannelOpenAckResponseSDKType {}
 /**
@@ -192,25 +99,6 @@ export interface MsgChannelOpenConfirm {
   proofAck: Uint8Array;
   proofHeight?: Height;
   signer: string;
-}
-export interface MsgChannelOpenConfirmProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgChannelOpenConfirm";
-  value: Uint8Array;
-}
-/**
- * MsgChannelOpenConfirm defines a msg sent by a Relayer to Chain B to
- * acknowledge the change of channel state to OPEN on Chain A.
- */
-export interface MsgChannelOpenConfirmAmino {
-  port_id: string;
-  channel_id: string;
-  proof_ack: Uint8Array;
-  proof_height?: HeightAmino;
-  signer: string;
-}
-export interface MsgChannelOpenConfirmAminoMsg {
-  type: "cosmos-sdk/MsgChannelOpenConfirm";
-  value: MsgChannelOpenConfirmAmino;
 }
 /**
  * MsgChannelOpenConfirm defines a msg sent by a Relayer to Chain B to
@@ -228,19 +116,6 @@ export interface MsgChannelOpenConfirmSDKType {
  * type.
  */
 export interface MsgChannelOpenConfirmResponse {}
-export interface MsgChannelOpenConfirmResponseProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgChannelOpenConfirmResponse";
-  value: Uint8Array;
-}
-/**
- * MsgChannelOpenConfirmResponse defines the Msg/ChannelOpenConfirm response
- * type.
- */
-export interface MsgChannelOpenConfirmResponseAmino {}
-export interface MsgChannelOpenConfirmResponseAminoMsg {
-  type: "cosmos-sdk/MsgChannelOpenConfirmResponse";
-  value: MsgChannelOpenConfirmResponseAmino;
-}
 /**
  * MsgChannelOpenConfirmResponse defines the Msg/ChannelOpenConfirm response
  * type.
@@ -255,23 +130,6 @@ export interface MsgChannelCloseInit {
   channelId: string;
   signer: string;
 }
-export interface MsgChannelCloseInitProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgChannelCloseInit";
-  value: Uint8Array;
-}
-/**
- * MsgChannelCloseInit defines a msg sent by a Relayer to Chain A
- * to close a channel with Chain B.
- */
-export interface MsgChannelCloseInitAmino {
-  port_id: string;
-  channel_id: string;
-  signer: string;
-}
-export interface MsgChannelCloseInitAminoMsg {
-  type: "cosmos-sdk/MsgChannelCloseInit";
-  value: MsgChannelCloseInitAmino;
-}
 /**
  * MsgChannelCloseInit defines a msg sent by a Relayer to Chain A
  * to close a channel with Chain B.
@@ -283,16 +141,6 @@ export interface MsgChannelCloseInitSDKType {
 }
 /** MsgChannelCloseInitResponse defines the Msg/ChannelCloseInit response type. */
 export interface MsgChannelCloseInitResponse {}
-export interface MsgChannelCloseInitResponseProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgChannelCloseInitResponse";
-  value: Uint8Array;
-}
-/** MsgChannelCloseInitResponse defines the Msg/ChannelCloseInit response type. */
-export interface MsgChannelCloseInitResponseAmino {}
-export interface MsgChannelCloseInitResponseAminoMsg {
-  type: "cosmos-sdk/MsgChannelCloseInitResponse";
-  value: MsgChannelCloseInitResponseAmino;
-}
 /** MsgChannelCloseInitResponse defines the Msg/ChannelCloseInit response type. */
 export interface MsgChannelCloseInitResponseSDKType {}
 /**
@@ -305,25 +153,6 @@ export interface MsgChannelCloseConfirm {
   proofInit: Uint8Array;
   proofHeight?: Height;
   signer: string;
-}
-export interface MsgChannelCloseConfirmProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgChannelCloseConfirm";
-  value: Uint8Array;
-}
-/**
- * MsgChannelCloseConfirm defines a msg sent by a Relayer to Chain B
- * to acknowledge the change of channel state to CLOSED on Chain A.
- */
-export interface MsgChannelCloseConfirmAmino {
-  port_id: string;
-  channel_id: string;
-  proof_init: Uint8Array;
-  proof_height?: HeightAmino;
-  signer: string;
-}
-export interface MsgChannelCloseConfirmAminoMsg {
-  type: "cosmos-sdk/MsgChannelCloseConfirm";
-  value: MsgChannelCloseConfirmAmino;
 }
 /**
  * MsgChannelCloseConfirm defines a msg sent by a Relayer to Chain B
@@ -341,19 +170,6 @@ export interface MsgChannelCloseConfirmSDKType {
  * type.
  */
 export interface MsgChannelCloseConfirmResponse {}
-export interface MsgChannelCloseConfirmResponseProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgChannelCloseConfirmResponse";
-  value: Uint8Array;
-}
-/**
- * MsgChannelCloseConfirmResponse defines the Msg/ChannelCloseConfirm response
- * type.
- */
-export interface MsgChannelCloseConfirmResponseAmino {}
-export interface MsgChannelCloseConfirmResponseAminoMsg {
-  type: "cosmos-sdk/MsgChannelCloseConfirmResponse";
-  value: MsgChannelCloseConfirmResponseAmino;
-}
 /**
  * MsgChannelCloseConfirmResponse defines the Msg/ChannelCloseConfirm response
  * type.
@@ -366,21 +182,6 @@ export interface MsgRecvPacket {
   proofHeight?: Height;
   signer: string;
 }
-export interface MsgRecvPacketProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgRecvPacket";
-  value: Uint8Array;
-}
-/** MsgRecvPacket receives incoming IBC packet */
-export interface MsgRecvPacketAmino {
-  packet?: PacketAmino;
-  proof_commitment: Uint8Array;
-  proof_height?: HeightAmino;
-  signer: string;
-}
-export interface MsgRecvPacketAminoMsg {
-  type: "cosmos-sdk/MsgRecvPacket";
-  value: MsgRecvPacketAmino;
-}
 /** MsgRecvPacket receives incoming IBC packet */
 export interface MsgRecvPacketSDKType {
   packet?: PacketSDKType;
@@ -390,16 +191,6 @@ export interface MsgRecvPacketSDKType {
 }
 /** MsgRecvPacketResponse defines the Msg/RecvPacket response type. */
 export interface MsgRecvPacketResponse {}
-export interface MsgRecvPacketResponseProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgRecvPacketResponse";
-  value: Uint8Array;
-}
-/** MsgRecvPacketResponse defines the Msg/RecvPacket response type. */
-export interface MsgRecvPacketResponseAmino {}
-export interface MsgRecvPacketResponseAminoMsg {
-  type: "cosmos-sdk/MsgRecvPacketResponse";
-  value: MsgRecvPacketResponseAmino;
-}
 /** MsgRecvPacketResponse defines the Msg/RecvPacket response type. */
 export interface MsgRecvPacketResponseSDKType {}
 /** MsgTimeout receives timed-out packet */
@@ -407,45 +198,19 @@ export interface MsgTimeout {
   packet?: Packet;
   proofUnreceived: Uint8Array;
   proofHeight?: Height;
-  nextSequenceRecv: Long;
+  nextSequenceRecv: bigint;
   signer: string;
-}
-export interface MsgTimeoutProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgTimeout";
-  value: Uint8Array;
-}
-/** MsgTimeout receives timed-out packet */
-export interface MsgTimeoutAmino {
-  packet?: PacketAmino;
-  proof_unreceived: Uint8Array;
-  proof_height?: HeightAmino;
-  next_sequence_recv: string;
-  signer: string;
-}
-export interface MsgTimeoutAminoMsg {
-  type: "cosmos-sdk/MsgTimeout";
-  value: MsgTimeoutAmino;
 }
 /** MsgTimeout receives timed-out packet */
 export interface MsgTimeoutSDKType {
   packet?: PacketSDKType;
   proof_unreceived: Uint8Array;
   proof_height?: HeightSDKType;
-  next_sequence_recv: Long;
+  next_sequence_recv: bigint;
   signer: string;
 }
 /** MsgTimeoutResponse defines the Msg/Timeout response type. */
 export interface MsgTimeoutResponse {}
-export interface MsgTimeoutResponseProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgTimeoutResponse";
-  value: Uint8Array;
-}
-/** MsgTimeoutResponse defines the Msg/Timeout response type. */
-export interface MsgTimeoutResponseAmino {}
-export interface MsgTimeoutResponseAminoMsg {
-  type: "cosmos-sdk/MsgTimeoutResponse";
-  value: MsgTimeoutResponseAmino;
-}
 /** MsgTimeoutResponse defines the Msg/Timeout response type. */
 export interface MsgTimeoutResponseSDKType {}
 /** MsgTimeoutOnClose timed-out packet upon counterparty channel closure. */
@@ -454,25 +219,8 @@ export interface MsgTimeoutOnClose {
   proofUnreceived: Uint8Array;
   proofClose: Uint8Array;
   proofHeight?: Height;
-  nextSequenceRecv: Long;
+  nextSequenceRecv: bigint;
   signer: string;
-}
-export interface MsgTimeoutOnCloseProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgTimeoutOnClose";
-  value: Uint8Array;
-}
-/** MsgTimeoutOnClose timed-out packet upon counterparty channel closure. */
-export interface MsgTimeoutOnCloseAmino {
-  packet?: PacketAmino;
-  proof_unreceived: Uint8Array;
-  proof_close: Uint8Array;
-  proof_height?: HeightAmino;
-  next_sequence_recv: string;
-  signer: string;
-}
-export interface MsgTimeoutOnCloseAminoMsg {
-  type: "cosmos-sdk/MsgTimeoutOnClose";
-  value: MsgTimeoutOnCloseAmino;
 }
 /** MsgTimeoutOnClose timed-out packet upon counterparty channel closure. */
 export interface MsgTimeoutOnCloseSDKType {
@@ -480,21 +228,11 @@ export interface MsgTimeoutOnCloseSDKType {
   proof_unreceived: Uint8Array;
   proof_close: Uint8Array;
   proof_height?: HeightSDKType;
-  next_sequence_recv: Long;
+  next_sequence_recv: bigint;
   signer: string;
 }
 /** MsgTimeoutOnCloseResponse defines the Msg/TimeoutOnClose response type. */
 export interface MsgTimeoutOnCloseResponse {}
-export interface MsgTimeoutOnCloseResponseProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgTimeoutOnCloseResponse";
-  value: Uint8Array;
-}
-/** MsgTimeoutOnCloseResponse defines the Msg/TimeoutOnClose response type. */
-export interface MsgTimeoutOnCloseResponseAmino {}
-export interface MsgTimeoutOnCloseResponseAminoMsg {
-  type: "cosmos-sdk/MsgTimeoutOnCloseResponse";
-  value: MsgTimeoutOnCloseResponseAmino;
-}
 /** MsgTimeoutOnCloseResponse defines the Msg/TimeoutOnClose response type. */
 export interface MsgTimeoutOnCloseResponseSDKType {}
 /** MsgAcknowledgement receives incoming IBC acknowledgement */
@@ -504,22 +242,6 @@ export interface MsgAcknowledgement {
   proofAcked: Uint8Array;
   proofHeight?: Height;
   signer: string;
-}
-export interface MsgAcknowledgementProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgAcknowledgement";
-  value: Uint8Array;
-}
-/** MsgAcknowledgement receives incoming IBC acknowledgement */
-export interface MsgAcknowledgementAmino {
-  packet?: PacketAmino;
-  acknowledgement: Uint8Array;
-  proof_acked: Uint8Array;
-  proof_height?: HeightAmino;
-  signer: string;
-}
-export interface MsgAcknowledgementAminoMsg {
-  type: "cosmos-sdk/MsgAcknowledgement";
-  value: MsgAcknowledgementAmino;
 }
 /** MsgAcknowledgement receives incoming IBC acknowledgement */
 export interface MsgAcknowledgementSDKType {
@@ -531,16 +253,6 @@ export interface MsgAcknowledgementSDKType {
 }
 /** MsgAcknowledgementResponse defines the Msg/Acknowledgement response type. */
 export interface MsgAcknowledgementResponse {}
-export interface MsgAcknowledgementResponseProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.MsgAcknowledgementResponse";
-  value: Uint8Array;
-}
-/** MsgAcknowledgementResponse defines the Msg/Acknowledgement response type. */
-export interface MsgAcknowledgementResponseAmino {}
-export interface MsgAcknowledgementResponseAminoMsg {
-  type: "cosmos-sdk/MsgAcknowledgementResponse";
-  value: MsgAcknowledgementResponseAmino;
-}
 /** MsgAcknowledgementResponse defines the Msg/Acknowledgement response type. */
 export interface MsgAcknowledgementResponseSDKType {}
 function createBaseMsgChannelOpenInit(): MsgChannelOpenInit {
@@ -553,7 +265,7 @@ function createBaseMsgChannelOpenInit(): MsgChannelOpenInit {
 export const MsgChannelOpenInit = {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenInit",
   aminoType: "cosmos-sdk/MsgChannelOpenInit",
-  encode(message: MsgChannelOpenInit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgChannelOpenInit, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.portId !== "") {
       writer.uint32(10).string(message.portId);
     }
@@ -565,8 +277,8 @@ export const MsgChannelOpenInit = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChannelOpenInit {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgChannelOpenInit {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgChannelOpenInit();
     while (reader.pos < end) {
@@ -602,7 +314,7 @@ export const MsgChannelOpenInit = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgChannelOpenInit>): MsgChannelOpenInit {
+  fromPartial(object: Partial<MsgChannelOpenInit>): MsgChannelOpenInit {
     const message = createBaseMsgChannelOpenInit();
     message.portId = object.portId ?? "";
     message.channel = object.channel !== undefined && object.channel !== null ? Channel.fromPartial(object.channel) : undefined;
@@ -665,11 +377,11 @@ function createBaseMsgChannelOpenInitResponse(): MsgChannelOpenInitResponse {
 export const MsgChannelOpenInitResponse = {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenInitResponse",
   aminoType: "cosmos-sdk/MsgChannelOpenInitResponse",
-  encode(_: MsgChannelOpenInitResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgChannelOpenInitResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChannelOpenInitResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgChannelOpenInitResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgChannelOpenInitResponse();
     while (reader.pos < end) {
@@ -689,7 +401,7 @@ export const MsgChannelOpenInitResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgChannelOpenInitResponse>): MsgChannelOpenInitResponse {
+  fromPartial(_: Partial<MsgChannelOpenInitResponse>): MsgChannelOpenInitResponse {
     const message = createBaseMsgChannelOpenInitResponse();
     return message;
   },
@@ -743,7 +455,7 @@ function createBaseMsgChannelOpenTry(): MsgChannelOpenTry {
 export const MsgChannelOpenTry = {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenTry",
   aminoType: "cosmos-sdk/MsgChannelOpenTry",
-  encode(message: MsgChannelOpenTry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgChannelOpenTry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.portId !== "") {
       writer.uint32(10).string(message.portId);
     }
@@ -767,8 +479,8 @@ export const MsgChannelOpenTry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChannelOpenTry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgChannelOpenTry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgChannelOpenTry();
     while (reader.pos < end) {
@@ -824,7 +536,7 @@ export const MsgChannelOpenTry = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgChannelOpenTry>): MsgChannelOpenTry {
+  fromPartial(object: Partial<MsgChannelOpenTry>): MsgChannelOpenTry {
     const message = createBaseMsgChannelOpenTry();
     message.portId = object.portId ?? "";
     message.previousChannelId = object.previousChannelId ?? "";
@@ -907,11 +619,11 @@ function createBaseMsgChannelOpenTryResponse(): MsgChannelOpenTryResponse {
 export const MsgChannelOpenTryResponse = {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenTryResponse",
   aminoType: "cosmos-sdk/MsgChannelOpenTryResponse",
-  encode(_: MsgChannelOpenTryResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgChannelOpenTryResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChannelOpenTryResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgChannelOpenTryResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgChannelOpenTryResponse();
     while (reader.pos < end) {
@@ -931,7 +643,7 @@ export const MsgChannelOpenTryResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgChannelOpenTryResponse>): MsgChannelOpenTryResponse {
+  fromPartial(_: Partial<MsgChannelOpenTryResponse>): MsgChannelOpenTryResponse {
     const message = createBaseMsgChannelOpenTryResponse();
     return message;
   },
@@ -985,7 +697,7 @@ function createBaseMsgChannelOpenAck(): MsgChannelOpenAck {
 export const MsgChannelOpenAck = {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenAck",
   aminoType: "cosmos-sdk/MsgChannelOpenAck",
-  encode(message: MsgChannelOpenAck, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgChannelOpenAck, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.portId !== "") {
       writer.uint32(10).string(message.portId);
     }
@@ -1009,8 +721,8 @@ export const MsgChannelOpenAck = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChannelOpenAck {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgChannelOpenAck {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgChannelOpenAck();
     while (reader.pos < end) {
@@ -1066,7 +778,7 @@ export const MsgChannelOpenAck = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgChannelOpenAck>): MsgChannelOpenAck {
+  fromPartial(object: Partial<MsgChannelOpenAck>): MsgChannelOpenAck {
     const message = createBaseMsgChannelOpenAck();
     message.portId = object.portId ?? "";
     message.channelId = object.channelId ?? "";
@@ -1149,11 +861,11 @@ function createBaseMsgChannelOpenAckResponse(): MsgChannelOpenAckResponse {
 export const MsgChannelOpenAckResponse = {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenAckResponse",
   aminoType: "cosmos-sdk/MsgChannelOpenAckResponse",
-  encode(_: MsgChannelOpenAckResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgChannelOpenAckResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChannelOpenAckResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgChannelOpenAckResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgChannelOpenAckResponse();
     while (reader.pos < end) {
@@ -1173,7 +885,7 @@ export const MsgChannelOpenAckResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgChannelOpenAckResponse>): MsgChannelOpenAckResponse {
+  fromPartial(_: Partial<MsgChannelOpenAckResponse>): MsgChannelOpenAckResponse {
     const message = createBaseMsgChannelOpenAckResponse();
     return message;
   },
@@ -1225,7 +937,7 @@ function createBaseMsgChannelOpenConfirm(): MsgChannelOpenConfirm {
 export const MsgChannelOpenConfirm = {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenConfirm",
   aminoType: "cosmos-sdk/MsgChannelOpenConfirm",
-  encode(message: MsgChannelOpenConfirm, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgChannelOpenConfirm, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.portId !== "") {
       writer.uint32(10).string(message.portId);
     }
@@ -1243,8 +955,8 @@ export const MsgChannelOpenConfirm = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChannelOpenConfirm {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgChannelOpenConfirm {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgChannelOpenConfirm();
     while (reader.pos < end) {
@@ -1290,7 +1002,7 @@ export const MsgChannelOpenConfirm = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgChannelOpenConfirm>): MsgChannelOpenConfirm {
+  fromPartial(object: Partial<MsgChannelOpenConfirm>): MsgChannelOpenConfirm {
     const message = createBaseMsgChannelOpenConfirm();
     message.portId = object.portId ?? "";
     message.channelId = object.channelId ?? "";
@@ -1363,11 +1075,11 @@ function createBaseMsgChannelOpenConfirmResponse(): MsgChannelOpenConfirmRespons
 export const MsgChannelOpenConfirmResponse = {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenConfirmResponse",
   aminoType: "cosmos-sdk/MsgChannelOpenConfirmResponse",
-  encode(_: MsgChannelOpenConfirmResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgChannelOpenConfirmResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChannelOpenConfirmResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgChannelOpenConfirmResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgChannelOpenConfirmResponse();
     while (reader.pos < end) {
@@ -1387,7 +1099,7 @@ export const MsgChannelOpenConfirmResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgChannelOpenConfirmResponse>): MsgChannelOpenConfirmResponse {
+  fromPartial(_: Partial<MsgChannelOpenConfirmResponse>): MsgChannelOpenConfirmResponse {
     const message = createBaseMsgChannelOpenConfirmResponse();
     return message;
   },
@@ -1437,7 +1149,7 @@ function createBaseMsgChannelCloseInit(): MsgChannelCloseInit {
 export const MsgChannelCloseInit = {
   typeUrl: "/ibc.core.channel.v1.MsgChannelCloseInit",
   aminoType: "cosmos-sdk/MsgChannelCloseInit",
-  encode(message: MsgChannelCloseInit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgChannelCloseInit, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.portId !== "") {
       writer.uint32(10).string(message.portId);
     }
@@ -1449,8 +1161,8 @@ export const MsgChannelCloseInit = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChannelCloseInit {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgChannelCloseInit {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgChannelCloseInit();
     while (reader.pos < end) {
@@ -1486,7 +1198,7 @@ export const MsgChannelCloseInit = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgChannelCloseInit>): MsgChannelCloseInit {
+  fromPartial(object: Partial<MsgChannelCloseInit>): MsgChannelCloseInit {
     const message = createBaseMsgChannelCloseInit();
     message.portId = object.portId ?? "";
     message.channelId = object.channelId ?? "";
@@ -1549,11 +1261,11 @@ function createBaseMsgChannelCloseInitResponse(): MsgChannelCloseInitResponse {
 export const MsgChannelCloseInitResponse = {
   typeUrl: "/ibc.core.channel.v1.MsgChannelCloseInitResponse",
   aminoType: "cosmos-sdk/MsgChannelCloseInitResponse",
-  encode(_: MsgChannelCloseInitResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgChannelCloseInitResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChannelCloseInitResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgChannelCloseInitResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgChannelCloseInitResponse();
     while (reader.pos < end) {
@@ -1573,7 +1285,7 @@ export const MsgChannelCloseInitResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgChannelCloseInitResponse>): MsgChannelCloseInitResponse {
+  fromPartial(_: Partial<MsgChannelCloseInitResponse>): MsgChannelCloseInitResponse {
     const message = createBaseMsgChannelCloseInitResponse();
     return message;
   },
@@ -1625,7 +1337,7 @@ function createBaseMsgChannelCloseConfirm(): MsgChannelCloseConfirm {
 export const MsgChannelCloseConfirm = {
   typeUrl: "/ibc.core.channel.v1.MsgChannelCloseConfirm",
   aminoType: "cosmos-sdk/MsgChannelCloseConfirm",
-  encode(message: MsgChannelCloseConfirm, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgChannelCloseConfirm, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.portId !== "") {
       writer.uint32(10).string(message.portId);
     }
@@ -1643,8 +1355,8 @@ export const MsgChannelCloseConfirm = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChannelCloseConfirm {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgChannelCloseConfirm {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgChannelCloseConfirm();
     while (reader.pos < end) {
@@ -1690,7 +1402,7 @@ export const MsgChannelCloseConfirm = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgChannelCloseConfirm>): MsgChannelCloseConfirm {
+  fromPartial(object: Partial<MsgChannelCloseConfirm>): MsgChannelCloseConfirm {
     const message = createBaseMsgChannelCloseConfirm();
     message.portId = object.portId ?? "";
     message.channelId = object.channelId ?? "";
@@ -1763,11 +1475,11 @@ function createBaseMsgChannelCloseConfirmResponse(): MsgChannelCloseConfirmRespo
 export const MsgChannelCloseConfirmResponse = {
   typeUrl: "/ibc.core.channel.v1.MsgChannelCloseConfirmResponse",
   aminoType: "cosmos-sdk/MsgChannelCloseConfirmResponse",
-  encode(_: MsgChannelCloseConfirmResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgChannelCloseConfirmResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChannelCloseConfirmResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgChannelCloseConfirmResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgChannelCloseConfirmResponse();
     while (reader.pos < end) {
@@ -1787,7 +1499,7 @@ export const MsgChannelCloseConfirmResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgChannelCloseConfirmResponse>): MsgChannelCloseConfirmResponse {
+  fromPartial(_: Partial<MsgChannelCloseConfirmResponse>): MsgChannelCloseConfirmResponse {
     const message = createBaseMsgChannelCloseConfirmResponse();
     return message;
   },
@@ -1838,7 +1550,7 @@ function createBaseMsgRecvPacket(): MsgRecvPacket {
 export const MsgRecvPacket = {
   typeUrl: "/ibc.core.channel.v1.MsgRecvPacket",
   aminoType: "cosmos-sdk/MsgRecvPacket",
-  encode(message: MsgRecvPacket, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgRecvPacket, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.packet !== undefined) {
       Packet.encode(message.packet, writer.uint32(10).fork()).ldelim();
     }
@@ -1853,8 +1565,8 @@ export const MsgRecvPacket = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgRecvPacket {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgRecvPacket {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgRecvPacket();
     while (reader.pos < end) {
@@ -1895,7 +1607,7 @@ export const MsgRecvPacket = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgRecvPacket>): MsgRecvPacket {
+  fromPartial(object: Partial<MsgRecvPacket>): MsgRecvPacket {
     const message = createBaseMsgRecvPacket();
     message.packet = object.packet !== undefined && object.packet !== null ? Packet.fromPartial(object.packet) : undefined;
     message.proofCommitment = object.proofCommitment ?? new Uint8Array();
@@ -1963,11 +1675,11 @@ function createBaseMsgRecvPacketResponse(): MsgRecvPacketResponse {
 export const MsgRecvPacketResponse = {
   typeUrl: "/ibc.core.channel.v1.MsgRecvPacketResponse",
   aminoType: "cosmos-sdk/MsgRecvPacketResponse",
-  encode(_: MsgRecvPacketResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgRecvPacketResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgRecvPacketResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgRecvPacketResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgRecvPacketResponse();
     while (reader.pos < end) {
@@ -1987,7 +1699,7 @@ export const MsgRecvPacketResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgRecvPacketResponse>): MsgRecvPacketResponse {
+  fromPartial(_: Partial<MsgRecvPacketResponse>): MsgRecvPacketResponse {
     const message = createBaseMsgRecvPacketResponse();
     return message;
   },
@@ -2032,14 +1744,14 @@ function createBaseMsgTimeout(): MsgTimeout {
     packet: undefined,
     proofUnreceived: new Uint8Array(),
     proofHeight: undefined,
-    nextSequenceRecv: Long.UZERO,
+    nextSequenceRecv: BigInt("0"),
     signer: ""
   };
 }
 export const MsgTimeout = {
   typeUrl: "/ibc.core.channel.v1.MsgTimeout",
   aminoType: "cosmos-sdk/MsgTimeout",
-  encode(message: MsgTimeout, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgTimeout, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.packet !== undefined) {
       Packet.encode(message.packet, writer.uint32(10).fork()).ldelim();
     }
@@ -2049,7 +1761,7 @@ export const MsgTimeout = {
     if (message.proofHeight !== undefined) {
       Height.encode(message.proofHeight, writer.uint32(26).fork()).ldelim();
     }
-    if (!message.nextSequenceRecv.isZero()) {
+    if (message.nextSequenceRecv !== BigInt(0)) {
       writer.uint32(32).uint64(message.nextSequenceRecv);
     }
     if (message.signer !== "") {
@@ -2057,8 +1769,8 @@ export const MsgTimeout = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTimeout {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgTimeout {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgTimeout();
     while (reader.pos < end) {
@@ -2074,7 +1786,7 @@ export const MsgTimeout = {
           message.proofHeight = Height.decode(reader, reader.uint32());
           break;
         case 4:
-          message.nextSequenceRecv = (reader.uint64() as Long);
+          message.nextSequenceRecv = BigInt(reader.uint64().toString());
           break;
         case 5:
           message.signer = reader.string();
@@ -2091,7 +1803,7 @@ export const MsgTimeout = {
       packet: isSet(object.packet) ? Packet.fromJSON(object.packet) : undefined,
       proofUnreceived: isSet(object.proofUnreceived) ? bytesFromBase64(object.proofUnreceived) : new Uint8Array(),
       proofHeight: isSet(object.proofHeight) ? Height.fromJSON(object.proofHeight) : undefined,
-      nextSequenceRecv: isSet(object.nextSequenceRecv) ? Long.fromValue(object.nextSequenceRecv) : Long.UZERO,
+      nextSequenceRecv: isSet(object.nextSequenceRecv) ? BigInt(object.nextSequenceRecv.toString()) : BigInt("0"),
       signer: isSet(object.signer) ? String(object.signer) : ""
     };
   },
@@ -2100,16 +1812,16 @@ export const MsgTimeout = {
     message.packet !== undefined && (obj.packet = message.packet ? Packet.toJSON(message.packet) : undefined);
     message.proofUnreceived !== undefined && (obj.proofUnreceived = base64FromBytes(message.proofUnreceived !== undefined ? message.proofUnreceived : new Uint8Array()));
     message.proofHeight !== undefined && (obj.proofHeight = message.proofHeight ? Height.toJSON(message.proofHeight) : undefined);
-    message.nextSequenceRecv !== undefined && (obj.nextSequenceRecv = (message.nextSequenceRecv || Long.UZERO).toString());
+    message.nextSequenceRecv !== undefined && (obj.nextSequenceRecv = (message.nextSequenceRecv || BigInt("0")).toString());
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgTimeout>): MsgTimeout {
+  fromPartial(object: Partial<MsgTimeout>): MsgTimeout {
     const message = createBaseMsgTimeout();
     message.packet = object.packet !== undefined && object.packet !== null ? Packet.fromPartial(object.packet) : undefined;
     message.proofUnreceived = object.proofUnreceived ?? new Uint8Array();
     message.proofHeight = object.proofHeight !== undefined && object.proofHeight !== null ? Height.fromPartial(object.proofHeight) : undefined;
-    message.nextSequenceRecv = object.nextSequenceRecv !== undefined && object.nextSequenceRecv !== null ? Long.fromValue(object.nextSequenceRecv) : Long.UZERO;
+    message.nextSequenceRecv = object.nextSequenceRecv !== undefined && object.nextSequenceRecv !== null ? BigInt(object.nextSequenceRecv.toString()) : BigInt("0");
     message.signer = object.signer ?? "";
     return message;
   },
@@ -2136,7 +1848,7 @@ export const MsgTimeout = {
       packet: object?.packet ? Packet.fromAmino(object.packet) : undefined,
       proofUnreceived: object.proof_unreceived,
       proofHeight: object?.proof_height ? Height.fromAmino(object.proof_height) : undefined,
-      nextSequenceRecv: Long.fromString(object.next_sequence_recv),
+      nextSequenceRecv: BigInt(object.next_sequence_recv),
       signer: object.signer
     };
   },
@@ -2177,11 +1889,11 @@ function createBaseMsgTimeoutResponse(): MsgTimeoutResponse {
 export const MsgTimeoutResponse = {
   typeUrl: "/ibc.core.channel.v1.MsgTimeoutResponse",
   aminoType: "cosmos-sdk/MsgTimeoutResponse",
-  encode(_: MsgTimeoutResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgTimeoutResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTimeoutResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgTimeoutResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgTimeoutResponse();
     while (reader.pos < end) {
@@ -2201,7 +1913,7 @@ export const MsgTimeoutResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgTimeoutResponse>): MsgTimeoutResponse {
+  fromPartial(_: Partial<MsgTimeoutResponse>): MsgTimeoutResponse {
     const message = createBaseMsgTimeoutResponse();
     return message;
   },
@@ -2247,14 +1959,14 @@ function createBaseMsgTimeoutOnClose(): MsgTimeoutOnClose {
     proofUnreceived: new Uint8Array(),
     proofClose: new Uint8Array(),
     proofHeight: undefined,
-    nextSequenceRecv: Long.UZERO,
+    nextSequenceRecv: BigInt("0"),
     signer: ""
   };
 }
 export const MsgTimeoutOnClose = {
   typeUrl: "/ibc.core.channel.v1.MsgTimeoutOnClose",
   aminoType: "cosmos-sdk/MsgTimeoutOnClose",
-  encode(message: MsgTimeoutOnClose, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgTimeoutOnClose, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.packet !== undefined) {
       Packet.encode(message.packet, writer.uint32(10).fork()).ldelim();
     }
@@ -2267,7 +1979,7 @@ export const MsgTimeoutOnClose = {
     if (message.proofHeight !== undefined) {
       Height.encode(message.proofHeight, writer.uint32(34).fork()).ldelim();
     }
-    if (!message.nextSequenceRecv.isZero()) {
+    if (message.nextSequenceRecv !== BigInt(0)) {
       writer.uint32(40).uint64(message.nextSequenceRecv);
     }
     if (message.signer !== "") {
@@ -2275,8 +1987,8 @@ export const MsgTimeoutOnClose = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTimeoutOnClose {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgTimeoutOnClose {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgTimeoutOnClose();
     while (reader.pos < end) {
@@ -2295,7 +2007,7 @@ export const MsgTimeoutOnClose = {
           message.proofHeight = Height.decode(reader, reader.uint32());
           break;
         case 5:
-          message.nextSequenceRecv = (reader.uint64() as Long);
+          message.nextSequenceRecv = BigInt(reader.uint64().toString());
           break;
         case 6:
           message.signer = reader.string();
@@ -2313,7 +2025,7 @@ export const MsgTimeoutOnClose = {
       proofUnreceived: isSet(object.proofUnreceived) ? bytesFromBase64(object.proofUnreceived) : new Uint8Array(),
       proofClose: isSet(object.proofClose) ? bytesFromBase64(object.proofClose) : new Uint8Array(),
       proofHeight: isSet(object.proofHeight) ? Height.fromJSON(object.proofHeight) : undefined,
-      nextSequenceRecv: isSet(object.nextSequenceRecv) ? Long.fromValue(object.nextSequenceRecv) : Long.UZERO,
+      nextSequenceRecv: isSet(object.nextSequenceRecv) ? BigInt(object.nextSequenceRecv.toString()) : BigInt("0"),
       signer: isSet(object.signer) ? String(object.signer) : ""
     };
   },
@@ -2323,17 +2035,17 @@ export const MsgTimeoutOnClose = {
     message.proofUnreceived !== undefined && (obj.proofUnreceived = base64FromBytes(message.proofUnreceived !== undefined ? message.proofUnreceived : new Uint8Array()));
     message.proofClose !== undefined && (obj.proofClose = base64FromBytes(message.proofClose !== undefined ? message.proofClose : new Uint8Array()));
     message.proofHeight !== undefined && (obj.proofHeight = message.proofHeight ? Height.toJSON(message.proofHeight) : undefined);
-    message.nextSequenceRecv !== undefined && (obj.nextSequenceRecv = (message.nextSequenceRecv || Long.UZERO).toString());
+    message.nextSequenceRecv !== undefined && (obj.nextSequenceRecv = (message.nextSequenceRecv || BigInt("0")).toString());
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgTimeoutOnClose>): MsgTimeoutOnClose {
+  fromPartial(object: Partial<MsgTimeoutOnClose>): MsgTimeoutOnClose {
     const message = createBaseMsgTimeoutOnClose();
     message.packet = object.packet !== undefined && object.packet !== null ? Packet.fromPartial(object.packet) : undefined;
     message.proofUnreceived = object.proofUnreceived ?? new Uint8Array();
     message.proofClose = object.proofClose ?? new Uint8Array();
     message.proofHeight = object.proofHeight !== undefined && object.proofHeight !== null ? Height.fromPartial(object.proofHeight) : undefined;
-    message.nextSequenceRecv = object.nextSequenceRecv !== undefined && object.nextSequenceRecv !== null ? Long.fromValue(object.nextSequenceRecv) : Long.UZERO;
+    message.nextSequenceRecv = object.nextSequenceRecv !== undefined && object.nextSequenceRecv !== null ? BigInt(object.nextSequenceRecv.toString()) : BigInt("0");
     message.signer = object.signer ?? "";
     return message;
   },
@@ -2363,7 +2075,7 @@ export const MsgTimeoutOnClose = {
       proofUnreceived: object.proof_unreceived,
       proofClose: object.proof_close,
       proofHeight: object?.proof_height ? Height.fromAmino(object.proof_height) : undefined,
-      nextSequenceRecv: Long.fromString(object.next_sequence_recv),
+      nextSequenceRecv: BigInt(object.next_sequence_recv),
       signer: object.signer
     };
   },
@@ -2405,11 +2117,11 @@ function createBaseMsgTimeoutOnCloseResponse(): MsgTimeoutOnCloseResponse {
 export const MsgTimeoutOnCloseResponse = {
   typeUrl: "/ibc.core.channel.v1.MsgTimeoutOnCloseResponse",
   aminoType: "cosmos-sdk/MsgTimeoutOnCloseResponse",
-  encode(_: MsgTimeoutOnCloseResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgTimeoutOnCloseResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTimeoutOnCloseResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgTimeoutOnCloseResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgTimeoutOnCloseResponse();
     while (reader.pos < end) {
@@ -2429,7 +2141,7 @@ export const MsgTimeoutOnCloseResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgTimeoutOnCloseResponse>): MsgTimeoutOnCloseResponse {
+  fromPartial(_: Partial<MsgTimeoutOnCloseResponse>): MsgTimeoutOnCloseResponse {
     const message = createBaseMsgTimeoutOnCloseResponse();
     return message;
   },
@@ -2481,7 +2193,7 @@ function createBaseMsgAcknowledgement(): MsgAcknowledgement {
 export const MsgAcknowledgement = {
   typeUrl: "/ibc.core.channel.v1.MsgAcknowledgement",
   aminoType: "cosmos-sdk/MsgAcknowledgement",
-  encode(message: MsgAcknowledgement, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgAcknowledgement, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.packet !== undefined) {
       Packet.encode(message.packet, writer.uint32(10).fork()).ldelim();
     }
@@ -2499,8 +2211,8 @@ export const MsgAcknowledgement = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgAcknowledgement {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgAcknowledgement {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgAcknowledgement();
     while (reader.pos < end) {
@@ -2546,7 +2258,7 @@ export const MsgAcknowledgement = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgAcknowledgement>): MsgAcknowledgement {
+  fromPartial(object: Partial<MsgAcknowledgement>): MsgAcknowledgement {
     const message = createBaseMsgAcknowledgement();
     message.packet = object.packet !== undefined && object.packet !== null ? Packet.fromPartial(object.packet) : undefined;
     message.acknowledgement = object.acknowledgement ?? new Uint8Array();
@@ -2619,11 +2331,11 @@ function createBaseMsgAcknowledgementResponse(): MsgAcknowledgementResponse {
 export const MsgAcknowledgementResponse = {
   typeUrl: "/ibc.core.channel.v1.MsgAcknowledgementResponse",
   aminoType: "cosmos-sdk/MsgAcknowledgementResponse",
-  encode(_: MsgAcknowledgementResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgAcknowledgementResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgAcknowledgementResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgAcknowledgementResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgAcknowledgementResponse();
     while (reader.pos < end) {
@@ -2643,7 +2355,7 @@ export const MsgAcknowledgementResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgAcknowledgementResponse>): MsgAcknowledgementResponse {
+  fromPartial(_: Partial<MsgAcknowledgementResponse>): MsgAcknowledgementResponse {
     const message = createBaseMsgAcknowledgementResponse();
     return message;
   },

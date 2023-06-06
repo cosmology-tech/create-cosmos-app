@@ -1,8 +1,8 @@
-import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
-import { ConnectionEnd, ConnectionEndAmino, ConnectionEndSDKType } from "../../../core/connection/v1/connection";
-import { Channel, ChannelAmino, ChannelSDKType } from "../../../core/channel/v1/channel";
-import { Long, isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { Any, AnySDKType } from "../../../../google/protobuf/any";
+import { ConnectionEnd, ConnectionEndSDKType } from "../../../core/connection/v1/connection";
+import { Channel, ChannelSDKType } from "../../../core/channel/v1/channel";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "ibc.lightclients.solomachine.v2";
 /**
  * DataType defines the type of solo machine proof being created. This is done
@@ -32,7 +32,6 @@ export enum DataType {
   UNRECOGNIZED = -1,
 }
 export const DataTypeSDKType = DataType;
-export const DataTypeAmino = DataType;
 export function dataTypeFromJSON(object: any): DataType {
   switch (object) {
     case 0:
@@ -104,7 +103,7 @@ export function dataTypeToJSON(object: DataType): string {
  */
 export interface ClientState {
   /** latest sequence of the client state */
-  sequence: Long;
+  sequence: bigint;
   /** frozen sequence of the solo machine */
   isFrozen: boolean;
   consensusState?: ConsensusState;
@@ -114,36 +113,12 @@ export interface ClientState {
    */
   allowUpdateAfterProposal: boolean;
 }
-export interface ClientStateProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.ClientState";
-  value: Uint8Array;
-}
-/**
- * ClientState defines a solo machine client that tracks the current consensus
- * state and if the client is frozen.
- */
-export interface ClientStateAmino {
-  /** latest sequence of the client state */
-  sequence: string;
-  /** frozen sequence of the solo machine */
-  is_frozen: boolean;
-  consensus_state?: ConsensusStateAmino;
-  /**
-   * when set to true, will allow governance to update a solo machine client.
-   * The client will be unfrozen if it is frozen.
-   */
-  allow_update_after_proposal: boolean;
-}
-export interface ClientStateAminoMsg {
-  type: "cosmos-sdk/ClientState";
-  value: ClientStateAmino;
-}
 /**
  * ClientState defines a solo machine client that tracks the current consensus
  * state and if the client is frozen.
  */
 export interface ClientStateSDKType {
-  sequence: Long;
+  sequence: bigint;
   is_frozen: boolean;
   consensus_state?: ConsensusStateSDKType;
   allow_update_after_proposal: boolean;
@@ -162,31 +137,7 @@ export interface ConsensusState {
    * misbehaviour.
    */
   diversifier: string;
-  timestamp: Long;
-}
-export interface ConsensusStateProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.ConsensusState";
-  value: Uint8Array;
-}
-/**
- * ConsensusState defines a solo machine consensus state. The sequence of a
- * consensus state is contained in the "height" key used in storing the
- * consensus state.
- */
-export interface ConsensusStateAmino {
-  /** public key of the solo machine */
-  public_key?: AnyAmino;
-  /**
-   * diversifier allows the same public key to be re-used across different solo
-   * machine clients (potentially on different chains) without being considered
-   * misbehaviour.
-   */
-  diversifier: string;
-  timestamp: string;
-}
-export interface ConsensusStateAminoMsg {
-  type: "cosmos-sdk/ConsensusState";
-  value: ConsensusStateAmino;
+  timestamp: bigint;
 }
 /**
  * ConsensusState defines a solo machine consensus state. The sequence of a
@@ -196,38 +147,21 @@ export interface ConsensusStateAminoMsg {
 export interface ConsensusStateSDKType {
   public_key?: AnySDKType;
   diversifier: string;
-  timestamp: Long;
+  timestamp: bigint;
 }
 /** Header defines a solo machine consensus header */
 export interface Header {
   /** sequence to update solo machine public key at */
-  sequence: Long;
-  timestamp: Long;
+  sequence: bigint;
+  timestamp: bigint;
   signature: Uint8Array;
   newPublicKey?: Any;
   newDiversifier: string;
 }
-export interface HeaderProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.Header";
-  value: Uint8Array;
-}
-/** Header defines a solo machine consensus header */
-export interface HeaderAmino {
-  /** sequence to update solo machine public key at */
-  sequence: string;
-  timestamp: string;
-  signature: Uint8Array;
-  new_public_key?: AnyAmino;
-  new_diversifier: string;
-}
-export interface HeaderAminoMsg {
-  type: "cosmos-sdk/Header";
-  value: HeaderAmino;
-}
 /** Header defines a solo machine consensus header */
 export interface HeaderSDKType {
-  sequence: Long;
-  timestamp: Long;
+  sequence: bigint;
+  timestamp: bigint;
   signature: Uint8Array;
   new_public_key?: AnySDKType;
   new_diversifier: string;
@@ -238,27 +172,9 @@ export interface HeaderSDKType {
  */
 export interface Misbehaviour {
   clientId: string;
-  sequence: Long;
+  sequence: bigint;
   signatureOne?: SignatureAndData;
   signatureTwo?: SignatureAndData;
-}
-export interface MisbehaviourProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.Misbehaviour";
-  value: Uint8Array;
-}
-/**
- * Misbehaviour defines misbehaviour for a solo machine which consists
- * of a sequence and two signatures over different messages at that sequence.
- */
-export interface MisbehaviourAmino {
-  client_id: string;
-  sequence: string;
-  signature_one?: SignatureAndDataAmino;
-  signature_two?: SignatureAndDataAmino;
-}
-export interface MisbehaviourAminoMsg {
-  type: "cosmos-sdk/Misbehaviour";
-  value: MisbehaviourAmino;
 }
 /**
  * Misbehaviour defines misbehaviour for a solo machine which consists
@@ -266,7 +182,7 @@ export interface MisbehaviourAminoMsg {
  */
 export interface MisbehaviourSDKType {
   client_id: string;
-  sequence: Long;
+  sequence: bigint;
   signature_one?: SignatureAndDataSDKType;
   signature_two?: SignatureAndDataSDKType;
 }
@@ -278,25 +194,7 @@ export interface SignatureAndData {
   signature: Uint8Array;
   dataType: DataType;
   data: Uint8Array;
-  timestamp: Long;
-}
-export interface SignatureAndDataProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.SignatureAndData";
-  value: Uint8Array;
-}
-/**
- * SignatureAndData contains a signature and the data signed over to create that
- * signature.
- */
-export interface SignatureAndDataAmino {
-  signature: Uint8Array;
-  data_type: DataType;
-  data: Uint8Array;
-  timestamp: string;
-}
-export interface SignatureAndDataAminoMsg {
-  type: "cosmos-sdk/SignatureAndData";
-  value: SignatureAndDataAmino;
+  timestamp: bigint;
 }
 /**
  * SignatureAndData contains a signature and the data signed over to create that
@@ -306,7 +204,7 @@ export interface SignatureAndDataSDKType {
   signature: Uint8Array;
   data_type: DataType;
   data: Uint8Array;
-  timestamp: Long;
+  timestamp: bigint;
 }
 /**
  * TimestampedSignatureData contains the signature data and the timestamp of the
@@ -314,23 +212,7 @@ export interface SignatureAndDataSDKType {
  */
 export interface TimestampedSignatureData {
   signatureData: Uint8Array;
-  timestamp: Long;
-}
-export interface TimestampedSignatureDataProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.TimestampedSignatureData";
-  value: Uint8Array;
-}
-/**
- * TimestampedSignatureData contains the signature data and the timestamp of the
- * signature.
- */
-export interface TimestampedSignatureDataAmino {
-  signature_data: Uint8Array;
-  timestamp: string;
-}
-export interface TimestampedSignatureDataAminoMsg {
-  type: "cosmos-sdk/TimestampedSignatureData";
-  value: TimestampedSignatureDataAmino;
+  timestamp: bigint;
 }
 /**
  * TimestampedSignatureData contains the signature data and the timestamp of the
@@ -338,40 +220,22 @@ export interface TimestampedSignatureDataAminoMsg {
  */
 export interface TimestampedSignatureDataSDKType {
   signature_data: Uint8Array;
-  timestamp: Long;
+  timestamp: bigint;
 }
 /** SignBytes defines the signed bytes used for signature verification. */
 export interface SignBytes {
-  sequence: Long;
-  timestamp: Long;
+  sequence: bigint;
+  timestamp: bigint;
   diversifier: string;
   /** type of the data used */
   dataType: DataType;
   /** marshaled data */
   data: Uint8Array;
 }
-export interface SignBytesProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.SignBytes";
-  value: Uint8Array;
-}
-/** SignBytes defines the signed bytes used for signature verification. */
-export interface SignBytesAmino {
-  sequence: string;
-  timestamp: string;
-  diversifier: string;
-  /** type of the data used */
-  data_type: DataType;
-  /** marshaled data */
-  data: Uint8Array;
-}
-export interface SignBytesAminoMsg {
-  type: "cosmos-sdk/SignBytes";
-  value: SignBytesAmino;
-}
 /** SignBytes defines the signed bytes used for signature verification. */
 export interface SignBytesSDKType {
-  sequence: Long;
-  timestamp: Long;
+  sequence: bigint;
+  timestamp: bigint;
   diversifier: string;
   data_type: DataType;
   data: Uint8Array;
@@ -383,21 +247,6 @@ export interface HeaderData {
   /** header diversifier */
   newDiversifier: string;
 }
-export interface HeaderDataProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.HeaderData";
-  value: Uint8Array;
-}
-/** HeaderData returns the SignBytes data for update verification. */
-export interface HeaderDataAmino {
-  /** header public key */
-  new_pub_key?: AnyAmino;
-  /** header diversifier */
-  new_diversifier: string;
-}
-export interface HeaderDataAminoMsg {
-  type: "cosmos-sdk/HeaderData";
-  value: HeaderDataAmino;
-}
 /** HeaderData returns the SignBytes data for update verification. */
 export interface HeaderDataSDKType {
   new_pub_key?: AnySDKType;
@@ -407,19 +256,6 @@ export interface HeaderDataSDKType {
 export interface ClientStateData {
   path: Uint8Array;
   clientState?: Any;
-}
-export interface ClientStateDataProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.ClientStateData";
-  value: Uint8Array;
-}
-/** ClientStateData returns the SignBytes data for client state verification. */
-export interface ClientStateDataAmino {
-  path: Uint8Array;
-  client_state?: AnyAmino;
-}
-export interface ClientStateDataAminoMsg {
-  type: "cosmos-sdk/ClientStateData";
-  value: ClientStateDataAmino;
 }
 /** ClientStateData returns the SignBytes data for client state verification. */
 export interface ClientStateDataSDKType {
@@ -433,22 +269,6 @@ export interface ClientStateDataSDKType {
 export interface ConsensusStateData {
   path: Uint8Array;
   consensusState?: Any;
-}
-export interface ConsensusStateDataProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.ConsensusStateData";
-  value: Uint8Array;
-}
-/**
- * ConsensusStateData returns the SignBytes data for consensus state
- * verification.
- */
-export interface ConsensusStateDataAmino {
-  path: Uint8Array;
-  consensus_state?: AnyAmino;
-}
-export interface ConsensusStateDataAminoMsg {
-  type: "cosmos-sdk/ConsensusStateData";
-  value: ConsensusStateDataAmino;
 }
 /**
  * ConsensusStateData returns the SignBytes data for consensus state
@@ -466,22 +286,6 @@ export interface ConnectionStateData {
   path: Uint8Array;
   connection?: ConnectionEnd;
 }
-export interface ConnectionStateDataProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.ConnectionStateData";
-  value: Uint8Array;
-}
-/**
- * ConnectionStateData returns the SignBytes data for connection state
- * verification.
- */
-export interface ConnectionStateDataAmino {
-  path: Uint8Array;
-  connection?: ConnectionEndAmino;
-}
-export interface ConnectionStateDataAminoMsg {
-  type: "cosmos-sdk/ConnectionStateData";
-  value: ConnectionStateDataAmino;
-}
 /**
  * ConnectionStateData returns the SignBytes data for connection state
  * verification.
@@ -497,22 +301,6 @@ export interface ConnectionStateDataSDKType {
 export interface ChannelStateData {
   path: Uint8Array;
   channel?: Channel;
-}
-export interface ChannelStateDataProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.ChannelStateData";
-  value: Uint8Array;
-}
-/**
- * ChannelStateData returns the SignBytes data for channel state
- * verification.
- */
-export interface ChannelStateDataAmino {
-  path: Uint8Array;
-  channel?: ChannelAmino;
-}
-export interface ChannelStateDataAminoMsg {
-  type: "cosmos-sdk/ChannelStateData";
-  value: ChannelStateDataAmino;
 }
 /**
  * ChannelStateData returns the SignBytes data for channel state
@@ -530,22 +318,6 @@ export interface PacketCommitmentData {
   path: Uint8Array;
   commitment: Uint8Array;
 }
-export interface PacketCommitmentDataProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.PacketCommitmentData";
-  value: Uint8Array;
-}
-/**
- * PacketCommitmentData returns the SignBytes data for packet commitment
- * verification.
- */
-export interface PacketCommitmentDataAmino {
-  path: Uint8Array;
-  commitment: Uint8Array;
-}
-export interface PacketCommitmentDataAminoMsg {
-  type: "cosmos-sdk/PacketCommitmentData";
-  value: PacketCommitmentDataAmino;
-}
 /**
  * PacketCommitmentData returns the SignBytes data for packet commitment
  * verification.
@@ -562,22 +334,6 @@ export interface PacketAcknowledgementData {
   path: Uint8Array;
   acknowledgement: Uint8Array;
 }
-export interface PacketAcknowledgementDataProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.PacketAcknowledgementData";
-  value: Uint8Array;
-}
-/**
- * PacketAcknowledgementData returns the SignBytes data for acknowledgement
- * verification.
- */
-export interface PacketAcknowledgementDataAmino {
-  path: Uint8Array;
-  acknowledgement: Uint8Array;
-}
-export interface PacketAcknowledgementDataAminoMsg {
-  type: "cosmos-sdk/PacketAcknowledgementData";
-  value: PacketAcknowledgementDataAmino;
-}
 /**
  * PacketAcknowledgementData returns the SignBytes data for acknowledgement
  * verification.
@@ -593,21 +349,6 @@ export interface PacketAcknowledgementDataSDKType {
 export interface PacketReceiptAbsenceData {
   path: Uint8Array;
 }
-export interface PacketReceiptAbsenceDataProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.PacketReceiptAbsenceData";
-  value: Uint8Array;
-}
-/**
- * PacketReceiptAbsenceData returns the SignBytes data for
- * packet receipt absence verification.
- */
-export interface PacketReceiptAbsenceDataAmino {
-  path: Uint8Array;
-}
-export interface PacketReceiptAbsenceDataAminoMsg {
-  type: "cosmos-sdk/PacketReceiptAbsenceData";
-  value: PacketReceiptAbsenceDataAmino;
-}
 /**
  * PacketReceiptAbsenceData returns the SignBytes data for
  * packet receipt absence verification.
@@ -621,23 +362,7 @@ export interface PacketReceiptAbsenceDataSDKType {
  */
 export interface NextSequenceRecvData {
   path: Uint8Array;
-  nextSeqRecv: Long;
-}
-export interface NextSequenceRecvDataProtoMsg {
-  typeUrl: "/ibc.lightclients.solomachine.v2.NextSequenceRecvData";
-  value: Uint8Array;
-}
-/**
- * NextSequenceRecvData returns the SignBytes data for verification of the next
- * sequence to be received.
- */
-export interface NextSequenceRecvDataAmino {
-  path: Uint8Array;
-  next_seq_recv: string;
-}
-export interface NextSequenceRecvDataAminoMsg {
-  type: "cosmos-sdk/NextSequenceRecvData";
-  value: NextSequenceRecvDataAmino;
+  nextSeqRecv: bigint;
 }
 /**
  * NextSequenceRecvData returns the SignBytes data for verification of the next
@@ -645,11 +370,11 @@ export interface NextSequenceRecvDataAminoMsg {
  */
 export interface NextSequenceRecvDataSDKType {
   path: Uint8Array;
-  next_seq_recv: Long;
+  next_seq_recv: bigint;
 }
 function createBaseClientState(): ClientState {
   return {
-    sequence: Long.UZERO,
+    sequence: BigInt("0"),
     isFrozen: false,
     consensusState: undefined,
     allowUpdateAfterProposal: false
@@ -658,8 +383,8 @@ function createBaseClientState(): ClientState {
 export const ClientState = {
   typeUrl: "/ibc.lightclients.solomachine.v2.ClientState",
   aminoType: "cosmos-sdk/ClientState",
-  encode(message: ClientState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.sequence.isZero()) {
+  encode(message: ClientState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.sequence !== BigInt(0)) {
       writer.uint32(8).uint64(message.sequence);
     }
     if (message.isFrozen === true) {
@@ -673,15 +398,15 @@ export const ClientState = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ClientState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ClientState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseClientState();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.sequence = (reader.uint64() as Long);
+          message.sequence = BigInt(reader.uint64().toString());
           break;
         case 2:
           message.isFrozen = reader.bool();
@@ -701,7 +426,7 @@ export const ClientState = {
   },
   fromJSON(object: any): ClientState {
     return {
-      sequence: isSet(object.sequence) ? Long.fromValue(object.sequence) : Long.UZERO,
+      sequence: isSet(object.sequence) ? BigInt(object.sequence.toString()) : BigInt("0"),
       isFrozen: isSet(object.isFrozen) ? Boolean(object.isFrozen) : false,
       consensusState: isSet(object.consensusState) ? ConsensusState.fromJSON(object.consensusState) : undefined,
       allowUpdateAfterProposal: isSet(object.allowUpdateAfterProposal) ? Boolean(object.allowUpdateAfterProposal) : false
@@ -709,15 +434,15 @@ export const ClientState = {
   },
   toJSON(message: ClientState): unknown {
     const obj: any = {};
-    message.sequence !== undefined && (obj.sequence = (message.sequence || Long.UZERO).toString());
+    message.sequence !== undefined && (obj.sequence = (message.sequence || BigInt("0")).toString());
     message.isFrozen !== undefined && (obj.isFrozen = message.isFrozen);
     message.consensusState !== undefined && (obj.consensusState = message.consensusState ? ConsensusState.toJSON(message.consensusState) : undefined);
     message.allowUpdateAfterProposal !== undefined && (obj.allowUpdateAfterProposal = message.allowUpdateAfterProposal);
     return obj;
   },
-  fromPartial(object: DeepPartial<ClientState>): ClientState {
+  fromPartial(object: Partial<ClientState>): ClientState {
     const message = createBaseClientState();
-    message.sequence = object.sequence !== undefined && object.sequence !== null ? Long.fromValue(object.sequence) : Long.UZERO;
+    message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt("0");
     message.isFrozen = object.isFrozen ?? false;
     message.consensusState = object.consensusState !== undefined && object.consensusState !== null ? ConsensusState.fromPartial(object.consensusState) : undefined;
     message.allowUpdateAfterProposal = object.allowUpdateAfterProposal ?? false;
@@ -741,7 +466,7 @@ export const ClientState = {
   },
   fromAmino(object: ClientStateAmino): ClientState {
     return {
-      sequence: Long.fromString(object.sequence),
+      sequence: BigInt(object.sequence),
       isFrozen: object.is_frozen,
       consensusState: object?.consensus_state ? ConsensusState.fromAmino(object.consensus_state) : undefined,
       allowUpdateAfterProposal: object.allow_update_after_proposal
@@ -781,26 +506,26 @@ function createBaseConsensusState(): ConsensusState {
   return {
     publicKey: undefined,
     diversifier: "",
-    timestamp: Long.UZERO
+    timestamp: BigInt("0")
   };
 }
 export const ConsensusState = {
   typeUrl: "/ibc.lightclients.solomachine.v2.ConsensusState",
   aminoType: "cosmos-sdk/ConsensusState",
-  encode(message: ConsensusState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConsensusState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.publicKey !== undefined) {
       Any.encode(message.publicKey, writer.uint32(10).fork()).ldelim();
     }
     if (message.diversifier !== "") {
       writer.uint32(18).string(message.diversifier);
     }
-    if (!message.timestamp.isZero()) {
+    if (message.timestamp !== BigInt(0)) {
       writer.uint32(24).uint64(message.timestamp);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConsensusState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConsensusState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConsensusState();
     while (reader.pos < end) {
@@ -813,7 +538,7 @@ export const ConsensusState = {
           message.diversifier = reader.string();
           break;
         case 3:
-          message.timestamp = (reader.uint64() as Long);
+          message.timestamp = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -826,21 +551,21 @@ export const ConsensusState = {
     return {
       publicKey: isSet(object.publicKey) ? Any.fromJSON(object.publicKey) : undefined,
       diversifier: isSet(object.diversifier) ? String(object.diversifier) : "",
-      timestamp: isSet(object.timestamp) ? Long.fromValue(object.timestamp) : Long.UZERO
+      timestamp: isSet(object.timestamp) ? BigInt(object.timestamp.toString()) : BigInt("0")
     };
   },
   toJSON(message: ConsensusState): unknown {
     const obj: any = {};
     message.publicKey !== undefined && (obj.publicKey = message.publicKey ? Any.toJSON(message.publicKey) : undefined);
     message.diversifier !== undefined && (obj.diversifier = message.diversifier);
-    message.timestamp !== undefined && (obj.timestamp = (message.timestamp || Long.UZERO).toString());
+    message.timestamp !== undefined && (obj.timestamp = (message.timestamp || BigInt("0")).toString());
     return obj;
   },
-  fromPartial(object: DeepPartial<ConsensusState>): ConsensusState {
+  fromPartial(object: Partial<ConsensusState>): ConsensusState {
     const message = createBaseConsensusState();
     message.publicKey = object.publicKey !== undefined && object.publicKey !== null ? Any.fromPartial(object.publicKey) : undefined;
     message.diversifier = object.diversifier ?? "";
-    message.timestamp = object.timestamp !== undefined && object.timestamp !== null ? Long.fromValue(object.timestamp) : Long.UZERO;
+    message.timestamp = object.timestamp !== undefined && object.timestamp !== null ? BigInt(object.timestamp.toString()) : BigInt("0");
     return message;
   },
   fromSDK(object: ConsensusStateSDKType): ConsensusState {
@@ -861,7 +586,7 @@ export const ConsensusState = {
     return {
       publicKey: object?.public_key ? Any.fromAmino(object.public_key) : undefined,
       diversifier: object.diversifier,
-      timestamp: Long.fromString(object.timestamp)
+      timestamp: BigInt(object.timestamp)
     };
   },
   toAmino(message: ConsensusState): ConsensusStateAmino {
@@ -895,8 +620,8 @@ export const ConsensusState = {
 };
 function createBaseHeader(): Header {
   return {
-    sequence: Long.UZERO,
-    timestamp: Long.UZERO,
+    sequence: BigInt("0"),
+    timestamp: BigInt("0"),
     signature: new Uint8Array(),
     newPublicKey: undefined,
     newDiversifier: ""
@@ -905,11 +630,11 @@ function createBaseHeader(): Header {
 export const Header = {
   typeUrl: "/ibc.lightclients.solomachine.v2.Header",
   aminoType: "cosmos-sdk/Header",
-  encode(message: Header, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.sequence.isZero()) {
+  encode(message: Header, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.sequence !== BigInt(0)) {
       writer.uint32(8).uint64(message.sequence);
     }
-    if (!message.timestamp.isZero()) {
+    if (message.timestamp !== BigInt(0)) {
       writer.uint32(16).uint64(message.timestamp);
     }
     if (message.signature.length !== 0) {
@@ -923,18 +648,18 @@ export const Header = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Header {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Header {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHeader();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.sequence = (reader.uint64() as Long);
+          message.sequence = BigInt(reader.uint64().toString());
           break;
         case 2:
-          message.timestamp = (reader.uint64() as Long);
+          message.timestamp = BigInt(reader.uint64().toString());
           break;
         case 3:
           message.signature = reader.bytes();
@@ -954,8 +679,8 @@ export const Header = {
   },
   fromJSON(object: any): Header {
     return {
-      sequence: isSet(object.sequence) ? Long.fromValue(object.sequence) : Long.UZERO,
-      timestamp: isSet(object.timestamp) ? Long.fromValue(object.timestamp) : Long.UZERO,
+      sequence: isSet(object.sequence) ? BigInt(object.sequence.toString()) : BigInt("0"),
+      timestamp: isSet(object.timestamp) ? BigInt(object.timestamp.toString()) : BigInt("0"),
       signature: isSet(object.signature) ? bytesFromBase64(object.signature) : new Uint8Array(),
       newPublicKey: isSet(object.newPublicKey) ? Any.fromJSON(object.newPublicKey) : undefined,
       newDiversifier: isSet(object.newDiversifier) ? String(object.newDiversifier) : ""
@@ -963,17 +688,17 @@ export const Header = {
   },
   toJSON(message: Header): unknown {
     const obj: any = {};
-    message.sequence !== undefined && (obj.sequence = (message.sequence || Long.UZERO).toString());
-    message.timestamp !== undefined && (obj.timestamp = (message.timestamp || Long.UZERO).toString());
+    message.sequence !== undefined && (obj.sequence = (message.sequence || BigInt("0")).toString());
+    message.timestamp !== undefined && (obj.timestamp = (message.timestamp || BigInt("0")).toString());
     message.signature !== undefined && (obj.signature = base64FromBytes(message.signature !== undefined ? message.signature : new Uint8Array()));
     message.newPublicKey !== undefined && (obj.newPublicKey = message.newPublicKey ? Any.toJSON(message.newPublicKey) : undefined);
     message.newDiversifier !== undefined && (obj.newDiversifier = message.newDiversifier);
     return obj;
   },
-  fromPartial(object: DeepPartial<Header>): Header {
+  fromPartial(object: Partial<Header>): Header {
     const message = createBaseHeader();
-    message.sequence = object.sequence !== undefined && object.sequence !== null ? Long.fromValue(object.sequence) : Long.UZERO;
-    message.timestamp = object.timestamp !== undefined && object.timestamp !== null ? Long.fromValue(object.timestamp) : Long.UZERO;
+    message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt("0");
+    message.timestamp = object.timestamp !== undefined && object.timestamp !== null ? BigInt(object.timestamp.toString()) : BigInt("0");
     message.signature = object.signature ?? new Uint8Array();
     message.newPublicKey = object.newPublicKey !== undefined && object.newPublicKey !== null ? Any.fromPartial(object.newPublicKey) : undefined;
     message.newDiversifier = object.newDiversifier ?? "";
@@ -999,8 +724,8 @@ export const Header = {
   },
   fromAmino(object: HeaderAmino): Header {
     return {
-      sequence: Long.fromString(object.sequence),
-      timestamp: Long.fromString(object.timestamp),
+      sequence: BigInt(object.sequence),
+      timestamp: BigInt(object.timestamp),
       signature: object.signature,
       newPublicKey: object?.new_public_key ? Any.fromAmino(object.new_public_key) : undefined,
       newDiversifier: object.new_diversifier
@@ -1040,7 +765,7 @@ export const Header = {
 function createBaseMisbehaviour(): Misbehaviour {
   return {
     clientId: "",
-    sequence: Long.UZERO,
+    sequence: BigInt("0"),
     signatureOne: undefined,
     signatureTwo: undefined
   };
@@ -1048,11 +773,11 @@ function createBaseMisbehaviour(): Misbehaviour {
 export const Misbehaviour = {
   typeUrl: "/ibc.lightclients.solomachine.v2.Misbehaviour",
   aminoType: "cosmos-sdk/Misbehaviour",
-  encode(message: Misbehaviour, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Misbehaviour, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
-    if (!message.sequence.isZero()) {
+    if (message.sequence !== BigInt(0)) {
       writer.uint32(16).uint64(message.sequence);
     }
     if (message.signatureOne !== undefined) {
@@ -1063,8 +788,8 @@ export const Misbehaviour = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Misbehaviour {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Misbehaviour {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMisbehaviour();
     while (reader.pos < end) {
@@ -1074,7 +799,7 @@ export const Misbehaviour = {
           message.clientId = reader.string();
           break;
         case 2:
-          message.sequence = (reader.uint64() as Long);
+          message.sequence = BigInt(reader.uint64().toString());
           break;
         case 3:
           message.signatureOne = SignatureAndData.decode(reader, reader.uint32());
@@ -1092,7 +817,7 @@ export const Misbehaviour = {
   fromJSON(object: any): Misbehaviour {
     return {
       clientId: isSet(object.clientId) ? String(object.clientId) : "",
-      sequence: isSet(object.sequence) ? Long.fromValue(object.sequence) : Long.UZERO,
+      sequence: isSet(object.sequence) ? BigInt(object.sequence.toString()) : BigInt("0"),
       signatureOne: isSet(object.signatureOne) ? SignatureAndData.fromJSON(object.signatureOne) : undefined,
       signatureTwo: isSet(object.signatureTwo) ? SignatureAndData.fromJSON(object.signatureTwo) : undefined
     };
@@ -1100,15 +825,15 @@ export const Misbehaviour = {
   toJSON(message: Misbehaviour): unknown {
     const obj: any = {};
     message.clientId !== undefined && (obj.clientId = message.clientId);
-    message.sequence !== undefined && (obj.sequence = (message.sequence || Long.UZERO).toString());
+    message.sequence !== undefined && (obj.sequence = (message.sequence || BigInt("0")).toString());
     message.signatureOne !== undefined && (obj.signatureOne = message.signatureOne ? SignatureAndData.toJSON(message.signatureOne) : undefined);
     message.signatureTwo !== undefined && (obj.signatureTwo = message.signatureTwo ? SignatureAndData.toJSON(message.signatureTwo) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<Misbehaviour>): Misbehaviour {
+  fromPartial(object: Partial<Misbehaviour>): Misbehaviour {
     const message = createBaseMisbehaviour();
     message.clientId = object.clientId ?? "";
-    message.sequence = object.sequence !== undefined && object.sequence !== null ? Long.fromValue(object.sequence) : Long.UZERO;
+    message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt("0");
     message.signatureOne = object.signatureOne !== undefined && object.signatureOne !== null ? SignatureAndData.fromPartial(object.signatureOne) : undefined;
     message.signatureTwo = object.signatureTwo !== undefined && object.signatureTwo !== null ? SignatureAndData.fromPartial(object.signatureTwo) : undefined;
     return message;
@@ -1132,7 +857,7 @@ export const Misbehaviour = {
   fromAmino(object: MisbehaviourAmino): Misbehaviour {
     return {
       clientId: object.client_id,
-      sequence: Long.fromString(object.sequence),
+      sequence: BigInt(object.sequence),
       signatureOne: object?.signature_one ? SignatureAndData.fromAmino(object.signature_one) : undefined,
       signatureTwo: object?.signature_two ? SignatureAndData.fromAmino(object.signature_two) : undefined
     };
@@ -1172,13 +897,13 @@ function createBaseSignatureAndData(): SignatureAndData {
     signature: new Uint8Array(),
     dataType: 0,
     data: new Uint8Array(),
-    timestamp: Long.UZERO
+    timestamp: BigInt("0")
   };
 }
 export const SignatureAndData = {
   typeUrl: "/ibc.lightclients.solomachine.v2.SignatureAndData",
   aminoType: "cosmos-sdk/SignatureAndData",
-  encode(message: SignatureAndData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SignatureAndData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.signature.length !== 0) {
       writer.uint32(10).bytes(message.signature);
     }
@@ -1188,13 +913,13 @@ export const SignatureAndData = {
     if (message.data.length !== 0) {
       writer.uint32(26).bytes(message.data);
     }
-    if (!message.timestamp.isZero()) {
+    if (message.timestamp !== BigInt(0)) {
       writer.uint32(32).uint64(message.timestamp);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SignatureAndData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SignatureAndData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSignatureAndData();
     while (reader.pos < end) {
@@ -1210,7 +935,7 @@ export const SignatureAndData = {
           message.data = reader.bytes();
           break;
         case 4:
-          message.timestamp = (reader.uint64() as Long);
+          message.timestamp = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -1224,7 +949,7 @@ export const SignatureAndData = {
       signature: isSet(object.signature) ? bytesFromBase64(object.signature) : new Uint8Array(),
       dataType: isSet(object.dataType) ? dataTypeFromJSON(object.dataType) : 0,
       data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(),
-      timestamp: isSet(object.timestamp) ? Long.fromValue(object.timestamp) : Long.UZERO
+      timestamp: isSet(object.timestamp) ? BigInt(object.timestamp.toString()) : BigInt("0")
     };
   },
   toJSON(message: SignatureAndData): unknown {
@@ -1232,15 +957,15 @@ export const SignatureAndData = {
     message.signature !== undefined && (obj.signature = base64FromBytes(message.signature !== undefined ? message.signature : new Uint8Array()));
     message.dataType !== undefined && (obj.dataType = dataTypeToJSON(message.dataType));
     message.data !== undefined && (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
-    message.timestamp !== undefined && (obj.timestamp = (message.timestamp || Long.UZERO).toString());
+    message.timestamp !== undefined && (obj.timestamp = (message.timestamp || BigInt("0")).toString());
     return obj;
   },
-  fromPartial(object: DeepPartial<SignatureAndData>): SignatureAndData {
+  fromPartial(object: Partial<SignatureAndData>): SignatureAndData {
     const message = createBaseSignatureAndData();
     message.signature = object.signature ?? new Uint8Array();
     message.dataType = object.dataType ?? 0;
     message.data = object.data ?? new Uint8Array();
-    message.timestamp = object.timestamp !== undefined && object.timestamp !== null ? Long.fromValue(object.timestamp) : Long.UZERO;
+    message.timestamp = object.timestamp !== undefined && object.timestamp !== null ? BigInt(object.timestamp.toString()) : BigInt("0");
     return message;
   },
   fromSDK(object: SignatureAndDataSDKType): SignatureAndData {
@@ -1264,7 +989,7 @@ export const SignatureAndData = {
       signature: object.signature,
       dataType: isSet(object.data_type) ? dataTypeFromJSON(object.data_type) : 0,
       data: object.data,
-      timestamp: Long.fromString(object.timestamp)
+      timestamp: BigInt(object.timestamp)
     };
   },
   toAmino(message: SignatureAndData): SignatureAndDataAmino {
@@ -1300,23 +1025,23 @@ export const SignatureAndData = {
 function createBaseTimestampedSignatureData(): TimestampedSignatureData {
   return {
     signatureData: new Uint8Array(),
-    timestamp: Long.UZERO
+    timestamp: BigInt("0")
   };
 }
 export const TimestampedSignatureData = {
   typeUrl: "/ibc.lightclients.solomachine.v2.TimestampedSignatureData",
   aminoType: "cosmos-sdk/TimestampedSignatureData",
-  encode(message: TimestampedSignatureData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: TimestampedSignatureData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.signatureData.length !== 0) {
       writer.uint32(10).bytes(message.signatureData);
     }
-    if (!message.timestamp.isZero()) {
+    if (message.timestamp !== BigInt(0)) {
       writer.uint32(16).uint64(message.timestamp);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): TimestampedSignatureData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): TimestampedSignatureData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTimestampedSignatureData();
     while (reader.pos < end) {
@@ -1326,7 +1051,7 @@ export const TimestampedSignatureData = {
           message.signatureData = reader.bytes();
           break;
         case 2:
-          message.timestamp = (reader.uint64() as Long);
+          message.timestamp = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -1338,19 +1063,19 @@ export const TimestampedSignatureData = {
   fromJSON(object: any): TimestampedSignatureData {
     return {
       signatureData: isSet(object.signatureData) ? bytesFromBase64(object.signatureData) : new Uint8Array(),
-      timestamp: isSet(object.timestamp) ? Long.fromValue(object.timestamp) : Long.UZERO
+      timestamp: isSet(object.timestamp) ? BigInt(object.timestamp.toString()) : BigInt("0")
     };
   },
   toJSON(message: TimestampedSignatureData): unknown {
     const obj: any = {};
     message.signatureData !== undefined && (obj.signatureData = base64FromBytes(message.signatureData !== undefined ? message.signatureData : new Uint8Array()));
-    message.timestamp !== undefined && (obj.timestamp = (message.timestamp || Long.UZERO).toString());
+    message.timestamp !== undefined && (obj.timestamp = (message.timestamp || BigInt("0")).toString());
     return obj;
   },
-  fromPartial(object: DeepPartial<TimestampedSignatureData>): TimestampedSignatureData {
+  fromPartial(object: Partial<TimestampedSignatureData>): TimestampedSignatureData {
     const message = createBaseTimestampedSignatureData();
     message.signatureData = object.signatureData ?? new Uint8Array();
-    message.timestamp = object.timestamp !== undefined && object.timestamp !== null ? Long.fromValue(object.timestamp) : Long.UZERO;
+    message.timestamp = object.timestamp !== undefined && object.timestamp !== null ? BigInt(object.timestamp.toString()) : BigInt("0");
     return message;
   },
   fromSDK(object: TimestampedSignatureDataSDKType): TimestampedSignatureData {
@@ -1368,7 +1093,7 @@ export const TimestampedSignatureData = {
   fromAmino(object: TimestampedSignatureDataAmino): TimestampedSignatureData {
     return {
       signatureData: object.signature_data,
-      timestamp: Long.fromString(object.timestamp)
+      timestamp: BigInt(object.timestamp)
     };
   },
   toAmino(message: TimestampedSignatureData): TimestampedSignatureDataAmino {
@@ -1401,8 +1126,8 @@ export const TimestampedSignatureData = {
 };
 function createBaseSignBytes(): SignBytes {
   return {
-    sequence: Long.UZERO,
-    timestamp: Long.UZERO,
+    sequence: BigInt("0"),
+    timestamp: BigInt("0"),
     diversifier: "",
     dataType: 0,
     data: new Uint8Array()
@@ -1411,11 +1136,11 @@ function createBaseSignBytes(): SignBytes {
 export const SignBytes = {
   typeUrl: "/ibc.lightclients.solomachine.v2.SignBytes",
   aminoType: "cosmos-sdk/SignBytes",
-  encode(message: SignBytes, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.sequence.isZero()) {
+  encode(message: SignBytes, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.sequence !== BigInt(0)) {
       writer.uint32(8).uint64(message.sequence);
     }
-    if (!message.timestamp.isZero()) {
+    if (message.timestamp !== BigInt(0)) {
       writer.uint32(16).uint64(message.timestamp);
     }
     if (message.diversifier !== "") {
@@ -1429,18 +1154,18 @@ export const SignBytes = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SignBytes {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SignBytes {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSignBytes();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.sequence = (reader.uint64() as Long);
+          message.sequence = BigInt(reader.uint64().toString());
           break;
         case 2:
-          message.timestamp = (reader.uint64() as Long);
+          message.timestamp = BigInt(reader.uint64().toString());
           break;
         case 3:
           message.diversifier = reader.string();
@@ -1460,8 +1185,8 @@ export const SignBytes = {
   },
   fromJSON(object: any): SignBytes {
     return {
-      sequence: isSet(object.sequence) ? Long.fromValue(object.sequence) : Long.UZERO,
-      timestamp: isSet(object.timestamp) ? Long.fromValue(object.timestamp) : Long.UZERO,
+      sequence: isSet(object.sequence) ? BigInt(object.sequence.toString()) : BigInt("0"),
+      timestamp: isSet(object.timestamp) ? BigInt(object.timestamp.toString()) : BigInt("0"),
       diversifier: isSet(object.diversifier) ? String(object.diversifier) : "",
       dataType: isSet(object.dataType) ? dataTypeFromJSON(object.dataType) : 0,
       data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array()
@@ -1469,17 +1194,17 @@ export const SignBytes = {
   },
   toJSON(message: SignBytes): unknown {
     const obj: any = {};
-    message.sequence !== undefined && (obj.sequence = (message.sequence || Long.UZERO).toString());
-    message.timestamp !== undefined && (obj.timestamp = (message.timestamp || Long.UZERO).toString());
+    message.sequence !== undefined && (obj.sequence = (message.sequence || BigInt("0")).toString());
+    message.timestamp !== undefined && (obj.timestamp = (message.timestamp || BigInt("0")).toString());
     message.diversifier !== undefined && (obj.diversifier = message.diversifier);
     message.dataType !== undefined && (obj.dataType = dataTypeToJSON(message.dataType));
     message.data !== undefined && (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
     return obj;
   },
-  fromPartial(object: DeepPartial<SignBytes>): SignBytes {
+  fromPartial(object: Partial<SignBytes>): SignBytes {
     const message = createBaseSignBytes();
-    message.sequence = object.sequence !== undefined && object.sequence !== null ? Long.fromValue(object.sequence) : Long.UZERO;
-    message.timestamp = object.timestamp !== undefined && object.timestamp !== null ? Long.fromValue(object.timestamp) : Long.UZERO;
+    message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt("0");
+    message.timestamp = object.timestamp !== undefined && object.timestamp !== null ? BigInt(object.timestamp.toString()) : BigInt("0");
     message.diversifier = object.diversifier ?? "";
     message.dataType = object.dataType ?? 0;
     message.data = object.data ?? new Uint8Array();
@@ -1505,8 +1230,8 @@ export const SignBytes = {
   },
   fromAmino(object: SignBytesAmino): SignBytes {
     return {
-      sequence: Long.fromString(object.sequence),
-      timestamp: Long.fromString(object.timestamp),
+      sequence: BigInt(object.sequence),
+      timestamp: BigInt(object.timestamp),
       diversifier: object.diversifier,
       dataType: isSet(object.data_type) ? dataTypeFromJSON(object.data_type) : 0,
       data: object.data
@@ -1552,7 +1277,7 @@ function createBaseHeaderData(): HeaderData {
 export const HeaderData = {
   typeUrl: "/ibc.lightclients.solomachine.v2.HeaderData",
   aminoType: "cosmos-sdk/HeaderData",
-  encode(message: HeaderData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: HeaderData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.newPubKey !== undefined) {
       Any.encode(message.newPubKey, writer.uint32(10).fork()).ldelim();
     }
@@ -1561,8 +1286,8 @@ export const HeaderData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): HeaderData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): HeaderData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHeaderData();
     while (reader.pos < end) {
@@ -1593,7 +1318,7 @@ export const HeaderData = {
     message.newDiversifier !== undefined && (obj.newDiversifier = message.newDiversifier);
     return obj;
   },
-  fromPartial(object: DeepPartial<HeaderData>): HeaderData {
+  fromPartial(object: Partial<HeaderData>): HeaderData {
     const message = createBaseHeaderData();
     message.newPubKey = object.newPubKey !== undefined && object.newPubKey !== null ? Any.fromPartial(object.newPubKey) : undefined;
     message.newDiversifier = object.newDiversifier ?? "";
@@ -1654,7 +1379,7 @@ function createBaseClientStateData(): ClientStateData {
 export const ClientStateData = {
   typeUrl: "/ibc.lightclients.solomachine.v2.ClientStateData",
   aminoType: "cosmos-sdk/ClientStateData",
-  encode(message: ClientStateData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ClientStateData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
@@ -1663,8 +1388,8 @@ export const ClientStateData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ClientStateData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ClientStateData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseClientStateData();
     while (reader.pos < end) {
@@ -1695,7 +1420,7 @@ export const ClientStateData = {
     message.clientState !== undefined && (obj.clientState = message.clientState ? Any.toJSON(message.clientState) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<ClientStateData>): ClientStateData {
+  fromPartial(object: Partial<ClientStateData>): ClientStateData {
     const message = createBaseClientStateData();
     message.path = object.path ?? new Uint8Array();
     message.clientState = object.clientState !== undefined && object.clientState !== null ? Any.fromPartial(object.clientState) : undefined;
@@ -1756,7 +1481,7 @@ function createBaseConsensusStateData(): ConsensusStateData {
 export const ConsensusStateData = {
   typeUrl: "/ibc.lightclients.solomachine.v2.ConsensusStateData",
   aminoType: "cosmos-sdk/ConsensusStateData",
-  encode(message: ConsensusStateData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConsensusStateData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
@@ -1765,8 +1490,8 @@ export const ConsensusStateData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConsensusStateData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConsensusStateData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConsensusStateData();
     while (reader.pos < end) {
@@ -1797,7 +1522,7 @@ export const ConsensusStateData = {
     message.consensusState !== undefined && (obj.consensusState = message.consensusState ? Any.toJSON(message.consensusState) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<ConsensusStateData>): ConsensusStateData {
+  fromPartial(object: Partial<ConsensusStateData>): ConsensusStateData {
     const message = createBaseConsensusStateData();
     message.path = object.path ?? new Uint8Array();
     message.consensusState = object.consensusState !== undefined && object.consensusState !== null ? Any.fromPartial(object.consensusState) : undefined;
@@ -1858,7 +1583,7 @@ function createBaseConnectionStateData(): ConnectionStateData {
 export const ConnectionStateData = {
   typeUrl: "/ibc.lightclients.solomachine.v2.ConnectionStateData",
   aminoType: "cosmos-sdk/ConnectionStateData",
-  encode(message: ConnectionStateData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConnectionStateData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
@@ -1867,8 +1592,8 @@ export const ConnectionStateData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConnectionStateData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConnectionStateData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConnectionStateData();
     while (reader.pos < end) {
@@ -1899,7 +1624,7 @@ export const ConnectionStateData = {
     message.connection !== undefined && (obj.connection = message.connection ? ConnectionEnd.toJSON(message.connection) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<ConnectionStateData>): ConnectionStateData {
+  fromPartial(object: Partial<ConnectionStateData>): ConnectionStateData {
     const message = createBaseConnectionStateData();
     message.path = object.path ?? new Uint8Array();
     message.connection = object.connection !== undefined && object.connection !== null ? ConnectionEnd.fromPartial(object.connection) : undefined;
@@ -1960,7 +1685,7 @@ function createBaseChannelStateData(): ChannelStateData {
 export const ChannelStateData = {
   typeUrl: "/ibc.lightclients.solomachine.v2.ChannelStateData",
   aminoType: "cosmos-sdk/ChannelStateData",
-  encode(message: ChannelStateData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ChannelStateData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
@@ -1969,8 +1694,8 @@ export const ChannelStateData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ChannelStateData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ChannelStateData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseChannelStateData();
     while (reader.pos < end) {
@@ -2001,7 +1726,7 @@ export const ChannelStateData = {
     message.channel !== undefined && (obj.channel = message.channel ? Channel.toJSON(message.channel) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<ChannelStateData>): ChannelStateData {
+  fromPartial(object: Partial<ChannelStateData>): ChannelStateData {
     const message = createBaseChannelStateData();
     message.path = object.path ?? new Uint8Array();
     message.channel = object.channel !== undefined && object.channel !== null ? Channel.fromPartial(object.channel) : undefined;
@@ -2062,7 +1787,7 @@ function createBasePacketCommitmentData(): PacketCommitmentData {
 export const PacketCommitmentData = {
   typeUrl: "/ibc.lightclients.solomachine.v2.PacketCommitmentData",
   aminoType: "cosmos-sdk/PacketCommitmentData",
-  encode(message: PacketCommitmentData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: PacketCommitmentData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
@@ -2071,8 +1796,8 @@ export const PacketCommitmentData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PacketCommitmentData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PacketCommitmentData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePacketCommitmentData();
     while (reader.pos < end) {
@@ -2103,7 +1828,7 @@ export const PacketCommitmentData = {
     message.commitment !== undefined && (obj.commitment = base64FromBytes(message.commitment !== undefined ? message.commitment : new Uint8Array()));
     return obj;
   },
-  fromPartial(object: DeepPartial<PacketCommitmentData>): PacketCommitmentData {
+  fromPartial(object: Partial<PacketCommitmentData>): PacketCommitmentData {
     const message = createBasePacketCommitmentData();
     message.path = object.path ?? new Uint8Array();
     message.commitment = object.commitment ?? new Uint8Array();
@@ -2164,7 +1889,7 @@ function createBasePacketAcknowledgementData(): PacketAcknowledgementData {
 export const PacketAcknowledgementData = {
   typeUrl: "/ibc.lightclients.solomachine.v2.PacketAcknowledgementData",
   aminoType: "cosmos-sdk/PacketAcknowledgementData",
-  encode(message: PacketAcknowledgementData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: PacketAcknowledgementData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
@@ -2173,8 +1898,8 @@ export const PacketAcknowledgementData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PacketAcknowledgementData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PacketAcknowledgementData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePacketAcknowledgementData();
     while (reader.pos < end) {
@@ -2205,7 +1930,7 @@ export const PacketAcknowledgementData = {
     message.acknowledgement !== undefined && (obj.acknowledgement = base64FromBytes(message.acknowledgement !== undefined ? message.acknowledgement : new Uint8Array()));
     return obj;
   },
-  fromPartial(object: DeepPartial<PacketAcknowledgementData>): PacketAcknowledgementData {
+  fromPartial(object: Partial<PacketAcknowledgementData>): PacketAcknowledgementData {
     const message = createBasePacketAcknowledgementData();
     message.path = object.path ?? new Uint8Array();
     message.acknowledgement = object.acknowledgement ?? new Uint8Array();
@@ -2265,14 +1990,14 @@ function createBasePacketReceiptAbsenceData(): PacketReceiptAbsenceData {
 export const PacketReceiptAbsenceData = {
   typeUrl: "/ibc.lightclients.solomachine.v2.PacketReceiptAbsenceData",
   aminoType: "cosmos-sdk/PacketReceiptAbsenceData",
-  encode(message: PacketReceiptAbsenceData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: PacketReceiptAbsenceData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PacketReceiptAbsenceData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PacketReceiptAbsenceData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePacketReceiptAbsenceData();
     while (reader.pos < end) {
@@ -2298,7 +2023,7 @@ export const PacketReceiptAbsenceData = {
     message.path !== undefined && (obj.path = base64FromBytes(message.path !== undefined ? message.path : new Uint8Array()));
     return obj;
   },
-  fromPartial(object: DeepPartial<PacketReceiptAbsenceData>): PacketReceiptAbsenceData {
+  fromPartial(object: Partial<PacketReceiptAbsenceData>): PacketReceiptAbsenceData {
     const message = createBasePacketReceiptAbsenceData();
     message.path = object.path ?? new Uint8Array();
     return message;
@@ -2348,23 +2073,23 @@ export const PacketReceiptAbsenceData = {
 function createBaseNextSequenceRecvData(): NextSequenceRecvData {
   return {
     path: new Uint8Array(),
-    nextSeqRecv: Long.UZERO
+    nextSeqRecv: BigInt("0")
   };
 }
 export const NextSequenceRecvData = {
   typeUrl: "/ibc.lightclients.solomachine.v2.NextSequenceRecvData",
   aminoType: "cosmos-sdk/NextSequenceRecvData",
-  encode(message: NextSequenceRecvData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: NextSequenceRecvData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path.length !== 0) {
       writer.uint32(10).bytes(message.path);
     }
-    if (!message.nextSeqRecv.isZero()) {
+    if (message.nextSeqRecv !== BigInt(0)) {
       writer.uint32(16).uint64(message.nextSeqRecv);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): NextSequenceRecvData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): NextSequenceRecvData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseNextSequenceRecvData();
     while (reader.pos < end) {
@@ -2374,7 +2099,7 @@ export const NextSequenceRecvData = {
           message.path = reader.bytes();
           break;
         case 2:
-          message.nextSeqRecv = (reader.uint64() as Long);
+          message.nextSeqRecv = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -2386,19 +2111,19 @@ export const NextSequenceRecvData = {
   fromJSON(object: any): NextSequenceRecvData {
     return {
       path: isSet(object.path) ? bytesFromBase64(object.path) : new Uint8Array(),
-      nextSeqRecv: isSet(object.nextSeqRecv) ? Long.fromValue(object.nextSeqRecv) : Long.UZERO
+      nextSeqRecv: isSet(object.nextSeqRecv) ? BigInt(object.nextSeqRecv.toString()) : BigInt("0")
     };
   },
   toJSON(message: NextSequenceRecvData): unknown {
     const obj: any = {};
     message.path !== undefined && (obj.path = base64FromBytes(message.path !== undefined ? message.path : new Uint8Array()));
-    message.nextSeqRecv !== undefined && (obj.nextSeqRecv = (message.nextSeqRecv || Long.UZERO).toString());
+    message.nextSeqRecv !== undefined && (obj.nextSeqRecv = (message.nextSeqRecv || BigInt("0")).toString());
     return obj;
   },
-  fromPartial(object: DeepPartial<NextSequenceRecvData>): NextSequenceRecvData {
+  fromPartial(object: Partial<NextSequenceRecvData>): NextSequenceRecvData {
     const message = createBaseNextSequenceRecvData();
     message.path = object.path ?? new Uint8Array();
-    message.nextSeqRecv = object.nextSeqRecv !== undefined && object.nextSeqRecv !== null ? Long.fromValue(object.nextSeqRecv) : Long.UZERO;
+    message.nextSeqRecv = object.nextSeqRecv !== undefined && object.nextSeqRecv !== null ? BigInt(object.nextSeqRecv.toString()) : BigInt("0");
     return message;
   },
   fromSDK(object: NextSequenceRecvDataSDKType): NextSequenceRecvData {
@@ -2416,7 +2141,7 @@ export const NextSequenceRecvData = {
   fromAmino(object: NextSequenceRecvDataAmino): NextSequenceRecvData {
     return {
       path: object.path,
-      nextSeqRecv: Long.fromString(object.next_seq_recv)
+      nextSeqRecv: BigInt(object.next_seq_recv)
     };
   },
   toAmino(message: NextSequenceRecvData): NextSequenceRecvDataAmino {

@@ -1,6 +1,6 @@
-import { Service, ServiceAmino, ServiceSDKType } from "./resources";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../../../helpers";
+import { Service, ServiceSDKType } from "./resources";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet } from "../../../../helpers";
 export const protobufPackage = "google.api.serviceusage.v1";
 /**
  * Enum to determine if service usage should be checked when disabling a
@@ -20,7 +20,6 @@ export enum DisableServiceRequest_CheckIfServiceHasUsage {
   UNRECOGNIZED = -1,
 }
 export const DisableServiceRequest_CheckIfServiceHasUsageSDKType = DisableServiceRequest_CheckIfServiceHasUsage;
-export const DisableServiceRequest_CheckIfServiceHasUsageAmino = DisableServiceRequest_CheckIfServiceHasUsage;
 export function disableServiceRequest_CheckIfServiceHasUsageFromJSON(object: any): DisableServiceRequest_CheckIfServiceHasUsage {
   switch (object) {
     case 0:
@@ -68,31 +67,6 @@ export interface EnableServiceRequest {
    */
   name: string;
 }
-export interface EnableServiceRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.EnableServiceRequest";
-  value: Uint8Array;
-}
-/** Request message for the `EnableService` method. */
-export interface EnableServiceRequestAmino {
-  /**
-   * Name of the consumer and service to enable the service on.
-   * 
-   * The `EnableService` and `DisableService` methods currently only support
-   * projects.
-   * 
-   * Enabling a service requires that the service is public or is shared with
-   * the user enabling the service.
-   * 
-   * An example name would be:
-   * `projects/123/services/serviceusage.googleapis.com` where `123` is the
-   * project number.
-   */
-  name: string;
-}
-export interface EnableServiceRequestAminoMsg {
-  type: "/google.api.serviceusage.v1.EnableServiceRequest";
-  value: EnableServiceRequestAmino;
-}
 /** Request message for the `EnableService` method. */
 export interface EnableServiceRequestSDKType {
   name: string;
@@ -105,23 +79,6 @@ export interface EnableServiceRequestSDKType {
 export interface EnableServiceResponse {
   /** The new state of the service after enabling. */
   service?: Service;
-}
-export interface EnableServiceResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.EnableServiceResponse";
-  value: Uint8Array;
-}
-/**
- * Response message for the `EnableService` method.
- * This response message is assigned to the `response` field of the returned
- * Operation when that operation is done.
- */
-export interface EnableServiceResponseAmino {
-  /** The new state of the service after enabling. */
-  service?: ServiceAmino;
-}
-export interface EnableServiceResponseAminoMsg {
-  type: "/google.api.serviceusage.v1.EnableServiceResponse";
-  value: EnableServiceResponseAmino;
 }
 /**
  * Response message for the `EnableService` method.
@@ -154,37 +111,6 @@ export interface DisableServiceRequest {
   /** Defines the behavior for checking service usage when disabling a service. */
   checkIfServiceHasUsage: DisableServiceRequest_CheckIfServiceHasUsage;
 }
-export interface DisableServiceRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.DisableServiceRequest";
-  value: Uint8Array;
-}
-/** Request message for the `DisableService` method. */
-export interface DisableServiceRequestAmino {
-  /**
-   * Name of the consumer and service to disable the service on.
-   * 
-   * The enable and disable methods currently only support projects.
-   * 
-   * An example name would be:
-   * `projects/123/services/serviceusage.googleapis.com` where `123` is the
-   * project number.
-   */
-  name: string;
-  /**
-   * Indicates if services that are enabled and which depend on this service
-   * should also be disabled. If not set, an error will be generated if any
-   * enabled services depend on the service to be disabled. When set, the
-   * service, and any enabled services that depend on it, will be disabled
-   * together.
-   */
-  disable_dependent_services: boolean;
-  /** Defines the behavior for checking service usage when disabling a service. */
-  check_if_service_has_usage: DisableServiceRequest_CheckIfServiceHasUsage;
-}
-export interface DisableServiceRequestAminoMsg {
-  type: "/google.api.serviceusage.v1.DisableServiceRequest";
-  value: DisableServiceRequestAmino;
-}
 /** Request message for the `DisableService` method. */
 export interface DisableServiceRequestSDKType {
   name: string;
@@ -199,23 +125,6 @@ export interface DisableServiceRequestSDKType {
 export interface DisableServiceResponse {
   /** The new state of the service after disabling. */
   service?: Service;
-}
-export interface DisableServiceResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.DisableServiceResponse";
-  value: Uint8Array;
-}
-/**
- * Response message for the `DisableService` method.
- * This response message is assigned to the `response` field of the returned
- * Operation when that operation is done.
- */
-export interface DisableServiceResponseAmino {
-  /** The new state of the service after disabling. */
-  service?: ServiceAmino;
-}
-export interface DisableServiceResponseAminoMsg {
-  type: "/google.api.serviceusage.v1.DisableServiceResponse";
-  value: DisableServiceResponseAmino;
 }
 /**
  * Response message for the `DisableService` method.
@@ -235,25 +144,6 @@ export interface GetServiceRequest {
    * project number.
    */
   name: string;
-}
-export interface GetServiceRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.GetServiceRequest";
-  value: Uint8Array;
-}
-/** Request message for the `GetService` method. */
-export interface GetServiceRequestAmino {
-  /**
-   * Name of the consumer and service to get the `ConsumerState` for.
-   * 
-   * An example name would be:
-   * `projects/123/services/serviceusage.googleapis.com` where `123` is the
-   * project number.
-   */
-  name: string;
-}
-export interface GetServiceRequestAminoMsg {
-  type: "/google.api.serviceusage.v1.GetServiceRequest";
-  value: GetServiceRequestAmino;
 }
 /** Request message for the `GetService` method. */
 export interface GetServiceRequestSDKType {
@@ -285,40 +175,6 @@ export interface ListServicesRequest {
    */
   filter: string;
 }
-export interface ListServicesRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.ListServicesRequest";
-  value: Uint8Array;
-}
-/** Request message for the `ListServices` method. */
-export interface ListServicesRequestAmino {
-  /**
-   * Parent to search for services on.
-   * 
-   * An example name would be:
-   * `projects/123` where `123` is the project number.
-   */
-  parent: string;
-  /**
-   * Requested size of the next page of data.
-   * Requested page size cannot exceed 200.
-   * If not set, the default page size is 50.
-   */
-  page_size: number;
-  /**
-   * Token identifying which result to start with, which is returned by a
-   * previous list call.
-   */
-  page_token: string;
-  /**
-   * Only list services that conform to the given filter.
-   * The allowed filter strings are `state:ENABLED` and `state:DISABLED`.
-   */
-  filter: string;
-}
-export interface ListServicesRequestAminoMsg {
-  type: "/google.api.serviceusage.v1.ListServicesRequest";
-  value: ListServicesRequestAmino;
-}
 /** Request message for the `ListServices` method. */
 export interface ListServicesRequestSDKType {
   parent: string;
@@ -335,24 +191,6 @@ export interface ListServicesResponse {
    * query.
    */
   nextPageToken: string;
-}
-export interface ListServicesResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.ListServicesResponse";
-  value: Uint8Array;
-}
-/** Response message for the `ListServices` method. */
-export interface ListServicesResponseAmino {
-  /** The available services for the requested project. */
-  services: ServiceAmino[];
-  /**
-   * Token that can be passed to `ListServices` to resume a paginated
-   * query.
-   */
-  next_page_token: string;
-}
-export interface ListServicesResponseAminoMsg {
-  type: "/google.api.serviceusage.v1.ListServicesResponse";
-  value: ListServicesResponseAmino;
 }
 /** Response message for the `ListServices` method. */
 export interface ListServicesResponseSDKType {
@@ -385,40 +223,6 @@ export interface BatchEnableServicesRequest {
    */
   serviceIds: string[];
 }
-export interface BatchEnableServicesRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.BatchEnableServicesRequest";
-  value: Uint8Array;
-}
-/** Request message for the `BatchEnableServices` method. */
-export interface BatchEnableServicesRequestAmino {
-  /**
-   * Parent to enable services on.
-   * 
-   * An example name would be:
-   * `projects/123` where `123` is the project number.
-   * 
-   * The `BatchEnableServices` method currently only supports projects.
-   */
-  parent: string;
-  /**
-   * The identifiers of the services to enable on the project.
-   * 
-   * A valid identifier would be:
-   * serviceusage.googleapis.com
-   * 
-   * Enabling services requires that each service is public or is shared with
-   * the user enabling the service.
-   * 
-   * A single request can enable a maximum of 20 services at a time. If more
-   * than 20 services are specified, the request will fail, and no state changes
-   * will occur.
-   */
-  service_ids: string[];
-}
-export interface BatchEnableServicesRequestAminoMsg {
-  type: "/google.api.serviceusage.v1.BatchEnableServicesRequest";
-  value: BatchEnableServicesRequestAmino;
-}
 /** Request message for the `BatchEnableServices` method. */
 export interface BatchEnableServicesRequestSDKType {
   parent: string;
@@ -438,28 +242,6 @@ export interface BatchEnableServicesResponse {
    */
   failures: BatchEnableServicesResponse_EnableFailure[];
 }
-export interface BatchEnableServicesResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.BatchEnableServicesResponse";
-  value: Uint8Array;
-}
-/**
- * Response message for the `BatchEnableServices` method.
- * This response message is assigned to the `response` field of the returned
- * Operation when that operation is done.
- */
-export interface BatchEnableServicesResponseAmino {
-  /** The new state of the services after enabling. */
-  services: ServiceAmino[];
-  /**
-   * If allow_partial_success is true, and one or more services could not be
-   * enabled, this field contains the details about each failure.
-   */
-  failures: BatchEnableServicesResponse_EnableFailureAmino[];
-}
-export interface BatchEnableServicesResponseAminoMsg {
-  type: "/google.api.serviceusage.v1.BatchEnableServicesResponse";
-  value: BatchEnableServicesResponseAmino;
-}
 /**
  * Response message for the `BatchEnableServices` method.
  * This response message is assigned to the `response` field of the returned
@@ -475,21 +257,6 @@ export interface BatchEnableServicesResponse_EnableFailure {
   serviceId: string;
   /** An error message describing why the service could not be enabled. */
   errorMessage: string;
-}
-export interface BatchEnableServicesResponse_EnableFailureProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.EnableFailure";
-  value: Uint8Array;
-}
-/** Provides error messages for the failing services. */
-export interface BatchEnableServicesResponse_EnableFailureAmino {
-  /** The service id of a service that could not be enabled. */
-  service_id: string;
-  /** An error message describing why the service could not be enabled. */
-  error_message: string;
-}
-export interface BatchEnableServicesResponse_EnableFailureAminoMsg {
-  type: "/google.api.serviceusage.v1.EnableFailure";
-  value: BatchEnableServicesResponse_EnableFailureAmino;
 }
 /** Provides error messages for the failing services. */
 export interface BatchEnableServicesResponse_EnableFailureSDKType {
@@ -516,34 +283,6 @@ export interface BatchGetServicesRequest {
    */
   names: string[];
 }
-export interface BatchGetServicesRequestProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.BatchGetServicesRequest";
-  value: Uint8Array;
-}
-/** Request message for the `BatchGetServices` method. */
-export interface BatchGetServicesRequestAmino {
-  /**
-   * Parent to retrieve services from.
-   * If this is set, the parent of all of the services specified in `names` must
-   * match this field. An example name would be: `projects/123` where `123` is
-   * the project number. The `BatchGetServices` method currently only supports
-   * projects.
-   */
-  parent: string;
-  /**
-   * Names of the services to retrieve.
-   * 
-   * An example name would be:
-   * `projects/123/services/serviceusage.googleapis.com` where `123` is the
-   * project number.
-   * A single request can get a maximum of 30 services at a time.
-   */
-  names: string[];
-}
-export interface BatchGetServicesRequestAminoMsg {
-  type: "/google.api.serviceusage.v1.BatchGetServicesRequest";
-  value: BatchGetServicesRequestAmino;
-}
 /** Request message for the `BatchGetServices` method. */
 export interface BatchGetServicesRequestSDKType {
   parent: string;
@@ -553,19 +292,6 @@ export interface BatchGetServicesRequestSDKType {
 export interface BatchGetServicesResponse {
   /** The requested Service states. */
   services: Service[];
-}
-export interface BatchGetServicesResponseProtoMsg {
-  typeUrl: "/google.api.serviceusage.v1.BatchGetServicesResponse";
-  value: Uint8Array;
-}
-/** Response message for the `BatchGetServices` method. */
-export interface BatchGetServicesResponseAmino {
-  /** The requested Service states. */
-  services: ServiceAmino[];
-}
-export interface BatchGetServicesResponseAminoMsg {
-  type: "/google.api.serviceusage.v1.BatchGetServicesResponse";
-  value: BatchGetServicesResponseAmino;
 }
 /** Response message for the `BatchGetServices` method. */
 export interface BatchGetServicesResponseSDKType {
@@ -578,14 +304,14 @@ function createBaseEnableServiceRequest(): EnableServiceRequest {
 }
 export const EnableServiceRequest = {
   typeUrl: "/google.api.serviceusage.v1.EnableServiceRequest",
-  encode(message: EnableServiceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: EnableServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): EnableServiceRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): EnableServiceRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEnableServiceRequest();
     while (reader.pos < end) {
@@ -611,7 +337,7 @@ export const EnableServiceRequest = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial(object: DeepPartial<EnableServiceRequest>): EnableServiceRequest {
+  fromPartial(object: Partial<EnableServiceRequest>): EnableServiceRequest {
     const message = createBaseEnableServiceRequest();
     message.name = object.name ?? "";
     return message;
@@ -659,14 +385,14 @@ function createBaseEnableServiceResponse(): EnableServiceResponse {
 }
 export const EnableServiceResponse = {
   typeUrl: "/google.api.serviceusage.v1.EnableServiceResponse",
-  encode(message: EnableServiceResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: EnableServiceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.service !== undefined) {
       Service.encode(message.service, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): EnableServiceResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): EnableServiceResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEnableServiceResponse();
     while (reader.pos < end) {
@@ -692,7 +418,7 @@ export const EnableServiceResponse = {
     message.service !== undefined && (obj.service = message.service ? Service.toJSON(message.service) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<EnableServiceResponse>): EnableServiceResponse {
+  fromPartial(object: Partial<EnableServiceResponse>): EnableServiceResponse {
     const message = createBaseEnableServiceResponse();
     message.service = object.service !== undefined && object.service !== null ? Service.fromPartial(object.service) : undefined;
     return message;
@@ -742,7 +468,7 @@ function createBaseDisableServiceRequest(): DisableServiceRequest {
 }
 export const DisableServiceRequest = {
   typeUrl: "/google.api.serviceusage.v1.DisableServiceRequest",
-  encode(message: DisableServiceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DisableServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -754,8 +480,8 @@ export const DisableServiceRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DisableServiceRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DisableServiceRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDisableServiceRequest();
     while (reader.pos < end) {
@@ -791,7 +517,7 @@ export const DisableServiceRequest = {
     message.checkIfServiceHasUsage !== undefined && (obj.checkIfServiceHasUsage = disableServiceRequest_CheckIfServiceHasUsageToJSON(message.checkIfServiceHasUsage));
     return obj;
   },
-  fromPartial(object: DeepPartial<DisableServiceRequest>): DisableServiceRequest {
+  fromPartial(object: Partial<DisableServiceRequest>): DisableServiceRequest {
     const message = createBaseDisableServiceRequest();
     message.name = object.name ?? "";
     message.disableDependentServices = object.disableDependentServices ?? false;
@@ -849,14 +575,14 @@ function createBaseDisableServiceResponse(): DisableServiceResponse {
 }
 export const DisableServiceResponse = {
   typeUrl: "/google.api.serviceusage.v1.DisableServiceResponse",
-  encode(message: DisableServiceResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DisableServiceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.service !== undefined) {
       Service.encode(message.service, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DisableServiceResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DisableServiceResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDisableServiceResponse();
     while (reader.pos < end) {
@@ -882,7 +608,7 @@ export const DisableServiceResponse = {
     message.service !== undefined && (obj.service = message.service ? Service.toJSON(message.service) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<DisableServiceResponse>): DisableServiceResponse {
+  fromPartial(object: Partial<DisableServiceResponse>): DisableServiceResponse {
     const message = createBaseDisableServiceResponse();
     message.service = object.service !== undefined && object.service !== null ? Service.fromPartial(object.service) : undefined;
     return message;
@@ -930,14 +656,14 @@ function createBaseGetServiceRequest(): GetServiceRequest {
 }
 export const GetServiceRequest = {
   typeUrl: "/google.api.serviceusage.v1.GetServiceRequest",
-  encode(message: GetServiceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GetServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetServiceRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GetServiceRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetServiceRequest();
     while (reader.pos < end) {
@@ -963,7 +689,7 @@ export const GetServiceRequest = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial(object: DeepPartial<GetServiceRequest>): GetServiceRequest {
+  fromPartial(object: Partial<GetServiceRequest>): GetServiceRequest {
     const message = createBaseGetServiceRequest();
     message.name = object.name ?? "";
     return message;
@@ -1014,7 +740,7 @@ function createBaseListServicesRequest(): ListServicesRequest {
 }
 export const ListServicesRequest = {
   typeUrl: "/google.api.serviceusage.v1.ListServicesRequest",
-  encode(message: ListServicesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListServicesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -1029,8 +755,8 @@ export const ListServicesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListServicesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListServicesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListServicesRequest();
     while (reader.pos < end) {
@@ -1071,7 +797,7 @@ export const ListServicesRequest = {
     message.filter !== undefined && (obj.filter = message.filter);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListServicesRequest>): ListServicesRequest {
+  fromPartial(object: Partial<ListServicesRequest>): ListServicesRequest {
     const message = createBaseListServicesRequest();
     message.parent = object.parent ?? "";
     message.pageSize = object.pageSize ?? 0;
@@ -1135,7 +861,7 @@ function createBaseListServicesResponse(): ListServicesResponse {
 }
 export const ListServicesResponse = {
   typeUrl: "/google.api.serviceusage.v1.ListServicesResponse",
-  encode(message: ListServicesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListServicesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.services) {
       Service.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1144,8 +870,8 @@ export const ListServicesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListServicesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListServicesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListServicesResponse();
     while (reader.pos < end) {
@@ -1180,7 +906,7 @@ export const ListServicesResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListServicesResponse>): ListServicesResponse {
+  fromPartial(object: Partial<ListServicesResponse>): ListServicesResponse {
     const message = createBaseListServicesResponse();
     message.services = object.services?.map(e => Service.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -1242,7 +968,7 @@ function createBaseBatchEnableServicesRequest(): BatchEnableServicesRequest {
 }
 export const BatchEnableServicesRequest = {
   typeUrl: "/google.api.serviceusage.v1.BatchEnableServicesRequest",
-  encode(message: BatchEnableServicesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BatchEnableServicesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -1251,8 +977,8 @@ export const BatchEnableServicesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BatchEnableServicesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BatchEnableServicesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBatchEnableServicesRequest();
     while (reader.pos < end) {
@@ -1287,7 +1013,7 @@ export const BatchEnableServicesRequest = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<BatchEnableServicesRequest>): BatchEnableServicesRequest {
+  fromPartial(object: Partial<BatchEnableServicesRequest>): BatchEnableServicesRequest {
     const message = createBaseBatchEnableServicesRequest();
     message.parent = object.parent ?? "";
     message.serviceIds = object.serviceIds?.map(e => e) || [];
@@ -1349,7 +1075,7 @@ function createBaseBatchEnableServicesResponse(): BatchEnableServicesResponse {
 }
 export const BatchEnableServicesResponse = {
   typeUrl: "/google.api.serviceusage.v1.BatchEnableServicesResponse",
-  encode(message: BatchEnableServicesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BatchEnableServicesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.services) {
       Service.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1358,8 +1084,8 @@ export const BatchEnableServicesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BatchEnableServicesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BatchEnableServicesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBatchEnableServicesResponse();
     while (reader.pos < end) {
@@ -1398,7 +1124,7 @@ export const BatchEnableServicesResponse = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<BatchEnableServicesResponse>): BatchEnableServicesResponse {
+  fromPartial(object: Partial<BatchEnableServicesResponse>): BatchEnableServicesResponse {
     const message = createBaseBatchEnableServicesResponse();
     message.services = object.services?.map(e => Service.fromPartial(e)) || [];
     message.failures = object.failures?.map(e => BatchEnableServicesResponse_EnableFailure.fromPartial(e)) || [];
@@ -1468,7 +1194,7 @@ function createBaseBatchEnableServicesResponse_EnableFailure(): BatchEnableServi
 }
 export const BatchEnableServicesResponse_EnableFailure = {
   typeUrl: "/google.api.serviceusage.v1.EnableFailure",
-  encode(message: BatchEnableServicesResponse_EnableFailure, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BatchEnableServicesResponse_EnableFailure, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceId !== "") {
       writer.uint32(10).string(message.serviceId);
     }
@@ -1477,8 +1203,8 @@ export const BatchEnableServicesResponse_EnableFailure = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BatchEnableServicesResponse_EnableFailure {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BatchEnableServicesResponse_EnableFailure {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBatchEnableServicesResponse_EnableFailure();
     while (reader.pos < end) {
@@ -1509,7 +1235,7 @@ export const BatchEnableServicesResponse_EnableFailure = {
     message.errorMessage !== undefined && (obj.errorMessage = message.errorMessage);
     return obj;
   },
-  fromPartial(object: DeepPartial<BatchEnableServicesResponse_EnableFailure>): BatchEnableServicesResponse_EnableFailure {
+  fromPartial(object: Partial<BatchEnableServicesResponse_EnableFailure>): BatchEnableServicesResponse_EnableFailure {
     const message = createBaseBatchEnableServicesResponse_EnableFailure();
     message.serviceId = object.serviceId ?? "";
     message.errorMessage = object.errorMessage ?? "";
@@ -1563,7 +1289,7 @@ function createBaseBatchGetServicesRequest(): BatchGetServicesRequest {
 }
 export const BatchGetServicesRequest = {
   typeUrl: "/google.api.serviceusage.v1.BatchGetServicesRequest",
-  encode(message: BatchGetServicesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BatchGetServicesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -1572,8 +1298,8 @@ export const BatchGetServicesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BatchGetServicesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BatchGetServicesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBatchGetServicesRequest();
     while (reader.pos < end) {
@@ -1608,7 +1334,7 @@ export const BatchGetServicesRequest = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<BatchGetServicesRequest>): BatchGetServicesRequest {
+  fromPartial(object: Partial<BatchGetServicesRequest>): BatchGetServicesRequest {
     const message = createBaseBatchGetServicesRequest();
     message.parent = object.parent ?? "";
     message.names = object.names?.map(e => e) || [];
@@ -1669,14 +1395,14 @@ function createBaseBatchGetServicesResponse(): BatchGetServicesResponse {
 }
 export const BatchGetServicesResponse = {
   typeUrl: "/google.api.serviceusage.v1.BatchGetServicesResponse",
-  encode(message: BatchGetServicesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BatchGetServicesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.services) {
       Service.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BatchGetServicesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BatchGetServicesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBatchGetServicesResponse();
     while (reader.pos < end) {
@@ -1706,7 +1432,7 @@ export const BatchGetServicesResponse = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<BatchGetServicesResponse>): BatchGetServicesResponse {
+  fromPartial(object: Partial<BatchGetServicesResponse>): BatchGetServicesResponse {
     const message = createBaseBatchGetServicesResponse();
     message.services = object.services?.map(e => Service.fromPartial(e)) || [];
     return message;

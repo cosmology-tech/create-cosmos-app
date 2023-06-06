@@ -1,5 +1,5 @@
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../helpers";
+import { BinaryReader, BinaryWriter } from "../../binary";
+import { isSet } from "../../helpers";
 export const protobufPackage = "google.protobuf";
 /**
  * `SourceContext` represents information about the source of a
@@ -11,25 +11,6 @@ export interface SourceContext {
    * protobuf element.  For example: `"google/protobuf/source_context.proto"`.
    */
   fileName: string;
-}
-export interface SourceContextProtoMsg {
-  typeUrl: "/google.protobuf.SourceContext";
-  value: Uint8Array;
-}
-/**
- * `SourceContext` represents information about the source of a
- * protobuf element, like the file in which it is defined.
- */
-export interface SourceContextAmino {
-  /**
-   * The path-qualified name of the .proto file that contained the associated
-   * protobuf element.  For example: `"google/protobuf/source_context.proto"`.
-   */
-  file_name: string;
-}
-export interface SourceContextAminoMsg {
-  type: "/google.protobuf.SourceContext";
-  value: SourceContextAmino;
 }
 /**
  * `SourceContext` represents information about the source of a
@@ -45,14 +26,14 @@ function createBaseSourceContext(): SourceContext {
 }
 export const SourceContext = {
   typeUrl: "/google.protobuf.SourceContext",
-  encode(message: SourceContext, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SourceContext, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.fileName !== "") {
       writer.uint32(10).string(message.fileName);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SourceContext {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SourceContext {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSourceContext();
     while (reader.pos < end) {
@@ -78,7 +59,7 @@ export const SourceContext = {
     message.fileName !== undefined && (obj.fileName = message.fileName);
     return obj;
   },
-  fromPartial(object: DeepPartial<SourceContext>): SourceContext {
+  fromPartial(object: Partial<SourceContext>): SourceContext {
     const message = createBaseSourceContext();
     message.fileName = object.fileName ?? "";
     return message;

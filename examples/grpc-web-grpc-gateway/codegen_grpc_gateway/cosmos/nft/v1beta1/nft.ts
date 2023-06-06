@@ -1,6 +1,6 @@
-import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../../helpers";
+import { Any, AnySDKType } from "../../../google/protobuf/any";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet } from "../../../helpers";
 export const protobufPackage = "cosmos.nft.v1beta1";
 /** Class defines the class of the nft type. */
 export interface Class {
@@ -18,31 +18,6 @@ export interface Class {
   uriHash: string;
   /** data is the app specific metadata of the NFT class. Optional */
   data?: Any;
-}
-export interface ClassProtoMsg {
-  typeUrl: "/cosmos.nft.v1beta1.Class";
-  value: Uint8Array;
-}
-/** Class defines the class of the nft type. */
-export interface ClassAmino {
-  /** id defines the unique identifier of the NFT classification, similar to the contract address of ERC721 */
-  id: string;
-  /** name defines the human-readable name of the NFT classification. Optional */
-  name: string;
-  /** symbol is an abbreviated name for nft classification. Optional */
-  symbol: string;
-  /** description is a brief description of nft classification. Optional */
-  description: string;
-  /** uri for the class metadata stored off chain. It can define schema for Class and NFT `Data` attributes. Optional */
-  uri: string;
-  /** uri_hash is a hash of the document pointed by uri. Optional */
-  uri_hash: string;
-  /** data is the app specific metadata of the NFT class. Optional */
-  data?: AnyAmino;
-}
-export interface ClassAminoMsg {
-  type: "cosmos-sdk/Class";
-  value: ClassAmino;
 }
 /** Class defines the class of the nft type. */
 export interface ClassSDKType {
@@ -67,27 +42,6 @@ export interface NFT {
   /** data is an app specific data of the NFT. Optional */
   data?: Any;
 }
-export interface NFTProtoMsg {
-  typeUrl: "/cosmos.nft.v1beta1.NFT";
-  value: Uint8Array;
-}
-/** NFT defines the NFT. */
-export interface NFTAmino {
-  /** class_id associated with the NFT, similar to the contract address of ERC721 */
-  class_id: string;
-  /** id is a unique identifier of the NFT */
-  id: string;
-  /** uri for the NFT metadata stored off chain */
-  uri: string;
-  /** uri_hash is a hash of the document pointed by uri */
-  uri_hash: string;
-  /** data is an app specific data of the NFT. Optional */
-  data?: AnyAmino;
-}
-export interface NFTAminoMsg {
-  type: "cosmos-sdk/NFT";
-  value: NFTAmino;
-}
 /** NFT defines the NFT. */
 export interface NFTSDKType {
   class_id: string;
@@ -110,7 +64,7 @@ function createBaseClass(): Class {
 export const Class = {
   typeUrl: "/cosmos.nft.v1beta1.Class",
   aminoType: "cosmos-sdk/Class",
-  encode(message: Class, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Class, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
@@ -134,8 +88,8 @@ export const Class = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Class {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Class {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseClass();
     while (reader.pos < end) {
@@ -191,7 +145,7 @@ export const Class = {
     message.data !== undefined && (obj.data = message.data ? Any.toJSON(message.data) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<Class>): Class {
+  fromPartial(object: Partial<Class>): Class {
     const message = createBaseClass();
     message.id = object.id ?? "";
     message.name = object.name ?? "";
@@ -280,7 +234,7 @@ function createBaseNFT(): NFT {
 export const NFT = {
   typeUrl: "/cosmos.nft.v1beta1.NFT",
   aminoType: "cosmos-sdk/NFT",
-  encode(message: NFT, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: NFT, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.classId !== "") {
       writer.uint32(10).string(message.classId);
     }
@@ -298,8 +252,8 @@ export const NFT = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): NFT {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): NFT {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseNFT();
     while (reader.pos < end) {
@@ -345,7 +299,7 @@ export const NFT = {
     message.data !== undefined && (obj.data = message.data ? Any.toJSON(message.data) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<NFT>): NFT {
+  fromPartial(object: Partial<NFT>): NFT {
     const message = createBaseNFT();
     message.classId = object.classId ?? "";
     message.id = object.id ?? "";

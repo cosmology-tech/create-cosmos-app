@@ -1,6 +1,5 @@
-import { Order, OrderSDKType, Counterparty, CounterpartySDKType } from "../../channel/v1/channel";
 import * as fm from "../../../../grpc-gateway";
-import { QueryAppVersionRequest, QueryAppVersionRequestSDKType, QueryAppVersionResponse, QueryAppVersionResponseSDKType } from "./query";
+import { QueryAppVersionRequest, QueryAppVersionResponse } from "./query";
 export class Query {
   /** AppVersion queries an IBC Port and determines the appropriate application version to be used */
   static appVersion(request: QueryAppVersionRequest, initRequest?: fm.InitReq): Promise<QueryAppVersionResponse> {

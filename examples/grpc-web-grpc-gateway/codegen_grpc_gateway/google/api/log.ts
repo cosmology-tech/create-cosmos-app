@@ -1,6 +1,6 @@
-import { LabelDescriptor, LabelDescriptorAmino, LabelDescriptorSDKType } from "./label";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../helpers";
+import { LabelDescriptor, LabelDescriptorSDKType } from "./label";
+import { BinaryReader, BinaryWriter } from "../../binary";
+import { isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * A description of a log type. Example in YAML format:
@@ -37,49 +37,6 @@ export interface LogDescriptor {
    */
   displayName: string;
 }
-export interface LogDescriptorProtoMsg {
-  typeUrl: "/google.api.LogDescriptor";
-  value: Uint8Array;
-}
-/**
- * A description of a log type. Example in YAML format:
- * 
- *     - name: library.googleapis.com/activity_history
- *       description: The history of borrowing and returning library items.
- *       display_name: Activity
- *       labels:
- *       - key: /customer_id
- *         description: Identifier of a library customer
- */
-export interface LogDescriptorAmino {
-  /**
-   * The name of the log. It must be less than 512 characters long and can
-   * include the following characters: upper- and lower-case alphanumeric
-   * characters [A-Za-z0-9], and punctuation characters including
-   * slash, underscore, hyphen, period [/_-.].
-   */
-  name: string;
-  /**
-   * The set of labels that are available to describe a specific log entry.
-   * Runtime requests that contain labels not specified here are
-   * considered invalid.
-   */
-  labels: LabelDescriptorAmino[];
-  /**
-   * A human-readable description of this log. This information appears in
-   * the documentation and can contain details.
-   */
-  description: string;
-  /**
-   * The human-readable name for this log. This information appears on
-   * the user interface and should be concise.
-   */
-  display_name: string;
-}
-export interface LogDescriptorAminoMsg {
-  type: "/google.api.LogDescriptor";
-  value: LogDescriptorAmino;
-}
 /**
  * A description of a log type. Example in YAML format:
  * 
@@ -106,7 +63,7 @@ function createBaseLogDescriptor(): LogDescriptor {
 }
 export const LogDescriptor = {
   typeUrl: "/google.api.LogDescriptor",
-  encode(message: LogDescriptor, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: LogDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -121,8 +78,8 @@ export const LogDescriptor = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): LogDescriptor {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): LogDescriptor {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseLogDescriptor();
     while (reader.pos < end) {
@@ -167,7 +124,7 @@ export const LogDescriptor = {
     message.displayName !== undefined && (obj.displayName = message.displayName);
     return obj;
   },
-  fromPartial(object: DeepPartial<LogDescriptor>): LogDescriptor {
+  fromPartial(object: Partial<LogDescriptor>): LogDescriptor {
     const message = createBaseLogDescriptor();
     message.name = object.name ?? "";
     message.labels = object.labels?.map(e => LabelDescriptor.fromPartial(e)) || [];

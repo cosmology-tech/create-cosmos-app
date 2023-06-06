@@ -1,9 +1,9 @@
-import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
-import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../google/protobuf/timestamp";
-import { Duration, DurationAmino, DurationSDKType } from "../../../google/protobuf/duration";
-import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
-import * as _m0 from "protobufjs/minimal";
-import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
+import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
+import { Timestamp } from "../../../google/protobuf/timestamp";
+import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
+import { Any, AnySDKType } from "../../../google/protobuf/any";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { toTimestamp, fromTimestamp, isSet, fromJsonTimestamp } from "../../../helpers";
 export const protobufPackage = "cosmos.feegrant.v1beta1";
 /**
  * BasicAllowance implements Allowance with a one-time grant of tokens
@@ -18,28 +18,6 @@ export interface BasicAllowance {
   spendLimit: Coin[];
   /** expiration specifies an optional time when this allowance expires */
   expiration?: Date;
-}
-export interface BasicAllowanceProtoMsg {
-  typeUrl: "/cosmos.feegrant.v1beta1.BasicAllowance";
-  value: Uint8Array;
-}
-/**
- * BasicAllowance implements Allowance with a one-time grant of tokens
- * that optionally expires. The grantee can use up to SpendLimit to cover fees.
- */
-export interface BasicAllowanceAmino {
-  /**
-   * spend_limit specifies the maximum amount of tokens that can be spent
-   * by this allowance and will be updated as tokens are spent. If it is
-   * empty, there is no spend limit and any amount of coins can be spent.
-   */
-  spend_limit: CoinAmino[];
-  /** expiration specifies an optional time when this allowance expires */
-  expiration?: Date;
-}
-export interface BasicAllowanceAminoMsg {
-  type: "cosmos-sdk/BasicAllowance";
-  value: BasicAllowanceAmino;
 }
 /**
  * BasicAllowance implements Allowance with a one-time grant of tokens
@@ -75,40 +53,6 @@ export interface PeriodicAllowance {
    */
   periodReset?: Date;
 }
-export interface PeriodicAllowanceProtoMsg {
-  typeUrl: "/cosmos.feegrant.v1beta1.PeriodicAllowance";
-  value: Uint8Array;
-}
-/**
- * PeriodicAllowance extends Allowance to allow for both a maximum cap,
- * as well as a limit per time period.
- */
-export interface PeriodicAllowanceAmino {
-  /** basic specifies a struct of `BasicAllowance` */
-  basic?: BasicAllowanceAmino;
-  /**
-   * period specifies the time duration in which period_spend_limit coins can
-   * be spent before that allowance is reset
-   */
-  period?: DurationAmino;
-  /**
-   * period_spend_limit specifies the maximum number of coins that can be spent
-   * in the period
-   */
-  period_spend_limit: CoinAmino[];
-  /** period_can_spend is the number of coins left to be spent before the period_reset time */
-  period_can_spend: CoinAmino[];
-  /**
-   * period_reset is the time at which this period resets and a new one begins,
-   * it is calculated from the start time of the first transaction after the
-   * last period ended
-   */
-  period_reset?: Date;
-}
-export interface PeriodicAllowanceAminoMsg {
-  type: "cosmos-sdk/PeriodicAllowance";
-  value: PeriodicAllowanceAmino;
-}
 /**
  * PeriodicAllowance extends Allowance to allow for both a maximum cap,
  * as well as a limit per time period.
@@ -123,31 +67,13 @@ export interface PeriodicAllowanceSDKType {
 /** AllowedMsgAllowance creates allowance only for specified message types. */
 export interface AllowedMsgAllowance {
   /** allowance can be any of basic and periodic fee allowance. */
-  allowance?: (BasicAllowance & PeriodicAllowance & AllowedMsgAllowance & Any) | undefined;
+  allowance?: Any;
   /** allowed_messages are the messages for which the grantee has the access. */
   allowedMessages: string[];
 }
-export interface AllowedMsgAllowanceProtoMsg {
-  typeUrl: "/cosmos.feegrant.v1beta1.AllowedMsgAllowance";
-  value: Uint8Array;
-}
-export type AllowedMsgAllowanceEncoded = Omit<AllowedMsgAllowance, "allowance"> & {
-  /** allowance can be any of basic and periodic fee allowance. */allowance?: BasicAllowanceProtoMsg | PeriodicAllowanceProtoMsg | AllowedMsgAllowanceProtoMsg | AnyProtoMsg | undefined;
-};
-/** AllowedMsgAllowance creates allowance only for specified message types. */
-export interface AllowedMsgAllowanceAmino {
-  /** allowance can be any of basic and periodic fee allowance. */
-  allowance?: AnyAmino;
-  /** allowed_messages are the messages for which the grantee has the access. */
-  allowed_messages: string[];
-}
-export interface AllowedMsgAllowanceAminoMsg {
-  type: "cosmos-sdk/AllowedMsgAllowance";
-  value: AllowedMsgAllowanceAmino;
-}
 /** AllowedMsgAllowance creates allowance only for specified message types. */
 export interface AllowedMsgAllowanceSDKType {
-  allowance?: BasicAllowanceSDKType | PeriodicAllowanceSDKType | AllowedMsgAllowanceSDKType | AnySDKType | undefined;
+  allowance?: AnySDKType;
   allowed_messages: string[];
 }
 /** Grant is stored in the KVStore to record a grant with full context */
@@ -157,33 +83,13 @@ export interface Grant {
   /** grantee is the address of the user being granted an allowance of another user's funds. */
   grantee: string;
   /** allowance can be any of basic, periodic, allowed fee allowance. */
-  allowance?: (BasicAllowance & PeriodicAllowance & AllowedMsgAllowance & Any) | undefined;
-}
-export interface GrantProtoMsg {
-  typeUrl: "/cosmos.feegrant.v1beta1.Grant";
-  value: Uint8Array;
-}
-export type GrantEncoded = Omit<Grant, "allowance"> & {
-  /** allowance can be any of basic, periodic, allowed fee allowance. */allowance?: BasicAllowanceProtoMsg | PeriodicAllowanceProtoMsg | AllowedMsgAllowanceProtoMsg | AnyProtoMsg | undefined;
-};
-/** Grant is stored in the KVStore to record a grant with full context */
-export interface GrantAmino {
-  /** granter is the address of the user granting an allowance of their funds. */
-  granter: string;
-  /** grantee is the address of the user being granted an allowance of another user's funds. */
-  grantee: string;
-  /** allowance can be any of basic, periodic, allowed fee allowance. */
-  allowance?: AnyAmino;
-}
-export interface GrantAminoMsg {
-  type: "cosmos-sdk/Grant";
-  value: GrantAmino;
+  allowance?: Any;
 }
 /** Grant is stored in the KVStore to record a grant with full context */
 export interface GrantSDKType {
   granter: string;
   grantee: string;
-  allowance?: BasicAllowanceSDKType | PeriodicAllowanceSDKType | AllowedMsgAllowanceSDKType | AnySDKType | undefined;
+  allowance?: AnySDKType;
 }
 function createBaseBasicAllowance(): BasicAllowance {
   return {
@@ -194,7 +100,7 @@ function createBaseBasicAllowance(): BasicAllowance {
 export const BasicAllowance = {
   typeUrl: "/cosmos.feegrant.v1beta1.BasicAllowance",
   aminoType: "cosmos-sdk/BasicAllowance",
-  encode(message: BasicAllowance, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BasicAllowance, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.spendLimit) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -203,8 +109,8 @@ export const BasicAllowance = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BasicAllowance {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BasicAllowance {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBasicAllowance();
     while (reader.pos < end) {
@@ -226,7 +132,7 @@ export const BasicAllowance = {
   fromJSON(object: any): BasicAllowance {
     return {
       spendLimit: Array.isArray(object?.spendLimit) ? object.spendLimit.map((e: any) => Coin.fromJSON(e)) : [],
-      expiration: isSet(object.expiration) ? new Date(object.expiration) : undefined
+      expiration: isSet(object.expiration) ? fromJsonTimestamp(object.expiration) : undefined
     };
   },
   toJSON(message: BasicAllowance): unknown {
@@ -239,7 +145,7 @@ export const BasicAllowance = {
     message.expiration !== undefined && (obj.expiration = message.expiration.toISOString());
     return obj;
   },
-  fromPartial(object: DeepPartial<BasicAllowance>): BasicAllowance {
+  fromPartial(object: Partial<BasicAllowance>): BasicAllowance {
     const message = createBaseBasicAllowance();
     message.spendLimit = object.spendLimit?.map(e => Coin.fromPartial(e)) || [];
     message.expiration = object.expiration ?? undefined;
@@ -248,7 +154,7 @@ export const BasicAllowance = {
   fromSDK(object: BasicAllowanceSDKType): BasicAllowance {
     return {
       spendLimit: Array.isArray(object?.spend_limit) ? object.spend_limit.map((e: any) => Coin.fromSDK(e)) : [],
-      expiration: object.expiration ?? undefined
+      expiration: object.expiration ? Timestamp.fromSDK(object.expiration) : undefined
     };
   },
   toSDK(message: BasicAllowance): BasicAllowanceSDKType {
@@ -258,7 +164,7 @@ export const BasicAllowance = {
     } else {
       obj.spend_limit = [];
     }
-    message.expiration !== undefined && (obj.expiration = message.expiration ?? undefined);
+    message.expiration !== undefined && (obj.expiration = message.expiration ? Timestamp.toSDK(message.expiration) : undefined);
     return obj;
   },
   fromAmino(object: BasicAllowanceAmino): BasicAllowance {
@@ -311,7 +217,7 @@ function createBasePeriodicAllowance(): PeriodicAllowance {
 export const PeriodicAllowance = {
   typeUrl: "/cosmos.feegrant.v1beta1.PeriodicAllowance",
   aminoType: "cosmos-sdk/PeriodicAllowance",
-  encode(message: PeriodicAllowance, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: PeriodicAllowance, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.basic !== undefined) {
       BasicAllowance.encode(message.basic, writer.uint32(10).fork()).ldelim();
     }
@@ -329,8 +235,8 @@ export const PeriodicAllowance = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PeriodicAllowance {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PeriodicAllowance {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePeriodicAllowance();
     while (reader.pos < end) {
@@ -364,7 +270,7 @@ export const PeriodicAllowance = {
       period: isSet(object.period) ? Duration.fromJSON(object.period) : undefined,
       periodSpendLimit: Array.isArray(object?.periodSpendLimit) ? object.periodSpendLimit.map((e: any) => Coin.fromJSON(e)) : [],
       periodCanSpend: Array.isArray(object?.periodCanSpend) ? object.periodCanSpend.map((e: any) => Coin.fromJSON(e)) : [],
-      periodReset: isSet(object.periodReset) ? new Date(object.periodReset) : undefined
+      periodReset: isSet(object.periodReset) ? fromJsonTimestamp(object.periodReset) : undefined
     };
   },
   toJSON(message: PeriodicAllowance): unknown {
@@ -384,7 +290,7 @@ export const PeriodicAllowance = {
     message.periodReset !== undefined && (obj.periodReset = message.periodReset.toISOString());
     return obj;
   },
-  fromPartial(object: DeepPartial<PeriodicAllowance>): PeriodicAllowance {
+  fromPartial(object: Partial<PeriodicAllowance>): PeriodicAllowance {
     const message = createBasePeriodicAllowance();
     message.basic = object.basic !== undefined && object.basic !== null ? BasicAllowance.fromPartial(object.basic) : undefined;
     message.period = object.period !== undefined && object.period !== null ? Duration.fromPartial(object.period) : undefined;
@@ -399,7 +305,7 @@ export const PeriodicAllowance = {
       period: object.period ? Duration.fromSDK(object.period) : undefined,
       periodSpendLimit: Array.isArray(object?.period_spend_limit) ? object.period_spend_limit.map((e: any) => Coin.fromSDK(e)) : [],
       periodCanSpend: Array.isArray(object?.period_can_spend) ? object.period_can_spend.map((e: any) => Coin.fromSDK(e)) : [],
-      periodReset: object.period_reset ?? undefined
+      periodReset: object.period_reset ? Timestamp.fromSDK(object.period_reset) : undefined
     };
   },
   toSDK(message: PeriodicAllowance): PeriodicAllowanceSDKType {
@@ -416,7 +322,7 @@ export const PeriodicAllowance = {
     } else {
       obj.period_can_spend = [];
     }
-    message.periodReset !== undefined && (obj.period_reset = message.periodReset ?? undefined);
+    message.periodReset !== undefined && (obj.period_reset = message.periodReset ? Timestamp.toSDK(message.periodReset) : undefined);
     return obj;
   },
   fromAmino(object: PeriodicAllowanceAmino): PeriodicAllowance {
@@ -476,24 +382,24 @@ function createBaseAllowedMsgAllowance(): AllowedMsgAllowance {
 export const AllowedMsgAllowance = {
   typeUrl: "/cosmos.feegrant.v1beta1.AllowedMsgAllowance",
   aminoType: "cosmos-sdk/AllowedMsgAllowance",
-  encode(message: AllowedMsgAllowance, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: AllowedMsgAllowance, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.allowance !== undefined) {
-      Any.encode((message.allowance as Any), writer.uint32(10).fork()).ldelim();
+      Any.encode(message.allowance, writer.uint32(10).fork()).ldelim();
     }
     for (const v of message.allowedMessages) {
       writer.uint32(18).string(v!);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): AllowedMsgAllowance {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): AllowedMsgAllowance {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAllowedMsgAllowance();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.allowance = (FeeAllowanceI_InterfaceDecoder(reader) as Any);
+          message.allowance = Any.decode(reader, reader.uint32());
           break;
         case 2:
           message.allowedMessages.push(reader.string());
@@ -521,7 +427,7 @@ export const AllowedMsgAllowance = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<AllowedMsgAllowance>): AllowedMsgAllowance {
+  fromPartial(object: Partial<AllowedMsgAllowance>): AllowedMsgAllowance {
     const message = createBaseAllowedMsgAllowance();
     message.allowance = object.allowance !== undefined && object.allowance !== null ? Any.fromPartial(object.allowance) : undefined;
     message.allowedMessages = object.allowedMessages?.map(e => e) || [];
@@ -545,13 +451,13 @@ export const AllowedMsgAllowance = {
   },
   fromAmino(object: AllowedMsgAllowanceAmino): AllowedMsgAllowance {
     return {
-      allowance: object?.allowance ? FeeAllowanceI_FromAmino(object.allowance) : undefined,
+      allowance: object?.allowance ? Any.fromAmino(object.allowance) : undefined,
       allowedMessages: Array.isArray(object?.allowed_messages) ? object.allowed_messages.map((e: any) => e) : []
     };
   },
   toAmino(message: AllowedMsgAllowance): AllowedMsgAllowanceAmino {
     const obj: any = {};
-    obj.allowance = message.allowance ? FeeAllowanceI_ToAmino((message.allowance as Any)) : undefined;
+    obj.allowance = message.allowance ? Any.toAmino(message.allowance) : undefined;
     if (message.allowedMessages) {
       obj.allowed_messages = message.allowedMessages.map(e => e);
     } else {
@@ -591,7 +497,7 @@ function createBaseGrant(): Grant {
 export const Grant = {
   typeUrl: "/cosmos.feegrant.v1beta1.Grant",
   aminoType: "cosmos-sdk/Grant",
-  encode(message: Grant, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Grant, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.granter !== "") {
       writer.uint32(10).string(message.granter);
     }
@@ -599,12 +505,12 @@ export const Grant = {
       writer.uint32(18).string(message.grantee);
     }
     if (message.allowance !== undefined) {
-      Any.encode((message.allowance as Any), writer.uint32(26).fork()).ldelim();
+      Any.encode(message.allowance, writer.uint32(26).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Grant {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Grant {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGrant();
     while (reader.pos < end) {
@@ -617,7 +523,7 @@ export const Grant = {
           message.grantee = reader.string();
           break;
         case 3:
-          message.allowance = (FeeAllowanceI_InterfaceDecoder(reader) as Any);
+          message.allowance = Any.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -640,7 +546,7 @@ export const Grant = {
     message.allowance !== undefined && (obj.allowance = message.allowance ? Any.toJSON(message.allowance) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<Grant>): Grant {
+  fromPartial(object: Partial<Grant>): Grant {
     const message = createBaseGrant();
     message.granter = object.granter ?? "";
     message.grantee = object.grantee ?? "";
@@ -665,14 +571,14 @@ export const Grant = {
     return {
       granter: object.granter,
       grantee: object.grantee,
-      allowance: object?.allowance ? FeeAllowanceI_FromAmino(object.allowance) : undefined
+      allowance: object?.allowance ? Any.fromAmino(object.allowance) : undefined
     };
   },
   toAmino(message: Grant): GrantAmino {
     const obj: any = {};
     obj.granter = message.granter;
     obj.grantee = message.grantee;
-    obj.allowance = message.allowance ? FeeAllowanceI_ToAmino((message.allowance as Any)) : undefined;
+    obj.allowance = message.allowance ? Any.toAmino(message.allowance) : undefined;
     return obj;
   },
   fromAminoMsg(object: GrantAminoMsg): Grant {
@@ -695,61 +601,5 @@ export const Grant = {
       typeUrl: "/cosmos.feegrant.v1beta1.Grant",
       value: Grant.encode(message).finish()
     };
-  }
-};
-export const FeeAllowanceI_InterfaceDecoder = (input: _m0.Reader | Uint8Array): BasicAllowance | PeriodicAllowance | AllowedMsgAllowance | Any => {
-  const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-  const data = Any.decode(reader, reader.uint32());
-  switch (data.typeUrl) {
-    case "/cosmos.feegrant.v1beta1.BasicAllowance":
-      return BasicAllowance.decode(data.value);
-    case "/cosmos.feegrant.v1beta1.PeriodicAllowance":
-      return PeriodicAllowance.decode(data.value);
-    case "/cosmos.feegrant.v1beta1.AllowedMsgAllowance":
-      return AllowedMsgAllowance.decode(data.value);
-    default:
-      return data;
-  }
-};
-export const FeeAllowanceI_FromAmino = (content: AnyAmino) => {
-  switch (content.type) {
-    case "cosmos-sdk/BasicAllowance":
-      return Any.fromPartial({
-        typeUrl: "/cosmos.feegrant.v1beta1.BasicAllowance",
-        value: BasicAllowance.encode(BasicAllowance.fromPartial(BasicAllowance.fromAmino(content.value))).finish()
-      });
-    case "cosmos-sdk/PeriodicAllowance":
-      return Any.fromPartial({
-        typeUrl: "/cosmos.feegrant.v1beta1.PeriodicAllowance",
-        value: PeriodicAllowance.encode(PeriodicAllowance.fromPartial(PeriodicAllowance.fromAmino(content.value))).finish()
-      });
-    case "cosmos-sdk/AllowedMsgAllowance":
-      return Any.fromPartial({
-        typeUrl: "/cosmos.feegrant.v1beta1.AllowedMsgAllowance",
-        value: AllowedMsgAllowance.encode(AllowedMsgAllowance.fromPartial(AllowedMsgAllowance.fromAmino(content.value))).finish()
-      });
-    default:
-      return Any.fromAmino(content);
-  }
-};
-export const FeeAllowanceI_ToAmino = (content: Any) => {
-  switch (content.typeUrl) {
-    case "/cosmos.feegrant.v1beta1.BasicAllowance":
-      return {
-        type: "cosmos-sdk/BasicAllowance",
-        value: BasicAllowance.toAmino(BasicAllowance.decode(content.value))
-      };
-    case "/cosmos.feegrant.v1beta1.PeriodicAllowance":
-      return {
-        type: "cosmos-sdk/PeriodicAllowance",
-        value: PeriodicAllowance.toAmino(PeriodicAllowance.decode(content.value))
-      };
-    case "/cosmos.feegrant.v1beta1.AllowedMsgAllowance":
-      return {
-        type: "cosmos-sdk/AllowedMsgAllowance",
-        value: AllowedMsgAllowance.toAmino(AllowedMsgAllowance.decode(content.value))
-      };
-    default:
-      return Any.toAmino(content);
   }
 };

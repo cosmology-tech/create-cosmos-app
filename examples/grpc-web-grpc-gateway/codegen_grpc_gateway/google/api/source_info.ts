@@ -1,24 +1,10 @@
-import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../protobuf/any";
-import * as _m0 from "protobufjs/minimal";
-import { DeepPartial } from "../../helpers";
+import { Any, AnySDKType } from "../protobuf/any";
+import { BinaryReader, BinaryWriter } from "../../binary";
 export const protobufPackage = "google.api";
 /** Source information used to create a Service Config */
 export interface SourceInfo {
   /** All files used during config generation. */
   sourceFiles: Any[];
-}
-export interface SourceInfoProtoMsg {
-  typeUrl: "/google.api.SourceInfo";
-  value: Uint8Array;
-}
-/** Source information used to create a Service Config */
-export interface SourceInfoAmino {
-  /** All files used during config generation. */
-  source_files: AnyAmino[];
-}
-export interface SourceInfoAminoMsg {
-  type: "/google.api.SourceInfo";
-  value: SourceInfoAmino;
 }
 /** Source information used to create a Service Config */
 export interface SourceInfoSDKType {
@@ -31,14 +17,14 @@ function createBaseSourceInfo(): SourceInfo {
 }
 export const SourceInfo = {
   typeUrl: "/google.api.SourceInfo",
-  encode(message: SourceInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SourceInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.sourceFiles) {
       Any.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SourceInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SourceInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSourceInfo();
     while (reader.pos < end) {
@@ -68,7 +54,7 @@ export const SourceInfo = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<SourceInfo>): SourceInfo {
+  fromPartial(object: Partial<SourceInfo>): SourceInfo {
     const message = createBaseSourceInfo();
     message.sourceFiles = object.sourceFiles?.map(e => Any.fromPartial(e)) || [];
     return message;

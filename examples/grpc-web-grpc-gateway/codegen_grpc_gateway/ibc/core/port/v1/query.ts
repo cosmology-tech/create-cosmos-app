@@ -1,6 +1,6 @@
-import { Order, OrderSDKType, Counterparty, CounterpartyAmino, CounterpartySDKType, orderFromJSON, orderToJSON } from "../../channel/v1/channel";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../../../helpers";
+import { Order, Counterparty, CounterpartySDKType, orderFromJSON, orderToJSON } from "../../channel/v1/channel";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet } from "../../../../helpers";
 export const protobufPackage = "ibc.core.port.v1";
 /** QueryAppVersionRequest is the request type for the Query/AppVersion RPC method */
 export interface QueryAppVersionRequest {
@@ -14,27 +14,6 @@ export interface QueryAppVersionRequest {
   counterparty?: Counterparty;
   /** proposed version */
   proposedVersion: string;
-}
-export interface QueryAppVersionRequestProtoMsg {
-  typeUrl: "/ibc.core.port.v1.QueryAppVersionRequest";
-  value: Uint8Array;
-}
-/** QueryAppVersionRequest is the request type for the Query/AppVersion RPC method */
-export interface QueryAppVersionRequestAmino {
-  /** port unique identifier */
-  port_id: string;
-  /** connection unique identifier */
-  connection_id: string;
-  /** whether the channel is ordered or unordered */
-  ordering: Order;
-  /** counterparty channel end */
-  counterparty?: CounterpartyAmino;
-  /** proposed version */
-  proposed_version: string;
-}
-export interface QueryAppVersionRequestAminoMsg {
-  type: "cosmos-sdk/QueryAppVersionRequest";
-  value: QueryAppVersionRequestAmino;
 }
 /** QueryAppVersionRequest is the request type for the Query/AppVersion RPC method */
 export interface QueryAppVersionRequestSDKType {
@@ -50,21 +29,6 @@ export interface QueryAppVersionResponse {
   portId: string;
   /** supported app version */
   version: string;
-}
-export interface QueryAppVersionResponseProtoMsg {
-  typeUrl: "/ibc.core.port.v1.QueryAppVersionResponse";
-  value: Uint8Array;
-}
-/** QueryAppVersionResponse is the response type for the Query/AppVersion RPC method. */
-export interface QueryAppVersionResponseAmino {
-  /** port id associated with the request identifiers */
-  port_id: string;
-  /** supported app version */
-  version: string;
-}
-export interface QueryAppVersionResponseAminoMsg {
-  type: "cosmos-sdk/QueryAppVersionResponse";
-  value: QueryAppVersionResponseAmino;
 }
 /** QueryAppVersionResponse is the response type for the Query/AppVersion RPC method. */
 export interface QueryAppVersionResponseSDKType {
@@ -83,7 +47,7 @@ function createBaseQueryAppVersionRequest(): QueryAppVersionRequest {
 export const QueryAppVersionRequest = {
   typeUrl: "/ibc.core.port.v1.QueryAppVersionRequest",
   aminoType: "cosmos-sdk/QueryAppVersionRequest",
-  encode(message: QueryAppVersionRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryAppVersionRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.portId !== "") {
       writer.uint32(10).string(message.portId);
     }
@@ -101,8 +65,8 @@ export const QueryAppVersionRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAppVersionRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAppVersionRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAppVersionRequest();
     while (reader.pos < end) {
@@ -148,7 +112,7 @@ export const QueryAppVersionRequest = {
     message.proposedVersion !== undefined && (obj.proposedVersion = message.proposedVersion);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryAppVersionRequest>): QueryAppVersionRequest {
+  fromPartial(object: Partial<QueryAppVersionRequest>): QueryAppVersionRequest {
     const message = createBaseQueryAppVersionRequest();
     message.portId = object.portId ?? "";
     message.connectionId = object.connectionId ?? "";
@@ -224,7 +188,7 @@ function createBaseQueryAppVersionResponse(): QueryAppVersionResponse {
 export const QueryAppVersionResponse = {
   typeUrl: "/ibc.core.port.v1.QueryAppVersionResponse",
   aminoType: "cosmos-sdk/QueryAppVersionResponse",
-  encode(message: QueryAppVersionResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryAppVersionResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.portId !== "") {
       writer.uint32(10).string(message.portId);
     }
@@ -233,8 +197,8 @@ export const QueryAppVersionResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAppVersionResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAppVersionResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAppVersionResponse();
     while (reader.pos < end) {
@@ -265,7 +229,7 @@ export const QueryAppVersionResponse = {
     message.version !== undefined && (obj.version = message.version);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryAppVersionResponse>): QueryAppVersionResponse {
+  fromPartial(object: Partial<QueryAppVersionResponse>): QueryAppVersionResponse {
     const message = createBaseQueryAppVersionResponse();
     message.portId = object.portId ?? "";
     message.version = object.version ?? "";

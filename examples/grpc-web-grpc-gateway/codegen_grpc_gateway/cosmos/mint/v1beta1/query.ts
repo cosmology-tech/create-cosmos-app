@@ -1,19 +1,9 @@
-import { Params, ParamsAmino, ParamsSDKType } from "./mint";
-import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, isSet, bytesFromBase64, base64FromBytes } from "../../../helpers";
+import { Params, ParamsSDKType } from "./mint";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes } from "../../../helpers";
 export const protobufPackage = "cosmos.mint.v1beta1";
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
-export interface QueryParamsRequestProtoMsg {
-  typeUrl: "/cosmos.mint.v1beta1.QueryParamsRequest";
-  value: Uint8Array;
-}
-/** QueryParamsRequest is the request type for the Query/Params RPC method. */
-export interface QueryParamsRequestAmino {}
-export interface QueryParamsRequestAminoMsg {
-  type: "cosmos-sdk/QueryParamsRequest";
-  value: QueryParamsRequestAmino;
-}
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequestSDKType {}
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
@@ -21,35 +11,12 @@ export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
   params?: Params;
 }
-export interface QueryParamsResponseProtoMsg {
-  typeUrl: "/cosmos.mint.v1beta1.QueryParamsResponse";
-  value: Uint8Array;
-}
-/** QueryParamsResponse is the response type for the Query/Params RPC method. */
-export interface QueryParamsResponseAmino {
-  /** params defines the parameters of the module. */
-  params?: ParamsAmino;
-}
-export interface QueryParamsResponseAminoMsg {
-  type: "cosmos-sdk/QueryParamsResponse";
-  value: QueryParamsResponseAmino;
-}
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 export interface QueryParamsResponseSDKType {
   params?: ParamsSDKType;
 }
 /** QueryInflationRequest is the request type for the Query/Inflation RPC method. */
 export interface QueryInflationRequest {}
-export interface QueryInflationRequestProtoMsg {
-  typeUrl: "/cosmos.mint.v1beta1.QueryInflationRequest";
-  value: Uint8Array;
-}
-/** QueryInflationRequest is the request type for the Query/Inflation RPC method. */
-export interface QueryInflationRequestAmino {}
-export interface QueryInflationRequestAminoMsg {
-  type: "cosmos-sdk/QueryInflationRequest";
-  value: QueryInflationRequestAmino;
-}
 /** QueryInflationRequest is the request type for the Query/Inflation RPC method. */
 export interface QueryInflationRequestSDKType {}
 /**
@@ -59,22 +26,6 @@ export interface QueryInflationRequestSDKType {}
 export interface QueryInflationResponse {
   /** inflation is the current minting inflation value. */
   inflation: Uint8Array;
-}
-export interface QueryInflationResponseProtoMsg {
-  typeUrl: "/cosmos.mint.v1beta1.QueryInflationResponse";
-  value: Uint8Array;
-}
-/**
- * QueryInflationResponse is the response type for the Query/Inflation RPC
- * method.
- */
-export interface QueryInflationResponseAmino {
-  /** inflation is the current minting inflation value. */
-  inflation: Uint8Array;
-}
-export interface QueryInflationResponseAminoMsg {
-  type: "cosmos-sdk/QueryInflationResponse";
-  value: QueryInflationResponseAmino;
 }
 /**
  * QueryInflationResponse is the response type for the Query/Inflation RPC
@@ -88,19 +39,6 @@ export interface QueryInflationResponseSDKType {
  * Query/AnnualProvisions RPC method.
  */
 export interface QueryAnnualProvisionsRequest {}
-export interface QueryAnnualProvisionsRequestProtoMsg {
-  typeUrl: "/cosmos.mint.v1beta1.QueryAnnualProvisionsRequest";
-  value: Uint8Array;
-}
-/**
- * QueryAnnualProvisionsRequest is the request type for the
- * Query/AnnualProvisions RPC method.
- */
-export interface QueryAnnualProvisionsRequestAmino {}
-export interface QueryAnnualProvisionsRequestAminoMsg {
-  type: "cosmos-sdk/QueryAnnualProvisionsRequest";
-  value: QueryAnnualProvisionsRequestAmino;
-}
 /**
  * QueryAnnualProvisionsRequest is the request type for the
  * Query/AnnualProvisions RPC method.
@@ -113,22 +51,6 @@ export interface QueryAnnualProvisionsRequestSDKType {}
 export interface QueryAnnualProvisionsResponse {
   /** annual_provisions is the current minting annual provisions value. */
   annualProvisions: Uint8Array;
-}
-export interface QueryAnnualProvisionsResponseProtoMsg {
-  typeUrl: "/cosmos.mint.v1beta1.QueryAnnualProvisionsResponse";
-  value: Uint8Array;
-}
-/**
- * QueryAnnualProvisionsResponse is the response type for the
- * Query/AnnualProvisions RPC method.
- */
-export interface QueryAnnualProvisionsResponseAmino {
-  /** annual_provisions is the current minting annual provisions value. */
-  annual_provisions: Uint8Array;
-}
-export interface QueryAnnualProvisionsResponseAminoMsg {
-  type: "cosmos-sdk/QueryAnnualProvisionsResponse";
-  value: QueryAnnualProvisionsResponseAmino;
 }
 /**
  * QueryAnnualProvisionsResponse is the response type for the
@@ -143,11 +65,11 @@ function createBaseQueryParamsRequest(): QueryParamsRequest {
 export const QueryParamsRequest = {
   typeUrl: "/cosmos.mint.v1beta1.QueryParamsRequest",
   aminoType: "cosmos-sdk/QueryParamsRequest",
-  encode(_: QueryParamsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryParamsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsRequest();
     while (reader.pos < end) {
@@ -167,7 +89,7 @@ export const QueryParamsRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<QueryParamsRequest>): QueryParamsRequest {
+  fromPartial(_: Partial<QueryParamsRequest>): QueryParamsRequest {
     const message = createBaseQueryParamsRequest();
     return message;
   },
@@ -215,14 +137,14 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
 export const QueryParamsResponse = {
   typeUrl: "/cosmos.mint.v1beta1.QueryParamsResponse",
   aminoType: "cosmos-sdk/QueryParamsResponse",
-  encode(message: QueryParamsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryParamsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();
     while (reader.pos < end) {
@@ -248,7 +170,7 @@ export const QueryParamsResponse = {
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryParamsResponse>): QueryParamsResponse {
+  fromPartial(object: Partial<QueryParamsResponse>): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
     message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
     return message;
@@ -301,11 +223,11 @@ function createBaseQueryInflationRequest(): QueryInflationRequest {
 export const QueryInflationRequest = {
   typeUrl: "/cosmos.mint.v1beta1.QueryInflationRequest",
   aminoType: "cosmos-sdk/QueryInflationRequest",
-  encode(_: QueryInflationRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryInflationRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryInflationRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryInflationRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryInflationRequest();
     while (reader.pos < end) {
@@ -325,7 +247,7 @@ export const QueryInflationRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<QueryInflationRequest>): QueryInflationRequest {
+  fromPartial(_: Partial<QueryInflationRequest>): QueryInflationRequest {
     const message = createBaseQueryInflationRequest();
     return message;
   },
@@ -373,14 +295,14 @@ function createBaseQueryInflationResponse(): QueryInflationResponse {
 export const QueryInflationResponse = {
   typeUrl: "/cosmos.mint.v1beta1.QueryInflationResponse",
   aminoType: "cosmos-sdk/QueryInflationResponse",
-  encode(message: QueryInflationResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryInflationResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.inflation.length !== 0) {
       writer.uint32(10).bytes(message.inflation);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryInflationResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryInflationResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryInflationResponse();
     while (reader.pos < end) {
@@ -406,7 +328,7 @@ export const QueryInflationResponse = {
     message.inflation !== undefined && (obj.inflation = base64FromBytes(message.inflation !== undefined ? message.inflation : new Uint8Array()));
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryInflationResponse>): QueryInflationResponse {
+  fromPartial(object: Partial<QueryInflationResponse>): QueryInflationResponse {
     const message = createBaseQueryInflationResponse();
     message.inflation = object.inflation ?? new Uint8Array();
     return message;
@@ -459,11 +381,11 @@ function createBaseQueryAnnualProvisionsRequest(): QueryAnnualProvisionsRequest 
 export const QueryAnnualProvisionsRequest = {
   typeUrl: "/cosmos.mint.v1beta1.QueryAnnualProvisionsRequest",
   aminoType: "cosmos-sdk/QueryAnnualProvisionsRequest",
-  encode(_: QueryAnnualProvisionsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryAnnualProvisionsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAnnualProvisionsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAnnualProvisionsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAnnualProvisionsRequest();
     while (reader.pos < end) {
@@ -483,7 +405,7 @@ export const QueryAnnualProvisionsRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<QueryAnnualProvisionsRequest>): QueryAnnualProvisionsRequest {
+  fromPartial(_: Partial<QueryAnnualProvisionsRequest>): QueryAnnualProvisionsRequest {
     const message = createBaseQueryAnnualProvisionsRequest();
     return message;
   },
@@ -531,14 +453,14 @@ function createBaseQueryAnnualProvisionsResponse(): QueryAnnualProvisionsRespons
 export const QueryAnnualProvisionsResponse = {
   typeUrl: "/cosmos.mint.v1beta1.QueryAnnualProvisionsResponse",
   aminoType: "cosmos-sdk/QueryAnnualProvisionsResponse",
-  encode(message: QueryAnnualProvisionsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryAnnualProvisionsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.annualProvisions.length !== 0) {
       writer.uint32(10).bytes(message.annualProvisions);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAnnualProvisionsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAnnualProvisionsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAnnualProvisionsResponse();
     while (reader.pos < end) {
@@ -564,7 +486,7 @@ export const QueryAnnualProvisionsResponse = {
     message.annualProvisions !== undefined && (obj.annualProvisions = base64FromBytes(message.annualProvisions !== undefined ? message.annualProvisions : new Uint8Array()));
     return obj;
   },
-  fromPartial(object: DeepPartial<QueryAnnualProvisionsResponse>): QueryAnnualProvisionsResponse {
+  fromPartial(object: Partial<QueryAnnualProvisionsResponse>): QueryAnnualProvisionsResponse {
     const message = createBaseQueryAnnualProvisionsResponse();
     message.annualProvisions = object.annualProvisions ?? new Uint8Array();
     return message;

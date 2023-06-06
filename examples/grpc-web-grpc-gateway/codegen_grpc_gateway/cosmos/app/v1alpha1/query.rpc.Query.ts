@@ -1,6 +1,5 @@
-import { Config, ConfigSDKType } from "./config";
 import * as fm from "../../../grpc-gateway";
-import { QueryConfigRequest, QueryConfigRequestSDKType, QueryConfigResponse, QueryConfigResponseSDKType } from "./query";
+import { QueryConfigRequest, QueryConfigResponse } from "./query";
 export class Query {
   /** Config returns the current app config. */
   static config(request: QueryConfigRequest, initRequest?: fm.InitReq): Promise<QueryConfigResponse> {

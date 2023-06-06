@@ -1,6 +1,6 @@
-import { Expr, ExprAmino, ExprSDKType } from "./expr";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../../../helpers";
+import { Expr, ExprSDKType } from "./expr";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet } from "../../../../helpers";
 export const protobufPackage = "google.api.expr.v1beta1";
 /** A declaration. */
 export interface Decl {
@@ -14,27 +14,6 @@ export interface Decl {
   ident?: IdentDecl;
   /** A function declaration. */
   function?: FunctionDecl;
-}
-export interface DeclProtoMsg {
-  typeUrl: "/google.api.expr.v1beta1.Decl";
-  value: Uint8Array;
-}
-/** A declaration. */
-export interface DeclAmino {
-  /** The id of the declaration. */
-  id: number;
-  /** The name of the declaration. */
-  name: string;
-  /** The documentation string for the declaration. */
-  doc: string;
-  /** An identifier declaration. */
-  ident?: IdentDeclAmino;
-  /** A function declaration. */
-  function?: FunctionDeclAmino;
-}
-export interface DeclAminoMsg {
-  type: "/google.api.expr.v1beta1.Decl";
-  value: DeclAmino;
 }
 /** A declaration. */
 export interface DeclSDKType {
@@ -61,31 +40,6 @@ export interface DeclType {
    */
   typeParams: DeclType[];
 }
-export interface DeclTypeProtoMsg {
-  typeUrl: "/google.api.expr.v1beta1.DeclType";
-  value: Uint8Array;
-}
-/**
- * The declared type of a variable.
- * 
- * Extends runtime type values with extra information used for type checking
- * and dispatching.
- */
-export interface DeclTypeAmino {
-  /** The expression id of the declared type, if applicable. */
-  id: number;
-  /** The type name, e.g. 'int', 'my.type.Type' or 'T' */
-  type: string;
-  /**
-   * An ordered list of type parameters, e.g. `<string, int>`.
-   * Only applies to a subset of types, e.g. `map`, `list`.
-   */
-  type_params: DeclTypeAmino[];
-}
-export interface DeclTypeAminoMsg {
-  type: "/google.api.expr.v1beta1.DeclType";
-  value: DeclTypeAmino;
-}
 /**
  * The declared type of a variable.
  * 
@@ -104,21 +58,6 @@ export interface IdentDecl {
   /** Optional value of the identifier. */
   value?: Expr;
 }
-export interface IdentDeclProtoMsg {
-  typeUrl: "/google.api.expr.v1beta1.IdentDecl";
-  value: Uint8Array;
-}
-/** An identifier declaration. */
-export interface IdentDeclAmino {
-  /** Optional type of the identifier. */
-  type?: DeclTypeAmino;
-  /** Optional value of the identifier. */
-  value?: ExprAmino;
-}
-export interface IdentDeclAminoMsg {
-  type: "/google.api.expr.v1beta1.IdentDecl";
-  value: IdentDeclAmino;
-}
 /** An identifier declaration. */
 export interface IdentDeclSDKType {
   type?: DeclTypeSDKType;
@@ -132,23 +71,6 @@ export interface FunctionDecl {
   returnType?: DeclType;
   /** If the first argument of the function is the receiver. */
   receiverFunction: boolean;
-}
-export interface FunctionDeclProtoMsg {
-  typeUrl: "/google.api.expr.v1beta1.FunctionDecl";
-  value: Uint8Array;
-}
-/** A function declaration. */
-export interface FunctionDeclAmino {
-  /** The function arguments. */
-  args: IdentDeclAmino[];
-  /** Optional declared return type. */
-  return_type?: DeclTypeAmino;
-  /** If the first argument of the function is the receiver. */
-  receiver_function: boolean;
-}
-export interface FunctionDeclAminoMsg {
-  type: "/google.api.expr.v1beta1.FunctionDecl";
-  value: FunctionDeclAmino;
 }
 /** A function declaration. */
 export interface FunctionDeclSDKType {
@@ -167,7 +89,7 @@ function createBaseDecl(): Decl {
 }
 export const Decl = {
   typeUrl: "/google.api.expr.v1beta1.Decl",
-  encode(message: Decl, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Decl, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== 0) {
       writer.uint32(8).int32(message.id);
     }
@@ -185,8 +107,8 @@ export const Decl = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Decl {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Decl {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDecl();
     while (reader.pos < end) {
@@ -232,7 +154,7 @@ export const Decl = {
     message.function !== undefined && (obj.function = message.function ? FunctionDecl.toJSON(message.function) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<Decl>): Decl {
+  fromPartial(object: Partial<Decl>): Decl {
     const message = createBaseDecl();
     message.id = object.id ?? 0;
     message.name = object.name ?? "";
@@ -302,7 +224,7 @@ function createBaseDeclType(): DeclType {
 }
 export const DeclType = {
   typeUrl: "/google.api.expr.v1beta1.DeclType",
-  encode(message: DeclType, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DeclType, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== 0) {
       writer.uint32(8).int32(message.id);
     }
@@ -314,8 +236,8 @@ export const DeclType = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DeclType {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DeclType {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDeclType();
     while (reader.pos < end) {
@@ -355,7 +277,7 @@ export const DeclType = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<DeclType>): DeclType {
+  fromPartial(object: Partial<DeclType>): DeclType {
     const message = createBaseDeclType();
     message.id = object.id ?? 0;
     message.type = object.type ?? "";
@@ -422,7 +344,7 @@ function createBaseIdentDecl(): IdentDecl {
 }
 export const IdentDecl = {
   typeUrl: "/google.api.expr.v1beta1.IdentDecl",
-  encode(message: IdentDecl, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: IdentDecl, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.type !== undefined) {
       DeclType.encode(message.type, writer.uint32(26).fork()).ldelim();
     }
@@ -431,8 +353,8 @@ export const IdentDecl = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): IdentDecl {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): IdentDecl {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseIdentDecl();
     while (reader.pos < end) {
@@ -463,7 +385,7 @@ export const IdentDecl = {
     message.value !== undefined && (obj.value = message.value ? Expr.toJSON(message.value) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<IdentDecl>): IdentDecl {
+  fromPartial(object: Partial<IdentDecl>): IdentDecl {
     const message = createBaseIdentDecl();
     message.type = object.type !== undefined && object.type !== null ? DeclType.fromPartial(object.type) : undefined;
     message.value = object.value !== undefined && object.value !== null ? Expr.fromPartial(object.value) : undefined;
@@ -518,7 +440,7 @@ function createBaseFunctionDecl(): FunctionDecl {
 }
 export const FunctionDecl = {
   typeUrl: "/google.api.expr.v1beta1.FunctionDecl",
-  encode(message: FunctionDecl, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: FunctionDecl, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.args) {
       IdentDecl.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -530,8 +452,8 @@ export const FunctionDecl = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): FunctionDecl {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): FunctionDecl {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseFunctionDecl();
     while (reader.pos < end) {
@@ -571,7 +493,7 @@ export const FunctionDecl = {
     message.receiverFunction !== undefined && (obj.receiverFunction = message.receiverFunction);
     return obj;
   },
-  fromPartial(object: DeepPartial<FunctionDecl>): FunctionDecl {
+  fromPartial(object: Partial<FunctionDecl>): FunctionDecl {
     const message = createBaseFunctionDecl();
     message.args = object.args?.map(e => IdentDecl.fromPartial(e)) || [];
     message.returnType = object.returnType !== undefined && object.returnType !== null ? DeclType.fromPartial(object.returnType) : undefined;

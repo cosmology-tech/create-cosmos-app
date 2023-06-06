@@ -1,21 +1,9 @@
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, isObject } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.expr.v1beta1";
 export interface SourceInfo_PositionsEntry {
   key: number;
   value: number;
-}
-export interface SourceInfo_PositionsEntryProtoMsg {
-  typeUrl: string;
-  value: Uint8Array;
-}
-export interface SourceInfo_PositionsEntryAmino {
-  key: number;
-  value: number;
-}
-export interface SourceInfo_PositionsEntryAminoMsg {
-  type: string;
-  value: SourceInfo_PositionsEntryAmino;
 }
 export interface SourceInfo_PositionsEntrySDKType {
   key: number;
@@ -47,40 +35,6 @@ export interface SourceInfo {
     [key: number]: number;
   };
 }
-export interface SourceInfoProtoMsg {
-  typeUrl: "/google.api.expr.v1beta1.SourceInfo";
-  value: Uint8Array;
-}
-/** Source information collected at parse time. */
-export interface SourceInfoAmino {
-  /**
-   * The location name. All position information attached to an expression is
-   * relative to this location.
-   * 
-   * The location could be a file, UI element, or similar. For example,
-   * `acme/app/AnvilPolicy.cel`.
-   */
-  location: string;
-  /**
-   * Monotonically increasing list of character offsets where newlines appear.
-   * 
-   * The line number of a given position is the index `i` where for a given
-   * `id` the `line_offsets[i] < id_positions[id] < line_offsets[i+1]`. The
-   * column may be derivd from `id_positions[id] - line_offsets[i]`.
-   */
-  line_offsets: number[];
-  /**
-   * A map from the parse node id (e.g. `Expr.id`) to the character offset
-   * within source.
-   */
-  positions: {
-    [key: number]: number;
-  };
-}
-export interface SourceInfoAminoMsg {
-  type: "/google.api.expr.v1beta1.SourceInfo";
-  value: SourceInfoAmino;
-}
 /** Source information collected at parse time. */
 export interface SourceInfoSDKType {
   location: string;
@@ -106,31 +60,6 @@ export interface SourcePosition {
    */
   column: number;
 }
-export interface SourcePositionProtoMsg {
-  typeUrl: "/google.api.expr.v1beta1.SourcePosition";
-  value: Uint8Array;
-}
-/** A specific position in source. */
-export interface SourcePositionAmino {
-  /** The soucre location name (e.g. file name). */
-  location: string;
-  /** The character offset. */
-  offset: number;
-  /**
-   * The 1-based index of the starting line in the source text
-   * where the issue occurs, or 0 if unknown.
-   */
-  line: number;
-  /**
-   * The 0-based index of the starting position within the line of source text
-   * where the issue occurs.  Only meaningful if line is nonzer..
-   */
-  column: number;
-}
-export interface SourcePositionAminoMsg {
-  type: "/google.api.expr.v1beta1.SourcePosition";
-  value: SourcePositionAmino;
-}
 /** A specific position in source. */
 export interface SourcePositionSDKType {
   location: string;
@@ -145,7 +74,7 @@ function createBaseSourceInfo_PositionsEntry(): SourceInfo_PositionsEntry {
   };
 }
 export const SourceInfo_PositionsEntry = {
-  encode(message: SourceInfo_PositionsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SourceInfo_PositionsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== 0) {
       writer.uint32(8).int32(message.key);
     }
@@ -154,8 +83,8 @@ export const SourceInfo_PositionsEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SourceInfo_PositionsEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SourceInfo_PositionsEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSourceInfo_PositionsEntry();
     while (reader.pos < end) {
@@ -186,7 +115,7 @@ export const SourceInfo_PositionsEntry = {
     message.value !== undefined && (obj.value = Math.round(message.value));
     return obj;
   },
-  fromPartial(object: DeepPartial<SourceInfo_PositionsEntry>): SourceInfo_PositionsEntry {
+  fromPartial(object: Partial<SourceInfo_PositionsEntry>): SourceInfo_PositionsEntry {
     const message = createBaseSourceInfo_PositionsEntry();
     message.key = object.key ?? 0;
     message.value = object.value ?? 0;
@@ -235,7 +164,7 @@ function createBaseSourceInfo(): SourceInfo {
 }
 export const SourceInfo = {
   typeUrl: "/google.api.expr.v1beta1.SourceInfo",
-  encode(message: SourceInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SourceInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.location !== "") {
       writer.uint32(18).string(message.location);
     }
@@ -252,8 +181,8 @@ export const SourceInfo = {
     });
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SourceInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SourceInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSourceInfo();
     while (reader.pos < end) {
@@ -313,7 +242,7 @@ export const SourceInfo = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<SourceInfo>): SourceInfo {
+  fromPartial(object: Partial<SourceInfo>): SourceInfo {
     const message = createBaseSourceInfo();
     message.location = object.location ?? "";
     message.lineOffsets = object.lineOffsets?.map(e => e) || [];
@@ -409,7 +338,7 @@ function createBaseSourcePosition(): SourcePosition {
 }
 export const SourcePosition = {
   typeUrl: "/google.api.expr.v1beta1.SourcePosition",
-  encode(message: SourcePosition, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SourcePosition, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.location !== "") {
       writer.uint32(10).string(message.location);
     }
@@ -424,8 +353,8 @@ export const SourcePosition = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SourcePosition {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SourcePosition {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSourcePosition();
     while (reader.pos < end) {
@@ -466,7 +395,7 @@ export const SourcePosition = {
     message.column !== undefined && (obj.column = Math.round(message.column));
     return obj;
   },
-  fromPartial(object: DeepPartial<SourcePosition>): SourcePosition {
+  fromPartial(object: Partial<SourcePosition>): SourcePosition {
     const message = createBaseSourcePosition();
     message.location = object.location ?? "";
     message.offset = object.offset ?? 0;

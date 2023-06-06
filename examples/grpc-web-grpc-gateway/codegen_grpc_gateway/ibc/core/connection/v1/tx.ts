@@ -1,8 +1,8 @@
-import { Counterparty, CounterpartyAmino, CounterpartySDKType, Version, VersionAmino, VersionSDKType } from "./connection";
-import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
-import { Height, HeightAmino, HeightSDKType } from "../../client/v1/client";
-import { Long, isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { Counterparty, CounterpartySDKType, Version, VersionSDKType } from "./connection";
+import { Any, AnySDKType } from "../../../../google/protobuf/any";
+import { Height, HeightSDKType } from "../../client/v1/client";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "ibc.core.connection.v1";
 /**
  * MsgConnectionOpenInit defines the msg sent by an account on Chain A to
@@ -12,27 +12,8 @@ export interface MsgConnectionOpenInit {
   clientId: string;
   counterparty?: Counterparty;
   version?: Version;
-  delayPeriod: Long;
+  delayPeriod: bigint;
   signer: string;
-}
-export interface MsgConnectionOpenInitProtoMsg {
-  typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenInit";
-  value: Uint8Array;
-}
-/**
- * MsgConnectionOpenInit defines the msg sent by an account on Chain A to
- * initialize a connection with Chain B.
- */
-export interface MsgConnectionOpenInitAmino {
-  client_id: string;
-  counterparty?: CounterpartyAmino;
-  version?: VersionAmino;
-  delay_period: string;
-  signer: string;
-}
-export interface MsgConnectionOpenInitAminoMsg {
-  type: "cosmos-sdk/MsgConnectionOpenInit";
-  value: MsgConnectionOpenInitAmino;
 }
 /**
  * MsgConnectionOpenInit defines the msg sent by an account on Chain A to
@@ -42,7 +23,7 @@ export interface MsgConnectionOpenInitSDKType {
   client_id: string;
   counterparty?: CounterpartySDKType;
   version?: VersionSDKType;
-  delay_period: Long;
+  delay_period: bigint;
   signer: string;
 }
 /**
@@ -50,19 +31,6 @@ export interface MsgConnectionOpenInitSDKType {
  * type.
  */
 export interface MsgConnectionOpenInitResponse {}
-export interface MsgConnectionOpenInitResponseProtoMsg {
-  typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenInitResponse";
-  value: Uint8Array;
-}
-/**
- * MsgConnectionOpenInitResponse defines the Msg/ConnectionOpenInit response
- * type.
- */
-export interface MsgConnectionOpenInitResponseAmino {}
-export interface MsgConnectionOpenInitResponseAminoMsg {
-  type: "cosmos-sdk/MsgConnectionOpenInitResponse";
-  value: MsgConnectionOpenInitResponseAmino;
-}
 /**
  * MsgConnectionOpenInitResponse defines the Msg/ConnectionOpenInit response
  * type.
@@ -81,7 +49,7 @@ export interface MsgConnectionOpenTry {
   previousConnectionId: string;
   clientState?: Any;
   counterparty?: Counterparty;
-  delayPeriod: Long;
+  delayPeriod: bigint;
   counterpartyVersions: Version[];
   proofHeight?: Height;
   /**
@@ -96,42 +64,6 @@ export interface MsgConnectionOpenTry {
   consensusHeight?: Height;
   signer: string;
 }
-export interface MsgConnectionOpenTryProtoMsg {
-  typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenTry";
-  value: Uint8Array;
-}
-/**
- * MsgConnectionOpenTry defines a msg sent by a Relayer to try to open a
- * connection on Chain B.
- */
-export interface MsgConnectionOpenTryAmino {
-  client_id: string;
-  /**
-   * in the case of crossing hello's, when both chains call OpenInit, we need
-   * the connection identifier of the previous connection in state INIT
-   */
-  previous_connection_id: string;
-  client_state?: AnyAmino;
-  counterparty?: CounterpartyAmino;
-  delay_period: string;
-  counterparty_versions: VersionAmino[];
-  proof_height?: HeightAmino;
-  /**
-   * proof of the initialization the connection on Chain A: `UNITIALIZED ->
-   * INIT`
-   */
-  proof_init: Uint8Array;
-  /** proof of client state included in message */
-  proof_client: Uint8Array;
-  /** proof of client consensus state */
-  proof_consensus: Uint8Array;
-  consensus_height?: HeightAmino;
-  signer: string;
-}
-export interface MsgConnectionOpenTryAminoMsg {
-  type: "cosmos-sdk/MsgConnectionOpenTry";
-  value: MsgConnectionOpenTryAmino;
-}
 /**
  * MsgConnectionOpenTry defines a msg sent by a Relayer to try to open a
  * connection on Chain B.
@@ -141,7 +73,7 @@ export interface MsgConnectionOpenTrySDKType {
   previous_connection_id: string;
   client_state?: AnySDKType;
   counterparty?: CounterpartySDKType;
-  delay_period: Long;
+  delay_period: bigint;
   counterparty_versions: VersionSDKType[];
   proof_height?: HeightSDKType;
   proof_init: Uint8Array;
@@ -152,16 +84,6 @@ export interface MsgConnectionOpenTrySDKType {
 }
 /** MsgConnectionOpenTryResponse defines the Msg/ConnectionOpenTry response type. */
 export interface MsgConnectionOpenTryResponse {}
-export interface MsgConnectionOpenTryResponseProtoMsg {
-  typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenTryResponse";
-  value: Uint8Array;
-}
-/** MsgConnectionOpenTryResponse defines the Msg/ConnectionOpenTry response type. */
-export interface MsgConnectionOpenTryResponseAmino {}
-export interface MsgConnectionOpenTryResponseAminoMsg {
-  type: "cosmos-sdk/MsgConnectionOpenTryResponse";
-  value: MsgConnectionOpenTryResponseAmino;
-}
 /** MsgConnectionOpenTryResponse defines the Msg/ConnectionOpenTry response type. */
 export interface MsgConnectionOpenTryResponseSDKType {}
 /**
@@ -186,36 +108,6 @@ export interface MsgConnectionOpenAck {
   consensusHeight?: Height;
   signer: string;
 }
-export interface MsgConnectionOpenAckProtoMsg {
-  typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenAck";
-  value: Uint8Array;
-}
-/**
- * MsgConnectionOpenAck defines a msg sent by a Relayer to Chain A to
- * acknowledge the change of connection state to TRYOPEN on Chain B.
- */
-export interface MsgConnectionOpenAckAmino {
-  connection_id: string;
-  counterparty_connection_id: string;
-  version?: VersionAmino;
-  client_state?: AnyAmino;
-  proof_height?: HeightAmino;
-  /**
-   * proof of the initialization the connection on Chain B: `UNITIALIZED ->
-   * TRYOPEN`
-   */
-  proof_try: Uint8Array;
-  /** proof of client state included in message */
-  proof_client: Uint8Array;
-  /** proof of client consensus state */
-  proof_consensus: Uint8Array;
-  consensus_height?: HeightAmino;
-  signer: string;
-}
-export interface MsgConnectionOpenAckAminoMsg {
-  type: "cosmos-sdk/MsgConnectionOpenAck";
-  value: MsgConnectionOpenAckAmino;
-}
 /**
  * MsgConnectionOpenAck defines a msg sent by a Relayer to Chain A to
  * acknowledge the change of connection state to TRYOPEN on Chain B.
@@ -234,16 +126,6 @@ export interface MsgConnectionOpenAckSDKType {
 }
 /** MsgConnectionOpenAckResponse defines the Msg/ConnectionOpenAck response type. */
 export interface MsgConnectionOpenAckResponse {}
-export interface MsgConnectionOpenAckResponseProtoMsg {
-  typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenAckResponse";
-  value: Uint8Array;
-}
-/** MsgConnectionOpenAckResponse defines the Msg/ConnectionOpenAck response type. */
-export interface MsgConnectionOpenAckResponseAmino {}
-export interface MsgConnectionOpenAckResponseAminoMsg {
-  type: "cosmos-sdk/MsgConnectionOpenAckResponse";
-  value: MsgConnectionOpenAckResponseAmino;
-}
 /** MsgConnectionOpenAckResponse defines the Msg/ConnectionOpenAck response type. */
 export interface MsgConnectionOpenAckResponseSDKType {}
 /**
@@ -256,25 +138,6 @@ export interface MsgConnectionOpenConfirm {
   proofAck: Uint8Array;
   proofHeight?: Height;
   signer: string;
-}
-export interface MsgConnectionOpenConfirmProtoMsg {
-  typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenConfirm";
-  value: Uint8Array;
-}
-/**
- * MsgConnectionOpenConfirm defines a msg sent by a Relayer to Chain B to
- * acknowledge the change of connection state to OPEN on Chain A.
- */
-export interface MsgConnectionOpenConfirmAmino {
-  connection_id: string;
-  /** proof for the change of the connection state on Chain A: `INIT -> OPEN` */
-  proof_ack: Uint8Array;
-  proof_height?: HeightAmino;
-  signer: string;
-}
-export interface MsgConnectionOpenConfirmAminoMsg {
-  type: "cosmos-sdk/MsgConnectionOpenConfirm";
-  value: MsgConnectionOpenConfirmAmino;
 }
 /**
  * MsgConnectionOpenConfirm defines a msg sent by a Relayer to Chain B to
@@ -291,19 +154,6 @@ export interface MsgConnectionOpenConfirmSDKType {
  * response type.
  */
 export interface MsgConnectionOpenConfirmResponse {}
-export interface MsgConnectionOpenConfirmResponseProtoMsg {
-  typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenConfirmResponse";
-  value: Uint8Array;
-}
-/**
- * MsgConnectionOpenConfirmResponse defines the Msg/ConnectionOpenConfirm
- * response type.
- */
-export interface MsgConnectionOpenConfirmResponseAmino {}
-export interface MsgConnectionOpenConfirmResponseAminoMsg {
-  type: "cosmos-sdk/MsgConnectionOpenConfirmResponse";
-  value: MsgConnectionOpenConfirmResponseAmino;
-}
 /**
  * MsgConnectionOpenConfirmResponse defines the Msg/ConnectionOpenConfirm
  * response type.
@@ -314,14 +164,14 @@ function createBaseMsgConnectionOpenInit(): MsgConnectionOpenInit {
     clientId: "",
     counterparty: undefined,
     version: undefined,
-    delayPeriod: Long.UZERO,
+    delayPeriod: BigInt("0"),
     signer: ""
   };
 }
 export const MsgConnectionOpenInit = {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenInit",
   aminoType: "cosmos-sdk/MsgConnectionOpenInit",
-  encode(message: MsgConnectionOpenInit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgConnectionOpenInit, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
@@ -331,7 +181,7 @@ export const MsgConnectionOpenInit = {
     if (message.version !== undefined) {
       Version.encode(message.version, writer.uint32(26).fork()).ldelim();
     }
-    if (!message.delayPeriod.isZero()) {
+    if (message.delayPeriod !== BigInt(0)) {
       writer.uint32(32).uint64(message.delayPeriod);
     }
     if (message.signer !== "") {
@@ -339,8 +189,8 @@ export const MsgConnectionOpenInit = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenInit {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgConnectionOpenInit {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConnectionOpenInit();
     while (reader.pos < end) {
@@ -356,7 +206,7 @@ export const MsgConnectionOpenInit = {
           message.version = Version.decode(reader, reader.uint32());
           break;
         case 4:
-          message.delayPeriod = (reader.uint64() as Long);
+          message.delayPeriod = BigInt(reader.uint64().toString());
           break;
         case 5:
           message.signer = reader.string();
@@ -373,7 +223,7 @@ export const MsgConnectionOpenInit = {
       clientId: isSet(object.clientId) ? String(object.clientId) : "",
       counterparty: isSet(object.counterparty) ? Counterparty.fromJSON(object.counterparty) : undefined,
       version: isSet(object.version) ? Version.fromJSON(object.version) : undefined,
-      delayPeriod: isSet(object.delayPeriod) ? Long.fromValue(object.delayPeriod) : Long.UZERO,
+      delayPeriod: isSet(object.delayPeriod) ? BigInt(object.delayPeriod.toString()) : BigInt("0"),
       signer: isSet(object.signer) ? String(object.signer) : ""
     };
   },
@@ -382,16 +232,16 @@ export const MsgConnectionOpenInit = {
     message.clientId !== undefined && (obj.clientId = message.clientId);
     message.counterparty !== undefined && (obj.counterparty = message.counterparty ? Counterparty.toJSON(message.counterparty) : undefined);
     message.version !== undefined && (obj.version = message.version ? Version.toJSON(message.version) : undefined);
-    message.delayPeriod !== undefined && (obj.delayPeriod = (message.delayPeriod || Long.UZERO).toString());
+    message.delayPeriod !== undefined && (obj.delayPeriod = (message.delayPeriod || BigInt("0")).toString());
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgConnectionOpenInit>): MsgConnectionOpenInit {
+  fromPartial(object: Partial<MsgConnectionOpenInit>): MsgConnectionOpenInit {
     const message = createBaseMsgConnectionOpenInit();
     message.clientId = object.clientId ?? "";
     message.counterparty = object.counterparty !== undefined && object.counterparty !== null ? Counterparty.fromPartial(object.counterparty) : undefined;
     message.version = object.version !== undefined && object.version !== null ? Version.fromPartial(object.version) : undefined;
-    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? Long.fromValue(object.delayPeriod) : Long.UZERO;
+    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? BigInt(object.delayPeriod.toString()) : BigInt("0");
     message.signer = object.signer ?? "";
     return message;
   },
@@ -418,7 +268,7 @@ export const MsgConnectionOpenInit = {
       clientId: object.client_id,
       counterparty: object?.counterparty ? Counterparty.fromAmino(object.counterparty) : undefined,
       version: object?.version ? Version.fromAmino(object.version) : undefined,
-      delayPeriod: Long.fromString(object.delay_period),
+      delayPeriod: BigInt(object.delay_period),
       signer: object.signer
     };
   },
@@ -459,11 +309,11 @@ function createBaseMsgConnectionOpenInitResponse(): MsgConnectionOpenInitRespons
 export const MsgConnectionOpenInitResponse = {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenInitResponse",
   aminoType: "cosmos-sdk/MsgConnectionOpenInitResponse",
-  encode(_: MsgConnectionOpenInitResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgConnectionOpenInitResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenInitResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgConnectionOpenInitResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConnectionOpenInitResponse();
     while (reader.pos < end) {
@@ -483,7 +333,7 @@ export const MsgConnectionOpenInitResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgConnectionOpenInitResponse>): MsgConnectionOpenInitResponse {
+  fromPartial(_: Partial<MsgConnectionOpenInitResponse>): MsgConnectionOpenInitResponse {
     const message = createBaseMsgConnectionOpenInitResponse();
     return message;
   },
@@ -529,7 +379,7 @@ function createBaseMsgConnectionOpenTry(): MsgConnectionOpenTry {
     previousConnectionId: "",
     clientState: undefined,
     counterparty: undefined,
-    delayPeriod: Long.UZERO,
+    delayPeriod: BigInt("0"),
     counterpartyVersions: [],
     proofHeight: undefined,
     proofInit: new Uint8Array(),
@@ -542,7 +392,7 @@ function createBaseMsgConnectionOpenTry(): MsgConnectionOpenTry {
 export const MsgConnectionOpenTry = {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenTry",
   aminoType: "cosmos-sdk/MsgConnectionOpenTry",
-  encode(message: MsgConnectionOpenTry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgConnectionOpenTry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
@@ -555,7 +405,7 @@ export const MsgConnectionOpenTry = {
     if (message.counterparty !== undefined) {
       Counterparty.encode(message.counterparty, writer.uint32(34).fork()).ldelim();
     }
-    if (!message.delayPeriod.isZero()) {
+    if (message.delayPeriod !== BigInt(0)) {
       writer.uint32(40).uint64(message.delayPeriod);
     }
     for (const v of message.counterpartyVersions) {
@@ -581,8 +431,8 @@ export const MsgConnectionOpenTry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenTry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgConnectionOpenTry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConnectionOpenTry();
     while (reader.pos < end) {
@@ -601,7 +451,7 @@ export const MsgConnectionOpenTry = {
           message.counterparty = Counterparty.decode(reader, reader.uint32());
           break;
         case 5:
-          message.delayPeriod = (reader.uint64() as Long);
+          message.delayPeriod = BigInt(reader.uint64().toString());
           break;
         case 6:
           message.counterpartyVersions.push(Version.decode(reader, reader.uint32()));
@@ -637,7 +487,7 @@ export const MsgConnectionOpenTry = {
       previousConnectionId: isSet(object.previousConnectionId) ? String(object.previousConnectionId) : "",
       clientState: isSet(object.clientState) ? Any.fromJSON(object.clientState) : undefined,
       counterparty: isSet(object.counterparty) ? Counterparty.fromJSON(object.counterparty) : undefined,
-      delayPeriod: isSet(object.delayPeriod) ? Long.fromValue(object.delayPeriod) : Long.UZERO,
+      delayPeriod: isSet(object.delayPeriod) ? BigInt(object.delayPeriod.toString()) : BigInt("0"),
       counterpartyVersions: Array.isArray(object?.counterpartyVersions) ? object.counterpartyVersions.map((e: any) => Version.fromJSON(e)) : [],
       proofHeight: isSet(object.proofHeight) ? Height.fromJSON(object.proofHeight) : undefined,
       proofInit: isSet(object.proofInit) ? bytesFromBase64(object.proofInit) : new Uint8Array(),
@@ -653,7 +503,7 @@ export const MsgConnectionOpenTry = {
     message.previousConnectionId !== undefined && (obj.previousConnectionId = message.previousConnectionId);
     message.clientState !== undefined && (obj.clientState = message.clientState ? Any.toJSON(message.clientState) : undefined);
     message.counterparty !== undefined && (obj.counterparty = message.counterparty ? Counterparty.toJSON(message.counterparty) : undefined);
-    message.delayPeriod !== undefined && (obj.delayPeriod = (message.delayPeriod || Long.UZERO).toString());
+    message.delayPeriod !== undefined && (obj.delayPeriod = (message.delayPeriod || BigInt("0")).toString());
     if (message.counterpartyVersions) {
       obj.counterpartyVersions = message.counterpartyVersions.map(e => e ? Version.toJSON(e) : undefined);
     } else {
@@ -667,13 +517,13 @@ export const MsgConnectionOpenTry = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgConnectionOpenTry>): MsgConnectionOpenTry {
+  fromPartial(object: Partial<MsgConnectionOpenTry>): MsgConnectionOpenTry {
     const message = createBaseMsgConnectionOpenTry();
     message.clientId = object.clientId ?? "";
     message.previousConnectionId = object.previousConnectionId ?? "";
     message.clientState = object.clientState !== undefined && object.clientState !== null ? Any.fromPartial(object.clientState) : undefined;
     message.counterparty = object.counterparty !== undefined && object.counterparty !== null ? Counterparty.fromPartial(object.counterparty) : undefined;
-    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? Long.fromValue(object.delayPeriod) : Long.UZERO;
+    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? BigInt(object.delayPeriod.toString()) : BigInt("0");
     message.counterpartyVersions = object.counterpartyVersions?.map(e => Version.fromPartial(e)) || [];
     message.proofHeight = object.proofHeight !== undefined && object.proofHeight !== null ? Height.fromPartial(object.proofHeight) : undefined;
     message.proofInit = object.proofInit ?? new Uint8Array();
@@ -725,7 +575,7 @@ export const MsgConnectionOpenTry = {
       previousConnectionId: object.previous_connection_id,
       clientState: object?.client_state ? Any.fromAmino(object.client_state) : undefined,
       counterparty: object?.counterparty ? Counterparty.fromAmino(object.counterparty) : undefined,
-      delayPeriod: Long.fromString(object.delay_period),
+      delayPeriod: BigInt(object.delay_period),
       counterpartyVersions: Array.isArray(object?.counterparty_versions) ? object.counterparty_versions.map((e: any) => Version.fromAmino(e)) : [],
       proofHeight: object?.proof_height ? Height.fromAmino(object.proof_height) : undefined,
       proofInit: object.proof_init,
@@ -783,11 +633,11 @@ function createBaseMsgConnectionOpenTryResponse(): MsgConnectionOpenTryResponse 
 export const MsgConnectionOpenTryResponse = {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenTryResponse",
   aminoType: "cosmos-sdk/MsgConnectionOpenTryResponse",
-  encode(_: MsgConnectionOpenTryResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgConnectionOpenTryResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenTryResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgConnectionOpenTryResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConnectionOpenTryResponse();
     while (reader.pos < end) {
@@ -807,7 +657,7 @@ export const MsgConnectionOpenTryResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgConnectionOpenTryResponse>): MsgConnectionOpenTryResponse {
+  fromPartial(_: Partial<MsgConnectionOpenTryResponse>): MsgConnectionOpenTryResponse {
     const message = createBaseMsgConnectionOpenTryResponse();
     return message;
   },
@@ -864,7 +714,7 @@ function createBaseMsgConnectionOpenAck(): MsgConnectionOpenAck {
 export const MsgConnectionOpenAck = {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenAck",
   aminoType: "cosmos-sdk/MsgConnectionOpenAck",
-  encode(message: MsgConnectionOpenAck, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgConnectionOpenAck, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.connectionId !== "") {
       writer.uint32(10).string(message.connectionId);
     }
@@ -897,8 +747,8 @@ export const MsgConnectionOpenAck = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenAck {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgConnectionOpenAck {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConnectionOpenAck();
     while (reader.pos < end) {
@@ -969,7 +819,7 @@ export const MsgConnectionOpenAck = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgConnectionOpenAck>): MsgConnectionOpenAck {
+  fromPartial(object: Partial<MsgConnectionOpenAck>): MsgConnectionOpenAck {
     const message = createBaseMsgConnectionOpenAck();
     message.connectionId = object.connectionId ?? "";
     message.counterpartyConnectionId = object.counterpartyConnectionId ?? "";
@@ -1067,11 +917,11 @@ function createBaseMsgConnectionOpenAckResponse(): MsgConnectionOpenAckResponse 
 export const MsgConnectionOpenAckResponse = {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenAckResponse",
   aminoType: "cosmos-sdk/MsgConnectionOpenAckResponse",
-  encode(_: MsgConnectionOpenAckResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgConnectionOpenAckResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenAckResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgConnectionOpenAckResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConnectionOpenAckResponse();
     while (reader.pos < end) {
@@ -1091,7 +941,7 @@ export const MsgConnectionOpenAckResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgConnectionOpenAckResponse>): MsgConnectionOpenAckResponse {
+  fromPartial(_: Partial<MsgConnectionOpenAckResponse>): MsgConnectionOpenAckResponse {
     const message = createBaseMsgConnectionOpenAckResponse();
     return message;
   },
@@ -1142,7 +992,7 @@ function createBaseMsgConnectionOpenConfirm(): MsgConnectionOpenConfirm {
 export const MsgConnectionOpenConfirm = {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenConfirm",
   aminoType: "cosmos-sdk/MsgConnectionOpenConfirm",
-  encode(message: MsgConnectionOpenConfirm, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgConnectionOpenConfirm, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.connectionId !== "") {
       writer.uint32(10).string(message.connectionId);
     }
@@ -1157,8 +1007,8 @@ export const MsgConnectionOpenConfirm = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenConfirm {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgConnectionOpenConfirm {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConnectionOpenConfirm();
     while (reader.pos < end) {
@@ -1199,7 +1049,7 @@ export const MsgConnectionOpenConfirm = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgConnectionOpenConfirm>): MsgConnectionOpenConfirm {
+  fromPartial(object: Partial<MsgConnectionOpenConfirm>): MsgConnectionOpenConfirm {
     const message = createBaseMsgConnectionOpenConfirm();
     message.connectionId = object.connectionId ?? "";
     message.proofAck = object.proofAck ?? new Uint8Array();
@@ -1267,11 +1117,11 @@ function createBaseMsgConnectionOpenConfirmResponse(): MsgConnectionOpenConfirmR
 export const MsgConnectionOpenConfirmResponse = {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenConfirmResponse",
   aminoType: "cosmos-sdk/MsgConnectionOpenConfirmResponse",
-  encode(_: MsgConnectionOpenConfirmResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgConnectionOpenConfirmResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectionOpenConfirmResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgConnectionOpenConfirmResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgConnectionOpenConfirmResponse();
     while (reader.pos < end) {
@@ -1291,7 +1141,7 @@ export const MsgConnectionOpenConfirmResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgConnectionOpenConfirmResponse>): MsgConnectionOpenConfirmResponse {
+  fromPartial(_: Partial<MsgConnectionOpenConfirmResponse>): MsgConnectionOpenConfirmResponse {
     const message = createBaseMsgConnectionOpenConfirmResponse();
     return message;
   },

@@ -1,9 +1,9 @@
-import { MonitoredResource, MonitoredResourceAmino, MonitoredResourceSDKType, MonitoredResourceDescriptor, MonitoredResourceDescriptorAmino, MonitoredResourceDescriptorSDKType } from "../../api/monitored_resource";
-import { LogEntry, LogEntryAmino, LogEntrySDKType } from "./log_entry";
-import { Duration, DurationAmino, DurationSDKType } from "../../protobuf/duration";
-import { Status, StatusAmino, StatusSDKType } from "../../rpc/status";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, isObject } from "../../../helpers";
+import { MonitoredResource, MonitoredResourceSDKType, MonitoredResourceDescriptor, MonitoredResourceDescriptorSDKType } from "../../api/monitored_resource";
+import { LogEntry, LogEntrySDKType } from "./log_entry";
+import { Duration, DurationSDKType } from "../../protobuf/duration";
+import { Status, StatusSDKType } from "../../rpc/status";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, isObject } from "../../../helpers";
 export const protobufPackage = "google.logging.v2";
 /** An indicator of why entries were omitted. */
 export enum TailLogEntriesResponse_SuppressionInfo_Reason {
@@ -24,7 +24,6 @@ export enum TailLogEntriesResponse_SuppressionInfo_Reason {
   UNRECOGNIZED = -1,
 }
 export const TailLogEntriesResponse_SuppressionInfo_ReasonSDKType = TailLogEntriesResponse_SuppressionInfo_Reason;
-export const TailLogEntriesResponse_SuppressionInfo_ReasonAmino = TailLogEntriesResponse_SuppressionInfo_Reason;
 export function tailLogEntriesResponse_SuppressionInfo_ReasonFromJSON(object: any): TailLogEntriesResponse_SuppressionInfo_Reason {
   switch (object) {
     case 0:
@@ -74,33 +73,6 @@ export interface DeleteLogRequest {
    */
   logName: string;
 }
-export interface DeleteLogRequestProtoMsg {
-  typeUrl: "/google.logging.v2.DeleteLogRequest";
-  value: Uint8Array;
-}
-/** The parameters to DeleteLog. */
-export interface DeleteLogRequestAmino {
-  /**
-   * Required. The resource name of the log to delete:
-   * 
-   * * `projects/[PROJECT_ID]/logs/[LOG_ID]`
-   * * `organizations/[ORGANIZATION_ID]/logs/[LOG_ID]`
-   * * `billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID]`
-   * * `folders/[FOLDER_ID]/logs/[LOG_ID]`
-   * 
-   * `[LOG_ID]` must be URL-encoded. For example,
-   * `"projects/my-project-id/logs/syslog"`,
-   * `"organizations/123/logs/cloudaudit.googleapis.com%2Factivity"`.
-   * 
-   * For more information about log names, see
-   * [LogEntry][google.logging.v2.LogEntry].
-   */
-  log_name: string;
-}
-export interface DeleteLogRequestAminoMsg {
-  type: "/google.logging.v2.DeleteLogRequest";
-  value: DeleteLogRequestAmino;
-}
 /** The parameters to DeleteLog. */
 export interface DeleteLogRequestSDKType {
   log_name: string;
@@ -108,18 +80,6 @@ export interface DeleteLogRequestSDKType {
 export interface WriteLogEntriesRequest_LabelsEntry {
   key: string;
   value: string;
-}
-export interface WriteLogEntriesRequest_LabelsEntryProtoMsg {
-  typeUrl: string;
-  value: Uint8Array;
-}
-export interface WriteLogEntriesRequest_LabelsEntryAmino {
-  key: string;
-  value: string;
-}
-export interface WriteLogEntriesRequest_LabelsEntryAminoMsg {
-  type: string;
-  value: WriteLogEntriesRequest_LabelsEntryAmino;
 }
 export interface WriteLogEntriesRequest_LabelsEntrySDKType {
   key: string;
@@ -209,98 +169,6 @@ export interface WriteLogEntriesRequest {
    */
   dryRun: boolean;
 }
-export interface WriteLogEntriesRequestProtoMsg {
-  typeUrl: "/google.logging.v2.WriteLogEntriesRequest";
-  value: Uint8Array;
-}
-/** The parameters to WriteLogEntries. */
-export interface WriteLogEntriesRequestAmino {
-  /**
-   * Optional. A default log resource name that is assigned to all log entries
-   * in `entries` that do not specify a value for `log_name`:
-   * 
-   * * `projects/[PROJECT_ID]/logs/[LOG_ID]`
-   * * `organizations/[ORGANIZATION_ID]/logs/[LOG_ID]`
-   * * `billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID]`
-   * * `folders/[FOLDER_ID]/logs/[LOG_ID]`
-   * 
-   * `[LOG_ID]` must be URL-encoded. For example:
-   * 
-   *     "projects/my-project-id/logs/syslog"
-   *     "organizations/123/logs/cloudaudit.googleapis.com%2Factivity"
-   * 
-   * The permission `logging.logEntries.create` is needed on each project,
-   * organization, billing account, or folder that is receiving new log
-   * entries, whether the resource is specified in `logName` or in an
-   * individual log entry.
-   */
-  log_name: string;
-  /**
-   * Optional. A default monitored resource object that is assigned to all log
-   * entries in `entries` that do not specify a value for `resource`. Example:
-   * 
-   *     { "type": "gce_instance",
-   *       "labels": {
-   *         "zone": "us-central1-a", "instance_id": "00000000000000000000" }}
-   * 
-   * See [LogEntry][google.logging.v2.LogEntry].
-   */
-  resource?: MonitoredResourceAmino;
-  /**
-   * Optional. Default labels that are added to the `labels` field of all log
-   * entries in `entries`. If a log entry already has a label with the same key
-   * as a label in this parameter, then the log entry's label is not changed.
-   * See [LogEntry][google.logging.v2.LogEntry].
-   */
-  labels: {
-    [key: string]: string;
-  };
-  /**
-   * Required. The log entries to send to Logging. The order of log
-   * entries in this list does not matter. Values supplied in this method's
-   * `log_name`, `resource`, and `labels` fields are copied into those log
-   * entries in this list that do not include values for their corresponding
-   * fields. For more information, see the
-   * [LogEntry][google.logging.v2.LogEntry] type.
-   * 
-   * If the `timestamp` or `insert_id` fields are missing in log entries, then
-   * this method supplies the current time or a unique identifier, respectively.
-   * The supplied values are chosen so that, among the log entries that did not
-   * supply their own values, the entries earlier in the list will sort before
-   * the entries later in the list. See the `entries.list` method.
-   * 
-   * Log entries with timestamps that are more than the
-   * [logs retention period](https://cloud.google.com/logging/quotas) in
-   * the past or more than 24 hours in the future will not be available when
-   * calling `entries.list`. However, those log entries can still be [exported
-   * with
-   * LogSinks](https://cloud.google.com/logging/docs/api/tasks/exporting-logs).
-   * 
-   * To improve throughput and to avoid exceeding the
-   * [quota limit](https://cloud.google.com/logging/quotas) for calls to
-   * `entries.write`, you should try to include several log entries in this
-   * list, rather than calling this method for each individual log entry.
-   */
-  entries: LogEntryAmino[];
-  /**
-   * Optional. Whether valid entries should be written even if some other
-   * entries fail due to INVALID_ARGUMENT or PERMISSION_DENIED errors. If any
-   * entry is not written, then the response status is the error associated
-   * with one of the failed entries and the response includes error details
-   * keyed by the entries' zero-based index in the `entries.write` method.
-   */
-  partial_success: boolean;
-  /**
-   * Optional. If true, the request should expect normal response, but the
-   * entries won't be persisted nor exported. Useful for checking whether the
-   * logging API endpoints are working properly before sending valuable data.
-   */
-  dry_run: boolean;
-}
-export interface WriteLogEntriesRequestAminoMsg {
-  type: "/google.logging.v2.WriteLogEntriesRequest";
-  value: WriteLogEntriesRequestAmino;
-}
 /** The parameters to WriteLogEntries. */
 export interface WriteLogEntriesRequestSDKType {
   log_name: string;
@@ -314,33 +182,11 @@ export interface WriteLogEntriesRequestSDKType {
 }
 /** Result returned from WriteLogEntries. */
 export interface WriteLogEntriesResponse {}
-export interface WriteLogEntriesResponseProtoMsg {
-  typeUrl: "/google.logging.v2.WriteLogEntriesResponse";
-  value: Uint8Array;
-}
-/** Result returned from WriteLogEntries. */
-export interface WriteLogEntriesResponseAmino {}
-export interface WriteLogEntriesResponseAminoMsg {
-  type: "/google.logging.v2.WriteLogEntriesResponse";
-  value: WriteLogEntriesResponseAmino;
-}
 /** Result returned from WriteLogEntries. */
 export interface WriteLogEntriesResponseSDKType {}
 export interface WriteLogEntriesPartialErrors_LogEntryErrorsEntry {
   key: number;
   value?: Status;
-}
-export interface WriteLogEntriesPartialErrors_LogEntryErrorsEntryProtoMsg {
-  typeUrl: string;
-  value: Uint8Array;
-}
-export interface WriteLogEntriesPartialErrors_LogEntryErrorsEntryAmino {
-  key: number;
-  value?: StatusAmino;
-}
-export interface WriteLogEntriesPartialErrors_LogEntryErrorsEntryAminoMsg {
-  type: string;
-  value: WriteLogEntriesPartialErrors_LogEntryErrorsEntryAmino;
 }
 export interface WriteLogEntriesPartialErrors_LogEntryErrorsEntrySDKType {
   key: number;
@@ -359,28 +205,6 @@ export interface WriteLogEntriesPartialErrors {
   logEntryErrors?: {
     [key: number]: Status;
   };
-}
-export interface WriteLogEntriesPartialErrorsProtoMsg {
-  typeUrl: "/google.logging.v2.WriteLogEntriesPartialErrors";
-  value: Uint8Array;
-}
-/** Error details for WriteLogEntries with partial success. */
-export interface WriteLogEntriesPartialErrorsAmino {
-  /**
-   * When `WriteLogEntriesRequest.partial_success` is true, records the error
-   * status for entries that were not written due to a permanent error, keyed
-   * by the entry's zero-based index in `WriteLogEntriesRequest.entries`.
-   * 
-   * Failed requests for which no entries are written will not include
-   * per-entry errors.
-   */
-  log_entry_errors?: {
-    [key: number]: StatusAmino;
-  };
-}
-export interface WriteLogEntriesPartialErrorsAminoMsg {
-  type: "/google.logging.v2.WriteLogEntriesPartialErrors";
-  value: WriteLogEntriesPartialErrorsAmino;
 }
 /** Error details for WriteLogEntries with partial success. */
 export interface WriteLogEntriesPartialErrorsSDKType {
@@ -443,69 +267,6 @@ export interface ListLogEntriesRequest {
    */
   pageToken: string;
 }
-export interface ListLogEntriesRequestProtoMsg {
-  typeUrl: "/google.logging.v2.ListLogEntriesRequest";
-  value: Uint8Array;
-}
-/** The parameters to `ListLogEntries`. */
-export interface ListLogEntriesRequestAmino {
-  /**
-   * Required. Names of one or more parent resources from which to
-   * retrieve log entries:
-   * 
-   * *  `projects/[PROJECT_ID]`
-   * *  `organizations/[ORGANIZATION_ID]`
-   * *  `billingAccounts/[BILLING_ACCOUNT_ID]`
-   * *  `folders/[FOLDER_ID]`
-   * 
-   * May alternatively be one or more views:
-   * 
-   *  * `projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`
-   *  * `organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`
-   *  * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`
-   *  * `folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`
-   * 
-   * Projects listed in the `project_ids` field are added to this list.
-   */
-  resource_names: string[];
-  /**
-   * Optional. A filter that chooses which log entries to return.  See [Advanced
-   * Logs Queries](https://cloud.google.com/logging/docs/view/advanced-queries).
-   * Only log entries that match the filter are returned.  An empty filter
-   * matches all log entries in the resources listed in `resource_names`.
-   * Referencing a parent resource that is not listed in `resource_names` will
-   * cause the filter to return no results. The maximum length of the filter is
-   * 20000 characters.
-   */
-  filter: string;
-  /**
-   * Optional. How the results should be sorted.  Presently, the only permitted
-   * values are `"timestamp asc"` (default) and `"timestamp desc"`. The first
-   * option returns entries in order of increasing values of
-   * `LogEntry.timestamp` (oldest first), and the second option returns entries
-   * in order of decreasing timestamps (newest first).  Entries with equal
-   * timestamps are returned in order of their `insert_id` values.
-   */
-  order_by: string;
-  /**
-   * Optional. The maximum number of results to return from this request. Default is 50.
-   * If the value is negative or exceeds 1000, the request is rejected. The
-   * presence of `next_page_token` in the response indicates that more results
-   * might be available.
-   */
-  page_size: number;
-  /**
-   * Optional. If present, then retrieve the next batch of results from the
-   * preceding call to this method.  `page_token` must be the value of
-   * `next_page_token` from the previous response.  The values of other method
-   * parameters should be identical to those in the previous call.
-   */
-  page_token: string;
-}
-export interface ListLogEntriesRequestAminoMsg {
-  type: "/google.logging.v2.ListLogEntriesRequest";
-  value: ListLogEntriesRequestAmino;
-}
 /** The parameters to `ListLogEntries`. */
 export interface ListLogEntriesRequestSDKType {
   resource_names: string[];
@@ -536,36 +297,6 @@ export interface ListLogEntriesResponse {
    */
   nextPageToken: string;
 }
-export interface ListLogEntriesResponseProtoMsg {
-  typeUrl: "/google.logging.v2.ListLogEntriesResponse";
-  value: Uint8Array;
-}
-/** Result returned from `ListLogEntries`. */
-export interface ListLogEntriesResponseAmino {
-  /**
-   * A list of log entries.  If `entries` is empty, `nextPageToken` may still be
-   * returned, indicating that more entries may exist.  See `nextPageToken` for
-   * more information.
-   */
-  entries: LogEntryAmino[];
-  /**
-   * If there might be more results than those appearing in this response, then
-   * `nextPageToken` is included.  To get the next set of results, call this
-   * method again using the value of `nextPageToken` as `pageToken`.
-   * 
-   * If a value for `next_page_token` appears and the `entries` field is empty,
-   * it means that the search found no log entries so far but it did not have
-   * time to search all the possible log entries.  Retry the method with this
-   * value for `page_token` to continue the search.  Alternatively, consider
-   * speeding up the search by changing your filter to specify a single log name
-   * or resource type, or to narrow the time range of the search.
-   */
-  next_page_token: string;
-}
-export interface ListLogEntriesResponseAminoMsg {
-  type: "/google.logging.v2.ListLogEntriesResponse";
-  value: ListLogEntriesResponseAmino;
-}
 /** Result returned from `ListLogEntries`. */
 export interface ListLogEntriesResponseSDKType {
   entries: LogEntrySDKType[];
@@ -587,30 +318,6 @@ export interface ListMonitoredResourceDescriptorsRequest {
    */
   pageToken: string;
 }
-export interface ListMonitoredResourceDescriptorsRequestProtoMsg {
-  typeUrl: "/google.logging.v2.ListMonitoredResourceDescriptorsRequest";
-  value: Uint8Array;
-}
-/** The parameters to ListMonitoredResourceDescriptors */
-export interface ListMonitoredResourceDescriptorsRequestAmino {
-  /**
-   * Optional. The maximum number of results to return from this request.
-   * Non-positive values are ignored.  The presence of `nextPageToken` in the
-   * response indicates that more results might be available.
-   */
-  page_size: number;
-  /**
-   * Optional. If present, then retrieve the next batch of results from the
-   * preceding call to this method.  `pageToken` must be the value of
-   * `nextPageToken` from the previous response.  The values of other method
-   * parameters should be identical to those in the previous call.
-   */
-  page_token: string;
-}
-export interface ListMonitoredResourceDescriptorsRequestAminoMsg {
-  type: "/google.logging.v2.ListMonitoredResourceDescriptorsRequest";
-  value: ListMonitoredResourceDescriptorsRequestAmino;
-}
 /** The parameters to ListMonitoredResourceDescriptors */
 export interface ListMonitoredResourceDescriptorsRequestSDKType {
   page_size: number;
@@ -626,25 +333,6 @@ export interface ListMonitoredResourceDescriptorsResponse {
    * method again using the value of `nextPageToken` as `pageToken`.
    */
   nextPageToken: string;
-}
-export interface ListMonitoredResourceDescriptorsResponseProtoMsg {
-  typeUrl: "/google.logging.v2.ListMonitoredResourceDescriptorsResponse";
-  value: Uint8Array;
-}
-/** Result returned from ListMonitoredResourceDescriptors. */
-export interface ListMonitoredResourceDescriptorsResponseAmino {
-  /** A list of resource descriptors. */
-  resource_descriptors: MonitoredResourceDescriptorAmino[];
-  /**
-   * If there might be more results than those appearing in this response, then
-   * `nextPageToken` is included.  To get the next set of results, call this
-   * method again using the value of `nextPageToken` as `pageToken`.
-   */
-  next_page_token: string;
-}
-export interface ListMonitoredResourceDescriptorsResponseAminoMsg {
-  type: "/google.logging.v2.ListMonitoredResourceDescriptorsResponse";
-  value: ListMonitoredResourceDescriptorsResponseAmino;
 }
 /** Result returned from ListMonitoredResourceDescriptors. */
 export interface ListMonitoredResourceDescriptorsResponseSDKType {
@@ -692,55 +380,6 @@ export interface ListLogsRequest {
    */
   resourceNames: string[];
 }
-export interface ListLogsRequestProtoMsg {
-  typeUrl: "/google.logging.v2.ListLogsRequest";
-  value: Uint8Array;
-}
-/** The parameters to ListLogs. */
-export interface ListLogsRequestAmino {
-  /**
-   * Required. The resource name that owns the logs:
-   * 
-   * *  `projects/[PROJECT_ID]`
-   * *  `organizations/[ORGANIZATION_ID]`
-   * *  `billingAccounts/[BILLING_ACCOUNT_ID]`
-   * *  `folders/[FOLDER_ID]`
-   */
-  parent: string;
-  /**
-   * Optional. The maximum number of results to return from this request.
-   * Non-positive values are ignored.  The presence of `nextPageToken` in the
-   * response indicates that more results might be available.
-   */
-  page_size: number;
-  /**
-   * Optional. If present, then retrieve the next batch of results from the
-   * preceding call to this method.  `pageToken` must be the value of
-   * `nextPageToken` from the previous response.  The values of other method
-   * parameters should be identical to those in the previous call.
-   */
-  page_token: string;
-  /**
-   * Optional. The resource name that owns the logs:
-   * 
-   *  * `projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`
-   *  * `organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`
-   *  * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`
-   *  * `folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`
-   * 
-   * To support legacy queries, it could also be:
-   * 
-   * *  `projects/[PROJECT_ID]`
-   * *  `organizations/[ORGANIZATION_ID]`
-   * *  `billingAccounts/[BILLING_ACCOUNT_ID]`
-   * *  `folders/[FOLDER_ID]`
-   */
-  resource_names: string[];
-}
-export interface ListLogsRequestAminoMsg {
-  type: "/google.logging.v2.ListLogsRequest";
-  value: ListLogsRequestAmino;
-}
 /** The parameters to ListLogs. */
 export interface ListLogsRequestSDKType {
   parent: string;
@@ -762,29 +401,6 @@ export interface ListLogsResponse {
    * method again using the value of `nextPageToken` as `pageToken`.
    */
   nextPageToken: string;
-}
-export interface ListLogsResponseProtoMsg {
-  typeUrl: "/google.logging.v2.ListLogsResponse";
-  value: Uint8Array;
-}
-/** Result returned from ListLogs. */
-export interface ListLogsResponseAmino {
-  /**
-   * A list of log names. For example,
-   * `"projects/my-project/logs/syslog"` or
-   * `"organizations/123/logs/cloudresourcemanager.googleapis.com%2Factivity"`.
-   */
-  log_names: string[];
-  /**
-   * If there might be more results than those appearing in this response, then
-   * `nextPageToken` is included.  To get the next set of results, call this
-   * method again using the value of `nextPageToken` as `pageToken`.
-   */
-  next_page_token: string;
-}
-export interface ListLogsResponseAminoMsg {
-  type: "/google.logging.v2.ListLogsResponse";
-  value: ListLogsResponseAmino;
 }
 /** Result returned from ListLogs. */
 export interface ListLogsResponseSDKType {
@@ -827,50 +443,6 @@ export interface TailLogEntriesRequest {
    */
   bufferWindow?: Duration;
 }
-export interface TailLogEntriesRequestProtoMsg {
-  typeUrl: "/google.logging.v2.TailLogEntriesRequest";
-  value: Uint8Array;
-}
-/** The parameters to `TailLogEntries`. */
-export interface TailLogEntriesRequestAmino {
-  /**
-   * Required. Name of a parent resource from which to retrieve log entries:
-   * 
-   * *  `projects/[PROJECT_ID]`
-   * *  `organizations/[ORGANIZATION_ID]`
-   * *  `billingAccounts/[BILLING_ACCOUNT_ID]`
-   * *  `folders/[FOLDER_ID]`
-   * 
-   * May alternatively be one or more views:
-   * 
-   *  * `projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`
-   *  * `organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`
-   *  * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`
-   *  * `folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`
-   */
-  resource_names: string[];
-  /**
-   * Optional. A filter that chooses which log entries to return.  See [Advanced
-   * Logs Filters](https://cloud.google.com/logging/docs/view/advanced_filters).
-   * Only log entries that match the filter are returned.  An empty filter
-   * matches all log entries in the resources listed in `resource_names`.
-   * Referencing a parent resource that is not in `resource_names` will cause
-   * the filter to return no results. The maximum length of the filter is 20000
-   * characters.
-   */
-  filter: string;
-  /**
-   * Optional. The amount of time to buffer log entries at the server before
-   * being returned to prevent out of order results due to late arriving log
-   * entries. Valid values are between 0-60000 milliseconds. Defaults to 2000
-   * milliseconds.
-   */
-  buffer_window?: DurationAmino;
-}
-export interface TailLogEntriesRequestAminoMsg {
-  type: "/google.logging.v2.TailLogEntriesRequest";
-  value: TailLogEntriesRequestAmino;
-}
 /** The parameters to `TailLogEntries`. */
 export interface TailLogEntriesRequestSDKType {
   resource_names: string[];
@@ -894,31 +466,6 @@ export interface TailLogEntriesResponse {
    */
   suppressionInfo: TailLogEntriesResponse_SuppressionInfo[];
 }
-export interface TailLogEntriesResponseProtoMsg {
-  typeUrl: "/google.logging.v2.TailLogEntriesResponse";
-  value: Uint8Array;
-}
-/** Result returned from `TailLogEntries`. */
-export interface TailLogEntriesResponseAmino {
-  /**
-   * A list of log entries. Each response in the stream will order entries with
-   * increasing values of `LogEntry.timestamp`. Ordering is not guaranteed
-   * between separate responses.
-   */
-  entries: LogEntryAmino[];
-  /**
-   * If entries that otherwise would have been included in the session were not
-   * sent back to the client, counts of relevant entries omitted from the
-   * session with the reason that they were not included. There will be at most
-   * one of each reason per response. The counts represent the number of
-   * suppressed entries since the last streamed response.
-   */
-  suppression_info: TailLogEntriesResponse_SuppressionInfoAmino[];
-}
-export interface TailLogEntriesResponseAminoMsg {
-  type: "/google.logging.v2.TailLogEntriesResponse";
-  value: TailLogEntriesResponseAmino;
-}
 /** Result returned from `TailLogEntries`. */
 export interface TailLogEntriesResponseSDKType {
   entries: LogEntrySDKType[];
@@ -930,21 +477,6 @@ export interface TailLogEntriesResponse_SuppressionInfo {
   reason: TailLogEntriesResponse_SuppressionInfo_Reason;
   /** A lower bound on the count of entries omitted due to `reason`. */
   suppressedCount: number;
-}
-export interface TailLogEntriesResponse_SuppressionInfoProtoMsg {
-  typeUrl: "/google.logging.v2.SuppressionInfo";
-  value: Uint8Array;
-}
-/** Information about entries that were omitted from the session. */
-export interface TailLogEntriesResponse_SuppressionInfoAmino {
-  /** The reason that entries were omitted from the session. */
-  reason: TailLogEntriesResponse_SuppressionInfo_Reason;
-  /** A lower bound on the count of entries omitted due to `reason`. */
-  suppressed_count: number;
-}
-export interface TailLogEntriesResponse_SuppressionInfoAminoMsg {
-  type: "/google.logging.v2.SuppressionInfo";
-  value: TailLogEntriesResponse_SuppressionInfoAmino;
 }
 /** Information about entries that were omitted from the session. */
 export interface TailLogEntriesResponse_SuppressionInfoSDKType {
@@ -958,14 +490,14 @@ function createBaseDeleteLogRequest(): DeleteLogRequest {
 }
 export const DeleteLogRequest = {
   typeUrl: "/google.logging.v2.DeleteLogRequest",
-  encode(message: DeleteLogRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DeleteLogRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.logName !== "") {
       writer.uint32(10).string(message.logName);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DeleteLogRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteLogRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDeleteLogRequest();
     while (reader.pos < end) {
@@ -991,7 +523,7 @@ export const DeleteLogRequest = {
     message.logName !== undefined && (obj.logName = message.logName);
     return obj;
   },
-  fromPartial(object: DeepPartial<DeleteLogRequest>): DeleteLogRequest {
+  fromPartial(object: Partial<DeleteLogRequest>): DeleteLogRequest {
     const message = createBaseDeleteLogRequest();
     message.logName = object.logName ?? "";
     return message;
@@ -1039,7 +571,7 @@ function createBaseWriteLogEntriesRequest_LabelsEntry(): WriteLogEntriesRequest_
   };
 }
 export const WriteLogEntriesRequest_LabelsEntry = {
-  encode(message: WriteLogEntriesRequest_LabelsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: WriteLogEntriesRequest_LabelsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -1048,8 +580,8 @@ export const WriteLogEntriesRequest_LabelsEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): WriteLogEntriesRequest_LabelsEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): WriteLogEntriesRequest_LabelsEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseWriteLogEntriesRequest_LabelsEntry();
     while (reader.pos < end) {
@@ -1080,7 +612,7 @@ export const WriteLogEntriesRequest_LabelsEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: DeepPartial<WriteLogEntriesRequest_LabelsEntry>): WriteLogEntriesRequest_LabelsEntry {
+  fromPartial(object: Partial<WriteLogEntriesRequest_LabelsEntry>): WriteLogEntriesRequest_LabelsEntry {
     const message = createBaseWriteLogEntriesRequest_LabelsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -1132,7 +664,7 @@ function createBaseWriteLogEntriesRequest(): WriteLogEntriesRequest {
 }
 export const WriteLogEntriesRequest = {
   typeUrl: "/google.logging.v2.WriteLogEntriesRequest",
-  encode(message: WriteLogEntriesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: WriteLogEntriesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.logName !== "") {
       writer.uint32(10).string(message.logName);
     }
@@ -1156,8 +688,8 @@ export const WriteLogEntriesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): WriteLogEntriesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): WriteLogEntriesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseWriteLogEntriesRequest();
     while (reader.pos < end) {
@@ -1225,7 +757,7 @@ export const WriteLogEntriesRequest = {
     message.dryRun !== undefined && (obj.dryRun = message.dryRun);
     return obj;
   },
-  fromPartial(object: DeepPartial<WriteLogEntriesRequest>): WriteLogEntriesRequest {
+  fromPartial(object: Partial<WriteLogEntriesRequest>): WriteLogEntriesRequest {
     const message = createBaseWriteLogEntriesRequest();
     message.logName = object.logName ?? "";
     message.resource = object.resource !== undefined && object.resource !== null ? MonitoredResource.fromPartial(object.resource) : undefined;
@@ -1331,11 +863,11 @@ function createBaseWriteLogEntriesResponse(): WriteLogEntriesResponse {
 }
 export const WriteLogEntriesResponse = {
   typeUrl: "/google.logging.v2.WriteLogEntriesResponse",
-  encode(_: WriteLogEntriesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: WriteLogEntriesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): WriteLogEntriesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): WriteLogEntriesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseWriteLogEntriesResponse();
     while (reader.pos < end) {
@@ -1355,7 +887,7 @@ export const WriteLogEntriesResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<WriteLogEntriesResponse>): WriteLogEntriesResponse {
+  fromPartial(_: Partial<WriteLogEntriesResponse>): WriteLogEntriesResponse {
     const message = createBaseWriteLogEntriesResponse();
     return message;
   },
@@ -1396,7 +928,7 @@ function createBaseWriteLogEntriesPartialErrors_LogEntryErrorsEntry(): WriteLogE
   };
 }
 export const WriteLogEntriesPartialErrors_LogEntryErrorsEntry = {
-  encode(message: WriteLogEntriesPartialErrors_LogEntryErrorsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: WriteLogEntriesPartialErrors_LogEntryErrorsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== 0) {
       writer.uint32(8).int32(message.key);
     }
@@ -1405,8 +937,8 @@ export const WriteLogEntriesPartialErrors_LogEntryErrorsEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): WriteLogEntriesPartialErrors_LogEntryErrorsEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): WriteLogEntriesPartialErrors_LogEntryErrorsEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseWriteLogEntriesPartialErrors_LogEntryErrorsEntry();
     while (reader.pos < end) {
@@ -1437,7 +969,7 @@ export const WriteLogEntriesPartialErrors_LogEntryErrorsEntry = {
     message.value !== undefined && (obj.value = message.value ? google.rpc.Status.toJSON(message.value) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<WriteLogEntriesPartialErrors_LogEntryErrorsEntry>): WriteLogEntriesPartialErrors_LogEntryErrorsEntry {
+  fromPartial(object: Partial<WriteLogEntriesPartialErrors_LogEntryErrorsEntry>): WriteLogEntriesPartialErrors_LogEntryErrorsEntry {
     const message = createBaseWriteLogEntriesPartialErrors_LogEntryErrorsEntry();
     message.key = object.key ?? 0;
     message.value = object.value !== undefined && object.value !== null ? google.rpc.Status.fromPartial(object.value) : undefined;
@@ -1484,7 +1016,7 @@ function createBaseWriteLogEntriesPartialErrors(): WriteLogEntriesPartialErrors 
 }
 export const WriteLogEntriesPartialErrors = {
   typeUrl: "/google.logging.v2.WriteLogEntriesPartialErrors",
-  encode(message: WriteLogEntriesPartialErrors, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: WriteLogEntriesPartialErrors, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     Object.entries(message.logEntryErrors).forEach(([key, value]) => {
       WriteLogEntriesPartialErrors_LogEntryErrorsEntry.encode({
         key: (key as any),
@@ -1493,8 +1025,8 @@ export const WriteLogEntriesPartialErrors = {
     });
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): WriteLogEntriesPartialErrors {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): WriteLogEntriesPartialErrors {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseWriteLogEntriesPartialErrors();
     while (reader.pos < end) {
@@ -1533,7 +1065,7 @@ export const WriteLogEntriesPartialErrors = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<WriteLogEntriesPartialErrors>): WriteLogEntriesPartialErrors {
+  fromPartial(object: Partial<WriteLogEntriesPartialErrors>): WriteLogEntriesPartialErrors {
     const message = createBaseWriteLogEntriesPartialErrors();
     message.logEntryErrors = Object.entries(object.logEntryErrors ?? {}).reduce<{
       [key: number]: Status;
@@ -1612,7 +1144,7 @@ function createBaseListLogEntriesRequest(): ListLogEntriesRequest {
 }
 export const ListLogEntriesRequest = {
   typeUrl: "/google.logging.v2.ListLogEntriesRequest",
-  encode(message: ListLogEntriesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListLogEntriesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.resourceNames) {
       writer.uint32(66).string(v!);
     }
@@ -1630,8 +1162,8 @@ export const ListLogEntriesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListLogEntriesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListLogEntriesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListLogEntriesRequest();
     while (reader.pos < end) {
@@ -1681,7 +1213,7 @@ export const ListLogEntriesRequest = {
     message.pageToken !== undefined && (obj.pageToken = message.pageToken);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListLogEntriesRequest>): ListLogEntriesRequest {
+  fromPartial(object: Partial<ListLogEntriesRequest>): ListLogEntriesRequest {
     const message = createBaseListLogEntriesRequest();
     message.resourceNames = object.resourceNames?.map(e => e) || [];
     message.filter = object.filter ?? "";
@@ -1758,7 +1290,7 @@ function createBaseListLogEntriesResponse(): ListLogEntriesResponse {
 }
 export const ListLogEntriesResponse = {
   typeUrl: "/google.logging.v2.ListLogEntriesResponse",
-  encode(message: ListLogEntriesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListLogEntriesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.entries) {
       LogEntry.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1767,8 +1299,8 @@ export const ListLogEntriesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListLogEntriesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListLogEntriesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListLogEntriesResponse();
     while (reader.pos < end) {
@@ -1803,7 +1335,7 @@ export const ListLogEntriesResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListLogEntriesResponse>): ListLogEntriesResponse {
+  fromPartial(object: Partial<ListLogEntriesResponse>): ListLogEntriesResponse {
     const message = createBaseListLogEntriesResponse();
     message.entries = object.entries?.map(e => LogEntry.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -1865,7 +1397,7 @@ function createBaseListMonitoredResourceDescriptorsRequest(): ListMonitoredResou
 }
 export const ListMonitoredResourceDescriptorsRequest = {
   typeUrl: "/google.logging.v2.ListMonitoredResourceDescriptorsRequest",
-  encode(message: ListMonitoredResourceDescriptorsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListMonitoredResourceDescriptorsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pageSize !== 0) {
       writer.uint32(8).int32(message.pageSize);
     }
@@ -1874,8 +1406,8 @@ export const ListMonitoredResourceDescriptorsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListMonitoredResourceDescriptorsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListMonitoredResourceDescriptorsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListMonitoredResourceDescriptorsRequest();
     while (reader.pos < end) {
@@ -1906,7 +1438,7 @@ export const ListMonitoredResourceDescriptorsRequest = {
     message.pageToken !== undefined && (obj.pageToken = message.pageToken);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListMonitoredResourceDescriptorsRequest>): ListMonitoredResourceDescriptorsRequest {
+  fromPartial(object: Partial<ListMonitoredResourceDescriptorsRequest>): ListMonitoredResourceDescriptorsRequest {
     const message = createBaseListMonitoredResourceDescriptorsRequest();
     message.pageSize = object.pageSize ?? 0;
     message.pageToken = object.pageToken ?? "";
@@ -1960,7 +1492,7 @@ function createBaseListMonitoredResourceDescriptorsResponse(): ListMonitoredReso
 }
 export const ListMonitoredResourceDescriptorsResponse = {
   typeUrl: "/google.logging.v2.ListMonitoredResourceDescriptorsResponse",
-  encode(message: ListMonitoredResourceDescriptorsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListMonitoredResourceDescriptorsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.resourceDescriptors) {
       MonitoredResourceDescriptor.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1969,8 +1501,8 @@ export const ListMonitoredResourceDescriptorsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListMonitoredResourceDescriptorsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListMonitoredResourceDescriptorsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListMonitoredResourceDescriptorsResponse();
     while (reader.pos < end) {
@@ -2005,7 +1537,7 @@ export const ListMonitoredResourceDescriptorsResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListMonitoredResourceDescriptorsResponse>): ListMonitoredResourceDescriptorsResponse {
+  fromPartial(object: Partial<ListMonitoredResourceDescriptorsResponse>): ListMonitoredResourceDescriptorsResponse {
     const message = createBaseListMonitoredResourceDescriptorsResponse();
     message.resourceDescriptors = object.resourceDescriptors?.map(e => MonitoredResourceDescriptor.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -2069,7 +1601,7 @@ function createBaseListLogsRequest(): ListLogsRequest {
 }
 export const ListLogsRequest = {
   typeUrl: "/google.logging.v2.ListLogsRequest",
-  encode(message: ListLogsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListLogsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -2084,8 +1616,8 @@ export const ListLogsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListLogsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListLogsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListLogsRequest();
     while (reader.pos < end) {
@@ -2130,7 +1662,7 @@ export const ListLogsRequest = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<ListLogsRequest>): ListLogsRequest {
+  fromPartial(object: Partial<ListLogsRequest>): ListLogsRequest {
     const message = createBaseListLogsRequest();
     message.parent = object.parent ?? "";
     message.pageSize = object.pageSize ?? 0;
@@ -2202,7 +1734,7 @@ function createBaseListLogsResponse(): ListLogsResponse {
 }
 export const ListLogsResponse = {
   typeUrl: "/google.logging.v2.ListLogsResponse",
-  encode(message: ListLogsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListLogsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.logNames) {
       writer.uint32(26).string(v!);
     }
@@ -2211,8 +1743,8 @@ export const ListLogsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListLogsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListLogsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListLogsResponse();
     while (reader.pos < end) {
@@ -2247,7 +1779,7 @@ export const ListLogsResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: DeepPartial<ListLogsResponse>): ListLogsResponse {
+  fromPartial(object: Partial<ListLogsResponse>): ListLogsResponse {
     const message = createBaseListLogsResponse();
     message.logNames = object.logNames?.map(e => e) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -2310,7 +1842,7 @@ function createBaseTailLogEntriesRequest(): TailLogEntriesRequest {
 }
 export const TailLogEntriesRequest = {
   typeUrl: "/google.logging.v2.TailLogEntriesRequest",
-  encode(message: TailLogEntriesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: TailLogEntriesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.resourceNames) {
       writer.uint32(10).string(v!);
     }
@@ -2322,8 +1854,8 @@ export const TailLogEntriesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): TailLogEntriesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): TailLogEntriesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTailLogEntriesRequest();
     while (reader.pos < end) {
@@ -2363,7 +1895,7 @@ export const TailLogEntriesRequest = {
     message.bufferWindow !== undefined && (obj.bufferWindow = message.bufferWindow ? Duration.toJSON(message.bufferWindow) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<TailLogEntriesRequest>): TailLogEntriesRequest {
+  fromPartial(object: Partial<TailLogEntriesRequest>): TailLogEntriesRequest {
     const message = createBaseTailLogEntriesRequest();
     message.resourceNames = object.resourceNames?.map(e => e) || [];
     message.filter = object.filter ?? "";
@@ -2430,7 +1962,7 @@ function createBaseTailLogEntriesResponse(): TailLogEntriesResponse {
 }
 export const TailLogEntriesResponse = {
   typeUrl: "/google.logging.v2.TailLogEntriesResponse",
-  encode(message: TailLogEntriesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: TailLogEntriesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.entries) {
       LogEntry.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -2439,8 +1971,8 @@ export const TailLogEntriesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): TailLogEntriesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): TailLogEntriesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTailLogEntriesResponse();
     while (reader.pos < end) {
@@ -2479,7 +2011,7 @@ export const TailLogEntriesResponse = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<TailLogEntriesResponse>): TailLogEntriesResponse {
+  fromPartial(object: Partial<TailLogEntriesResponse>): TailLogEntriesResponse {
     const message = createBaseTailLogEntriesResponse();
     message.entries = object.entries?.map(e => LogEntry.fromPartial(e)) || [];
     message.suppressionInfo = object.suppressionInfo?.map(e => TailLogEntriesResponse_SuppressionInfo.fromPartial(e)) || [];
@@ -2549,7 +2081,7 @@ function createBaseTailLogEntriesResponse_SuppressionInfo(): TailLogEntriesRespo
 }
 export const TailLogEntriesResponse_SuppressionInfo = {
   typeUrl: "/google.logging.v2.SuppressionInfo",
-  encode(message: TailLogEntriesResponse_SuppressionInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: TailLogEntriesResponse_SuppressionInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.reason !== 0) {
       writer.uint32(8).int32(message.reason);
     }
@@ -2558,8 +2090,8 @@ export const TailLogEntriesResponse_SuppressionInfo = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): TailLogEntriesResponse_SuppressionInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): TailLogEntriesResponse_SuppressionInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTailLogEntriesResponse_SuppressionInfo();
     while (reader.pos < end) {
@@ -2590,7 +2122,7 @@ export const TailLogEntriesResponse_SuppressionInfo = {
     message.suppressedCount !== undefined && (obj.suppressedCount = Math.round(message.suppressedCount));
     return obj;
   },
-  fromPartial(object: DeepPartial<TailLogEntriesResponse_SuppressionInfo>): TailLogEntriesResponse_SuppressionInfo {
+  fromPartial(object: Partial<TailLogEntriesResponse_SuppressionInfo>): TailLogEntriesResponse_SuppressionInfo {
     const message = createBaseTailLogEntriesResponse_SuppressionInfo();
     message.reason = object.reason ?? 0;
     message.suppressedCount = object.suppressedCount ?? 0;

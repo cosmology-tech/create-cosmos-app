@@ -1,6 +1,6 @@
-import { IdentifiedClientState, IdentifiedClientStateAmino, IdentifiedClientStateSDKType, ClientConsensusStates, ClientConsensusStatesAmino, ClientConsensusStatesSDKType, Params, ParamsAmino, ParamsSDKType } from "./client";
-import { Long, isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { IdentifiedClientState, IdentifiedClientStateSDKType, ClientConsensusStates, ClientConsensusStatesSDKType, Params, ParamsSDKType } from "./client";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "ibc.core.client.v1";
 /** GenesisState defines the ibc client submodule's genesis state. */
 export interface GenesisState {
@@ -14,29 +14,7 @@ export interface GenesisState {
   /** create localhost on initialization */
   createLocalhost: boolean;
   /** the sequence for the next generated client identifier */
-  nextClientSequence: Long;
-}
-export interface GenesisStateProtoMsg {
-  typeUrl: "/ibc.core.client.v1.GenesisState";
-  value: Uint8Array;
-}
-/** GenesisState defines the ibc client submodule's genesis state. */
-export interface GenesisStateAmino {
-  /** client states with their corresponding identifiers */
-  clients: IdentifiedClientStateAmino[];
-  /** consensus states from each client */
-  clients_consensus: ClientConsensusStatesAmino[];
-  /** metadata from each client */
-  clients_metadata: IdentifiedGenesisMetadataAmino[];
-  params?: ParamsAmino;
-  /** create localhost on initialization */
-  create_localhost: boolean;
-  /** the sequence for the next generated client identifier */
-  next_client_sequence: string;
-}
-export interface GenesisStateAminoMsg {
-  type: "cosmos-sdk/GenesisState";
-  value: GenesisStateAmino;
+  nextClientSequence: bigint;
 }
 /** GenesisState defines the ibc client submodule's genesis state. */
 export interface GenesisStateSDKType {
@@ -45,7 +23,7 @@ export interface GenesisStateSDKType {
   clients_metadata: IdentifiedGenesisMetadataSDKType[];
   params?: ParamsSDKType;
   create_localhost: boolean;
-  next_client_sequence: Long;
+  next_client_sequence: bigint;
 }
 /**
  * GenesisMetadata defines the genesis type for metadata that clients may return
@@ -56,24 +34,6 @@ export interface GenesisMetadata {
   key: Uint8Array;
   /** metadata value */
   value: Uint8Array;
-}
-export interface GenesisMetadataProtoMsg {
-  typeUrl: "/ibc.core.client.v1.GenesisMetadata";
-  value: Uint8Array;
-}
-/**
- * GenesisMetadata defines the genesis type for metadata that clients may return
- * with ExportMetadata
- */
-export interface GenesisMetadataAmino {
-  /** store key of metadata without clientID-prefix */
-  key: Uint8Array;
-  /** metadata value */
-  value: Uint8Array;
-}
-export interface GenesisMetadataAminoMsg {
-  type: "cosmos-sdk/GenesisMetadata";
-  value: GenesisMetadataAmino;
 }
 /**
  * GenesisMetadata defines the genesis type for metadata that clients may return
@@ -91,22 +51,6 @@ export interface IdentifiedGenesisMetadata {
   clientId: string;
   clientMetadata: GenesisMetadata[];
 }
-export interface IdentifiedGenesisMetadataProtoMsg {
-  typeUrl: "/ibc.core.client.v1.IdentifiedGenesisMetadata";
-  value: Uint8Array;
-}
-/**
- * IdentifiedGenesisMetadata has the client metadata with the corresponding
- * client id.
- */
-export interface IdentifiedGenesisMetadataAmino {
-  client_id: string;
-  client_metadata: GenesisMetadataAmino[];
-}
-export interface IdentifiedGenesisMetadataAminoMsg {
-  type: "cosmos-sdk/IdentifiedGenesisMetadata";
-  value: IdentifiedGenesisMetadataAmino;
-}
 /**
  * IdentifiedGenesisMetadata has the client metadata with the corresponding
  * client id.
@@ -122,13 +66,13 @@ function createBaseGenesisState(): GenesisState {
     clientsMetadata: [],
     params: undefined,
     createLocalhost: false,
-    nextClientSequence: Long.UZERO
+    nextClientSequence: BigInt("0")
   };
 }
 export const GenesisState = {
   typeUrl: "/ibc.core.client.v1.GenesisState",
   aminoType: "cosmos-sdk/GenesisState",
-  encode(message: GenesisState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.clients) {
       IdentifiedClientState.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -144,13 +88,13 @@ export const GenesisState = {
     if (message.createLocalhost === true) {
       writer.uint32(40).bool(message.createLocalhost);
     }
-    if (!message.nextClientSequence.isZero()) {
+    if (message.nextClientSequence !== BigInt(0)) {
       writer.uint32(48).uint64(message.nextClientSequence);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GenesisState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GenesisState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenesisState();
     while (reader.pos < end) {
@@ -172,7 +116,7 @@ export const GenesisState = {
           message.createLocalhost = reader.bool();
           break;
         case 6:
-          message.nextClientSequence = (reader.uint64() as Long);
+          message.nextClientSequence = BigInt(reader.uint64().toString());
           break;
         default:
           reader.skipType(tag & 7);
@@ -188,7 +132,7 @@ export const GenesisState = {
       clientsMetadata: Array.isArray(object?.clientsMetadata) ? object.clientsMetadata.map((e: any) => IdentifiedGenesisMetadata.fromJSON(e)) : [],
       params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
       createLocalhost: isSet(object.createLocalhost) ? Boolean(object.createLocalhost) : false,
-      nextClientSequence: isSet(object.nextClientSequence) ? Long.fromValue(object.nextClientSequence) : Long.UZERO
+      nextClientSequence: isSet(object.nextClientSequence) ? BigInt(object.nextClientSequence.toString()) : BigInt("0")
     };
   },
   toJSON(message: GenesisState): unknown {
@@ -210,17 +154,17 @@ export const GenesisState = {
     }
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
     message.createLocalhost !== undefined && (obj.createLocalhost = message.createLocalhost);
-    message.nextClientSequence !== undefined && (obj.nextClientSequence = (message.nextClientSequence || Long.UZERO).toString());
+    message.nextClientSequence !== undefined && (obj.nextClientSequence = (message.nextClientSequence || BigInt("0")).toString());
     return obj;
   },
-  fromPartial(object: DeepPartial<GenesisState>): GenesisState {
+  fromPartial(object: Partial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
     message.clients = object.clients?.map(e => IdentifiedClientState.fromPartial(e)) || [];
     message.clientsConsensus = object.clientsConsensus?.map(e => ClientConsensusStates.fromPartial(e)) || [];
     message.clientsMetadata = object.clientsMetadata?.map(e => IdentifiedGenesisMetadata.fromPartial(e)) || [];
     message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
     message.createLocalhost = object.createLocalhost ?? false;
-    message.nextClientSequence = object.nextClientSequence !== undefined && object.nextClientSequence !== null ? Long.fromValue(object.nextClientSequence) : Long.UZERO;
+    message.nextClientSequence = object.nextClientSequence !== undefined && object.nextClientSequence !== null ? BigInt(object.nextClientSequence.toString()) : BigInt("0");
     return message;
   },
   fromSDK(object: GenesisStateSDKType): GenesisState {
@@ -262,7 +206,7 @@ export const GenesisState = {
       clientsMetadata: Array.isArray(object?.clients_metadata) ? object.clients_metadata.map((e: any) => IdentifiedGenesisMetadata.fromAmino(e)) : [],
       params: object?.params ? Params.fromAmino(object.params) : undefined,
       createLocalhost: object.create_localhost,
-      nextClientSequence: Long.fromString(object.next_client_sequence)
+      nextClientSequence: BigInt(object.next_client_sequence)
     };
   },
   toAmino(message: GenesisState): GenesisStateAmino {
@@ -318,7 +262,7 @@ function createBaseGenesisMetadata(): GenesisMetadata {
 export const GenesisMetadata = {
   typeUrl: "/ibc.core.client.v1.GenesisMetadata",
   aminoType: "cosmos-sdk/GenesisMetadata",
-  encode(message: GenesisMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GenesisMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key);
     }
@@ -327,8 +271,8 @@ export const GenesisMetadata = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GenesisMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GenesisMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenesisMetadata();
     while (reader.pos < end) {
@@ -359,7 +303,7 @@ export const GenesisMetadata = {
     message.value !== undefined && (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));
     return obj;
   },
-  fromPartial(object: DeepPartial<GenesisMetadata>): GenesisMetadata {
+  fromPartial(object: Partial<GenesisMetadata>): GenesisMetadata {
     const message = createBaseGenesisMetadata();
     message.key = object.key ?? new Uint8Array();
     message.value = object.value ?? new Uint8Array();
@@ -420,7 +364,7 @@ function createBaseIdentifiedGenesisMetadata(): IdentifiedGenesisMetadata {
 export const IdentifiedGenesisMetadata = {
   typeUrl: "/ibc.core.client.v1.IdentifiedGenesisMetadata",
   aminoType: "cosmos-sdk/IdentifiedGenesisMetadata",
-  encode(message: IdentifiedGenesisMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: IdentifiedGenesisMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
@@ -429,8 +373,8 @@ export const IdentifiedGenesisMetadata = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): IdentifiedGenesisMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): IdentifiedGenesisMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseIdentifiedGenesisMetadata();
     while (reader.pos < end) {
@@ -465,7 +409,7 @@ export const IdentifiedGenesisMetadata = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<IdentifiedGenesisMetadata>): IdentifiedGenesisMetadata {
+  fromPartial(object: Partial<IdentifiedGenesisMetadata>): IdentifiedGenesisMetadata {
     const message = createBaseIdentifiedGenesisMetadata();
     message.clientId = object.clientId ?? "";
     message.clientMetadata = object.clientMetadata?.map(e => GenesisMetadata.fromPartial(e)) || [];

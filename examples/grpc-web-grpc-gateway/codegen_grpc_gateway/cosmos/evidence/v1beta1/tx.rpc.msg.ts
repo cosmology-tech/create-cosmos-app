@@ -1,6 +1,5 @@
-import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import * as fm from "../../../grpc-gateway";
-import { MsgSubmitEvidence, MsgSubmitEvidenceSDKType, MsgSubmitEvidenceResponse, MsgSubmitEvidenceResponseSDKType } from "./tx";
+import { MsgSubmitEvidence, MsgSubmitEvidenceResponse } from "./tx";
 export class Msg {
   /**
    * SubmitEvidence submits an arbitrary Evidence of misbehavior such as equivocation or
