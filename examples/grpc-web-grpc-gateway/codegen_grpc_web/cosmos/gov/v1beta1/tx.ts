@@ -1,11 +1,7 @@
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
 import { VoteOption, WeightedVoteOption, WeightedVoteOptionAmino, WeightedVoteOptionSDKType, TextProposal, TextProposalProtoMsg, TextProposalSDKType, voteOptionFromJSON, voteOptionToJSON } from "./gov";
-import { RegisterIncentiveProposal, RegisterIncentiveProposalProtoMsg, RegisterIncentiveProposalSDKType } from "../../../evmos/incentives/v1/incentives";
 import { ClientUpdateProposal, ClientUpdateProposalProtoMsg, ClientUpdateProposalSDKType, UpgradeProposal, UpgradeProposalProtoMsg, UpgradeProposalSDKType } from "../../../ibc/core/client/v1/client";
-import { ReplacePoolIncentivesProposal, ReplacePoolIncentivesProposalProtoMsg, ReplacePoolIncentivesProposalSDKType, UpdatePoolIncentivesProposal, UpdatePoolIncentivesProposalProtoMsg, UpdatePoolIncentivesProposalSDKType } from "../../../osmosis/pool-incentives/v1beta1/gov";
-import { SetSuperfluidAssetsProposal, SetSuperfluidAssetsProposalProtoMsg, SetSuperfluidAssetsProposalSDKType, RemoveSuperfluidAssetsProposal, RemoveSuperfluidAssetsProposalProtoMsg, RemoveSuperfluidAssetsProposalSDKType, UpdateUnpoolWhiteListProposal, UpdateUnpoolWhiteListProposalProtoMsg, UpdateUnpoolWhiteListProposalSDKType } from "../../../osmosis/superfluid/v1beta1/gov";
-import { UpdateFeeTokenProposal, UpdateFeeTokenProposalProtoMsg, UpdateFeeTokenProposalSDKType } from "../../../osmosis/txfees/v1beta1/gov";
 import { Long, isSet, DeepPartial } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "cosmos.gov.v1beta1";
@@ -14,7 +10,7 @@ export const protobufPackage = "cosmos.gov.v1beta1";
  * proposal Content.
  */
 export interface MsgSubmitProposal {
-  content?: (TextProposal & RegisterIncentiveProposal & ClientUpdateProposal & UpgradeProposal & ReplacePoolIncentivesProposal & UpdatePoolIncentivesProposal & SetSuperfluidAssetsProposal & RemoveSuperfluidAssetsProposal & UpdateUnpoolWhiteListProposal & UpdateFeeTokenProposal & Any) | undefined;
+  content?: (TextProposal & ClientUpdateProposal & UpgradeProposal & Any) | undefined;
   initialDeposit: Coin[];
   proposer: string;
 }
@@ -23,7 +19,7 @@ export interface MsgSubmitProposalProtoMsg {
   value: Uint8Array;
 }
 export type MsgSubmitProposalEncoded = Omit<MsgSubmitProposal, "content"> & {
-  content?: TextProposalProtoMsg | RegisterIncentiveProposalProtoMsg | ClientUpdateProposalProtoMsg | UpgradeProposalProtoMsg | ReplacePoolIncentivesProposalProtoMsg | UpdatePoolIncentivesProposalProtoMsg | SetSuperfluidAssetsProposalProtoMsg | RemoveSuperfluidAssetsProposalProtoMsg | UpdateUnpoolWhiteListProposalProtoMsg | UpdateFeeTokenProposalProtoMsg | AnyProtoMsg | undefined;
+  content?: TextProposalProtoMsg | ClientUpdateProposalProtoMsg | UpgradeProposalProtoMsg | AnyProtoMsg | undefined;
 };
 /**
  * MsgSubmitProposal defines an sdk.Msg type that supports submitting arbitrary
@@ -43,7 +39,7 @@ export interface MsgSubmitProposalAminoMsg {
  * proposal Content.
  */
 export interface MsgSubmitProposalSDKType {
-  content?: TextProposalSDKType | RegisterIncentiveProposalSDKType | ClientUpdateProposalSDKType | UpgradeProposalSDKType | ReplacePoolIncentivesProposalSDKType | UpdatePoolIncentivesProposalSDKType | SetSuperfluidAssetsProposalSDKType | RemoveSuperfluidAssetsProposalSDKType | UpdateUnpoolWhiteListProposalSDKType | UpdateFeeTokenProposalSDKType | AnySDKType | undefined;
+  content?: TextProposalSDKType | ClientUpdateProposalSDKType | UpgradeProposalSDKType | AnySDKType | undefined;
   initial_deposit: CoinSDKType[];
   proposer: string;
 }
@@ -1009,30 +1005,16 @@ export const MsgDepositResponse = {
     };
   }
 };
-export const ProposalContentI_InterfaceDecoder = (input: _m0.Reader | Uint8Array): TextProposal | RegisterIncentiveProposal | ClientUpdateProposal | UpgradeProposal | ReplacePoolIncentivesProposal | UpdatePoolIncentivesProposal | SetSuperfluidAssetsProposal | RemoveSuperfluidAssetsProposal | UpdateUnpoolWhiteListProposal | UpdateFeeTokenProposal | Any => {
+export const ProposalContentI_InterfaceDecoder = (input: _m0.Reader | Uint8Array): TextProposal | ClientUpdateProposal | UpgradeProposal | Any => {
   const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
   const data = Any.decode(reader, reader.uint32());
   switch (data.typeUrl) {
     case "/cosmos.gov.v1beta1.TextProposal":
       return TextProposal.decode(data.value);
-    case "/evmos.incentives.v1.RegisterIncentiveProposal":
-      return RegisterIncentiveProposal.decode(data.value);
     case "/ibc.core.client.v1.ClientUpdateProposal":
       return ClientUpdateProposal.decode(data.value);
     case "/ibc.core.client.v1.UpgradeProposal":
       return UpgradeProposal.decode(data.value);
-    case "/osmosis.poolincentives.v1beta1.ReplacePoolIncentivesProposal":
-      return ReplacePoolIncentivesProposal.decode(data.value);
-    case "/osmosis.poolincentives.v1beta1.UpdatePoolIncentivesProposal":
-      return UpdatePoolIncentivesProposal.decode(data.value);
-    case "/osmosis.superfluid.v1beta1.SetSuperfluidAssetsProposal":
-      return SetSuperfluidAssetsProposal.decode(data.value);
-    case "/osmosis.superfluid.v1beta1.RemoveSuperfluidAssetsProposal":
-      return RemoveSuperfluidAssetsProposal.decode(data.value);
-    case "/osmosis.superfluid.v1beta1.UpdateUnpoolWhiteListProposal":
-      return UpdateUnpoolWhiteListProposal.decode(data.value);
-    case "/osmosis.txfees.v1beta1.UpdateFeeTokenProposal":
-      return UpdateFeeTokenProposal.decode(data.value);
     default:
       return data;
   }
@@ -1044,11 +1026,6 @@ export const ProposalContentI_FromAmino = (content: AnyAmino) => {
         typeUrl: "/cosmos.gov.v1beta1.TextProposal",
         value: TextProposal.encode(TextProposal.fromPartial(TextProposal.fromAmino(content.value))).finish()
       });
-    case "/evmos.incentives.v1.RegisterIncentiveProposal":
-      return Any.fromPartial({
-        typeUrl: "/evmos.incentives.v1.RegisterIncentiveProposal",
-        value: RegisterIncentiveProposal.encode(RegisterIncentiveProposal.fromPartial(RegisterIncentiveProposal.fromAmino(content.value))).finish()
-      });
     case "cosmos-sdk/ClientUpdateProposal":
       return Any.fromPartial({
         typeUrl: "/ibc.core.client.v1.ClientUpdateProposal",
@@ -1058,36 +1035,6 @@ export const ProposalContentI_FromAmino = (content: AnyAmino) => {
       return Any.fromPartial({
         typeUrl: "/ibc.core.client.v1.UpgradeProposal",
         value: UpgradeProposal.encode(UpgradeProposal.fromPartial(UpgradeProposal.fromAmino(content.value))).finish()
-      });
-    case "osmosis/poolincentives/replace-pool-incentives-proposal":
-      return Any.fromPartial({
-        typeUrl: "/osmosis.poolincentives.v1beta1.ReplacePoolIncentivesProposal",
-        value: ReplacePoolIncentivesProposal.encode(ReplacePoolIncentivesProposal.fromPartial(ReplacePoolIncentivesProposal.fromAmino(content.value))).finish()
-      });
-    case "osmosis/poolincentives/update-pool-incentives-proposal":
-      return Any.fromPartial({
-        typeUrl: "/osmosis.poolincentives.v1beta1.UpdatePoolIncentivesProposal",
-        value: UpdatePoolIncentivesProposal.encode(UpdatePoolIncentivesProposal.fromPartial(UpdatePoolIncentivesProposal.fromAmino(content.value))).finish()
-      });
-    case "osmosis/v1beta1/set-superfluid-assets-proposal":
-      return Any.fromPartial({
-        typeUrl: "/osmosis.superfluid.v1beta1.SetSuperfluidAssetsProposal",
-        value: SetSuperfluidAssetsProposal.encode(SetSuperfluidAssetsProposal.fromPartial(SetSuperfluidAssetsProposal.fromAmino(content.value))).finish()
-      });
-    case "osmosis/v1beta1/remove-superfluid-assets-proposal":
-      return Any.fromPartial({
-        typeUrl: "/osmosis.superfluid.v1beta1.RemoveSuperfluidAssetsProposal",
-        value: RemoveSuperfluidAssetsProposal.encode(RemoveSuperfluidAssetsProposal.fromPartial(RemoveSuperfluidAssetsProposal.fromAmino(content.value))).finish()
-      });
-    case "osmosis/v1beta1/update-unpool-white-list-proposal":
-      return Any.fromPartial({
-        typeUrl: "/osmosis.superfluid.v1beta1.UpdateUnpoolWhiteListProposal",
-        value: UpdateUnpoolWhiteListProposal.encode(UpdateUnpoolWhiteListProposal.fromPartial(UpdateUnpoolWhiteListProposal.fromAmino(content.value))).finish()
-      });
-    case "osmosis/txfees/update-fee-token-proposal":
-      return Any.fromPartial({
-        typeUrl: "/osmosis.txfees.v1beta1.UpdateFeeTokenProposal",
-        value: UpdateFeeTokenProposal.encode(UpdateFeeTokenProposal.fromPartial(UpdateFeeTokenProposal.fromAmino(content.value))).finish()
       });
     default:
       return Any.fromAmino(content);
@@ -1100,11 +1047,6 @@ export const ProposalContentI_ToAmino = (content: Any) => {
         type: "cosmos-sdk/TextProposal",
         value: TextProposal.toAmino(TextProposal.decode(content.value))
       };
-    case "/evmos.incentives.v1.RegisterIncentiveProposal":
-      return {
-        type: "/evmos.incentives.v1.RegisterIncentiveProposal",
-        value: RegisterIncentiveProposal.toAmino(RegisterIncentiveProposal.decode(content.value))
-      };
     case "/ibc.core.client.v1.ClientUpdateProposal":
       return {
         type: "cosmos-sdk/ClientUpdateProposal",
@@ -1114,36 +1056,6 @@ export const ProposalContentI_ToAmino = (content: Any) => {
       return {
         type: "cosmos-sdk/UpgradeProposal",
         value: UpgradeProposal.toAmino(UpgradeProposal.decode(content.value))
-      };
-    case "/osmosis.poolincentives.v1beta1.ReplacePoolIncentivesProposal":
-      return {
-        type: "osmosis/poolincentives/replace-pool-incentives-proposal",
-        value: ReplacePoolIncentivesProposal.toAmino(ReplacePoolIncentivesProposal.decode(content.value))
-      };
-    case "/osmosis.poolincentives.v1beta1.UpdatePoolIncentivesProposal":
-      return {
-        type: "osmosis/poolincentives/update-pool-incentives-proposal",
-        value: UpdatePoolIncentivesProposal.toAmino(UpdatePoolIncentivesProposal.decode(content.value))
-      };
-    case "/osmosis.superfluid.v1beta1.SetSuperfluidAssetsProposal":
-      return {
-        type: "osmosis/v1beta1/set-superfluid-assets-proposal",
-        value: SetSuperfluidAssetsProposal.toAmino(SetSuperfluidAssetsProposal.decode(content.value))
-      };
-    case "/osmosis.superfluid.v1beta1.RemoveSuperfluidAssetsProposal":
-      return {
-        type: "osmosis/v1beta1/remove-superfluid-assets-proposal",
-        value: RemoveSuperfluidAssetsProposal.toAmino(RemoveSuperfluidAssetsProposal.decode(content.value))
-      };
-    case "/osmosis.superfluid.v1beta1.UpdateUnpoolWhiteListProposal":
-      return {
-        type: "osmosis/v1beta1/update-unpool-white-list-proposal",
-        value: UpdateUnpoolWhiteListProposal.toAmino(UpdateUnpoolWhiteListProposal.decode(content.value))
-      };
-    case "/osmosis.txfees.v1beta1.UpdateFeeTokenProposal":
-      return {
-        type: "osmosis/txfees/update-fee-token-proposal",
-        value: UpdateFeeTokenProposal.toAmino(UpdateFeeTokenProposal.decode(content.value))
       };
     default:
       return Any.toAmino(content);
