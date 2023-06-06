@@ -4,22 +4,16 @@
   * and run the transpile command or yarn proto command to regenerate this bundle.
   */
  
-export * from "./akash/bundle";
-export * from "./akash/client";
 export * from "./ics23/bundle";
 export * from "./cosmos_proto/bundle";
 export * from "./cosmos/bundle";
 export * from "./cosmos/client";
 export * from "./cosmwasm/bundle";
 export * from "./cosmwasm/client";
-export * from "./evmos/bundle";
-export * from "./evmos/client";
 export * from "./gogoproto/bundle";
 export * from "./google/bundle";
 export * from "./ibc/bundle";
 export * from "./ibc/client";
-export * from "./osmosis/bundle";
-export * from "./osmosis/client";
 export * from "./tendermint/bundle";
 export * from "./websocket";
 export * from "./ws";

@@ -165,7 +165,7 @@ export default function Home() {
     const rpcEndpoint = 'https://osmosis-grpc-web.polkachu.com';
 
     // get gRPC-web client
-    const client = await cosmos.ClientFactory.getGrpcWebClient({
+    const client = await cosmos.ClientFactory.createGrpcWebClient({
       endpoint: rpcEndpoint,
     });
 
