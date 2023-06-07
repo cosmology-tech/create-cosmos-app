@@ -1,5 +1,5 @@
-import { MetricValueSet, MetricValueSetSDKType } from "./metric_value";
-import { Status, StatusSDKType } from "../../../rpc/status";
+import { MetricValueSet, MetricValueSetAmino, MetricValueSetSDKType } from "./metric_value";
+import { Status, StatusAmino, StatusSDKType } from "../../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v1";
@@ -52,6 +52,7 @@ export enum QuotaOperation_QuotaMode {
   UNRECOGNIZED = -1,
 }
 export const QuotaOperation_QuotaModeSDKType = QuotaOperation_QuotaMode;
+export const QuotaOperation_QuotaModeAmino = QuotaOperation_QuotaMode;
 export function quotaOperation_QuotaModeFromJSON(object: any): QuotaOperation_QuotaMode {
   switch (object) {
     case 0:
@@ -126,6 +127,7 @@ export enum QuotaError_Code {
   UNRECOGNIZED = -1,
 }
 export const QuotaError_CodeSDKType = QuotaError_Code;
+export const QuotaError_CodeAmino = QuotaError_Code;
 export function quotaError_CodeFromJSON(object: any): QuotaError_Code {
   switch (object) {
     case 0:
@@ -189,6 +191,32 @@ export interface AllocateQuotaRequest {
    */
   serviceConfigId: string;
 }
+export interface AllocateQuotaRequestProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.AllocateQuotaRequest";
+  value: Uint8Array;
+}
+/** Request message for the AllocateQuota method. */
+export interface AllocateQuotaRequestAmino {
+  /**
+   * Name of the service as specified in the service configuration. For example,
+   * `"pubsub.googleapis.com"`.
+   * 
+   * See [google.api.Service][google.api.Service] for the definition of a service name.
+   */
+  service_name: string;
+  /** Operation that describes the quota allocation. */
+  allocate_operation?: QuotaOperationAmino;
+  /**
+   * Specifies which version of service configuration should be used to process
+   * the request. If unspecified or no matching version can be found, the latest
+   * one will be used.
+   */
+  service_config_id: string;
+}
+export interface AllocateQuotaRequestAminoMsg {
+  type: "/google.api.servicecontrol.v1.AllocateQuotaRequest";
+  value: AllocateQuotaRequestAmino;
+}
 /** Request message for the AllocateQuota method. */
 export interface AllocateQuotaRequestSDKType {
   service_name: string;
@@ -198,6 +226,18 @@ export interface AllocateQuotaRequestSDKType {
 export interface QuotaOperation_LabelsEntry {
   key: string;
   value: string;
+}
+export interface QuotaOperation_LabelsEntryProtoMsg {
+  typeUrl: string;
+  value: Uint8Array;
+}
+export interface QuotaOperation_LabelsEntryAmino {
+  key: string;
+  value: string;
+}
+export interface QuotaOperation_LabelsEntryAminoMsg {
+  type: string;
+  value: QuotaOperation_LabelsEntryAmino;
 }
 export interface QuotaOperation_LabelsEntrySDKType {
   key: string;
@@ -262,6 +302,73 @@ export interface QuotaOperation {
   /** Quota mode for this operation. */
   quotaMode: QuotaOperation_QuotaMode;
 }
+export interface QuotaOperationProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.QuotaOperation";
+  value: Uint8Array;
+}
+/** Represents information regarding a quota operation. */
+export interface QuotaOperationAmino {
+  /**
+   * Identity of the operation. This is expected to be unique within the scope
+   * of the service that generated the operation, and guarantees idempotency in
+   * case of retries.
+   * 
+   * In order to ensure best performance and latency in the Quota backends,
+   * operation_ids are optimally associated with time, so that related
+   * operations can be accessed fast in storage. For this reason, the
+   * recommended token for services that intend to operate at a high QPS is
+   * Unix time in nanos + UUID
+   */
+  operation_id: string;
+  /**
+   * Fully qualified name of the API method for which this quota operation is
+   * requested. This name is used for matching quota rules or metric rules and
+   * billing status rules defined in service configuration.
+   * 
+   * This field should not be set if any of the following is true:
+   * (1) the quota operation is performed on non-API resources.
+   * (2) quota_metrics is set because the caller is doing quota override.
+   * 
+   * 
+   * Example of an RPC method name:
+   *     google.example.library.v1.LibraryService.CreateShelf
+   */
+  method_name: string;
+  /**
+   * Identity of the consumer for whom this quota operation is being performed.
+   * 
+   * This can be in one of the following formats:
+   *   project:<project_id>,
+   *   project_number:<project_number>,
+   *   api_key:<api_key>.
+   */
+  consumer_id: string;
+  /** Labels describing the operation. */
+  labels: {
+    [key: string]: string;
+  };
+  /**
+   * Represents information about this operation. Each MetricValueSet
+   * corresponds to a metric defined in the service configuration.
+   * The data type used in the MetricValueSet must agree with
+   * the data type specified in the metric definition.
+   * 
+   * Within a single operation, it is not allowed to have more than one
+   * MetricValue instances that have the same metric names and identical
+   * label value combinations. If a request has such duplicated MetricValue
+   * instances, the entire request is rejected with
+   * an invalid argument error.
+   * 
+   * This field is mutually exclusive with method_name.
+   */
+  quota_metrics: MetricValueSetAmino[];
+  /** Quota mode for this operation. */
+  quota_mode: QuotaOperation_QuotaMode;
+}
+export interface QuotaOperationAminoMsg {
+  type: "/google.api.servicecontrol.v1.QuotaOperation";
+  value: QuotaOperationAmino;
+}
 /** Represents information regarding a quota operation. */
 export interface QuotaOperationSDKType {
   operation_id: string;
@@ -298,6 +405,39 @@ export interface AllocateQuotaResponse {
   /** ID of the actual config used to process the request. */
   serviceConfigId: string;
 }
+export interface AllocateQuotaResponseProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.AllocateQuotaResponse";
+  value: Uint8Array;
+}
+/** Response message for the AllocateQuota method. */
+export interface AllocateQuotaResponseAmino {
+  /**
+   * The same operation_id value used in the AllocateQuotaRequest. Used for
+   * logging and diagnostics purposes.
+   */
+  operation_id: string;
+  /** Indicates the decision of the allocate. */
+  allocate_errors: QuotaErrorAmino[];
+  /**
+   * Quota metrics to indicate the result of allocation. Depending on the
+   * request, one or more of the following metrics will be included:
+   * 
+   * 1. Per quota group or per quota metric incremental usage will be specified
+   * using the following delta metric :
+   *   "serviceruntime.googleapis.com/api/consumer/quota_used_count"
+   * 
+   * 2. The quota limit reached condition will be specified using the following
+   * boolean metric :
+   *   "serviceruntime.googleapis.com/quota/exceeded"
+   */
+  quota_metrics: MetricValueSetAmino[];
+  /** ID of the actual config used to process the request. */
+  service_config_id: string;
+}
+export interface AllocateQuotaResponseAminoMsg {
+  type: "/google.api.servicecontrol.v1.AllocateQuotaResponse";
+  value: AllocateQuotaResponseAmino;
+}
 /** Response message for the AllocateQuota method. */
 export interface AllocateQuotaResponseSDKType {
   operation_id: string;
@@ -322,6 +462,32 @@ export interface QuotaError {
    * If available, `status.code` will be non zero.
    */
   status?: Status;
+}
+export interface QuotaErrorProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.QuotaError";
+  value: Uint8Array;
+}
+/** Represents error information for [QuotaOperation][google.api.servicecontrol.v1.QuotaOperation]. */
+export interface QuotaErrorAmino {
+  /** Error code. */
+  code: QuotaError_Code;
+  /**
+   * Subject to whom this error applies. See the specific enum for more details
+   * on this field. For example, "clientip:<ip address of client>" or
+   * "project:<Google developer project id>".
+   */
+  subject: string;
+  /** Free-form text that provides details on the cause of the error. */
+  description: string;
+  /**
+   * Contains additional information about the quota error.
+   * If available, `status.code` will be non zero.
+   */
+  status?: StatusAmino;
+}
+export interface QuotaErrorAminoMsg {
+  type: "/google.api.servicecontrol.v1.QuotaError";
+  value: QuotaErrorAmino;
 }
 /** Represents error information for [QuotaOperation][google.api.servicecontrol.v1.QuotaOperation]. */
 export interface QuotaErrorSDKType {

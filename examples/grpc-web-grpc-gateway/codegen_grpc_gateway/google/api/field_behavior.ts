@@ -58,6 +58,7 @@ export enum FieldBehavior {
   UNRECOGNIZED = -1,
 }
 export const FieldBehaviorSDKType = FieldBehavior;
+export const FieldBehaviorAmino = FieldBehavior;
 export function fieldBehaviorFromJSON(object: any): FieldBehavior {
   switch (object) {
     case 0:

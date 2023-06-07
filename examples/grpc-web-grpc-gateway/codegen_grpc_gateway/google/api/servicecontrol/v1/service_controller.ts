@@ -1,6 +1,6 @@
-import { Operation, OperationSDKType } from "./operation";
-import { CheckError, CheckErrorSDKType } from "./check_error";
-import { Status, StatusSDKType } from "../../../rpc/status";
+import { Operation, OperationAmino, OperationSDKType } from "./operation";
+import { CheckError, CheckErrorAmino, CheckErrorSDKType } from "./check_error";
+import { Status, StatusAmino, StatusSDKType } from "../../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v1";
@@ -26,6 +26,7 @@ export enum CheckResponse_ConsumerInfo_ConsumerType {
   UNRECOGNIZED = -1,
 }
 export const CheckResponse_ConsumerInfo_ConsumerTypeSDKType = CheckResponse_ConsumerInfo_ConsumerType;
+export const CheckResponse_ConsumerInfo_ConsumerTypeAmino = CheckResponse_ConsumerInfo_ConsumerType;
 export function checkResponse_ConsumerInfo_ConsumerTypeFromJSON(object: any): CheckResponse_ConsumerInfo_ConsumerType {
   switch (object) {
     case 0:
@@ -88,6 +89,36 @@ export interface CheckRequest {
    */
   serviceConfigId: string;
 }
+export interface CheckRequestProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.CheckRequest";
+  value: Uint8Array;
+}
+/** Request message for the Check method. */
+export interface CheckRequestAmino {
+  /**
+   * The service name as specified in its service configuration. For example,
+   * `"pubsub.googleapis.com"`.
+   * 
+   * See
+   * [google.api.Service](https://cloud.google.com/service-management/reference/rpc/google.api#google.api.Service)
+   * for the definition of a service name.
+   */
+  service_name: string;
+  /** The operation to be checked. */
+  operation?: OperationAmino;
+  /**
+   * Specifies which version of service configuration should be used to process
+   * the request.
+   * 
+   * If unspecified or no matching version can be found, the
+   * latest one will be used.
+   */
+  service_config_id: string;
+}
+export interface CheckRequestAminoMsg {
+  type: "/google.api.servicecontrol.v1.CheckRequest";
+  value: CheckRequestAmino;
+}
 /** Request message for the Check method. */
 export interface CheckRequestSDKType {
   service_name: string;
@@ -117,6 +148,37 @@ export interface CheckResponse {
   /** Feedback data returned from the server during processing a Check request. */
   checkInfo?: CheckResponse_CheckInfo;
 }
+export interface CheckResponseProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.CheckResponse";
+  value: Uint8Array;
+}
+/** Response message for the Check method. */
+export interface CheckResponseAmino {
+  /**
+   * The same operation_id value used in the
+   * [CheckRequest][google.api.servicecontrol.v1.CheckRequest]. Used for logging
+   * and diagnostics purposes.
+   */
+  operation_id: string;
+  /**
+   * Indicate the decision of the check.
+   * 
+   * If no check errors are present, the service should process the operation.
+   * Otherwise the service should use the list of errors to determine the
+   * appropriate action.
+   */
+  check_errors: CheckErrorAmino[];
+  /** The actual config id used to process the request. */
+  service_config_id: string;
+  /** The current service rollout id used to process the request. */
+  service_rollout_id: string;
+  /** Feedback data returned from the server during processing a Check request. */
+  check_info?: CheckResponse_CheckInfoAmino;
+}
+export interface CheckResponseAminoMsg {
+  type: "/google.api.servicecontrol.v1.CheckResponse";
+  value: CheckResponseAmino;
+}
 /** Response message for the Check method. */
 export interface CheckResponseSDKType {
   operation_id: string;
@@ -135,6 +197,25 @@ export interface CheckResponse_CheckInfo {
   unusedArguments: string[];
   /** Consumer info of this check. */
   consumerInfo?: CheckResponse_ConsumerInfo;
+}
+export interface CheckResponse_CheckInfoProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.CheckInfo";
+  value: Uint8Array;
+}
+/** Contains additional information about the check operation. */
+export interface CheckResponse_CheckInfoAmino {
+  /**
+   * A list of fields and label keys that are ignored by the server.
+   * The client doesn't need to send them for following requests to improve
+   * performance and allow better aggregation.
+   */
+  unused_arguments: string[];
+  /** Consumer info of this check. */
+  consumer_info?: CheckResponse_ConsumerInfoAmino;
+}
+export interface CheckResponse_CheckInfoAminoMsg {
+  type: "/google.api.servicecontrol.v1.CheckInfo";
+  value: CheckResponse_CheckInfoAmino;
 }
 /** Contains additional information about the check operation. */
 export interface CheckResponse_CheckInfoSDKType {
@@ -162,6 +243,36 @@ export interface CheckResponse_ConsumerInfo {
    * consumer number is found.
    */
   consumerNumber: bigint;
+}
+export interface CheckResponse_ConsumerInfoProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.ConsumerInfo";
+  value: Uint8Array;
+}
+/** `ConsumerInfo` provides information about the consumer. */
+export interface CheckResponse_ConsumerInfoAmino {
+  /**
+   * The Google cloud project number, e.g. 1234567890. A value of 0 indicates
+   * no project number is found.
+   * 
+   * NOTE: This field is deprecated after we support flexible consumer
+   * id. New code should not depend on this field anymore.
+   */
+  project_number: string;
+  /**
+   * The type of the consumer which should have been defined in
+   * [Google Resource Manager](https://cloud.google.com/resource-manager/).
+   */
+  type: CheckResponse_ConsumerInfo_ConsumerType;
+  /**
+   * The consumer identity number, can be Google cloud project number, folder
+   * number or organization number e.g. 1234567890. A value of 0 indicates no
+   * consumer number is found.
+   */
+  consumer_number: string;
+}
+export interface CheckResponse_ConsumerInfoAminoMsg {
+  type: "/google.api.servicecontrol.v1.ConsumerInfo";
+  value: CheckResponse_ConsumerInfoAmino;
 }
 /** `ConsumerInfo` provides information about the consumer. */
 export interface CheckResponse_ConsumerInfoSDKType {
@@ -203,6 +314,48 @@ export interface ReportRequest {
    */
   serviceConfigId: string;
 }
+export interface ReportRequestProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.ReportRequest";
+  value: Uint8Array;
+}
+/** Request message for the Report method. */
+export interface ReportRequestAmino {
+  /**
+   * The service name as specified in its service configuration. For example,
+   * `"pubsub.googleapis.com"`.
+   * 
+   * See
+   * [google.api.Service](https://cloud.google.com/service-management/reference/rpc/google.api#google.api.Service)
+   * for the definition of a service name.
+   */
+  service_name: string;
+  /**
+   * Operations to be reported.
+   * 
+   * Typically the service should report one operation per request.
+   * Putting multiple operations into a single request is allowed, but should
+   * be used only when multiple operations are natually available at the time
+   * of the report.
+   * 
+   * There is no limit on the number of operations in the same ReportRequest,
+   * however the ReportRequest size should be no larger than 1MB. See
+   * [ReportResponse.report_errors][google.api.servicecontrol.v1.ReportResponse.report_errors]
+   * for partial failure behavior.
+   */
+  operations: OperationAmino[];
+  /**
+   * Specifies which version of service config should be used to process the
+   * request.
+   * 
+   * If unspecified or no matching version can be found, the
+   * latest one will be used.
+   */
+  service_config_id: string;
+}
+export interface ReportRequestAminoMsg {
+  type: "/google.api.servicecontrol.v1.ReportRequest";
+  value: ReportRequestAmino;
+}
 /** Request message for the Report method. */
 export interface ReportRequestSDKType {
   service_name: string;
@@ -233,6 +386,38 @@ export interface ReportResponse {
   /** The current service rollout id used to process the request. */
   serviceRolloutId: string;
 }
+export interface ReportResponseProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.ReportResponse";
+  value: Uint8Array;
+}
+/** Response message for the Report method. */
+export interface ReportResponseAmino {
+  /**
+   * Partial failures, one for each `Operation` in the request that failed
+   * processing. There are three possible combinations of the RPC status:
+   * 
+   * 1. The combination of a successful RPC status and an empty `report_errors`
+   *    list indicates a complete success where all `Operations` in the
+   *    request are processed successfully.
+   * 2. The combination of a successful RPC status and a non-empty
+   *    `report_errors` list indicates a partial success where some
+   *    `Operations` in the request succeeded. Each
+   *    `Operation` that failed processing has a corresponding item
+   *    in this list.
+   * 3. A failed RPC status indicates a general non-deterministic failure.
+   *    When this happens, it's impossible to know which of the
+   *    'Operations' in the request succeeded or failed.
+   */
+  report_errors: ReportResponse_ReportErrorAmino[];
+  /** The actual config id used to process the request. */
+  service_config_id: string;
+  /** The current service rollout id used to process the request. */
+  service_rollout_id: string;
+}
+export interface ReportResponseAminoMsg {
+  type: "/google.api.servicecontrol.v1.ReportResponse";
+  value: ReportResponseAmino;
+}
 /** Response message for the Report method. */
 export interface ReportResponseSDKType {
   report_errors: ReportResponse_ReportErrorSDKType[];
@@ -255,6 +440,31 @@ export interface ReportResponse_ReportError {
    * [Operation][google.api.servicecontrol.v1.Operation].
    */
   status?: Status;
+}
+export interface ReportResponse_ReportErrorProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.ReportError";
+  value: Uint8Array;
+}
+/**
+ * Represents the processing error of one
+ * [Operation][google.api.servicecontrol.v1.Operation] in the request.
+ */
+export interface ReportResponse_ReportErrorAmino {
+  /**
+   * The
+   * [Operation.operation_id][google.api.servicecontrol.v1.Operation.operation_id]
+   * value from the request.
+   */
+  operation_id: string;
+  /**
+   * Details of the error when processing the
+   * [Operation][google.api.servicecontrol.v1.Operation].
+   */
+  status?: StatusAmino;
+}
+export interface ReportResponse_ReportErrorAminoMsg {
+  type: "/google.api.servicecontrol.v1.ReportError";
+  value: ReportResponse_ReportErrorAmino;
 }
 /**
  * Represents the processing error of one

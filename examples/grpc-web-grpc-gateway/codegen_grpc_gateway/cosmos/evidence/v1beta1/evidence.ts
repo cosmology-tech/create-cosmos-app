@@ -1,4 +1,4 @@
-import { Timestamp } from "../../../google/protobuf/timestamp";
+import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../google/protobuf/timestamp";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, fromJsonTimestamp, DeepPartial } from "../../../helpers";
 export const protobufPackage = "cosmos.evidence.v1beta1";
@@ -11,6 +11,24 @@ export interface Equivocation {
   time?: Date;
   power: bigint;
   consensusAddress: string;
+}
+export interface EquivocationProtoMsg {
+  typeUrl: "/cosmos.evidence.v1beta1.Equivocation";
+  value: Uint8Array;
+}
+/**
+ * Equivocation implements the Evidence interface and defines evidence of double
+ * signing misbehavior.
+ */
+export interface EquivocationAmino {
+  height: string;
+  time?: Date;
+  power: string;
+  consensus_address: string;
+}
+export interface EquivocationAminoMsg {
+  type: "cosmos-sdk/Equivocation";
+  value: EquivocationAmino;
 }
 /**
  * Equivocation implements the Evidence interface and defines evidence of double

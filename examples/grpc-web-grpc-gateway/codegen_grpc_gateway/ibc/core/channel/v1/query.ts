@@ -1,7 +1,7 @@
-import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../../../cosmos/base/query/v1beta1/pagination";
-import { Channel, ChannelSDKType, IdentifiedChannel, IdentifiedChannelSDKType, PacketState, PacketStateSDKType } from "./channel";
-import { Height, HeightSDKType, IdentifiedClientState, IdentifiedClientStateSDKType } from "../../client/v1/client";
-import { Any, AnySDKType } from "../../../../google/protobuf/any";
+import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../../../cosmos/base/query/v1beta1/pagination";
+import { Channel, ChannelAmino, ChannelSDKType, IdentifiedChannel, IdentifiedChannelAmino, IdentifiedChannelSDKType, PacketState, PacketStateAmino, PacketStateSDKType } from "./channel";
+import { Height, HeightAmino, HeightSDKType, IdentifiedClientState, IdentifiedClientStateAmino, IdentifiedClientStateSDKType } from "../../client/v1/client";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "ibc.core.channel.v1";
@@ -11,6 +11,21 @@ export interface QueryChannelRequest {
   portId: string;
   /** channel unique identifier */
   channelId: string;
+}
+export interface QueryChannelRequestProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryChannelRequest";
+  value: Uint8Array;
+}
+/** QueryChannelRequest is the request type for the Query/Channel RPC method */
+export interface QueryChannelRequestAmino {
+  /** port unique identifier */
+  port_id: string;
+  /** channel unique identifier */
+  channel_id: string;
+}
+export interface QueryChannelRequestAminoMsg {
+  type: "cosmos-sdk/QueryChannelRequest";
+  value: QueryChannelRequestAmino;
 }
 /** QueryChannelRequest is the request type for the Query/Channel RPC method */
 export interface QueryChannelRequestSDKType {
@@ -30,6 +45,27 @@ export interface QueryChannelResponse {
   /** height at which the proof was retrieved */
   proofHeight?: Height;
 }
+export interface QueryChannelResponseProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryChannelResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryChannelResponse is the response type for the Query/Channel RPC method.
+ * Besides the Channel end, it includes a proof and the height from which the
+ * proof was retrieved.
+ */
+export interface QueryChannelResponseAmino {
+  /** channel associated with the request identifiers */
+  channel?: ChannelAmino;
+  /** merkle proof of existence */
+  proof: Uint8Array;
+  /** height at which the proof was retrieved */
+  proof_height?: HeightAmino;
+}
+export interface QueryChannelResponseAminoMsg {
+  type: "cosmos-sdk/QueryChannelResponse";
+  value: QueryChannelResponseAmino;
+}
 /**
  * QueryChannelResponse is the response type for the Query/Channel RPC method.
  * Besides the Channel end, it includes a proof and the height from which the
@@ -45,6 +81,19 @@ export interface QueryChannelsRequest {
   /** pagination request */
   pagination?: PageRequest;
 }
+export interface QueryChannelsRequestProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryChannelsRequest";
+  value: Uint8Array;
+}
+/** QueryChannelsRequest is the request type for the Query/Channels RPC method */
+export interface QueryChannelsRequestAmino {
+  /** pagination request */
+  pagination?: PageRequestAmino;
+}
+export interface QueryChannelsRequestAminoMsg {
+  type: "cosmos-sdk/QueryChannelsRequest";
+  value: QueryChannelsRequestAmino;
+}
 /** QueryChannelsRequest is the request type for the Query/Channels RPC method */
 export interface QueryChannelsRequestSDKType {
   pagination?: PageRequestSDKType;
@@ -57,6 +106,23 @@ export interface QueryChannelsResponse {
   pagination?: PageResponse;
   /** query block height */
   height?: Height;
+}
+export interface QueryChannelsResponseProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryChannelsResponse";
+  value: Uint8Array;
+}
+/** QueryChannelsResponse is the response type for the Query/Channels RPC method. */
+export interface QueryChannelsResponseAmino {
+  /** list of stored channels of the chain. */
+  channels: IdentifiedChannelAmino[];
+  /** pagination response */
+  pagination?: PageResponseAmino;
+  /** query block height */
+  height?: HeightAmino;
+}
+export interface QueryChannelsResponseAminoMsg {
+  type: "cosmos-sdk/QueryChannelsResponse";
+  value: QueryChannelsResponseAmino;
 }
 /** QueryChannelsResponse is the response type for the Query/Channels RPC method. */
 export interface QueryChannelsResponseSDKType {
@@ -73,6 +139,24 @@ export interface QueryConnectionChannelsRequest {
   connection: string;
   /** pagination request */
   pagination?: PageRequest;
+}
+export interface QueryConnectionChannelsRequestProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryConnectionChannelsRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryConnectionChannelsRequest is the request type for the
+ * Query/QueryConnectionChannels RPC method
+ */
+export interface QueryConnectionChannelsRequestAmino {
+  /** connection unique identifier */
+  connection: string;
+  /** pagination request */
+  pagination?: PageRequestAmino;
+}
+export interface QueryConnectionChannelsRequestAminoMsg {
+  type: "cosmos-sdk/QueryConnectionChannelsRequest";
+  value: QueryConnectionChannelsRequestAmino;
 }
 /**
  * QueryConnectionChannelsRequest is the request type for the
@@ -94,6 +178,26 @@ export interface QueryConnectionChannelsResponse {
   /** query block height */
   height?: Height;
 }
+export interface QueryConnectionChannelsResponseProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryConnectionChannelsResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryConnectionChannelsResponse is the Response type for the
+ * Query/QueryConnectionChannels RPC method
+ */
+export interface QueryConnectionChannelsResponseAmino {
+  /** list of channels associated with a connection. */
+  channels: IdentifiedChannelAmino[];
+  /** pagination response */
+  pagination?: PageResponseAmino;
+  /** query block height */
+  height?: HeightAmino;
+}
+export interface QueryConnectionChannelsResponseAminoMsg {
+  type: "cosmos-sdk/QueryConnectionChannelsResponse";
+  value: QueryConnectionChannelsResponseAmino;
+}
 /**
  * QueryConnectionChannelsResponse is the Response type for the
  * Query/QueryConnectionChannels RPC method
@@ -112,6 +216,24 @@ export interface QueryChannelClientStateRequest {
   portId: string;
   /** channel unique identifier */
   channelId: string;
+}
+export interface QueryChannelClientStateRequestProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryChannelClientStateRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryChannelClientStateRequest is the request type for the Query/ClientState
+ * RPC method
+ */
+export interface QueryChannelClientStateRequestAmino {
+  /** port unique identifier */
+  port_id: string;
+  /** channel unique identifier */
+  channel_id: string;
+}
+export interface QueryChannelClientStateRequestAminoMsg {
+  type: "cosmos-sdk/QueryChannelClientStateRequest";
+  value: QueryChannelClientStateRequestAmino;
 }
 /**
  * QueryChannelClientStateRequest is the request type for the Query/ClientState
@@ -132,6 +254,26 @@ export interface QueryChannelClientStateResponse {
   proof: Uint8Array;
   /** height at which the proof was retrieved */
   proofHeight?: Height;
+}
+export interface QueryChannelClientStateResponseProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryChannelClientStateResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryChannelClientStateResponse is the Response type for the
+ * Query/QueryChannelClientState RPC method
+ */
+export interface QueryChannelClientStateResponseAmino {
+  /** client state associated with the channel */
+  identified_client_state?: IdentifiedClientStateAmino;
+  /** merkle proof of existence */
+  proof: Uint8Array;
+  /** height at which the proof was retrieved */
+  proof_height?: HeightAmino;
+}
+export interface QueryChannelClientStateResponseAminoMsg {
+  type: "cosmos-sdk/QueryChannelClientStateResponse";
+  value: QueryChannelClientStateResponseAmino;
 }
 /**
  * QueryChannelClientStateResponse is the Response type for the
@@ -155,6 +297,28 @@ export interface QueryChannelConsensusStateRequest {
   revisionNumber: bigint;
   /** revision height of the consensus state */
   revisionHeight: bigint;
+}
+export interface QueryChannelConsensusStateRequestProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryChannelConsensusStateRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryChannelConsensusStateRequest is the request type for the
+ * Query/ConsensusState RPC method
+ */
+export interface QueryChannelConsensusStateRequestAmino {
+  /** port unique identifier */
+  port_id: string;
+  /** channel unique identifier */
+  channel_id: string;
+  /** revision number of the consensus state */
+  revision_number: string;
+  /** revision height of the consensus state */
+  revision_height: string;
+}
+export interface QueryChannelConsensusStateRequestAminoMsg {
+  type: "cosmos-sdk/QueryChannelConsensusStateRequest";
+  value: QueryChannelConsensusStateRequestAmino;
 }
 /**
  * QueryChannelConsensusStateRequest is the request type for the
@@ -180,6 +344,28 @@ export interface QueryChannelConsensusStateResponse {
   /** height at which the proof was retrieved */
   proofHeight?: Height;
 }
+export interface QueryChannelConsensusStateResponseProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryChannelConsensusStateResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryChannelClientStateResponse is the Response type for the
+ * Query/QueryChannelClientState RPC method
+ */
+export interface QueryChannelConsensusStateResponseAmino {
+  /** consensus state associated with the channel */
+  consensus_state?: AnyAmino;
+  /** client ID associated with the consensus state */
+  client_id: string;
+  /** merkle proof of existence */
+  proof: Uint8Array;
+  /** height at which the proof was retrieved */
+  proof_height?: HeightAmino;
+}
+export interface QueryChannelConsensusStateResponseAminoMsg {
+  type: "cosmos-sdk/QueryChannelConsensusStateResponse";
+  value: QueryChannelConsensusStateResponseAmino;
+}
 /**
  * QueryChannelClientStateResponse is the Response type for the
  * Query/QueryChannelClientState RPC method
@@ -201,6 +387,26 @@ export interface QueryPacketCommitmentRequest {
   channelId: string;
   /** packet sequence */
   sequence: bigint;
+}
+export interface QueryPacketCommitmentRequestProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryPacketCommitmentRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryPacketCommitmentRequest is the request type for the
+ * Query/PacketCommitment RPC method
+ */
+export interface QueryPacketCommitmentRequestAmino {
+  /** port unique identifier */
+  port_id: string;
+  /** channel unique identifier */
+  channel_id: string;
+  /** packet sequence */
+  sequence: string;
+}
+export interface QueryPacketCommitmentRequestAminoMsg {
+  type: "cosmos-sdk/QueryPacketCommitmentRequest";
+  value: QueryPacketCommitmentRequestAmino;
 }
 /**
  * QueryPacketCommitmentRequest is the request type for the
@@ -224,6 +430,27 @@ export interface QueryPacketCommitmentResponse {
   /** height at which the proof was retrieved */
   proofHeight?: Height;
 }
+export interface QueryPacketCommitmentResponseProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryPacketCommitmentResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryPacketCommitmentResponse defines the client query response for a packet
+ * which also includes a proof and the height from which the proof was
+ * retrieved
+ */
+export interface QueryPacketCommitmentResponseAmino {
+  /** packet associated with the request fields */
+  commitment: Uint8Array;
+  /** merkle proof of existence */
+  proof: Uint8Array;
+  /** height at which the proof was retrieved */
+  proof_height?: HeightAmino;
+}
+export interface QueryPacketCommitmentResponseAminoMsg {
+  type: "cosmos-sdk/QueryPacketCommitmentResponse";
+  value: QueryPacketCommitmentResponseAmino;
+}
 /**
  * QueryPacketCommitmentResponse defines the client query response for a packet
  * which also includes a proof and the height from which the proof was
@@ -246,6 +473,26 @@ export interface QueryPacketCommitmentsRequest {
   /** pagination request */
   pagination?: PageRequest;
 }
+export interface QueryPacketCommitmentsRequestProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryPacketCommitmentsRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryPacketCommitmentsRequest is the request type for the
+ * Query/QueryPacketCommitments RPC method
+ */
+export interface QueryPacketCommitmentsRequestAmino {
+  /** port unique identifier */
+  port_id: string;
+  /** channel unique identifier */
+  channel_id: string;
+  /** pagination request */
+  pagination?: PageRequestAmino;
+}
+export interface QueryPacketCommitmentsRequestAminoMsg {
+  type: "cosmos-sdk/QueryPacketCommitmentsRequest";
+  value: QueryPacketCommitmentsRequestAmino;
+}
 /**
  * QueryPacketCommitmentsRequest is the request type for the
  * Query/QueryPacketCommitments RPC method
@@ -265,6 +512,25 @@ export interface QueryPacketCommitmentsResponse {
   pagination?: PageResponse;
   /** query block height */
   height?: Height;
+}
+export interface QueryPacketCommitmentsResponseProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryPacketCommitmentsResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryPacketCommitmentsResponse is the request type for the
+ * Query/QueryPacketCommitments RPC method
+ */
+export interface QueryPacketCommitmentsResponseAmino {
+  commitments: PacketStateAmino[];
+  /** pagination response */
+  pagination?: PageResponseAmino;
+  /** query block height */
+  height?: HeightAmino;
+}
+export interface QueryPacketCommitmentsResponseAminoMsg {
+  type: "cosmos-sdk/QueryPacketCommitmentsResponse";
+  value: QueryPacketCommitmentsResponseAmino;
 }
 /**
  * QueryPacketCommitmentsResponse is the request type for the
@@ -286,6 +552,26 @@ export interface QueryPacketReceiptRequest {
   channelId: string;
   /** packet sequence */
   sequence: bigint;
+}
+export interface QueryPacketReceiptRequestProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryPacketReceiptRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryPacketReceiptRequest is the request type for the
+ * Query/PacketReceipt RPC method
+ */
+export interface QueryPacketReceiptRequestAmino {
+  /** port unique identifier */
+  port_id: string;
+  /** channel unique identifier */
+  channel_id: string;
+  /** packet sequence */
+  sequence: string;
+}
+export interface QueryPacketReceiptRequestAminoMsg {
+  type: "cosmos-sdk/QueryPacketReceiptRequest";
+  value: QueryPacketReceiptRequestAmino;
 }
 /**
  * QueryPacketReceiptRequest is the request type for the
@@ -309,6 +595,27 @@ export interface QueryPacketReceiptResponse {
   /** height at which the proof was retrieved */
   proofHeight?: Height;
 }
+export interface QueryPacketReceiptResponseProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryPacketReceiptResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryPacketReceiptResponse defines the client query response for a packet
+ * receipt which also includes a proof, and the height from which the proof was
+ * retrieved
+ */
+export interface QueryPacketReceiptResponseAmino {
+  /** success flag for if receipt exists */
+  received: boolean;
+  /** merkle proof of existence */
+  proof: Uint8Array;
+  /** height at which the proof was retrieved */
+  proof_height?: HeightAmino;
+}
+export interface QueryPacketReceiptResponseAminoMsg {
+  type: "cosmos-sdk/QueryPacketReceiptResponse";
+  value: QueryPacketReceiptResponseAmino;
+}
 /**
  * QueryPacketReceiptResponse defines the client query response for a packet
  * receipt which also includes a proof, and the height from which the proof was
@@ -331,6 +638,26 @@ export interface QueryPacketAcknowledgementRequest {
   /** packet sequence */
   sequence: bigint;
 }
+export interface QueryPacketAcknowledgementRequestProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryPacketAcknowledgementRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryPacketAcknowledgementRequest is the request type for the
+ * Query/PacketAcknowledgement RPC method
+ */
+export interface QueryPacketAcknowledgementRequestAmino {
+  /** port unique identifier */
+  port_id: string;
+  /** channel unique identifier */
+  channel_id: string;
+  /** packet sequence */
+  sequence: string;
+}
+export interface QueryPacketAcknowledgementRequestAminoMsg {
+  type: "cosmos-sdk/QueryPacketAcknowledgementRequest";
+  value: QueryPacketAcknowledgementRequestAmino;
+}
 /**
  * QueryPacketAcknowledgementRequest is the request type for the
  * Query/PacketAcknowledgement RPC method
@@ -352,6 +679,27 @@ export interface QueryPacketAcknowledgementResponse {
   proof: Uint8Array;
   /** height at which the proof was retrieved */
   proofHeight?: Height;
+}
+export interface QueryPacketAcknowledgementResponseProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryPacketAcknowledgementResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryPacketAcknowledgementResponse defines the client query response for a
+ * packet which also includes a proof and the height from which the
+ * proof was retrieved
+ */
+export interface QueryPacketAcknowledgementResponseAmino {
+  /** packet associated with the request fields */
+  acknowledgement: Uint8Array;
+  /** merkle proof of existence */
+  proof: Uint8Array;
+  /** height at which the proof was retrieved */
+  proof_height?: HeightAmino;
+}
+export interface QueryPacketAcknowledgementResponseAminoMsg {
+  type: "cosmos-sdk/QueryPacketAcknowledgementResponse";
+  value: QueryPacketAcknowledgementResponseAmino;
 }
 /**
  * QueryPacketAcknowledgementResponse defines the client query response for a
@@ -377,6 +725,28 @@ export interface QueryPacketAcknowledgementsRequest {
   /** list of packet sequences */
   packetCommitmentSequences: bigint[];
 }
+export interface QueryPacketAcknowledgementsRequestProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryPacketAcknowledgementsRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryPacketAcknowledgementsRequest is the request type for the
+ * Query/QueryPacketCommitments RPC method
+ */
+export interface QueryPacketAcknowledgementsRequestAmino {
+  /** port unique identifier */
+  port_id: string;
+  /** channel unique identifier */
+  channel_id: string;
+  /** pagination request */
+  pagination?: PageRequestAmino;
+  /** list of packet sequences */
+  packet_commitment_sequences: string[];
+}
+export interface QueryPacketAcknowledgementsRequestAminoMsg {
+  type: "cosmos-sdk/QueryPacketAcknowledgementsRequest";
+  value: QueryPacketAcknowledgementsRequestAmino;
+}
 /**
  * QueryPacketAcknowledgementsRequest is the request type for the
  * Query/QueryPacketCommitments RPC method
@@ -397,6 +767,25 @@ export interface QueryPacketAcknowledgementsResponse {
   pagination?: PageResponse;
   /** query block height */
   height?: Height;
+}
+export interface QueryPacketAcknowledgementsResponseProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryPacketAcknowledgementsResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryPacketAcknowledgemetsResponse is the request type for the
+ * Query/QueryPacketAcknowledgements RPC method
+ */
+export interface QueryPacketAcknowledgementsResponseAmino {
+  acknowledgements: PacketStateAmino[];
+  /** pagination response */
+  pagination?: PageResponseAmino;
+  /** query block height */
+  height?: HeightAmino;
+}
+export interface QueryPacketAcknowledgementsResponseAminoMsg {
+  type: "cosmos-sdk/QueryPacketAcknowledgementsResponse";
+  value: QueryPacketAcknowledgementsResponseAmino;
 }
 /**
  * QueryPacketAcknowledgemetsResponse is the request type for the
@@ -419,6 +808,26 @@ export interface QueryUnreceivedPacketsRequest {
   /** list of packet sequences */
   packetCommitmentSequences: bigint[];
 }
+export interface QueryUnreceivedPacketsRequestProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryUnreceivedPacketsRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryUnreceivedPacketsRequest is the request type for the
+ * Query/UnreceivedPackets RPC method
+ */
+export interface QueryUnreceivedPacketsRequestAmino {
+  /** port unique identifier */
+  port_id: string;
+  /** channel unique identifier */
+  channel_id: string;
+  /** list of packet sequences */
+  packet_commitment_sequences: string[];
+}
+export interface QueryUnreceivedPacketsRequestAminoMsg {
+  type: "cosmos-sdk/QueryUnreceivedPacketsRequest";
+  value: QueryUnreceivedPacketsRequestAmino;
+}
 /**
  * QueryUnreceivedPacketsRequest is the request type for the
  * Query/UnreceivedPackets RPC method
@@ -437,6 +846,24 @@ export interface QueryUnreceivedPacketsResponse {
   sequences: bigint[];
   /** query block height */
   height?: Height;
+}
+export interface QueryUnreceivedPacketsResponseProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryUnreceivedPacketsResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryUnreceivedPacketsResponse is the response type for the
+ * Query/UnreceivedPacketCommitments RPC method
+ */
+export interface QueryUnreceivedPacketsResponseAmino {
+  /** list of unreceived packet sequences */
+  sequences: string[];
+  /** query block height */
+  height?: HeightAmino;
+}
+export interface QueryUnreceivedPacketsResponseAminoMsg {
+  type: "cosmos-sdk/QueryUnreceivedPacketsResponse";
+  value: QueryUnreceivedPacketsResponseAmino;
 }
 /**
  * QueryUnreceivedPacketsResponse is the response type for the
@@ -458,6 +885,26 @@ export interface QueryUnreceivedAcksRequest {
   /** list of acknowledgement sequences */
   packetAckSequences: bigint[];
 }
+export interface QueryUnreceivedAcksRequestProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryUnreceivedAcksRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryUnreceivedAcks is the request type for the
+ * Query/UnreceivedAcks RPC method
+ */
+export interface QueryUnreceivedAcksRequestAmino {
+  /** port unique identifier */
+  port_id: string;
+  /** channel unique identifier */
+  channel_id: string;
+  /** list of acknowledgement sequences */
+  packet_ack_sequences: string[];
+}
+export interface QueryUnreceivedAcksRequestAminoMsg {
+  type: "cosmos-sdk/QueryUnreceivedAcksRequest";
+  value: QueryUnreceivedAcksRequestAmino;
+}
 /**
  * QueryUnreceivedAcks is the request type for the
  * Query/UnreceivedAcks RPC method
@@ -477,6 +924,24 @@ export interface QueryUnreceivedAcksResponse {
   /** query block height */
   height?: Height;
 }
+export interface QueryUnreceivedAcksResponseProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryUnreceivedAcksResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryUnreceivedAcksResponse is the response type for the
+ * Query/UnreceivedAcks RPC method
+ */
+export interface QueryUnreceivedAcksResponseAmino {
+  /** list of unreceived acknowledgement sequences */
+  sequences: string[];
+  /** query block height */
+  height?: HeightAmino;
+}
+export interface QueryUnreceivedAcksResponseAminoMsg {
+  type: "cosmos-sdk/QueryUnreceivedAcksResponse";
+  value: QueryUnreceivedAcksResponseAmino;
+}
 /**
  * QueryUnreceivedAcksResponse is the response type for the
  * Query/UnreceivedAcks RPC method
@@ -494,6 +959,24 @@ export interface QueryNextSequenceReceiveRequest {
   portId: string;
   /** channel unique identifier */
   channelId: string;
+}
+export interface QueryNextSequenceReceiveRequestProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryNextSequenceReceiveRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryNextSequenceReceiveRequest is the request type for the
+ * Query/QueryNextSequenceReceiveRequest RPC method
+ */
+export interface QueryNextSequenceReceiveRequestAmino {
+  /** port unique identifier */
+  port_id: string;
+  /** channel unique identifier */
+  channel_id: string;
+}
+export interface QueryNextSequenceReceiveRequestAminoMsg {
+  type: "cosmos-sdk/QueryNextSequenceReceiveRequest";
+  value: QueryNextSequenceReceiveRequestAmino;
 }
 /**
  * QueryNextSequenceReceiveRequest is the request type for the
@@ -514,6 +997,26 @@ export interface QueryNextSequenceReceiveResponse {
   proof: Uint8Array;
   /** height at which the proof was retrieved */
   proofHeight?: Height;
+}
+export interface QueryNextSequenceReceiveResponseProtoMsg {
+  typeUrl: "/ibc.core.channel.v1.QueryNextSequenceReceiveResponse";
+  value: Uint8Array;
+}
+/**
+ * QuerySequenceResponse is the request type for the
+ * Query/QueryNextSequenceReceiveResponse RPC method
+ */
+export interface QueryNextSequenceReceiveResponseAmino {
+  /** next sequence receive number */
+  next_sequence_receive: string;
+  /** merkle proof of existence */
+  proof: Uint8Array;
+  /** height at which the proof was retrieved */
+  proof_height?: HeightAmino;
+}
+export interface QueryNextSequenceReceiveResponseAminoMsg {
+  type: "cosmos-sdk/QueryNextSequenceReceiveResponse";
+  value: QueryNextSequenceReceiveResponseAmino;
 }
 /**
  * QuerySequenceResponse is the request type for the

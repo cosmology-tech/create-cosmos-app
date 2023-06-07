@@ -395,6 +395,7 @@ export enum ErrorReason {
   UNRECOGNIZED = -1,
 }
 export const ErrorReasonSDKType = ErrorReason;
+export const ErrorReasonAmino = ErrorReason;
 export function errorReasonFromJSON(object: any): ErrorReason {
   switch (object) {
     case 0:

@@ -1,6 +1,6 @@
-import { Duration, DurationSDKType } from "../protobuf/duration";
-import { Any, AnySDKType } from "../protobuf/any";
-import { Status, StatusSDKType } from "../rpc/status";
+import { Duration, DurationAmino, DurationSDKType } from "../protobuf/duration";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../protobuf/any";
+import { Status, StatusAmino, StatusSDKType } from "../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.longrunning";
@@ -42,6 +42,52 @@ export interface Operation {
    */
   response?: Any;
 }
+export interface OperationProtoMsg {
+  typeUrl: "/google.longrunning.Operation";
+  value: Uint8Array;
+}
+/**
+ * This resource represents a long-running operation that is the result of a
+ * network API call.
+ */
+export interface OperationAmino {
+  /**
+   * The server-assigned name, which is only unique within the same service that
+   * originally returns it. If you use the default HTTP mapping, the
+   * `name` should be a resource name ending with `operations/{unique_id}`.
+   */
+  name: string;
+  /**
+   * Service-specific metadata associated with the operation.  It typically
+   * contains progress information and common metadata such as create time.
+   * Some services might not provide such metadata.  Any method that returns a
+   * long-running operation should document the metadata type, if any.
+   */
+  metadata?: AnyAmino;
+  /**
+   * If the value is `false`, it means the operation is still in progress.
+   * If `true`, the operation is completed, and either `error` or `response` is
+   * available.
+   */
+  done: boolean;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: StatusAmino;
+  /**
+   * The normal response of the operation in case of success.  If the original
+   * method returns no data on success, such as `Delete`, the response is
+   * `google.protobuf.Empty`.  If the original method is standard
+   * `Get`/`Create`/`Update`, the response should be the resource.  For other
+   * methods, the response should have the type `XxxResponse`, where `Xxx`
+   * is the original method name.  For example, if the original method name
+   * is `TakeSnapshot()`, the inferred response type is
+   * `TakeSnapshotResponse`.
+   */
+  response?: AnyAmino;
+}
+export interface OperationAminoMsg {
+  type: "/google.longrunning.Operation";
+  value: OperationAmino;
+}
 /**
  * This resource represents a long-running operation that is the result of a
  * network API call.
@@ -58,6 +104,19 @@ export interface GetOperationRequest {
   /** The name of the operation resource. */
   name: string;
 }
+export interface GetOperationRequestProtoMsg {
+  typeUrl: "/google.longrunning.GetOperationRequest";
+  value: Uint8Array;
+}
+/** The request message for [Operations.GetOperation][google.longrunning.Operations.GetOperation]. */
+export interface GetOperationRequestAmino {
+  /** The name of the operation resource. */
+  name: string;
+}
+export interface GetOperationRequestAminoMsg {
+  type: "/google.longrunning.GetOperationRequest";
+  value: GetOperationRequestAmino;
+}
 /** The request message for [Operations.GetOperation][google.longrunning.Operations.GetOperation]. */
 export interface GetOperationRequestSDKType {
   name: string;
@@ -73,6 +132,25 @@ export interface ListOperationsRequest {
   /** The standard list page token. */
   pageToken: string;
 }
+export interface ListOperationsRequestProtoMsg {
+  typeUrl: "/google.longrunning.ListOperationsRequest";
+  value: Uint8Array;
+}
+/** The request message for [Operations.ListOperations][google.longrunning.Operations.ListOperations]. */
+export interface ListOperationsRequestAmino {
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list filter. */
+  filter: string;
+  /** The standard list page size. */
+  page_size: number;
+  /** The standard list page token. */
+  page_token: string;
+}
+export interface ListOperationsRequestAminoMsg {
+  type: "/google.longrunning.ListOperationsRequest";
+  value: ListOperationsRequestAmino;
+}
 /** The request message for [Operations.ListOperations][google.longrunning.Operations.ListOperations]. */
 export interface ListOperationsRequestSDKType {
   name: string;
@@ -87,6 +165,21 @@ export interface ListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken: string;
 }
+export interface ListOperationsResponseProtoMsg {
+  typeUrl: "/google.longrunning.ListOperationsResponse";
+  value: Uint8Array;
+}
+/** The response message for [Operations.ListOperations][google.longrunning.Operations.ListOperations]. */
+export interface ListOperationsResponseAmino {
+  /** A list of operations that matches the specified filter in the request. */
+  operations: OperationAmino[];
+  /** The standard List next-page token. */
+  next_page_token: string;
+}
+export interface ListOperationsResponseAminoMsg {
+  type: "/google.longrunning.ListOperationsResponse";
+  value: ListOperationsResponseAmino;
+}
 /** The response message for [Operations.ListOperations][google.longrunning.Operations.ListOperations]. */
 export interface ListOperationsResponseSDKType {
   operations: OperationSDKType[];
@@ -97,6 +190,19 @@ export interface CancelOperationRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
 }
+export interface CancelOperationRequestProtoMsg {
+  typeUrl: "/google.longrunning.CancelOperationRequest";
+  value: Uint8Array;
+}
+/** The request message for [Operations.CancelOperation][google.longrunning.Operations.CancelOperation]. */
+export interface CancelOperationRequestAmino {
+  /** The name of the operation resource to be cancelled. */
+  name: string;
+}
+export interface CancelOperationRequestAminoMsg {
+  type: "/google.longrunning.CancelOperationRequest";
+  value: CancelOperationRequestAmino;
+}
 /** The request message for [Operations.CancelOperation][google.longrunning.Operations.CancelOperation]. */
 export interface CancelOperationRequestSDKType {
   name: string;
@@ -105,6 +211,19 @@ export interface CancelOperationRequestSDKType {
 export interface DeleteOperationRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
+}
+export interface DeleteOperationRequestProtoMsg {
+  typeUrl: "/google.longrunning.DeleteOperationRequest";
+  value: Uint8Array;
+}
+/** The request message for [Operations.DeleteOperation][google.longrunning.Operations.DeleteOperation]. */
+export interface DeleteOperationRequestAmino {
+  /** The name of the operation resource to be deleted. */
+  name: string;
+}
+export interface DeleteOperationRequestAminoMsg {
+  type: "/google.longrunning.DeleteOperationRequest";
+  value: DeleteOperationRequestAmino;
 }
 /** The request message for [Operations.DeleteOperation][google.longrunning.Operations.DeleteOperation]. */
 export interface DeleteOperationRequestSDKType {
@@ -120,6 +239,25 @@ export interface WaitOperationRequest {
    * If RPC context deadline is also specified, the shorter one will be used.
    */
   timeout?: Duration;
+}
+export interface WaitOperationRequestProtoMsg {
+  typeUrl: "/google.longrunning.WaitOperationRequest";
+  value: Uint8Array;
+}
+/** The request message for [Operations.WaitOperation][google.longrunning.Operations.WaitOperation]. */
+export interface WaitOperationRequestAmino {
+  /** The name of the operation resource to wait on. */
+  name: string;
+  /**
+   * The maximum duration to wait before timing out. If left blank, the wait
+   * will be at most the time permitted by the underlying HTTP/RPC protocol.
+   * If RPC context deadline is also specified, the shorter one will be used.
+   */
+  timeout?: DurationAmino;
+}
+export interface WaitOperationRequestAminoMsg {
+  type: "/google.longrunning.WaitOperationRequest";
+  value: WaitOperationRequestAmino;
 }
 /** The request message for [Operations.WaitOperation][google.longrunning.Operations.WaitOperation]. */
 export interface WaitOperationRequestSDKType {
@@ -161,6 +299,50 @@ export interface OperationInfo {
    * Note: Altering this value constitutes a breaking change.
    */
   metadataType: string;
+}
+export interface OperationInfoProtoMsg {
+  typeUrl: "/google.longrunning.OperationInfo";
+  value: Uint8Array;
+}
+/**
+ * A message representing the message types used by a long-running operation.
+ * 
+ * Example:
+ * 
+ *   rpc LongRunningRecognize(LongRunningRecognizeRequest)
+ *       returns (google.longrunning.Operation) {
+ *     option (google.longrunning.operation_info) = {
+ *       response_type: "LongRunningRecognizeResponse"
+ *       metadata_type: "LongRunningRecognizeMetadata"
+ *     };
+ *   }
+ */
+export interface OperationInfoAmino {
+  /**
+   * Required. The message name of the primary return type for this
+   * long-running operation.
+   * This type will be used to deserialize the LRO's response.
+   * 
+   * If the response is in a different package from the rpc, a fully-qualified
+   * message name must be used (e.g. `google.protobuf.Struct`).
+   * 
+   * Note: Altering this value constitutes a breaking change.
+   */
+  response_type: string;
+  /**
+   * Required. The message name of the metadata type for this long-running
+   * operation.
+   * 
+   * If the response is in a different package from the rpc, a fully-qualified
+   * message name must be used (e.g. `google.protobuf.Struct`).
+   * 
+   * Note: Altering this value constitutes a breaking change.
+   */
+  metadata_type: string;
+}
+export interface OperationInfoAminoMsg {
+  type: "/google.longrunning.OperationInfo";
+  value: OperationInfoAmino;
 }
 /**
  * A message representing the message types used by a long-running operation.

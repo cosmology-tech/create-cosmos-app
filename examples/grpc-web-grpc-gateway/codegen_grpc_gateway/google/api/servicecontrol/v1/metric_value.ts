@@ -1,11 +1,23 @@
-import { Timestamp } from "../../../protobuf/timestamp";
-import { Distribution, DistributionSDKType } from "./distribution";
+import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../protobuf/timestamp";
+import { Distribution, DistributionAmino, DistributionSDKType } from "./distribution";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp, isObject, fromJsonTimestamp } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v1";
 export interface MetricValue_LabelsEntry {
   key: string;
   value: string;
+}
+export interface MetricValue_LabelsEntryProtoMsg {
+  typeUrl: string;
+  value: Uint8Array;
+}
+export interface MetricValue_LabelsEntryAmino {
+  key: string;
+  value: string;
+}
+export interface MetricValue_LabelsEntryAminoMsg {
+  type: string;
+  value: MetricValue_LabelsEntryAmino;
 }
 export interface MetricValue_LabelsEntrySDKType {
   key: string;
@@ -47,6 +59,50 @@ export interface MetricValue {
   /** A distribution value. */
   distributionValue?: Distribution;
 }
+export interface MetricValueProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.MetricValue";
+  value: Uint8Array;
+}
+/** Represents a single metric value. */
+export interface MetricValueAmino {
+  /**
+   * The labels describing the metric value.
+   * See comments on [google.api.servicecontrol.v1.Operation.labels][google.api.servicecontrol.v1.Operation.labels] for
+   * the overriding relationship.
+   * Note that this map must not contain monitored resource labels.
+   */
+  labels: {
+    [key: string]: string;
+  };
+  /**
+   * The start of the time period over which this metric value's measurement
+   * applies. The time period has different semantics for different metric
+   * types (cumulative, delta, and gauge). See the metric definition
+   * documentation in the service configuration for details. If not specified,
+   * [google.api.servicecontrol.v1.Operation.start_time][google.api.servicecontrol.v1.Operation.start_time] will be used.
+   */
+  start_time?: Date;
+  /**
+   * The end of the time period over which this metric value's measurement
+   * applies.  If not specified,
+   * [google.api.servicecontrol.v1.Operation.end_time][google.api.servicecontrol.v1.Operation.end_time] will be used.
+   */
+  end_time?: Date;
+  /** A boolean value. */
+  bool_value?: boolean;
+  /** A signed 64-bit integer value. */
+  int64_value?: string;
+  /** A double precision floating point value. */
+  double_value?: number;
+  /** A text string value. */
+  string_value?: string;
+  /** A distribution value. */
+  distribution_value?: DistributionAmino;
+}
+export interface MetricValueAminoMsg {
+  type: "/google.api.servicecontrol.v1.MetricValue";
+  value: MetricValueAmino;
+}
 /** Represents a single metric value. */
 export interface MetricValueSDKType {
   labels: {
@@ -70,6 +126,25 @@ export interface MetricValueSet {
   metricName: string;
   /** The values in this metric. */
   metricValues: MetricValue[];
+}
+export interface MetricValueSetProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.MetricValueSet";
+  value: Uint8Array;
+}
+/**
+ * Represents a set of metric values in the same metric.
+ * Each metric value in the set should have a unique combination of start time,
+ * end time, and label values.
+ */
+export interface MetricValueSetAmino {
+  /** The metric name defined in the service configuration. */
+  metric_name: string;
+  /** The values in this metric. */
+  metric_values: MetricValueAmino[];
+}
+export interface MetricValueSetAminoMsg {
+  type: "/google.api.servicecontrol.v1.MetricValueSet";
+  value: MetricValueSetAmino;
 }
 /**
  * Represents a set of metric values in the same metric.

@@ -1,5 +1,5 @@
-import { AccessConfig, AccessConfigSDKType } from "./types";
-import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
+import { AccessConfig, AccessConfigAmino, AccessConfigSDKType } from "./types";
+import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 import { fromBase64, toBase64, toUtf8, fromUtf8 } from "@cosmjs/encoding";
@@ -16,6 +16,27 @@ export interface StoreCodeProposal {
   wasmByteCode: Uint8Array;
   /** InstantiatePermission to apply on contract creation, optional */
   instantiatePermission?: AccessConfig;
+}
+export interface StoreCodeProposalProtoMsg {
+  typeUrl: "/cosmwasm.wasm.v1.StoreCodeProposal";
+  value: Uint8Array;
+}
+/** StoreCodeProposal gov proposal content type to submit WASM code to the system */
+export interface StoreCodeProposalAmino {
+  /** Title is a short summary */
+  title: string;
+  /** Description is a human readable text */
+  description: string;
+  /** RunAs is the address that is passed to the contract's environment as sender */
+  run_as: string;
+  /** WASMByteCode can be raw or gzip compressed */
+  wasm_byte_code: string;
+  /** InstantiatePermission to apply on contract creation, optional */
+  instantiate_permission?: AccessConfigAmino;
+}
+export interface StoreCodeProposalAminoMsg {
+  type: "wasm/StoreCodeProposal";
+  value: StoreCodeProposalAmino;
 }
 /** StoreCodeProposal gov proposal content type to submit WASM code to the system */
 export interface StoreCodeProposalSDKType {
@@ -47,6 +68,36 @@ export interface InstantiateContractProposal {
   /** Funds coins that are transferred to the contract on instantiation */
   funds: Coin[];
 }
+export interface InstantiateContractProposalProtoMsg {
+  typeUrl: "/cosmwasm.wasm.v1.InstantiateContractProposal";
+  value: Uint8Array;
+}
+/**
+ * InstantiateContractProposal gov proposal content type to instantiate a
+ * contract.
+ */
+export interface InstantiateContractProposalAmino {
+  /** Title is a short summary */
+  title: string;
+  /** Description is a human readable text */
+  description: string;
+  /** RunAs is the address that is passed to the contract's environment as sender */
+  run_as: string;
+  /** Admin is an optional address that can execute migrations */
+  admin: string;
+  /** CodeID is the reference to the stored WASM code */
+  code_id: string;
+  /** Label is optional metadata to be stored with a constract instance. */
+  label: string;
+  /** Msg json encoded message to be passed to the contract on instantiation */
+  msg: Uint8Array;
+  /** Funds coins that are transferred to the contract on instantiation */
+  funds: CoinAmino[];
+}
+export interface InstantiateContractProposalAminoMsg {
+  type: "wasm/InstantiateContractProposal";
+  value: InstantiateContractProposalAmino;
+}
 /**
  * InstantiateContractProposal gov proposal content type to instantiate a
  * contract.
@@ -74,6 +125,27 @@ export interface MigrateContractProposal {
   /** Msg json encoded message to be passed to the contract on migration */
   msg: Uint8Array;
 }
+export interface MigrateContractProposalProtoMsg {
+  typeUrl: "/cosmwasm.wasm.v1.MigrateContractProposal";
+  value: Uint8Array;
+}
+/** MigrateContractProposal gov proposal content type to migrate a contract. */
+export interface MigrateContractProposalAmino {
+  /** Title is a short summary */
+  title: string;
+  /** Description is a human readable text */
+  description: string;
+  /** Contract is the address of the smart contract */
+  contract: string;
+  /** CodeID references the new WASM codesudo */
+  code_id: string;
+  /** Msg json encoded message to be passed to the contract on migration */
+  msg: Uint8Array;
+}
+export interface MigrateContractProposalAminoMsg {
+  type: "wasm/MigrateContractProposal";
+  value: MigrateContractProposalAmino;
+}
 /** MigrateContractProposal gov proposal content type to migrate a contract. */
 export interface MigrateContractProposalSDKType {
   title: string;
@@ -92,6 +164,25 @@ export interface SudoContractProposal {
   contract: string;
   /** Msg json encoded message to be passed to the contract as sudo */
   msg: Uint8Array;
+}
+export interface SudoContractProposalProtoMsg {
+  typeUrl: "/cosmwasm.wasm.v1.SudoContractProposal";
+  value: Uint8Array;
+}
+/** SudoContractProposal gov proposal content type to call sudo on a contract. */
+export interface SudoContractProposalAmino {
+  /** Title is a short summary */
+  title: string;
+  /** Description is a human readable text */
+  description: string;
+  /** Contract is the address of the smart contract */
+  contract: string;
+  /** Msg json encoded message to be passed to the contract as sudo */
+  msg: Uint8Array;
+}
+export interface SudoContractProposalAminoMsg {
+  type: "wasm/SudoContractProposal";
+  value: SudoContractProposalAmino;
 }
 /** SudoContractProposal gov proposal content type to call sudo on a contract. */
 export interface SudoContractProposalSDKType {
@@ -118,6 +209,32 @@ export interface ExecuteContractProposal {
   /** Funds coins that are transferred to the contract on instantiation */
   funds: Coin[];
 }
+export interface ExecuteContractProposalProtoMsg {
+  typeUrl: "/cosmwasm.wasm.v1.ExecuteContractProposal";
+  value: Uint8Array;
+}
+/**
+ * ExecuteContractProposal gov proposal content type to call execute on a
+ * contract.
+ */
+export interface ExecuteContractProposalAmino {
+  /** Title is a short summary */
+  title: string;
+  /** Description is a human readable text */
+  description: string;
+  /** RunAs is the address that is passed to the contract's environment as sender */
+  run_as: string;
+  /** Contract is the address of the smart contract */
+  contract: string;
+  /** Msg json encoded message to be passed to the contract as execute */
+  msg: Uint8Array;
+  /** Funds coins that are transferred to the contract on instantiation */
+  funds: CoinAmino[];
+}
+export interface ExecuteContractProposalAminoMsg {
+  type: "wasm/ExecuteContractProposal";
+  value: ExecuteContractProposalAmino;
+}
 /**
  * ExecuteContractProposal gov proposal content type to call execute on a
  * contract.
@@ -141,6 +258,25 @@ export interface UpdateAdminProposal {
   /** Contract is the address of the smart contract */
   contract: string;
 }
+export interface UpdateAdminProposalProtoMsg {
+  typeUrl: "/cosmwasm.wasm.v1.UpdateAdminProposal";
+  value: Uint8Array;
+}
+/** UpdateAdminProposal gov proposal content type to set an admin for a contract. */
+export interface UpdateAdminProposalAmino {
+  /** Title is a short summary */
+  title: string;
+  /** Description is a human readable text */
+  description: string;
+  /** NewAdmin address to be set */
+  new_admin: string;
+  /** Contract is the address of the smart contract */
+  contract: string;
+}
+export interface UpdateAdminProposalAminoMsg {
+  type: "wasm/UpdateAdminProposal";
+  value: UpdateAdminProposalAmino;
+}
 /** UpdateAdminProposal gov proposal content type to set an admin for a contract. */
 export interface UpdateAdminProposalSDKType {
   title: string;
@@ -159,6 +295,26 @@ export interface ClearAdminProposal {
   description: string;
   /** Contract is the address of the smart contract */
   contract: string;
+}
+export interface ClearAdminProposalProtoMsg {
+  typeUrl: "/cosmwasm.wasm.v1.ClearAdminProposal";
+  value: Uint8Array;
+}
+/**
+ * ClearAdminProposal gov proposal content type to clear the admin of a
+ * contract.
+ */
+export interface ClearAdminProposalAmino {
+  /** Title is a short summary */
+  title: string;
+  /** Description is a human readable text */
+  description: string;
+  /** Contract is the address of the smart contract */
+  contract: string;
+}
+export interface ClearAdminProposalAminoMsg {
+  type: "wasm/ClearAdminProposal";
+  value: ClearAdminProposalAmino;
 }
 /**
  * ClearAdminProposal gov proposal content type to clear the admin of a
@@ -181,6 +337,26 @@ export interface PinCodesProposal {
   /** CodeIDs references the new WASM codes */
   codeIds: bigint[];
 }
+export interface PinCodesProposalProtoMsg {
+  typeUrl: "/cosmwasm.wasm.v1.PinCodesProposal";
+  value: Uint8Array;
+}
+/**
+ * PinCodesProposal gov proposal content type to pin a set of code ids in the
+ * wasmvm cache.
+ */
+export interface PinCodesProposalAmino {
+  /** Title is a short summary */
+  title: string;
+  /** Description is a human readable text */
+  description: string;
+  /** CodeIDs references the new WASM codes */
+  code_ids: string[];
+}
+export interface PinCodesProposalAminoMsg {
+  type: "wasm/PinCodesProposal";
+  value: PinCodesProposalAmino;
+}
 /**
  * PinCodesProposal gov proposal content type to pin a set of code ids in the
  * wasmvm cache.
@@ -201,6 +377,26 @@ export interface UnpinCodesProposal {
   description: string;
   /** CodeIDs references the WASM codes */
   codeIds: bigint[];
+}
+export interface UnpinCodesProposalProtoMsg {
+  typeUrl: "/cosmwasm.wasm.v1.UnpinCodesProposal";
+  value: Uint8Array;
+}
+/**
+ * UnpinCodesProposal gov proposal content type to unpin a set of code ids in
+ * the wasmvm cache.
+ */
+export interface UnpinCodesProposalAmino {
+  /** Title is a short summary */
+  title: string;
+  /** Description is a human readable text */
+  description: string;
+  /** CodeIDs references the WASM codes */
+  code_ids: string[];
+}
+export interface UnpinCodesProposalAminoMsg {
+  type: "wasm/UnpinCodesProposal";
+  value: UnpinCodesProposalAmino;
 }
 /**
  * UnpinCodesProposal gov proposal content type to unpin a set of code ids in

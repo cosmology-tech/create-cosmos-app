@@ -1,4 +1,4 @@
-import { IdentifiedClientState, IdentifiedClientStateSDKType, ClientConsensusStates, ClientConsensusStatesSDKType, Params, ParamsSDKType } from "./client";
+import { IdentifiedClientState, IdentifiedClientStateAmino, IdentifiedClientStateSDKType, ClientConsensusStates, ClientConsensusStatesAmino, ClientConsensusStatesSDKType, Params, ParamsAmino, ParamsSDKType } from "./client";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "ibc.core.client.v1";
@@ -15,6 +15,28 @@ export interface GenesisState {
   createLocalhost: boolean;
   /** the sequence for the next generated client identifier */
   nextClientSequence: bigint;
+}
+export interface GenesisStateProtoMsg {
+  typeUrl: "/ibc.core.client.v1.GenesisState";
+  value: Uint8Array;
+}
+/** GenesisState defines the ibc client submodule's genesis state. */
+export interface GenesisStateAmino {
+  /** client states with their corresponding identifiers */
+  clients: IdentifiedClientStateAmino[];
+  /** consensus states from each client */
+  clients_consensus: ClientConsensusStatesAmino[];
+  /** metadata from each client */
+  clients_metadata: IdentifiedGenesisMetadataAmino[];
+  params?: ParamsAmino;
+  /** create localhost on initialization */
+  create_localhost: boolean;
+  /** the sequence for the next generated client identifier */
+  next_client_sequence: string;
+}
+export interface GenesisStateAminoMsg {
+  type: "cosmos-sdk/GenesisState";
+  value: GenesisStateAmino;
 }
 /** GenesisState defines the ibc client submodule's genesis state. */
 export interface GenesisStateSDKType {
@@ -35,6 +57,24 @@ export interface GenesisMetadata {
   /** metadata value */
   value: Uint8Array;
 }
+export interface GenesisMetadataProtoMsg {
+  typeUrl: "/ibc.core.client.v1.GenesisMetadata";
+  value: Uint8Array;
+}
+/**
+ * GenesisMetadata defines the genesis type for metadata that clients may return
+ * with ExportMetadata
+ */
+export interface GenesisMetadataAmino {
+  /** store key of metadata without clientID-prefix */
+  key: Uint8Array;
+  /** metadata value */
+  value: Uint8Array;
+}
+export interface GenesisMetadataAminoMsg {
+  type: "cosmos-sdk/GenesisMetadata";
+  value: GenesisMetadataAmino;
+}
 /**
  * GenesisMetadata defines the genesis type for metadata that clients may return
  * with ExportMetadata
@@ -50,6 +90,22 @@ export interface GenesisMetadataSDKType {
 export interface IdentifiedGenesisMetadata {
   clientId: string;
   clientMetadata: GenesisMetadata[];
+}
+export interface IdentifiedGenesisMetadataProtoMsg {
+  typeUrl: "/ibc.core.client.v1.IdentifiedGenesisMetadata";
+  value: Uint8Array;
+}
+/**
+ * IdentifiedGenesisMetadata has the client metadata with the corresponding
+ * client id.
+ */
+export interface IdentifiedGenesisMetadataAmino {
+  client_id: string;
+  client_metadata: GenesisMetadataAmino[];
+}
+export interface IdentifiedGenesisMetadataAminoMsg {
+  type: "cosmos-sdk/IdentifiedGenesisMetadata";
+  value: IdentifiedGenesisMetadataAmino;
 }
 /**
  * IdentifiedGenesisMetadata has the client metadata with the corresponding

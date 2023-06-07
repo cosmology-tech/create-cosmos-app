@@ -12,6 +12,25 @@ export interface SourceContext {
    */
   fileName: string;
 }
+export interface SourceContextProtoMsg {
+  typeUrl: "/google.protobuf.SourceContext";
+  value: Uint8Array;
+}
+/**
+ * `SourceContext` represents information about the source of a
+ * protobuf element, like the file in which it is defined.
+ */
+export interface SourceContextAmino {
+  /**
+   * The path-qualified name of the .proto file that contained the associated
+   * protobuf element.  For example: `"google/protobuf/source_context.proto"`.
+   */
+  file_name: string;
+}
+export interface SourceContextAminoMsg {
+  type: "/google.protobuf.SourceContext";
+  value: SourceContextAmino;
+}
 /**
  * `SourceContext` represents information about the source of a
  * protobuf element, like the file in which it is defined.

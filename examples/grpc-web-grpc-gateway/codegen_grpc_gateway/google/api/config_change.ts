@@ -26,6 +26,7 @@ export enum ChangeType {
   UNRECOGNIZED = -1,
 }
 export const ChangeTypeSDKType = ChangeType;
+export const ChangeTypeAmino = ChangeType;
 export function changeTypeFromJSON(object: any): ChangeType {
   switch (object) {
     case 0:
@@ -100,6 +101,53 @@ export interface ConfigChange {
    */
   advices: Advice[];
 }
+export interface ConfigChangeProtoMsg {
+  typeUrl: "/google.api.ConfigChange";
+  value: Uint8Array;
+}
+/**
+ * Output generated from semantically comparing two versions of a service
+ * configuration.
+ * 
+ * Includes detailed information about a field that have changed with
+ * applicable advice about potential consequences for the change, such as
+ * backwards-incompatibility.
+ */
+export interface ConfigChangeAmino {
+  /**
+   * Object hierarchy path to the change, with levels separated by a '.'
+   * character. For repeated fields, an applicable unique identifier field is
+   * used for the index (usually selector, name, or id). For maps, the term
+   * 'key' is used. If the field has no unique identifier, the numeric index
+   * is used.
+   * Examples:
+   * - visibility.rules[selector=="google.LibraryService.ListBooks"].restriction
+   * - quota.metric_rules[selector=="google"].metric_costs[key=="reads"].value
+   * - logging.producer_destinations[0]
+   */
+  element: string;
+  /**
+   * Value of the changed object in the old Service configuration,
+   * in JSON format. This field will not be populated if ChangeType == ADDED.
+   */
+  old_value: string;
+  /**
+   * Value of the changed object in the new Service configuration,
+   * in JSON format. This field will not be populated if ChangeType == REMOVED.
+   */
+  new_value: string;
+  /** The type for this change, either ADDED, REMOVED, or MODIFIED. */
+  change_type: ChangeType;
+  /**
+   * Collection of advice provided for this change, useful for determining the
+   * possible impact of this change.
+   */
+  advices: AdviceAmino[];
+}
+export interface ConfigChangeAminoMsg {
+  type: "/google.api.ConfigChange";
+  value: ConfigChangeAmino;
+}
 /**
  * Output generated from semantically comparing two versions of a service
  * configuration.
@@ -125,6 +173,25 @@ export interface Advice {
    * be taken to mitigate any implied risks.
    */
   description: string;
+}
+export interface AdviceProtoMsg {
+  typeUrl: "/google.api.Advice";
+  value: Uint8Array;
+}
+/**
+ * Generated advice about this change, used for providing more
+ * information about how a change will affect the existing service.
+ */
+export interface AdviceAmino {
+  /**
+   * Useful description for why this advice was applied and what actions should
+   * be taken to mitigate any implied risks.
+   */
+  description: string;
+}
+export interface AdviceAminoMsg {
+  type: "/google.api.Advice";
+  value: AdviceAmino;
 }
 /**
  * Generated advice about this change, used for providing more

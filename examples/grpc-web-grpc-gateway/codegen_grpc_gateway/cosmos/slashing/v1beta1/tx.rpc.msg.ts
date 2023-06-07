@@ -1,5 +1,5 @@
 import * as fm from "../../../grpc-gateway";
-import { MsgUnjail, MsgUnjailResponse } from "./tx";
+import { MsgUnjail, MsgUnjailSDKType, MsgUnjailResponse, MsgUnjailResponseSDKType } from "./tx";
 export class Msg {
   /**
    * Unjail defines a method for unjailing a jailed validator, thus returning
