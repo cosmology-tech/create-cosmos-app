@@ -1,8 +1,12 @@
+import { Counterparty, CounterpartySDKType, Version, VersionSDKType } from "./connection";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
+import { Height, HeightSDKType } from "../../client/v1/client";
 import { UnaryMethodDefinitionish } from "../../../../grpc-web";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "../../../../helpers";
 import { grpc } from "@improbable-eng/grpc-web";
 import { BrowserHeaders } from "browser-headers";
-import { MsgConnectionOpenInit, MsgConnectionOpenInitResponse, MsgConnectionOpenTry, MsgConnectionOpenTryResponse, MsgConnectionOpenAck, MsgConnectionOpenAckResponse, MsgConnectionOpenConfirm, MsgConnectionOpenConfirmResponse } from "./tx";
+import { MsgConnectionOpenInit, MsgConnectionOpenInitSDKType, MsgConnectionOpenInitResponse, MsgConnectionOpenInitResponseSDKType, MsgConnectionOpenTry, MsgConnectionOpenTrySDKType, MsgConnectionOpenTryResponse, MsgConnectionOpenTryResponseSDKType, MsgConnectionOpenAck, MsgConnectionOpenAckSDKType, MsgConnectionOpenAckResponse, MsgConnectionOpenAckResponseSDKType, MsgConnectionOpenConfirm, MsgConnectionOpenConfirmSDKType, MsgConnectionOpenConfirmResponse, MsgConnectionOpenConfirmResponseSDKType } from "./tx";
 /** Msg defines the ibc/connection Msg service. */
 export interface Msg {
   /** ConnectionOpenInit defines a rpc handler method for MsgConnectionOpenInit. */

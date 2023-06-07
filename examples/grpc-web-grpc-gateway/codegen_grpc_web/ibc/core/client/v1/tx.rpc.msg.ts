@@ -1,8 +1,10 @@
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
 import { UnaryMethodDefinitionish } from "../../../../grpc-web";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "../../../../helpers";
 import { grpc } from "@improbable-eng/grpc-web";
 import { BrowserHeaders } from "browser-headers";
-import { MsgCreateClient, MsgCreateClientResponse, MsgUpdateClient, MsgUpdateClientResponse, MsgUpgradeClient, MsgUpgradeClientResponse, MsgSubmitMisbehaviour, MsgSubmitMisbehaviourResponse } from "./tx";
+import { MsgCreateClient, MsgCreateClientSDKType, MsgCreateClientResponse, MsgCreateClientResponseSDKType, MsgUpdateClient, MsgUpdateClientSDKType, MsgUpdateClientResponse, MsgUpdateClientResponseSDKType, MsgUpgradeClient, MsgUpgradeClientSDKType, MsgUpgradeClientResponse, MsgUpgradeClientResponseSDKType, MsgSubmitMisbehaviour, MsgSubmitMisbehaviourSDKType, MsgSubmitMisbehaviourResponse, MsgSubmitMisbehaviourResponseSDKType } from "./tx";
 /** Msg defines the ibc/client Msg service. */
 export interface Msg {
   /** CreateClient defines a rpc handler method for MsgCreateClient. */

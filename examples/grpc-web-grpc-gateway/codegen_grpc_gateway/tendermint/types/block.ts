@@ -1,5 +1,5 @@
-import { Header, HeaderSDKType, Data, DataSDKType, Commit, CommitSDKType } from "./types";
-import { EvidenceList, EvidenceListSDKType } from "./evidence";
+import { Header, HeaderAmino, HeaderSDKType, Data, DataAmino, DataSDKType, Commit, CommitAmino, CommitSDKType } from "./types";
+import { EvidenceList, EvidenceListAmino, EvidenceListSDKType } from "./evidence";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "tendermint.types";
@@ -8,6 +8,20 @@ export interface Block {
   data?: Data;
   evidence?: EvidenceList;
   lastCommit?: Commit;
+}
+export interface BlockProtoMsg {
+  typeUrl: "/tendermint.types.Block";
+  value: Uint8Array;
+}
+export interface BlockAmino {
+  header?: HeaderAmino;
+  data?: DataAmino;
+  evidence?: EvidenceListAmino;
+  last_commit?: CommitAmino;
+}
+export interface BlockAminoMsg {
+  type: "/tendermint.types.Block";
+  value: BlockAmino;
 }
 export interface BlockSDKType {
   header?: HeaderSDKType;

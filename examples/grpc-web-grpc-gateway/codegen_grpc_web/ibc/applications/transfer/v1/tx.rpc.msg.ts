@@ -1,8 +1,11 @@
+import { Coin, CoinSDKType } from "../../../../cosmos/base/v1beta1/coin";
+import { Height, HeightSDKType } from "../../../core/client/v1/client";
 import { UnaryMethodDefinitionish } from "../../../../grpc-web";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "../../../../helpers";
 import { grpc } from "@improbable-eng/grpc-web";
 import { BrowserHeaders } from "browser-headers";
-import { MsgTransfer, MsgTransferResponse } from "./tx";
+import { MsgTransfer, MsgTransferSDKType, MsgTransferResponse, MsgTransferResponseSDKType } from "./tx";
 /** Msg defines the ibc/transfer Msg service. */
 export interface Msg {
   /** Transfer defines a rpc handler method for MsgTransfer. */

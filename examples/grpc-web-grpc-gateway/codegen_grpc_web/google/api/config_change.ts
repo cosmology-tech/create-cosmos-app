@@ -1,4 +1,4 @@
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
@@ -211,7 +211,7 @@ function createBaseConfigChange(): ConfigChange {
 }
 export const ConfigChange = {
   typeUrl: "/google.api.ConfigChange",
-  encode(message: ConfigChange, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConfigChange, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.element !== "") {
       writer.uint32(10).string(message.element);
     }
@@ -229,8 +229,8 @@ export const ConfigChange = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConfigChange {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConfigChange {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConfigChange();
     while (reader.pos < end) {
@@ -356,14 +356,14 @@ function createBaseAdvice(): Advice {
 }
 export const Advice = {
   typeUrl: "/google.api.Advice",
-  encode(message: Advice, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Advice, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.description !== "") {
       writer.uint32(18).string(message.description);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Advice {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Advice {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAdvice();
     while (reader.pos < end) {

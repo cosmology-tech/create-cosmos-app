@@ -1,7 +1,7 @@
 import { SourceInfo, SourceInfoAmino, SourceInfoSDKType } from "./source";
-import { NullValue, nullValueFromJSON, nullValueToJSON } from "../../../protobuf/struct";
-import { Long, isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { NullValue, NullValueSDKType, nullValueFromJSON, nullValueToJSON } from "../../../protobuf/struct";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "google.api.expr.v1beta1";
 /** An expression together with source information as returned by the parser. */
 export interface ParsedExpr {
@@ -601,9 +601,9 @@ export interface Literal {
   /** boolean value. */
   boolValue?: boolean;
   /** int64 value. */
-  int64Value?: Long;
+  int64Value?: bigint;
   /** uint64 value. */
-  uint64Value?: Long;
+  uint64Value?: bigint;
   /** double value. */
   doubleValue?: number;
   /** string value. */
@@ -664,8 +664,8 @@ export interface LiteralAminoMsg {
 export interface LiteralSDKType {
   null_value?: NullValue;
   bool_value?: boolean;
-  int64_value?: Long;
-  uint64_value?: Long;
+  int64_value?: bigint;
+  uint64_value?: bigint;
   double_value?: number;
   string_value?: string;
   bytes_value?: Uint8Array;
@@ -679,7 +679,7 @@ function createBaseParsedExpr(): ParsedExpr {
 }
 export const ParsedExpr = {
   typeUrl: "/google.api.expr.v1beta1.ParsedExpr",
-  encode(message: ParsedExpr, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ParsedExpr, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.expr !== undefined) {
       Expr.encode(message.expr, writer.uint32(18).fork()).ldelim();
     }
@@ -691,8 +691,8 @@ export const ParsedExpr = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ParsedExpr {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ParsedExpr {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParsedExpr();
     while (reader.pos < end) {
@@ -793,7 +793,7 @@ function createBaseExpr(): Expr {
 }
 export const Expr = {
   typeUrl: "/google.api.expr.v1beta1.Expr",
-  encode(message: Expr, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Expr, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== 0) {
       writer.uint32(16).int32(message.id);
     }
@@ -820,8 +820,8 @@ export const Expr = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr();
     while (reader.pos < end) {
@@ -965,14 +965,14 @@ function createBaseExpr_Ident(): Expr_Ident {
 }
 export const Expr_Ident = {
   typeUrl: "/google.api.expr.v1beta1.Ident",
-  encode(message: Expr_Ident, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Expr_Ident, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr_Ident {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr_Ident {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr_Ident();
     while (reader.pos < end) {
@@ -1048,7 +1048,7 @@ function createBaseExpr_Select(): Expr_Select {
 }
 export const Expr_Select = {
   typeUrl: "/google.api.expr.v1beta1.Select",
-  encode(message: Expr_Select, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Expr_Select, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.operand !== undefined) {
       Expr.encode(message.operand, writer.uint32(10).fork()).ldelim();
     }
@@ -1060,8 +1060,8 @@ export const Expr_Select = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr_Select {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr_Select {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr_Select();
     while (reader.pos < end) {
@@ -1157,7 +1157,7 @@ function createBaseExpr_Call(): Expr_Call {
 }
 export const Expr_Call = {
   typeUrl: "/google.api.expr.v1beta1.Call",
-  encode(message: Expr_Call, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Expr_Call, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.target !== undefined) {
       Expr.encode(message.target, writer.uint32(10).fork()).ldelim();
     }
@@ -1169,8 +1169,8 @@ export const Expr_Call = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr_Call {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr_Call {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr_Call();
     while (reader.pos < end) {
@@ -1276,14 +1276,14 @@ function createBaseExpr_CreateList(): Expr_CreateList {
 }
 export const Expr_CreateList = {
   typeUrl: "/google.api.expr.v1beta1.CreateList",
-  encode(message: Expr_CreateList, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Expr_CreateList, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.elements) {
       Expr.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr_CreateList {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr_CreateList {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr_CreateList();
     while (reader.pos < end) {
@@ -1370,7 +1370,7 @@ function createBaseExpr_CreateStruct(): Expr_CreateStruct {
 }
 export const Expr_CreateStruct = {
   typeUrl: "/google.api.expr.v1beta1.CreateStruct",
-  encode(message: Expr_CreateStruct, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Expr_CreateStruct, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.type !== "") {
       writer.uint32(10).string(message.type);
     }
@@ -1379,8 +1379,8 @@ export const Expr_CreateStruct = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr_CreateStruct {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr_CreateStruct {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr_CreateStruct();
     while (reader.pos < end) {
@@ -1479,7 +1479,7 @@ function createBaseExpr_CreateStruct_Entry(): Expr_CreateStruct_Entry {
 }
 export const Expr_CreateStruct_Entry = {
   typeUrl: "/google.api.expr.v1beta1.Entry",
-  encode(message: Expr_CreateStruct_Entry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Expr_CreateStruct_Entry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== 0) {
       writer.uint32(8).int32(message.id);
     }
@@ -1494,8 +1494,8 @@ export const Expr_CreateStruct_Entry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr_CreateStruct_Entry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr_CreateStruct_Entry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr_CreateStruct_Entry();
     while (reader.pos < end) {
@@ -1605,7 +1605,7 @@ function createBaseExpr_Comprehension(): Expr_Comprehension {
 }
 export const Expr_Comprehension = {
   typeUrl: "/google.api.expr.v1beta1.Comprehension",
-  encode(message: Expr_Comprehension, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Expr_Comprehension, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.iterVar !== "") {
       writer.uint32(10).string(message.iterVar);
     }
@@ -1629,8 +1629,8 @@ export const Expr_Comprehension = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr_Comprehension {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr_Comprehension {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr_Comprehension();
     while (reader.pos < end) {
@@ -1770,7 +1770,7 @@ function createBaseLiteral(): Literal {
 }
 export const Literal = {
   typeUrl: "/google.api.expr.v1beta1.Literal",
-  encode(message: Literal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Literal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.nullValue !== undefined) {
       writer.uint32(8).int32(message.nullValue);
     }
@@ -1794,8 +1794,8 @@ export const Literal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Literal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Literal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseLiteral();
     while (reader.pos < end) {
@@ -1808,10 +1808,10 @@ export const Literal = {
           message.boolValue = reader.bool();
           break;
         case 3:
-          message.int64Value = (reader.int64() as Long);
+          message.int64Value = BigInt(reader.int64().toString());
           break;
         case 4:
-          message.uint64Value = (reader.uint64() as Long);
+          message.uint64Value = BigInt(reader.uint64().toString());
           break;
         case 5:
           message.doubleValue = reader.double();
@@ -1833,8 +1833,8 @@ export const Literal = {
     return {
       nullValue: isSet(object.nullValue) ? nullValueFromJSON(object.nullValue) : undefined,
       boolValue: isSet(object.boolValue) ? Boolean(object.boolValue) : undefined,
-      int64Value: isSet(object.int64Value) ? Long.fromValue(object.int64Value) : undefined,
-      uint64Value: isSet(object.uint64Value) ? Long.fromValue(object.uint64Value) : undefined,
+      int64Value: isSet(object.int64Value) ? BigInt(object.int64Value.toString()) : undefined,
+      uint64Value: isSet(object.uint64Value) ? BigInt(object.uint64Value.toString()) : undefined,
       doubleValue: isSet(object.doubleValue) ? Number(object.doubleValue) : undefined,
       stringValue: isSet(object.stringValue) ? String(object.stringValue) : undefined,
       bytesValue: isSet(object.bytesValue) ? bytesFromBase64(object.bytesValue) : undefined
@@ -1855,8 +1855,8 @@ export const Literal = {
     const message = createBaseLiteral();
     message.nullValue = object.nullValue ?? undefined;
     message.boolValue = object.boolValue ?? undefined;
-    message.int64Value = object.int64Value !== undefined && object.int64Value !== null ? Long.fromValue(object.int64Value) : undefined;
-    message.uint64Value = object.uint64Value !== undefined && object.uint64Value !== null ? Long.fromValue(object.uint64Value) : undefined;
+    message.int64Value = object.int64Value !== undefined && object.int64Value !== null ? BigInt(object.int64Value.toString()) : undefined;
+    message.uint64Value = object.uint64Value !== undefined && object.uint64Value !== null ? BigInt(object.uint64Value.toString()) : undefined;
     message.doubleValue = object.doubleValue ?? undefined;
     message.stringValue = object.stringValue ?? undefined;
     message.bytesValue = object.bytesValue ?? undefined;
@@ -1888,8 +1888,8 @@ export const Literal = {
     return {
       nullValue: isSet(object.null_value) ? nullValueFromJSON(object.null_value) : undefined,
       boolValue: object?.bool_value,
-      int64Value: object?.int64_value ? Long.fromString(object.int64_value) : undefined,
-      uint64Value: object?.uint64_value ? Long.fromString(object.uint64_value) : undefined,
+      int64Value: object?.int64_value ? BigInt(object.int64_value) : undefined,
+      uint64Value: object?.uint64_value ? BigInt(object.uint64_value) : undefined,
       doubleValue: object?.double_value,
       stringValue: object?.string_value,
       bytesValue: object?.bytes_value

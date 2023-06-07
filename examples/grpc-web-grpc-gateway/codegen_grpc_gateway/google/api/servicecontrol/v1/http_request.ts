@@ -1,4 +1,4 @@
-import { Duration, DurationSDKType } from "../../../protobuf/duration";
+import { Duration, DurationAmino, DurationSDKType } from "../../../protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v1";
@@ -78,6 +78,91 @@ export interface HttpRequest {
   cacheFillBytes: bigint;
   /** Protocol used for the request. Examples: "HTTP/1.1", "HTTP/2", "websocket" */
   protocol: string;
+}
+export interface HttpRequestProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.HttpRequest";
+  value: Uint8Array;
+}
+/**
+ * A common proto for logging HTTP requests. Only contains semantics
+ * defined by the HTTP specification. Product-specific logging
+ * information MUST be defined in a separate message.
+ */
+export interface HttpRequestAmino {
+  /** The request method. Examples: `"GET"`, `"HEAD"`, `"PUT"`, `"POST"`. */
+  request_method: string;
+  /**
+   * The scheme (http, https), the host name, the path, and the query
+   * portion of the URL that was requested.
+   * Example: `"http://example.com/some/info?color=red"`.
+   */
+  request_url: string;
+  /**
+   * The size of the HTTP request message in bytes, including the request
+   * headers and the request body.
+   */
+  request_size: string;
+  /**
+   * The response code indicating the status of the response.
+   * Examples: 200, 404.
+   */
+  status: number;
+  /**
+   * The size of the HTTP response message sent back to the client, in bytes,
+   * including the response headers and the response body.
+   */
+  response_size: string;
+  /**
+   * The user agent sent by the client. Example:
+   * `"Mozilla/4.0 (compatible; MSIE 6.0; Windows 98; Q312461; .NET
+   * CLR 1.0.3705)"`.
+   */
+  user_agent: string;
+  /**
+   * The IP address (IPv4 or IPv6) of the client that issued the HTTP
+   * request. Examples: `"192.168.1.1"`, `"FE80::0202:B3FF:FE1E:8329"`.
+   */
+  remote_ip: string;
+  /**
+   * The IP address (IPv4 or IPv6) of the origin server that the request was
+   * sent to.
+   */
+  server_ip: string;
+  /**
+   * The referer URL of the request, as defined in
+   * [HTTP/1.1 Header Field
+   * Definitions](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html).
+   */
+  referer: string;
+  /**
+   * The request processing latency on the server, from the time the request was
+   * received until the response was sent.
+   */
+  latency?: DurationAmino;
+  /** Whether or not a cache lookup was attempted. */
+  cache_lookup: boolean;
+  /**
+   * Whether or not an entity was served from cache
+   * (with or without validation).
+   */
+  cache_hit: boolean;
+  /**
+   * Whether or not the response was validated with the origin server before
+   * being served from cache. This field is only meaningful if `cache_hit` is
+   * True.
+   */
+  cache_validated_with_origin_server: boolean;
+  /**
+   * The number of HTTP response bytes inserted into cache. Set only when a
+   * cache fill was attempted.
+   */
+  cache_fill_bytes: string;
+  /** Protocol used for the request. Examples: "HTTP/1.1", "HTTP/2", "websocket" */
+  protocol: string;
+}
+export interface HttpRequestAminoMsg {
+  type: "/google.api.servicecontrol.v1.HttpRequest";
+  value: HttpRequestAmino;
 }
 /**
  * A common proto for logging HTTP requests. Only contains semantics

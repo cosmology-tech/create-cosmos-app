@@ -7,15 +7,32 @@ telescope({
   protoDirs,
   outPath: join(__dirname, '../codegen_grpc_web'),
   options: {
-    tsDisable: {
-      files: [
-        'ibc/core/types/v1/genesis.ts',
-        'google/protobuf/descriptor.ts',
-        'google/protobuf/struct.ts'
-      ]
-    },
-    prototypes: {
-      enabled: true,
+  removeUnusedImports: false,
+  classesUseArrowFunctions: false,
+
+  tsDisable: {
+    files: [
+      'ibc/core/types/v1/genesis.ts',
+      'google/protobuf/descriptor.ts',
+      'google/protobuf/struct.ts'
+    ],
+    disableAll: false
+  },
+
+  eslintDisable: {
+    disableAll: false,
+  },
+
+  interfaces: {
+    enabled: true,
+    useUnionTypes: false
+  },
+  aminoEncoding: {
+    enabled: true,
+    useRecursiveV2encoding: true
+  },
+  prototypes: {
+    enabled: true,
     parser: {
       keepCase: false
     },
@@ -54,7 +71,8 @@ telescope({
       },
     },
     aminoEncoding: {
-      enabled: true
+      enabled: true,
+      useRecursiveV2encoding: true
     },
     lcdClients: {
       enabled: true

@@ -1,4 +1,4 @@
-import { Any, AnySDKType } from "../../../../google/protobuf/any";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "ibc.core.client.v1";
@@ -14,6 +14,26 @@ export interface MsgCreateClient {
   /** signer address */
   signer: string;
 }
+export interface MsgCreateClientProtoMsg {
+  typeUrl: "/ibc.core.client.v1.MsgCreateClient";
+  value: Uint8Array;
+}
+/** MsgCreateClient defines a message to create an IBC client */
+export interface MsgCreateClientAmino {
+  /** light client state */
+  client_state?: AnyAmino;
+  /**
+   * consensus state associated with the client that corresponds to a given
+   * height.
+   */
+  consensus_state?: AnyAmino;
+  /** signer address */
+  signer: string;
+}
+export interface MsgCreateClientAminoMsg {
+  type: "cosmos-sdk/MsgCreateClient";
+  value: MsgCreateClientAmino;
+}
 /** MsgCreateClient defines a message to create an IBC client */
 export interface MsgCreateClientSDKType {
   client_state?: AnySDKType;
@@ -22,6 +42,16 @@ export interface MsgCreateClientSDKType {
 }
 /** MsgCreateClientResponse defines the Msg/CreateClient response type. */
 export interface MsgCreateClientResponse {}
+export interface MsgCreateClientResponseProtoMsg {
+  typeUrl: "/ibc.core.client.v1.MsgCreateClientResponse";
+  value: Uint8Array;
+}
+/** MsgCreateClientResponse defines the Msg/CreateClient response type. */
+export interface MsgCreateClientResponseAmino {}
+export interface MsgCreateClientResponseAminoMsg {
+  type: "cosmos-sdk/MsgCreateClientResponse";
+  value: MsgCreateClientResponseAmino;
+}
 /** MsgCreateClientResponse defines the Msg/CreateClient response type. */
 export interface MsgCreateClientResponseSDKType {}
 /**
@@ -36,6 +66,26 @@ export interface MsgUpdateClient {
   /** signer address */
   signer: string;
 }
+export interface MsgUpdateClientProtoMsg {
+  typeUrl: "/ibc.core.client.v1.MsgUpdateClient";
+  value: Uint8Array;
+}
+/**
+ * MsgUpdateClient defines an sdk.Msg to update a IBC client state using
+ * the given header.
+ */
+export interface MsgUpdateClientAmino {
+  /** client unique identifier */
+  client_id: string;
+  /** header to update the light client */
+  header?: AnyAmino;
+  /** signer address */
+  signer: string;
+}
+export interface MsgUpdateClientAminoMsg {
+  type: "cosmos-sdk/MsgUpdateClient";
+  value: MsgUpdateClientAmino;
+}
 /**
  * MsgUpdateClient defines an sdk.Msg to update a IBC client state using
  * the given header.
@@ -47,6 +97,16 @@ export interface MsgUpdateClientSDKType {
 }
 /** MsgUpdateClientResponse defines the Msg/UpdateClient response type. */
 export interface MsgUpdateClientResponse {}
+export interface MsgUpdateClientResponseProtoMsg {
+  typeUrl: "/ibc.core.client.v1.MsgUpdateClientResponse";
+  value: Uint8Array;
+}
+/** MsgUpdateClientResponse defines the Msg/UpdateClient response type. */
+export interface MsgUpdateClientResponseAmino {}
+export interface MsgUpdateClientResponseAminoMsg {
+  type: "cosmos-sdk/MsgUpdateClientResponse";
+  value: MsgUpdateClientResponseAmino;
+}
 /** MsgUpdateClientResponse defines the Msg/UpdateClient response type. */
 export interface MsgUpdateClientResponseSDKType {}
 /**
@@ -70,6 +130,35 @@ export interface MsgUpgradeClient {
   /** signer address */
   signer: string;
 }
+export interface MsgUpgradeClientProtoMsg {
+  typeUrl: "/ibc.core.client.v1.MsgUpgradeClient";
+  value: Uint8Array;
+}
+/**
+ * MsgUpgradeClient defines an sdk.Msg to upgrade an IBC client to a new client
+ * state
+ */
+export interface MsgUpgradeClientAmino {
+  /** client unique identifier */
+  client_id: string;
+  /** upgraded client state */
+  client_state?: AnyAmino;
+  /**
+   * upgraded consensus state, only contains enough information to serve as a
+   * basis of trust in update logic
+   */
+  consensus_state?: AnyAmino;
+  /** proof that old chain committed to new client */
+  proof_upgrade_client: Uint8Array;
+  /** proof that old chain committed to new consensus state */
+  proof_upgrade_consensus_state: Uint8Array;
+  /** signer address */
+  signer: string;
+}
+export interface MsgUpgradeClientAminoMsg {
+  type: "cosmos-sdk/MsgUpgradeClient";
+  value: MsgUpgradeClientAmino;
+}
 /**
  * MsgUpgradeClient defines an sdk.Msg to upgrade an IBC client to a new client
  * state
@@ -84,6 +173,16 @@ export interface MsgUpgradeClientSDKType {
 }
 /** MsgUpgradeClientResponse defines the Msg/UpgradeClient response type. */
 export interface MsgUpgradeClientResponse {}
+export interface MsgUpgradeClientResponseProtoMsg {
+  typeUrl: "/ibc.core.client.v1.MsgUpgradeClientResponse";
+  value: Uint8Array;
+}
+/** MsgUpgradeClientResponse defines the Msg/UpgradeClient response type. */
+export interface MsgUpgradeClientResponseAmino {}
+export interface MsgUpgradeClientResponseAminoMsg {
+  type: "cosmos-sdk/MsgUpgradeClientResponse";
+  value: MsgUpgradeClientResponseAmino;
+}
 /** MsgUpgradeClientResponse defines the Msg/UpgradeClient response type. */
 export interface MsgUpgradeClientResponseSDKType {}
 /**
@@ -97,6 +196,26 @@ export interface MsgSubmitMisbehaviour {
   misbehaviour?: Any;
   /** signer address */
   signer: string;
+}
+export interface MsgSubmitMisbehaviourProtoMsg {
+  typeUrl: "/ibc.core.client.v1.MsgSubmitMisbehaviour";
+  value: Uint8Array;
+}
+/**
+ * MsgSubmitMisbehaviour defines an sdk.Msg type that submits Evidence for
+ * light client misbehaviour.
+ */
+export interface MsgSubmitMisbehaviourAmino {
+  /** client unique identifier */
+  client_id: string;
+  /** misbehaviour used for freezing the light client */
+  misbehaviour?: AnyAmino;
+  /** signer address */
+  signer: string;
+}
+export interface MsgSubmitMisbehaviourAminoMsg {
+  type: "cosmos-sdk/MsgSubmitMisbehaviour";
+  value: MsgSubmitMisbehaviourAmino;
 }
 /**
  * MsgSubmitMisbehaviour defines an sdk.Msg type that submits Evidence for
@@ -112,6 +231,19 @@ export interface MsgSubmitMisbehaviourSDKType {
  * type.
  */
 export interface MsgSubmitMisbehaviourResponse {}
+export interface MsgSubmitMisbehaviourResponseProtoMsg {
+  typeUrl: "/ibc.core.client.v1.MsgSubmitMisbehaviourResponse";
+  value: Uint8Array;
+}
+/**
+ * MsgSubmitMisbehaviourResponse defines the Msg/SubmitMisbehaviour response
+ * type.
+ */
+export interface MsgSubmitMisbehaviourResponseAmino {}
+export interface MsgSubmitMisbehaviourResponseAminoMsg {
+  type: "cosmos-sdk/MsgSubmitMisbehaviourResponse";
+  value: MsgSubmitMisbehaviourResponseAmino;
+}
 /**
  * MsgSubmitMisbehaviourResponse defines the Msg/SubmitMisbehaviour response
  * type.

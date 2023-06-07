@@ -1,7 +1,7 @@
-import { Timestamp } from "../../../protobuf/timestamp";
+import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../protobuf/timestamp";
 import { ConfigChange, ConfigChangeAmino, ConfigChangeSDKType } from "../../config_change";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, toTimestamp, fromTimestamp, bytesFromBase64, base64FromBytes, isObject } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, DeepPartial, toTimestamp, fromTimestamp, fromJsonTimestamp, bytesFromBase64, base64FromBytes, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.servicemanagement.v1";
 /** Code describes the status of the operation (or one of its steps). */
 export enum OperationMetadata_Status {
@@ -841,7 +841,7 @@ function createBaseManagedService(): ManagedService {
 }
 export const ManagedService = {
   typeUrl: "/google.api.servicemanagement.v1.ManagedService",
-  encode(message: ManagedService, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ManagedService, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(18).string(message.serviceName);
     }
@@ -850,8 +850,8 @@ export const ManagedService = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ManagedService {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ManagedService {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseManagedService();
     while (reader.pos < end) {
@@ -938,7 +938,7 @@ function createBaseOperationMetadata(): OperationMetadata {
 }
 export const OperationMetadata = {
   typeUrl: "/google.api.servicemanagement.v1.OperationMetadata",
-  encode(message: OperationMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: OperationMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.resourceNames) {
       writer.uint32(10).string(v!);
     }
@@ -953,8 +953,8 @@ export const OperationMetadata = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): OperationMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): OperationMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOperationMetadata();
     while (reader.pos < end) {
@@ -984,7 +984,7 @@ export const OperationMetadata = {
       resourceNames: Array.isArray(object?.resourceNames) ? object.resourceNames.map((e: any) => String(e)) : [],
       steps: Array.isArray(object?.steps) ? object.steps.map((e: any) => OperationMetadata_Step.fromJSON(e)) : [],
       progressPercentage: isSet(object.progressPercentage) ? Number(object.progressPercentage) : 0,
-      startTime: isSet(object.startTime) ? new Date(object.startTime) : undefined
+      startTime: isSet(object.startTime) ? fromJsonTimestamp(object.startTime) : undefined
     };
   },
   toJSON(message: OperationMetadata): unknown {
@@ -1016,7 +1016,7 @@ export const OperationMetadata = {
       resourceNames: Array.isArray(object?.resource_names) ? object.resource_names.map((e: any) => e) : [],
       steps: Array.isArray(object?.steps) ? object.steps.map((e: any) => OperationMetadata_Step.fromSDK(e)) : [],
       progressPercentage: object?.progress_percentage,
-      startTime: object.start_time ?? undefined
+      startTime: object.start_time ? Timestamp.fromSDK(object.start_time) : undefined
     };
   },
   toSDK(message: OperationMetadata): OperationMetadataSDKType {
@@ -1032,7 +1032,7 @@ export const OperationMetadata = {
       obj.steps = [];
     }
     obj.progress_percentage = message.progressPercentage;
-    message.startTime !== undefined && (obj.start_time = message.startTime ?? undefined);
+    message.startTime !== undefined && (obj.start_time = message.startTime ? Timestamp.toSDK(message.startTime) : undefined);
     return obj;
   },
   fromAmino(object: OperationMetadataAmino): OperationMetadata {
@@ -1083,7 +1083,7 @@ function createBaseOperationMetadata_Step(): OperationMetadata_Step {
 }
 export const OperationMetadata_Step = {
   typeUrl: "/google.api.servicemanagement.v1.Step",
-  encode(message: OperationMetadata_Step, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: OperationMetadata_Step, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.description !== "") {
       writer.uint32(18).string(message.description);
     }
@@ -1092,8 +1092,8 @@ export const OperationMetadata_Step = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): OperationMetadata_Step {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): OperationMetadata_Step {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOperationMetadata_Step();
     while (reader.pos < end) {
@@ -1179,7 +1179,7 @@ function createBaseDiagnostic(): Diagnostic {
 }
 export const Diagnostic = {
   typeUrl: "/google.api.servicemanagement.v1.Diagnostic",
-  encode(message: Diagnostic, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Diagnostic, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.location !== "") {
       writer.uint32(10).string(message.location);
     }
@@ -1191,8 +1191,8 @@ export const Diagnostic = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Diagnostic {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Diagnostic {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDiagnostic();
     while (reader.pos < end) {
@@ -1287,7 +1287,7 @@ function createBaseConfigSource(): ConfigSource {
 }
 export const ConfigSource = {
   typeUrl: "/google.api.servicemanagement.v1.ConfigSource",
-  encode(message: ConfigSource, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConfigSource, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(42).string(message.id);
     }
@@ -1296,8 +1296,8 @@ export const ConfigSource = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConfigSource {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConfigSource {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConfigSource();
     while (reader.pos < end) {
@@ -1395,7 +1395,7 @@ function createBaseConfigFile(): ConfigFile {
 }
 export const ConfigFile = {
   typeUrl: "/google.api.servicemanagement.v1.ConfigFile",
-  encode(message: ConfigFile, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConfigFile, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.filePath !== "") {
       writer.uint32(10).string(message.filePath);
     }
@@ -1407,8 +1407,8 @@ export const ConfigFile = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConfigFile {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConfigFile {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConfigFile();
     while (reader.pos < end) {
@@ -1502,14 +1502,14 @@ function createBaseConfigRef(): ConfigRef {
 }
 export const ConfigRef = {
   typeUrl: "/google.api.servicemanagement.v1.ConfigRef",
-  encode(message: ConfigRef, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConfigRef, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConfigRef {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConfigRef {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConfigRef();
     while (reader.pos < end) {
@@ -1583,14 +1583,14 @@ function createBaseChangeReport(): ChangeReport {
 }
 export const ChangeReport = {
   typeUrl: "/google.api.servicemanagement.v1.ChangeReport",
-  encode(message: ChangeReport, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ChangeReport, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.configChanges) {
       ConfigChange.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ChangeReport {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ChangeReport {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseChangeReport();
     while (reader.pos < end) {
@@ -1682,7 +1682,7 @@ function createBaseRollout(): Rollout {
 }
 export const Rollout = {
   typeUrl: "/google.api.servicemanagement.v1.Rollout",
-  encode(message: Rollout, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Rollout, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.rolloutId !== "") {
       writer.uint32(10).string(message.rolloutId);
     }
@@ -1706,8 +1706,8 @@ export const Rollout = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Rollout {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Rollout {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRollout();
     while (reader.pos < end) {
@@ -1744,7 +1744,7 @@ export const Rollout = {
   fromJSON(object: any): Rollout {
     return {
       rolloutId: isSet(object.rolloutId) ? String(object.rolloutId) : "",
-      createTime: isSet(object.createTime) ? new Date(object.createTime) : undefined,
+      createTime: isSet(object.createTime) ? fromJsonTimestamp(object.createTime) : undefined,
       createdBy: isSet(object.createdBy) ? String(object.createdBy) : "",
       status: isSet(object.status) ? rollout_RolloutStatusFromJSON(object.status) : 0,
       trafficPercentStrategy: isSet(object.trafficPercentStrategy) ? Rollout_TrafficPercentStrategy.fromJSON(object.trafficPercentStrategy) : undefined,
@@ -1777,7 +1777,7 @@ export const Rollout = {
   fromSDK(object: RolloutSDKType): Rollout {
     return {
       rolloutId: object?.rollout_id,
-      createTime: object.create_time ?? undefined,
+      createTime: object.create_time ? Timestamp.fromSDK(object.create_time) : undefined,
       createdBy: object?.created_by,
       status: isSet(object.status) ? rollout_RolloutStatusFromJSON(object.status) : 0,
       trafficPercentStrategy: object.traffic_percent_strategy ? Rollout_TrafficPercentStrategy.fromSDK(object.traffic_percent_strategy) : undefined,
@@ -1788,7 +1788,7 @@ export const Rollout = {
   toSDK(message: Rollout): RolloutSDKType {
     const obj: any = {};
     obj.rollout_id = message.rolloutId;
-    message.createTime !== undefined && (obj.create_time = message.createTime ?? undefined);
+    message.createTime !== undefined && (obj.create_time = message.createTime ? Timestamp.toSDK(message.createTime) : undefined);
     obj.created_by = message.createdBy;
     message.status !== undefined && (obj.status = rollout_RolloutStatusToJSON(message.status));
     message.trafficPercentStrategy !== undefined && (obj.traffic_percent_strategy = message.trafficPercentStrategy ? Rollout_TrafficPercentStrategy.toSDK(message.trafficPercentStrategy) : undefined);
@@ -1841,7 +1841,7 @@ function createBaseRollout_TrafficPercentStrategy_PercentagesEntry(): Rollout_Tr
   };
 }
 export const Rollout_TrafficPercentStrategy_PercentagesEntry = {
-  encode(message: Rollout_TrafficPercentStrategy_PercentagesEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Rollout_TrafficPercentStrategy_PercentagesEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -1850,8 +1850,8 @@ export const Rollout_TrafficPercentStrategy_PercentagesEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Rollout_TrafficPercentStrategy_PercentagesEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Rollout_TrafficPercentStrategy_PercentagesEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRollout_TrafficPercentStrategy_PercentagesEntry();
     while (reader.pos < end) {
@@ -1929,7 +1929,7 @@ function createBaseRollout_TrafficPercentStrategy(): Rollout_TrafficPercentStrat
 }
 export const Rollout_TrafficPercentStrategy = {
   typeUrl: "/google.api.servicemanagement.v1.TrafficPercentStrategy",
-  encode(message: Rollout_TrafficPercentStrategy, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Rollout_TrafficPercentStrategy, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     Object.entries(message.percentages).forEach(([key, value]) => {
       Rollout_TrafficPercentStrategy_PercentagesEntry.encode({
         key: (key as any),
@@ -1938,8 +1938,8 @@ export const Rollout_TrafficPercentStrategy = {
     });
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Rollout_TrafficPercentStrategy {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Rollout_TrafficPercentStrategy {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRollout_TrafficPercentStrategy();
     while (reader.pos < end) {
@@ -2051,11 +2051,11 @@ function createBaseRollout_DeleteServiceStrategy(): Rollout_DeleteServiceStrateg
 }
 export const Rollout_DeleteServiceStrategy = {
   typeUrl: "/google.api.servicemanagement.v1.DeleteServiceStrategy",
-  encode(_: Rollout_DeleteServiceStrategy, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: Rollout_DeleteServiceStrategy, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Rollout_DeleteServiceStrategy {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Rollout_DeleteServiceStrategy {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRollout_DeleteServiceStrategy();
     while (reader.pos < end) {

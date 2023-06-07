@@ -1,8 +1,10 @@
+import { Plan, PlanSDKType } from "./upgrade";
 import { UnaryMethodDefinitionish } from "../../../grpc-web";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "../../../helpers";
 import { grpc } from "@improbable-eng/grpc-web";
 import { BrowserHeaders } from "browser-headers";
-import { MsgSoftwareUpgrade, MsgSoftwareUpgradeResponse, MsgCancelUpgrade, MsgCancelUpgradeResponse } from "./tx";
+import { MsgSoftwareUpgrade, MsgSoftwareUpgradeSDKType, MsgSoftwareUpgradeResponse, MsgSoftwareUpgradeResponseSDKType, MsgCancelUpgrade, MsgCancelUpgradeSDKType, MsgCancelUpgradeResponse, MsgCancelUpgradeResponseSDKType } from "./tx";
 /** Msg defines the upgrade Msg service. */
 export interface Msg {
   /**

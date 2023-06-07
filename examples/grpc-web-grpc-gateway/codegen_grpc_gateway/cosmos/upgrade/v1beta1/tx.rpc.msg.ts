@@ -1,5 +1,6 @@
+import { Plan, PlanSDKType } from "./upgrade";
 import * as fm from "../../../grpc-gateway";
-import { MsgSoftwareUpgrade, MsgSoftwareUpgradeResponse, MsgCancelUpgrade, MsgCancelUpgradeResponse } from "./tx";
+import { MsgSoftwareUpgrade, MsgSoftwareUpgradeSDKType, MsgSoftwareUpgradeResponse, MsgSoftwareUpgradeResponseSDKType, MsgCancelUpgrade, MsgCancelUpgradeSDKType, MsgCancelUpgradeResponse, MsgCancelUpgradeResponseSDKType } from "./tx";
 export class Msg {
   /**
    * SoftwareUpgrade is a governance operation for initiating a software upgrade.

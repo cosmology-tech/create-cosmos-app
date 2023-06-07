@@ -1,4 +1,9 @@
-import { MsgSubmitProposal, MsgExecLegacyContent, MsgVote, MsgVoteWeighted, MsgDeposit } from "./tx";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
+import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
+import { VoteOption, VoteOptionSDKType, WeightedVoteOption, WeightedVoteOptionSDKType } from "./gov";
+import { TextProposal, TextProposalSDKType } from "../v1beta1/gov";
+import { ClientUpdateProposal, ClientUpdateProposalSDKType, UpgradeProposal, UpgradeProposalSDKType } from "../../../ibc/core/client/v1/client";
+import { MsgSubmitProposal, MsgSubmitProposalSDKType, MsgExecLegacyContent, MsgExecLegacyContentSDKType, MsgVote, MsgVoteSDKType, MsgVoteWeighted, MsgVoteWeightedSDKType, MsgDeposit, MsgDepositSDKType } from "./tx";
 export const AminoConverter = {
   "/cosmos.gov.v1.MsgSubmitProposal": {
     aminoType: "cosmos-sdk/v1/MsgSubmitProposal",

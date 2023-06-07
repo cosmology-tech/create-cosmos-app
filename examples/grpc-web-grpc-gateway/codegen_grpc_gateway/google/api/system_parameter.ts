@@ -43,6 +43,56 @@ export interface SystemParameters {
    */
   rules: SystemParameterRule[];
 }
+export interface SystemParametersProtoMsg {
+  typeUrl: "/google.api.SystemParameters";
+  value: Uint8Array;
+}
+/**
+ * ### System parameter configuration
+ * 
+ * A system parameter is a special kind of parameter defined by the API
+ * system, not by an individual API. It is typically mapped to an HTTP header
+ * and/or a URL query parameter. This configuration specifies which methods
+ * change the names of the system parameters.
+ */
+export interface SystemParametersAmino {
+  /**
+   * Define system parameters.
+   * 
+   * The parameters defined here will override the default parameters
+   * implemented by the system. If this field is missing from the service
+   * config, default system parameters will be used. Default system parameters
+   * and names is implementation-dependent.
+   * 
+   * Example: define api key for all methods
+   * 
+   *     system_parameters
+   *       rules:
+   *         - selector: "*"
+   *           parameters:
+   *             - name: api_key
+   *               url_query_parameter: api_key
+   * 
+   * 
+   * Example: define 2 api key names for a specific method.
+   * 
+   *     system_parameters
+   *       rules:
+   *         - selector: "/ListShelves"
+   *           parameters:
+   *             - name: api_key
+   *               http_header: Api-Key1
+   *             - name: api_key
+   *               http_header: Api-Key2
+   * 
+   * **NOTE:** All service configuration rules follow "last one wins" order.
+   */
+  rules: SystemParameterRuleAmino[];
+}
+export interface SystemParametersAminoMsg {
+  type: "/google.api.SystemParameters";
+  value: SystemParametersAmino;
+}
 /**
  * ### System parameter configuration
  * 
@@ -75,6 +125,35 @@ export interface SystemParameterRule {
    */
   parameters: SystemParameter[];
 }
+export interface SystemParameterRuleProtoMsg {
+  typeUrl: "/google.api.SystemParameterRule";
+  value: Uint8Array;
+}
+/**
+ * Define a system parameter rule mapping system parameter definitions to
+ * methods.
+ */
+export interface SystemParameterRuleAmino {
+  /**
+   * Selects the methods to which this rule applies. Use '*' to indicate all
+   * methods in all APIs.
+   * 
+   * Refer to [selector][google.api.DocumentationRule.selector] for syntax details.
+   */
+  selector: string;
+  /**
+   * Define parameters. Multiple names may be defined for a parameter.
+   * For a given method call, only one of them should be used. If multiple
+   * names are used the behavior is implementation-dependent.
+   * If none of the specified names are present the behavior is
+   * parameter-dependent.
+   */
+  parameters: SystemParameterAmino[];
+}
+export interface SystemParameterRuleAminoMsg {
+  type: "/google.api.SystemParameterRule";
+  value: SystemParameterRuleAmino;
+}
 /**
  * Define a system parameter rule mapping system parameter definitions to
  * methods.
@@ -101,6 +180,33 @@ export interface SystemParameter {
    * sensitive.
    */
   urlQueryParameter: string;
+}
+export interface SystemParameterProtoMsg {
+  typeUrl: "/google.api.SystemParameter";
+  value: Uint8Array;
+}
+/**
+ * Define a parameter's name and location. The parameter may be passed as either
+ * an HTTP header or a URL query parameter, and if both are passed the behavior
+ * is implementation-dependent.
+ */
+export interface SystemParameterAmino {
+  /** Define the name of the parameter, such as "api_key" . It is case sensitive. */
+  name: string;
+  /**
+   * Define the HTTP header name to use for the parameter. It is case
+   * insensitive.
+   */
+  http_header: string;
+  /**
+   * Define the URL query parameter name to use for the parameter. It is case
+   * sensitive.
+   */
+  url_query_parameter: string;
+}
+export interface SystemParameterAminoMsg {
+  type: "/google.api.SystemParameter";
+  value: SystemParameterAmino;
 }
 /**
  * Define a parameter's name and location. The parameter may be passed as either

@@ -1,4 +1,4 @@
-import { DenomTrace, DenomTraceSDKType, Params, ParamsSDKType } from "./transfer";
+import { DenomTrace, DenomTraceAmino, DenomTraceSDKType, Params, ParamsAmino, ParamsSDKType } from "./transfer";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "ibc.applications.transfer.v1";
@@ -7,6 +7,20 @@ export interface GenesisState {
   portId: string;
   denomTraces: DenomTrace[];
   params?: Params;
+}
+export interface GenesisStateProtoMsg {
+  typeUrl: "/ibc.applications.transfer.v1.GenesisState";
+  value: Uint8Array;
+}
+/** GenesisState defines the ibc-transfer genesis state */
+export interface GenesisStateAmino {
+  port_id: string;
+  denom_traces: DenomTraceAmino[];
+  params?: ParamsAmino;
+}
+export interface GenesisStateAminoMsg {
+  type: "cosmos-sdk/GenesisState";
+  value: GenesisStateAmino;
 }
 /** GenesisState defines the ibc-transfer genesis state */
 export interface GenesisStateSDKType {

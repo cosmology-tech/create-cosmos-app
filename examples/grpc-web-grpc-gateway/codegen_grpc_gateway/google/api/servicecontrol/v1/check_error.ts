@@ -1,4 +1,4 @@
-import { Status, StatusSDKType } from "../../../rpc/status";
+import { Status, StatusAmino, StatusSDKType } from "../../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v1";
@@ -70,6 +70,7 @@ export enum CheckError_Code {
   UNRECOGNIZED = -1,
 }
 export const CheckError_CodeSDKType = CheckError_Code;
+export const CheckError_CodeAmino = CheckError_Code;
 export function checkError_CodeFromJSON(object: any): CheckError_Code {
   switch (object) {
     case 0:
@@ -214,6 +215,39 @@ export interface CheckError {
    * error.
    */
   status?: Status;
+}
+export interface CheckErrorProtoMsg {
+  typeUrl: "/google.api.servicecontrol.v1.CheckError";
+  value: Uint8Array;
+}
+/**
+ * Defines the errors to be returned in
+ * [google.api.servicecontrol.v1.CheckResponse.check_errors][google.api.servicecontrol.v1.CheckResponse.check_errors].
+ */
+export interface CheckErrorAmino {
+  /** The error code. */
+  code: CheckError_Code;
+  /**
+   * Subject to whom this error applies. See the specific code enum for more
+   * details on this field. For example:
+   * 
+   * - "project:<project-id or project-number>"
+   * - "folder:<folder-id>"
+   * - "organization:<organization-id>"
+   */
+  subject: string;
+  /** Free-form text providing details on the error cause of the error. */
+  detail: string;
+  /**
+   * Contains public information about the check error. If available,
+   * `status.code` will be non zero and client can propagate it out as public
+   * error.
+   */
+  status?: StatusAmino;
+}
+export interface CheckErrorAminoMsg {
+  type: "/google.api.servicecontrol.v1.CheckError";
+  value: CheckErrorAmino;
 }
 /**
  * Defines the errors to be returned in

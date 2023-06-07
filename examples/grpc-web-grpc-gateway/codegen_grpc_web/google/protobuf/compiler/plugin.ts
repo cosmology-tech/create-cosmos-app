@@ -1,5 +1,5 @@
 import { FileDescriptorProto, FileDescriptorProtoAmino, FileDescriptorProtoSDKType } from "../descriptor";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 export const protobufPackage = "google.protobuf.compiler";
 /** The version number of protocol compiler. */
@@ -299,7 +299,7 @@ function createBaseVersion(): Version {
 }
 export const Version = {
   typeUrl: "/google.protobuf.compiler.Version",
-  encode(message: Version, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Version, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.major !== 0) {
       writer.uint32(8).int32(message.major);
     }
@@ -314,8 +314,8 @@ export const Version = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Version {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Version {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVersion();
     while (reader.pos < end) {
@@ -422,7 +422,7 @@ function createBaseCodeGeneratorRequest(): CodeGeneratorRequest {
 }
 export const CodeGeneratorRequest = {
   typeUrl: "/google.protobuf.compiler.CodeGeneratorRequest",
-  encode(message: CodeGeneratorRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CodeGeneratorRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.fileToGenerate) {
       writer.uint32(10).string(v!);
     }
@@ -437,8 +437,8 @@ export const CodeGeneratorRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CodeGeneratorRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CodeGeneratorRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCodeGeneratorRequest();
     while (reader.pos < end) {
@@ -567,7 +567,7 @@ function createBaseCodeGeneratorResponse(): CodeGeneratorResponse {
 }
 export const CodeGeneratorResponse = {
   typeUrl: "/google.protobuf.compiler.CodeGeneratorResponse",
-  encode(message: CodeGeneratorResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CodeGeneratorResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.error !== "") {
       writer.uint32(10).string(message.error);
     }
@@ -576,8 +576,8 @@ export const CodeGeneratorResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CodeGeneratorResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CodeGeneratorResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCodeGeneratorResponse();
     while (reader.pos < end) {
@@ -675,7 +675,7 @@ function createBaseCodeGeneratorResponse_File(): CodeGeneratorResponse_File {
 }
 export const CodeGeneratorResponse_File = {
   typeUrl: "/google.protobuf.compiler.File",
-  encode(message: CodeGeneratorResponse_File, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CodeGeneratorResponse_File, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -687,8 +687,8 @@ export const CodeGeneratorResponse_File = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CodeGeneratorResponse_File {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CodeGeneratorResponse_File {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCodeGeneratorResponse_File();
     while (reader.pos < end) {

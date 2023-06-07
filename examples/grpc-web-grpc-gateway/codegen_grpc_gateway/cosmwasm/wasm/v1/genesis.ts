@@ -1,5 +1,5 @@
-import { MsgStoreCode, MsgStoreCodeSDKType, MsgInstantiateContract, MsgInstantiateContractSDKType, MsgExecuteContract, MsgExecuteContractSDKType } from "./tx";
-import { Params, ParamsSDKType, CodeInfo, CodeInfoSDKType, ContractInfo, ContractInfoSDKType, Model, ModelSDKType } from "./types";
+import { MsgStoreCode, MsgStoreCodeAmino, MsgStoreCodeSDKType, MsgInstantiateContract, MsgInstantiateContractAmino, MsgInstantiateContractSDKType, MsgExecuteContract, MsgExecuteContractAmino, MsgExecuteContractSDKType } from "./tx";
+import { Params, ParamsAmino, ParamsSDKType, CodeInfo, CodeInfoAmino, CodeInfoSDKType, ContractInfo, ContractInfoAmino, ContractInfoSDKType, Model, ModelAmino, ModelSDKType } from "./types";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
 export const protobufPackage = "cosmwasm.wasm.v1";
@@ -10,6 +10,22 @@ export interface GenesisState {
   contracts: Contract[];
   sequences: Sequence[];
   genMsgs: GenesisState_GenMsgs[];
+}
+export interface GenesisStateProtoMsg {
+  typeUrl: "/cosmwasm.wasm.v1.GenesisState";
+  value: Uint8Array;
+}
+/** GenesisState - genesis state of x/wasm */
+export interface GenesisStateAmino {
+  params?: ParamsAmino;
+  codes: CodeAmino[];
+  contracts: ContractAmino[];
+  sequences: SequenceAmino[];
+  gen_msgs: GenesisState_GenMsgsAmino[];
+}
+export interface GenesisStateAminoMsg {
+  type: "wasm/GenesisState";
+  value: GenesisStateAmino;
 }
 /** GenesisState - genesis state of x/wasm */
 export interface GenesisStateSDKType {
@@ -28,6 +44,23 @@ export interface GenesisState_GenMsgs {
   instantiateContract?: MsgInstantiateContract;
   executeContract?: MsgExecuteContract;
 }
+export interface GenesisState_GenMsgsProtoMsg {
+  typeUrl: "/cosmwasm.wasm.v1.GenMsgs";
+  value: Uint8Array;
+}
+/**
+ * GenMsgs define the messages that can be executed during genesis phase in
+ * order. The intention is to have more human readable data that is auditable.
+ */
+export interface GenesisState_GenMsgsAmino {
+  store_code?: MsgStoreCodeAmino;
+  instantiate_contract?: MsgInstantiateContractAmino;
+  execute_contract?: MsgExecuteContractAmino;
+}
+export interface GenesisState_GenMsgsAminoMsg {
+  type: "wasm/GenMsgs";
+  value: GenesisState_GenMsgsAmino;
+}
 /**
  * GenMsgs define the messages that can be executed during genesis phase in
  * order. The intention is to have more human readable data that is auditable.
@@ -45,6 +78,22 @@ export interface Code {
   /** Pinned to wasmvm cache */
   pinned: boolean;
 }
+export interface CodeProtoMsg {
+  typeUrl: "/cosmwasm.wasm.v1.Code";
+  value: Uint8Array;
+}
+/** Code struct encompasses CodeInfo and CodeBytes */
+export interface CodeAmino {
+  code_id: string;
+  code_info?: CodeInfoAmino;
+  code_bytes: Uint8Array;
+  /** Pinned to wasmvm cache */
+  pinned: boolean;
+}
+export interface CodeAminoMsg {
+  type: "wasm/Code";
+  value: CodeAmino;
+}
 /** Code struct encompasses CodeInfo and CodeBytes */
 export interface CodeSDKType {
   code_id: bigint;
@@ -58,6 +107,20 @@ export interface Contract {
   contractInfo?: ContractInfo;
   contractState: Model[];
 }
+export interface ContractProtoMsg {
+  typeUrl: "/cosmwasm.wasm.v1.Contract";
+  value: Uint8Array;
+}
+/** Contract struct encompasses ContractAddress, ContractInfo, and ContractState */
+export interface ContractAmino {
+  contract_address: string;
+  contract_info?: ContractInfoAmino;
+  contract_state: ModelAmino[];
+}
+export interface ContractAminoMsg {
+  type: "wasm/Contract";
+  value: ContractAmino;
+}
 /** Contract struct encompasses ContractAddress, ContractInfo, and ContractState */
 export interface ContractSDKType {
   contract_address: string;
@@ -68,6 +131,19 @@ export interface ContractSDKType {
 export interface Sequence {
   idKey: Uint8Array;
   value: bigint;
+}
+export interface SequenceProtoMsg {
+  typeUrl: "/cosmwasm.wasm.v1.Sequence";
+  value: Uint8Array;
+}
+/** Sequence key and value of an id generation counter */
+export interface SequenceAmino {
+  id_key: Uint8Array;
+  value: string;
+}
+export interface SequenceAminoMsg {
+  type: "wasm/Sequence";
+  value: SequenceAmino;
 }
 /** Sequence key and value of an id generation counter */
 export interface SequenceSDKType {

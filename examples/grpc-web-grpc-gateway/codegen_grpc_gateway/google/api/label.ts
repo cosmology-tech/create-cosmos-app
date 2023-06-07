@@ -12,6 +12,7 @@ export enum LabelDescriptor_ValueType {
   UNRECOGNIZED = -1,
 }
 export const LabelDescriptor_ValueTypeSDKType = LabelDescriptor_ValueType;
+export const LabelDescriptor_ValueTypeAmino = LabelDescriptor_ValueType;
 export function labelDescriptor_ValueTypeFromJSON(object: any): LabelDescriptor_ValueType {
   switch (object) {
     case 0:
@@ -50,6 +51,23 @@ export interface LabelDescriptor {
   valueType: LabelDescriptor_ValueType;
   /** A human-readable description for the label. */
   description: string;
+}
+export interface LabelDescriptorProtoMsg {
+  typeUrl: "/google.api.LabelDescriptor";
+  value: Uint8Array;
+}
+/** A description of a label. */
+export interface LabelDescriptorAmino {
+  /** The label key. */
+  key: string;
+  /** The type of data that can be assigned to the label. */
+  value_type: LabelDescriptor_ValueType;
+  /** A human-readable description for the label. */
+  description: string;
+}
+export interface LabelDescriptorAminoMsg {
+  type: "/google.api.LabelDescriptor";
+  value: LabelDescriptorAmino;
 }
 /** A description of a label. */
 export interface LabelDescriptorSDKType {

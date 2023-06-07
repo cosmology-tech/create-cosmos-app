@@ -1,4 +1,4 @@
-import { MsgUnjail } from "./tx";
+import { MsgUnjail, MsgUnjailSDKType } from "./tx";
 export const AminoConverter = {
   "/cosmos.slashing.v1beta1.MsgUnjail": {
     aminoType: "cosmos-sdk/MsgUnjail",

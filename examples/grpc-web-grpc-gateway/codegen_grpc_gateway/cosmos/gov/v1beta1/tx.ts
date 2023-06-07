@@ -1,6 +1,7 @@
-import { Any, AnySDKType } from "../../../google/protobuf/any";
-import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
-import { VoteOption, WeightedVoteOption, WeightedVoteOptionSDKType, voteOptionFromJSON, voteOptionToJSON } from "./gov";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
+import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
+import { VoteOption, VoteOptionSDKType, WeightedVoteOption, WeightedVoteOptionAmino, WeightedVoteOptionSDKType, TextProposal, TextProposalProtoMsg, TextProposalSDKType, voteOptionFromJSON, voteOptionToJSON } from "./gov";
+import { ClientUpdateProposal, ClientUpdateProposalProtoMsg, ClientUpdateProposalSDKType, UpgradeProposal, UpgradeProposalProtoMsg, UpgradeProposalSDKType } from "../../../ibc/core/client/v1/client";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 export const protobufPackage = "cosmos.gov.v1beta1";
@@ -9,22 +10,54 @@ export const protobufPackage = "cosmos.gov.v1beta1";
  * proposal Content.
  */
 export interface MsgSubmitProposal {
-  content?: Any;
+  content?: (TextProposal & ClientUpdateProposal & UpgradeProposal & Any) | undefined;
   initialDeposit: Coin[];
   proposer: string;
+}
+export interface MsgSubmitProposalProtoMsg {
+  typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal";
+  value: Uint8Array;
+}
+export type MsgSubmitProposalEncoded = Omit<MsgSubmitProposal, "content"> & {
+  content?: TextProposalProtoMsg | ClientUpdateProposalProtoMsg | UpgradeProposalProtoMsg | AnyProtoMsg | undefined;
+};
+/**
+ * MsgSubmitProposal defines an sdk.Msg type that supports submitting arbitrary
+ * proposal Content.
+ */
+export interface MsgSubmitProposalAmino {
+  content?: AnyAmino;
+  initial_deposit: CoinAmino[];
+  proposer: string;
+}
+export interface MsgSubmitProposalAminoMsg {
+  type: "cosmos-sdk/MsgSubmitProposal";
+  value: MsgSubmitProposalAmino;
 }
 /**
  * MsgSubmitProposal defines an sdk.Msg type that supports submitting arbitrary
  * proposal Content.
  */
 export interface MsgSubmitProposalSDKType {
-  content?: AnySDKType;
+  content?: TextProposalSDKType | ClientUpdateProposalSDKType | UpgradeProposalSDKType | AnySDKType | undefined;
   initial_deposit: CoinSDKType[];
   proposer: string;
 }
 /** MsgSubmitProposalResponse defines the Msg/SubmitProposal response type. */
 export interface MsgSubmitProposalResponse {
   proposalId: bigint;
+}
+export interface MsgSubmitProposalResponseProtoMsg {
+  typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposalResponse";
+  value: Uint8Array;
+}
+/** MsgSubmitProposalResponse defines the Msg/SubmitProposal response type. */
+export interface MsgSubmitProposalResponseAmino {
+  proposal_id: string;
+}
+export interface MsgSubmitProposalResponseAminoMsg {
+  type: "cosmos-sdk/MsgSubmitProposalResponse";
+  value: MsgSubmitProposalResponseAmino;
 }
 /** MsgSubmitProposalResponse defines the Msg/SubmitProposal response type. */
 export interface MsgSubmitProposalResponseSDKType {
@@ -36,6 +69,20 @@ export interface MsgVote {
   voter: string;
   option: VoteOption;
 }
+export interface MsgVoteProtoMsg {
+  typeUrl: "/cosmos.gov.v1beta1.MsgVote";
+  value: Uint8Array;
+}
+/** MsgVote defines a message to cast a vote. */
+export interface MsgVoteAmino {
+  proposal_id: string;
+  voter: string;
+  option: VoteOption;
+}
+export interface MsgVoteAminoMsg {
+  type: "cosmos-sdk/MsgVote";
+  value: MsgVoteAmino;
+}
 /** MsgVote defines a message to cast a vote. */
 export interface MsgVoteSDKType {
   proposal_id: bigint;
@@ -44,6 +91,16 @@ export interface MsgVoteSDKType {
 }
 /** MsgVoteResponse defines the Msg/Vote response type. */
 export interface MsgVoteResponse {}
+export interface MsgVoteResponseProtoMsg {
+  typeUrl: "/cosmos.gov.v1beta1.MsgVoteResponse";
+  value: Uint8Array;
+}
+/** MsgVoteResponse defines the Msg/Vote response type. */
+export interface MsgVoteResponseAmino {}
+export interface MsgVoteResponseAminoMsg {
+  type: "cosmos-sdk/MsgVoteResponse";
+  value: MsgVoteResponseAmino;
+}
 /** MsgVoteResponse defines the Msg/Vote response type. */
 export interface MsgVoteResponseSDKType {}
 /**
@@ -55,6 +112,24 @@ export interface MsgVoteWeighted {
   proposalId: bigint;
   voter: string;
   options: WeightedVoteOption[];
+}
+export interface MsgVoteWeightedProtoMsg {
+  typeUrl: "/cosmos.gov.v1beta1.MsgVoteWeighted";
+  value: Uint8Array;
+}
+/**
+ * MsgVoteWeighted defines a message to cast a vote.
+ * 
+ * Since: cosmos-sdk 0.43
+ */
+export interface MsgVoteWeightedAmino {
+  proposal_id: string;
+  voter: string;
+  options: WeightedVoteOptionAmino[];
+}
+export interface MsgVoteWeightedAminoMsg {
+  type: "cosmos-sdk/MsgVoteWeighted";
+  value: MsgVoteWeightedAmino;
 }
 /**
  * MsgVoteWeighted defines a message to cast a vote.
@@ -72,6 +147,20 @@ export interface MsgVoteWeightedSDKType {
  * Since: cosmos-sdk 0.43
  */
 export interface MsgVoteWeightedResponse {}
+export interface MsgVoteWeightedResponseProtoMsg {
+  typeUrl: "/cosmos.gov.v1beta1.MsgVoteWeightedResponse";
+  value: Uint8Array;
+}
+/**
+ * MsgVoteWeightedResponse defines the Msg/VoteWeighted response type.
+ * 
+ * Since: cosmos-sdk 0.43
+ */
+export interface MsgVoteWeightedResponseAmino {}
+export interface MsgVoteWeightedResponseAminoMsg {
+  type: "cosmos-sdk/MsgVoteWeightedResponse";
+  value: MsgVoteWeightedResponseAmino;
+}
 /**
  * MsgVoteWeightedResponse defines the Msg/VoteWeighted response type.
  * 
@@ -84,6 +173,20 @@ export interface MsgDeposit {
   depositor: string;
   amount: Coin[];
 }
+export interface MsgDepositProtoMsg {
+  typeUrl: "/cosmos.gov.v1beta1.MsgDeposit";
+  value: Uint8Array;
+}
+/** MsgDeposit defines a message to submit a deposit to an existing proposal. */
+export interface MsgDepositAmino {
+  proposal_id: string;
+  depositor: string;
+  amount: CoinAmino[];
+}
+export interface MsgDepositAminoMsg {
+  type: "cosmos-sdk/MsgDeposit";
+  value: MsgDepositAmino;
+}
 /** MsgDeposit defines a message to submit a deposit to an existing proposal. */
 export interface MsgDepositSDKType {
   proposal_id: bigint;
@@ -92,6 +195,16 @@ export interface MsgDepositSDKType {
 }
 /** MsgDepositResponse defines the Msg/Deposit response type. */
 export interface MsgDepositResponse {}
+export interface MsgDepositResponseProtoMsg {
+  typeUrl: "/cosmos.gov.v1beta1.MsgDepositResponse";
+  value: Uint8Array;
+}
+/** MsgDepositResponse defines the Msg/Deposit response type. */
+export interface MsgDepositResponseAmino {}
+export interface MsgDepositResponseAminoMsg {
+  type: "cosmos-sdk/MsgDepositResponse";
+  value: MsgDepositResponseAmino;
+}
 /** MsgDepositResponse defines the Msg/Deposit response type. */
 export interface MsgDepositResponseSDKType {}
 function createBaseMsgSubmitProposal(): MsgSubmitProposal {
@@ -106,7 +219,7 @@ export const MsgSubmitProposal = {
   aminoType: "cosmos-sdk/MsgSubmitProposal",
   encode(message: MsgSubmitProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.content !== undefined) {
-      Any.encode(message.content, writer.uint32(10).fork()).ldelim();
+      Any.encode((message.content as Any), writer.uint32(10).fork()).ldelim();
     }
     for (const v of message.initialDeposit) {
       Coin.encode(v!, writer.uint32(18).fork()).ldelim();
@@ -124,7 +237,7 @@ export const MsgSubmitProposal = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.content = Any.decode(reader, reader.uint32());
+          message.content = (ProposalContentI_InterfaceDecoder(reader) as Any);
           break;
         case 2:
           message.initialDeposit.push(Coin.decode(reader, reader.uint32()));
@@ -184,14 +297,14 @@ export const MsgSubmitProposal = {
   },
   fromAmino(object: MsgSubmitProposalAmino): MsgSubmitProposal {
     return {
-      content: object?.content ? Any.fromAmino(object.content) : undefined,
+      content: object?.content ? ProposalContentI_FromAmino(object.content) : undefined,
       initialDeposit: Array.isArray(object?.initial_deposit) ? object.initial_deposit.map((e: any) => Coin.fromAmino(e)) : [],
       proposer: object.proposer
     };
   },
   toAmino(message: MsgSubmitProposal): MsgSubmitProposalAmino {
     const obj: any = {};
-    obj.content = message.content ? Any.toAmino(message.content) : undefined;
+    obj.content = message.content ? ProposalContentI_ToAmino((message.content as Any)) : undefined;
     if (message.initialDeposit) {
       obj.initial_deposit = message.initialDeposit.map(e => e ? Coin.toAmino(e) : undefined);
     } else {
@@ -890,5 +1003,61 @@ export const MsgDepositResponse = {
       typeUrl: "/cosmos.gov.v1beta1.MsgDepositResponse",
       value: MsgDepositResponse.encode(message).finish()
     };
+  }
+};
+export const ProposalContentI_InterfaceDecoder = (input: BinaryReader | Uint8Array): TextProposal | ClientUpdateProposal | UpgradeProposal | Any => {
+  const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  const data = Any.decode(reader, reader.uint32());
+  switch (data.typeUrl) {
+    case "/cosmos.gov.v1beta1.TextProposal":
+      return TextProposal.decode(data.value);
+    case "/ibc.core.client.v1.ClientUpdateProposal":
+      return ClientUpdateProposal.decode(data.value);
+    case "/ibc.core.client.v1.UpgradeProposal":
+      return UpgradeProposal.decode(data.value);
+    default:
+      return data;
+  }
+};
+export const ProposalContentI_FromAmino = (content: AnyAmino) => {
+  switch (content.type) {
+    case "cosmos-sdk/TextProposal":
+      return Any.fromPartial({
+        typeUrl: "/cosmos.gov.v1beta1.TextProposal",
+        value: TextProposal.encode(TextProposal.fromPartial(TextProposal.fromAmino(content.value))).finish()
+      });
+    case "cosmos-sdk/ClientUpdateProposal":
+      return Any.fromPartial({
+        typeUrl: "/ibc.core.client.v1.ClientUpdateProposal",
+        value: ClientUpdateProposal.encode(ClientUpdateProposal.fromPartial(ClientUpdateProposal.fromAmino(content.value))).finish()
+      });
+    case "cosmos-sdk/UpgradeProposal":
+      return Any.fromPartial({
+        typeUrl: "/ibc.core.client.v1.UpgradeProposal",
+        value: UpgradeProposal.encode(UpgradeProposal.fromPartial(UpgradeProposal.fromAmino(content.value))).finish()
+      });
+    default:
+      return Any.fromAmino(content);
+  }
+};
+export const ProposalContentI_ToAmino = (content: Any) => {
+  switch (content.typeUrl) {
+    case "/cosmos.gov.v1beta1.TextProposal":
+      return {
+        type: "cosmos-sdk/TextProposal",
+        value: TextProposal.toAmino(TextProposal.decode(content.value))
+      };
+    case "/ibc.core.client.v1.ClientUpdateProposal":
+      return {
+        type: "cosmos-sdk/ClientUpdateProposal",
+        value: ClientUpdateProposal.toAmino(ClientUpdateProposal.decode(content.value))
+      };
+    case "/ibc.core.client.v1.UpgradeProposal":
+      return {
+        type: "cosmos-sdk/UpgradeProposal",
+        value: UpgradeProposal.toAmino(UpgradeProposal.decode(content.value))
+      };
+    default:
+      return Any.toAmino(content);
   }
 };

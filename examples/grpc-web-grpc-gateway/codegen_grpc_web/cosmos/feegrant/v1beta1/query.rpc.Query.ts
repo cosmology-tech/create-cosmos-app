@@ -1,8 +1,11 @@
+import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../base/query/v1beta1/pagination";
+import { Grant, GrantSDKType } from "./feegrant";
+import * as _m0 from "protobufjs/minimal";
 import { grpc } from "@improbable-eng/grpc-web";
 import { UnaryMethodDefinitionish } from "../../../grpc-web";
 import { DeepPartial } from "../../../helpers";
 import { BrowserHeaders } from "browser-headers";
-import { QueryAllowanceRequest, QueryAllowanceResponse, QueryAllowancesRequest, QueryAllowancesResponse, QueryAllowancesByGranterRequest, QueryAllowancesByGranterResponse } from "./query";
+import { QueryAllowanceRequest, QueryAllowanceRequestSDKType, QueryAllowanceResponse, QueryAllowanceResponseSDKType, QueryAllowancesRequest, QueryAllowancesRequestSDKType, QueryAllowancesResponse, QueryAllowancesResponseSDKType, QueryAllowancesByGranterRequest, QueryAllowancesByGranterRequestSDKType, QueryAllowancesByGranterResponse, QueryAllowancesByGranterResponseSDKType } from "./query";
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Allowance returns fee granted to the grantee by the granter. */

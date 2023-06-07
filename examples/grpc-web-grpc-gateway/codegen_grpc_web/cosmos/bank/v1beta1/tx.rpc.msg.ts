@@ -1,8 +1,11 @@
+import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
+import { Input, InputSDKType, Output, OutputSDKType } from "./bank";
 import { UnaryMethodDefinitionish } from "../../../grpc-web";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "../../../helpers";
 import { grpc } from "@improbable-eng/grpc-web";
 import { BrowserHeaders } from "browser-headers";
-import { MsgSend, MsgSendResponse, MsgMultiSend, MsgMultiSendResponse } from "./tx";
+import { MsgSend, MsgSendSDKType, MsgSendResponse, MsgSendResponseSDKType, MsgMultiSend, MsgMultiSendSDKType, MsgMultiSendResponse, MsgMultiSendResponseSDKType } from "./tx";
 /** Msg defines the bank Msg service. */
 export interface Msg {
   /** Send defines a method for sending coins from one account to another account. */

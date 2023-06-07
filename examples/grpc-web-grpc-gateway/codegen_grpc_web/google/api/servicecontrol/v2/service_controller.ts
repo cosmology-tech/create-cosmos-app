@@ -1,6 +1,6 @@
 import { AttributeContext, AttributeContextAmino, AttributeContextSDKType } from "../../../rpc/context/attribute_context";
 import { Status, StatusAmino, StatusSDKType } from "../../../rpc/status";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v2";
 /** Request message for the Check method. */
@@ -298,7 +298,7 @@ function createBaseCheckRequest(): CheckRequest {
 }
 export const CheckRequest = {
   typeUrl: "/google.api.servicecontrol.v2.CheckRequest",
-  encode(message: CheckRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CheckRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
@@ -316,8 +316,8 @@ export const CheckRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CheckRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CheckRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCheckRequest();
     while (reader.pos < end) {
@@ -447,7 +447,7 @@ function createBaseResourceInfo(): ResourceInfo {
 }
 export const ResourceInfo = {
   typeUrl: "/google.api.servicecontrol.v2.ResourceInfo",
-  encode(message: ResourceInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ResourceInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -465,8 +465,8 @@ export const ResourceInfo = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ResourceInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ResourceInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResourceInfo();
     while (reader.pos < end) {
@@ -580,7 +580,7 @@ function createBaseCheckResponse_HeadersEntry(): CheckResponse_HeadersEntry {
   };
 }
 export const CheckResponse_HeadersEntry = {
-  encode(message: CheckResponse_HeadersEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CheckResponse_HeadersEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -589,8 +589,8 @@ export const CheckResponse_HeadersEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CheckResponse_HeadersEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CheckResponse_HeadersEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCheckResponse_HeadersEntry();
     while (reader.pos < end) {
@@ -669,7 +669,7 @@ function createBaseCheckResponse(): CheckResponse {
 }
 export const CheckResponse = {
   typeUrl: "/google.api.servicecontrol.v2.CheckResponse",
-  encode(message: CheckResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CheckResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.status !== undefined) {
       Status.encode(message.status, writer.uint32(10).fork()).ldelim();
     }
@@ -681,8 +681,8 @@ export const CheckResponse = {
     });
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CheckResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CheckResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCheckResponse();
     while (reader.pos < end) {
@@ -808,7 +808,7 @@ function createBaseReportRequest(): ReportRequest {
 }
 export const ReportRequest = {
   typeUrl: "/google.api.servicecontrol.v2.ReportRequest",
-  encode(message: ReportRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ReportRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
@@ -820,8 +820,8 @@ export const ReportRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ReportRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ReportRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseReportRequest();
     while (reader.pos < end) {
@@ -925,11 +925,11 @@ function createBaseReportResponse(): ReportResponse {
 }
 export const ReportResponse = {
   typeUrl: "/google.api.servicecontrol.v2.ReportResponse",
-  encode(_: ReportResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: ReportResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ReportResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ReportResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseReportResponse();
     while (reader.pos < end) {

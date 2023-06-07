@@ -1,6 +1,6 @@
-import { NullValue, nullValueFromJSON, nullValueToJSON } from "../../../protobuf/struct";
-import { Duration, DurationSDKType } from "../../../protobuf/duration";
-import { Timestamp } from "../../../protobuf/timestamp";
+import { NullValue, NullValueSDKType, nullValueFromJSON, nullValueToJSON } from "../../../protobuf/struct";
+import { Duration, DurationAmino, DurationSDKType } from "../../../protobuf/duration";
+import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../protobuf/timestamp";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp, bytesFromBase64, fromJsonTimestamp, base64FromBytes, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.expr.v1alpha1";
@@ -10,6 +10,21 @@ export interface ParsedExpr {
   expr?: Expr;
   /** The source info derived from input that generated the parsed `expr`. */
   sourceInfo?: SourceInfo;
+}
+export interface ParsedExprProtoMsg {
+  typeUrl: "/google.api.expr.v1alpha1.ParsedExpr";
+  value: Uint8Array;
+}
+/** An expression together with source information as returned by the parser. */
+export interface ParsedExprAmino {
+  /** The parsed expression. */
+  expr?: ExprAmino;
+  /** The source info derived from input that generated the parsed `expr`. */
+  source_info?: SourceInfoAmino;
+}
+export interface ParsedExprAminoMsg {
+  type: "/google.api.expr.v1alpha1.ParsedExpr";
+  value: ParsedExprAmino;
 }
 /** An expression together with source information as returned by the parser. */
 export interface ParsedExprSDKType {
@@ -55,6 +70,53 @@ export interface Expr {
   /** A comprehension expression. */
   comprehensionExpr?: Expr_Comprehension;
 }
+export interface ExprProtoMsg {
+  typeUrl: "/google.api.expr.v1alpha1.Expr";
+  value: Uint8Array;
+}
+/**
+ * An abstract representation of a common expression.
+ * 
+ * Expressions are abstractly represented as a collection of identifiers,
+ * select statements, function calls, literals, and comprehensions. All
+ * operators with the exception of the '.' operator are modelled as function
+ * calls. This makes it easy to represent new operators into the existing AST.
+ * 
+ * All references within expressions must resolve to a [Decl][google.api.expr.v1alpha1.Decl] provided at
+ * type-check for an expression to be valid. A reference may either be a bare
+ * identifier `name` or a qualified identifier `google.api.name`. References
+ * may either refer to a value or a function declaration.
+ * 
+ * For example, the expression `google.api.name.startsWith('expr')` references
+ * the declaration `google.api.name` within a [Expr.Select][google.api.expr.v1alpha1.Expr.Select] expression, and
+ * the function declaration `startsWith`.
+ */
+export interface ExprAmino {
+  /**
+   * Required. An id assigned to this node by the parser which is unique in a
+   * given expression tree. This is used to associate type information and other
+   * attributes to a node in the parse tree.
+   */
+  id: string;
+  /** A literal expression. */
+  const_expr?: ConstantAmino;
+  /** An identifier expression. */
+  ident_expr?: Expr_IdentAmino;
+  /** A field selection expression, e.g. `request.auth`. */
+  select_expr?: Expr_SelectAmino;
+  /** A call expression, including calls to predefined functions and operators. */
+  call_expr?: Expr_CallAmino;
+  /** A list creation expression. */
+  list_expr?: Expr_CreateListAmino;
+  /** A map or message creation expression. */
+  struct_expr?: Expr_CreateStructAmino;
+  /** A comprehension expression. */
+  comprehension_expr?: Expr_ComprehensionAmino;
+}
+export interface ExprAminoMsg {
+  type: "/google.api.expr.v1alpha1.Expr";
+  value: ExprAmino;
+}
 /**
  * An abstract representation of a common expression.
  * 
@@ -92,6 +154,24 @@ export interface Expr_Ident {
    */
   name: string;
 }
+export interface Expr_IdentProtoMsg {
+  typeUrl: "/google.api.expr.v1alpha1.Ident";
+  value: Uint8Array;
+}
+/** An identifier expression. e.g. `request`. */
+export interface Expr_IdentAmino {
+  /**
+   * Required. Holds a single, unqualified identifier, possibly preceded by a
+   * '.'.
+   * 
+   * Qualified names are represented by the [Expr.Select][google.api.expr.v1alpha1.Expr.Select] expression.
+   */
+  name: string;
+}
+export interface Expr_IdentAminoMsg {
+  type: "/google.api.expr.v1alpha1.Ident";
+  value: Expr_IdentAmino;
+}
 /** An identifier expression. e.g. `request`. */
 export interface Expr_IdentSDKType {
   name: string;
@@ -119,6 +199,37 @@ export interface Expr_Select {
    */
   testOnly: boolean;
 }
+export interface Expr_SelectProtoMsg {
+  typeUrl: "/google.api.expr.v1alpha1.Select";
+  value: Uint8Array;
+}
+/** A field selection expression. e.g. `request.auth`. */
+export interface Expr_SelectAmino {
+  /**
+   * Required. The target of the selection expression.
+   * 
+   * For example, in the select expression `request.auth`, the `request`
+   * portion of the expression is the `operand`.
+   */
+  operand?: ExprAmino;
+  /**
+   * Required. The name of the field to select.
+   * 
+   * For example, in the select expression `request.auth`, the `auth` portion
+   * of the expression would be the `field`.
+   */
+  field: string;
+  /**
+   * Whether the select is to be interpreted as a field presence test.
+   * 
+   * This results from the macro `has(request.auth)`.
+   */
+  test_only: boolean;
+}
+export interface Expr_SelectAminoMsg {
+  type: "/google.api.expr.v1alpha1.Select";
+  value: Expr_SelectAmino;
+}
 /** A field selection expression. e.g. `request.auth`. */
 export interface Expr_SelectSDKType {
   operand?: ExprSDKType;
@@ -141,6 +252,30 @@ export interface Expr_Call {
   /** The arguments. */
   args: Expr[];
 }
+export interface Expr_CallProtoMsg {
+  typeUrl: "/google.api.expr.v1alpha1.Call";
+  value: Uint8Array;
+}
+/**
+ * A call expression, including calls to predefined functions and operators.
+ * 
+ * For example, `value == 10`, `size(map_value)`.
+ */
+export interface Expr_CallAmino {
+  /**
+   * The target of an method call-style expression. For example, `x` in
+   * `x.f()`.
+   */
+  target?: ExprAmino;
+  /** Required. The name of the function or method being called. */
+  function: string;
+  /** The arguments. */
+  args: ExprAmino[];
+}
+export interface Expr_CallAminoMsg {
+  type: "/google.api.expr.v1alpha1.Call";
+  value: Expr_CallAmino;
+}
 /**
  * A call expression, including calls to predefined functions and operators.
  * 
@@ -160,6 +295,24 @@ export interface Expr_CallSDKType {
 export interface Expr_CreateList {
   /** The elements part of the list. */
   elements: Expr[];
+}
+export interface Expr_CreateListProtoMsg {
+  typeUrl: "/google.api.expr.v1alpha1.CreateList";
+  value: Uint8Array;
+}
+/**
+ * A list creation expression.
+ * 
+ * Lists may either be homogenous, e.g. `[1, 2, 3]`, or heterogeneous, e.g.
+ * `dyn([1, 'hello', 2.0])`
+ */
+export interface Expr_CreateListAmino {
+  /** The elements part of the list. */
+  elements: ExprAmino[];
+}
+export interface Expr_CreateListAminoMsg {
+  type: "/google.api.expr.v1alpha1.CreateList";
+  value: Expr_CreateListAmino;
 }
 /**
  * A list creation expression.
@@ -186,6 +339,30 @@ export interface Expr_CreateStruct {
   /** The entries in the creation expression. */
   entries: Expr_CreateStruct_Entry[];
 }
+export interface Expr_CreateStructProtoMsg {
+  typeUrl: "/google.api.expr.v1alpha1.CreateStruct";
+  value: Uint8Array;
+}
+/**
+ * A map or message creation expression.
+ * 
+ * Maps are constructed as `{'key_name': 'value'}`. Message construction is
+ * similar, but prefixed with a type name and composed of field ids:
+ * `types.MyType{field_id: 'value'}`.
+ */
+export interface Expr_CreateStructAmino {
+  /**
+   * The type name of the message to be created, empty when creating map
+   * literals.
+   */
+  message_name: string;
+  /** The entries in the creation expression. */
+  entries: Expr_CreateStruct_EntryAmino[];
+}
+export interface Expr_CreateStructAminoMsg {
+  type: "/google.api.expr.v1alpha1.CreateStruct";
+  value: Expr_CreateStructAmino;
+}
 /**
  * A map or message creation expression.
  * 
@@ -211,6 +388,29 @@ export interface Expr_CreateStruct_Entry {
   mapKey?: Expr;
   /** Required. The value assigned to the key. */
   value?: Expr;
+}
+export interface Expr_CreateStruct_EntryProtoMsg {
+  typeUrl: "/google.api.expr.v1alpha1.Entry";
+  value: Uint8Array;
+}
+/** Represents an entry. */
+export interface Expr_CreateStruct_EntryAmino {
+  /**
+   * Required. An id assigned to this node by the parser which is unique
+   * in a given expression tree. This is used to associate type
+   * information and other attributes to the node.
+   */
+  id: string;
+  /** The field key for a message creator statement. */
+  field_key?: string;
+  /** The key expression for a map creation statement. */
+  map_key?: ExprAmino;
+  /** Required. The value assigned to the key. */
+  value?: ExprAmino;
+}
+export interface Expr_CreateStruct_EntryAminoMsg {
+  type: "/google.api.expr.v1alpha1.Entry";
+  value: Expr_CreateStruct_EntryAmino;
 }
 /** Represents an entry. */
 export interface Expr_CreateStruct_EntrySDKType {
@@ -275,6 +475,71 @@ export interface Expr_Comprehension {
    * Computes the result.
    */
   result?: Expr;
+}
+export interface Expr_ComprehensionProtoMsg {
+  typeUrl: "/google.api.expr.v1alpha1.Comprehension";
+  value: Uint8Array;
+}
+/**
+ * A comprehension expression applied to a list or map.
+ * 
+ * Comprehensions are not part of the core syntax, but enabled with macros.
+ * A macro matches a specific call signature within a parsed AST and replaces
+ * the call with an alternate AST block. Macro expansion happens at parse
+ * time.
+ * 
+ * The following macros are supported within CEL:
+ * 
+ * Aggregate type macros may be applied to all elements in a list or all keys
+ * in a map:
+ * 
+ * *  `all`, `exists`, `exists_one` -  test a predicate expression against
+ *    the inputs and return `true` if the predicate is satisfied for all,
+ *    any, or only one value `list.all(x, x < 10)`.
+ * *  `filter` - test a predicate expression against the inputs and return
+ *    the subset of elements which satisfy the predicate:
+ *    `payments.filter(p, p > 1000)`.
+ * *  `map` - apply an expression to all elements in the input and return the
+ *    output aggregate type: `[1, 2, 3].map(i, i * i)`.
+ * 
+ * The `has(m.x)` macro tests whether the property `x` is present in struct
+ * `m`. The semantics of this macro depend on the type of `m`. For proto2
+ * messages `has(m.x)` is defined as 'defined, but not set`. For proto3, the
+ * macro tests whether the property is set to its default. For map and struct
+ * types, the macro tests whether the property `x` is defined on `m`.
+ */
+export interface Expr_ComprehensionAmino {
+  /** The name of the iteration variable. */
+  iter_var: string;
+  /** The range over which var iterates. */
+  iter_range?: ExprAmino;
+  /** The name of the variable used for accumulation of the result. */
+  accu_var: string;
+  /** The initial value of the accumulator. */
+  accu_init?: ExprAmino;
+  /**
+   * An expression which can contain iter_var and accu_var.
+   * 
+   * Returns false when the result has been computed and may be used as
+   * a hint to short-circuit the remainder of the comprehension.
+   */
+  loop_condition?: ExprAmino;
+  /**
+   * An expression which can contain iter_var and accu_var.
+   * 
+   * Computes the next value of accu_var.
+   */
+  loop_step?: ExprAmino;
+  /**
+   * An expression which can contain accu_var.
+   * 
+   * Computes the result.
+   */
+  result?: ExprAmino;
+}
+export interface Expr_ComprehensionAminoMsg {
+  type: "/google.api.expr.v1alpha1.Comprehension";
+  value: Expr_ComprehensionAmino;
 }
 /**
  * A comprehension expression applied to a list or map.
@@ -358,6 +623,59 @@ export interface Constant {
   /** @deprecated */
   timestampValue?: Date;
 }
+export interface ConstantProtoMsg {
+  typeUrl: "/google.api.expr.v1alpha1.Constant";
+  value: Uint8Array;
+}
+/**
+ * Represents a primitive literal.
+ * 
+ * Named 'Constant' here for backwards compatibility.
+ * 
+ * This is similar as the primitives supported in the well-known type
+ * `google.protobuf.Value`, but richer so it can represent CEL's full range of
+ * primitives.
+ * 
+ * Lists and structs are not included as constants as these aggregate types may
+ * contain [Expr][google.api.expr.v1alpha1.Expr] elements which require evaluation and are thus not constant.
+ * 
+ * Examples of literals include: `"hello"`, `b'bytes'`, `1u`, `4.2`, `-2`,
+ * `true`, `null`.
+ */
+export interface ConstantAmino {
+  /** null value. */
+  null_value?: NullValue;
+  /** boolean value. */
+  bool_value?: boolean;
+  /** int64 value. */
+  int64_value?: string;
+  /** uint64 value. */
+  uint64_value?: string;
+  /** double value. */
+  double_value?: number;
+  /** string value. */
+  string_value?: string;
+  /** bytes value. */
+  bytes_value?: Uint8Array;
+  /**
+   * protobuf.Duration value.
+   * 
+   * Deprecated: duration is no longer considered a builtin cel type.
+   */
+  /** @deprecated */
+  duration_value?: DurationAmino;
+  /**
+   * protobuf.Timestamp value.
+   * 
+   * Deprecated: timestamp is no longer considered a builtin cel type.
+   */
+  /** @deprecated */
+  timestamp_value?: Date;
+}
+export interface ConstantAminoMsg {
+  type: "/google.api.expr.v1alpha1.Constant";
+  value: ConstantAmino;
+}
 /**
  * Represents a primitive literal.
  * 
@@ -390,6 +708,18 @@ export interface SourceInfo_PositionsEntry {
   key: bigint;
   value: number;
 }
+export interface SourceInfo_PositionsEntryProtoMsg {
+  typeUrl: string;
+  value: Uint8Array;
+}
+export interface SourceInfo_PositionsEntryAmino {
+  key: string;
+  value: number;
+}
+export interface SourceInfo_PositionsEntryAminoMsg {
+  type: string;
+  value: SourceInfo_PositionsEntryAmino;
+}
 export interface SourceInfo_PositionsEntrySDKType {
   key: bigint;
   value: number;
@@ -397,6 +727,18 @@ export interface SourceInfo_PositionsEntrySDKType {
 export interface SourceInfo_MacroCallsEntry {
   key: bigint;
   value?: Expr;
+}
+export interface SourceInfo_MacroCallsEntryProtoMsg {
+  typeUrl: string;
+  value: Uint8Array;
+}
+export interface SourceInfo_MacroCallsEntryAmino {
+  key: string;
+  value?: ExprAmino;
+}
+export interface SourceInfo_MacroCallsEntryAminoMsg {
+  type: string;
+  value: SourceInfo_MacroCallsEntryAmino;
 }
 export interface SourceInfo_MacroCallsEntrySDKType {
   key: bigint;
@@ -444,6 +786,56 @@ export interface SourceInfo {
     [key: bigint]: Expr;
   };
 }
+export interface SourceInfoProtoMsg {
+  typeUrl: "/google.api.expr.v1alpha1.SourceInfo";
+  value: Uint8Array;
+}
+/** Source information collected at parse time. */
+export interface SourceInfoAmino {
+  /** The syntax version of the source, e.g. `cel1`. */
+  syntax_version: string;
+  /**
+   * The location name. All position information attached to an expression is
+   * relative to this location.
+   * 
+   * The location could be a file, UI element, or similar. For example,
+   * `acme/app/AnvilPolicy.cel`.
+   */
+  location: string;
+  /**
+   * Monotonically increasing list of code point offsets where newlines
+   * `\n` appear.
+   * 
+   * The line number of a given position is the index `i` where for a given
+   * `id` the `line_offsets[i] < id_positions[id] < line_offsets[i+1]`. The
+   * column may be derivd from `id_positions[id] - line_offsets[i]`.
+   */
+  line_offsets: number[];
+  /**
+   * A map from the parse node id (e.g. `Expr.id`) to the code point offset
+   * within the source.
+   */
+  positions: {
+    [key: string]: number;
+  };
+  /**
+   * A map from the parse node id where a macro replacement was made to the
+   * call `Expr` that resulted in a macro expansion.
+   * 
+   * For example, `has(value.field)` is a function call that is replaced by a
+   * `test_only` field selection in the AST. Likewise, the call
+   * `list.exists(e, e > 10)` translates to a comprehension expression. The key
+   * in the map corresponds to the expression id of the expanded macro, and the
+   * value is the call `Expr` that was replaced.
+   */
+  macro_calls?: {
+    [key: string]: ExprAmino;
+  };
+}
+export interface SourceInfoAminoMsg {
+  type: "/google.api.expr.v1alpha1.SourceInfo";
+  value: SourceInfoAmino;
+}
 /** Source information collected at parse time. */
 export interface SourceInfoSDKType {
   syntax_version: string;
@@ -472,6 +864,31 @@ export interface SourcePosition {
    * where the issue occurs.  Only meaningful if line is nonzero.
    */
   column: number;
+}
+export interface SourcePositionProtoMsg {
+  typeUrl: "/google.api.expr.v1alpha1.SourcePosition";
+  value: Uint8Array;
+}
+/** A specific position in source. */
+export interface SourcePositionAmino {
+  /** The soucre location name (e.g. file name). */
+  location: string;
+  /** The UTF-8 code unit offset. */
+  offset: number;
+  /**
+   * The 1-based index of the starting line in the source text
+   * where the issue occurs, or 0 if unknown.
+   */
+  line: number;
+  /**
+   * The 0-based index of the starting position within the line of source text
+   * where the issue occurs.  Only meaningful if line is nonzero.
+   */
+  column: number;
+}
+export interface SourcePositionAminoMsg {
+  type: "/google.api.expr.v1alpha1.SourcePosition";
+  value: SourcePositionAmino;
 }
 /** A specific position in source. */
 export interface SourcePositionSDKType {

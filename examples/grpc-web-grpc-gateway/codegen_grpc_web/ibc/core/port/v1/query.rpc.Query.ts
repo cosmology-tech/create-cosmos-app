@@ -1,8 +1,10 @@
+import { Order, OrderSDKType, Counterparty, CounterpartySDKType } from "../../channel/v1/channel";
+import * as _m0 from "protobufjs/minimal";
 import { grpc } from "@improbable-eng/grpc-web";
 import { UnaryMethodDefinitionish } from "../../../../grpc-web";
 import { DeepPartial } from "../../../../helpers";
 import { BrowserHeaders } from "browser-headers";
-import { QueryAppVersionRequest, QueryAppVersionResponse } from "./query";
+import { QueryAppVersionRequest, QueryAppVersionRequestSDKType, QueryAppVersionResponse, QueryAppVersionResponseSDKType } from "./query";
 /** Query defines the gRPC querier service */
 export interface Query {
   /** AppVersion queries an IBC Port and determines the appropriate application version to be used */
