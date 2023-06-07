@@ -1,6 +1,6 @@
 import { Service, ServiceSDKType } from "./resources";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet } from "../../../../helpers";
+import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "google.api.serviceusage.v1";
 /**
  * Enum to determine if service usage should be checked when disabling a
@@ -337,7 +337,7 @@ export const EnableServiceRequest = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial(object: Partial<EnableServiceRequest>): EnableServiceRequest {
+  fromPartial(object: DeepPartial<EnableServiceRequest>): EnableServiceRequest {
     const message = createBaseEnableServiceRequest();
     message.name = object.name ?? "";
     return message;
@@ -418,7 +418,7 @@ export const EnableServiceResponse = {
     message.service !== undefined && (obj.service = message.service ? Service.toJSON(message.service) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<EnableServiceResponse>): EnableServiceResponse {
+  fromPartial(object: DeepPartial<EnableServiceResponse>): EnableServiceResponse {
     const message = createBaseEnableServiceResponse();
     message.service = object.service !== undefined && object.service !== null ? Service.fromPartial(object.service) : undefined;
     return message;
@@ -517,7 +517,7 @@ export const DisableServiceRequest = {
     message.checkIfServiceHasUsage !== undefined && (obj.checkIfServiceHasUsage = disableServiceRequest_CheckIfServiceHasUsageToJSON(message.checkIfServiceHasUsage));
     return obj;
   },
-  fromPartial(object: Partial<DisableServiceRequest>): DisableServiceRequest {
+  fromPartial(object: DeepPartial<DisableServiceRequest>): DisableServiceRequest {
     const message = createBaseDisableServiceRequest();
     message.name = object.name ?? "";
     message.disableDependentServices = object.disableDependentServices ?? false;
@@ -608,7 +608,7 @@ export const DisableServiceResponse = {
     message.service !== undefined && (obj.service = message.service ? Service.toJSON(message.service) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<DisableServiceResponse>): DisableServiceResponse {
+  fromPartial(object: DeepPartial<DisableServiceResponse>): DisableServiceResponse {
     const message = createBaseDisableServiceResponse();
     message.service = object.service !== undefined && object.service !== null ? Service.fromPartial(object.service) : undefined;
     return message;
@@ -689,7 +689,7 @@ export const GetServiceRequest = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial(object: Partial<GetServiceRequest>): GetServiceRequest {
+  fromPartial(object: DeepPartial<GetServiceRequest>): GetServiceRequest {
     const message = createBaseGetServiceRequest();
     message.name = object.name ?? "";
     return message;
@@ -797,7 +797,7 @@ export const ListServicesRequest = {
     message.filter !== undefined && (obj.filter = message.filter);
     return obj;
   },
-  fromPartial(object: Partial<ListServicesRequest>): ListServicesRequest {
+  fromPartial(object: DeepPartial<ListServicesRequest>): ListServicesRequest {
     const message = createBaseListServicesRequest();
     message.parent = object.parent ?? "";
     message.pageSize = object.pageSize ?? 0;
@@ -906,7 +906,7 @@ export const ListServicesResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: Partial<ListServicesResponse>): ListServicesResponse {
+  fromPartial(object: DeepPartial<ListServicesResponse>): ListServicesResponse {
     const message = createBaseListServicesResponse();
     message.services = object.services?.map(e => Service.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -1013,7 +1013,7 @@ export const BatchEnableServicesRequest = {
     }
     return obj;
   },
-  fromPartial(object: Partial<BatchEnableServicesRequest>): BatchEnableServicesRequest {
+  fromPartial(object: DeepPartial<BatchEnableServicesRequest>): BatchEnableServicesRequest {
     const message = createBaseBatchEnableServicesRequest();
     message.parent = object.parent ?? "";
     message.serviceIds = object.serviceIds?.map(e => e) || [];
@@ -1124,7 +1124,7 @@ export const BatchEnableServicesResponse = {
     }
     return obj;
   },
-  fromPartial(object: Partial<BatchEnableServicesResponse>): BatchEnableServicesResponse {
+  fromPartial(object: DeepPartial<BatchEnableServicesResponse>): BatchEnableServicesResponse {
     const message = createBaseBatchEnableServicesResponse();
     message.services = object.services?.map(e => Service.fromPartial(e)) || [];
     message.failures = object.failures?.map(e => BatchEnableServicesResponse_EnableFailure.fromPartial(e)) || [];
@@ -1235,7 +1235,7 @@ export const BatchEnableServicesResponse_EnableFailure = {
     message.errorMessage !== undefined && (obj.errorMessage = message.errorMessage);
     return obj;
   },
-  fromPartial(object: Partial<BatchEnableServicesResponse_EnableFailure>): BatchEnableServicesResponse_EnableFailure {
+  fromPartial(object: DeepPartial<BatchEnableServicesResponse_EnableFailure>): BatchEnableServicesResponse_EnableFailure {
     const message = createBaseBatchEnableServicesResponse_EnableFailure();
     message.serviceId = object.serviceId ?? "";
     message.errorMessage = object.errorMessage ?? "";
@@ -1334,7 +1334,7 @@ export const BatchGetServicesRequest = {
     }
     return obj;
   },
-  fromPartial(object: Partial<BatchGetServicesRequest>): BatchGetServicesRequest {
+  fromPartial(object: DeepPartial<BatchGetServicesRequest>): BatchGetServicesRequest {
     const message = createBaseBatchGetServicesRequest();
     message.parent = object.parent ?? "";
     message.names = object.names?.map(e => e) || [];
@@ -1432,7 +1432,7 @@ export const BatchGetServicesResponse = {
     }
     return obj;
   },
-  fromPartial(object: Partial<BatchGetServicesResponse>): BatchGetServicesResponse {
+  fromPartial(object: DeepPartial<BatchGetServicesResponse>): BatchGetServicesResponse {
     const message = createBaseBatchGetServicesResponse();
     message.services = object.services?.map(e => Service.fromPartial(e)) || [];
     return message;

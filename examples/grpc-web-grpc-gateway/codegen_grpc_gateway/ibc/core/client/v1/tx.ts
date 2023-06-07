@@ -1,6 +1,6 @@
 import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
+import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "ibc.core.client.v1";
 /** MsgCreateClient defines a message to create an IBC client */
 export interface MsgCreateClient {
@@ -176,7 +176,7 @@ export const MsgCreateClient = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: Partial<MsgCreateClient>): MsgCreateClient {
+  fromPartial(object: DeepPartial<MsgCreateClient>): MsgCreateClient {
     const message = createBaseMsgCreateClient();
     message.clientState = object.clientState !== undefined && object.clientState !== null ? Any.fromPartial(object.clientState) : undefined;
     message.consensusState = object.consensusState !== undefined && object.consensusState !== null ? Any.fromPartial(object.consensusState) : undefined;
@@ -263,7 +263,7 @@ export const MsgCreateClientResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgCreateClientResponse>): MsgCreateClientResponse {
+  fromPartial(_: DeepPartial<MsgCreateClientResponse>): MsgCreateClientResponse {
     const message = createBaseMsgCreateClientResponse();
     return message;
   },
@@ -362,7 +362,7 @@ export const MsgUpdateClient = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: Partial<MsgUpdateClient>): MsgUpdateClient {
+  fromPartial(object: DeepPartial<MsgUpdateClient>): MsgUpdateClient {
     const message = createBaseMsgUpdateClient();
     message.clientId = object.clientId ?? "";
     message.header = object.header !== undefined && object.header !== null ? Any.fromPartial(object.header) : undefined;
@@ -449,7 +449,7 @@ export const MsgUpdateClientResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgUpdateClientResponse>): MsgUpdateClientResponse {
+  fromPartial(_: DeepPartial<MsgUpdateClientResponse>): MsgUpdateClientResponse {
     const message = createBaseMsgUpdateClientResponse();
     return message;
   },
@@ -575,7 +575,7 @@ export const MsgUpgradeClient = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: Partial<MsgUpgradeClient>): MsgUpgradeClient {
+  fromPartial(object: DeepPartial<MsgUpgradeClient>): MsgUpgradeClient {
     const message = createBaseMsgUpgradeClient();
     message.clientId = object.clientId ?? "";
     message.clientState = object.clientState !== undefined && object.clientState !== null ? Any.fromPartial(object.clientState) : undefined;
@@ -677,7 +677,7 @@ export const MsgUpgradeClientResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgUpgradeClientResponse>): MsgUpgradeClientResponse {
+  fromPartial(_: DeepPartial<MsgUpgradeClientResponse>): MsgUpgradeClientResponse {
     const message = createBaseMsgUpgradeClientResponse();
     return message;
   },
@@ -776,7 +776,7 @@ export const MsgSubmitMisbehaviour = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: Partial<MsgSubmitMisbehaviour>): MsgSubmitMisbehaviour {
+  fromPartial(object: DeepPartial<MsgSubmitMisbehaviour>): MsgSubmitMisbehaviour {
     const message = createBaseMsgSubmitMisbehaviour();
     message.clientId = object.clientId ?? "";
     message.misbehaviour = object.misbehaviour !== undefined && object.misbehaviour !== null ? Any.fromPartial(object.misbehaviour) : undefined;
@@ -863,7 +863,7 @@ export const MsgSubmitMisbehaviourResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgSubmitMisbehaviourResponse>): MsgSubmitMisbehaviourResponse {
+  fromPartial(_: DeepPartial<MsgSubmitMisbehaviourResponse>): MsgSubmitMisbehaviourResponse {
     const message = createBaseMsgSubmitMisbehaviourResponse();
     return message;
   },

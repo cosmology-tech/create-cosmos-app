@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * Selects and configures the service controller used by the service.  The
@@ -61,7 +61,7 @@ export const Control = {
     message.environment !== undefined && (obj.environment = message.environment);
     return obj;
   },
-  fromPartial(object: Partial<Control>): Control {
+  fromPartial(object: DeepPartial<Control>): Control {
     const message = createBaseControl();
     message.environment = object.environment ?? "";
     return message;

@@ -1,6 +1,6 @@
 import { CapabilityOwners, CapabilityOwnersSDKType } from "./capability";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet } from "../../../helpers";
+import { isSet, DeepPartial } from "../../../helpers";
 export const protobufPackage = "cosmos.capability.v1beta1";
 /** GenesisOwners defines the capability owners with their corresponding index. */
 export interface GenesisOwners {
@@ -79,7 +79,7 @@ export const GenesisOwners = {
     message.indexOwners !== undefined && (obj.indexOwners = message.indexOwners ? CapabilityOwners.toJSON(message.indexOwners) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<GenesisOwners>): GenesisOwners {
+  fromPartial(object: DeepPartial<GenesisOwners>): GenesisOwners {
     const message = createBaseGenesisOwners();
     message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt("0");
     message.indexOwners = object.indexOwners !== undefined && object.indexOwners !== null ? CapabilityOwners.fromPartial(object.indexOwners) : undefined;
@@ -185,7 +185,7 @@ export const GenesisState = {
     }
     return obj;
   },
-  fromPartial(object: Partial<GenesisState>): GenesisState {
+  fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
     message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt("0");
     message.owners = object.owners?.map(e => GenesisOwners.fromPartial(e)) || [];

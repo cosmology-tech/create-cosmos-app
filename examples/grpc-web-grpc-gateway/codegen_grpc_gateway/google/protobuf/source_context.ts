@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.protobuf";
 /**
  * `SourceContext` represents information about the source of a
@@ -59,7 +59,7 @@ export const SourceContext = {
     message.fileName !== undefined && (obj.fileName = message.fileName);
     return obj;
   },
-  fromPartial(object: Partial<SourceContext>): SourceContext {
+  fromPartial(object: DeepPartial<SourceContext>): SourceContext {
     const message = createBaseSourceContext();
     message.fileName = object.fileName ?? "";
     return message;

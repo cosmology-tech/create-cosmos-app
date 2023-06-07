@@ -1,6 +1,6 @@
 import { FileDescriptorProto, FileDescriptorProtoSDKType } from "../descriptor";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet } from "../../../helpers";
+import { isSet, DeepPartial } from "../../../helpers";
 export const protobufPackage = "google.protobuf.compiler";
 /** The version number of protocol compiler. */
 export interface Version {
@@ -209,7 +209,7 @@ export const Version = {
     message.suffix !== undefined && (obj.suffix = message.suffix);
     return obj;
   },
-  fromPartial(object: Partial<Version>): Version {
+  fromPartial(object: DeepPartial<Version>): Version {
     const message = createBaseVersion();
     message.major = object.major ?? 0;
     message.minor = object.minor ?? 0;
@@ -340,7 +340,7 @@ export const CodeGeneratorRequest = {
     message.compilerVersion !== undefined && (obj.compilerVersion = message.compilerVersion ? Version.toJSON(message.compilerVersion) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<CodeGeneratorRequest>): CodeGeneratorRequest {
+  fromPartial(object: DeepPartial<CodeGeneratorRequest>): CodeGeneratorRequest {
     const message = createBaseCodeGeneratorRequest();
     message.fileToGenerate = object.fileToGenerate?.map(e => e) || [];
     message.parameter = object.parameter ?? "";
@@ -465,7 +465,7 @@ export const CodeGeneratorResponse = {
     }
     return obj;
   },
-  fromPartial(object: Partial<CodeGeneratorResponse>): CodeGeneratorResponse {
+  fromPartial(object: DeepPartial<CodeGeneratorResponse>): CodeGeneratorResponse {
     const message = createBaseCodeGeneratorResponse();
     message.error = object.error ?? "";
     message.file = object.file?.map(e => CodeGeneratorResponse_File.fromPartial(e)) || [];
@@ -577,7 +577,7 @@ export const CodeGeneratorResponse_File = {
     message.content !== undefined && (obj.content = message.content);
     return obj;
   },
-  fromPartial(object: Partial<CodeGeneratorResponse_File>): CodeGeneratorResponse_File {
+  fromPartial(object: DeepPartial<CodeGeneratorResponse_File>): CodeGeneratorResponse_File {
     const message = createBaseCodeGeneratorResponse_File();
     message.name = object.name ?? "";
     message.insertionPoint = object.insertionPoint ?? "";

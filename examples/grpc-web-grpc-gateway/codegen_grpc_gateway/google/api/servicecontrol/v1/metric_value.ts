@@ -1,7 +1,7 @@
 import { Timestamp } from "../../../protobuf/timestamp";
 import { Distribution, DistributionSDKType } from "./distribution";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet, toTimestamp, fromTimestamp, isObject, fromJsonTimestamp } from "../../../../helpers";
+import { isSet, DeepPartial, toTimestamp, fromTimestamp, isObject, fromJsonTimestamp } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v1";
 export interface MetricValue_LabelsEntry {
   key: string;
@@ -128,7 +128,7 @@ export const MetricValue_LabelsEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: Partial<MetricValue_LabelsEntry>): MetricValue_LabelsEntry {
+  fromPartial(object: DeepPartial<MetricValue_LabelsEntry>): MetricValue_LabelsEntry {
     const message = createBaseMetricValue_LabelsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -287,7 +287,7 @@ export const MetricValue = {
     message.distributionValue !== undefined && (obj.distributionValue = message.distributionValue ? Distribution.toJSON(message.distributionValue) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<MetricValue>): MetricValue {
+  fromPartial(object: DeepPartial<MetricValue>): MetricValue {
     const message = createBaseMetricValue();
     message.labels = Object.entries(object.labels ?? {}).reduce<{
       [key: string]: string;
@@ -443,7 +443,7 @@ export const MetricValueSet = {
     }
     return obj;
   },
-  fromPartial(object: Partial<MetricValueSet>): MetricValueSet {
+  fromPartial(object: DeepPartial<MetricValueSet>): MetricValueSet {
     const message = createBaseMetricValueSet();
     message.metricName = object.metricName ?? "";
     message.metricValues = object.metricValues?.map(e => MetricValue.fromPartial(e)) || [];

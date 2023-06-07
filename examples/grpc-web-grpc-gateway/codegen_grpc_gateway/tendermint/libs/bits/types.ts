@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet } from "../../../helpers";
+import { isSet, DeepPartial } from "../../../helpers";
 export const protobufPackage = "tendermint.libs.bits";
 export interface BitArray {
   bits: bigint;
@@ -71,7 +71,7 @@ export const BitArray = {
     }
     return obj;
   },
-  fromPartial(object: Partial<BitArray>): BitArray {
+  fromPartial(object: DeepPartial<BitArray>): BitArray {
     const message = createBaseBitArray();
     message.bits = object.bits !== undefined && object.bits !== null ? BigInt(object.bits.toString()) : BigInt("0");
     message.elems = object.elems?.map(e => BigInt(e.toString())) || [];

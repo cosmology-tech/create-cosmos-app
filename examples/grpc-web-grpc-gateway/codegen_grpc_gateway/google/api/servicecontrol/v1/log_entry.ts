@@ -4,7 +4,7 @@ import { HttpRequest, HttpRequestSDKType } from "./http_request";
 import { Any, AnySDKType } from "../../../protobuf/any";
 import { Struct, StructSDKType } from "../../../protobuf/struct";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet, toTimestamp, fromTimestamp, fromJsonTimestamp, isObject } from "../../../../helpers";
+import { isSet, DeepPartial, toTimestamp, fromTimestamp, fromJsonTimestamp, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v1";
 export interface LogEntry_LabelsEntry {
   key: string;
@@ -209,7 +209,7 @@ export const LogEntry_LabelsEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: Partial<LogEntry_LabelsEntry>): LogEntry_LabelsEntry {
+  fromPartial(object: DeepPartial<LogEntry_LabelsEntry>): LogEntry_LabelsEntry {
     const message = createBaseLogEntry_LabelsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -404,7 +404,7 @@ export const LogEntry = {
     message.sourceLocation !== undefined && (obj.sourceLocation = message.sourceLocation ? LogEntrySourceLocation.toJSON(message.sourceLocation) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<LogEntry>): LogEntry {
+  fromPartial(object: DeepPartial<LogEntry>): LogEntry {
     const message = createBaseLogEntry();
     message.name = object.name ?? "";
     message.timestamp = object.timestamp ?? undefined;
@@ -594,7 +594,7 @@ export const LogEntryOperation = {
     message.last !== undefined && (obj.last = message.last);
     return obj;
   },
-  fromPartial(object: Partial<LogEntryOperation>): LogEntryOperation {
+  fromPartial(object: DeepPartial<LogEntryOperation>): LogEntryOperation {
     const message = createBaseLogEntryOperation();
     message.id = object.id ?? "";
     message.producer = object.producer ?? "";
@@ -708,7 +708,7 @@ export const LogEntrySourceLocation = {
     message.function !== undefined && (obj.function = message.function);
     return obj;
   },
-  fromPartial(object: Partial<LogEntrySourceLocation>): LogEntrySourceLocation {
+  fromPartial(object: DeepPartial<LogEntrySourceLocation>): LogEntrySourceLocation {
     const message = createBaseLogEntrySourceLocation();
     message.file = object.file ?? "";
     message.line = object.line !== undefined && object.line !== null ? BigInt(object.line.toString()) : BigInt("0");

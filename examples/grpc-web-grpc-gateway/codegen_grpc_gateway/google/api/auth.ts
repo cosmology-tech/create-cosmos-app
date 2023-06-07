@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { DeepPartial, isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * `Authentication` defines the authentication configuration for API methods
@@ -375,7 +375,7 @@ export const Authentication = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Authentication>): Authentication {
+  fromPartial(object: DeepPartial<Authentication>): Authentication {
     const message = createBaseAuthentication();
     message.rules = object.rules?.map(e => AuthenticationRule.fromPartial(e)) || [];
     message.providers = object.providers?.map(e => AuthProvider.fromPartial(e)) || [];
@@ -508,7 +508,7 @@ export const AuthenticationRule = {
     }
     return obj;
   },
-  fromPartial(object: Partial<AuthenticationRule>): AuthenticationRule {
+  fromPartial(object: DeepPartial<AuthenticationRule>): AuthenticationRule {
     const message = createBaseAuthenticationRule();
     message.selector = object.selector ?? "";
     message.oauth = object.oauth !== undefined && object.oauth !== null ? OAuthRequirements.fromPartial(object.oauth) : undefined;
@@ -630,7 +630,7 @@ export const JwtLocation = {
     message.valuePrefix !== undefined && (obj.valuePrefix = message.valuePrefix);
     return obj;
   },
-  fromPartial(object: Partial<JwtLocation>): JwtLocation {
+  fromPartial(object: DeepPartial<JwtLocation>): JwtLocation {
     const message = createBaseJwtLocation();
     message.header = object.header ?? undefined;
     message.query = object.query ?? undefined;
@@ -770,7 +770,7 @@ export const AuthProvider = {
     }
     return obj;
   },
-  fromPartial(object: Partial<AuthProvider>): AuthProvider {
+  fromPartial(object: DeepPartial<AuthProvider>): AuthProvider {
     const message = createBaseAuthProvider();
     message.id = object.id ?? "";
     message.issuer = object.issuer ?? "";
@@ -884,7 +884,7 @@ export const OAuthRequirements = {
     message.canonicalScopes !== undefined && (obj.canonicalScopes = message.canonicalScopes);
     return obj;
   },
-  fromPartial(object: Partial<OAuthRequirements>): OAuthRequirements {
+  fromPartial(object: DeepPartial<OAuthRequirements>): OAuthRequirements {
     const message = createBaseOAuthRequirements();
     message.canonicalScopes = object.canonicalScopes ?? "";
     return message;
@@ -974,7 +974,7 @@ export const AuthRequirement = {
     message.audiences !== undefined && (obj.audiences = message.audiences);
     return obj;
   },
-  fromPartial(object: Partial<AuthRequirement>): AuthRequirement {
+  fromPartial(object: DeepPartial<AuthRequirement>): AuthRequirement {
     const message = createBaseAuthRequirement();
     message.providerId = object.providerId ?? "";
     message.audiences = object.audiences ?? "";

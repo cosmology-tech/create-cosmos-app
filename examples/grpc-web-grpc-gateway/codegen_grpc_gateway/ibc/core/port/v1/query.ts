@@ -1,6 +1,6 @@
 import { Order, Counterparty, CounterpartySDKType, orderFromJSON, orderToJSON } from "../../channel/v1/channel";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet } from "../../../../helpers";
+import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "ibc.core.port.v1";
 /** QueryAppVersionRequest is the request type for the Query/AppVersion RPC method */
 export interface QueryAppVersionRequest {
@@ -112,7 +112,7 @@ export const QueryAppVersionRequest = {
     message.proposedVersion !== undefined && (obj.proposedVersion = message.proposedVersion);
     return obj;
   },
-  fromPartial(object: Partial<QueryAppVersionRequest>): QueryAppVersionRequest {
+  fromPartial(object: DeepPartial<QueryAppVersionRequest>): QueryAppVersionRequest {
     const message = createBaseQueryAppVersionRequest();
     message.portId = object.portId ?? "";
     message.connectionId = object.connectionId ?? "";
@@ -229,7 +229,7 @@ export const QueryAppVersionResponse = {
     message.version !== undefined && (obj.version = message.version);
     return obj;
   },
-  fromPartial(object: Partial<QueryAppVersionResponse>): QueryAppVersionResponse {
+  fromPartial(object: DeepPartial<QueryAppVersionResponse>): QueryAppVersionResponse {
     const message = createBaseQueryAppVersionResponse();
     message.portId = object.portId ?? "";
     message.version = object.version ?? "";

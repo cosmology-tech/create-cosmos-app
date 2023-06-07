@@ -2,7 +2,7 @@ import { Counterparty, CounterpartySDKType, Version, VersionSDKType } from "./co
 import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { Height, HeightSDKType } from "../../client/v1/client";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
+import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "ibc.core.connection.v1";
 /**
  * MsgConnectionOpenInit defines the msg sent by an account on Chain A to
@@ -236,7 +236,7 @@ export const MsgConnectionOpenInit = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: Partial<MsgConnectionOpenInit>): MsgConnectionOpenInit {
+  fromPartial(object: DeepPartial<MsgConnectionOpenInit>): MsgConnectionOpenInit {
     const message = createBaseMsgConnectionOpenInit();
     message.clientId = object.clientId ?? "";
     message.counterparty = object.counterparty !== undefined && object.counterparty !== null ? Counterparty.fromPartial(object.counterparty) : undefined;
@@ -333,7 +333,7 @@ export const MsgConnectionOpenInitResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgConnectionOpenInitResponse>): MsgConnectionOpenInitResponse {
+  fromPartial(_: DeepPartial<MsgConnectionOpenInitResponse>): MsgConnectionOpenInitResponse {
     const message = createBaseMsgConnectionOpenInitResponse();
     return message;
   },
@@ -517,7 +517,7 @@ export const MsgConnectionOpenTry = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: Partial<MsgConnectionOpenTry>): MsgConnectionOpenTry {
+  fromPartial(object: DeepPartial<MsgConnectionOpenTry>): MsgConnectionOpenTry {
     const message = createBaseMsgConnectionOpenTry();
     message.clientId = object.clientId ?? "";
     message.previousConnectionId = object.previousConnectionId ?? "";
@@ -657,7 +657,7 @@ export const MsgConnectionOpenTryResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgConnectionOpenTryResponse>): MsgConnectionOpenTryResponse {
+  fromPartial(_: DeepPartial<MsgConnectionOpenTryResponse>): MsgConnectionOpenTryResponse {
     const message = createBaseMsgConnectionOpenTryResponse();
     return message;
   },
@@ -819,7 +819,7 @@ export const MsgConnectionOpenAck = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: Partial<MsgConnectionOpenAck>): MsgConnectionOpenAck {
+  fromPartial(object: DeepPartial<MsgConnectionOpenAck>): MsgConnectionOpenAck {
     const message = createBaseMsgConnectionOpenAck();
     message.connectionId = object.connectionId ?? "";
     message.counterpartyConnectionId = object.counterpartyConnectionId ?? "";
@@ -941,7 +941,7 @@ export const MsgConnectionOpenAckResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgConnectionOpenAckResponse>): MsgConnectionOpenAckResponse {
+  fromPartial(_: DeepPartial<MsgConnectionOpenAckResponse>): MsgConnectionOpenAckResponse {
     const message = createBaseMsgConnectionOpenAckResponse();
     return message;
   },
@@ -1049,7 +1049,7 @@ export const MsgConnectionOpenConfirm = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: Partial<MsgConnectionOpenConfirm>): MsgConnectionOpenConfirm {
+  fromPartial(object: DeepPartial<MsgConnectionOpenConfirm>): MsgConnectionOpenConfirm {
     const message = createBaseMsgConnectionOpenConfirm();
     message.connectionId = object.connectionId ?? "";
     message.proofAck = object.proofAck ?? new Uint8Array();
@@ -1141,7 +1141,7 @@ export const MsgConnectionOpenConfirmResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgConnectionOpenConfirmResponse>): MsgConnectionOpenConfirmResponse {
+  fromPartial(_: DeepPartial<MsgConnectionOpenConfirmResponse>): MsgConnectionOpenConfirmResponse {
     const message = createBaseMsgConnectionOpenConfirmResponse();
     return message;
   },

@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet } from "../../../../helpers";
+import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "cosmos.crypto.hd.v1";
 /** BIP44Params is used as path field in ledger item in Record. */
 export interface BIP44Params {
@@ -102,7 +102,7 @@ export const BIP44Params = {
     message.addressIndex !== undefined && (obj.addressIndex = Math.round(message.addressIndex));
     return obj;
   },
-  fromPartial(object: Partial<BIP44Params>): BIP44Params {
+  fromPartial(object: DeepPartial<BIP44Params>): BIP44Params {
     const message = createBaseBIP44Params();
     message.purpose = object.purpose ?? 0;
     message.coinType = object.coinType ?? 0;

@@ -3,7 +3,7 @@ import { MetricValueSet, MetricValueSetSDKType } from "./metric_value";
 import { LogEntry, LogEntrySDKType } from "./log_entry";
 import { Any, AnySDKType } from "../../../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet, toTimestamp, fromTimestamp, fromJsonTimestamp, isObject } from "../../../../helpers";
+import { isSet, DeepPartial, toTimestamp, fromTimestamp, fromJsonTimestamp, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /** Defines the importance of the data contained in the operation. */
 export enum Operation_Importance {
@@ -199,7 +199,7 @@ export const Operation_LabelsEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: Partial<Operation_LabelsEntry>): Operation_LabelsEntry {
+  fromPartial(object: DeepPartial<Operation_LabelsEntry>): Operation_LabelsEntry {
     const message = createBaseOperation_LabelsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -388,7 +388,7 @@ export const Operation = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Operation>): Operation {
+  fromPartial(object: DeepPartial<Operation>): Operation {
     const message = createBaseOperation();
     message.operationId = object.operationId ?? "";
     message.operationName = object.operationName ?? "";

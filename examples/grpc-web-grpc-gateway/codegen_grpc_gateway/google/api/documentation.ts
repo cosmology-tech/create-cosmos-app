@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * `Documentation` provides the information for describing a service.
@@ -323,7 +323,7 @@ export const Documentation = {
     message.overview !== undefined && (obj.overview = message.overview);
     return obj;
   },
-  fromPartial(object: Partial<Documentation>): Documentation {
+  fromPartial(object: DeepPartial<Documentation>): Documentation {
     const message = createBaseDocumentation();
     message.summary = object.summary ?? "";
     message.pages = object.pages?.map(e => Page.fromPartial(e)) || [];
@@ -463,7 +463,7 @@ export const DocumentationRule = {
     message.deprecationDescription !== undefined && (obj.deprecationDescription = message.deprecationDescription);
     return obj;
   },
-  fromPartial(object: Partial<DocumentationRule>): DocumentationRule {
+  fromPartial(object: DeepPartial<DocumentationRule>): DocumentationRule {
     const message = createBaseDocumentationRule();
     message.selector = object.selector ?? "";
     message.description = object.description ?? "";
@@ -576,7 +576,7 @@ export const Page = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Page>): Page {
+  fromPartial(object: DeepPartial<Page>): Page {
     const message = createBasePage();
     message.name = object.name ?? "";
     message.content = object.content ?? "";

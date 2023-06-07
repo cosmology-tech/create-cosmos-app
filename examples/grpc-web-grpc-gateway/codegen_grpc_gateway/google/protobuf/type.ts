@@ -1,7 +1,7 @@
 import { SourceContext, SourceContextSDKType } from "./source_context";
 import { Any, AnySDKType } from "./any";
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.protobuf";
 /** Basic field types. */
 export enum Field_Kind {
@@ -465,7 +465,7 @@ export const Type = {
     message.syntax !== undefined && (obj.syntax = syntaxToJSON(message.syntax));
     return obj;
   },
-  fromPartial(object: Partial<Type>): Type {
+  fromPartial(object: DeepPartial<Type>): Type {
     const message = createBaseType();
     message.name = object.name ?? "";
     message.fields = object.fields?.map(e => Field.fromPartial(e)) || [];
@@ -680,7 +680,7 @@ export const Field = {
     message.defaultValue !== undefined && (obj.defaultValue = message.defaultValue);
     return obj;
   },
-  fromPartial(object: Partial<Field>): Field {
+  fromPartial(object: DeepPartial<Field>): Field {
     const message = createBaseField();
     message.kind = object.kind ?? 0;
     message.cardinality = object.cardinality ?? 0;
@@ -858,7 +858,7 @@ export const Enum = {
     message.syntax !== undefined && (obj.syntax = syntaxToJSON(message.syntax));
     return obj;
   },
-  fromPartial(object: Partial<Enum>): Enum {
+  fromPartial(object: DeepPartial<Enum>): Enum {
     const message = createBaseEnum();
     message.name = object.name ?? "";
     message.enumvalue = object.enumvalue?.map(e => EnumValue.fromPartial(e)) || [];
@@ -997,7 +997,7 @@ export const EnumValue = {
     }
     return obj;
   },
-  fromPartial(object: Partial<EnumValue>): EnumValue {
+  fromPartial(object: DeepPartial<EnumValue>): EnumValue {
     const message = createBaseEnumValue();
     message.name = object.name ?? "";
     message.number = object.number ?? 0;
@@ -1105,7 +1105,7 @@ export const Option = {
     message.value !== undefined && (obj.value = message.value ? Any.toJSON(message.value) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<Option>): Option {
+  fromPartial(object: DeepPartial<Option>): Option {
     const message = createBaseOption();
     message.name = object.name ?? "";
     message.value = object.value !== undefined && object.value !== null ? Any.fromPartial(object.value) : undefined;

@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * `Endpoint` describes a network endpoint of a service that serves a set of
@@ -147,7 +147,7 @@ export const Endpoint = {
     message.allowCors !== undefined && (obj.allowCors = message.allowCors);
     return obj;
   },
-  fromPartial(object: Partial<Endpoint>): Endpoint {
+  fromPartial(object: DeepPartial<Endpoint>): Endpoint {
     const message = createBaseEndpoint();
     message.name = object.name ?? "";
     message.aliases = object.aliases?.map(e => e) || [];
