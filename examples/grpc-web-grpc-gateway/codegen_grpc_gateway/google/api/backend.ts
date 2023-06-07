@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { DeepPartial, isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * Path Translation specifies how to combine the backend address with the
@@ -247,7 +247,7 @@ export const Backend = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Backend>): Backend {
+  fromPartial(object: DeepPartial<Backend>): Backend {
     const message = createBaseBackend();
     message.rules = object.rules?.map(e => BackendRule.fromPartial(e)) || [];
     return message;
@@ -408,7 +408,7 @@ export const BackendRule = {
     message.protocol !== undefined && (obj.protocol = message.protocol);
     return obj;
   },
-  fromPartial(object: Partial<BackendRule>): BackendRule {
+  fromPartial(object: DeepPartial<BackendRule>): BackendRule {
     const message = createBaseBackendRule();
     message.selector = object.selector ?? "";
     message.address = object.address ?? "";

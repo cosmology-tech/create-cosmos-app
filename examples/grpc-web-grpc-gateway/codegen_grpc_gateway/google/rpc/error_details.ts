@@ -1,6 +1,6 @@
 import { Duration, DurationSDKType } from "../protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet, isObject } from "../../helpers";
+import { isSet, DeepPartial, isObject } from "../../helpers";
 export const protobufPackage = "google.rpc";
 /**
  * Describes when the clients can retry a failed request. Clients could ignore
@@ -445,7 +445,7 @@ export const RetryInfo = {
     message.retryDelay !== undefined && (obj.retryDelay = message.retryDelay ? Duration.toJSON(message.retryDelay) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<RetryInfo>): RetryInfo {
+  fromPartial(object: DeepPartial<RetryInfo>): RetryInfo {
     const message = createBaseRetryInfo();
     message.retryDelay = object.retryDelay !== undefined && object.retryDelay !== null ? Duration.fromPartial(object.retryDelay) : undefined;
     return message;
@@ -539,7 +539,7 @@ export const DebugInfo = {
     message.detail !== undefined && (obj.detail = message.detail);
     return obj;
   },
-  fromPartial(object: Partial<DebugInfo>): DebugInfo {
+  fromPartial(object: DeepPartial<DebugInfo>): DebugInfo {
     const message = createBaseDebugInfo();
     message.stackEntries = object.stackEntries?.map(e => e) || [];
     message.detail = object.detail ?? "";
@@ -637,7 +637,7 @@ export const QuotaFailure = {
     }
     return obj;
   },
-  fromPartial(object: Partial<QuotaFailure>): QuotaFailure {
+  fromPartial(object: DeepPartial<QuotaFailure>): QuotaFailure {
     const message = createBaseQuotaFailure();
     message.violations = object.violations?.map(e => QuotaFailure_Violation.fromPartial(e)) || [];
     return message;
@@ -735,7 +735,7 @@ export const QuotaFailure_Violation = {
     message.description !== undefined && (obj.description = message.description);
     return obj;
   },
-  fromPartial(object: Partial<QuotaFailure_Violation>): QuotaFailure_Violation {
+  fromPartial(object: DeepPartial<QuotaFailure_Violation>): QuotaFailure_Violation {
     const message = createBaseQuotaFailure_Violation();
     message.subject = object.subject ?? "";
     message.description = object.description ?? "";
@@ -829,7 +829,7 @@ export const ErrorInfo_MetadataEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: Partial<ErrorInfo_MetadataEntry>): ErrorInfo_MetadataEntry {
+  fromPartial(object: DeepPartial<ErrorInfo_MetadataEntry>): ErrorInfo_MetadataEntry {
     const message = createBaseErrorInfo_MetadataEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -943,7 +943,7 @@ export const ErrorInfo = {
     }
     return obj;
   },
-  fromPartial(object: Partial<ErrorInfo>): ErrorInfo {
+  fromPartial(object: DeepPartial<ErrorInfo>): ErrorInfo {
     const message = createBaseErrorInfo();
     message.reason = object.reason ?? "";
     message.domain = object.domain ?? "";
@@ -1065,7 +1065,7 @@ export const PreconditionFailure = {
     }
     return obj;
   },
-  fromPartial(object: Partial<PreconditionFailure>): PreconditionFailure {
+  fromPartial(object: DeepPartial<PreconditionFailure>): PreconditionFailure {
     const message = createBasePreconditionFailure();
     message.violations = object.violations?.map(e => PreconditionFailure_Violation.fromPartial(e)) || [];
     return message;
@@ -1172,7 +1172,7 @@ export const PreconditionFailure_Violation = {
     message.description !== undefined && (obj.description = message.description);
     return obj;
   },
-  fromPartial(object: Partial<PreconditionFailure_Violation>): PreconditionFailure_Violation {
+  fromPartial(object: DeepPartial<PreconditionFailure_Violation>): PreconditionFailure_Violation {
     const message = createBasePreconditionFailure_Violation();
     message.type = object.type ?? "";
     message.subject = object.subject ?? "";
@@ -1267,7 +1267,7 @@ export const BadRequest = {
     }
     return obj;
   },
-  fromPartial(object: Partial<BadRequest>): BadRequest {
+  fromPartial(object: DeepPartial<BadRequest>): BadRequest {
     const message = createBaseBadRequest();
     message.fieldViolations = object.fieldViolations?.map(e => BadRequest_FieldViolation.fromPartial(e)) || [];
     return message;
@@ -1365,7 +1365,7 @@ export const BadRequest_FieldViolation = {
     message.description !== undefined && (obj.description = message.description);
     return obj;
   },
-  fromPartial(object: Partial<BadRequest_FieldViolation>): BadRequest_FieldViolation {
+  fromPartial(object: DeepPartial<BadRequest_FieldViolation>): BadRequest_FieldViolation {
     const message = createBaseBadRequest_FieldViolation();
     message.field = object.field ?? "";
     message.description = object.description ?? "";
@@ -1460,7 +1460,7 @@ export const RequestInfo = {
     message.servingData !== undefined && (obj.servingData = message.servingData);
     return obj;
   },
-  fromPartial(object: Partial<RequestInfo>): RequestInfo {
+  fromPartial(object: DeepPartial<RequestInfo>): RequestInfo {
     const message = createBaseRequestInfo();
     message.requestId = object.requestId ?? "";
     message.servingData = object.servingData ?? "";
@@ -1573,7 +1573,7 @@ export const ResourceInfo = {
     message.description !== undefined && (obj.description = message.description);
     return obj;
   },
-  fromPartial(object: Partial<ResourceInfo>): ResourceInfo {
+  fromPartial(object: DeepPartial<ResourceInfo>): ResourceInfo {
     const message = createBaseResourceInfo();
     message.resourceType = object.resourceType ?? "";
     message.resourceName = object.resourceName ?? "";
@@ -1673,7 +1673,7 @@ export const Help = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Help>): Help {
+  fromPartial(object: DeepPartial<Help>): Help {
     const message = createBaseHelp();
     message.links = object.links?.map(e => Help_Link.fromPartial(e)) || [];
     return message;
@@ -1771,7 +1771,7 @@ export const Help_Link = {
     message.url !== undefined && (obj.url = message.url);
     return obj;
   },
-  fromPartial(object: Partial<Help_Link>): Help_Link {
+  fromPartial(object: DeepPartial<Help_Link>): Help_Link {
     const message = createBaseHelp_Link();
     message.description = object.description ?? "";
     message.url = object.url ?? "";
@@ -1866,7 +1866,7 @@ export const LocalizedMessage = {
     message.message !== undefined && (obj.message = message.message);
     return obj;
   },
-  fromPartial(object: Partial<LocalizedMessage>): LocalizedMessage {
+  fromPartial(object: DeepPartial<LocalizedMessage>): LocalizedMessage {
     const message = createBaseLocalizedMessage();
     message.locale = object.locale ?? "";
     message.message = object.message ?? "";

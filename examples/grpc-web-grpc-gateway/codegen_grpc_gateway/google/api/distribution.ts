@@ -1,7 +1,7 @@
 import { Timestamp } from "../protobuf/timestamp";
 import { Any, AnySDKType } from "../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet, toTimestamp, fromTimestamp, fromJsonTimestamp } from "../../helpers";
+import { isSet, DeepPartial, toTimestamp, fromTimestamp, fromJsonTimestamp } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * `Distribution` contains summary statistics for a population of values. It
@@ -414,7 +414,7 @@ export const Distribution = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Distribution>): Distribution {
+  fromPartial(object: DeepPartial<Distribution>): Distribution {
     const message = createBaseDistribution();
     message.count = object.count !== undefined && object.count !== null ? BigInt(object.count.toString()) : BigInt("0");
     message.mean = object.mean ?? 0;
@@ -550,7 +550,7 @@ export const Distribution_Range = {
     message.max !== undefined && (obj.max = message.max);
     return obj;
   },
-  fromPartial(object: Partial<Distribution_Range>): Distribution_Range {
+  fromPartial(object: DeepPartial<Distribution_Range>): Distribution_Range {
     const message = createBaseDistribution_Range();
     message.min = object.min ?? 0;
     message.max = object.max ?? 0;
@@ -654,7 +654,7 @@ export const Distribution_BucketOptions = {
     message.explicitBuckets !== undefined && (obj.explicitBuckets = message.explicitBuckets ? Distribution_BucketOptions_Explicit.toJSON(message.explicitBuckets) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<Distribution_BucketOptions>): Distribution_BucketOptions {
+  fromPartial(object: DeepPartial<Distribution_BucketOptions>): Distribution_BucketOptions {
     const message = createBaseDistribution_BucketOptions();
     message.linearBuckets = object.linearBuckets !== undefined && object.linearBuckets !== null ? Distribution_BucketOptions_Linear.fromPartial(object.linearBuckets) : undefined;
     message.exponentialBuckets = object.exponentialBuckets !== undefined && object.exponentialBuckets !== null ? Distribution_BucketOptions_Exponential.fromPartial(object.exponentialBuckets) : undefined;
@@ -763,7 +763,7 @@ export const Distribution_BucketOptions_Linear = {
     message.offset !== undefined && (obj.offset = message.offset);
     return obj;
   },
-  fromPartial(object: Partial<Distribution_BucketOptions_Linear>): Distribution_BucketOptions_Linear {
+  fromPartial(object: DeepPartial<Distribution_BucketOptions_Linear>): Distribution_BucketOptions_Linear {
     const message = createBaseDistribution_BucketOptions_Linear();
     message.numFiniteBuckets = object.numFiniteBuckets ?? 0;
     message.width = object.width ?? 0;
@@ -872,7 +872,7 @@ export const Distribution_BucketOptions_Exponential = {
     message.scale !== undefined && (obj.scale = message.scale);
     return obj;
   },
-  fromPartial(object: Partial<Distribution_BucketOptions_Exponential>): Distribution_BucketOptions_Exponential {
+  fromPartial(object: DeepPartial<Distribution_BucketOptions_Exponential>): Distribution_BucketOptions_Exponential {
     const message = createBaseDistribution_BucketOptions_Exponential();
     message.numFiniteBuckets = object.numFiniteBuckets ?? 0;
     message.growthFactor = object.growthFactor ?? 0;
@@ -976,7 +976,7 @@ export const Distribution_BucketOptions_Explicit = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Distribution_BucketOptions_Explicit>): Distribution_BucketOptions_Explicit {
+  fromPartial(object: DeepPartial<Distribution_BucketOptions_Explicit>): Distribution_BucketOptions_Explicit {
     const message = createBaseDistribution_BucketOptions_Explicit();
     message.bounds = object.bounds?.map(e => e) || [];
     return message;
@@ -1087,7 +1087,7 @@ export const Distribution_Exemplar = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Distribution_Exemplar>): Distribution_Exemplar {
+  fromPartial(object: DeepPartial<Distribution_Exemplar>): Distribution_Exemplar {
     const message = createBaseDistribution_Exemplar();
     message.value = object.value ?? 0;
     message.timestamp = object.timestamp ?? undefined;

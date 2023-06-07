@@ -1,6 +1,6 @@
 import { Config, ConfigSDKType } from "./config";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet } from "../../../helpers";
+import { DeepPartial, isSet } from "../../../helpers";
 export const protobufPackage = "cosmos.app.v1alpha1";
 /** QueryConfigRequest is the Query/Config request type. */
 export interface QueryConfigRequest {}
@@ -45,7 +45,7 @@ export const QueryConfigRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<QueryConfigRequest>): QueryConfigRequest {
+  fromPartial(_: DeepPartial<QueryConfigRequest>): QueryConfigRequest {
     const message = createBaseQueryConfigRequest();
     return message;
   },
@@ -126,7 +126,7 @@ export const QueryConfigResponse = {
     message.config !== undefined && (obj.config = message.config ? Config.toJSON(message.config) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<QueryConfigResponse>): QueryConfigResponse {
+  fromPartial(object: DeepPartial<QueryConfigResponse>): QueryConfigResponse {
     const message = createBaseQueryConfigResponse();
     message.config = object.config !== undefined && object.config !== null ? Config.fromPartial(object.config) : undefined;
     return message;

@@ -1,7 +1,7 @@
 import { QuotaView, QuotaOverride, QuotaOverrideSDKType, QuotaSafetyCheck, OverrideInlineSource, OverrideInlineSourceSDKType, Service, ServiceSDKType, ConsumerQuotaMetric, ConsumerQuotaMetricSDKType, AdminQuotaPolicy, AdminQuotaPolicySDKType, ServiceIdentity, ServiceIdentitySDKType, quotaViewFromJSON, quotaViewToJSON, quotaSafetyCheckFromJSON, quotaSafetyCheckToJSON } from "./resources";
 import { FieldMask, FieldMaskSDKType } from "../../../protobuf/field_mask";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet } from "../../../../helpers";
+import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "google.api.serviceusage.v1beta1";
 /** Enum for service identity state. */
 export enum GetServiceIdentityResponse_IdentityState {
@@ -796,7 +796,7 @@ export const EnableServiceRequest = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial(object: Partial<EnableServiceRequest>): EnableServiceRequest {
+  fromPartial(object: DeepPartial<EnableServiceRequest>): EnableServiceRequest {
     const message = createBaseEnableServiceRequest();
     message.name = object.name ?? "";
     return message;
@@ -877,7 +877,7 @@ export const DisableServiceRequest = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial(object: Partial<DisableServiceRequest>): DisableServiceRequest {
+  fromPartial(object: DeepPartial<DisableServiceRequest>): DisableServiceRequest {
     const message = createBaseDisableServiceRequest();
     message.name = object.name ?? "";
     return message;
@@ -958,7 +958,7 @@ export const GetServiceRequest = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial(object: Partial<GetServiceRequest>): GetServiceRequest {
+  fromPartial(object: DeepPartial<GetServiceRequest>): GetServiceRequest {
     const message = createBaseGetServiceRequest();
     message.name = object.name ?? "";
     return message;
@@ -1066,7 +1066,7 @@ export const ListServicesRequest = {
     message.filter !== undefined && (obj.filter = message.filter);
     return obj;
   },
-  fromPartial(object: Partial<ListServicesRequest>): ListServicesRequest {
+  fromPartial(object: DeepPartial<ListServicesRequest>): ListServicesRequest {
     const message = createBaseListServicesRequest();
     message.parent = object.parent ?? "";
     message.pageSize = object.pageSize ?? 0;
@@ -1175,7 +1175,7 @@ export const ListServicesResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: Partial<ListServicesResponse>): ListServicesResponse {
+  fromPartial(object: DeepPartial<ListServicesResponse>): ListServicesResponse {
     const message = createBaseListServicesResponse();
     message.services = object.services?.map(e => Service.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -1282,7 +1282,7 @@ export const BatchEnableServicesRequest = {
     }
     return obj;
   },
-  fromPartial(object: Partial<BatchEnableServicesRequest>): BatchEnableServicesRequest {
+  fromPartial(object: DeepPartial<BatchEnableServicesRequest>): BatchEnableServicesRequest {
     const message = createBaseBatchEnableServicesRequest();
     message.parent = object.parent ?? "";
     message.serviceIds = object.serviceIds?.map(e => e) || [];
@@ -1403,7 +1403,7 @@ export const ListConsumerQuotaMetricsRequest = {
     message.view !== undefined && (obj.view = quotaViewToJSON(message.view));
     return obj;
   },
-  fromPartial(object: Partial<ListConsumerQuotaMetricsRequest>): ListConsumerQuotaMetricsRequest {
+  fromPartial(object: DeepPartial<ListConsumerQuotaMetricsRequest>): ListConsumerQuotaMetricsRequest {
     const message = createBaseListConsumerQuotaMetricsRequest();
     message.parent = object.parent ?? "";
     message.pageSize = object.pageSize ?? 0;
@@ -1512,7 +1512,7 @@ export const ListConsumerQuotaMetricsResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: Partial<ListConsumerQuotaMetricsResponse>): ListConsumerQuotaMetricsResponse {
+  fromPartial(object: DeepPartial<ListConsumerQuotaMetricsResponse>): ListConsumerQuotaMetricsResponse {
     const message = createBaseListConsumerQuotaMetricsResponse();
     message.metrics = object.metrics?.map(e => ConsumerQuotaMetric.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -1615,7 +1615,7 @@ export const GetConsumerQuotaMetricRequest = {
     message.view !== undefined && (obj.view = quotaViewToJSON(message.view));
     return obj;
   },
-  fromPartial(object: Partial<GetConsumerQuotaMetricRequest>): GetConsumerQuotaMetricRequest {
+  fromPartial(object: DeepPartial<GetConsumerQuotaMetricRequest>): GetConsumerQuotaMetricRequest {
     const message = createBaseGetConsumerQuotaMetricRequest();
     message.name = object.name ?? "";
     message.view = object.view ?? 0;
@@ -1710,7 +1710,7 @@ export const GetConsumerQuotaLimitRequest = {
     message.view !== undefined && (obj.view = quotaViewToJSON(message.view));
     return obj;
   },
-  fromPartial(object: Partial<GetConsumerQuotaLimitRequest>): GetConsumerQuotaLimitRequest {
+  fromPartial(object: DeepPartial<GetConsumerQuotaLimitRequest>): GetConsumerQuotaLimitRequest {
     const message = createBaseGetConsumerQuotaLimitRequest();
     message.name = object.name ?? "";
     message.view = object.view ?? 0;
@@ -1836,7 +1836,7 @@ export const CreateAdminOverrideRequest = {
     }
     return obj;
   },
-  fromPartial(object: Partial<CreateAdminOverrideRequest>): CreateAdminOverrideRequest {
+  fromPartial(object: DeepPartial<CreateAdminOverrideRequest>): CreateAdminOverrideRequest {
     const message = createBaseCreateAdminOverrideRequest();
     message.parent = object.parent ?? "";
     message.override = object.override !== undefined && object.override !== null ? QuotaOverride.fromPartial(object.override) : undefined;
@@ -1989,7 +1989,7 @@ export const UpdateAdminOverrideRequest = {
     }
     return obj;
   },
-  fromPartial(object: Partial<UpdateAdminOverrideRequest>): UpdateAdminOverrideRequest {
+  fromPartial(object: DeepPartial<UpdateAdminOverrideRequest>): UpdateAdminOverrideRequest {
     const message = createBaseUpdateAdminOverrideRequest();
     message.name = object.name ?? "";
     message.override = object.override !== undefined && object.override !== null ? QuotaOverride.fromPartial(object.override) : undefined;
@@ -2129,7 +2129,7 @@ export const DeleteAdminOverrideRequest = {
     }
     return obj;
   },
-  fromPartial(object: Partial<DeleteAdminOverrideRequest>): DeleteAdminOverrideRequest {
+  fromPartial(object: DeepPartial<DeleteAdminOverrideRequest>): DeleteAdminOverrideRequest {
     const message = createBaseDeleteAdminOverrideRequest();
     message.name = object.name ?? "";
     message.force = object.force ?? false;
@@ -2246,7 +2246,7 @@ export const ListAdminOverridesRequest = {
     message.pageToken !== undefined && (obj.pageToken = message.pageToken);
     return obj;
   },
-  fromPartial(object: Partial<ListAdminOverridesRequest>): ListAdminOverridesRequest {
+  fromPartial(object: DeepPartial<ListAdminOverridesRequest>): ListAdminOverridesRequest {
     const message = createBaseListAdminOverridesRequest();
     message.parent = object.parent ?? "";
     message.pageSize = object.pageSize ?? 0;
@@ -2350,7 +2350,7 @@ export const ListAdminOverridesResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: Partial<ListAdminOverridesResponse>): ListAdminOverridesResponse {
+  fromPartial(object: DeepPartial<ListAdminOverridesResponse>): ListAdminOverridesResponse {
     const message = createBaseListAdminOverridesResponse();
     message.overrides = object.overrides?.map(e => QuotaOverride.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -2448,7 +2448,7 @@ export const BatchCreateAdminOverridesResponse = {
     }
     return obj;
   },
-  fromPartial(object: Partial<BatchCreateAdminOverridesResponse>): BatchCreateAdminOverridesResponse {
+  fromPartial(object: DeepPartial<BatchCreateAdminOverridesResponse>): BatchCreateAdminOverridesResponse {
     const message = createBaseBatchCreateAdminOverridesResponse();
     message.overrides = object.overrides?.map(e => QuotaOverride.fromPartial(e)) || [];
     return message;
@@ -2577,7 +2577,7 @@ export const ImportAdminOverridesRequest = {
     }
     return obj;
   },
-  fromPartial(object: Partial<ImportAdminOverridesRequest>): ImportAdminOverridesRequest {
+  fromPartial(object: DeepPartial<ImportAdminOverridesRequest>): ImportAdminOverridesRequest {
     const message = createBaseImportAdminOverridesRequest();
     message.parent = object.parent ?? "";
     message.inlineSource = object.inlineSource !== undefined && object.inlineSource !== null ? OverrideInlineSource.fromPartial(object.inlineSource) : undefined;
@@ -2685,7 +2685,7 @@ export const ImportAdminOverridesResponse = {
     }
     return obj;
   },
-  fromPartial(object: Partial<ImportAdminOverridesResponse>): ImportAdminOverridesResponse {
+  fromPartial(object: DeepPartial<ImportAdminOverridesResponse>): ImportAdminOverridesResponse {
     const message = createBaseImportAdminOverridesResponse();
     message.overrides = object.overrides?.map(e => QuotaOverride.fromPartial(e)) || [];
     return message;
@@ -2763,7 +2763,7 @@ export const ImportAdminOverridesMetadata = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<ImportAdminOverridesMetadata>): ImportAdminOverridesMetadata {
+  fromPartial(_: DeepPartial<ImportAdminOverridesMetadata>): ImportAdminOverridesMetadata {
     const message = createBaseImportAdminOverridesMetadata();
     return message;
   },
@@ -2877,7 +2877,7 @@ export const CreateConsumerOverrideRequest = {
     }
     return obj;
   },
-  fromPartial(object: Partial<CreateConsumerOverrideRequest>): CreateConsumerOverrideRequest {
+  fromPartial(object: DeepPartial<CreateConsumerOverrideRequest>): CreateConsumerOverrideRequest {
     const message = createBaseCreateConsumerOverrideRequest();
     message.parent = object.parent ?? "";
     message.override = object.override !== undefined && object.override !== null ? QuotaOverride.fromPartial(object.override) : undefined;
@@ -3030,7 +3030,7 @@ export const UpdateConsumerOverrideRequest = {
     }
     return obj;
   },
-  fromPartial(object: Partial<UpdateConsumerOverrideRequest>): UpdateConsumerOverrideRequest {
+  fromPartial(object: DeepPartial<UpdateConsumerOverrideRequest>): UpdateConsumerOverrideRequest {
     const message = createBaseUpdateConsumerOverrideRequest();
     message.name = object.name ?? "";
     message.override = object.override !== undefined && object.override !== null ? QuotaOverride.fromPartial(object.override) : undefined;
@@ -3170,7 +3170,7 @@ export const DeleteConsumerOverrideRequest = {
     }
     return obj;
   },
-  fromPartial(object: Partial<DeleteConsumerOverrideRequest>): DeleteConsumerOverrideRequest {
+  fromPartial(object: DeepPartial<DeleteConsumerOverrideRequest>): DeleteConsumerOverrideRequest {
     const message = createBaseDeleteConsumerOverrideRequest();
     message.name = object.name ?? "";
     message.force = object.force ?? false;
@@ -3287,7 +3287,7 @@ export const ListConsumerOverridesRequest = {
     message.pageToken !== undefined && (obj.pageToken = message.pageToken);
     return obj;
   },
-  fromPartial(object: Partial<ListConsumerOverridesRequest>): ListConsumerOverridesRequest {
+  fromPartial(object: DeepPartial<ListConsumerOverridesRequest>): ListConsumerOverridesRequest {
     const message = createBaseListConsumerOverridesRequest();
     message.parent = object.parent ?? "";
     message.pageSize = object.pageSize ?? 0;
@@ -3391,7 +3391,7 @@ export const ListConsumerOverridesResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: Partial<ListConsumerOverridesResponse>): ListConsumerOverridesResponse {
+  fromPartial(object: DeepPartial<ListConsumerOverridesResponse>): ListConsumerOverridesResponse {
     const message = createBaseListConsumerOverridesResponse();
     message.overrides = object.overrides?.map(e => QuotaOverride.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -3489,7 +3489,7 @@ export const BatchCreateConsumerOverridesResponse = {
     }
     return obj;
   },
-  fromPartial(object: Partial<BatchCreateConsumerOverridesResponse>): BatchCreateConsumerOverridesResponse {
+  fromPartial(object: DeepPartial<BatchCreateConsumerOverridesResponse>): BatchCreateConsumerOverridesResponse {
     const message = createBaseBatchCreateConsumerOverridesResponse();
     message.overrides = object.overrides?.map(e => QuotaOverride.fromPartial(e)) || [];
     return message;
@@ -3618,7 +3618,7 @@ export const ImportConsumerOverridesRequest = {
     }
     return obj;
   },
-  fromPartial(object: Partial<ImportConsumerOverridesRequest>): ImportConsumerOverridesRequest {
+  fromPartial(object: DeepPartial<ImportConsumerOverridesRequest>): ImportConsumerOverridesRequest {
     const message = createBaseImportConsumerOverridesRequest();
     message.parent = object.parent ?? "";
     message.inlineSource = object.inlineSource !== undefined && object.inlineSource !== null ? OverrideInlineSource.fromPartial(object.inlineSource) : undefined;
@@ -3726,7 +3726,7 @@ export const ImportConsumerOverridesResponse = {
     }
     return obj;
   },
-  fromPartial(object: Partial<ImportConsumerOverridesResponse>): ImportConsumerOverridesResponse {
+  fromPartial(object: DeepPartial<ImportConsumerOverridesResponse>): ImportConsumerOverridesResponse {
     const message = createBaseImportConsumerOverridesResponse();
     message.overrides = object.overrides?.map(e => QuotaOverride.fromPartial(e)) || [];
     return message;
@@ -3804,7 +3804,7 @@ export const ImportConsumerOverridesMetadata = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<ImportConsumerOverridesMetadata>): ImportConsumerOverridesMetadata {
+  fromPartial(_: DeepPartial<ImportConsumerOverridesMetadata>): ImportConsumerOverridesMetadata {
     const message = createBaseImportConsumerOverridesMetadata();
     return message;
   },
@@ -3882,7 +3882,7 @@ export const ImportAdminQuotaPoliciesResponse = {
     }
     return obj;
   },
-  fromPartial(object: Partial<ImportAdminQuotaPoliciesResponse>): ImportAdminQuotaPoliciesResponse {
+  fromPartial(object: DeepPartial<ImportAdminQuotaPoliciesResponse>): ImportAdminQuotaPoliciesResponse {
     const message = createBaseImportAdminQuotaPoliciesResponse();
     message.policies = object.policies?.map(e => AdminQuotaPolicy.fromPartial(e)) || [];
     return message;
@@ -3960,7 +3960,7 @@ export const ImportAdminQuotaPoliciesMetadata = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<ImportAdminQuotaPoliciesMetadata>): ImportAdminQuotaPoliciesMetadata {
+  fromPartial(_: DeepPartial<ImportAdminQuotaPoliciesMetadata>): ImportAdminQuotaPoliciesMetadata {
     const message = createBaseImportAdminQuotaPoliciesMetadata();
     return message;
   },
@@ -4023,7 +4023,7 @@ export const CreateAdminQuotaPolicyMetadata = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<CreateAdminQuotaPolicyMetadata>): CreateAdminQuotaPolicyMetadata {
+  fromPartial(_: DeepPartial<CreateAdminQuotaPolicyMetadata>): CreateAdminQuotaPolicyMetadata {
     const message = createBaseCreateAdminQuotaPolicyMetadata();
     return message;
   },
@@ -4086,7 +4086,7 @@ export const UpdateAdminQuotaPolicyMetadata = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<UpdateAdminQuotaPolicyMetadata>): UpdateAdminQuotaPolicyMetadata {
+  fromPartial(_: DeepPartial<UpdateAdminQuotaPolicyMetadata>): UpdateAdminQuotaPolicyMetadata {
     const message = createBaseUpdateAdminQuotaPolicyMetadata();
     return message;
   },
@@ -4149,7 +4149,7 @@ export const DeleteAdminQuotaPolicyMetadata = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<DeleteAdminQuotaPolicyMetadata>): DeleteAdminQuotaPolicyMetadata {
+  fromPartial(_: DeepPartial<DeleteAdminQuotaPolicyMetadata>): DeleteAdminQuotaPolicyMetadata {
     const message = createBaseDeleteAdminQuotaPolicyMetadata();
     return message;
   },
@@ -4223,7 +4223,7 @@ export const GenerateServiceIdentityRequest = {
     message.parent !== undefined && (obj.parent = message.parent);
     return obj;
   },
-  fromPartial(object: Partial<GenerateServiceIdentityRequest>): GenerateServiceIdentityRequest {
+  fromPartial(object: DeepPartial<GenerateServiceIdentityRequest>): GenerateServiceIdentityRequest {
     const message = createBaseGenerateServiceIdentityRequest();
     message.parent = object.parent ?? "";
     return message;
@@ -4313,7 +4313,7 @@ export const GetServiceIdentityResponse = {
     message.state !== undefined && (obj.state = getServiceIdentityResponse_IdentityStateToJSON(message.state));
     return obj;
   },
-  fromPartial(object: Partial<GetServiceIdentityResponse>): GetServiceIdentityResponse {
+  fromPartial(object: DeepPartial<GetServiceIdentityResponse>): GetServiceIdentityResponse {
     const message = createBaseGetServiceIdentityResponse();
     message.identity = object.identity !== undefined && object.identity !== null ? ServiceIdentity.fromPartial(object.identity) : undefined;
     message.state = object.state ?? 0;
@@ -4388,7 +4388,7 @@ export const GetServiceIdentityMetadata = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<GetServiceIdentityMetadata>): GetServiceIdentityMetadata {
+  fromPartial(_: DeepPartial<GetServiceIdentityMetadata>): GetServiceIdentityMetadata {
     const message = createBaseGetServiceIdentityMetadata();
     return message;
   },

@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { DeepPartial, isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /** Supported data type of the property values */
 export enum Property_PropertyType {
@@ -180,7 +180,7 @@ export const ProjectProperties = {
     }
     return obj;
   },
-  fromPartial(object: Partial<ProjectProperties>): ProjectProperties {
+  fromPartial(object: DeepPartial<ProjectProperties>): ProjectProperties {
     const message = createBaseProjectProperties();
     message.properties = object.properties?.map(e => Property.fromPartial(e)) || [];
     return message;
@@ -287,7 +287,7 @@ export const Property = {
     message.description !== undefined && (obj.description = message.description);
     return obj;
   },
-  fromPartial(object: Partial<Property>): Property {
+  fromPartial(object: DeepPartial<Property>): Property {
     const message = createBaseProperty();
     message.name = object.name ?? "";
     message.type = object.type ?? 0;

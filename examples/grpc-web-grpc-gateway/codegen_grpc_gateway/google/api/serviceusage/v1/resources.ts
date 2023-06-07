@@ -7,7 +7,7 @@ import { Endpoint, EndpointSDKType } from "../../endpoint";
 import { MonitoredResourceDescriptor, MonitoredResourceDescriptorSDKType } from "../../monitored_resource";
 import { Monitoring, MonitoringSDKType } from "../../monitoring";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet } from "../../../../helpers";
+import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "google.api.serviceusage.v1";
 /** Whether or not a service has been enabled for use by a consumer. */
 export enum State {
@@ -225,7 +225,7 @@ export const Service = {
     message.state !== undefined && (obj.state = stateToJSON(message.state));
     return obj;
   },
-  fromPartial(object: Partial<Service>): Service {
+  fromPartial(object: DeepPartial<Service>): Service {
     const message = createBaseService();
     message.name = object.name ?? "";
     message.parent = object.parent ?? "";
@@ -414,7 +414,7 @@ export const ServiceConfig = {
     message.monitoring !== undefined && (obj.monitoring = message.monitoring ? Monitoring.toJSON(message.monitoring) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<ServiceConfig>): ServiceConfig {
+  fromPartial(object: DeepPartial<ServiceConfig>): ServiceConfig {
     const message = createBaseServiceConfig();
     message.name = object.name ?? "";
     message.title = object.title ?? "";
@@ -568,7 +568,7 @@ export const OperationMetadata = {
     }
     return obj;
   },
-  fromPartial(object: Partial<OperationMetadata>): OperationMetadata {
+  fromPartial(object: DeepPartial<OperationMetadata>): OperationMetadata {
     const message = createBaseOperationMetadata();
     message.resourceNames = object.resourceNames?.map(e => e) || [];
     return message;

@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
 /** Configuration controlling usage of a service. */
 export interface Usage {
@@ -185,7 +185,7 @@ export const Usage = {
     message.producerNotificationChannel !== undefined && (obj.producerNotificationChannel = message.producerNotificationChannel);
     return obj;
   },
-  fromPartial(object: Partial<Usage>): Usage {
+  fromPartial(object: DeepPartial<Usage>): Usage {
     const message = createBaseUsage();
     message.requirements = object.requirements?.map(e => e) || [];
     message.rules = object.rules?.map(e => UsageRule.fromPartial(e)) || [];
@@ -310,7 +310,7 @@ export const UsageRule = {
     message.skipServiceControl !== undefined && (obj.skipServiceControl = message.skipServiceControl);
     return obj;
   },
-  fromPartial(object: Partial<UsageRule>): UsageRule {
+  fromPartial(object: DeepPartial<UsageRule>): UsageRule {
     const message = createBaseUsageRule();
     message.selector = object.selector ?? "";
     message.allowUnregisteredCalls = object.allowUnregisteredCalls ?? false;

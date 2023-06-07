@@ -2,7 +2,7 @@ import { Duration, DurationSDKType } from "../protobuf/duration";
 import { Any, AnySDKType } from "../protobuf/any";
 import { Status, StatusSDKType } from "../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.longrunning";
 /**
  * This resource represents a long-running operation that is the result of a
@@ -255,7 +255,7 @@ export const Operation = {
     message.response !== undefined && (obj.response = message.response ? Any.toJSON(message.response) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<Operation>): Operation {
+  fromPartial(object: DeepPartial<Operation>): Operation {
     const message = createBaseOperation();
     message.name = object.name ?? "";
     message.metadata = object.metadata !== undefined && object.metadata !== null ? Any.fromPartial(object.metadata) : undefined;
@@ -356,7 +356,7 @@ export const GetOperationRequest = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial(object: Partial<GetOperationRequest>): GetOperationRequest {
+  fromPartial(object: DeepPartial<GetOperationRequest>): GetOperationRequest {
     const message = createBaseGetOperationRequest();
     message.name = object.name ?? "";
     return message;
@@ -464,7 +464,7 @@ export const ListOperationsRequest = {
     message.pageToken !== undefined && (obj.pageToken = message.pageToken);
     return obj;
   },
-  fromPartial(object: Partial<ListOperationsRequest>): ListOperationsRequest {
+  fromPartial(object: DeepPartial<ListOperationsRequest>): ListOperationsRequest {
     const message = createBaseListOperationsRequest();
     message.name = object.name ?? "";
     message.filter = object.filter ?? "";
@@ -573,7 +573,7 @@ export const ListOperationsResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: Partial<ListOperationsResponse>): ListOperationsResponse {
+  fromPartial(object: DeepPartial<ListOperationsResponse>): ListOperationsResponse {
     const message = createBaseListOperationsResponse();
     message.operations = object.operations?.map(e => Operation.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -667,7 +667,7 @@ export const CancelOperationRequest = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial(object: Partial<CancelOperationRequest>): CancelOperationRequest {
+  fromPartial(object: DeepPartial<CancelOperationRequest>): CancelOperationRequest {
     const message = createBaseCancelOperationRequest();
     message.name = object.name ?? "";
     return message;
@@ -748,7 +748,7 @@ export const DeleteOperationRequest = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial(object: Partial<DeleteOperationRequest>): DeleteOperationRequest {
+  fromPartial(object: DeepPartial<DeleteOperationRequest>): DeleteOperationRequest {
     const message = createBaseDeleteOperationRequest();
     message.name = object.name ?? "";
     return message;
@@ -838,7 +838,7 @@ export const WaitOperationRequest = {
     message.timeout !== undefined && (obj.timeout = message.timeout ? Duration.toJSON(message.timeout) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<WaitOperationRequest>): WaitOperationRequest {
+  fromPartial(object: DeepPartial<WaitOperationRequest>): WaitOperationRequest {
     const message = createBaseWaitOperationRequest();
     message.name = object.name ?? "";
     message.timeout = object.timeout !== undefined && object.timeout !== null ? Duration.fromPartial(object.timeout) : undefined;
@@ -933,7 +933,7 @@ export const OperationInfo = {
     message.metadataType !== undefined && (obj.metadataType = message.metadataType);
     return obj;
   },
-  fromPartial(object: Partial<OperationInfo>): OperationInfo {
+  fromPartial(object: DeepPartial<OperationInfo>): OperationInfo {
     const message = createBaseOperationInfo();
     message.responseType = object.responseType ?? "";
     message.metadataType = object.metadataType ?? "";

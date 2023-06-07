@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * Classifies set of possible modifications to an object in the service
@@ -213,7 +213,7 @@ export const ConfigChange = {
     }
     return obj;
   },
-  fromPartial(object: Partial<ConfigChange>): ConfigChange {
+  fromPartial(object: DeepPartial<ConfigChange>): ConfigChange {
     const message = createBaseConfigChange();
     message.element = object.element ?? "";
     message.oldValue = object.oldValue ?? "";
@@ -322,7 +322,7 @@ export const Advice = {
     message.description !== undefined && (obj.description = message.description);
     return obj;
   },
-  fromPartial(object: Partial<Advice>): Advice {
+  fromPartial(object: DeepPartial<Advice>): Advice {
     const message = createBaseAdvice();
     message.description = object.description ?? "";
     return message;

@@ -1,4 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { DeepPartial } from "../../../../helpers";
 export const protobufPackage = "cosmos.orm.module.v1alpha1";
 /**
  * Module defines the ORM module which adds providers to the app container for
@@ -42,7 +43,7 @@ export const Module = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<Module>): Module {
+  fromPartial(_: DeepPartial<Module>): Module {
     const message = createBaseModule();
     return message;
   },

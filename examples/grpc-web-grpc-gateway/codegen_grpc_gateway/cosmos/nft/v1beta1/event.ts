@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet } from "../../../helpers";
+import { isSet, DeepPartial } from "../../../helpers";
 export const protobufPackage = "cosmos.nft.v1beta1";
 /** EventSend is emitted on Msg/Send */
 export interface EventSend {
@@ -107,7 +107,7 @@ export const EventSend = {
     message.receiver !== undefined && (obj.receiver = message.receiver);
     return obj;
   },
-  fromPartial(object: Partial<EventSend>): EventSend {
+  fromPartial(object: DeepPartial<EventSend>): EventSend {
     const message = createBaseEventSend();
     message.classId = object.classId ?? "";
     message.id = object.id ?? "";
@@ -228,7 +228,7 @@ export const EventMint = {
     message.owner !== undefined && (obj.owner = message.owner);
     return obj;
   },
-  fromPartial(object: Partial<EventMint>): EventMint {
+  fromPartial(object: DeepPartial<EventMint>): EventMint {
     const message = createBaseEventMint();
     message.classId = object.classId ?? "";
     message.id = object.id ?? "";
@@ -344,7 +344,7 @@ export const EventBurn = {
     message.owner !== undefined && (obj.owner = message.owner);
     return obj;
   },
-  fromPartial(object: Partial<EventBurn>): EventBurn {
+  fromPartial(object: DeepPartial<EventBurn>): EventBurn {
     const message = createBaseEventBurn();
     message.classId = object.classId ?? "";
     message.id = object.id ?? "";

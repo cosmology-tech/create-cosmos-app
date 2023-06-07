@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet } from "../../../helpers";
+import { isSet, DeepPartial } from "../../../helpers";
 export const protobufPackage = "cosmos.capability.v1beta1";
 /**
  * Capability defines an implementation of an object capability. The index
@@ -86,7 +86,7 @@ export const Capability = {
     message.index !== undefined && (obj.index = (message.index || BigInt("0")).toString());
     return obj;
   },
-  fromPartial(object: Partial<Capability>): Capability {
+  fromPartial(object: DeepPartial<Capability>): Capability {
     const message = createBaseCapability();
     message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt("0");
     return message;
@@ -183,7 +183,7 @@ export const Owner = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial(object: Partial<Owner>): Owner {
+  fromPartial(object: DeepPartial<Owner>): Owner {
     const message = createBaseOwner();
     message.module = object.module ?? "";
     message.name = object.name ?? "";
@@ -280,7 +280,7 @@ export const CapabilityOwners = {
     }
     return obj;
   },
-  fromPartial(object: Partial<CapabilityOwners>): CapabilityOwners {
+  fromPartial(object: DeepPartial<CapabilityOwners>): CapabilityOwners {
     const message = createBaseCapabilityOwners();
     message.owners = object.owners?.map(e => Owner.fromPartial(e)) || [];
     return message;

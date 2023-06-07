@@ -1,6 +1,6 @@
 import { Any, AnySDKType } from "../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet, bytesFromBase64, base64FromBytes } from "../../helpers";
+import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * Message that represents an arbitrary HTTP body. It should only be used for
@@ -170,7 +170,7 @@ export const HttpBody = {
     }
     return obj;
   },
-  fromPartial(object: Partial<HttpBody>): HttpBody {
+  fromPartial(object: DeepPartial<HttpBody>): HttpBody {
     const message = createBaseHttpBody();
     message.contentType = object.contentType ?? "";
     message.data = object.data ?? new Uint8Array();

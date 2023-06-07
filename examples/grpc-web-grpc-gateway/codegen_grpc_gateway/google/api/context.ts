@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { DeepPartial, isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * `Context` defines which contexts an API requests.
@@ -169,7 +169,7 @@ export const Context = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Context>): Context {
+  fromPartial(object: DeepPartial<Context>): Context {
     const message = createBaseContext();
     message.rules = object.rules?.map(e => ContextRule.fromPartial(e)) || [];
     return message;
@@ -310,7 +310,7 @@ export const ContextRule = {
     }
     return obj;
   },
-  fromPartial(object: Partial<ContextRule>): ContextRule {
+  fromPartial(object: DeepPartial<ContextRule>): ContextRule {
     const message = createBaseContextRule();
     message.selector = object.selector ?? "";
     message.requested = object.requested?.map(e => e) || [];

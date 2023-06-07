@@ -3,7 +3,7 @@ import { Timestamp } from "../../protobuf/timestamp";
 import { Duration, DurationSDKType } from "../../protobuf/duration";
 import { Any, AnySDKType } from "../../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet, isObject, toTimestamp, fromTimestamp, fromJsonTimestamp } from "../../../helpers";
+import { isSet, DeepPartial, isObject, toTimestamp, fromTimestamp, fromJsonTimestamp } from "../../../helpers";
 export const protobufPackage = "google.rpc.context";
 /**
  * This message defines the standard attribute vocabulary for Google APIs.
@@ -636,7 +636,7 @@ export const AttributeContext = {
     }
     return obj;
   },
-  fromPartial(object: Partial<AttributeContext>): AttributeContext {
+  fromPartial(object: DeepPartial<AttributeContext>): AttributeContext {
     const message = createBaseAttributeContext();
     message.origin = object.origin !== undefined && object.origin !== null ? AttributeContext_Peer.fromPartial(object.origin) : undefined;
     message.source = object.source !== undefined && object.source !== null ? AttributeContext_Peer.fromPartial(object.source) : undefined;
@@ -768,7 +768,7 @@ export const AttributeContext_Peer_LabelsEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: Partial<AttributeContext_Peer_LabelsEntry>): AttributeContext_Peer_LabelsEntry {
+  fromPartial(object: DeepPartial<AttributeContext_Peer_LabelsEntry>): AttributeContext_Peer_LabelsEntry {
     const message = createBaseAttributeContext_Peer_LabelsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -900,7 +900,7 @@ export const AttributeContext_Peer = {
     message.regionCode !== undefined && (obj.regionCode = message.regionCode);
     return obj;
   },
-  fromPartial(object: Partial<AttributeContext_Peer>): AttributeContext_Peer {
+  fromPartial(object: DeepPartial<AttributeContext_Peer>): AttributeContext_Peer {
     const message = createBaseAttributeContext_Peer();
     message.ip = object.ip ?? "";
     message.port = object.port !== undefined && object.port !== null ? BigInt(object.port.toString()) : BigInt("0");
@@ -1055,7 +1055,7 @@ export const AttributeContext_Api = {
     message.version !== undefined && (obj.version = message.version);
     return obj;
   },
-  fromPartial(object: Partial<AttributeContext_Api>): AttributeContext_Api {
+  fromPartial(object: DeepPartial<AttributeContext_Api>): AttributeContext_Api {
     const message = createBaseAttributeContext_Api();
     message.service = object.service ?? "";
     message.operation = object.operation ?? "";
@@ -1195,7 +1195,7 @@ export const AttributeContext_Auth = {
     }
     return obj;
   },
-  fromPartial(object: Partial<AttributeContext_Auth>): AttributeContext_Auth {
+  fromPartial(object: DeepPartial<AttributeContext_Auth>): AttributeContext_Auth {
     const message = createBaseAttributeContext_Auth();
     message.principal = object.principal ?? "";
     message.audiences = object.audiences?.map(e => e) || [];
@@ -1320,7 +1320,7 @@ export const AttributeContext_Request_HeadersEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: Partial<AttributeContext_Request_HeadersEntry>): AttributeContext_Request_HeadersEntry {
+  fromPartial(object: DeepPartial<AttributeContext_Request_HeadersEntry>): AttributeContext_Request_HeadersEntry {
     const message = createBaseAttributeContext_Request_HeadersEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -1515,7 +1515,7 @@ export const AttributeContext_Request = {
     message.auth !== undefined && (obj.auth = message.auth ? AttributeContext_Auth.toJSON(message.auth) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<AttributeContext_Request>): AttributeContext_Request {
+  fromPartial(object: DeepPartial<AttributeContext_Request>): AttributeContext_Request {
     const message = createBaseAttributeContext_Request();
     message.id = object.id ?? "";
     message.method = object.method ?? "";
@@ -1686,7 +1686,7 @@ export const AttributeContext_Response_HeadersEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: Partial<AttributeContext_Response_HeadersEntry>): AttributeContext_Response_HeadersEntry {
+  fromPartial(object: DeepPartial<AttributeContext_Response_HeadersEntry>): AttributeContext_Response_HeadersEntry {
     const message = createBaseAttributeContext_Response_HeadersEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -1818,7 +1818,7 @@ export const AttributeContext_Response = {
     message.backendLatency !== undefined && (obj.backendLatency = message.backendLatency ? Duration.toJSON(message.backendLatency) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<AttributeContext_Response>): AttributeContext_Response {
+  fromPartial(object: DeepPartial<AttributeContext_Response>): AttributeContext_Response {
     const message = createBaseAttributeContext_Response();
     message.code = object.code !== undefined && object.code !== null ? BigInt(object.code.toString()) : BigInt("0");
     message.size = object.size !== undefined && object.size !== null ? BigInt(object.size.toString()) : BigInt("0");
@@ -1954,7 +1954,7 @@ export const AttributeContext_Resource_LabelsEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: Partial<AttributeContext_Resource_LabelsEntry>): AttributeContext_Resource_LabelsEntry {
+  fromPartial(object: DeepPartial<AttributeContext_Resource_LabelsEntry>): AttributeContext_Resource_LabelsEntry {
     const message = createBaseAttributeContext_Resource_LabelsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -2042,7 +2042,7 @@ export const AttributeContext_Resource_AnnotationsEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: Partial<AttributeContext_Resource_AnnotationsEntry>): AttributeContext_Resource_AnnotationsEntry {
+  fromPartial(object: DeepPartial<AttributeContext_Resource_AnnotationsEntry>): AttributeContext_Resource_AnnotationsEntry {
     const message = createBaseAttributeContext_Resource_AnnotationsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -2253,7 +2253,7 @@ export const AttributeContext_Resource = {
     message.location !== undefined && (obj.location = message.location);
     return obj;
   },
-  fromPartial(object: Partial<AttributeContext_Resource>): AttributeContext_Resource {
+  fromPartial(object: DeepPartial<AttributeContext_Resource>): AttributeContext_Resource {
     const message = createBaseAttributeContext_Resource();
     message.service = object.service ?? "";
     message.name = object.name ?? "";

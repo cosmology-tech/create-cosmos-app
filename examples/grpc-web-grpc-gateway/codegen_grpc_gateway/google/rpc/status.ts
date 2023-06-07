@@ -1,6 +1,6 @@
 import { Any, AnySDKType } from "../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.rpc";
 /**
  * The `Status` type defines a logical error model that is suitable for
@@ -102,7 +102,7 @@ export const Status = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Status>): Status {
+  fromPartial(object: DeepPartial<Status>): Status {
     const message = createBaseStatus();
     message.code = object.code ?? 0;
     message.message = object.message ?? "";

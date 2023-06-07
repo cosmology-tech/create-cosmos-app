@@ -1,6 +1,6 @@
 import { Duration, DurationSDKType } from "../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "tendermint.types";
 /**
  * ConsensusParams contains consensus critical parameters that determine the
@@ -185,7 +185,7 @@ export const ConsensusParams = {
     message.version !== undefined && (obj.version = message.version ? VersionParams.toJSON(message.version) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<ConsensusParams>): ConsensusParams {
+  fromPartial(object: DeepPartial<ConsensusParams>): ConsensusParams {
     const message = createBaseConsensusParams();
     message.block = object.block !== undefined && object.block !== null ? BlockParams.fromPartial(object.block) : undefined;
     message.evidence = object.evidence !== undefined && object.evidence !== null ? EvidenceParams.fromPartial(object.evidence) : undefined;
@@ -299,7 +299,7 @@ export const BlockParams = {
     message.timeIotaMs !== undefined && (obj.timeIotaMs = (message.timeIotaMs || BigInt("0")).toString());
     return obj;
   },
-  fromPartial(object: Partial<BlockParams>): BlockParams {
+  fromPartial(object: DeepPartial<BlockParams>): BlockParams {
     const message = createBaseBlockParams();
     message.maxBytes = object.maxBytes !== undefined && object.maxBytes !== null ? BigInt(object.maxBytes.toString()) : BigInt("0");
     message.maxGas = object.maxGas !== undefined && object.maxGas !== null ? BigInt(object.maxGas.toString()) : BigInt("0");
@@ -408,7 +408,7 @@ export const EvidenceParams = {
     message.maxBytes !== undefined && (obj.maxBytes = (message.maxBytes || BigInt("0")).toString());
     return obj;
   },
-  fromPartial(object: Partial<EvidenceParams>): EvidenceParams {
+  fromPartial(object: DeepPartial<EvidenceParams>): EvidenceParams {
     const message = createBaseEvidenceParams();
     message.maxAgeNumBlocks = object.maxAgeNumBlocks !== undefined && object.maxAgeNumBlocks !== null ? BigInt(object.maxAgeNumBlocks.toString()) : BigInt("0");
     message.maxAgeDuration = object.maxAgeDuration !== undefined && object.maxAgeDuration !== null ? Duration.fromPartial(object.maxAgeDuration) : undefined;
@@ -503,7 +503,7 @@ export const ValidatorParams = {
     }
     return obj;
   },
-  fromPartial(object: Partial<ValidatorParams>): ValidatorParams {
+  fromPartial(object: DeepPartial<ValidatorParams>): ValidatorParams {
     const message = createBaseValidatorParams();
     message.pubKeyTypes = object.pubKeyTypes?.map(e => e) || [];
     return message;
@@ -592,7 +592,7 @@ export const VersionParams = {
     message.appVersion !== undefined && (obj.appVersion = (message.appVersion || BigInt("0")).toString());
     return obj;
   },
-  fromPartial(object: Partial<VersionParams>): VersionParams {
+  fromPartial(object: DeepPartial<VersionParams>): VersionParams {
     const message = createBaseVersionParams();
     message.appVersion = object.appVersion !== undefined && object.appVersion !== null ? BigInt(object.appVersion.toString()) : BigInt("0");
     return message;
@@ -682,7 +682,7 @@ export const HashedParams = {
     message.blockMaxGas !== undefined && (obj.blockMaxGas = (message.blockMaxGas || BigInt("0")).toString());
     return obj;
   },
-  fromPartial(object: Partial<HashedParams>): HashedParams {
+  fromPartial(object: DeepPartial<HashedParams>): HashedParams {
     const message = createBaseHashedParams();
     message.blockMaxBytes = object.blockMaxBytes !== undefined && object.blockMaxBytes !== null ? BigInt(object.blockMaxBytes.toString()) : BigInt("0");
     message.blockMaxGas = object.blockMaxGas !== undefined && object.blockMaxGas !== null ? BigInt(object.blockMaxGas.toString()) : BigInt("0");

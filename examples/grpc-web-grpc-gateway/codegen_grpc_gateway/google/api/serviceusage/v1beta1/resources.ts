@@ -7,7 +7,7 @@ import { Endpoint, EndpointSDKType } from "../../endpoint";
 import { MonitoredResourceDescriptor, MonitoredResourceDescriptorSDKType } from "../../monitored_resource";
 import { Monitoring, MonitoringSDKType } from "../../monitoring";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet, isObject } from "../../../../helpers";
+import { isSet, DeepPartial, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.serviceusage.v1beta1";
 /** Whether or not a service has been enabled for use by a consumer. */
 export enum State {
@@ -679,7 +679,7 @@ export const Service = {
     message.state !== undefined && (obj.state = stateToJSON(message.state));
     return obj;
   },
-  fromPartial(object: Partial<Service>): Service {
+  fromPartial(object: DeepPartial<Service>): Service {
     const message = createBaseService();
     message.name = object.name ?? "";
     message.parent = object.parent ?? "";
@@ -868,7 +868,7 @@ export const ServiceConfig = {
     message.monitoring !== undefined && (obj.monitoring = message.monitoring ? Monitoring.toJSON(message.monitoring) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<ServiceConfig>): ServiceConfig {
+  fromPartial(object: DeepPartial<ServiceConfig>): ServiceConfig {
     const message = createBaseServiceConfig();
     message.name = object.name ?? "";
     message.title = object.title ?? "";
@@ -1022,7 +1022,7 @@ export const OperationMetadata = {
     }
     return obj;
   },
-  fromPartial(object: Partial<OperationMetadata>): OperationMetadata {
+  fromPartial(object: DeepPartial<OperationMetadata>): OperationMetadata {
     const message = createBaseOperationMetadata();
     message.resourceNames = object.resourceNames?.map(e => e) || [];
     return message;
@@ -1164,7 +1164,7 @@ export const ConsumerQuotaMetric = {
     message.unit !== undefined && (obj.unit = message.unit);
     return obj;
   },
-  fromPartial(object: Partial<ConsumerQuotaMetric>): ConsumerQuotaMetric {
+  fromPartial(object: DeepPartial<ConsumerQuotaMetric>): ConsumerQuotaMetric {
     const message = createBaseConsumerQuotaMetric();
     message.name = object.name ?? "";
     message.metric = object.metric ?? "";
@@ -1335,7 +1335,7 @@ export const ConsumerQuotaLimit = {
     }
     return obj;
   },
-  fromPartial(object: Partial<ConsumerQuotaLimit>): ConsumerQuotaLimit {
+  fromPartial(object: DeepPartial<ConsumerQuotaLimit>): ConsumerQuotaLimit {
     const message = createBaseConsumerQuotaLimit();
     message.name = object.name ?? "";
     message.metric = object.metric ?? "";
@@ -1457,7 +1457,7 @@ export const QuotaBucket_DimensionsEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: Partial<QuotaBucket_DimensionsEntry>): QuotaBucket_DimensionsEntry {
+  fromPartial(object: DeepPartial<QuotaBucket_DimensionsEntry>): QuotaBucket_DimensionsEntry {
     const message = createBaseQuotaBucket_DimensionsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -1598,7 +1598,7 @@ export const QuotaBucket = {
     }
     return obj;
   },
-  fromPartial(object: Partial<QuotaBucket>): QuotaBucket {
+  fromPartial(object: DeepPartial<QuotaBucket>): QuotaBucket {
     const message = createBaseQuotaBucket();
     message.effectiveLimit = object.effectiveLimit !== undefined && object.effectiveLimit !== null ? BigInt(object.effectiveLimit.toString()) : BigInt("0");
     message.defaultLimit = object.defaultLimit !== undefined && object.defaultLimit !== null ? BigInt(object.defaultLimit.toString()) : BigInt("0");
@@ -1739,7 +1739,7 @@ export const QuotaOverride_DimensionsEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: Partial<QuotaOverride_DimensionsEntry>): QuotaOverride_DimensionsEntry {
+  fromPartial(object: DeepPartial<QuotaOverride_DimensionsEntry>): QuotaOverride_DimensionsEntry {
     const message = createBaseQuotaOverride_DimensionsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -1880,7 +1880,7 @@ export const QuotaOverride = {
     message.adminOverrideAncestor !== undefined && (obj.adminOverrideAncestor = message.adminOverrideAncestor);
     return obj;
   },
-  fromPartial(object: Partial<QuotaOverride>): QuotaOverride {
+  fromPartial(object: DeepPartial<QuotaOverride>): QuotaOverride {
     const message = createBaseQuotaOverride();
     message.name = object.name ?? "";
     message.overrideValue = object.overrideValue !== undefined && object.overrideValue !== null ? BigInt(object.overrideValue.toString()) : BigInt("0");
@@ -2017,7 +2017,7 @@ export const OverrideInlineSource = {
     }
     return obj;
   },
-  fromPartial(object: Partial<OverrideInlineSource>): OverrideInlineSource {
+  fromPartial(object: DeepPartial<OverrideInlineSource>): OverrideInlineSource {
     const message = createBaseOverrideInlineSource();
     message.overrides = object.overrides?.map(e => QuotaOverride.fromPartial(e)) || [];
     return message;
@@ -2114,7 +2114,7 @@ export const AdminQuotaPolicy_DimensionsEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: Partial<AdminQuotaPolicy_DimensionsEntry>): AdminQuotaPolicy_DimensionsEntry {
+  fromPartial(object: DeepPartial<AdminQuotaPolicy_DimensionsEntry>): AdminQuotaPolicy_DimensionsEntry {
     const message = createBaseAdminQuotaPolicy_DimensionsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -2255,7 +2255,7 @@ export const AdminQuotaPolicy = {
     message.container !== undefined && (obj.container = message.container);
     return obj;
   },
-  fromPartial(object: Partial<AdminQuotaPolicy>): AdminQuotaPolicy {
+  fromPartial(object: DeepPartial<AdminQuotaPolicy>): AdminQuotaPolicy {
     const message = createBaseAdminQuotaPolicy();
     message.name = object.name ?? "";
     message.policyValue = object.policyValue !== undefined && object.policyValue !== null ? BigInt(object.policyValue.toString()) : BigInt("0");
@@ -2397,7 +2397,7 @@ export const ServiceIdentity = {
     message.uniqueId !== undefined && (obj.uniqueId = message.uniqueId);
     return obj;
   },
-  fromPartial(object: Partial<ServiceIdentity>): ServiceIdentity {
+  fromPartial(object: DeepPartial<ServiceIdentity>): ServiceIdentity {
     const message = createBaseServiceIdentity();
     message.email = object.email ?? "";
     message.uniqueId = object.uniqueId ?? "";

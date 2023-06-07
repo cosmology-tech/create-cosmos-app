@@ -1,4 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
+import { DeepPartial } from "../../helpers";
 export const protobufPackage = "google.protobuf";
 /**
  * `FieldMask` represents a set of symbolic field paths, for example:
@@ -453,7 +454,7 @@ export const FieldMask = {
     }
     return obj;
   },
-  fromPartial(object: Partial<FieldMask>): FieldMask {
+  fromPartial(object: DeepPartial<FieldMask>): FieldMask {
     const message = createBaseFieldMask();
     message.paths = object.paths?.map(e => e) || [];
     return message;

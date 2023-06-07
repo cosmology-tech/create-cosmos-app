@@ -2,7 +2,7 @@ import { LaunchStage, launchStageFromJSON, launchStageToJSON } from "./launch_st
 import { Duration, DurationSDKType } from "../protobuf/duration";
 import { LabelDescriptor, LabelDescriptorSDKType } from "./label";
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet, isObject } from "../../helpers";
+import { isSet, DeepPartial, isObject } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
  * The kind of measurement. It describes how the data is reported.
@@ -520,7 +520,7 @@ export const MetricDescriptor = {
     }
     return obj;
   },
-  fromPartial(object: Partial<MetricDescriptor>): MetricDescriptor {
+  fromPartial(object: DeepPartial<MetricDescriptor>): MetricDescriptor {
     const message = createBaseMetricDescriptor();
     message.name = object.name ?? "";
     message.type = object.type ?? "";
@@ -685,7 +685,7 @@ export const MetricDescriptor_MetricDescriptorMetadata = {
     message.ingestDelay !== undefined && (obj.ingestDelay = message.ingestDelay ? Duration.toJSON(message.ingestDelay) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<MetricDescriptor_MetricDescriptorMetadata>): MetricDescriptor_MetricDescriptorMetadata {
+  fromPartial(object: DeepPartial<MetricDescriptor_MetricDescriptorMetadata>): MetricDescriptor_MetricDescriptorMetadata {
     const message = createBaseMetricDescriptor_MetricDescriptorMetadata();
     message.launchStage = object.launchStage ?? 0;
     message.samplePeriod = object.samplePeriod !== undefined && object.samplePeriod !== null ? Duration.fromPartial(object.samplePeriod) : undefined;
@@ -784,7 +784,7 @@ export const Metric_LabelsEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: Partial<Metric_LabelsEntry>): Metric_LabelsEntry {
+  fromPartial(object: DeepPartial<Metric_LabelsEntry>): Metric_LabelsEntry {
     const message = createBaseMetric_LabelsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -889,7 +889,7 @@ export const Metric = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Metric>): Metric {
+  fromPartial(object: DeepPartial<Metric>): Metric {
     const message = createBaseMetric();
     message.type = object.type ?? "";
     message.labels = Object.entries(object.labels ?? {}).reduce<{

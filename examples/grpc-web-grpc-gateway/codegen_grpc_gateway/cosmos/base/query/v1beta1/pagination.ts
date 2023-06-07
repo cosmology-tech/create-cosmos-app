@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
+import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "cosmos.base.query.v1beta1";
 /**
  * PageRequest is to be embedded in gRPC request messages for efficient
@@ -170,7 +170,7 @@ export const PageRequest = {
     message.reverse !== undefined && (obj.reverse = message.reverse);
     return obj;
   },
-  fromPartial(object: Partial<PageRequest>): PageRequest {
+  fromPartial(object: DeepPartial<PageRequest>): PageRequest {
     const message = createBasePageRequest();
     message.key = object.key ?? new Uint8Array();
     message.offset = object.offset !== undefined && object.offset !== null ? BigInt(object.offset.toString()) : BigInt("0");
@@ -287,7 +287,7 @@ export const PageResponse = {
     message.total !== undefined && (obj.total = (message.total || BigInt("0")).toString());
     return obj;
   },
-  fromPartial(object: Partial<PageResponse>): PageResponse {
+  fromPartial(object: DeepPartial<PageResponse>): PageResponse {
     const message = createBasePageResponse();
     message.nextKey = object.nextKey ?? new Uint8Array();
     message.total = object.total !== undefined && object.total !== null ? BigInt(object.total.toString()) : BigInt("0");

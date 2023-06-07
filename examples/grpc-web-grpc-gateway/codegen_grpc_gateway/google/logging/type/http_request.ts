@@ -1,6 +1,6 @@
 import { Duration, DurationSDKType } from "../../protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet } from "../../../helpers";
+import { isSet, DeepPartial } from "../../../helpers";
 export const protobufPackage = "google.logging.type";
 /**
  * A common proto for logging HTTP requests. Only contains semantics
@@ -269,7 +269,7 @@ export const HttpRequest = {
     message.protocol !== undefined && (obj.protocol = message.protocol);
     return obj;
   },
-  fromPartial(object: Partial<HttpRequest>): HttpRequest {
+  fromPartial(object: DeepPartial<HttpRequest>): HttpRequest {
     const message = createBaseHttpRequest();
     message.requestMethod = object.requestMethod ?? "";
     message.requestUrl = object.requestUrl ?? "";

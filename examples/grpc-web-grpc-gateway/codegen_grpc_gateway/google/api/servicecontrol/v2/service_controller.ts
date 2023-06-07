@@ -1,7 +1,7 @@
 import { AttributeContext, AttributeContextSDKType } from "../../../rpc/context/attribute_context";
 import { Status, StatusSDKType } from "../../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet, isObject } from "../../../../helpers";
+import { isSet, DeepPartial, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v2";
 /** Request message for the Check method. */
 export interface CheckRequest {
@@ -220,7 +220,7 @@ export const CheckRequest = {
     message.flags !== undefined && (obj.flags = message.flags);
     return obj;
   },
-  fromPartial(object: Partial<CheckRequest>): CheckRequest {
+  fromPartial(object: DeepPartial<CheckRequest>): CheckRequest {
     const message = createBaseCheckRequest();
     message.serviceName = object.serviceName ?? "";
     message.serviceConfigId = object.serviceConfigId ?? "";
@@ -365,7 +365,7 @@ export const ResourceInfo = {
     message.location !== undefined && (obj.location = message.location);
     return obj;
   },
-  fromPartial(object: Partial<ResourceInfo>): ResourceInfo {
+  fromPartial(object: DeepPartial<ResourceInfo>): ResourceInfo {
     const message = createBaseResourceInfo();
     message.name = object.name ?? "";
     message.type = object.type ?? "";
@@ -474,7 +474,7 @@ export const CheckResponse_HeadersEntry = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: Partial<CheckResponse_HeadersEntry>): CheckResponse_HeadersEntry {
+  fromPartial(object: DeepPartial<CheckResponse_HeadersEntry>): CheckResponse_HeadersEntry {
     const message = createBaseCheckResponse_HeadersEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
@@ -579,7 +579,7 @@ export const CheckResponse = {
     }
     return obj;
   },
-  fromPartial(object: Partial<CheckResponse>): CheckResponse {
+  fromPartial(object: DeepPartial<CheckResponse>): CheckResponse {
     const message = createBaseCheckResponse();
     message.status = object.status !== undefined && object.status !== null ? Status.fromPartial(object.status) : undefined;
     message.headers = Object.entries(object.headers ?? {}).reduce<{
@@ -714,7 +714,7 @@ export const ReportRequest = {
     }
     return obj;
   },
-  fromPartial(object: Partial<ReportRequest>): ReportRequest {
+  fromPartial(object: DeepPartial<ReportRequest>): ReportRequest {
     const message = createBaseReportRequest();
     message.serviceName = object.serviceName ?? "";
     message.serviceConfigId = object.serviceConfigId ?? "";
@@ -802,7 +802,7 @@ export const ReportResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<ReportResponse>): ReportResponse {
+  fromPartial(_: DeepPartial<ReportResponse>): ReportResponse {
     const message = createBaseReportResponse();
     return message;
   },

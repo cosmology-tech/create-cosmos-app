@@ -1,6 +1,6 @@
 import { Value, ValueSDKType } from "./value";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet } from "../../../../helpers";
+import { DeepPartial, isSet } from "../../../../helpers";
 export const protobufPackage = "google.api.expr.v1alpha1";
 /**
  * Values of intermediate expressions produced when evaluating expression.
@@ -102,7 +102,7 @@ export const Explain = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Explain>): Explain {
+  fromPartial(object: DeepPartial<Explain>): Explain {
     const message = createBaseExplain();
     message.values = object.values?.map(e => Value.fromPartial(e)) || [];
     message.exprSteps = object.exprSteps?.map(e => Explain_ExprStep.fromPartial(e)) || [];
@@ -213,7 +213,7 @@ export const Explain_ExprStep = {
     message.valueIndex !== undefined && (obj.valueIndex = Math.round(message.valueIndex));
     return obj;
   },
-  fromPartial(object: Partial<Explain_ExprStep>): Explain_ExprStep {
+  fromPartial(object: DeepPartial<Explain_ExprStep>): Explain_ExprStep {
     const message = createBaseExplain_ExprStep();
     message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt("0");
     message.valueIndex = object.valueIndex ?? 0;

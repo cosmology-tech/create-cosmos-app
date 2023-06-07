@@ -46,7 +46,7 @@ telescope({
         ]
       },
       typingsFormat: {
-        useDeepPartial: false,
+        useDeepPartial: true,
         useExact: false,
         num64: "bigint",
         timestamp: 'date',

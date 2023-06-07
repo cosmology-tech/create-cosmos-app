@@ -1,6 +1,6 @@
 import { Expr, ExprSDKType } from "./expr";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet } from "../../../../helpers";
+import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "google.api.expr.v1beta1";
 /** A declaration. */
 export interface Decl {
@@ -154,7 +154,7 @@ export const Decl = {
     message.function !== undefined && (obj.function = message.function ? FunctionDecl.toJSON(message.function) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<Decl>): Decl {
+  fromPartial(object: DeepPartial<Decl>): Decl {
     const message = createBaseDecl();
     message.id = object.id ?? 0;
     message.name = object.name ?? "";
@@ -277,7 +277,7 @@ export const DeclType = {
     }
     return obj;
   },
-  fromPartial(object: Partial<DeclType>): DeclType {
+  fromPartial(object: DeepPartial<DeclType>): DeclType {
     const message = createBaseDeclType();
     message.id = object.id ?? 0;
     message.type = object.type ?? "";
@@ -385,7 +385,7 @@ export const IdentDecl = {
     message.value !== undefined && (obj.value = message.value ? Expr.toJSON(message.value) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<IdentDecl>): IdentDecl {
+  fromPartial(object: DeepPartial<IdentDecl>): IdentDecl {
     const message = createBaseIdentDecl();
     message.type = object.type !== undefined && object.type !== null ? DeclType.fromPartial(object.type) : undefined;
     message.value = object.value !== undefined && object.value !== null ? Expr.fromPartial(object.value) : undefined;
@@ -493,7 +493,7 @@ export const FunctionDecl = {
     message.receiverFunction !== undefined && (obj.receiverFunction = message.receiverFunction);
     return obj;
   },
-  fromPartial(object: Partial<FunctionDecl>): FunctionDecl {
+  fromPartial(object: DeepPartial<FunctionDecl>): FunctionDecl {
     const message = createBaseFunctionDecl();
     message.args = object.args?.map(e => IdentDecl.fromPartial(e)) || [];
     message.returnType = object.returnType !== undefined && object.returnType !== null ? DeclType.fromPartial(object.returnType) : undefined;

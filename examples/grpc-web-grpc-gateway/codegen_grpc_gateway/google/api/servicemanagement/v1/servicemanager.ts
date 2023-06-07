@@ -2,7 +2,7 @@ import { ManagedService, ManagedServiceSDKType, ConfigSource, ConfigSourceSDKTyp
 import { Service, ServiceSDKType } from "../../service";
 import { Any, AnySDKType } from "../../../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet } from "../../../../helpers";
+import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "google.api.servicemanagement.v1";
 export enum GetServiceConfigRequest_ConfigView {
   /** BASIC - Server response includes all fields except SourceInfo. */
@@ -436,7 +436,7 @@ export const ListServicesRequest = {
     message.consumerId !== undefined && (obj.consumerId = message.consumerId);
     return obj;
   },
-  fromPartial(object: Partial<ListServicesRequest>): ListServicesRequest {
+  fromPartial(object: DeepPartial<ListServicesRequest>): ListServicesRequest {
     const message = createBaseListServicesRequest();
     message.producerProjectId = object.producerProjectId ?? "";
     message.pageSize = object.pageSize ?? 0;
@@ -545,7 +545,7 @@ export const ListServicesResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: Partial<ListServicesResponse>): ListServicesResponse {
+  fromPartial(object: DeepPartial<ListServicesResponse>): ListServicesResponse {
     const message = createBaseListServicesResponse();
     message.services = object.services?.map(e => ManagedService.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -639,7 +639,7 @@ export const GetServiceRequest = {
     message.serviceName !== undefined && (obj.serviceName = message.serviceName);
     return obj;
   },
-  fromPartial(object: Partial<GetServiceRequest>): GetServiceRequest {
+  fromPartial(object: DeepPartial<GetServiceRequest>): GetServiceRequest {
     const message = createBaseGetServiceRequest();
     message.serviceName = object.serviceName ?? "";
     return message;
@@ -720,7 +720,7 @@ export const CreateServiceRequest = {
     message.service !== undefined && (obj.service = message.service ? ManagedService.toJSON(message.service) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<CreateServiceRequest>): CreateServiceRequest {
+  fromPartial(object: DeepPartial<CreateServiceRequest>): CreateServiceRequest {
     const message = createBaseCreateServiceRequest();
     message.service = object.service !== undefined && object.service !== null ? ManagedService.fromPartial(object.service) : undefined;
     return message;
@@ -801,7 +801,7 @@ export const DeleteServiceRequest = {
     message.serviceName !== undefined && (obj.serviceName = message.serviceName);
     return obj;
   },
-  fromPartial(object: Partial<DeleteServiceRequest>): DeleteServiceRequest {
+  fromPartial(object: DeepPartial<DeleteServiceRequest>): DeleteServiceRequest {
     const message = createBaseDeleteServiceRequest();
     message.serviceName = object.serviceName ?? "";
     return message;
@@ -882,7 +882,7 @@ export const UndeleteServiceRequest = {
     message.serviceName !== undefined && (obj.serviceName = message.serviceName);
     return obj;
   },
-  fromPartial(object: Partial<UndeleteServiceRequest>): UndeleteServiceRequest {
+  fromPartial(object: DeepPartial<UndeleteServiceRequest>): UndeleteServiceRequest {
     const message = createBaseUndeleteServiceRequest();
     message.serviceName = object.serviceName ?? "";
     return message;
@@ -963,7 +963,7 @@ export const UndeleteServiceResponse = {
     message.service !== undefined && (obj.service = message.service ? ManagedService.toJSON(message.service) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<UndeleteServiceResponse>): UndeleteServiceResponse {
+  fromPartial(object: DeepPartial<UndeleteServiceResponse>): UndeleteServiceResponse {
     const message = createBaseUndeleteServiceResponse();
     message.service = object.service !== undefined && object.service !== null ? ManagedService.fromPartial(object.service) : undefined;
     return message;
@@ -1062,7 +1062,7 @@ export const GetServiceConfigRequest = {
     message.view !== undefined && (obj.view = getServiceConfigRequest_ConfigViewToJSON(message.view));
     return obj;
   },
-  fromPartial(object: Partial<GetServiceConfigRequest>): GetServiceConfigRequest {
+  fromPartial(object: DeepPartial<GetServiceConfigRequest>): GetServiceConfigRequest {
     const message = createBaseGetServiceConfigRequest();
     message.serviceName = object.serviceName ?? "";
     message.configId = object.configId ?? "";
@@ -1171,7 +1171,7 @@ export const ListServiceConfigsRequest = {
     message.pageSize !== undefined && (obj.pageSize = Math.round(message.pageSize));
     return obj;
   },
-  fromPartial(object: Partial<ListServiceConfigsRequest>): ListServiceConfigsRequest {
+  fromPartial(object: DeepPartial<ListServiceConfigsRequest>): ListServiceConfigsRequest {
     const message = createBaseListServiceConfigsRequest();
     message.serviceName = object.serviceName ?? "";
     message.pageToken = object.pageToken ?? "";
@@ -1275,7 +1275,7 @@ export const ListServiceConfigsResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: Partial<ListServiceConfigsResponse>): ListServiceConfigsResponse {
+  fromPartial(object: DeepPartial<ListServiceConfigsResponse>): ListServiceConfigsResponse {
     const message = createBaseListServiceConfigsResponse();
     message.serviceConfigs = object.serviceConfigs?.map(e => Service.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -1378,7 +1378,7 @@ export const CreateServiceConfigRequest = {
     message.serviceConfig !== undefined && (obj.serviceConfig = message.serviceConfig ? Service.toJSON(message.serviceConfig) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<CreateServiceConfigRequest>): CreateServiceConfigRequest {
+  fromPartial(object: DeepPartial<CreateServiceConfigRequest>): CreateServiceConfigRequest {
     const message = createBaseCreateServiceConfigRequest();
     message.serviceName = object.serviceName ?? "";
     message.serviceConfig = object.serviceConfig !== undefined && object.serviceConfig !== null ? Service.fromPartial(object.serviceConfig) : undefined;
@@ -1482,7 +1482,7 @@ export const SubmitConfigSourceRequest = {
     message.validateOnly !== undefined && (obj.validateOnly = message.validateOnly);
     return obj;
   },
-  fromPartial(object: Partial<SubmitConfigSourceRequest>): SubmitConfigSourceRequest {
+  fromPartial(object: DeepPartial<SubmitConfigSourceRequest>): SubmitConfigSourceRequest {
     const message = createBaseSubmitConfigSourceRequest();
     message.serviceName = object.serviceName ?? "";
     message.configSource = object.configSource !== undefined && object.configSource !== null ? ConfigSource.fromPartial(object.configSource) : undefined;
@@ -1573,7 +1573,7 @@ export const SubmitConfigSourceResponse = {
     message.serviceConfig !== undefined && (obj.serviceConfig = message.serviceConfig ? Service.toJSON(message.serviceConfig) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<SubmitConfigSourceResponse>): SubmitConfigSourceResponse {
+  fromPartial(object: DeepPartial<SubmitConfigSourceResponse>): SubmitConfigSourceResponse {
     const message = createBaseSubmitConfigSourceResponse();
     message.serviceConfig = object.serviceConfig !== undefined && object.serviceConfig !== null ? Service.fromPartial(object.serviceConfig) : undefined;
     return message;
@@ -1663,7 +1663,7 @@ export const CreateServiceRolloutRequest = {
     message.rollout !== undefined && (obj.rollout = message.rollout ? Rollout.toJSON(message.rollout) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<CreateServiceRolloutRequest>): CreateServiceRolloutRequest {
+  fromPartial(object: DeepPartial<CreateServiceRolloutRequest>): CreateServiceRolloutRequest {
     const message = createBaseCreateServiceRolloutRequest();
     message.serviceName = object.serviceName ?? "";
     message.rollout = object.rollout !== undefined && object.rollout !== null ? Rollout.fromPartial(object.rollout) : undefined;
@@ -1776,7 +1776,7 @@ export const ListServiceRolloutsRequest = {
     message.filter !== undefined && (obj.filter = message.filter);
     return obj;
   },
-  fromPartial(object: Partial<ListServiceRolloutsRequest>): ListServiceRolloutsRequest {
+  fromPartial(object: DeepPartial<ListServiceRolloutsRequest>): ListServiceRolloutsRequest {
     const message = createBaseListServiceRolloutsRequest();
     message.serviceName = object.serviceName ?? "";
     message.pageToken = object.pageToken ?? "";
@@ -1885,7 +1885,7 @@ export const ListServiceRolloutsResponse = {
     message.nextPageToken !== undefined && (obj.nextPageToken = message.nextPageToken);
     return obj;
   },
-  fromPartial(object: Partial<ListServiceRolloutsResponse>): ListServiceRolloutsResponse {
+  fromPartial(object: DeepPartial<ListServiceRolloutsResponse>): ListServiceRolloutsResponse {
     const message = createBaseListServiceRolloutsResponse();
     message.rollouts = object.rollouts?.map(e => Rollout.fromPartial(e)) || [];
     message.nextPageToken = object.nextPageToken ?? "";
@@ -1988,7 +1988,7 @@ export const GetServiceRolloutRequest = {
     message.rolloutId !== undefined && (obj.rolloutId = message.rolloutId);
     return obj;
   },
-  fromPartial(object: Partial<GetServiceRolloutRequest>): GetServiceRolloutRequest {
+  fromPartial(object: DeepPartial<GetServiceRolloutRequest>): GetServiceRolloutRequest {
     const message = createBaseGetServiceRolloutRequest();
     message.serviceName = object.serviceName ?? "";
     message.rolloutId = object.rolloutId ?? "";
@@ -2083,7 +2083,7 @@ export const GenerateConfigReportRequest = {
     message.oldConfig !== undefined && (obj.oldConfig = message.oldConfig ? Any.toJSON(message.oldConfig) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<GenerateConfigReportRequest>): GenerateConfigReportRequest {
+  fromPartial(object: DeepPartial<GenerateConfigReportRequest>): GenerateConfigReportRequest {
     const message = createBaseGenerateConfigReportRequest();
     message.newConfig = object.newConfig !== undefined && object.newConfig !== null ? Any.fromPartial(object.newConfig) : undefined;
     message.oldConfig = object.oldConfig !== undefined && object.oldConfig !== null ? Any.fromPartial(object.oldConfig) : undefined;
@@ -2204,7 +2204,7 @@ export const GenerateConfigReportResponse = {
     }
     return obj;
   },
-  fromPartial(object: Partial<GenerateConfigReportResponse>): GenerateConfigReportResponse {
+  fromPartial(object: DeepPartial<GenerateConfigReportResponse>): GenerateConfigReportResponse {
     const message = createBaseGenerateConfigReportResponse();
     message.serviceName = object.serviceName ?? "";
     message.id = object.id ?? "";
