@@ -8,12 +8,14 @@ import { wallets as leapWallets } from '@cosmos-kit/leap';
 
 import { SignerOptions } from '@cosmos-kit/core';
 import { chains, assets } from 'chain-registry';
+import { Chain } from '@chain-registry/types';
+import { getSigningCosmosClientOptions } from 'interchain';
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
-    // signingStargate: (_chain: Chain) => {
-    //   return getSigningCosmosClientOptions();
-    // }
+    signingStargate: (_chain: Chain) => {
+      return getSigningCosmosClientOptions();
+    }
   };
 
   return (

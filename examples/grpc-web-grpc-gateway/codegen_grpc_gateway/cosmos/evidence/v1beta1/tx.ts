@@ -1,5 +1,5 @@
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
 export const protobufPackage = "cosmos.evidence.v1beta1";
 /**
@@ -68,7 +68,7 @@ function createBaseMsgSubmitEvidence(): MsgSubmitEvidence {
 export const MsgSubmitEvidence = {
   typeUrl: "/cosmos.evidence.v1beta1.MsgSubmitEvidence",
   aminoType: "cosmos-sdk/MsgSubmitEvidence",
-  encode(message: MsgSubmitEvidence, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgSubmitEvidence, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.submitter !== "") {
       writer.uint32(10).string(message.submitter);
     }
@@ -77,8 +77,8 @@ export const MsgSubmitEvidence = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSubmitEvidence {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgSubmitEvidence {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgSubmitEvidence();
     while (reader.pos < end) {
@@ -169,14 +169,14 @@ function createBaseMsgSubmitEvidenceResponse(): MsgSubmitEvidenceResponse {
 export const MsgSubmitEvidenceResponse = {
   typeUrl: "/cosmos.evidence.v1beta1.MsgSubmitEvidenceResponse",
   aminoType: "cosmos-sdk/MsgSubmitEvidenceResponse",
-  encode(message: MsgSubmitEvidenceResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgSubmitEvidenceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.hash.length !== 0) {
       writer.uint32(34).bytes(message.hash);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSubmitEvidenceResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgSubmitEvidenceResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgSubmitEvidenceResponse();
     while (reader.pos < end) {
@@ -249,8 +249,8 @@ export const MsgSubmitEvidenceResponse = {
     };
   }
 };
-export const Evidence_InterfaceDecoder = (input: _m0.Reader | Uint8Array): Any => {
-  const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+export const Evidence_InterfaceDecoder = (input: BinaryReader | Uint8Array): Any => {
+  const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
   const data = Any.decode(reader, reader.uint32());
   switch (data.typeUrl) {
     default:

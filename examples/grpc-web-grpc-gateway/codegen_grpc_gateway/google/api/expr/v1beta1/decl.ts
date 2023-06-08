@@ -1,5 +1,5 @@
 import { Expr, ExprAmino, ExprSDKType } from "./expr";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "google.api.expr.v1beta1";
 /** A declaration. */
@@ -167,7 +167,7 @@ function createBaseDecl(): Decl {
 }
 export const Decl = {
   typeUrl: "/google.api.expr.v1beta1.Decl",
-  encode(message: Decl, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Decl, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== 0) {
       writer.uint32(8).int32(message.id);
     }
@@ -185,8 +185,8 @@ export const Decl = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Decl {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Decl {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDecl();
     while (reader.pos < end) {
@@ -302,7 +302,7 @@ function createBaseDeclType(): DeclType {
 }
 export const DeclType = {
   typeUrl: "/google.api.expr.v1beta1.DeclType",
-  encode(message: DeclType, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DeclType, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== 0) {
       writer.uint32(8).int32(message.id);
     }
@@ -314,8 +314,8 @@ export const DeclType = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DeclType {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DeclType {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDeclType();
     while (reader.pos < end) {
@@ -422,7 +422,7 @@ function createBaseIdentDecl(): IdentDecl {
 }
 export const IdentDecl = {
   typeUrl: "/google.api.expr.v1beta1.IdentDecl",
-  encode(message: IdentDecl, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: IdentDecl, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.type !== undefined) {
       DeclType.encode(message.type, writer.uint32(26).fork()).ldelim();
     }
@@ -431,8 +431,8 @@ export const IdentDecl = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): IdentDecl {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): IdentDecl {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseIdentDecl();
     while (reader.pos < end) {
@@ -518,7 +518,7 @@ function createBaseFunctionDecl(): FunctionDecl {
 }
 export const FunctionDecl = {
   typeUrl: "/google.api.expr.v1beta1.FunctionDecl",
-  encode(message: FunctionDecl, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: FunctionDecl, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.args) {
       IdentDecl.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -530,8 +530,8 @@ export const FunctionDecl = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): FunctionDecl {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): FunctionDecl {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseFunctionDecl();
     while (reader.pos < end) {

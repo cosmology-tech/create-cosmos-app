@@ -1,4 +1,4 @@
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
 /** Value types that can be used as label values. */
@@ -84,7 +84,7 @@ function createBaseLabelDescriptor(): LabelDescriptor {
 }
 export const LabelDescriptor = {
   typeUrl: "/google.api.LabelDescriptor",
-  encode(message: LabelDescriptor, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: LabelDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -96,8 +96,8 @@ export const LabelDescriptor = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): LabelDescriptor {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): LabelDescriptor {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseLabelDescriptor();
     while (reader.pos < end) {

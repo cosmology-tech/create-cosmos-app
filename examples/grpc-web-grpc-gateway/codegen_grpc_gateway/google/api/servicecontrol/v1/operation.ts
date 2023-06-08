@@ -2,8 +2,8 @@ import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../protobuf/t
 import { MetricValueSet, MetricValueSetAmino, MetricValueSetSDKType } from "./metric_value";
 import { LogEntry, LogEntryAmino, LogEntrySDKType } from "./log_entry";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../protobuf/any";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, toTimestamp, fromTimestamp, isObject } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, DeepPartial, toTimestamp, fromTimestamp, fromJsonTimestamp, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /** Defines the importance of the data contained in the operation. */
 export enum Operation_Importance {
@@ -261,7 +261,7 @@ function createBaseOperation_LabelsEntry(): Operation_LabelsEntry {
   };
 }
 export const Operation_LabelsEntry = {
-  encode(message: Operation_LabelsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Operation_LabelsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -270,8 +270,8 @@ export const Operation_LabelsEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Operation_LabelsEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Operation_LabelsEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOperation_LabelsEntry();
     while (reader.pos < end) {
@@ -358,7 +358,7 @@ function createBaseOperation(): Operation {
 }
 export const Operation = {
   typeUrl: "/google.api.servicecontrol.v1.Operation",
-  encode(message: Operation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Operation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.operationId !== "") {
       writer.uint32(10).string(message.operationId);
     }
@@ -394,8 +394,8 @@ export const Operation = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Operation {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Operation {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOperation();
     while (reader.pos < end) {
@@ -446,8 +446,8 @@ export const Operation = {
       operationId: isSet(object.operationId) ? String(object.operationId) : "",
       operationName: isSet(object.operationName) ? String(object.operationName) : "",
       consumerId: isSet(object.consumerId) ? String(object.consumerId) : "",
-      startTime: isSet(object.startTime) ? new Date(object.startTime) : undefined,
-      endTime: isSet(object.endTime) ? new Date(object.endTime) : undefined,
+      startTime: isSet(object.startTime) ? fromJsonTimestamp(object.startTime) : undefined,
+      endTime: isSet(object.endTime) ? fromJsonTimestamp(object.endTime) : undefined,
       labels: isObject(object.labels) ? Object.entries(object.labels).reduce<{
         [key: string]: string;
       }>((acc, [key, value]) => {
@@ -517,8 +517,8 @@ export const Operation = {
       operationId: object?.operation_id,
       operationName: object?.operation_name,
       consumerId: object?.consumer_id,
-      startTime: object.start_time ?? undefined,
-      endTime: object.end_time ?? undefined,
+      startTime: object.start_time ? Timestamp.fromSDK(object.start_time) : undefined,
+      endTime: object.end_time ? Timestamp.fromSDK(object.end_time) : undefined,
       labels: isObject(object.labels) ? Object.entries(object.labels).reduce<{
         [key: string]: string;
       }>((acc, [key, value]) => {
@@ -536,8 +536,8 @@ export const Operation = {
     obj.operation_id = message.operationId;
     obj.operation_name = message.operationName;
     obj.consumer_id = message.consumerId;
-    message.startTime !== undefined && (obj.start_time = message.startTime ?? undefined);
-    message.endTime !== undefined && (obj.end_time = message.endTime ?? undefined);
+    message.startTime !== undefined && (obj.start_time = message.startTime ? Timestamp.toSDK(message.startTime) : undefined);
+    message.endTime !== undefined && (obj.end_time = message.endTime ? Timestamp.toSDK(message.endTime) : undefined);
     obj.labels = {};
     if (message.labels) {
       Object.entries(message.labels).forEach(([k, v]) => {

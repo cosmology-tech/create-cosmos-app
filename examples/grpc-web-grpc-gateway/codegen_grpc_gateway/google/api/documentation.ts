@@ -1,4 +1,4 @@
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
@@ -415,7 +415,7 @@ function createBaseDocumentation(): Documentation {
 }
 export const Documentation = {
   typeUrl: "/google.api.Documentation",
-  encode(message: Documentation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Documentation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.summary !== "") {
       writer.uint32(10).string(message.summary);
     }
@@ -436,8 +436,8 @@ export const Documentation = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Documentation {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Documentation {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDocumentation();
     while (reader.pos < end) {
@@ -587,7 +587,7 @@ function createBaseDocumentationRule(): DocumentationRule {
 }
 export const DocumentationRule = {
   typeUrl: "/google.api.DocumentationRule",
-  encode(message: DocumentationRule, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DocumentationRule, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.selector !== "") {
       writer.uint32(10).string(message.selector);
     }
@@ -599,8 +599,8 @@ export const DocumentationRule = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DocumentationRule {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DocumentationRule {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDocumentationRule();
     while (reader.pos < end) {
@@ -696,7 +696,7 @@ function createBasePage(): Page {
 }
 export const Page = {
   typeUrl: "/google.api.Page",
-  encode(message: Page, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Page, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -708,8 +708,8 @@ export const Page = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Page {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Page {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePage();
     while (reader.pos < end) {

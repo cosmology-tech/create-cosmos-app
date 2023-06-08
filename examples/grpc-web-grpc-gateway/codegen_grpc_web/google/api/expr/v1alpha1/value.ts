@@ -1,7 +1,7 @@
-import { NullValue, nullValueFromJSON, nullValueToJSON } from "../../../protobuf/struct";
-import { Any, AnyAmino, AnySDKType } from "../../../protobuf/any";
-import { Long, isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { NullValue, NullValueSDKType, nullValueFromJSON, nullValueToJSON } from "../../../protobuf/struct";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../protobuf/any";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "google.api.expr.v1alpha1";
 /**
  * Represents a CEL value.
@@ -15,9 +15,9 @@ export interface Value {
   /** Boolean value. */
   boolValue?: boolean;
   /** Signed integer value. */
-  int64Value?: Long;
+  int64Value?: bigint;
   /** Unsigned integer value. */
-  uint64Value?: Long;
+  uint64Value?: bigint;
   /** Floating point value. */
   doubleValue?: number;
   /** UTF-8 string value. */
@@ -84,8 +84,8 @@ export interface ValueAminoMsg {
 export interface ValueSDKType {
   null_value?: NullValue;
   bool_value?: boolean;
-  int64_value?: Long;
-  uint64_value?: Long;
+  int64_value?: bigint;
+  uint64_value?: bigint;
   double_value?: number;
   string_value?: string;
   bytes_value?: Uint8Array;
@@ -261,7 +261,7 @@ function createBaseValue(): Value {
 }
 export const Value = {
   typeUrl: "/google.api.expr.v1alpha1.Value",
-  encode(message: Value, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Value, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.nullValue !== undefined) {
       writer.uint32(8).int32(message.nullValue);
     }
@@ -300,8 +300,8 @@ export const Value = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Value {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Value {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseValue();
     while (reader.pos < end) {
@@ -314,10 +314,10 @@ export const Value = {
           message.boolValue = reader.bool();
           break;
         case 3:
-          message.int64Value = (reader.int64() as Long);
+          message.int64Value = BigInt(reader.int64().toString());
           break;
         case 4:
-          message.uint64Value = (reader.uint64() as Long);
+          message.uint64Value = BigInt(reader.uint64().toString());
           break;
         case 5:
           message.doubleValue = reader.double();
@@ -354,8 +354,8 @@ export const Value = {
     return {
       nullValue: isSet(object.nullValue) ? nullValueFromJSON(object.nullValue) : undefined,
       boolValue: isSet(object.boolValue) ? Boolean(object.boolValue) : undefined,
-      int64Value: isSet(object.int64Value) ? Long.fromValue(object.int64Value) : undefined,
-      uint64Value: isSet(object.uint64Value) ? Long.fromValue(object.uint64Value) : undefined,
+      int64Value: isSet(object.int64Value) ? BigInt(object.int64Value.toString()) : undefined,
+      uint64Value: isSet(object.uint64Value) ? BigInt(object.uint64Value.toString()) : undefined,
       doubleValue: isSet(object.doubleValue) ? Number(object.doubleValue) : undefined,
       stringValue: isSet(object.stringValue) ? String(object.stringValue) : undefined,
       bytesValue: isSet(object.bytesValue) ? bytesFromBase64(object.bytesValue) : undefined,
@@ -386,8 +386,8 @@ export const Value = {
     const message = createBaseValue();
     message.nullValue = object.nullValue ?? undefined;
     message.boolValue = object.boolValue ?? undefined;
-    message.int64Value = object.int64Value !== undefined && object.int64Value !== null ? Long.fromValue(object.int64Value) : undefined;
-    message.uint64Value = object.uint64Value !== undefined && object.uint64Value !== null ? Long.fromValue(object.uint64Value) : undefined;
+    message.int64Value = object.int64Value !== undefined && object.int64Value !== null ? BigInt(object.int64Value.toString()) : undefined;
+    message.uint64Value = object.uint64Value !== undefined && object.uint64Value !== null ? BigInt(object.uint64Value.toString()) : undefined;
     message.doubleValue = object.doubleValue ?? undefined;
     message.stringValue = object.stringValue ?? undefined;
     message.bytesValue = object.bytesValue ?? undefined;
@@ -434,8 +434,8 @@ export const Value = {
     return {
       nullValue: isSet(object.null_value) ? nullValueFromJSON(object.null_value) : undefined,
       boolValue: object?.bool_value,
-      int64Value: object?.int64_value ? Long.fromString(object.int64_value) : undefined,
-      uint64Value: object?.uint64_value ? Long.fromString(object.uint64_value) : undefined,
+      int64Value: object?.int64_value ? BigInt(object.int64_value) : undefined,
+      uint64Value: object?.uint64_value ? BigInt(object.uint64_value) : undefined,
       doubleValue: object?.double_value,
       stringValue: object?.string_value,
       bytesValue: object?.bytes_value,
@@ -486,7 +486,7 @@ function createBaseEnumValue(): EnumValue {
 }
 export const EnumValue = {
   typeUrl: "/google.api.expr.v1alpha1.EnumValue",
-  encode(message: EnumValue, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: EnumValue, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.type !== "") {
       writer.uint32(10).string(message.type);
     }
@@ -495,8 +495,8 @@ export const EnumValue = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): EnumValue {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): EnumValue {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEnumValue();
     while (reader.pos < end) {
@@ -580,14 +580,14 @@ function createBaseListValue(): ListValue {
 }
 export const ListValue = {
   typeUrl: "/google.api.expr.v1alpha1.ListValue",
-  encode(message: ListValue, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListValue, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.values) {
       Value.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListValue {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListValue {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListValue();
     while (reader.pos < end) {
@@ -673,14 +673,14 @@ function createBaseMapValue(): MapValue {
 }
 export const MapValue = {
   typeUrl: "/google.api.expr.v1alpha1.MapValue",
-  encode(message: MapValue, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MapValue, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.entries) {
       MapValue_Entry.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MapValue {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MapValue {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMapValue();
     while (reader.pos < end) {
@@ -767,7 +767,7 @@ function createBaseMapValue_Entry(): MapValue_Entry {
 }
 export const MapValue_Entry = {
   typeUrl: "/google.api.expr.v1alpha1.Entry",
-  encode(message: MapValue_Entry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MapValue_Entry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== undefined) {
       Value.encode(message.key, writer.uint32(10).fork()).ldelim();
     }
@@ -776,8 +776,8 @@ export const MapValue_Entry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MapValue_Entry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MapValue_Entry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMapValue_Entry();
     while (reader.pos < end) {

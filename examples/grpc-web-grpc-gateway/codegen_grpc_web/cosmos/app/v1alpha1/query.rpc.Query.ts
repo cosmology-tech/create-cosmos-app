@@ -1,8 +1,10 @@
+import { Config, ConfigSDKType } from "./config";
+import * as _m0 from "protobufjs/minimal";
 import { grpc } from "@improbable-eng/grpc-web";
 import { UnaryMethodDefinitionish } from "../../../grpc-web";
 import { DeepPartial } from "../../../helpers";
 import { BrowserHeaders } from "browser-headers";
-import { QueryConfigRequest, QueryConfigResponse } from "./query";
+import { QueryConfigRequest, QueryConfigRequestSDKType, QueryConfigResponse, QueryConfigResponseSDKType } from "./query";
 /** Query is the app module query service. */
 export interface Query {
   /** Config returns the current app config. */
@@ -80,7 +82,6 @@ export class GrpcWebImpl {
           if (response.status === grpc.Code.OK) {
             resolve(response.message);
           } else {
-            console.log(response.message)
             const err = (new Error(response.statusMessage) as any);
             err.code = response.status;
             err.metadata = response.trailers;

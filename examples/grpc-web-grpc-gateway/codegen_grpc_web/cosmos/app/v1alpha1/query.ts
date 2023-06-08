@@ -1,5 +1,5 @@
 import { Config, ConfigAmino, ConfigSDKType } from "./config";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 import { DeepPartial, isSet } from "../../../helpers";
 export const protobufPackage = "cosmos.app.v1alpha1";
 /** QueryConfigRequest is the Query/Config request type. */
@@ -44,11 +44,11 @@ function createBaseQueryConfigRequest(): QueryConfigRequest {
 export const QueryConfigRequest = {
   typeUrl: "/cosmos.app.v1alpha1.QueryConfigRequest",
   aminoType: "cosmos-sdk/QueryConfigRequest",
-  encode(_: QueryConfigRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryConfigRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConfigRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryConfigRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConfigRequest();
     while (reader.pos < end) {
@@ -116,14 +116,14 @@ function createBaseQueryConfigResponse(): QueryConfigResponse {
 export const QueryConfigResponse = {
   typeUrl: "/cosmos.app.v1alpha1.QueryConfigResponse",
   aminoType: "cosmos-sdk/QueryConfigResponse",
-  encode(message: QueryConfigResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryConfigResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.config !== undefined) {
       Config.encode(message.config, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConfigResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryConfigResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConfigResponse();
     while (reader.pos < end) {
