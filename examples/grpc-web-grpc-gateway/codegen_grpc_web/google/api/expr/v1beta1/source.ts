@@ -1,4 +1,4 @@
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.expr.v1beta1";
 export interface SourceInfo_PositionsEntry {
@@ -145,7 +145,7 @@ function createBaseSourceInfo_PositionsEntry(): SourceInfo_PositionsEntry {
   };
 }
 export const SourceInfo_PositionsEntry = {
-  encode(message: SourceInfo_PositionsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SourceInfo_PositionsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== 0) {
       writer.uint32(8).int32(message.key);
     }
@@ -154,8 +154,8 @@ export const SourceInfo_PositionsEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SourceInfo_PositionsEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SourceInfo_PositionsEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSourceInfo_PositionsEntry();
     while (reader.pos < end) {
@@ -235,7 +235,7 @@ function createBaseSourceInfo(): SourceInfo {
 }
 export const SourceInfo = {
   typeUrl: "/google.api.expr.v1beta1.SourceInfo",
-  encode(message: SourceInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SourceInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.location !== "") {
       writer.uint32(18).string(message.location);
     }
@@ -252,8 +252,8 @@ export const SourceInfo = {
     });
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SourceInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SourceInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSourceInfo();
     while (reader.pos < end) {
@@ -409,7 +409,7 @@ function createBaseSourcePosition(): SourcePosition {
 }
 export const SourcePosition = {
   typeUrl: "/google.api.expr.v1beta1.SourcePosition",
-  encode(message: SourcePosition, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SourcePosition, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.location !== "") {
       writer.uint32(10).string(message.location);
     }
@@ -424,8 +424,8 @@ export const SourcePosition = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SourcePosition {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SourcePosition {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSourcePosition();
     while (reader.pos < end) {

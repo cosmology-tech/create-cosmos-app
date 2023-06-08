@@ -1,5 +1,5 @@
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../protobuf/any";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.rpc";
 /**
@@ -81,7 +81,7 @@ function createBaseStatus(): Status {
 }
 export const Status = {
   typeUrl: "/google.rpc.Status",
-  encode(message: Status, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Status, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.code !== 0) {
       writer.uint32(8).int32(message.code);
     }
@@ -93,8 +93,8 @@ export const Status = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Status {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Status {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseStatus();
     while (reader.pos < end) {

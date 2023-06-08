@@ -1,4 +1,6 @@
-import { MsgGrant, MsgExec, MsgRevoke } from "./tx";
+import { Grant, GrantSDKType } from "./authz";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
+import { MsgGrant, MsgGrantSDKType, MsgExec, MsgExecSDKType, MsgRevoke, MsgRevokeSDKType } from "./tx";
 export const AminoConverter = {
   "/cosmos.authz.v1beta1.MsgGrant": {
     aminoType: "cosmos-sdk/MsgGrant",

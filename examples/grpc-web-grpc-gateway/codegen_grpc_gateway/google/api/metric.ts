@@ -1,7 +1,7 @@
 import { LaunchStage, LaunchStageSDKType, launchStageFromJSON, launchStageToJSON } from "./launch_stage";
 import { Duration, DurationAmino, DurationSDKType } from "../protobuf/duration";
 import { LabelDescriptor, LabelDescriptorAmino, LabelDescriptorSDKType } from "./label";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, isObject } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
@@ -639,7 +639,7 @@ function createBaseMetricDescriptor(): MetricDescriptor {
 }
 export const MetricDescriptor = {
   typeUrl: "/google.api.MetricDescriptor",
-  encode(message: MetricDescriptor, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MetricDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -675,8 +675,8 @@ export const MetricDescriptor = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MetricDescriptor {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MetricDescriptor {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMetricDescriptor();
     while (reader.pos < end) {
@@ -876,7 +876,7 @@ function createBaseMetricDescriptor_MetricDescriptorMetadata(): MetricDescriptor
 }
 export const MetricDescriptor_MetricDescriptorMetadata = {
   typeUrl: "/google.api.MetricDescriptorMetadata",
-  encode(message: MetricDescriptor_MetricDescriptorMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MetricDescriptor_MetricDescriptorMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.launchStage !== 0) {
       writer.uint32(8).int32(message.launchStage);
     }
@@ -888,8 +888,8 @@ export const MetricDescriptor_MetricDescriptorMetadata = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MetricDescriptor_MetricDescriptorMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MetricDescriptor_MetricDescriptorMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMetricDescriptor_MetricDescriptorMetadata();
     while (reader.pos < end) {
@@ -983,7 +983,7 @@ function createBaseMetric_LabelsEntry(): Metric_LabelsEntry {
   };
 }
 export const Metric_LabelsEntry = {
-  encode(message: Metric_LabelsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Metric_LabelsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -992,8 +992,8 @@ export const Metric_LabelsEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Metric_LabelsEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Metric_LabelsEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMetric_LabelsEntry();
     while (reader.pos < end) {
@@ -1072,7 +1072,7 @@ function createBaseMetric(): Metric {
 }
 export const Metric = {
   typeUrl: "/google.api.Metric",
-  encode(message: Metric, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Metric, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.type !== "") {
       writer.uint32(26).string(message.type);
     }
@@ -1084,8 +1084,8 @@ export const Metric = {
     });
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Metric {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Metric {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMetric();
     while (reader.pos < end) {

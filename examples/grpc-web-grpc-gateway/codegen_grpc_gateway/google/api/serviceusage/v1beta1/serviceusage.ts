@@ -1,6 +1,6 @@
 import { QuotaView, QuotaViewSDKType, QuotaOverride, QuotaOverrideAmino, QuotaOverrideSDKType, QuotaSafetyCheck, QuotaSafetyCheckSDKType, OverrideInlineSource, OverrideInlineSourceAmino, OverrideInlineSourceSDKType, Service, ServiceAmino, ServiceSDKType, ConsumerQuotaMetric, ConsumerQuotaMetricAmino, ConsumerQuotaMetricSDKType, AdminQuotaPolicy, AdminQuotaPolicyAmino, AdminQuotaPolicySDKType, ServiceIdentity, ServiceIdentityAmino, ServiceIdentitySDKType, quotaViewFromJSON, quotaViewToJSON, quotaSafetyCheckFromJSON, quotaSafetyCheckToJSON } from "./resources";
 import { FieldMask, FieldMaskAmino, FieldMaskSDKType } from "../../../protobuf/field_mask";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "google.api.serviceusage.v1beta1";
 /** Enum for service identity state. */
@@ -1572,14 +1572,14 @@ function createBaseEnableServiceRequest(): EnableServiceRequest {
 }
 export const EnableServiceRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.EnableServiceRequest",
-  encode(message: EnableServiceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: EnableServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): EnableServiceRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): EnableServiceRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEnableServiceRequest();
     while (reader.pos < end) {
@@ -1653,14 +1653,14 @@ function createBaseDisableServiceRequest(): DisableServiceRequest {
 }
 export const DisableServiceRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.DisableServiceRequest",
-  encode(message: DisableServiceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DisableServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DisableServiceRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DisableServiceRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDisableServiceRequest();
     while (reader.pos < end) {
@@ -1734,14 +1734,14 @@ function createBaseGetServiceRequest(): GetServiceRequest {
 }
 export const GetServiceRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.GetServiceRequest",
-  encode(message: GetServiceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GetServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetServiceRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GetServiceRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetServiceRequest();
     while (reader.pos < end) {
@@ -1818,7 +1818,7 @@ function createBaseListServicesRequest(): ListServicesRequest {
 }
 export const ListServicesRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListServicesRequest",
-  encode(message: ListServicesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListServicesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -1833,8 +1833,8 @@ export const ListServicesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListServicesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListServicesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListServicesRequest();
     while (reader.pos < end) {
@@ -1939,7 +1939,7 @@ function createBaseListServicesResponse(): ListServicesResponse {
 }
 export const ListServicesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListServicesResponse",
-  encode(message: ListServicesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListServicesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.services) {
       Service.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1948,8 +1948,8 @@ export const ListServicesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListServicesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListServicesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListServicesResponse();
     while (reader.pos < end) {
@@ -2046,7 +2046,7 @@ function createBaseBatchEnableServicesRequest(): BatchEnableServicesRequest {
 }
 export const BatchEnableServicesRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.BatchEnableServicesRequest",
-  encode(message: BatchEnableServicesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BatchEnableServicesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -2055,8 +2055,8 @@ export const BatchEnableServicesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BatchEnableServicesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BatchEnableServicesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBatchEnableServicesRequest();
     while (reader.pos < end) {
@@ -2155,7 +2155,7 @@ function createBaseListConsumerQuotaMetricsRequest(): ListConsumerQuotaMetricsRe
 }
 export const ListConsumerQuotaMetricsRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerQuotaMetricsRequest",
-  encode(message: ListConsumerQuotaMetricsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListConsumerQuotaMetricsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -2170,8 +2170,8 @@ export const ListConsumerQuotaMetricsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListConsumerQuotaMetricsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListConsumerQuotaMetricsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListConsumerQuotaMetricsRequest();
     while (reader.pos < end) {
@@ -2276,7 +2276,7 @@ function createBaseListConsumerQuotaMetricsResponse(): ListConsumerQuotaMetricsR
 }
 export const ListConsumerQuotaMetricsResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerQuotaMetricsResponse",
-  encode(message: ListConsumerQuotaMetricsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListConsumerQuotaMetricsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.metrics) {
       ConsumerQuotaMetric.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -2285,8 +2285,8 @@ export const ListConsumerQuotaMetricsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListConsumerQuotaMetricsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListConsumerQuotaMetricsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListConsumerQuotaMetricsResponse();
     while (reader.pos < end) {
@@ -2383,7 +2383,7 @@ function createBaseGetConsumerQuotaMetricRequest(): GetConsumerQuotaMetricReques
 }
 export const GetConsumerQuotaMetricRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.GetConsumerQuotaMetricRequest",
-  encode(message: GetConsumerQuotaMetricRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GetConsumerQuotaMetricRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -2392,8 +2392,8 @@ export const GetConsumerQuotaMetricRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetConsumerQuotaMetricRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GetConsumerQuotaMetricRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetConsumerQuotaMetricRequest();
     while (reader.pos < end) {
@@ -2478,7 +2478,7 @@ function createBaseGetConsumerQuotaLimitRequest(): GetConsumerQuotaLimitRequest 
 }
 export const GetConsumerQuotaLimitRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.GetConsumerQuotaLimitRequest",
-  encode(message: GetConsumerQuotaLimitRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GetConsumerQuotaLimitRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -2487,8 +2487,8 @@ export const GetConsumerQuotaLimitRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetConsumerQuotaLimitRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GetConsumerQuotaLimitRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetConsumerQuotaLimitRequest();
     while (reader.pos < end) {
@@ -2575,7 +2575,7 @@ function createBaseCreateAdminOverrideRequest(): CreateAdminOverrideRequest {
 }
 export const CreateAdminOverrideRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.CreateAdminOverrideRequest",
-  encode(message: CreateAdminOverrideRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CreateAdminOverrideRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -2592,8 +2592,8 @@ export const CreateAdminOverrideRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CreateAdminOverrideRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateAdminOverrideRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCreateAdminOverrideRequest();
     while (reader.pos < end) {
@@ -2720,7 +2720,7 @@ function createBaseUpdateAdminOverrideRequest(): UpdateAdminOverrideRequest {
 }
 export const UpdateAdminOverrideRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.UpdateAdminOverrideRequest",
-  encode(message: UpdateAdminOverrideRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: UpdateAdminOverrideRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -2740,8 +2740,8 @@ export const UpdateAdminOverrideRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): UpdateAdminOverrideRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateAdminOverrideRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUpdateAdminOverrideRequest();
     while (reader.pos < end) {
@@ -2876,7 +2876,7 @@ function createBaseDeleteAdminOverrideRequest(): DeleteAdminOverrideRequest {
 }
 export const DeleteAdminOverrideRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.DeleteAdminOverrideRequest",
-  encode(message: DeleteAdminOverrideRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DeleteAdminOverrideRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -2890,8 +2890,8 @@ export const DeleteAdminOverrideRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DeleteAdminOverrideRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteAdminOverrideRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDeleteAdminOverrideRequest();
     while (reader.pos < end) {
@@ -3006,7 +3006,7 @@ function createBaseListAdminOverridesRequest(): ListAdminOverridesRequest {
 }
 export const ListAdminOverridesRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListAdminOverridesRequest",
-  encode(message: ListAdminOverridesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListAdminOverridesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -3018,8 +3018,8 @@ export const ListAdminOverridesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListAdminOverridesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListAdminOverridesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListAdminOverridesRequest();
     while (reader.pos < end) {
@@ -3114,7 +3114,7 @@ function createBaseListAdminOverridesResponse(): ListAdminOverridesResponse {
 }
 export const ListAdminOverridesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListAdminOverridesResponse",
-  encode(message: ListAdminOverridesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListAdminOverridesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overrides) {
       QuotaOverride.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -3123,8 +3123,8 @@ export const ListAdminOverridesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListAdminOverridesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListAdminOverridesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListAdminOverridesResponse();
     while (reader.pos < end) {
@@ -3220,14 +3220,14 @@ function createBaseBatchCreateAdminOverridesResponse(): BatchCreateAdminOverride
 }
 export const BatchCreateAdminOverridesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.BatchCreateAdminOverridesResponse",
-  encode(message: BatchCreateAdminOverridesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BatchCreateAdminOverridesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overrides) {
       QuotaOverride.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BatchCreateAdminOverridesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BatchCreateAdminOverridesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBatchCreateAdminOverridesResponse();
     while (reader.pos < end) {
@@ -3316,7 +3316,7 @@ function createBaseImportAdminOverridesRequest(): ImportAdminOverridesRequest {
 }
 export const ImportAdminOverridesRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminOverridesRequest",
-  encode(message: ImportAdminOverridesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ImportAdminOverridesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -3333,8 +3333,8 @@ export const ImportAdminOverridesRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportAdminOverridesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportAdminOverridesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportAdminOverridesRequest();
     while (reader.pos < end) {
@@ -3457,14 +3457,14 @@ function createBaseImportAdminOverridesResponse(): ImportAdminOverridesResponse 
 }
 export const ImportAdminOverridesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminOverridesResponse",
-  encode(message: ImportAdminOverridesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ImportAdminOverridesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overrides) {
       QuotaOverride.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportAdminOverridesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportAdminOverridesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportAdminOverridesResponse();
     while (reader.pos < end) {
@@ -3548,11 +3548,11 @@ function createBaseImportAdminOverridesMetadata(): ImportAdminOverridesMetadata 
 }
 export const ImportAdminOverridesMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminOverridesMetadata",
-  encode(_: ImportAdminOverridesMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: ImportAdminOverridesMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportAdminOverridesMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportAdminOverridesMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportAdminOverridesMetadata();
     while (reader.pos < end) {
@@ -3616,7 +3616,7 @@ function createBaseCreateConsumerOverrideRequest(): CreateConsumerOverrideReques
 }
 export const CreateConsumerOverrideRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.CreateConsumerOverrideRequest",
-  encode(message: CreateConsumerOverrideRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CreateConsumerOverrideRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -3633,8 +3633,8 @@ export const CreateConsumerOverrideRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CreateConsumerOverrideRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateConsumerOverrideRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCreateConsumerOverrideRequest();
     while (reader.pos < end) {
@@ -3761,7 +3761,7 @@ function createBaseUpdateConsumerOverrideRequest(): UpdateConsumerOverrideReques
 }
 export const UpdateConsumerOverrideRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.UpdateConsumerOverrideRequest",
-  encode(message: UpdateConsumerOverrideRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: UpdateConsumerOverrideRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -3781,8 +3781,8 @@ export const UpdateConsumerOverrideRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): UpdateConsumerOverrideRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateConsumerOverrideRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUpdateConsumerOverrideRequest();
     while (reader.pos < end) {
@@ -3917,7 +3917,7 @@ function createBaseDeleteConsumerOverrideRequest(): DeleteConsumerOverrideReques
 }
 export const DeleteConsumerOverrideRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.DeleteConsumerOverrideRequest",
-  encode(message: DeleteConsumerOverrideRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DeleteConsumerOverrideRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -3931,8 +3931,8 @@ export const DeleteConsumerOverrideRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DeleteConsumerOverrideRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteConsumerOverrideRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDeleteConsumerOverrideRequest();
     while (reader.pos < end) {
@@ -4047,7 +4047,7 @@ function createBaseListConsumerOverridesRequest(): ListConsumerOverridesRequest 
 }
 export const ListConsumerOverridesRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerOverridesRequest",
-  encode(message: ListConsumerOverridesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListConsumerOverridesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -4059,8 +4059,8 @@ export const ListConsumerOverridesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListConsumerOverridesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListConsumerOverridesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListConsumerOverridesRequest();
     while (reader.pos < end) {
@@ -4155,7 +4155,7 @@ function createBaseListConsumerOverridesResponse(): ListConsumerOverridesRespons
 }
 export const ListConsumerOverridesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerOverridesResponse",
-  encode(message: ListConsumerOverridesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ListConsumerOverridesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overrides) {
       QuotaOverride.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -4164,8 +4164,8 @@ export const ListConsumerOverridesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ListConsumerOverridesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ListConsumerOverridesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListConsumerOverridesResponse();
     while (reader.pos < end) {
@@ -4261,14 +4261,14 @@ function createBaseBatchCreateConsumerOverridesResponse(): BatchCreateConsumerOv
 }
 export const BatchCreateConsumerOverridesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.BatchCreateConsumerOverridesResponse",
-  encode(message: BatchCreateConsumerOverridesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BatchCreateConsumerOverridesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overrides) {
       QuotaOverride.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BatchCreateConsumerOverridesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BatchCreateConsumerOverridesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBatchCreateConsumerOverridesResponse();
     while (reader.pos < end) {
@@ -4357,7 +4357,7 @@ function createBaseImportConsumerOverridesRequest(): ImportConsumerOverridesRequ
 }
 export const ImportConsumerOverridesRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesRequest",
-  encode(message: ImportConsumerOverridesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ImportConsumerOverridesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
@@ -4374,8 +4374,8 @@ export const ImportConsumerOverridesRequest = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportConsumerOverridesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportConsumerOverridesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportConsumerOverridesRequest();
     while (reader.pos < end) {
@@ -4498,14 +4498,14 @@ function createBaseImportConsumerOverridesResponse(): ImportConsumerOverridesRes
 }
 export const ImportConsumerOverridesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesResponse",
-  encode(message: ImportConsumerOverridesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ImportConsumerOverridesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overrides) {
       QuotaOverride.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportConsumerOverridesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportConsumerOverridesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportConsumerOverridesResponse();
     while (reader.pos < end) {
@@ -4589,11 +4589,11 @@ function createBaseImportConsumerOverridesMetadata(): ImportConsumerOverridesMet
 }
 export const ImportConsumerOverridesMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesMetadata",
-  encode(_: ImportConsumerOverridesMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: ImportConsumerOverridesMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportConsumerOverridesMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportConsumerOverridesMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportConsumerOverridesMetadata();
     while (reader.pos < end) {
@@ -4654,14 +4654,14 @@ function createBaseImportAdminQuotaPoliciesResponse(): ImportAdminQuotaPoliciesR
 }
 export const ImportAdminQuotaPoliciesResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminQuotaPoliciesResponse",
-  encode(message: ImportAdminQuotaPoliciesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ImportAdminQuotaPoliciesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.policies) {
       AdminQuotaPolicy.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportAdminQuotaPoliciesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportAdminQuotaPoliciesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportAdminQuotaPoliciesResponse();
     while (reader.pos < end) {
@@ -4745,11 +4745,11 @@ function createBaseImportAdminQuotaPoliciesMetadata(): ImportAdminQuotaPoliciesM
 }
 export const ImportAdminQuotaPoliciesMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminQuotaPoliciesMetadata",
-  encode(_: ImportAdminQuotaPoliciesMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: ImportAdminQuotaPoliciesMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ImportAdminQuotaPoliciesMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ImportAdminQuotaPoliciesMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImportAdminQuotaPoliciesMetadata();
     while (reader.pos < end) {
@@ -4808,11 +4808,11 @@ function createBaseCreateAdminQuotaPolicyMetadata(): CreateAdminQuotaPolicyMetad
 }
 export const CreateAdminQuotaPolicyMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.CreateAdminQuotaPolicyMetadata",
-  encode(_: CreateAdminQuotaPolicyMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: CreateAdminQuotaPolicyMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CreateAdminQuotaPolicyMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateAdminQuotaPolicyMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCreateAdminQuotaPolicyMetadata();
     while (reader.pos < end) {
@@ -4871,11 +4871,11 @@ function createBaseUpdateAdminQuotaPolicyMetadata(): UpdateAdminQuotaPolicyMetad
 }
 export const UpdateAdminQuotaPolicyMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.UpdateAdminQuotaPolicyMetadata",
-  encode(_: UpdateAdminQuotaPolicyMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: UpdateAdminQuotaPolicyMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): UpdateAdminQuotaPolicyMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateAdminQuotaPolicyMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUpdateAdminQuotaPolicyMetadata();
     while (reader.pos < end) {
@@ -4934,11 +4934,11 @@ function createBaseDeleteAdminQuotaPolicyMetadata(): DeleteAdminQuotaPolicyMetad
 }
 export const DeleteAdminQuotaPolicyMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.DeleteAdminQuotaPolicyMetadata",
-  encode(_: DeleteAdminQuotaPolicyMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: DeleteAdminQuotaPolicyMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DeleteAdminQuotaPolicyMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteAdminQuotaPolicyMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDeleteAdminQuotaPolicyMetadata();
     while (reader.pos < end) {
@@ -4999,14 +4999,14 @@ function createBaseGenerateServiceIdentityRequest(): GenerateServiceIdentityRequ
 }
 export const GenerateServiceIdentityRequest = {
   typeUrl: "/google.api.serviceusage.v1beta1.GenerateServiceIdentityRequest",
-  encode(message: GenerateServiceIdentityRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GenerateServiceIdentityRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GenerateServiceIdentityRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GenerateServiceIdentityRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenerateServiceIdentityRequest();
     while (reader.pos < end) {
@@ -5081,7 +5081,7 @@ function createBaseGetServiceIdentityResponse(): GetServiceIdentityResponse {
 }
 export const GetServiceIdentityResponse = {
   typeUrl: "/google.api.serviceusage.v1beta1.GetServiceIdentityResponse",
-  encode(message: GetServiceIdentityResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GetServiceIdentityResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.identity !== undefined) {
       ServiceIdentity.encode(message.identity, writer.uint32(10).fork()).ldelim();
     }
@@ -5090,8 +5090,8 @@ export const GetServiceIdentityResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetServiceIdentityResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GetServiceIdentityResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetServiceIdentityResponse();
     while (reader.pos < end) {
@@ -5173,11 +5173,11 @@ function createBaseGetServiceIdentityMetadata(): GetServiceIdentityMetadata {
 }
 export const GetServiceIdentityMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.GetServiceIdentityMetadata",
-  encode(_: GetServiceIdentityMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: GetServiceIdentityMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetServiceIdentityMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GetServiceIdentityMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetServiceIdentityMetadata();
     while (reader.pos < end) {

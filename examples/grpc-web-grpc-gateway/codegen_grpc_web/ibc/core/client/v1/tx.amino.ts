@@ -1,4 +1,5 @@
-import { MsgCreateClient, MsgUpdateClient, MsgUpgradeClient, MsgSubmitMisbehaviour } from "./tx";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
+import { MsgCreateClient, MsgCreateClientSDKType, MsgUpdateClient, MsgUpdateClientSDKType, MsgUpgradeClient, MsgUpgradeClientSDKType, MsgSubmitMisbehaviour, MsgSubmitMisbehaviourSDKType } from "./tx";
 export const AminoConverter = {
   "/ibc.core.client.v1.MsgCreateClient": {
     aminoType: "cosmos-sdk/MsgCreateClient",

@@ -8,7 +8,7 @@ export const createRPCMsgClient = async ({
   endpoint = endpoint.replace(/\/*$/, "");
   const {
     GrpcWebImpl
-  } = await import("./app/v1alpha1/query.rpc.Query");
+  } = await import("../cosmos/app/v1alpha1/query.rpc.Query");
   let grpcWeb;
   if (typeof document !== "undefined") {
     grpcWeb = new GrpcWebImpl(endpoint, {

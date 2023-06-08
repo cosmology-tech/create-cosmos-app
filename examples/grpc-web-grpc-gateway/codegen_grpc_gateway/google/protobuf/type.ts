@@ -1,6 +1,6 @@
 import { SourceContext, SourceContextAmino, SourceContextSDKType } from "./source_context";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "./any";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.protobuf";
 /** Basic field types. */
@@ -509,7 +509,7 @@ function createBaseType(): Type {
 }
 export const Type = {
   typeUrl: "/google.protobuf.Type",
-  encode(message: Type, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Type, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -530,8 +530,8 @@ export const Type = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Type {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Type {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseType();
     while (reader.pos < end) {
@@ -700,7 +700,7 @@ function createBaseField(): Field {
 }
 export const Field = {
   typeUrl: "/google.protobuf.Field",
-  encode(message: Field, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Field, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.kind !== 0) {
       writer.uint32(8).int32(message.kind);
     }
@@ -733,8 +733,8 @@ export const Field = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Field {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Field {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseField();
     while (reader.pos < end) {
@@ -914,7 +914,7 @@ function createBaseEnum(): Enum {
 }
 export const Enum = {
   typeUrl: "/google.protobuf.Enum",
-  encode(message: Enum, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Enum, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -932,8 +932,8 @@ export const Enum = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Enum {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Enum {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEnum();
     while (reader.pos < end) {
@@ -1073,7 +1073,7 @@ function createBaseEnumValue(): EnumValue {
 }
 export const EnumValue = {
   typeUrl: "/google.protobuf.EnumValue",
-  encode(message: EnumValue, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: EnumValue, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -1085,8 +1085,8 @@ export const EnumValue = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): EnumValue {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): EnumValue {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEnumValue();
     while (reader.pos < end) {
@@ -1193,7 +1193,7 @@ function createBaseOption(): Option {
 }
 export const Option = {
   typeUrl: "/google.protobuf.Option",
-  encode(message: Option, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Option, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -1202,8 +1202,8 @@ export const Option = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Option {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Option {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOption();
     while (reader.pos < end) {

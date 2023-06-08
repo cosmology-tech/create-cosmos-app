@@ -1,4 +1,4 @@
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
@@ -1034,7 +1034,7 @@ function createBaseHttp(): Http {
 }
 export const Http = {
   typeUrl: "/google.api.Http",
-  encode(message: Http, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Http, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.rules) {
       HttpRule.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1043,8 +1043,8 @@ export const Http = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Http {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Http {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHttp();
     while (reader.pos < end) {
@@ -1149,7 +1149,7 @@ function createBaseHttpRule(): HttpRule {
 }
 export const HttpRule = {
   typeUrl: "/google.api.HttpRule",
-  encode(message: HttpRule, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: HttpRule, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.selector !== "") {
       writer.uint32(10).string(message.selector);
     }
@@ -1182,8 +1182,8 @@ export const HttpRule = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): HttpRule {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): HttpRule {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHttpRule();
     while (reader.pos < end) {
@@ -1360,7 +1360,7 @@ function createBaseCustomHttpPattern(): CustomHttpPattern {
 }
 export const CustomHttpPattern = {
   typeUrl: "/google.api.CustomHttpPattern",
-  encode(message: CustomHttpPattern, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CustomHttpPattern, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.kind !== "") {
       writer.uint32(10).string(message.kind);
     }
@@ -1369,8 +1369,8 @@ export const CustomHttpPattern = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CustomHttpPattern {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CustomHttpPattern {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCustomHttpPattern();
     while (reader.pos < end) {

@@ -1,4 +1,4 @@
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../binary";
 import { DeepPartial, isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
@@ -183,14 +183,14 @@ function createBaseVisibility(): Visibility {
 }
 export const Visibility = {
   typeUrl: "/google.api.Visibility",
-  encode(message: Visibility, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Visibility, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.rules) {
       VisibilityRule.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Visibility {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Visibility {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVisibility();
     while (reader.pos < end) {
@@ -277,7 +277,7 @@ function createBaseVisibilityRule(): VisibilityRule {
 }
 export const VisibilityRule = {
   typeUrl: "/google.api.VisibilityRule",
-  encode(message: VisibilityRule, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: VisibilityRule, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.selector !== "") {
       writer.uint32(10).string(message.selector);
     }
@@ -286,8 +286,8 @@ export const VisibilityRule = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): VisibilityRule {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): VisibilityRule {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVisibilityRule();
     while (reader.pos < end) {

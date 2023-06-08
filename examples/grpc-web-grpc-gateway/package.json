@@ -9,7 +9,9 @@
     "lint": "next lint",
     "locks:remove": "rm -f yarn.lock",
     "locks:create": "generate-lockfile --lockfile ../../yarn.lock --package package.json --write yarn.lock --force",
-    "locks": "npm run locks:remove && npm run locks:create"
+    "locks": "npm run locks:remove && npm run locks:create",
+    "codegen:grpc-web": "node scripts/codegen-grpc-web.js",
+    "codegen:grpc-gateway": "node scripts/codegen-grpc-gateway.js"
   },
   "dependencies": {
     "@chakra-ui/icons": "2.0.12",
@@ -18,12 +20,16 @@
     "@cosmjs/stargate": "0.29.5",
     "@cosmos-kit/core": "1.3.0",
     "@cosmos-kit/cosmostation": "0.15.13",
-    "@cosmos-kit/keplr": "0.33.13",
+    "@cosmos-kit/keplr": "0.33.34",
     "@cosmos-kit/leap": "0.14.12",
     "@cosmos-kit/react": "1.3.11",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
+    "@improbable-eng/grpc-web": "0.15.0",
     "@improbable-eng/grpc-web-node-http-transport": "0.15.0",
+    "@osmonauts/ast": "0.82.0",
+    "@osmonauts/telescope": "0.96.0",
+    "@osmonauts/types": "0.35.0",
     "bignumber.js": "9.1.1",
     "chain-registry": "1.14.0",
     "chakra-react-select": "4.4.3",

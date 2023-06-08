@@ -1,6 +1,6 @@
 import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
 import { Input, InputAmino, InputSDKType, Output, OutputAmino, OutputSDKType } from "./bank";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 export const protobufPackage = "cosmos.bank.v1beta1";
 /** MsgSend represents a message to send coins from one account to another. */
@@ -90,7 +90,7 @@ function createBaseMsgSend(): MsgSend {
 export const MsgSend = {
   typeUrl: "/cosmos.bank.v1beta1.MsgSend",
   aminoType: "cosmos-sdk/MsgSend",
-  encode(message: MsgSend, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgSend, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.fromAddress !== "") {
       writer.uint32(10).string(message.fromAddress);
     }
@@ -102,8 +102,8 @@ export const MsgSend = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSend {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgSend {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgSend();
     while (reader.pos < end) {
@@ -214,11 +214,11 @@ function createBaseMsgSendResponse(): MsgSendResponse {
 export const MsgSendResponse = {
   typeUrl: "/cosmos.bank.v1beta1.MsgSendResponse",
   aminoType: "cosmos-sdk/MsgSendResponse",
-  encode(_: MsgSendResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgSendResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSendResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgSendResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgSendResponse();
     while (reader.pos < end) {
@@ -287,7 +287,7 @@ function createBaseMsgMultiSend(): MsgMultiSend {
 export const MsgMultiSend = {
   typeUrl: "/cosmos.bank.v1beta1.MsgMultiSend",
   aminoType: "cosmos-sdk/MsgMultiSend",
-  encode(message: MsgMultiSend, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgMultiSend, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.inputs) {
       Input.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -296,8 +296,8 @@ export const MsgMultiSend = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgMultiSend {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgMultiSend {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgMultiSend();
     while (reader.pos < end) {
@@ -410,11 +410,11 @@ function createBaseMsgMultiSendResponse(): MsgMultiSendResponse {
 export const MsgMultiSendResponse = {
   typeUrl: "/cosmos.bank.v1beta1.MsgMultiSendResponse",
   aminoType: "cosmos-sdk/MsgMultiSendResponse",
-  encode(_: MsgMultiSendResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgMultiSendResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgMultiSendResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgMultiSendResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgMultiSendResponse();
     while (reader.pos < end) {

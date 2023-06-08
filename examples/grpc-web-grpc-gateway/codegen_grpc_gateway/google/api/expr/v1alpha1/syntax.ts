@@ -1,8 +1,8 @@
 import { NullValue, NullValueSDKType, nullValueFromJSON, nullValueToJSON } from "../../../protobuf/struct";
 import { Duration, DurationAmino, DurationSDKType } from "../../../protobuf/duration";
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../protobuf/timestamp";
-import { Long, isSet, DeepPartial, toTimestamp, fromTimestamp, bytesFromBase64, base64FromBytes, isObject } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, DeepPartial, toTimestamp, fromTimestamp, bytesFromBase64, fromJsonTimestamp, base64FromBytes, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.expr.v1alpha1";
 /** An expression together with source information as returned by the parser. */
 export interface ParsedExpr {
@@ -54,7 +54,7 @@ export interface Expr {
    * given expression tree. This is used to associate type information and other
    * attributes to a node in the parse tree.
    */
-  id: Long;
+  id: bigint;
   /** A literal expression. */
   constExpr?: Constant;
   /** An identifier expression. */
@@ -135,7 +135,7 @@ export interface ExprAminoMsg {
  * the function declaration `startsWith`.
  */
 export interface ExprSDKType {
-  id: Long;
+  id: bigint;
   const_expr?: ConstantSDKType;
   ident_expr?: Expr_IdentSDKType;
   select_expr?: Expr_SelectSDKType;
@@ -381,7 +381,7 @@ export interface Expr_CreateStruct_Entry {
    * in a given expression tree. This is used to associate type
    * information and other attributes to the node.
    */
-  id: Long;
+  id: bigint;
   /** The field key for a message creator statement. */
   fieldKey?: string;
   /** The key expression for a map creation statement. */
@@ -414,7 +414,7 @@ export interface Expr_CreateStruct_EntryAminoMsg {
 }
 /** Represents an entry. */
 export interface Expr_CreateStruct_EntrySDKType {
-  id: Long;
+  id: bigint;
   field_key?: string;
   map_key?: ExprSDKType;
   value?: ExprSDKType;
@@ -599,9 +599,9 @@ export interface Constant {
   /** boolean value. */
   boolValue?: boolean;
   /** int64 value. */
-  int64Value?: Long;
+  int64Value?: bigint;
   /** uint64 value. */
-  uint64Value?: Long;
+  uint64Value?: bigint;
   /** double value. */
   doubleValue?: number;
   /** string value. */
@@ -694,8 +694,8 @@ export interface ConstantAminoMsg {
 export interface ConstantSDKType {
   null_value?: NullValue;
   bool_value?: boolean;
-  int64_value?: Long;
-  uint64_value?: Long;
+  int64_value?: bigint;
+  uint64_value?: bigint;
   double_value?: number;
   string_value?: string;
   bytes_value?: Uint8Array;
@@ -705,7 +705,7 @@ export interface ConstantSDKType {
   timestamp_value?: Date;
 }
 export interface SourceInfo_PositionsEntry {
-  key: Long;
+  key: bigint;
   value: number;
 }
 export interface SourceInfo_PositionsEntryProtoMsg {
@@ -721,11 +721,11 @@ export interface SourceInfo_PositionsEntryAminoMsg {
   value: SourceInfo_PositionsEntryAmino;
 }
 export interface SourceInfo_PositionsEntrySDKType {
-  key: Long;
+  key: bigint;
   value: number;
 }
 export interface SourceInfo_MacroCallsEntry {
-  key: Long;
+  key: bigint;
   value?: Expr;
 }
 export interface SourceInfo_MacroCallsEntryProtoMsg {
@@ -741,7 +741,7 @@ export interface SourceInfo_MacroCallsEntryAminoMsg {
   value: SourceInfo_MacroCallsEntryAmino;
 }
 export interface SourceInfo_MacroCallsEntrySDKType {
-  key: Long;
+  key: bigint;
   value?: ExprSDKType;
 }
 /** Source information collected at parse time. */
@@ -770,7 +770,7 @@ export interface SourceInfo {
    * within the source.
    */
   positions: {
-    [key: Long]: number;
+    [key: bigint]: number;
   };
   /**
    * A map from the parse node id where a macro replacement was made to the
@@ -783,7 +783,7 @@ export interface SourceInfo {
    * value is the call `Expr` that was replaced.
    */
   macroCalls?: {
-    [key: Long]: Expr;
+    [key: bigint]: Expr;
   };
 }
 export interface SourceInfoProtoMsg {
@@ -842,10 +842,10 @@ export interface SourceInfoSDKType {
   location: string;
   line_offsets: number[];
   positions: {
-    [key: Long]: number;
+    [key: bigint]: number;
   };
   macro_calls?: {
-    [key: Long]: ExprSDKType;
+    [key: bigint]: ExprSDKType;
   };
 }
 /** A specific position in source. */
@@ -905,7 +905,7 @@ function createBaseParsedExpr(): ParsedExpr {
 }
 export const ParsedExpr = {
   typeUrl: "/google.api.expr.v1alpha1.ParsedExpr",
-  encode(message: ParsedExpr, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ParsedExpr, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.expr !== undefined) {
       Expr.encode(message.expr, writer.uint32(18).fork()).ldelim();
     }
@@ -914,8 +914,8 @@ export const ParsedExpr = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ParsedExpr {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ParsedExpr {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParsedExpr();
     while (reader.pos < end) {
@@ -994,7 +994,7 @@ export const ParsedExpr = {
 };
 function createBaseExpr(): Expr {
   return {
-    id: Long.ZERO,
+    id: BigInt("0"),
     constExpr: undefined,
     identExpr: undefined,
     selectExpr: undefined,
@@ -1006,8 +1006,8 @@ function createBaseExpr(): Expr {
 }
 export const Expr = {
   typeUrl: "/google.api.expr.v1alpha1.Expr",
-  encode(message: Expr, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.isZero()) {
+  encode(message: Expr, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.id !== BigInt(0)) {
       writer.uint32(16).int64(message.id);
     }
     if (message.constExpr !== undefined) {
@@ -1033,15 +1033,15 @@ export const Expr = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 2:
-          message.id = (reader.int64() as Long);
+          message.id = BigInt(reader.int64().toString());
           break;
         case 3:
           message.constExpr = Constant.decode(reader, reader.uint32());
@@ -1073,7 +1073,7 @@ export const Expr = {
   },
   fromJSON(object: any): Expr {
     return {
-      id: isSet(object.id) ? Long.fromValue(object.id) : Long.ZERO,
+      id: isSet(object.id) ? BigInt(object.id.toString()) : BigInt("0"),
       constExpr: isSet(object.constExpr) ? Constant.fromJSON(object.constExpr) : undefined,
       identExpr: isSet(object.identExpr) ? Expr_Ident.fromJSON(object.identExpr) : undefined,
       selectExpr: isSet(object.selectExpr) ? Expr_Select.fromJSON(object.selectExpr) : undefined,
@@ -1085,7 +1085,7 @@ export const Expr = {
   },
   toJSON(message: Expr): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = (message.id || Long.ZERO).toString());
+    message.id !== undefined && (obj.id = (message.id || BigInt("0")).toString());
     message.constExpr !== undefined && (obj.constExpr = message.constExpr ? Constant.toJSON(message.constExpr) : undefined);
     message.identExpr !== undefined && (obj.identExpr = message.identExpr ? Expr_Ident.toJSON(message.identExpr) : undefined);
     message.selectExpr !== undefined && (obj.selectExpr = message.selectExpr ? Expr_Select.toJSON(message.selectExpr) : undefined);
@@ -1097,7 +1097,7 @@ export const Expr = {
   },
   fromPartial(object: DeepPartial<Expr>): Expr {
     const message = createBaseExpr();
-    message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.ZERO;
+    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt("0");
     message.constExpr = object.constExpr !== undefined && object.constExpr !== null ? Constant.fromPartial(object.constExpr) : undefined;
     message.identExpr = object.identExpr !== undefined && object.identExpr !== null ? Expr_Ident.fromPartial(object.identExpr) : undefined;
     message.selectExpr = object.selectExpr !== undefined && object.selectExpr !== null ? Expr_Select.fromPartial(object.selectExpr) : undefined;
@@ -1133,7 +1133,7 @@ export const Expr = {
   },
   fromAmino(object: ExprAmino): Expr {
     return {
-      id: Long.fromString(object.id),
+      id: BigInt(object.id),
       constExpr: object?.const_expr ? Constant.fromAmino(object.const_expr) : undefined,
       identExpr: object?.ident_expr ? Expr_Ident.fromAmino(object.ident_expr) : undefined,
       selectExpr: object?.select_expr ? Expr_Select.fromAmino(object.select_expr) : undefined,
@@ -1178,14 +1178,14 @@ function createBaseExpr_Ident(): Expr_Ident {
 }
 export const Expr_Ident = {
   typeUrl: "/google.api.expr.v1alpha1.Ident",
-  encode(message: Expr_Ident, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Expr_Ident, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr_Ident {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr_Ident {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr_Ident();
     while (reader.pos < end) {
@@ -1261,7 +1261,7 @@ function createBaseExpr_Select(): Expr_Select {
 }
 export const Expr_Select = {
   typeUrl: "/google.api.expr.v1alpha1.Select",
-  encode(message: Expr_Select, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Expr_Select, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.operand !== undefined) {
       Expr.encode(message.operand, writer.uint32(10).fork()).ldelim();
     }
@@ -1273,8 +1273,8 @@ export const Expr_Select = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr_Select {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr_Select {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr_Select();
     while (reader.pos < end) {
@@ -1370,7 +1370,7 @@ function createBaseExpr_Call(): Expr_Call {
 }
 export const Expr_Call = {
   typeUrl: "/google.api.expr.v1alpha1.Call",
-  encode(message: Expr_Call, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Expr_Call, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.target !== undefined) {
       Expr.encode(message.target, writer.uint32(10).fork()).ldelim();
     }
@@ -1382,8 +1382,8 @@ export const Expr_Call = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr_Call {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr_Call {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr_Call();
     while (reader.pos < end) {
@@ -1489,14 +1489,14 @@ function createBaseExpr_CreateList(): Expr_CreateList {
 }
 export const Expr_CreateList = {
   typeUrl: "/google.api.expr.v1alpha1.CreateList",
-  encode(message: Expr_CreateList, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Expr_CreateList, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.elements) {
       Expr.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr_CreateList {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr_CreateList {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr_CreateList();
     while (reader.pos < end) {
@@ -1583,7 +1583,7 @@ function createBaseExpr_CreateStruct(): Expr_CreateStruct {
 }
 export const Expr_CreateStruct = {
   typeUrl: "/google.api.expr.v1alpha1.CreateStruct",
-  encode(message: Expr_CreateStruct, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Expr_CreateStruct, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.messageName !== "") {
       writer.uint32(10).string(message.messageName);
     }
@@ -1592,8 +1592,8 @@ export const Expr_CreateStruct = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr_CreateStruct {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr_CreateStruct {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr_CreateStruct();
     while (reader.pos < end) {
@@ -1684,7 +1684,7 @@ export const Expr_CreateStruct = {
 };
 function createBaseExpr_CreateStruct_Entry(): Expr_CreateStruct_Entry {
   return {
-    id: Long.ZERO,
+    id: BigInt("0"),
     fieldKey: undefined,
     mapKey: undefined,
     value: undefined
@@ -1692,8 +1692,8 @@ function createBaseExpr_CreateStruct_Entry(): Expr_CreateStruct_Entry {
 }
 export const Expr_CreateStruct_Entry = {
   typeUrl: "/google.api.expr.v1alpha1.Entry",
-  encode(message: Expr_CreateStruct_Entry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.isZero()) {
+  encode(message: Expr_CreateStruct_Entry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.id !== BigInt(0)) {
       writer.uint32(8).int64(message.id);
     }
     if (message.fieldKey !== undefined) {
@@ -1707,15 +1707,15 @@ export const Expr_CreateStruct_Entry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr_CreateStruct_Entry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr_CreateStruct_Entry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr_CreateStruct_Entry();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.id = (reader.int64() as Long);
+          message.id = BigInt(reader.int64().toString());
           break;
         case 2:
           message.fieldKey = reader.string();
@@ -1735,7 +1735,7 @@ export const Expr_CreateStruct_Entry = {
   },
   fromJSON(object: any): Expr_CreateStruct_Entry {
     return {
-      id: isSet(object.id) ? Long.fromValue(object.id) : Long.ZERO,
+      id: isSet(object.id) ? BigInt(object.id.toString()) : BigInt("0"),
       fieldKey: isSet(object.fieldKey) ? String(object.fieldKey) : undefined,
       mapKey: isSet(object.mapKey) ? Expr.fromJSON(object.mapKey) : undefined,
       value: isSet(object.value) ? Expr.fromJSON(object.value) : undefined
@@ -1743,7 +1743,7 @@ export const Expr_CreateStruct_Entry = {
   },
   toJSON(message: Expr_CreateStruct_Entry): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = (message.id || Long.ZERO).toString());
+    message.id !== undefined && (obj.id = (message.id || BigInt("0")).toString());
     message.fieldKey !== undefined && (obj.fieldKey = message.fieldKey);
     message.mapKey !== undefined && (obj.mapKey = message.mapKey ? Expr.toJSON(message.mapKey) : undefined);
     message.value !== undefined && (obj.value = message.value ? Expr.toJSON(message.value) : undefined);
@@ -1751,7 +1751,7 @@ export const Expr_CreateStruct_Entry = {
   },
   fromPartial(object: DeepPartial<Expr_CreateStruct_Entry>): Expr_CreateStruct_Entry {
     const message = createBaseExpr_CreateStruct_Entry();
-    message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.ZERO;
+    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt("0");
     message.fieldKey = object.fieldKey ?? undefined;
     message.mapKey = object.mapKey !== undefined && object.mapKey !== null ? Expr.fromPartial(object.mapKey) : undefined;
     message.value = object.value !== undefined && object.value !== null ? Expr.fromPartial(object.value) : undefined;
@@ -1775,7 +1775,7 @@ export const Expr_CreateStruct_Entry = {
   },
   fromAmino(object: Expr_CreateStruct_EntryAmino): Expr_CreateStruct_Entry {
     return {
-      id: Long.fromString(object.id),
+      id: BigInt(object.id),
       fieldKey: object?.field_key,
       mapKey: object?.map_key ? Expr.fromAmino(object.map_key) : undefined,
       value: object?.value ? Expr.fromAmino(object.value) : undefined
@@ -1818,7 +1818,7 @@ function createBaseExpr_Comprehension(): Expr_Comprehension {
 }
 export const Expr_Comprehension = {
   typeUrl: "/google.api.expr.v1alpha1.Comprehension",
-  encode(message: Expr_Comprehension, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Expr_Comprehension, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.iterVar !== "") {
       writer.uint32(10).string(message.iterVar);
     }
@@ -1842,8 +1842,8 @@ export const Expr_Comprehension = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Expr_Comprehension {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Expr_Comprehension {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExpr_Comprehension();
     while (reader.pos < end) {
@@ -1985,7 +1985,7 @@ function createBaseConstant(): Constant {
 }
 export const Constant = {
   typeUrl: "/google.api.expr.v1alpha1.Constant",
-  encode(message: Constant, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Constant, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.nullValue !== undefined) {
       writer.uint32(8).int32(message.nullValue);
     }
@@ -2015,8 +2015,8 @@ export const Constant = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Constant {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Constant {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConstant();
     while (reader.pos < end) {
@@ -2029,10 +2029,10 @@ export const Constant = {
           message.boolValue = reader.bool();
           break;
         case 3:
-          message.int64Value = (reader.int64() as Long);
+          message.int64Value = BigInt(reader.int64().toString());
           break;
         case 4:
-          message.uint64Value = (reader.uint64() as Long);
+          message.uint64Value = BigInt(reader.uint64().toString());
           break;
         case 5:
           message.doubleValue = reader.double();
@@ -2060,13 +2060,13 @@ export const Constant = {
     return {
       nullValue: isSet(object.nullValue) ? nullValueFromJSON(object.nullValue) : undefined,
       boolValue: isSet(object.boolValue) ? Boolean(object.boolValue) : undefined,
-      int64Value: isSet(object.int64Value) ? Long.fromValue(object.int64Value) : undefined,
-      uint64Value: isSet(object.uint64Value) ? Long.fromValue(object.uint64Value) : undefined,
+      int64Value: isSet(object.int64Value) ? BigInt(object.int64Value.toString()) : undefined,
+      uint64Value: isSet(object.uint64Value) ? BigInt(object.uint64Value.toString()) : undefined,
       doubleValue: isSet(object.doubleValue) ? Number(object.doubleValue) : undefined,
       stringValue: isSet(object.stringValue) ? String(object.stringValue) : undefined,
       bytesValue: isSet(object.bytesValue) ? bytesFromBase64(object.bytesValue) : undefined,
       durationValue: isSet(object.durationValue) ? Duration.fromJSON(object.durationValue) : undefined,
-      timestampValue: isSet(object.timestampValue) ? new Date(object.timestampValue) : undefined
+      timestampValue: isSet(object.timestampValue) ? fromJsonTimestamp(object.timestampValue) : undefined
     };
   },
   toJSON(message: Constant): unknown {
@@ -2086,8 +2086,8 @@ export const Constant = {
     const message = createBaseConstant();
     message.nullValue = object.nullValue ?? undefined;
     message.boolValue = object.boolValue ?? undefined;
-    message.int64Value = object.int64Value !== undefined && object.int64Value !== null ? Long.fromValue(object.int64Value) : undefined;
-    message.uint64Value = object.uint64Value !== undefined && object.uint64Value !== null ? Long.fromValue(object.uint64Value) : undefined;
+    message.int64Value = object.int64Value !== undefined && object.int64Value !== null ? BigInt(object.int64Value.toString()) : undefined;
+    message.uint64Value = object.uint64Value !== undefined && object.uint64Value !== null ? BigInt(object.uint64Value.toString()) : undefined;
     message.doubleValue = object.doubleValue ?? undefined;
     message.stringValue = object.stringValue ?? undefined;
     message.bytesValue = object.bytesValue ?? undefined;
@@ -2105,7 +2105,7 @@ export const Constant = {
       stringValue: object?.string_value,
       bytesValue: object?.bytes_value,
       durationValue: object.duration_value ? Duration.fromSDK(object.duration_value) : undefined,
-      timestampValue: object.timestamp_value ?? undefined
+      timestampValue: object.timestamp_value ? Timestamp.fromSDK(object.timestamp_value) : undefined
     };
   },
   toSDK(message: Constant): ConstantSDKType {
@@ -2118,15 +2118,15 @@ export const Constant = {
     obj.string_value = message.stringValue;
     obj.bytes_value = message.bytesValue;
     message.durationValue !== undefined && (obj.duration_value = message.durationValue ? Duration.toSDK(message.durationValue) : undefined);
-    message.timestampValue !== undefined && (obj.timestamp_value = message.timestampValue ?? undefined);
+    message.timestampValue !== undefined && (obj.timestamp_value = message.timestampValue ? Timestamp.toSDK(message.timestampValue) : undefined);
     return obj;
   },
   fromAmino(object: ConstantAmino): Constant {
     return {
       nullValue: isSet(object.null_value) ? nullValueFromJSON(object.null_value) : undefined,
       boolValue: object?.bool_value,
-      int64Value: object?.int64_value ? Long.fromString(object.int64_value) : undefined,
-      uint64Value: object?.uint64_value ? Long.fromString(object.uint64_value) : undefined,
+      int64Value: object?.int64_value ? BigInt(object.int64_value) : undefined,
+      uint64Value: object?.uint64_value ? BigInt(object.uint64_value) : undefined,
       doubleValue: object?.double_value,
       stringValue: object?.string_value,
       bytesValue: object?.bytes_value,
@@ -2165,13 +2165,13 @@ export const Constant = {
 };
 function createBaseSourceInfo_PositionsEntry(): SourceInfo_PositionsEntry {
   return {
-    key: Long.ZERO,
+    key: BigInt("0"),
     value: 0
   };
 }
 export const SourceInfo_PositionsEntry = {
-  encode(message: SourceInfo_PositionsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.key.isZero()) {
+  encode(message: SourceInfo_PositionsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.key !== BigInt(0)) {
       writer.uint32(8).int64(message.key);
     }
     if (message.value !== 0) {
@@ -2179,15 +2179,15 @@ export const SourceInfo_PositionsEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SourceInfo_PositionsEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SourceInfo_PositionsEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSourceInfo_PositionsEntry();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.key = (reader.int64() as Long);
+          message.key = BigInt(reader.int64().toString());
           break;
         case 2:
           message.value = reader.int32();
@@ -2201,19 +2201,19 @@ export const SourceInfo_PositionsEntry = {
   },
   fromJSON(object: any): SourceInfo_PositionsEntry {
     return {
-      key: isSet(object.key) ? Long.fromValue(object.key) : Long.ZERO,
+      key: isSet(object.key) ? BigInt(object.key.toString()) : BigInt("0"),
       value: isSet(object.value) ? Number(object.value) : 0
     };
   },
   toJSON(message: SourceInfo_PositionsEntry): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = (message.key || Long.ZERO).toString());
+    message.key !== undefined && (obj.key = (message.key || BigInt("0")).toString());
     message.value !== undefined && (obj.value = Math.round(message.value));
     return obj;
   },
   fromPartial(object: DeepPartial<SourceInfo_PositionsEntry>): SourceInfo_PositionsEntry {
     const message = createBaseSourceInfo_PositionsEntry();
-    message.key = object.key !== undefined && object.key !== null ? Long.fromValue(object.key) : Long.ZERO;
+    message.key = object.key !== undefined && object.key !== null ? BigInt(object.key.toString()) : BigInt("0");
     message.value = object.value ?? 0;
     return message;
   },
@@ -2231,7 +2231,7 @@ export const SourceInfo_PositionsEntry = {
   },
   fromAmino(object: SourceInfo_PositionsEntryAmino): SourceInfo_PositionsEntry {
     return {
-      key: Long.fromString(object.key),
+      key: BigInt(object.key),
       value: object.value
     };
   },
@@ -2253,13 +2253,13 @@ export const SourceInfo_PositionsEntry = {
 };
 function createBaseSourceInfo_MacroCallsEntry(): SourceInfo_MacroCallsEntry {
   return {
-    key: Long.ZERO,
+    key: BigInt("0"),
     value: undefined
   };
 }
 export const SourceInfo_MacroCallsEntry = {
-  encode(message: SourceInfo_MacroCallsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.key.isZero()) {
+  encode(message: SourceInfo_MacroCallsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.key !== BigInt(0)) {
       writer.uint32(8).int64(message.key);
     }
     if (message.value !== undefined) {
@@ -2267,15 +2267,15 @@ export const SourceInfo_MacroCallsEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SourceInfo_MacroCallsEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SourceInfo_MacroCallsEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSourceInfo_MacroCallsEntry();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.key = (reader.int64() as Long);
+          message.key = BigInt(reader.int64().toString());
           break;
         case 2:
           message.value = Expr.decode(reader, reader.uint32());
@@ -2289,19 +2289,19 @@ export const SourceInfo_MacroCallsEntry = {
   },
   fromJSON(object: any): SourceInfo_MacroCallsEntry {
     return {
-      key: isSet(object.key) ? Long.fromValue(object.key) : Long.ZERO,
+      key: isSet(object.key) ? BigInt(object.key.toString()) : BigInt("0"),
       value: isSet(object.value) ? Expr.fromJSON(object.value) : undefined
     };
   },
   toJSON(message: SourceInfo_MacroCallsEntry): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = (message.key || Long.ZERO).toString());
+    message.key !== undefined && (obj.key = (message.key || BigInt("0")).toString());
     message.value !== undefined && (obj.value = message.value ? Expr.toJSON(message.value) : undefined);
     return obj;
   },
   fromPartial(object: DeepPartial<SourceInfo_MacroCallsEntry>): SourceInfo_MacroCallsEntry {
     const message = createBaseSourceInfo_MacroCallsEntry();
-    message.key = object.key !== undefined && object.key !== null ? Long.fromValue(object.key) : Long.ZERO;
+    message.key = object.key !== undefined && object.key !== null ? BigInt(object.key.toString()) : BigInt("0");
     message.value = object.value !== undefined && object.value !== null ? Expr.fromPartial(object.value) : undefined;
     return message;
   },
@@ -2319,7 +2319,7 @@ export const SourceInfo_MacroCallsEntry = {
   },
   fromAmino(object: SourceInfo_MacroCallsEntryAmino): SourceInfo_MacroCallsEntry {
     return {
-      key: Long.fromString(object.key),
+      key: BigInt(object.key),
       value: object?.value ? Expr.fromAmino(object.value) : undefined
     };
   },
@@ -2350,7 +2350,7 @@ function createBaseSourceInfo(): SourceInfo {
 }
 export const SourceInfo = {
   typeUrl: "/google.api.expr.v1alpha1.SourceInfo",
-  encode(message: SourceInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SourceInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.syntaxVersion !== "") {
       writer.uint32(10).string(message.syntaxVersion);
     }
@@ -2376,8 +2376,8 @@ export const SourceInfo = {
     });
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SourceInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SourceInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSourceInfo();
     while (reader.pos < end) {
@@ -2424,13 +2424,13 @@ export const SourceInfo = {
       location: isSet(object.location) ? String(object.location) : "",
       lineOffsets: Array.isArray(object?.lineOffsets) ? object.lineOffsets.map((e: any) => Number(e)) : [],
       positions: isObject(object.positions) ? Object.entries(object.positions).reduce<{
-        [key: Long]: number;
+        [key: bigint]: number;
       }>((acc, [key, value]) => {
         acc[Number(key)] = Number(value);
         return acc;
       }, {}) : {},
       macroCalls: isObject(object.macroCalls) ? Object.entries(object.macroCalls).reduce<{
-        [key: Long]: Expr;
+        [key: bigint]: Expr;
       }>((acc, [key, value]) => {
         acc[Number(key)] = Expr.fromJSON(value);
         return acc;
@@ -2466,7 +2466,7 @@ export const SourceInfo = {
     message.location = object.location ?? "";
     message.lineOffsets = object.lineOffsets?.map(e => e) || [];
     message.positions = Object.entries(object.positions ?? {}).reduce<{
-      [key: Long]: number;
+      [key: bigint]: number;
     }>((acc, [key, value]) => {
       if (value !== undefined) {
         acc[Number(key)] = Number(value);
@@ -2474,7 +2474,7 @@ export const SourceInfo = {
       return acc;
     }, {});
     message.macroCalls = Object.entries(object.macroCalls ?? {}).reduce<{
-      [key: Long]: Expr;
+      [key: bigint]: Expr;
     }>((acc, [key, value]) => {
       if (value !== undefined) {
         acc[Number(key)] = Expr.fromPartial(value);
@@ -2489,13 +2489,13 @@ export const SourceInfo = {
       location: object?.location,
       lineOffsets: Array.isArray(object?.line_offsets) ? object.line_offsets.map((e: any) => e) : [],
       positions: isObject(object.positions) ? Object.entries(object.positions).reduce<{
-        [key: Long]: number;
+        [key: bigint]: number;
       }>((acc, [key, value]) => {
         acc[Number(key)] = Number(value);
         return acc;
       }, {}) : {},
       macroCalls: isObject(object.macro_calls) ? Object.entries(object.macro_calls).reduce<{
-        [key: Long]: Expr;
+        [key: bigint]: Expr;
       }>((acc, [key, value]) => {
         acc[Number(key)] = Expr.fromSDK(value);
         return acc;
@@ -2531,13 +2531,13 @@ export const SourceInfo = {
       location: object.location,
       lineOffsets: Array.isArray(object?.line_offsets) ? object.line_offsets.map((e: any) => e) : [],
       positions: isObject(object.positions) ? Object.entries(object.positions).reduce<{
-        [key: Long]: number;
+        [key: bigint]: number;
       }>((acc, [key, value]) => {
         acc[Number(key)] = Number(value);
         return acc;
       }, {}) : {},
       macroCalls: isObject(object.macro_calls) ? Object.entries(object.macro_calls).reduce<{
-        [key: Long]: Expr;
+        [key: bigint]: Expr;
       }>((acc, [key, value]) => {
         acc[Number(key)] = Expr.fromAmino(value);
         return acc;
@@ -2593,7 +2593,7 @@ function createBaseSourcePosition(): SourcePosition {
 }
 export const SourcePosition = {
   typeUrl: "/google.api.expr.v1alpha1.SourcePosition",
-  encode(message: SourcePosition, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SourcePosition, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.location !== "") {
       writer.uint32(10).string(message.location);
     }
@@ -2608,8 +2608,8 @@ export const SourcePosition = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SourcePosition {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SourcePosition {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSourcePosition();
     while (reader.pos < end) {
