@@ -20,7 +20,7 @@ import {
   Dependency,
   WalletSection,
   handleChangeColorModeValue,
-  ListNfts,
+  SellNfts,
 } from '../components';
 
 const library = {
@@ -77,7 +77,7 @@ export default function Home() {
         </Heading>
       </Box>
       <WalletSection />
-      <ListNfts />
+      <SellNfts />
       <Box mb={16}>
         <Divider />
       </Box>

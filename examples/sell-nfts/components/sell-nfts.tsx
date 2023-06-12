@@ -30,7 +30,7 @@ import {
 import { getPrices } from '../api';
 import { useColor } from 'hooks';
 
-export const ListNfts = () => {
+export const SellNfts = () => {
   const { address } = useChain(chainName);
   const [selectedToken, setSelectedToken] = useState<Token>();
   const [price, setPrice] = useState<number>();
