@@ -73,6 +73,7 @@ export const NftDetailModal = ({
           tokenId: token.tokenId,
         },
         filter: 'TOKEN_METADATAS',
+        sortBy: 'BLOCK_HEIGHT_ASC',
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
