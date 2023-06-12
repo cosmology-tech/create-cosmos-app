@@ -94,8 +94,8 @@ export const NAMES = gql`
 `;
 
 export const EVENTS = gql`
-  query Events($forToken: TokenInput, $filter: Filter) {
-    events(forToken: $forToken, filter: $filter) {
+  query Events($forToken: TokenInput, $filter: Filter, $sortBy: EventSortBy) {
+    events(forToken: $forToken, filter: $filter, sortBy: $sortBy) {
       edges {
         node {
           eventName
