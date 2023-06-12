@@ -5821,7 +5821,7 @@
     rimraf "3.0.2"
     shelljs "0.8.5"
 
-"@osmonauts/types@0.35.0":
+"@osmonauts/types@0.35.0", "@osmonauts/types@^0.35.0":
   version "0.35.0"
   resolved "https://registry.npmjs.org/@osmonauts/types/-/types-0.35.0.tgz#1a1d2b1588e017fb9c04227d01a97be9c3b416ce"
   integrity sha512-RHjc/hGpZ9Q0okWiRMO98V8NduFAB4YQIb0BwP9jQJC39R6uSBtYUGKuk6CxnMyitmA6JeMV0EslOoh/OX0Dyg==
@@ -5843,15 +5843,6 @@
   version "0.33.1"
   resolved "https://registry.npmjs.org/@osmonauts/types/-/types-0.33.1.tgz#d800e18ca063ea39391d2393acae642ca4b6e9cc"
   integrity sha512-MxBUnfHYDE4xFOYZ46x+8ancvGA2e4NlNOY49TuisNNxW6em9d9BscEpFIpQ3XewoTZfUJhd9PCKDdY736vEFg==
-  dependencies:
-    "@babel/runtime" "^7.21.0"
-    "@osmonauts/utils" "^0.11.1"
-    case "1.6.3"
-
-"@osmonauts/types@^0.35.0":
-  version "0.35.0"
-  resolved "https://registry.npmmirror.com/@osmonauts/types/-/types-0.35.0.tgz#1a1d2b1588e017fb9c04227d01a97be9c3b416ce"
-  integrity sha512-RHjc/hGpZ9Q0okWiRMO98V8NduFAB4YQIb0BwP9jQJC39R6uSBtYUGKuk6CxnMyitmA6JeMV0EslOoh/OX0Dyg==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@osmonauts/utils" "^0.11.1"
@@ -8019,6 +8010,14 @@ chai@^4.3.7:
     loupe "^2.3.1"
     pathval "^1.1.1"
     type-detect "^4.0.5"
+
+chain-registry@1.10.0:
+  version "1.10.0"
+  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.10.0.tgz#b0afb3d0919fee40bafccea465ac19117ad9ed7c"
+  integrity sha512-JfdJufFq2F5tRpw1PMO32pv199xnZvwoSLKpW/wlbVOdpyLka7s4GwxgqYK+CPOdfCj5v6GiaGfWTq7slUemXg==
+  dependencies:
+    "@babel/runtime" "^7.19.4"
+    "@chain-registry/types" "^0.14.0"
 
 chain-registry@1.14.0:
   version "1.14.0"
@@ -14034,7 +14033,7 @@ react-icons@4.7.1:
   resolved "https://registry.npmjs.org/react-icons/-/react-icons-4.7.1.tgz"
   integrity sha512-yHd3oKGMgm7zxo3EA7H2n7vxSoiGmHk5t6Ou4bXsfcgWyhfDKMpyKfhHR6Bjnn63c+YXBLBPUql9H4wPJM6sXw==
 
-react-icons@^4.4.0, react-icons@^4.7.1:
+react-icons@4.8.0, react-icons@^4.4.0, react-icons@^4.7.1:
   version "4.8.0"
   resolved "https://registry.npmmirror.com/react-icons/-/react-icons-4.8.0.tgz#621e900caa23b912f737e41be57f27f6b2bff445"
   integrity sha512-N6+kOLcihDiAnj5Czu637waJqSnwlMNROzVZMhfX68V/9bu9qHaMIJC4UdozWoOk57gahFCNHwVvWzm0MTzRjg==
@@ -14944,6 +14943,20 @@ stargazejs@0.13.0:
   version "0.13.0"
   resolved "https://registry.npmjs.org/stargazejs/-/stargazejs-0.13.0.tgz#f13fac8eeeb6f3b189428f323e599884a612f32a"
   integrity sha512-bEik8X78eB+KqfbjLvvsstZ7ngzYqpW73r/QTK8KEOTtvoyxyzMCo/5EOT+1fmOK0Og8Mo9QHukrNFJ/a1STNw==
+  dependencies:
+    "@babel/runtime" "^7.19.4"
+    "@cosmjs/amino" "0.29.5"
+    "@cosmjs/cosmwasm-stargate" "^0.29.5"
+    "@cosmjs/proto-signing" "0.29.5"
+    "@cosmjs/stargate" "0.29.5"
+    "@cosmjs/tendermint-rpc" "^0.29.5"
+    "@osmonauts/lcd" "0.8.0"
+    protobufjs "^6.11.2"
+
+stargazejs@0.14.0:
+  version "0.14.0"
+  resolved "https://registry.npmjs.org/stargazejs/-/stargazejs-0.14.0.tgz#8b7a3750ac41c831ba1e18b0db2573a9d87b5b05"
+  integrity sha512-YdXR1edcW/iK8bqas5H33wQ9S8kUt7AhYMbUpzrQsl0bJh8a/mZHblbgOcBZFUeQ95KYw7aHbxAFyv4e5gsYxg==
   dependencies:
     "@babel/runtime" "^7.19.4"
     "@cosmjs/amino" "0.29.5"
