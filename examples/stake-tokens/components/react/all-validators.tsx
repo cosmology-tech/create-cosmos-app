@@ -33,7 +33,7 @@ import {
   ValidatorInfo,
 } from './delegate-modal';
 import { useState } from 'react';
-import { exponentiate, getExponent } from './staking';
+import { exponentiate, getExponent } from '../../utils';
 import { useChain } from '@cosmos-kit/react';
 import { cosmos } from 'interchain';
 import { getCoin } from '../../config';

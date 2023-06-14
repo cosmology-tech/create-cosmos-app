@@ -13,7 +13,6 @@ import {
 } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { Pool as OsmosisPool } from 'osmojs/types/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
-import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
 import BigNumber from 'bignumber.js';
 import { chainName } from '../../config';
 import PoolList from './pool-list';
@@ -28,65 +27,13 @@ import {
   Peroid,
   PoolApr,
 } from '../types';
-import {
-  convertGammTokenToDollarValue,
-  calcPoolAprs,
-  calcPoolLiquidity,
-} from '../../utils';
+import { calcPoolAprs, addPropertiesToPool } from '../../utils';
 import { PriceHash } from '../../utils/types';
 import { PoolsOverview } from './pools-overview';
 import * as api from '../../api';
 import { useOsmosisRequests, useQueuedRequests, useRequest } from '../../hooks';
 
 export type Pool = OsmosisPool & ExtraPoolProperties;
-
-const addPropertiesToPool = (
-  pool: OsmosisPool,
-  fees: api.Fee[],
-  balances: Coin[],
-  lockedCoins: Coin[],
-  prices: PriceHash
-) => {
-  const liquidity = new BigNumber(calcPoolLiquidity(pool, prices))
-    .decimalPlaces(0)
-    .toNumber();
-
-  const feeData = fees.find((fee) => fee.pool_id === pool.id.low.toString());
-  const volume24H = Math.round(Number(feeData?.volume_24h || 0));
-  const volume7d = Math.round(Number(feeData?.volume_7d || 0));
-  const fees7D = Math.round(Number(feeData?.fees_spent_7d || 0));
-
-  const balanceCoin = balances.find(
-    ({ denom }) => denom === pool.totalShares?.denom
-  );
-  const myLiquidity = balanceCoin
-    ? convertGammTokenToDollarValue(balanceCoin, pool, prices)
-    : 0;
-
-  const lockedCoin = lockedCoins.find(
-    ({ denom }) => denom === pool.totalShares?.denom
-  );
-  const bonded = lockedCoin
-    ? convertGammTokenToDollarValue(lockedCoin, pool, prices)
-    : 0;
-
-  const apr = {
-    1: { totalApr: '0' },
-    7: { totalApr: '0' },
-    14: { totalApr: '0' },
-  };
-
-  return {
-    ...pool,
-    liquidity,
-    volume24H,
-    fees7D,
-    volume7d,
-    apr,
-    myLiquidity,
-    bonded,
-  };
-};
 
 export const ProvideLiquidity = () => {
   const [showAll, setShowAll] = useState(false);
@@ -290,7 +237,6 @@ export const ProvideLiquidity = () => {
 
   useEffect(() => {
     if (!allPools || !highlightedPools || !myPools || !prettyPools) return;
-
     const poolIds = [...allPools, ...highlightedPools, ...myPools].map(
       (pool) => pool.id.low
     );
