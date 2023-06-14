@@ -105,7 +105,8 @@ export const IbcTransfer = observer(() => {
     }
 
     const client = await cosmos.ClientFactory.createRPCQueryClient({
-      rpcEndpoint,
+      rpcEndpoint:
+        typeof rpcEndpoint === 'string' ? rpcEndpoint : rpcEndpoint.url,
     });
 
     const { balances } = await client.cosmos.bank.v1beta1.allBalances({

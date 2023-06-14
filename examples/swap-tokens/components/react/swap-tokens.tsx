@@ -1,7 +1,3 @@
-import {
-  assets as nativeAssets,
-  asset_list as ibcAssets,
-} from '@chain-registry/osmosis';
 import { Asset } from '@chain-registry/types';
 import { Box, Center, Text } from '@chakra-ui/react';
 import { coin } from '@cosmjs/amino';
@@ -13,77 +9,30 @@ import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
 import { Pool } from 'osmojs/types/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { chainName } from '../../config';
-import { useTransactionToast } from '../../hooks/useTransactionToast';
+import { useTransactionToast, useRpcClient } from '../../hooks';
 import {
   baseUnitsToDisplayUnits,
   baseUnitsToDollarValue,
   calcAmountWithSlippage,
   calcPriceImpactGivenIn,
   calcPriceImpactGivenOut,
+  getChainName,
   getExponentByDenom,
   getOsmoAssetByDenom,
+  getPriceHash,
   getRoutesForTrade,
+  isEmptyArray,
   makePoolPairs,
   noDecimals,
   osmoDenomToSymbol,
   osmosisAssets,
+  truncDecimals,
 } from '../../utils';
 import { CoinDenom, PriceHash } from '../../utils/types';
 import { TransactionResult } from '../types';
 import { LoadingConfig, LoadingMode, SwapOptionType, SwapView } from '../swap';
 
-const getPriceHash = async () => {
-  let prices = [];
-
-  try {
-    const response = await fetch(
-      'https://api-osmosis.imperator.co/tokens/v2/all'
-    );
-    if (!response.ok) throw Error('Get price error');
-    prices = await response.json();
-  } catch (err) {
-    console.error(err);
-  }
-
-  const priceHash = prices.reduce(
-    (prev: any, cur: { denom: any; price: any }) => ({
-      ...prev,
-      [cur.denom]: cur.price,
-    }),
-    {}
-  );
-
-  return priceHash;
-};
-
-const truncDecimals = (val: string | undefined, decimals: number) => {
-  return new BigNumber(val || 0).decimalPlaces(decimals).toString();
-};
-
-const getChainName = (ibcDenom: CoinDenom) => {
-  if (nativeAssets.assets.find((asset) => asset.base === ibcDenom)) {
-    return chainName;
-  }
-  const asset = ibcAssets.assets.find((asset) => asset.base === ibcDenom);
-  const ibcChainName = asset?.traces?.[0].counterparty.chain_name;
-  if (!ibcChainName) throw Error('chainName not found: ' + ibcDenom);
-  return ibcChainName;
-};
-
-const isEmptyArray = (arr: any[]) => arr.length === 0;
-
 const slippages = ['1%', '2.5%', '3%', '5%'];
-
-const emptyInput = {
-  fromToken: {
-    inputAmount: '0',
-    inputValue: '0',
-  },
-  toToken: {
-    outputAmount: '0',
-    outputValue: '0',
-  },
-};
 
 const { swapExactAmountIn } = osmosis.gamm.v1beta1.MessageComposer.withTypeUrl;
 
@@ -111,11 +60,11 @@ export const SwapTokens = () => {
     isLoading: false,
   });
 
-  const { address, getRpcEndpoint, getSigningStargateClient, connect } =
-    useChain(chainName);
+  const { address, getSigningStargateClient, connect } = useChain(chainName);
 
   const { getChainRecord } = useManager();
   const { showToast } = useTransactionToast();
+  const { getRpcClient } = useRpcClient(chainName);
 
   const getPrettyChainName = useCallback(
     (ibcDenom: CoinDenom) => {
@@ -127,7 +76,17 @@ export const SwapTokens = () => {
   );
 
   const inputData = useMemo(() => {
-    if (!fromToken || !toToken) return emptyInput;
+    if (!fromToken || !toToken)
+      return {
+        fromToken: {
+          inputAmount: '0',
+          inputValue: '0',
+        },
+        toToken: {
+          outputAmount: '0',
+          outputValue: '0',
+        },
+      };
 
     const dollarValue = new BigNumber(inputAmount || '0').multipliedBy(
       fetchedData.prices[fromToken.denom]
@@ -194,8 +153,6 @@ export const SwapTokens = () => {
   const assetOptions = useMemo(() => {
     const balances = fetchedData.balances;
     const prices = fetchedData.prices;
-    if ([swapTokenDenoms, balances, Object.keys(prices)].some(isEmptyArray))
-      return [];
     return swapTokenDenoms
       .map((denom) => {
         const asset = getOsmoAssetByDenom(denom);
@@ -232,76 +189,73 @@ export const SwapTokens = () => {
     swapTokenDenoms,
   ]);
 
-  const getData = useCallback(async () => {
-    if (!address) return;
-    setLoadingConfig((prev) => ({ ...prev, isLoading: true }));
-    console.log('getting data...');
+  const getBalances = useCallback(async () => {
+    if (!address) return [];
 
-    let rpcEndpoint = await getRpcEndpoint();
-
-    if (!rpcEndpoint) {
-      console.log('no rpc endpoint — using a fallback');
-      rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
-    }
-
-    const client = await osmosis.ClientFactory.createRPCQueryClient({
-      rpcEndpoint,
-    });
-
-    let prices: PriceHash = {};
-    if (isEmptyArray(Object.keys(fetchedData.prices))) {
-      prices = await getPriceHash();
-    } else {
-      prices = fetchedData.prices;
-    }
-
-    let pools: Pool[] = [];
-    if (isEmptyArray(fetchedData.pools)) {
-      const { pools: encodedPools } = await client.osmosis.gamm.v1beta1.pools({
-        pagination: {
-          key: new Uint8Array(),
-          offset: Long.fromNumber(0),
-          limit: Long.fromNumber(1200),
-          countTotal: false,
-          reverse: false,
-        },
-      });
-      pools = encodedPools
-        .filter(({ typeUrl }) => !typeUrl.includes('stableswap'))
-        .map(({ value }) => osmosis.gamm.v1beta1.Pool.decode(value))
-        .filter(({ poolAssets }) =>
-          poolAssets.every(
-            ({ token }) =>
-              prices[token!.denom] &&
-              osmosisAssets.find((asset) => asset.base === token!.denom)
-          )
+    try {
+      const client = await getRpcClient();
+      return await client.cosmos.bank.v1beta1
+        .allBalances({ address })
+        .then(({ balances }) =>
+          balances.filter((coin) => !coin.denom.startsWith('gamm'))
         );
-    } else {
-      pools = fetchedData.pools;
+    } catch (error) {
+      console.error(error);
+      return [];
     }
+  }, [address, getRpcClient]);
 
-    const balances = await client.cosmos.bank.v1beta1
-      .allBalances({
-        address,
-      })
-      .then(({ balances }) =>
-        balances.filter((coin) => !coin.denom.startsWith('gamm'))
-      );
-
-    setFetchedData({
-      pools,
-      prices,
-      balances,
-    });
-
+  const updateBalances = async () => {
+    setLoadingConfig({ mode: LoadingMode.AFTER_SWAP, isLoading: true });
+    const balances = await getBalances();
+    setFetchedData((prev) => ({ ...prev, balances }));
     setLoadingConfig((prev) => ({ ...prev, isLoading: false }));
-    console.log('get data done!');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, getRpcEndpoint]);
+  };
 
   useEffect(() => {
-    getData();
-  }, [getData]);
+    (async () => {
+      if (!address) return;
+      setLoadingConfig((prev) => ({ ...prev, isLoading: true }));
+      try {
+        const client = await getRpcClient();
+
+        const [prices, balances, { pools: poolsData }] = await Promise.all([
+          getPriceHash(),
+          getBalances(),
+          client.osmosis.gamm.v1beta1.pools({
+            pagination: {
+              key: new Uint8Array(),
+              offset: Long.fromNumber(0),
+              limit: Long.fromNumber(1200),
+              countTotal: false,
+              reverse: false,
+            },
+          }) as Promise<{ pools: Pool[] }>,
+        ]);
+
+        const pools = poolsData
+          .filter(({ $typeUrl }) => !$typeUrl?.includes('stableswap'))
+          .filter(({ poolAssets }) =>
+            poolAssets.every(
+              ({ token }) =>
+                prices[token!.denom] &&
+                osmosisAssets.find((asset) => asset.base === token!.denom)
+            )
+          );
+
+        setFetchedData({
+          pools,
+          prices,
+          balances,
+        });
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingConfig((prev) => ({ ...prev, isLoading: false }));
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
 
   useEffect(() => {
     if (isEmptyArray(assetOptions)) return;
@@ -517,6 +471,7 @@ export const SwapTokens = () => {
       setIsSubmitting(false);
       return;
     }
+
     const { tokenIn, tokenOut, routes } = swapTokensWithRoutes;
     const msg = swapExactAmountIn({
       sender: address,
@@ -525,18 +480,16 @@ export const SwapTokens = () => {
       tokenOutMinAmount: noDecimals(tokenOut.amount),
     });
     const fee = FEES.osmosis.swapExactAmountIn('low');
+
     try {
       const res = await stargateClient.signAndBroadcast(address, [msg], fee);
       showToast(res.code);
-      setIsSubmitting(false);
-      setLoadingConfig({ mode: LoadingMode.AFTER_SWAP, isLoading: true });
-      await getData();
-      setLoadingConfig((prev) => ({ ...prev, isLoading: false }));
+      updateBalances();
     } catch (error) {
       console.log(error);
-      setIsSubmitting(false);
       showToast(TransactionResult.Failed, error);
     } finally {
+      setIsSubmitting(false);
       stargateClient.disconnect();
     }
   };

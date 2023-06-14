@@ -1,4 +1,4 @@
-import { osmosisAssets } from "./assets";
+import { osmosisAssets } from './assets';
 import {
   CoinGeckoToken,
   CoinDenom,
@@ -6,9 +6,14 @@ import {
   CoinSymbol,
   PriceHash,
   CoinGeckoUSDResponse,
-} from "./types";
-import { Asset as OsmosisAsset } from "@chain-registry/types";
-import BigNumber from "bignumber.js";
+} from './types';
+import { Asset as OsmosisAsset } from '@chain-registry/types';
+import BigNumber from 'bignumber.js';
+import {
+  assets as nativeAssets,
+  asset_list as ibcAssets,
+} from '@chain-registry/osmosis';
+import { chainName } from '../config';
 
 export const getOsmoAssetByDenom = (denom: CoinDenom): OsmosisAsset => {
   const asset = osmosisAssets.find((asset) => asset.base === denom);
@@ -94,3 +99,43 @@ export const baseUnitsToDisplayUnits = (
   const denom = symbolToOsmoDenom(symbol);
   return new BigNumber(amount).shiftedBy(-getExponentByDenom(denom)).toString();
 };
+
+export const getPriceHash = async () => {
+  let prices = [];
+
+  try {
+    const response = await fetch(
+      'https://api-osmosis.imperator.co/tokens/v2/all'
+    );
+    if (!response.ok) throw Error('Get price error');
+    prices = await response.json();
+  } catch (err) {
+    console.error(err);
+  }
+
+  const priceHash: PriceHash = prices.reduce(
+    (prev: any, cur: { denom: any; price: any }) => ({
+      ...prev,
+      [cur.denom]: cur.price,
+    }),
+    {}
+  );
+
+  return priceHash;
+};
+
+export const truncDecimals = (val: string | undefined, decimals: number) => {
+  return new BigNumber(val || 0).decimalPlaces(decimals).toString();
+};
+
+export const getChainName = (ibcDenom: CoinDenom) => {
+  if (nativeAssets.assets.find((asset) => asset.base === ibcDenom)) {
+    return chainName;
+  }
+  const asset = ibcAssets.assets.find((asset) => asset.base === ibcDenom);
+  const ibcChainName = asset?.traces?.[0].counterparty.chain_name;
+  if (!ibcChainName) throw Error('chainName not found: ' + ibcDenom);
+  return ibcChainName;
+};
+
+export const isEmptyArray = (arr: any[]) => arr.length === 0;

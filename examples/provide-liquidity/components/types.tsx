@@ -79,3 +79,12 @@ export type GaugeQueryResult = {
   poolId: number;
   gauges: Gauge[];
 };
+
+export type Fee = {
+  pool_id: string;
+  volume_24h: number;
+  volume_7d: number;
+  fees_spent_24h: number;
+  fees_spent_7d: number;
+  fees_percentage: string;
+};

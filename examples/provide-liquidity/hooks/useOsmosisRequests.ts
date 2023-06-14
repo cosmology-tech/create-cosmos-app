@@ -101,7 +101,7 @@ export const useOsmosisRequests = (chainName: string) => {
 
   const getAllPools = async (prices: PriceHash) => {
     const client = await getClient();
-    const { pools } = await client.osmosis.gamm.v1beta1.pools({
+    const { pools } = (await client.osmosis.gamm.v1beta1.pools({
       pagination: {
         key: new Uint8Array(),
         offset: Long.fromNumber(0),
@@ -109,10 +109,9 @@ export const useOsmosisRequests = (chainName: string) => {
         countTotal: false,
         reverse: false,
       },
-    });
+    })) as { pools: Pool[] };
     const formattedPools = pools
-      .filter(({ typeUrl }) => !typeUrl.includes('stableswap'))
-      .map(({ value }) => osmosis.gamm.v1beta1.Pool.decode(value))
+      .filter(({ $typeUrl }) => !$typeUrl?.includes('stableswap'))
       .filter((pool) => removeUnsupportedPools(pool, prices));
     return formattedPools;
   };
