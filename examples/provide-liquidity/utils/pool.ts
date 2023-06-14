@@ -15,6 +15,7 @@ import {
   PoolAssetPretty,
 } from './types';
 import BigNumber from 'bignumber.js';
+import { Fee } from '../components';
 
 export const osmosisAssets: OsmosisAsset[] = [
   ...assets.assets,
@@ -317,4 +318,52 @@ export const calcShareOutAmount = (
         .toString();
     })
     .sort((a, b) => (new BigNumber(a).lt(b) ? -1 : 1))[0];
+};
+
+export const addPropertiesToPool = (
+  pool: Pool,
+  fees: Fee[],
+  balances: Coin[],
+  lockedCoins: Coin[],
+  prices: PriceHash
+) => {
+  const liquidity = new BigNumber(calcPoolLiquidity(pool, prices))
+    .decimalPlaces(0)
+    .toNumber();
+
+  const feeData = fees.find((fee) => fee.pool_id === pool.id.low.toString());
+  const volume24H = Math.round(Number(feeData?.volume_24h || 0));
+  const volume7d = Math.round(Number(feeData?.volume_7d || 0));
+  const fees7D = Math.round(Number(feeData?.fees_spent_7d || 0));
+
+  const balanceCoin = balances.find(
+    ({ denom }) => denom === pool.totalShares?.denom
+  );
+  const myLiquidity = balanceCoin
+    ? convertGammTokenToDollarValue(balanceCoin, pool, prices)
+    : 0;
+
+  const lockedCoin = lockedCoins.find(
+    ({ denom }) => denom === pool.totalShares?.denom
+  );
+  const bonded = lockedCoin
+    ? convertGammTokenToDollarValue(lockedCoin, pool, prices)
+    : 0;
+
+  const apr = {
+    1: { totalApr: '0' },
+    7: { totalApr: '0' },
+    14: { totalApr: '0' },
+  };
+
+  return {
+    ...pool,
+    liquidity,
+    volume24H,
+    fees7D,
+    volume7d,
+    apr,
+    myLiquidity,
+    bonded,
+  };
 };

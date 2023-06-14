@@ -32,7 +32,7 @@ import {
   StatBox,
   UndelegateWarning,
 } from './delegate-modal';
-import { exponentiate, getExponent } from './staking';
+import { exponentiate, getExponent } from '../../utils';
 import { decodeCosmosSdkDecFromProto } from '@cosmjs/stargate';
 import { useState } from 'react';
 import { cosmos } from 'interchain';

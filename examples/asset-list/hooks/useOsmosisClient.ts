@@ -69,12 +69,10 @@ export const useOsmosisClient = (chainName: string) => {
         poolId: Long.fromString(poolId),
       })
     );
-    const data = await Promise.all(getPoolRequests);
+    const data = (await Promise.all(getPoolRequests)) as { pool: Pool }[];
     const pools = data
-      .filter(
-        ({ pool }) => pool?.value && !pool?.typeUrl.includes('stableswap')
-      )
-      .map(({ pool }) => osmosis.gamm.v1beta1.Pool.decode(pool!.value))
+      .map(({ pool }) => pool)
+      .filter((pool) => !pool?.$typeUrl?.includes('stableswap'))
       .filter((pool) => removeUnsupportedPools(pool, prices));
     return pools;
   };

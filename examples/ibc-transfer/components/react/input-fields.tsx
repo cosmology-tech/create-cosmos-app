@@ -84,6 +84,7 @@ export const InputFields = ({
 
   useEffect(() => {
     connect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [toChainName]);
 
   useEffect(() => {
@@ -286,18 +287,21 @@ export const InputFields = ({
           size="lg"
           bgImage={linearGradient}
           color="white"
-          opacity={1}
           transition="all .3s ease-in-out"
           _hover={{
             bgImage: linearGradient,
-            opacity: 0.75,
+            opacity: 0.8,
           }}
           _active={{
             bgImage: linearGradient,
             opacity: 0.9,
           }}
+          _disabled={{
+            cursor: 'not-allowed',
+            opacity: 0.6,
+          }}
           onClick={onSubmitClick}
-          disabled={!Number(amount) || !selectedToken || isLoading}
+          isDisabled={!Number(amount) || !selectedToken || isLoading}
         >
           Submit
         </Button>
