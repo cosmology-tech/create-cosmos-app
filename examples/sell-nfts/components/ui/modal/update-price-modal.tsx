@@ -11,14 +11,15 @@ import {
 } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
-import { coin, exponent } from 'config';
-import { useClient, useColor, useTransactionToast } from 'hooks';
+import { coin, exponent, marketplaceContract } from 'config';
+import { useColor, useTransactionToast } from 'hooks';
 import { isGtZero, toDisplayAmount, toRawAmount } from 'utils';
 import { Collection, Token, TxResult } from '../../types';
 import { AmountInput } from '../nft/amount-input';
 import { LargeButton } from '../nft/buttons';
 import { SplitText } from '../nft/nft-cards';
 import { Subtitle, Fees } from '../nft';
+import { useClients } from 'context';
 
 export const UpdatePriceModal = ({
   modalControl,
@@ -35,7 +36,6 @@ export const UpdatePriceModal = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { getMarketplaceClient } = useClient();
 
   const { showToast } = useTransactionToast();
 
@@ -48,11 +48,13 @@ export const UpdatePriceModal = ({
     setInputValue('');
   };
 
+  const { marketplace } = useClients();
+
   const handleUpdateClick = async () => {
     setIsLoading(true);
 
     try {
-      const marketplaceClient = await getMarketplaceClient();
+      const marketplaceClient = marketplace.signingClient(marketplaceContract);
       await marketplaceClient.updateAskPrice({
         collection: token.collectionAddr,
         price: {

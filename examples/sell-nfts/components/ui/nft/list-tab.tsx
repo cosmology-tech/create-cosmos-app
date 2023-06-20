@@ -4,7 +4,7 @@ import { useChain } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
 import React, { useState } from 'react';
 import { chainName, coin, exponent, marketplaceContract } from 'config';
-import { useClient, useColor, useTransactionToast } from 'hooks';
+import { useColor, useTransactionToast } from 'hooks';
 import {
   getExpirationTime,
   getStarsCoin,
@@ -17,6 +17,7 @@ import { AmountInput } from './amount-input';
 import { LargeButton } from './buttons';
 import { Fees } from './fees';
 import { SplitText } from './nft-cards';
+import { useClients } from 'context';
 
 export const ListTab = ({
   closeModal,
@@ -42,20 +43,22 @@ export const ListTab = ({
 
   const { showToast } = useTransactionToast();
   const { address, getSigningCosmWasmClient } = useChain(chainName);
-  const { getMarketplaceMsgComposer, getSg721UpdatableMsgComposer } =
-    useClient();
 
   const symbol = coin.symbol;
   const floorPrice = collection.floorPrice.toString();
   const highestOffer = toDisplayAmount(token.highestCollectionBid, exponent);
   const isAuctionTab = saleType === SaleType.AUCTION;
 
+  const { marketplace, sg721Updatable } = useClients();
+
   const handleClick = async () => {
     if (!address) return;
     setIsLoading(true);
 
-    const marketplaceMsgComposer = getMarketplaceMsgComposer();
-    const sg721UpdatableMsgComposer = getSg721UpdatableMsgComposer(
+    const marketplaceMsgComposer =
+      marketplace.messageComposer(marketplaceContract);
+
+    const sg721UpdatableMsgComposer = sg721Updatable.messageComposer(
       token.collectionAddr
     );
 

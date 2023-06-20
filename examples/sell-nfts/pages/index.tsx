@@ -14,7 +14,7 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
-import { dependencies, products } from '../config';
+import { chainName, dependencies, products } from '../config';
 import {
   Product,
   Dependency,
@@ -22,6 +22,8 @@ import {
   handleChangeColorModeValue,
   SellNfts,
 } from '../components';
+import { useChain } from '@cosmos-kit/react';
+import { ClientsProvider } from 'context';
 
 const library = {
   title: 'StargazeJS',
@@ -31,6 +33,8 @@ const library = {
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
+  const { address, getCosmWasmClient, getSigningCosmWasmClient } =
+    useChain(chainName);
 
   return (
     <Container maxW="5xl" py={10}>
@@ -77,7 +81,15 @@ export default function Home() {
         </Heading>
       </Box>
       <WalletSection />
-      <SellNfts />
+      <ClientsProvider
+        clientConfig={{
+          address,
+          getCosmWasmClient,
+          getSigningCosmWasmClient,
+        }}
+      >
+        <SellNfts />
+      </ClientsProvider>
       <Box mb={16}>
         <Divider />
       </Box>
