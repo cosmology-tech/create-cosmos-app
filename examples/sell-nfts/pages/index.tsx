@@ -23,7 +23,7 @@ import {
   SellNfts,
 } from '../components';
 import { useChain } from '@cosmos-kit/react';
-import { ClientsProvider } from 'context';
+import { ContractsProvider } from 'context';
 
 const library = {
   title: 'StargazeJS',
@@ -81,15 +81,15 @@ export default function Home() {
         </Heading>
       </Box>
       <WalletSection />
-      <ClientsProvider
-        clientConfig={{
+      <ContractsProvider
+        contractsConfig={{
           address,
           getCosmWasmClient,
           getSigningCosmWasmClient,
         }}
       >
         <SellNfts />
-      </ClientsProvider>
+      </ContractsProvider>
       <Box mb={16}>
         <Divider />
       </Box>

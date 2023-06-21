@@ -17,7 +17,7 @@ import { AmountInput } from './amount-input';
 import { LargeButton } from './buttons';
 import { Fees } from './fees';
 import { SplitText } from './nft-cards';
-import { useClients } from 'context';
+import { useContracts } from 'context';
 
 export const ListTab = ({
   closeModal,
@@ -49,7 +49,7 @@ export const ListTab = ({
   const highestOffer = toDisplayAmount(token.highestCollectionBid, exponent);
   const isAuctionTab = saleType === SaleType.AUCTION;
 
-  const { marketplace, sg721Updatable } = useClients();
+  const { marketplace, sg721Updatable } = useContracts();
 
   const handleClick = async () => {
     if (!address) return;

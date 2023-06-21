@@ -1,40 +1,41 @@
 import React, { useEffect, useMemo, useRef, useState, useContext } from 'react';
-import { Sg721Updatable, Marketplace, Whitelist } from 'context/clients';
+import { Sg721Updatable, Marketplace, Whitelist } from 'context/contracts';
 import {
   CosmWasmClient,
   SigningCosmWasmClient,
 } from '@cosmjs/cosmwasm-stargate';
 
-interface IClientsContext {
+interface IContractsContext {
   sg721Updatable: Sg721Updatable;
   marketplace: Marketplace;
   whitelist: Whitelist;
 }
 
-interface ClientConfig {
+interface ContractsConfig {
   address: string | undefined;
   getCosmWasmClient: () => Promise<CosmWasmClient>;
   getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient>;
 }
 
-const ClientsContext = React.createContext<IClientsContext | null>(null);
+const ContractsContext = React.createContext<IContractsContext | null>(null);
 
-export const ClientsProvider = ({
+export const ContractsProvider = ({
   children,
-  clientConfig,
+  contractsConfig,
 }: {
   children: React.ReactNode;
-  clientConfig: ClientConfig;
+  contractsConfig: ContractsConfig;
 }) => {
   const [cosmWasmClient, setCosmWasmClient] = useState<CosmWasmClient>();
   const [signingCosmWasmClient, setSigningCosmWasmClient] =
     useState<SigningCosmWasmClient>();
 
-  const { address, getCosmWasmClient, getSigningCosmWasmClient } = clientConfig;
+  const { address, getCosmWasmClient, getSigningCosmWasmClient } =
+    contractsConfig;
 
   const prevAddressRef = useRef<string | undefined>(address);
 
-  const clients: IClientsContext = useMemo(
+  const contracts: IContractsContext = useMemo(
     () => ({
       sg721Updatable: new Sg721Updatable({
         address,
@@ -77,16 +78,16 @@ export const ClientsProvider = ({
   }, [getCosmWasmClient]);
 
   return (
-    <ClientsContext.Provider value={clients}>
+    <ContractsContext.Provider value={contracts}>
       {children}
-    </ClientsContext.Provider>
+    </ContractsContext.Provider>
   );
 };
 
-export const useClients = () => {
-  const clients = useContext(ClientsContext);
-  if (clients === null) {
-    throw new Error('useClients must be used within a ClientsProvider');
+export const useContracts = () => {
+  const contracts = useContext(ContractsContext);
+  if (contracts === null) {
+    throw new Error('useContracts must be used within a ContractsProvider');
   }
-  return clients;
+  return contracts;
 };

@@ -19,7 +19,7 @@ import { AmountInput } from '../nft/amount-input';
 import { LargeButton } from '../nft/buttons';
 import { SplitText } from '../nft/nft-cards';
 import { Subtitle, Fees } from '../nft';
-import { useClients } from 'context';
+import { useContracts } from 'context';
 
 export const UpdatePriceModal = ({
   modalControl,
@@ -48,7 +48,7 @@ export const UpdatePriceModal = ({
     setInputValue('');
   };
 
-  const { marketplace } = useClients();
+  const { marketplace } = useContracts();
 
   const handleUpdateClick = async () => {
     setIsLoading(true);

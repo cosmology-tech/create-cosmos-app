@@ -4,14 +4,14 @@ import {
   Sg721UpdatableQueryClient,
 } from 'stargazejs/types/codegen/Sg721Updatable.client';
 import { Sg721UpdatableMessageComposer } from 'stargazejs/types/codegen/Sg721Updatable.message-composer';
-import { BaseClient, IClientConstructor } from './Base';
+import { Base, IContractConstructor } from './Base';
 
-export class Sg721Updatable extends BaseClient {
+export class Sg721Updatable extends Base {
   constructor({
     address,
     cosmWasmClient,
     signingCosmWasmClient,
-  }: IClientConstructor) {
+  }: IContractConstructor) {
     super({ address, cosmWasmClient, signingCosmWasmClient });
   }
 

@@ -4,14 +4,14 @@ import {
   WhitelistQueryClient,
 } from 'stargazejs/types/codegen/Whitelist.client';
 import { WhitelistMessageComposer } from 'stargazejs/types/codegen/Whitelist.message-composer';
-import { BaseClient, IClientConstructor } from './Base';
+import { Base, IContractConstructor } from './Base';
 
-export class Whitelist extends BaseClient {
+export class Whitelist extends Base {
   constructor({
     address,
     cosmWasmClient,
     signingCosmWasmClient,
-  }: IClientConstructor) {
+  }: IContractConstructor) {
     super({ address, cosmWasmClient, signingCosmWasmClient });
   }
 

@@ -4,14 +4,14 @@ import {
   MarketplaceQueryClient,
 } from 'stargazejs/types/codegen/Marketplace.client';
 import { MarketplaceMessageComposer } from 'stargazejs/types/codegen/Marketplace.message-composer';
-import { BaseClient, IClientConstructor } from './Base';
+import { Base, IContractConstructor } from './Base';
 
-export class Marketplace extends BaseClient {
+export class Marketplace extends Base {
   constructor({
     address,
     cosmWasmClient,
     signingCosmWasmClient,
-  }: IClientConstructor) {
+  }: IContractConstructor) {
     super({ address, cosmWasmClient, signingCosmWasmClient });
   }
 

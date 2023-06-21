@@ -3,13 +3,13 @@ import {
   SigningCosmWasmClient,
 } from '@cosmjs/cosmwasm-stargate';
 
-export interface IClientConstructor {
+export interface IContractConstructor {
   address: string | undefined;
   cosmWasmClient: CosmWasmClient | undefined;
   signingCosmWasmClient: SigningCosmWasmClient | undefined;
 }
 
-export class BaseClient {
+export class Base {
   protected address: string | undefined = undefined;
   protected cosmWasmClient: CosmWasmClient | undefined = undefined;
   protected signingCosmWasmClient: SigningCosmWasmClient | undefined =
@@ -19,7 +19,7 @@ export class BaseClient {
     address,
     cosmWasmClient,
     signingCosmWasmClient,
-  }: IClientConstructor) {
+  }: IContractConstructor) {
     this.address = address;
     this.cosmWasmClient = cosmWasmClient;
     this.signingCosmWasmClient = signingCosmWasmClient;
