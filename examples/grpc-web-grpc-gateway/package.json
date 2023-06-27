@@ -10,8 +10,8 @@
     "locks:remove": "rm -f yarn.lock",
     "locks:create": "generate-lockfile --lockfile ../../yarn.lock --package package.json --write yarn.lock --force",
     "locks": "npm run locks:remove && npm run locks:create",
-    "codegen:grpc-web": "node scripts/codegen-grpc-web.js",
-    "codegen:grpc-gateway": "node scripts/codegen-grpc-gateway.js"
+    "codegen:grpc-web": "rm -rf codegen_grpc_web && node scripts/codegen-grpc-web.js",
+    "codegen:grpc-gateway": "rm -rf codegen_grpc_gateway && node scripts/codegen-grpc-gateway.js"
   },
   "dependencies": {
     "@chakra-ui/icons": "2.0.12",
@@ -27,8 +27,8 @@
     "@emotion/styled": "11.10.6",
     "@improbable-eng/grpc-web": "0.15.0",
     "@improbable-eng/grpc-web-node-http-transport": "0.15.0",
-    "@osmonauts/ast": "0.82.0",
-    "@osmonauts/telescope": "0.96.0",
+    "@osmonauts/ast": "0.85.0",
+    "@osmonauts/telescope": "0.99.0",
     "@osmonauts/types": "0.35.0",
     "bignumber.js": "9.1.1",
     "chain-registry": "1.14.0",
@@ -48,6 +48,6 @@
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
     "generate-lockfile": "0.0.12",
-    "typescript": "4.9.3"
+    "typescript": "5.0.4"
   }
 }
