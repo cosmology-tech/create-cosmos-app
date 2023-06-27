@@ -93,7 +93,7 @@ export interface CapabilityOwnersSDKType {
 }
 function createBaseCapability(): Capability {
   return {
-    index: BigInt("0")
+    index: BigInt(0)
   };
 }
 export const Capability = {
@@ -113,7 +113,7 @@ export const Capability = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.index = BigInt(reader.uint64().toString());
+          message.index = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -124,17 +124,17 @@ export const Capability = {
   },
   fromJSON(object: any): Capability {
     return {
-      index: isSet(object.index) ? BigInt(object.index.toString()) : BigInt("0")
+      index: isSet(object.index) ? BigInt(object.index.toString()) : BigInt(0)
     };
   },
   toJSON(message: Capability): unknown {
     const obj: any = {};
-    message.index !== undefined && (obj.index = (message.index || BigInt("0")).toString());
+    message.index !== undefined && (obj.index = (message.index || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<Capability>): Capability {
     const message = createBaseCapability();
-    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt("0");
+    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: CapabilitySDKType): Capability {

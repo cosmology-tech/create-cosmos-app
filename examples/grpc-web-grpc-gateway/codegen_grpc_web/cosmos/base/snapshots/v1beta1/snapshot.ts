@@ -7,7 +7,7 @@ export interface Snapshot {
   format: number;
   chunks: number;
   hash: Uint8Array;
-  metadata?: Metadata;
+  metadata: Metadata;
 }
 export interface SnapshotProtoMsg {
   typeUrl: "/cosmos.base.snapshots.v1beta1.Snapshot";
@@ -31,7 +31,7 @@ export interface SnapshotSDKType {
   format: number;
   chunks: number;
   hash: Uint8Array;
-  metadata?: MetadataSDKType;
+  metadata: MetadataSDKType;
 }
 /** Metadata contains SDK-specific snapshot metadata. */
 export interface Metadata {
@@ -231,11 +231,11 @@ export interface SnapshotSchemaSDKType {
 }
 function createBaseSnapshot(): Snapshot {
   return {
-    height: BigInt("0"),
+    height: BigInt(0),
     format: 0,
     chunks: 0,
     hash: new Uint8Array(),
-    metadata: undefined
+    metadata: Metadata.fromPartial({})
   };
 }
 export const Snapshot = {
@@ -267,7 +267,7 @@ export const Snapshot = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.height = BigInt(reader.uint64().toString());
+          message.height = reader.uint64();
           break;
         case 2:
           message.format = reader.uint32();
@@ -290,7 +290,7 @@ export const Snapshot = {
   },
   fromJSON(object: any): Snapshot {
     return {
-      height: isSet(object.height) ? BigInt(object.height.toString()) : BigInt("0"),
+      height: isSet(object.height) ? BigInt(object.height.toString()) : BigInt(0),
       format: isSet(object.format) ? Number(object.format) : 0,
       chunks: isSet(object.chunks) ? Number(object.chunks) : 0,
       hash: isSet(object.hash) ? bytesFromBase64(object.hash) : new Uint8Array(),
@@ -299,7 +299,7 @@ export const Snapshot = {
   },
   toJSON(message: Snapshot): unknown {
     const obj: any = {};
-    message.height !== undefined && (obj.height = (message.height || BigInt("0")).toString());
+    message.height !== undefined && (obj.height = (message.height || BigInt(0)).toString());
     message.format !== undefined && (obj.format = Math.round(message.format));
     message.chunks !== undefined && (obj.chunks = Math.round(message.chunks));
     message.hash !== undefined && (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
@@ -308,7 +308,7 @@ export const Snapshot = {
   },
   fromPartial(object: DeepPartial<Snapshot>): Snapshot {
     const message = createBaseSnapshot();
-    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt(0);
     message.format = object.format ?? 0;
     message.chunks = object.chunks ?? 0;
     message.hash = object.hash ?? new Uint8Array();
@@ -723,7 +723,7 @@ function createBaseSnapshotIAVLItem(): SnapshotIAVLItem {
   return {
     key: new Uint8Array(),
     value: new Uint8Array(),
-    version: BigInt("0"),
+    version: BigInt(0),
     height: 0
   };
 }
@@ -759,7 +759,7 @@ export const SnapshotIAVLItem = {
           message.value = reader.bytes();
           break;
         case 3:
-          message.version = BigInt(reader.int64().toString());
+          message.version = reader.int64();
           break;
         case 4:
           message.height = reader.int32();
@@ -775,7 +775,7 @@ export const SnapshotIAVLItem = {
     return {
       key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
       value: isSet(object.value) ? bytesFromBase64(object.value) : new Uint8Array(),
-      version: isSet(object.version) ? BigInt(object.version.toString()) : BigInt("0"),
+      version: isSet(object.version) ? BigInt(object.version.toString()) : BigInt(0),
       height: isSet(object.height) ? Number(object.height) : 0
     };
   },
@@ -783,7 +783,7 @@ export const SnapshotIAVLItem = {
     const obj: any = {};
     message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
     message.value !== undefined && (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));
-    message.version !== undefined && (obj.version = (message.version || BigInt("0")).toString());
+    message.version !== undefined && (obj.version = (message.version || BigInt(0)).toString());
     message.height !== undefined && (obj.height = Math.round(message.height));
     return obj;
   },
@@ -791,7 +791,7 @@ export const SnapshotIAVLItem = {
     const message = createBaseSnapshotIAVLItem();
     message.key = object.key ?? new Uint8Array();
     message.value = object.value ?? new Uint8Array();
-    message.version = object.version !== undefined && object.version !== null ? BigInt(object.version.toString()) : BigInt("0");
+    message.version = object.version !== undefined && object.version !== null ? BigInt(object.version.toString()) : BigInt(0);
     message.height = object.height ?? 0;
     return message;
   },

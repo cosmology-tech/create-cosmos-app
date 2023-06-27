@@ -184,7 +184,7 @@ function createBaseParams(): Params {
     inflationMax: "",
     inflationMin: "",
     goalBonded: "",
-    blocksPerYear: BigInt("0")
+    blocksPerYear: BigInt(0)
   };
 }
 export const Params = {
@@ -234,7 +234,7 @@ export const Params = {
           message.goalBonded = reader.string();
           break;
         case 6:
-          message.blocksPerYear = BigInt(reader.uint64().toString());
+          message.blocksPerYear = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -250,7 +250,7 @@ export const Params = {
       inflationMax: isSet(object.inflationMax) ? String(object.inflationMax) : "",
       inflationMin: isSet(object.inflationMin) ? String(object.inflationMin) : "",
       goalBonded: isSet(object.goalBonded) ? String(object.goalBonded) : "",
-      blocksPerYear: isSet(object.blocksPerYear) ? BigInt(object.blocksPerYear.toString()) : BigInt("0")
+      blocksPerYear: isSet(object.blocksPerYear) ? BigInt(object.blocksPerYear.toString()) : BigInt(0)
     };
   },
   toJSON(message: Params): unknown {
@@ -260,7 +260,7 @@ export const Params = {
     message.inflationMax !== undefined && (obj.inflationMax = message.inflationMax);
     message.inflationMin !== undefined && (obj.inflationMin = message.inflationMin);
     message.goalBonded !== undefined && (obj.goalBonded = message.goalBonded);
-    message.blocksPerYear !== undefined && (obj.blocksPerYear = (message.blocksPerYear || BigInt("0")).toString());
+    message.blocksPerYear !== undefined && (obj.blocksPerYear = (message.blocksPerYear || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<Params>): Params {
@@ -270,7 +270,7 @@ export const Params = {
     message.inflationMax = object.inflationMax ?? "";
     message.inflationMin = object.inflationMin ?? "";
     message.goalBonded = object.goalBonded ?? "";
-    message.blocksPerYear = object.blocksPerYear !== undefined && object.blocksPerYear !== null ? BigInt(object.blocksPerYear.toString()) : BigInt("0");
+    message.blocksPerYear = object.blocksPerYear !== undefined && object.blocksPerYear !== null ? BigInt(object.blocksPerYear.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: ParamsSDKType): Params {

@@ -7,9 +7,9 @@ export const protobufPackage = "google.api.expr.v1alpha1";
 /** An expression together with source information as returned by the parser. */
 export interface ParsedExpr {
   /** The parsed expression. */
-  expr?: Expr;
+  expr: Expr;
   /** The source info derived from input that generated the parsed `expr`. */
-  sourceInfo?: SourceInfo;
+  sourceInfo: SourceInfo;
 }
 export interface ParsedExprProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.ParsedExpr";
@@ -28,8 +28,8 @@ export interface ParsedExprAminoMsg {
 }
 /** An expression together with source information as returned by the parser. */
 export interface ParsedExprSDKType {
-  expr?: ExprSDKType;
-  source_info?: SourceInfoSDKType;
+  expr: ExprSDKType;
+  source_info: SourceInfoSDKType;
 }
 /**
  * An abstract representation of a common expression.
@@ -184,7 +184,7 @@ export interface Expr_Select {
    * For example, in the select expression `request.auth`, the `request`
    * portion of the expression is the `operand`.
    */
-  operand?: Expr;
+  operand: Expr;
   /**
    * Required. The name of the field to select.
    * 
@@ -232,7 +232,7 @@ export interface Expr_SelectAminoMsg {
 }
 /** A field selection expression. e.g. `request.auth`. */
 export interface Expr_SelectSDKType {
-  operand?: ExprSDKType;
+  operand: ExprSDKType;
   field: string;
   test_only: boolean;
 }
@@ -246,7 +246,7 @@ export interface Expr_Call {
    * The target of an method call-style expression. For example, `x` in
    * `x.f()`.
    */
-  target?: Expr;
+  target: Expr;
   /** Required. The name of the function or method being called. */
   function: string;
   /** The arguments. */
@@ -282,7 +282,7 @@ export interface Expr_CallAminoMsg {
  * For example, `value == 10`, `size(map_value)`.
  */
 export interface Expr_CallSDKType {
-  target?: ExprSDKType;
+  target: ExprSDKType;
   function: string;
   args: ExprSDKType[];
 }
@@ -387,7 +387,7 @@ export interface Expr_CreateStruct_Entry {
   /** The key expression for a map creation statement. */
   mapKey?: Expr;
   /** Required. The value assigned to the key. */
-  value?: Expr;
+  value: Expr;
 }
 export interface Expr_CreateStruct_EntryProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Entry";
@@ -417,7 +417,7 @@ export interface Expr_CreateStruct_EntrySDKType {
   id: bigint;
   field_key?: string;
   map_key?: ExprSDKType;
-  value?: ExprSDKType;
+  value: ExprSDKType;
 }
 /**
  * A comprehension expression applied to a list or map.
@@ -451,30 +451,30 @@ export interface Expr_Comprehension {
   /** The name of the iteration variable. */
   iterVar: string;
   /** The range over which var iterates. */
-  iterRange?: Expr;
+  iterRange: Expr;
   /** The name of the variable used for accumulation of the result. */
   accuVar: string;
   /** The initial value of the accumulator. */
-  accuInit?: Expr;
+  accuInit: Expr;
   /**
    * An expression which can contain iter_var and accu_var.
    * 
    * Returns false when the result has been computed and may be used as
    * a hint to short-circuit the remainder of the comprehension.
    */
-  loopCondition?: Expr;
+  loopCondition: Expr;
   /**
    * An expression which can contain iter_var and accu_var.
    * 
    * Computes the next value of accu_var.
    */
-  loopStep?: Expr;
+  loopStep: Expr;
   /**
    * An expression which can contain accu_var.
    * 
    * Computes the result.
    */
-  result?: Expr;
+  result: Expr;
 }
 export interface Expr_ComprehensionProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Comprehension";
@@ -571,12 +571,12 @@ export interface Expr_ComprehensionAminoMsg {
  */
 export interface Expr_ComprehensionSDKType {
   iter_var: string;
-  iter_range?: ExprSDKType;
+  iter_range: ExprSDKType;
   accu_var: string;
-  accu_init?: ExprSDKType;
-  loop_condition?: ExprSDKType;
-  loop_step?: ExprSDKType;
-  result?: ExprSDKType;
+  accu_init: ExprSDKType;
+  loop_condition: ExprSDKType;
+  loop_step: ExprSDKType;
+  result: ExprSDKType;
 }
 /**
  * Represents a primitive literal.
@@ -726,7 +726,7 @@ export interface SourceInfo_PositionsEntrySDKType {
 }
 export interface SourceInfo_MacroCallsEntry {
   key: bigint;
-  value?: Expr;
+  value: Expr;
 }
 export interface SourceInfo_MacroCallsEntryProtoMsg {
   typeUrl: string;
@@ -742,7 +742,7 @@ export interface SourceInfo_MacroCallsEntryAminoMsg {
 }
 export interface SourceInfo_MacroCallsEntrySDKType {
   key: bigint;
-  value?: ExprSDKType;
+  value: ExprSDKType;
 }
 /** Source information collected at parse time. */
 export interface SourceInfo {
@@ -782,7 +782,7 @@ export interface SourceInfo {
    * in the map corresponds to the expression id of the expanded macro, and the
    * value is the call `Expr` that was replaced.
    */
-  macroCalls?: {
+  macroCalls: {
     [key: bigint]: Expr;
   };
 }
@@ -844,7 +844,7 @@ export interface SourceInfoSDKType {
   positions: {
     [key: bigint]: number;
   };
-  macro_calls?: {
+  macro_calls: {
     [key: bigint]: ExprSDKType;
   };
 }
@@ -899,8 +899,8 @@ export interface SourcePositionSDKType {
 }
 function createBaseParsedExpr(): ParsedExpr {
   return {
-    expr: undefined,
-    sourceInfo: undefined
+    expr: Expr.fromPartial({}),
+    sourceInfo: SourceInfo.fromPartial({})
   };
 }
 export const ParsedExpr = {
@@ -994,7 +994,7 @@ export const ParsedExpr = {
 };
 function createBaseExpr(): Expr {
   return {
-    id: BigInt("0"),
+    id: BigInt(0),
     constExpr: undefined,
     identExpr: undefined,
     selectExpr: undefined,
@@ -1041,7 +1041,7 @@ export const Expr = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 2:
-          message.id = BigInt(reader.int64().toString());
+          message.id = reader.int64();
           break;
         case 3:
           message.constExpr = Constant.decode(reader, reader.uint32());
@@ -1073,7 +1073,7 @@ export const Expr = {
   },
   fromJSON(object: any): Expr {
     return {
-      id: isSet(object.id) ? BigInt(object.id.toString()) : BigInt("0"),
+      id: isSet(object.id) ? BigInt(object.id.toString()) : BigInt(0),
       constExpr: isSet(object.constExpr) ? Constant.fromJSON(object.constExpr) : undefined,
       identExpr: isSet(object.identExpr) ? Expr_Ident.fromJSON(object.identExpr) : undefined,
       selectExpr: isSet(object.selectExpr) ? Expr_Select.fromJSON(object.selectExpr) : undefined,
@@ -1085,7 +1085,7 @@ export const Expr = {
   },
   toJSON(message: Expr): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = (message.id || BigInt("0")).toString());
+    message.id !== undefined && (obj.id = (message.id || BigInt(0)).toString());
     message.constExpr !== undefined && (obj.constExpr = message.constExpr ? Constant.toJSON(message.constExpr) : undefined);
     message.identExpr !== undefined && (obj.identExpr = message.identExpr ? Expr_Ident.toJSON(message.identExpr) : undefined);
     message.selectExpr !== undefined && (obj.selectExpr = message.selectExpr ? Expr_Select.toJSON(message.selectExpr) : undefined);
@@ -1097,7 +1097,7 @@ export const Expr = {
   },
   fromPartial(object: DeepPartial<Expr>): Expr {
     const message = createBaseExpr();
-    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt("0");
+    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt(0);
     message.constExpr = object.constExpr !== undefined && object.constExpr !== null ? Constant.fromPartial(object.constExpr) : undefined;
     message.identExpr = object.identExpr !== undefined && object.identExpr !== null ? Expr_Ident.fromPartial(object.identExpr) : undefined;
     message.selectExpr = object.selectExpr !== undefined && object.selectExpr !== null ? Expr_Select.fromPartial(object.selectExpr) : undefined;
@@ -1254,7 +1254,7 @@ export const Expr_Ident = {
 };
 function createBaseExpr_Select(): Expr_Select {
   return {
-    operand: undefined,
+    operand: Expr.fromPartial({}),
     field: "",
     testOnly: false
   };
@@ -1363,7 +1363,7 @@ export const Expr_Select = {
 };
 function createBaseExpr_Call(): Expr_Call {
   return {
-    target: undefined,
+    target: Expr.fromPartial({}),
     function: "",
     args: []
   };
@@ -1684,10 +1684,10 @@ export const Expr_CreateStruct = {
 };
 function createBaseExpr_CreateStruct_Entry(): Expr_CreateStruct_Entry {
   return {
-    id: BigInt("0"),
+    id: BigInt(0),
     fieldKey: undefined,
     mapKey: undefined,
-    value: undefined
+    value: Expr.fromPartial({})
   };
 }
 export const Expr_CreateStruct_Entry = {
@@ -1715,7 +1715,7 @@ export const Expr_CreateStruct_Entry = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.id = BigInt(reader.int64().toString());
+          message.id = reader.int64();
           break;
         case 2:
           message.fieldKey = reader.string();
@@ -1735,7 +1735,7 @@ export const Expr_CreateStruct_Entry = {
   },
   fromJSON(object: any): Expr_CreateStruct_Entry {
     return {
-      id: isSet(object.id) ? BigInt(object.id.toString()) : BigInt("0"),
+      id: isSet(object.id) ? BigInt(object.id.toString()) : BigInt(0),
       fieldKey: isSet(object.fieldKey) ? String(object.fieldKey) : undefined,
       mapKey: isSet(object.mapKey) ? Expr.fromJSON(object.mapKey) : undefined,
       value: isSet(object.value) ? Expr.fromJSON(object.value) : undefined
@@ -1743,7 +1743,7 @@ export const Expr_CreateStruct_Entry = {
   },
   toJSON(message: Expr_CreateStruct_Entry): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = (message.id || BigInt("0")).toString());
+    message.id !== undefined && (obj.id = (message.id || BigInt(0)).toString());
     message.fieldKey !== undefined && (obj.fieldKey = message.fieldKey);
     message.mapKey !== undefined && (obj.mapKey = message.mapKey ? Expr.toJSON(message.mapKey) : undefined);
     message.value !== undefined && (obj.value = message.value ? Expr.toJSON(message.value) : undefined);
@@ -1751,7 +1751,7 @@ export const Expr_CreateStruct_Entry = {
   },
   fromPartial(object: DeepPartial<Expr_CreateStruct_Entry>): Expr_CreateStruct_Entry {
     const message = createBaseExpr_CreateStruct_Entry();
-    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt("0");
+    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt(0);
     message.fieldKey = object.fieldKey ?? undefined;
     message.mapKey = object.mapKey !== undefined && object.mapKey !== null ? Expr.fromPartial(object.mapKey) : undefined;
     message.value = object.value !== undefined && object.value !== null ? Expr.fromPartial(object.value) : undefined;
@@ -1808,12 +1808,12 @@ export const Expr_CreateStruct_Entry = {
 function createBaseExpr_Comprehension(): Expr_Comprehension {
   return {
     iterVar: "",
-    iterRange: undefined,
+    iterRange: Expr.fromPartial({}),
     accuVar: "",
-    accuInit: undefined,
-    loopCondition: undefined,
-    loopStep: undefined,
-    result: undefined
+    accuInit: Expr.fromPartial({}),
+    loopCondition: Expr.fromPartial({}),
+    loopStep: Expr.fromPartial({}),
+    result: Expr.fromPartial({})
   };
 }
 export const Expr_Comprehension = {
@@ -2029,10 +2029,10 @@ export const Constant = {
           message.boolValue = reader.bool();
           break;
         case 3:
-          message.int64Value = BigInt(reader.int64().toString());
+          message.int64Value = reader.int64();
           break;
         case 4:
-          message.uint64Value = BigInt(reader.uint64().toString());
+          message.uint64Value = reader.uint64();
           break;
         case 5:
           message.doubleValue = reader.double();
@@ -2165,7 +2165,7 @@ export const Constant = {
 };
 function createBaseSourceInfo_PositionsEntry(): SourceInfo_PositionsEntry {
   return {
-    key: BigInt("0"),
+    key: BigInt(0),
     value: 0
   };
 }
@@ -2187,7 +2187,7 @@ export const SourceInfo_PositionsEntry = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.key = BigInt(reader.int64().toString());
+          message.key = reader.int64();
           break;
         case 2:
           message.value = reader.int32();
@@ -2201,19 +2201,19 @@ export const SourceInfo_PositionsEntry = {
   },
   fromJSON(object: any): SourceInfo_PositionsEntry {
     return {
-      key: isSet(object.key) ? BigInt(object.key.toString()) : BigInt("0"),
+      key: isSet(object.key) ? BigInt(object.key.toString()) : BigInt(0),
       value: isSet(object.value) ? Number(object.value) : 0
     };
   },
   toJSON(message: SourceInfo_PositionsEntry): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = (message.key || BigInt("0")).toString());
+    message.key !== undefined && (obj.key = (message.key || BigInt(0)).toString());
     message.value !== undefined && (obj.value = Math.round(message.value));
     return obj;
   },
   fromPartial(object: DeepPartial<SourceInfo_PositionsEntry>): SourceInfo_PositionsEntry {
     const message = createBaseSourceInfo_PositionsEntry();
-    message.key = object.key !== undefined && object.key !== null ? BigInt(object.key.toString()) : BigInt("0");
+    message.key = object.key !== undefined && object.key !== null ? BigInt(object.key.toString()) : BigInt(0);
     message.value = object.value ?? 0;
     return message;
   },
@@ -2253,8 +2253,8 @@ export const SourceInfo_PositionsEntry = {
 };
 function createBaseSourceInfo_MacroCallsEntry(): SourceInfo_MacroCallsEntry {
   return {
-    key: BigInt("0"),
-    value: undefined
+    key: BigInt(0),
+    value: Expr.fromPartial({})
   };
 }
 export const SourceInfo_MacroCallsEntry = {
@@ -2275,7 +2275,7 @@ export const SourceInfo_MacroCallsEntry = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.key = BigInt(reader.int64().toString());
+          message.key = reader.int64();
           break;
         case 2:
           message.value = Expr.decode(reader, reader.uint32());
@@ -2289,19 +2289,19 @@ export const SourceInfo_MacroCallsEntry = {
   },
   fromJSON(object: any): SourceInfo_MacroCallsEntry {
     return {
-      key: isSet(object.key) ? BigInt(object.key.toString()) : BigInt("0"),
+      key: isSet(object.key) ? BigInt(object.key.toString()) : BigInt(0),
       value: isSet(object.value) ? Expr.fromJSON(object.value) : undefined
     };
   },
   toJSON(message: SourceInfo_MacroCallsEntry): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = (message.key || BigInt("0")).toString());
+    message.key !== undefined && (obj.key = (message.key || BigInt(0)).toString());
     message.value !== undefined && (obj.value = message.value ? Expr.toJSON(message.value) : undefined);
     return obj;
   },
   fromPartial(object: DeepPartial<SourceInfo_MacroCallsEntry>): SourceInfo_MacroCallsEntry {
     const message = createBaseSourceInfo_MacroCallsEntry();
-    message.key = object.key !== undefined && object.key !== null ? BigInt(object.key.toString()) : BigInt("0");
+    message.key = object.key !== undefined && object.key !== null ? BigInt(object.key.toString()) : BigInt(0);
     message.value = object.value !== undefined && object.value !== null ? Expr.fromPartial(object.value) : undefined;
     return message;
   },

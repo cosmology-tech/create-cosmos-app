@@ -33,7 +33,7 @@ export interface QueryAllowanceRequestSDKType {
 /** QueryAllowanceResponse is the response type for the Query/Allowance RPC method. */
 export interface QueryAllowanceResponse {
   /** allowance is a allowance granted for grantee by granter. */
-  allowance?: Grant;
+  allowance: Grant;
 }
 export interface QueryAllowanceResponseProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.QueryAllowanceResponse";
@@ -50,13 +50,13 @@ export interface QueryAllowanceResponseAminoMsg {
 }
 /** QueryAllowanceResponse is the response type for the Query/Allowance RPC method. */
 export interface QueryAllowanceResponseSDKType {
-  allowance?: GrantSDKType;
+  allowance: GrantSDKType;
 }
 /** QueryAllowancesRequest is the request type for the Query/Allowances RPC method. */
 export interface QueryAllowancesRequest {
   grantee: string;
   /** pagination defines an pagination for the request. */
-  pagination?: PageRequest;
+  pagination: PageRequest;
 }
 export interface QueryAllowancesRequestProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.QueryAllowancesRequest";
@@ -75,14 +75,14 @@ export interface QueryAllowancesRequestAminoMsg {
 /** QueryAllowancesRequest is the request type for the Query/Allowances RPC method. */
 export interface QueryAllowancesRequestSDKType {
   grantee: string;
-  pagination?: PageRequestSDKType;
+  pagination: PageRequestSDKType;
 }
 /** QueryAllowancesResponse is the response type for the Query/Allowances RPC method. */
 export interface QueryAllowancesResponse {
   /** allowances are allowance's granted for grantee by granter. */
   allowances: Grant[];
   /** pagination defines an pagination for the response. */
-  pagination?: PageResponse;
+  pagination: PageResponse;
 }
 export interface QueryAllowancesResponseProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.QueryAllowancesResponse";
@@ -102,13 +102,13 @@ export interface QueryAllowancesResponseAminoMsg {
 /** QueryAllowancesResponse is the response type for the Query/Allowances RPC method. */
 export interface QueryAllowancesResponseSDKType {
   allowances: GrantSDKType[];
-  pagination?: PageResponseSDKType;
+  pagination: PageResponseSDKType;
 }
 /** QueryAllowancesByGranterRequest is the request type for the Query/AllowancesByGranter RPC method. */
 export interface QueryAllowancesByGranterRequest {
   granter: string;
   /** pagination defines an pagination for the request. */
-  pagination?: PageRequest;
+  pagination: PageRequest;
 }
 export interface QueryAllowancesByGranterRequestProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.QueryAllowancesByGranterRequest";
@@ -127,14 +127,14 @@ export interface QueryAllowancesByGranterRequestAminoMsg {
 /** QueryAllowancesByGranterRequest is the request type for the Query/AllowancesByGranter RPC method. */
 export interface QueryAllowancesByGranterRequestSDKType {
   granter: string;
-  pagination?: PageRequestSDKType;
+  pagination: PageRequestSDKType;
 }
 /** QueryAllowancesByGranterResponse is the response type for the Query/AllowancesByGranter RPC method. */
 export interface QueryAllowancesByGranterResponse {
   /** allowances that have been issued by the granter. */
   allowances: Grant[];
   /** pagination defines an pagination for the response. */
-  pagination?: PageResponse;
+  pagination: PageResponse;
 }
 export interface QueryAllowancesByGranterResponseProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.QueryAllowancesByGranterResponse";
@@ -154,7 +154,7 @@ export interface QueryAllowancesByGranterResponseAminoMsg {
 /** QueryAllowancesByGranterResponse is the response type for the Query/AllowancesByGranter RPC method. */
 export interface QueryAllowancesByGranterResponseSDKType {
   allowances: GrantSDKType[];
-  pagination?: PageResponseSDKType;
+  pagination: PageResponseSDKType;
 }
 function createBaseQueryAllowanceRequest(): QueryAllowanceRequest {
   return {
@@ -260,7 +260,7 @@ export const QueryAllowanceRequest = {
 };
 function createBaseQueryAllowanceResponse(): QueryAllowanceResponse {
   return {
-    allowance: undefined
+    allowance: Grant.fromPartial({})
   };
 }
 export const QueryAllowanceResponse = {
@@ -349,7 +349,7 @@ export const QueryAllowanceResponse = {
 function createBaseQueryAllowancesRequest(): QueryAllowancesRequest {
   return {
     grantee: "",
-    pagination: undefined
+    pagination: PageRequest.fromPartial({})
   };
 }
 export const QueryAllowancesRequest = {
@@ -451,7 +451,7 @@ export const QueryAllowancesRequest = {
 function createBaseQueryAllowancesResponse(): QueryAllowancesResponse {
   return {
     allowances: [],
-    pagination: undefined
+    pagination: PageResponse.fromPartial({})
   };
 }
 export const QueryAllowancesResponse = {
@@ -565,7 +565,7 @@ export const QueryAllowancesResponse = {
 function createBaseQueryAllowancesByGranterRequest(): QueryAllowancesByGranterRequest {
   return {
     granter: "",
-    pagination: undefined
+    pagination: PageRequest.fromPartial({})
   };
 }
 export const QueryAllowancesByGranterRequest = {
@@ -667,7 +667,7 @@ export const QueryAllowancesByGranterRequest = {
 function createBaseQueryAllowancesByGranterResponse(): QueryAllowancesByGranterResponse {
   return {
     allowances: [],
-    pagination: undefined
+    pagination: PageResponse.fromPartial({})
   };
 }
 export const QueryAllowancesByGranterResponse = {

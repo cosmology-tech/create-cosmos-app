@@ -310,7 +310,7 @@ export interface OperationMetadata {
   /** Percentage of completion of this operation, ranging from 0 to 100. */
   progressPercentage: number;
   /** The start time of the operation. */
-  startTime?: Date;
+  startTime: Date;
 }
 export interface OperationMetadataProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.OperationMetadata";
@@ -339,7 +339,7 @@ export interface OperationMetadataSDKType {
   resource_names: string[];
   steps: OperationMetadata_StepSDKType[];
   progress_percentage: number;
-  start_time?: Date;
+  start_time: Date;
 }
 /** Represents the status of one operation step. */
 export interface OperationMetadata_Step {
@@ -577,7 +577,7 @@ export interface Rollout {
    */
   rolloutId: string;
   /** Creation time of the rollout. Readonly. */
-  createTime?: Date;
+  createTime: Date;
   /** The user who created the Rollout. Readonly. */
   createdBy: string;
   /**
@@ -654,7 +654,7 @@ export interface RolloutAminoMsg {
  */
 export interface RolloutSDKType {
   rollout_id: string;
-  create_time?: Date;
+  create_time: Date;
   created_by: string;
   status: Rollout_RolloutStatus;
   traffic_percent_strategy?: Rollout_TrafficPercentStrategySDKType;

@@ -4,10 +4,10 @@ import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "tendermint.types";
 export interface Block {
-  header?: Header;
-  data?: Data;
-  evidence?: EvidenceList;
-  lastCommit?: Commit;
+  header: Header;
+  data: Data;
+  evidence: EvidenceList;
+  lastCommit: Commit;
 }
 export interface BlockProtoMsg {
   typeUrl: "/tendermint.types.Block";
@@ -24,17 +24,17 @@ export interface BlockAminoMsg {
   value: BlockAmino;
 }
 export interface BlockSDKType {
-  header?: HeaderSDKType;
-  data?: DataSDKType;
-  evidence?: EvidenceListSDKType;
-  last_commit?: CommitSDKType;
+  header: HeaderSDKType;
+  data: DataSDKType;
+  evidence: EvidenceListSDKType;
+  last_commit: CommitSDKType;
 }
 function createBaseBlock(): Block {
   return {
-    header: undefined,
-    data: undefined,
-    evidence: undefined,
-    lastCommit: undefined
+    header: Header.fromPartial({}),
+    data: Data.fromPartial({}),
+    evidence: EvidenceList.fromPartial({}),
+    lastCommit: Commit.fromPartial({})
   };
 }
 export const Block = {

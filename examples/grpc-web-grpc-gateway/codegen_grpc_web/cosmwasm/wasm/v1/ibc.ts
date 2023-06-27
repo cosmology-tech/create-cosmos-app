@@ -79,8 +79,8 @@ export interface MsgIBCCloseChannelSDKType {
 function createBaseMsgIBCSend(): MsgIBCSend {
   return {
     channel: "",
-    timeoutHeight: BigInt("0"),
-    timeoutTimestamp: BigInt("0"),
+    timeoutHeight: BigInt(0),
+    timeoutTimestamp: BigInt(0),
     data: new Uint8Array()
   };
 }
@@ -113,10 +113,10 @@ export const MsgIBCSend = {
           message.channel = reader.string();
           break;
         case 4:
-          message.timeoutHeight = BigInt(reader.uint64().toString());
+          message.timeoutHeight = reader.uint64();
           break;
         case 5:
-          message.timeoutTimestamp = BigInt(reader.uint64().toString());
+          message.timeoutTimestamp = reader.uint64();
           break;
         case 6:
           message.data = reader.bytes();
@@ -131,24 +131,24 @@ export const MsgIBCSend = {
   fromJSON(object: any): MsgIBCSend {
     return {
       channel: isSet(object.channel) ? String(object.channel) : "",
-      timeoutHeight: isSet(object.timeoutHeight) ? BigInt(object.timeoutHeight.toString()) : BigInt("0"),
-      timeoutTimestamp: isSet(object.timeoutTimestamp) ? BigInt(object.timeoutTimestamp.toString()) : BigInt("0"),
+      timeoutHeight: isSet(object.timeoutHeight) ? BigInt(object.timeoutHeight.toString()) : BigInt(0),
+      timeoutTimestamp: isSet(object.timeoutTimestamp) ? BigInt(object.timeoutTimestamp.toString()) : BigInt(0),
       data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array()
     };
   },
   toJSON(message: MsgIBCSend): unknown {
     const obj: any = {};
     message.channel !== undefined && (obj.channel = message.channel);
-    message.timeoutHeight !== undefined && (obj.timeoutHeight = (message.timeoutHeight || BigInt("0")).toString());
-    message.timeoutTimestamp !== undefined && (obj.timeoutTimestamp = (message.timeoutTimestamp || BigInt("0")).toString());
+    message.timeoutHeight !== undefined && (obj.timeoutHeight = (message.timeoutHeight || BigInt(0)).toString());
+    message.timeoutTimestamp !== undefined && (obj.timeoutTimestamp = (message.timeoutTimestamp || BigInt(0)).toString());
     message.data !== undefined && (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
     return obj;
   },
   fromPartial(object: DeepPartial<MsgIBCSend>): MsgIBCSend {
     const message = createBaseMsgIBCSend();
     message.channel = object.channel ?? "";
-    message.timeoutHeight = object.timeoutHeight !== undefined && object.timeoutHeight !== null ? BigInt(object.timeoutHeight.toString()) : BigInt("0");
-    message.timeoutTimestamp = object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null ? BigInt(object.timeoutTimestamp.toString()) : BigInt("0");
+    message.timeoutHeight = object.timeoutHeight !== undefined && object.timeoutHeight !== null ? BigInt(object.timeoutHeight.toString()) : BigInt(0);
+    message.timeoutTimestamp = object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null ? BigInt(object.timeoutTimestamp.toString()) : BigInt(0);
     message.data = object.data ?? new Uint8Array();
     return message;
   },

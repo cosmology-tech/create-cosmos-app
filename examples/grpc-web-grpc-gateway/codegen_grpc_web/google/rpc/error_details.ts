@@ -19,7 +19,7 @@ export const protobufPackage = "google.rpc";
  */
 export interface RetryInfo {
   /** Clients should wait at least this long between retrying the same request. */
-  retryDelay?: Duration;
+  retryDelay: Duration;
 }
 export interface RetryInfoProtoMsg {
   typeUrl: "/google.rpc.RetryInfo";
@@ -64,7 +64,7 @@ export interface RetryInfoAminoMsg {
  * reached.
  */
 export interface RetryInfoSDKType {
-  retry_delay?: DurationSDKType;
+  retry_delay: DurationSDKType;
 }
 /** Describes additional debugging info. */
 export interface DebugInfo {

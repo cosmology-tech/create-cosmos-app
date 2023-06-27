@@ -10,7 +10,7 @@ export interface GenesisState {
   clientsConsensus: ClientConsensusStates[];
   /** metadata from each client */
   clientsMetadata: IdentifiedGenesisMetadata[];
-  params?: Params;
+  params: Params;
   /** create localhost on initialization */
   createLocalhost: boolean;
   /** the sequence for the next generated client identifier */
@@ -43,7 +43,7 @@ export interface GenesisStateSDKType {
   clients: IdentifiedClientStateSDKType[];
   clients_consensus: ClientConsensusStatesSDKType[];
   clients_metadata: IdentifiedGenesisMetadataSDKType[];
-  params?: ParamsSDKType;
+  params: ParamsSDKType;
   create_localhost: boolean;
   next_client_sequence: bigint;
 }
@@ -120,9 +120,9 @@ function createBaseGenesisState(): GenesisState {
     clients: [],
     clientsConsensus: [],
     clientsMetadata: [],
-    params: undefined,
+    params: Params.fromPartial({}),
     createLocalhost: false,
-    nextClientSequence: BigInt("0")
+    nextClientSequence: BigInt(0)
   };
 }
 export const GenesisState = {
@@ -172,7 +172,7 @@ export const GenesisState = {
           message.createLocalhost = reader.bool();
           break;
         case 6:
-          message.nextClientSequence = BigInt(reader.uint64().toString());
+          message.nextClientSequence = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -188,7 +188,7 @@ export const GenesisState = {
       clientsMetadata: Array.isArray(object?.clientsMetadata) ? object.clientsMetadata.map((e: any) => IdentifiedGenesisMetadata.fromJSON(e)) : [],
       params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
       createLocalhost: isSet(object.createLocalhost) ? Boolean(object.createLocalhost) : false,
-      nextClientSequence: isSet(object.nextClientSequence) ? BigInt(object.nextClientSequence.toString()) : BigInt("0")
+      nextClientSequence: isSet(object.nextClientSequence) ? BigInt(object.nextClientSequence.toString()) : BigInt(0)
     };
   },
   toJSON(message: GenesisState): unknown {
@@ -210,7 +210,7 @@ export const GenesisState = {
     }
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
     message.createLocalhost !== undefined && (obj.createLocalhost = message.createLocalhost);
-    message.nextClientSequence !== undefined && (obj.nextClientSequence = (message.nextClientSequence || BigInt("0")).toString());
+    message.nextClientSequence !== undefined && (obj.nextClientSequence = (message.nextClientSequence || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
@@ -220,7 +220,7 @@ export const GenesisState = {
     message.clientsMetadata = object.clientsMetadata?.map(e => IdentifiedGenesisMetadata.fromPartial(e)) || [];
     message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
     message.createLocalhost = object.createLocalhost ?? false;
-    message.nextClientSequence = object.nextClientSequence !== undefined && object.nextClientSequence !== null ? BigInt(object.nextClientSequence.toString()) : BigInt("0");
+    message.nextClientSequence = object.nextClientSequence !== undefined && object.nextClientSequence !== null ? BigInt(object.nextClientSequence.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: GenesisStateSDKType): GenesisState {

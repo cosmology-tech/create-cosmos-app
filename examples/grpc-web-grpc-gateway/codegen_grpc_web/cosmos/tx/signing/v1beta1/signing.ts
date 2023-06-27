@@ -118,8 +118,8 @@ export interface SignatureDescriptorsSDKType {
  */
 export interface SignatureDescriptor {
   /** public_key is the public key of the signer */
-  publicKey?: Any;
-  data?: SignatureDescriptor_Data;
+  publicKey: Any;
+  data: SignatureDescriptor_Data;
   /**
    * sequence is the sequence of the account, which describes the
    * number of committed transactions signed by a given address. It is used to prevent
@@ -159,8 +159,8 @@ export interface SignatureDescriptorAminoMsg {
  * clients.
  */
 export interface SignatureDescriptorSDKType {
-  public_key?: AnySDKType;
-  data?: SignatureDescriptor_DataSDKType;
+  public_key: AnySDKType;
+  data: SignatureDescriptor_DataSDKType;
   sequence: bigint;
 }
 /** Data represents signature data */
@@ -220,7 +220,7 @@ export interface SignatureDescriptor_Data_SingleSDKType {
 /** Multi is the signature data for a multisig public key */
 export interface SignatureDescriptor_Data_Multi {
   /** bitarray specifies which keys within the multisig are signing */
-  bitarray?: CompactBitArray;
+  bitarray: CompactBitArray;
   /** signatures is the signatures of the multi-signature */
   signatures: SignatureDescriptor_Data[];
 }
@@ -241,7 +241,7 @@ export interface SignatureDescriptor_Data_MultiAminoMsg {
 }
 /** Multi is the signature data for a multisig public key */
 export interface SignatureDescriptor_Data_MultiSDKType {
-  bitarray?: CompactBitArraySDKType;
+  bitarray: CompactBitArraySDKType;
   signatures: SignatureDescriptor_DataSDKType[];
 }
 function createBaseSignatureDescriptors(): SignatureDescriptors {
@@ -347,8 +347,8 @@ export const SignatureDescriptors = {
 function createBaseSignatureDescriptor(): SignatureDescriptor {
   return {
     publicKey: undefined,
-    data: undefined,
-    sequence: BigInt("0")
+    data: Data.fromPartial({}),
+    sequence: BigInt(0)
   };
 }
 export const SignatureDescriptor = {
@@ -380,7 +380,7 @@ export const SignatureDescriptor = {
           message.data = SignatureDescriptor_Data.decode(reader, reader.uint32());
           break;
         case 3:
-          message.sequence = BigInt(reader.uint64().toString());
+          message.sequence = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -393,21 +393,21 @@ export const SignatureDescriptor = {
     return {
       publicKey: isSet(object.publicKey) ? Any.fromJSON(object.publicKey) : undefined,
       data: isSet(object.data) ? SignatureDescriptor_Data.fromJSON(object.data) : undefined,
-      sequence: isSet(object.sequence) ? BigInt(object.sequence.toString()) : BigInt("0")
+      sequence: isSet(object.sequence) ? BigInt(object.sequence.toString()) : BigInt(0)
     };
   },
   toJSON(message: SignatureDescriptor): unknown {
     const obj: any = {};
     message.publicKey !== undefined && (obj.publicKey = message.publicKey ? Any.toJSON(message.publicKey) : undefined);
     message.data !== undefined && (obj.data = message.data ? SignatureDescriptor_Data.toJSON(message.data) : undefined);
-    message.sequence !== undefined && (obj.sequence = (message.sequence || BigInt("0")).toString());
+    message.sequence !== undefined && (obj.sequence = (message.sequence || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<SignatureDescriptor>): SignatureDescriptor {
     const message = createBaseSignatureDescriptor();
     message.publicKey = object.publicKey !== undefined && object.publicKey !== null ? Any.fromPartial(object.publicKey) : undefined;
     message.data = object.data !== undefined && object.data !== null ? SignatureDescriptor_Data.fromPartial(object.data) : undefined;
-    message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt("0");
+    message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: SignatureDescriptorSDKType): SignatureDescriptor {
@@ -666,7 +666,7 @@ export const SignatureDescriptor_Data_Single = {
 };
 function createBaseSignatureDescriptor_Data_Multi(): SignatureDescriptor_Data_Multi {
   return {
-    bitarray: undefined,
+    bitarray: CompactBitArray.fromPartial({}),
     signatures: []
   };
 }

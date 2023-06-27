@@ -11,7 +11,7 @@ export const protobufPackage = "cosmos.auth.v1beta1";
  */
 export interface QueryAccountsRequest {
   /** pagination defines an optional pagination for the request. */
-  pagination?: PageRequest;
+  pagination: PageRequest;
 }
 export interface QueryAccountsRequestProtoMsg {
   typeUrl: "/cosmos.auth.v1beta1.QueryAccountsRequest";
@@ -36,7 +36,7 @@ export interface QueryAccountsRequestAminoMsg {
  * Since: cosmos-sdk 0.43
  */
 export interface QueryAccountsRequestSDKType {
-  pagination?: PageRequestSDKType;
+  pagination: PageRequestSDKType;
 }
 /**
  * QueryAccountsResponse is the response type for the Query/Accounts RPC method.
@@ -47,7 +47,7 @@ export interface QueryAccountsResponse {
   /** accounts are the existing accounts */
   accounts: (BaseAccount & Any)[] | Any[];
   /** pagination defines the pagination in the response. */
-  pagination?: PageResponse;
+  pagination: PageResponse;
 }
 export interface QueryAccountsResponseProtoMsg {
   typeUrl: "/cosmos.auth.v1beta1.QueryAccountsResponse";
@@ -78,7 +78,7 @@ export interface QueryAccountsResponseAminoMsg {
  */
 export interface QueryAccountsResponseSDKType {
   accounts: (BaseAccountSDKType | AnySDKType)[];
-  pagination?: PageResponseSDKType;
+  pagination: PageResponseSDKType;
 }
 /** QueryAccountRequest is the request type for the Query/Account RPC method. */
 export interface QueryAccountRequest {
@@ -119,7 +119,7 @@ export interface QueryModuleAccountsRequestSDKType {}
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
-  params?: Params;
+  params: Params;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/cosmos.auth.v1beta1.QueryParamsResponse";
@@ -136,12 +136,12 @@ export interface QueryParamsResponseAminoMsg {
 }
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 export interface QueryParamsResponseSDKType {
-  params?: ParamsSDKType;
+  params: ParamsSDKType;
 }
 /** QueryAccountResponse is the response type for the Query/Account RPC method. */
 export interface QueryAccountResponse {
   /** account defines the account of the corresponding address. */
-  account?: (BaseAccount & Any) | undefined;
+  account: (BaseAccount & Any) | undefined;
 }
 export interface QueryAccountResponseProtoMsg {
   typeUrl: "/cosmos.auth.v1beta1.QueryAccountResponse";
@@ -161,7 +161,7 @@ export interface QueryAccountResponseAminoMsg {
 }
 /** QueryAccountResponse is the response type for the Query/Account RPC method. */
 export interface QueryAccountResponseSDKType {
-  account?: BaseAccountSDKType | AnySDKType | undefined;
+  account: BaseAccountSDKType | AnySDKType | undefined;
 }
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
@@ -316,7 +316,7 @@ export interface AddressStringToBytesResponseSDKType {
 }
 function createBaseQueryAccountsRequest(): QueryAccountsRequest {
   return {
-    pagination: undefined
+    pagination: PageRequest.fromPartial({})
   };
 }
 export const QueryAccountsRequest = {
@@ -405,7 +405,7 @@ export const QueryAccountsRequest = {
 function createBaseQueryAccountsResponse(): QueryAccountsResponse {
   return {
     accounts: [],
-    pagination: undefined
+    pagination: PageResponse.fromPartial({})
   };
 }
 export const QueryAccountsResponse = {
@@ -676,7 +676,7 @@ export const QueryModuleAccountsRequest = {
 };
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
-    params: undefined
+    params: Params.fromPartial({})
   };
 }
 export const QueryParamsResponse = {
