@@ -1,6 +1,6 @@
 import { Params, ParamsAmino, ParamsSDKType, ValidatorSigningInfo, ValidatorSigningInfoAmino, ValidatorSigningInfoSDKType } from "./slashing";
-import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet, DeepPartial } from "../../../helpers";
+import { Long, isSet, DeepPartial } from "../../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "cosmos.slashing.v1beta1";
 /** GenesisState defines the slashing module's genesis state. */
 export interface GenesisState {
@@ -112,7 +112,7 @@ export interface ValidatorMissedBlocksSDKType {
 /** MissedBlock contains height and missed status as boolean. */
 export interface MissedBlock {
   /** index is the height at which the block was missed. */
-  index: bigint;
+  index: Long;
   /** missed is the missed status. */
   missed: boolean;
 }
@@ -133,7 +133,7 @@ export interface MissedBlockAminoMsg {
 }
 /** MissedBlock contains height and missed status as boolean. */
 export interface MissedBlockSDKType {
-  index: bigint;
+  index: Long;
   missed: boolean;
 }
 function createBaseGenesisState(): GenesisState {
@@ -146,7 +146,7 @@ function createBaseGenesisState(): GenesisState {
 export const GenesisState = {
   typeUrl: "/cosmos.slashing.v1beta1.GenesisState",
   aminoType: "cosmos-sdk/GenesisState",
-  encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: GenesisState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
@@ -158,8 +158,8 @@ export const GenesisState = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): GenesisState {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): GenesisState {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenesisState();
     while (reader.pos < end) {
@@ -285,7 +285,7 @@ function createBaseSigningInfo(): SigningInfo {
 export const SigningInfo = {
   typeUrl: "/cosmos.slashing.v1beta1.SigningInfo",
   aminoType: "cosmos-sdk/SigningInfo",
-  encode(message: SigningInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: SigningInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -294,8 +294,8 @@ export const SigningInfo = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): SigningInfo {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): SigningInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSigningInfo();
     while (reader.pos < end) {
@@ -387,7 +387,7 @@ function createBaseValidatorMissedBlocks(): ValidatorMissedBlocks {
 export const ValidatorMissedBlocks = {
   typeUrl: "/cosmos.slashing.v1beta1.ValidatorMissedBlocks",
   aminoType: "cosmos-sdk/ValidatorMissedBlocks",
-  encode(message: ValidatorMissedBlocks, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ValidatorMissedBlocks, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -396,8 +396,8 @@ export const ValidatorMissedBlocks = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ValidatorMissedBlocks {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ValidatorMissedBlocks {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseValidatorMissedBlocks();
     while (reader.pos < end) {
@@ -494,15 +494,15 @@ export const ValidatorMissedBlocks = {
 };
 function createBaseMissedBlock(): MissedBlock {
   return {
-    index: BigInt(0),
+    index: Long.ZERO,
     missed: false
   };
 }
 export const MissedBlock = {
   typeUrl: "/cosmos.slashing.v1beta1.MissedBlock",
   aminoType: "cosmos-sdk/MissedBlock",
-  encode(message: MissedBlock, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.index !== BigInt(0)) {
+  encode(message: MissedBlock, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.index.isZero()) {
       writer.uint32(8).int64(message.index);
     }
     if (message.missed === true) {
@@ -510,15 +510,15 @@ export const MissedBlock = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): MissedBlock {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): MissedBlock {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMissedBlock();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.index = reader.int64();
+          message.index = (reader.int64() as Long);
           break;
         case 2:
           message.missed = reader.bool();
@@ -532,19 +532,19 @@ export const MissedBlock = {
   },
   fromJSON(object: any): MissedBlock {
     return {
-      index: isSet(object.index) ? BigInt(object.index.toString()) : BigInt(0),
+      index: isSet(object.index) ? Long.fromValue(object.index) : Long.ZERO,
       missed: isSet(object.missed) ? Boolean(object.missed) : false
     };
   },
   toJSON(message: MissedBlock): unknown {
     const obj: any = {};
-    message.index !== undefined && (obj.index = (message.index || BigInt(0)).toString());
+    message.index !== undefined && (obj.index = (message.index || Long.ZERO).toString());
     message.missed !== undefined && (obj.missed = message.missed);
     return obj;
   },
   fromPartial(object: DeepPartial<MissedBlock>): MissedBlock {
     const message = createBaseMissedBlock();
-    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt(0);
+    message.index = object.index !== undefined && object.index !== null ? Long.fromValue(object.index) : Long.ZERO;
     message.missed = object.missed ?? false;
     return message;
   },
@@ -562,7 +562,7 @@ export const MissedBlock = {
   },
   fromAmino(object: MissedBlockAmino): MissedBlock {
     return {
-      index: BigInt(object.index),
+      index: Long.fromString(object.index),
       missed: object.missed
     };
   },

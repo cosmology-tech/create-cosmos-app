@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial, isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
@@ -271,7 +271,7 @@ function createBaseMonitoring(): Monitoring {
 }
 export const Monitoring = {
   typeUrl: "/google.api.Monitoring",
-  encode(message: Monitoring, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Monitoring, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.producerDestinations) {
       Monitoring_MonitoringDestination.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -280,8 +280,8 @@ export const Monitoring = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Monitoring {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Monitoring {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMonitoring();
     while (reader.pos < end) {
@@ -390,7 +390,7 @@ function createBaseMonitoring_MonitoringDestination(): Monitoring_MonitoringDest
 }
 export const Monitoring_MonitoringDestination = {
   typeUrl: "/google.api.MonitoringDestination",
-  encode(message: Monitoring_MonitoringDestination, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Monitoring_MonitoringDestination, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.monitoredResource !== "") {
       writer.uint32(10).string(message.monitoredResource);
     }
@@ -399,8 +399,8 @@ export const Monitoring_MonitoringDestination = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Monitoring_MonitoringDestination {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Monitoring_MonitoringDestination {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMonitoring_MonitoringDestination();
     while (reader.pos < end) {

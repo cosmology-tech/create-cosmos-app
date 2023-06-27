@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial, isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
@@ -198,7 +198,7 @@ function createBaseLogging(): Logging {
 }
 export const Logging = {
   typeUrl: "/google.api.Logging",
-  encode(message: Logging, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Logging, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.producerDestinations) {
       Logging_LoggingDestination.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -207,8 +207,8 @@ export const Logging = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Logging {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Logging {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseLogging();
     while (reader.pos < end) {
@@ -317,7 +317,7 @@ function createBaseLogging_LoggingDestination(): Logging_LoggingDestination {
 }
 export const Logging_LoggingDestination = {
   typeUrl: "/google.api.LoggingDestination",
-  encode(message: Logging_LoggingDestination, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Logging_LoggingDestination, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.monitoredResource !== "") {
       writer.uint32(26).string(message.monitoredResource);
     }
@@ -326,8 +326,8 @@ export const Logging_LoggingDestination = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Logging_LoggingDestination {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Logging_LoggingDestination {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseLogging_LoggingDestination();
     while (reader.pos < end) {

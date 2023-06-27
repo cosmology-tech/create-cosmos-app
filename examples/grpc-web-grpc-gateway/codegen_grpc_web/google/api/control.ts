@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
@@ -48,14 +48,14 @@ function createBaseControl(): Control {
 }
 export const Control = {
   typeUrl: "/google.api.Control",
-  encode(message: Control, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Control, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.environment !== "") {
       writer.uint32(10).string(message.environment);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Control {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Control {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseControl();
     while (reader.pos < end) {
