@@ -145,7 +145,7 @@ cca --name ibc-example --example --template ibc-transfer
 </p>
 
 ```
-cca --name grpc-web-grpc-gateway --example --template grpc-web-grpc-gateway
+cca --name grpc-example --example --template grpc-web-grpc-gateway
 ```
 
 ### Osmosis
