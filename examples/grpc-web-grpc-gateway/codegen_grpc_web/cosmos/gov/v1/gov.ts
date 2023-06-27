@@ -207,12 +207,12 @@ export interface Proposal {
    * querying a proposal via gRPC, this field is not populated until the
    * proposal's voting period has ended.
    */
-  finalTallyResult?: TallyResult;
-  submitTime?: Date;
-  depositEndTime?: Date;
+  finalTallyResult: TallyResult;
+  submitTime: Date;
+  depositEndTime: Date;
   totalDeposit: Coin[];
-  votingStartTime?: Date;
-  votingEndTime?: Date;
+  votingStartTime: Date;
+  votingEndTime: Date;
   /** metadata is any arbitrary metadata attached to the proposal. */
   metadata: string;
 }
@@ -248,12 +248,12 @@ export interface ProposalSDKType {
   id: bigint;
   messages: AnySDKType[];
   status: ProposalStatus;
-  final_tally_result?: TallyResultSDKType;
-  submit_time?: Date;
-  deposit_end_time?: Date;
+  final_tally_result: TallyResultSDKType;
+  submit_time: Date;
+  deposit_end_time: Date;
   total_deposit: CoinSDKType[];
-  voting_start_time?: Date;
-  voting_end_time?: Date;
+  voting_start_time: Date;
+  voting_end_time: Date;
   metadata: string;
 }
 /** TallyResult defines a standard tally for a governance proposal. */
@@ -333,7 +333,7 @@ export interface DepositParams {
    * Maximum period for Atom holders to deposit on a proposal. Initial value: 2
    *  months.
    */
-  maxDepositPeriod?: Duration;
+  maxDepositPeriod: Duration;
 }
 export interface DepositParamsProtoMsg {
   typeUrl: "/cosmos.gov.v1.DepositParams";
@@ -356,12 +356,12 @@ export interface DepositParamsAminoMsg {
 /** DepositParams defines the params for deposits on governance proposals. */
 export interface DepositParamsSDKType {
   min_deposit: CoinSDKType[];
-  max_deposit_period?: DurationSDKType;
+  max_deposit_period: DurationSDKType;
 }
 /** VotingParams defines the params for voting on governance proposals. */
 export interface VotingParams {
   /** Length of the voting period. */
-  votingPeriod?: Duration;
+  votingPeriod: Duration;
 }
 export interface VotingParamsProtoMsg {
   typeUrl: "/cosmos.gov.v1.VotingParams";
@@ -378,7 +378,7 @@ export interface VotingParamsAminoMsg {
 }
 /** VotingParams defines the params for voting on governance proposals. */
 export interface VotingParamsSDKType {
-  voting_period?: DurationSDKType;
+  voting_period: DurationSDKType;
 }
 /** TallyParams defines the params for tallying votes on governance proposals. */
 export interface TallyParams {
@@ -528,7 +528,7 @@ export const WeightedVoteOption = {
 };
 function createBaseDeposit(): Deposit {
   return {
-    proposalId: BigInt("0"),
+    proposalId: BigInt(0),
     depositor: "",
     amount: []
   };
@@ -556,7 +556,7 @@ export const Deposit = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.proposalId = BigInt(reader.uint64().toString());
+          message.proposalId = reader.uint64();
           break;
         case 2:
           message.depositor = reader.string();
@@ -573,14 +573,14 @@ export const Deposit = {
   },
   fromJSON(object: any): Deposit {
     return {
-      proposalId: isSet(object.proposalId) ? BigInt(object.proposalId.toString()) : BigInt("0"),
+      proposalId: isSet(object.proposalId) ? BigInt(object.proposalId.toString()) : BigInt(0),
       depositor: isSet(object.depositor) ? String(object.depositor) : "",
       amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromJSON(e)) : []
     };
   },
   toJSON(message: Deposit): unknown {
     const obj: any = {};
-    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt("0")).toString());
+    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt(0)).toString());
     message.depositor !== undefined && (obj.depositor = message.depositor);
     if (message.amount) {
       obj.amount = message.amount.map(e => e ? Coin.toJSON(e) : undefined);
@@ -591,7 +591,7 @@ export const Deposit = {
   },
   fromPartial(object: DeepPartial<Deposit>): Deposit {
     const message = createBaseDeposit();
-    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt("0");
+    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt(0);
     message.depositor = object.depositor ?? "";
     message.amount = object.amount?.map(e => Coin.fromPartial(e)) || [];
     return message;
@@ -656,10 +656,10 @@ export const Deposit = {
 };
 function createBaseProposal(): Proposal {
   return {
-    id: BigInt("0"),
+    id: BigInt(0),
     messages: [],
     status: 0,
-    finalTallyResult: undefined,
+    finalTallyResult: TallyResult.fromPartial({}),
     submitTime: undefined,
     depositEndTime: undefined,
     totalDeposit: [],
@@ -712,7 +712,7 @@ export const Proposal = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.id = BigInt(reader.uint64().toString());
+          message.id = reader.uint64();
           break;
         case 2:
           message.messages.push(Any.decode(reader, reader.uint32()));
@@ -750,7 +750,7 @@ export const Proposal = {
   },
   fromJSON(object: any): Proposal {
     return {
-      id: isSet(object.id) ? BigInt(object.id.toString()) : BigInt("0"),
+      id: isSet(object.id) ? BigInt(object.id.toString()) : BigInt(0),
       messages: Array.isArray(object?.messages) ? object.messages.map((e: any) => Any.fromJSON(e)) : [],
       status: isSet(object.status) ? proposalStatusFromJSON(object.status) : 0,
       finalTallyResult: isSet(object.finalTallyResult) ? TallyResult.fromJSON(object.finalTallyResult) : undefined,
@@ -764,7 +764,7 @@ export const Proposal = {
   },
   toJSON(message: Proposal): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = (message.id || BigInt("0")).toString());
+    message.id !== undefined && (obj.id = (message.id || BigInt(0)).toString());
     if (message.messages) {
       obj.messages = message.messages.map(e => e ? Any.toJSON(e) : undefined);
     } else {
@@ -786,7 +786,7 @@ export const Proposal = {
   },
   fromPartial(object: DeepPartial<Proposal>): Proposal {
     const message = createBaseProposal();
-    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt("0");
+    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt(0);
     message.messages = object.messages?.map(e => Any.fromPartial(e)) || [];
     message.status = object.status ?? 0;
     message.finalTallyResult = object.finalTallyResult !== undefined && object.finalTallyResult !== null ? TallyResult.fromPartial(object.finalTallyResult) : undefined;
@@ -1024,7 +1024,7 @@ export const TallyResult = {
 };
 function createBaseVote(): Vote {
   return {
-    proposalId: BigInt("0"),
+    proposalId: BigInt(0),
     voter: "",
     options: [],
     metadata: ""
@@ -1056,7 +1056,7 @@ export const Vote = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.proposalId = BigInt(reader.uint64().toString());
+          message.proposalId = reader.uint64();
           break;
         case 2:
           message.voter = reader.string();
@@ -1076,7 +1076,7 @@ export const Vote = {
   },
   fromJSON(object: any): Vote {
     return {
-      proposalId: isSet(object.proposalId) ? BigInt(object.proposalId.toString()) : BigInt("0"),
+      proposalId: isSet(object.proposalId) ? BigInt(object.proposalId.toString()) : BigInt(0),
       voter: isSet(object.voter) ? String(object.voter) : "",
       options: Array.isArray(object?.options) ? object.options.map((e: any) => WeightedVoteOption.fromJSON(e)) : [],
       metadata: isSet(object.metadata) ? String(object.metadata) : ""
@@ -1084,7 +1084,7 @@ export const Vote = {
   },
   toJSON(message: Vote): unknown {
     const obj: any = {};
-    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt("0")).toString());
+    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt(0)).toString());
     message.voter !== undefined && (obj.voter = message.voter);
     if (message.options) {
       obj.options = message.options.map(e => e ? WeightedVoteOption.toJSON(e) : undefined);
@@ -1096,7 +1096,7 @@ export const Vote = {
   },
   fromPartial(object: DeepPartial<Vote>): Vote {
     const message = createBaseVote();
-    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt("0");
+    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt(0);
     message.voter = object.voter ?? "";
     message.options = object.options?.map(e => WeightedVoteOption.fromPartial(e)) || [];
     message.metadata = object.metadata ?? "";

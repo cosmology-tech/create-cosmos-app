@@ -55,7 +55,7 @@ export interface EvalStateSDKType {
 /** A single evaluation result. */
 export interface EvalState_Result {
   /** The expression this result is for. */
-  expr?: IdRef;
+  expr: IdRef;
   /** The index in `values` of the resulting value. */
   value: number;
 }
@@ -76,7 +76,7 @@ export interface EvalState_ResultAminoMsg {
 }
 /** A single evaluation result. */
 export interface EvalState_ResultSDKType {
-  expr?: IdRefSDKType;
+  expr: IdRefSDKType;
   value: number;
 }
 /** The value of an evaluated expression. */
@@ -406,7 +406,7 @@ export const EvalState = {
 };
 function createBaseEvalState_Result(): EvalState_Result {
   return {
-    expr: undefined,
+    expr: IdRef.fromPartial({}),
     value: 0
   };
 }

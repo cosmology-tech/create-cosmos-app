@@ -214,9 +214,9 @@ export interface MapValue_Entry {
    * Must be unique with in the map.
    * Currently only boolean, int, uint, and string values can be keys.
    */
-  key?: Value;
+  key: Value;
   /** The value. */
-  value?: Value;
+  value: Value;
 }
 export interface MapValue_EntryProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Entry";
@@ -240,8 +240,8 @@ export interface MapValue_EntryAminoMsg {
 }
 /** An entry in the map. */
 export interface MapValue_EntrySDKType {
-  key?: ValueSDKType;
-  value?: ValueSDKType;
+  key: ValueSDKType;
+  value: ValueSDKType;
 }
 function createBaseValue(): Value {
   return {
@@ -314,10 +314,10 @@ export const Value = {
           message.boolValue = reader.bool();
           break;
         case 3:
-          message.int64Value = BigInt(reader.int64().toString());
+          message.int64Value = reader.int64();
           break;
         case 4:
-          message.uint64Value = BigInt(reader.uint64().toString());
+          message.uint64Value = reader.uint64();
           break;
         case 5:
           message.doubleValue = reader.double();
@@ -761,8 +761,8 @@ export const MapValue = {
 };
 function createBaseMapValue_Entry(): MapValue_Entry {
   return {
-    key: undefined,
-    value: undefined
+    key: Value.fromPartial({}),
+    value: Value.fromPartial({})
   };
 }
 export const MapValue_Entry = {

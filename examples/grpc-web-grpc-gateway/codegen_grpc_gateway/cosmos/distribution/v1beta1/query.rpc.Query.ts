@@ -42,9 +42,9 @@ export class Query {
   }
   /** DelegationRewards queries the total rewards accrued by a delegation. */
   static delegationRewards(request: QueryDelegationRewardsRequest, initRequest?: fm.InitReq): Promise<QueryDelegationRewardsResponse> {
-    return fm.fetchReq(`/cosmos/distribution/v1beta1/delegators/${request["delegator_address"]}/rewards/{validator_address}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/cosmos/distribution/v1beta1/delegators/${request["delegator_address"]}/rewards/${request["validator_address"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["delegator_address"])}`, {
+    }, ["delegator_address", "validator_address"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -89,7 +89,7 @@ export class Query {
     });
   }
 }
-export class Querier {
+export class QueryClientImpl {
   private readonly url: string;
   constructor(url: string) {
     this.url = url;

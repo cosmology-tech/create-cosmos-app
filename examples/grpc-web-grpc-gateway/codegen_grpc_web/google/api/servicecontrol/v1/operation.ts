@@ -99,7 +99,7 @@ export interface Operation {
    */
   consumerId: string;
   /** Required. Start time of the operation. */
-  startTime?: Date;
+  startTime: Date;
   /**
    * End time of the operation.
    * Required when the operation is used in
@@ -107,7 +107,7 @@ export interface Operation {
    * but optional when the operation is used in
    * [ServiceController.Check][google.api.servicecontrol.v1.ServiceController.Check].
    */
-  endTime?: Date;
+  endTime: Date;
   /**
    * Labels describing the operation. Only the following labels are allowed:
    * 
@@ -244,8 +244,8 @@ export interface OperationSDKType {
   operation_id: string;
   operation_name: string;
   consumer_id: string;
-  start_time?: Date;
-  end_time?: Date;
+  start_time: Date;
+  end_time: Date;
   labels: {
     [key: string]: string;
   };

@@ -79,7 +79,7 @@ export interface CheckRequest {
    */
   serviceName: string;
   /** The operation to be checked. */
-  operation?: Operation;
+  operation: Operation;
   /**
    * Specifies which version of service configuration should be used to process
    * the request.
@@ -122,7 +122,7 @@ export interface CheckRequestAminoMsg {
 /** Request message for the Check method. */
 export interface CheckRequestSDKType {
   service_name: string;
-  operation?: OperationSDKType;
+  operation: OperationSDKType;
   service_config_id: string;
 }
 /** Response message for the Check method. */
@@ -146,7 +146,7 @@ export interface CheckResponse {
   /** The current service rollout id used to process the request. */
   serviceRolloutId: string;
   /** Feedback data returned from the server during processing a Check request. */
-  checkInfo?: CheckResponse_CheckInfo;
+  checkInfo: CheckResponse_CheckInfo;
 }
 export interface CheckResponseProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.CheckResponse";
@@ -185,7 +185,7 @@ export interface CheckResponseSDKType {
   check_errors: CheckErrorSDKType[];
   service_config_id: string;
   service_rollout_id: string;
-  check_info?: CheckResponse_CheckInfoSDKType;
+  check_info: CheckResponse_CheckInfoSDKType;
 }
 /** Contains additional information about the check operation. */
 export interface CheckResponse_CheckInfo {
@@ -196,7 +196,7 @@ export interface CheckResponse_CheckInfo {
    */
   unusedArguments: string[];
   /** Consumer info of this check. */
-  consumerInfo?: CheckResponse_ConsumerInfo;
+  consumerInfo: CheckResponse_ConsumerInfo;
 }
 export interface CheckResponse_CheckInfoProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.CheckInfo";
@@ -220,7 +220,7 @@ export interface CheckResponse_CheckInfoAminoMsg {
 /** Contains additional information about the check operation. */
 export interface CheckResponse_CheckInfoSDKType {
   unused_arguments: string[];
-  consumer_info?: CheckResponse_ConsumerInfoSDKType;
+  consumer_info: CheckResponse_ConsumerInfoSDKType;
 }
 /** `ConsumerInfo` provides information about the consumer. */
 export interface CheckResponse_ConsumerInfo {
@@ -439,7 +439,7 @@ export interface ReportResponse_ReportError {
    * Details of the error when processing the
    * [Operation][google.api.servicecontrol.v1.Operation].
    */
-  status?: Status;
+  status: Status;
 }
 export interface ReportResponse_ReportErrorProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.ReportError";
@@ -472,12 +472,12 @@ export interface ReportResponse_ReportErrorAminoMsg {
  */
 export interface ReportResponse_ReportErrorSDKType {
   operation_id: string;
-  status?: StatusSDKType;
+  status: StatusSDKType;
 }
 function createBaseCheckRequest(): CheckRequest {
   return {
     serviceName: "",
-    operation: undefined,
+    operation: Operation.fromPartial({}),
     serviceConfigId: ""
   };
 }
@@ -589,7 +589,7 @@ function createBaseCheckResponse(): CheckResponse {
     checkErrors: [],
     serviceConfigId: "",
     serviceRolloutId: "",
-    checkInfo: undefined
+    checkInfo: CheckInfo.fromPartial({})
   };
 }
 export const CheckResponse = {
@@ -735,7 +735,7 @@ export const CheckResponse = {
 function createBaseCheckResponse_CheckInfo(): CheckResponse_CheckInfo {
   return {
     unusedArguments: [],
-    consumerInfo: undefined
+    consumerInfo: ConsumerInfo.fromPartial({})
   };
 }
 export const CheckResponse_CheckInfo = {
@@ -841,9 +841,9 @@ export const CheckResponse_CheckInfo = {
 };
 function createBaseCheckResponse_ConsumerInfo(): CheckResponse_ConsumerInfo {
   return {
-    projectNumber: BigInt("0"),
+    projectNumber: BigInt(0),
     type: 0,
-    consumerNumber: BigInt("0")
+    consumerNumber: BigInt(0)
   };
 }
 export const CheckResponse_ConsumerInfo = {
@@ -868,13 +868,13 @@ export const CheckResponse_ConsumerInfo = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.projectNumber = BigInt(reader.int64().toString());
+          message.projectNumber = reader.int64();
           break;
         case 2:
           message.type = (reader.int32() as any);
           break;
         case 3:
-          message.consumerNumber = BigInt(reader.int64().toString());
+          message.consumerNumber = reader.int64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -885,23 +885,23 @@ export const CheckResponse_ConsumerInfo = {
   },
   fromJSON(object: any): CheckResponse_ConsumerInfo {
     return {
-      projectNumber: isSet(object.projectNumber) ? BigInt(object.projectNumber.toString()) : BigInt("0"),
+      projectNumber: isSet(object.projectNumber) ? BigInt(object.projectNumber.toString()) : BigInt(0),
       type: isSet(object.type) ? checkResponse_ConsumerInfo_ConsumerTypeFromJSON(object.type) : 0,
-      consumerNumber: isSet(object.consumerNumber) ? BigInt(object.consumerNumber.toString()) : BigInt("0")
+      consumerNumber: isSet(object.consumerNumber) ? BigInt(object.consumerNumber.toString()) : BigInt(0)
     };
   },
   toJSON(message: CheckResponse_ConsumerInfo): unknown {
     const obj: any = {};
-    message.projectNumber !== undefined && (obj.projectNumber = (message.projectNumber || BigInt("0")).toString());
+    message.projectNumber !== undefined && (obj.projectNumber = (message.projectNumber || BigInt(0)).toString());
     message.type !== undefined && (obj.type = checkResponse_ConsumerInfo_ConsumerTypeToJSON(message.type));
-    message.consumerNumber !== undefined && (obj.consumerNumber = (message.consumerNumber || BigInt("0")).toString());
+    message.consumerNumber !== undefined && (obj.consumerNumber = (message.consumerNumber || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<CheckResponse_ConsumerInfo>): CheckResponse_ConsumerInfo {
     const message = createBaseCheckResponse_ConsumerInfo();
-    message.projectNumber = object.projectNumber !== undefined && object.projectNumber !== null ? BigInt(object.projectNumber.toString()) : BigInt("0");
+    message.projectNumber = object.projectNumber !== undefined && object.projectNumber !== null ? BigInt(object.projectNumber.toString()) : BigInt(0);
     message.type = object.type ?? 0;
-    message.consumerNumber = object.consumerNumber !== undefined && object.consumerNumber !== null ? BigInt(object.consumerNumber.toString()) : BigInt("0");
+    message.consumerNumber = object.consumerNumber !== undefined && object.consumerNumber !== null ? BigInt(object.consumerNumber.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: CheckResponse_ConsumerInfoSDKType): CheckResponse_ConsumerInfo {
@@ -1193,7 +1193,7 @@ export const ReportResponse = {
 function createBaseReportResponse_ReportError(): ReportResponse_ReportError {
   return {
     operationId: "",
-    status: undefined
+    status: Status.fromPartial({})
   };
 }
 export const ReportResponse_ReportError = {

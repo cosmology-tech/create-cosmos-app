@@ -15,7 +15,7 @@ export interface StoreCodeProposal {
   /** WASMByteCode can be raw or gzip compressed */
   wasmByteCode: Uint8Array;
   /** InstantiatePermission to apply on contract creation, optional */
-  instantiatePermission?: AccessConfig;
+  instantiatePermission: AccessConfig;
 }
 export interface StoreCodeProposalProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.StoreCodeProposal";
@@ -44,7 +44,7 @@ export interface StoreCodeProposalSDKType {
   description: string;
   run_as: string;
   wasm_byte_code: Uint8Array;
-  instantiate_permission?: AccessConfigSDKType;
+  instantiate_permission: AccessConfigSDKType;
 }
 /**
  * InstantiateContractProposal gov proposal content type to instantiate a
@@ -413,7 +413,7 @@ function createBaseStoreCodeProposal(): StoreCodeProposal {
     description: "",
     runAs: "",
     wasmByteCode: new Uint8Array(),
-    instantiatePermission: undefined
+    instantiatePermission: AccessConfig.fromPartial({})
   };
 }
 export const StoreCodeProposal = {
@@ -557,7 +557,7 @@ function createBaseInstantiateContractProposal(): InstantiateContractProposal {
     description: "",
     runAs: "",
     admin: "",
-    codeId: BigInt("0"),
+    codeId: BigInt(0),
     label: "",
     msg: new Uint8Array(),
     funds: []
@@ -613,7 +613,7 @@ export const InstantiateContractProposal = {
           message.admin = reader.string();
           break;
         case 5:
-          message.codeId = BigInt(reader.uint64().toString());
+          message.codeId = reader.uint64();
           break;
         case 6:
           message.label = reader.string();
@@ -637,7 +637,7 @@ export const InstantiateContractProposal = {
       description: isSet(object.description) ? String(object.description) : "",
       runAs: isSet(object.runAs) ? String(object.runAs) : "",
       admin: isSet(object.admin) ? String(object.admin) : "",
-      codeId: isSet(object.codeId) ? BigInt(object.codeId.toString()) : BigInt("0"),
+      codeId: isSet(object.codeId) ? BigInt(object.codeId.toString()) : BigInt(0),
       label: isSet(object.label) ? String(object.label) : "",
       msg: isSet(object.msg) ? bytesFromBase64(object.msg) : new Uint8Array(),
       funds: Array.isArray(object?.funds) ? object.funds.map((e: any) => Coin.fromJSON(e)) : []
@@ -649,7 +649,7 @@ export const InstantiateContractProposal = {
     message.description !== undefined && (obj.description = message.description);
     message.runAs !== undefined && (obj.runAs = message.runAs);
     message.admin !== undefined && (obj.admin = message.admin);
-    message.codeId !== undefined && (obj.codeId = (message.codeId || BigInt("0")).toString());
+    message.codeId !== undefined && (obj.codeId = (message.codeId || BigInt(0)).toString());
     message.label !== undefined && (obj.label = message.label);
     message.msg !== undefined && (obj.msg = base64FromBytes(message.msg !== undefined ? message.msg : new Uint8Array()));
     if (message.funds) {
@@ -665,7 +665,7 @@ export const InstantiateContractProposal = {
     message.description = object.description ?? "";
     message.runAs = object.runAs ?? "";
     message.admin = object.admin ?? "";
-    message.codeId = object.codeId !== undefined && object.codeId !== null ? BigInt(object.codeId.toString()) : BigInt("0");
+    message.codeId = object.codeId !== undefined && object.codeId !== null ? BigInt(object.codeId.toString()) : BigInt(0);
     message.label = object.label ?? "";
     message.msg = object.msg ?? new Uint8Array();
     message.funds = object.funds?.map(e => Coin.fromPartial(e)) || [];
@@ -754,7 +754,7 @@ function createBaseMigrateContractProposal(): MigrateContractProposal {
     title: "",
     description: "",
     contract: "",
-    codeId: BigInt("0"),
+    codeId: BigInt(0),
     msg: new Uint8Array()
   };
 }
@@ -796,7 +796,7 @@ export const MigrateContractProposal = {
           message.contract = reader.string();
           break;
         case 5:
-          message.codeId = BigInt(reader.uint64().toString());
+          message.codeId = reader.uint64();
           break;
         case 6:
           message.msg = reader.bytes();
@@ -813,7 +813,7 @@ export const MigrateContractProposal = {
       title: isSet(object.title) ? String(object.title) : "",
       description: isSet(object.description) ? String(object.description) : "",
       contract: isSet(object.contract) ? String(object.contract) : "",
-      codeId: isSet(object.codeId) ? BigInt(object.codeId.toString()) : BigInt("0"),
+      codeId: isSet(object.codeId) ? BigInt(object.codeId.toString()) : BigInt(0),
       msg: isSet(object.msg) ? bytesFromBase64(object.msg) : new Uint8Array()
     };
   },
@@ -822,7 +822,7 @@ export const MigrateContractProposal = {
     message.title !== undefined && (obj.title = message.title);
     message.description !== undefined && (obj.description = message.description);
     message.contract !== undefined && (obj.contract = message.contract);
-    message.codeId !== undefined && (obj.codeId = (message.codeId || BigInt("0")).toString());
+    message.codeId !== undefined && (obj.codeId = (message.codeId || BigInt(0)).toString());
     message.msg !== undefined && (obj.msg = base64FromBytes(message.msg !== undefined ? message.msg : new Uint8Array()));
     return obj;
   },
@@ -831,7 +831,7 @@ export const MigrateContractProposal = {
     message.title = object.title ?? "";
     message.description = object.description ?? "";
     message.contract = object.contract ?? "";
-    message.codeId = object.codeId !== undefined && object.codeId !== null ? BigInt(object.codeId.toString()) : BigInt("0");
+    message.codeId = object.codeId !== undefined && object.codeId !== null ? BigInt(object.codeId.toString()) : BigInt(0);
     message.msg = object.msg ?? new Uint8Array();
     return message;
   },
@@ -1480,10 +1480,10 @@ export const PinCodesProposal = {
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
-              message.codeIds.push(BigInt(reader.uint64().toString()));
+              message.codeIds.push(reader.uint64());
             }
           } else {
-            message.codeIds.push(BigInt(reader.uint64().toString()));
+            message.codeIds.push(reader.uint64());
           }
           break;
         default:
@@ -1505,7 +1505,7 @@ export const PinCodesProposal = {
     message.title !== undefined && (obj.title = message.title);
     message.description !== undefined && (obj.description = message.description);
     if (message.codeIds) {
-      obj.codeIds = message.codeIds.map(e => (e || BigInt("0")).toString());
+      obj.codeIds = message.codeIds.map(e => (e || BigInt(0)).toString());
     } else {
       obj.codeIds = [];
     }
@@ -1617,10 +1617,10 @@ export const UnpinCodesProposal = {
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
-              message.codeIds.push(BigInt(reader.uint64().toString()));
+              message.codeIds.push(reader.uint64());
             }
           } else {
-            message.codeIds.push(BigInt(reader.uint64().toString()));
+            message.codeIds.push(reader.uint64());
           }
           break;
         default:
@@ -1642,7 +1642,7 @@ export const UnpinCodesProposal = {
     message.title !== undefined && (obj.title = message.title);
     message.description !== undefined && (obj.description = message.description);
     if (message.codeIds) {
-      obj.codeIds = message.codeIds.map(e => (e || BigInt("0")).toString());
+      obj.codeIds = message.codeIds.map(e => (e || BigInt(0)).toString());
     } else {
       obj.codeIds = [];
     }

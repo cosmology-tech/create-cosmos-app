@@ -384,8 +384,8 @@ export const EvalState = {
 };
 function createBaseEvalState_Result(): EvalState_Result {
   return {
-    expr: BigInt("0"),
-    value: BigInt("0")
+    expr: BigInt(0),
+    value: BigInt(0)
   };
 }
 export const EvalState_Result = {
@@ -407,10 +407,10 @@ export const EvalState_Result = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.expr = BigInt(reader.int64().toString());
+          message.expr = reader.int64();
           break;
         case 2:
-          message.value = BigInt(reader.int64().toString());
+          message.value = reader.int64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -421,20 +421,20 @@ export const EvalState_Result = {
   },
   fromJSON(object: any): EvalState_Result {
     return {
-      expr: isSet(object.expr) ? BigInt(object.expr.toString()) : BigInt("0"),
-      value: isSet(object.value) ? BigInt(object.value.toString()) : BigInt("0")
+      expr: isSet(object.expr) ? BigInt(object.expr.toString()) : BigInt(0),
+      value: isSet(object.value) ? BigInt(object.value.toString()) : BigInt(0)
     };
   },
   toJSON(message: EvalState_Result): unknown {
     const obj: any = {};
-    message.expr !== undefined && (obj.expr = (message.expr || BigInt("0")).toString());
-    message.value !== undefined && (obj.value = (message.value || BigInt("0")).toString());
+    message.expr !== undefined && (obj.expr = (message.expr || BigInt(0)).toString());
+    message.value !== undefined && (obj.value = (message.value || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<EvalState_Result>): EvalState_Result {
     const message = createBaseEvalState_Result();
-    message.expr = object.expr !== undefined && object.expr !== null ? BigInt(object.expr.toString()) : BigInt("0");
-    message.value = object.value !== undefined && object.value !== null ? BigInt(object.value.toString()) : BigInt("0");
+    message.expr = object.expr !== undefined && object.expr !== null ? BigInt(object.expr.toString()) : BigInt(0);
+    message.value = object.value !== undefined && object.value !== null ? BigInt(object.value.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: EvalState_ResultSDKType): EvalState_Result {
@@ -705,10 +705,10 @@ export const UnknownSet = {
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
-              message.exprs.push(BigInt(reader.int64().toString()));
+              message.exprs.push(reader.int64());
             }
           } else {
-            message.exprs.push(BigInt(reader.int64().toString()));
+            message.exprs.push(reader.int64());
           }
           break;
         default:
@@ -726,7 +726,7 @@ export const UnknownSet = {
   toJSON(message: UnknownSet): unknown {
     const obj: any = {};
     if (message.exprs) {
-      obj.exprs = message.exprs.map(e => (e || BigInt("0")).toString());
+      obj.exprs = message.exprs.map(e => (e || BigInt(0)).toString());
     } else {
       obj.exprs = [];
     }

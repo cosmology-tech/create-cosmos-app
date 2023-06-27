@@ -672,7 +672,7 @@ export const ValidatorHistoricalRewards = {
 function createBaseValidatorCurrentRewards(): ValidatorCurrentRewards {
   return {
     rewards: [],
-    period: BigInt("0")
+    period: BigInt(0)
   };
 }
 export const ValidatorCurrentRewards = {
@@ -698,7 +698,7 @@ export const ValidatorCurrentRewards = {
           message.rewards.push(DecCoin.decode(reader, reader.uint32()));
           break;
         case 2:
-          message.period = BigInt(reader.uint64().toString());
+          message.period = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -710,7 +710,7 @@ export const ValidatorCurrentRewards = {
   fromJSON(object: any): ValidatorCurrentRewards {
     return {
       rewards: Array.isArray(object?.rewards) ? object.rewards.map((e: any) => DecCoin.fromJSON(e)) : [],
-      period: isSet(object.period) ? BigInt(object.period.toString()) : BigInt("0")
+      period: isSet(object.period) ? BigInt(object.period.toString()) : BigInt(0)
     };
   },
   toJSON(message: ValidatorCurrentRewards): unknown {
@@ -720,13 +720,13 @@ export const ValidatorCurrentRewards = {
     } else {
       obj.rewards = [];
     }
-    message.period !== undefined && (obj.period = (message.period || BigInt("0")).toString());
+    message.period !== undefined && (obj.period = (message.period || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<ValidatorCurrentRewards>): ValidatorCurrentRewards {
     const message = createBaseValidatorCurrentRewards();
     message.rewards = object.rewards?.map(e => DecCoin.fromPartial(e)) || [];
-    message.period = object.period !== undefined && object.period !== null ? BigInt(object.period.toString()) : BigInt("0");
+    message.period = object.period !== undefined && object.period !== null ? BigInt(object.period.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: ValidatorCurrentRewardsSDKType): ValidatorCurrentRewards {
@@ -985,7 +985,7 @@ export const ValidatorOutstandingRewards = {
 };
 function createBaseValidatorSlashEvent(): ValidatorSlashEvent {
   return {
-    validatorPeriod: BigInt("0"),
+    validatorPeriod: BigInt(0),
     fraction: ""
   };
 }
@@ -1009,7 +1009,7 @@ export const ValidatorSlashEvent = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.validatorPeriod = BigInt(reader.uint64().toString());
+          message.validatorPeriod = reader.uint64();
           break;
         case 2:
           message.fraction = reader.string();
@@ -1023,19 +1023,19 @@ export const ValidatorSlashEvent = {
   },
   fromJSON(object: any): ValidatorSlashEvent {
     return {
-      validatorPeriod: isSet(object.validatorPeriod) ? BigInt(object.validatorPeriod.toString()) : BigInt("0"),
+      validatorPeriod: isSet(object.validatorPeriod) ? BigInt(object.validatorPeriod.toString()) : BigInt(0),
       fraction: isSet(object.fraction) ? String(object.fraction) : ""
     };
   },
   toJSON(message: ValidatorSlashEvent): unknown {
     const obj: any = {};
-    message.validatorPeriod !== undefined && (obj.validatorPeriod = (message.validatorPeriod || BigInt("0")).toString());
+    message.validatorPeriod !== undefined && (obj.validatorPeriod = (message.validatorPeriod || BigInt(0)).toString());
     message.fraction !== undefined && (obj.fraction = message.fraction);
     return obj;
   },
   fromPartial(object: DeepPartial<ValidatorSlashEvent>): ValidatorSlashEvent {
     const message = createBaseValidatorSlashEvent();
-    message.validatorPeriod = object.validatorPeriod !== undefined && object.validatorPeriod !== null ? BigInt(object.validatorPeriod.toString()) : BigInt("0");
+    message.validatorPeriod = object.validatorPeriod !== undefined && object.validatorPeriod !== null ? BigInt(object.validatorPeriod.toString()) : BigInt(0);
     message.fraction = object.fraction ?? "";
     return message;
   },
@@ -1429,9 +1429,9 @@ export const CommunityPoolSpendProposal = {
 };
 function createBaseDelegatorStartingInfo(): DelegatorStartingInfo {
   return {
-    previousPeriod: BigInt("0"),
+    previousPeriod: BigInt(0),
     stake: "",
-    height: BigInt("0")
+    height: BigInt(0)
   };
 }
 export const DelegatorStartingInfo = {
@@ -1457,13 +1457,13 @@ export const DelegatorStartingInfo = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.previousPeriod = BigInt(reader.uint64().toString());
+          message.previousPeriod = reader.uint64();
           break;
         case 2:
           message.stake = reader.string();
           break;
         case 3:
-          message.height = BigInt(reader.uint64().toString());
+          message.height = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -1474,23 +1474,23 @@ export const DelegatorStartingInfo = {
   },
   fromJSON(object: any): DelegatorStartingInfo {
     return {
-      previousPeriod: isSet(object.previousPeriod) ? BigInt(object.previousPeriod.toString()) : BigInt("0"),
+      previousPeriod: isSet(object.previousPeriod) ? BigInt(object.previousPeriod.toString()) : BigInt(0),
       stake: isSet(object.stake) ? String(object.stake) : "",
-      height: isSet(object.height) ? BigInt(object.height.toString()) : BigInt("0")
+      height: isSet(object.height) ? BigInt(object.height.toString()) : BigInt(0)
     };
   },
   toJSON(message: DelegatorStartingInfo): unknown {
     const obj: any = {};
-    message.previousPeriod !== undefined && (obj.previousPeriod = (message.previousPeriod || BigInt("0")).toString());
+    message.previousPeriod !== undefined && (obj.previousPeriod = (message.previousPeriod || BigInt(0)).toString());
     message.stake !== undefined && (obj.stake = message.stake);
-    message.height !== undefined && (obj.height = (message.height || BigInt("0")).toString());
+    message.height !== undefined && (obj.height = (message.height || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<DelegatorStartingInfo>): DelegatorStartingInfo {
     const message = createBaseDelegatorStartingInfo();
-    message.previousPeriod = object.previousPeriod !== undefined && object.previousPeriod !== null ? BigInt(object.previousPeriod.toString()) : BigInt("0");
+    message.previousPeriod = object.previousPeriod !== undefined && object.previousPeriod !== null ? BigInt(object.previousPeriod.toString()) : BigInt(0);
     message.stake = object.stake ?? "";
-    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: DelegatorStartingInfoSDKType): DelegatorStartingInfo {

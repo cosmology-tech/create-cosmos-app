@@ -6,7 +6,7 @@ export const protobufPackage = "ibc.applications.transfer.v1";
 export interface GenesisState {
   portId: string;
   denomTraces: DenomTrace[];
-  params?: Params;
+  params: Params;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/ibc.applications.transfer.v1.GenesisState";
@@ -26,13 +26,13 @@ export interface GenesisStateAminoMsg {
 export interface GenesisStateSDKType {
   port_id: string;
   denom_traces: DenomTraceSDKType[];
-  params?: ParamsSDKType;
+  params: ParamsSDKType;
 }
 function createBaseGenesisState(): GenesisState {
   return {
     portId: "",
     denomTraces: [],
-    params: undefined
+    params: Params.fromPartial({})
   };
 }
 export const GenesisState = {

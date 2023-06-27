@@ -128,7 +128,7 @@ export interface LogMetric {
    * `metric_descriptor`, but existing labels cannot be modified except for
    * their description.
    */
-  metricDescriptor?: MetricDescriptor;
+  metricDescriptor: MetricDescriptor;
   /**
    * Optional. A `value_extractor` is required when using a distribution
    * logs-based metric to extract the values to record from a log entry.
@@ -175,19 +175,19 @@ export interface LogMetric {
    * using a DISTRIBUTION value type and it describes the bucket boundaries
    * used to create a histogram of the extracted values.
    */
-  bucketOptions?: Distribution_BucketOptions;
+  bucketOptions: Distribution_BucketOptions;
   /**
    * Output only. The creation timestamp of the metric.
    * 
    * This field may not be present for older metrics.
    */
-  createTime?: Date;
+  createTime: Date;
   /**
    * Output only. The last update timestamp of the metric.
    * 
    * This field may not be present for older metrics.
    */
-  updateTime?: Date;
+  updateTime: Date;
   /**
    * Deprecated. The API version that created or updated this metric.
    * The v2 format is used by default and cannot be changed.
@@ -353,14 +353,14 @@ export interface LogMetricSDKType {
   description: string;
   filter: string;
   disabled: boolean;
-  metric_descriptor?: MetricDescriptorSDKType;
+  metric_descriptor: MetricDescriptorSDKType;
   value_extractor: string;
   label_extractors: {
     [key: string]: string;
   };
-  bucket_options?: Distribution_BucketOptionsSDKType;
-  create_time?: Date;
-  update_time?: Date;
+  bucket_options: Distribution_BucketOptionsSDKType;
+  create_time: Date;
+  update_time: Date;
   /** @deprecated */
   version: LogMetric_ApiVersion;
 }
@@ -501,7 +501,7 @@ export interface CreateLogMetricRequest {
    * Required. The new logs-based metric, which must not have an identifier that
    * already exists.
    */
-  metric?: LogMetric;
+  metric: LogMetric;
 }
 export interface CreateLogMetricRequestProtoMsg {
   typeUrl: "/google.logging.v2.CreateLogMetricRequest";
@@ -530,7 +530,7 @@ export interface CreateLogMetricRequestAminoMsg {
 /** The parameters to CreateLogMetric. */
 export interface CreateLogMetricRequestSDKType {
   parent: string;
-  metric?: LogMetricSDKType;
+  metric: LogMetricSDKType;
 }
 /** The parameters to UpdateLogMetric. */
 export interface UpdateLogMetricRequest {
@@ -545,7 +545,7 @@ export interface UpdateLogMetricRequest {
    */
   metricName: string;
   /** Required. The updated metric. */
-  metric?: LogMetric;
+  metric: LogMetric;
 }
 export interface UpdateLogMetricRequestProtoMsg {
   typeUrl: "/google.logging.v2.UpdateLogMetricRequest";
@@ -573,7 +573,7 @@ export interface UpdateLogMetricRequestAminoMsg {
 /** The parameters to UpdateLogMetric. */
 export interface UpdateLogMetricRequestSDKType {
   metric_name: string;
-  metric?: LogMetricSDKType;
+  metric: LogMetricSDKType;
 }
 /** The parameters to DeleteLogMetric. */
 export interface DeleteLogMetricRequest {
@@ -699,10 +699,10 @@ function createBaseLogMetric(): LogMetric {
     description: "",
     filter: "",
     disabled: false,
-    metricDescriptor: undefined,
+    metricDescriptor: MetricDescriptor.fromPartial({}),
     valueExtractor: "",
     labelExtractors: {},
-    bucketOptions: undefined,
+    bucketOptions: BucketOptions.fromPartial({}),
     createTime: undefined,
     updateTime: undefined,
     version: 0
@@ -1257,7 +1257,7 @@ export const GetLogMetricRequest = {
 function createBaseCreateLogMetricRequest(): CreateLogMetricRequest {
   return {
     parent: "",
-    metric: undefined
+    metric: LogMetric.fromPartial({})
   };
 }
 export const CreateLogMetricRequest = {
@@ -1352,7 +1352,7 @@ export const CreateLogMetricRequest = {
 function createBaseUpdateLogMetricRequest(): UpdateLogMetricRequest {
   return {
     metricName: "",
-    metric: undefined
+    metric: LogMetric.fromPartial({})
   };
 }
 export const UpdateLogMetricRequest = {

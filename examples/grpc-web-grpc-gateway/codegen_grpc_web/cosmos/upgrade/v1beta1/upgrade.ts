@@ -21,7 +21,7 @@ export interface Plan {
    * If this field is not empty, an error will be thrown.
    */
   /** @deprecated */
-  time?: Date;
+  time: Date;
   /**
    * The height at which the upgrade must be performed.
    * Only used if Time is not set.
@@ -38,7 +38,7 @@ export interface Plan {
    * If this field is not empty, an error will be thrown.
    */
   /** @deprecated */
-  upgradedClientState?: Any;
+  upgradedClientState: Any;
 }
 export interface PlanProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.Plan";
@@ -89,11 +89,11 @@ export interface PlanAminoMsg {
 export interface PlanSDKType {
   name: string;
   /** @deprecated */
-  time?: Date;
+  time: Date;
   height: bigint;
   info: string;
   /** @deprecated */
-  upgraded_client_state?: AnySDKType;
+  upgraded_client_state: AnySDKType;
 }
 /**
  * SoftwareUpgradeProposal is a gov Content type for initiating a software
@@ -105,7 +105,7 @@ export interface PlanSDKType {
 export interface SoftwareUpgradeProposal {
   title: string;
   description: string;
-  plan?: Plan;
+  plan: Plan;
 }
 export interface SoftwareUpgradeProposalProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal";
@@ -137,7 +137,7 @@ export interface SoftwareUpgradeProposalAminoMsg {
 export interface SoftwareUpgradeProposalSDKType {
   title: string;
   description: string;
-  plan?: PlanSDKType;
+  plan: PlanSDKType;
 }
 /**
  * CancelSoftwareUpgradeProposal is a gov Content type for cancelling a software
@@ -223,7 +223,7 @@ function createBasePlan(): Plan {
   return {
     name: "",
     time: undefined,
-    height: BigInt("0"),
+    height: BigInt(0),
     info: "",
     upgradedClientState: undefined
   };
@@ -263,7 +263,7 @@ export const Plan = {
           message.time = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         case 3:
-          message.height = BigInt(reader.int64().toString());
+          message.height = reader.int64();
           break;
         case 4:
           message.info = reader.string();
@@ -282,7 +282,7 @@ export const Plan = {
     return {
       name: isSet(object.name) ? String(object.name) : "",
       time: isSet(object.time) ? fromJsonTimestamp(object.time) : undefined,
-      height: isSet(object.height) ? BigInt(object.height.toString()) : BigInt("0"),
+      height: isSet(object.height) ? BigInt(object.height.toString()) : BigInt(0),
       info: isSet(object.info) ? String(object.info) : "",
       upgradedClientState: isSet(object.upgradedClientState) ? Any.fromJSON(object.upgradedClientState) : undefined
     };
@@ -291,7 +291,7 @@ export const Plan = {
     const obj: any = {};
     message.name !== undefined && (obj.name = message.name);
     message.time !== undefined && (obj.time = message.time.toISOString());
-    message.height !== undefined && (obj.height = (message.height || BigInt("0")).toString());
+    message.height !== undefined && (obj.height = (message.height || BigInt(0)).toString());
     message.info !== undefined && (obj.info = message.info);
     message.upgradedClientState !== undefined && (obj.upgradedClientState = message.upgradedClientState ? Any.toJSON(message.upgradedClientState) : undefined);
     return obj;
@@ -300,7 +300,7 @@ export const Plan = {
     const message = createBasePlan();
     message.name = object.name ?? "";
     message.time = object.time ?? undefined;
-    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt("0");
+    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt(0);
     message.info = object.info ?? "";
     message.upgradedClientState = object.upgradedClientState !== undefined && object.upgradedClientState !== null ? Any.fromPartial(object.upgradedClientState) : undefined;
     return message;
@@ -367,7 +367,7 @@ function createBaseSoftwareUpgradeProposal(): SoftwareUpgradeProposal {
   return {
     title: "",
     description: "",
-    plan: undefined
+    plan: Plan.fromPartial({})
   };
 }
 export const SoftwareUpgradeProposal = {
@@ -584,7 +584,7 @@ export const CancelSoftwareUpgradeProposal = {
 function createBaseModuleVersion(): ModuleVersion {
   return {
     name: "",
-    version: BigInt("0")
+    version: BigInt(0)
   };
 }
 export const ModuleVersion = {
@@ -610,7 +610,7 @@ export const ModuleVersion = {
           message.name = reader.string();
           break;
         case 2:
-          message.version = BigInt(reader.uint64().toString());
+          message.version = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -622,19 +622,19 @@ export const ModuleVersion = {
   fromJSON(object: any): ModuleVersion {
     return {
       name: isSet(object.name) ? String(object.name) : "",
-      version: isSet(object.version) ? BigInt(object.version.toString()) : BigInt("0")
+      version: isSet(object.version) ? BigInt(object.version.toString()) : BigInt(0)
     };
   },
   toJSON(message: ModuleVersion): unknown {
     const obj: any = {};
     message.name !== undefined && (obj.name = message.name);
-    message.version !== undefined && (obj.version = (message.version || BigInt("0")).toString());
+    message.version !== undefined && (obj.version = (message.version || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<ModuleVersion>): ModuleVersion {
     const message = createBaseModuleVersion();
     message.name = object.name ?? "";
-    message.version = object.version !== undefined && object.version !== null ? BigInt(object.version.toString()) : BigInt("0");
+    message.version = object.version !== undefined && object.version !== null ? BigInt(object.version.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: ModuleVersionSDKType): ModuleVersion {

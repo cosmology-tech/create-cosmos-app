@@ -42,11 +42,11 @@ export interface QueryClientStateRequestSDKType {
  */
 export interface QueryClientStateResponse {
   /** client state associated with the request identifier */
-  clientState?: Any;
+  clientState: Any;
   /** merkle proof of existence */
   proof: Uint8Array;
   /** height at which the proof was retrieved */
-  proofHeight?: Height;
+  proofHeight: Height;
 }
 export interface QueryClientStateResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryClientStateResponse";
@@ -75,9 +75,9 @@ export interface QueryClientStateResponseAminoMsg {
  * which the proof was retrieved.
  */
 export interface QueryClientStateResponseSDKType {
-  client_state?: AnySDKType;
+  client_state: AnySDKType;
   proof: Uint8Array;
-  proof_height?: HeightSDKType;
+  proof_height: HeightSDKType;
 }
 /**
  * QueryClientStatesRequest is the request type for the Query/ClientStates RPC
@@ -85,7 +85,7 @@ export interface QueryClientStateResponseSDKType {
  */
 export interface QueryClientStatesRequest {
   /** pagination request */
-  pagination?: PageRequest;
+  pagination: PageRequest;
 }
 export interface QueryClientStatesRequestProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryClientStatesRequest";
@@ -108,7 +108,7 @@ export interface QueryClientStatesRequestAminoMsg {
  * method
  */
 export interface QueryClientStatesRequestSDKType {
-  pagination?: PageRequestSDKType;
+  pagination: PageRequestSDKType;
 }
 /**
  * QueryClientStatesResponse is the response type for the Query/ClientStates RPC
@@ -118,7 +118,7 @@ export interface QueryClientStatesResponse {
   /** list of stored ClientStates of the chain. */
   clientStates: IdentifiedClientState[];
   /** pagination response */
-  pagination?: PageResponse;
+  pagination: PageResponse;
 }
 export interface QueryClientStatesResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryClientStatesResponse";
@@ -144,7 +144,7 @@ export interface QueryClientStatesResponseAminoMsg {
  */
 export interface QueryClientStatesResponseSDKType {
   client_states: IdentifiedClientStateSDKType[];
-  pagination?: PageResponseSDKType;
+  pagination: PageResponseSDKType;
 }
 /**
  * QueryConsensusStateRequest is the request type for the Query/ConsensusState
@@ -207,11 +207,11 @@ export interface QueryConsensusStateRequestSDKType {
  */
 export interface QueryConsensusStateResponse {
   /** consensus state associated with the client identifier at the given height */
-  consensusState?: Any;
+  consensusState: Any;
   /** merkle proof of existence */
   proof: Uint8Array;
   /** height at which the proof was retrieved */
-  proofHeight?: Height;
+  proofHeight: Height;
 }
 export interface QueryConsensusStateResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryConsensusStateResponse";
@@ -238,9 +238,9 @@ export interface QueryConsensusStateResponseAminoMsg {
  * RPC method
  */
 export interface QueryConsensusStateResponseSDKType {
-  consensus_state?: AnySDKType;
+  consensus_state: AnySDKType;
   proof: Uint8Array;
-  proof_height?: HeightSDKType;
+  proof_height: HeightSDKType;
 }
 /**
  * QueryConsensusStatesRequest is the request type for the Query/ConsensusStates
@@ -250,7 +250,7 @@ export interface QueryConsensusStatesRequest {
   /** client identifier */
   clientId: string;
   /** pagination request */
-  pagination?: PageRequest;
+  pagination: PageRequest;
 }
 export interface QueryConsensusStatesRequestProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryConsensusStatesRequest";
@@ -276,7 +276,7 @@ export interface QueryConsensusStatesRequestAminoMsg {
  */
 export interface QueryConsensusStatesRequestSDKType {
   client_id: string;
-  pagination?: PageRequestSDKType;
+  pagination: PageRequestSDKType;
 }
 /**
  * QueryConsensusStatesResponse is the response type for the
@@ -286,7 +286,7 @@ export interface QueryConsensusStatesResponse {
   /** consensus states associated with the identifier */
   consensusStates: ConsensusStateWithHeight[];
   /** pagination response */
-  pagination?: PageResponse;
+  pagination: PageResponse;
 }
 export interface QueryConsensusStatesResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryConsensusStatesResponse";
@@ -312,7 +312,7 @@ export interface QueryConsensusStatesResponseAminoMsg {
  */
 export interface QueryConsensusStatesResponseSDKType {
   consensus_states: ConsensusStateWithHeightSDKType[];
-  pagination?: PageResponseSDKType;
+  pagination: PageResponseSDKType;
 }
 /**
  * QueryClientStatusRequest is the request type for the Query/ClientStatus RPC
@@ -403,7 +403,7 @@ export interface QueryClientParamsRequestSDKType {}
  */
 export interface QueryClientParamsResponse {
   /** params defines the parameters of the module. */
-  params?: Params;
+  params: Params;
 }
 export interface QueryClientParamsResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryClientParamsResponse";
@@ -426,7 +426,7 @@ export interface QueryClientParamsResponseAminoMsg {
  * method.
  */
 export interface QueryClientParamsResponseSDKType {
-  params?: ParamsSDKType;
+  params: ParamsSDKType;
 }
 /**
  * QueryUpgradedClientStateRequest is the request type for the
@@ -457,7 +457,7 @@ export interface QueryUpgradedClientStateRequestSDKType {}
  */
 export interface QueryUpgradedClientStateResponse {
   /** client state associated with the request identifier */
-  upgradedClientState?: Any;
+  upgradedClientState: Any;
 }
 export interface QueryUpgradedClientStateResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryUpgradedClientStateResponse";
@@ -480,7 +480,7 @@ export interface QueryUpgradedClientStateResponseAminoMsg {
  * Query/UpgradedClientState RPC method.
  */
 export interface QueryUpgradedClientStateResponseSDKType {
-  upgraded_client_state?: AnySDKType;
+  upgraded_client_state: AnySDKType;
 }
 /**
  * QueryUpgradedConsensusStateRequest is the request type for the
@@ -511,7 +511,7 @@ export interface QueryUpgradedConsensusStateRequestSDKType {}
  */
 export interface QueryUpgradedConsensusStateResponse {
   /** Consensus state associated with the request identifier */
-  upgradedConsensusState?: Any;
+  upgradedConsensusState: Any;
 }
 export interface QueryUpgradedConsensusStateResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryUpgradedConsensusStateResponse";
@@ -534,7 +534,7 @@ export interface QueryUpgradedConsensusStateResponseAminoMsg {
  * Query/UpgradedConsensusState RPC method.
  */
 export interface QueryUpgradedConsensusStateResponseSDKType {
-  upgraded_consensus_state?: AnySDKType;
+  upgraded_consensus_state: AnySDKType;
 }
 function createBaseQueryClientStateRequest(): QueryClientStateRequest {
   return {
@@ -628,7 +628,7 @@ function createBaseQueryClientStateResponse(): QueryClientStateResponse {
   return {
     clientState: undefined,
     proof: new Uint8Array(),
-    proofHeight: undefined
+    proofHeight: Height.fromPartial({})
   };
 }
 export const QueryClientStateResponse = {
@@ -742,7 +742,7 @@ export const QueryClientStateResponse = {
 };
 function createBaseQueryClientStatesRequest(): QueryClientStatesRequest {
   return {
-    pagination: undefined
+    pagination: PageRequest.fromPartial({})
   };
 }
 export const QueryClientStatesRequest = {
@@ -831,7 +831,7 @@ export const QueryClientStatesRequest = {
 function createBaseQueryClientStatesResponse(): QueryClientStatesResponse {
   return {
     clientStates: [],
-    pagination: undefined
+    pagination: PageResponse.fromPartial({})
   };
 }
 export const QueryClientStatesResponse = {
@@ -945,8 +945,8 @@ export const QueryClientStatesResponse = {
 function createBaseQueryConsensusStateRequest(): QueryConsensusStateRequest {
   return {
     clientId: "",
-    revisionNumber: BigInt("0"),
-    revisionHeight: BigInt("0"),
+    revisionNumber: BigInt(0),
+    revisionHeight: BigInt(0),
     latestHeight: false
   };
 }
@@ -979,10 +979,10 @@ export const QueryConsensusStateRequest = {
           message.clientId = reader.string();
           break;
         case 2:
-          message.revisionNumber = BigInt(reader.uint64().toString());
+          message.revisionNumber = reader.uint64();
           break;
         case 3:
-          message.revisionHeight = BigInt(reader.uint64().toString());
+          message.revisionHeight = reader.uint64();
           break;
         case 4:
           message.latestHeight = reader.bool();
@@ -997,24 +997,24 @@ export const QueryConsensusStateRequest = {
   fromJSON(object: any): QueryConsensusStateRequest {
     return {
       clientId: isSet(object.clientId) ? String(object.clientId) : "",
-      revisionNumber: isSet(object.revisionNumber) ? BigInt(object.revisionNumber.toString()) : BigInt("0"),
-      revisionHeight: isSet(object.revisionHeight) ? BigInt(object.revisionHeight.toString()) : BigInt("0"),
+      revisionNumber: isSet(object.revisionNumber) ? BigInt(object.revisionNumber.toString()) : BigInt(0),
+      revisionHeight: isSet(object.revisionHeight) ? BigInt(object.revisionHeight.toString()) : BigInt(0),
       latestHeight: isSet(object.latestHeight) ? Boolean(object.latestHeight) : false
     };
   },
   toJSON(message: QueryConsensusStateRequest): unknown {
     const obj: any = {};
     message.clientId !== undefined && (obj.clientId = message.clientId);
-    message.revisionNumber !== undefined && (obj.revisionNumber = (message.revisionNumber || BigInt("0")).toString());
-    message.revisionHeight !== undefined && (obj.revisionHeight = (message.revisionHeight || BigInt("0")).toString());
+    message.revisionNumber !== undefined && (obj.revisionNumber = (message.revisionNumber || BigInt(0)).toString());
+    message.revisionHeight !== undefined && (obj.revisionHeight = (message.revisionHeight || BigInt(0)).toString());
     message.latestHeight !== undefined && (obj.latestHeight = message.latestHeight);
     return obj;
   },
   fromPartial(object: DeepPartial<QueryConsensusStateRequest>): QueryConsensusStateRequest {
     const message = createBaseQueryConsensusStateRequest();
     message.clientId = object.clientId ?? "";
-    message.revisionNumber = object.revisionNumber !== undefined && object.revisionNumber !== null ? BigInt(object.revisionNumber.toString()) : BigInt("0");
-    message.revisionHeight = object.revisionHeight !== undefined && object.revisionHeight !== null ? BigInt(object.revisionHeight.toString()) : BigInt("0");
+    message.revisionNumber = object.revisionNumber !== undefined && object.revisionNumber !== null ? BigInt(object.revisionNumber.toString()) : BigInt(0);
+    message.revisionHeight = object.revisionHeight !== undefined && object.revisionHeight !== null ? BigInt(object.revisionHeight.toString()) : BigInt(0);
     message.latestHeight = object.latestHeight ?? false;
     return message;
   },
@@ -1076,7 +1076,7 @@ function createBaseQueryConsensusStateResponse(): QueryConsensusStateResponse {
   return {
     consensusState: undefined,
     proof: new Uint8Array(),
-    proofHeight: undefined
+    proofHeight: Height.fromPartial({})
   };
 }
 export const QueryConsensusStateResponse = {
@@ -1191,7 +1191,7 @@ export const QueryConsensusStateResponse = {
 function createBaseQueryConsensusStatesRequest(): QueryConsensusStatesRequest {
   return {
     clientId: "",
-    pagination: undefined
+    pagination: PageRequest.fromPartial({})
   };
 }
 export const QueryConsensusStatesRequest = {
@@ -1293,7 +1293,7 @@ export const QueryConsensusStatesRequest = {
 function createBaseQueryConsensusStatesResponse(): QueryConsensusStatesResponse {
   return {
     consensusStates: [],
-    pagination: undefined
+    pagination: PageResponse.fromPartial({})
   };
 }
 export const QueryConsensusStatesResponse = {
@@ -1652,7 +1652,7 @@ export const QueryClientParamsRequest = {
 };
 function createBaseQueryClientParamsResponse(): QueryClientParamsResponse {
   return {
-    params: undefined
+    params: Params.fromPartial({})
   };
 }
 export const QueryClientParamsResponse = {

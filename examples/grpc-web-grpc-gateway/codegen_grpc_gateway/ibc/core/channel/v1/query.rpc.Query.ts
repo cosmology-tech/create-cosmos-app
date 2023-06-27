@@ -7,9 +7,9 @@ import { QueryChannelRequest, QueryChannelRequestSDKType, QueryChannelResponse, 
 export class Query {
   /** Channel queries an IBC Channel. */
   static channel(request: QueryChannelRequest, initRequest?: fm.InitReq): Promise<QueryChannelResponse> {
-    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/{port_id}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/${request["port_id"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["channel_id"])}`, {
+    }, ["channel_id", "port_id"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -40,9 +40,9 @@ export class Query {
    * with the provided channel identifiers.
    */
   static channelClientState(request: QueryChannelClientStateRequest, initRequest?: fm.InitReq): Promise<QueryChannelClientStateResponse> {
-    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/{port_id}/client_state?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/${request["port_id"]}/client_state?${fm.renderURLSearchParams({
       ...request
-    }, ["channel_id"])}`, {
+    }, ["channel_id", "port_id"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -52,18 +52,18 @@ export class Query {
    * associated with the provided channel identifiers.
    */
   static channelConsensusState(request: QueryChannelConsensusStateRequest, initRequest?: fm.InitReq): Promise<QueryChannelConsensusStateResponse> {
-    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/{port_id}/consensus_state/revision/{revision_number}/height/{revision_height}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/${request["port_id"]}/consensus_state/revision/${request["revision_number"]}/height/${request["revision_height"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["channel_id"])}`, {
+    }, ["channel_id", "port_id", "revision_number", "revision_height"])}`, {
       ...initRequest,
       method: "GET"
     });
   }
   /** PacketCommitment queries a stored packet commitment hash. */
   static packetCommitment(request: QueryPacketCommitmentRequest, initRequest?: fm.InitReq): Promise<QueryPacketCommitmentResponse> {
-    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/{port_id}/packet_commitments/{sequence}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/${request["port_id"]}/packet_commitments/${request["sequence"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["channel_id"])}`, {
+    }, ["channel_id", "port_id", "sequence"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -73,9 +73,9 @@ export class Query {
    * with a channel.
    */
   static packetCommitments(request: QueryPacketCommitmentsRequest, initRequest?: fm.InitReq): Promise<QueryPacketCommitmentsResponse> {
-    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/{port_id}/packet_commitments?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/${request["port_id"]}/packet_commitments?${fm.renderURLSearchParams({
       ...request
-    }, ["channel_id"])}`, {
+    }, ["channel_id", "port_id"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -85,18 +85,18 @@ export class Query {
    * queried chain
    */
   static packetReceipt(request: QueryPacketReceiptRequest, initRequest?: fm.InitReq): Promise<QueryPacketReceiptResponse> {
-    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/{port_id}/packet_receipts/{sequence}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/${request["port_id"]}/packet_receipts/${request["sequence"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["channel_id"])}`, {
+    }, ["channel_id", "port_id", "sequence"])}`, {
       ...initRequest,
       method: "GET"
     });
   }
   /** PacketAcknowledgement queries a stored packet acknowledgement hash. */
   static packetAcknowledgement(request: QueryPacketAcknowledgementRequest, initRequest?: fm.InitReq): Promise<QueryPacketAcknowledgementResponse> {
-    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/{port_id}/packet_acks/{sequence}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/${request["port_id"]}/packet_acks/${request["sequence"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["channel_id"])}`, {
+    }, ["channel_id", "port_id", "sequence"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -106,9 +106,9 @@ export class Query {
    * with a channel.
    */
   static packetAcknowledgements(request: QueryPacketAcknowledgementsRequest, initRequest?: fm.InitReq): Promise<QueryPacketAcknowledgementsResponse> {
-    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/{port_id}/packet_acknowledgements?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/${request["port_id"]}/packet_acknowledgements?${fm.renderURLSearchParams({
       ...request
-    }, ["channel_id"])}`, {
+    }, ["channel_id", "port_id"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -118,9 +118,9 @@ export class Query {
    * channel and sequences.
    */
   static unreceivedPackets(request: QueryUnreceivedPacketsRequest, initRequest?: fm.InitReq): Promise<QueryUnreceivedPacketsResponse> {
-    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/{port_id}/packet_commitments/{packet_commitment_sequences}/unreceived_packets?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/${request["port_id"]}/packet_commitments/${request["packet_commitment_sequences"]}/unreceived_packets?${fm.renderURLSearchParams({
       ...request
-    }, ["channel_id"])}`, {
+    }, ["channel_id", "port_id", "packet_commitment_sequences"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -130,24 +130,24 @@ export class Query {
    * with a channel and sequences.
    */
   static unreceivedAcks(request: QueryUnreceivedAcksRequest, initRequest?: fm.InitReq): Promise<QueryUnreceivedAcksResponse> {
-    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/{port_id}/packet_commitments/{packet_ack_sequences}/unreceived_acks?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/${request["port_id"]}/packet_commitments/${request["packet_ack_sequences"]}/unreceived_acks?${fm.renderURLSearchParams({
       ...request
-    }, ["channel_id"])}`, {
+    }, ["channel_id", "port_id", "packet_ack_sequences"])}`, {
       ...initRequest,
       method: "GET"
     });
   }
   /** NextSequenceReceive returns the next receive sequence for a given channel. */
   static nextSequenceReceive(request: QueryNextSequenceReceiveRequest, initRequest?: fm.InitReq): Promise<QueryNextSequenceReceiveResponse> {
-    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/{port_id}/next_sequence?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/ibc/core/channel/v1/channels/${request["channel_id"]}/ports/${request["port_id"]}/next_sequence?${fm.renderURLSearchParams({
       ...request
-    }, ["channel_id"])}`, {
+    }, ["channel_id", "port_id"])}`, {
       ...initRequest,
       method: "GET"
     });
   }
 }
-export class Querier {
+export class QueryClientImpl {
   private readonly url: string;
   constructor(url: string) {
     this.url = url;
