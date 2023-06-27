@@ -3527,6 +3527,25 @@
     react-icons "^4.4.0"
     react-resize-detector "^8.0.3"
 
+"@cosmology/protobufjs@6.11.6":
+  version "6.11.6"
+  resolved "https://registry.npmjs.org/@cosmology/protobufjs/-/protobufjs-6.11.6.tgz#6f7bd340ab4a27969b1f75b4bff21a74e03b971a"
+  integrity sha512-k1opGC9CTX5vD2447pUqLmleVv0Kb8RasBUxkZHudVOvuXs2qAAGONmMIEGRCROKTodhTY9fdTnGU2lCZqAwNw==
+  dependencies:
+    "@protobufjs/aspromise" "^1.1.2"
+    "@protobufjs/base64" "^1.1.2"
+    "@protobufjs/codegen" "^2.0.4"
+    "@protobufjs/eventemitter" "^1.1.0"
+    "@protobufjs/fetch" "^1.1.0"
+    "@protobufjs/float" "^1.0.2"
+    "@protobufjs/inquire" "^1.1.0"
+    "@protobufjs/path" "^1.1.2"
+    "@protobufjs/pool" "^1.1.0"
+    "@protobufjs/utf8" "^1.1.0"
+    "@types/long" "^4.0.1"
+    "@types/node" ">=13.7.0"
+    long "^4.0.0"
+
 "@cosmos-kit/core@1.3.0", "@cosmos-kit/core@^1.3.0":
   version "1.3.0"
   resolved "https://registry.npmjs.org/@cosmos-kit/core/-/core-1.3.0.tgz#81603697bf89a539b609ffe94a5157cb50cfa2d9"
@@ -3757,6 +3776,39 @@
     rimraf "3.0.2"
     shelljs "0.8.5"
     wasm-ast-types "^0.19.0"
+
+"@cosmwasm/ts-codegen@0.30.1":
+  version "0.30.1"
+  resolved "https://registry.npmjs.org/@cosmwasm/ts-codegen/-/ts-codegen-0.30.1.tgz#8b8a635273065261c608a76f8a50cb5045e23980"
+  integrity sha512-6ATbmtuK2MwG9fJxIi0M+Rwd0SQhsko2nA8qVXC9MRHpZJKNaXYYcof1fel/L5HJCjotmQVsoxons3rGg6dRnw==
+  dependencies:
+    "@babel/core" "7.18.10"
+    "@babel/generator" "7.18.12"
+    "@babel/parser" "7.18.11"
+    "@babel/plugin-proposal-class-properties" "7.18.6"
+    "@babel/plugin-proposal-export-default-from" "7.18.10"
+    "@babel/plugin-proposal-object-rest-spread" "7.18.9"
+    "@babel/plugin-transform-runtime" "7.18.10"
+    "@babel/preset-env" "7.18.10"
+    "@babel/preset-typescript" "^7.18.6"
+    "@babel/runtime" "^7.18.9"
+    "@babel/traverse" "7.18.11"
+    "@babel/types" "7.18.10"
+    "@pyramation/json-schema-to-typescript" " 11.0.4"
+    case "1.6.3"
+    dargs "7.0.0"
+    deepmerge "4.2.2"
+    dotty "0.1.2"
+    fuzzy "0.1.3"
+    glob "8.0.3"
+    inquirerer "0.1.3"
+    long "^5.2.0"
+    minimist "1.2.6"
+    mkdirp "1.0.4"
+    parse-package-name "1.0.0"
+    rimraf "3.0.2"
+    shelljs "0.8.5"
+    wasm-ast-types "^0.23.1"
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
@@ -5612,15 +5664,15 @@
   dependencies:
     "@octokit/openapi-types" "^12.11.0"
 
-"@osmonauts/ast@0.82.0", "@osmonauts/ast@^0.82.0":
-  version "0.82.0"
-  resolved "https://registry.npmjs.org/@osmonauts/ast/-/ast-0.82.0.tgz#4c6cbc78f27047041b3b57768fbeef3812b2ab76"
-  integrity sha512-WgtjVYej6cuEA1Ur9n2NwO4wj45yI2UPxHY61RZIbTqDSwQWQA9OFRsvuYsA/F/ohLoQhvz+kBPSDflPSM7uTw==
+"@osmonauts/ast@0.85.0", "@osmonauts/ast@^0.85.0":
+  version "0.85.0"
+  resolved "https://registry.npmjs.org/@osmonauts/ast/-/ast-0.85.0.tgz#3ce5ff4e3b537b957f4c955f1860a5c7732ea713"
+  integrity sha512-7naxjxXFBf2u5NbtD25kdbE4dLZJZmXwRoe8khT+fLkjBjSOlA7Z1C42Z3bXpsXhi0FIbCIzB73q6Z7wV8JevQ==
   dependencies:
     "@babel/parser" "^7.21.4"
     "@babel/runtime" "^7.21.0"
     "@babel/types" "7.21.4"
-    "@osmonauts/proto-parser" "^0.43.0"
+    "@osmonauts/proto-parser" "^0.44.0"
     "@osmonauts/types" "^0.35.0"
     "@osmonauts/utils" "^0.11.1"
     case "1.6.3"
@@ -5649,6 +5701,20 @@
     "@babel/types" "7.21.4"
     "@osmonauts/proto-parser" "^0.41.2"
     "@osmonauts/types" "^0.33.1"
+    "@osmonauts/utils" "^0.11.1"
+    case "1.6.3"
+    dotty "0.1.2"
+
+"@osmonauts/ast@^0.82.0":
+  version "0.82.0"
+  resolved "https://registry.npmjs.org/@osmonauts/ast/-/ast-0.82.0.tgz#4c6cbc78f27047041b3b57768fbeef3812b2ab76"
+  integrity sha512-WgtjVYej6cuEA1Ur9n2NwO4wj45yI2UPxHY61RZIbTqDSwQWQA9OFRsvuYsA/F/ohLoQhvz+kBPSDflPSM7uTw==
+  dependencies:
+    "@babel/parser" "^7.21.4"
+    "@babel/runtime" "^7.21.0"
+    "@babel/types" "7.21.4"
+    "@osmonauts/proto-parser" "^0.43.0"
+    "@osmonauts/types" "^0.35.0"
     "@osmonauts/utils" "^0.11.1"
     case "1.6.3"
     dotty "0.1.2"
@@ -5707,6 +5773,19 @@
     minimatch "5.1.0"
     mkdirp "3.0.0"
 
+"@osmonauts/proto-parser@^0.44.0":
+  version "0.44.0"
+  resolved "https://registry.npmjs.org/@osmonauts/proto-parser/-/proto-parser-0.44.0.tgz#9ae04a00992d4396db46af652aab86dc7e478c60"
+  integrity sha512-sJF6E5fn0AYFq98xE0b19PTQD8kc5bzb2Ilq9AniPnY8o3Q0a7p+A4EuPmBXXm3nBslLJCawUDWRlIEZcmKG3Q==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@cosmology/protobufjs" "6.11.6"
+    "@osmonauts/types" "^0.35.0"
+    dotty "0.1.2"
+    glob "8.0.3"
+    minimatch "5.1.0"
+    mkdirp "3.0.0"
+
 "@osmonauts/telescope@0.93.0":
   version "0.93.0"
   resolved "https://registry.npmjs.org/@osmonauts/telescope/-/telescope-0.93.0.tgz#a78992365a41c4f4eb607a4e1bc260a6fea29db4"
@@ -5745,10 +5824,10 @@
     rimraf "5.0.0"
     shelljs "0.8.5"
 
-"@osmonauts/telescope@0.96.0", "@osmonauts/telescope@^0.96.0":
-  version "0.96.0"
-  resolved "https://registry.npmjs.org/@osmonauts/telescope/-/telescope-0.96.0.tgz#c4420899caa7c7f06105cb4273e4695da3666da2"
-  integrity sha512-00vaRkVThxky+6EvDmNOZpsqqB1OJmHouDpQevKtUPP0gL+Z6oX/lo6JupJVXaNcLX+l0v2o1K8W2iLfGxf5vQ==
+"@osmonauts/telescope@0.99.0":
+  version "0.99.0"
+  resolved "https://registry.npmjs.org/@osmonauts/telescope/-/telescope-0.99.0.tgz#0f35c21e8bc65951a63231f34b4caa8a106a6f20"
+  integrity sha512-djb/Ud+B1CPFbJAQiuxfUdeeZxC1xam5o4kKf8RSnyPx033JuTmz+QSTt25zotvFuZLtL/TI0giOp+Bgc92uZQ==
   dependencies:
     "@babel/core" "7.21.4"
     "@babel/generator" "7.21.4"
@@ -5762,9 +5841,9 @@
     "@babel/runtime" "^7.21.0"
     "@babel/traverse" "7.21.4"
     "@babel/types" "7.21.4"
-    "@cosmwasm/ts-codegen" "0.26.0"
-    "@osmonauts/ast" "^0.82.0"
-    "@osmonauts/proto-parser" "^0.43.0"
+    "@cosmwasm/ts-codegen" "0.30.1"
+    "@osmonauts/ast" "^0.85.0"
+    "@osmonauts/proto-parser" "^0.44.0"
     "@osmonauts/types" "^0.35.0"
     "@osmonauts/utils" "^0.11.1"
     "@types/parse-package-name" "0.1.0"
@@ -5819,6 +5898,44 @@
     mkdirp "1.0.4"
     parse-package-name "1.0.0"
     rimraf "3.0.2"
+    shelljs "0.8.5"
+
+"@osmonauts/telescope@^0.96.0":
+  version "0.96.0"
+  resolved "https://registry.npmjs.org/@osmonauts/telescope/-/telescope-0.96.0.tgz#c4420899caa7c7f06105cb4273e4695da3666da2"
+  integrity sha512-00vaRkVThxky+6EvDmNOZpsqqB1OJmHouDpQevKtUPP0gL+Z6oX/lo6JupJVXaNcLX+l0v2o1K8W2iLfGxf5vQ==
+  dependencies:
+    "@babel/core" "7.21.4"
+    "@babel/generator" "7.21.4"
+    "@babel/parser" "^7.21.4"
+    "@babel/plugin-proposal-class-properties" "7.18.6"
+    "@babel/plugin-proposal-export-default-from" "7.18.10"
+    "@babel/plugin-proposal-object-rest-spread" "7.20.7"
+    "@babel/plugin-transform-runtime" "7.21.4"
+    "@babel/preset-env" "7.21.4"
+    "@babel/preset-typescript" "^7.21.4"
+    "@babel/runtime" "^7.21.0"
+    "@babel/traverse" "7.21.4"
+    "@babel/types" "7.21.4"
+    "@cosmwasm/ts-codegen" "0.26.0"
+    "@osmonauts/ast" "^0.82.0"
+    "@osmonauts/proto-parser" "^0.43.0"
+    "@osmonauts/types" "^0.35.0"
+    "@osmonauts/utils" "^0.11.1"
+    "@types/parse-package-name" "0.1.0"
+    case "1.6.3"
+    dargs "7.0.0"
+    deepmerge "4.3.1"
+    dotty "0.1.2"
+    fuzzy "0.1.3"
+    glob "8.0.3"
+    inquirerer "0.1.3"
+    long "^5.2.1"
+    minimatch "5.1.0"
+    minimist "1.2.8"
+    mkdirp "3.0.0"
+    parse-package-name "1.0.0"
+    rimraf "5.0.0"
     shelljs "0.8.5"
 
 "@osmonauts/types@0.35.0", "@osmonauts/types@^0.35.0":
@@ -15683,6 +15800,11 @@ typescript@4.9.3:
   resolved "https://registry.npmjs.org/typescript/-/typescript-4.9.3.tgz"
   integrity sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==
 
+typescript@5.0.4:
+  version "5.0.4"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-5.0.4.tgz#b217fd20119bd61a94d4011274e0ab369058da3b"
+  integrity sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==
+
 typescript@^4.8.4:
   version "4.9.5"
   resolved "https://registry.npmmirror.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
@@ -16026,6 +16148,18 @@ wasm-ast-types@^0.19.0:
   version "0.19.0"
   resolved "https://registry.npmjs.org/wasm-ast-types/-/wasm-ast-types-0.19.0.tgz#d3e71ae91d48ddbdc23560bad5e10660f3c0d0da"
   integrity sha512-SELRqjXMi7U3pB0jslvP0IrafJS9iN/VvySriiBITptBstwuzglhDTj3KFRpb/8LI4mG2ewC4a0/HxSQewQ/3g==
+  dependencies:
+    "@babel/runtime" "^7.18.9"
+    "@babel/types" "7.18.10"
+    "@jest/transform" "28.1.3"
+    ast-stringify "0.1.0"
+    case "1.6.3"
+    deepmerge "4.2.2"
+
+wasm-ast-types@^0.23.1:
+  version "0.23.1"
+  resolved "https://registry.npmjs.org/wasm-ast-types/-/wasm-ast-types-0.23.1.tgz#b849629aa9f7a56dbb52c581ddbcb6b5ed7e2a07"
+  integrity sha512-igLcEk8VHZq62ZEwn4Jp+WRTp2D9yvTeiQd2Pc+s7LZouzSn3CwRpD42sHK2wV0UlSt2/cNbV6QywFm9Z6eM/A==
   dependencies:
     "@babel/runtime" "^7.18.9"
     "@babel/types" "7.18.10"
