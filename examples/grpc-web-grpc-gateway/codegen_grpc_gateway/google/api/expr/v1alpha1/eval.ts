@@ -1,7 +1,7 @@
 import { Value, ValueAmino, ValueSDKType } from "./value";
 import { Status, StatusAmino, StatusSDKType } from "../../../rpc/status";
-import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { DeepPartial, isSet } from "../../../../helpers";
+import { Long, DeepPartial, isSet } from "../../../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "google.api.expr.v1alpha1";
 /**
  * The state of an evaluation.
@@ -55,9 +55,9 @@ export interface EvalStateSDKType {
 /** A single evalution result. */
 export interface EvalState_Result {
   /** The id of the expression this result if for. */
-  expr: bigint;
+  expr: Long;
   /** The index in `values` of the resulting value. */
-  value: bigint;
+  value: Long;
 }
 export interface EvalState_ResultProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Result";
@@ -76,8 +76,8 @@ export interface EvalState_ResultAminoMsg {
 }
 /** A single evalution result. */
 export interface EvalState_ResultSDKType {
-  expr: bigint;
-  value: bigint;
+  expr: Long;
+  value: Long;
 }
 /** The value of an evaluated expression. */
 export interface ExprValue {
@@ -236,7 +236,7 @@ export interface ErrorSetSDKType {
  */
 export interface UnknownSet {
   /** The ids of the expressions with unknown values. */
-  exprs: bigint[];
+  exprs: Long[];
 }
 export interface UnknownSetProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.UnknownSet";
@@ -261,7 +261,7 @@ export interface UnknownSetAminoMsg {
  * The unknowns included depend on the context. See `ExprValue.unknown`.
  */
 export interface UnknownSetSDKType {
-  exprs: bigint[];
+  exprs: Long[];
 }
 function createBaseEvalState(): EvalState {
   return {
@@ -271,7 +271,7 @@ function createBaseEvalState(): EvalState {
 }
 export const EvalState = {
   typeUrl: "/google.api.expr.v1alpha1.EvalState",
-  encode(message: EvalState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: EvalState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.values) {
       ExprValue.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -280,8 +280,8 @@ export const EvalState = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): EvalState {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): EvalState {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEvalState();
     while (reader.pos < end) {
@@ -384,33 +384,33 @@ export const EvalState = {
 };
 function createBaseEvalState_Result(): EvalState_Result {
   return {
-    expr: BigInt(0),
-    value: BigInt(0)
+    expr: Long.ZERO,
+    value: Long.ZERO
   };
 }
 export const EvalState_Result = {
   typeUrl: "/google.api.expr.v1alpha1.Result",
-  encode(message: EvalState_Result, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.expr !== BigInt(0)) {
+  encode(message: EvalState_Result, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.expr.isZero()) {
       writer.uint32(8).int64(message.expr);
     }
-    if (message.value !== BigInt(0)) {
+    if (!message.value.isZero()) {
       writer.uint32(16).int64(message.value);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): EvalState_Result {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): EvalState_Result {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEvalState_Result();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.expr = reader.int64();
+          message.expr = (reader.int64() as Long);
           break;
         case 2:
-          message.value = reader.int64();
+          message.value = (reader.int64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -421,20 +421,20 @@ export const EvalState_Result = {
   },
   fromJSON(object: any): EvalState_Result {
     return {
-      expr: isSet(object.expr) ? BigInt(object.expr.toString()) : BigInt(0),
-      value: isSet(object.value) ? BigInt(object.value.toString()) : BigInt(0)
+      expr: isSet(object.expr) ? Long.fromValue(object.expr) : Long.ZERO,
+      value: isSet(object.value) ? Long.fromValue(object.value) : Long.ZERO
     };
   },
   toJSON(message: EvalState_Result): unknown {
     const obj: any = {};
-    message.expr !== undefined && (obj.expr = (message.expr || BigInt(0)).toString());
-    message.value !== undefined && (obj.value = (message.value || BigInt(0)).toString());
+    message.expr !== undefined && (obj.expr = (message.expr || Long.ZERO).toString());
+    message.value !== undefined && (obj.value = (message.value || Long.ZERO).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<EvalState_Result>): EvalState_Result {
     const message = createBaseEvalState_Result();
-    message.expr = object.expr !== undefined && object.expr !== null ? BigInt(object.expr.toString()) : BigInt(0);
-    message.value = object.value !== undefined && object.value !== null ? BigInt(object.value.toString()) : BigInt(0);
+    message.expr = object.expr !== undefined && object.expr !== null ? Long.fromValue(object.expr) : Long.ZERO;
+    message.value = object.value !== undefined && object.value !== null ? Long.fromValue(object.value) : Long.ZERO;
     return message;
   },
   fromSDK(object: EvalState_ResultSDKType): EvalState_Result {
@@ -451,8 +451,8 @@ export const EvalState_Result = {
   },
   fromAmino(object: EvalState_ResultAmino): EvalState_Result {
     return {
-      expr: BigInt(object.expr),
-      value: BigInt(object.value)
+      expr: Long.fromString(object.expr),
+      value: Long.fromString(object.value)
     };
   },
   toAmino(message: EvalState_Result): EvalState_ResultAmino {
@@ -486,7 +486,7 @@ function createBaseExprValue(): ExprValue {
 }
 export const ExprValue = {
   typeUrl: "/google.api.expr.v1alpha1.ExprValue",
-  encode(message: ExprValue, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ExprValue, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.value !== undefined) {
       Value.encode(message.value, writer.uint32(10).fork()).ldelim();
     }
@@ -498,8 +498,8 @@ export const ExprValue = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ExprValue {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ExprValue {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExprValue();
     while (reader.pos < end) {
@@ -593,14 +593,14 @@ function createBaseErrorSet(): ErrorSet {
 }
 export const ErrorSet = {
   typeUrl: "/google.api.expr.v1alpha1.ErrorSet",
-  encode(message: ErrorSet, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ErrorSet, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.errors) {
       Status.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ErrorSet {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ErrorSet {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseErrorSet();
     while (reader.pos < end) {
@@ -686,7 +686,7 @@ function createBaseUnknownSet(): UnknownSet {
 }
 export const UnknownSet = {
   typeUrl: "/google.api.expr.v1alpha1.UnknownSet",
-  encode(message: UnknownSet, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: UnknownSet, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     writer.uint32(10).fork();
     for (const v of message.exprs) {
       writer.int64(v);
@@ -694,8 +694,8 @@ export const UnknownSet = {
     writer.ldelim();
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): UnknownSet {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): UnknownSet {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUnknownSet();
     while (reader.pos < end) {
@@ -705,10 +705,10 @@ export const UnknownSet = {
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
-              message.exprs.push(reader.int64());
+              message.exprs.push((reader.int64() as Long));
             }
           } else {
-            message.exprs.push(reader.int64());
+            message.exprs.push((reader.int64() as Long));
           }
           break;
         default:
@@ -720,13 +720,13 @@ export const UnknownSet = {
   },
   fromJSON(object: any): UnknownSet {
     return {
-      exprs: Array.isArray(object?.exprs) ? object.exprs.map((e: any) => BigInt(e.toString())) : []
+      exprs: Array.isArray(object?.exprs) ? object.exprs.map((e: any) => Long.fromValue(e)) : []
     };
   },
   toJSON(message: UnknownSet): unknown {
     const obj: any = {};
     if (message.exprs) {
-      obj.exprs = message.exprs.map(e => (e || BigInt(0)).toString());
+      obj.exprs = message.exprs.map(e => (e || Long.ZERO).toString());
     } else {
       obj.exprs = [];
     }
@@ -734,7 +734,7 @@ export const UnknownSet = {
   },
   fromPartial(object: DeepPartial<UnknownSet>): UnknownSet {
     const message = createBaseUnknownSet();
-    message.exprs = object.exprs?.map(e => BigInt(e.toString())) || [];
+    message.exprs = object.exprs?.map(e => Long.fromValue(e)) || [];
     return message;
   },
   fromSDK(object: UnknownSetSDKType): UnknownSet {

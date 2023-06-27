@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial, isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
@@ -321,14 +321,14 @@ function createBaseBackend(): Backend {
 }
 export const Backend = {
   typeUrl: "/google.api.Backend",
-  encode(message: Backend, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Backend, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.rules) {
       BackendRule.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Backend {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Backend {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBackend();
     while (reader.pos < end) {
@@ -422,7 +422,7 @@ function createBaseBackendRule(): BackendRule {
 }
 export const BackendRule = {
   typeUrl: "/google.api.BackendRule",
-  encode(message: BackendRule, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: BackendRule, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.selector !== "") {
       writer.uint32(10).string(message.selector);
     }
@@ -452,8 +452,8 @@ export const BackendRule = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): BackendRule {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): BackendRule {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBackendRule();
     while (reader.pos < end) {

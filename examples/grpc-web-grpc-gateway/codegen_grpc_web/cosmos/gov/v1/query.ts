@@ -1,12 +1,12 @@
 import { ProposalStatus, ProposalStatusSDKType, Proposal, ProposalAmino, ProposalSDKType, Vote, VoteAmino, VoteSDKType, VotingParams, VotingParamsAmino, VotingParamsSDKType, DepositParams, DepositParamsAmino, DepositParamsSDKType, TallyParams, TallyParamsAmino, TallyParamsSDKType, Deposit, DepositAmino, DepositSDKType, TallyResult, TallyResultAmino, TallyResultSDKType, proposalStatusFromJSON, proposalStatusToJSON } from "./gov";
 import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../base/query/v1beta1/pagination";
-import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet, DeepPartial } from "../../../helpers";
+import { Long, isSet, DeepPartial } from "../../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "cosmos.gov.v1";
 /** QueryProposalRequest is the request type for the Query/Proposal RPC method. */
 export interface QueryProposalRequest {
   /** proposal_id defines the unique id of the proposal. */
-  proposalId: bigint;
+  proposalId: Long;
 }
 export interface QueryProposalRequestProtoMsg {
   typeUrl: "/cosmos.gov.v1.QueryProposalRequest";
@@ -23,7 +23,7 @@ export interface QueryProposalRequestAminoMsg {
 }
 /** QueryProposalRequest is the request type for the Query/Proposal RPC method. */
 export interface QueryProposalRequestSDKType {
-  proposal_id: bigint;
+  proposal_id: Long;
 }
 /** QueryProposalResponse is the response type for the Query/Proposal RPC method. */
 export interface QueryProposalResponse {
@@ -119,7 +119,7 @@ export interface QueryProposalsResponseSDKType {
 /** QueryVoteRequest is the request type for the Query/Vote RPC method. */
 export interface QueryVoteRequest {
   /** proposal_id defines the unique id of the proposal. */
-  proposalId: bigint;
+  proposalId: Long;
   /** voter defines the oter address for the proposals. */
   voter: string;
 }
@@ -140,7 +140,7 @@ export interface QueryVoteRequestAminoMsg {
 }
 /** QueryVoteRequest is the request type for the Query/Vote RPC method. */
 export interface QueryVoteRequestSDKType {
-  proposal_id: bigint;
+  proposal_id: Long;
   voter: string;
 }
 /** QueryVoteResponse is the response type for the Query/Vote RPC method. */
@@ -168,7 +168,7 @@ export interface QueryVoteResponseSDKType {
 /** QueryVotesRequest is the request type for the Query/Votes RPC method. */
 export interface QueryVotesRequest {
   /** proposal_id defines the unique id of the proposal. */
-  proposalId: bigint;
+  proposalId: Long;
   /** pagination defines an optional pagination for the request. */
   pagination: PageRequest;
 }
@@ -189,7 +189,7 @@ export interface QueryVotesRequestAminoMsg {
 }
 /** QueryVotesRequest is the request type for the Query/Votes RPC method. */
 export interface QueryVotesRequestSDKType {
-  proposal_id: bigint;
+  proposal_id: Long;
   pagination: PageRequestSDKType;
 }
 /** QueryVotesResponse is the response type for the Query/Votes RPC method. */
@@ -282,7 +282,7 @@ export interface QueryParamsResponseSDKType {
 /** QueryDepositRequest is the request type for the Query/Deposit RPC method. */
 export interface QueryDepositRequest {
   /** proposal_id defines the unique id of the proposal. */
-  proposalId: bigint;
+  proposalId: Long;
   /** depositor defines the deposit addresses from the proposals. */
   depositor: string;
 }
@@ -303,7 +303,7 @@ export interface QueryDepositRequestAminoMsg {
 }
 /** QueryDepositRequest is the request type for the Query/Deposit RPC method. */
 export interface QueryDepositRequestSDKType {
-  proposal_id: bigint;
+  proposal_id: Long;
   depositor: string;
 }
 /** QueryDepositResponse is the response type for the Query/Deposit RPC method. */
@@ -331,7 +331,7 @@ export interface QueryDepositResponseSDKType {
 /** QueryDepositsRequest is the request type for the Query/Deposits RPC method. */
 export interface QueryDepositsRequest {
   /** proposal_id defines the unique id of the proposal. */
-  proposalId: bigint;
+  proposalId: Long;
   /** pagination defines an optional pagination for the request. */
   pagination: PageRequest;
 }
@@ -352,7 +352,7 @@ export interface QueryDepositsRequestAminoMsg {
 }
 /** QueryDepositsRequest is the request type for the Query/Deposits RPC method. */
 export interface QueryDepositsRequestSDKType {
-  proposal_id: bigint;
+  proposal_id: Long;
   pagination: PageRequestSDKType;
 }
 /** QueryDepositsResponse is the response type for the Query/Deposits RPC method. */
@@ -383,7 +383,7 @@ export interface QueryDepositsResponseSDKType {
 /** QueryTallyResultRequest is the request type for the Query/Tally RPC method. */
 export interface QueryTallyResultRequest {
   /** proposal_id defines the unique id of the proposal. */
-  proposalId: bigint;
+  proposalId: Long;
 }
 export interface QueryTallyResultRequestProtoMsg {
   typeUrl: "/cosmos.gov.v1.QueryTallyResultRequest";
@@ -400,7 +400,7 @@ export interface QueryTallyResultRequestAminoMsg {
 }
 /** QueryTallyResultRequest is the request type for the Query/Tally RPC method. */
 export interface QueryTallyResultRequestSDKType {
-  proposal_id: bigint;
+  proposal_id: Long;
 }
 /** QueryTallyResultResponse is the response type for the Query/Tally RPC method. */
 export interface QueryTallyResultResponse {
@@ -426,27 +426,27 @@ export interface QueryTallyResultResponseSDKType {
 }
 function createBaseQueryProposalRequest(): QueryProposalRequest {
   return {
-    proposalId: BigInt(0)
+    proposalId: Long.UZERO
   };
 }
 export const QueryProposalRequest = {
   typeUrl: "/cosmos.gov.v1.QueryProposalRequest",
   aminoType: "cosmos-sdk/v1/QueryProposalRequest",
-  encode(message: QueryProposalRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.proposalId !== BigInt(0)) {
+  encode(message: QueryProposalRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.proposalId.isZero()) {
       writer.uint32(8).uint64(message.proposalId);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryProposalRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProposalRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryProposalRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.proposalId = reader.uint64();
+          message.proposalId = (reader.uint64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -457,17 +457,17 @@ export const QueryProposalRequest = {
   },
   fromJSON(object: any): QueryProposalRequest {
     return {
-      proposalId: isSet(object.proposalId) ? BigInt(object.proposalId.toString()) : BigInt(0)
+      proposalId: isSet(object.proposalId) ? Long.fromValue(object.proposalId) : Long.UZERO
     };
   },
   toJSON(message: QueryProposalRequest): unknown {
     const obj: any = {};
-    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt(0)).toString());
+    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || Long.UZERO).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<QueryProposalRequest>): QueryProposalRequest {
     const message = createBaseQueryProposalRequest();
-    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt(0);
+    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? Long.fromValue(object.proposalId) : Long.UZERO;
     return message;
   },
   fromSDK(object: QueryProposalRequestSDKType): QueryProposalRequest {
@@ -482,7 +482,7 @@ export const QueryProposalRequest = {
   },
   fromAmino(object: QueryProposalRequestAmino): QueryProposalRequest {
     return {
-      proposalId: BigInt(object.proposal_id)
+      proposalId: Long.fromString(object.proposal_id)
     };
   },
   toAmino(message: QueryProposalRequest): QueryProposalRequestAmino {
@@ -520,14 +520,14 @@ function createBaseQueryProposalResponse(): QueryProposalResponse {
 export const QueryProposalResponse = {
   typeUrl: "/cosmos.gov.v1.QueryProposalResponse",
   aminoType: "cosmos-sdk/v1/QueryProposalResponse",
-  encode(message: QueryProposalResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: QueryProposalResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.proposal !== undefined) {
       Proposal.encode(message.proposal, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryProposalResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProposalResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryProposalResponse();
     while (reader.pos < end) {
@@ -611,7 +611,7 @@ function createBaseQueryProposalsRequest(): QueryProposalsRequest {
 export const QueryProposalsRequest = {
   typeUrl: "/cosmos.gov.v1.QueryProposalsRequest",
   aminoType: "cosmos-sdk/v1/QueryProposalsRequest",
-  encode(message: QueryProposalsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: QueryProposalsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.proposalStatus !== 0) {
       writer.uint32(8).int32(message.proposalStatus);
     }
@@ -626,8 +626,8 @@ export const QueryProposalsRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryProposalsRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProposalsRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryProposalsRequest();
     while (reader.pos < end) {
@@ -739,7 +739,7 @@ function createBaseQueryProposalsResponse(): QueryProposalsResponse {
 export const QueryProposalsResponse = {
   typeUrl: "/cosmos.gov.v1.QueryProposalsResponse",
   aminoType: "cosmos-sdk/v1/QueryProposalsResponse",
-  encode(message: QueryProposalsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: QueryProposalsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.proposals) {
       Proposal.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -748,8 +748,8 @@ export const QueryProposalsResponse = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryProposalsResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProposalsResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryProposalsResponse();
     while (reader.pos < end) {
@@ -846,15 +846,15 @@ export const QueryProposalsResponse = {
 };
 function createBaseQueryVoteRequest(): QueryVoteRequest {
   return {
-    proposalId: BigInt(0),
+    proposalId: Long.UZERO,
     voter: ""
   };
 }
 export const QueryVoteRequest = {
   typeUrl: "/cosmos.gov.v1.QueryVoteRequest",
   aminoType: "cosmos-sdk/v1/QueryVoteRequest",
-  encode(message: QueryVoteRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.proposalId !== BigInt(0)) {
+  encode(message: QueryVoteRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.proposalId.isZero()) {
       writer.uint32(8).uint64(message.proposalId);
     }
     if (message.voter !== "") {
@@ -862,15 +862,15 @@ export const QueryVoteRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryVoteRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryVoteRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryVoteRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.proposalId = reader.uint64();
+          message.proposalId = (reader.uint64() as Long);
           break;
         case 2:
           message.voter = reader.string();
@@ -884,19 +884,19 @@ export const QueryVoteRequest = {
   },
   fromJSON(object: any): QueryVoteRequest {
     return {
-      proposalId: isSet(object.proposalId) ? BigInt(object.proposalId.toString()) : BigInt(0),
+      proposalId: isSet(object.proposalId) ? Long.fromValue(object.proposalId) : Long.UZERO,
       voter: isSet(object.voter) ? String(object.voter) : ""
     };
   },
   toJSON(message: QueryVoteRequest): unknown {
     const obj: any = {};
-    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt(0)).toString());
+    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || Long.UZERO).toString());
     message.voter !== undefined && (obj.voter = message.voter);
     return obj;
   },
   fromPartial(object: DeepPartial<QueryVoteRequest>): QueryVoteRequest {
     const message = createBaseQueryVoteRequest();
-    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt(0);
+    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? Long.fromValue(object.proposalId) : Long.UZERO;
     message.voter = object.voter ?? "";
     return message;
   },
@@ -914,7 +914,7 @@ export const QueryVoteRequest = {
   },
   fromAmino(object: QueryVoteRequestAmino): QueryVoteRequest {
     return {
-      proposalId: BigInt(object.proposal_id),
+      proposalId: Long.fromString(object.proposal_id),
       voter: object.voter
     };
   },
@@ -954,14 +954,14 @@ function createBaseQueryVoteResponse(): QueryVoteResponse {
 export const QueryVoteResponse = {
   typeUrl: "/cosmos.gov.v1.QueryVoteResponse",
   aminoType: "cosmos-sdk/v1/QueryVoteResponse",
-  encode(message: QueryVoteResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: QueryVoteResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.vote !== undefined) {
       Vote.encode(message.vote, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryVoteResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryVoteResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryVoteResponse();
     while (reader.pos < end) {
@@ -1036,15 +1036,15 @@ export const QueryVoteResponse = {
 };
 function createBaseQueryVotesRequest(): QueryVotesRequest {
   return {
-    proposalId: BigInt(0),
+    proposalId: Long.UZERO,
     pagination: PageRequest.fromPartial({})
   };
 }
 export const QueryVotesRequest = {
   typeUrl: "/cosmos.gov.v1.QueryVotesRequest",
   aminoType: "cosmos-sdk/v1/QueryVotesRequest",
-  encode(message: QueryVotesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.proposalId !== BigInt(0)) {
+  encode(message: QueryVotesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.proposalId.isZero()) {
       writer.uint32(8).uint64(message.proposalId);
     }
     if (message.pagination !== undefined) {
@@ -1052,15 +1052,15 @@ export const QueryVotesRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryVotesRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryVotesRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryVotesRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.proposalId = reader.uint64();
+          message.proposalId = (reader.uint64() as Long);
           break;
         case 2:
           message.pagination = PageRequest.decode(reader, reader.uint32());
@@ -1074,19 +1074,19 @@ export const QueryVotesRequest = {
   },
   fromJSON(object: any): QueryVotesRequest {
     return {
-      proposalId: isSet(object.proposalId) ? BigInt(object.proposalId.toString()) : BigInt(0),
+      proposalId: isSet(object.proposalId) ? Long.fromValue(object.proposalId) : Long.UZERO,
       pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
     };
   },
   toJSON(message: QueryVotesRequest): unknown {
     const obj: any = {};
-    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt(0)).toString());
+    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || Long.UZERO).toString());
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
   fromPartial(object: DeepPartial<QueryVotesRequest>): QueryVotesRequest {
     const message = createBaseQueryVotesRequest();
-    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt(0);
+    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? Long.fromValue(object.proposalId) : Long.UZERO;
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
     return message;
   },
@@ -1104,7 +1104,7 @@ export const QueryVotesRequest = {
   },
   fromAmino(object: QueryVotesRequestAmino): QueryVotesRequest {
     return {
-      proposalId: BigInt(object.proposal_id),
+      proposalId: Long.fromString(object.proposal_id),
       pagination: object?.pagination ? PageRequest.fromAmino(object.pagination) : undefined
     };
   },
@@ -1145,7 +1145,7 @@ function createBaseQueryVotesResponse(): QueryVotesResponse {
 export const QueryVotesResponse = {
   typeUrl: "/cosmos.gov.v1.QueryVotesResponse",
   aminoType: "cosmos-sdk/v1/QueryVotesResponse",
-  encode(message: QueryVotesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: QueryVotesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.votes) {
       Vote.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1154,8 +1154,8 @@ export const QueryVotesResponse = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryVotesResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryVotesResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryVotesResponse();
     while (reader.pos < end) {
@@ -1258,14 +1258,14 @@ function createBaseQueryParamsRequest(): QueryParamsRequest {
 export const QueryParamsRequest = {
   typeUrl: "/cosmos.gov.v1.QueryParamsRequest",
   aminoType: "cosmos-sdk/v1/QueryParamsRequest",
-  encode(message: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: QueryParamsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.paramsType !== "") {
       writer.uint32(10).string(message.paramsType);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryParamsRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsRequest();
     while (reader.pos < end) {
@@ -1348,7 +1348,7 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
 export const QueryParamsResponse = {
   typeUrl: "/cosmos.gov.v1.QueryParamsResponse",
   aminoType: "cosmos-sdk/v1/QueryParamsResponse",
-  encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: QueryParamsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.votingParams !== undefined) {
       VotingParams.encode(message.votingParams, writer.uint32(10).fork()).ldelim();
     }
@@ -1360,8 +1360,8 @@ export const QueryParamsResponse = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryParamsResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();
     while (reader.pos < end) {
@@ -1456,15 +1456,15 @@ export const QueryParamsResponse = {
 };
 function createBaseQueryDepositRequest(): QueryDepositRequest {
   return {
-    proposalId: BigInt(0),
+    proposalId: Long.UZERO,
     depositor: ""
   };
 }
 export const QueryDepositRequest = {
   typeUrl: "/cosmos.gov.v1.QueryDepositRequest",
   aminoType: "cosmos-sdk/v1/QueryDepositRequest",
-  encode(message: QueryDepositRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.proposalId !== BigInt(0)) {
+  encode(message: QueryDepositRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.proposalId.isZero()) {
       writer.uint32(8).uint64(message.proposalId);
     }
     if (message.depositor !== "") {
@@ -1472,15 +1472,15 @@ export const QueryDepositRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryDepositRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDepositRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDepositRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.proposalId = reader.uint64();
+          message.proposalId = (reader.uint64() as Long);
           break;
         case 2:
           message.depositor = reader.string();
@@ -1494,19 +1494,19 @@ export const QueryDepositRequest = {
   },
   fromJSON(object: any): QueryDepositRequest {
     return {
-      proposalId: isSet(object.proposalId) ? BigInt(object.proposalId.toString()) : BigInt(0),
+      proposalId: isSet(object.proposalId) ? Long.fromValue(object.proposalId) : Long.UZERO,
       depositor: isSet(object.depositor) ? String(object.depositor) : ""
     };
   },
   toJSON(message: QueryDepositRequest): unknown {
     const obj: any = {};
-    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt(0)).toString());
+    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || Long.UZERO).toString());
     message.depositor !== undefined && (obj.depositor = message.depositor);
     return obj;
   },
   fromPartial(object: DeepPartial<QueryDepositRequest>): QueryDepositRequest {
     const message = createBaseQueryDepositRequest();
-    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt(0);
+    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? Long.fromValue(object.proposalId) : Long.UZERO;
     message.depositor = object.depositor ?? "";
     return message;
   },
@@ -1524,7 +1524,7 @@ export const QueryDepositRequest = {
   },
   fromAmino(object: QueryDepositRequestAmino): QueryDepositRequest {
     return {
-      proposalId: BigInt(object.proposal_id),
+      proposalId: Long.fromString(object.proposal_id),
       depositor: object.depositor
     };
   },
@@ -1564,14 +1564,14 @@ function createBaseQueryDepositResponse(): QueryDepositResponse {
 export const QueryDepositResponse = {
   typeUrl: "/cosmos.gov.v1.QueryDepositResponse",
   aminoType: "cosmos-sdk/v1/QueryDepositResponse",
-  encode(message: QueryDepositResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: QueryDepositResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.deposit !== undefined) {
       Deposit.encode(message.deposit, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryDepositResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDepositResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDepositResponse();
     while (reader.pos < end) {
@@ -1646,15 +1646,15 @@ export const QueryDepositResponse = {
 };
 function createBaseQueryDepositsRequest(): QueryDepositsRequest {
   return {
-    proposalId: BigInt(0),
+    proposalId: Long.UZERO,
     pagination: PageRequest.fromPartial({})
   };
 }
 export const QueryDepositsRequest = {
   typeUrl: "/cosmos.gov.v1.QueryDepositsRequest",
   aminoType: "cosmos-sdk/v1/QueryDepositsRequest",
-  encode(message: QueryDepositsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.proposalId !== BigInt(0)) {
+  encode(message: QueryDepositsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.proposalId.isZero()) {
       writer.uint32(8).uint64(message.proposalId);
     }
     if (message.pagination !== undefined) {
@@ -1662,15 +1662,15 @@ export const QueryDepositsRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryDepositsRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDepositsRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDepositsRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.proposalId = reader.uint64();
+          message.proposalId = (reader.uint64() as Long);
           break;
         case 2:
           message.pagination = PageRequest.decode(reader, reader.uint32());
@@ -1684,19 +1684,19 @@ export const QueryDepositsRequest = {
   },
   fromJSON(object: any): QueryDepositsRequest {
     return {
-      proposalId: isSet(object.proposalId) ? BigInt(object.proposalId.toString()) : BigInt(0),
+      proposalId: isSet(object.proposalId) ? Long.fromValue(object.proposalId) : Long.UZERO,
       pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
     };
   },
   toJSON(message: QueryDepositsRequest): unknown {
     const obj: any = {};
-    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt(0)).toString());
+    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || Long.UZERO).toString());
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
   fromPartial(object: DeepPartial<QueryDepositsRequest>): QueryDepositsRequest {
     const message = createBaseQueryDepositsRequest();
-    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt(0);
+    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? Long.fromValue(object.proposalId) : Long.UZERO;
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
     return message;
   },
@@ -1714,7 +1714,7 @@ export const QueryDepositsRequest = {
   },
   fromAmino(object: QueryDepositsRequestAmino): QueryDepositsRequest {
     return {
-      proposalId: BigInt(object.proposal_id),
+      proposalId: Long.fromString(object.proposal_id),
       pagination: object?.pagination ? PageRequest.fromAmino(object.pagination) : undefined
     };
   },
@@ -1755,7 +1755,7 @@ function createBaseQueryDepositsResponse(): QueryDepositsResponse {
 export const QueryDepositsResponse = {
   typeUrl: "/cosmos.gov.v1.QueryDepositsResponse",
   aminoType: "cosmos-sdk/v1/QueryDepositsResponse",
-  encode(message: QueryDepositsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: QueryDepositsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.deposits) {
       Deposit.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1764,8 +1764,8 @@ export const QueryDepositsResponse = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryDepositsResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDepositsResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDepositsResponse();
     while (reader.pos < end) {
@@ -1862,27 +1862,27 @@ export const QueryDepositsResponse = {
 };
 function createBaseQueryTallyResultRequest(): QueryTallyResultRequest {
   return {
-    proposalId: BigInt(0)
+    proposalId: Long.UZERO
   };
 }
 export const QueryTallyResultRequest = {
   typeUrl: "/cosmos.gov.v1.QueryTallyResultRequest",
   aminoType: "cosmos-sdk/v1/QueryTallyResultRequest",
-  encode(message: QueryTallyResultRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.proposalId !== BigInt(0)) {
+  encode(message: QueryTallyResultRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.proposalId.isZero()) {
       writer.uint32(8).uint64(message.proposalId);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryTallyResultRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTallyResultRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTallyResultRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.proposalId = reader.uint64();
+          message.proposalId = (reader.uint64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -1893,17 +1893,17 @@ export const QueryTallyResultRequest = {
   },
   fromJSON(object: any): QueryTallyResultRequest {
     return {
-      proposalId: isSet(object.proposalId) ? BigInt(object.proposalId.toString()) : BigInt(0)
+      proposalId: isSet(object.proposalId) ? Long.fromValue(object.proposalId) : Long.UZERO
     };
   },
   toJSON(message: QueryTallyResultRequest): unknown {
     const obj: any = {};
-    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt(0)).toString());
+    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || Long.UZERO).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<QueryTallyResultRequest>): QueryTallyResultRequest {
     const message = createBaseQueryTallyResultRequest();
-    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt(0);
+    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? Long.fromValue(object.proposalId) : Long.UZERO;
     return message;
   },
   fromSDK(object: QueryTallyResultRequestSDKType): QueryTallyResultRequest {
@@ -1918,7 +1918,7 @@ export const QueryTallyResultRequest = {
   },
   fromAmino(object: QueryTallyResultRequestAmino): QueryTallyResultRequest {
     return {
-      proposalId: BigInt(object.proposal_id)
+      proposalId: Long.fromString(object.proposal_id)
     };
   },
   toAmino(message: QueryTallyResultRequest): QueryTallyResultRequestAmino {
@@ -1956,14 +1956,14 @@ function createBaseQueryTallyResultResponse(): QueryTallyResultResponse {
 export const QueryTallyResultResponse = {
   typeUrl: "/cosmos.gov.v1.QueryTallyResultResponse",
   aminoType: "cosmos-sdk/v1/QueryTallyResultResponse",
-  encode(message: QueryTallyResultResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: QueryTallyResultResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.tally !== undefined) {
       TallyResult.encode(message.tally, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QueryTallyResultResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTallyResultResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTallyResultResponse();
     while (reader.pos < end) {

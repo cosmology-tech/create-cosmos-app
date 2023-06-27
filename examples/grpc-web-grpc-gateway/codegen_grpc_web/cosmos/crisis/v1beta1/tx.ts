@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../../helpers";
 export const protobufPackage = "cosmos.crisis.v1beta1";
 /** MsgVerifyInvariant represents a message to verify a particular invariance. */
@@ -51,7 +51,7 @@ function createBaseMsgVerifyInvariant(): MsgVerifyInvariant {
 export const MsgVerifyInvariant = {
   typeUrl: "/cosmos.crisis.v1beta1.MsgVerifyInvariant",
   aminoType: "cosmos-sdk/MsgVerifyInvariant",
-  encode(message: MsgVerifyInvariant, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: MsgVerifyInvariant, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.sender !== "") {
       writer.uint32(10).string(message.sender);
     }
@@ -63,8 +63,8 @@ export const MsgVerifyInvariant = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): MsgVerifyInvariant {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgVerifyInvariant {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgVerifyInvariant();
     while (reader.pos < end) {
@@ -163,11 +163,11 @@ function createBaseMsgVerifyInvariantResponse(): MsgVerifyInvariantResponse {
 export const MsgVerifyInvariantResponse = {
   typeUrl: "/cosmos.crisis.v1beta1.MsgVerifyInvariantResponse",
   aminoType: "cosmos-sdk/MsgVerifyInvariantResponse",
-  encode(_: MsgVerifyInvariantResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(_: MsgVerifyInvariantResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): MsgVerifyInvariantResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgVerifyInvariantResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgVerifyInvariantResponse();
     while (reader.pos < end) {

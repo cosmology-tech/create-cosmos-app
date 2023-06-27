@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.protobuf";
 /**
@@ -45,14 +45,14 @@ function createBaseSourceContext(): SourceContext {
 }
 export const SourceContext = {
   typeUrl: "/google.protobuf.SourceContext",
-  encode(message: SourceContext, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: SourceContext, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.fileName !== "") {
       writer.uint32(10).string(message.fileName);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): SourceContext {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): SourceContext {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSourceContext();
     while (reader.pos < end) {

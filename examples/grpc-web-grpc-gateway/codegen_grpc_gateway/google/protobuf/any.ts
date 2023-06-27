@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.protobuf";
 /**
@@ -332,7 +332,7 @@ function createBaseAny(): Any {
 }
 export const Any = {
   typeUrl: "/google.protobuf.Any",
-  encode(message: Any, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Any, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.typeUrl !== "") {
       writer.uint32(10).string(message.typeUrl);
     }
@@ -341,8 +341,8 @@ export const Any = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Any {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Any {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAny();
     while (reader.pos < end) {

@@ -1,11 +1,11 @@
 import { Deposit, DepositAmino, DepositSDKType, Vote, VoteAmino, VoteSDKType, Proposal, ProposalAmino, ProposalSDKType, DepositParams, DepositParamsAmino, DepositParamsSDKType, VotingParams, VotingParamsAmino, VotingParamsSDKType, TallyParams, TallyParamsAmino, TallyParamsSDKType } from "./gov";
-import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet, DeepPartial } from "../../../helpers";
+import { Long, isSet, DeepPartial } from "../../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "cosmos.gov.v1beta1";
 /** GenesisState defines the gov module's genesis state. */
 export interface GenesisState {
   /** starting_proposal_id is the ID of the starting proposal. */
-  startingProposalId: bigint;
+  startingProposalId: Long;
   /** deposits defines all the deposits present at genesis. */
   deposits: Deposit[];
   /** votes defines all the votes present at genesis. */
@@ -46,7 +46,7 @@ export interface GenesisStateAminoMsg {
 }
 /** GenesisState defines the gov module's genesis state. */
 export interface GenesisStateSDKType {
-  starting_proposal_id: bigint;
+  starting_proposal_id: Long;
   deposits: DepositSDKType[];
   votes: VoteSDKType[];
   proposals: ProposalSDKType[];
@@ -56,7 +56,7 @@ export interface GenesisStateSDKType {
 }
 function createBaseGenesisState(): GenesisState {
   return {
-    startingProposalId: BigInt(0),
+    startingProposalId: Long.UZERO,
     deposits: [],
     votes: [],
     proposals: [],
@@ -68,8 +68,8 @@ function createBaseGenesisState(): GenesisState {
 export const GenesisState = {
   typeUrl: "/cosmos.gov.v1beta1.GenesisState",
   aminoType: "cosmos-sdk/GenesisState",
-  encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.startingProposalId !== BigInt(0)) {
+  encode(message: GenesisState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.startingProposalId.isZero()) {
       writer.uint32(8).uint64(message.startingProposalId);
     }
     for (const v of message.deposits) {
@@ -92,15 +92,15 @@ export const GenesisState = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): GenesisState {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): GenesisState {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenesisState();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.startingProposalId = reader.uint64();
+          message.startingProposalId = (reader.uint64() as Long);
           break;
         case 2:
           message.deposits.push(Deposit.decode(reader, reader.uint32()));
@@ -129,7 +129,7 @@ export const GenesisState = {
   },
   fromJSON(object: any): GenesisState {
     return {
-      startingProposalId: isSet(object.startingProposalId) ? BigInt(object.startingProposalId.toString()) : BigInt(0),
+      startingProposalId: isSet(object.startingProposalId) ? Long.fromValue(object.startingProposalId) : Long.UZERO,
       deposits: Array.isArray(object?.deposits) ? object.deposits.map((e: any) => Deposit.fromJSON(e)) : [],
       votes: Array.isArray(object?.votes) ? object.votes.map((e: any) => Vote.fromJSON(e)) : [],
       proposals: Array.isArray(object?.proposals) ? object.proposals.map((e: any) => Proposal.fromJSON(e)) : [],
@@ -140,7 +140,7 @@ export const GenesisState = {
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
-    message.startingProposalId !== undefined && (obj.startingProposalId = (message.startingProposalId || BigInt(0)).toString());
+    message.startingProposalId !== undefined && (obj.startingProposalId = (message.startingProposalId || Long.UZERO).toString());
     if (message.deposits) {
       obj.deposits = message.deposits.map(e => e ? Deposit.toJSON(e) : undefined);
     } else {
@@ -163,7 +163,7 @@ export const GenesisState = {
   },
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.startingProposalId = object.startingProposalId !== undefined && object.startingProposalId !== null ? BigInt(object.startingProposalId.toString()) : BigInt(0);
+    message.startingProposalId = object.startingProposalId !== undefined && object.startingProposalId !== null ? Long.fromValue(object.startingProposalId) : Long.UZERO;
     message.deposits = object.deposits?.map(e => Deposit.fromPartial(e)) || [];
     message.votes = object.votes?.map(e => Vote.fromPartial(e)) || [];
     message.proposals = object.proposals?.map(e => Proposal.fromPartial(e)) || [];
@@ -208,7 +208,7 @@ export const GenesisState = {
   },
   fromAmino(object: GenesisStateAmino): GenesisState {
     return {
-      startingProposalId: BigInt(object.starting_proposal_id),
+      startingProposalId: Long.fromString(object.starting_proposal_id),
       deposits: Array.isArray(object?.deposits) ? object.deposits.map((e: any) => Deposit.fromAmino(e)) : [],
       votes: Array.isArray(object?.votes) ? object.votes.map((e: any) => Vote.fromAmino(e)) : [],
       proposals: Array.isArray(object?.proposals) ? object.proposals.map((e: any) => Proposal.fromAmino(e)) : [],

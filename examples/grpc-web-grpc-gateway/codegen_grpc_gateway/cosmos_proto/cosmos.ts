@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../helpers";
 export const protobufPackage = "cosmos_proto";
 export enum ScalarType {
@@ -183,7 +183,7 @@ function createBaseInterfaceDescriptor(): InterfaceDescriptor {
 }
 export const InterfaceDescriptor = {
   typeUrl: "/cosmos_proto.InterfaceDescriptor",
-  encode(message: InterfaceDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: InterfaceDescriptor, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -192,8 +192,8 @@ export const InterfaceDescriptor = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): InterfaceDescriptor {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): InterfaceDescriptor {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseInterfaceDescriptor();
     while (reader.pos < end) {
@@ -279,7 +279,7 @@ function createBaseScalarDescriptor(): ScalarDescriptor {
 }
 export const ScalarDescriptor = {
   typeUrl: "/cosmos_proto.ScalarDescriptor",
-  encode(message: ScalarDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ScalarDescriptor, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -293,8 +293,8 @@ export const ScalarDescriptor = {
     writer.ldelim();
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ScalarDescriptor {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ScalarDescriptor {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseScalarDescriptor();
     while (reader.pos < end) {
