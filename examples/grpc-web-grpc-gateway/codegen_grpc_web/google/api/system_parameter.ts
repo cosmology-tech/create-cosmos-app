@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial, isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
@@ -225,14 +225,14 @@ function createBaseSystemParameters(): SystemParameters {
 }
 export const SystemParameters = {
   typeUrl: "/google.api.SystemParameters",
-  encode(message: SystemParameters, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: SystemParameters, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.rules) {
       SystemParameterRule.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): SystemParameters {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): SystemParameters {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSystemParameters();
     while (reader.pos < end) {
@@ -319,7 +319,7 @@ function createBaseSystemParameterRule(): SystemParameterRule {
 }
 export const SystemParameterRule = {
   typeUrl: "/google.api.SystemParameterRule",
-  encode(message: SystemParameterRule, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: SystemParameterRule, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.selector !== "") {
       writer.uint32(10).string(message.selector);
     }
@@ -328,8 +328,8 @@ export const SystemParameterRule = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): SystemParameterRule {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): SystemParameterRule {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSystemParameterRule();
     while (reader.pos < end) {
@@ -427,7 +427,7 @@ function createBaseSystemParameter(): SystemParameter {
 }
 export const SystemParameter = {
   typeUrl: "/google.api.SystemParameter",
-  encode(message: SystemParameter, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: SystemParameter, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -439,8 +439,8 @@ export const SystemParameter = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): SystemParameter {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): SystemParameter {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSystemParameter();
     while (reader.pos < end) {

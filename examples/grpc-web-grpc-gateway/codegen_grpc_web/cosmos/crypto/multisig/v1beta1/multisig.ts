@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../../../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { bytesFromBase64, base64FromBytes, DeepPartial, isSet } from "../../../../helpers";
 export const protobufPackage = "cosmos.crypto.multisig.v1beta1";
 /**
@@ -79,14 +79,14 @@ function createBaseMultiSignature(): MultiSignature {
 export const MultiSignature = {
   typeUrl: "/cosmos.crypto.multisig.v1beta1.MultiSignature",
   aminoType: "cosmos-sdk/MultiSignature",
-  encode(message: MultiSignature, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: MultiSignature, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.signatures) {
       writer.uint32(10).bytes(v!);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): MultiSignature {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): MultiSignature {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMultiSignature();
     while (reader.pos < end) {
@@ -180,7 +180,7 @@ function createBaseCompactBitArray(): CompactBitArray {
 export const CompactBitArray = {
   typeUrl: "/cosmos.crypto.multisig.v1beta1.CompactBitArray",
   aminoType: "cosmos-sdk/CompactBitArray",
-  encode(message: CompactBitArray, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: CompactBitArray, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.extraBitsStored !== 0) {
       writer.uint32(8).uint32(message.extraBitsStored);
     }
@@ -189,8 +189,8 @@ export const CompactBitArray = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): CompactBitArray {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): CompactBitArray {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCompactBitArray();
     while (reader.pos < end) {

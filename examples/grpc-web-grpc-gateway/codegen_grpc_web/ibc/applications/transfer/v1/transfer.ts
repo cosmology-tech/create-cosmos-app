@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../../../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "ibc.applications.transfer.v1";
 /**
@@ -106,7 +106,7 @@ function createBaseDenomTrace(): DenomTrace {
 export const DenomTrace = {
   typeUrl: "/ibc.applications.transfer.v1.DenomTrace",
   aminoType: "cosmos-sdk/DenomTrace",
-  encode(message: DenomTrace, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: DenomTrace, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.path !== "") {
       writer.uint32(10).string(message.path);
     }
@@ -115,8 +115,8 @@ export const DenomTrace = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): DenomTrace {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): DenomTrace {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDenomTrace();
     while (reader.pos < end) {
@@ -208,7 +208,7 @@ function createBaseParams(): Params {
 export const Params = {
   typeUrl: "/ibc.applications.transfer.v1.Params",
   aminoType: "cosmos-sdk/Params",
-  encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.sendEnabled === true) {
       writer.uint32(8).bool(message.sendEnabled);
     }
@@ -217,8 +217,8 @@ export const Params = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Params {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Params {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParams();
     while (reader.pos < end) {

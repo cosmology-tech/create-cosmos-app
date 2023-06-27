@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial, isSet } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
@@ -187,14 +187,14 @@ function createBaseBilling(): Billing {
 }
 export const Billing = {
   typeUrl: "/google.api.Billing",
-  encode(message: Billing, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Billing, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.consumerDestinations) {
       Billing_BillingDestination.encode(v!, writer.uint32(66).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Billing {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Billing {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBilling();
     while (reader.pos < end) {
@@ -281,7 +281,7 @@ function createBaseBilling_BillingDestination(): Billing_BillingDestination {
 }
 export const Billing_BillingDestination = {
   typeUrl: "/google.api.BillingDestination",
-  encode(message: Billing_BillingDestination, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Billing_BillingDestination, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.monitoredResource !== "") {
       writer.uint32(10).string(message.monitoredResource);
     }
@@ -290,8 +290,8 @@ export const Billing_BillingDestination = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Billing_BillingDestination {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Billing_BillingDestination {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBilling_BillingDestination();
     while (reader.pos < end) {

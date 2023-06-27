@@ -1,6 +1,6 @@
 import { Value, ValueAmino, ValueSDKType } from "./value";
-import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { DeepPartial, isSet } from "../../../../helpers";
+import { Long, DeepPartial, isSet } from "../../../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "google.api.expr.v1alpha1";
 /**
  * Values of intermediate expressions produced when evaluating expression.
@@ -66,7 +66,7 @@ export interface ExplainSDKType {
 /** ID and value index of one step. */
 export interface Explain_ExprStep {
   /** ID of corresponding Expr node. */
-  id: bigint;
+  id: Long;
   /** Index of the value in the values list. */
   valueIndex: number;
 }
@@ -87,7 +87,7 @@ export interface Explain_ExprStepAminoMsg {
 }
 /** ID and value index of one step. */
 export interface Explain_ExprStepSDKType {
-  id: bigint;
+  id: Long;
   value_index: number;
 }
 function createBaseExplain(): Explain {
@@ -98,7 +98,7 @@ function createBaseExplain(): Explain {
 }
 export const Explain = {
   typeUrl: "/google.api.expr.v1alpha1.Explain",
-  encode(message: Explain, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Explain, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.values) {
       Value.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -107,8 +107,8 @@ export const Explain = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Explain {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Explain {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExplain();
     while (reader.pos < end) {
@@ -211,14 +211,14 @@ export const Explain = {
 };
 function createBaseExplain_ExprStep(): Explain_ExprStep {
   return {
-    id: BigInt(0),
+    id: Long.ZERO,
     valueIndex: 0
   };
 }
 export const Explain_ExprStep = {
   typeUrl: "/google.api.expr.v1alpha1.ExprStep",
-  encode(message: Explain_ExprStep, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.id !== BigInt(0)) {
+  encode(message: Explain_ExprStep, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.id.isZero()) {
       writer.uint32(8).int64(message.id);
     }
     if (message.valueIndex !== 0) {
@@ -226,15 +226,15 @@ export const Explain_ExprStep = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Explain_ExprStep {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Explain_ExprStep {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExplain_ExprStep();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.id = reader.int64();
+          message.id = (reader.int64() as Long);
           break;
         case 2:
           message.valueIndex = reader.int32();
@@ -248,19 +248,19 @@ export const Explain_ExprStep = {
   },
   fromJSON(object: any): Explain_ExprStep {
     return {
-      id: isSet(object.id) ? BigInt(object.id.toString()) : BigInt(0),
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.ZERO,
       valueIndex: isSet(object.valueIndex) ? Number(object.valueIndex) : 0
     };
   },
   toJSON(message: Explain_ExprStep): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = (message.id || BigInt(0)).toString());
+    message.id !== undefined && (obj.id = (message.id || Long.ZERO).toString());
     message.valueIndex !== undefined && (obj.valueIndex = Math.round(message.valueIndex));
     return obj;
   },
   fromPartial(object: DeepPartial<Explain_ExprStep>): Explain_ExprStep {
     const message = createBaseExplain_ExprStep();
-    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt(0);
+    message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.ZERO;
     message.valueIndex = object.valueIndex ?? 0;
     return message;
   },
@@ -278,7 +278,7 @@ export const Explain_ExprStep = {
   },
   fromAmino(object: Explain_ExprStepAmino): Explain_ExprStep {
     return {
-      id: BigInt(object.id),
+      id: Long.fromString(object.id),
       valueIndex: object.value_index
     };
   },

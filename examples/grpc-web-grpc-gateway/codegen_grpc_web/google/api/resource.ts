@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
@@ -542,7 +542,7 @@ function createBaseResourceDescriptor(): ResourceDescriptor {
 }
 export const ResourceDescriptor = {
   typeUrl: "/google.api.ResourceDescriptor",
-  encode(message: ResourceDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ResourceDescriptor, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.type !== "") {
       writer.uint32(10).string(message.type);
     }
@@ -568,8 +568,8 @@ export const ResourceDescriptor = {
     writer.ldelim();
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ResourceDescriptor {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResourceDescriptor {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResourceDescriptor();
     while (reader.pos < end) {
@@ -735,7 +735,7 @@ function createBaseResourceReference(): ResourceReference {
 }
 export const ResourceReference = {
   typeUrl: "/google.api.ResourceReference",
-  encode(message: ResourceReference, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ResourceReference, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.type !== "") {
       writer.uint32(10).string(message.type);
     }
@@ -744,8 +744,8 @@ export const ResourceReference = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ResourceReference {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResourceReference {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResourceReference();
     while (reader.pos < end) {

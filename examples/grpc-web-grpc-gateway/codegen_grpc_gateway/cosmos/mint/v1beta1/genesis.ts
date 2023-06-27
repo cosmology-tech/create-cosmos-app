@@ -1,5 +1,5 @@
 import { Minter, MinterAmino, MinterSDKType, Params, ParamsAmino, ParamsSDKType } from "./mint";
-import { BinaryReader, BinaryWriter } from "../../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../../helpers";
 export const protobufPackage = "cosmos.mint.v1beta1";
 /** GenesisState defines the mint module's genesis state. */
@@ -38,7 +38,7 @@ function createBaseGenesisState(): GenesisState {
 export const GenesisState = {
   typeUrl: "/cosmos.mint.v1beta1.GenesisState",
   aminoType: "cosmos-sdk/GenesisState",
-  encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: GenesisState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.minter !== undefined) {
       Minter.encode(message.minter, writer.uint32(10).fork()).ldelim();
     }
@@ -47,8 +47,8 @@ export const GenesisState = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): GenesisState {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): GenesisState {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenesisState();
     while (reader.pos < end) {
