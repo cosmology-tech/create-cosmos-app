@@ -11,7 +11,7 @@ export interface IdentifiedClientState {
   /** client identifier */
   clientId: string;
   /** client state */
-  clientState?: Any;
+  clientState: Any;
 }
 export interface IdentifiedClientStateProtoMsg {
   typeUrl: "/ibc.core.client.v1.IdentifiedClientState";
@@ -37,7 +37,7 @@ export interface IdentifiedClientStateAminoMsg {
  */
 export interface IdentifiedClientStateSDKType {
   client_id: string;
-  client_state?: AnySDKType;
+  client_state: AnySDKType;
 }
 /**
  * ConsensusStateWithHeight defines a consensus state with an additional height
@@ -45,9 +45,9 @@ export interface IdentifiedClientStateSDKType {
  */
 export interface ConsensusStateWithHeight {
   /** consensus state height */
-  height?: Height;
+  height: Height;
   /** consensus state */
-  consensusState?: Any;
+  consensusState: Any;
 }
 export interface ConsensusStateWithHeightProtoMsg {
   typeUrl: "/ibc.core.client.v1.ConsensusStateWithHeight";
@@ -72,8 +72,8 @@ export interface ConsensusStateWithHeightAminoMsg {
  * field.
  */
 export interface ConsensusStateWithHeightSDKType {
-  height?: HeightSDKType;
-  consensus_state?: AnySDKType;
+  height: HeightSDKType;
+  consensus_state: AnySDKType;
 }
 /**
  * ClientConsensusStates defines all the stored consensus states for a given
@@ -176,7 +176,7 @@ export interface ClientUpdateProposalSDKType {
 export interface UpgradeProposal {
   title: string;
   description: string;
-  plan?: Plan;
+  plan: Plan;
   /**
    * An UpgradedClientState must be provided to perform an IBC breaking upgrade.
    * This will make the chain commit to the correct upgraded (self) client state
@@ -185,7 +185,7 @@ export interface UpgradeProposal {
    * of the chain. This will allow IBC connections to persist smoothly across
    * planned chain upgrades
    */
-  upgradedClientState?: Any;
+  upgradedClientState: Any;
 }
 export interface UpgradeProposalProtoMsg {
   typeUrl: "/ibc.core.client.v1.UpgradeProposal";
@@ -220,8 +220,8 @@ export interface UpgradeProposalAminoMsg {
 export interface UpgradeProposalSDKType {
   title: string;
   description: string;
-  plan?: PlanSDKType;
-  upgraded_client_state?: AnySDKType;
+  plan: PlanSDKType;
+  upgraded_client_state: AnySDKType;
 }
 /**
  * Height is a monotonically increasing data type
@@ -409,7 +409,7 @@ export const IdentifiedClientState = {
 };
 function createBaseConsensusStateWithHeight(): ConsensusStateWithHeight {
   return {
-    height: undefined,
+    height: Height.fromPartial({}),
     consensusState: undefined
   };
 }
@@ -757,7 +757,7 @@ function createBaseUpgradeProposal(): UpgradeProposal {
   return {
     title: "",
     description: "",
-    plan: undefined,
+    plan: Plan.fromPartial({}),
     upgradedClientState: undefined
   };
 }
@@ -885,8 +885,8 @@ export const UpgradeProposal = {
 };
 function createBaseHeight(): Height {
   return {
-    revisionNumber: BigInt("0"),
-    revisionHeight: BigInt("0")
+    revisionNumber: BigInt(0),
+    revisionHeight: BigInt(0)
   };
 }
 export const Height = {
@@ -909,10 +909,10 @@ export const Height = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.revisionNumber = BigInt(reader.uint64().toString());
+          message.revisionNumber = reader.uint64();
           break;
         case 2:
-          message.revisionHeight = BigInt(reader.uint64().toString());
+          message.revisionHeight = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -923,20 +923,20 @@ export const Height = {
   },
   fromJSON(object: any): Height {
     return {
-      revisionNumber: isSet(object.revisionNumber) ? BigInt(object.revisionNumber.toString()) : BigInt("0"),
-      revisionHeight: isSet(object.revisionHeight) ? BigInt(object.revisionHeight.toString()) : BigInt("0")
+      revisionNumber: isSet(object.revisionNumber) ? BigInt(object.revisionNumber.toString()) : BigInt(0),
+      revisionHeight: isSet(object.revisionHeight) ? BigInt(object.revisionHeight.toString()) : BigInt(0)
     };
   },
   toJSON(message: Height): unknown {
     const obj: any = {};
-    message.revisionNumber !== undefined && (obj.revisionNumber = (message.revisionNumber || BigInt("0")).toString());
-    message.revisionHeight !== undefined && (obj.revisionHeight = (message.revisionHeight || BigInt("0")).toString());
+    message.revisionNumber !== undefined && (obj.revisionNumber = (message.revisionNumber || BigInt(0)).toString());
+    message.revisionHeight !== undefined && (obj.revisionHeight = (message.revisionHeight || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<Height>): Height {
     const message = createBaseHeight();
-    message.revisionNumber = object.revisionNumber !== undefined && object.revisionNumber !== null ? BigInt(object.revisionNumber.toString()) : BigInt("0");
-    message.revisionHeight = object.revisionHeight !== undefined && object.revisionHeight !== null ? BigInt(object.revisionHeight.toString()) : BigInt("0");
+    message.revisionNumber = object.revisionNumber !== undefined && object.revisionNumber !== null ? BigInt(object.revisionNumber.toString()) : BigInt(0);
+    message.revisionHeight = object.revisionHeight !== undefined && object.revisionHeight !== null ? BigInt(object.revisionHeight.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: HeightSDKType): Height {

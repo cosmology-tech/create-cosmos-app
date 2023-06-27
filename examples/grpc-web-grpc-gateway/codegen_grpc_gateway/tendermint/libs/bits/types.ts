@@ -23,7 +23,7 @@ export interface BitArraySDKType {
 }
 function createBaseBitArray(): BitArray {
   return {
-    bits: BigInt("0"),
+    bits: BigInt(0),
     elems: []
   };
 }
@@ -48,16 +48,16 @@ export const BitArray = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.bits = BigInt(reader.int64().toString());
+          message.bits = reader.int64();
           break;
         case 2:
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
-              message.elems.push(BigInt(reader.uint64().toString()));
+              message.elems.push(reader.uint64());
             }
           } else {
-            message.elems.push(BigInt(reader.uint64().toString()));
+            message.elems.push(reader.uint64());
           }
           break;
         default:
@@ -69,15 +69,15 @@ export const BitArray = {
   },
   fromJSON(object: any): BitArray {
     return {
-      bits: isSet(object.bits) ? BigInt(object.bits.toString()) : BigInt("0"),
+      bits: isSet(object.bits) ? BigInt(object.bits.toString()) : BigInt(0),
       elems: Array.isArray(object?.elems) ? object.elems.map((e: any) => BigInt(e.toString())) : []
     };
   },
   toJSON(message: BitArray): unknown {
     const obj: any = {};
-    message.bits !== undefined && (obj.bits = (message.bits || BigInt("0")).toString());
+    message.bits !== undefined && (obj.bits = (message.bits || BigInt(0)).toString());
     if (message.elems) {
-      obj.elems = message.elems.map(e => (e || BigInt("0")).toString());
+      obj.elems = message.elems.map(e => (e || BigInt(0)).toString());
     } else {
       obj.elems = [];
     }
@@ -85,7 +85,7 @@ export const BitArray = {
   },
   fromPartial(object: DeepPartial<BitArray>): BitArray {
     const message = createBaseBitArray();
-    message.bits = object.bits !== undefined && object.bits !== null ? BigInt(object.bits.toString()) : BigInt("0");
+    message.bits = object.bits !== undefined && object.bits !== null ? BigInt(object.bits.toString()) : BigInt(0);
     message.elems = object.elems?.map(e => BigInt(e.toString())) || [];
     return message;
   },

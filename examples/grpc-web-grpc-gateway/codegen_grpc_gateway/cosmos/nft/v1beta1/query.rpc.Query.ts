@@ -5,18 +5,18 @@ import { QueryBalanceRequest, QueryBalanceRequestSDKType, QueryBalanceResponse, 
 export class Query {
   /** Balance queries the number of NFTs of a given class owned by the owner, same as balanceOf in ERC721 */
   static balance(request: QueryBalanceRequest, initRequest?: fm.InitReq): Promise<QueryBalanceResponse> {
-    return fm.fetchReq(`/cosmos/nft/v1beta1/balance/${request["owner"]}/{class_id}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/cosmos/nft/v1beta1/balance/${request["owner"]}/${request["class_id"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["owner"])}`, {
+    }, ["owner", "class_id"])}`, {
       ...initRequest,
       method: "GET"
     });
   }
   /** Owner queries the owner of the NFT based on its class and id, same as ownerOf in ERC721 */
   static owner(request: QueryOwnerRequest, initRequest?: fm.InitReq): Promise<QueryOwnerResponse> {
-    return fm.fetchReq(`/cosmos/nft/v1beta1/owner/${request["class_id"]}/{id}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/cosmos/nft/v1beta1/owner/${request["class_id"]}/${request["id"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["class_id"])}`, {
+    }, ["class_id", "id"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -44,9 +44,9 @@ export class Query {
   }
   /** NFT queries an NFT based on its class and id. */
   static nFT(request: QueryNFTRequest, initRequest?: fm.InitReq): Promise<QueryNFTResponse> {
-    return fm.fetchReq(`/cosmos/nft/v1beta1/nfts/${request["class_id"]}/{id}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/cosmos/nft/v1beta1/nfts/${request["class_id"]}/${request["id"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["class_id"])}`, {
+    }, ["class_id", "id"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -70,7 +70,7 @@ export class Query {
     });
   }
 }
-export class Querier {
+export class QueryClientImpl {
   private readonly url: string;
   constructor(url: string) {
     this.url = url;

@@ -23,9 +23,9 @@ export class Query {
   }
   /** Vote queries voted information based on proposalID, voterAddr. */
   static vote(request: QueryVoteRequest, initRequest?: fm.InitReq): Promise<QueryVoteResponse> {
-    return fm.fetchReq(`/cosmos/gov/v1beta1/proposals/${request["proposal_id"]}/votes/{voter}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/cosmos/gov/v1beta1/proposals/${request["proposal_id"]}/votes/${request["voter"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["proposal_id"])}`, {
+    }, ["proposal_id", "voter"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -50,9 +50,9 @@ export class Query {
   }
   /** Deposit queries single deposit information based proposalID, depositAddr. */
   static deposit(request: QueryDepositRequest, initRequest?: fm.InitReq): Promise<QueryDepositResponse> {
-    return fm.fetchReq(`/cosmos/gov/v1beta1/proposals/${request["proposal_id"]}/deposits/{depositor}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/cosmos/gov/v1beta1/proposals/${request["proposal_id"]}/deposits/${request["depositor"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["proposal_id"])}`, {
+    }, ["proposal_id", "depositor"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -76,7 +76,7 @@ export class Query {
     });
   }
 }
-export class Querier {
+export class QueryClientImpl {
   private readonly url: string;
   constructor(url: string) {
     this.url = url;

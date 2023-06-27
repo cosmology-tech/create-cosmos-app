@@ -37,7 +37,7 @@ export interface LogEntry {
    * The time the event described by the log entry occurred. If
    * omitted, defaults to operation start time.
    */
-  timestamp?: Date;
+  timestamp: Date;
   /**
    * The severity of the log entry. The default value is
    * `LogSeverity.DEFAULT`.
@@ -47,7 +47,7 @@ export interface LogEntry {
    * Optional. Information about the HTTP request associated with this
    * log entry, if applicable.
    */
-  httpRequest?: HttpRequest;
+  httpRequest: HttpRequest;
   /**
    * Optional. Resource name of the trace associated with the log entry, if any.
    * If this field contains a relative resource name, you can assume the name is
@@ -84,12 +84,12 @@ export interface LogEntry {
    * Optional. Information about an operation associated with the log entry, if
    * applicable.
    */
-  operation?: LogEntryOperation;
+  operation: LogEntryOperation;
   /**
    * Optional. Source code location information associated with the log entry,
    * if any.
    */
-  sourceLocation?: LogEntrySourceLocation;
+  sourceLocation: LogEntrySourceLocation;
 }
 export interface LogEntryProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.LogEntry";
@@ -167,9 +167,9 @@ export interface LogEntryAminoMsg {
 /** An individual log entry. */
 export interface LogEntrySDKType {
   name: string;
-  timestamp?: Date;
+  timestamp: Date;
   severity: LogSeverity;
-  http_request?: HttpRequestSDKType;
+  http_request: HttpRequestSDKType;
   trace: string;
   insert_id: string;
   labels: {
@@ -178,8 +178,8 @@ export interface LogEntrySDKType {
   proto_payload?: AnySDKType;
   text_payload?: string;
   struct_payload?: StructSDKType;
-  operation?: LogEntryOperationSDKType;
-  source_location?: LogEntrySourceLocationSDKType;
+  operation: LogEntryOperationSDKType;
+  source_location: LogEntrySourceLocationSDKType;
 }
 /**
  * Additional information about a potentially long-running operation with which
@@ -401,15 +401,15 @@ function createBaseLogEntry(): LogEntry {
     name: "",
     timestamp: undefined,
     severity: 0,
-    httpRequest: undefined,
+    httpRequest: HttpRequest.fromPartial({}),
     trace: "",
     insertId: "",
     labels: {},
     protoPayload: undefined,
     textPayload: undefined,
     structPayload: undefined,
-    operation: undefined,
-    sourceLocation: undefined
+    operation: LogEntryOperation.fromPartial({}),
+    sourceLocation: LogEntrySourceLocation.fromPartial({})
   };
 }
 export const LogEntry = {
@@ -800,7 +800,7 @@ export const LogEntryOperation = {
 function createBaseLogEntrySourceLocation(): LogEntrySourceLocation {
   return {
     file: "",
-    line: BigInt("0"),
+    line: BigInt(0),
     function: ""
   };
 }
@@ -829,7 +829,7 @@ export const LogEntrySourceLocation = {
           message.file = reader.string();
           break;
         case 2:
-          message.line = BigInt(reader.int64().toString());
+          message.line = reader.int64();
           break;
         case 3:
           message.function = reader.string();
@@ -844,21 +844,21 @@ export const LogEntrySourceLocation = {
   fromJSON(object: any): LogEntrySourceLocation {
     return {
       file: isSet(object.file) ? String(object.file) : "",
-      line: isSet(object.line) ? BigInt(object.line.toString()) : BigInt("0"),
+      line: isSet(object.line) ? BigInt(object.line.toString()) : BigInt(0),
       function: isSet(object.function) ? String(object.function) : ""
     };
   },
   toJSON(message: LogEntrySourceLocation): unknown {
     const obj: any = {};
     message.file !== undefined && (obj.file = message.file);
-    message.line !== undefined && (obj.line = (message.line || BigInt("0")).toString());
+    message.line !== undefined && (obj.line = (message.line || BigInt(0)).toString());
     message.function !== undefined && (obj.function = message.function);
     return obj;
   },
   fromPartial(object: DeepPartial<LogEntrySourceLocation>): LogEntrySourceLocation {
     const message = createBaseLogEntrySourceLocation();
     message.file = object.file ?? "";
-    message.line = object.line !== undefined && object.line !== null ? BigInt(object.line.toString()) : BigInt("0");
+    message.line = object.line !== undefined && object.line !== null ? BigInt(object.line.toString()) : BigInt(0);
     message.function = object.function ?? "";
     return message;
   },

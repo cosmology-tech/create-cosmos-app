@@ -6,9 +6,9 @@ export const protobufPackage = "google.api.expr.v1beta1";
 /** An expression together with source information as returned by the parser. */
 export interface ParsedExpr {
   /** The parsed expression. */
-  expr?: Expr;
+  expr: Expr;
   /** The source info derived from input that generated the parsed `expr`. */
-  sourceInfo?: SourceInfo;
+  sourceInfo: SourceInfo;
   /** The syntax version of the source, e.g. `cel1`. */
   syntaxVersion: string;
 }
@@ -31,8 +31,8 @@ export interface ParsedExprAminoMsg {
 }
 /** An expression together with source information as returned by the parser. */
 export interface ParsedExprSDKType {
-  expr?: ExprSDKType;
-  source_info?: SourceInfoSDKType;
+  expr: ExprSDKType;
+  source_info: SourceInfoSDKType;
   syntax_version: string;
 }
 /**
@@ -188,7 +188,7 @@ export interface Expr_Select {
    * For example, in the select expression `request.auth`, the `request`
    * portion of the expression is the `operand`.
    */
-  operand?: Expr;
+  operand: Expr;
   /**
    * Required. The name of the field to select.
    * 
@@ -236,7 +236,7 @@ export interface Expr_SelectAminoMsg {
 }
 /** A field selection expression. e.g. `request.auth`. */
 export interface Expr_SelectSDKType {
-  operand?: ExprSDKType;
+  operand: ExprSDKType;
   field: string;
   test_only: boolean;
 }
@@ -250,7 +250,7 @@ export interface Expr_Call {
    * The target of an method call-style expression. For example, `x` in
    * `x.f()`.
    */
-  target?: Expr;
+  target: Expr;
   /** Required. The name of the function or method being called. */
   function: string;
   /** The arguments. */
@@ -286,7 +286,7 @@ export interface Expr_CallAminoMsg {
  * For example, `value == 10`, `size(map_value)`.
  */
 export interface Expr_CallSDKType {
-  target?: ExprSDKType;
+  target: ExprSDKType;
   function: string;
   args: ExprSDKType[];
 }
@@ -391,7 +391,7 @@ export interface Expr_CreateStruct_Entry {
   /** The key expression for a map creation statement. */
   mapKey?: Expr;
   /** Required. The value assigned to the key. */
-  value?: Expr;
+  value: Expr;
 }
 export interface Expr_CreateStruct_EntryProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.Entry";
@@ -421,7 +421,7 @@ export interface Expr_CreateStruct_EntrySDKType {
   id: number;
   field_key?: string;
   map_key?: ExprSDKType;
-  value?: ExprSDKType;
+  value: ExprSDKType;
 }
 /**
  * A comprehension expression applied to a list or map.
@@ -455,30 +455,30 @@ export interface Expr_Comprehension {
   /** The name of the iteration variable. */
   iterVar: string;
   /** The range over which var iterates. */
-  iterRange?: Expr;
+  iterRange: Expr;
   /** The name of the variable used for accumulation of the result. */
   accuVar: string;
   /** The initial value of the accumulator. */
-  accuInit?: Expr;
+  accuInit: Expr;
   /**
    * An expression which can contain iter_var and accu_var.
    * 
    * Returns false when the result has been computed and may be used as
    * a hint to short-circuit the remainder of the comprehension.
    */
-  loopCondition?: Expr;
+  loopCondition: Expr;
   /**
    * An expression which can contain iter_var and accu_var.
    * 
    * Computes the next value of accu_var.
    */
-  loopStep?: Expr;
+  loopStep: Expr;
   /**
    * An expression which can contain accu_var.
    * 
    * Computes the result.
    */
-  result?: Expr;
+  result: Expr;
 }
 export interface Expr_ComprehensionProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.Comprehension";
@@ -575,12 +575,12 @@ export interface Expr_ComprehensionAminoMsg {
  */
 export interface Expr_ComprehensionSDKType {
   iter_var: string;
-  iter_range?: ExprSDKType;
+  iter_range: ExprSDKType;
   accu_var: string;
-  accu_init?: ExprSDKType;
-  loop_condition?: ExprSDKType;
-  loop_step?: ExprSDKType;
-  result?: ExprSDKType;
+  accu_init: ExprSDKType;
+  loop_condition: ExprSDKType;
+  loop_step: ExprSDKType;
+  result: ExprSDKType;
 }
 /**
  * Represents a primitive literal.
@@ -672,8 +672,8 @@ export interface LiteralSDKType {
 }
 function createBaseParsedExpr(): ParsedExpr {
   return {
-    expr: undefined,
-    sourceInfo: undefined,
+    expr: Expr.fromPartial({}),
+    sourceInfo: SourceInfo.fromPartial({}),
     syntaxVersion: ""
   };
 }
@@ -1041,7 +1041,7 @@ export const Expr_Ident = {
 };
 function createBaseExpr_Select(): Expr_Select {
   return {
-    operand: undefined,
+    operand: Expr.fromPartial({}),
     field: "",
     testOnly: false
   };
@@ -1150,7 +1150,7 @@ export const Expr_Select = {
 };
 function createBaseExpr_Call(): Expr_Call {
   return {
-    target: undefined,
+    target: Expr.fromPartial({}),
     function: "",
     args: []
   };
@@ -1474,7 +1474,7 @@ function createBaseExpr_CreateStruct_Entry(): Expr_CreateStruct_Entry {
     id: 0,
     fieldKey: undefined,
     mapKey: undefined,
-    value: undefined
+    value: Expr.fromPartial({})
   };
 }
 export const Expr_CreateStruct_Entry = {
@@ -1595,12 +1595,12 @@ export const Expr_CreateStruct_Entry = {
 function createBaseExpr_Comprehension(): Expr_Comprehension {
   return {
     iterVar: "",
-    iterRange: undefined,
+    iterRange: Expr.fromPartial({}),
     accuVar: "",
-    accuInit: undefined,
-    loopCondition: undefined,
-    loopStep: undefined,
-    result: undefined
+    accuInit: Expr.fromPartial({}),
+    loopCondition: Expr.fromPartial({}),
+    loopStep: Expr.fromPartial({}),
+    result: Expr.fromPartial({})
   };
 }
 export const Expr_Comprehension = {
@@ -1808,10 +1808,10 @@ export const Literal = {
           message.boolValue = reader.bool();
           break;
         case 3:
-          message.int64Value = BigInt(reader.int64().toString());
+          message.int64Value = reader.int64();
           break;
         case 4:
-          message.uint64Value = BigInt(reader.uint64().toString());
+          message.uint64Value = reader.uint64();
           break;
         case 5:
           message.doubleValue = reader.double();

@@ -47,12 +47,12 @@ export interface Distribution {
    * If specified, contains the range of the population values. The field
    * must not be present if the `count` is zero.
    */
-  range?: Distribution_Range;
+  range: Distribution_Range;
   /**
    * Defines the histogram bucket boundaries. If the distribution does not
    * contain a histogram, then omit this field.
    */
-  bucketOptions?: Distribution_BucketOptions;
+  bucketOptions: Distribution_BucketOptions;
   /**
    * The number of values in each bucket of the histogram, as described in
    * `bucket_options`. If the distribution does not have a histogram, then omit
@@ -173,8 +173,8 @@ export interface DistributionSDKType {
   count: bigint;
   mean: number;
   sum_of_squared_deviation: number;
-  range?: Distribution_RangeSDKType;
-  bucket_options?: Distribution_BucketOptionsSDKType;
+  range: Distribution_RangeSDKType;
+  bucket_options: Distribution_BucketOptionsSDKType;
   bucket_counts: bigint[];
   exemplars: Distribution_ExemplarSDKType[];
 }
@@ -481,7 +481,7 @@ export interface Distribution_Exemplar {
    */
   value: number;
   /** The observation (sampling) time of the above value. */
-  timestamp?: Date;
+  timestamp: Date;
   /**
    * Contextual information about the example value. Examples are:
    * 
@@ -544,16 +544,16 @@ export interface Distribution_ExemplarAminoMsg {
  */
 export interface Distribution_ExemplarSDKType {
   value: number;
-  timestamp?: Date;
+  timestamp: Date;
   attachments: AnySDKType[];
 }
 function createBaseDistribution(): Distribution {
   return {
-    count: BigInt("0"),
+    count: BigInt(0),
     mean: 0,
     sumOfSquaredDeviation: 0,
-    range: undefined,
-    bucketOptions: undefined,
+    range: Range.fromPartial({}),
+    bucketOptions: BucketOptions.fromPartial({}),
     bucketCounts: [],
     exemplars: []
   };
@@ -594,7 +594,7 @@ export const Distribution = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.count = BigInt(reader.int64().toString());
+          message.count = reader.int64();
           break;
         case 2:
           message.mean = reader.double();
@@ -612,10 +612,10 @@ export const Distribution = {
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
-              message.bucketCounts.push(BigInt(reader.int64().toString()));
+              message.bucketCounts.push(reader.int64());
             }
           } else {
-            message.bucketCounts.push(BigInt(reader.int64().toString()));
+            message.bucketCounts.push(reader.int64());
           }
           break;
         case 10:
@@ -630,7 +630,7 @@ export const Distribution = {
   },
   fromJSON(object: any): Distribution {
     return {
-      count: isSet(object.count) ? BigInt(object.count.toString()) : BigInt("0"),
+      count: isSet(object.count) ? BigInt(object.count.toString()) : BigInt(0),
       mean: isSet(object.mean) ? Number(object.mean) : 0,
       sumOfSquaredDeviation: isSet(object.sumOfSquaredDeviation) ? Number(object.sumOfSquaredDeviation) : 0,
       range: isSet(object.range) ? Distribution_Range.fromJSON(object.range) : undefined,
@@ -641,13 +641,13 @@ export const Distribution = {
   },
   toJSON(message: Distribution): unknown {
     const obj: any = {};
-    message.count !== undefined && (obj.count = (message.count || BigInt("0")).toString());
+    message.count !== undefined && (obj.count = (message.count || BigInt(0)).toString());
     message.mean !== undefined && (obj.mean = message.mean);
     message.sumOfSquaredDeviation !== undefined && (obj.sumOfSquaredDeviation = message.sumOfSquaredDeviation);
     message.range !== undefined && (obj.range = message.range ? Distribution_Range.toJSON(message.range) : undefined);
     message.bucketOptions !== undefined && (obj.bucketOptions = message.bucketOptions ? Distribution_BucketOptions.toJSON(message.bucketOptions) : undefined);
     if (message.bucketCounts) {
-      obj.bucketCounts = message.bucketCounts.map(e => (e || BigInt("0")).toString());
+      obj.bucketCounts = message.bucketCounts.map(e => (e || BigInt(0)).toString());
     } else {
       obj.bucketCounts = [];
     }
@@ -660,7 +660,7 @@ export const Distribution = {
   },
   fromPartial(object: DeepPartial<Distribution>): Distribution {
     const message = createBaseDistribution();
-    message.count = object.count !== undefined && object.count !== null ? BigInt(object.count.toString()) : BigInt("0");
+    message.count = object.count !== undefined && object.count !== null ? BigInt(object.count.toString()) : BigInt(0);
     message.mean = object.mean ?? 0;
     message.sumOfSquaredDeviation = object.sumOfSquaredDeviation ?? 0;
     message.range = object.range !== undefined && object.range !== null ? Distribution_Range.fromPartial(object.range) : undefined;

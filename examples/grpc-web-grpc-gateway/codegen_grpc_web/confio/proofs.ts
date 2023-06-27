@@ -172,7 +172,7 @@ export function lengthOpToJSON(object: LengthOp): string {
 export interface ExistenceProof {
   key: Uint8Array;
   value: Uint8Array;
-  leaf?: LeafOp;
+  leaf: LeafOp;
   path: InnerOp[];
 }
 export interface ExistenceProofProtoMsg {
@@ -234,7 +234,7 @@ export interface ExistenceProofAminoMsg {
 export interface ExistenceProofSDKType {
   key: Uint8Array;
   value: Uint8Array;
-  leaf?: LeafOpSDKType;
+  leaf: LeafOpSDKType;
   path: InnerOpSDKType[];
 }
 /**
@@ -245,8 +245,8 @@ export interface ExistenceProofSDKType {
 export interface NonExistenceProof {
   /** TODO: remove this as unnecessary??? we prove a range */
   key: Uint8Array;
-  left?: ExistenceProof;
-  right?: ExistenceProof;
+  left: ExistenceProof;
+  right: ExistenceProof;
 }
 export interface NonExistenceProofProtoMsg {
   typeUrl: "/ics23.NonExistenceProof";
@@ -274,8 +274,8 @@ export interface NonExistenceProofAminoMsg {
  */
 export interface NonExistenceProofSDKType {
   key: Uint8Array;
-  left?: ExistenceProofSDKType;
-  right?: ExistenceProofSDKType;
+  left: ExistenceProofSDKType;
+  right: ExistenceProofSDKType;
 }
 /** CommitmentProof is either an ExistenceProof or a NonExistenceProof, or a Batch of such messages */
 export interface CommitmentProof {
@@ -482,8 +482,8 @@ export interface ProofSpec {
    * any field in the ExistenceProof must be the same as in this spec.
    * except Prefix, which is just the first bytes of prefix (spec can be longer)
    */
-  leafSpec?: LeafOp;
-  innerSpec?: InnerSpec;
+  leafSpec: LeafOp;
+  innerSpec: InnerSpec;
   /** max_depth (if > 0) is the maximum number of InnerOps allowed (mainly for fixed-depth tries) */
   maxDepth: number;
   /** min_depth (if > 0) is the minimum number of InnerOps allowed (mainly for fixed-depth tries) */
@@ -534,8 +534,8 @@ export interface ProofSpecAminoMsg {
  * tree format server uses. But not in code, rather a configuration object.
  */
 export interface ProofSpecSDKType {
-  leaf_spec?: LeafOpSDKType;
-  inner_spec?: InnerSpecSDKType;
+  leaf_spec: LeafOpSDKType;
+  inner_spec: InnerSpecSDKType;
   max_depth: number;
   min_depth: number;
 }
@@ -704,7 +704,7 @@ export interface CompressedBatchEntrySDKType {
 export interface CompressedExistenceProof {
   key: Uint8Array;
   value: Uint8Array;
-  leaf?: LeafOp;
+  leaf: LeafOp;
   /** these are indexes into the lookup_inners table in CompressedBatchProof */
   path: number[];
 }
@@ -726,14 +726,14 @@ export interface CompressedExistenceProofAminoMsg {
 export interface CompressedExistenceProofSDKType {
   key: Uint8Array;
   value: Uint8Array;
-  leaf?: LeafOpSDKType;
+  leaf: LeafOpSDKType;
   path: number[];
 }
 export interface CompressedNonExistenceProof {
   /** TODO: remove this as unnecessary??? we prove a range */
   key: Uint8Array;
-  left?: CompressedExistenceProof;
-  right?: CompressedExistenceProof;
+  left: CompressedExistenceProof;
+  right: CompressedExistenceProof;
 }
 export interface CompressedNonExistenceProofProtoMsg {
   typeUrl: "/ics23.CompressedNonExistenceProof";
@@ -751,14 +751,14 @@ export interface CompressedNonExistenceProofAminoMsg {
 }
 export interface CompressedNonExistenceProofSDKType {
   key: Uint8Array;
-  left?: CompressedExistenceProofSDKType;
-  right?: CompressedExistenceProofSDKType;
+  left: CompressedExistenceProofSDKType;
+  right: CompressedExistenceProofSDKType;
 }
 function createBaseExistenceProof(): ExistenceProof {
   return {
     key: new Uint8Array(),
     value: new Uint8Array(),
-    leaf: undefined,
+    leaf: LeafOp.fromPartial({}),
     path: []
   };
 }
@@ -892,8 +892,8 @@ export const ExistenceProof = {
 function createBaseNonExistenceProof(): NonExistenceProof {
   return {
     key: new Uint8Array(),
-    left: undefined,
-    right: undefined
+    left: ExistenceProof.fromPartial({}),
+    right: ExistenceProof.fromPartial({})
   };
 }
 export const NonExistenceProof = {
@@ -1369,8 +1369,8 @@ export const InnerOp = {
 };
 function createBaseProofSpec(): ProofSpec {
   return {
-    leafSpec: undefined,
-    innerSpec: undefined,
+    leafSpec: LeafOp.fromPartial({}),
+    innerSpec: InnerSpec.fromPartial({}),
     maxDepth: 0,
     minDepth: 0
   };
@@ -2068,7 +2068,7 @@ function createBaseCompressedExistenceProof(): CompressedExistenceProof {
   return {
     key: new Uint8Array(),
     value: new Uint8Array(),
-    leaf: undefined,
+    leaf: LeafOp.fromPartial({}),
     path: []
   };
 }
@@ -2211,8 +2211,8 @@ export const CompressedExistenceProof = {
 function createBaseCompressedNonExistenceProof(): CompressedNonExistenceProof {
   return {
     key: new Uint8Array(),
-    left: undefined,
-    right: undefined
+    left: CompressedExistenceProof.fromPartial({}),
+    right: CompressedExistenceProof.fromPartial({})
   };
 }
 export const CompressedNonExistenceProof = {

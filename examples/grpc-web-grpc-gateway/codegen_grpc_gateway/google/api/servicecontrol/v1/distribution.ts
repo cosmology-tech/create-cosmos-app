@@ -310,7 +310,7 @@ export interface Distribution_ExplicitBucketsSDKType {
 }
 function createBaseDistribution(): Distribution {
   return {
-    count: BigInt("0"),
+    count: BigInt(0),
     mean: 0,
     minimum: 0,
     maximum: 0,
@@ -367,7 +367,7 @@ export const Distribution = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.count = BigInt(reader.int64().toString());
+          message.count = reader.int64();
           break;
         case 2:
           message.mean = reader.double();
@@ -385,10 +385,10 @@ export const Distribution = {
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
-              message.bucketCounts.push(BigInt(reader.int64().toString()));
+              message.bucketCounts.push(reader.int64());
             }
           } else {
-            message.bucketCounts.push(BigInt(reader.int64().toString()));
+            message.bucketCounts.push(reader.int64());
           }
           break;
         case 7:
@@ -412,7 +412,7 @@ export const Distribution = {
   },
   fromJSON(object: any): Distribution {
     return {
-      count: isSet(object.count) ? BigInt(object.count.toString()) : BigInt("0"),
+      count: isSet(object.count) ? BigInt(object.count.toString()) : BigInt(0),
       mean: isSet(object.mean) ? Number(object.mean) : 0,
       minimum: isSet(object.minimum) ? Number(object.minimum) : 0,
       maximum: isSet(object.maximum) ? Number(object.maximum) : 0,
@@ -426,13 +426,13 @@ export const Distribution = {
   },
   toJSON(message: Distribution): unknown {
     const obj: any = {};
-    message.count !== undefined && (obj.count = (message.count || BigInt("0")).toString());
+    message.count !== undefined && (obj.count = (message.count || BigInt(0)).toString());
     message.mean !== undefined && (obj.mean = message.mean);
     message.minimum !== undefined && (obj.minimum = message.minimum);
     message.maximum !== undefined && (obj.maximum = message.maximum);
     message.sumOfSquaredDeviation !== undefined && (obj.sumOfSquaredDeviation = message.sumOfSquaredDeviation);
     if (message.bucketCounts) {
-      obj.bucketCounts = message.bucketCounts.map(e => (e || BigInt("0")).toString());
+      obj.bucketCounts = message.bucketCounts.map(e => (e || BigInt(0)).toString());
     } else {
       obj.bucketCounts = [];
     }
@@ -448,7 +448,7 @@ export const Distribution = {
   },
   fromPartial(object: DeepPartial<Distribution>): Distribution {
     const message = createBaseDistribution();
-    message.count = object.count !== undefined && object.count !== null ? BigInt(object.count.toString()) : BigInt("0");
+    message.count = object.count !== undefined && object.count !== null ? BigInt(object.count.toString()) : BigInt(0);
     message.mean = object.mean ?? 0;
     message.minimum = object.minimum ?? 0;
     message.maximum = object.maximum ?? 0;

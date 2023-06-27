@@ -30,31 +30,31 @@ export interface AttributeContext {
    * the origin represents the sender of the first hop. For the first hop,
    * the `source` and the `origin` must have the same content.
    */
-  origin?: AttributeContext_Peer;
+  origin: AttributeContext_Peer;
   /**
    * The source of a network activity, such as starting a TCP connection.
    * In a multi hop network activity, the source represents the sender of the
    * last hop.
    */
-  source?: AttributeContext_Peer;
+  source: AttributeContext_Peer;
   /**
    * The destination of a network activity, such as accepting a TCP connection.
    * In a multi hop network activity, the destination represents the receiver of
    * the last hop.
    */
-  destination?: AttributeContext_Peer;
+  destination: AttributeContext_Peer;
   /** Represents a network request, such as an HTTP request. */
-  request?: AttributeContext_Request;
+  request: AttributeContext_Request;
   /** Represents a network response, such as an HTTP response. */
-  response?: AttributeContext_Response;
+  response: AttributeContext_Response;
   /**
    * Represents a target resource that is involved with a network activity.
    * If multiple resources are involved with an activity, this must be the
    * primary one.
    */
-  resource?: AttributeContext_Resource;
+  resource: AttributeContext_Resource;
   /** Represents an API operation that is involved to a network activity. */
-  api?: AttributeContext_Api;
+  api: AttributeContext_Api;
   /** Supports extensions for advanced use cases, such as logs and metrics. */
   extensions: Any[];
 }
@@ -139,13 +139,13 @@ export interface AttributeContextAminoMsg {
  * a system.
  */
 export interface AttributeContextSDKType {
-  origin?: AttributeContext_PeerSDKType;
-  source?: AttributeContext_PeerSDKType;
-  destination?: AttributeContext_PeerSDKType;
-  request?: AttributeContext_RequestSDKType;
-  response?: AttributeContext_ResponseSDKType;
-  resource?: AttributeContext_ResourceSDKType;
-  api?: AttributeContext_ApiSDKType;
+  origin: AttributeContext_PeerSDKType;
+  source: AttributeContext_PeerSDKType;
+  destination: AttributeContext_PeerSDKType;
+  request: AttributeContext_RequestSDKType;
+  response: AttributeContext_ResponseSDKType;
+  resource: AttributeContext_ResourceSDKType;
+  api: AttributeContext_ApiSDKType;
   extensions: AnySDKType[];
 }
 export interface AttributeContext_Peer_LabelsEntry {
@@ -379,7 +379,7 @@ export interface AttributeContext_Auth {
    * SAML assertions are similarly specified, but with an identity provider
    * dependent structure.
    */
-  claims?: Struct;
+  claims: Struct;
   /**
    * A list of access level resource names that allow resources to be
    * accessed by authenticated requester. It is part of Secure GCP processing
@@ -475,7 +475,7 @@ export interface AttributeContext_AuthSDKType {
   principal: string;
   audiences: string[];
   presenter: string;
-  claims?: StructSDKType;
+  claims: StructSDKType;
   access_levels: string[];
 }
 export interface AttributeContext_Request_HeadersEntry {
@@ -535,7 +535,7 @@ export interface AttributeContext_Request {
    * The timestamp when the `destination` service receives the last byte of
    * the request.
    */
-  time?: Date;
+  time: Date;
   /** The HTTP request size in bytes. If unknown, it must be -1. */
   size: bigint;
   /**
@@ -554,7 +554,7 @@ export interface AttributeContext_Request {
    * The request authentication. May be absent for unauthenticated requests.
    * Derived from the HTTP request `Authorization` header or equivalent.
    */
-  auth?: AttributeContext_Auth;
+  auth: AttributeContext_Auth;
 }
 export interface AttributeContext_RequestProtoMsg {
   typeUrl: "/google.rpc.context.Request";
@@ -637,11 +637,11 @@ export interface AttributeContext_RequestSDKType {
   host: string;
   scheme: string;
   query: string;
-  time?: Date;
+  time: Date;
   size: bigint;
   protocol: string;
   reason: string;
-  auth?: AttributeContext_AuthSDKType;
+  auth: AttributeContext_AuthSDKType;
 }
 export interface AttributeContext_Response_HeadersEntry {
   key: string;
@@ -684,14 +684,14 @@ export interface AttributeContext_Response {
    * The timestamp when the `destination` service sends the last byte of
    * the response.
    */
-  time?: Date;
+  time: Date;
   /**
    * The length of time it takes the backend service to fully respond to a
    * request. Measured from when the destination service starts to send the
    * request to the backend until when the destination service receives the
    * complete response from the backend.
    */
-  backendLatency?: Duration;
+  backendLatency: Duration;
 }
 export interface AttributeContext_ResponseProtoMsg {
   typeUrl: "/google.rpc.context.Response";
@@ -741,8 +741,8 @@ export interface AttributeContext_ResponseSDKType {
   headers: {
     [key: string]: string;
   };
-  time?: Date;
-  backend_latency?: DurationSDKType;
+  time: Date;
+  backend_latency: DurationSDKType;
 }
 export interface AttributeContext_Resource_LabelsEntry {
   key: string;
@@ -849,18 +849,18 @@ export interface AttributeContext_Resource {
    * Output only. The timestamp when the resource was created. This may
    * be either the time creation was initiated or when it was completed.
    */
-  createTime?: Date;
+  createTime: Date;
   /**
    * Output only. The timestamp when the resource was last updated. Any
    * change to the resource made by users must refresh this value.
    * Changes to a resource made by the service should refresh this value.
    */
-  updateTime?: Date;
+  updateTime: Date;
   /**
    * Output only. The timestamp when the resource was deleted.
    * If the resource is not deleted, this must be empty.
    */
-  deleteTime?: Date;
+  deleteTime: Date;
   /**
    * Output only. An opaque value that uniquely identifies a version or
    * generation of a resource. It can be used to confirm that the client
@@ -999,21 +999,21 @@ export interface AttributeContext_ResourceSDKType {
     [key: string]: string;
   };
   display_name: string;
-  create_time?: Date;
-  update_time?: Date;
-  delete_time?: Date;
+  create_time: Date;
+  update_time: Date;
+  delete_time: Date;
   etag: string;
   location: string;
 }
 function createBaseAttributeContext(): AttributeContext {
   return {
-    origin: undefined,
-    source: undefined,
-    destination: undefined,
-    request: undefined,
-    response: undefined,
-    resource: undefined,
-    api: undefined,
+    origin: Peer.fromPartial({}),
+    source: Peer.fromPartial({}),
+    destination: Peer.fromPartial({}),
+    request: Request.fromPartial({}),
+    response: Response.fromPartial({}),
+    resource: Resource.fromPartial({}),
+    api: Api.fromPartial({}),
     extensions: []
   };
 }
@@ -1287,7 +1287,7 @@ export const AttributeContext_Peer_LabelsEntry = {
 function createBaseAttributeContext_Peer(): AttributeContext_Peer {
   return {
     ip: "",
-    port: BigInt("0"),
+    port: BigInt(0),
     labels: {},
     principal: "",
     regionCode: ""
@@ -1327,7 +1327,7 @@ export const AttributeContext_Peer = {
           message.ip = reader.string();
           break;
         case 2:
-          message.port = BigInt(reader.int64().toString());
+          message.port = reader.int64();
           break;
         case 6:
           const entry6 = AttributeContext_Peer_LabelsEntry.decode(reader, reader.uint32());
@@ -1351,7 +1351,7 @@ export const AttributeContext_Peer = {
   fromJSON(object: any): AttributeContext_Peer {
     return {
       ip: isSet(object.ip) ? String(object.ip) : "",
-      port: isSet(object.port) ? BigInt(object.port.toString()) : BigInt("0"),
+      port: isSet(object.port) ? BigInt(object.port.toString()) : BigInt(0),
       labels: isObject(object.labels) ? Object.entries(object.labels).reduce<{
         [key: string]: string;
       }>((acc, [key, value]) => {
@@ -1365,7 +1365,7 @@ export const AttributeContext_Peer = {
   toJSON(message: AttributeContext_Peer): unknown {
     const obj: any = {};
     message.ip !== undefined && (obj.ip = message.ip);
-    message.port !== undefined && (obj.port = (message.port || BigInt("0")).toString());
+    message.port !== undefined && (obj.port = (message.port || BigInt(0)).toString());
     obj.labels = {};
     if (message.labels) {
       Object.entries(message.labels).forEach(([k, v]) => {
@@ -1379,7 +1379,7 @@ export const AttributeContext_Peer = {
   fromPartial(object: DeepPartial<AttributeContext_Peer>): AttributeContext_Peer {
     const message = createBaseAttributeContext_Peer();
     message.ip = object.ip ?? "";
-    message.port = object.port !== undefined && object.port !== null ? BigInt(object.port.toString()) : BigInt("0");
+    message.port = object.port !== undefined && object.port !== null ? BigInt(object.port.toString()) : BigInt(0);
     message.labels = Object.entries(object.labels ?? {}).reduce<{
       [key: string]: string;
     }>((acc, [key, value]) => {
@@ -1592,7 +1592,7 @@ function createBaseAttributeContext_Auth(): AttributeContext_Auth {
     principal: "",
     audiences: [],
     presenter: "",
-    claims: undefined,
+    claims: Struct.fromPartial({}),
     accessLevels: []
   };
 }
@@ -1846,10 +1846,10 @@ function createBaseAttributeContext_Request(): AttributeContext_Request {
     scheme: "",
     query: "",
     time: undefined,
-    size: BigInt("0"),
+    size: BigInt(0),
     protocol: "",
     reason: "",
-    auth: undefined
+    auth: Auth.fromPartial({})
   };
 }
 export const AttributeContext_Request = {
@@ -1931,7 +1931,7 @@ export const AttributeContext_Request = {
           message.time = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         case 10:
-          message.size = BigInt(reader.int64().toString());
+          message.size = reader.int64();
           break;
         case 11:
           message.protocol = reader.string();
@@ -1964,7 +1964,7 @@ export const AttributeContext_Request = {
       scheme: isSet(object.scheme) ? String(object.scheme) : "",
       query: isSet(object.query) ? String(object.query) : "",
       time: isSet(object.time) ? fromJsonTimestamp(object.time) : undefined,
-      size: isSet(object.size) ? BigInt(object.size.toString()) : BigInt("0"),
+      size: isSet(object.size) ? BigInt(object.size.toString()) : BigInt(0),
       protocol: isSet(object.protocol) ? String(object.protocol) : "",
       reason: isSet(object.reason) ? String(object.reason) : "",
       auth: isSet(object.auth) ? AttributeContext_Auth.fromJSON(object.auth) : undefined
@@ -1985,7 +1985,7 @@ export const AttributeContext_Request = {
     message.scheme !== undefined && (obj.scheme = message.scheme);
     message.query !== undefined && (obj.query = message.query);
     message.time !== undefined && (obj.time = message.time.toISOString());
-    message.size !== undefined && (obj.size = (message.size || BigInt("0")).toString());
+    message.size !== undefined && (obj.size = (message.size || BigInt(0)).toString());
     message.protocol !== undefined && (obj.protocol = message.protocol);
     message.reason !== undefined && (obj.reason = message.reason);
     message.auth !== undefined && (obj.auth = message.auth ? AttributeContext_Auth.toJSON(message.auth) : undefined);
@@ -2008,7 +2008,7 @@ export const AttributeContext_Request = {
     message.scheme = object.scheme ?? "";
     message.query = object.query ?? "";
     message.time = object.time ?? undefined;
-    message.size = object.size !== undefined && object.size !== null ? BigInt(object.size.toString()) : BigInt("0");
+    message.size = object.size !== undefined && object.size !== null ? BigInt(object.size.toString()) : BigInt(0);
     message.protocol = object.protocol ?? "";
     message.reason = object.reason ?? "";
     message.auth = object.auth !== undefined && object.auth !== null ? AttributeContext_Auth.fromPartial(object.auth) : undefined;
@@ -2204,8 +2204,8 @@ export const AttributeContext_Response_HeadersEntry = {
 };
 function createBaseAttributeContext_Response(): AttributeContext_Response {
   return {
-    code: BigInt("0"),
-    size: BigInt("0"),
+    code: BigInt(0),
+    size: BigInt(0),
     headers: {},
     time: undefined,
     backendLatency: undefined
@@ -2242,10 +2242,10 @@ export const AttributeContext_Response = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.code = BigInt(reader.int64().toString());
+          message.code = reader.int64();
           break;
         case 2:
-          message.size = BigInt(reader.int64().toString());
+          message.size = reader.int64();
           break;
         case 3:
           const entry3 = AttributeContext_Response_HeadersEntry.decode(reader, reader.uint32());
@@ -2268,8 +2268,8 @@ export const AttributeContext_Response = {
   },
   fromJSON(object: any): AttributeContext_Response {
     return {
-      code: isSet(object.code) ? BigInt(object.code.toString()) : BigInt("0"),
-      size: isSet(object.size) ? BigInt(object.size.toString()) : BigInt("0"),
+      code: isSet(object.code) ? BigInt(object.code.toString()) : BigInt(0),
+      size: isSet(object.size) ? BigInt(object.size.toString()) : BigInt(0),
       headers: isObject(object.headers) ? Object.entries(object.headers).reduce<{
         [key: string]: string;
       }>((acc, [key, value]) => {
@@ -2282,8 +2282,8 @@ export const AttributeContext_Response = {
   },
   toJSON(message: AttributeContext_Response): unknown {
     const obj: any = {};
-    message.code !== undefined && (obj.code = (message.code || BigInt("0")).toString());
-    message.size !== undefined && (obj.size = (message.size || BigInt("0")).toString());
+    message.code !== undefined && (obj.code = (message.code || BigInt(0)).toString());
+    message.size !== undefined && (obj.size = (message.size || BigInt(0)).toString());
     obj.headers = {};
     if (message.headers) {
       Object.entries(message.headers).forEach(([k, v]) => {
@@ -2296,8 +2296,8 @@ export const AttributeContext_Response = {
   },
   fromPartial(object: DeepPartial<AttributeContext_Response>): AttributeContext_Response {
     const message = createBaseAttributeContext_Response();
-    message.code = object.code !== undefined && object.code !== null ? BigInt(object.code.toString()) : BigInt("0");
-    message.size = object.size !== undefined && object.size !== null ? BigInt(object.size.toString()) : BigInt("0");
+    message.code = object.code !== undefined && object.code !== null ? BigInt(object.code.toString()) : BigInt(0);
+    message.size = object.size !== undefined && object.size !== null ? BigInt(object.size.toString()) : BigInt(0);
     message.headers = Object.entries(object.headers ?? {}).reduce<{
       [key: string]: string;
     }>((acc, [key, value]) => {

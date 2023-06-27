@@ -9,7 +9,7 @@ export const protobufPackage = "ibc.core.channel.v1";
  */
 export interface MsgChannelOpenInit {
   portId: string;
-  channel?: Channel;
+  channel: Channel;
   signer: string;
 }
 export interface MsgChannelOpenInitProtoMsg {
@@ -35,7 +35,7 @@ export interface MsgChannelOpenInitAminoMsg {
  */
 export interface MsgChannelOpenInitSDKType {
   port_id: string;
-  channel?: ChannelSDKType;
+  channel: ChannelSDKType;
   signer: string;
 }
 /** MsgChannelOpenInitResponse defines the Msg/ChannelOpenInit response type. */
@@ -63,10 +63,10 @@ export interface MsgChannelOpenTry {
    * the channel identifier of the previous channel in state INIT
    */
   previousChannelId: string;
-  channel?: Channel;
+  channel: Channel;
   counterpartyVersion: string;
   proofInit: Uint8Array;
-  proofHeight?: Height;
+  proofHeight: Height;
   signer: string;
 }
 export interface MsgChannelOpenTryProtoMsg {
@@ -101,10 +101,10 @@ export interface MsgChannelOpenTryAminoMsg {
 export interface MsgChannelOpenTrySDKType {
   port_id: string;
   previous_channel_id: string;
-  channel?: ChannelSDKType;
+  channel: ChannelSDKType;
   counterparty_version: string;
   proof_init: Uint8Array;
-  proof_height?: HeightSDKType;
+  proof_height: HeightSDKType;
   signer: string;
 }
 /** MsgChannelOpenTryResponse defines the Msg/ChannelOpenTry response type. */
@@ -131,7 +131,7 @@ export interface MsgChannelOpenAck {
   counterpartyChannelId: string;
   counterpartyVersion: string;
   proofTry: Uint8Array;
-  proofHeight?: Height;
+  proofHeight: Height;
   signer: string;
 }
 export interface MsgChannelOpenAckProtoMsg {
@@ -165,7 +165,7 @@ export interface MsgChannelOpenAckSDKType {
   counterparty_channel_id: string;
   counterparty_version: string;
   proof_try: Uint8Array;
-  proof_height?: HeightSDKType;
+  proof_height: HeightSDKType;
   signer: string;
 }
 /** MsgChannelOpenAckResponse defines the Msg/ChannelOpenAck response type. */
@@ -190,7 +190,7 @@ export interface MsgChannelOpenConfirm {
   portId: string;
   channelId: string;
   proofAck: Uint8Array;
-  proofHeight?: Height;
+  proofHeight: Height;
   signer: string;
 }
 export interface MsgChannelOpenConfirmProtoMsg {
@@ -220,7 +220,7 @@ export interface MsgChannelOpenConfirmSDKType {
   port_id: string;
   channel_id: string;
   proof_ack: Uint8Array;
-  proof_height?: HeightSDKType;
+  proof_height: HeightSDKType;
   signer: string;
 }
 /**
@@ -303,7 +303,7 @@ export interface MsgChannelCloseConfirm {
   portId: string;
   channelId: string;
   proofInit: Uint8Array;
-  proofHeight?: Height;
+  proofHeight: Height;
   signer: string;
 }
 export interface MsgChannelCloseConfirmProtoMsg {
@@ -333,7 +333,7 @@ export interface MsgChannelCloseConfirmSDKType {
   port_id: string;
   channel_id: string;
   proof_init: Uint8Array;
-  proof_height?: HeightSDKType;
+  proof_height: HeightSDKType;
   signer: string;
 }
 /**
@@ -361,9 +361,9 @@ export interface MsgChannelCloseConfirmResponseAminoMsg {
 export interface MsgChannelCloseConfirmResponseSDKType {}
 /** MsgRecvPacket receives incoming IBC packet */
 export interface MsgRecvPacket {
-  packet?: Packet;
+  packet: Packet;
   proofCommitment: Uint8Array;
-  proofHeight?: Height;
+  proofHeight: Height;
   signer: string;
 }
 export interface MsgRecvPacketProtoMsg {
@@ -383,9 +383,9 @@ export interface MsgRecvPacketAminoMsg {
 }
 /** MsgRecvPacket receives incoming IBC packet */
 export interface MsgRecvPacketSDKType {
-  packet?: PacketSDKType;
+  packet: PacketSDKType;
   proof_commitment: Uint8Array;
-  proof_height?: HeightSDKType;
+  proof_height: HeightSDKType;
   signer: string;
 }
 /** MsgRecvPacketResponse defines the Msg/RecvPacket response type. */
@@ -404,9 +404,9 @@ export interface MsgRecvPacketResponseAminoMsg {
 export interface MsgRecvPacketResponseSDKType {}
 /** MsgTimeout receives timed-out packet */
 export interface MsgTimeout {
-  packet?: Packet;
+  packet: Packet;
   proofUnreceived: Uint8Array;
-  proofHeight?: Height;
+  proofHeight: Height;
   nextSequenceRecv: bigint;
   signer: string;
 }
@@ -428,9 +428,9 @@ export interface MsgTimeoutAminoMsg {
 }
 /** MsgTimeout receives timed-out packet */
 export interface MsgTimeoutSDKType {
-  packet?: PacketSDKType;
+  packet: PacketSDKType;
   proof_unreceived: Uint8Array;
-  proof_height?: HeightSDKType;
+  proof_height: HeightSDKType;
   next_sequence_recv: bigint;
   signer: string;
 }
@@ -450,10 +450,10 @@ export interface MsgTimeoutResponseAminoMsg {
 export interface MsgTimeoutResponseSDKType {}
 /** MsgTimeoutOnClose timed-out packet upon counterparty channel closure. */
 export interface MsgTimeoutOnClose {
-  packet?: Packet;
+  packet: Packet;
   proofUnreceived: Uint8Array;
   proofClose: Uint8Array;
-  proofHeight?: Height;
+  proofHeight: Height;
   nextSequenceRecv: bigint;
   signer: string;
 }
@@ -476,10 +476,10 @@ export interface MsgTimeoutOnCloseAminoMsg {
 }
 /** MsgTimeoutOnClose timed-out packet upon counterparty channel closure. */
 export interface MsgTimeoutOnCloseSDKType {
-  packet?: PacketSDKType;
+  packet: PacketSDKType;
   proof_unreceived: Uint8Array;
   proof_close: Uint8Array;
-  proof_height?: HeightSDKType;
+  proof_height: HeightSDKType;
   next_sequence_recv: bigint;
   signer: string;
 }
@@ -499,10 +499,10 @@ export interface MsgTimeoutOnCloseResponseAminoMsg {
 export interface MsgTimeoutOnCloseResponseSDKType {}
 /** MsgAcknowledgement receives incoming IBC acknowledgement */
 export interface MsgAcknowledgement {
-  packet?: Packet;
+  packet: Packet;
   acknowledgement: Uint8Array;
   proofAcked: Uint8Array;
-  proofHeight?: Height;
+  proofHeight: Height;
   signer: string;
 }
 export interface MsgAcknowledgementProtoMsg {
@@ -523,10 +523,10 @@ export interface MsgAcknowledgementAminoMsg {
 }
 /** MsgAcknowledgement receives incoming IBC acknowledgement */
 export interface MsgAcknowledgementSDKType {
-  packet?: PacketSDKType;
+  packet: PacketSDKType;
   acknowledgement: Uint8Array;
   proof_acked: Uint8Array;
-  proof_height?: HeightSDKType;
+  proof_height: HeightSDKType;
   signer: string;
 }
 /** MsgAcknowledgementResponse defines the Msg/Acknowledgement response type. */
@@ -546,7 +546,7 @@ export interface MsgAcknowledgementResponseSDKType {}
 function createBaseMsgChannelOpenInit(): MsgChannelOpenInit {
   return {
     portId: "",
-    channel: undefined,
+    channel: Channel.fromPartial({}),
     signer: ""
   };
 }
@@ -733,10 +733,10 @@ function createBaseMsgChannelOpenTry(): MsgChannelOpenTry {
   return {
     portId: "",
     previousChannelId: "",
-    channel: undefined,
+    channel: Channel.fromPartial({}),
     counterpartyVersion: "",
     proofInit: new Uint8Array(),
-    proofHeight: undefined,
+    proofHeight: Height.fromPartial({}),
     signer: ""
   };
 }
@@ -978,7 +978,7 @@ function createBaseMsgChannelOpenAck(): MsgChannelOpenAck {
     counterpartyChannelId: "",
     counterpartyVersion: "",
     proofTry: new Uint8Array(),
-    proofHeight: undefined,
+    proofHeight: Height.fromPartial({}),
     signer: ""
   };
 }
@@ -1218,7 +1218,7 @@ function createBaseMsgChannelOpenConfirm(): MsgChannelOpenConfirm {
     portId: "",
     channelId: "",
     proofAck: new Uint8Array(),
-    proofHeight: undefined,
+    proofHeight: Height.fromPartial({}),
     signer: ""
   };
 }
@@ -1618,7 +1618,7 @@ function createBaseMsgChannelCloseConfirm(): MsgChannelCloseConfirm {
     portId: "",
     channelId: "",
     proofInit: new Uint8Array(),
-    proofHeight: undefined,
+    proofHeight: Height.fromPartial({}),
     signer: ""
   };
 }
@@ -1829,9 +1829,9 @@ export const MsgChannelCloseConfirmResponse = {
 };
 function createBaseMsgRecvPacket(): MsgRecvPacket {
   return {
-    packet: undefined,
+    packet: Packet.fromPartial({}),
     proofCommitment: new Uint8Array(),
-    proofHeight: undefined,
+    proofHeight: Height.fromPartial({}),
     signer: ""
   };
 }
@@ -2029,10 +2029,10 @@ export const MsgRecvPacketResponse = {
 };
 function createBaseMsgTimeout(): MsgTimeout {
   return {
-    packet: undefined,
+    packet: Packet.fromPartial({}),
     proofUnreceived: new Uint8Array(),
-    proofHeight: undefined,
-    nextSequenceRecv: BigInt("0"),
+    proofHeight: Height.fromPartial({}),
+    nextSequenceRecv: BigInt(0),
     signer: ""
   };
 }
@@ -2074,7 +2074,7 @@ export const MsgTimeout = {
           message.proofHeight = Height.decode(reader, reader.uint32());
           break;
         case 4:
-          message.nextSequenceRecv = BigInt(reader.uint64().toString());
+          message.nextSequenceRecv = reader.uint64();
           break;
         case 5:
           message.signer = reader.string();
@@ -2091,7 +2091,7 @@ export const MsgTimeout = {
       packet: isSet(object.packet) ? Packet.fromJSON(object.packet) : undefined,
       proofUnreceived: isSet(object.proofUnreceived) ? bytesFromBase64(object.proofUnreceived) : new Uint8Array(),
       proofHeight: isSet(object.proofHeight) ? Height.fromJSON(object.proofHeight) : undefined,
-      nextSequenceRecv: isSet(object.nextSequenceRecv) ? BigInt(object.nextSequenceRecv.toString()) : BigInt("0"),
+      nextSequenceRecv: isSet(object.nextSequenceRecv) ? BigInt(object.nextSequenceRecv.toString()) : BigInt(0),
       signer: isSet(object.signer) ? String(object.signer) : ""
     };
   },
@@ -2100,7 +2100,7 @@ export const MsgTimeout = {
     message.packet !== undefined && (obj.packet = message.packet ? Packet.toJSON(message.packet) : undefined);
     message.proofUnreceived !== undefined && (obj.proofUnreceived = base64FromBytes(message.proofUnreceived !== undefined ? message.proofUnreceived : new Uint8Array()));
     message.proofHeight !== undefined && (obj.proofHeight = message.proofHeight ? Height.toJSON(message.proofHeight) : undefined);
-    message.nextSequenceRecv !== undefined && (obj.nextSequenceRecv = (message.nextSequenceRecv || BigInt("0")).toString());
+    message.nextSequenceRecv !== undefined && (obj.nextSequenceRecv = (message.nextSequenceRecv || BigInt(0)).toString());
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
@@ -2109,7 +2109,7 @@ export const MsgTimeout = {
     message.packet = object.packet !== undefined && object.packet !== null ? Packet.fromPartial(object.packet) : undefined;
     message.proofUnreceived = object.proofUnreceived ?? new Uint8Array();
     message.proofHeight = object.proofHeight !== undefined && object.proofHeight !== null ? Height.fromPartial(object.proofHeight) : undefined;
-    message.nextSequenceRecv = object.nextSequenceRecv !== undefined && object.nextSequenceRecv !== null ? BigInt(object.nextSequenceRecv.toString()) : BigInt("0");
+    message.nextSequenceRecv = object.nextSequenceRecv !== undefined && object.nextSequenceRecv !== null ? BigInt(object.nextSequenceRecv.toString()) : BigInt(0);
     message.signer = object.signer ?? "";
     return message;
   },
@@ -2243,11 +2243,11 @@ export const MsgTimeoutResponse = {
 };
 function createBaseMsgTimeoutOnClose(): MsgTimeoutOnClose {
   return {
-    packet: undefined,
+    packet: Packet.fromPartial({}),
     proofUnreceived: new Uint8Array(),
     proofClose: new Uint8Array(),
-    proofHeight: undefined,
-    nextSequenceRecv: BigInt("0"),
+    proofHeight: Height.fromPartial({}),
+    nextSequenceRecv: BigInt(0),
     signer: ""
   };
 }
@@ -2295,7 +2295,7 @@ export const MsgTimeoutOnClose = {
           message.proofHeight = Height.decode(reader, reader.uint32());
           break;
         case 5:
-          message.nextSequenceRecv = BigInt(reader.uint64().toString());
+          message.nextSequenceRecv = reader.uint64();
           break;
         case 6:
           message.signer = reader.string();
@@ -2313,7 +2313,7 @@ export const MsgTimeoutOnClose = {
       proofUnreceived: isSet(object.proofUnreceived) ? bytesFromBase64(object.proofUnreceived) : new Uint8Array(),
       proofClose: isSet(object.proofClose) ? bytesFromBase64(object.proofClose) : new Uint8Array(),
       proofHeight: isSet(object.proofHeight) ? Height.fromJSON(object.proofHeight) : undefined,
-      nextSequenceRecv: isSet(object.nextSequenceRecv) ? BigInt(object.nextSequenceRecv.toString()) : BigInt("0"),
+      nextSequenceRecv: isSet(object.nextSequenceRecv) ? BigInt(object.nextSequenceRecv.toString()) : BigInt(0),
       signer: isSet(object.signer) ? String(object.signer) : ""
     };
   },
@@ -2323,7 +2323,7 @@ export const MsgTimeoutOnClose = {
     message.proofUnreceived !== undefined && (obj.proofUnreceived = base64FromBytes(message.proofUnreceived !== undefined ? message.proofUnreceived : new Uint8Array()));
     message.proofClose !== undefined && (obj.proofClose = base64FromBytes(message.proofClose !== undefined ? message.proofClose : new Uint8Array()));
     message.proofHeight !== undefined && (obj.proofHeight = message.proofHeight ? Height.toJSON(message.proofHeight) : undefined);
-    message.nextSequenceRecv !== undefined && (obj.nextSequenceRecv = (message.nextSequenceRecv || BigInt("0")).toString());
+    message.nextSequenceRecv !== undefined && (obj.nextSequenceRecv = (message.nextSequenceRecv || BigInt(0)).toString());
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
@@ -2333,7 +2333,7 @@ export const MsgTimeoutOnClose = {
     message.proofUnreceived = object.proofUnreceived ?? new Uint8Array();
     message.proofClose = object.proofClose ?? new Uint8Array();
     message.proofHeight = object.proofHeight !== undefined && object.proofHeight !== null ? Height.fromPartial(object.proofHeight) : undefined;
-    message.nextSequenceRecv = object.nextSequenceRecv !== undefined && object.nextSequenceRecv !== null ? BigInt(object.nextSequenceRecv.toString()) : BigInt("0");
+    message.nextSequenceRecv = object.nextSequenceRecv !== undefined && object.nextSequenceRecv !== null ? BigInt(object.nextSequenceRecv.toString()) : BigInt(0);
     message.signer = object.signer ?? "";
     return message;
   },
@@ -2471,10 +2471,10 @@ export const MsgTimeoutOnCloseResponse = {
 };
 function createBaseMsgAcknowledgement(): MsgAcknowledgement {
   return {
-    packet: undefined,
+    packet: Packet.fromPartial({}),
     acknowledgement: new Uint8Array(),
     proofAcked: new Uint8Array(),
-    proofHeight: undefined,
+    proofHeight: Height.fromPartial({}),
     signer: ""
   };
 }
