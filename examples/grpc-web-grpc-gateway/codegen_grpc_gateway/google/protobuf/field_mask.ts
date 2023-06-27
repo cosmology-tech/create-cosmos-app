@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "../../helpers";
 export const protobufPackage = "google.protobuf";
 /**
@@ -630,14 +630,14 @@ function createBaseFieldMask(): FieldMask {
 }
 export const FieldMask = {
   typeUrl: "/google.protobuf.FieldMask",
-  encode(message: FieldMask, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: FieldMask, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.paths) {
       writer.uint32(10).string(v!);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): FieldMask {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): FieldMask {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseFieldMask();
     while (reader.pos < end) {

@@ -18,7 +18,7 @@ import { Monitoring, MonitoringAmino, MonitoringSDKType } from "./monitoring";
 import { SystemParameters, SystemParametersAmino, SystemParametersSDKType } from "./system_parameter";
 import { SourceInfo, SourceInfoAmino, SourceInfoSDKType } from "./source_info";
 import { UInt32Value, UInt32ValueAmino, UInt32ValueSDKType } from "../protobuf/wrappers";
-import { BinaryReader, BinaryWriter } from "../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
 /**
@@ -356,7 +356,7 @@ function createBaseService(): Service {
 }
 export const Service = {
   typeUrl: "/google.api.Service",
-  encode(message: Service, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Service, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -434,8 +434,8 @@ export const Service = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Service {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Service {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseService();
     while (reader.pos < end) {

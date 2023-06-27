@@ -1,8 +1,8 @@
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../google/protobuf/timestamp";
 import { Duration, DurationAmino, DurationSDKType } from "../../../google/protobuf/duration";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
-import { BinaryReader, BinaryWriter } from "../../../binary";
-import { toTimestamp, fromTimestamp, isSet, fromJsonTimestamp, DeepPartial } from "../../../helpers";
+import { Long, toTimestamp, fromTimestamp, isSet, fromJsonTimestamp, DeepPartial } from "../../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "cosmos.group.v1";
 /** VoteOption enumerates the valid vote options for a given proposal. */
 export enum VoteOption {
@@ -399,7 +399,7 @@ export interface DecisionPolicyWindowsSDKType {
 /** GroupInfo represents the high-level on-chain information for a group. */
 export interface GroupInfo {
   /** id is the unique ID of the group. */
-  id: bigint;
+  id: Long;
   /** admin is the account address of the group's admin. */
   admin: string;
   /** metadata is any arbitrary metadata to attached to the group. */
@@ -410,7 +410,7 @@ export interface GroupInfo {
    * or any member is added or removed this version is incremented and will
    * cause proposals based on older versions of this group to fail
    */
-  version: bigint;
+  version: Long;
   /** total_weight is the sum of the group members' weights. */
   totalWeight: string;
   /** created_at is a timestamp specifying when a group was created. */
@@ -446,17 +446,17 @@ export interface GroupInfoAminoMsg {
 }
 /** GroupInfo represents the high-level on-chain information for a group. */
 export interface GroupInfoSDKType {
-  id: bigint;
+  id: Long;
   admin: string;
   metadata: string;
-  version: bigint;
+  version: Long;
   total_weight: string;
   created_at: Date;
 }
 /** GroupMember represents the relationship between a group and a member. */
 export interface GroupMember {
   /** group_id is the unique ID of the group. */
-  groupId: bigint;
+  groupId: Long;
   /** member is the member data. */
   member: Member;
 }
@@ -477,7 +477,7 @@ export interface GroupMemberAminoMsg {
 }
 /** GroupMember represents the relationship between a group and a member. */
 export interface GroupMemberSDKType {
-  group_id: bigint;
+  group_id: Long;
   member: MemberSDKType;
 }
 /** GroupPolicyInfo represents the high-level on-chain information for a group policy. */
@@ -485,7 +485,7 @@ export interface GroupPolicyInfo {
   /** address is the account address of group policy. */
   address: string;
   /** group_id is the unique ID of the group. */
-  groupId: bigint;
+  groupId: Long;
   /** admin is the account address of the group admin. */
   admin: string;
   /** metadata is any arbitrary metadata to attached to the group policy. */
@@ -494,7 +494,7 @@ export interface GroupPolicyInfo {
    * version is used to track changes to a group's GroupPolicyInfo structure that
    * would create a different result on a running proposal.
    */
-  version: bigint;
+  version: Long;
   /** decision_policy specifies the group policy's decision policy. */
   decisionPolicy: (ThresholdDecisionPolicy & PercentageDecisionPolicy & Any) | undefined;
   /** created_at is a timestamp specifying when a group policy was created. */
@@ -534,10 +534,10 @@ export interface GroupPolicyInfoAminoMsg {
 /** GroupPolicyInfo represents the high-level on-chain information for a group policy. */
 export interface GroupPolicyInfoSDKType {
   address: string;
-  group_id: bigint;
+  group_id: Long;
   admin: string;
   metadata: string;
-  version: bigint;
+  version: Long;
   decision_policy: ThresholdDecisionPolicySDKType | PercentageDecisionPolicySDKType | AnySDKType | undefined;
   created_at: Date;
 }
@@ -549,7 +549,7 @@ export interface GroupPolicyInfoSDKType {
  */
 export interface Proposal {
   /** id is the unique id of the proposal. */
-  id: bigint;
+  id: Long;
   /** address is the account address of group policy. */
   address: string;
   /** metadata is any arbitrary metadata to attached to the proposal. */
@@ -562,12 +562,12 @@ export interface Proposal {
    * group_version tracks the version of the group that this proposal corresponds to.
    * When group membership is changed, existing proposals from previous group versions will become invalid.
    */
-  groupVersion: bigint;
+  groupVersion: Long;
   /**
    * group_policy_version tracks the version of the group policy that this proposal corresponds to.
    * When a decision policy is changed, existing proposals from previous policy versions will become invalid.
    */
-  groupPolicyVersion: bigint;
+  groupPolicyVersion: Long;
   /** status represents the high level position in the life cycle of the proposal. Initial value is Submitted. */
   status: ProposalStatus;
   /**
@@ -664,13 +664,13 @@ export interface ProposalAminoMsg {
  * passes as well as some optional metadata associated with the proposal.
  */
 export interface ProposalSDKType {
-  id: bigint;
+  id: Long;
   address: string;
   metadata: string;
   proposers: string[];
   submit_time: Date;
-  group_version: bigint;
-  group_policy_version: bigint;
+  group_version: Long;
+  group_policy_version: Long;
   status: ProposalStatus;
   result: ProposalResult;
   final_tally_result: TallyResultSDKType;
@@ -718,7 +718,7 @@ export interface TallyResultSDKType {
 /** Vote represents a vote for a proposal. */
 export interface Vote {
   /** proposal is the unique ID of the proposal. */
-  proposalId: bigint;
+  proposalId: Long;
   /** voter is the account address of the voter. */
   voter: string;
   /** option is the voter's choice on the proposal. */
@@ -751,7 +751,7 @@ export interface VoteAminoMsg {
 }
 /** Vote represents a vote for a proposal. */
 export interface VoteSDKType {
-  proposal_id: bigint;
+  proposal_id: Long;
   voter: string;
   option: VoteOption;
   metadata: string;
@@ -768,7 +768,7 @@ function createBaseMember(): Member {
 export const Member = {
   typeUrl: "/cosmos.group.v1.Member",
   aminoType: "cosmos-sdk/Member",
-  encode(message: Member, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Member, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -783,8 +783,8 @@ export const Member = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Member {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Member {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMember();
     while (reader.pos < end) {
@@ -895,14 +895,14 @@ function createBaseMembers(): Members {
 export const Members = {
   typeUrl: "/cosmos.group.v1.Members",
   aminoType: "cosmos-sdk/Members",
-  encode(message: Members, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Members, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.members) {
       Member.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Members {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Members {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMembers();
     while (reader.pos < end) {
@@ -996,7 +996,7 @@ function createBaseThresholdDecisionPolicy(): ThresholdDecisionPolicy {
 export const ThresholdDecisionPolicy = {
   typeUrl: "/cosmos.group.v1.ThresholdDecisionPolicy",
   aminoType: "cosmos-sdk/ThresholdDecisionPolicy",
-  encode(message: ThresholdDecisionPolicy, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ThresholdDecisionPolicy, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.threshold !== "") {
       writer.uint32(10).string(message.threshold);
     }
@@ -1005,8 +1005,8 @@ export const ThresholdDecisionPolicy = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ThresholdDecisionPolicy {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ThresholdDecisionPolicy {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseThresholdDecisionPolicy();
     while (reader.pos < end) {
@@ -1098,7 +1098,7 @@ function createBasePercentageDecisionPolicy(): PercentageDecisionPolicy {
 export const PercentageDecisionPolicy = {
   typeUrl: "/cosmos.group.v1.PercentageDecisionPolicy",
   aminoType: "cosmos-sdk/PercentageDecisionPolicy",
-  encode(message: PercentageDecisionPolicy, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: PercentageDecisionPolicy, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.percentage !== "") {
       writer.uint32(10).string(message.percentage);
     }
@@ -1107,8 +1107,8 @@ export const PercentageDecisionPolicy = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): PercentageDecisionPolicy {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): PercentageDecisionPolicy {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePercentageDecisionPolicy();
     while (reader.pos < end) {
@@ -1200,7 +1200,7 @@ function createBaseDecisionPolicyWindows(): DecisionPolicyWindows {
 export const DecisionPolicyWindows = {
   typeUrl: "/cosmos.group.v1.DecisionPolicyWindows",
   aminoType: "cosmos-sdk/DecisionPolicyWindows",
-  encode(message: DecisionPolicyWindows, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: DecisionPolicyWindows, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.votingPeriod !== undefined) {
       Duration.encode(message.votingPeriod, writer.uint32(10).fork()).ldelim();
     }
@@ -1209,8 +1209,8 @@ export const DecisionPolicyWindows = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): DecisionPolicyWindows {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): DecisionPolicyWindows {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDecisionPolicyWindows();
     while (reader.pos < end) {
@@ -1295,10 +1295,10 @@ export const DecisionPolicyWindows = {
 };
 function createBaseGroupInfo(): GroupInfo {
   return {
-    id: BigInt(0),
+    id: Long.UZERO,
     admin: "",
     metadata: "",
-    version: BigInt(0),
+    version: Long.UZERO,
     totalWeight: "",
     createdAt: undefined
   };
@@ -1306,8 +1306,8 @@ function createBaseGroupInfo(): GroupInfo {
 export const GroupInfo = {
   typeUrl: "/cosmos.group.v1.GroupInfo",
   aminoType: "cosmos-sdk/GroupInfo",
-  encode(message: GroupInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.id !== BigInt(0)) {
+  encode(message: GroupInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.id.isZero()) {
       writer.uint32(8).uint64(message.id);
     }
     if (message.admin !== "") {
@@ -1316,7 +1316,7 @@ export const GroupInfo = {
     if (message.metadata !== "") {
       writer.uint32(26).string(message.metadata);
     }
-    if (message.version !== BigInt(0)) {
+    if (!message.version.isZero()) {
       writer.uint32(32).uint64(message.version);
     }
     if (message.totalWeight !== "") {
@@ -1327,15 +1327,15 @@ export const GroupInfo = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): GroupInfo {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): GroupInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGroupInfo();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.id = reader.uint64();
+          message.id = (reader.uint64() as Long);
           break;
         case 2:
           message.admin = reader.string();
@@ -1344,7 +1344,7 @@ export const GroupInfo = {
           message.metadata = reader.string();
           break;
         case 4:
-          message.version = reader.uint64();
+          message.version = (reader.uint64() as Long);
           break;
         case 5:
           message.totalWeight = reader.string();
@@ -1361,30 +1361,30 @@ export const GroupInfo = {
   },
   fromJSON(object: any): GroupInfo {
     return {
-      id: isSet(object.id) ? BigInt(object.id.toString()) : BigInt(0),
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
       admin: isSet(object.admin) ? String(object.admin) : "",
       metadata: isSet(object.metadata) ? String(object.metadata) : "",
-      version: isSet(object.version) ? BigInt(object.version.toString()) : BigInt(0),
+      version: isSet(object.version) ? Long.fromValue(object.version) : Long.UZERO,
       totalWeight: isSet(object.totalWeight) ? String(object.totalWeight) : "",
       createdAt: isSet(object.createdAt) ? fromJsonTimestamp(object.createdAt) : undefined
     };
   },
   toJSON(message: GroupInfo): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = (message.id || BigInt(0)).toString());
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
     message.admin !== undefined && (obj.admin = message.admin);
     message.metadata !== undefined && (obj.metadata = message.metadata);
-    message.version !== undefined && (obj.version = (message.version || BigInt(0)).toString());
+    message.version !== undefined && (obj.version = (message.version || Long.UZERO).toString());
     message.totalWeight !== undefined && (obj.totalWeight = message.totalWeight);
     message.createdAt !== undefined && (obj.createdAt = message.createdAt.toISOString());
     return obj;
   },
   fromPartial(object: DeepPartial<GroupInfo>): GroupInfo {
     const message = createBaseGroupInfo();
-    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt(0);
+    message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
     message.admin = object.admin ?? "";
     message.metadata = object.metadata ?? "";
-    message.version = object.version !== undefined && object.version !== null ? BigInt(object.version.toString()) : BigInt(0);
+    message.version = object.version !== undefined && object.version !== null ? Long.fromValue(object.version) : Long.UZERO;
     message.totalWeight = object.totalWeight ?? "";
     message.createdAt = object.createdAt ?? undefined;
     return message;
@@ -1411,10 +1411,10 @@ export const GroupInfo = {
   },
   fromAmino(object: GroupInfoAmino): GroupInfo {
     return {
-      id: BigInt(object.id),
+      id: Long.fromString(object.id),
       admin: object.admin,
       metadata: object.metadata,
-      version: BigInt(object.version),
+      version: Long.fromString(object.version),
       totalWeight: object.total_weight,
       createdAt: object?.created_at ? Timestamp.fromAmino(object.created_at) : undefined
     };
@@ -1453,15 +1453,15 @@ export const GroupInfo = {
 };
 function createBaseGroupMember(): GroupMember {
   return {
-    groupId: BigInt(0),
+    groupId: Long.UZERO,
     member: Member.fromPartial({})
   };
 }
 export const GroupMember = {
   typeUrl: "/cosmos.group.v1.GroupMember",
   aminoType: "cosmos-sdk/GroupMember",
-  encode(message: GroupMember, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.groupId !== BigInt(0)) {
+  encode(message: GroupMember, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.groupId.isZero()) {
       writer.uint32(8).uint64(message.groupId);
     }
     if (message.member !== undefined) {
@@ -1469,15 +1469,15 @@ export const GroupMember = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): GroupMember {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): GroupMember {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGroupMember();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.groupId = reader.uint64();
+          message.groupId = (reader.uint64() as Long);
           break;
         case 2:
           message.member = Member.decode(reader, reader.uint32());
@@ -1491,19 +1491,19 @@ export const GroupMember = {
   },
   fromJSON(object: any): GroupMember {
     return {
-      groupId: isSet(object.groupId) ? BigInt(object.groupId.toString()) : BigInt(0),
+      groupId: isSet(object.groupId) ? Long.fromValue(object.groupId) : Long.UZERO,
       member: isSet(object.member) ? Member.fromJSON(object.member) : undefined
     };
   },
   toJSON(message: GroupMember): unknown {
     const obj: any = {};
-    message.groupId !== undefined && (obj.groupId = (message.groupId || BigInt(0)).toString());
+    message.groupId !== undefined && (obj.groupId = (message.groupId || Long.UZERO).toString());
     message.member !== undefined && (obj.member = message.member ? Member.toJSON(message.member) : undefined);
     return obj;
   },
   fromPartial(object: DeepPartial<GroupMember>): GroupMember {
     const message = createBaseGroupMember();
-    message.groupId = object.groupId !== undefined && object.groupId !== null ? BigInt(object.groupId.toString()) : BigInt(0);
+    message.groupId = object.groupId !== undefined && object.groupId !== null ? Long.fromValue(object.groupId) : Long.UZERO;
     message.member = object.member !== undefined && object.member !== null ? Member.fromPartial(object.member) : undefined;
     return message;
   },
@@ -1521,7 +1521,7 @@ export const GroupMember = {
   },
   fromAmino(object: GroupMemberAmino): GroupMember {
     return {
-      groupId: BigInt(object.group_id),
+      groupId: Long.fromString(object.group_id),
       member: object?.member ? Member.fromAmino(object.member) : undefined
     };
   },
@@ -1556,10 +1556,10 @@ export const GroupMember = {
 function createBaseGroupPolicyInfo(): GroupPolicyInfo {
   return {
     address: "",
-    groupId: BigInt(0),
+    groupId: Long.UZERO,
     admin: "",
     metadata: "",
-    version: BigInt(0),
+    version: Long.UZERO,
     decisionPolicy: undefined,
     createdAt: undefined
   };
@@ -1567,11 +1567,11 @@ function createBaseGroupPolicyInfo(): GroupPolicyInfo {
 export const GroupPolicyInfo = {
   typeUrl: "/cosmos.group.v1.GroupPolicyInfo",
   aminoType: "cosmos-sdk/GroupPolicyInfo",
-  encode(message: GroupPolicyInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: GroupPolicyInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
-    if (message.groupId !== BigInt(0)) {
+    if (!message.groupId.isZero()) {
       writer.uint32(16).uint64(message.groupId);
     }
     if (message.admin !== "") {
@@ -1580,7 +1580,7 @@ export const GroupPolicyInfo = {
     if (message.metadata !== "") {
       writer.uint32(34).string(message.metadata);
     }
-    if (message.version !== BigInt(0)) {
+    if (!message.version.isZero()) {
       writer.uint32(40).uint64(message.version);
     }
     if (message.decisionPolicy !== undefined) {
@@ -1591,8 +1591,8 @@ export const GroupPolicyInfo = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): GroupPolicyInfo {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): GroupPolicyInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGroupPolicyInfo();
     while (reader.pos < end) {
@@ -1602,7 +1602,7 @@ export const GroupPolicyInfo = {
           message.address = reader.string();
           break;
         case 2:
-          message.groupId = reader.uint64();
+          message.groupId = (reader.uint64() as Long);
           break;
         case 3:
           message.admin = reader.string();
@@ -1611,7 +1611,7 @@ export const GroupPolicyInfo = {
           message.metadata = reader.string();
           break;
         case 5:
-          message.version = reader.uint64();
+          message.version = (reader.uint64() as Long);
           break;
         case 6:
           message.decisionPolicy = (DecisionPolicy_InterfaceDecoder(reader) as Any);
@@ -1629,10 +1629,10 @@ export const GroupPolicyInfo = {
   fromJSON(object: any): GroupPolicyInfo {
     return {
       address: isSet(object.address) ? String(object.address) : "",
-      groupId: isSet(object.groupId) ? BigInt(object.groupId.toString()) : BigInt(0),
+      groupId: isSet(object.groupId) ? Long.fromValue(object.groupId) : Long.UZERO,
       admin: isSet(object.admin) ? String(object.admin) : "",
       metadata: isSet(object.metadata) ? String(object.metadata) : "",
-      version: isSet(object.version) ? BigInt(object.version.toString()) : BigInt(0),
+      version: isSet(object.version) ? Long.fromValue(object.version) : Long.UZERO,
       decisionPolicy: isSet(object.decisionPolicy) ? Any.fromJSON(object.decisionPolicy) : undefined,
       createdAt: isSet(object.createdAt) ? fromJsonTimestamp(object.createdAt) : undefined
     };
@@ -1640,10 +1640,10 @@ export const GroupPolicyInfo = {
   toJSON(message: GroupPolicyInfo): unknown {
     const obj: any = {};
     message.address !== undefined && (obj.address = message.address);
-    message.groupId !== undefined && (obj.groupId = (message.groupId || BigInt(0)).toString());
+    message.groupId !== undefined && (obj.groupId = (message.groupId || Long.UZERO).toString());
     message.admin !== undefined && (obj.admin = message.admin);
     message.metadata !== undefined && (obj.metadata = message.metadata);
-    message.version !== undefined && (obj.version = (message.version || BigInt(0)).toString());
+    message.version !== undefined && (obj.version = (message.version || Long.UZERO).toString());
     message.decisionPolicy !== undefined && (obj.decisionPolicy = message.decisionPolicy ? Any.toJSON(message.decisionPolicy) : undefined);
     message.createdAt !== undefined && (obj.createdAt = message.createdAt.toISOString());
     return obj;
@@ -1651,10 +1651,10 @@ export const GroupPolicyInfo = {
   fromPartial(object: DeepPartial<GroupPolicyInfo>): GroupPolicyInfo {
     const message = createBaseGroupPolicyInfo();
     message.address = object.address ?? "";
-    message.groupId = object.groupId !== undefined && object.groupId !== null ? BigInt(object.groupId.toString()) : BigInt(0);
+    message.groupId = object.groupId !== undefined && object.groupId !== null ? Long.fromValue(object.groupId) : Long.UZERO;
     message.admin = object.admin ?? "";
     message.metadata = object.metadata ?? "";
-    message.version = object.version !== undefined && object.version !== null ? BigInt(object.version.toString()) : BigInt(0);
+    message.version = object.version !== undefined && object.version !== null ? Long.fromValue(object.version) : Long.UZERO;
     message.decisionPolicy = object.decisionPolicy !== undefined && object.decisionPolicy !== null ? Any.fromPartial(object.decisionPolicy) : undefined;
     message.createdAt = object.createdAt ?? undefined;
     return message;
@@ -1684,10 +1684,10 @@ export const GroupPolicyInfo = {
   fromAmino(object: GroupPolicyInfoAmino): GroupPolicyInfo {
     return {
       address: object.address,
-      groupId: BigInt(object.group_id),
+      groupId: Long.fromString(object.group_id),
       admin: object.admin,
       metadata: object.metadata,
-      version: BigInt(object.version),
+      version: Long.fromString(object.version),
       decisionPolicy: object?.decision_policy ? DecisionPolicy_FromAmino(object.decision_policy) : undefined,
       createdAt: object?.created_at ? Timestamp.fromAmino(object.created_at) : undefined
     };
@@ -1727,13 +1727,13 @@ export const GroupPolicyInfo = {
 };
 function createBaseProposal(): Proposal {
   return {
-    id: BigInt(0),
+    id: Long.UZERO,
     address: "",
     metadata: "",
     proposers: [],
     submitTime: undefined,
-    groupVersion: BigInt(0),
-    groupPolicyVersion: BigInt(0),
+    groupVersion: Long.UZERO,
+    groupPolicyVersion: Long.UZERO,
     status: 0,
     result: 0,
     finalTallyResult: TallyResult.fromPartial({}),
@@ -1745,8 +1745,8 @@ function createBaseProposal(): Proposal {
 export const Proposal = {
   typeUrl: "/cosmos.group.v1.Proposal",
   aminoType: "cosmos-sdk/Proposal",
-  encode(message: Proposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.id !== BigInt(0)) {
+  encode(message: Proposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.id.isZero()) {
       writer.uint32(8).uint64(message.id);
     }
     if (message.address !== "") {
@@ -1761,10 +1761,10 @@ export const Proposal = {
     if (message.submitTime !== undefined) {
       Timestamp.encode(toTimestamp(message.submitTime), writer.uint32(42).fork()).ldelim();
     }
-    if (message.groupVersion !== BigInt(0)) {
+    if (!message.groupVersion.isZero()) {
       writer.uint32(48).uint64(message.groupVersion);
     }
-    if (message.groupPolicyVersion !== BigInt(0)) {
+    if (!message.groupPolicyVersion.isZero()) {
       writer.uint32(56).uint64(message.groupPolicyVersion);
     }
     if (message.status !== 0) {
@@ -1787,15 +1787,15 @@ export const Proposal = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Proposal {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Proposal {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseProposal();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.id = reader.uint64();
+          message.id = (reader.uint64() as Long);
           break;
         case 2:
           message.address = reader.string();
@@ -1810,10 +1810,10 @@ export const Proposal = {
           message.submitTime = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         case 6:
-          message.groupVersion = reader.uint64();
+          message.groupVersion = (reader.uint64() as Long);
           break;
         case 7:
-          message.groupPolicyVersion = reader.uint64();
+          message.groupPolicyVersion = (reader.uint64() as Long);
           break;
         case 8:
           message.status = (reader.int32() as any);
@@ -1842,13 +1842,13 @@ export const Proposal = {
   },
   fromJSON(object: any): Proposal {
     return {
-      id: isSet(object.id) ? BigInt(object.id.toString()) : BigInt(0),
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
       address: isSet(object.address) ? String(object.address) : "",
       metadata: isSet(object.metadata) ? String(object.metadata) : "",
       proposers: Array.isArray(object?.proposers) ? object.proposers.map((e: any) => String(e)) : [],
       submitTime: isSet(object.submitTime) ? fromJsonTimestamp(object.submitTime) : undefined,
-      groupVersion: isSet(object.groupVersion) ? BigInt(object.groupVersion.toString()) : BigInt(0),
-      groupPolicyVersion: isSet(object.groupPolicyVersion) ? BigInt(object.groupPolicyVersion.toString()) : BigInt(0),
+      groupVersion: isSet(object.groupVersion) ? Long.fromValue(object.groupVersion) : Long.UZERO,
+      groupPolicyVersion: isSet(object.groupPolicyVersion) ? Long.fromValue(object.groupPolicyVersion) : Long.UZERO,
       status: isSet(object.status) ? proposalStatusFromJSON(object.status) : 0,
       result: isSet(object.result) ? proposalResultFromJSON(object.result) : 0,
       finalTallyResult: isSet(object.finalTallyResult) ? TallyResult.fromJSON(object.finalTallyResult) : undefined,
@@ -1859,7 +1859,7 @@ export const Proposal = {
   },
   toJSON(message: Proposal): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = (message.id || BigInt(0)).toString());
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
     message.address !== undefined && (obj.address = message.address);
     message.metadata !== undefined && (obj.metadata = message.metadata);
     if (message.proposers) {
@@ -1868,8 +1868,8 @@ export const Proposal = {
       obj.proposers = [];
     }
     message.submitTime !== undefined && (obj.submitTime = message.submitTime.toISOString());
-    message.groupVersion !== undefined && (obj.groupVersion = (message.groupVersion || BigInt(0)).toString());
-    message.groupPolicyVersion !== undefined && (obj.groupPolicyVersion = (message.groupPolicyVersion || BigInt(0)).toString());
+    message.groupVersion !== undefined && (obj.groupVersion = (message.groupVersion || Long.UZERO).toString());
+    message.groupPolicyVersion !== undefined && (obj.groupPolicyVersion = (message.groupPolicyVersion || Long.UZERO).toString());
     message.status !== undefined && (obj.status = proposalStatusToJSON(message.status));
     message.result !== undefined && (obj.result = proposalResultToJSON(message.result));
     message.finalTallyResult !== undefined && (obj.finalTallyResult = message.finalTallyResult ? TallyResult.toJSON(message.finalTallyResult) : undefined);
@@ -1884,13 +1884,13 @@ export const Proposal = {
   },
   fromPartial(object: DeepPartial<Proposal>): Proposal {
     const message = createBaseProposal();
-    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt(0);
+    message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
     message.address = object.address ?? "";
     message.metadata = object.metadata ?? "";
     message.proposers = object.proposers?.map(e => e) || [];
     message.submitTime = object.submitTime ?? undefined;
-    message.groupVersion = object.groupVersion !== undefined && object.groupVersion !== null ? BigInt(object.groupVersion.toString()) : BigInt(0);
-    message.groupPolicyVersion = object.groupPolicyVersion !== undefined && object.groupPolicyVersion !== null ? BigInt(object.groupPolicyVersion.toString()) : BigInt(0);
+    message.groupVersion = object.groupVersion !== undefined && object.groupVersion !== null ? Long.fromValue(object.groupVersion) : Long.UZERO;
+    message.groupPolicyVersion = object.groupPolicyVersion !== undefined && object.groupPolicyVersion !== null ? Long.fromValue(object.groupPolicyVersion) : Long.UZERO;
     message.status = object.status ?? 0;
     message.result = object.result ?? 0;
     message.finalTallyResult = object.finalTallyResult !== undefined && object.finalTallyResult !== null ? TallyResult.fromPartial(object.finalTallyResult) : undefined;
@@ -1943,13 +1943,13 @@ export const Proposal = {
   },
   fromAmino(object: ProposalAmino): Proposal {
     return {
-      id: BigInt(object.id),
+      id: Long.fromString(object.id),
       address: object.address,
       metadata: object.metadata,
       proposers: Array.isArray(object?.proposers) ? object.proposers.map((e: any) => e) : [],
       submitTime: object?.submit_time ? Timestamp.fromAmino(object.submit_time) : undefined,
-      groupVersion: BigInt(object.group_version),
-      groupPolicyVersion: BigInt(object.group_policy_version),
+      groupVersion: Long.fromString(object.group_version),
+      groupPolicyVersion: Long.fromString(object.group_policy_version),
       status: isSet(object.status) ? proposalStatusFromJSON(object.status) : 0,
       result: isSet(object.result) ? proposalResultFromJSON(object.result) : 0,
       finalTallyResult: object?.final_tally_result ? TallyResult.fromAmino(object.final_tally_result) : undefined,
@@ -2016,7 +2016,7 @@ function createBaseTallyResult(): TallyResult {
 export const TallyResult = {
   typeUrl: "/cosmos.group.v1.TallyResult",
   aminoType: "cosmos-sdk/TallyResult",
-  encode(message: TallyResult, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: TallyResult, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.yesCount !== "") {
       writer.uint32(10).string(message.yesCount);
     }
@@ -2031,8 +2031,8 @@ export const TallyResult = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): TallyResult {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): TallyResult {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTallyResult();
     while (reader.pos < end) {
@@ -2137,7 +2137,7 @@ export const TallyResult = {
 };
 function createBaseVote(): Vote {
   return {
-    proposalId: BigInt(0),
+    proposalId: Long.UZERO,
     voter: "",
     option: 0,
     metadata: "",
@@ -2147,8 +2147,8 @@ function createBaseVote(): Vote {
 export const Vote = {
   typeUrl: "/cosmos.group.v1.Vote",
   aminoType: "cosmos-sdk/Vote",
-  encode(message: Vote, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.proposalId !== BigInt(0)) {
+  encode(message: Vote, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.proposalId.isZero()) {
       writer.uint32(8).uint64(message.proposalId);
     }
     if (message.voter !== "") {
@@ -2165,15 +2165,15 @@ export const Vote = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Vote {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Vote {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVote();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.proposalId = reader.uint64();
+          message.proposalId = (reader.uint64() as Long);
           break;
         case 2:
           message.voter = reader.string();
@@ -2196,7 +2196,7 @@ export const Vote = {
   },
   fromJSON(object: any): Vote {
     return {
-      proposalId: isSet(object.proposalId) ? BigInt(object.proposalId.toString()) : BigInt(0),
+      proposalId: isSet(object.proposalId) ? Long.fromValue(object.proposalId) : Long.UZERO,
       voter: isSet(object.voter) ? String(object.voter) : "",
       option: isSet(object.option) ? voteOptionFromJSON(object.option) : 0,
       metadata: isSet(object.metadata) ? String(object.metadata) : "",
@@ -2205,7 +2205,7 @@ export const Vote = {
   },
   toJSON(message: Vote): unknown {
     const obj: any = {};
-    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt(0)).toString());
+    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || Long.UZERO).toString());
     message.voter !== undefined && (obj.voter = message.voter);
     message.option !== undefined && (obj.option = voteOptionToJSON(message.option));
     message.metadata !== undefined && (obj.metadata = message.metadata);
@@ -2214,7 +2214,7 @@ export const Vote = {
   },
   fromPartial(object: DeepPartial<Vote>): Vote {
     const message = createBaseVote();
-    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt(0);
+    message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? Long.fromValue(object.proposalId) : Long.UZERO;
     message.voter = object.voter ?? "";
     message.option = object.option ?? 0;
     message.metadata = object.metadata ?? "";
@@ -2241,7 +2241,7 @@ export const Vote = {
   },
   fromAmino(object: VoteAmino): Vote {
     return {
-      proposalId: BigInt(object.proposal_id),
+      proposalId: Long.fromString(object.proposal_id),
       voter: object.voter,
       option: isSet(object.option) ? voteOptionFromJSON(object.option) : 0,
       metadata: object.metadata,
@@ -2279,8 +2279,8 @@ export const Vote = {
     };
   }
 };
-export const DecisionPolicy_InterfaceDecoder = (input: BinaryReader | Uint8Array): ThresholdDecisionPolicy | PercentageDecisionPolicy | Any => {
-  const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+export const DecisionPolicy_InterfaceDecoder = (input: _m0.Reader | Uint8Array): ThresholdDecisionPolicy | PercentageDecisionPolicy | Any => {
+  const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
   const data = Any.decode(reader, reader.uint32());
   switch (data.typeUrl) {
     case "/cosmos.group.v1.ThresholdDecisionPolicy":
