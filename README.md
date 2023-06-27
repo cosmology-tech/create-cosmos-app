@@ -98,6 +98,16 @@ Explore examples!
 cca --example
 ```
 
+### Grpc-web/ grpc-gateway
+
+<p align="center" width="100%">
+    <img height="48" src="https://user-images.githubusercontent.com/545047/186589196-e75c9540-86a7-4a71-8096-207be9a4216f.svg" />
+</p>
+
+```
+cca --name grpc-web-grpc-gateway --example --template grpc-web-grpc-gateway
+```
+
 ### Send Tokens
 
 <p align="center" width="100%">
