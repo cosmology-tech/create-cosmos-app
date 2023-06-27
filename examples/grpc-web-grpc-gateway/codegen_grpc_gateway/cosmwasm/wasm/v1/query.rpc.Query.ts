@@ -41,18 +41,18 @@ export class Query {
   }
   /** RawContractState gets single key from the raw store data of a contract */
   static rawContractState(request: QueryRawContractStateRequest, initRequest?: fm.InitReq): Promise<QueryRawContractStateResponse> {
-    return fm.fetchReq(`/wasm/v1/contract/${request["address"]}/raw/{query_data}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/wasm/v1/contract/${request["address"]}/raw/${request["query_data"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["address"])}`, {
+    }, ["address", "query_data"])}`, {
       ...initRequest,
       method: "GET"
     });
   }
   /** SmartContractState get smart query result from the contract */
   static smartContractState(request: QuerySmartContractStateRequest, initRequest?: fm.InitReq): Promise<QuerySmartContractStateResponse> {
-    return fm.fetchReq(`/wasm/v1/contract/${request["address"]}/smart/{query_data}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/wasm/v1/contract/${request["address"]}/smart/${request["query_data"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["address"])}`, {
+    }, ["address", "query_data"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -85,7 +85,7 @@ export class Query {
     });
   }
 }
-export class Querier {
+export class QueryClientImpl {
   private readonly url: string;
   constructor(url: string) {
     this.url = url;

@@ -50,7 +50,7 @@ export interface Api {
    * Source context for the protocol buffer service represented by this
    * message.
    */
-  sourceContext?: SourceContext;
+  sourceContext: SourceContext;
   /** Included interfaces. See [Mixin][]. */
   mixins: Mixin[];
   /** The source syntax of the service. */
@@ -133,7 +133,7 @@ export interface ApiSDKType {
   methods: MethodSDKType[];
   options: OptionSDKType[];
   version: string;
-  source_context?: SourceContextSDKType;
+  source_context: SourceContextSDKType;
   mixins: MixinSDKType[];
   syntax: Syntax;
 }
@@ -465,7 +465,7 @@ function createBaseApi(): Api {
     methods: [],
     options: [],
     version: "",
-    sourceContext: undefined,
+    sourceContext: SourceContext.fromPartial({}),
     mixins: [],
     syntax: 0
   };

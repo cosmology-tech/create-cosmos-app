@@ -175,8 +175,8 @@ export interface PageResponseSDKType {
 function createBasePageRequest(): PageRequest {
   return {
     key: new Uint8Array(),
-    offset: BigInt("0"),
-    limit: BigInt("0"),
+    offset: BigInt(0),
+    limit: BigInt(0),
     countTotal: false,
     reverse: false
   };
@@ -213,10 +213,10 @@ export const PageRequest = {
           message.key = reader.bytes();
           break;
         case 2:
-          message.offset = BigInt(reader.uint64().toString());
+          message.offset = reader.uint64();
           break;
         case 3:
-          message.limit = BigInt(reader.uint64().toString());
+          message.limit = reader.uint64();
           break;
         case 4:
           message.countTotal = reader.bool();
@@ -234,8 +234,8 @@ export const PageRequest = {
   fromJSON(object: any): PageRequest {
     return {
       key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
-      offset: isSet(object.offset) ? BigInt(object.offset.toString()) : BigInt("0"),
-      limit: isSet(object.limit) ? BigInt(object.limit.toString()) : BigInt("0"),
+      offset: isSet(object.offset) ? BigInt(object.offset.toString()) : BigInt(0),
+      limit: isSet(object.limit) ? BigInt(object.limit.toString()) : BigInt(0),
       countTotal: isSet(object.countTotal) ? Boolean(object.countTotal) : false,
       reverse: isSet(object.reverse) ? Boolean(object.reverse) : false
     };
@@ -243,8 +243,8 @@ export const PageRequest = {
   toJSON(message: PageRequest): unknown {
     const obj: any = {};
     message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
-    message.offset !== undefined && (obj.offset = (message.offset || BigInt("0")).toString());
-    message.limit !== undefined && (obj.limit = (message.limit || BigInt("0")).toString());
+    message.offset !== undefined && (obj.offset = (message.offset || BigInt(0)).toString());
+    message.limit !== undefined && (obj.limit = (message.limit || BigInt(0)).toString());
     message.countTotal !== undefined && (obj.countTotal = message.countTotal);
     message.reverse !== undefined && (obj.reverse = message.reverse);
     return obj;
@@ -252,8 +252,8 @@ export const PageRequest = {
   fromPartial(object: DeepPartial<PageRequest>): PageRequest {
     const message = createBasePageRequest();
     message.key = object.key ?? new Uint8Array();
-    message.offset = object.offset !== undefined && object.offset !== null ? BigInt(object.offset.toString()) : BigInt("0");
-    message.limit = object.limit !== undefined && object.limit !== null ? BigInt(object.limit.toString()) : BigInt("0");
+    message.offset = object.offset !== undefined && object.offset !== null ? BigInt(object.offset.toString()) : BigInt(0);
+    message.limit = object.limit !== undefined && object.limit !== null ? BigInt(object.limit.toString()) : BigInt(0);
     message.countTotal = object.countTotal ?? false;
     message.reverse = object.reverse ?? false;
     return message;
@@ -319,7 +319,7 @@ export const PageRequest = {
 function createBasePageResponse(): PageResponse {
   return {
     nextKey: new Uint8Array(),
-    total: BigInt("0")
+    total: BigInt(0)
   };
 }
 export const PageResponse = {
@@ -345,7 +345,7 @@ export const PageResponse = {
           message.nextKey = reader.bytes();
           break;
         case 2:
-          message.total = BigInt(reader.uint64().toString());
+          message.total = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -357,19 +357,19 @@ export const PageResponse = {
   fromJSON(object: any): PageResponse {
     return {
       nextKey: isSet(object.nextKey) ? bytesFromBase64(object.nextKey) : new Uint8Array(),
-      total: isSet(object.total) ? BigInt(object.total.toString()) : BigInt("0")
+      total: isSet(object.total) ? BigInt(object.total.toString()) : BigInt(0)
     };
   },
   toJSON(message: PageResponse): unknown {
     const obj: any = {};
     message.nextKey !== undefined && (obj.nextKey = base64FromBytes(message.nextKey !== undefined ? message.nextKey : new Uint8Array()));
-    message.total !== undefined && (obj.total = (message.total || BigInt("0")).toString());
+    message.total !== undefined && (obj.total = (message.total || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<PageResponse>): PageResponse {
     const message = createBasePageResponse();
     message.nextKey = object.nextKey ?? new Uint8Array();
-    message.total = object.total !== undefined && object.total !== null ? BigInt(object.total.toString()) : BigInt("0");
+    message.total = object.total !== undefined && object.total !== null ? BigInt(object.total.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: PageResponseSDKType): PageResponse {

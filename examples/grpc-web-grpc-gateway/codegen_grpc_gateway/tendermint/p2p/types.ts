@@ -26,14 +26,14 @@ export interface ProtocolVersionSDKType {
   app: bigint;
 }
 export interface NodeInfo {
-  protocolVersion?: ProtocolVersion;
+  protocolVersion: ProtocolVersion;
   nodeId: string;
   listenAddr: string;
   network: string;
   version: string;
   channels: Uint8Array;
   moniker: string;
-  other?: NodeInfoOther;
+  other: NodeInfoOther;
 }
 export interface NodeInfoProtoMsg {
   typeUrl: "/tendermint.p2p.NodeInfo";
@@ -54,14 +54,14 @@ export interface NodeInfoAminoMsg {
   value: NodeInfoAmino;
 }
 export interface NodeInfoSDKType {
-  protocol_version?: ProtocolVersionSDKType;
+  protocol_version: ProtocolVersionSDKType;
   node_id: string;
   listen_addr: string;
   network: string;
   version: string;
   channels: Uint8Array;
   moniker: string;
-  other?: NodeInfoOtherSDKType;
+  other: NodeInfoOtherSDKType;
 }
 export interface NodeInfoOther {
   txIndex: string;
@@ -86,7 +86,7 @@ export interface NodeInfoOtherSDKType {
 export interface PeerInfo {
   id: string;
   addressInfo: PeerAddressInfo[];
-  lastConnected?: Date;
+  lastConnected: Date;
 }
 export interface PeerInfoProtoMsg {
   typeUrl: "/tendermint.p2p.PeerInfo";
@@ -104,12 +104,12 @@ export interface PeerInfoAminoMsg {
 export interface PeerInfoSDKType {
   id: string;
   address_info: PeerAddressInfoSDKType[];
-  last_connected?: Date;
+  last_connected: Date;
 }
 export interface PeerAddressInfo {
   address: string;
-  lastDialSuccess?: Date;
-  lastDialFailure?: Date;
+  lastDialSuccess: Date;
+  lastDialFailure: Date;
   dialFailures: number;
 }
 export interface PeerAddressInfoProtoMsg {
@@ -128,15 +128,15 @@ export interface PeerAddressInfoAminoMsg {
 }
 export interface PeerAddressInfoSDKType {
   address: string;
-  last_dial_success?: Date;
-  last_dial_failure?: Date;
+  last_dial_success: Date;
+  last_dial_failure: Date;
   dial_failures: number;
 }
 function createBaseProtocolVersion(): ProtocolVersion {
   return {
-    p2p: BigInt("0"),
-    block: BigInt("0"),
-    app: BigInt("0")
+    p2p: BigInt(0),
+    block: BigInt(0),
+    app: BigInt(0)
   };
 }
 export const ProtocolVersion = {
@@ -161,13 +161,13 @@ export const ProtocolVersion = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.p2p = BigInt(reader.uint64().toString());
+          message.p2p = reader.uint64();
           break;
         case 2:
-          message.block = BigInt(reader.uint64().toString());
+          message.block = reader.uint64();
           break;
         case 3:
-          message.app = BigInt(reader.uint64().toString());
+          message.app = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -178,23 +178,23 @@ export const ProtocolVersion = {
   },
   fromJSON(object: any): ProtocolVersion {
     return {
-      p2p: isSet(object.p2p) ? BigInt(object.p2p.toString()) : BigInt("0"),
-      block: isSet(object.block) ? BigInt(object.block.toString()) : BigInt("0"),
-      app: isSet(object.app) ? BigInt(object.app.toString()) : BigInt("0")
+      p2p: isSet(object.p2p) ? BigInt(object.p2p.toString()) : BigInt(0),
+      block: isSet(object.block) ? BigInt(object.block.toString()) : BigInt(0),
+      app: isSet(object.app) ? BigInt(object.app.toString()) : BigInt(0)
     };
   },
   toJSON(message: ProtocolVersion): unknown {
     const obj: any = {};
-    message.p2p !== undefined && (obj.p2p = (message.p2p || BigInt("0")).toString());
-    message.block !== undefined && (obj.block = (message.block || BigInt("0")).toString());
-    message.app !== undefined && (obj.app = (message.app || BigInt("0")).toString());
+    message.p2p !== undefined && (obj.p2p = (message.p2p || BigInt(0)).toString());
+    message.block !== undefined && (obj.block = (message.block || BigInt(0)).toString());
+    message.app !== undefined && (obj.app = (message.app || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<ProtocolVersion>): ProtocolVersion {
     const message = createBaseProtocolVersion();
-    message.p2p = object.p2p !== undefined && object.p2p !== null ? BigInt(object.p2p.toString()) : BigInt("0");
-    message.block = object.block !== undefined && object.block !== null ? BigInt(object.block.toString()) : BigInt("0");
-    message.app = object.app !== undefined && object.app !== null ? BigInt(object.app.toString()) : BigInt("0");
+    message.p2p = object.p2p !== undefined && object.p2p !== null ? BigInt(object.p2p.toString()) : BigInt(0);
+    message.block = object.block !== undefined && object.block !== null ? BigInt(object.block.toString()) : BigInt(0);
+    message.app = object.app !== undefined && object.app !== null ? BigInt(object.app.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: ProtocolVersionSDKType): ProtocolVersion {
@@ -243,14 +243,14 @@ export const ProtocolVersion = {
 };
 function createBaseNodeInfo(): NodeInfo {
   return {
-    protocolVersion: undefined,
+    protocolVersion: ProtocolVersion.fromPartial({}),
     nodeId: "",
     listenAddr: "",
     network: "",
     version: "",
     channels: new Uint8Array(),
     moniker: "",
-    other: undefined
+    other: NodeInfoOther.fromPartial({})
   };
 }
 export const NodeInfo = {

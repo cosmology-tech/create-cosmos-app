@@ -143,7 +143,7 @@ export function type_WellKnownTypeToJSON(object: Type_WellKnownType): string {
 }
 export interface CheckedExpr_ReferenceMapEntry {
   key: bigint;
-  value?: Reference;
+  value: Reference;
 }
 export interface CheckedExpr_ReferenceMapEntryProtoMsg {
   typeUrl: string;
@@ -159,11 +159,11 @@ export interface CheckedExpr_ReferenceMapEntryAminoMsg {
 }
 export interface CheckedExpr_ReferenceMapEntrySDKType {
   key: bigint;
-  value?: ReferenceSDKType;
+  value: ReferenceSDKType;
 }
 export interface CheckedExpr_TypeMapEntry {
   key: bigint;
-  value?: Type;
+  value: Type;
 }
 export interface CheckedExpr_TypeMapEntryProtoMsg {
   typeUrl: string;
@@ -179,7 +179,7 @@ export interface CheckedExpr_TypeMapEntryAminoMsg {
 }
 export interface CheckedExpr_TypeMapEntrySDKType {
   key: bigint;
-  value?: TypeSDKType;
+  value: TypeSDKType;
 }
 /** A CEL expression which has been successfully type checked. */
 export interface CheckedExpr {
@@ -200,7 +200,7 @@ export interface CheckedExpr {
    * - Every CreateStruct expression for a message has an entry, identifying
    *   the message.
    */
-  referenceMap?: {
+  referenceMap: {
     [key: bigint]: Reference;
   };
   /**
@@ -210,14 +210,14 @@ export interface CheckedExpr {
    * here. If an expression has type DYN, it is omitted from this map to save
    * space.
    */
-  typeMap?: {
+  typeMap: {
     [key: bigint]: Type;
   };
   /**
    * The source info derived from input that generated the parsed `expr` and
    * any optimizations made during the type-checking pass.
    */
-  sourceInfo?: SourceInfo;
+  sourceInfo: SourceInfo;
   /**
    * The expr version indicates the major / minor version number of the `expr`
    * representation.
@@ -232,7 +232,7 @@ export interface CheckedExpr {
    * The checked expression. Semantically equivalent to the parsed `expr`, but
    * may have structural differences.
    */
-  expr?: Expr;
+  expr: Expr;
 }
 export interface CheckedExprProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.CheckedExpr";
@@ -297,15 +297,15 @@ export interface CheckedExprAminoMsg {
 }
 /** A CEL expression which has been successfully type checked. */
 export interface CheckedExprSDKType {
-  reference_map?: {
+  reference_map: {
     [key: bigint]: ReferenceSDKType;
   };
-  type_map?: {
+  type_map: {
     [key: bigint]: TypeSDKType;
   };
-  source_info?: SourceInfoSDKType;
+  source_info: SourceInfoSDKType;
   expr_version: string;
-  expr?: ExprSDKType;
+  expr: ExprSDKType;
 }
 /** Represents a CEL type. */
 export interface Type {
@@ -436,7 +436,7 @@ export interface TypeSDKType {
 /** List type with typed elements, e.g. `list<example.proto.MyMessage>`. */
 export interface Type_ListType {
   /** The element type. */
-  elemType?: Type;
+  elemType: Type;
 }
 export interface Type_ListTypeProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.ListType";
@@ -453,14 +453,14 @@ export interface Type_ListTypeAminoMsg {
 }
 /** List type with typed elements, e.g. `list<example.proto.MyMessage>`. */
 export interface Type_ListTypeSDKType {
-  elem_type?: TypeSDKType;
+  elem_type: TypeSDKType;
 }
 /** Map type with parameterized key and value types, e.g. `map<string, int>`. */
 export interface Type_MapType {
   /** The type of the key. */
-  keyType?: Type;
+  keyType: Type;
   /** The type of the value. */
-  valueType?: Type;
+  valueType: Type;
 }
 export interface Type_MapTypeProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.MapType";
@@ -479,13 +479,13 @@ export interface Type_MapTypeAminoMsg {
 }
 /** Map type with parameterized key and value types, e.g. `map<string, int>`. */
 export interface Type_MapTypeSDKType {
-  key_type?: TypeSDKType;
-  value_type?: TypeSDKType;
+  key_type: TypeSDKType;
+  value_type: TypeSDKType;
 }
 /** Function type with result and arg types. */
 export interface Type_FunctionType {
   /** Result type of the function. */
-  resultType?: Type;
+  resultType: Type;
   /** Argument types of the function. */
   argTypes: Type[];
 }
@@ -506,7 +506,7 @@ export interface Type_FunctionTypeAminoMsg {
 }
 /** Function type with result and arg types. */
 export interface Type_FunctionTypeSDKType {
-  result_type?: TypeSDKType;
+  result_type: TypeSDKType;
   arg_types: TypeSDKType[];
 }
 /** Application defined abstract type. */
@@ -611,12 +611,12 @@ export interface DeclSDKType {
  */
 export interface Decl_IdentDecl {
   /** Required. The type of the identifier. */
-  type?: Type;
+  type: Type;
   /**
    * The constant value of the identifier. If not specified, the identifier
    * must be supplied at evaluation time.
    */
-  value?: Constant;
+  value: Constant;
   /** Documentation string for the identifier. */
   doc: string;
 }
@@ -656,8 +656,8 @@ export interface Decl_IdentDeclAminoMsg {
  * time.
  */
 export interface Decl_IdentDeclSDKType {
-  type?: TypeSDKType;
-  value?: ConstantSDKType;
+  type: TypeSDKType;
+  value: ConstantSDKType;
   doc: string;
 }
 /**
@@ -745,7 +745,7 @@ export interface Decl_FunctionDecl_Overload {
    * Required. The result type of the function. For example, the operator
    * `string.isEmpty()` would have `result_type` of `kind: BOOL`.
    */
-  resultType?: Type;
+  resultType: Type;
   /**
    * Whether the function is to be used in a method call-style `x.f(...)`
    * of a function call-style `f(x, ...)`.
@@ -838,7 +838,7 @@ export interface Decl_FunctionDecl_OverloadSDKType {
   overload_id: string;
   params: TypeSDKType[];
   type_params: string[];
-  result_type?: TypeSDKType;
+  result_type: TypeSDKType;
   is_instance_function: boolean;
   doc: string;
 }
@@ -861,7 +861,7 @@ export interface Reference {
    * For references to constants, this may contain the value of the
    * constant if known at compile time.
    */
-  value?: Constant;
+  value: Constant;
 }
 export interface ReferenceProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Reference";
@@ -896,12 +896,12 @@ export interface ReferenceAminoMsg {
 export interface ReferenceSDKType {
   name: string;
   overload_id: string[];
-  value?: ConstantSDKType;
+  value: ConstantSDKType;
 }
 function createBaseCheckedExpr_ReferenceMapEntry(): CheckedExpr_ReferenceMapEntry {
   return {
-    key: BigInt("0"),
-    value: undefined
+    key: BigInt(0),
+    value: Reference.fromPartial({})
   };
 }
 export const CheckedExpr_ReferenceMapEntry = {
@@ -922,7 +922,7 @@ export const CheckedExpr_ReferenceMapEntry = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.key = BigInt(reader.int64().toString());
+          message.key = reader.int64();
           break;
         case 2:
           message.value = Reference.decode(reader, reader.uint32());
@@ -936,19 +936,19 @@ export const CheckedExpr_ReferenceMapEntry = {
   },
   fromJSON(object: any): CheckedExpr_ReferenceMapEntry {
     return {
-      key: isSet(object.key) ? BigInt(object.key.toString()) : BigInt("0"),
+      key: isSet(object.key) ? BigInt(object.key.toString()) : BigInt(0),
       value: isSet(object.value) ? Reference.fromJSON(object.value) : undefined
     };
   },
   toJSON(message: CheckedExpr_ReferenceMapEntry): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = (message.key || BigInt("0")).toString());
+    message.key !== undefined && (obj.key = (message.key || BigInt(0)).toString());
     message.value !== undefined && (obj.value = message.value ? Reference.toJSON(message.value) : undefined);
     return obj;
   },
   fromPartial(object: DeepPartial<CheckedExpr_ReferenceMapEntry>): CheckedExpr_ReferenceMapEntry {
     const message = createBaseCheckedExpr_ReferenceMapEntry();
-    message.key = object.key !== undefined && object.key !== null ? BigInt(object.key.toString()) : BigInt("0");
+    message.key = object.key !== undefined && object.key !== null ? BigInt(object.key.toString()) : BigInt(0);
     message.value = object.value !== undefined && object.value !== null ? Reference.fromPartial(object.value) : undefined;
     return message;
   },
@@ -988,8 +988,8 @@ export const CheckedExpr_ReferenceMapEntry = {
 };
 function createBaseCheckedExpr_TypeMapEntry(): CheckedExpr_TypeMapEntry {
   return {
-    key: BigInt("0"),
-    value: undefined
+    key: BigInt(0),
+    value: Type.fromPartial({})
   };
 }
 export const CheckedExpr_TypeMapEntry = {
@@ -1010,7 +1010,7 @@ export const CheckedExpr_TypeMapEntry = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.key = BigInt(reader.int64().toString());
+          message.key = reader.int64();
           break;
         case 2:
           message.value = Type.decode(reader, reader.uint32());
@@ -1024,19 +1024,19 @@ export const CheckedExpr_TypeMapEntry = {
   },
   fromJSON(object: any): CheckedExpr_TypeMapEntry {
     return {
-      key: isSet(object.key) ? BigInt(object.key.toString()) : BigInt("0"),
+      key: isSet(object.key) ? BigInt(object.key.toString()) : BigInt(0),
       value: isSet(object.value) ? Type.fromJSON(object.value) : undefined
     };
   },
   toJSON(message: CheckedExpr_TypeMapEntry): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = (message.key || BigInt("0")).toString());
+    message.key !== undefined && (obj.key = (message.key || BigInt(0)).toString());
     message.value !== undefined && (obj.value = message.value ? Type.toJSON(message.value) : undefined);
     return obj;
   },
   fromPartial(object: DeepPartial<CheckedExpr_TypeMapEntry>): CheckedExpr_TypeMapEntry {
     const message = createBaseCheckedExpr_TypeMapEntry();
-    message.key = object.key !== undefined && object.key !== null ? BigInt(object.key.toString()) : BigInt("0");
+    message.key = object.key !== undefined && object.key !== null ? BigInt(object.key.toString()) : BigInt(0);
     message.value = object.value !== undefined && object.value !== null ? Type.fromPartial(object.value) : undefined;
     return message;
   },
@@ -1078,9 +1078,9 @@ function createBaseCheckedExpr(): CheckedExpr {
   return {
     referenceMap: {},
     typeMap: {},
-    sourceInfo: undefined,
+    sourceInfo: SourceInfo.fromPartial({}),
     exprVersion: "",
-    expr: undefined
+    expr: Expr.fromPartial({})
   };
 }
 export const CheckedExpr = {
@@ -1548,7 +1548,7 @@ export const Type = {
 };
 function createBaseType_ListType(): Type_ListType {
   return {
-    elemType: undefined
+    elemType: Type.fromPartial({})
   };
 }
 export const Type_ListType = {
@@ -1629,8 +1629,8 @@ export const Type_ListType = {
 };
 function createBaseType_MapType(): Type_MapType {
   return {
-    keyType: undefined,
-    valueType: undefined
+    keyType: Type.fromPartial({}),
+    valueType: Type.fromPartial({})
   };
 }
 export const Type_MapType = {
@@ -1724,7 +1724,7 @@ export const Type_MapType = {
 };
 function createBaseType_FunctionType(): Type_FunctionType {
   return {
-    resultType: undefined,
+    resultType: Type.fromPartial({}),
     argTypes: []
   };
 }
@@ -2047,8 +2047,8 @@ export const Decl = {
 };
 function createBaseDecl_IdentDecl(): Decl_IdentDecl {
   return {
-    type: undefined,
-    value: undefined,
+    type: Type.fromPartial({}),
+    value: Constant.fromPartial({}),
     doc: ""
   };
 }
@@ -2252,7 +2252,7 @@ function createBaseDecl_FunctionDecl_Overload(): Decl_FunctionDecl_Overload {
     overloadId: "",
     params: [],
     typeParams: [],
-    resultType: undefined,
+    resultType: Type.fromPartial({}),
     isInstanceFunction: false,
     doc: ""
   };
@@ -2426,7 +2426,7 @@ function createBaseReference(): Reference {
   return {
     name: "",
     overloadId: [],
-    value: undefined
+    value: Constant.fromPartial({})
   };
 }
 export const Reference = {

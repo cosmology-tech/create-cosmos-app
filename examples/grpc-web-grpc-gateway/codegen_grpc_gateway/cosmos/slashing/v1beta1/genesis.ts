@@ -5,7 +5,7 @@ export const protobufPackage = "cosmos.slashing.v1beta1";
 /** GenesisState defines the slashing module's genesis state. */
 export interface GenesisState {
   /** params defines all the paramaters of related to deposit. */
-  params?: Params;
+  params: Params;
   /**
    * signing_infos represents a map between validator addresses and their
    * signing infos.
@@ -42,7 +42,7 @@ export interface GenesisStateAminoMsg {
 }
 /** GenesisState defines the slashing module's genesis state. */
 export interface GenesisStateSDKType {
-  params?: ParamsSDKType;
+  params: ParamsSDKType;
   signing_infos: SigningInfoSDKType[];
   missed_blocks: ValidatorMissedBlocksSDKType[];
 }
@@ -51,7 +51,7 @@ export interface SigningInfo {
   /** address is the validator address. */
   address: string;
   /** validator_signing_info represents the signing info of this validator. */
-  validatorSigningInfo?: ValidatorSigningInfo;
+  validatorSigningInfo: ValidatorSigningInfo;
 }
 export interface SigningInfoProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.SigningInfo";
@@ -71,7 +71,7 @@ export interface SigningInfoAminoMsg {
 /** SigningInfo stores validator signing info of corresponding address. */
 export interface SigningInfoSDKType {
   address: string;
-  validator_signing_info?: ValidatorSigningInfoSDKType;
+  validator_signing_info: ValidatorSigningInfoSDKType;
 }
 /**
  * ValidatorMissedBlocks contains array of missed blocks of corresponding
@@ -138,7 +138,7 @@ export interface MissedBlockSDKType {
 }
 function createBaseGenesisState(): GenesisState {
   return {
-    params: undefined,
+    params: Params.fromPartial({}),
     signingInfos: [],
     missedBlocks: []
   };
@@ -279,7 +279,7 @@ export const GenesisState = {
 function createBaseSigningInfo(): SigningInfo {
   return {
     address: "",
-    validatorSigningInfo: undefined
+    validatorSigningInfo: ValidatorSigningInfo.fromPartial({})
   };
 }
 export const SigningInfo = {
@@ -494,7 +494,7 @@ export const ValidatorMissedBlocks = {
 };
 function createBaseMissedBlock(): MissedBlock {
   return {
-    index: BigInt("0"),
+    index: BigInt(0),
     missed: false
   };
 }
@@ -518,7 +518,7 @@ export const MissedBlock = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.index = BigInt(reader.int64().toString());
+          message.index = reader.int64();
           break;
         case 2:
           message.missed = reader.bool();
@@ -532,19 +532,19 @@ export const MissedBlock = {
   },
   fromJSON(object: any): MissedBlock {
     return {
-      index: isSet(object.index) ? BigInt(object.index.toString()) : BigInt("0"),
+      index: isSet(object.index) ? BigInt(object.index.toString()) : BigInt(0),
       missed: isSet(object.missed) ? Boolean(object.missed) : false
     };
   },
   toJSON(message: MissedBlock): unknown {
     const obj: any = {};
-    message.index !== undefined && (obj.index = (message.index || BigInt("0")).toString());
+    message.index !== undefined && (obj.index = (message.index || BigInt(0)).toString());
     message.missed !== undefined && (obj.missed = message.missed);
     return obj;
   },
   fromPartial(object: DeepPartial<MissedBlock>): MissedBlock {
     const message = createBaseMissedBlock();
-    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt("0");
+    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt(0);
     message.missed = object.missed ?? false;
     return message;
   },

@@ -5,9 +5,9 @@ import { QueryAllowanceRequest, QueryAllowanceRequestSDKType, QueryAllowanceResp
 export class Query {
   /** Allowance returns fee granted to the grantee by the granter. */
   static allowance(request: QueryAllowanceRequest, initRequest?: fm.InitReq): Promise<QueryAllowanceResponse> {
-    return fm.fetchReq(`/cosmos/feegrant/v1beta1/allowance/${request["granter"]}/{grantee}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/cosmos/feegrant/v1beta1/allowance/${request["granter"]}/${request["grantee"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["granter"])}`, {
+    }, ["granter", "grantee"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -34,7 +34,7 @@ export class Query {
     });
   }
 }
-export class Querier {
+export class QueryClientImpl {
   private readonly url: string;
   constructor(url: string) {
     this.url = url;

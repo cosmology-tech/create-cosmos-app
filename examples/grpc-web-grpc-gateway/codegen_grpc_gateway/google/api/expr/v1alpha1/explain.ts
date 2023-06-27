@@ -211,7 +211,7 @@ export const Explain = {
 };
 function createBaseExplain_ExprStep(): Explain_ExprStep {
   return {
-    id: BigInt("0"),
+    id: BigInt(0),
     valueIndex: 0
   };
 }
@@ -234,7 +234,7 @@ export const Explain_ExprStep = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.id = BigInt(reader.int64().toString());
+          message.id = reader.int64();
           break;
         case 2:
           message.valueIndex = reader.int32();
@@ -248,19 +248,19 @@ export const Explain_ExprStep = {
   },
   fromJSON(object: any): Explain_ExprStep {
     return {
-      id: isSet(object.id) ? BigInt(object.id.toString()) : BigInt("0"),
+      id: isSet(object.id) ? BigInt(object.id.toString()) : BigInt(0),
       valueIndex: isSet(object.valueIndex) ? Number(object.valueIndex) : 0
     };
   },
   toJSON(message: Explain_ExprStep): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = (message.id || BigInt("0")).toString());
+    message.id !== undefined && (obj.id = (message.id || BigInt(0)).toString());
     message.valueIndex !== undefined && (obj.valueIndex = Math.round(message.valueIndex));
     return obj;
   },
   fromPartial(object: DeepPartial<Explain_ExprStep>): Explain_ExprStep {
     const message = createBaseExplain_ExprStep();
-    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt("0");
+    message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt(0);
     message.valueIndex = object.valueIndex ?? 0;
     return message;
   },

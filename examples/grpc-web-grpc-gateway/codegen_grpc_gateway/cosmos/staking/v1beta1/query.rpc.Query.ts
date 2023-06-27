@@ -41,9 +41,9 @@ export class Query {
   }
   /** Delegation queries delegate info for given validator delegator pair. */
   static delegation(request: QueryDelegationRequest, initRequest?: fm.InitReq): Promise<QueryDelegationResponse> {
-    return fm.fetchReq(`/cosmos/staking/v1beta1/validators/${request["validator_addr"]}/delegations/{delegator_addr}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/cosmos/staking/v1beta1/validators/${request["validator_addr"]}/delegations/${request["delegator_addr"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["validator_addr"])}`, {
+    }, ["validator_addr", "delegator_addr"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -53,9 +53,9 @@ export class Query {
    * pair.
    */
   static unbondingDelegation(request: QueryUnbondingDelegationRequest, initRequest?: fm.InitReq): Promise<QueryUnbondingDelegationResponse> {
-    return fm.fetchReq(`/cosmos/staking/v1beta1/validators/${request["validator_addr"]}/delegations/{delegator_addr}/unbonding_delegation?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/cosmos/staking/v1beta1/validators/${request["validator_addr"]}/delegations/${request["delegator_addr"]}/unbonding_delegation?${fm.renderURLSearchParams({
       ...request
-    }, ["validator_addr"])}`, {
+    }, ["validator_addr", "delegator_addr"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -107,9 +107,9 @@ export class Query {
    * pair.
    */
   static delegatorValidator(request: QueryDelegatorValidatorRequest, initRequest?: fm.InitReq): Promise<QueryDelegatorValidatorResponse> {
-    return fm.fetchReq(`/cosmos/staking/v1beta1/delegators/${request["delegator_addr"]}/validators/{validator_addr}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/cosmos/staking/v1beta1/delegators/${request["delegator_addr"]}/validators/${request["validator_addr"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["delegator_addr"])}`, {
+    }, ["delegator_addr", "validator_addr"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -142,7 +142,7 @@ export class Query {
     });
   }
 }
-export class Querier {
+export class QueryClientImpl {
   private readonly url: string;
   constructor(url: string) {
     this.url = url;

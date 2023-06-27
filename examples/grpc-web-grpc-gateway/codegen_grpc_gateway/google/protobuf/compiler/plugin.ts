@@ -67,7 +67,7 @@ export interface CodeGeneratorRequest {
    */
   protoFile: FileDescriptorProto[];
   /** The version number of protocol compiler. */
-  compilerVersion?: Version;
+  compilerVersion: Version;
 }
 export interface CodeGeneratorRequestProtoMsg {
   typeUrl: "/google.protobuf.compiler.CodeGeneratorRequest";
@@ -112,7 +112,7 @@ export interface CodeGeneratorRequestSDKType {
   file_to_generate: string[];
   parameter: string;
   proto_file: FileDescriptorProtoSDKType[];
-  compiler_version?: VersionSDKType;
+  compiler_version: VersionSDKType;
 }
 /** The plugin writes an encoded CodeGeneratorResponse to stdout. */
 export interface CodeGeneratorResponse {
@@ -417,7 +417,7 @@ function createBaseCodeGeneratorRequest(): CodeGeneratorRequest {
     fileToGenerate: [],
     parameter: "",
     protoFile: [],
-    compilerVersion: undefined
+    compilerVersion: Version.fromPartial({})
   };
 }
 export const CodeGeneratorRequest = {

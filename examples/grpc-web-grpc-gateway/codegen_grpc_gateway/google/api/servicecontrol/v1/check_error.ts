@@ -214,7 +214,7 @@ export interface CheckError {
    * `status.code` will be non zero and client can propagate it out as public
    * error.
    */
-  status?: Status;
+  status: Status;
 }
 export interface CheckErrorProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.CheckError";
@@ -257,14 +257,14 @@ export interface CheckErrorSDKType {
   code: CheckError_Code;
   subject: string;
   detail: string;
-  status?: StatusSDKType;
+  status: StatusSDKType;
 }
 function createBaseCheckError(): CheckError {
   return {
     code: 0,
     subject: "",
     detail: "",
-    status: undefined
+    status: Status.fromPartial({})
   };
 }
 export const CheckError = {

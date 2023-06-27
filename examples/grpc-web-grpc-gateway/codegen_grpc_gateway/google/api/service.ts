@@ -94,19 +94,19 @@ export interface Service {
    */
   enums: Enum[];
   /** Additional API documentation. */
-  documentation?: Documentation;
+  documentation: Documentation;
   /** API backend configuration. */
-  backend?: Backend;
+  backend: Backend;
   /** HTTP configuration. */
-  http?: Http;
+  http: Http;
   /** Quota configuration. */
-  quota?: Quota;
+  quota: Quota;
   /** Auth configuration. */
-  authentication?: Authentication;
+  authentication: Authentication;
   /** Context configuration. */
-  context?: Context;
+  context: Context;
   /** Configuration controlling usage of this service. */
-  usage?: Usage;
+  usage: Usage;
   /**
    * Configuration for network endpoints.  If this is empty, then an endpoint
    * with the same name as the service is automatically generated to service all
@@ -114,7 +114,7 @@ export interface Service {
    */
   endpoints: Endpoint[];
   /** Configuration for the service control plane. */
-  control?: Control;
+  control: Control;
   /** Defines the logs used by this service. */
   logs: LogDescriptor[];
   /** Defines the metrics used by this service. */
@@ -125,15 +125,15 @@ export interface Service {
    */
   monitoredResources: MonitoredResourceDescriptor[];
   /** Billing configuration. */
-  billing?: Billing;
+  billing: Billing;
   /** Logging configuration. */
-  logging?: Logging;
+  logging: Logging;
   /** Monitoring configuration. */
-  monitoring?: Monitoring;
+  monitoring: Monitoring;
   /** System parameter configuration. */
-  systemParameters?: SystemParameters;
+  systemParameters: SystemParameters;
   /** Output only. The source information for this configuration if available. */
-  sourceInfo?: SourceInfo;
+  sourceInfo: SourceInfo;
   /**
    * Obsolete. Do not use.
    * 
@@ -141,7 +141,7 @@ export interface Service {
    * sets this field to `3`.
    */
   /** @deprecated */
-  configVersion?: UInt32Value;
+  configVersion: UInt32Value;
 }
 export interface ServiceProtoMsg {
   typeUrl: "/google.api.Service";
@@ -305,25 +305,25 @@ export interface ServiceSDKType {
   apis: ApiSDKType[];
   types: TypeSDKType[];
   enums: EnumSDKType[];
-  documentation?: DocumentationSDKType;
-  backend?: BackendSDKType;
-  http?: HttpSDKType;
-  quota?: QuotaSDKType;
-  authentication?: AuthenticationSDKType;
-  context?: ContextSDKType;
-  usage?: UsageSDKType;
+  documentation: DocumentationSDKType;
+  backend: BackendSDKType;
+  http: HttpSDKType;
+  quota: QuotaSDKType;
+  authentication: AuthenticationSDKType;
+  context: ContextSDKType;
+  usage: UsageSDKType;
   endpoints: EndpointSDKType[];
-  control?: ControlSDKType;
+  control: ControlSDKType;
   logs: LogDescriptorSDKType[];
   metrics: MetricDescriptorSDKType[];
   monitored_resources: MonitoredResourceDescriptorSDKType[];
-  billing?: BillingSDKType;
-  logging?: LoggingSDKType;
-  monitoring?: MonitoringSDKType;
-  system_parameters?: SystemParametersSDKType;
-  source_info?: SourceInfoSDKType;
+  billing: BillingSDKType;
+  logging: LoggingSDKType;
+  monitoring: MonitoringSDKType;
+  system_parameters: SystemParametersSDKType;
+  source_info: SourceInfoSDKType;
   /** @deprecated */
-  config_version?: UInt32ValueSDKType;
+  config_version: UInt32ValueSDKType;
 }
 function createBaseService(): Service {
   return {
@@ -334,24 +334,24 @@ function createBaseService(): Service {
     apis: [],
     types: [],
     enums: [],
-    documentation: undefined,
-    backend: undefined,
-    http: undefined,
-    quota: undefined,
-    authentication: undefined,
-    context: undefined,
-    usage: undefined,
+    documentation: Documentation.fromPartial({}),
+    backend: Backend.fromPartial({}),
+    http: Http.fromPartial({}),
+    quota: Quota.fromPartial({}),
+    authentication: Authentication.fromPartial({}),
+    context: Context.fromPartial({}),
+    usage: Usage.fromPartial({}),
     endpoints: [],
-    control: undefined,
+    control: Control.fromPartial({}),
     logs: [],
     metrics: [],
     monitoredResources: [],
-    billing: undefined,
-    logging: undefined,
-    monitoring: undefined,
-    systemParameters: undefined,
-    sourceInfo: undefined,
-    configVersion: undefined
+    billing: Billing.fromPartial({}),
+    logging: Logging.fromPartial({}),
+    monitoring: Monitoring.fromPartial({}),
+    systemParameters: SystemParameters.fromPartial({}),
+    sourceInfo: SourceInfo.fromPartial({}),
+    configVersion: UInt32Value.fromPartial({})
   };
 }
 export const Service = {

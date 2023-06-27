@@ -11,7 +11,7 @@ export interface QueryAppVersionRequest {
   /** whether the channel is ordered or unordered */
   ordering: Order;
   /** counterparty channel end */
-  counterparty?: Counterparty;
+  counterparty: Counterparty;
   /** proposed version */
   proposedVersion: string;
 }
@@ -41,7 +41,7 @@ export interface QueryAppVersionRequestSDKType {
   port_id: string;
   connection_id: string;
   ordering: Order;
-  counterparty?: CounterpartySDKType;
+  counterparty: CounterpartySDKType;
   proposed_version: string;
 }
 /** QueryAppVersionResponse is the response type for the Query/AppVersion RPC method. */
@@ -76,7 +76,7 @@ function createBaseQueryAppVersionRequest(): QueryAppVersionRequest {
     portId: "",
     connectionId: "",
     ordering: 0,
-    counterparty: undefined,
+    counterparty: Counterparty.fromPartial({}),
     proposedVersion: ""
   };
 }

@@ -123,7 +123,7 @@ export interface Channel {
   /** whether the channel is ordered or unordered */
   ordering: Order;
   /** counterparty channel end */
-  counterparty?: Counterparty;
+  counterparty: Counterparty;
   /**
    * list of connection identifiers, in order, along which packets sent on
    * this channel will travel
@@ -168,7 +168,7 @@ export interface ChannelAminoMsg {
 export interface ChannelSDKType {
   state: State;
   ordering: Order;
-  counterparty?: CounterpartySDKType;
+  counterparty: CounterpartySDKType;
   connection_hops: string[];
   version: string;
 }
@@ -182,7 +182,7 @@ export interface IdentifiedChannel {
   /** whether the channel is ordered or unordered */
   ordering: Order;
   /** counterparty channel end */
-  counterparty?: Counterparty;
+  counterparty: Counterparty;
   /**
    * list of connection identifiers, in order, along which packets sent on
    * this channel will travel
@@ -233,7 +233,7 @@ export interface IdentifiedChannelAminoMsg {
 export interface IdentifiedChannelSDKType {
   state: State;
   ordering: Order;
-  counterparty?: CounterpartySDKType;
+  counterparty: CounterpartySDKType;
   connection_hops: string[];
   version: string;
   port_id: string;
@@ -285,7 +285,7 @@ export interface Packet {
   /** actual opaque bytes transferred directly to the application module */
   data: Uint8Array;
   /** block height after which the packet times out */
-  timeoutHeight?: Height;
+  timeoutHeight: Height;
   /** block timestamp (in nanoseconds) after which the packet times out */
   timeoutTimestamp: bigint;
 }
@@ -328,7 +328,7 @@ export interface PacketSDKType {
   destination_port: string;
   destination_channel: string;
   data: Uint8Array;
-  timeout_height?: HeightSDKType;
+  timeout_height: HeightSDKType;
   timeout_timestamp: bigint;
 }
 /**
@@ -434,7 +434,7 @@ function createBaseChannel(): Channel {
   return {
     state: 0,
     ordering: 0,
-    counterparty: undefined,
+    counterparty: Counterparty.fromPartial({}),
     connectionHops: [],
     version: ""
   };
@@ -590,7 +590,7 @@ function createBaseIdentifiedChannel(): IdentifiedChannel {
   return {
     state: 0,
     ordering: 0,
-    counterparty: undefined,
+    counterparty: Counterparty.fromPartial({}),
     connectionHops: [],
     version: "",
     portId: "",
@@ -874,14 +874,14 @@ export const Counterparty = {
 };
 function createBasePacket(): Packet {
   return {
-    sequence: BigInt("0"),
+    sequence: BigInt(0),
     sourcePort: "",
     sourceChannel: "",
     destinationPort: "",
     destinationChannel: "",
     data: new Uint8Array(),
-    timeoutHeight: undefined,
-    timeoutTimestamp: BigInt("0")
+    timeoutHeight: Height.fromPartial({}),
+    timeoutTimestamp: BigInt(0)
   };
 }
 export const Packet = {
@@ -922,7 +922,7 @@ export const Packet = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.sequence = BigInt(reader.uint64().toString());
+          message.sequence = reader.uint64();
           break;
         case 2:
           message.sourcePort = reader.string();
@@ -943,7 +943,7 @@ export const Packet = {
           message.timeoutHeight = Height.decode(reader, reader.uint32());
           break;
         case 8:
-          message.timeoutTimestamp = BigInt(reader.uint64().toString());
+          message.timeoutTimestamp = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -954,38 +954,38 @@ export const Packet = {
   },
   fromJSON(object: any): Packet {
     return {
-      sequence: isSet(object.sequence) ? BigInt(object.sequence.toString()) : BigInt("0"),
+      sequence: isSet(object.sequence) ? BigInt(object.sequence.toString()) : BigInt(0),
       sourcePort: isSet(object.sourcePort) ? String(object.sourcePort) : "",
       sourceChannel: isSet(object.sourceChannel) ? String(object.sourceChannel) : "",
       destinationPort: isSet(object.destinationPort) ? String(object.destinationPort) : "",
       destinationChannel: isSet(object.destinationChannel) ? String(object.destinationChannel) : "",
       data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(),
       timeoutHeight: isSet(object.timeoutHeight) ? Height.fromJSON(object.timeoutHeight) : undefined,
-      timeoutTimestamp: isSet(object.timeoutTimestamp) ? BigInt(object.timeoutTimestamp.toString()) : BigInt("0")
+      timeoutTimestamp: isSet(object.timeoutTimestamp) ? BigInt(object.timeoutTimestamp.toString()) : BigInt(0)
     };
   },
   toJSON(message: Packet): unknown {
     const obj: any = {};
-    message.sequence !== undefined && (obj.sequence = (message.sequence || BigInt("0")).toString());
+    message.sequence !== undefined && (obj.sequence = (message.sequence || BigInt(0)).toString());
     message.sourcePort !== undefined && (obj.sourcePort = message.sourcePort);
     message.sourceChannel !== undefined && (obj.sourceChannel = message.sourceChannel);
     message.destinationPort !== undefined && (obj.destinationPort = message.destinationPort);
     message.destinationChannel !== undefined && (obj.destinationChannel = message.destinationChannel);
     message.data !== undefined && (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
     message.timeoutHeight !== undefined && (obj.timeoutHeight = message.timeoutHeight ? Height.toJSON(message.timeoutHeight) : undefined);
-    message.timeoutTimestamp !== undefined && (obj.timeoutTimestamp = (message.timeoutTimestamp || BigInt("0")).toString());
+    message.timeoutTimestamp !== undefined && (obj.timeoutTimestamp = (message.timeoutTimestamp || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<Packet>): Packet {
     const message = createBasePacket();
-    message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt("0");
+    message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt(0);
     message.sourcePort = object.sourcePort ?? "";
     message.sourceChannel = object.sourceChannel ?? "";
     message.destinationPort = object.destinationPort ?? "";
     message.destinationChannel = object.destinationChannel ?? "";
     message.data = object.data ?? new Uint8Array();
     message.timeoutHeight = object.timeoutHeight !== undefined && object.timeoutHeight !== null ? Height.fromPartial(object.timeoutHeight) : undefined;
-    message.timeoutTimestamp = object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null ? BigInt(object.timeoutTimestamp.toString()) : BigInt("0");
+    message.timeoutTimestamp = object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null ? BigInt(object.timeoutTimestamp.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: PacketSDKType): Packet {
@@ -1062,7 +1062,7 @@ function createBasePacketState(): PacketState {
   return {
     portId: "",
     channelId: "",
-    sequence: BigInt("0"),
+    sequence: BigInt(0),
     data: new Uint8Array()
   };
 }
@@ -1098,7 +1098,7 @@ export const PacketState = {
           message.channelId = reader.string();
           break;
         case 3:
-          message.sequence = BigInt(reader.uint64().toString());
+          message.sequence = reader.uint64();
           break;
         case 4:
           message.data = reader.bytes();
@@ -1114,7 +1114,7 @@ export const PacketState = {
     return {
       portId: isSet(object.portId) ? String(object.portId) : "",
       channelId: isSet(object.channelId) ? String(object.channelId) : "",
-      sequence: isSet(object.sequence) ? BigInt(object.sequence.toString()) : BigInt("0"),
+      sequence: isSet(object.sequence) ? BigInt(object.sequence.toString()) : BigInt(0),
       data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array()
     };
   },
@@ -1122,7 +1122,7 @@ export const PacketState = {
     const obj: any = {};
     message.portId !== undefined && (obj.portId = message.portId);
     message.channelId !== undefined && (obj.channelId = message.channelId);
-    message.sequence !== undefined && (obj.sequence = (message.sequence || BigInt("0")).toString());
+    message.sequence !== undefined && (obj.sequence = (message.sequence || BigInt(0)).toString());
     message.data !== undefined && (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
     return obj;
   },
@@ -1130,7 +1130,7 @@ export const PacketState = {
     const message = createBasePacketState();
     message.portId = object.portId ?? "";
     message.channelId = object.channelId ?? "";
-    message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt("0");
+    message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt(0);
     message.data = object.data ?? new Uint8Array();
     return message;
   },

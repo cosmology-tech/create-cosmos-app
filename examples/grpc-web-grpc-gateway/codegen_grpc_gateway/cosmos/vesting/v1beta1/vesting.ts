@@ -8,7 +8,7 @@ export const protobufPackage = "cosmos.vesting.v1beta1";
  * the necessary fields needed for any vesting account implementation.
  */
 export interface BaseVestingAccount {
-  baseAccount?: BaseAccount;
+  baseAccount: BaseAccount;
   originalVesting: Coin[];
   delegatedFree: Coin[];
   delegatedVesting: Coin[];
@@ -38,7 +38,7 @@ export interface BaseVestingAccountAminoMsg {
  * the necessary fields needed for any vesting account implementation.
  */
 export interface BaseVestingAccountSDKType {
-  base_account?: BaseAccountSDKType;
+  base_account: BaseAccountSDKType;
   original_vesting: CoinSDKType[];
   delegated_free: CoinSDKType[];
   delegated_vesting: CoinSDKType[];
@@ -49,7 +49,7 @@ export interface BaseVestingAccountSDKType {
  * continuously vests by unlocking coins linearly with respect to time.
  */
 export interface ContinuousVestingAccount {
-  baseVestingAccount?: BaseVestingAccount;
+  baseVestingAccount: BaseVestingAccount;
   startTime: bigint;
 }
 export interface ContinuousVestingAccountProtoMsg {
@@ -73,7 +73,7 @@ export interface ContinuousVestingAccountAminoMsg {
  * continuously vests by unlocking coins linearly with respect to time.
  */
 export interface ContinuousVestingAccountSDKType {
-  base_vesting_account?: BaseVestingAccountSDKType;
+  base_vesting_account: BaseVestingAccountSDKType;
   start_time: bigint;
 }
 /**
@@ -82,7 +82,7 @@ export interface ContinuousVestingAccountSDKType {
  * locked until a specified time.
  */
 export interface DelayedVestingAccount {
-  baseVestingAccount?: BaseVestingAccount;
+  baseVestingAccount: BaseVestingAccount;
 }
 export interface DelayedVestingAccountProtoMsg {
   typeUrl: "/cosmos.vesting.v1beta1.DelayedVestingAccount";
@@ -106,7 +106,7 @@ export interface DelayedVestingAccountAminoMsg {
  * locked until a specified time.
  */
 export interface DelayedVestingAccountSDKType {
-  base_vesting_account?: BaseVestingAccountSDKType;
+  base_vesting_account: BaseVestingAccountSDKType;
 }
 /** Period defines a length of time and amount of coins that will vest. */
 export interface Period {
@@ -136,7 +136,7 @@ export interface PeriodSDKType {
  * periodically vests by unlocking coins during each specified period.
  */
 export interface PeriodicVestingAccount {
-  baseVestingAccount?: BaseVestingAccount;
+  baseVestingAccount: BaseVestingAccount;
   startTime: bigint;
   vestingPeriods: Period[];
 }
@@ -162,7 +162,7 @@ export interface PeriodicVestingAccountAminoMsg {
  * periodically vests by unlocking coins during each specified period.
  */
 export interface PeriodicVestingAccountSDKType {
-  base_vesting_account?: BaseVestingAccountSDKType;
+  base_vesting_account: BaseVestingAccountSDKType;
   start_time: bigint;
   vesting_periods: PeriodSDKType[];
 }
@@ -174,7 +174,7 @@ export interface PeriodicVestingAccountSDKType {
  * Since: cosmos-sdk 0.43
  */
 export interface PermanentLockedAccount {
-  baseVestingAccount?: BaseVestingAccount;
+  baseVestingAccount: BaseVestingAccount;
 }
 export interface PermanentLockedAccountProtoMsg {
   typeUrl: "/cosmos.vesting.v1beta1.PermanentLockedAccount";
@@ -202,15 +202,15 @@ export interface PermanentLockedAccountAminoMsg {
  * Since: cosmos-sdk 0.43
  */
 export interface PermanentLockedAccountSDKType {
-  base_vesting_account?: BaseVestingAccountSDKType;
+  base_vesting_account: BaseVestingAccountSDKType;
 }
 function createBaseBaseVestingAccount(): BaseVestingAccount {
   return {
-    baseAccount: undefined,
+    baseAccount: BaseAccount.fromPartial({}),
     originalVesting: [],
     delegatedFree: [],
     delegatedVesting: [],
-    endTime: BigInt("0")
+    endTime: BigInt(0)
   };
 }
 export const BaseVestingAccount = {
@@ -254,7 +254,7 @@ export const BaseVestingAccount = {
           message.delegatedVesting.push(Coin.decode(reader, reader.uint32()));
           break;
         case 5:
-          message.endTime = BigInt(reader.int64().toString());
+          message.endTime = reader.int64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -269,7 +269,7 @@ export const BaseVestingAccount = {
       originalVesting: Array.isArray(object?.originalVesting) ? object.originalVesting.map((e: any) => Coin.fromJSON(e)) : [],
       delegatedFree: Array.isArray(object?.delegatedFree) ? object.delegatedFree.map((e: any) => Coin.fromJSON(e)) : [],
       delegatedVesting: Array.isArray(object?.delegatedVesting) ? object.delegatedVesting.map((e: any) => Coin.fromJSON(e)) : [],
-      endTime: isSet(object.endTime) ? BigInt(object.endTime.toString()) : BigInt("0")
+      endTime: isSet(object.endTime) ? BigInt(object.endTime.toString()) : BigInt(0)
     };
   },
   toJSON(message: BaseVestingAccount): unknown {
@@ -290,7 +290,7 @@ export const BaseVestingAccount = {
     } else {
       obj.delegatedVesting = [];
     }
-    message.endTime !== undefined && (obj.endTime = (message.endTime || BigInt("0")).toString());
+    message.endTime !== undefined && (obj.endTime = (message.endTime || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<BaseVestingAccount>): BaseVestingAccount {
@@ -299,7 +299,7 @@ export const BaseVestingAccount = {
     message.originalVesting = object.originalVesting?.map(e => Coin.fromPartial(e)) || [];
     message.delegatedFree = object.delegatedFree?.map(e => Coin.fromPartial(e)) || [];
     message.delegatedVesting = object.delegatedVesting?.map(e => Coin.fromPartial(e)) || [];
-    message.endTime = object.endTime !== undefined && object.endTime !== null ? BigInt(object.endTime.toString()) : BigInt("0");
+    message.endTime = object.endTime !== undefined && object.endTime !== null ? BigInt(object.endTime.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: BaseVestingAccountSDKType): BaseVestingAccount {
@@ -386,8 +386,8 @@ export const BaseVestingAccount = {
 };
 function createBaseContinuousVestingAccount(): ContinuousVestingAccount {
   return {
-    baseVestingAccount: undefined,
-    startTime: BigInt("0")
+    baseVestingAccount: BaseVestingAccount.fromPartial({}),
+    startTime: BigInt(0)
   };
 }
 export const ContinuousVestingAccount = {
@@ -413,7 +413,7 @@ export const ContinuousVestingAccount = {
           message.baseVestingAccount = BaseVestingAccount.decode(reader, reader.uint32());
           break;
         case 2:
-          message.startTime = BigInt(reader.int64().toString());
+          message.startTime = reader.int64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -425,19 +425,19 @@ export const ContinuousVestingAccount = {
   fromJSON(object: any): ContinuousVestingAccount {
     return {
       baseVestingAccount: isSet(object.baseVestingAccount) ? BaseVestingAccount.fromJSON(object.baseVestingAccount) : undefined,
-      startTime: isSet(object.startTime) ? BigInt(object.startTime.toString()) : BigInt("0")
+      startTime: isSet(object.startTime) ? BigInt(object.startTime.toString()) : BigInt(0)
     };
   },
   toJSON(message: ContinuousVestingAccount): unknown {
     const obj: any = {};
     message.baseVestingAccount !== undefined && (obj.baseVestingAccount = message.baseVestingAccount ? BaseVestingAccount.toJSON(message.baseVestingAccount) : undefined);
-    message.startTime !== undefined && (obj.startTime = (message.startTime || BigInt("0")).toString());
+    message.startTime !== undefined && (obj.startTime = (message.startTime || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<ContinuousVestingAccount>): ContinuousVestingAccount {
     const message = createBaseContinuousVestingAccount();
     message.baseVestingAccount = object.baseVestingAccount !== undefined && object.baseVestingAccount !== null ? BaseVestingAccount.fromPartial(object.baseVestingAccount) : undefined;
-    message.startTime = object.startTime !== undefined && object.startTime !== null ? BigInt(object.startTime.toString()) : BigInt("0");
+    message.startTime = object.startTime !== undefined && object.startTime !== null ? BigInt(object.startTime.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: ContinuousVestingAccountSDKType): ContinuousVestingAccount {
@@ -488,7 +488,7 @@ export const ContinuousVestingAccount = {
 };
 function createBaseDelayedVestingAccount(): DelayedVestingAccount {
   return {
-    baseVestingAccount: undefined
+    baseVestingAccount: BaseVestingAccount.fromPartial({})
   };
 }
 export const DelayedVestingAccount = {
@@ -576,7 +576,7 @@ export const DelayedVestingAccount = {
 };
 function createBasePeriod(): Period {
   return {
-    length: BigInt("0"),
+    length: BigInt(0),
     amount: []
   };
 }
@@ -600,7 +600,7 @@ export const Period = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.length = BigInt(reader.int64().toString());
+          message.length = reader.int64();
           break;
         case 2:
           message.amount.push(Coin.decode(reader, reader.uint32()));
@@ -614,13 +614,13 @@ export const Period = {
   },
   fromJSON(object: any): Period {
     return {
-      length: isSet(object.length) ? BigInt(object.length.toString()) : BigInt("0"),
+      length: isSet(object.length) ? BigInt(object.length.toString()) : BigInt(0),
       amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromJSON(e)) : []
     };
   },
   toJSON(message: Period): unknown {
     const obj: any = {};
-    message.length !== undefined && (obj.length = (message.length || BigInt("0")).toString());
+    message.length !== undefined && (obj.length = (message.length || BigInt(0)).toString());
     if (message.amount) {
       obj.amount = message.amount.map(e => e ? Coin.toJSON(e) : undefined);
     } else {
@@ -630,7 +630,7 @@ export const Period = {
   },
   fromPartial(object: DeepPartial<Period>): Period {
     const message = createBasePeriod();
-    message.length = object.length !== undefined && object.length !== null ? BigInt(object.length.toString()) : BigInt("0");
+    message.length = object.length !== undefined && object.length !== null ? BigInt(object.length.toString()) : BigInt(0);
     message.amount = object.amount?.map(e => Coin.fromPartial(e)) || [];
     return message;
   },
@@ -690,8 +690,8 @@ export const Period = {
 };
 function createBasePeriodicVestingAccount(): PeriodicVestingAccount {
   return {
-    baseVestingAccount: undefined,
-    startTime: BigInt("0"),
+    baseVestingAccount: BaseVestingAccount.fromPartial({}),
+    startTime: BigInt(0),
     vestingPeriods: []
   };
 }
@@ -721,7 +721,7 @@ export const PeriodicVestingAccount = {
           message.baseVestingAccount = BaseVestingAccount.decode(reader, reader.uint32());
           break;
         case 2:
-          message.startTime = BigInt(reader.int64().toString());
+          message.startTime = reader.int64();
           break;
         case 3:
           message.vestingPeriods.push(Period.decode(reader, reader.uint32()));
@@ -736,14 +736,14 @@ export const PeriodicVestingAccount = {
   fromJSON(object: any): PeriodicVestingAccount {
     return {
       baseVestingAccount: isSet(object.baseVestingAccount) ? BaseVestingAccount.fromJSON(object.baseVestingAccount) : undefined,
-      startTime: isSet(object.startTime) ? BigInt(object.startTime.toString()) : BigInt("0"),
+      startTime: isSet(object.startTime) ? BigInt(object.startTime.toString()) : BigInt(0),
       vestingPeriods: Array.isArray(object?.vestingPeriods) ? object.vestingPeriods.map((e: any) => Period.fromJSON(e)) : []
     };
   },
   toJSON(message: PeriodicVestingAccount): unknown {
     const obj: any = {};
     message.baseVestingAccount !== undefined && (obj.baseVestingAccount = message.baseVestingAccount ? BaseVestingAccount.toJSON(message.baseVestingAccount) : undefined);
-    message.startTime !== undefined && (obj.startTime = (message.startTime || BigInt("0")).toString());
+    message.startTime !== undefined && (obj.startTime = (message.startTime || BigInt(0)).toString());
     if (message.vestingPeriods) {
       obj.vestingPeriods = message.vestingPeriods.map(e => e ? Period.toJSON(e) : undefined);
     } else {
@@ -754,7 +754,7 @@ export const PeriodicVestingAccount = {
   fromPartial(object: DeepPartial<PeriodicVestingAccount>): PeriodicVestingAccount {
     const message = createBasePeriodicVestingAccount();
     message.baseVestingAccount = object.baseVestingAccount !== undefined && object.baseVestingAccount !== null ? BaseVestingAccount.fromPartial(object.baseVestingAccount) : undefined;
-    message.startTime = object.startTime !== undefined && object.startTime !== null ? BigInt(object.startTime.toString()) : BigInt("0");
+    message.startTime = object.startTime !== undefined && object.startTime !== null ? BigInt(object.startTime.toString()) : BigInt(0);
     message.vestingPeriods = object.vestingPeriods?.map(e => Period.fromPartial(e)) || [];
     return message;
   },
@@ -818,7 +818,7 @@ export const PeriodicVestingAccount = {
 };
 function createBasePermanentLockedAccount(): PermanentLockedAccount {
   return {
-    baseVestingAccount: undefined
+    baseVestingAccount: BaseVestingAccount.fromPartial({})
   };
 }
 export const PermanentLockedAccount = {

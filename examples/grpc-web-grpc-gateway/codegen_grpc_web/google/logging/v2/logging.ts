@@ -157,7 +157,7 @@ export interface WriteLogEntriesRequest {
    * 
    * See [LogEntry][google.logging.v2.LogEntry].
    */
-  resource?: MonitoredResource;
+  resource: MonitoredResource;
   /**
    * Optional. Default labels that are added to the `labels` field of all log
    * entries in `entries`. If a log entry already has a label with the same key
@@ -304,7 +304,7 @@ export interface WriteLogEntriesRequestAminoMsg {
 /** The parameters to WriteLogEntries. */
 export interface WriteLogEntriesRequestSDKType {
   log_name: string;
-  resource?: MonitoredResourceSDKType;
+  resource: MonitoredResourceSDKType;
   labels: {
     [key: string]: string;
   };
@@ -328,7 +328,7 @@ export interface WriteLogEntriesResponseAminoMsg {
 export interface WriteLogEntriesResponseSDKType {}
 export interface WriteLogEntriesPartialErrors_LogEntryErrorsEntry {
   key: number;
-  value?: Status;
+  value: Status;
 }
 export interface WriteLogEntriesPartialErrors_LogEntryErrorsEntryProtoMsg {
   typeUrl: string;
@@ -344,7 +344,7 @@ export interface WriteLogEntriesPartialErrors_LogEntryErrorsEntryAminoMsg {
 }
 export interface WriteLogEntriesPartialErrors_LogEntryErrorsEntrySDKType {
   key: number;
-  value?: StatusSDKType;
+  value: StatusSDKType;
 }
 /** Error details for WriteLogEntries with partial success. */
 export interface WriteLogEntriesPartialErrors {
@@ -356,7 +356,7 @@ export interface WriteLogEntriesPartialErrors {
    * Failed requests for which no entries are written will not include
    * per-entry errors.
    */
-  logEntryErrors?: {
+  logEntryErrors: {
     [key: number]: Status;
   };
 }
@@ -384,7 +384,7 @@ export interface WriteLogEntriesPartialErrorsAminoMsg {
 }
 /** Error details for WriteLogEntries with partial success. */
 export interface WriteLogEntriesPartialErrorsSDKType {
-  log_entry_errors?: {
+  log_entry_errors: {
     [key: number]: StatusSDKType;
   };
 }
@@ -825,7 +825,7 @@ export interface TailLogEntriesRequest {
    * entries. Valid values are between 0-60000 milliseconds. Defaults to 2000
    * milliseconds.
    */
-  bufferWindow?: Duration;
+  bufferWindow: Duration;
 }
 export interface TailLogEntriesRequestProtoMsg {
   typeUrl: "/google.logging.v2.TailLogEntriesRequest";
@@ -875,7 +875,7 @@ export interface TailLogEntriesRequestAminoMsg {
 export interface TailLogEntriesRequestSDKType {
   resource_names: string[];
   filter: string;
-  buffer_window?: DurationSDKType;
+  buffer_window: DurationSDKType;
 }
 /** Result returned from `TailLogEntries`. */
 export interface TailLogEntriesResponse {
@@ -1123,7 +1123,7 @@ export const WriteLogEntriesRequest_LabelsEntry = {
 function createBaseWriteLogEntriesRequest(): WriteLogEntriesRequest {
   return {
     logName: "",
-    resource: undefined,
+    resource: MonitoredResource.fromPartial({}),
     labels: {},
     entries: [],
     partialSuccess: false,
@@ -1392,7 +1392,7 @@ export const WriteLogEntriesResponse = {
 function createBaseWriteLogEntriesPartialErrors_LogEntryErrorsEntry(): WriteLogEntriesPartialErrors_LogEntryErrorsEntry {
   return {
     key: 0,
-    value: undefined
+    value: Status.fromPartial({})
   };
 }
 export const WriteLogEntriesPartialErrors_LogEntryErrorsEntry = {

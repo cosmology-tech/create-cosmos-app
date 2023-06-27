@@ -5,7 +5,7 @@ import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../h
 export const protobufPackage = "cosmwasm.wasm.v1";
 /** GenesisState - genesis state of x/wasm */
 export interface GenesisState {
-  params?: Params;
+  params: Params;
   codes: Code[];
   contracts: Contract[];
   sequences: Sequence[];
@@ -29,7 +29,7 @@ export interface GenesisStateAminoMsg {
 }
 /** GenesisState - genesis state of x/wasm */
 export interface GenesisStateSDKType {
-  params?: ParamsSDKType;
+  params: ParamsSDKType;
   codes: CodeSDKType[];
   contracts: ContractSDKType[];
   sequences: SequenceSDKType[];
@@ -73,7 +73,7 @@ export interface GenesisState_GenMsgsSDKType {
 /** Code struct encompasses CodeInfo and CodeBytes */
 export interface Code {
   codeId: bigint;
-  codeInfo?: CodeInfo;
+  codeInfo: CodeInfo;
   codeBytes: Uint8Array;
   /** Pinned to wasmvm cache */
   pinned: boolean;
@@ -97,14 +97,14 @@ export interface CodeAminoMsg {
 /** Code struct encompasses CodeInfo and CodeBytes */
 export interface CodeSDKType {
   code_id: bigint;
-  code_info?: CodeInfoSDKType;
+  code_info: CodeInfoSDKType;
   code_bytes: Uint8Array;
   pinned: boolean;
 }
 /** Contract struct encompasses ContractAddress, ContractInfo, and ContractState */
 export interface Contract {
   contractAddress: string;
-  contractInfo?: ContractInfo;
+  contractInfo: ContractInfo;
   contractState: Model[];
 }
 export interface ContractProtoMsg {
@@ -124,7 +124,7 @@ export interface ContractAminoMsg {
 /** Contract struct encompasses ContractAddress, ContractInfo, and ContractState */
 export interface ContractSDKType {
   contract_address: string;
-  contract_info?: ContractInfoSDKType;
+  contract_info: ContractInfoSDKType;
   contract_state: ModelSDKType[];
 }
 /** Sequence key and value of an id generation counter */
@@ -152,7 +152,7 @@ export interface SequenceSDKType {
 }
 function createBaseGenesisState(): GenesisState {
   return {
-    params: undefined,
+    params: Params.fromPartial({}),
     codes: [],
     contracts: [],
     sequences: [],
@@ -460,8 +460,8 @@ export const GenesisState_GenMsgs = {
 };
 function createBaseCode(): Code {
   return {
-    codeId: BigInt("0"),
-    codeInfo: undefined,
+    codeId: BigInt(0),
+    codeInfo: CodeInfo.fromPartial({}),
     codeBytes: new Uint8Array(),
     pinned: false
   };
@@ -492,7 +492,7 @@ export const Code = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.codeId = BigInt(reader.uint64().toString());
+          message.codeId = reader.uint64();
           break;
         case 2:
           message.codeInfo = CodeInfo.decode(reader, reader.uint32());
@@ -512,7 +512,7 @@ export const Code = {
   },
   fromJSON(object: any): Code {
     return {
-      codeId: isSet(object.codeId) ? BigInt(object.codeId.toString()) : BigInt("0"),
+      codeId: isSet(object.codeId) ? BigInt(object.codeId.toString()) : BigInt(0),
       codeInfo: isSet(object.codeInfo) ? CodeInfo.fromJSON(object.codeInfo) : undefined,
       codeBytes: isSet(object.codeBytes) ? bytesFromBase64(object.codeBytes) : new Uint8Array(),
       pinned: isSet(object.pinned) ? Boolean(object.pinned) : false
@@ -520,7 +520,7 @@ export const Code = {
   },
   toJSON(message: Code): unknown {
     const obj: any = {};
-    message.codeId !== undefined && (obj.codeId = (message.codeId || BigInt("0")).toString());
+    message.codeId !== undefined && (obj.codeId = (message.codeId || BigInt(0)).toString());
     message.codeInfo !== undefined && (obj.codeInfo = message.codeInfo ? CodeInfo.toJSON(message.codeInfo) : undefined);
     message.codeBytes !== undefined && (obj.codeBytes = base64FromBytes(message.codeBytes !== undefined ? message.codeBytes : new Uint8Array()));
     message.pinned !== undefined && (obj.pinned = message.pinned);
@@ -528,7 +528,7 @@ export const Code = {
   },
   fromPartial(object: DeepPartial<Code>): Code {
     const message = createBaseCode();
-    message.codeId = object.codeId !== undefined && object.codeId !== null ? BigInt(object.codeId.toString()) : BigInt("0");
+    message.codeId = object.codeId !== undefined && object.codeId !== null ? BigInt(object.codeId.toString()) : BigInt(0);
     message.codeInfo = object.codeInfo !== undefined && object.codeInfo !== null ? CodeInfo.fromPartial(object.codeInfo) : undefined;
     message.codeBytes = object.codeBytes ?? new Uint8Array();
     message.pinned = object.pinned ?? false;
@@ -591,7 +591,7 @@ export const Code = {
 function createBaseContract(): Contract {
   return {
     contractAddress: "",
-    contractInfo: undefined,
+    contractInfo: ContractInfo.fromPartial({}),
     contractState: []
   };
 }
@@ -719,7 +719,7 @@ export const Contract = {
 function createBaseSequence(): Sequence {
   return {
     idKey: new Uint8Array(),
-    value: BigInt("0")
+    value: BigInt(0)
   };
 }
 export const Sequence = {
@@ -745,7 +745,7 @@ export const Sequence = {
           message.idKey = reader.bytes();
           break;
         case 2:
-          message.value = BigInt(reader.uint64().toString());
+          message.value = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -757,19 +757,19 @@ export const Sequence = {
   fromJSON(object: any): Sequence {
     return {
       idKey: isSet(object.idKey) ? bytesFromBase64(object.idKey) : new Uint8Array(),
-      value: isSet(object.value) ? BigInt(object.value.toString()) : BigInt("0")
+      value: isSet(object.value) ? BigInt(object.value.toString()) : BigInt(0)
     };
   },
   toJSON(message: Sequence): unknown {
     const obj: any = {};
     message.idKey !== undefined && (obj.idKey = base64FromBytes(message.idKey !== undefined ? message.idKey : new Uint8Array()));
-    message.value !== undefined && (obj.value = (message.value || BigInt("0")).toString());
+    message.value !== undefined && (obj.value = (message.value || BigInt(0)).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<Sequence>): Sequence {
     const message = createBaseSequence();
     message.idKey = object.idKey ?? new Uint8Array();
-    message.value = object.value !== undefined && object.value !== null ? BigInt(object.value.toString()) : BigInt("0");
+    message.value = object.value !== undefined && object.value !== null ? BigInt(object.value.toString()) : BigInt(0);
     return message;
   },
   fromSDK(object: SequenceSDKType): Sequence {
