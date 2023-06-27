@@ -98,16 +98,6 @@ Explore examples!
 cca --example
 ```
 
-### Grpc-web/ grpc-gateway
-
-<p align="center" width="100%">
-    <img height="48" src="https://user-images.githubusercontent.com/545047/186589196-e75c9540-86a7-4a71-8096-207be9a4216f.svg" />
-</p>
-
-```
-cca --name grpc-web-grpc-gateway --example --template grpc-web-grpc-gateway
-```
-
 ### Send Tokens
 
 <p align="center" width="100%">
@@ -146,6 +136,16 @@ cca --name vote-example --example --template vote-proposal
 
 ```
 cca --name ibc-example --example --template ibc-transfer
+```
+
+### grpc-web and grpc-gateway
+
+<p align="center" width="100%">
+    <img height="48" src="https://user-images.githubusercontent.com/545047/186589196-e75c9540-86a7-4a71-8096-207be9a4216f.svg" />
+</p>
+
+```
+cca --name grpc-example --example --template grpc-web-grpc-gateway
 ```
 
 ### Osmosis
@@ -224,7 +224,7 @@ uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
 cca --name stargaze-example --example --template stargaze
 ```
 
-### Mint NFTs
+### NFT
 
 <p align="center" width="100%">
     <img height="48" src="https://user-images.githubusercontent.com/545047/184694732-f4a3d397-14fb-415a-9562-a532f510f812.png" />
@@ -233,19 +233,7 @@ cca --name stargaze-example --example --template stargaze
 uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
 
 ```
-cca --name mint-nfts-example --example --template mint-nfts
-```
-
-### Sell NFTs
-
-<p align="center" width="100%">
-    <img height="48" src="https://user-images.githubusercontent.com/545047/184694732-f4a3d397-14fb-415a-9562-a532f510f812.png" />
-</p>
-
-uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
-
-```
-cca --name sell-nfts-example --example --template sell-nfts
+cca --name nft-example --example --template nft
 ```
 
 ### CosmWasm
