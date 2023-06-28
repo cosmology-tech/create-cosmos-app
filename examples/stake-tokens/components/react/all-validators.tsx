@@ -33,7 +33,13 @@ import {
   ValidatorInfo,
 } from './delegate-modal';
 import { useState } from 'react';
-import { exponentiate, getExponent } from '../../utils';
+import {
+  calcStakingApr,
+  exponentiate,
+  getExponent,
+  isObjEmpty,
+  shiftDigits,
+} from '../../utils';
 import { useChain } from '@cosmos-kit/react';
 import { cosmos } from 'interchain';
 import { getCoin } from '../../config';
@@ -42,7 +48,7 @@ import type {
   Validator,
   DelegationResponse as Delegation,
 } from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
-import { TransactionResult } from '../types';
+import { ChainInfo, TransactionResult } from '../types';
 import { ChainName } from '@cosmos-kit/core';
 import BigNumber from 'bignumber.js';
 import {
@@ -94,6 +100,7 @@ const AllValidators = ({
   unbondingDays,
   chainName,
   thumbnails,
+  chainInfo,
 }: {
   validators: Validator[];
   balance: number;
@@ -101,6 +108,7 @@ const AllValidators = ({
   updateData: () => void;
   unbondingDays: number;
   chainName: ChainName;
+  chainInfo: ChainInfo;
   thumbnails: {
     [key: string]: string;
   };
@@ -249,7 +257,13 @@ const AllValidators = ({
                     ).toFixed(0)
                   : 0
               }
-              apr={22.08}
+              apr={calcStakingApr({
+                ...chainInfo,
+                commission: shiftDigits(
+                  currentValidator?.commission?.commissionRates?.rate || 0,
+                  -18
+                ),
+              })}
             />
             <ValidatorDesc
               description={currentValidator?.description?.details || ''}
@@ -298,7 +312,7 @@ const AllValidators = ({
               <Th>Validator</Th>
               <Th>Voting Power</Th>
               <Th>Commission</Th>
-              <Th>APR</Th>
+              {!isObjEmpty(chainInfo) && <Th>APR</Th>}
             </Tr>
           </Thead>
 
@@ -338,8 +352,17 @@ const AllValidators = ({
                 </Td>
                 <Td>
                   <Box width="100%" display="flex" alignItems="center">
-                    {/* <Text>{validator.apr}</Text> */}
-                    <Text>22.04%</Text>
+                    {!isObjEmpty(chainInfo) && (
+                      <Text>
+                        {calcStakingApr({
+                          ...chainInfo,
+                          commission: shiftDigits(
+                            validator.commission?.commissionRates?.rate || 0,
+                            -18
+                          ),
+                        }) + '%'}
+                      </Text>
+                    )}
                     <Button
                       variant="ghost"
                       ml="auto"

@@ -1,6 +1,6 @@
 import { MouseEventHandler, ReactNode, RefObject } from 'react';
 import { IconType } from 'react-icons';
-
+import { QueryPoolResponse } from 'interchain/types/codegen/cosmos/staking/v1beta1/query';
 export interface ChooseChainInfo {
   chainName: string;
   chainRoute?: string;
@@ -102,4 +102,10 @@ export interface MyValidator {
 
 export type ImageSource = {
   imageSource: 'cosmostation' | 'keybase';
+};
+
+export type ChainInfo = {
+  annualProvisions?: string;
+  pool?: QueryPoolResponse['pool'];
+  communityTax?: string;
 };
