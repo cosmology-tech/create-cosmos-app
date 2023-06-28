@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/swap-tokens@0.3.0...@cosmology/swap-tokens@0.4.0) (2023-06-28)
+
+
+### Features
+
+* **swap-tokens:** add swap details ([f4e66c5](https://github.com/cosmology-tech/create-cosmos-app/commit/f4e66c5317fb3cf68e3ca0382b8e708b293ed452))
+
+
+
+
+
 # [0.3.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/swap-tokens@0.2.0...@cosmology/swap-tokens@0.3.0) (2023-04-12)
 
 **Note:** Version bump only for package @cosmology/swap-tokens
