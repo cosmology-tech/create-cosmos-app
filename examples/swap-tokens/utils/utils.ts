@@ -139,3 +139,78 @@ export const getChainName = (ibcDenom: CoinDenom) => {
 };
 
 export const isEmptyArray = (arr: any[]) => arr.length === 0;
+
+export const absDifferenceWithSign = (
+  a: BigNumber,
+  b: BigNumber
+): [BigNumber, boolean] => {
+  if (a.gte(b)) {
+    return [a.minus(b), false];
+  } else {
+    return [b.minus(a), true];
+  }
+};
+
+export const powApprox = (
+  base: BigNumber,
+  exp: BigNumber,
+  precision: BigNumber
+): BigNumber => {
+  if (exp.isZero()) {
+    return new BigNumber(0);
+  }
+
+  const a = exp;
+  const [x, xneg] = absDifferenceWithSign(base, new BigNumber(1));
+  let term = new BigNumber(1);
+  let sum = new BigNumber(1);
+  let negative = false;
+
+  for (let i = 1; term.gte(precision); i++) {
+    const bigK = new BigNumber(1).multipliedBy(new BigNumber(i.toString()));
+    const [c, cneg] = absDifferenceWithSign(a, bigK.minus(1));
+    term = term.multipliedBy(c.multipliedBy(x));
+    term = term.div(bigK);
+
+    if (term.isZero()) {
+      break;
+    }
+    if (xneg) {
+      negative = !negative;
+    }
+
+    if (cneg) {
+      negative = !negative;
+    }
+
+    if (negative) {
+      sum = sum.minus(term);
+    } else {
+      sum = sum.plus(term);
+    }
+  }
+  return sum;
+};
+
+const powPrecision = new BigNumber('0.00000001');
+
+export const pow = (base: BigNumber, exp: BigNumber): BigNumber => {
+  if (!base.isPositive()) {
+    throw new Error('base must be greater than 0');
+  }
+
+  if (base.gte(2)) {
+    throw new Error('base must be lesser than two');
+  }
+
+  const integer = exp.decimalPlaces(0, BigNumber.ROUND_DOWN);
+  const fractional = exp.minus(integer);
+
+  const integerPow = base.pow(integer);
+
+  if (fractional.isZero()) return integerPow;
+
+  const fractionalPow = powApprox(base, fractional, powPrecision);
+
+  return integerPow.multipliedBy(fractionalPow);
+};
