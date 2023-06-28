@@ -1,6 +1,6 @@
 import { BigNumber } from 'bignumber.js';
 import { CoinDenom, Trade, PrettyPair } from './types';
-import { symbolToOsmoDenom } from './utils';
+import { pow, symbolToOsmoDenom } from './utils';
 import { SwapAmountInRoute } from 'osmojs/types/codegen/osmosis/poolmanager/v1beta1/swap_route';
 import { Pool } from 'osmojs/types/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
@@ -136,7 +136,7 @@ export const calcOutGivenIn = (
   let adjustedIn = one.minus(swapFee);
   adjustedIn = tokenAmountIn.multipliedBy(adjustedIn);
   const y = tokenBalanceIn.div(tokenBalanceIn.plus(adjustedIn));
-  const foo = y.pow(weightRatio);
+  const foo = pow(y, weightRatio);
   const bar = one.minus(foo);
   return tokenBalanceOut.multipliedBy(bar);
 };
@@ -152,7 +152,7 @@ export const calcInGivenOut = (
   const weightRatio = tokenWeightOut.div(tokenWeightIn);
   const diff = tokenBalanceOut.minus(tokenAmountOut);
   const y = tokenBalanceOut.div(diff);
-  let foo = y.pow(weightRatio);
+  let foo = pow(y, weightRatio);
   foo = foo.minus(one);
   const tokenAmountIn = one.minus(swapFee);
   return tokenBalanceIn.multipliedBy(foo).div(tokenAmountIn);
