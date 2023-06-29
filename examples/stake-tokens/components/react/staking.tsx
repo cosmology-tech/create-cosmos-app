@@ -23,7 +23,6 @@ import {
   decodeUint8Arr,
   shiftDigits,
 } from '../../utils';
-import { getAnnualProvisions } from '../../api';
 import { ChainInfo } from '../types';
 
 interface StakingTokens {
@@ -123,23 +122,15 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
 
       // APR
       let chainInfo: ChainInfo = {};
-      let annualProvisions: string | undefined;
 
-      await getAnnualProvisions(chainName)
-        .then((data) => (annualProvisions = data.annual_provisions))
-        .catch((err) => console.log(err));
-
-      if (!annualProvisions) {
-        await cosmosClient.mint.v1beta1
-          .annualProvisions()
-          .then((data) => {
-            const provisions = decodeUint8Arr(data?.annualProvisions);
-            annualProvisions = shiftDigits(provisions, -18);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+      const annualProvisions = await cosmosClient.mint.v1beta1
+        .annualProvisions()
+        .then((data) => {
+          return shiftDigits(decodeUint8Arr(data?.annualProvisions), -18);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
       if (annualProvisions) {
         const [{ pool }, { params }] = await Promise.all([
