@@ -16,7 +16,14 @@ import MyValidators from './my-validators';
 import AllValidators from './all-validators';
 import { getCoin } from '../../config';
 import { ChainName } from '@cosmos-kit/core';
-import { getExponent, exponentiate, getImgUrls } from '../../utils';
+import {
+  getExponent,
+  exponentiate,
+  getImgUrls,
+  decodeUint8Arr,
+  shiftDigits,
+} from '../../utils';
+import { ChainInfo } from '../types';
 
 interface StakingTokens {
   balance: number;
@@ -27,6 +34,7 @@ interface StakingTokens {
   myValidators: Validator[];
   allValidators: Validator[];
   unbondingDays: number;
+  chainInfo: ChainInfo;
   thumbnails: {
     [key: string]: string;
   };
@@ -35,17 +43,7 @@ interface StakingTokens {
 export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
   const { address, getRpcEndpoint } = useChain(chainName);
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<StakingTokens>({
-    balance: 0,
-    rewards: [],
-    totalReward: 0,
-    staked: 0,
-    delegations: [],
-    myValidators: [],
-    allValidators: [],
-    unbondingDays: 0,
-    thumbnails: {},
-  });
+  const [data, setData] = useState<StakingTokens>();
 
   const coin = getCoin(chainName);
   const exp = getExponent(chainName);
@@ -54,111 +52,139 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
     if (!address) return;
 
     setIsLoading(true);
+    try {
+      let rpcEndpoint = await getRpcEndpoint();
 
-    let rpcEndpoint = await getRpcEndpoint();
+      if (!rpcEndpoint) {
+        console.log('no rpc endpoint — using a fallback');
+        rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
+      }
 
-    if (!rpcEndpoint) {
-      console.log('no rpc endpoint — using a fallback');
-      rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
-    }
+      // get RPC client
+      const { cosmos: cosmosClient } =
+        await cosmos.ClientFactory.createRPCQueryClient({
+          rpcEndpoint:
+            typeof rpcEndpoint === 'string' ? rpcEndpoint : rpcEndpoint.url,
+        });
 
-    // get RPC client
-    const client = await cosmos.ClientFactory.createRPCQueryClient({
-      rpcEndpoint:
-        typeof rpcEndpoint === 'string' ? rpcEndpoint : rpcEndpoint.url,
-    });
+      const [
+        { balance },
+        { validators: myValidators },
+        { rewards, total },
+        { validators },
+        { delegationResponses: delegations },
+        { params },
+      ] = await Promise.all([
+        cosmosClient.bank.v1beta1.balance({
+          address,
+          denom: coin.base,
+        }),
+        cosmosClient.staking.v1beta1.delegatorValidators({
+          delegatorAddr: address,
+        }),
+        cosmosClient.distribution.v1beta1.delegationTotalRewards({
+          delegatorAddress: address,
+        }),
+        cosmosClient.staking.v1beta1.validators({
+          status: cosmos.staking.v1beta1.bondStatusToJSON(
+            cosmos.staking.v1beta1.BondStatus.BOND_STATUS_BONDED
+          ),
+          pagination: {
+            key: new Uint8Array(),
+            offset: Long.fromNumber(0),
+            limit: Long.fromNumber(200),
+            countTotal: false,
+            reverse: false,
+          },
+        }),
+        cosmosClient.staking.v1beta1.delegatorDelegations({
+          delegatorAddr: address,
+        }),
+        cosmosClient.staking.v1beta1.params(),
+      ]);
 
-    // AVAILABLE BALANCE
-    const { balance } = await client.cosmos.bank.v1beta1.balance({
-      address,
-      denom: coin.base,
-    });
+      // AVAILABLE BALANCE
+      const amount = exponentiate(balance!.amount, -exp);
 
-    const amount = exponentiate(balance!.amount, -exp);
+      // REWARDS
+      const delegatorReward = total.find((item) => item.denom === coin.base);
 
-    // MY VALIDATORS
-    const { validators: myValidators } =
-      await client.cosmos.staking.v1beta1.delegatorValidators({
-        delegatorAddr: address,
-      });
+      const reward = decodeCosmosSdkDecFromProto(
+        delegatorReward ? delegatorReward.amount : '0'
+      ).toString();
 
-    // REWARDS
-    const { rewards, total } =
-      await client.cosmos.distribution.v1beta1.delegationTotalRewards({
-        delegatorAddress: address,
-      });
+      const totalReward = Number(exponentiate(reward, -exp).toFixed(6));
 
-    const delegatorReward = total.find((item) => item.denom === coin.base);
-
-    const reward = decodeCosmosSdkDecFromProto(
-      delegatorReward ? delegatorReward.amount : '0'
-    ).toString();
-
-    const totalReward = Number(exponentiate(reward, -exp).toFixed(6));
-
-    // ALL VALIDATORS
-    const { validators } = await client.cosmos.staking.v1beta1.validators({
-      status: cosmos.staking.v1beta1.bondStatusToJSON(
-        cosmos.staking.v1beta1.BondStatus.BOND_STATUS_BONDED
-      ),
-      pagination: {
-        key: new Uint8Array(),
-        offset: Long.fromNumber(0),
-        limit: Long.fromNumber(200),
-        countTotal: false,
-        reverse: false,
-      },
-    });
-
-    const allValidators = validators.sort((a, b) =>
-      new BigNumber(b.tokens).minus(new BigNumber(a.tokens)).toNumber()
-    );
-
-    // DELEGATIONS
-    const { delegationResponses: delegations } =
-      await client.cosmos.staking.v1beta1.delegatorDelegations({
-        delegatorAddr: address,
-      });
-
-    const stakedAmount = delegations
-      .map((delegation) => exponentiate(delegation.balance!.amount, -exp))
-      .reduce((a, b) => a + b, 0);
-
-    // UNBONDING DAYS
-    const { params } = await client.cosmos.staking.v1beta1.params();
-    const unbondingDays = params?.unbondingTime
-      ? Number((params?.unbondingTime?.seconds.low / 86400).toFixed(0))
-      : 0;
-
-    // THUMBNAILS
-    let thumbnails = {};
-
-    const validatorThumbnails = localStorage.getItem(
-      `${chainName}-validator-thumbnails`
-    );
-
-    if (validatorThumbnails) {
-      thumbnails = JSON.parse(validatorThumbnails);
-    } else {
-      thumbnails = await getImgUrls(validators, chainName);
-      localStorage.setItem(
-        `${chainName}-validator-thumbnails`,
-        JSON.stringify(thumbnails)
+      // ALL VALIDATORS
+      const allValidators = validators.sort((a, b) =>
+        new BigNumber(b.tokens).minus(new BigNumber(a.tokens)).toNumber()
       );
-    }
 
-    setData({
-      rewards,
-      totalReward,
-      balance: amount,
-      staked: stakedAmount,
-      delegations,
-      myValidators,
-      allValidators,
-      unbondingDays,
-      thumbnails,
-    });
-    setIsLoading(false);
+      // APR
+      let chainInfo: ChainInfo = {};
+
+      const annualProvisions = await cosmosClient.mint.v1beta1
+        .annualProvisions()
+        .then((data) => {
+          return shiftDigits(decodeUint8Arr(data?.annualProvisions), -18);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      if (annualProvisions) {
+        const [{ pool }, { params }] = await Promise.all([
+          cosmosClient.staking.v1beta1.pool(),
+          cosmosClient.distribution.v1beta1.params(),
+        ]);
+        const communityTax = shiftDigits(params?.communityTax || 0, -18);
+        chainInfo = { annualProvisions, communityTax, pool };
+      }
+
+      // DELEGATIONS
+      const stakedAmount = delegations
+        .map((delegation) => exponentiate(delegation.balance!.amount, -exp))
+        .reduce((a, b) => a + b, 0);
+
+      // UNBONDING DAYS
+      const unbondingDays = params?.unbondingTime
+        ? Number((params?.unbondingTime?.seconds.low / 86400).toFixed(0))
+        : 0;
+
+      // THUMBNAILS
+      let thumbnails = {};
+
+      const validatorThumbnails = localStorage.getItem(
+        `${chainName}-validator-thumbnails`
+      );
+
+      if (validatorThumbnails) {
+        thumbnails = JSON.parse(validatorThumbnails);
+      } else {
+        thumbnails = await getImgUrls(validators, chainName);
+        localStorage.setItem(
+          `${chainName}-validator-thumbnails`,
+          JSON.stringify(thumbnails)
+        );
+      }
+
+      setData({
+        rewards,
+        totalReward,
+        balance: amount,
+        staked: stakedAmount,
+        delegations,
+        myValidators,
+        allValidators,
+        unbondingDays,
+        thumbnails,
+        chainInfo,
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   }, [address]);
 
   useEffect(() => {
@@ -174,15 +200,17 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
         spacing="4"
         skeletonHeight="4"
       >
-        <Stats
-          balance={data.balance}
-          rewards={data.rewards}
-          totalReward={data.totalReward}
-          staked={data.staked}
-          updateData={getData}
-          chainName={chainName}
-        />
-        {data.myValidators.length > 0 && (
+        {data && (
+          <Stats
+            balance={data.balance}
+            rewards={data.rewards}
+            totalReward={data.totalReward}
+            staked={data.staked}
+            updateData={getData}
+            chainName={chainName}
+          />
+        )}
+        {data && data.myValidators.length > 0 && (
           <MyValidators
             validators={data.myValidators}
             allValidator={data.allValidators}
@@ -192,10 +220,11 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
             updateData={getData}
             unbondingDays={data.unbondingDays}
             chainName={chainName}
+            chainInfo={data.chainInfo}
             thumbnails={data.thumbnails}
           />
         )}
-        {data.allValidators.length > 0 && (
+        {data && data.allValidators.length > 0 && (
           <AllValidators
             balance={data.balance}
             validators={data.allValidators}
@@ -204,6 +233,7 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
             unbondingDays={data.unbondingDays}
             chainName={chainName}
             thumbnails={data.thumbnails}
+            chainInfo={data.chainInfo}
           />
         )}
       </SkeletonText>
