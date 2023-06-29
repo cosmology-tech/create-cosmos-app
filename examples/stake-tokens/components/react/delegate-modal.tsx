@@ -29,7 +29,7 @@ export const ValidatorInfo = ({
   imgUrl: string;
   name: string;
   commission: number | string;
-  apr: number;
+  apr: string | number;
 }) => (
   <Flex alignItems="center" gap={4} mb={4}>
     {imgUrl ? (
@@ -44,7 +44,8 @@ export const ValidatorInfo = ({
         {name}
       </Heading>
       <Text>
-        Commission {commission}% | APR {apr}%
+        Commission {commission}%&nbsp;
+        {Number.isNaN(Number(apr)) ? '' : `| APR ${apr}%`}
       </Text>
     </Stack>
   </Flex>
