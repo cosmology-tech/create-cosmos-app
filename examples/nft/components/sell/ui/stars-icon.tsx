@@ -1,5 +1,4 @@
-import { Box } from '@chakra-ui/react';
-import Image from 'next/image';
+import { Box, Image } from '@chakra-ui/react';
 
 export const StarsIcon = ({
   ml,
@@ -19,7 +18,12 @@ export const StarsIcon = ({
       borderRadius="full"
       overflow="hidden"
     >
-      <Image src="/stars.png" alt="stars_icon" height="100%" width="100%" />
+      <Image
+        src="https://pbs.twimg.com/profile_images/1507391623914737669/U3fR7nxh_400x400.jpg"
+        alt="stars_icon"
+        height="100%"
+        width="100%"
+      />
     </Box>
   );
 };
