@@ -1,5 +1,4 @@
 import { Box } from '@chakra-ui/react';
-import starsIcon from 'assets/stars.png';
 import Image from 'next/image';
 
 export const StarsIcon = ({
@@ -20,7 +19,7 @@ export const StarsIcon = ({
       borderRadius="full"
       overflow="hidden"
     >
-      <Image src={starsIcon} alt="stars_icon" height="100%" width="100%" />
+      <Image src="/stars.png" alt="stars_icon" height="100%" width="100%" />
     </Box>
   );
 };
