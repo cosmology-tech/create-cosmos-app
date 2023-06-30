@@ -1,10 +1,9 @@
 import { Text, Flex, Select, Input } from '@chakra-ui/react';
-import { StdFee } from '@cosmjs/stargate';
 import { useChain } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
 import React, { useState } from 'react';
 import { chainName, coin, exponent, marketplaceContract } from 'config';
-import { useClient, useColor, useTransactionToast } from 'hooks';
+import { useClient, useColor, useTx } from 'hooks';
 import {
   getExpirationTime,
   getStarsCoin,
@@ -12,7 +11,7 @@ import {
   isGtZero,
   toDisplayAmount,
 } from 'utils';
-import { Collection, SaleType, Token, TxResult } from '../../types';
+import { Collection, SaleType, Token } from '../../types';
 import { AmountInput } from './amount-input';
 import { LargeButton } from '../../base/buttons';
 import { Fees } from './fees';
@@ -29,7 +28,7 @@ export const ListTab = ({
 }: {
   closeModal: () => void;
   inputTitle: string;
-  price: number;
+  price: number | undefined;
   saleType: SaleType;
   token: Token;
   collection: Collection;
@@ -40,8 +39,8 @@ export const ListTab = ({
   const [reserveAddr, setReserveAddr] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { showToast } = useTransactionToast();
-  const { address, getSigningCosmWasmClient } = useChain(chainName);
+  const { tx } = useTx();
+  const { address } = useChain(chainName);
   const { getMarketplaceMsgComposer, getSg721UpdatableMsgComposer } =
     useClient();
 
@@ -81,23 +80,22 @@ export const ListTab = ({
       ),
     ];
 
-    const fee: StdFee = {
-      amount: [getStarsCoin('0')],
-      gas: '666666',
-    };
+    await tx(
+      msgs,
+      {
+        gas: '666666',
+        toast: {
+          title: 'Item Listed',
+          message: `Your item has been listed for ${inputValue} STARS`,
+        },
+      },
+      () => {
+        closeModal();
+        update();
+      }
+    );
 
-    try {
-      const client = await getSigningCosmWasmClient();
-      const res = await client.signAndBroadcast(address, msgs, fee);
-      showToast(res.code);
-      closeModal();
-      update();
-    } catch (error) {
-      showToast(TxResult.Failed, error);
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    setIsLoading(false);
   };
 
   const { textColor, bgColor, borderColor } = useColor();
