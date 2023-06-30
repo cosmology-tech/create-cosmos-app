@@ -26,20 +26,18 @@ import {
 import { getPrices } from 'api';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { StdFee } from '@cosmjs/stargate';
-import { useTransactionToast } from 'hooks/useTransactionToast';
 import {
   CollectionMint,
   CollectionsMint,
   ContractsAddress,
   Minter,
   SG721,
-  TxResult,
   Whitelist,
 } from './types';
 import { useQuery, useLazyQuery } from '@apollo/client';
 import { getHttpUrl, toDisplayAmount } from 'utils';
 import { Hero } from './mint/hero';
+import { useTx } from 'hooks';
 
 dayjs.extend(relativeTime);
 
@@ -65,7 +63,7 @@ export const MintNfts = () => {
     getCosmWasmClient,
     getSigningCosmWasmClient,
   } = useChain(chainName);
-
+  const { tx } = useTx();
   const collectionsQuery = useQuery<CollectionsMint>(COLLECTIONS_MINT, {
     variables: {
       limit: 100,
@@ -77,7 +75,6 @@ export const MintNfts = () => {
     useLazyQuery<CollectionMint>(COLLECTION);
 
   const mintBoxRef = useRef<HTMLDivElement>(null);
-  const { showToast } = useTransactionToast();
 
   const getBalance = async () => {
     if (!address) return;
@@ -253,42 +250,33 @@ export const MintNfts = () => {
     setIsMinting(true);
 
     const { VendingMinterMessageComposer } = contracts.VendingMinter;
-    const signingCosmWasmClient = await getSigningCosmWasmClient();
     const { mint } = new VendingMinterMessageComposer(
       address,
       contractsAddress.minter
     );
 
-    const fee: StdFee = {
-      amount: [
-        {
-          denom: 'ustars',
-          amount: '0',
-        },
-      ],
-      gas: new BigNumber('450000').multipliedBy(inputAmount).toString(),
-    };
-
     const price = data.collectionInfo?.minter.all_prices.current_price;
 
-    try {
-      if (!price) throw Error('no mint price found');
-      const msgs = Array(Number(inputAmount)).fill(mint([price]));
-      const res = await signingCosmWasmClient.signAndBroadcast(
-        address,
-        msgs,
-        fee
-      );
-      showToast(res?.code);
-      setInputAmount('1');
-      getData();
-    } catch (error) {
-      showToast(TxResult.Failed, error);
-      console.error(error);
-    } finally {
-      signingCosmWasmClient.disconnect();
-      setIsMinting(false);
+    if (!price) {
+      console.error('no mint price found');
+      return;
     }
+
+    const msgs = Array(Number(inputAmount)).fill(mint([price]));
+
+    await tx(
+      msgs,
+      {
+        gas: new BigNumber('450000').multipliedBy(inputAmount).toString(),
+        toast: { title: 'Mint Successful' },
+      },
+      () => {
+        setInputAmount('1');
+        getData();
+      }
+    );
+
+    setIsMinting(false);
   };
 
   const isWhitelistActive = !!data.collectionInfo?.whitelist?.is_active;
@@ -301,13 +289,11 @@ export const MintNfts = () => {
     ? data.collectionInfo!.whitelist!.per_address_limit
     : data.collectionInfo?.minter.per_address_limit;
 
-  const inputDollarValue =
-    data?.starsPrice &&
-    new BigNumber(inputAmount || 0)
-      .multipliedBy(priceDisplayAmount)
-      .multipliedBy(data.starsPrice)
-      .decimalPlaces(2)
-      .toString();
+  const inputDollarValue = new BigNumber(inputAmount || 0)
+    .multipliedBy(priceDisplayAmount)
+    .multipliedBy(data?.starsPrice || 0)
+    .decimalPlaces(2)
+    .toString();
 
   const isSoldOut = !data.collectionInfo?.minter.remaining_tokens;
 
@@ -510,7 +496,7 @@ export const MintNfts = () => {
                         )}{' '}
                         STARS
                       </Text>
-                      {inputAmount && new BigNumber(inputAmount).gt(0) && (
+                      {new BigNumber(inputDollarValue).gt(0) && (
                         <Text fontSize="12px" color={titleColor}>
                           {new BigNumber(inputDollarValue || 0).lt(0.01)
                             ? '< $0.01'

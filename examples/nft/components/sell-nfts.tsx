@@ -256,7 +256,7 @@ export const SellNfts = () => {
         />
       )}
 
-      {selectedToken && selectedCollection && price && (
+      {selectedToken && selectedCollection && (
         <NftSaleModal
           modalControl={nftSaleModalControl}
           token={selectedToken}
@@ -282,7 +282,7 @@ export const SellNfts = () => {
         />
       )}
 
-      {selectedToken && selectedCollection && price && (
+      {selectedToken && selectedCollection && (
         <UpdatePriceModal
           modalControl={updatePriceModalControl}
           collection={selectedCollection}
