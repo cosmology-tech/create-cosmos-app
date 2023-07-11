@@ -209,6 +209,15 @@
     eslint-visitor-keys "^2.1.0"
     semver "^6.3.0"
 
+"@babel/eslint-parser@^7.19.1":
+  version "7.22.7"
+  resolved "https://registry.npmmirror.com/@babel/eslint-parser/-/eslint-parser-7.22.7.tgz#d2807fbd1fa4376162716da63dfd3c69a2249fed"
+  integrity sha512-LH6HJqjOyu/Qtp7LuSycZXK/CYXQ4ohdkliEaL1QTdtOXVdOVpTBKVxAo/+eeyt+x/2SRzB+zUPduVl+xiEvdg==
+  dependencies:
+    "@nicolo-ribaudo/eslint-scope-5-internals" "5.1.1-v1"
+    "@nicolo-ribaudo/semver-v6" "^6.3.3"
+    eslint-visitor-keys "^2.1.0"
+
 "@babel/generator@7.18.12":
   version "7.18.12"
   resolved "https://registry.npmjs.org/@babel/generator/-/generator-7.18.12.tgz"
@@ -429,6 +438,13 @@
   dependencies:
     "@babel/types" "^7.20.2"
 
+"@babel/helper-skip-transparent-expression-wrappers@^7.18.9":
+  version "7.22.5"
+  resolved "https://registry.npmmirror.com/@babel/helper-skip-transparent-expression-wrappers/-/helper-skip-transparent-expression-wrappers-7.22.5.tgz#007f15240b5751c537c40e77abb4e89eeaaa8847"
+  integrity sha512-tK14r66JZKiC43p8Ki33yLBVJKlQDFoA8GYN67lWCDCqoL6EMMSuM9b+Iff2jHaM/RRFYl7K+iiru7hbRqNx8Q==
+  dependencies:
+    "@babel/types" "^7.22.5"
+
 "@babel/helper-skip-transparent-expression-wrappers@^7.20.0":
   version "7.20.0"
   resolved "https://registry.npmjs.org/@babel/helper-skip-transparent-expression-wrappers/-/helper-skip-transparent-expression-wrappers-7.20.0.tgz"
@@ -448,10 +464,20 @@
   resolved "https://registry.npmjs.org/@babel/helper-string-parser/-/helper-string-parser-7.19.4.tgz"
   integrity sha512-nHtDoQcuqFmwYNYPz3Rah5ph2p8PFeFCsZk9A/48dPc/rGocJ5J3hAAZ7pb76VWX3fZKu+uEr/FhH5jLx7umrw==
 
+"@babel/helper-string-parser@^7.22.5":
+  version "7.22.5"
+  resolved "https://registry.npmmirror.com/@babel/helper-string-parser/-/helper-string-parser-7.22.5.tgz#533f36457a25814cf1df6488523ad547d784a99f"
+  integrity sha512-mM4COjgZox8U+JcXQwPijIZLElkgEpO5rsERVDJTc2qfCDfERyob6k5WegS14SX18IIjv+XD+GrqNumY5JRCDw==
+
 "@babel/helper-validator-identifier@^7.18.6", "@babel/helper-validator-identifier@^7.19.1":
   version "7.19.1"
   resolved "https://registry.npmjs.org/@babel/helper-validator-identifier/-/helper-validator-identifier-7.19.1.tgz"
   integrity sha512-awrNfaMtnHUr653GgGEs++LlAvW6w+DcPrOliSMXWCKo597CwL5Acf/wWdNkf/tfEQE3mjkeD1YOVZOUV/od1w==
+
+"@babel/helper-validator-identifier@^7.22.5":
+  version "7.22.5"
+  resolved "https://registry.npmmirror.com/@babel/helper-validator-identifier/-/helper-validator-identifier-7.22.5.tgz#9544ef6a33999343c8740fa51350f30eeaaaf193"
+  integrity sha512-aJXu+6lErq8ltp+JhkJUfk1MTGyuA4v7f3pA+BJ5HLfNC6nAQ0Cpi9uOquUj8Hehg0aUiHzWQbOVJGao6ztBAQ==
 
 "@babel/helper-validator-option@^7.18.6", "@babel/helper-validator-option@^7.21.0":
   version "7.21.0"
@@ -485,6 +511,18 @@
     "@babel/helper-validator-identifier" "^7.18.6"
     chalk "^2.0.0"
     js-tokens "^4.0.0"
+
+"@babel/node@^7.19.1":
+  version "7.22.6"
+  resolved "https://registry.npmmirror.com/@babel/node/-/node-7.22.6.tgz#a47b4f150f06bad1808823c4519690ded6c93911"
+  integrity sha512-Lt6v+RUQOTsEOXLv+KfjogLFkFfsLPPSoXZqmbngfVatkWjQPnFGHO0xjFRcN6XEvm3vsnZn+AWQiRpgZFsdIA==
+  dependencies:
+    "@babel/register" "^7.22.5"
+    commander "^4.0.1"
+    core-js "^3.30.2"
+    node-environment-flags "^1.0.5"
+    regenerator-runtime "^0.13.11"
+    v8flags "^3.1.1"
 
 "@babel/node@^7.20.2":
   version "7.20.7"
@@ -607,7 +645,7 @@
     "@babel/helper-plugin-utils" "^7.20.2"
     "@babel/plugin-syntax-logical-assignment-operators" "^7.10.4"
 
-"@babel/plugin-proposal-nullish-coalescing-operator@^7.18.6":
+"@babel/plugin-proposal-nullish-coalescing-operator@7.18.6", "@babel/plugin-proposal-nullish-coalescing-operator@^7.18.6":
   version "7.18.6"
   resolved "https://registry.npmjs.org/@babel/plugin-proposal-nullish-coalescing-operator/-/plugin-proposal-nullish-coalescing-operator-7.18.6.tgz"
   integrity sha512-wQxQzxYeJqHcfppzBDnm1yAY0jSRkUXR2z8RePZYrKwMKgMlE8+Z6LUno+bd6LvbGh8Gltvy74+9pIYkr+XkKA==
@@ -615,7 +653,7 @@
     "@babel/helper-plugin-utils" "^7.18.6"
     "@babel/plugin-syntax-nullish-coalescing-operator" "^7.8.3"
 
-"@babel/plugin-proposal-numeric-separator@^7.18.6":
+"@babel/plugin-proposal-numeric-separator@7.18.6", "@babel/plugin-proposal-numeric-separator@^7.18.6":
   version "7.18.6"
   resolved "https://registry.npmjs.org/@babel/plugin-proposal-numeric-separator/-/plugin-proposal-numeric-separator-7.18.6.tgz"
   integrity sha512-ozlZFogPqoLm8WBr5Z8UckIoE4YQ5KESVcNudyXOR8uqIkliTEgJ3RoketfG6pmzLdeZF0H/wjE9/cCEitBl7Q==
@@ -674,6 +712,15 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.18.6"
     "@babel/plugin-syntax-optional-catch-binding" "^7.8.3"
+
+"@babel/plugin-proposal-optional-chaining@7.18.9":
+  version "7.18.9"
+  resolved "https://registry.npmmirror.com/@babel/plugin-proposal-optional-chaining/-/plugin-proposal-optional-chaining-7.18.9.tgz#e8e8fe0723f2563960e4bf5e9690933691915993"
+  integrity sha512-v5nwt4IqBXihxGsW2QmCWMDS3B3bzGIk/EQVZz2ei7f3NJl8NzAJVvUmpDW5q1CRNY+Beb/k58UAH1Km1N411w==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.18.9"
+    "@babel/helper-skip-transparent-expression-wrappers" "^7.18.9"
+    "@babel/plugin-syntax-optional-chaining" "^7.8.3"
 
 "@babel/plugin-proposal-optional-chaining@^7.18.9", "@babel/plugin-proposal-optional-chaining@^7.20.7", "@babel/plugin-proposal-optional-chaining@^7.21.0":
   version "7.21.0"
@@ -1760,6 +1807,17 @@
     pirates "^4.0.5"
     source-map-support "^0.5.16"
 
+"@babel/register@^7.22.5":
+  version "7.22.5"
+  resolved "https://registry.npmmirror.com/@babel/register/-/register-7.22.5.tgz#e4d8d0f615ea3233a27b5c6ada6750ee59559939"
+  integrity sha512-vV6pm/4CijSQ8Y47RH5SopXzursN35RQINfGJkmOlcpAtGuf94miFvIPhCKGQN7WGIcsgG1BHEX2KVdTYwTwUQ==
+  dependencies:
+    clone-deep "^4.0.1"
+    find-cache-dir "^2.0.0"
+    make-dir "^2.1.0"
+    pirates "^4.0.5"
+    source-map-support "^0.5.16"
+
 "@babel/regjsgen@^0.8.0":
   version "0.8.0"
   resolved "https://registry.npmmirror.com/@babel/regjsgen/-/regjsgen-0.8.0.tgz#f0ba69b075e1f05fb2825b7fad991e7adbb18310"
@@ -1909,6 +1967,15 @@
   dependencies:
     "@babel/helper-string-parser" "^7.19.4"
     "@babel/helper-validator-identifier" "^7.19.1"
+    to-fast-properties "^2.0.0"
+
+"@babel/types@^7.22.5":
+  version "7.22.5"
+  resolved "https://registry.npmmirror.com/@babel/types/-/types-7.22.5.tgz#cd93eeaab025880a3a47ec881f4b096a5b786fbe"
+  integrity sha512-zo3MIHGOkPOfoRXitsgHLjEXmlDaD/5KU1Uzuc9GNiZPhSqVxVRtxuPaSBZDsYZ9qV88AjtMtWW7ww98loJ9KA==
+  dependencies:
+    "@babel/helper-string-parser" "^7.22.5"
+    "@babel/helper-validator-identifier" "^7.22.5"
     to-fast-properties "^2.0.0"
 
 "@bcoe/v8-coverage@^0.2.3":
@@ -3527,6 +3594,25 @@
     react-icons "^4.4.0"
     react-resize-detector "^8.0.3"
 
+"@cosmology/protobufjs@6.11.6":
+  version "6.11.6"
+  resolved "https://registry.npmmirror.com/@cosmology/protobufjs/-/protobufjs-6.11.6.tgz#6f7bd340ab4a27969b1f75b4bff21a74e03b971a"
+  integrity sha512-k1opGC9CTX5vD2447pUqLmleVv0Kb8RasBUxkZHudVOvuXs2qAAGONmMIEGRCROKTodhTY9fdTnGU2lCZqAwNw==
+  dependencies:
+    "@protobufjs/aspromise" "^1.1.2"
+    "@protobufjs/base64" "^1.1.2"
+    "@protobufjs/codegen" "^2.0.4"
+    "@protobufjs/eventemitter" "^1.1.0"
+    "@protobufjs/fetch" "^1.1.0"
+    "@protobufjs/float" "^1.0.2"
+    "@protobufjs/inquire" "^1.1.0"
+    "@protobufjs/path" "^1.1.2"
+    "@protobufjs/pool" "^1.1.0"
+    "@protobufjs/utf8" "^1.1.0"
+    "@types/long" "^4.0.1"
+    "@types/node" ">=13.7.0"
+    long "^4.0.0"
+
 "@cosmos-kit/core@1.3.0", "@cosmos-kit/core@^1.3.0":
   version "1.3.0"
   resolved "https://registry.npmjs.org/@cosmos-kit/core/-/core-1.3.0.tgz#81603697bf89a539b609ffe94a5157cb50cfa2d9"
@@ -3757,6 +3843,39 @@
     rimraf "3.0.2"
     shelljs "0.8.5"
     wasm-ast-types "^0.19.0"
+
+"@cosmwasm/ts-codegen@0.30.1":
+  version "0.30.1"
+  resolved "https://registry.npmmirror.com/@cosmwasm/ts-codegen/-/ts-codegen-0.30.1.tgz#8b8a635273065261c608a76f8a50cb5045e23980"
+  integrity sha512-6ATbmtuK2MwG9fJxIi0M+Rwd0SQhsko2nA8qVXC9MRHpZJKNaXYYcof1fel/L5HJCjotmQVsoxons3rGg6dRnw==
+  dependencies:
+    "@babel/core" "7.18.10"
+    "@babel/generator" "7.18.12"
+    "@babel/parser" "7.18.11"
+    "@babel/plugin-proposal-class-properties" "7.18.6"
+    "@babel/plugin-proposal-export-default-from" "7.18.10"
+    "@babel/plugin-proposal-object-rest-spread" "7.18.9"
+    "@babel/plugin-transform-runtime" "7.18.10"
+    "@babel/preset-env" "7.18.10"
+    "@babel/preset-typescript" "^7.18.6"
+    "@babel/runtime" "^7.18.9"
+    "@babel/traverse" "7.18.11"
+    "@babel/types" "7.18.10"
+    "@pyramation/json-schema-to-typescript" " 11.0.4"
+    case "1.6.3"
+    dargs "7.0.0"
+    deepmerge "4.2.2"
+    dotty "0.1.2"
+    fuzzy "0.1.3"
+    glob "8.0.3"
+    inquirerer "0.1.3"
+    long "^5.2.0"
+    minimist "1.2.6"
+    mkdirp "1.0.4"
+    parse-package-name "1.0.0"
+    rimraf "3.0.2"
+    shelljs "0.8.5"
+    wasm-ast-types "^0.23.1"
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
@@ -5415,6 +5534,11 @@
   dependencies:
     eslint-scope "5.1.1"
 
+"@nicolo-ribaudo/semver-v6@^6.3.3":
+  version "6.3.3"
+  resolved "https://registry.npmmirror.com/@nicolo-ribaudo/semver-v6/-/semver-v6-6.3.3.tgz#ea6d23ade78a325f7a52750aab1526b02b628c29"
+  integrity sha512-3Yc1fUTs69MG/uZbJlLSI3JISMn2UV2rg+1D/vROUqZyh3l6iYHCs7GMp+M40ZD7yOdDbYjJcU1oTJhrc+dGKg==
+
 "@noble/hashes@^1", "@noble/hashes@^1.0.0", "@noble/hashes@^1.2.0":
   version "1.3.0"
   resolved "https://registry.npmmirror.com/@noble/hashes/-/hashes-1.3.0.tgz#085fd70f6d7d9d109671090ccae1d3bec62554a1"
@@ -5653,6 +5777,20 @@
     case "1.6.3"
     dotty "0.1.2"
 
+"@osmonauts/ast@^0.86.9":
+  version "0.86.9"
+  resolved "https://registry.npmmirror.com/@osmonauts/ast/-/ast-0.86.9.tgz#19f76cfe3c866f75bb66516ca2d5e1989a0e5af5"
+  integrity sha512-63J6Q9VtjO88gTT1xxh0UqTy+amNdzBcvQujvvB0vsIKXk6XUXrbW2rI7pISmMfIfUyX0ahUG2Mb+DFRdyw6jg==
+  dependencies:
+    "@babel/parser" "^7.21.4"
+    "@babel/runtime" "^7.21.0"
+    "@babel/types" "7.21.4"
+    "@osmonauts/proto-parser" "^0.45.1"
+    "@osmonauts/types" "^0.36.1"
+    "@osmonauts/utils" "^0.11.1"
+    case "1.6.3"
+    dotty "0.1.2"
+
 "@osmonauts/lcd@0.8.0", "@osmonauts/lcd@^0.8.0":
   version "0.8.0"
   resolved "https://registry.npmjs.org/@osmonauts/lcd/-/lcd-0.8.0.tgz"
@@ -5702,6 +5840,19 @@
     "@babel/runtime" "^7.21.0"
     "@osmonauts/types" "^0.35.0"
     "@pyramation/protobufjs" "6.11.5"
+    dotty "0.1.2"
+    glob "8.0.3"
+    minimatch "5.1.0"
+    mkdirp "3.0.0"
+
+"@osmonauts/proto-parser@^0.45.1":
+  version "0.45.1"
+  resolved "https://registry.npmmirror.com/@osmonauts/proto-parser/-/proto-parser-0.45.1.tgz#43f5cb40cea64a975a9b3796fa73254cf0f11693"
+  integrity sha512-zRPx8f7PeZPL2uLfDRjIn+LWZtbGKUtO7RUUxFju08fSgnoegxfdYRzZKTz9z20OnyHomzYhpW8B4+3rxgpZ+g==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@cosmology/protobufjs" "6.11.6"
+    "@osmonauts/types" "^0.36.1"
     dotty "0.1.2"
     glob "8.0.3"
     minimatch "5.1.0"
@@ -5821,6 +5972,44 @@
     rimraf "3.0.2"
     shelljs "0.8.5"
 
+"@osmonauts/telescope@^0.99.10":
+  version "0.99.10"
+  resolved "https://registry.npmmirror.com/@osmonauts/telescope/-/telescope-0.99.10.tgz#92d7d2bfbb5a34c605cd691233e0d5bce98988d7"
+  integrity sha512-HXoS0lUdNovJL+86PyqBK9OXZqlcazl7PJU24bx+cixmokND7awgLpA9bPCSW3SxXACMO/bjrqOvV9VPUm9SAw==
+  dependencies:
+    "@babel/core" "7.21.4"
+    "@babel/generator" "7.21.4"
+    "@babel/parser" "^7.21.4"
+    "@babel/plugin-proposal-class-properties" "7.18.6"
+    "@babel/plugin-proposal-export-default-from" "7.18.10"
+    "@babel/plugin-proposal-object-rest-spread" "7.20.7"
+    "@babel/plugin-transform-runtime" "7.21.4"
+    "@babel/preset-env" "7.21.4"
+    "@babel/preset-typescript" "^7.21.4"
+    "@babel/runtime" "^7.21.0"
+    "@babel/traverse" "7.21.4"
+    "@babel/types" "7.21.4"
+    "@cosmwasm/ts-codegen" "0.30.1"
+    "@osmonauts/ast" "^0.86.9"
+    "@osmonauts/proto-parser" "^0.45.1"
+    "@osmonauts/types" "^0.36.1"
+    "@osmonauts/utils" "^0.11.1"
+    "@types/parse-package-name" "0.1.0"
+    case "1.6.3"
+    dargs "7.0.0"
+    deepmerge "4.3.1"
+    dotty "0.1.2"
+    fuzzy "0.1.3"
+    glob "8.0.3"
+    inquirerer "0.1.3"
+    long "^5.2.1"
+    minimatch "5.1.0"
+    minimist "1.2.8"
+    mkdirp "3.0.0"
+    parse-package-name "1.0.0"
+    rimraf "5.0.0"
+    shelljs "0.8.5"
+
 "@osmonauts/types@0.35.0", "@osmonauts/types@^0.35.0":
   version "0.35.0"
   resolved "https://registry.npmjs.org/@osmonauts/types/-/types-0.35.0.tgz#1a1d2b1588e017fb9c04227d01a97be9c3b416ce"
@@ -5843,6 +6032,15 @@
   version "0.33.1"
   resolved "https://registry.npmjs.org/@osmonauts/types/-/types-0.33.1.tgz#d800e18ca063ea39391d2393acae642ca4b6e9cc"
   integrity sha512-MxBUnfHYDE4xFOYZ46x+8ancvGA2e4NlNOY49TuisNNxW6em9d9BscEpFIpQ3XewoTZfUJhd9PCKDdY736vEFg==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@osmonauts/utils" "^0.11.1"
+    case "1.6.3"
+
+"@osmonauts/types@^0.36.1":
+  version "0.36.1"
+  resolved "https://registry.npmmirror.com/@osmonauts/types/-/types-0.36.1.tgz#d9485e74e06d679a5874d90ac685a268445d8b11"
+  integrity sha512-rT08PJD600/EYwxtueEmBYOB+l48xpkunjeXDoariiuwPioGfn9C0HyW9M7x7qeVrn69lX+xU0OyLhyg2HsBcw==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@osmonauts/utils" "^0.11.1"
@@ -8496,6 +8694,11 @@ core-js@^3.26.0:
   version "3.29.1"
   resolved "https://registry.npmmirror.com/core-js/-/core-js-3.29.1.tgz#40ff3b41588b091aaed19ca1aa5cb111803fa9a6"
   integrity sha512-+jwgnhg6cQxKYIIjGtAHq2nwUOolo9eoFZ4sHfUH09BLXBgxnH4gA0zEd+t+BO2cNB8idaBtZFcFTRjQJRJmAw==
+
+core-js@^3.30.2:
+  version "3.31.1"
+  resolved "https://registry.npmmirror.com/core-js/-/core-js-3.31.1.tgz#f2b0eea9be9da0def2c5fece71064a7e5d687653"
+  integrity sha512-2sKLtfq1eFST7l7v62zaqXacPc7uG8ZAya8ogijLhTtaKNcpzpB4TMoTw2Si+8GYKRwFPMMtUT0263QFWFfqyQ==
 
 core-util-is@1.0.2:
   version "1.0.2"
@@ -16026,6 +16229,18 @@ wasm-ast-types@^0.19.0:
   version "0.19.0"
   resolved "https://registry.npmjs.org/wasm-ast-types/-/wasm-ast-types-0.19.0.tgz#d3e71ae91d48ddbdc23560bad5e10660f3c0d0da"
   integrity sha512-SELRqjXMi7U3pB0jslvP0IrafJS9iN/VvySriiBITptBstwuzglhDTj3KFRpb/8LI4mG2ewC4a0/HxSQewQ/3g==
+  dependencies:
+    "@babel/runtime" "^7.18.9"
+    "@babel/types" "7.18.10"
+    "@jest/transform" "28.1.3"
+    ast-stringify "0.1.0"
+    case "1.6.3"
+    deepmerge "4.2.2"
+
+wasm-ast-types@^0.23.1:
+  version "0.23.1"
+  resolved "https://registry.npmmirror.com/wasm-ast-types/-/wasm-ast-types-0.23.1.tgz#b849629aa9f7a56dbb52c581ddbcb6b5ed7e2a07"
+  integrity sha512-igLcEk8VHZq62ZEwn4Jp+WRTp2D9yvTeiQd2Pc+s7LZouzSn3CwRpD42sHK2wV0UlSt2/cNbV6QywFm9Z6eM/A==
   dependencies:
     "@babel/runtime" "^7.18.9"
     "@babel/types" "7.18.10"

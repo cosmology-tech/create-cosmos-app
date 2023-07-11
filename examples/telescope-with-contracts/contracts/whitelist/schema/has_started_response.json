@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HasStartedResponse",
+  "type": "object",
+  "required": [
+    "has_started"
+  ],
+  "properties": {
+    "has_started": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,5 +1,5 @@
 {
-  "name": "@cosmology/sell-nfts",
+  "name": "@cosmology/telescope-contracts",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,24 @@
     "lint": "next lint",
     "locks:remove": "rm -f yarn.lock",
     "locks:create": "generate-lockfile --lockfile ../../yarn.lock --package package.json --write yarn.lock --force",
-    "locks": "npm run locks:remove && npm run locks:create"
+    "locks": "npm run locks:remove && npm run locks:create",
+    "codegen": "cross-env NODE_ENV=development babel-node scripts/codegen.js"
   },
   "dependencies": {
+    "@babel/cli": "7.19.3",
+    "@babel/core": "7.19.3",
+    "@babel/eslint-parser": "^7.19.1",
+    "@babel/node": "^7.19.1",
+    "@babel/plugin-proposal-class-properties": "7.18.6",
+    "@babel/plugin-proposal-export-default-from": "7.18.10",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "7.18.6",
+    "@babel/plugin-proposal-numeric-separator": "7.18.6",
+    "@babel/plugin-proposal-object-rest-spread": "7.19.4",
+    "@babel/plugin-proposal-optional-chaining": "7.18.9",
+    "@babel/plugin-transform-runtime": "7.19.1",
+    "@babel/preset-env": "7.19.4",
+    "@babel/preset-typescript": "^7.18.6",
+    "@osmonauts/telescope": "^0.99.10",
     "@apollo/client": "3.7.14",
     "@chain-registry/types": "0.14.0",
     "@chakra-ui/icons": "2.0.12",
@@ -36,6 +51,7 @@
     "stargazejs": "0.14.0"
   },
   "devDependencies": {
+    "@babel/runtime": "^7.19.4",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
