@@ -17,7 +17,7 @@ import { AmountInput } from './amount-input';
 import { LargeButton } from './buttons';
 import { Fees } from './fees';
 import { SplitText } from './nft-cards';
-import { useContracts } from 'context';
+import { useContracts } from '../../../src/codegen/contracts-context';
 
 export const ListTab = ({
   closeModal,

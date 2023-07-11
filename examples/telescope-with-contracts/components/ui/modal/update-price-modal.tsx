@@ -19,7 +19,7 @@ import { AmountInput } from '../nft/amount-input';
 import { LargeButton } from '../nft/buttons';
 import { SplitText } from '../nft/nft-cards';
 import { Subtitle, Fees } from '../nft';
-import { useContracts } from 'context';
+import { useContracts } from '../../../src/codegen/contracts-context';
 
 export const UpdatePriceModal = ({
   modalControl,
