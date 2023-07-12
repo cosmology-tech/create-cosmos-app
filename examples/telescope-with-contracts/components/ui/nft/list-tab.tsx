@@ -56,9 +56,9 @@ export const ListTab = ({
     setIsLoading(true);
 
     const marketplaceMsgComposer =
-      marketplace.messageComposer(marketplaceContract);
+      marketplace.getMessageComposer(marketplaceContract);
 
-    const sg721UpdatableMsgComposer = sg721Updatable.messageComposer(
+    const sg721UpdatableMsgComposer = sg721Updatable.getMessageComposer(
       token.collectionAddr
     );
 

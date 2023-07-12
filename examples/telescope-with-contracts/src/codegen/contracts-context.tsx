@@ -3,90 +3,8 @@ import {
   CosmWasmClient,
   SigningCosmWasmClient,
 } from '@cosmjs/cosmwasm-stargate';
-import { ContractBase, IContractConstructor } from './contractBase';
-import {
-  Sg721UpdatableClient,
-  Sg721UpdatableQueryClient,
-} from './Sg721Updatable.client';
-import { Sg721UpdatableMessageComposer } from './Sg721Updatable.message-composer';
 
-import {
-  MarketplaceClient,
-  MarketplaceQueryClient,
-} from './Marketplace.client';
-import { MarketplaceMessageComposer } from './Marketplace.message-composer';
-
-import { WhitelistClient, WhitelistQueryClient } from './Whitelist.client';
-import { WhitelistMessageComposer } from './Whitelist.message-composer';
-
-export class Sg721Updatable extends ContractBase<
-  Sg721UpdatableClient,
-  Sg721UpdatableQueryClient,
-  Sg721UpdatableMessageComposer
-> {
-  constructor({
-    address,
-    cosmWasmClient,
-    signingCosmWasmClient,
-  }: IContractConstructor) {
-    super(
-      address,
-      cosmWasmClient,
-      signingCosmWasmClient,
-      Sg721UpdatableClient,
-      Sg721UpdatableQueryClient,
-      Sg721UpdatableMessageComposer
-    );
-  }
-}
-
-export class Marketplace extends ContractBase<
-  MarketplaceClient,
-  MarketplaceQueryClient,
-  MarketplaceMessageComposer
-> {
-  constructor({
-    address,
-    cosmWasmClient,
-    signingCosmWasmClient,
-  }: IContractConstructor) {
-    super(
-      address,
-      cosmWasmClient,
-      signingCosmWasmClient,
-      MarketplaceClient,
-      MarketplaceQueryClient,
-      MarketplaceMessageComposer
-    );
-  }
-}
-
-export class Whitelist extends ContractBase<
-  WhitelistClient,
-  WhitelistQueryClient,
-  WhitelistMessageComposer
-> {
-  constructor({
-    address,
-    cosmWasmClient,
-    signingCosmWasmClient,
-  }: IContractConstructor) {
-    super(
-      address,
-      cosmWasmClient,
-      signingCosmWasmClient,
-      WhitelistClient,
-      WhitelistQueryClient,
-      WhitelistMessageComposer
-    );
-  }
-}
-
-interface IContractsContext {
-  sg721Updatable: Sg721Updatable;
-  marketplace: Marketplace;
-  whitelist: Whitelist;
-}
+import { IContractsContext, getProviders } from './contractContextProviders';
 
 interface ContractsConfig {
   address: string | undefined;
@@ -112,26 +30,9 @@ export const ContractsProvider = ({
 
   const prevAddressRef = useRef<string | undefined>(address);
 
-  const contracts: IContractsContext = useMemo(
-    () => ({
-      sg721Updatable: new Sg721Updatable({
-        address,
-        cosmWasmClient,
-        signingCosmWasmClient,
-      }),
-      marketplace: new Marketplace({
-        address,
-        cosmWasmClient,
-        signingCosmWasmClient,
-      }),
-      whitelist: new Whitelist({
-        address,
-        cosmWasmClient,
-        signingCosmWasmClient,
-      }),
-    }),
-    [address, cosmWasmClient, signingCosmWasmClient]
-  );
+  const contracts: IContractsContext = useMemo(() => {
+    return getProviders(address, cosmWasmClient, signingCosmWasmClient);
+  }, [address, cosmWasmClient, signingCosmWasmClient]);
 
   useEffect(() => {
     const connectSigningCwClient = async () => {

@@ -23,7 +23,7 @@ import {
   SellNfts,
 } from '../components';
 import { useChain } from '@cosmos-kit/react';
-import { ContractsProvider } from 'context';
+import { ContractsProvider } from '../src/codegen/contracts-context';
 
 const library = {
   title: 'StargazeJS',

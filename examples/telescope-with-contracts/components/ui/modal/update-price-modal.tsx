@@ -54,7 +54,8 @@ export const UpdatePriceModal = ({
     setIsLoading(true);
 
     try {
-      const marketplaceClient = marketplace.signingClient(marketplaceContract);
+      const marketplaceClient =
+        marketplace.getSigningClient(marketplaceContract);
       await marketplaceClient.updateAskPrice({
         collection: token.collectionAddr,
         price: {
