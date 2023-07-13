@@ -1,6 +1,6 @@
 import { MetricValueSet, MetricValueSetAmino, MetricValueSetSDKType } from "./metric_value";
 import { Status, StatusAmino, StatusSDKType } from "../../../rpc/status";
-import { BinaryReader, BinaryWriter } from "../../../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /** Supported quota modes. */
@@ -183,7 +183,7 @@ export interface AllocateQuotaRequest {
    */
   serviceName: string;
   /** Operation that describes the quota allocation. */
-  allocateOperation?: QuotaOperation;
+  allocateOperation: QuotaOperation;
   /**
    * Specifies which version of service configuration should be used to process
    * the request. If unspecified or no matching version can be found, the latest
@@ -220,7 +220,7 @@ export interface AllocateQuotaRequestAminoMsg {
 /** Request message for the AllocateQuota method. */
 export interface AllocateQuotaRequestSDKType {
   service_name: string;
-  allocate_operation?: QuotaOperationSDKType;
+  allocate_operation: QuotaOperationSDKType;
   service_config_id: string;
 }
 export interface QuotaOperation_LabelsEntry {
@@ -461,7 +461,7 @@ export interface QuotaError {
    * Contains additional information about the quota error.
    * If available, `status.code` will be non zero.
    */
-  status?: Status;
+  status: Status;
 }
 export interface QuotaErrorProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.QuotaError";
@@ -494,18 +494,18 @@ export interface QuotaErrorSDKType {
   code: QuotaError_Code;
   subject: string;
   description: string;
-  status?: StatusSDKType;
+  status: StatusSDKType;
 }
 function createBaseAllocateQuotaRequest(): AllocateQuotaRequest {
   return {
     serviceName: "",
-    allocateOperation: undefined,
+    allocateOperation: QuotaOperation.fromPartial({}),
     serviceConfigId: ""
   };
 }
 export const AllocateQuotaRequest = {
   typeUrl: "/google.api.servicecontrol.v1.AllocateQuotaRequest",
-  encode(message: AllocateQuotaRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AllocateQuotaRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
@@ -517,8 +517,8 @@ export const AllocateQuotaRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AllocateQuotaRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AllocateQuotaRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAllocateQuotaRequest();
     while (reader.pos < end) {
@@ -612,7 +612,7 @@ function createBaseQuotaOperation_LabelsEntry(): QuotaOperation_LabelsEntry {
   };
 }
 export const QuotaOperation_LabelsEntry = {
-  encode(message: QuotaOperation_LabelsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: QuotaOperation_LabelsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -621,8 +621,8 @@ export const QuotaOperation_LabelsEntry = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QuotaOperation_LabelsEntry {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QuotaOperation_LabelsEntry {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuotaOperation_LabelsEntry();
     while (reader.pos < end) {
@@ -705,7 +705,7 @@ function createBaseQuotaOperation(): QuotaOperation {
 }
 export const QuotaOperation = {
   typeUrl: "/google.api.servicecontrol.v1.QuotaOperation",
-  encode(message: QuotaOperation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: QuotaOperation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.operationId !== "") {
       writer.uint32(10).string(message.operationId);
     }
@@ -729,8 +729,8 @@ export const QuotaOperation = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QuotaOperation {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QuotaOperation {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuotaOperation();
     while (reader.pos < end) {
@@ -909,7 +909,7 @@ function createBaseAllocateQuotaResponse(): AllocateQuotaResponse {
 }
 export const AllocateQuotaResponse = {
   typeUrl: "/google.api.servicecontrol.v1.AllocateQuotaResponse",
-  encode(message: AllocateQuotaResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AllocateQuotaResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.operationId !== "") {
       writer.uint32(10).string(message.operationId);
     }
@@ -924,8 +924,8 @@ export const AllocateQuotaResponse = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AllocateQuotaResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AllocateQuotaResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAllocateQuotaResponse();
     while (reader.pos < end) {
@@ -1051,12 +1051,12 @@ function createBaseQuotaError(): QuotaError {
     code: 0,
     subject: "",
     description: "",
-    status: undefined
+    status: Status.fromPartial({})
   };
 }
 export const QuotaError = {
   typeUrl: "/google.api.servicecontrol.v1.QuotaError",
-  encode(message: QuotaError, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: QuotaError, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.code !== 0) {
       writer.uint32(8).int32(message.code);
     }
@@ -1071,8 +1071,8 @@ export const QuotaError = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): QuotaError {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QuotaError {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuotaError();
     while (reader.pos < end) {

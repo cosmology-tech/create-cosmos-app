@@ -1,7 +1,7 @@
 import { ManagedService, ManagedServiceAmino, ManagedServiceSDKType, ConfigSource, ConfigSourceAmino, ConfigSourceSDKType, Rollout, RolloutAmino, RolloutSDKType, ChangeReport, ChangeReportAmino, ChangeReportSDKType, Diagnostic, DiagnosticAmino, DiagnosticSDKType } from "./resources";
 import { Service, ServiceAmino, ServiceSDKType } from "../../service";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../protobuf/any";
-import { BinaryReader, BinaryWriter } from "../../../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "google.api.servicemanagement.v1";
 export enum GetServiceConfigRequest_ConfigView {
@@ -165,7 +165,7 @@ export interface GetServiceRequestSDKType {
 /** Request message for CreateService method. */
 export interface CreateServiceRequest {
   /** Required. Initial values for the service resource. */
-  service?: ManagedService;
+  service: ManagedService;
 }
 export interface CreateServiceRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.CreateServiceRequest";
@@ -182,7 +182,7 @@ export interface CreateServiceRequestAminoMsg {
 }
 /** Request message for CreateService method. */
 export interface CreateServiceRequestSDKType {
-  service?: ManagedServiceSDKType;
+  service: ManagedServiceSDKType;
 }
 /** Request message for DeleteService method. */
 export interface DeleteServiceRequest {
@@ -243,7 +243,7 @@ export interface UndeleteServiceRequestSDKType {
 /** Response message for UndeleteService method. */
 export interface UndeleteServiceResponse {
   /** Revived service resource. */
-  service?: ManagedService;
+  service: ManagedService;
 }
 export interface UndeleteServiceResponseProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.UndeleteServiceResponse";
@@ -260,7 +260,7 @@ export interface UndeleteServiceResponseAminoMsg {
 }
 /** Response message for UndeleteService method. */
 export interface UndeleteServiceResponseSDKType {
-  service?: ManagedServiceSDKType;
+  service: ManagedServiceSDKType;
 }
 /** Request message for GetServiceConfig method. */
 export interface GetServiceConfigRequest {
@@ -395,7 +395,7 @@ export interface CreateServiceConfigRequest {
    */
   serviceName: string;
   /** Required. The service configuration resource. */
-  serviceConfig?: Service;
+  serviceConfig: Service;
 }
 export interface CreateServiceConfigRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.CreateServiceConfigRequest";
@@ -418,7 +418,7 @@ export interface CreateServiceConfigRequestAminoMsg {
 /** Request message for CreateServiceConfig method. */
 export interface CreateServiceConfigRequestSDKType {
   service_name: string;
-  service_config?: ServiceSDKType;
+  service_config: ServiceSDKType;
 }
 /** Request message for SubmitConfigSource method. */
 export interface SubmitConfigSourceRequest {
@@ -428,7 +428,7 @@ export interface SubmitConfigSourceRequest {
    */
   serviceName: string;
   /** Required. The source configuration for the service. */
-  configSource?: ConfigSource;
+  configSource: ConfigSource;
   /**
    * Optional. If set, this will result in the generation of a
    * `google.api.Service` configuration based on the `ConfigSource` provided,
@@ -463,13 +463,13 @@ export interface SubmitConfigSourceRequestAminoMsg {
 /** Request message for SubmitConfigSource method. */
 export interface SubmitConfigSourceRequestSDKType {
   service_name: string;
-  config_source?: ConfigSourceSDKType;
+  config_source: ConfigSourceSDKType;
   validate_only: boolean;
 }
 /** Response message for SubmitConfigSource method. */
 export interface SubmitConfigSourceResponse {
   /** The generated service configuration. */
-  serviceConfig?: Service;
+  serviceConfig: Service;
 }
 export interface SubmitConfigSourceResponseProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.SubmitConfigSourceResponse";
@@ -486,7 +486,7 @@ export interface SubmitConfigSourceResponseAminoMsg {
 }
 /** Response message for SubmitConfigSource method. */
 export interface SubmitConfigSourceResponseSDKType {
-  service_config?: ServiceSDKType;
+  service_config: ServiceSDKType;
 }
 /** Request message for 'CreateServiceRollout' */
 export interface CreateServiceRolloutRequest {
@@ -496,7 +496,7 @@ export interface CreateServiceRolloutRequest {
    */
   serviceName: string;
   /** Required. The rollout resource. The `service_name` field is output only. */
-  rollout?: Rollout;
+  rollout: Rollout;
 }
 export interface CreateServiceRolloutRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.CreateServiceRolloutRequest";
@@ -519,7 +519,7 @@ export interface CreateServiceRolloutRequestAminoMsg {
 /** Request message for 'CreateServiceRollout' */
 export interface CreateServiceRolloutRequestSDKType {
   service_name: string;
-  rollout?: RolloutSDKType;
+  rollout: RolloutSDKType;
 }
 /** Request message for 'ListServiceRollouts' */
 export interface ListServiceRolloutsRequest {
@@ -657,7 +657,7 @@ export interface GenerateConfigReportRequest {
    * [google.api.servicemanagement.v1.ConfigSource][google.api.servicemanagement.v1.ConfigSource],
    * and [google.api.Service][google.api.Service]
    */
-  newConfig?: Any;
+  newConfig: Any;
   /**
    * Optional. Service configuration against which the comparison will be done.
    * For this version of API, the supported types are
@@ -665,7 +665,7 @@ export interface GenerateConfigReportRequest {
    * [google.api.servicemanagement.v1.ConfigSource][google.api.servicemanagement.v1.ConfigSource],
    * and [google.api.Service][google.api.Service]
    */
-  oldConfig?: Any;
+  oldConfig: Any;
 }
 export interface GenerateConfigReportRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.GenerateConfigReportRequest";
@@ -696,8 +696,8 @@ export interface GenerateConfigReportRequestAminoMsg {
 }
 /** Request message for GenerateConfigReport method. */
 export interface GenerateConfigReportRequestSDKType {
-  new_config?: AnySDKType;
-  old_config?: AnySDKType;
+  new_config: AnySDKType;
+  old_config: AnySDKType;
 }
 /** Response message for GenerateConfigReport method. */
 export interface GenerateConfigReportResponse {
@@ -760,7 +760,7 @@ function createBaseListServicesRequest(): ListServicesRequest {
 }
 export const ListServicesRequest = {
   typeUrl: "/google.api.servicemanagement.v1.ListServicesRequest",
-  encode(message: ListServicesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ListServicesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.producerProjectId !== "") {
       writer.uint32(10).string(message.producerProjectId);
     }
@@ -775,8 +775,8 @@ export const ListServicesRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ListServicesRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ListServicesRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListServicesRequest();
     while (reader.pos < end) {
@@ -881,7 +881,7 @@ function createBaseListServicesResponse(): ListServicesResponse {
 }
 export const ListServicesResponse = {
   typeUrl: "/google.api.servicemanagement.v1.ListServicesResponse",
-  encode(message: ListServicesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ListServicesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.services) {
       ManagedService.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -890,8 +890,8 @@ export const ListServicesResponse = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ListServicesResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ListServicesResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListServicesResponse();
     while (reader.pos < end) {
@@ -987,14 +987,14 @@ function createBaseGetServiceRequest(): GetServiceRequest {
 }
 export const GetServiceRequest = {
   typeUrl: "/google.api.servicemanagement.v1.GetServiceRequest",
-  encode(message: GetServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: GetServiceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): GetServiceRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetServiceRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetServiceRequest();
     while (reader.pos < end) {
@@ -1063,19 +1063,19 @@ export const GetServiceRequest = {
 };
 function createBaseCreateServiceRequest(): CreateServiceRequest {
   return {
-    service: undefined
+    service: ManagedService.fromPartial({})
   };
 }
 export const CreateServiceRequest = {
   typeUrl: "/google.api.servicemanagement.v1.CreateServiceRequest",
-  encode(message: CreateServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: CreateServiceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.service !== undefined) {
       ManagedService.encode(message.service, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): CreateServiceRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): CreateServiceRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCreateServiceRequest();
     while (reader.pos < end) {
@@ -1149,14 +1149,14 @@ function createBaseDeleteServiceRequest(): DeleteServiceRequest {
 }
 export const DeleteServiceRequest = {
   typeUrl: "/google.api.servicemanagement.v1.DeleteServiceRequest",
-  encode(message: DeleteServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: DeleteServiceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): DeleteServiceRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): DeleteServiceRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDeleteServiceRequest();
     while (reader.pos < end) {
@@ -1230,14 +1230,14 @@ function createBaseUndeleteServiceRequest(): UndeleteServiceRequest {
 }
 export const UndeleteServiceRequest = {
   typeUrl: "/google.api.servicemanagement.v1.UndeleteServiceRequest",
-  encode(message: UndeleteServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: UndeleteServiceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): UndeleteServiceRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): UndeleteServiceRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUndeleteServiceRequest();
     while (reader.pos < end) {
@@ -1306,19 +1306,19 @@ export const UndeleteServiceRequest = {
 };
 function createBaseUndeleteServiceResponse(): UndeleteServiceResponse {
   return {
-    service: undefined
+    service: ManagedService.fromPartial({})
   };
 }
 export const UndeleteServiceResponse = {
   typeUrl: "/google.api.servicemanagement.v1.UndeleteServiceResponse",
-  encode(message: UndeleteServiceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: UndeleteServiceResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.service !== undefined) {
       ManagedService.encode(message.service, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): UndeleteServiceResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): UndeleteServiceResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUndeleteServiceResponse();
     while (reader.pos < end) {
@@ -1394,7 +1394,7 @@ function createBaseGetServiceConfigRequest(): GetServiceConfigRequest {
 }
 export const GetServiceConfigRequest = {
   typeUrl: "/google.api.servicemanagement.v1.GetServiceConfigRequest",
-  encode(message: GetServiceConfigRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: GetServiceConfigRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
@@ -1406,8 +1406,8 @@ export const GetServiceConfigRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): GetServiceConfigRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetServiceConfigRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetServiceConfigRequest();
     while (reader.pos < end) {
@@ -1503,7 +1503,7 @@ function createBaseListServiceConfigsRequest(): ListServiceConfigsRequest {
 }
 export const ListServiceConfigsRequest = {
   typeUrl: "/google.api.servicemanagement.v1.ListServiceConfigsRequest",
-  encode(message: ListServiceConfigsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ListServiceConfigsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
@@ -1515,8 +1515,8 @@ export const ListServiceConfigsRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ListServiceConfigsRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ListServiceConfigsRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListServiceConfigsRequest();
     while (reader.pos < end) {
@@ -1611,7 +1611,7 @@ function createBaseListServiceConfigsResponse(): ListServiceConfigsResponse {
 }
 export const ListServiceConfigsResponse = {
   typeUrl: "/google.api.servicemanagement.v1.ListServiceConfigsResponse",
-  encode(message: ListServiceConfigsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ListServiceConfigsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.serviceConfigs) {
       Service.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1620,8 +1620,8 @@ export const ListServiceConfigsResponse = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ListServiceConfigsResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ListServiceConfigsResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListServiceConfigsResponse();
     while (reader.pos < end) {
@@ -1713,12 +1713,12 @@ export const ListServiceConfigsResponse = {
 function createBaseCreateServiceConfigRequest(): CreateServiceConfigRequest {
   return {
     serviceName: "",
-    serviceConfig: undefined
+    serviceConfig: Service.fromPartial({})
   };
 }
 export const CreateServiceConfigRequest = {
   typeUrl: "/google.api.servicemanagement.v1.CreateServiceConfigRequest",
-  encode(message: CreateServiceConfigRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: CreateServiceConfigRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
@@ -1727,8 +1727,8 @@ export const CreateServiceConfigRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): CreateServiceConfigRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): CreateServiceConfigRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCreateServiceConfigRequest();
     while (reader.pos < end) {
@@ -1808,13 +1808,13 @@ export const CreateServiceConfigRequest = {
 function createBaseSubmitConfigSourceRequest(): SubmitConfigSourceRequest {
   return {
     serviceName: "",
-    configSource: undefined,
+    configSource: ConfigSource.fromPartial({}),
     validateOnly: false
   };
 }
 export const SubmitConfigSourceRequest = {
   typeUrl: "/google.api.servicemanagement.v1.SubmitConfigSourceRequest",
-  encode(message: SubmitConfigSourceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: SubmitConfigSourceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
@@ -1826,8 +1826,8 @@ export const SubmitConfigSourceRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): SubmitConfigSourceRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): SubmitConfigSourceRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubmitConfigSourceRequest();
     while (reader.pos < end) {
@@ -1916,19 +1916,19 @@ export const SubmitConfigSourceRequest = {
 };
 function createBaseSubmitConfigSourceResponse(): SubmitConfigSourceResponse {
   return {
-    serviceConfig: undefined
+    serviceConfig: Service.fromPartial({})
   };
 }
 export const SubmitConfigSourceResponse = {
   typeUrl: "/google.api.servicemanagement.v1.SubmitConfigSourceResponse",
-  encode(message: SubmitConfigSourceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: SubmitConfigSourceResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceConfig !== undefined) {
       Service.encode(message.serviceConfig, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): SubmitConfigSourceResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): SubmitConfigSourceResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubmitConfigSourceResponse();
     while (reader.pos < end) {
@@ -1998,12 +1998,12 @@ export const SubmitConfigSourceResponse = {
 function createBaseCreateServiceRolloutRequest(): CreateServiceRolloutRequest {
   return {
     serviceName: "",
-    rollout: undefined
+    rollout: Rollout.fromPartial({})
   };
 }
 export const CreateServiceRolloutRequest = {
   typeUrl: "/google.api.servicemanagement.v1.CreateServiceRolloutRequest",
-  encode(message: CreateServiceRolloutRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: CreateServiceRolloutRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
@@ -2012,8 +2012,8 @@ export const CreateServiceRolloutRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): CreateServiceRolloutRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): CreateServiceRolloutRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCreateServiceRolloutRequest();
     while (reader.pos < end) {
@@ -2100,7 +2100,7 @@ function createBaseListServiceRolloutsRequest(): ListServiceRolloutsRequest {
 }
 export const ListServiceRolloutsRequest = {
   typeUrl: "/google.api.servicemanagement.v1.ListServiceRolloutsRequest",
-  encode(message: ListServiceRolloutsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ListServiceRolloutsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
@@ -2115,8 +2115,8 @@ export const ListServiceRolloutsRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ListServiceRolloutsRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ListServiceRolloutsRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListServiceRolloutsRequest();
     while (reader.pos < end) {
@@ -2221,7 +2221,7 @@ function createBaseListServiceRolloutsResponse(): ListServiceRolloutsResponse {
 }
 export const ListServiceRolloutsResponse = {
   typeUrl: "/google.api.servicemanagement.v1.ListServiceRolloutsResponse",
-  encode(message: ListServiceRolloutsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ListServiceRolloutsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.rollouts) {
       Rollout.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -2230,8 +2230,8 @@ export const ListServiceRolloutsResponse = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ListServiceRolloutsResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ListServiceRolloutsResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListServiceRolloutsResponse();
     while (reader.pos < end) {
@@ -2328,7 +2328,7 @@ function createBaseGetServiceRolloutRequest(): GetServiceRolloutRequest {
 }
 export const GetServiceRolloutRequest = {
   typeUrl: "/google.api.servicemanagement.v1.GetServiceRolloutRequest",
-  encode(message: GetServiceRolloutRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: GetServiceRolloutRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
@@ -2337,8 +2337,8 @@ export const GetServiceRolloutRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): GetServiceRolloutRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetServiceRolloutRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetServiceRolloutRequest();
     while (reader.pos < end) {
@@ -2423,7 +2423,7 @@ function createBaseGenerateConfigReportRequest(): GenerateConfigReportRequest {
 }
 export const GenerateConfigReportRequest = {
   typeUrl: "/google.api.servicemanagement.v1.GenerateConfigReportRequest",
-  encode(message: GenerateConfigReportRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: GenerateConfigReportRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.newConfig !== undefined) {
       Any.encode(message.newConfig, writer.uint32(10).fork()).ldelim();
     }
@@ -2432,8 +2432,8 @@ export const GenerateConfigReportRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): GenerateConfigReportRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): GenerateConfigReportRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenerateConfigReportRequest();
     while (reader.pos < end) {
@@ -2520,7 +2520,7 @@ function createBaseGenerateConfigReportResponse(): GenerateConfigReportResponse 
 }
 export const GenerateConfigReportResponse = {
   typeUrl: "/google.api.servicemanagement.v1.GenerateConfigReportResponse",
-  encode(message: GenerateConfigReportResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: GenerateConfigReportResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
@@ -2535,8 +2535,8 @@ export const GenerateConfigReportResponse = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): GenerateConfigReportResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): GenerateConfigReportResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenerateConfigReportResponse();
     while (reader.pos < end) {

@@ -1,7 +1,7 @@
 import { Duration, DurationAmino, DurationSDKType } from "../protobuf/duration";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../protobuf/any";
 import { Status, StatusAmino, StatusSDKType } from "../rpc/status";
-import { BinaryReader, BinaryWriter } from "../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.longrunning";
 /**
@@ -21,7 +21,7 @@ export interface Operation {
    * Some services might not provide such metadata.  Any method that returns a
    * long-running operation should document the metadata type, if any.
    */
-  metadata?: Any;
+  metadata: Any;
   /**
    * If the value is `false`, it means the operation is still in progress.
    * If `true`, the operation is completed, and either `error` or `response` is
@@ -94,7 +94,7 @@ export interface OperationAminoMsg {
  */
 export interface OperationSDKType {
   name: string;
-  metadata?: AnySDKType;
+  metadata: AnySDKType;
   done: boolean;
   error?: StatusSDKType;
   response?: AnySDKType;
@@ -238,7 +238,7 @@ export interface WaitOperationRequest {
    * will be at most the time permitted by the underlying HTTP/RPC protocol.
    * If RPC context deadline is also specified, the shorter one will be used.
    */
-  timeout?: Duration;
+  timeout: Duration;
 }
 export interface WaitOperationRequestProtoMsg {
   typeUrl: "/google.longrunning.WaitOperationRequest";
@@ -262,7 +262,7 @@ export interface WaitOperationRequestAminoMsg {
 /** The request message for [Operations.WaitOperation][google.longrunning.Operations.WaitOperation]. */
 export interface WaitOperationRequestSDKType {
   name: string;
-  timeout?: DurationSDKType;
+  timeout: DurationSDKType;
 }
 /**
  * A message representing the message types used by a long-running operation.
@@ -372,7 +372,7 @@ function createBaseOperation(): Operation {
 }
 export const Operation = {
   typeUrl: "/google.longrunning.Operation",
-  encode(message: Operation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Operation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -390,8 +390,8 @@ export const Operation = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Operation {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Operation {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOperation();
     while (reader.pos < end) {
@@ -505,14 +505,14 @@ function createBaseGetOperationRequest(): GetOperationRequest {
 }
 export const GetOperationRequest = {
   typeUrl: "/google.longrunning.GetOperationRequest",
-  encode(message: GetOperationRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: GetOperationRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): GetOperationRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetOperationRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetOperationRequest();
     while (reader.pos < end) {
@@ -589,7 +589,7 @@ function createBaseListOperationsRequest(): ListOperationsRequest {
 }
 export const ListOperationsRequest = {
   typeUrl: "/google.longrunning.ListOperationsRequest",
-  encode(message: ListOperationsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ListOperationsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== "") {
       writer.uint32(34).string(message.name);
     }
@@ -604,8 +604,8 @@ export const ListOperationsRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ListOperationsRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ListOperationsRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListOperationsRequest();
     while (reader.pos < end) {
@@ -710,7 +710,7 @@ function createBaseListOperationsResponse(): ListOperationsResponse {
 }
 export const ListOperationsResponse = {
   typeUrl: "/google.longrunning.ListOperationsResponse",
-  encode(message: ListOperationsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ListOperationsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.operations) {
       Operation.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -719,8 +719,8 @@ export const ListOperationsResponse = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ListOperationsResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ListOperationsResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseListOperationsResponse();
     while (reader.pos < end) {
@@ -816,14 +816,14 @@ function createBaseCancelOperationRequest(): CancelOperationRequest {
 }
 export const CancelOperationRequest = {
   typeUrl: "/google.longrunning.CancelOperationRequest",
-  encode(message: CancelOperationRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: CancelOperationRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): CancelOperationRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): CancelOperationRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCancelOperationRequest();
     while (reader.pos < end) {
@@ -897,14 +897,14 @@ function createBaseDeleteOperationRequest(): DeleteOperationRequest {
 }
 export const DeleteOperationRequest = {
   typeUrl: "/google.longrunning.DeleteOperationRequest",
-  encode(message: DeleteOperationRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: DeleteOperationRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): DeleteOperationRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): DeleteOperationRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDeleteOperationRequest();
     while (reader.pos < end) {
@@ -979,7 +979,7 @@ function createBaseWaitOperationRequest(): WaitOperationRequest {
 }
 export const WaitOperationRequest = {
   typeUrl: "/google.longrunning.WaitOperationRequest",
-  encode(message: WaitOperationRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: WaitOperationRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -988,8 +988,8 @@ export const WaitOperationRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): WaitOperationRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): WaitOperationRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseWaitOperationRequest();
     while (reader.pos < end) {
@@ -1074,7 +1074,7 @@ function createBaseOperationInfo(): OperationInfo {
 }
 export const OperationInfo = {
   typeUrl: "/google.longrunning.OperationInfo",
-  encode(message: OperationInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: OperationInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.responseType !== "") {
       writer.uint32(10).string(message.responseType);
     }
@@ -1083,8 +1083,8 @@ export const OperationInfo = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): OperationInfo {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): OperationInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOperationInfo();
     while (reader.pos < end) {

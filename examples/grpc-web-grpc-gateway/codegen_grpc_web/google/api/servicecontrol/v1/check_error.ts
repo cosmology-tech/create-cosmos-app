@@ -1,5 +1,5 @@
 import { Status, StatusAmino, StatusSDKType } from "../../../rpc/status";
-import { BinaryReader, BinaryWriter } from "../../../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /** Error codes for Check responses. */
@@ -214,7 +214,7 @@ export interface CheckError {
    * `status.code` will be non zero and client can propagate it out as public
    * error.
    */
-  status?: Status;
+  status: Status;
 }
 export interface CheckErrorProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.CheckError";
@@ -257,19 +257,19 @@ export interface CheckErrorSDKType {
   code: CheckError_Code;
   subject: string;
   detail: string;
-  status?: StatusSDKType;
+  status: StatusSDKType;
 }
 function createBaseCheckError(): CheckError {
   return {
     code: 0,
     subject: "",
     detail: "",
-    status: undefined
+    status: Status.fromPartial({})
   };
 }
 export const CheckError = {
   typeUrl: "/google.api.servicecontrol.v1.CheckError",
-  encode(message: CheckError, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: CheckError, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.code !== 0) {
       writer.uint32(8).int32(message.code);
     }
@@ -284,8 +284,8 @@ export const CheckError = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): CheckError {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): CheckError {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCheckError();
     while (reader.pos < end) {

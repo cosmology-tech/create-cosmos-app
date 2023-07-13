@@ -1,8 +1,8 @@
 import { Operation, OperationAmino, OperationSDKType } from "./operation";
 import { CheckError, CheckErrorAmino, CheckErrorSDKType } from "./check_error";
 import { Status, StatusAmino, StatusSDKType } from "../../../rpc/status";
-import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet, DeepPartial } from "../../../../helpers";
+import { Long, isSet, DeepPartial } from "../../../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /**
  * The type of the consumer as defined in
@@ -79,7 +79,7 @@ export interface CheckRequest {
    */
   serviceName: string;
   /** The operation to be checked. */
-  operation?: Operation;
+  operation: Operation;
   /**
    * Specifies which version of service configuration should be used to process
    * the request.
@@ -122,7 +122,7 @@ export interface CheckRequestAminoMsg {
 /** Request message for the Check method. */
 export interface CheckRequestSDKType {
   service_name: string;
-  operation?: OperationSDKType;
+  operation: OperationSDKType;
   service_config_id: string;
 }
 /** Response message for the Check method. */
@@ -146,7 +146,7 @@ export interface CheckResponse {
   /** The current service rollout id used to process the request. */
   serviceRolloutId: string;
   /** Feedback data returned from the server during processing a Check request. */
-  checkInfo?: CheckResponse_CheckInfo;
+  checkInfo: CheckResponse_CheckInfo;
 }
 export interface CheckResponseProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.CheckResponse";
@@ -185,7 +185,7 @@ export interface CheckResponseSDKType {
   check_errors: CheckErrorSDKType[];
   service_config_id: string;
   service_rollout_id: string;
-  check_info?: CheckResponse_CheckInfoSDKType;
+  check_info: CheckResponse_CheckInfoSDKType;
 }
 /** Contains additional information about the check operation. */
 export interface CheckResponse_CheckInfo {
@@ -196,7 +196,7 @@ export interface CheckResponse_CheckInfo {
    */
   unusedArguments: string[];
   /** Consumer info of this check. */
-  consumerInfo?: CheckResponse_ConsumerInfo;
+  consumerInfo: CheckResponse_ConsumerInfo;
 }
 export interface CheckResponse_CheckInfoProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.CheckInfo";
@@ -220,7 +220,7 @@ export interface CheckResponse_CheckInfoAminoMsg {
 /** Contains additional information about the check operation. */
 export interface CheckResponse_CheckInfoSDKType {
   unused_arguments: string[];
-  consumer_info?: CheckResponse_ConsumerInfoSDKType;
+  consumer_info: CheckResponse_ConsumerInfoSDKType;
 }
 /** `ConsumerInfo` provides information about the consumer. */
 export interface CheckResponse_ConsumerInfo {
@@ -231,7 +231,7 @@ export interface CheckResponse_ConsumerInfo {
    * NOTE: This field is deprecated after we support flexible consumer
    * id. New code should not depend on this field anymore.
    */
-  projectNumber: bigint;
+  projectNumber: Long;
   /**
    * The type of the consumer which should have been defined in
    * [Google Resource Manager](https://cloud.google.com/resource-manager/).
@@ -242,7 +242,7 @@ export interface CheckResponse_ConsumerInfo {
    * number or organization number e.g. 1234567890. A value of 0 indicates no
    * consumer number is found.
    */
-  consumerNumber: bigint;
+  consumerNumber: Long;
 }
 export interface CheckResponse_ConsumerInfoProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.ConsumerInfo";
@@ -276,9 +276,9 @@ export interface CheckResponse_ConsumerInfoAminoMsg {
 }
 /** `ConsumerInfo` provides information about the consumer. */
 export interface CheckResponse_ConsumerInfoSDKType {
-  project_number: bigint;
+  project_number: Long;
   type: CheckResponse_ConsumerInfo_ConsumerType;
-  consumer_number: bigint;
+  consumer_number: Long;
 }
 /** Request message for the Report method. */
 export interface ReportRequest {
@@ -439,7 +439,7 @@ export interface ReportResponse_ReportError {
    * Details of the error when processing the
    * [Operation][google.api.servicecontrol.v1.Operation].
    */
-  status?: Status;
+  status: Status;
 }
 export interface ReportResponse_ReportErrorProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.ReportError";
@@ -472,18 +472,18 @@ export interface ReportResponse_ReportErrorAminoMsg {
  */
 export interface ReportResponse_ReportErrorSDKType {
   operation_id: string;
-  status?: StatusSDKType;
+  status: StatusSDKType;
 }
 function createBaseCheckRequest(): CheckRequest {
   return {
     serviceName: "",
-    operation: undefined,
+    operation: Operation.fromPartial({}),
     serviceConfigId: ""
   };
 }
 export const CheckRequest = {
   typeUrl: "/google.api.servicecontrol.v1.CheckRequest",
-  encode(message: CheckRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: CheckRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
@@ -495,8 +495,8 @@ export const CheckRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): CheckRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): CheckRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCheckRequest();
     while (reader.pos < end) {
@@ -589,12 +589,12 @@ function createBaseCheckResponse(): CheckResponse {
     checkErrors: [],
     serviceConfigId: "",
     serviceRolloutId: "",
-    checkInfo: undefined
+    checkInfo: CheckInfo.fromPartial({})
   };
 }
 export const CheckResponse = {
   typeUrl: "/google.api.servicecontrol.v1.CheckResponse",
-  encode(message: CheckResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: CheckResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.operationId !== "") {
       writer.uint32(10).string(message.operationId);
     }
@@ -612,8 +612,8 @@ export const CheckResponse = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): CheckResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): CheckResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCheckResponse();
     while (reader.pos < end) {
@@ -735,12 +735,12 @@ export const CheckResponse = {
 function createBaseCheckResponse_CheckInfo(): CheckResponse_CheckInfo {
   return {
     unusedArguments: [],
-    consumerInfo: undefined
+    consumerInfo: ConsumerInfo.fromPartial({})
   };
 }
 export const CheckResponse_CheckInfo = {
   typeUrl: "/google.api.servicecontrol.v1.CheckInfo",
-  encode(message: CheckResponse_CheckInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: CheckResponse_CheckInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.unusedArguments) {
       writer.uint32(10).string(v!);
     }
@@ -749,8 +749,8 @@ export const CheckResponse_CheckInfo = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): CheckResponse_CheckInfo {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): CheckResponse_CheckInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCheckResponse_CheckInfo();
     while (reader.pos < end) {
@@ -841,40 +841,40 @@ export const CheckResponse_CheckInfo = {
 };
 function createBaseCheckResponse_ConsumerInfo(): CheckResponse_ConsumerInfo {
   return {
-    projectNumber: BigInt("0"),
+    projectNumber: Long.ZERO,
     type: 0,
-    consumerNumber: BigInt("0")
+    consumerNumber: Long.ZERO
   };
 }
 export const CheckResponse_ConsumerInfo = {
   typeUrl: "/google.api.servicecontrol.v1.ConsumerInfo",
-  encode(message: CheckResponse_ConsumerInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.projectNumber !== BigInt(0)) {
+  encode(message: CheckResponse_ConsumerInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.projectNumber.isZero()) {
       writer.uint32(8).int64(message.projectNumber);
     }
     if (message.type !== 0) {
       writer.uint32(16).int32(message.type);
     }
-    if (message.consumerNumber !== BigInt(0)) {
+    if (!message.consumerNumber.isZero()) {
       writer.uint32(24).int64(message.consumerNumber);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): CheckResponse_ConsumerInfo {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): CheckResponse_ConsumerInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCheckResponse_ConsumerInfo();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.projectNumber = BigInt(reader.int64().toString());
+          message.projectNumber = (reader.int64() as Long);
           break;
         case 2:
           message.type = (reader.int32() as any);
           break;
         case 3:
-          message.consumerNumber = BigInt(reader.int64().toString());
+          message.consumerNumber = (reader.int64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -885,23 +885,23 @@ export const CheckResponse_ConsumerInfo = {
   },
   fromJSON(object: any): CheckResponse_ConsumerInfo {
     return {
-      projectNumber: isSet(object.projectNumber) ? BigInt(object.projectNumber.toString()) : BigInt("0"),
+      projectNumber: isSet(object.projectNumber) ? Long.fromValue(object.projectNumber) : Long.ZERO,
       type: isSet(object.type) ? checkResponse_ConsumerInfo_ConsumerTypeFromJSON(object.type) : 0,
-      consumerNumber: isSet(object.consumerNumber) ? BigInt(object.consumerNumber.toString()) : BigInt("0")
+      consumerNumber: isSet(object.consumerNumber) ? Long.fromValue(object.consumerNumber) : Long.ZERO
     };
   },
   toJSON(message: CheckResponse_ConsumerInfo): unknown {
     const obj: any = {};
-    message.projectNumber !== undefined && (obj.projectNumber = (message.projectNumber || BigInt("0")).toString());
+    message.projectNumber !== undefined && (obj.projectNumber = (message.projectNumber || Long.ZERO).toString());
     message.type !== undefined && (obj.type = checkResponse_ConsumerInfo_ConsumerTypeToJSON(message.type));
-    message.consumerNumber !== undefined && (obj.consumerNumber = (message.consumerNumber || BigInt("0")).toString());
+    message.consumerNumber !== undefined && (obj.consumerNumber = (message.consumerNumber || Long.ZERO).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<CheckResponse_ConsumerInfo>): CheckResponse_ConsumerInfo {
     const message = createBaseCheckResponse_ConsumerInfo();
-    message.projectNumber = object.projectNumber !== undefined && object.projectNumber !== null ? BigInt(object.projectNumber.toString()) : BigInt("0");
+    message.projectNumber = object.projectNumber !== undefined && object.projectNumber !== null ? Long.fromValue(object.projectNumber) : Long.ZERO;
     message.type = object.type ?? 0;
-    message.consumerNumber = object.consumerNumber !== undefined && object.consumerNumber !== null ? BigInt(object.consumerNumber.toString()) : BigInt("0");
+    message.consumerNumber = object.consumerNumber !== undefined && object.consumerNumber !== null ? Long.fromValue(object.consumerNumber) : Long.ZERO;
     return message;
   },
   fromSDK(object: CheckResponse_ConsumerInfoSDKType): CheckResponse_ConsumerInfo {
@@ -920,9 +920,9 @@ export const CheckResponse_ConsumerInfo = {
   },
   fromAmino(object: CheckResponse_ConsumerInfoAmino): CheckResponse_ConsumerInfo {
     return {
-      projectNumber: BigInt(object.project_number),
+      projectNumber: Long.fromString(object.project_number),
       type: isSet(object.type) ? checkResponse_ConsumerInfo_ConsumerTypeFromJSON(object.type) : 0,
-      consumerNumber: BigInt(object.consumer_number)
+      consumerNumber: Long.fromString(object.consumer_number)
     };
   },
   toAmino(message: CheckResponse_ConsumerInfo): CheckResponse_ConsumerInfoAmino {
@@ -957,7 +957,7 @@ function createBaseReportRequest(): ReportRequest {
 }
 export const ReportRequest = {
   typeUrl: "/google.api.servicecontrol.v1.ReportRequest",
-  encode(message: ReportRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ReportRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
     }
@@ -969,8 +969,8 @@ export const ReportRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ReportRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ReportRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseReportRequest();
     while (reader.pos < end) {
@@ -1078,7 +1078,7 @@ function createBaseReportResponse(): ReportResponse {
 }
 export const ReportResponse = {
   typeUrl: "/google.api.servicecontrol.v1.ReportResponse",
-  encode(message: ReportResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ReportResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.reportErrors) {
       ReportResponse_ReportError.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1090,8 +1090,8 @@ export const ReportResponse = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ReportResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ReportResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseReportResponse();
     while (reader.pos < end) {
@@ -1193,12 +1193,12 @@ export const ReportResponse = {
 function createBaseReportResponse_ReportError(): ReportResponse_ReportError {
   return {
     operationId: "",
-    status: undefined
+    status: Status.fromPartial({})
   };
 }
 export const ReportResponse_ReportError = {
   typeUrl: "/google.api.servicecontrol.v1.ReportError",
-  encode(message: ReportResponse_ReportError, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ReportResponse_ReportError, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.operationId !== "") {
       writer.uint32(10).string(message.operationId);
     }
@@ -1207,8 +1207,8 @@ export const ReportResponse_ReportError = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ReportResponse_ReportError {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ReportResponse_ReportError {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseReportResponse_ReportError();
     while (reader.pos < end) {

@@ -55,13 +55,13 @@ export class QueryClientImpl implements Query {
     return this.rpc.unary(QueryModuleAccountsDesc, QueryModuleAccountsRequest.fromPartial(request), metadata);
   }
   bech32Prefix(request: DeepPartial<Bech32PrefixRequest> = {}, metadata?: grpc.Metadata): Promise<Bech32PrefixResponse> {
-    return this.rpc.unary(Bech32PrefixDesc, Bech32PrefixRequest.fromPartial(request), metadata);
+    return this.rpc.unary(QueryBech32PrefixDesc, Bech32PrefixRequest.fromPartial(request), metadata);
   }
   addressBytesToString(request: DeepPartial<AddressBytesToStringRequest>, metadata?: grpc.Metadata): Promise<AddressBytesToStringResponse> {
-    return this.rpc.unary(AddressBytesToStringDesc, AddressBytesToStringRequest.fromPartial(request), metadata);
+    return this.rpc.unary(QueryAddressBytesToStringDesc, AddressBytesToStringRequest.fromPartial(request), metadata);
   }
   addressStringToBytes(request: DeepPartial<AddressStringToBytesRequest>, metadata?: grpc.Metadata): Promise<AddressStringToBytesResponse> {
-    return this.rpc.unary(AddressStringToBytesDesc, AddressStringToBytesRequest.fromPartial(request), metadata);
+    return this.rpc.unary(QueryAddressStringToBytesDesc, AddressStringToBytesRequest.fromPartial(request), metadata);
   }
 }
 export const QueryDesc = {

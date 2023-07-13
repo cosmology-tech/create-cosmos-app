@@ -1,5 +1,5 @@
-import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
+import { Long, isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "cosmos.base.query.v1beta1";
 /**
  * PageRequest is to be embedded in gRPC request messages for efficient
@@ -22,12 +22,12 @@ export interface PageRequest {
    * It is less efficient than using key. Only one of offset or key should
    * be set.
    */
-  offset: bigint;
+  offset: Long;
   /**
    * limit is the total number of results to be returned in the result page.
    * If left empty it will default to a value to be set by each app.
    */
-  limit: bigint;
+  limit: Long;
   /**
    * count_total is set to true  to indicate that the result set should include
    * a count of the total number of items available for pagination in UIs.
@@ -102,8 +102,8 @@ export interface PageRequestAminoMsg {
  */
 export interface PageRequestSDKType {
   key: Uint8Array;
-  offset: bigint;
-  limit: bigint;
+  offset: Long;
+  limit: Long;
   count_total: boolean;
   reverse: boolean;
 }
@@ -127,7 +127,7 @@ export interface PageResponse {
    * total is total number of results available if PageRequest.count_total
    * was set, its value is undefined otherwise
    */
-  total: bigint;
+  total: Long;
 }
 export interface PageResponseProtoMsg {
   typeUrl: "/cosmos.base.query.v1beta1.PageResponse";
@@ -170,13 +170,13 @@ export interface PageResponseAminoMsg {
  */
 export interface PageResponseSDKType {
   next_key: Uint8Array;
-  total: bigint;
+  total: Long;
 }
 function createBasePageRequest(): PageRequest {
   return {
     key: new Uint8Array(),
-    offset: BigInt("0"),
-    limit: BigInt("0"),
+    offset: Long.UZERO,
+    limit: Long.UZERO,
     countTotal: false,
     reverse: false
   };
@@ -184,14 +184,14 @@ function createBasePageRequest(): PageRequest {
 export const PageRequest = {
   typeUrl: "/cosmos.base.query.v1beta1.PageRequest",
   aminoType: "cosmos-sdk/PageRequest",
-  encode(message: PageRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: PageRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key);
     }
-    if (message.offset !== BigInt(0)) {
+    if (!message.offset.isZero()) {
       writer.uint32(16).uint64(message.offset);
     }
-    if (message.limit !== BigInt(0)) {
+    if (!message.limit.isZero()) {
       writer.uint32(24).uint64(message.limit);
     }
     if (message.countTotal === true) {
@@ -202,8 +202,8 @@ export const PageRequest = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): PageRequest {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): PageRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePageRequest();
     while (reader.pos < end) {
@@ -213,10 +213,10 @@ export const PageRequest = {
           message.key = reader.bytes();
           break;
         case 2:
-          message.offset = BigInt(reader.uint64().toString());
+          message.offset = (reader.uint64() as Long);
           break;
         case 3:
-          message.limit = BigInt(reader.uint64().toString());
+          message.limit = (reader.uint64() as Long);
           break;
         case 4:
           message.countTotal = reader.bool();
@@ -234,8 +234,8 @@ export const PageRequest = {
   fromJSON(object: any): PageRequest {
     return {
       key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
-      offset: isSet(object.offset) ? BigInt(object.offset.toString()) : BigInt("0"),
-      limit: isSet(object.limit) ? BigInt(object.limit.toString()) : BigInt("0"),
+      offset: isSet(object.offset) ? Long.fromValue(object.offset) : Long.UZERO,
+      limit: isSet(object.limit) ? Long.fromValue(object.limit) : Long.UZERO,
       countTotal: isSet(object.countTotal) ? Boolean(object.countTotal) : false,
       reverse: isSet(object.reverse) ? Boolean(object.reverse) : false
     };
@@ -243,8 +243,8 @@ export const PageRequest = {
   toJSON(message: PageRequest): unknown {
     const obj: any = {};
     message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
-    message.offset !== undefined && (obj.offset = (message.offset || BigInt("0")).toString());
-    message.limit !== undefined && (obj.limit = (message.limit || BigInt("0")).toString());
+    message.offset !== undefined && (obj.offset = (message.offset || Long.UZERO).toString());
+    message.limit !== undefined && (obj.limit = (message.limit || Long.UZERO).toString());
     message.countTotal !== undefined && (obj.countTotal = message.countTotal);
     message.reverse !== undefined && (obj.reverse = message.reverse);
     return obj;
@@ -252,8 +252,8 @@ export const PageRequest = {
   fromPartial(object: DeepPartial<PageRequest>): PageRequest {
     const message = createBasePageRequest();
     message.key = object.key ?? new Uint8Array();
-    message.offset = object.offset !== undefined && object.offset !== null ? BigInt(object.offset.toString()) : BigInt("0");
-    message.limit = object.limit !== undefined && object.limit !== null ? BigInt(object.limit.toString()) : BigInt("0");
+    message.offset = object.offset !== undefined && object.offset !== null ? Long.fromValue(object.offset) : Long.UZERO;
+    message.limit = object.limit !== undefined && object.limit !== null ? Long.fromValue(object.limit) : Long.UZERO;
     message.countTotal = object.countTotal ?? false;
     message.reverse = object.reverse ?? false;
     return message;
@@ -279,8 +279,8 @@ export const PageRequest = {
   fromAmino(object: PageRequestAmino): PageRequest {
     return {
       key: object.key,
-      offset: BigInt(object.offset),
-      limit: BigInt(object.limit),
+      offset: Long.fromString(object.offset),
+      limit: Long.fromString(object.limit),
       countTotal: object.count_total,
       reverse: object.reverse
     };
@@ -319,23 +319,23 @@ export const PageRequest = {
 function createBasePageResponse(): PageResponse {
   return {
     nextKey: new Uint8Array(),
-    total: BigInt("0")
+    total: Long.UZERO
   };
 }
 export const PageResponse = {
   typeUrl: "/cosmos.base.query.v1beta1.PageResponse",
   aminoType: "cosmos-sdk/PageResponse",
-  encode(message: PageResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: PageResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.nextKey.length !== 0) {
       writer.uint32(10).bytes(message.nextKey);
     }
-    if (message.total !== BigInt(0)) {
+    if (!message.total.isZero()) {
       writer.uint32(16).uint64(message.total);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): PageResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): PageResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePageResponse();
     while (reader.pos < end) {
@@ -345,7 +345,7 @@ export const PageResponse = {
           message.nextKey = reader.bytes();
           break;
         case 2:
-          message.total = BigInt(reader.uint64().toString());
+          message.total = (reader.uint64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -357,19 +357,19 @@ export const PageResponse = {
   fromJSON(object: any): PageResponse {
     return {
       nextKey: isSet(object.nextKey) ? bytesFromBase64(object.nextKey) : new Uint8Array(),
-      total: isSet(object.total) ? BigInt(object.total.toString()) : BigInt("0")
+      total: isSet(object.total) ? Long.fromValue(object.total) : Long.UZERO
     };
   },
   toJSON(message: PageResponse): unknown {
     const obj: any = {};
     message.nextKey !== undefined && (obj.nextKey = base64FromBytes(message.nextKey !== undefined ? message.nextKey : new Uint8Array()));
-    message.total !== undefined && (obj.total = (message.total || BigInt("0")).toString());
+    message.total !== undefined && (obj.total = (message.total || Long.UZERO).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<PageResponse>): PageResponse {
     const message = createBasePageResponse();
     message.nextKey = object.nextKey ?? new Uint8Array();
-    message.total = object.total !== undefined && object.total !== null ? BigInt(object.total.toString()) : BigInt("0");
+    message.total = object.total !== undefined && object.total !== null ? Long.fromValue(object.total) : Long.UZERO;
     return message;
   },
   fromSDK(object: PageResponseSDKType): PageResponse {
@@ -387,7 +387,7 @@ export const PageResponse = {
   fromAmino(object: PageResponseAmino): PageResponse {
     return {
       nextKey: object.next_key,
-      total: BigInt(object.total)
+      total: Long.fromString(object.total)
     };
   },
   toAmino(message: PageResponse): PageResponseAmino {

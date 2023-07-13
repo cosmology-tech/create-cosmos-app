@@ -8,17 +8,17 @@ import { GenesisStateSDKType as GenesisState2SDKType } from "../../connection/v1
 import { GenesisState as GenesisState3 } from "../../channel/v1/genesis";
 import { GenesisStateAmino as GenesisState3Amino } from "../../channel/v1/genesis";
 import { GenesisStateSDKType as GenesisState3SDKType } from "../../channel/v1/genesis";
-import { BinaryReader, BinaryWriter } from "../../../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../../../helpers";
 export const protobufPackage = "ibc.core.types.v1";
 /** GenesisState defines the ibc module's genesis state. */
 export interface GenesisState {
   /** ICS002 - Clients genesis state */
-  clientGenesis?: GenesisState1;
+  clientGenesis: GenesisState1;
   /** ICS003 - Connections genesis state */
-  connectionGenesis?: GenesisState2;
+  connectionGenesis: GenesisState2;
   /** ICS004 - Channel genesis state */
-  channelGenesis?: GenesisState3;
+  channelGenesis: GenesisState3;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/ibc.core.types.v1.GenesisState";
@@ -39,21 +39,21 @@ export interface GenesisStateAminoMsg {
 }
 /** GenesisState defines the ibc module's genesis state. */
 export interface GenesisStateSDKType {
-  client_genesis?: GenesisState1SDKType;
-  connection_genesis?: GenesisState2SDKType;
-  channel_genesis?: GenesisState3SDKType;
+  client_genesis: GenesisState1SDKType;
+  connection_genesis: GenesisState2SDKType;
+  channel_genesis: GenesisState3SDKType;
 }
 function createBaseGenesisState(): GenesisState {
   return {
-    clientGenesis: undefined,
-    connectionGenesis: undefined,
-    channelGenesis: undefined
+    clientGenesis: GenesisState.fromPartial({}),
+    connectionGenesis: GenesisState.fromPartial({}),
+    channelGenesis: GenesisState.fromPartial({})
   };
 }
 export const GenesisState = {
   typeUrl: "/ibc.core.types.v1.GenesisState",
   aminoType: "cosmos-sdk/GenesisState",
-  encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: GenesisState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.clientGenesis !== undefined) {
       GenesisState1.encode(message.clientGenesis, writer.uint32(10).fork()).ldelim();
     }
@@ -65,8 +65,8 @@ export const GenesisState = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): GenesisState {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): GenesisState {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenesisState();
     while (reader.pos < end) {

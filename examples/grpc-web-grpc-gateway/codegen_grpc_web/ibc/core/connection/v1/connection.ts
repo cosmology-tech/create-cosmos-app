@@ -1,6 +1,6 @@
 import { MerklePrefix, MerklePrefixAmino, MerklePrefixSDKType } from "../../commitment/v1/commitment";
-import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet, DeepPartial } from "../../../../helpers";
+import { Long, isSet, DeepPartial } from "../../../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "ibc.core.connection.v1";
 /**
  * State defines if a connection is in one of the following states:
@@ -74,13 +74,13 @@ export interface ConnectionEnd {
   /** current state of the connection end. */
   state: State;
   /** counterparty chain associated with this connection. */
-  counterparty?: Counterparty;
+  counterparty: Counterparty;
   /**
    * delay period that must pass before a consensus state can be used for
    * packet-verification NOTE: delay period logic is only implemented by some
    * clients.
    */
-  delayPeriod: bigint;
+  delayPeriod: Long;
 }
 export interface ConnectionEndProtoMsg {
   typeUrl: "/ibc.core.connection.v1.ConnectionEnd";
@@ -125,8 +125,8 @@ export interface ConnectionEndSDKType {
   client_id: string;
   versions: VersionSDKType[];
   state: State;
-  counterparty?: CounterpartySDKType;
-  delay_period: bigint;
+  counterparty: CounterpartySDKType;
+  delay_period: Long;
 }
 /**
  * IdentifiedConnection defines a connection with additional connection
@@ -145,9 +145,9 @@ export interface IdentifiedConnection {
   /** current state of the connection end. */
   state: State;
   /** counterparty chain associated with this connection. */
-  counterparty?: Counterparty;
+  counterparty: Counterparty;
   /** delay period associated with this connection. */
-  delayPeriod: bigint;
+  delayPeriod: Long;
 }
 export interface IdentifiedConnectionProtoMsg {
   typeUrl: "/ibc.core.connection.v1.IdentifiedConnection";
@@ -187,8 +187,8 @@ export interface IdentifiedConnectionSDKType {
   client_id: string;
   versions: VersionSDKType[];
   state: State;
-  counterparty?: CounterpartySDKType;
-  delay_period: bigint;
+  counterparty: CounterpartySDKType;
+  delay_period: Long;
 }
 /** Counterparty defines the counterparty chain associated with a connection end. */
 export interface Counterparty {
@@ -203,7 +203,7 @@ export interface Counterparty {
    */
   connectionId: string;
   /** commitment merkle prefix of the counterparty chain. */
-  prefix?: MerklePrefix;
+  prefix: MerklePrefix;
 }
 export interface CounterpartyProtoMsg {
   typeUrl: "/ibc.core.connection.v1.Counterparty";
@@ -232,7 +232,7 @@ export interface CounterpartyAminoMsg {
 export interface CounterpartySDKType {
   client_id: string;
   connection_id: string;
-  prefix?: MerklePrefixSDKType;
+  prefix: MerklePrefixSDKType;
 }
 /** ClientPaths define all the connection paths for a client state. */
 export interface ClientPaths {
@@ -326,7 +326,7 @@ export interface Params {
    * largest amount of time that the chain might reasonably take to produce the next block under normal operating
    * conditions. A safe choice is 3-5x the expected time per block.
    */
-  maxExpectedTimePerBlock: bigint;
+  maxExpectedTimePerBlock: Long;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/ibc.core.connection.v1.Params";
@@ -347,21 +347,21 @@ export interface ParamsAminoMsg {
 }
 /** Params defines the set of Connection parameters. */
 export interface ParamsSDKType {
-  max_expected_time_per_block: bigint;
+  max_expected_time_per_block: Long;
 }
 function createBaseConnectionEnd(): ConnectionEnd {
   return {
     clientId: "",
     versions: [],
     state: 0,
-    counterparty: undefined,
-    delayPeriod: BigInt("0")
+    counterparty: Counterparty.fromPartial({}),
+    delayPeriod: Long.UZERO
   };
 }
 export const ConnectionEnd = {
   typeUrl: "/ibc.core.connection.v1.ConnectionEnd",
   aminoType: "cosmos-sdk/ConnectionEnd",
-  encode(message: ConnectionEnd, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ConnectionEnd, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
@@ -374,13 +374,13 @@ export const ConnectionEnd = {
     if (message.counterparty !== undefined) {
       Counterparty.encode(message.counterparty, writer.uint32(34).fork()).ldelim();
     }
-    if (message.delayPeriod !== BigInt(0)) {
+    if (!message.delayPeriod.isZero()) {
       writer.uint32(40).uint64(message.delayPeriod);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ConnectionEnd {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ConnectionEnd {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConnectionEnd();
     while (reader.pos < end) {
@@ -399,7 +399,7 @@ export const ConnectionEnd = {
           message.counterparty = Counterparty.decode(reader, reader.uint32());
           break;
         case 5:
-          message.delayPeriod = BigInt(reader.uint64().toString());
+          message.delayPeriod = (reader.uint64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -414,7 +414,7 @@ export const ConnectionEnd = {
       versions: Array.isArray(object?.versions) ? object.versions.map((e: any) => Version.fromJSON(e)) : [],
       state: isSet(object.state) ? stateFromJSON(object.state) : 0,
       counterparty: isSet(object.counterparty) ? Counterparty.fromJSON(object.counterparty) : undefined,
-      delayPeriod: isSet(object.delayPeriod) ? BigInt(object.delayPeriod.toString()) : BigInt("0")
+      delayPeriod: isSet(object.delayPeriod) ? Long.fromValue(object.delayPeriod) : Long.UZERO
     };
   },
   toJSON(message: ConnectionEnd): unknown {
@@ -427,7 +427,7 @@ export const ConnectionEnd = {
     }
     message.state !== undefined && (obj.state = stateToJSON(message.state));
     message.counterparty !== undefined && (obj.counterparty = message.counterparty ? Counterparty.toJSON(message.counterparty) : undefined);
-    message.delayPeriod !== undefined && (obj.delayPeriod = (message.delayPeriod || BigInt("0")).toString());
+    message.delayPeriod !== undefined && (obj.delayPeriod = (message.delayPeriod || Long.UZERO).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<ConnectionEnd>): ConnectionEnd {
@@ -436,7 +436,7 @@ export const ConnectionEnd = {
     message.versions = object.versions?.map(e => Version.fromPartial(e)) || [];
     message.state = object.state ?? 0;
     message.counterparty = object.counterparty !== undefined && object.counterparty !== null ? Counterparty.fromPartial(object.counterparty) : undefined;
-    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? BigInt(object.delayPeriod.toString()) : BigInt("0");
+    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? Long.fromValue(object.delayPeriod) : Long.UZERO;
     return message;
   },
   fromSDK(object: ConnectionEndSDKType): ConnectionEnd {
@@ -467,7 +467,7 @@ export const ConnectionEnd = {
       versions: Array.isArray(object?.versions) ? object.versions.map((e: any) => Version.fromAmino(e)) : [],
       state: isSet(object.state) ? stateFromJSON(object.state) : 0,
       counterparty: object?.counterparty ? Counterparty.fromAmino(object.counterparty) : undefined,
-      delayPeriod: BigInt(object.delay_period)
+      delayPeriod: Long.fromString(object.delay_period)
     };
   },
   toAmino(message: ConnectionEnd): ConnectionEndAmino {
@@ -511,14 +511,14 @@ function createBaseIdentifiedConnection(): IdentifiedConnection {
     clientId: "",
     versions: [],
     state: 0,
-    counterparty: undefined,
-    delayPeriod: BigInt("0")
+    counterparty: Counterparty.fromPartial({}),
+    delayPeriod: Long.UZERO
   };
 }
 export const IdentifiedConnection = {
   typeUrl: "/ibc.core.connection.v1.IdentifiedConnection",
   aminoType: "cosmos-sdk/IdentifiedConnection",
-  encode(message: IdentifiedConnection, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: IdentifiedConnection, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
@@ -534,13 +534,13 @@ export const IdentifiedConnection = {
     if (message.counterparty !== undefined) {
       Counterparty.encode(message.counterparty, writer.uint32(42).fork()).ldelim();
     }
-    if (message.delayPeriod !== BigInt(0)) {
+    if (!message.delayPeriod.isZero()) {
       writer.uint32(48).uint64(message.delayPeriod);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): IdentifiedConnection {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): IdentifiedConnection {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseIdentifiedConnection();
     while (reader.pos < end) {
@@ -562,7 +562,7 @@ export const IdentifiedConnection = {
           message.counterparty = Counterparty.decode(reader, reader.uint32());
           break;
         case 6:
-          message.delayPeriod = BigInt(reader.uint64().toString());
+          message.delayPeriod = (reader.uint64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -578,7 +578,7 @@ export const IdentifiedConnection = {
       versions: Array.isArray(object?.versions) ? object.versions.map((e: any) => Version.fromJSON(e)) : [],
       state: isSet(object.state) ? stateFromJSON(object.state) : 0,
       counterparty: isSet(object.counterparty) ? Counterparty.fromJSON(object.counterparty) : undefined,
-      delayPeriod: isSet(object.delayPeriod) ? BigInt(object.delayPeriod.toString()) : BigInt("0")
+      delayPeriod: isSet(object.delayPeriod) ? Long.fromValue(object.delayPeriod) : Long.UZERO
     };
   },
   toJSON(message: IdentifiedConnection): unknown {
@@ -592,7 +592,7 @@ export const IdentifiedConnection = {
     }
     message.state !== undefined && (obj.state = stateToJSON(message.state));
     message.counterparty !== undefined && (obj.counterparty = message.counterparty ? Counterparty.toJSON(message.counterparty) : undefined);
-    message.delayPeriod !== undefined && (obj.delayPeriod = (message.delayPeriod || BigInt("0")).toString());
+    message.delayPeriod !== undefined && (obj.delayPeriod = (message.delayPeriod || Long.UZERO).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<IdentifiedConnection>): IdentifiedConnection {
@@ -602,7 +602,7 @@ export const IdentifiedConnection = {
     message.versions = object.versions?.map(e => Version.fromPartial(e)) || [];
     message.state = object.state ?? 0;
     message.counterparty = object.counterparty !== undefined && object.counterparty !== null ? Counterparty.fromPartial(object.counterparty) : undefined;
-    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? BigInt(object.delayPeriod.toString()) : BigInt("0");
+    message.delayPeriod = object.delayPeriod !== undefined && object.delayPeriod !== null ? Long.fromValue(object.delayPeriod) : Long.UZERO;
     return message;
   },
   fromSDK(object: IdentifiedConnectionSDKType): IdentifiedConnection {
@@ -636,7 +636,7 @@ export const IdentifiedConnection = {
       versions: Array.isArray(object?.versions) ? object.versions.map((e: any) => Version.fromAmino(e)) : [],
       state: isSet(object.state) ? stateFromJSON(object.state) : 0,
       counterparty: object?.counterparty ? Counterparty.fromAmino(object.counterparty) : undefined,
-      delayPeriod: BigInt(object.delay_period)
+      delayPeriod: Long.fromString(object.delay_period)
     };
   },
   toAmino(message: IdentifiedConnection): IdentifiedConnectionAmino {
@@ -679,13 +679,13 @@ function createBaseCounterparty(): Counterparty {
   return {
     clientId: "",
     connectionId: "",
-    prefix: undefined
+    prefix: MerklePrefix.fromPartial({})
   };
 }
 export const Counterparty = {
   typeUrl: "/ibc.core.connection.v1.Counterparty",
   aminoType: "cosmos-sdk/Counterparty",
-  encode(message: Counterparty, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Counterparty, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
@@ -697,8 +697,8 @@ export const Counterparty = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Counterparty {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Counterparty {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCounterparty();
     while (reader.pos < end) {
@@ -799,14 +799,14 @@ function createBaseClientPaths(): ClientPaths {
 export const ClientPaths = {
   typeUrl: "/ibc.core.connection.v1.ClientPaths",
   aminoType: "cosmos-sdk/ClientPaths",
-  encode(message: ClientPaths, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ClientPaths, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.paths) {
       writer.uint32(10).string(v!);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ClientPaths {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ClientPaths {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseClientPaths();
     while (reader.pos < end) {
@@ -900,7 +900,7 @@ function createBaseConnectionPaths(): ConnectionPaths {
 export const ConnectionPaths = {
   typeUrl: "/ibc.core.connection.v1.ConnectionPaths",
   aminoType: "cosmos-sdk/ConnectionPaths",
-  encode(message: ConnectionPaths, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ConnectionPaths, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
@@ -909,8 +909,8 @@ export const ConnectionPaths = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ConnectionPaths {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ConnectionPaths {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConnectionPaths();
     while (reader.pos < end) {
@@ -1014,7 +1014,7 @@ function createBaseVersion(): Version {
 export const Version = {
   typeUrl: "/ibc.core.connection.v1.Version",
   aminoType: "cosmos-sdk/Version",
-  encode(message: Version, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Version, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.identifier !== "") {
       writer.uint32(10).string(message.identifier);
     }
@@ -1023,8 +1023,8 @@ export const Version = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Version {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Version {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVersion();
     while (reader.pos < end) {
@@ -1121,27 +1121,27 @@ export const Version = {
 };
 function createBaseParams(): Params {
   return {
-    maxExpectedTimePerBlock: BigInt("0")
+    maxExpectedTimePerBlock: Long.UZERO
   };
 }
 export const Params = {
   typeUrl: "/ibc.core.connection.v1.Params",
   aminoType: "cosmos-sdk/Params",
-  encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.maxExpectedTimePerBlock !== BigInt(0)) {
+  encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.maxExpectedTimePerBlock.isZero()) {
       writer.uint32(8).uint64(message.maxExpectedTimePerBlock);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Params {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Params {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParams();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.maxExpectedTimePerBlock = BigInt(reader.uint64().toString());
+          message.maxExpectedTimePerBlock = (reader.uint64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -1152,17 +1152,17 @@ export const Params = {
   },
   fromJSON(object: any): Params {
     return {
-      maxExpectedTimePerBlock: isSet(object.maxExpectedTimePerBlock) ? BigInt(object.maxExpectedTimePerBlock.toString()) : BigInt("0")
+      maxExpectedTimePerBlock: isSet(object.maxExpectedTimePerBlock) ? Long.fromValue(object.maxExpectedTimePerBlock) : Long.UZERO
     };
   },
   toJSON(message: Params): unknown {
     const obj: any = {};
-    message.maxExpectedTimePerBlock !== undefined && (obj.maxExpectedTimePerBlock = (message.maxExpectedTimePerBlock || BigInt("0")).toString());
+    message.maxExpectedTimePerBlock !== undefined && (obj.maxExpectedTimePerBlock = (message.maxExpectedTimePerBlock || Long.UZERO).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
-    message.maxExpectedTimePerBlock = object.maxExpectedTimePerBlock !== undefined && object.maxExpectedTimePerBlock !== null ? BigInt(object.maxExpectedTimePerBlock.toString()) : BigInt("0");
+    message.maxExpectedTimePerBlock = object.maxExpectedTimePerBlock !== undefined && object.maxExpectedTimePerBlock !== null ? Long.fromValue(object.maxExpectedTimePerBlock) : Long.UZERO;
     return message;
   },
   fromSDK(object: ParamsSDKType): Params {
@@ -1177,7 +1177,7 @@ export const Params = {
   },
   fromAmino(object: ParamsAmino): Params {
     return {
-      maxExpectedTimePerBlock: BigInt(object.max_expected_time_per_block)
+      maxExpectedTimePerBlock: Long.fromString(object.max_expected_time_per_block)
     };
   },
   toAmino(message: Params): ParamsAmino {

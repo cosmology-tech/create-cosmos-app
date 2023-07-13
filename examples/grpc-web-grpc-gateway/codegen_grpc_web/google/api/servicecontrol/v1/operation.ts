@@ -2,7 +2,7 @@ import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../protobuf/t
 import { MetricValueSet, MetricValueSetAmino, MetricValueSetSDKType } from "./metric_value";
 import { LogEntry, LogEntryAmino, LogEntrySDKType } from "./log_entry";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../protobuf/any";
-import { BinaryReader, BinaryWriter } from "../../../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp, fromJsonTimestamp, isObject } from "../../../../helpers";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /** Defines the importance of the data contained in the operation. */
@@ -99,7 +99,7 @@ export interface Operation {
    */
   consumerId: string;
   /** Required. Start time of the operation. */
-  startTime?: Date;
+  startTime: Date;
   /**
    * End time of the operation.
    * Required when the operation is used in
@@ -107,7 +107,7 @@ export interface Operation {
    * but optional when the operation is used in
    * [ServiceController.Check][google.api.servicecontrol.v1.ServiceController.Check].
    */
-  endTime?: Date;
+  endTime: Date;
   /**
    * Labels describing the operation. Only the following labels are allowed:
    * 
@@ -244,8 +244,8 @@ export interface OperationSDKType {
   operation_id: string;
   operation_name: string;
   consumer_id: string;
-  start_time?: Date;
-  end_time?: Date;
+  start_time: Date;
+  end_time: Date;
   labels: {
     [key: string]: string;
   };
@@ -261,7 +261,7 @@ function createBaseOperation_LabelsEntry(): Operation_LabelsEntry {
   };
 }
 export const Operation_LabelsEntry = {
-  encode(message: Operation_LabelsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Operation_LabelsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -270,8 +270,8 @@ export const Operation_LabelsEntry = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Operation_LabelsEntry {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Operation_LabelsEntry {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOperation_LabelsEntry();
     while (reader.pos < end) {
@@ -358,7 +358,7 @@ function createBaseOperation(): Operation {
 }
 export const Operation = {
   typeUrl: "/google.api.servicecontrol.v1.Operation",
-  encode(message: Operation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Operation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.operationId !== "") {
       writer.uint32(10).string(message.operationId);
     }
@@ -394,8 +394,8 @@ export const Operation = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Operation {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Operation {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOperation();
     while (reader.pos < end) {

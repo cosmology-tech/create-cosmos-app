@@ -2,18 +2,18 @@ import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf
 import { SignMode, SignModeSDKType, signModeFromJSON, signModeToJSON } from "../signing/v1beta1/signing";
 import { CompactBitArray, CompactBitArrayAmino, CompactBitArraySDKType } from "../../crypto/multisig/v1beta1/multisig";
 import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
-import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
+import { Long, isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "cosmos.tx.v1beta1";
 /** Tx is the standard type used for broadcasting transactions. */
 export interface Tx {
   /** body is the processable content of the transaction */
-  body?: TxBody;
+  body: TxBody;
   /**
    * auth_info is the authorization related content of the transaction,
    * specifically signers, signer modes and fee
    */
-  authInfo?: AuthInfo;
+  authInfo: AuthInfo;
   /**
    * signatures is a list of signatures that matches the length and order of
    * AuthInfo's signer_infos to allow connecting signature meta information like
@@ -47,8 +47,8 @@ export interface TxAminoMsg {
 }
 /** Tx is the standard type used for broadcasting transactions. */
 export interface TxSDKType {
-  body?: TxBodySDKType;
-  auth_info?: AuthInfoSDKType;
+  body: TxBodySDKType;
+  auth_info: AuthInfoSDKType;
   signatures: Uint8Array[];
 }
 /**
@@ -140,7 +140,7 @@ export interface SignDoc {
    */
   chainId: string;
   /** account_number is the account number of the account in state */
-  accountNumber: bigint;
+  accountNumber: Long;
 }
 export interface SignDocProtoMsg {
   typeUrl: "/cosmos.tx.v1beta1.SignDoc";
@@ -176,7 +176,7 @@ export interface SignDocSDKType {
   body_bytes: Uint8Array;
   auth_info_bytes: Uint8Array;
   chain_id: string;
-  account_number: bigint;
+  account_number: Long;
 }
 /**
  * SignDocDirectAux is the type used for generating sign bytes for
@@ -191,7 +191,7 @@ export interface SignDocDirectAux {
    */
   bodyBytes: Uint8Array;
   /** public_key is the public key of the signing account. */
-  publicKey?: Any;
+  publicKey: Any;
   /**
    * chain_id is the identifier of the chain this transaction targets.
    * It prevents signed transactions from being used on another chain by an
@@ -199,14 +199,14 @@ export interface SignDocDirectAux {
    */
   chainId: string;
   /** account_number is the account number of the account in state. */
-  accountNumber: bigint;
+  accountNumber: Long;
   /** sequence is the sequence number of the signing account. */
-  sequence: bigint;
+  sequence: Long;
   /**
    * Tip is the optional tip used for meta-transactions. It should be left
    * empty if the signer is not the tipper for this transaction.
    */
-  tip?: Tip;
+  tip: Tip;
 }
 export interface SignDocDirectAuxProtoMsg {
   typeUrl: "/cosmos.tx.v1beta1.SignDocDirectAux";
@@ -254,11 +254,11 @@ export interface SignDocDirectAuxAminoMsg {
  */
 export interface SignDocDirectAuxSDKType {
   body_bytes: Uint8Array;
-  public_key?: AnySDKType;
+  public_key: AnySDKType;
   chain_id: string;
-  account_number: bigint;
-  sequence: bigint;
-  tip?: TipSDKType;
+  account_number: Long;
+  sequence: Long;
+  tip: TipSDKType;
 }
 /** TxBody is the body of a transaction that all signers sign over. */
 export interface TxBody {
@@ -282,7 +282,7 @@ export interface TxBody {
    * timeout is the block height after which this transaction will not
    * be processed by the chain
    */
-  timeoutHeight: bigint;
+  timeoutHeight: Long;
   /**
    * extension_options are arbitrary options that can be added by chains
    * when the default options are not sufficient. If any of these are present
@@ -344,7 +344,7 @@ export interface TxBodyAminoMsg {
 export interface TxBodySDKType {
   messages: AnySDKType[];
   memo: string;
-  timeout_height: bigint;
+  timeout_height: Long;
   extension_options: AnySDKType[];
   non_critical_extension_options: AnySDKType[];
 }
@@ -366,13 +366,13 @@ export interface AuthInfo {
    * based on the cost of evaluating the body and doing signature verification
    * of the signers. This can be estimated via simulation.
    */
-  fee?: Fee;
+  fee: Fee;
   /**
    * Tip is the optional tip used for meta-transactions.
    * 
    * Since: cosmos-sdk 0.46
    */
-  tip?: Tip;
+  tip: Tip;
 }
 export interface AuthInfoProtoMsg {
   typeUrl: "/cosmos.tx.v1beta1.AuthInfo";
@@ -414,8 +414,8 @@ export interface AuthInfoAminoMsg {
  */
 export interface AuthInfoSDKType {
   signer_infos: SignerInfoSDKType[];
-  fee?: FeeSDKType;
-  tip?: TipSDKType;
+  fee: FeeSDKType;
+  tip: TipSDKType;
 }
 /**
  * SignerInfo describes the public key and signing mode of a single top-level
@@ -427,18 +427,18 @@ export interface SignerInfo {
    * that already exist in state. If unset, the verifier can use the required \
    * signer address for this position and lookup the public key.
    */
-  publicKey?: Any;
+  publicKey: Any;
   /**
    * mode_info describes the signing mode of the signer and is a nested
    * structure to support nested multisig pubkey's
    */
-  modeInfo?: ModeInfo;
+  modeInfo: ModeInfo;
   /**
    * sequence is the sequence of the account, which describes the
    * number of committed transactions signed by a given address. It is used to
    * prevent replay attacks.
    */
-  sequence: bigint;
+  sequence: Long;
 }
 export interface SignerInfoProtoMsg {
   typeUrl: "/cosmos.tx.v1beta1.SignerInfo";
@@ -476,9 +476,9 @@ export interface SignerInfoAminoMsg {
  * signer.
  */
 export interface SignerInfoSDKType {
-  public_key?: AnySDKType;
-  mode_info?: ModeInfoSDKType;
-  sequence: bigint;
+  public_key: AnySDKType;
+  mode_info: ModeInfoSDKType;
+  sequence: Long;
 }
 /** ModeInfo describes the signing mode of a single or nested multisig signer. */
 export interface ModeInfo {
@@ -544,7 +544,7 @@ export interface ModeInfo_SingleSDKType {
 /** Multi is the mode info for a multisig public key */
 export interface ModeInfo_Multi {
   /** bitarray specifies which keys within the multisig are signing */
-  bitarray?: CompactBitArray;
+  bitarray: CompactBitArray;
   /**
    * mode_infos is the corresponding modes of the signers of the multisig
    * which could include nested multisig public keys
@@ -571,7 +571,7 @@ export interface ModeInfo_MultiAminoMsg {
 }
 /** Multi is the mode info for a multisig public key */
 export interface ModeInfo_MultiSDKType {
-  bitarray?: CompactBitArraySDKType;
+  bitarray: CompactBitArraySDKType;
   mode_infos: ModeInfoSDKType[];
 }
 /**
@@ -586,7 +586,7 @@ export interface Fee {
    * gas_limit is the maximum gas that can be used in transaction processing
    * before an out of gas error occurs
    */
-  gasLimit: bigint;
+  gasLimit: Long;
   /**
    * if unset, the first signer is responsible for paying the fees. If set, the specified account must pay the fees.
    * the payer must be a tx signer (and thus have signed this field in AuthInfo).
@@ -641,7 +641,7 @@ export interface FeeAminoMsg {
  */
 export interface FeeSDKType {
   amount: CoinSDKType[];
-  gas_limit: bigint;
+  gas_limit: Long;
   payer: string;
   granter: string;
 }
@@ -704,7 +704,7 @@ export interface AuxSignerData {
    * signs. Note: we use the same sign doc even if we're signing with
    * LEGACY_AMINO_JSON.
    */
-  signDoc?: SignDocDirectAux;
+  signDoc: SignDocDirectAux;
   /** mode is the signing mode of the single signer */
   mode: SignMode;
   /** sig is the signature of the sign doc. */
@@ -754,21 +754,21 @@ export interface AuxSignerDataAminoMsg {
  */
 export interface AuxSignerDataSDKType {
   address: string;
-  sign_doc?: SignDocDirectAuxSDKType;
+  sign_doc: SignDocDirectAuxSDKType;
   mode: SignMode;
   sig: Uint8Array;
 }
 function createBaseTx(): Tx {
   return {
-    body: undefined,
-    authInfo: undefined,
+    body: TxBody.fromPartial({}),
+    authInfo: AuthInfo.fromPartial({}),
     signatures: []
   };
 }
 export const Tx = {
   typeUrl: "/cosmos.tx.v1beta1.Tx",
   aminoType: "cosmos-sdk/Tx",
-  encode(message: Tx, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Tx, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.body !== undefined) {
       TxBody.encode(message.body, writer.uint32(10).fork()).ldelim();
     }
@@ -780,8 +780,8 @@ export const Tx = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Tx {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Tx {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTx();
     while (reader.pos < end) {
@@ -896,7 +896,7 @@ function createBaseTxRaw(): TxRaw {
 export const TxRaw = {
   typeUrl: "/cosmos.tx.v1beta1.TxRaw",
   aminoType: "cosmos-sdk/TxRaw",
-  encode(message: TxRaw, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: TxRaw, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.bodyBytes.length !== 0) {
       writer.uint32(10).bytes(message.bodyBytes);
     }
@@ -908,8 +908,8 @@ export const TxRaw = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): TxRaw {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): TxRaw {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTxRaw();
     while (reader.pos < end) {
@@ -1019,13 +1019,13 @@ function createBaseSignDoc(): SignDoc {
     bodyBytes: new Uint8Array(),
     authInfoBytes: new Uint8Array(),
     chainId: "",
-    accountNumber: BigInt("0")
+    accountNumber: Long.UZERO
   };
 }
 export const SignDoc = {
   typeUrl: "/cosmos.tx.v1beta1.SignDoc",
   aminoType: "cosmos-sdk/SignDoc",
-  encode(message: SignDoc, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: SignDoc, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.bodyBytes.length !== 0) {
       writer.uint32(10).bytes(message.bodyBytes);
     }
@@ -1035,13 +1035,13 @@ export const SignDoc = {
     if (message.chainId !== "") {
       writer.uint32(26).string(message.chainId);
     }
-    if (message.accountNumber !== BigInt(0)) {
+    if (!message.accountNumber.isZero()) {
       writer.uint32(32).uint64(message.accountNumber);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): SignDoc {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): SignDoc {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSignDoc();
     while (reader.pos < end) {
@@ -1057,7 +1057,7 @@ export const SignDoc = {
           message.chainId = reader.string();
           break;
         case 4:
-          message.accountNumber = BigInt(reader.uint64().toString());
+          message.accountNumber = (reader.uint64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -1071,7 +1071,7 @@ export const SignDoc = {
       bodyBytes: isSet(object.bodyBytes) ? bytesFromBase64(object.bodyBytes) : new Uint8Array(),
       authInfoBytes: isSet(object.authInfoBytes) ? bytesFromBase64(object.authInfoBytes) : new Uint8Array(),
       chainId: isSet(object.chainId) ? String(object.chainId) : "",
-      accountNumber: isSet(object.accountNumber) ? BigInt(object.accountNumber.toString()) : BigInt("0")
+      accountNumber: isSet(object.accountNumber) ? Long.fromValue(object.accountNumber) : Long.UZERO
     };
   },
   toJSON(message: SignDoc): unknown {
@@ -1079,7 +1079,7 @@ export const SignDoc = {
     message.bodyBytes !== undefined && (obj.bodyBytes = base64FromBytes(message.bodyBytes !== undefined ? message.bodyBytes : new Uint8Array()));
     message.authInfoBytes !== undefined && (obj.authInfoBytes = base64FromBytes(message.authInfoBytes !== undefined ? message.authInfoBytes : new Uint8Array()));
     message.chainId !== undefined && (obj.chainId = message.chainId);
-    message.accountNumber !== undefined && (obj.accountNumber = (message.accountNumber || BigInt("0")).toString());
+    message.accountNumber !== undefined && (obj.accountNumber = (message.accountNumber || Long.UZERO).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<SignDoc>): SignDoc {
@@ -1087,7 +1087,7 @@ export const SignDoc = {
     message.bodyBytes = object.bodyBytes ?? new Uint8Array();
     message.authInfoBytes = object.authInfoBytes ?? new Uint8Array();
     message.chainId = object.chainId ?? "";
-    message.accountNumber = object.accountNumber !== undefined && object.accountNumber !== null ? BigInt(object.accountNumber.toString()) : BigInt("0");
+    message.accountNumber = object.accountNumber !== undefined && object.accountNumber !== null ? Long.fromValue(object.accountNumber) : Long.UZERO;
     return message;
   },
   fromSDK(object: SignDocSDKType): SignDoc {
@@ -1111,7 +1111,7 @@ export const SignDoc = {
       bodyBytes: object.body_bytes,
       authInfoBytes: object.auth_info_bytes,
       chainId: object.chain_id,
-      accountNumber: BigInt(object.account_number)
+      accountNumber: Long.fromString(object.account_number)
     };
   },
   toAmino(message: SignDoc): SignDocAmino {
@@ -1149,15 +1149,15 @@ function createBaseSignDocDirectAux(): SignDocDirectAux {
     bodyBytes: new Uint8Array(),
     publicKey: undefined,
     chainId: "",
-    accountNumber: BigInt("0"),
-    sequence: BigInt("0"),
-    tip: undefined
+    accountNumber: Long.UZERO,
+    sequence: Long.UZERO,
+    tip: Tip.fromPartial({})
   };
 }
 export const SignDocDirectAux = {
   typeUrl: "/cosmos.tx.v1beta1.SignDocDirectAux",
   aminoType: "cosmos-sdk/SignDocDirectAux",
-  encode(message: SignDocDirectAux, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: SignDocDirectAux, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.bodyBytes.length !== 0) {
       writer.uint32(10).bytes(message.bodyBytes);
     }
@@ -1167,10 +1167,10 @@ export const SignDocDirectAux = {
     if (message.chainId !== "") {
       writer.uint32(26).string(message.chainId);
     }
-    if (message.accountNumber !== BigInt(0)) {
+    if (!message.accountNumber.isZero()) {
       writer.uint32(32).uint64(message.accountNumber);
     }
-    if (message.sequence !== BigInt(0)) {
+    if (!message.sequence.isZero()) {
       writer.uint32(40).uint64(message.sequence);
     }
     if (message.tip !== undefined) {
@@ -1178,8 +1178,8 @@ export const SignDocDirectAux = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): SignDocDirectAux {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): SignDocDirectAux {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSignDocDirectAux();
     while (reader.pos < end) {
@@ -1195,10 +1195,10 @@ export const SignDocDirectAux = {
           message.chainId = reader.string();
           break;
         case 4:
-          message.accountNumber = BigInt(reader.uint64().toString());
+          message.accountNumber = (reader.uint64() as Long);
           break;
         case 5:
-          message.sequence = BigInt(reader.uint64().toString());
+          message.sequence = (reader.uint64() as Long);
           break;
         case 6:
           message.tip = Tip.decode(reader, reader.uint32());
@@ -1215,8 +1215,8 @@ export const SignDocDirectAux = {
       bodyBytes: isSet(object.bodyBytes) ? bytesFromBase64(object.bodyBytes) : new Uint8Array(),
       publicKey: isSet(object.publicKey) ? Any.fromJSON(object.publicKey) : undefined,
       chainId: isSet(object.chainId) ? String(object.chainId) : "",
-      accountNumber: isSet(object.accountNumber) ? BigInt(object.accountNumber.toString()) : BigInt("0"),
-      sequence: isSet(object.sequence) ? BigInt(object.sequence.toString()) : BigInt("0"),
+      accountNumber: isSet(object.accountNumber) ? Long.fromValue(object.accountNumber) : Long.UZERO,
+      sequence: isSet(object.sequence) ? Long.fromValue(object.sequence) : Long.UZERO,
       tip: isSet(object.tip) ? Tip.fromJSON(object.tip) : undefined
     };
   },
@@ -1225,8 +1225,8 @@ export const SignDocDirectAux = {
     message.bodyBytes !== undefined && (obj.bodyBytes = base64FromBytes(message.bodyBytes !== undefined ? message.bodyBytes : new Uint8Array()));
     message.publicKey !== undefined && (obj.publicKey = message.publicKey ? Any.toJSON(message.publicKey) : undefined);
     message.chainId !== undefined && (obj.chainId = message.chainId);
-    message.accountNumber !== undefined && (obj.accountNumber = (message.accountNumber || BigInt("0")).toString());
-    message.sequence !== undefined && (obj.sequence = (message.sequence || BigInt("0")).toString());
+    message.accountNumber !== undefined && (obj.accountNumber = (message.accountNumber || Long.UZERO).toString());
+    message.sequence !== undefined && (obj.sequence = (message.sequence || Long.UZERO).toString());
     message.tip !== undefined && (obj.tip = message.tip ? Tip.toJSON(message.tip) : undefined);
     return obj;
   },
@@ -1235,8 +1235,8 @@ export const SignDocDirectAux = {
     message.bodyBytes = object.bodyBytes ?? new Uint8Array();
     message.publicKey = object.publicKey !== undefined && object.publicKey !== null ? Any.fromPartial(object.publicKey) : undefined;
     message.chainId = object.chainId ?? "";
-    message.accountNumber = object.accountNumber !== undefined && object.accountNumber !== null ? BigInt(object.accountNumber.toString()) : BigInt("0");
-    message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt("0");
+    message.accountNumber = object.accountNumber !== undefined && object.accountNumber !== null ? Long.fromValue(object.accountNumber) : Long.UZERO;
+    message.sequence = object.sequence !== undefined && object.sequence !== null ? Long.fromValue(object.sequence) : Long.UZERO;
     message.tip = object.tip !== undefined && object.tip !== null ? Tip.fromPartial(object.tip) : undefined;
     return message;
   },
@@ -1265,8 +1265,8 @@ export const SignDocDirectAux = {
       bodyBytes: object.body_bytes,
       publicKey: object?.public_key ? Any.fromAmino(object.public_key) : undefined,
       chainId: object.chain_id,
-      accountNumber: BigInt(object.account_number),
-      sequence: BigInt(object.sequence),
+      accountNumber: Long.fromString(object.account_number),
+      sequence: Long.fromString(object.sequence),
       tip: object?.tip ? Tip.fromAmino(object.tip) : undefined
     };
   },
@@ -1306,7 +1306,7 @@ function createBaseTxBody(): TxBody {
   return {
     messages: [],
     memo: "",
-    timeoutHeight: BigInt("0"),
+    timeoutHeight: Long.UZERO,
     extensionOptions: [],
     nonCriticalExtensionOptions: []
   };
@@ -1314,14 +1314,14 @@ function createBaseTxBody(): TxBody {
 export const TxBody = {
   typeUrl: "/cosmos.tx.v1beta1.TxBody",
   aminoType: "cosmos-sdk/TxBody",
-  encode(message: TxBody, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: TxBody, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.messages) {
       Any.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     if (message.memo !== "") {
       writer.uint32(18).string(message.memo);
     }
-    if (message.timeoutHeight !== BigInt(0)) {
+    if (!message.timeoutHeight.isZero()) {
       writer.uint32(24).uint64(message.timeoutHeight);
     }
     for (const v of message.extensionOptions) {
@@ -1332,8 +1332,8 @@ export const TxBody = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): TxBody {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): TxBody {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTxBody();
     while (reader.pos < end) {
@@ -1346,7 +1346,7 @@ export const TxBody = {
           message.memo = reader.string();
           break;
         case 3:
-          message.timeoutHeight = BigInt(reader.uint64().toString());
+          message.timeoutHeight = (reader.uint64() as Long);
           break;
         case 1023:
           message.extensionOptions.push(Any.decode(reader, reader.uint32()));
@@ -1365,7 +1365,7 @@ export const TxBody = {
     return {
       messages: Array.isArray(object?.messages) ? object.messages.map((e: any) => Any.fromJSON(e)) : [],
       memo: isSet(object.memo) ? String(object.memo) : "",
-      timeoutHeight: isSet(object.timeoutHeight) ? BigInt(object.timeoutHeight.toString()) : BigInt("0"),
+      timeoutHeight: isSet(object.timeoutHeight) ? Long.fromValue(object.timeoutHeight) : Long.UZERO,
       extensionOptions: Array.isArray(object?.extensionOptions) ? object.extensionOptions.map((e: any) => Any.fromJSON(e)) : [],
       nonCriticalExtensionOptions: Array.isArray(object?.nonCriticalExtensionOptions) ? object.nonCriticalExtensionOptions.map((e: any) => Any.fromJSON(e)) : []
     };
@@ -1378,7 +1378,7 @@ export const TxBody = {
       obj.messages = [];
     }
     message.memo !== undefined && (obj.memo = message.memo);
-    message.timeoutHeight !== undefined && (obj.timeoutHeight = (message.timeoutHeight || BigInt("0")).toString());
+    message.timeoutHeight !== undefined && (obj.timeoutHeight = (message.timeoutHeight || Long.UZERO).toString());
     if (message.extensionOptions) {
       obj.extensionOptions = message.extensionOptions.map(e => e ? Any.toJSON(e) : undefined);
     } else {
@@ -1395,7 +1395,7 @@ export const TxBody = {
     const message = createBaseTxBody();
     message.messages = object.messages?.map(e => Any.fromPartial(e)) || [];
     message.memo = object.memo ?? "";
-    message.timeoutHeight = object.timeoutHeight !== undefined && object.timeoutHeight !== null ? BigInt(object.timeoutHeight.toString()) : BigInt("0");
+    message.timeoutHeight = object.timeoutHeight !== undefined && object.timeoutHeight !== null ? Long.fromValue(object.timeoutHeight) : Long.UZERO;
     message.extensionOptions = object.extensionOptions?.map(e => Any.fromPartial(e)) || [];
     message.nonCriticalExtensionOptions = object.nonCriticalExtensionOptions?.map(e => Any.fromPartial(e)) || [];
     return message;
@@ -1434,7 +1434,7 @@ export const TxBody = {
     return {
       messages: Array.isArray(object?.messages) ? object.messages.map((e: any) => Any.fromAmino(e)) : [],
       memo: object.memo,
-      timeoutHeight: BigInt(object.timeout_height),
+      timeoutHeight: Long.fromString(object.timeout_height),
       extensionOptions: Array.isArray(object?.extension_options) ? object.extension_options.map((e: any) => Any.fromAmino(e)) : [],
       nonCriticalExtensionOptions: Array.isArray(object?.non_critical_extension_options) ? object.non_critical_extension_options.map((e: any) => Any.fromAmino(e)) : []
     };
@@ -1485,14 +1485,14 @@ export const TxBody = {
 function createBaseAuthInfo(): AuthInfo {
   return {
     signerInfos: [],
-    fee: undefined,
-    tip: undefined
+    fee: Fee.fromPartial({}),
+    tip: Tip.fromPartial({})
   };
 }
 export const AuthInfo = {
   typeUrl: "/cosmos.tx.v1beta1.AuthInfo",
   aminoType: "cosmos-sdk/AuthInfo",
-  encode(message: AuthInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AuthInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.signerInfos) {
       SignerInfo.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1504,8 +1504,8 @@ export const AuthInfo = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AuthInfo {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AuthInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAuthInfo();
     while (reader.pos < end) {
@@ -1613,27 +1613,27 @@ export const AuthInfo = {
 function createBaseSignerInfo(): SignerInfo {
   return {
     publicKey: undefined,
-    modeInfo: undefined,
-    sequence: BigInt("0")
+    modeInfo: ModeInfo.fromPartial({}),
+    sequence: Long.UZERO
   };
 }
 export const SignerInfo = {
   typeUrl: "/cosmos.tx.v1beta1.SignerInfo",
   aminoType: "cosmos-sdk/SignerInfo",
-  encode(message: SignerInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: SignerInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.publicKey !== undefined) {
       Any.encode(message.publicKey, writer.uint32(10).fork()).ldelim();
     }
     if (message.modeInfo !== undefined) {
       ModeInfo.encode(message.modeInfo, writer.uint32(18).fork()).ldelim();
     }
-    if (message.sequence !== BigInt(0)) {
+    if (!message.sequence.isZero()) {
       writer.uint32(24).uint64(message.sequence);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): SignerInfo {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): SignerInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSignerInfo();
     while (reader.pos < end) {
@@ -1646,7 +1646,7 @@ export const SignerInfo = {
           message.modeInfo = ModeInfo.decode(reader, reader.uint32());
           break;
         case 3:
-          message.sequence = BigInt(reader.uint64().toString());
+          message.sequence = (reader.uint64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -1659,21 +1659,21 @@ export const SignerInfo = {
     return {
       publicKey: isSet(object.publicKey) ? Any.fromJSON(object.publicKey) : undefined,
       modeInfo: isSet(object.modeInfo) ? ModeInfo.fromJSON(object.modeInfo) : undefined,
-      sequence: isSet(object.sequence) ? BigInt(object.sequence.toString()) : BigInt("0")
+      sequence: isSet(object.sequence) ? Long.fromValue(object.sequence) : Long.UZERO
     };
   },
   toJSON(message: SignerInfo): unknown {
     const obj: any = {};
     message.publicKey !== undefined && (obj.publicKey = message.publicKey ? Any.toJSON(message.publicKey) : undefined);
     message.modeInfo !== undefined && (obj.modeInfo = message.modeInfo ? ModeInfo.toJSON(message.modeInfo) : undefined);
-    message.sequence !== undefined && (obj.sequence = (message.sequence || BigInt("0")).toString());
+    message.sequence !== undefined && (obj.sequence = (message.sequence || Long.UZERO).toString());
     return obj;
   },
   fromPartial(object: DeepPartial<SignerInfo>): SignerInfo {
     const message = createBaseSignerInfo();
     message.publicKey = object.publicKey !== undefined && object.publicKey !== null ? Any.fromPartial(object.publicKey) : undefined;
     message.modeInfo = object.modeInfo !== undefined && object.modeInfo !== null ? ModeInfo.fromPartial(object.modeInfo) : undefined;
-    message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt("0");
+    message.sequence = object.sequence !== undefined && object.sequence !== null ? Long.fromValue(object.sequence) : Long.UZERO;
     return message;
   },
   fromSDK(object: SignerInfoSDKType): SignerInfo {
@@ -1694,7 +1694,7 @@ export const SignerInfo = {
     return {
       publicKey: object?.public_key ? Any.fromAmino(object.public_key) : undefined,
       modeInfo: object?.mode_info ? ModeInfo.fromAmino(object.mode_info) : undefined,
-      sequence: BigInt(object.sequence)
+      sequence: Long.fromString(object.sequence)
     };
   },
   toAmino(message: SignerInfo): SignerInfoAmino {
@@ -1735,7 +1735,7 @@ function createBaseModeInfo(): ModeInfo {
 export const ModeInfo = {
   typeUrl: "/cosmos.tx.v1beta1.ModeInfo",
   aminoType: "cosmos-sdk/ModeInfo",
-  encode(message: ModeInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ModeInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.single !== undefined) {
       ModeInfo_Single.encode(message.single, writer.uint32(10).fork()).ldelim();
     }
@@ -1744,8 +1744,8 @@ export const ModeInfo = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ModeInfo {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ModeInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModeInfo();
     while (reader.pos < end) {
@@ -1836,14 +1836,14 @@ function createBaseModeInfo_Single(): ModeInfo_Single {
 export const ModeInfo_Single = {
   typeUrl: "/cosmos.tx.v1beta1.Single",
   aminoType: "cosmos-sdk/Single",
-  encode(message: ModeInfo_Single, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ModeInfo_Single, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.mode !== 0) {
       writer.uint32(8).int32(message.mode);
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ModeInfo_Single {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ModeInfo_Single {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModeInfo_Single();
     while (reader.pos < end) {
@@ -1918,14 +1918,14 @@ export const ModeInfo_Single = {
 };
 function createBaseModeInfo_Multi(): ModeInfo_Multi {
   return {
-    bitarray: undefined,
+    bitarray: CompactBitArray.fromPartial({}),
     modeInfos: []
   };
 }
 export const ModeInfo_Multi = {
   typeUrl: "/cosmos.tx.v1beta1.Multi",
   aminoType: "cosmos-sdk/Multi",
-  encode(message: ModeInfo_Multi, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ModeInfo_Multi, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.bitarray !== undefined) {
       CompactBitArray.encode(message.bitarray, writer.uint32(10).fork()).ldelim();
     }
@@ -1934,8 +1934,8 @@ export const ModeInfo_Multi = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): ModeInfo_Multi {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ModeInfo_Multi {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModeInfo_Multi();
     while (reader.pos < end) {
@@ -2033,7 +2033,7 @@ export const ModeInfo_Multi = {
 function createBaseFee(): Fee {
   return {
     amount: [],
-    gasLimit: BigInt("0"),
+    gasLimit: Long.UZERO,
     payer: "",
     granter: ""
   };
@@ -2041,11 +2041,11 @@ function createBaseFee(): Fee {
 export const Fee = {
   typeUrl: "/cosmos.tx.v1beta1.Fee",
   aminoType: "cosmos-sdk/Fee",
-  encode(message: Fee, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Fee, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.amount) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
-    if (message.gasLimit !== BigInt(0)) {
+    if (!message.gasLimit.isZero()) {
       writer.uint32(16).uint64(message.gasLimit);
     }
     if (message.payer !== "") {
@@ -2056,8 +2056,8 @@ export const Fee = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Fee {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Fee {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseFee();
     while (reader.pos < end) {
@@ -2067,7 +2067,7 @@ export const Fee = {
           message.amount.push(Coin.decode(reader, reader.uint32()));
           break;
         case 2:
-          message.gasLimit = BigInt(reader.uint64().toString());
+          message.gasLimit = (reader.uint64() as Long);
           break;
         case 3:
           message.payer = reader.string();
@@ -2085,7 +2085,7 @@ export const Fee = {
   fromJSON(object: any): Fee {
     return {
       amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromJSON(e)) : [],
-      gasLimit: isSet(object.gasLimit) ? BigInt(object.gasLimit.toString()) : BigInt("0"),
+      gasLimit: isSet(object.gasLimit) ? Long.fromValue(object.gasLimit) : Long.UZERO,
       payer: isSet(object.payer) ? String(object.payer) : "",
       granter: isSet(object.granter) ? String(object.granter) : ""
     };
@@ -2097,7 +2097,7 @@ export const Fee = {
     } else {
       obj.amount = [];
     }
-    message.gasLimit !== undefined && (obj.gasLimit = (message.gasLimit || BigInt("0")).toString());
+    message.gasLimit !== undefined && (obj.gasLimit = (message.gasLimit || Long.UZERO).toString());
     message.payer !== undefined && (obj.payer = message.payer);
     message.granter !== undefined && (obj.granter = message.granter);
     return obj;
@@ -2105,7 +2105,7 @@ export const Fee = {
   fromPartial(object: DeepPartial<Fee>): Fee {
     const message = createBaseFee();
     message.amount = object.amount?.map(e => Coin.fromPartial(e)) || [];
-    message.gasLimit = object.gasLimit !== undefined && object.gasLimit !== null ? BigInt(object.gasLimit.toString()) : BigInt("0");
+    message.gasLimit = object.gasLimit !== undefined && object.gasLimit !== null ? Long.fromValue(object.gasLimit) : Long.UZERO;
     message.payer = object.payer ?? "";
     message.granter = object.granter ?? "";
     return message;
@@ -2133,7 +2133,7 @@ export const Fee = {
   fromAmino(object: FeeAmino): Fee {
     return {
       amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromAmino(e)) : [],
-      gasLimit: BigInt(object.gas_limit),
+      gasLimit: Long.fromString(object.gas_limit),
       payer: object.payer,
       granter: object.granter
     };
@@ -2181,7 +2181,7 @@ function createBaseTip(): Tip {
 export const Tip = {
   typeUrl: "/cosmos.tx.v1beta1.Tip",
   aminoType: "cosmos-sdk/Tip",
-  encode(message: Tip, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Tip, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.amount) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -2190,8 +2190,8 @@ export const Tip = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Tip {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Tip {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTip();
     while (reader.pos < end) {
@@ -2289,7 +2289,7 @@ export const Tip = {
 function createBaseAuxSignerData(): AuxSignerData {
   return {
     address: "",
-    signDoc: undefined,
+    signDoc: SignDocDirectAux.fromPartial({}),
     mode: 0,
     sig: new Uint8Array()
   };
@@ -2297,7 +2297,7 @@ function createBaseAuxSignerData(): AuxSignerData {
 export const AuxSignerData = {
   typeUrl: "/cosmos.tx.v1beta1.AuxSignerData",
   aminoType: "cosmos-sdk/AuxSignerData",
-  encode(message: AuxSignerData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AuxSignerData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -2312,8 +2312,8 @@ export const AuxSignerData = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AuxSignerData {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AuxSignerData {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAuxSignerData();
     while (reader.pos < end) {

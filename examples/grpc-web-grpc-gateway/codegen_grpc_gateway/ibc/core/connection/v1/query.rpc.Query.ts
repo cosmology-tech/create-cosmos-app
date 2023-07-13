@@ -52,15 +52,15 @@ export class Query {
    * connection.
    */
   static connectionConsensusState(request: QueryConnectionConsensusStateRequest, initRequest?: fm.InitReq): Promise<QueryConnectionConsensusStateResponse> {
-    return fm.fetchReq(`/ibc/core/connection/v1/connections/${request["connection_id"]}/consensus_state/revision/{revision_number}/height/{revision_height}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/ibc/core/connection/v1/connections/${request["connection_id"]}/consensus_state/revision/${request["revision_number"]}/height/${request["revision_height"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["connection_id"])}`, {
+    }, ["connection_id", "revision_number", "revision_height"])}`, {
       ...initRequest,
       method: "GET"
     });
   }
 }
-export class Querier {
+export class QueryClientImpl {
   private readonly url: string;
   constructor(url: string) {
     this.url = url;

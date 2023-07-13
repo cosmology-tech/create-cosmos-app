@@ -1,6 +1,6 @@
 import { Distribution_Exemplar } from "../../distribution";
-import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet, DeepPartial } from "../../../../helpers";
+import { Long, isSet, DeepPartial } from "../../../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /**
  * Distribution represents a frequency distribution of double-valued sample
@@ -14,7 +14,7 @@ export const protobufPackage = "google.api.servicecontrol.v1";
  */
 export interface Distribution {
   /** The total number of samples in the distribution. Must be >= 0. */
-  count: bigint;
+  count: Long;
   /**
    * The arithmetic mean of the samples in the distribution. If `count` is
    * zero then this field must be zero.
@@ -44,7 +44,7 @@ export interface Distribution {
    * 
    * Any suffix of trailing zeros may be omitted.
    */
-  bucketCounts: bigint[];
+  bucketCounts: Long[];
   /** Buckets with constant width. */
   linearBuckets?: Distribution_LinearBuckets;
   /** Buckets with exponentially growing width. */
@@ -125,12 +125,12 @@ export interface DistributionAminoMsg {
  * * a histogram of the values of the sample points
  */
 export interface DistributionSDKType {
-  count: bigint;
+  count: Long;
   mean: number;
   minimum: number;
   maximum: number;
   sum_of_squared_deviation: number;
-  bucket_counts: bigint[];
+  bucket_counts: Long[];
   linear_buckets?: Distribution_LinearBucketsSDKType;
   exponential_buckets?: Distribution_ExponentialBucketsSDKType;
   explicit_buckets?: Distribution_ExplicitBucketsSDKType;
@@ -310,7 +310,7 @@ export interface Distribution_ExplicitBucketsSDKType {
 }
 function createBaseDistribution(): Distribution {
   return {
-    count: BigInt("0"),
+    count: Long.ZERO,
     mean: 0,
     minimum: 0,
     maximum: 0,
@@ -324,8 +324,8 @@ function createBaseDistribution(): Distribution {
 }
 export const Distribution = {
   typeUrl: "/google.api.servicecontrol.v1.Distribution",
-  encode(message: Distribution, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.count !== BigInt(0)) {
+  encode(message: Distribution, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.count.isZero()) {
       writer.uint32(8).int64(message.count);
     }
     if (message.mean !== 0) {
@@ -359,15 +359,15 @@ export const Distribution = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Distribution {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.count = BigInt(reader.int64().toString());
+          message.count = (reader.int64() as Long);
           break;
         case 2:
           message.mean = reader.double();
@@ -385,10 +385,10 @@ export const Distribution = {
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
-              message.bucketCounts.push(BigInt(reader.int64().toString()));
+              message.bucketCounts.push((reader.int64() as Long));
             }
           } else {
-            message.bucketCounts.push(BigInt(reader.int64().toString()));
+            message.bucketCounts.push((reader.int64() as Long));
           }
           break;
         case 7:
@@ -412,12 +412,12 @@ export const Distribution = {
   },
   fromJSON(object: any): Distribution {
     return {
-      count: isSet(object.count) ? BigInt(object.count.toString()) : BigInt("0"),
+      count: isSet(object.count) ? Long.fromValue(object.count) : Long.ZERO,
       mean: isSet(object.mean) ? Number(object.mean) : 0,
       minimum: isSet(object.minimum) ? Number(object.minimum) : 0,
       maximum: isSet(object.maximum) ? Number(object.maximum) : 0,
       sumOfSquaredDeviation: isSet(object.sumOfSquaredDeviation) ? Number(object.sumOfSquaredDeviation) : 0,
-      bucketCounts: Array.isArray(object?.bucketCounts) ? object.bucketCounts.map((e: any) => BigInt(e.toString())) : [],
+      bucketCounts: Array.isArray(object?.bucketCounts) ? object.bucketCounts.map((e: any) => Long.fromValue(e)) : [],
       linearBuckets: isSet(object.linearBuckets) ? Distribution_LinearBuckets.fromJSON(object.linearBuckets) : undefined,
       exponentialBuckets: isSet(object.exponentialBuckets) ? Distribution_ExponentialBuckets.fromJSON(object.exponentialBuckets) : undefined,
       explicitBuckets: isSet(object.explicitBuckets) ? Distribution_ExplicitBuckets.fromJSON(object.explicitBuckets) : undefined,
@@ -426,13 +426,13 @@ export const Distribution = {
   },
   toJSON(message: Distribution): unknown {
     const obj: any = {};
-    message.count !== undefined && (obj.count = (message.count || BigInt("0")).toString());
+    message.count !== undefined && (obj.count = (message.count || Long.ZERO).toString());
     message.mean !== undefined && (obj.mean = message.mean);
     message.minimum !== undefined && (obj.minimum = message.minimum);
     message.maximum !== undefined && (obj.maximum = message.maximum);
     message.sumOfSquaredDeviation !== undefined && (obj.sumOfSquaredDeviation = message.sumOfSquaredDeviation);
     if (message.bucketCounts) {
-      obj.bucketCounts = message.bucketCounts.map(e => (e || BigInt("0")).toString());
+      obj.bucketCounts = message.bucketCounts.map(e => (e || Long.ZERO).toString());
     } else {
       obj.bucketCounts = [];
     }
@@ -448,12 +448,12 @@ export const Distribution = {
   },
   fromPartial(object: DeepPartial<Distribution>): Distribution {
     const message = createBaseDistribution();
-    message.count = object.count !== undefined && object.count !== null ? BigInt(object.count.toString()) : BigInt("0");
+    message.count = object.count !== undefined && object.count !== null ? Long.fromValue(object.count) : Long.ZERO;
     message.mean = object.mean ?? 0;
     message.minimum = object.minimum ?? 0;
     message.maximum = object.maximum ?? 0;
     message.sumOfSquaredDeviation = object.sumOfSquaredDeviation ?? 0;
-    message.bucketCounts = object.bucketCounts?.map(e => BigInt(e.toString())) || [];
+    message.bucketCounts = object.bucketCounts?.map(e => Long.fromValue(e)) || [];
     message.linearBuckets = object.linearBuckets !== undefined && object.linearBuckets !== null ? Distribution_LinearBuckets.fromPartial(object.linearBuckets) : undefined;
     message.exponentialBuckets = object.exponentialBuckets !== undefined && object.exponentialBuckets !== null ? Distribution_ExponentialBuckets.fromPartial(object.exponentialBuckets) : undefined;
     message.explicitBuckets = object.explicitBuckets !== undefined && object.explicitBuckets !== null ? Distribution_ExplicitBuckets.fromPartial(object.explicitBuckets) : undefined;
@@ -498,7 +498,7 @@ export const Distribution = {
   },
   fromAmino(object: DistributionAmino): Distribution {
     return {
-      count: BigInt(object.count),
+      count: Long.fromString(object.count),
       mean: object.mean,
       minimum: object.minimum,
       maximum: object.maximum,
@@ -557,7 +557,7 @@ function createBaseDistribution_LinearBuckets(): Distribution_LinearBuckets {
 }
 export const Distribution_LinearBuckets = {
   typeUrl: "/google.api.servicecontrol.v1.LinearBuckets",
-  encode(message: Distribution_LinearBuckets, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Distribution_LinearBuckets, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.numFiniteBuckets !== 0) {
       writer.uint32(8).int32(message.numFiniteBuckets);
     }
@@ -569,8 +569,8 @@ export const Distribution_LinearBuckets = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_LinearBuckets {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_LinearBuckets {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_LinearBuckets();
     while (reader.pos < end) {
@@ -666,7 +666,7 @@ function createBaseDistribution_ExponentialBuckets(): Distribution_ExponentialBu
 }
 export const Distribution_ExponentialBuckets = {
   typeUrl: "/google.api.servicecontrol.v1.ExponentialBuckets",
-  encode(message: Distribution_ExponentialBuckets, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Distribution_ExponentialBuckets, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.numFiniteBuckets !== 0) {
       writer.uint32(8).int32(message.numFiniteBuckets);
     }
@@ -678,8 +678,8 @@ export const Distribution_ExponentialBuckets = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_ExponentialBuckets {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_ExponentialBuckets {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_ExponentialBuckets();
     while (reader.pos < end) {
@@ -773,7 +773,7 @@ function createBaseDistribution_ExplicitBuckets(): Distribution_ExplicitBuckets 
 }
 export const Distribution_ExplicitBuckets = {
   typeUrl: "/google.api.servicecontrol.v1.ExplicitBuckets",
-  encode(message: Distribution_ExplicitBuckets, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Distribution_ExplicitBuckets, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     writer.uint32(10).fork();
     for (const v of message.bounds) {
       writer.double(v);
@@ -781,8 +781,8 @@ export const Distribution_ExplicitBuckets = {
     writer.ldelim();
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_ExplicitBuckets {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_ExplicitBuckets {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_ExplicitBuckets();
     while (reader.pos < end) {

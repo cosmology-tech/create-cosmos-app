@@ -1,7 +1,7 @@
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../protobuf/timestamp";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../protobuf/any";
-import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet, DeepPartial, toTimestamp, fromTimestamp, fromJsonTimestamp } from "../../helpers";
+import { Long, isSet, DeepPartial, toTimestamp, fromTimestamp, fromJsonTimestamp } from "../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "google.api";
 /**
  * `Distribution` contains summary statistics for a population of values. It
@@ -25,7 +25,7 @@ export interface Distribution {
    * must equal the sum of the values in `bucket_counts` if a histogram is
    * provided.
    */
-  count: bigint;
+  count: Long;
   /**
    * The arithmetic mean of the values in the population. If `count` is zero
    * then this field must be zero.
@@ -47,12 +47,12 @@ export interface Distribution {
    * If specified, contains the range of the population values. The field
    * must not be present if the `count` is zero.
    */
-  range?: Distribution_Range;
+  range: Distribution_Range;
   /**
    * Defines the histogram bucket boundaries. If the distribution does not
    * contain a histogram, then omit this field.
    */
-  bucketOptions?: Distribution_BucketOptions;
+  bucketOptions: Distribution_BucketOptions;
   /**
    * The number of values in each bucket of the histogram, as described in
    * `bucket_options`. If the distribution does not have a histogram, then omit
@@ -70,7 +70,7 @@ export interface Distribution {
    * counts for the finite buckets (number 1 through N-2). The N'th value in
    * `bucket_counts` is the count for the overflow bucket (number N-1).
    */
-  bucketCounts: bigint[];
+  bucketCounts: Long[];
   /** Must be in increasing order of `value` field. */
   exemplars: Distribution_Exemplar[];
 }
@@ -170,12 +170,12 @@ export interface DistributionAminoMsg {
  * will render the `mean` and `sum_of_squared_deviation` fields meaningless.
  */
 export interface DistributionSDKType {
-  count: bigint;
+  count: Long;
   mean: number;
   sum_of_squared_deviation: number;
-  range?: Distribution_RangeSDKType;
-  bucket_options?: Distribution_BucketOptionsSDKType;
-  bucket_counts: bigint[];
+  range: Distribution_RangeSDKType;
+  bucket_options: Distribution_BucketOptionsSDKType;
+  bucket_counts: Long[];
   exemplars: Distribution_ExemplarSDKType[];
 }
 /** The range of the population values. */
@@ -481,7 +481,7 @@ export interface Distribution_Exemplar {
    */
   value: number;
   /** The observation (sampling) time of the above value. */
-  timestamp?: Date;
+  timestamp: Date;
   /**
    * Contextual information about the example value. Examples are:
    * 
@@ -544,24 +544,24 @@ export interface Distribution_ExemplarAminoMsg {
  */
 export interface Distribution_ExemplarSDKType {
   value: number;
-  timestamp?: Date;
+  timestamp: Date;
   attachments: AnySDKType[];
 }
 function createBaseDistribution(): Distribution {
   return {
-    count: BigInt("0"),
+    count: Long.ZERO,
     mean: 0,
     sumOfSquaredDeviation: 0,
-    range: undefined,
-    bucketOptions: undefined,
+    range: Range.fromPartial({}),
+    bucketOptions: BucketOptions.fromPartial({}),
     bucketCounts: [],
     exemplars: []
   };
 }
 export const Distribution = {
   typeUrl: "/google.api.Distribution",
-  encode(message: Distribution, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.count !== BigInt(0)) {
+  encode(message: Distribution, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.count.isZero()) {
       writer.uint32(8).int64(message.count);
     }
     if (message.mean !== 0) {
@@ -586,15 +586,15 @@ export const Distribution = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Distribution {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.count = BigInt(reader.int64().toString());
+          message.count = (reader.int64() as Long);
           break;
         case 2:
           message.mean = reader.double();
@@ -612,10 +612,10 @@ export const Distribution = {
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
-              message.bucketCounts.push(BigInt(reader.int64().toString()));
+              message.bucketCounts.push((reader.int64() as Long));
             }
           } else {
-            message.bucketCounts.push(BigInt(reader.int64().toString()));
+            message.bucketCounts.push((reader.int64() as Long));
           }
           break;
         case 10:
@@ -630,24 +630,24 @@ export const Distribution = {
   },
   fromJSON(object: any): Distribution {
     return {
-      count: isSet(object.count) ? BigInt(object.count.toString()) : BigInt("0"),
+      count: isSet(object.count) ? Long.fromValue(object.count) : Long.ZERO,
       mean: isSet(object.mean) ? Number(object.mean) : 0,
       sumOfSquaredDeviation: isSet(object.sumOfSquaredDeviation) ? Number(object.sumOfSquaredDeviation) : 0,
       range: isSet(object.range) ? Distribution_Range.fromJSON(object.range) : undefined,
       bucketOptions: isSet(object.bucketOptions) ? Distribution_BucketOptions.fromJSON(object.bucketOptions) : undefined,
-      bucketCounts: Array.isArray(object?.bucketCounts) ? object.bucketCounts.map((e: any) => BigInt(e.toString())) : [],
+      bucketCounts: Array.isArray(object?.bucketCounts) ? object.bucketCounts.map((e: any) => Long.fromValue(e)) : [],
       exemplars: Array.isArray(object?.exemplars) ? object.exemplars.map((e: any) => Distribution_Exemplar.fromJSON(e)) : []
     };
   },
   toJSON(message: Distribution): unknown {
     const obj: any = {};
-    message.count !== undefined && (obj.count = (message.count || BigInt("0")).toString());
+    message.count !== undefined && (obj.count = (message.count || Long.ZERO).toString());
     message.mean !== undefined && (obj.mean = message.mean);
     message.sumOfSquaredDeviation !== undefined && (obj.sumOfSquaredDeviation = message.sumOfSquaredDeviation);
     message.range !== undefined && (obj.range = message.range ? Distribution_Range.toJSON(message.range) : undefined);
     message.bucketOptions !== undefined && (obj.bucketOptions = message.bucketOptions ? Distribution_BucketOptions.toJSON(message.bucketOptions) : undefined);
     if (message.bucketCounts) {
-      obj.bucketCounts = message.bucketCounts.map(e => (e || BigInt("0")).toString());
+      obj.bucketCounts = message.bucketCounts.map(e => (e || Long.ZERO).toString());
     } else {
       obj.bucketCounts = [];
     }
@@ -660,12 +660,12 @@ export const Distribution = {
   },
   fromPartial(object: DeepPartial<Distribution>): Distribution {
     const message = createBaseDistribution();
-    message.count = object.count !== undefined && object.count !== null ? BigInt(object.count.toString()) : BigInt("0");
+    message.count = object.count !== undefined && object.count !== null ? Long.fromValue(object.count) : Long.ZERO;
     message.mean = object.mean ?? 0;
     message.sumOfSquaredDeviation = object.sumOfSquaredDeviation ?? 0;
     message.range = object.range !== undefined && object.range !== null ? Distribution_Range.fromPartial(object.range) : undefined;
     message.bucketOptions = object.bucketOptions !== undefined && object.bucketOptions !== null ? Distribution_BucketOptions.fromPartial(object.bucketOptions) : undefined;
-    message.bucketCounts = object.bucketCounts?.map(e => BigInt(e.toString())) || [];
+    message.bucketCounts = object.bucketCounts?.map(e => Long.fromValue(e)) || [];
     message.exemplars = object.exemplars?.map(e => Distribution_Exemplar.fromPartial(e)) || [];
     return message;
   },
@@ -701,7 +701,7 @@ export const Distribution = {
   },
   fromAmino(object: DistributionAmino): Distribution {
     return {
-      count: BigInt(object.count),
+      count: Long.fromString(object.count),
       mean: object.mean,
       sumOfSquaredDeviation: object.sum_of_squared_deviation,
       range: object?.range ? Distribution_Range.fromAmino(object.range) : undefined,
@@ -753,7 +753,7 @@ function createBaseDistribution_Range(): Distribution_Range {
 }
 export const Distribution_Range = {
   typeUrl: "/google.api.Range",
-  encode(message: Distribution_Range, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Distribution_Range, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.min !== 0) {
       writer.uint32(9).double(message.min);
     }
@@ -762,8 +762,8 @@ export const Distribution_Range = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_Range {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_Range {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_Range();
     while (reader.pos < end) {
@@ -849,7 +849,7 @@ function createBaseDistribution_BucketOptions(): Distribution_BucketOptions {
 }
 export const Distribution_BucketOptions = {
   typeUrl: "/google.api.BucketOptions",
-  encode(message: Distribution_BucketOptions, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Distribution_BucketOptions, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.linearBuckets !== undefined) {
       Distribution_BucketOptions_Linear.encode(message.linearBuckets, writer.uint32(10).fork()).ldelim();
     }
@@ -861,8 +861,8 @@ export const Distribution_BucketOptions = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_BucketOptions {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_BucketOptions {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_BucketOptions();
     while (reader.pos < end) {
@@ -958,7 +958,7 @@ function createBaseDistribution_BucketOptions_Linear(): Distribution_BucketOptio
 }
 export const Distribution_BucketOptions_Linear = {
   typeUrl: "/google.api.Linear",
-  encode(message: Distribution_BucketOptions_Linear, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Distribution_BucketOptions_Linear, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.numFiniteBuckets !== 0) {
       writer.uint32(8).int32(message.numFiniteBuckets);
     }
@@ -970,8 +970,8 @@ export const Distribution_BucketOptions_Linear = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_BucketOptions_Linear {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_BucketOptions_Linear {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_BucketOptions_Linear();
     while (reader.pos < end) {
@@ -1067,7 +1067,7 @@ function createBaseDistribution_BucketOptions_Exponential(): Distribution_Bucket
 }
 export const Distribution_BucketOptions_Exponential = {
   typeUrl: "/google.api.Exponential",
-  encode(message: Distribution_BucketOptions_Exponential, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Distribution_BucketOptions_Exponential, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.numFiniteBuckets !== 0) {
       writer.uint32(8).int32(message.numFiniteBuckets);
     }
@@ -1079,8 +1079,8 @@ export const Distribution_BucketOptions_Exponential = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_BucketOptions_Exponential {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_BucketOptions_Exponential {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_BucketOptions_Exponential();
     while (reader.pos < end) {
@@ -1174,7 +1174,7 @@ function createBaseDistribution_BucketOptions_Explicit(): Distribution_BucketOpt
 }
 export const Distribution_BucketOptions_Explicit = {
   typeUrl: "/google.api.Explicit",
-  encode(message: Distribution_BucketOptions_Explicit, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Distribution_BucketOptions_Explicit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     writer.uint32(10).fork();
     for (const v of message.bounds) {
       writer.double(v);
@@ -1182,8 +1182,8 @@ export const Distribution_BucketOptions_Explicit = {
     writer.ldelim();
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_BucketOptions_Explicit {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_BucketOptions_Explicit {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_BucketOptions_Explicit();
     while (reader.pos < end) {
@@ -1278,7 +1278,7 @@ function createBaseDistribution_Exemplar(): Distribution_Exemplar {
 }
 export const Distribution_Exemplar = {
   typeUrl: "/google.api.Exemplar",
-  encode(message: Distribution_Exemplar, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Distribution_Exemplar, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.value !== 0) {
       writer.uint32(9).double(message.value);
     }
@@ -1290,8 +1290,8 @@ export const Distribution_Exemplar = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Distribution_Exemplar {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Distribution_Exemplar {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDistribution_Exemplar();
     while (reader.pos < end) {

@@ -2,8 +2,8 @@ import { Struct, StructAmino, StructSDKType } from "../../protobuf/struct";
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../../protobuf/timestamp";
 import { Duration, DurationAmino, DurationSDKType } from "../../protobuf/duration";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../protobuf/any";
-import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet, DeepPartial, isObject, toTimestamp, fromTimestamp, fromJsonTimestamp } from "../../../helpers";
+import { Long, isSet, DeepPartial, isObject, toTimestamp, fromTimestamp, fromJsonTimestamp } from "../../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "google.rpc.context";
 /**
  * This message defines the standard attribute vocabulary for Google APIs.
@@ -30,31 +30,31 @@ export interface AttributeContext {
    * the origin represents the sender of the first hop. For the first hop,
    * the `source` and the `origin` must have the same content.
    */
-  origin?: AttributeContext_Peer;
+  origin: AttributeContext_Peer;
   /**
    * The source of a network activity, such as starting a TCP connection.
    * In a multi hop network activity, the source represents the sender of the
    * last hop.
    */
-  source?: AttributeContext_Peer;
+  source: AttributeContext_Peer;
   /**
    * The destination of a network activity, such as accepting a TCP connection.
    * In a multi hop network activity, the destination represents the receiver of
    * the last hop.
    */
-  destination?: AttributeContext_Peer;
+  destination: AttributeContext_Peer;
   /** Represents a network request, such as an HTTP request. */
-  request?: AttributeContext_Request;
+  request: AttributeContext_Request;
   /** Represents a network response, such as an HTTP response. */
-  response?: AttributeContext_Response;
+  response: AttributeContext_Response;
   /**
    * Represents a target resource that is involved with a network activity.
    * If multiple resources are involved with an activity, this must be the
    * primary one.
    */
-  resource?: AttributeContext_Resource;
+  resource: AttributeContext_Resource;
   /** Represents an API operation that is involved to a network activity. */
-  api?: AttributeContext_Api;
+  api: AttributeContext_Api;
   /** Supports extensions for advanced use cases, such as logs and metrics. */
   extensions: Any[];
 }
@@ -139,13 +139,13 @@ export interface AttributeContextAminoMsg {
  * a system.
  */
 export interface AttributeContextSDKType {
-  origin?: AttributeContext_PeerSDKType;
-  source?: AttributeContext_PeerSDKType;
-  destination?: AttributeContext_PeerSDKType;
-  request?: AttributeContext_RequestSDKType;
-  response?: AttributeContext_ResponseSDKType;
-  resource?: AttributeContext_ResourceSDKType;
-  api?: AttributeContext_ApiSDKType;
+  origin: AttributeContext_PeerSDKType;
+  source: AttributeContext_PeerSDKType;
+  destination: AttributeContext_PeerSDKType;
+  request: AttributeContext_RequestSDKType;
+  response: AttributeContext_ResponseSDKType;
+  resource: AttributeContext_ResourceSDKType;
+  api: AttributeContext_ApiSDKType;
   extensions: AnySDKType[];
 }
 export interface AttributeContext_Peer_LabelsEntry {
@@ -178,7 +178,7 @@ export interface AttributeContext_Peer {
   /** The IP address of the peer. */
   ip: string;
   /** The network port of the peer. */
-  port: bigint;
+  port: Long;
   /** The labels associated with the peer. */
   labels: {
     [key: string]: string;
@@ -240,7 +240,7 @@ export interface AttributeContext_PeerAminoMsg {
  */
 export interface AttributeContext_PeerSDKType {
   ip: string;
-  port: bigint;
+  port: Long;
   labels: {
     [key: string]: string;
   };
@@ -379,7 +379,7 @@ export interface AttributeContext_Auth {
    * SAML assertions are similarly specified, but with an identity provider
    * dependent structure.
    */
-  claims?: Struct;
+  claims: Struct;
   /**
    * A list of access level resource names that allow resources to be
    * accessed by authenticated requester. It is part of Secure GCP processing
@@ -475,7 +475,7 @@ export interface AttributeContext_AuthSDKType {
   principal: string;
   audiences: string[];
   presenter: string;
-  claims?: StructSDKType;
+  claims: StructSDKType;
   access_levels: string[];
 }
 export interface AttributeContext_Request_HeadersEntry {
@@ -535,9 +535,9 @@ export interface AttributeContext_Request {
    * The timestamp when the `destination` service receives the last byte of
    * the request.
    */
-  time?: Date;
+  time: Date;
   /** The HTTP request size in bytes. If unknown, it must be -1. */
-  size: bigint;
+  size: Long;
   /**
    * The network protocol used with the request, such as "http/1.1",
    * "spdy/3", "h2", "h2c", "webrtc", "tcp", "udp", "quic". See
@@ -554,7 +554,7 @@ export interface AttributeContext_Request {
    * The request authentication. May be absent for unauthenticated requests.
    * Derived from the HTTP request `Authorization` header or equivalent.
    */
-  auth?: AttributeContext_Auth;
+  auth: AttributeContext_Auth;
 }
 export interface AttributeContext_RequestProtoMsg {
   typeUrl: "/google.rpc.context.Request";
@@ -637,11 +637,11 @@ export interface AttributeContext_RequestSDKType {
   host: string;
   scheme: string;
   query: string;
-  time?: Date;
-  size: bigint;
+  time: Date;
+  size: Long;
   protocol: string;
   reason: string;
-  auth?: AttributeContext_AuthSDKType;
+  auth: AttributeContext_AuthSDKType;
 }
 export interface AttributeContext_Response_HeadersEntry {
   key: string;
@@ -669,9 +669,9 @@ export interface AttributeContext_Response_HeadersEntrySDKType {
  */
 export interface AttributeContext_Response {
   /** The HTTP response status code, such as `200` and `404`. */
-  code: bigint;
+  code: Long;
   /** The HTTP response size in bytes. If unknown, it must be -1. */
-  size: bigint;
+  size: Long;
   /**
    * The HTTP response headers. If multiple headers share the same key, they
    * must be merged according to HTTP spec. All header keys must be
@@ -684,14 +684,14 @@ export interface AttributeContext_Response {
    * The timestamp when the `destination` service sends the last byte of
    * the response.
    */
-  time?: Date;
+  time: Date;
   /**
    * The length of time it takes the backend service to fully respond to a
    * request. Measured from when the destination service starts to send the
    * request to the backend until when the destination service receives the
    * complete response from the backend.
    */
-  backendLatency?: Duration;
+  backendLatency: Duration;
 }
 export interface AttributeContext_ResponseProtoMsg {
   typeUrl: "/google.rpc.context.Response";
@@ -736,13 +736,13 @@ export interface AttributeContext_ResponseAminoMsg {
  * generally models semantics of an HTTP response.
  */
 export interface AttributeContext_ResponseSDKType {
-  code: bigint;
-  size: bigint;
+  code: Long;
+  size: Long;
   headers: {
     [key: string]: string;
   };
-  time?: Date;
-  backend_latency?: DurationSDKType;
+  time: Date;
+  backend_latency: DurationSDKType;
 }
 export interface AttributeContext_Resource_LabelsEntry {
   key: string;
@@ -849,18 +849,18 @@ export interface AttributeContext_Resource {
    * Output only. The timestamp when the resource was created. This may
    * be either the time creation was initiated or when it was completed.
    */
-  createTime?: Date;
+  createTime: Date;
   /**
    * Output only. The timestamp when the resource was last updated. Any
    * change to the resource made by users must refresh this value.
    * Changes to a resource made by the service should refresh this value.
    */
-  updateTime?: Date;
+  updateTime: Date;
   /**
    * Output only. The timestamp when the resource was deleted.
    * If the resource is not deleted, this must be empty.
    */
-  deleteTime?: Date;
+  deleteTime: Date;
   /**
    * Output only. An opaque value that uniquely identifies a version or
    * generation of a resource. It can be used to confirm that the client
@@ -999,27 +999,27 @@ export interface AttributeContext_ResourceSDKType {
     [key: string]: string;
   };
   display_name: string;
-  create_time?: Date;
-  update_time?: Date;
-  delete_time?: Date;
+  create_time: Date;
+  update_time: Date;
+  delete_time: Date;
   etag: string;
   location: string;
 }
 function createBaseAttributeContext(): AttributeContext {
   return {
-    origin: undefined,
-    source: undefined,
-    destination: undefined,
-    request: undefined,
-    response: undefined,
-    resource: undefined,
-    api: undefined,
+    origin: Peer.fromPartial({}),
+    source: Peer.fromPartial({}),
+    destination: Peer.fromPartial({}),
+    request: Request.fromPartial({}),
+    response: Response.fromPartial({}),
+    resource: Resource.fromPartial({}),
+    api: Api.fromPartial({}),
     extensions: []
   };
 }
 export const AttributeContext = {
   typeUrl: "/google.rpc.context.AttributeContext",
-  encode(message: AttributeContext, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AttributeContext, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.origin !== undefined) {
       AttributeContext_Peer.encode(message.origin, writer.uint32(58).fork()).ldelim();
     }
@@ -1046,8 +1046,8 @@ export const AttributeContext = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AttributeContext {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AttributeContext {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttributeContext();
     while (reader.pos < end) {
@@ -1203,7 +1203,7 @@ function createBaseAttributeContext_Peer_LabelsEntry(): AttributeContext_Peer_La
   };
 }
 export const AttributeContext_Peer_LabelsEntry = {
-  encode(message: AttributeContext_Peer_LabelsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AttributeContext_Peer_LabelsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -1212,8 +1212,8 @@ export const AttributeContext_Peer_LabelsEntry = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AttributeContext_Peer_LabelsEntry {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AttributeContext_Peer_LabelsEntry {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttributeContext_Peer_LabelsEntry();
     while (reader.pos < end) {
@@ -1287,7 +1287,7 @@ export const AttributeContext_Peer_LabelsEntry = {
 function createBaseAttributeContext_Peer(): AttributeContext_Peer {
   return {
     ip: "",
-    port: BigInt("0"),
+    port: Long.ZERO,
     labels: {},
     principal: "",
     regionCode: ""
@@ -1295,11 +1295,11 @@ function createBaseAttributeContext_Peer(): AttributeContext_Peer {
 }
 export const AttributeContext_Peer = {
   typeUrl: "/google.rpc.context.Peer",
-  encode(message: AttributeContext_Peer, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AttributeContext_Peer, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.ip !== "") {
       writer.uint32(10).string(message.ip);
     }
-    if (message.port !== BigInt(0)) {
+    if (!message.port.isZero()) {
       writer.uint32(16).int64(message.port);
     }
     Object.entries(message.labels).forEach(([key, value]) => {
@@ -1316,8 +1316,8 @@ export const AttributeContext_Peer = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AttributeContext_Peer {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AttributeContext_Peer {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttributeContext_Peer();
     while (reader.pos < end) {
@@ -1327,7 +1327,7 @@ export const AttributeContext_Peer = {
           message.ip = reader.string();
           break;
         case 2:
-          message.port = BigInt(reader.int64().toString());
+          message.port = (reader.int64() as Long);
           break;
         case 6:
           const entry6 = AttributeContext_Peer_LabelsEntry.decode(reader, reader.uint32());
@@ -1351,7 +1351,7 @@ export const AttributeContext_Peer = {
   fromJSON(object: any): AttributeContext_Peer {
     return {
       ip: isSet(object.ip) ? String(object.ip) : "",
-      port: isSet(object.port) ? BigInt(object.port.toString()) : BigInt("0"),
+      port: isSet(object.port) ? Long.fromValue(object.port) : Long.ZERO,
       labels: isObject(object.labels) ? Object.entries(object.labels).reduce<{
         [key: string]: string;
       }>((acc, [key, value]) => {
@@ -1365,7 +1365,7 @@ export const AttributeContext_Peer = {
   toJSON(message: AttributeContext_Peer): unknown {
     const obj: any = {};
     message.ip !== undefined && (obj.ip = message.ip);
-    message.port !== undefined && (obj.port = (message.port || BigInt("0")).toString());
+    message.port !== undefined && (obj.port = (message.port || Long.ZERO).toString());
     obj.labels = {};
     if (message.labels) {
       Object.entries(message.labels).forEach(([k, v]) => {
@@ -1379,7 +1379,7 @@ export const AttributeContext_Peer = {
   fromPartial(object: DeepPartial<AttributeContext_Peer>): AttributeContext_Peer {
     const message = createBaseAttributeContext_Peer();
     message.ip = object.ip ?? "";
-    message.port = object.port !== undefined && object.port !== null ? BigInt(object.port.toString()) : BigInt("0");
+    message.port = object.port !== undefined && object.port !== null ? Long.fromValue(object.port) : Long.ZERO;
     message.labels = Object.entries(object.labels ?? {}).reduce<{
       [key: string]: string;
     }>((acc, [key, value]) => {
@@ -1423,7 +1423,7 @@ export const AttributeContext_Peer = {
   fromAmino(object: AttributeContext_PeerAmino): AttributeContext_Peer {
     return {
       ip: object.ip,
-      port: BigInt(object.port),
+      port: Long.fromString(object.port),
       labels: isObject(object.labels) ? Object.entries(object.labels).reduce<{
         [key: string]: string;
       }>((acc, [key, value]) => {
@@ -1474,7 +1474,7 @@ function createBaseAttributeContext_Api(): AttributeContext_Api {
 }
 export const AttributeContext_Api = {
   typeUrl: "/google.rpc.context.Api",
-  encode(message: AttributeContext_Api, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AttributeContext_Api, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.service !== "") {
       writer.uint32(10).string(message.service);
     }
@@ -1489,8 +1489,8 @@ export const AttributeContext_Api = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AttributeContext_Api {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AttributeContext_Api {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttributeContext_Api();
     while (reader.pos < end) {
@@ -1592,13 +1592,13 @@ function createBaseAttributeContext_Auth(): AttributeContext_Auth {
     principal: "",
     audiences: [],
     presenter: "",
-    claims: undefined,
+    claims: Struct.fromPartial({}),
     accessLevels: []
   };
 }
 export const AttributeContext_Auth = {
   typeUrl: "/google.rpc.context.Auth",
-  encode(message: AttributeContext_Auth, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AttributeContext_Auth, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.principal !== "") {
       writer.uint32(10).string(message.principal);
     }
@@ -1616,8 +1616,8 @@ export const AttributeContext_Auth = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AttributeContext_Auth {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AttributeContext_Auth {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttributeContext_Auth();
     while (reader.pos < end) {
@@ -1755,7 +1755,7 @@ function createBaseAttributeContext_Request_HeadersEntry(): AttributeContext_Req
   };
 }
 export const AttributeContext_Request_HeadersEntry = {
-  encode(message: AttributeContext_Request_HeadersEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AttributeContext_Request_HeadersEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -1764,8 +1764,8 @@ export const AttributeContext_Request_HeadersEntry = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AttributeContext_Request_HeadersEntry {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AttributeContext_Request_HeadersEntry {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttributeContext_Request_HeadersEntry();
     while (reader.pos < end) {
@@ -1846,15 +1846,15 @@ function createBaseAttributeContext_Request(): AttributeContext_Request {
     scheme: "",
     query: "",
     time: undefined,
-    size: BigInt("0"),
+    size: Long.ZERO,
     protocol: "",
     reason: "",
-    auth: undefined
+    auth: Auth.fromPartial({})
   };
 }
 export const AttributeContext_Request = {
   typeUrl: "/google.rpc.context.Request",
-  encode(message: AttributeContext_Request, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AttributeContext_Request, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
@@ -1882,7 +1882,7 @@ export const AttributeContext_Request = {
     if (message.time !== undefined) {
       Timestamp.encode(toTimestamp(message.time), writer.uint32(74).fork()).ldelim();
     }
-    if (message.size !== BigInt(0)) {
+    if (!message.size.isZero()) {
       writer.uint32(80).int64(message.size);
     }
     if (message.protocol !== "") {
@@ -1896,8 +1896,8 @@ export const AttributeContext_Request = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AttributeContext_Request {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AttributeContext_Request {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttributeContext_Request();
     while (reader.pos < end) {
@@ -1931,7 +1931,7 @@ export const AttributeContext_Request = {
           message.time = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         case 10:
-          message.size = BigInt(reader.int64().toString());
+          message.size = (reader.int64() as Long);
           break;
         case 11:
           message.protocol = reader.string();
@@ -1964,7 +1964,7 @@ export const AttributeContext_Request = {
       scheme: isSet(object.scheme) ? String(object.scheme) : "",
       query: isSet(object.query) ? String(object.query) : "",
       time: isSet(object.time) ? fromJsonTimestamp(object.time) : undefined,
-      size: isSet(object.size) ? BigInt(object.size.toString()) : BigInt("0"),
+      size: isSet(object.size) ? Long.fromValue(object.size) : Long.ZERO,
       protocol: isSet(object.protocol) ? String(object.protocol) : "",
       reason: isSet(object.reason) ? String(object.reason) : "",
       auth: isSet(object.auth) ? AttributeContext_Auth.fromJSON(object.auth) : undefined
@@ -1985,7 +1985,7 @@ export const AttributeContext_Request = {
     message.scheme !== undefined && (obj.scheme = message.scheme);
     message.query !== undefined && (obj.query = message.query);
     message.time !== undefined && (obj.time = message.time.toISOString());
-    message.size !== undefined && (obj.size = (message.size || BigInt("0")).toString());
+    message.size !== undefined && (obj.size = (message.size || Long.ZERO).toString());
     message.protocol !== undefined && (obj.protocol = message.protocol);
     message.reason !== undefined && (obj.reason = message.reason);
     message.auth !== undefined && (obj.auth = message.auth ? AttributeContext_Auth.toJSON(message.auth) : undefined);
@@ -2008,7 +2008,7 @@ export const AttributeContext_Request = {
     message.scheme = object.scheme ?? "";
     message.query = object.query ?? "";
     message.time = object.time ?? undefined;
-    message.size = object.size !== undefined && object.size !== null ? BigInt(object.size.toString()) : BigInt("0");
+    message.size = object.size !== undefined && object.size !== null ? Long.fromValue(object.size) : Long.ZERO;
     message.protocol = object.protocol ?? "";
     message.reason = object.reason ?? "";
     message.auth = object.auth !== undefined && object.auth !== null ? AttributeContext_Auth.fromPartial(object.auth) : undefined;
@@ -2071,7 +2071,7 @@ export const AttributeContext_Request = {
       scheme: object.scheme,
       query: object.query,
       time: object?.time ? Timestamp.fromAmino(object.time) : undefined,
-      size: BigInt(object.size),
+      size: Long.fromString(object.size),
       protocol: object.protocol,
       reason: object.reason,
       auth: object?.auth ? AttributeContext_Auth.fromAmino(object.auth) : undefined
@@ -2121,7 +2121,7 @@ function createBaseAttributeContext_Response_HeadersEntry(): AttributeContext_Re
   };
 }
 export const AttributeContext_Response_HeadersEntry = {
-  encode(message: AttributeContext_Response_HeadersEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AttributeContext_Response_HeadersEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -2130,8 +2130,8 @@ export const AttributeContext_Response_HeadersEntry = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AttributeContext_Response_HeadersEntry {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AttributeContext_Response_HeadersEntry {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttributeContext_Response_HeadersEntry();
     while (reader.pos < end) {
@@ -2204,8 +2204,8 @@ export const AttributeContext_Response_HeadersEntry = {
 };
 function createBaseAttributeContext_Response(): AttributeContext_Response {
   return {
-    code: BigInt("0"),
-    size: BigInt("0"),
+    code: Long.ZERO,
+    size: Long.ZERO,
     headers: {},
     time: undefined,
     backendLatency: undefined
@@ -2213,11 +2213,11 @@ function createBaseAttributeContext_Response(): AttributeContext_Response {
 }
 export const AttributeContext_Response = {
   typeUrl: "/google.rpc.context.Response",
-  encode(message: AttributeContext_Response, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.code !== BigInt(0)) {
+  encode(message: AttributeContext_Response, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.code.isZero()) {
       writer.uint32(8).int64(message.code);
     }
-    if (message.size !== BigInt(0)) {
+    if (!message.size.isZero()) {
       writer.uint32(16).int64(message.size);
     }
     Object.entries(message.headers).forEach(([key, value]) => {
@@ -2234,18 +2234,18 @@ export const AttributeContext_Response = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AttributeContext_Response {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AttributeContext_Response {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttributeContext_Response();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.code = BigInt(reader.int64().toString());
+          message.code = (reader.int64() as Long);
           break;
         case 2:
-          message.size = BigInt(reader.int64().toString());
+          message.size = (reader.int64() as Long);
           break;
         case 3:
           const entry3 = AttributeContext_Response_HeadersEntry.decode(reader, reader.uint32());
@@ -2268,8 +2268,8 @@ export const AttributeContext_Response = {
   },
   fromJSON(object: any): AttributeContext_Response {
     return {
-      code: isSet(object.code) ? BigInt(object.code.toString()) : BigInt("0"),
-      size: isSet(object.size) ? BigInt(object.size.toString()) : BigInt("0"),
+      code: isSet(object.code) ? Long.fromValue(object.code) : Long.ZERO,
+      size: isSet(object.size) ? Long.fromValue(object.size) : Long.ZERO,
       headers: isObject(object.headers) ? Object.entries(object.headers).reduce<{
         [key: string]: string;
       }>((acc, [key, value]) => {
@@ -2282,8 +2282,8 @@ export const AttributeContext_Response = {
   },
   toJSON(message: AttributeContext_Response): unknown {
     const obj: any = {};
-    message.code !== undefined && (obj.code = (message.code || BigInt("0")).toString());
-    message.size !== undefined && (obj.size = (message.size || BigInt("0")).toString());
+    message.code !== undefined && (obj.code = (message.code || Long.ZERO).toString());
+    message.size !== undefined && (obj.size = (message.size || Long.ZERO).toString());
     obj.headers = {};
     if (message.headers) {
       Object.entries(message.headers).forEach(([k, v]) => {
@@ -2296,8 +2296,8 @@ export const AttributeContext_Response = {
   },
   fromPartial(object: DeepPartial<AttributeContext_Response>): AttributeContext_Response {
     const message = createBaseAttributeContext_Response();
-    message.code = object.code !== undefined && object.code !== null ? BigInt(object.code.toString()) : BigInt("0");
-    message.size = object.size !== undefined && object.size !== null ? BigInt(object.size.toString()) : BigInt("0");
+    message.code = object.code !== undefined && object.code !== null ? Long.fromValue(object.code) : Long.ZERO;
+    message.size = object.size !== undefined && object.size !== null ? Long.fromValue(object.size) : Long.ZERO;
     message.headers = Object.entries(object.headers ?? {}).reduce<{
       [key: string]: string;
     }>((acc, [key, value]) => {
@@ -2340,8 +2340,8 @@ export const AttributeContext_Response = {
   },
   fromAmino(object: AttributeContext_ResponseAmino): AttributeContext_Response {
     return {
-      code: BigInt(object.code),
-      size: BigInt(object.size),
+      code: Long.fromString(object.code),
+      size: Long.fromString(object.size),
       headers: isObject(object.headers) ? Object.entries(object.headers).reduce<{
         [key: string]: string;
       }>((acc, [key, value]) => {
@@ -2389,7 +2389,7 @@ function createBaseAttributeContext_Resource_LabelsEntry(): AttributeContext_Res
   };
 }
 export const AttributeContext_Resource_LabelsEntry = {
-  encode(message: AttributeContext_Resource_LabelsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AttributeContext_Resource_LabelsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -2398,8 +2398,8 @@ export const AttributeContext_Resource_LabelsEntry = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AttributeContext_Resource_LabelsEntry {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AttributeContext_Resource_LabelsEntry {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttributeContext_Resource_LabelsEntry();
     while (reader.pos < end) {
@@ -2477,7 +2477,7 @@ function createBaseAttributeContext_Resource_AnnotationsEntry(): AttributeContex
   };
 }
 export const AttributeContext_Resource_AnnotationsEntry = {
-  encode(message: AttributeContext_Resource_AnnotationsEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AttributeContext_Resource_AnnotationsEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -2486,8 +2486,8 @@ export const AttributeContext_Resource_AnnotationsEntry = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AttributeContext_Resource_AnnotationsEntry {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AttributeContext_Resource_AnnotationsEntry {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttributeContext_Resource_AnnotationsEntry();
     while (reader.pos < end) {
@@ -2576,7 +2576,7 @@ function createBaseAttributeContext_Resource(): AttributeContext_Resource {
 }
 export const AttributeContext_Resource = {
   typeUrl: "/google.rpc.context.Resource",
-  encode(message: AttributeContext_Resource, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: AttributeContext_Resource, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.service !== "") {
       writer.uint32(10).string(message.service);
     }
@@ -2621,8 +2621,8 @@ export const AttributeContext_Resource = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): AttributeContext_Resource {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): AttributeContext_Resource {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttributeContext_Resource();
     while (reader.pos < end) {

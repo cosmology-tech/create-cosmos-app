@@ -77,9 +77,9 @@ export class Query {
   }
   /** VoteByProposalVoter queries a vote by proposal id and voter. */
   static voteByProposalVoter(request: QueryVoteByProposalVoterRequest, initRequest?: fm.InitReq): Promise<QueryVoteByProposalVoterResponse> {
-    return fm.fetchReq(`/cosmos/group/v1/vote_by_proposal_voter/${request["proposal_id"]}/{voter}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/cosmos/group/v1/vote_by_proposal_voter/${request["proposal_id"]}/${request["voter"]}?${fm.renderURLSearchParams({
       ...request
-    }, ["proposal_id"])}`, {
+    }, ["proposal_id", "voter"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -121,7 +121,7 @@ export class Query {
     });
   }
 }
-export class Querier {
+export class QueryClientImpl {
   private readonly url: string;
   constructor(url: string) {
     this.url = url;

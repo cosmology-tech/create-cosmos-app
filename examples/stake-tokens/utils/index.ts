@@ -1,5 +1,5 @@
 import { getCoin } from '../config';
-import { ImageSource } from '../components/types';
+import { ChainInfo, ImageSource } from '../components/types';
 import BigNumber from 'bignumber.js';
 import type { Validator } from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
 
@@ -131,4 +131,44 @@ export const getImgUrls = async (
   );
 
   return allUrls;
+};
+
+export const decodeUint8Arr = (uint8array: Uint8Array | undefined) => {
+  if (!uint8array) return '';
+  return new TextDecoder('utf-8').decode(uint8array);
+};
+
+export const shiftDigits = (num: string | number, places: number) => {
+  return new BigNumber(num).shiftedBy(places).toString();
+};
+
+export const isObjEmpty = (obj: any) => {
+  return Object.keys(obj).length === 0;
+};
+
+export const calcStakingApr = ({
+  pool,
+  commission,
+  communityTax,
+  annualProvisions,
+}: ChainInfo & { commission: string }) => {
+  const totalSupply = new BigNumber(pool?.bondedTokens || 0).plus(
+    pool?.notBondedTokens || 0
+  );
+
+  const bondedTokensRatio = new BigNumber(pool?.bondedTokens || 0).div(
+    totalSupply
+  );
+
+  const inflation = new BigNumber(annualProvisions || 0).div(totalSupply);
+
+  const one = new BigNumber(1);
+
+  return inflation
+    .multipliedBy(one.minus(communityTax || 0))
+    .div(bondedTokensRatio)
+    .multipliedBy(one.minus(commission))
+    .shiftedBy(2)
+    .decimalPlaces(2, BigNumber.ROUND_DOWN)
+    .toString();
 };

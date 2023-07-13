@@ -32,13 +32,19 @@ import {
   StatBox,
   UndelegateWarning,
 } from './delegate-modal';
-import { exponentiate, getExponent } from '../../utils';
+import {
+  calcStakingApr,
+  exponentiate,
+  getExponent,
+  isObjEmpty,
+  shiftDigits,
+} from '../../utils';
 import { decodeCosmosSdkDecFromProto } from '@cosmjs/stargate';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { cosmos } from 'interchain';
 import { useChain } from '@cosmos-kit/react';
 import { getCoin } from '../../config';
-import { MyValidator, TransactionResult } from '../types';
+import { ChainInfo, MyValidator, TransactionResult } from '../types';
 import type {
   Validator,
   DelegationResponse as Delegation,
@@ -70,6 +76,7 @@ const MyValidators = ({
   unbondingDays,
   chainName,
   thumbnails,
+  chainInfo,
 }: {
   validators: Validator[];
   allValidator: Validator[];
@@ -79,6 +86,7 @@ const MyValidators = ({
   updateData: () => void;
   unbondingDays: number;
   chainName: ChainName;
+  chainInfo: ChainInfo;
   thumbnails: {
     [key: string]: string;
   };
@@ -369,6 +377,14 @@ const MyValidators = ({
     }
   };
 
+  const apr = useMemo(() => {
+    if (!currentValidator) return '';
+    return calcStakingApr({
+      ...chainInfo,
+      commission: shiftDigits(currentValidator?.commission || 0, -18),
+    });
+  }, [chainInfo, currentValidator]);
+
   return (
     <>
       <Heading as="h4" size="md" mt={12} mb={6}>
@@ -397,7 +413,7 @@ const MyValidators = ({
                   ? exponentiate(currentValidator.commission, -16).toFixed(0)
                   : 0
               }
-              apr={22.08}
+              apr={apr}
             />
             <ValidatorDesc description={currentValidator?.details || ''} />
 
@@ -451,7 +467,7 @@ const MyValidators = ({
                   ? exponentiate(currentValidator.commission, -16).toFixed(0)
                   : 0
               }
-              apr={22.08}
+              apr={apr}
             />
             <DelegateWarning unbondingDays={unbondingDays} />
             <Stack direction="row" spacing={4} my={4}>
@@ -511,7 +527,7 @@ const MyValidators = ({
                   ? exponentiate(currentValidator.commission, -16).toFixed(0)
                   : 0
               }
-              apr={22.08}
+              apr={apr}
             />
             <Stack direction="column" spacing={4}>
               <UndelegateWarning unbondingDays={unbondingDays} />
@@ -556,7 +572,7 @@ const MyValidators = ({
                     <Th>Validator</Th>
                     <Th>Voting Power</Th>
                     <Th>Commission</Th>
-                    <Th>APR</Th>
+                    {!isObjEmpty(chainInfo) && <Th>APR</Th>}
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -605,12 +621,22 @@ const MyValidators = ({
                           ).toFixed(0)}
                         %
                       </Td>
-                      <Td>
-                        <Box width="100%" display="flex" alignItems="center">
-                          {/* <Text>{validator.apr}</Text> */}
-                          <Text>22.04%</Text>
-                        </Box>
-                      </Td>
+                      {!isObjEmpty(chainInfo) && (
+                        <Td>
+                          <Box width="100%" display="flex" alignItems="center">
+                            <Text>
+                              {calcStakingApr({
+                                ...chainInfo,
+                                commission: shiftDigits(
+                                  validator.commission?.commissionRates?.rate ||
+                                    0,
+                                  -18
+                                ),
+                              }) + '%'}
+                            </Text>
+                          </Box>
+                        </Td>
+                      )}
                     </Tr>
                   ))}
                 </Tbody>

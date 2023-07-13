@@ -1,13 +1,13 @@
 import { Header, HeaderAmino, HeaderSDKType, Data, DataAmino, DataSDKType, Commit, CommitAmino, CommitSDKType } from "./types";
 import { EvidenceList, EvidenceListAmino, EvidenceListSDKType } from "./evidence";
-import { BinaryReader, BinaryWriter } from "../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "tendermint.types";
 export interface Block {
-  header?: Header;
-  data?: Data;
-  evidence?: EvidenceList;
-  lastCommit?: Commit;
+  header: Header;
+  data: Data;
+  evidence: EvidenceList;
+  lastCommit: Commit;
 }
 export interface BlockProtoMsg {
   typeUrl: "/tendermint.types.Block";
@@ -24,22 +24,22 @@ export interface BlockAminoMsg {
   value: BlockAmino;
 }
 export interface BlockSDKType {
-  header?: HeaderSDKType;
-  data?: DataSDKType;
-  evidence?: EvidenceListSDKType;
-  last_commit?: CommitSDKType;
+  header: HeaderSDKType;
+  data: DataSDKType;
+  evidence: EvidenceListSDKType;
+  last_commit: CommitSDKType;
 }
 function createBaseBlock(): Block {
   return {
-    header: undefined,
-    data: undefined,
-    evidence: undefined,
-    lastCommit: undefined
+    header: Header.fromPartial({}),
+    data: Data.fromPartial({}),
+    evidence: EvidenceList.fromPartial({}),
+    lastCommit: Commit.fromPartial({})
   };
 }
 export const Block = {
   typeUrl: "/tendermint.types.Block",
-  encode(message: Block, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: Block, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.header !== undefined) {
       Header.encode(message.header, writer.uint32(10).fork()).ldelim();
     }
@@ -54,8 +54,8 @@ export const Block = {
     }
     return writer;
   },
-  decode(input: BinaryReader | Uint8Array, length?: number): Block {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Block {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBlock();
     while (reader.pos < end) {
