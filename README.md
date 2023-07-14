@@ -38,10 +38,10 @@ You don’t need to install or configure cosmjs, keplr, nextjs, webpack or Babel
 
 Everything is preconfigured, ready-to-go, so you can focus on your code!
 
-- ⚡️ Connect easily to keplr + keplr mobile via wallet connect
+- ⚡️ [Connect easily to 15+ wallets](https://github.com/cosmology-tech/cosmos-kit) including Ledger, Keplr, Cosmostation, Leap, Trust Wallet, XDEFI, Exodus, Wallet Connect and more
 - ⚛️ Sign and broadcast with [cosmjs](https://github.com/cosmos/cosmjs) stargate + cosmwasm signers
 - 🛠 Render pages with [next.js](https://nextjs.org/) hybrid static & server rendering
-- 🎨 Build awesome UI with [Cosmos Kit](https://github.com/cosmology-tech/cosmos-kit) and [Chakra UI](https://chakra-ui.com/docs/components)
+- 🎨 Build awesome UI with [Cosmos Kit UI](https://CosmosKit.com/explore) and [Chakra UI](https://chakra-ui.com/docs/components)
 - 📝 Leverage [chain-registry](https://github.com/cosmology-tech/chain-registry) for Chain and Asset info for all Cosmos chains
 
 ## Education & Resources
