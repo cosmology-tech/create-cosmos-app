@@ -1,12 +1,11 @@
 import { Text, Flex } from '@chakra-ui/react';
-import { StdFee } from '@cosmjs/stargate';
 import { useChain } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
 import React, { useState } from 'react';
 import { chainName, exponent, marketplaceContract } from 'config';
-import { useClient, useColor, useTransactionToast } from 'hooks';
-import { getExpirationTime, getStarsCoin, toDisplayAmount } from 'utils';
-import { Collection, Token, TxResult } from '../../types';
+import { useClient, useColor, useTx } from 'hooks';
+import { getExpirationTime, toDisplayAmount } from 'utils';
+import { Collection, Token } from '../../types';
 import { LargeButton } from '../../base/buttons';
 import { SplitText } from './nft-cards';
 import { StarsIcon } from './stars-icon';
@@ -24,11 +23,12 @@ export const SellNowTab = ({
   closeModal: () => void;
   collection: Collection;
 }) => {
+  const { address } = useChain(chainName);
   const [isLoading, setIsLoading] = useState(false);
-  const { showToast } = useTransactionToast();
-  const { address, getSigningCosmWasmClient } = useChain(chainName);
   const { getMarketplaceMsgComposer, getSg721UpdatableMsgComposer } =
     useClient();
+
+  const { tx } = useTx();
 
   const floorPrice = collection.floorPrice.toString();
   const highestOffer = toDisplayAmount(token.highestCollectionBid, exponent);
@@ -60,23 +60,12 @@ export const SellNowTab = ({
       }),
     ];
 
-    const fee: StdFee = {
-      amount: [getStarsCoin('0')],
-      gas: '666666',
-    };
-
-    try {
-      const client = await getSigningCosmWasmClient();
-      const res = await client.signAndBroadcast(address, msgs, fee);
-      showToast(res.code);
+    await tx(msgs, { gas: '666666' }, () => {
       closeModal();
       update();
-    } catch (error) {
-      showToast(TxResult.Failed, error);
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    });
+
+    setIsLoading(false);
   };
 
   const { textColor } = useColor();
