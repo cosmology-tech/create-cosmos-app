@@ -18,6 +18,8 @@ import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
 import { useChain } from '@cosmos-kit/react';
 import { WalletStatus } from '@cosmos-kit/core';
 
+import { ContractsProvider, useContracts } from '../codegen/contracts-context';
+
 import {
   chainName,
   cw20ContractAddress,
@@ -31,7 +33,7 @@ import {
   handleChangeColorModeValue,
   HackCw20,
 } from '../components';
-import { useHackCw20Balance } from '../hooks/use-hack-cw20-balance';
+import { useState } from 'react';
 
 const library = {
   title: 'Telescope',
@@ -39,10 +41,42 @@ const library = {
   href: 'https://github.com/cosmology-tech/interchain',
 };
 
-export default function Home() {
+const ContractComponent = ({ children }: { children: any }) => {
+  const { address, getCosmWasmClient, getSigningCosmWasmClient } = useChain(chainName);
+  return (
+    <ContractsProvider contractsConfig={{
+      address,
+      getCosmWasmClient,
+      getSigningCosmWasmClient
+    }}>
+      {children}
+    </ContractsProvider>
+  );
+};
+
+const RenderBalance = () => {
+  const { hackCw20 } = useContracts();
+  const { address, status } = useChain(chainName);
+  const [cw20Bal, setCw20Bal] = useState<string | null>(null);
+
+  if (status === 'Connected' && hackCw20.cosmWasmClient) {
+    const client = hackCw20.getQueryClient(cw20ContractAddress);
+    client.balance({ address }).then((b) => setCw20Bal(b.balance));
+  }
+
+  return (
+    <Box w="full" maxW="md" mx="auto">
+      <HackCw20
+        balance={cw20Bal}
+        isConnectWallet={status !== WalletStatus.Disconnected}
+      />
+    </Box>
+  );
+}
+
+const Layout = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { status } = useChain(chainName);
-  const { balance } = useHackCw20Balance(cw20ContractAddress);
 
   return (
     <Container maxW="5xl" py={10}>
@@ -91,12 +125,7 @@ export default function Home() {
 
       <WalletSection />
 
-      <Box w="full" maxW="md" mx="auto">
-        <HackCw20
-          balance={balance}
-          isConnectWallet={status !== WalletStatus.Disconnected}
-        />
-      </Box>
+      {status === 'Connected' ? <RenderBalance /> : <div>connecting...</div>}
 
       <Box my={20}>
         <Divider />
@@ -140,5 +169,13 @@ export default function Home() {
         </Link>
       </Stack>
     </Container>
+  );
+}
+
+export default function Home() {
+  return (
+    <ContractComponent>
+      <Layout />
+    </ContractComponent>
   );
 }
