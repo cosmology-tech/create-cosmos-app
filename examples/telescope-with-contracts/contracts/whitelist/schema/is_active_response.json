@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "IsActiveResponse",
+  "type": "object",
+  "required": [
+    "is_active"
+  ],
+  "properties": {
+    "is_active": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}
