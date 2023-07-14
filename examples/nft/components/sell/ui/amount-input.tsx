@@ -14,7 +14,7 @@ interface IProps {
   mb?: string;
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
-  price: number;
+  price: number | undefined;
 }
 
 export const AmountInput: React.FC<IProps> = ({
@@ -30,7 +30,7 @@ export const AmountInput: React.FC<IProps> = ({
   const symbolColor = useColorModeValue('#2C3137', '#A7B4C2');
 
   const inputDollarValue = new BigNumber(inputValue || 0)
-    .multipliedBy(price)
+    .multipliedBy(price || 0)
     .decimalPlaces(2)
     .toString();
 
@@ -90,7 +90,7 @@ export const AmountInput: React.FC<IProps> = ({
           >
             STARS
           </Text>
-          {new BigNumber(inputValue).gt(0) && (
+          {new BigNumber(inputDollarValue).gt(0) && (
             <Text fontSize="12px" color={titleColor}>
               {new BigNumber(inputDollarValue).lt(0.01)
                 ? '< $0.01'
