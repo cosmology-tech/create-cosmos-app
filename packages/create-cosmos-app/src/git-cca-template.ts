@@ -31,6 +31,7 @@ export const createGitApp = (repo: string) => {
 
         const currentDirectory = process.cwd();
         const dir = cloneRepo(argv, repo, name, folderName);
+
         // cd into the cloned repo from $dir
         shell.cd(name);
 
