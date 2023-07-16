@@ -23,7 +23,7 @@
     "clean": "npm run clean:mjs && npm run clean:dist",
     "build:rename": "publish-scripts --cmd rename --srcDir mjs --outDir dist --findExt js --replaceExt mjs --no-rmDir",
     "build": "npm run clean && npm run build:cjs && npm run build:mjs && npm run build:rename",
-    "codegen": "node scripts/codegen.cjs",
+    "codegen": "node scripts/codegen.js",
     "prepare": "npm run build",
     "lint": "eslint src --fix",
     "test": "jest",
