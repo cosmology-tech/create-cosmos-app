@@ -34,7 +34,8 @@
   "workspaces": [
     "packages/*",
     "examples/*",
-    "templates/*"
+    "templates/*",
+    "boilerplates/*"
   ],
   "repository": {
     "type": "git",
