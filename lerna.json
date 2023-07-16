@@ -9,8 +9,7 @@
   "packages": [
     "packages/*",
     "examples/*",
-    "templates/*",
-    "boilerplates/*"
+    "templates/*"
   ],
   "version": "independent",
   "registry": "https://registry.npmjs.org",
