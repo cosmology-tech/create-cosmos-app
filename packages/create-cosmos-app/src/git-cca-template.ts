@@ -35,10 +35,11 @@ export const createGitApp = (repo: string) => {
         shell.cd(name);
 
         const results = await getQuestionsAndAnswers(argv);
+        const hasResults = Object.keys(results).length > 0;
 
         let license = {};
         let scopedResults = {};
-        if (results.__QUESTIONS_EXIST_) {
+        if (hasResults) {
             ({
                 license,
                 scopedResults
@@ -85,7 +86,7 @@ export const createGitApp = (repo: string) => {
             });
 
             // access
-            if (results.__QUESTIONS_EXIST_) {
+            if (hasResults) {
                 if (results.__ACCESS__ === 'public') {
                     if (scopedResults.scoped) {
                         content = content.replace(
