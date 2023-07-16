@@ -28,26 +28,13 @@ export const createGitApp = (repo: string) => {
 
         const folderName = await getTemplateFolder(argv);
 
-
         const currentDirectory = process.cwd();
-        const dir = cloneRepo(argv, repo, name, folderName);
+        const dir = cloneRepo(argv, repo, name);
 
         // cd into the cloned repo from $dir
         shell.cd(name);
 
-        const results = await getQuestionsAndAnswers(argv);
-        const hasResults = Object.keys(results).length > 0;
-
-        let license = {};
-        let scopedResults = {};
-        if (hasResults) {
-            ({
-                license,
-                scopedResults
-            } = await getPackageLicAndAccessInfo(results));
-            shell.rm('-rf', '.questions.json');
-        }
-
+        // get template 
         const list = shell.ls(`./${folderName}`);
         const { template } = await prompt([
             {
@@ -58,6 +45,22 @@ export const createGitApp = (repo: string) => {
                 choices: list
             }
         ], argv);
+        argv.template = template;
+
+        const results = await getQuestionsAndAnswers(argv, name, folderName);
+
+        const hasResults = Object.keys(results).length > 0;
+
+        let license = {};
+        let scopedResults = {};
+        if (hasResults) {
+            ({
+                license,
+                scopedResults
+            } = await getPackageLicAndAccessInfo(results));
+            const path = join(folderName, argv.template, '.questions.json')
+            shell.rm('-rf', path);
+        }
 
         const files = []
             .concat(glob(join(process.cwd(), folderName, template, '/**/.*')))
@@ -119,6 +122,7 @@ export const createGitApp = (repo: string) => {
             fs.writeFileSync(filepath, content);
 
         }
+
         shell.cd(currentDirectory);
         shell.rm('-rf', dir);
         shell.cd(`./${name}`);
@@ -136,7 +140,7 @@ export const createGitApp = (repo: string) => {
         shell.cd(currentDirectory);
 
         let cmd = `cd ./${name}`;
-        if (!results.__QUESTIONS_EXIST_) {
+        if (!hasResults) {
             cmd += ' && yarn dev';
         }
 

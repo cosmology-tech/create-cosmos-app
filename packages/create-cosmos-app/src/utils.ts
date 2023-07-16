@@ -34,7 +34,7 @@ export const getTemplateFolder = async (argv) => {
     return folderName;
 }
 
-export const cloneRepo = (argv, repo, name, folderName: TemplateFolder) => {
+export const cloneRepo = (argv, repo, name) => {
     const tempname = Math.random().toString(36).slice(2, 7);
     const dir = join(argv.tmpdir || tmpdir(), tempname);
     mkdirp(dir);
@@ -43,9 +43,14 @@ export const cloneRepo = (argv, repo, name, folderName: TemplateFolder) => {
     return dir;
 }
 
-export const getQuestionsAndAnswers = async (argv) => {
-    try {
-        const questions = JSON.parse(fs.readFileSync(`.questions.json`, 'utf-8'));
+export const getQuestionsAndAnswers = async (
+    argv,
+    name,
+    folderName: TemplateFolder
+) => {
+    const path = join(folderName, argv.template, '.questions.json')
+    if (fs.existsSync(path)) {
+        const questions = JSON.parse(fs.readFileSync(path, 'utf-8'));
 
         const fullname = shell
             .exec('git config --global user.name', { silent: true })
@@ -70,8 +75,8 @@ export const getQuestionsAndAnswers = async (argv) => {
 
         const results = await prompt(questions, args);
         return results;
-    } catch (e) {
-        return {}
+    } else {
+        return {};
     }
 }
 
