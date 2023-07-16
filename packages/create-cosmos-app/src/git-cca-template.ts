@@ -37,7 +37,8 @@ export const createGitApp = (repo: string) => {
 
         const results = await getQuestionsAndAnswers(argv);
 
-        let license, scopedResults;
+        let license = {};
+        let scopedResults = {};
         if (results.__QUESTIONS_EXIST_) {
             ({
                 license,
