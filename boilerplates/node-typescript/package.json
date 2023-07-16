@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.3",
-    "cross-env": "^7.0.2",
+    "@cosmwasm/ts-codegen": "^0.31.6",
     "eslint": "8.45.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^5.0.0",
@@ -65,7 +65,6 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@cosmjs/cosmwasm-stargate": "^0.31.0",
-    "@cosmwasm/ts-codegen": "^0.31.6"
+    "@cosmjs/cosmwasm-stargate": "^0.31.0"
   }
 }
