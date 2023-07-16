@@ -1,10 +1,8 @@
 import * as shell from 'shelljs';
-import * as c from 'ansi-colors';
 import { prompt } from './prompt';
-import { join, dirname } from 'path';
+import { join } from 'path';
 import { sync as mkdirp } from 'mkdirp';
 import { tmpdir } from 'os'
-import { sync as glob } from 'glob';
 import * as fs from 'fs';
 const dargs = require('dargs');
 
@@ -40,7 +38,6 @@ export const cloneRepo = (argv, repo, name, folderName: TemplateFolder) => {
     const tempname = Math.random().toString(36).slice(2, 7);
     const dir = join(argv.tmpdir || tmpdir(), tempname);
     mkdirp(dir);
-    const currentDirectory = process.cwd();
     shell.cd(dir);
     shell.exec(`git clone --depth 1 ${repo} ${name}`);
     return dir;
@@ -112,3 +109,4 @@ export const getPackageLicAndAccessInfo = async (results) => {
         scopedResults
     };
 }
+

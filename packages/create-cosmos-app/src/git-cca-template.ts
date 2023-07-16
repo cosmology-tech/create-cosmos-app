@@ -3,7 +3,6 @@ import * as c from 'ansi-colors';
 import { prompt } from './prompt';
 import { join, dirname, basename } from 'path';
 import { sync as mkdirp } from 'mkdirp';
-import { tmpdir } from 'os'
 import { sync as glob } from 'glob';
 import * as fs from 'fs';
 import { cloneRepo, getPackageLicAndAccessInfo, getQuestionsAndAnswers, getTemplateFolder } from './utils';
