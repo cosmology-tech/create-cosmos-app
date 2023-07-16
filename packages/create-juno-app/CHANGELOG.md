@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/cosmology-tech/create-cosmos-app/compare/create-juno-app@0.12.3...create-juno-app@1.0.0) (2023-07-16)
+
+**Note:** Version bump only for package create-juno-app
+
+
+
+
+
 ## [0.12.3](https://github.com/cosmology-tech/create-cosmos-app/compare/create-juno-app@0.12.2...create-juno-app@0.12.3) (2023-07-14)
 
 **Note:** Version bump only for package create-juno-app
