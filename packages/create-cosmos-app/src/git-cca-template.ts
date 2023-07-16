@@ -26,10 +26,26 @@ export const createGitApp = (repo: string) => {
         ], argv);
         name = name.replace(/\s/g, '-');
 
-        let folderName: 'templates' | 'examples' = 'templates';
+        let folderName: 'templates' | 'boilerplates' | 'examples' = 'templates';
+
+        // get example info
         if (argv.examples || argv.example || argv.ex) {
             folderName = 'examples';
+            const example = argv.examples || argv.example || argv.ex;
+            if (typeof example === 'string') {
+                argv.template = example;
+            }
         }
+
+        // get boilerplate info
+        if (argv.boilerplates || argv.boilerplate || argv.ex) {
+            folderName = 'boilerplates';
+            const boilerplate = argv.boilerplates || argv.boilerplate || argv.ex;
+            if (typeof boilerplate === 'string') {
+                argv.template = boilerplate;
+            }
+        }
+
         const tempname = Math.random().toString(36).slice(2, 7);
         const dir = join(argv.tmpdir || tmpdir(), tempname);
         mkdirp(dir);
