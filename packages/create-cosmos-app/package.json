@@ -36,7 +36,12 @@
     "type": "git",
     "url": "https://github.com/cosmology-tech/create-cosmos-app"
   },
-  "keywords": [],
+  "keywords": [
+    "cosmos",
+    "cosmology",
+    "create-cosmos-app",
+    "cosmos-kit"
+  ],
   "bugs": {
     "url": "https://github.com/cosmology-tech/create-cosmos-app/issues"
   },
