@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/cosmology-tech/create-cosmos-app/compare/create-osmosis-app@1.3.0...create-osmosis-app@1.4.0) (2023-07-17)
+
+**Note:** Version bump only for package create-osmosis-app
+
+
+
+
+
 # [1.3.0](https://github.com/cosmology-tech/create-cosmos-app/compare/create-osmosis-app@1.2.1...create-osmosis-app@1.3.0) (2023-07-16)
 
 **Note:** Version bump only for package create-osmosis-app
