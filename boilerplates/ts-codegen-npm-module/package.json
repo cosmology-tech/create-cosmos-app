@@ -1,0 +1,61 @@
+{
+  "name": "__PACKAGE_IDENTIFIER__",
+  "version": "0.0.1",
+  "description": "__MODULEDESC__",
+  "author": "__USERFULLNAME__ <__USEREMAIL__>",
+  "homepage": "https://github.com/__USERNAME__/__MODULENAME__#readme",
+  "license": "SEE LICENSE IN LICENSE",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.ts",
+  "directories": {
+    "lib": "src"
+  },
+  "files": [
+    "dist",
+    "!CHANGELOG.md"
+  ],
+  "scripts": {
+    "build:cjs": "yarn tsc -p tsconfig.json --outDir dist --module commonjs || true",
+    "build:mjs": "yarn tsc -p tsconfig.json --outDir mjs --module es2022 --declaration false || true",
+    "clean:mjs": "rimraf mjs",
+    "clean:dist": "rimraf dist",
+    "clean": "npm run clean:mjs && npm run clean:dist",
+    "build:rename": "publish-scripts --cmd rename --srcDir mjs --outDir dist --findExt js --replaceExt mjs --no-rmDir",
+    "build": "npm run clean && npm run build:cjs && npm run build:mjs && npm run build:rename",
+    "codegen": "node scripts/codegen.js",
+    "prepare": "npm run build",
+    "lint": "eslint src --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
+  },
+  "publishConfig": {
+    "access": "__ACCESS__"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/__USERNAME__/__MODULENAME__"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/__USERNAME__/__MODULENAME__/issues"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.3",
+    "eslint": "8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.6.1",
+    "jest-in-case": "^1.0.2",
+    "prettier": "^3.0.0",
+    "publish-scripts": "0.1.0",
+    "rimraf": "^5.0.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@cosmjs/cosmwasm-stargate": "^0.31.0",
+    "@cosmwasm/ts-codegen": "^0.31.6"
+  }
+}
