@@ -40,13 +40,6 @@
   "bugs": {
     "url": "https://github.com/cosmology-tech/create-cosmos-app/issues"
   },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "main/",
-      "module/",
-      "types/"
-    ]
-  },
   "devDependencies": {
     "@types/jest": "^29.2.2",
     "case": "1.6.3",
