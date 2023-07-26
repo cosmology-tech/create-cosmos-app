@@ -7,29 +7,35 @@
 import * as _0 from "./Sg721Updatable.types";
 import * as _1 from "./Sg721Updatable.client";
 import * as _2 from "./Sg721Updatable.message-composer";
-import * as _3 from "./Sg721Updatable.provider";
-import * as _4 from "./Whitelist.types";
-import * as _5 from "./Whitelist.client";
-import * as _6 from "./Whitelist.message-composer";
-import * as _7 from "./Whitelist.provider";
-import * as _8 from "./Marketplace.types";
-import * as _9 from "./Marketplace.client";
-import * as _10 from "./Marketplace.message-composer";
-import * as _11 from "./Marketplace.provider";
+import * as _3 from "./Sg721Updatable.react-query";
+import * as _4 from "./Sg721Updatable.provider";
+import * as _5 from "./Whitelist.types";
+import * as _6 from "./Whitelist.client";
+import * as _7 from "./Whitelist.message-composer";
+import * as _8 from "./Whitelist.react-query";
+import * as _9 from "./Whitelist.provider";
+import * as _10 from "./Marketplace.types";
+import * as _11 from "./Marketplace.client";
+import * as _12 from "./Marketplace.message-composer";
+import * as _13 from "./Marketplace.react-query";
+import * as _14 from "./Marketplace.provider";
 export namespace contracts {
   export const Sg721Updatable = { ..._0,
     ..._1,
     ..._2,
-    ..._3
+    ..._3,
+    ..._4
   };
-  export const Whitelist = { ..._4,
-    ..._5,
+  export const Whitelist = { ..._5,
     ..._6,
-    ..._7
+    ..._7,
+    ..._8,
+    ..._9
   };
-  export const Marketplace = { ..._8,
-    ..._9,
-    ..._10,
-    ..._11
+  export const Marketplace = { ..._10,
+    ..._11,
+    ..._12,
+    ..._13,
+    ..._14
   };
 }

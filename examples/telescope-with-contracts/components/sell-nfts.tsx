@@ -60,6 +60,7 @@ export const SellNfts = () => {
   const transferModalControl = useDisclosure();
   const burnModalControl = useDisclosure();
   const updatePriceModalControl = useDisclosure();
+  const updatePriceModalRQControl = useDisclosure();
   const removeListingModalControl = useDisclosure();
 
   useEffect(() => {
@@ -252,6 +253,7 @@ export const SellNfts = () => {
             transferNft: transferModalControl.onOpen,
             removeListing: removeListingModalControl.onOpen,
             updatePrice: updatePriceModalControl.onOpen,
+            updatePriceRQ: updatePriceModalRQControl.onOpen,
           }}
         />
       )}
@@ -289,6 +291,18 @@ export const SellNfts = () => {
           update={update}
           token={selectedToken}
           price={price}
+          isRQ={false}
+        />
+      )}
+
+      {selectedToken && selectedCollection && price && (
+        <UpdatePriceModal
+          modalControl={updatePriceModalRQControl}
+          collection={selectedCollection}
+          update={update}
+          token={selectedToken}
+          price={price}
+          isRQ={true}
         />
       )}
 
