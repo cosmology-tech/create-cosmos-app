@@ -1,51 +1,53 @@
-const { join, resolve } = require('path');
-const telescope = require('@osmonauts/telescope').default;
+import { join } from 'path';
+import telescope from '@osmonauts/telescope';
+import { rimrafSync as rimraf } from 'rimraf';
+import { AMINO_MAP } from './aminos';
 
 const protoDirs = [join(__dirname, '/../proto')];
+const outPath = join(__dirname, '../src/codegen');
+rimraf(outPath);
 
 telescope({
   protoDirs,
-  outPath: join(__dirname, '../codegen'),
+  outPath,
   options: {
     tsDisable: {
       files: [
-        'ibc/core/types/v1/genesis.ts',
-        'google/protobuf/descriptor.ts',
-        'google/protobuf/struct.ts'
+        'cosmos/authz/v1beta1/tx.amino.ts',
+        'cosmos/staking/v1beta1/tx.amino.ts'
       ]
     },
     prototypes: {
-      allowUndefinedTypes: true,
-      fieldDefaultIsOptional: true,
       includePackageVar: false,
       typingsFormat: {
+        num64: 'bigint',
         useDeepPartial: false,
         useExact: false,
-        num64: "bigint",
-        timestamp: 'date',
+        timestamp: 'timestamp',
         duration: 'duration'
       },
+      methods: {
+        toJSON: true,
+        fromJSON: true
+      }
     },
     aminoEncoding: {
-      enabled: true
+      enabled: true,
+      exceptions: AMINO_MAP
     },
     lcdClients: {
-      enabled: true
+      enabled: false
     },
     rpcClients: {
       enabled: true,
       camelCase: true
-    },
-    reactQuery: {
-      enabled: true
-    },
-    mobx: {
-      enabled: true
     }
   }
-}).then(() => {
-  console.log('✨ all done!');
-}).catch(e=>{
-  console.error(e);
-});
-
+})
+  .then(() => {
+    console.log('✨ all done!');
+  })
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });

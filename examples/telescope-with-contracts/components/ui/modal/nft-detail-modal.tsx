@@ -52,6 +52,7 @@ export const NftDetailModal = ({
     burn: () => void;
     transferNft: () => void;
     updatePrice: () => void;
+    updatePriceRQ: () => void;
     removeListing: () => void;
   };
 }) => {
@@ -162,7 +163,6 @@ export const NftDetailModal = ({
                 />
               )}
               <SplitText left="Owned by" right={ownerName} mb="18px" />
-
               {token.forSale && token.saleType && (
                 <SplitText
                   left={priceText[token.saleType]}
@@ -175,7 +175,6 @@ export const NftDetailModal = ({
                   mb="24px"
                 />
               )}
-
               {token.forSale ? (
                 <Flex gap="16px" mb="16px">
                   <NormalButton
@@ -203,7 +202,17 @@ export const NftDetailModal = ({
                   mb="16px"
                 />
               )}
-
+              {token.forSale && (
+                <Flex gap="16px" mb="16px">
+                  <NormalButton
+                    onClick={openModals.updatePriceRQ}
+                    size={{ h: '36px', w: '100%' }}
+                    leftIcon={<Icon as={AiOutlineTag} boxSize={4} />}
+                    text="Update Price(React Query)"
+                    type="solid"
+                  />
+                </Flex>
+              )}
               <Flex gap="16px">
                 <SimpleButton
                   content="Transfer"

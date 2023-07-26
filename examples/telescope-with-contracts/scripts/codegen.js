@@ -79,6 +79,11 @@ telescope({
         messageComposer: {
           enabled: true,
         },
+        reactQuery: {
+          enabled: true,
+          version:  'v4',
+          mutations: true,
+        },
         useContractsHooks: {
           enabled: true
         }

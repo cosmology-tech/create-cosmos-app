@@ -14,6 +14,9 @@ import { GasPrice } from '@cosmjs/stargate';
 import { SignerOptions } from '@cosmos-kit/core';
 import { defaultTheme } from 'config';
 import '@interchain-ui/react/styles';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 const client = new ApolloClient({
   uri: 'https://constellations-api.mainnet.stargaze-apis.com/graphql',
@@ -37,28 +40,30 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
 
   return (
     <ChakraProvider theme={defaultTheme}>
-      <ChainProvider
-        chains={chains}
-        assetLists={assets}
-        wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
-        walletConnectOptions={{
-          signClient: {
-            projectId: 'a8510432ebb71e6948cfd6cde54b70f7',
-            relayUrl: 'wss://relay.walletconnect.org',
-            metadata: {
-              name: 'CosmosKit Template',
-              description: 'CosmosKit dapp template',
-              url: 'https://docs.cosmoskit.com/',
-              icons: [],
+      <QueryClientProvider client={queryClient}>
+        <ChainProvider
+          chains={chains}
+          assetLists={assets}
+          wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
+          walletConnectOptions={{
+            signClient: {
+              projectId: 'a8510432ebb71e6948cfd6cde54b70f7',
+              relayUrl: 'wss://relay.walletconnect.org',
+              metadata: {
+                name: 'CosmosKit Template',
+                description: 'CosmosKit dapp template',
+                url: 'https://docs.cosmoskit.com/',
+                icons: [],
+              },
             },
-          },
-        }}
-        signerOptions={signerOptions}
-      >
-        <ApolloProvider client={client}>
-          <Component {...pageProps} />
-        </ApolloProvider>
-      </ChainProvider>
+          }}
+          signerOptions={signerOptions}
+        >
+          <ApolloProvider client={client}>
+            <Component {...pageProps} />
+          </ApolloProvider>
+        </ChainProvider>
+      </QueryClientProvider>
     </ChakraProvider>
   );
 }
