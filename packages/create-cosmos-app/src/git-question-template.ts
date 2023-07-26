@@ -118,9 +118,9 @@ export const createQuestionTemplate = (repo: string) => {
                 );
             }
 
-            if (path.basename(templateFile) === 'README.md') {
-                content = `# ${results.__MODULENAME__}`;
-            }
+            // if (path.basename(templateFile) === 'README.md') {
+            //     content = `# ${results.__MODULENAME__}`;
+            // }
 
             fs.writeFileSync(templateFile, content);
         }

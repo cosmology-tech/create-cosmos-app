@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/nft@0.1.1...@cosmology/nft@0.1.2) (2023-07-14)
+
+**Note:** Version bump only for package @cosmology/nft
+
+
+
+
+
 ## 0.1.1 (2023-06-28)
 
 **Note:** Version bump only for package @cosmology/nft

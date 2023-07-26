@@ -1,11 +1,11 @@
 import * as shell from 'shelljs';
 import * as c from 'ansi-colors';
 import { prompt } from './prompt';
-import { join, dirname } from 'path';
+import { join, dirname, basename } from 'path';
 import { sync as mkdirp } from 'mkdirp';
-import { tmpdir } from 'os'
 import { sync as glob } from 'glob';
 import * as fs from 'fs';
+import { cloneRepo, getPackageLicAndAccessInfo, getQuestionsAndAnswers, getTemplateFolder } from './utils';
 
 export const createGitApp = (repo: string) => {
     return async argv => {
@@ -26,19 +26,16 @@ export const createGitApp = (repo: string) => {
         ], argv);
         name = name.replace(/\s/g, '-');
 
-        let folderName: 'templates' | 'examples' = 'templates';
-        if (argv.examples || argv.example || argv.ex) {
-            folderName = 'examples';
-        }
-        const tempname = Math.random().toString(36).slice(2, 7);
-        const dir = join(argv.tmpdir || tmpdir(), tempname);
-        mkdirp(dir);
-        const currentDirecotry = process.cwd();
-        shell.cd(dir);
-        shell.exec(`git clone --depth 1 ${repo} ${name}`);
-        shell.cd(name);
-        const list = shell.ls(`./${folderName}`);
+        const folderName = await getTemplateFolder(argv);
 
+        const currentDirectory = process.cwd();
+        const dir = cloneRepo(argv, repo, name);
+
+        // cd into the cloned repo from $dir
+        shell.cd(name);
+
+        // get template 
+        const list = shell.ls(`./${folderName}`);
         const { template } = await prompt([
             {
                 type: 'list',
@@ -48,6 +45,22 @@ export const createGitApp = (repo: string) => {
                 choices: list
             }
         ], argv);
+        argv.template = template;
+
+        const results = await getQuestionsAndAnswers(argv, name, folderName);
+
+        const hasResults = Object.keys(results).length > 0;
+
+        let license = {};
+        let scopedResults = {};
+        if (hasResults) {
+            ({
+                license,
+                scopedResults
+            } = await getPackageLicAndAccessInfo(results));
+            const path = join(folderName, argv.template, '.questions.json')
+            shell.rm('-rf', path);
+        }
 
         const files = []
             .concat(glob(join(process.cwd(), folderName, template, '/**/.*')))
@@ -59,16 +72,58 @@ export const createGitApp = (repo: string) => {
 
             let content = fs.readFileSync(templateFile).toString();
 
+            // LICENSE
+            if (
+                basename(templateFile) === 'LICENSE' &&
+                license.__LICENSE__ === 'closed'
+            ) {
+                content = `Copyright (c) ${new Date().getFullYear()} __USERFULLNAME__ <__USEREMAIL__> - All Rights Reserved
+    Unauthorized copying via any medium is strictly prohibited
+    Proprietary and confidential`;
+            }
+
+            // swap out content from results!
+            Object.keys(results).forEach(key => {
+                if (/^__/.test(key)) {
+                    content = content.replace(new RegExp(key, 'g'), results[key]);
+                }
+            });
+
+            // access
+            if (hasResults) {
+                if (results.__ACCESS__ === 'public') {
+                    if (scopedResults.scoped) {
+                        content = content.replace(
+                            /__PACKAGE_IDENTIFIER__/g,
+                            `@${results.__USERNAME__}/${results.__MODULENAME__}`
+                        );
+                    } else {
+                        content = content.replace(
+                            /__PACKAGE_IDENTIFIER__/g,
+                            `${results.__MODULENAME__}`
+                        );
+                    }
+                } else {
+                    content = content.replace(
+                        /__PACKAGE_IDENTIFIER__/g,
+                        `@${results.__USERNAME__}/${results.__MODULENAME__}`
+                    );
+                }
+            }
+
+
+            // write stuff
             const localfile = templateFile.split(`${folderName}/` + template)[1];
             const localdir = dirname(localfile);
-            const dirpath = join(currentDirecotry, name, localdir);
-            const filepath = join(currentDirecotry, name, localfile);
+            const dirpath = join(currentDirectory, name, localdir);
+            const filepath = join(currentDirectory, name, localfile);
 
             mkdirp(dirpath);
             fs.writeFileSync(filepath, content);
 
         }
-        shell.cd(currentDirecotry);
+
+        shell.cd(currentDirectory);
         shell.rm('-rf', dir);
         shell.cd(`./${name}`);
 
@@ -82,9 +137,12 @@ export const createGitApp = (repo: string) => {
 
         // now yarn...
         shell.exec(`yarn`);
-        shell.cd(currentDirecotry);
+        shell.cd(currentDirectory);
 
-        const cmd = `cd ./${name} && yarn dev`;
+        let cmd = `cd ./${name}`;
+        if (!hasResults) {
+            cmd += ' && yarn dev';
+        }
 
         console.log(`
         

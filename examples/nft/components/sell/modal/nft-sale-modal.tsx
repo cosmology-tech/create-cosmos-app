@@ -35,7 +35,7 @@ export const NftSaleModal = ({
 }: {
   token: Token;
   modalControl: UseDisclosureReturn;
-  price: number;
+  price: number | undefined;
   collection: Collection;
   update: () => void;
 }) => {

@@ -38,10 +38,10 @@ You don’t need to install or configure cosmjs, keplr, nextjs, webpack or Babel
 
 Everything is preconfigured, ready-to-go, so you can focus on your code!
 
-- ⚡️ Connect easily to keplr + keplr mobile via wallet connect
+- ⚡️ Connect easily to 15+ wallets via [Cosmos Kit](https://github.com/cosmology-tech/cosmos-kit) — including Ledger, Keplr, Cosmostation, Leap, Trust Wallet, XDEFI, Exodus, Wallet Connect and more!
 - ⚛️ Sign and broadcast with [cosmjs](https://github.com/cosmos/cosmjs) stargate + cosmwasm signers
 - 🛠 Render pages with [next.js](https://nextjs.org/) hybrid static & server rendering
-- 🎨 Build awesome UI with [Cosmos Kit](https://github.com/cosmology-tech/cosmos-kit) and [Chakra UI](https://chakra-ui.com/docs/components)
+- 🎨 Build awesome UI with [Cosmos Kit UI](https://CosmosKit.com/explore) and [Chakra UI](https://chakra-ui.com/docs/components)
 - 📝 Leverage [chain-registry](https://github.com/cosmology-tech/chain-registry) for Chain and Asset info for all Cosmos chains
 
 ## Education & Resources
@@ -138,6 +138,16 @@ cca --name vote-example --example --template vote-proposal
 cca --name ibc-example --example --template ibc-transfer
 ```
 
+### grpc-web and grpc-gateway
+
+<p align="center" width="100%">
+    <img height="48" src="https://user-images.githubusercontent.com/545047/186589196-e75c9540-86a7-4a71-8096-207be9a4216f.svg" />
+</p>
+
+```
+cca --name grpc-example --example --template grpc-web-grpc-gateway
+```
+
 ### Osmosis
 
 <p align="center" width="100%">
@@ -214,6 +224,18 @@ uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
 cca --name stargaze-example --example --template stargaze
 ```
 
+### NFT
+
+<p align="center" width="100%">
+    <img height="48" src="https://user-images.githubusercontent.com/545047/184694732-f4a3d397-14fb-415a-9562-a532f510f812.png" />
+</p>
+
+uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
+
+```
+cca --name nft-example --example --template nft
+```
+
 ### CosmWasm
 
 <p align="center" width="100%">
@@ -248,13 +270,24 @@ When you need to remove/generate locks for all nested packages, simply run `yarn
 yarn locks
 ```
 
+## Related
+
+Checkout these related projects:
+
+* [@cosmwasm/ts-codegen](https://github.com/CosmWasm/ts-codegen) for generated CosmWasm contract Typescript classes
+* [@osmonauts/telescope](https://github.com/osmosis-labs/telescope) a "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs.
+* [chain-registry](https://github.com/cosmology-tech/chain-registry) an npm module for the official Cosmos chain-registry.
+* [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit) A wallet connector for the Cosmos ⚛️
+* [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) set up a modern Cosmos app by running one command.
+* [starship](https://github.com/cosmology-tech/starship) a k8s-based unified development environment for Cosmos Ecosystem
+
 ## Credits
 
-🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
+🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
 
-Code built with the help of these related projects:
 
-- [@cosmwasm/ts-codegen](https://github.com/CosmWasm/ts-codegen) for generated CosmWasm contract Typescript classes
-- [@osmonauts/telescope](https://github.com/osmosis-labs/telescope) a "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs.
-- [chain-registry](https://github.com/cosmology-tech/chain-registry) Cosmos chain registry and chain info.
-- [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit) A wallet connector for the Cosmos.
+## Disclaimer
+
+AS DESCRIBED IN THE LICENSES, THE SOFTWARE IS PROVIDED “AS IS”, AT YOUR OWN RISK, AND WITHOUT WARRANTIES OF ANY KIND.
+
+No developer or entity involved in creating this software will be liable for any claims or damages whatsoever associated with your use, inability to use, or your interaction with other users of the code or CLI, including any direct, indirect, incidental, special, exemplary, punitive or consequential damages, or loss of profits, cryptocurrencies, tokens, or anything else of value.
