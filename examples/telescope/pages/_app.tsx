@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { defaultTheme, ChainProvider } from '@cosmos-kit/react';
+import { ChainProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { wallets as keplrWallets } from '@cosmos-kit/keplr';
 import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
@@ -13,17 +13,18 @@ import { chains, assets } from 'chain-registry';
 import { getSigningCosmosClientOptions } from '../codegen';
 
 import { SignerOptions } from '@cosmos-kit/core';
-import { Chain } from '@chain-registry/types';
 import { GasPrice } from '@cosmjs/stargate';
+import '@interchain-ui/react/styles';
+import { defaultTheme } from '../config';
 
 const queryClient = new QueryClient();
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
-    signingStargate: (_chain: Chain) => {
+    signingStargate: () => {
       return getSigningCosmosClientOptions();
     },
-    signingCosmwasm: (chain: Chain) => {
+    signingCosmwasm: (chain) => {
       switch (chain.chain_name) {
         case 'osmosis':
           return {
@@ -60,7 +61,6 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
               },
             },
           }}
-          wrappedWithChakra={true}
           signerOptions={signerOptions}
         >
           <Component {...pageProps} />
