@@ -10,7 +10,7 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { coin, exponent, marketplaceContract } from 'config';
 import { useColor, useTransactionToast } from 'hooks';
 import { isGtZero, toDisplayAmount, toRawAmount } from 'utils';
@@ -20,6 +20,7 @@ import { LargeButton } from '../nft/buttons';
 import { SplitText } from '../nft/nft-cards';
 import { Subtitle, Fees } from '../nft';
 import { useContracts } from '../../../src/codegen/contracts-context';
+import { useMarketplaceUpdateAskPriceMutation } from 'src/codegen/Marketplace.react-query';
 
 export const UpdatePriceModal = ({
   modalControl,
@@ -27,15 +28,24 @@ export const UpdatePriceModal = ({
   token,
   price,
   update,
+  isRQ,
 }: {
   token: Token;
   price: number;
+  isRQ: boolean;
   modalControl: UseDisclosureReturn;
   collection: Collection;
   update: () => void;
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const {
+    isSuccess: isRQSuccess,
+    isError: isRQError,
+    error: rqError,
+    isLoading: isRQLoading,
+    mutate: updateAskPrice,
+  } = useMarketplaceUpdateAskPriceMutation();
 
   const { showToast } = useTransactionToast();
 
@@ -74,6 +84,44 @@ export const UpdatePriceModal = ({
       setIsLoading(false);
     }
   };
+
+  const handleRQUpdateClick = async () => {
+    try {
+      console.log("react query's working.");
+
+      const marketplaceClient =
+        marketplace.getSigningClient(marketplaceContract);
+      updateAskPrice({
+        client: marketplaceClient,
+        msg: {
+          collection: token.collectionAddr,
+          price: {
+            amount: toRawAmount(inputValue, exponent),
+            denom: coin.base,
+          },
+          tokenId: parseInt(token.tokenId),
+        },
+      });
+    } catch (ex) {
+      showToast(TxResult.Failed, ex);
+      console.error(ex);
+    }
+  };
+
+  useEffect(() => {
+    if (isRQSuccess) {
+      showToast(TxResult.Success);
+      update();
+      closeModal();
+    }
+  }, [isRQSuccess]);
+
+  useEffect(() => {
+    if (isRQError) {
+      showToast(TxResult.Failed, rqError);
+      console.error(rqError);
+    }
+  }, [isRQError, rqError]);
 
   const { textColor, bgColor } = useColor();
 
@@ -140,9 +188,9 @@ export const UpdatePriceModal = ({
 
             <LargeButton
               width="100%"
-              btnContent="Update"
-              handleClick={handleUpdateClick}
-              isLoading={isLoading}
+              btnContent={`Update${isRQ ? '(ReactQuery)' : ''}`}
+              handleClick={isRQ ? handleRQUpdateClick : handleUpdateClick}
+              isLoading={isLoading || isRQLoading}
               disabled={
                 !inputValue ||
                 new BigNumber(inputValue).isEqualTo(0) ||

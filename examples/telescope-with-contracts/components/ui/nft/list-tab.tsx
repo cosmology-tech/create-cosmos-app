@@ -51,14 +51,6 @@ export const ListTab = ({
 
   const { marketplace, sg721Updatable } = useContracts();
 
-  const hooks = marketplace.getReactQueryHooks(marketplaceContract);
-
-  const { useMarketplaceParamsQuery } = hooks;
-
-  useMarketplaceParamsQuery({
-    options: {},
-  });
-
   const handleClick = async () => {
     if (!address) return;
     setIsLoading(true);
