@@ -48,6 +48,10 @@ export interface IMessageComposerProvider<T> {
   getMessageComposer(contractAddr: string): T;
 }
 
+export interface IReactQueryHooksProvider<T> {
+  getReactQueryHooks(contractAddr: string): T;
+}
+
 export class ContractBase<
   TSign = IEmptyClient,
   TQuery = IEmptyClient,

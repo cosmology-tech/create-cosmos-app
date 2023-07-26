@@ -79,6 +79,9 @@ telescope({
         messageComposer: {
           enabled: true,
         },
+        reactQuery: {
+          enabled: true
+        },
         useContractsHooks: {
           enabled: true
         }
