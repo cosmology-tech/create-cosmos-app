@@ -10,18 +10,18 @@ import { wallets as leapWallets } from '@cosmos-kit/leap';
 import { assets, chains } from 'chain-registry';
 import { GasPrice } from '@cosmjs/stargate';
 import { SignerOptions } from '@cosmos-kit/core';
-import { Chain } from '@chain-registry/types';
 import { ThemeProvider, defaultTheme } from '@cosmology-ui/react';
+import '@interchain-ui/react/styles';
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
-    signingStargate: (_chain: Chain) => {
+    signingStargate: () => {
       return {
         aminoTypes,
         registry,
       };
     },
-    signingCosmwasm: (chain: Chain) => {
+    signingCosmwasm: (chain) => {
       switch (chain.chain_name) {
         case 'osmosis':
         case 'osmosistestnet':
@@ -51,7 +51,6 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
               },
             },
           }}
-          wrappedWithChakra={true}
           signerOptions={signerOptions}
         >
           <Component {...pageProps} />
