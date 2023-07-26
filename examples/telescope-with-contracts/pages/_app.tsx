@@ -12,8 +12,8 @@ import { getSigningCosmosClientOptions } from 'stargazejs';
 import { GasPrice } from '@cosmjs/stargate';
 
 import { SignerOptions } from '@cosmos-kit/core';
-import { Chain } from '@chain-registry/types';
 import { defaultTheme } from 'config';
+import '@interchain-ui/react/styles';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
@@ -25,10 +25,10 @@ const client = new ApolloClient({
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
-    signingStargate: (_chain: Chain) => {
+    signingStargate: () => {
       return getSigningCosmosClientOptions();
     },
-    signingCosmwasm: (chain: Chain) => {
+    signingCosmwasm: (chain) => {
       switch (chain.chain_name) {
         case 'stargaze':
           return {
@@ -57,7 +57,6 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
               },
             },
           }}
-          wrappedWithChakra={true}
           signerOptions={signerOptions}
         >
           <ApolloProvider client={client}>

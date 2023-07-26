@@ -1,19 +1,19 @@
 import '../style/test-style.css';
+import '@interchain-ui/react/styles';
 
-import { Chain } from '@chain-registry/types';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Decimal } from '@cosmjs/math';
 import { GasPrice } from '@cosmjs/stargate';
 import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
 import { wallets as keplrWallets } from '@cosmos-kit/keplr';
 import { wallets as leapWallets } from '@cosmos-kit/leap';
-import { ChainProvider, defaultTheme } from '@cosmos-kit/react';
+import { ChainProvider } from '@cosmos-kit/react';
 import { assets, chains } from 'chain-registry';
 import type { AppProps } from 'next/app';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={defaultTheme}>
+    <ChakraProvider>
       <ChainProvider
         chains={chains}
         assetLists={assets}
@@ -30,9 +30,8 @@ function MyApp({ Component, pageProps }: AppProps) {
             },
           },
         }}
-        wrappedWithChakra={true}
         signerOptions={{
-          signingStargate: (chain: Chain) => {
+          signingStargate: (chain) => {
             switch (chain.chain_name) {
               case 'osmosis':
                 return {

@@ -28,7 +28,7 @@ export const UpdatePriceModal = ({
   update,
 }: {
   token: Token;
-  price: number;
+  price: number | undefined;
   modalControl: UseDisclosureReturn;
   collection: Collection;
   update: () => void;

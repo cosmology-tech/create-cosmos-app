@@ -3,6 +3,94 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@1.4.0...create-cosmos-app@1.4.1) (2023-07-17)
+
+**Note:** Version bump only for package create-cosmos-app
+
+
+
+
+
+# [1.4.0](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@1.3.0...create-cosmos-app@1.4.0) (2023-07-17)
+
+**Note:** Version bump only for package create-cosmos-app
+
+
+
+
+
+# [1.3.0](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@1.2.1...create-cosmos-app@1.3.0) (2023-07-16)
+
+**Note:** Version bump only for package create-cosmos-app
+
+
+
+
+
+## [1.2.1](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@1.2.0...create-cosmos-app@1.2.1) (2023-07-16)
+
+**Note:** Version bump only for package create-cosmos-app
+
+
+
+
+
+# [1.2.0](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@1.1.0...create-cosmos-app@1.2.0) (2023-07-16)
+
+**Note:** Version bump only for package create-cosmos-app
+
+
+
+
+
+# [1.1.0](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@1.0.2...create-cosmos-app@1.1.0) (2023-07-16)
+
+**Note:** Version bump only for package create-cosmos-app
+
+
+
+
+
+## [1.0.2](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@1.0.1...create-cosmos-app@1.0.2) (2023-07-16)
+
+**Note:** Version bump only for package create-cosmos-app
+
+
+
+
+
+## [1.0.1](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@1.0.0...create-cosmos-app@1.0.1) (2023-07-16)
+
+**Note:** Version bump only for package create-cosmos-app
+
+
+
+
+
+# [1.0.0](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@0.11.3...create-cosmos-app@1.0.0) (2023-07-16)
+
+**Note:** Version bump only for package create-cosmos-app
+
+
+
+
+
+## [0.11.3](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@0.11.2...create-cosmos-app@0.11.3) (2023-07-14)
+
+**Note:** Version bump only for package create-cosmos-app
+
+
+
+
+
+## [0.11.2](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@0.11.1...create-cosmos-app@0.11.2) (2023-07-14)
+
+**Note:** Version bump only for package create-cosmos-app
+
+
+
+
+
 ## [0.11.1](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@0.11.0...create-cosmos-app@0.11.1) (2023-04-13)
 
 **Note:** Version bump only for package create-cosmos-app

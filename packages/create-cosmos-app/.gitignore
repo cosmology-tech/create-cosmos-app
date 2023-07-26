@@ -9,6 +9,7 @@ pids
 *.seed
 
 # dist
+dist
 main
 module
 

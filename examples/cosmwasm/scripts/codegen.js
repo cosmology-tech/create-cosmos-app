@@ -24,8 +24,8 @@ codegen({
     client: {
       enabled: true
     },
-    messageComposer: {
-      enabled: false
+    useContractsHooks: {
+      enabled: true
     }
   }
 }).then(() => {
