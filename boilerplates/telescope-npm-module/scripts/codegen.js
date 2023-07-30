@@ -1,5 +1,5 @@
 const { join } = require('path');
-const telescope = require('@osmonauts/telescope').default;
+const telescope = require('@cosmology/telescope').default;
 const rimraf = require('rimraf').rimrafSync;
 const { AMINO_MAP } = require('./aminos');
 
