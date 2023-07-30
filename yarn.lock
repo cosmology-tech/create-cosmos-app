@@ -2016,6 +2016,16 @@
   dependencies:
     "@babel/runtime" "^7.21.0"
 
+"@chain-registry/utils@1.13.1":
+  version "1.13.1"
+  resolved "https://registry.npmmirror.com/@chain-registry/utils/-/utils-1.13.1.tgz#bee23868e0bdee0533e26fb99276c190916332fd"
+  integrity sha512-BV8XoZGGlfeF3d5p06y4w2uDggAxtWa5g5zEDRgcyi6V+iJUSlPwu5PL7IKB5qJvAq7J1Vgw8x+Jqj1TVxjpvA==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@chain-registry/types" "^0.16.0"
+    bignumber.js "9.1.1"
+    sha.js "^2.4.11"
+
 "@chain-registry/utils@^1.3.0":
   version "1.7.0"
   resolved "https://registry.npmmirror.com/@chain-registry/utils/-/utils-1.7.0.tgz#4e184a6fdc05935fbec195b4bd6e37681d0caf92"
@@ -12120,15 +12130,15 @@ long@5.2.1:
   resolved "https://registry.npmmirror.com/long/-/long-5.2.1.tgz"
   integrity sha512-GKSNGeNAtw8IryjjkhZxuKB3JzlcLTwjtiQCHKvqQet81I93kXslhDQruGI/QsddO83mcDToBVy7GqGS/zYf/A==
 
+long@5.2.3, long@^5.2.0, long@^5.2.1:
+  version "5.2.3"
+  resolved "https://registry.npmjs.org/long/-/long-5.2.3.tgz#a3ba97f3877cf1d778eccbcb048525ebb77499e1"
+  integrity sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==
+
 long@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/long/-/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
   integrity sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
-
-long@^5.2.0, long@^5.2.1:
-  version "5.2.3"
-  resolved "https://registry.npmjs.org/long/-/long-5.2.3.tgz#a3ba97f3877cf1d778eccbcb048525ebb77499e1"
-  integrity sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==
 
 loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
@@ -13382,6 +13392,17 @@ osmojs@15.5.0:
     "@osmonauts/lcd" "^0.10.0"
     long "^5.2.0"
     protobufjs "^6.11.3"
+
+osmojs@16.2.1, osmojs@^16.2.1:
+  version "16.2.1"
+  resolved "https://registry.npmmirror.com/osmojs/-/osmojs-16.2.1.tgz#948b4031a0161736a5b8423e4b5bd4cb93eec671"
+  integrity sha512-dlx15EaSSjaiyXjZKQJAXac+NaxSEM4G1ZzDuasogbzr0zUqS8FYgY6+nrVRdNolsLyiXi1YD9W70riODuMdLg==
+  dependencies:
+    "@cosmjs/amino" "0.29.3"
+    "@cosmjs/proto-signing" "0.29.3"
+    "@cosmjs/stargate" "0.29.3"
+    "@cosmjs/tendermint-rpc" "^0.29.3"
+    "@osmonauts/lcd" "^0.11.1"
 
 outdent@^0.8.0:
   version "0.8.0"

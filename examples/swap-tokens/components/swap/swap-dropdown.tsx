@@ -40,21 +40,21 @@ import {
 export const SwapDropdownMenuBaseShadowAnimate = (displayBlur: boolean) =>
   displayBlur
     ? {
-        opacity: 1,
-        height: 28,
-        transition: {
-          type: 'spring',
-          duration: 0.1,
-        },
-      }
+      opacity: 1,
+      height: 28,
+      transition: {
+        type: 'spring',
+        duration: 0.1,
+      },
+    }
     : {
-        height: 0,
-        opacity: 0,
-        transition: {
-          type: 'spring',
-          duration: 0.2,
-        },
-      };
+      height: 0,
+      opacity: 0,
+      transition: {
+        type: 'spring',
+        duration: 0.2,
+      },
+    };
 
 export const SwapIndicatorSeparator = () => {
   return null;
@@ -304,8 +304,8 @@ export const SwapDropdownBaseStyle = (theme: string) => {
       bg: state.isSelected
         ? `swap-dropdown-option-selected-background-color-${theme}`
         : state.isFocused
-        ? `swap-dropdown-option-hover-background-color-${theme}`
-        : `swap-dropdown-background-color-${theme}`,
+          ? `swap-dropdown-option-hover-background-color-${theme}`
+          : `swap-dropdown-background-color-${theme}`,
       color: `swap-dropdown-text-color-${theme}`,
       _hover: {
         bg: state.isSelected
@@ -454,8 +454,10 @@ export const SwapDropdown = ({
               callback(result);
             }}
             onChange={(newValue, actionMeta) => {
-              onClose();
-              onDropdownChange(newValue, actionMeta);
+              if (newValue) {
+                onClose();
+                onDropdownChange(newValue, actionMeta);
+              }
             }}
             components={{
               IndicatorSeparator: SwapIndicatorSeparator,

@@ -1,15 +1,17 @@
-import { Asset } from '@chain-registry/types';
-import { Box, Center, Text } from '@chakra-ui/react';
-import { coin } from '@cosmjs/amino';
-import { useChain, useManager } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
 import Long from 'long';
-import { FEES, osmosis } from 'osmojs';
-import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
-import { Pool } from 'osmojs/types/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { chainName } from '../../config';
-import { useTransactionToast, useRpcClient } from '../../hooks';
+import { Box, Center, Text } from '@chakra-ui/react';
+
+import { Asset } from '@chain-registry/types';
+import { coin } from '@cosmjs/amino';
+import { useChain, useManager } from '@cosmos-kit/react';
+import { FEES, osmosis } from 'osmojs';
+import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
+import { Pool } from 'osmojs/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
+
+import { TransactionResult } from '../types';
+import { CoinDenom, PriceHash } from '../../utils/types';
 import {
   baseUnitsToDisplayUnits,
   baseUnitsToDollarValue,
@@ -28,8 +30,8 @@ import {
   osmosisAssets,
   truncDecimals,
 } from '../../utils';
-import { CoinDenom, PriceHash } from '../../utils/types';
-import { TransactionResult } from '../types';
+import { chainName } from '../../config';
+import { useTransactionToast, useRpcClient } from '../../hooks';
 import { LoadingConfig, LoadingMode, SwapOptionType, SwapView } from '../swap';
 
 const slippages = ['1%', '2.5%', '3%', '5%'];
@@ -116,8 +118,8 @@ export const SwapTokens = () => {
     const inputAmount = !isValueNumericAndPositive
       ? '0'
       : val.gt(inputMaxAmount)
-      ? inputMaxAmount
-      : value;
+        ? inputMaxAmount
+        : value;
 
     setInputAmount(inputAmount);
   };
@@ -195,7 +197,16 @@ export const SwapTokens = () => {
     try {
       const client = await getRpcClient();
       return await client.cosmos.bank.v1beta1
-        .allBalances({ address })
+        .allBalances({
+          address,
+          pagination: {
+            key: new Uint8Array(),
+            offset: BigInt(0),
+            limit: BigInt(1200),
+            countTotal: false,
+            reverse: false,
+          },
+        })
         .then(({ balances }) =>
           balances.filter((coin) => !coin.denom.startsWith('gamm'))
         );
@@ -225,8 +236,8 @@ export const SwapTokens = () => {
           client.osmosis.gamm.v1beta1.pools({
             pagination: {
               key: new Uint8Array(),
-              offset: Long.fromNumber(0),
-              limit: Long.fromNumber(1200),
+              offset: BigInt(0),
+              limit: BigInt(1200),
               countTotal: false,
               reverse: false,
             },
@@ -334,7 +345,7 @@ export const SwapTokens = () => {
     if (new BigNumber(tokenIn.amount).isEqualTo(0)) {
       priceImpact = '0';
     } else if (routes.length === 1) {
-      const pool = pools.find((pool) => pool.id.low === routes[0].poolId.low)!;
+      const pool = pools.find((pool) => pool.id === routes[0].poolId)!;
       priceImpact = calcPriceImpactGivenIn(tokenIn, tokenOut.denom, pool);
       swapFee = new BigNumber(pool.poolParams?.swapFee || 0)
         .shiftedBy(-18)
@@ -348,10 +359,10 @@ export const SwapTokens = () => {
       )!;
 
       const tokenInPool = pools.find(
-        (pool) => pool.id.low === tokenInRoute.poolId.low
+        (pool) => pool.id === tokenInRoute.poolId
       )!;
       const tokenOutPool = pools.find(
-        (pool) => pool.id.low === tokenOutRoute.poolId.low
+        (pool) => pool.id === tokenOutRoute.poolId
       )!;
 
       swapFee = new BigNumber(tokenInPool.poolParams?.swapFee || 0)
@@ -383,7 +394,7 @@ export const SwapTokens = () => {
         const baseAsset = getOsmoAssetByDenom(tokenIn.denom);
         const quoteAsset = getOsmoAssetByDenom(tokenOut.denom);
         return {
-          poolId: route.poolId.low.toString(),
+          poolId: route.poolId.toString(),
           swapFee: new BigNumber(swapFee).shiftedBy(2).toString() + '%',
           baseLogo: baseAsset.logo_URIs,
           baseSymbol: baseAsset.symbol,
@@ -395,7 +406,7 @@ export const SwapTokens = () => {
       let swapFees: BigNumber[] = [];
       swapRoutes = routes
         .map((route) => {
-          const pool = pools.find((pool) => pool.id.low === route.poolId.low);
+          const pool = pools.find((pool) => pool.id === route.poolId);
           let baseAsset: Asset;
           let quoteAsset: Asset;
           if (route.tokenOutDenom !== tokenOut.denom) {
@@ -413,7 +424,7 @@ export const SwapTokens = () => {
           );
           swapFees.push(fee);
           return {
-            poolId: route.poolId.low.toString(),
+            poolId: route.poolId.toString(),
             swapFee: fee,
             baseLogo: baseAsset.logo_URIs,
             baseSymbol: baseAsset.symbol,
@@ -530,8 +541,8 @@ export const SwapTokens = () => {
     !hasRoute && !loadingConfig.isLoading
       ? 'No route for this trade'
       : isAmountOverMaximum
-      ? 'Insufficient balance'
-      : '';
+        ? 'Insufficient balance'
+        : '';
 
   const dropdownData = useMemo(() => {
     return assetOptions.filter(
