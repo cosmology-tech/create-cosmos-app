@@ -46,7 +46,7 @@ import { useRpcClient, useRpcEndpoint } from '../codegen';
 const library = {
   title: 'Telescope',
   text: 'telescope',
-  href: 'https://github.com/osmosis-labs/telescope',
+  href: 'https://github.com/cosmology-tech/telescope',
 };
 
 const sendTokens = (

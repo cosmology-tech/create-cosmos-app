@@ -24,7 +24,7 @@
     "@cosmos-kit/react": "2.0.3",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
-    "@osmonauts/lcd": "^0.11.1",
+    "@cosmology/lcd": "^0.11.1",
     "bignumber.js": "9.1.0",
     "framer-motion": "9.0.7",
     "next": "12.2.5",
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@cosmjson/wasmswap": "^0.0.9",
-    "@osmonauts/telescope": "0.99.12",
+    "@cosmology/telescope": "^0.102.0",
     "@protobufs/cosmos": "^0.1.0",
     "@protobufs/cosmwasm": "^0.1.1",
     "@protobufs/ibc": "^0.1.0",
