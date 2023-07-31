@@ -88,11 +88,11 @@ const PoolName = ({ isMyPools, pool }: { isMyPools: boolean; pool: Pool }) => {
         {pool.poolAssets.length > 2
           ? `${pool.poolAssets.length} Token Pool`
           : pool.poolAssets
-              .map(({ token }) => getSymbolForDenom(token!.denom))
-              .join('/')}
+            .map(({ token }) => getSymbolForDenom(token!.denom))
+            .join('/')}
       </Text>
       <Text fontWeight="400" fontSize="14px" color={poolIdColor}>
-        Pool #{pool.id.low}
+        {`Pool #${pool.id}`}
       </Text>
     </Box>
   );
@@ -324,7 +324,7 @@ const PoolList = ({
                 templateRows="repeat(2, 1fr)"
                 templateColumns="repeat(3, 1fr)"
                 rowGap="18px"
-                key={pool.id.low}
+                key={pool.id.toString()}
               >
                 <GridItem colSpan={2} h="40px">
                   <Flex>
@@ -406,7 +406,7 @@ const PoolList = ({
 
                 return (
                   <Tr
-                    key={pool.id.low}
+                    key={pool.id.toString()}
                     onClick={() => {
                       setPool(pool);
                       openPoolDetailModal();
@@ -430,7 +430,7 @@ const PoolList = ({
                       <PoolName isMyPools={isMyPools} pool={pool} />
                     </Td>
                     {formattedData.map((stat, i) => (
-                      <Td key={pool.id.low + i.toString()}>
+                      <Td key={pool.id + i.toString()}>
                         <Text
                           fontWeight="600"
                           fontSize={isMyPools ? '14px' : '12px'}
