@@ -1,5 +1,5 @@
 const { join, resolve } = require('path');
-const telescope = require('@osmonauts/telescope').default;
+const telescope = require('@cosmology/telescope').default;
 
 const protoDirs = [join(__dirname, '/../proto')];
 const contractsDir = resolve(join(__dirname, '/../contracts'));

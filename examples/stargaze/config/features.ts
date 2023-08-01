@@ -9,7 +9,7 @@ export const products: FeatureProps[] = [
   {
     title: 'Telescope',
     text: 'A TypeScript Transpiler for Cosmos Protobufs to generate libraries for Cosmos blockchains.',
-    href: 'https://github.com/osmosis-labs/telescope'
+    href: 'https://github.com/cosmology-tech/telescope'
   },
   {
     title: 'TS Codegen',

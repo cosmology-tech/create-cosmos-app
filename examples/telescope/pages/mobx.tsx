@@ -52,7 +52,7 @@ import { trace } from 'mobx';
 const library = {
   title: 'Telescope',
   text: 'telescope',
-  href: 'https://github.com/osmosis-labs/telescope',
+  href: 'https://github.com/cosmology-tech/telescope',
 };
 
 const sendTokens = (
