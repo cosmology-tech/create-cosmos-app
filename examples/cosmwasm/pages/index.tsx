@@ -36,9 +36,9 @@ import {
 import { useState } from 'react';
 
 const library = {
-  title: 'Telescope',
-  text: 'telescope',
-  href: 'https://github.com/cosmology-tech/interchain',
+  title: 'TS Codegen',
+  text: 'The quickest and easiest way to convert CosmWasm Contracts into dev-friendly TypeScript classes.',
+  href: 'https://github.com/CosmWasm/ts-codegen'
 };
 
 const ContractComponent = ({ children }: { children: any }) => {

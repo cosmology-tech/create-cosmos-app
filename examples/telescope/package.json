@@ -1,6 +1,6 @@
 {
   "name": "@cosmology/connect-chain-with-telescope",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -21,6 +21,7 @@
     "@cosmjs/cosmwasm-stargate": "0.29.5",
     "@cosmjs/proto-signing": "0.29.5",
     "@cosmjs/stargate": "0.29.5",
+    "@cosmology/lcd": "^0.12.0",
     "@cosmos-kit/core": "2.0.3",
     "@cosmos-kit/cosmostation": "2.0.3",
     "@cosmos-kit/keplr": "2.0.3",
@@ -28,7 +29,6 @@
     "@cosmos-kit/react": "2.0.3",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
-    "@osmonauts/lcd": "^0.11.1",
     "@tanstack/react-query": "4.16.1",
     "bignumber.js": "9.1.0",
     "chain-registry": "1.17.1",
@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@cosmjson/wasmswap": "^0.0.9",
-    "@osmonauts/telescope": "^0.99.12",
+    "@cosmology/telescope": "^0.102.0",
     "@protobufs/cosmos": "^0.1.0",
     "@protobufs/cosmwasm": "^0.1.1",
     "@protobufs/ibc": "^0.1.0",
