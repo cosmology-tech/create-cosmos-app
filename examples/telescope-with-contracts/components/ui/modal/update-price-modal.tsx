@@ -89,10 +89,8 @@ export const UpdatePriceModal = ({
     try {
       console.log("react query's working.");
 
-      const marketplaceClient =
-        marketplace.getSigningClient(marketplaceContract);
       updateAskPrice({
-        client: marketplaceClient,
+        client: marketplaceContract,
         msg: {
           collection: token.collectionAddr,
           price: {
