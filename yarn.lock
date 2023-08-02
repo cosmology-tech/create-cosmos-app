@@ -5814,6 +5814,17 @@
     "@babel/runtime" "^7.19.0"
     axios "0.27.2"
 
+"@osmonauts/math@1.7.0":
+  version "1.7.0"
+  resolved "https://registry.npmmirror.com/@osmonauts/math/-/math-1.7.0.tgz#ec56e581d0dd1d136f1dc7ab275041e0d22acb69"
+  integrity sha512-2l7G/a+Liaa3telUnBP7+wO5zTdTXD7Jd4IUeb18NlfeZ7A41LAxosWfl9voGsyWe9/JMNBezvzcMSFextvYEg==
+  dependencies:
+    "@chain-registry/types" "0.16.0"
+    "@chain-registry/utils" "1.13.1"
+    bignumber.js "9.1.1"
+    long "5.2.3"
+    osmojs "^16.5.1"
+
 "@osmonauts/proto-parser@^0.32.0":
   version "0.32.0"
   resolved "https://registry.npmjs.org/@osmonauts/proto-parser/-/proto-parser-0.32.0.tgz"
@@ -13408,16 +13419,16 @@ osmojs@15.5.0:
     long "^5.2.0"
     protobufjs "^6.11.3"
 
-osmojs@16.2.1, osmojs@^16.2.1:
-  version "16.2.1"
-  resolved "https://registry.npmmirror.com/osmojs/-/osmojs-16.2.1.tgz#948b4031a0161736a5b8423e4b5bd4cb93eec671"
-  integrity sha512-dlx15EaSSjaiyXjZKQJAXac+NaxSEM4G1ZzDuasogbzr0zUqS8FYgY6+nrVRdNolsLyiXi1YD9W70riODuMdLg==
+osmojs@16.5.1, osmojs@^16.5.1:
+  version "16.5.1"
+  resolved "https://registry.npmmirror.com/osmojs/-/osmojs-16.5.1.tgz#38f2fe3cd65dbd4e4b415e9f22f387a24b634155"
+  integrity sha512-V2Q2yMt7Paax6i+S5Q1l29Km0As/waXKmSVRe8gtd9he42kcbkpwwk/QUCvgS98XsL7Qz+vas2Tca016uBQHTQ==
   dependencies:
     "@cosmjs/amino" "0.29.3"
     "@cosmjs/proto-signing" "0.29.3"
     "@cosmjs/stargate" "0.29.3"
     "@cosmjs/tendermint-rpc" "^0.29.3"
-    "@osmonauts/lcd" "^0.11.1"
+    "@cosmology/lcd" "^0.12.0"
 
 outdent@^0.8.0:
   version "0.8.0"
