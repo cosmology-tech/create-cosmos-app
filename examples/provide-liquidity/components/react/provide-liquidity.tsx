@@ -108,7 +108,7 @@ export const ProvideLiquidity = () => {
       pagination: {
         key: new Uint8Array(),
         offset: BigInt(0),
-        limit: BigInt(1200),
+        limit: BigInt(1000),
         countTotal: false,
         reverse: false,
       },
@@ -305,7 +305,7 @@ export const ProvideLiquidity = () => {
       pagination: {
         key: new Uint8Array(),
         offset: BigInt(0),
-        limit: BigInt(1200),
+        limit: BigInt(1000),
         countTotal: false,
         reverse: false,
       },
