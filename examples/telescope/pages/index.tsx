@@ -124,15 +124,15 @@ export default function Home() {
   });
 
   //@ts-ignore
-  // const cosmosHooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
-  const cosmosHooks = createRpcQueryHooks({ rpc: rpcClient });
+  // const hooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
+  const hooks = createRpcQueryHooks({ rpc: rpcClient });
 
   const {
     data: balance,
     isSuccess: isBalanceLoaded,
     isLoading: isFetchingBalance,
     refetch: refetchBalance,
-  } = cosmosHooks.cosmos.bank.v1beta1.useBalance({
+  } = hooks.useBalance({
     request: {
       address: address || '',
       denom: chainassets?.assets[0].base as string,

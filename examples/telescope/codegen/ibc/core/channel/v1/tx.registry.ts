@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { MsgChannelOpenInit, MsgChannelOpenTry, MsgChannelOpenAck, MsgChannelOpenConfirm, MsgChannelCloseInit, MsgChannelCloseConfirm, MsgRecvPacket, MsgTimeout, MsgTimeoutOnClose, MsgAcknowledgement } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/ibc.core.channel.v1.MsgChannelOpenInit", MsgChannelOpenInit], ["/ibc.core.channel.v1.MsgChannelOpenTry", MsgChannelOpenTry], ["/ibc.core.channel.v1.MsgChannelOpenAck", MsgChannelOpenAck], ["/ibc.core.channel.v1.MsgChannelOpenConfirm", MsgChannelOpenConfirm], ["/ibc.core.channel.v1.MsgChannelCloseInit", MsgChannelCloseInit], ["/ibc.core.channel.v1.MsgChannelCloseConfirm", MsgChannelCloseConfirm], ["/ibc.core.channel.v1.MsgRecvPacket", MsgRecvPacket], ["/ibc.core.channel.v1.MsgTimeout", MsgTimeout], ["/ibc.core.channel.v1.MsgTimeoutOnClose", MsgTimeoutOnClose], ["/ibc.core.channel.v1.MsgAcknowledgement", MsgAcknowledgement]];
@@ -128,6 +129,130 @@ export const MessageComposer = {
       return {
         typeUrl: "/ibc.core.channel.v1.MsgAcknowledgement",
         value
+      };
+    }
+  },
+  toJSON: {
+    channelOpenInit(value: MsgChannelOpenInit) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgChannelOpenInit",
+        value: MsgChannelOpenInit.toJSON(value)
+      };
+    },
+    channelOpenTry(value: MsgChannelOpenTry) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgChannelOpenTry",
+        value: MsgChannelOpenTry.toJSON(value)
+      };
+    },
+    channelOpenAck(value: MsgChannelOpenAck) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgChannelOpenAck",
+        value: MsgChannelOpenAck.toJSON(value)
+      };
+    },
+    channelOpenConfirm(value: MsgChannelOpenConfirm) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgChannelOpenConfirm",
+        value: MsgChannelOpenConfirm.toJSON(value)
+      };
+    },
+    channelCloseInit(value: MsgChannelCloseInit) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgChannelCloseInit",
+        value: MsgChannelCloseInit.toJSON(value)
+      };
+    },
+    channelCloseConfirm(value: MsgChannelCloseConfirm) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgChannelCloseConfirm",
+        value: MsgChannelCloseConfirm.toJSON(value)
+      };
+    },
+    recvPacket(value: MsgRecvPacket) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgRecvPacket",
+        value: MsgRecvPacket.toJSON(value)
+      };
+    },
+    timeout(value: MsgTimeout) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgTimeout",
+        value: MsgTimeout.toJSON(value)
+      };
+    },
+    timeoutOnClose(value: MsgTimeoutOnClose) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgTimeoutOnClose",
+        value: MsgTimeoutOnClose.toJSON(value)
+      };
+    },
+    acknowledgement(value: MsgAcknowledgement) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgAcknowledgement",
+        value: MsgAcknowledgement.toJSON(value)
+      };
+    }
+  },
+  fromJSON: {
+    channelOpenInit(value: any) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgChannelOpenInit",
+        value: MsgChannelOpenInit.fromJSON(value)
+      };
+    },
+    channelOpenTry(value: any) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgChannelOpenTry",
+        value: MsgChannelOpenTry.fromJSON(value)
+      };
+    },
+    channelOpenAck(value: any) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgChannelOpenAck",
+        value: MsgChannelOpenAck.fromJSON(value)
+      };
+    },
+    channelOpenConfirm(value: any) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgChannelOpenConfirm",
+        value: MsgChannelOpenConfirm.fromJSON(value)
+      };
+    },
+    channelCloseInit(value: any) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgChannelCloseInit",
+        value: MsgChannelCloseInit.fromJSON(value)
+      };
+    },
+    channelCloseConfirm(value: any) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgChannelCloseConfirm",
+        value: MsgChannelCloseConfirm.fromJSON(value)
+      };
+    },
+    recvPacket(value: any) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgRecvPacket",
+        value: MsgRecvPacket.fromJSON(value)
+      };
+    },
+    timeout(value: any) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgTimeout",
+        value: MsgTimeout.fromJSON(value)
+      };
+    },
+    timeoutOnClose(value: any) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgTimeoutOnClose",
+        value: MsgTimeoutOnClose.fromJSON(value)
+      };
+    },
+    acknowledgement(value: any) {
+      return {
+        typeUrl: "/ibc.core.channel.v1.MsgAcknowledgement",
+        value: MsgAcknowledgement.fromJSON(value)
       };
     }
   },
