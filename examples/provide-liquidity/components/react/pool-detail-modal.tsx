@@ -16,7 +16,7 @@ import {
 import { Pool } from './provide-liquidity';
 import { getLogoUrlFromDenom } from './pool-list';
 import { ChainLogo } from './pool-card';
-import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
+import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
 import {
   NormalButton,
   PoolAssetDisplay,
@@ -35,7 +35,7 @@ import { PriceHash } from '../../utils/types';
 import { osmosis } from 'osmojs';
 import { useChain } from '@cosmos-kit/react';
 import { chainName } from '../../config/defaults';
-import { PeriodLock } from 'osmojs/types/codegen/osmosis/lockup/lock';
+import { PeriodLock } from 'osmojs/dist/codegen/osmosis/lockup/lock';
 import { daysToSeconds } from './bond-shares-modal';
 import Long from 'long';
 import dayjs from 'dayjs';
@@ -90,7 +90,7 @@ export const PoolDetailModal = ({
   const { showToast } = useTransactionToast();
   const [isMobile] = useMediaQuery('(max-width: 480px)');
 
-  const poolId = pool?.id.low;
+  const poolId = pool?.id;
 
   const poolName = pool?.poolAssets.map(({ token }) =>
     getSymbolForDenom(token!.denom)
@@ -131,7 +131,7 @@ export const PoolDetailModal = ({
       const lock = locks.find(
         (l) =>
           l.coins[0].denom === pool.totalShares?.denom &&
-          Number(daysToSeconds(duration)) === l.duration?.seconds.low &&
+          daysToSeconds(duration) === l.duration?.seconds.toString() &&
           dayjs().isAfter(l.endTime)
       );
 
@@ -149,7 +149,7 @@ export const PoolDetailModal = ({
       const shares = convertDollarValueToShares(value, pool, prices);
 
       return {
-        ID: lock.ID.low.toString(),
+        ID: lock.ID.toString(),
         apr: pool.apr[duration],
         value,
         shares,
@@ -181,17 +181,17 @@ export const PoolDetailModal = ({
 
     if (isSuperfluidBonded) {
       const superfluidUndelegateMsg = superfluidUndelegate({
-        lockId: Long.fromString(ID),
+        lockId: BigInt(ID),
         sender: address,
       });
       const superfluidUnbondLockMsg = superfluidUnbondLock({
-        lockId: Long.fromString(ID),
+        lockId: BigInt(ID),
         sender: address,
       });
       msg = [superfluidUndelegateMsg, superfluidUnbondLockMsg];
     } else {
       const beginUnlockingMsg = beginUnlocking({
-        ID: Long.fromString(ID),
+        ID: BigInt(ID),
         coins: [],
         owner: address,
       });
@@ -237,7 +237,7 @@ export const PoolDetailModal = ({
               {poolName?.join(' / ')}
             </Text>
             <Text fontWeight="400" fontSize="14px">
-              Pool #{poolId}
+              {`Pool #${poolId}`}
             </Text>
           </ModalHeader>
           <ModalCloseButton />
