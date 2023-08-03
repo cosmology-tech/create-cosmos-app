@@ -34,13 +34,44 @@ export const getTemplateFolder = async (argv) => {
     return folderName;
 }
 
-export const cloneRepo = (argv, repo, name) => {
-    const tempname = Math.random().toString(36).slice(2, 7);
-    const dir = join(argv.tmpdir || tmpdir(), tempname);
-    mkdirp(dir);
-    shell.cd(dir);
-    shell.exec(`git clone --depth 1 ${repo} ${name}`);
-    return dir;
+export const cloneRepo = (argv, repo, name, folderName) => {
+    const tempDirPath = argv.tmpdir || tmpdir();
+    const tempDirName = Math.random().toString(36).slice(2, 7);
+
+    const baseDirPath = join(tempDirPath, tempDirName);
+    mkdirp(baseDirPath);
+
+    shell.cd(baseDirPath);
+    shell.exec(`git clone -n --depth=1 --filter=tree:0 ${repo} ${name}`, { silent: true });
+
+    shell.cd(name);
+    const list = shell.exec(`git ls-tree -r --name-only HEAD ${folderName}`, { silent: true });
+
+    const lsMap = {};
+    (list?.split('\n')).forEach(path => {
+        if (path.startsWith(`${folderName}/`)) {
+            const tokens = path.split('/');
+            if (tokens[1]) {
+                lsMap[tokens[1]] = true;
+            }
+        }
+    })
+
+    return {
+        dir: baseDirPath,
+        repoDir: join(baseDirPath, name),
+        templateList: Object.keys(lsMap)
+    };
+}
+
+export const cloneTemplate = (folderName, template) => {
+    const targetTemplatePath = join(folderName, template);
+    const cmd = [
+        'git config core.sparsecheckout true',
+        `git sparse-checkout set --no-cone ${targetTemplatePath}`,
+        'git read-tree -mu HEAD',
+    ]
+    shell.exec(cmd.join(' && '));
 }
 
 export const getQuestionsAndAnswers = async (

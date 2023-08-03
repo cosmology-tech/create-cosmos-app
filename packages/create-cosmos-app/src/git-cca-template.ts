@@ -5,7 +5,13 @@ import { join, dirname, basename } from 'path';
 import { sync as mkdirp } from 'mkdirp';
 import { sync as glob } from 'glob';
 import * as fs from 'fs';
-import { cloneRepo, getPackageLicAndAccessInfo, getQuestionsAndAnswers, getTemplateFolder } from './utils';
+import {
+    cloneRepo,
+    cloneTemplate,
+    getPackageLicAndAccessInfo,
+    getQuestionsAndAnswers,
+    getTemplateFolder,
+} from './utils';
 
 export const createGitApp = (repo: string) => {
     return async argv => {
@@ -29,30 +35,33 @@ export const createGitApp = (repo: string) => {
         const folderName = await getTemplateFolder(argv);
 
         const currentDirectory = process.cwd();
-        const dir = cloneRepo(argv, repo, name);
+
+        console.log(`Cloning repo: ${repo} ...`);
+        const { dir, repoDir, templateList } = cloneRepo(argv, repo, name, folderName);
 
         // cd into the cloned repo from $dir
-        shell.cd(name);
+        shell.cd(repoDir);
 
         // get template 
-        const list = shell.ls(`./${folderName}`);
         const { template } = await prompt([
             {
                 type: 'list',
                 name: 'template',
                 message: 'which template',
                 required: true,
-                choices: list
+                choices: templateList
             }
         ], argv);
         argv.template = template;
 
-        const results = await getQuestionsAndAnswers(argv, name, folderName);
+        console.log(`Cloning ${folderName}/${template} ...`);
+        cloneTemplate(folderName, template);
 
+        const results = await getQuestionsAndAnswers(argv, name, folderName);
         const hasResults = Object.keys(results).length > 0;
 
-        let license = {};
-        let scopedResults = {};
+        let license;
+        let scopedResults;
         if (hasResults) {
             ({
                 license,
@@ -75,7 +84,7 @@ export const createGitApp = (repo: string) => {
             // LICENSE
             if (
                 basename(templateFile) === 'LICENSE' &&
-                license.__LICENSE__ === 'closed'
+                license?.__LICENSE__ === 'closed'
             ) {
                 content = `Copyright (c) ${new Date().getFullYear()} __USERFULLNAME__ <__USEREMAIL__> - All Rights Reserved
     Unauthorized copying via any medium is strictly prohibited
@@ -92,7 +101,7 @@ export const createGitApp = (repo: string) => {
             // access
             if (hasResults) {
                 if (results.__ACCESS__ === 'public') {
-                    if (scopedResults.scoped) {
+                    if (scopedResults?.scoped) {
                         content = content.replace(
                             /__PACKAGE_IDENTIFIER__/g,
                             `@${results.__USERNAME__}/${results.__MODULENAME__}`
@@ -122,6 +131,7 @@ export const createGitApp = (repo: string) => {
             fs.writeFileSync(filepath, content);
 
         }
+
 
         shell.cd(currentDirectory);
         shell.rm('-rf', dir);
