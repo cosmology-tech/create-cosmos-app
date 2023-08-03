@@ -107,7 +107,7 @@ const PoolCard = ({
               .join('/')}
           </Text>
           <Text fontWeight="400" color={poolIdColor}>
-            Pool #{pool.id.low}
+            {`Pool #${pool.id}`}
           </Text>
         </Box>
       </Flex>

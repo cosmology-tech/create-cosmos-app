@@ -12,7 +12,9 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
-import { Pool as OsmosisPool } from 'osmojs/types/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
+import { Pool as OsmosisPool } from 'osmojs/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
+import { Asset } from '@chain-registry/types';
+import { asset_list, assets } from '@chain-registry/osmosis';
 import BigNumber from 'bignumber.js';
 import { chainName } from '../../config';
 import PoolList from './pool-list';
@@ -34,6 +36,11 @@ import * as api from '../../api';
 import { useOsmosisRequests, useQueuedRequests, useRequest } from '../../hooks';
 
 export type Pool = OsmosisPool & ExtraPoolProperties;
+
+const osmosisAssets: Asset[] = [
+  ...assets.assets,
+  ...asset_list.assets,
+];
 
 export const ProvideLiquidity = () => {
   const [showAll, setShowAll] = useState(false);
@@ -96,9 +103,24 @@ export const ProvideLiquidity = () => {
   useEffect(() => {
     if (!address) return;
     getRewards.request(address);
-    getAllBalances.request({ address });
+    getAllBalances.request({
+      address,
+      pagination: {
+        key: new Uint8Array(),
+        offset: BigInt(0),
+        limit: BigInt(1000),
+        countTotal: false,
+        reverse: false,
+      },
+    });
     getLockedCoins.request({ owner: address });
-    getLocks.request({ owner: address });
+    getLocks.request({
+      owner: address,
+      duration: {
+        seconds: 0n,
+        nanos: 0
+      }
+    });
     getSuperfluidDelegations.request({ delegatorAddress: address });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -151,7 +173,7 @@ export const ProvideLiquidity = () => {
 
     const allPoolAprs: { [key: number]: PoolApr } =
       getGaugesRequest.data.reduce((prev, cur) => {
-        const pool = prettyPools.find(({ id }) => id.low === cur.poolId)!;
+        const pool = prettyPools.find(({ id }) => Number(id) === cur.poolId)!;
         const swapFee = new BigNumber(pool.poolParams!.swapFee)
           .shiftedBy(-18)
           .toString();
@@ -160,6 +182,7 @@ export const ProvideLiquidity = () => {
             ...aprs,
             [duration]: calcPoolAprs({
               pool,
+              assets: osmosisAssets,
               prices,
               swapFee,
               activeGauges: cur.gauges,
@@ -186,10 +209,10 @@ export const ProvideLiquidity = () => {
 
   const addAprToPool = useCallback(
     (pool: Pool) => {
-      if (!pool || !allPoolAprs || !allPoolAprs[pool.id.low]) return pool;
+      if (!pool || !allPoolAprs || !allPoolAprs[Number(pool.id)]) return pool;
       return {
         ...pool,
-        apr: allPoolAprs[pool.id.low],
+        apr: allPoolAprs[Number(pool.id)],
       };
     },
     [allPoolAprs]
@@ -208,7 +231,7 @@ export const ProvideLiquidity = () => {
     const poolsData = getSuperfluidAssets.data
       .map(({ denom }) => {
         const poolId = parseInt(denom.match(/\d+/)![0]);
-        const poolData = prettyPools.find(({ id }) => id.low === poolId);
+        const poolData = prettyPools.find(({ id }) => Number(id) === poolId);
         if (!poolData) return;
         return poolData;
       })
@@ -226,7 +249,7 @@ export const ProvideLiquidity = () => {
       .filter(({ denom }) => denom.startsWith('gamm/pool'))
       .map((coin) => {
         const poolId = parseInt(coin.denom.match(/\d+/)![0]);
-        const poolData = prettyPools.find(({ id }) => id.low === poolId);
+        const poolData = prettyPools.find(({ id }) => Number(id) === poolId);
         if (!poolData) return;
         return poolData;
       })
@@ -238,23 +261,32 @@ export const ProvideLiquidity = () => {
   useEffect(() => {
     if (!allPools || !highlightedPools || !myPools || !prettyPools) return;
     const poolIds = [...allPools, ...highlightedPools, ...myPools].map(
-      (pool) => pool.id.low
+      (pool) => pool.id
     );
 
     const poolIdsWithDenom: { id: number; denom: string }[] = [
       ...new Set(poolIds),
     ]
-      .map((id) => prettyPools.find((pool) => pool.id.low === id)!)
+      .map((id) => prettyPools.find((pool) => pool.id === id)!)
       .map((pool) => ({
-        id: pool.id.low,
+        id: Number(pool.id),
         denom: pool.totalShares!.denom,
       }))
-      .filter(({ id }) => !allPoolAprs || !allPoolAprs[id]);
+      .filter(({ id }) => !allPoolAprs || !allPoolAprs[Number(id)]);
 
     if (poolIdsWithDenom.length === 0) return;
 
     const activeGaugesQueries = poolIdsWithDenom.map(({ id, denom }) => {
-      return getActiveGauges({ denom }).then((res) => ({
+      return getActiveGauges({
+        denom,
+        pagination: {
+          key: new Uint8Array(),
+          offset: BigInt(0),
+          limit: BigInt(1000),
+          countTotal: false,
+          reverse: false,
+        },
+      }).then((res) => ({
         poolId: id,
         gauges: res.data,
       }));
@@ -268,7 +300,16 @@ export const ProvideLiquidity = () => {
   const updatePoolsData = () => {
     if (!address) return;
     getLockedCoins.request({ owner: address });
-    getAllBalances.request({ address });
+    getAllBalances.request({
+      address,
+      pagination: {
+        key: new Uint8Array(),
+        offset: BigInt(0),
+        limit: BigInt(1000),
+        countTotal: false,
+        reverse: false,
+      },
+    });
   };
 
   const headingColor = useColorModeValue('#697584', '#A7B4C2');
@@ -327,7 +368,7 @@ export const ProvideLiquidity = () => {
         {highlightedPools?.map((pool) => (
           <PoolCard
             pool={pool}
-            key={pool.id.low}
+            key={pool.id.toString()}
             setPool={setPool}
             openPoolDetailModal={poolDetailModal.onOpen}
             isFetchingApr={getGaugesRequest.loading}
@@ -392,7 +433,7 @@ export const ProvideLiquidity = () => {
           onClose={poolDetailModal.onClose}
           pool={pool}
           prices={prices}
-          rewardPerDay={getRewards.data?.pools?.[pool.id.low]?.day_usd || 0}
+          rewardPerDay={getRewards.data?.pools?.[Number(pool.id)]?.day_usd || 0}
           locks={getLocks.data}
           delegatedCoins={getSuperfluidDelegations.data}
           updatePoolsData={updatePoolsData}

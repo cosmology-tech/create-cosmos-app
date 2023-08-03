@@ -1,18 +1,17 @@
 import { useRequest } from './useRequest';
-import Long from 'long';
 import { osmosis } from 'osmojs';
-import { QueryAllBalancesRequest } from 'osmojs/types/codegen/cosmos/bank/v1beta1/query';
-import { Pool } from 'osmojs/types/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
+import { QueryAllBalancesRequest } from 'osmojs/dist/codegen/cosmos/bank/v1beta1/query';
+import { Pool } from 'osmojs/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { useRef, useState } from 'react';
 import { useClient } from './useClient';
 import {
   AccountLockedCoinsRequest,
   AccountLockedLongerDurationRequest,
-} from 'osmojs/types/codegen/osmosis/lockup/query';
-import { QueryDelegatorDelegationsRequest } from 'osmojs/types/codegen/cosmos/staking/v1beta1/query';
+} from 'osmojs/dist/codegen/osmosis/lockup/query';
+import { QueryDelegatorDelegationsRequest } from 'osmojs/dist/codegen/cosmos/staking/v1beta1/query';
 import { PriceHash } from '../utils/types';
-import { SuperfluidDelegationsByDelegatorRequest } from 'osmojs/types/codegen/osmosis/superfluid/query';
-import { ActiveGaugesPerDenomRequest } from 'osmojs/types/codegen/osmosis/incentives/query';
+import { SuperfluidDelegationsByDelegatorRequest } from 'osmojs/dist/codegen/osmosis/superfluid/query';
+import { ActiveGaugesPerDenomRequest } from 'osmojs/dist/codegen/osmosis/incentives/query';
 import {
   assets as nativeAssets,
   asset_list as osmosisIbcAssets,
@@ -104,8 +103,8 @@ export const useOsmosisRequests = (chainName: string) => {
     const { pools } = (await client.osmosis.gamm.v1beta1.pools({
       pagination: {
         key: new Uint8Array(),
-        offset: Long.fromNumber(0),
-        limit: Long.fromNumber(2000),
+        offset: BigInt(0),
+        limit: BigInt(2000),
         countTotal: false,
         reverse: false,
       },
