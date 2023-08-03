@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { MsgCreateBalancerPool } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/osmosis.gamm.poolmodels.balancer.v1beta1.MsgCreateBalancerPool", MsgCreateBalancerPool]];
@@ -20,6 +21,22 @@ export const MessageComposer = {
       return {
         typeUrl: "/osmosis.gamm.poolmodels.balancer.v1beta1.MsgCreateBalancerPool",
         value
+      };
+    }
+  },
+  toJSON: {
+    createBalancerPool(value: MsgCreateBalancerPool) {
+      return {
+        typeUrl: "/osmosis.gamm.poolmodels.balancer.v1beta1.MsgCreateBalancerPool",
+        value: MsgCreateBalancerPool.toJSON(value)
+      };
+    }
+  },
+  fromJSON: {
+    createBalancerPool(value: any) {
+      return {
+        typeUrl: "/osmosis.gamm.poolmodels.balancer.v1beta1.MsgCreateBalancerPool",
+        value: MsgCreateBalancerPool.fromJSON(value)
       };
     }
   },

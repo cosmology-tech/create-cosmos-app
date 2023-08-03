@@ -1,4 +1,6 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
+import { Decimal } from "@cosmjs/math";
+import { isSet, DeepPartial } from "../../helpers";
 /** Params holds parameters for the superfluid module */
 export interface Params {
   /**
@@ -8,6 +10,24 @@ export interface Params {
    * volatilities, and have base staking be 'resistant' to volatility.
    */
   minimumRiskFactor: string;
+}
+export interface ParamsProtoMsg {
+  typeUrl: "/osmosis.superfluid.Params";
+  value: Uint8Array;
+}
+/** Params holds parameters for the superfluid module */
+export interface ParamsAmino {
+  /**
+   * minimum_risk_factor is to be cut on OSMO equivalent value of lp tokens for
+   * superfluid staking, default: 5%. The minimum risk factor works
+   * to counter-balance the staked amount on chain's exposure to various asset
+   * volatilities, and have base staking be 'resistant' to volatility.
+   */
+  minimum_risk_factor: string;
+}
+export interface ParamsAminoMsg {
+  type: "osmosis/params";
+  value: ParamsAmino;
 }
 /** Params holds parameters for the superfluid module */
 export interface ParamsSDKType {
@@ -19,9 +39,11 @@ function createBaseParams(): Params {
   };
 }
 export const Params = {
+  typeUrl: "/osmosis.superfluid.Params",
+  aminoType: "osmosis/params",
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.minimumRiskFactor !== "") {
-      writer.uint32(10).string(message.minimumRiskFactor);
+      writer.uint32(10).string(Decimal.fromUserInput(message.minimumRiskFactor, 18).atomics);
     }
     return writer;
   },
@@ -33,7 +55,7 @@ export const Params = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.minimumRiskFactor = reader.string();
+          message.minimumRiskFactor = Decimal.fromAtomics(reader.string(), 18).toString();
           break;
         default:
           reader.skipType(tag & 7);
@@ -42,9 +64,60 @@ export const Params = {
     }
     return message;
   },
-  fromPartial(object: Partial<Params>): Params {
+  fromJSON(object: any): Params {
+    return {
+      minimumRiskFactor: isSet(object.minimumRiskFactor) ? String(object.minimumRiskFactor) : ""
+    };
+  },
+  toJSON(message: Params): unknown {
+    const obj: any = {};
+    message.minimumRiskFactor !== undefined && (obj.minimumRiskFactor = message.minimumRiskFactor);
+    return obj;
+  },
+  fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
     message.minimumRiskFactor = object.minimumRiskFactor ?? "";
     return message;
+  },
+  fromSDK(object: ParamsSDKType): Params {
+    return {
+      minimumRiskFactor: object?.minimum_risk_factor
+    };
+  },
+  toSDK(message: Params): ParamsSDKType {
+    const obj: any = {};
+    obj.minimum_risk_factor = message.minimumRiskFactor;
+    return obj;
+  },
+  fromAmino(object: ParamsAmino): Params {
+    return {
+      minimumRiskFactor: object.minimum_risk_factor
+    };
+  },
+  toAmino(message: Params): ParamsAmino {
+    const obj: any = {};
+    obj.minimum_risk_factor = message.minimumRiskFactor;
+    return obj;
+  },
+  fromAminoMsg(object: ParamsAminoMsg): Params {
+    return Params.fromAmino(object.value);
+  },
+  toAminoMsg(message: Params): ParamsAminoMsg {
+    return {
+      type: "osmosis/params",
+      value: Params.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: ParamsProtoMsg): Params {
+    return Params.decode(message.value);
+  },
+  toProto(message: Params): Uint8Array {
+    return Params.encode(message).finish();
+  },
+  toProtoMsg(message: Params): ParamsProtoMsg {
+    return {
+      typeUrl: "/osmosis.superfluid.Params",
+      value: Params.encode(message).finish()
+    };
   }
 };
