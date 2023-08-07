@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Token } from './stats';
+import { Token } from './Overview';
 import {
   Flex,
   Heading,
@@ -21,19 +21,19 @@ import {
 } from '@chakra-ui/react';
 
 export const ValidatorInfo = ({
-  imgUrl,
+  logoUrl,
   name,
   commission,
   apr,
 }: {
-  imgUrl: string;
+  logoUrl: string;
   name: string;
   commission: number | string;
-  apr: string | number;
+  apr: string | null;
 }) => (
   <Flex alignItems="center" gap={4} mb={4}>
-    {imgUrl ? (
-      <Image borderRadius="full" boxSize="60px" src={imgUrl} alt={name} />
+    {logoUrl ? (
+      <Image borderRadius="full" boxSize="60px" src={logoUrl} alt={name} />
     ) : (
       <Center boxSize="60px" borderRadius="full" bgColor="gray.400">
         {name.slice(0, 1).toUpperCase()}
@@ -45,11 +45,39 @@ export const ValidatorInfo = ({
       </Heading>
       <Text>
         Commission {commission}%&nbsp;
-        {Number.isNaN(Number(apr)) ? '' : `| APR ${apr}%`}
+        {apr && `| APR ${apr}%`}
       </Text>
     </Stack>
   </Flex>
 );
+
+export const Logo = ({
+  identity,
+  name,
+  logoUrl,
+}: {
+  identity: string | undefined;
+  name: string | undefined;
+  logoUrl: string;
+}) => {
+  return (
+    <>
+      {identity && logoUrl ? (
+        <Image
+          borderRadius="full"
+          boxSize="30px"
+          src={logoUrl}
+          alt={name}
+          mr={2}
+        />
+      ) : (
+        <Center boxSize="30px" bgColor="gray.200" borderRadius="full" mr={2}>
+          {name && name.trim().slice(0, 1).toUpperCase()}
+        </Center>
+      )}
+    </>
+  );
+};
 
 export const ValidatorDesc = ({ description }: { description: string }) => (
   <Text mb={4}>{description}</Text>
@@ -58,7 +86,7 @@ export const ValidatorDesc = ({ description }: { description: string }) => (
 export const DelegateWarning = ({
   unbondingDays,
 }: {
-  unbondingDays: number;
+  unbondingDays: string;
 }) => {
   if (!unbondingDays) return <></>;
 
@@ -88,7 +116,7 @@ export const DelegateWarning = ({
 export const UndelegateWarning = ({
   unbondingDays,
 }: {
-  unbondingDays: number;
+  unbondingDays: string;
 }) => {
   if (!unbondingDays) return <></>;
 
@@ -127,12 +155,12 @@ export const UndelegateWarning = ({
 
 export const StatBox = ({
   label,
-  number,
+  amount,
   input,
   token,
 }: {
   label: string;
-  number?: number;
+  amount?: number | string;
   input?: ReactElement;
   token: string;
 }) => {
@@ -153,7 +181,7 @@ export const StatBox = ({
           input
         ) : (
           <StatNumber>
-            {number} <Token color="blackAlpha.800" token={token} />
+            {amount} <Token color="blackAlpha.800" token={token} />
           </StatNumber>
         )}
       </Stat>

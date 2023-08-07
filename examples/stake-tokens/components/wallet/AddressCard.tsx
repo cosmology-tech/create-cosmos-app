@@ -5,14 +5,23 @@ import {
   Text,
   useClipboard,
   useColorMode,
-  Image
-} from "@chakra-ui/react";
-import { WalletStatus } from "@cosmos-kit/core";
+  Image,
+} from '@chakra-ui/react';
+import { WalletStatus } from '@cosmos-kit/core';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FiCopy } from 'react-icons/fi';
-import React, { ReactNode, useEffect,useState } from "react";
+import React, { ReactNode, useEffect, useState } from 'react';
 
-import { CopyAddressType } from "../types";
+import { handleChangeColorModeValue, stringTruncateFromCenter } from '@/utils';
+
+type CopyAddressType = {
+  address?: string;
+  walletIcon?: string;
+  isLoading?: boolean;
+  maxDisplayLength?: number;
+  isRound?: boolean;
+  size?: string;
+};
 
 const SIZES = {
   lg: {
@@ -34,30 +43,6 @@ const SIZES = {
     fontSize: 'sm',
   },
 };
-
-export function stringTruncateFromCenter(str: string, maxLength: number) {
-  const midChar = '…'; // character to insert into the center of the result
-
-  if (str.length <= maxLength) return str;
-
-  // length of beginning part
-  const left = Math.ceil(maxLength / 2);
-
-  // start index of ending part
-  const right = str.length - Math.floor(maxLength / 2) + 1;
-
-  return str.substring(0, left) + midChar + str.substring(right);
-}
-
-export function handleChangeColorModeValue(
-  colorMode: string,
-  light: string,
-  dark: string
-) {
-  if (colorMode === 'light') return light;
-  if (colorMode === 'dark') return dark;
-}
-
 
 export const ConnectedShowAddress = ({
   address,
@@ -87,6 +72,7 @@ export const ConnectedShowAddress = ({
           defaultMaxLength[size as keyof typeof defaultMaxLength]
         )
       );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
   return (
