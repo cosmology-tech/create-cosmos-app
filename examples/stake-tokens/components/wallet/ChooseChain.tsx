@@ -1,20 +1,25 @@
 import { useState, useEffect } from 'react';
-import { ChangeChainDropdown } from './chain-dropdown';
-import {
-  ChooseChainInfo,
-  ChainOption,
-  handleSelectChainDropdown
-} from '../types';
+import { ChainDropdown, HandleSelectChain } from './ChainDropdown';
+import { ChainOption } from './ChainDropdown';
 
-export function ChooseChain({
+interface ChainInfo {
+  chainName: string;
+  chainRoute?: string;
+  label: string;
+  value: string;
+  icon?: string;
+  disabled?: boolean;
+}
+
+export const ChooseChain = ({
   chainName,
   chainInfos,
-  onChange
+  onChange,
 }: {
   chainName?: string;
-  chainInfos: ChooseChainInfo[];
-  onChange: handleSelectChainDropdown;
-}) {
+  chainInfos: ChainInfo[];
+  onChange: HandleSelectChain;
+}) => {
   const [selectedItem, setSelectedItem] = useState<ChainOption | undefined>();
   useEffect(() => {
     if (chainName && chainInfos.length > 0)
@@ -24,10 +29,10 @@ export function ChooseChain({
     if (!chainName) setSelectedItem(undefined);
   }, [chainInfos, chainName]);
   return (
-    <ChangeChainDropdown
+    <ChainDropdown
       data={chainInfos}
       selectedItem={selectedItem}
       onChange={onChange}
     />
   );
-}
+};

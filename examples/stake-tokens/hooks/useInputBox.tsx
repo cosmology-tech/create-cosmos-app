@@ -6,7 +6,7 @@ import {
   InputRightElement,
   Button,
 } from '@chakra-ui/react';
-import { StatBox } from '../components/react/delegate-modal';
+import { StatBox } from '../components/staking/ModalElements';
 
 export const InputBox = ({
   label,
@@ -60,9 +60,9 @@ export const InputBox = ({
   />
 );
 
-export const useInputBox = (maxAmount?: number) => {
+export const useInputBox = (maxAmount?: number | string) => {
   const [amount, setAmount] = useState<number | string>('');
-  const [max, setMax] = useState<number>(maxAmount || 0);
+  const [max, setMax] = useState<number | string>(maxAmount || 0);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (Number(e.target.value) > max) {

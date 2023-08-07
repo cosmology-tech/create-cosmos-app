@@ -9,12 +9,15 @@ import {
 } from '@chakra-ui/react';
 import { useChain } from '@cosmos-kit/react';
 import { useState } from 'react';
-import { cosmos } from 'interchain';
+import { cosmos } from 'interchain-query';
 import { getCoin } from '../../config';
-import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
-import { TransactionResult } from '../types';
 import { ChainName } from '@cosmos-kit/core';
-import { useFeeEstimation, useTransactionToast } from '../../hooks';
+import { useTx } from '@/hooks';
+import { type ParsedRewards as Rewards } from '@/utils/staking';
+import { isGreaterThanZero, sum } from '@/utils';
+
+const { withdrawDelegatorReward } =
+  cosmos.distribution.v1beta1.MessageComposer.fromPartial;
 
 export const Token = ({ token, color }: { token: string; color?: string }) => (
   <Text
@@ -26,61 +29,43 @@ export const Token = ({ token, color }: { token: string; color?: string }) => (
   </Text>
 );
 
-const Stats = ({
+const Overview = ({
   balance,
   rewards,
   staked,
-  totalReward,
   updateData,
   chainName,
 }: {
-  balance: number;
-  rewards: Reward[];
-  staked: number;
-  totalReward: number;
+  balance: string;
+  rewards: Rewards;
+  staked: string;
   updateData: () => void;
   chainName: ChainName;
 }) => {
   const [isClaiming, setIsClaiming] = useState(false);
-  const { getSigningStargateClient, address } = useChain(chainName);
-  const { showToast } = useTransactionToast();
-  const { estimateFee } = useFeeEstimation(chainName);
+  const { address } = useChain(chainName);
+  const { tx } = useTx(chainName);
 
-  const totalAmount = balance + staked + totalReward;
+  const totalAmount = sum(balance, staked, rewards.total);
   const coin = getCoin(chainName);
 
-  const onClaimClick = async () => {
+  const onClaimRewardClick = async () => {
     setIsClaiming(true);
 
-    const stargateClient = await getSigningStargateClient();
+    if (!address) return;
 
-    if (!stargateClient || !address) {
-      console.error('stargateClient undefined or address undefined.');
-      return;
-    }
-
-    const { withdrawDelegatorReward } =
-      cosmos.distribution.v1beta1.MessageComposer.fromPartial;
-
-    const msgs = rewards.map(({ validatorAddress }) =>
+    const msgs = rewards.byValidators.map(({ validatorAddress }) =>
       withdrawDelegatorReward({
         delegatorAddress: address,
         validatorAddress,
       })
     );
 
-    try {
-      const fee = await estimateFee(address, msgs);
-      const res = await stargateClient.signAndBroadcast(address, msgs, fee);
-      showToast(res.code);
-      updateData();
-    } catch (error) {
-      console.log(error);
-      showToast(TransactionResult.Failed, error);
-    } finally {
-      stargateClient.disconnect();
-      setIsClaiming(false);
-    }
+    await tx(msgs, {
+      onSuccess: updateData,
+    });
+
+    setIsClaiming(false);
   };
 
   return (
@@ -94,7 +79,7 @@ const Stats = ({
           Total {coin.symbol} Amount
         </StatLabel>
         <StatNumber>
-          {totalAmount === 0 ? totalAmount : totalAmount.toFixed(6)}&nbsp;
+          {totalAmount}&nbsp;
           <Token token={coin.symbol} />
         </StatNumber>
       </Stat>
@@ -121,7 +106,7 @@ const Stats = ({
           Staked Amount
         </StatLabel>
         <StatNumber>
-          {staked === 0 ? staked : staked.toFixed(6)}&nbsp;
+          {staked}&nbsp;
           <Token token={coin.symbol} />
         </StatNumber>
       </Stat>
@@ -142,7 +127,7 @@ const Stats = ({
           Claimable Rewards
         </StatLabel>
         <StatNumber>
-          {totalReward}&nbsp;
+          {rewards.total}&nbsp;
           <Token
             color={useColorModeValue('blackAlpha.600', 'whiteAlpha.600')}
             token={coin.symbol}
@@ -154,8 +139,8 @@ const Stats = ({
           top={5}
           colorScheme="purple"
           size="sm"
-          onClick={onClaimClick}
-          isDisabled={!Number(totalReward)}
+          onClick={onClaimRewardClick}
+          isDisabled={!isGreaterThanZero(rewards.total)}
           isLoading={isClaiming}
         >
           Claim
@@ -165,4 +150,4 @@ const Stats = ({
   );
 };
 
-export default Stats;
+export default Overview;

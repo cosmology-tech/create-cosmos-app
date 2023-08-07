@@ -11,3 +11,17 @@ export const getCoin = (chainName: string = defaultChainName) => {
   const chainAssets = getChainAssets(chainName);
   return chainAssets.assets[0] as Asset;
 };
+
+export const getExponent = (chainName: string) => {
+  return getCoin(chainName).denom_units.find(
+    (unit) => unit.denom === getCoin(chainName).display
+  )?.exponent as number;
+};
+
+export const formatDenom = (denom: string | undefined) => {
+  return denom
+    ? denom.length < 3 || denom.startsWith('ibc')
+      ? 'uosmo'
+      : denom
+    : 'uosmo';
+};
