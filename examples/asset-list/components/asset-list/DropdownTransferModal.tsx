@@ -15,10 +15,10 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { ChainLogo } from './osmosis-assets';
+import { ChainLogo } from './OsmosisAssets';
 import { HiOutlineClock } from 'react-icons/hi';
-import { LargeButton } from './buttons';
-import DropdownInput from './dropdown-input';
+import { LargeButton } from './Buttons';
+import DropdownInput from './DropdownInput';
 import {
   PrettyAsset,
   PriceHash,

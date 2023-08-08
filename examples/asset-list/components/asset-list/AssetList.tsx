@@ -6,8 +6,8 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import AssetsOverview from './assets-overview';
-import OsmosisAssetsList from './osmosis-assets';
+import AssetsOverview from './AssetsOverview';
+import OsmosisAssetsList from './OsmosisAssets';
 import { useChain, useManager } from '@cosmos-kit/react';
 import { useRequest, useOsmosisClient, useIbcAssets } from '../../hooks';
 import { PrettyAsset } from '../types';

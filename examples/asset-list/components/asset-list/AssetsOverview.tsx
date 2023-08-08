@@ -8,8 +8,8 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
-import { NormalButton } from './buttons';
-import DropdownTransferModal from './dropdown-transfer-modal';
+import { NormalButton } from './Buttons';
+import DropdownTransferModal from './DropdownTransferModal';
 import { PrettyAsset, PriceHash, Transfer, TransferInfo } from '../types';
 import { useIbcAssets, useOsmosisClient, useRequest } from '../../hooks';
 import { useChain } from '@cosmos-kit/react';
@@ -18,7 +18,7 @@ import { QueryAllBalancesRequest } from 'osmojs/types/codegen/cosmos/bank/v1beta
 import { convertGammTokenToDollarValue } from '../../utils';
 import BigNumber from 'bignumber.js';
 import { ChainName } from '@cosmos-kit/core';
-import { chainName as osmoChainName } from '../../config';
+import { defaultChainName as osmoChainName } from '../../config';
 
 const ZERO_AMOUNT = '0';
 
