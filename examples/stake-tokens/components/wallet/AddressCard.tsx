@@ -12,8 +12,6 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { FiCopy } from 'react-icons/fi';
 import React, { ReactNode, useEffect, useState } from 'react';
 
-import { handleChangeColorModeValue, stringTruncateFromCenter } from '@/utils';
-
 type CopyAddressType = {
   address?: string;
   walletIcon?: string;
@@ -183,3 +181,26 @@ export const CopyAddressBtn = ({
       return <></>;
   }
 };
+
+function handleChangeColorModeValue(
+  colorMode: string,
+  light: string,
+  dark: string
+) {
+  if (colorMode === 'light') return light;
+  if (colorMode === 'dark') return dark;
+}
+
+function stringTruncateFromCenter(str: string, maxLength: number) {
+  const midChar = '…'; // character to insert into the center of the result
+
+  if (str.length <= maxLength) return str;
+
+  // length of beginning part
+  const left = Math.ceil(maxLength / 2);
+
+  // start index of ending part
+  const right = str.length - Math.floor(maxLength / 2) + 1;
+
+  return str.substring(0, left) + midChar + str.substring(right);
+}
