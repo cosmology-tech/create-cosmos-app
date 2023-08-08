@@ -13,7 +13,7 @@ import BigNumber from 'bignumber.js';
 import React, { useEffect } from 'react';
 import { useIbcAssets, useOsmosisClient, useRequest } from '../../hooks';
 import { PriceHash, Transfer, TransferInfo } from '../types';
-import { ChainLogo } from './osmosis-assets';
+import { ChainLogo } from './OsmosisAssets';
 
 const ratioLabels = [
   { label: 'Max', divisor: 1 },

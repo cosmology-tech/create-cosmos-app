@@ -10,28 +10,26 @@ import {
 } from '@chakra-ui/react';
 import { MouseEventHandler, useEffect, useMemo } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
+
+import { ChainName } from '@cosmos-kit/core';
+import { defaultChainName } from '@/config';
 import {
-  Astronaut,
-  Error,
   Connected,
-  ConnectedShowAddress,
-  ConnectedUserInfo,
   Connecting,
-  ConnectStatusWarn,
-  CopyAddressBtn,
   Disconnected,
   NotExist,
+  Error,
   Rejected,
-  RejectedWarn,
   WalletConnectComponent,
-  handleSelectChainDropdown,
-  ChainCard,
-  ChooseChain,
-  ChainOption,
   ConnectWalletButton,
-} from '../components';
-import { chainName as defaultChainName } from '../config';
-import { ChainName } from '@cosmos-kit/core';
+} from './WalletConnect';
+import { ConnectStatusWarn, RejectedWarn } from './WarnBlock';
+import { ChooseChain } from './ChooseChain';
+import { ConnectedShowAddress, CopyAddressBtn } from './AddressCard';
+import { UserInfo } from './UserInfo';
+import { Astronaut } from './Astronaut';
+import { ChainCard } from './ChainCard';
+import { ChainOption, HandleSelectChain } from './ChainDropdown';
 
 export const WalletSection = ({
   isMultiChain,
@@ -124,10 +122,12 @@ export const WalletSection = ({
   );
 
   useEffect(() => {
-    setChainName?.(window.localStorage.getItem('selected-chain') || 'osmosis');
+    setChainName?.(
+      window.localStorage.getItem('selected-chain') || defaultChainName
+    );
   }, [setChainName]);
 
-  const onChainChange: handleSelectChainDropdown = async (
+  const onChainChange: HandleSelectChain = async (
     selectedValue: ChainOption | null
   ) => {
     setChainName?.(selectedValue?.chainName);
@@ -147,8 +147,9 @@ export const WalletSection = ({
   );
 
   const userInfo = username && (
-    <ConnectedUserInfo username={username} icon={<Astronaut />} />
+    <UserInfo username={username} icon={<Astronaut />} />
   );
+
   const addressBtn = (
     <CopyAddressBtn
       walletStatus={status}

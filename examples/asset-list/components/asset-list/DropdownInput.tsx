@@ -11,7 +11,7 @@ import {
   useDisclosure,
   Skeleton,
 } from '@chakra-ui/react';
-import { ChainLogo, truncDecimals } from './osmosis-assets';
+import { ChainLogo, truncDecimals } from './OsmosisAssets';
 import { SwapDropdown } from '@cosmology-ui/react';
 import {
   PrettyAsset,

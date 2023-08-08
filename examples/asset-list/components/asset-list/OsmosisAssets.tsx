@@ -14,8 +14,8 @@ import {
 import BigNumber from 'bignumber.js';
 import React, { useMemo, useState } from 'react';
 import { PrettyAsset, PriceHash, Transfer, TransferInfo } from '../types';
-import { SimpleButton } from './buttons';
-import TransferModal from './transfer-modal';
+import { SimpleButton } from './Buttons';
+import TransferModal from './TransferModal';
 import { ChainName } from '@cosmos-kit/core';
 import { QueryAllBalancesRequest } from 'osmojs/types/codegen/cosmos/bank/v1beta1/query';
 import { useIbcAssets } from '../../hooks';

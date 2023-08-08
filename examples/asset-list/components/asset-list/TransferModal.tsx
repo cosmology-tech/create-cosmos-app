@@ -16,10 +16,10 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import AmountInput from './amount-input';
-import { ChainLogo } from './osmosis-assets';
+import AmountInput from './AmountInput';
+import { ChainLogo } from './OsmosisAssets';
 import { HiOutlineClock } from 'react-icons/hi';
-import { LargeButton } from './buttons';
+import { LargeButton } from './Buttons';
 import { PriceHash, TransactionResult, Transfer, TransferInfo } from '../types';
 import { useChain, useManager } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
