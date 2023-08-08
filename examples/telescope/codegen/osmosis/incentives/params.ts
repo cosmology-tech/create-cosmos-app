@@ -1,4 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
+import { isSet, DeepPartial } from "../../helpers";
 /** Params holds parameters for the incentives module */
 export interface Params {
   /**
@@ -6,6 +7,22 @@ export interface Params {
    * (day, week, etc.)
    */
   distrEpochIdentifier: string;
+}
+export interface ParamsProtoMsg {
+  typeUrl: "/osmosis.incentives.Params";
+  value: Uint8Array;
+}
+/** Params holds parameters for the incentives module */
+export interface ParamsAmino {
+  /**
+   * distr_epoch_identifier is what epoch type distribution will be triggered by
+   * (day, week, etc.)
+   */
+  distr_epoch_identifier: string;
+}
+export interface ParamsAminoMsg {
+  type: "osmosis/incentives/params";
+  value: ParamsAmino;
 }
 /** Params holds parameters for the incentives module */
 export interface ParamsSDKType {
@@ -17,6 +34,8 @@ function createBaseParams(): Params {
   };
 }
 export const Params = {
+  typeUrl: "/osmosis.incentives.Params",
+  aminoType: "osmosis/incentives/params",
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.distrEpochIdentifier !== "") {
       writer.uint32(10).string(message.distrEpochIdentifier);
@@ -40,9 +59,60 @@ export const Params = {
     }
     return message;
   },
-  fromPartial(object: Partial<Params>): Params {
+  fromJSON(object: any): Params {
+    return {
+      distrEpochIdentifier: isSet(object.distrEpochIdentifier) ? String(object.distrEpochIdentifier) : ""
+    };
+  },
+  toJSON(message: Params): unknown {
+    const obj: any = {};
+    message.distrEpochIdentifier !== undefined && (obj.distrEpochIdentifier = message.distrEpochIdentifier);
+    return obj;
+  },
+  fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
     message.distrEpochIdentifier = object.distrEpochIdentifier ?? "";
     return message;
+  },
+  fromSDK(object: ParamsSDKType): Params {
+    return {
+      distrEpochIdentifier: object?.distr_epoch_identifier
+    };
+  },
+  toSDK(message: Params): ParamsSDKType {
+    const obj: any = {};
+    obj.distr_epoch_identifier = message.distrEpochIdentifier;
+    return obj;
+  },
+  fromAmino(object: ParamsAmino): Params {
+    return {
+      distrEpochIdentifier: object.distr_epoch_identifier
+    };
+  },
+  toAmino(message: Params): ParamsAmino {
+    const obj: any = {};
+    obj.distr_epoch_identifier = message.distrEpochIdentifier;
+    return obj;
+  },
+  fromAminoMsg(object: ParamsAminoMsg): Params {
+    return Params.fromAmino(object.value);
+  },
+  toAminoMsg(message: Params): ParamsAminoMsg {
+    return {
+      type: "osmosis/incentives/params",
+      value: Params.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: ParamsProtoMsg): Params {
+    return Params.decode(message.value);
+  },
+  toProto(message: Params): Uint8Array {
+    return Params.encode(message).finish();
+  },
+  toProtoMsg(message: Params): ParamsProtoMsg {
+    return {
+      typeUrl: "/osmosis.incentives.Params",
+      value: Params.encode(message).finish()
+    };
   }
 };

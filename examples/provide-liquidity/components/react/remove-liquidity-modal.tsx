@@ -27,7 +27,7 @@ import {
   noDecimals,
 } from '../../utils';
 import { truncDecimals } from './pool-detail-modal';
-import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
+import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
 import { PriceHash } from '../../utils/types';
 import { getLogoUrlFromDenom } from './pool-list';
 import BigNumber from 'bignumber.js';
