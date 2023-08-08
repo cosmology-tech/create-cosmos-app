@@ -156,6 +156,7 @@ export const createRpcQueryHooks = ({
       txfees: {
         v1beta1: _OsmosisTxfeesV1beta1Queryrpc.createRpcQueryHooks(rpc)
       }
-    }
+    },
+    useBalance: _CosmosBankV1beta1Queryrpc.createRpcQueryHooks(rpc).useBalance
   };
 };

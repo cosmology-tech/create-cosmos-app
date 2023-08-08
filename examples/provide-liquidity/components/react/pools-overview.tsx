@@ -9,7 +9,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { useChain, useManager } from '@cosmos-kit/react';
-import { EpochInfo } from 'osmojs/types/codegen/osmosis/epochs/genesis';
+import { EpochInfo } from 'osmojs/dist/codegen/osmosis/epochs/genesis';
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { chainName } from '../../config';
 import { RewardText } from './modal-components';
@@ -84,7 +84,7 @@ export const PoolsOverview = ({
     ) as EpochInfo;
 
     const startTime = currentEpoch.currentEpochStartTime;
-    const duration = currentEpoch.duration?.seconds.low || 60 * 60 * 24;
+    const duration = Number(currentEpoch.duration?.seconds) || 60 * 60 * 24;
     const endTime = dayjs(startTime).add(duration, 'second');
 
     const countdownInterval = setInterval(async () => {

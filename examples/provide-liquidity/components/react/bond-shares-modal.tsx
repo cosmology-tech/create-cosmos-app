@@ -79,8 +79,8 @@ const BondSharesModal = ({
   const btnText = isAmountEmpty
     ? 'Amount is empty'
     : isAmountInsufficient
-    ? 'Insufficient amount'
-    : 'Bond';
+      ? 'Insufficient amount'
+      : 'Bond';
 
   const closeModal = () => {
     onClose();
@@ -100,14 +100,17 @@ const BondSharesModal = ({
     const coins = [
       {
         amount: new BigNumber(inputShares).shiftedBy(18).toString(),
-        denom: `gamm/pool/${currentPool.id.low}`,
+        denom: `gamm/pool/${currentPool.id}`,
       },
     ];
 
     const msg = lockTokens({
       coins,
       owner: address,
-      duration: daysToSeconds(period),
+      duration: {
+        seconds: BigInt(daysToSeconds(period)),
+        nanos: 0,
+      },
     });
 
     const fee = {

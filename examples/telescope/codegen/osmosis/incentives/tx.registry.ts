@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { MsgCreateGauge, MsgAddToGauge } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/osmosis.incentives.MsgCreateGauge", MsgCreateGauge], ["/osmosis.incentives.MsgAddToGauge", MsgAddToGauge]];
@@ -32,6 +33,34 @@ export const MessageComposer = {
       return {
         typeUrl: "/osmosis.incentives.MsgAddToGauge",
         value
+      };
+    }
+  },
+  toJSON: {
+    createGauge(value: MsgCreateGauge) {
+      return {
+        typeUrl: "/osmosis.incentives.MsgCreateGauge",
+        value: MsgCreateGauge.toJSON(value)
+      };
+    },
+    addToGauge(value: MsgAddToGauge) {
+      return {
+        typeUrl: "/osmosis.incentives.MsgAddToGauge",
+        value: MsgAddToGauge.toJSON(value)
+      };
+    }
+  },
+  fromJSON: {
+    createGauge(value: any) {
+      return {
+        typeUrl: "/osmosis.incentives.MsgCreateGauge",
+        value: MsgCreateGauge.fromJSON(value)
+      };
+    },
+    addToGauge(value: any) {
+      return {
+        typeUrl: "/osmosis.incentives.MsgAddToGauge",
+        value: MsgAddToGauge.fromJSON(value)
       };
     }
   },

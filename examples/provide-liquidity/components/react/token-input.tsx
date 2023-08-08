@@ -11,7 +11,7 @@ import {
   useMediaQuery,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
+import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import {
   prettyPool,
@@ -110,9 +110,9 @@ export const TokenInput = ({
         ...inputToken,
         inputAmount: new BigNumber(displayAmount).gt(0)
           ? new BigNumber(displayAmountToValue(displayAmount))
-              .dividedBy(prices[inputToken.denom])
-              .decimalPlaces(2)
-              .toString()
+            .dividedBy(prices[inputToken.denom])
+            .decimalPlaces(2)
+            .toString()
           : '',
       };
     });
@@ -241,10 +241,10 @@ export const TokenInput = ({
                 isMobile
                   ? '100%'
                   : {
-                      sm: '100%',
-                      md: isMiddleScreen ? '100%' : '240px',
-                      lg: '420px',
-                    }
+                    sm: '100%',
+                    md: isMiddleScreen ? '100%' : '240px',
+                    lg: '420px',
+                  }
               }
               borderTopRightRadius="6px"
               borderBottomRightRadius="6px"

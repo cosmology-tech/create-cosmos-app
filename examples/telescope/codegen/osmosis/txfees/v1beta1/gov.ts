@@ -1,5 +1,6 @@
-import { FeeToken, FeeTokenSDKType } from "./feetoken";
+import { FeeToken, FeeTokenAmino, FeeTokenSDKType } from "./feetoken";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, DeepPartial } from "../../../helpers";
 /**
  * UpdateFeeTokenProposal is a gov Content type for adding a new whitelisted fee
  * token. It must specify a denom along with gamm pool ID to use as a spot price
@@ -10,7 +11,27 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 export interface UpdateFeeTokenProposal {
   title: string;
   description: string;
-  feetoken?: FeeToken | undefined;
+  feetoken: FeeToken | undefined;
+}
+export interface UpdateFeeTokenProposalProtoMsg {
+  typeUrl: "/osmosis.txfees.v1beta1.UpdateFeeTokenProposal";
+  value: Uint8Array;
+}
+/**
+ * UpdateFeeTokenProposal is a gov Content type for adding a new whitelisted fee
+ * token. It must specify a denom along with gamm pool ID to use as a spot price
+ * calculator. It can be used to add a new denom to the whitelist It can also be
+ * used to update the Pool to associate with the denom. If Pool ID is set to 0,
+ * it will remove the denom from the whitelisted set.
+ */
+export interface UpdateFeeTokenProposalAmino {
+  title: string;
+  description: string;
+  feetoken?: FeeTokenAmino | undefined;
+}
+export interface UpdateFeeTokenProposalAminoMsg {
+  type: "osmosis/txfees/update-fee-token-proposal";
+  value: UpdateFeeTokenProposalAmino;
 }
 /**
  * UpdateFeeTokenProposal is a gov Content type for adding a new whitelisted fee
@@ -22,16 +43,18 @@ export interface UpdateFeeTokenProposal {
 export interface UpdateFeeTokenProposalSDKType {
   title: string;
   description: string;
-  feetoken?: FeeTokenSDKType | undefined;
+  feetoken: FeeTokenSDKType | undefined;
 }
 function createBaseUpdateFeeTokenProposal(): UpdateFeeTokenProposal {
   return {
     title: "",
     description: "",
-    feetoken: undefined
+    feetoken: FeeToken.fromPartial({})
   };
 }
 export const UpdateFeeTokenProposal = {
+  typeUrl: "/osmosis.txfees.v1beta1.UpdateFeeTokenProposal",
+  aminoType: "osmosis/txfees/update-fee-token-proposal",
   encode(message: UpdateFeeTokenProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -67,11 +90,74 @@ export const UpdateFeeTokenProposal = {
     }
     return message;
   },
-  fromPartial(object: Partial<UpdateFeeTokenProposal>): UpdateFeeTokenProposal {
+  fromJSON(object: any): UpdateFeeTokenProposal {
+    return {
+      title: isSet(object.title) ? String(object.title) : "",
+      description: isSet(object.description) ? String(object.description) : "",
+      feetoken: isSet(object.feetoken) ? FeeToken.fromJSON(object.feetoken) : undefined
+    };
+  },
+  toJSON(message: UpdateFeeTokenProposal): unknown {
+    const obj: any = {};
+    message.title !== undefined && (obj.title = message.title);
+    message.description !== undefined && (obj.description = message.description);
+    message.feetoken !== undefined && (obj.feetoken = message.feetoken ? FeeToken.toJSON(message.feetoken) : undefined);
+    return obj;
+  },
+  fromPartial(object: DeepPartial<UpdateFeeTokenProposal>): UpdateFeeTokenProposal {
     const message = createBaseUpdateFeeTokenProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
     message.feetoken = object.feetoken !== undefined && object.feetoken !== null ? FeeToken.fromPartial(object.feetoken) : undefined;
     return message;
+  },
+  fromSDK(object: UpdateFeeTokenProposalSDKType): UpdateFeeTokenProposal {
+    return {
+      title: object?.title,
+      description: object?.description,
+      feetoken: object.feetoken ? FeeToken.fromSDK(object.feetoken) : undefined
+    };
+  },
+  toSDK(message: UpdateFeeTokenProposal): UpdateFeeTokenProposalSDKType {
+    const obj: any = {};
+    obj.title = message.title;
+    obj.description = message.description;
+    message.feetoken !== undefined && (obj.feetoken = message.feetoken ? FeeToken.toSDK(message.feetoken) : undefined);
+    return obj;
+  },
+  fromAmino(object: UpdateFeeTokenProposalAmino): UpdateFeeTokenProposal {
+    return {
+      title: object.title,
+      description: object.description,
+      feetoken: object?.feetoken ? FeeToken.fromAmino(object.feetoken) : undefined
+    };
+  },
+  toAmino(message: UpdateFeeTokenProposal): UpdateFeeTokenProposalAmino {
+    const obj: any = {};
+    obj.title = message.title;
+    obj.description = message.description;
+    obj.feetoken = message.feetoken ? FeeToken.toAmino(message.feetoken) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: UpdateFeeTokenProposalAminoMsg): UpdateFeeTokenProposal {
+    return UpdateFeeTokenProposal.fromAmino(object.value);
+  },
+  toAminoMsg(message: UpdateFeeTokenProposal): UpdateFeeTokenProposalAminoMsg {
+    return {
+      type: "osmosis/txfees/update-fee-token-proposal",
+      value: UpdateFeeTokenProposal.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: UpdateFeeTokenProposalProtoMsg): UpdateFeeTokenProposal {
+    return UpdateFeeTokenProposal.decode(message.value);
+  },
+  toProto(message: UpdateFeeTokenProposal): Uint8Array {
+    return UpdateFeeTokenProposal.encode(message).finish();
+  },
+  toProtoMsg(message: UpdateFeeTokenProposal): UpdateFeeTokenProposalProtoMsg {
+    return {
+      typeUrl: "/osmosis.txfees.v1beta1.UpdateFeeTokenProposal",
+      value: UpdateFeeTokenProposal.encode(message).finish()
+    };
   }
 };

@@ -1,7 +1,33 @@
+import BigNumber from 'bignumber.js';
+import { Asset } from '@chain-registry/types';
 import { asset_list, assets } from '@chain-registry/osmosis';
-import { Asset as OsmosisAsset } from '@chain-registry/types';
-import { Pool } from 'osmojs/types/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
-import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
+import {
+  getAssetByDenom,
+  getDenomByCoinGeckoId,
+  getSymbolByChainDenom,
+  getExponentByDenom as _getExponentByDenom,
+  convertCoinGeckoPricesToDenomPriceMap,
+  getChainDenomBySymbol,
+  noDecimals as _noDecimals,
+  convertBaseUnitsToDollarValue,
+  convertDollarValueToDenomUnits,
+  convertBaseUnitsToDisplayUnits,
+} from '@chain-registry/utils';
+import { Pool } from 'osmojs/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
+import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
+import {
+  calcPoolLiquidity as _calcPoolLiquidity,
+  getPoolByGammName as _getPoolByGammName,
+  convertGammTokenToDollarValue as _convertGammTokenToDollarValue,
+  convertDollarValueToCoins as _convertDollarValueToCoins,
+  convertDollarValueToShares as _convertDollarValueToShares,
+  prettyPool as _prettyPool,
+  calcCoinsNeededForValue as _calcCoinsNeededForValue,
+  getCoinBalance as _getCoinBalance,
+  calcMaxCoinsForPool as _calcMaxCoinsForPool,
+  calcShareOutAmount as _calcShareOutAmount,
+} from '@osmonauts/math';
+
 import {
   CoinGeckoToken,
   CoinDenom,
@@ -14,59 +40,39 @@ import {
   CoinBalance,
   PoolAssetPretty,
 } from './types';
-import BigNumber from 'bignumber.js';
 import { Fee } from '../components';
 
-export const osmosisAssets: OsmosisAsset[] = [
+export const osmosisAssets: Asset[] = [
   ...assets.assets,
   ...asset_list.assets,
 ];
 
-export const getOsmoAssetByDenom = (denom: CoinDenom): OsmosisAsset => {
-  return osmosisAssets.find((asset) => asset.base === denom) as OsmosisAsset;
+export const getOsmoAssetByDenom = (denom: CoinDenom): Asset => {
+  return getAssetByDenom(osmosisAssets, denom);
 };
 
-export const getDenomForCoinGeckoId = (
-  coinGeckoId: CoinGeckoToken
-): CoinDenom => {
-  return osmosisAssets.find((asset) => asset.coingecko_id === coinGeckoId).base;
+export const getDenomForCoinGeckoId = (coinGeckoId: CoinGeckoToken): CoinDenom => {
+  return getDenomByCoinGeckoId(osmosisAssets, coinGeckoId);
 };
 
 export const getSymbolForDenom = (denom: CoinDenom): CoinSymbol => {
-  const asset = getOsmoAssetByDenom(denom);
-  const symbol = asset.symbol;
-  return symbol;
+  return getSymbolByChainDenom(osmosisAssets, denom);
 };
 
 export const getExponentByDenom = (denom: CoinDenom): Exponent => {
-  const asset = getOsmoAssetByDenom(denom);
-  const unit = asset.denom_units.find(({ denom }) => denom === asset.display);
-  return unit?.exponent || 0;
+  return _getExponentByDenom(osmosisAssets, denom);
 };
 
-export const convertGeckoPricesToDenomPriceHash = (
-  prices: CoinGeckoUSDResponse
-): PriceHash => {
-  return Object.keys(prices).reduce((res, geckoId) => {
-    const denom = getDenomForCoinGeckoId(geckoId);
-    res[denom] = prices[geckoId].usd;
-    return res;
-  }, {});
+export const convertGeckoPricesToDenomPriceHash = (prices: CoinGeckoUSDResponse): PriceHash => {
+  return convertCoinGeckoPricesToDenomPriceMap(osmosisAssets, prices);
 };
 
 export const calcPoolLiquidity = (pool: Pool, prices: PriceHash): string => {
-  return pool.poolAssets
-    .reduce((res, { token }) => {
-      const liquidity = new BigNumber(token.amount)
-        .shiftedBy(-getExponentByDenom(token.denom))
-        .multipliedBy(prices[token.denom]);
-      return res.plus(liquidity);
-    }, new BigNumber(0))
-    .toString();
+  return _calcPoolLiquidity(osmosisAssets, pool, prices);
 };
 
 export const getPoolByGammName = (pools: Pool[], gammId: string): Pool => {
-  return pools.find(({ totalShares: { denom } }) => denom === gammId);
+  return _getPoolByGammName(pools, gammId);
 };
 
 export const convertGammTokenToDollarValue = (
@@ -74,13 +80,7 @@ export const convertGammTokenToDollarValue = (
   pool: Pool,
   prices: PriceHash
 ): string => {
-  const { amount } = coin;
-  const liquidity = calcPoolLiquidity(pool, prices);
-
-  return new BigNumber(liquidity)
-    .multipliedBy(amount)
-    .dividedBy(pool.totalShares!.amount)
-    .toString();
+  return _convertGammTokenToDollarValue(osmosisAssets, coin, pool, prices);
 };
 
 export const convertDollarValueToCoins = (
@@ -88,24 +88,7 @@ export const convertDollarValueToCoins = (
   pool: Pool,
   prices: PriceHash
 ): CoinValue[] => {
-  const tokens = pool.poolAssets.map(({ token: { denom }, weight }) => {
-    const ratio = new BigNumber(weight).dividedBy(pool.totalWeight);
-    const valueByRatio = new BigNumber(value).multipliedBy(ratio);
-    const displayAmount = valueByRatio.dividedBy(prices[denom]).toString();
-    const amount = new BigNumber(displayAmount)
-      .shiftedBy(getExponentByDenom(denom))
-      .toString();
-    const symbol = getSymbolForDenom(denom);
-
-    return {
-      denom,
-      symbol,
-      amount,
-      displayAmount,
-      value: valueByRatio.toString(),
-    };
-  });
-  return tokens;
+  return _convertDollarValueToCoins(osmosisAssets, value, pool, prices);
 };
 
 export const convertDollarValueToShares = (
@@ -113,76 +96,19 @@ export const convertDollarValueToShares = (
   pool: Pool,
   prices: PriceHash
 ) => {
-  const liquidity = calcPoolLiquidity(pool, prices);
-
-  return new BigNumber(value)
-    .multipliedBy(pool.totalShares.amount)
-    .dividedBy(liquidity)
-    .shiftedBy(-18)
-    .toString();
+  return _convertDollarValueToShares(osmosisAssets, value, pool, prices);
 };
 
-const assetHashMap = osmosisAssets.reduce((res, asset) => {
-  return { ...res, [asset.base]: asset };
-}, {});
-
-export const prettyPool = (
-  pool: Pool,
-  { includeDetails = false } = {}
-): PoolPretty => {
-  const totalWeight = new BigNumber(pool.totalWeight);
-  const tokens = pool.poolAssets.map(({ token, weight }) => {
-    const asset = assetHashMap?.[token.denom];
-    const symbol = asset?.symbol ?? token.denom;
-    const ratio = new BigNumber(weight).dividedBy(totalWeight).toString();
-    const obj = {
-      symbol,
-      denom: token.denom,
-      amount: token.amount,
-      ratio,
-      info: undefined,
-    };
-    if (includeDetails) {
-      obj.info = asset;
-    }
-    return obj;
-  });
-  const value = {
-    nickname: tokens.map((t) => t.symbol).join('/'),
-    images: undefined,
-  };
-  if (includeDetails) {
-    value.images = tokens
-      .map((t) => {
-        const imgs = t?.info?.logo_URIs;
-        if (imgs) {
-          return {
-            token: t.symbol,
-            images: imgs,
-          };
-        }
-      })
-      .filter(Boolean);
-  }
-  return {
-    ...value,
-    ...pool,
-    poolAssetsPretty: tokens,
-  };
+export const prettyPool = (pool: Pool, { includeDetails = false } = {}): PoolPretty => {
+  return _prettyPool(osmosisAssets, pool, { includeDetails });
 };
 
 export const getOsmoDenomForSymbol = (token: CoinSymbol): CoinDenom => {
-  const asset = osmosisAssets.find(({ symbol }) => symbol === token);
-  const base = asset?.base;
-  if (!base) {
-    console.log(`cannot find base for token ${token}`);
-    return null;
-  }
-  return base;
+  return getChainDenomBySymbol(osmosisAssets, token);
 };
 
 export const noDecimals = (num: number | string) => {
-  return new BigNumber(num).decimalPlaces(0, BigNumber.ROUND_DOWN).toString();
+  return _noDecimals(num);
 };
 
 export const baseUnitsToDollarValue = (
@@ -190,11 +116,7 @@ export const baseUnitsToDollarValue = (
   symbol: string,
   amount: string | number
 ) => {
-  const denom = getOsmoDenomForSymbol(symbol);
-  return new BigNumber(amount)
-    .shiftedBy(-getExponentByDenom(denom))
-    .multipliedBy(prices[denom])
-    .toString();
+  return convertBaseUnitsToDollarValue(osmosisAssets, prices, symbol, amount);
 };
 
 export const dollarValueToDenomUnits = (
@@ -202,19 +124,11 @@ export const dollarValueToDenomUnits = (
   symbol: string,
   value: string | number
 ) => {
-  const denom = getOsmoDenomForSymbol(symbol);
-  return new BigNumber(value)
-    .dividedBy(prices[denom])
-    .shiftedBy(getExponentByDenom(denom))
-    .toString();
+  return convertDollarValueToDenomUnits(osmosisAssets, prices, symbol, value);
 };
 
-export const baseUnitsToDisplayUnits = (
-  symbol: string,
-  amount: string | number
-) => {
-  const denom = getOsmoDenomForSymbol(symbol);
-  return new BigNumber(amount).shiftedBy(-getExponentByDenom(denom)).toString();
+export const baseUnitsToDisplayUnits = (symbol: string, amount: string | number) => {
+  return convertBaseUnitsToDisplayUnits(osmosisAssets, symbol, amount);
 };
 
 export const calcCoinsNeededForValue = (
@@ -222,31 +136,7 @@ export const calcCoinsNeededForValue = (
   poolInfo: PoolPretty,
   value: string | number
 ) => {
-  const val = new BigNumber(value);
-  const coinsNeeded = poolInfo.poolAssetsPretty.map(
-    ({ symbol, amount, denom, ratio }) => {
-      const valueByRatio = val.multipliedBy(ratio).toString();
-      const amountNeeded = dollarValueToDenomUnits(
-        prices,
-        symbol,
-        valueByRatio
-      );
-      const unitRatio = new BigNumber(amountNeeded)
-        .dividedBy(amount)
-        .toString();
-
-      return {
-        denom: denom,
-        symbol: symbol,
-        amount: noDecimals(amountNeeded),
-        shareTotalValue: valueByRatio,
-        displayAmount: baseUnitsToDisplayUnits(symbol, amountNeeded),
-        totalDollarValue: baseUnitsToDollarValue(prices, symbol, amount),
-        unitRatio,
-      };
-    }
-  );
-  return coinsNeeded;
+  return _calcCoinsNeededForValue(osmosisAssets, prices, poolInfo, value);
 };
 
 export const getCoinBalance = (
@@ -254,21 +144,7 @@ export const getCoinBalance = (
   balances: Coin[],
   prettyAsset: PoolAssetPretty
 ): CoinBalance => {
-  const coinBalance = balances.find((coin) => coin.denom == prettyAsset.denom);
-
-  if (!coinBalance || !coinBalance.amount) {
-    // console.log({ coinBalance });
-    // throw new Error("not enough " + prettyAsset.symbol);
-    return { ...coinBalance, displayValue: 0 };
-  }
-
-  const displayValue = baseUnitsToDollarValue(
-    prices,
-    prettyAsset.symbol,
-    coinBalance.amount
-  );
-
-  return { ...coinBalance, displayValue };
+  return _getCoinBalance(osmosisAssets, prices, balances, prettyAsset);
 };
 
 export const calcMaxCoinsForPool = (
@@ -276,48 +152,11 @@ export const calcMaxCoinsForPool = (
   poolInfo: PoolPretty,
   balances: Coin[]
 ) => {
-  const smallestTotalDollarValue = poolInfo.poolAssetsPretty
-    .map((prettyAsset) => {
-      const { displayValue } = getCoinBalance(prices, balances, prettyAsset);
-      return new BigNumber(displayValue).dividedBy(prettyAsset.ratio);
-    })
-    .sort((a, b) => a.minus(b).toNumber())[0]
-    .toString();
-
-  const coinsNeeded = poolInfo.poolAssetsPretty.map((asset) => {
-    const coinValue = new BigNumber(smallestTotalDollarValue)
-      .multipliedBy(asset.ratio)
-      .toString();
-    const amount = dollarValueToDenomUnits(prices, asset.symbol, coinValue);
-
-    return {
-      denom: asset.denom,
-      amount: noDecimals(amount),
-    };
-  });
-
-  return coinsNeeded;
+  return _calcMaxCoinsForPool(osmosisAssets, prices, poolInfo, balances);
 };
 
-export const calcShareOutAmount = (
-  poolInfo: Pool,
-  coinsNeeded: Coin[]
-): string => {
-  return poolInfo.poolAssets
-    .map(({ token }, i) => {
-      const tokenInAmount = new BigNumber(coinsNeeded[i].amount);
-      const totalShare = new BigNumber(poolInfo.totalShares.amount);
-      const totalShareExp = totalShare.shiftedBy(-18);
-      const poolAssetAmount = new BigNumber(token.amount);
-
-      return tokenInAmount
-        .multipliedBy(totalShareExp)
-        .dividedBy(poolAssetAmount)
-        .shiftedBy(18)
-        .decimalPlaces(0, BigNumber.ROUND_HALF_UP)
-        .toString();
-    })
-    .sort((a, b) => (new BigNumber(a).lt(b) ? -1 : 1))[0];
+export const calcShareOutAmount = (poolInfo: Pool, coinsNeeded: Coin[]): string => {
+  return _calcShareOutAmount(poolInfo, coinsNeeded);
 };
 
 export const addPropertiesToPool = (
@@ -331,7 +170,7 @@ export const addPropertiesToPool = (
     .decimalPlaces(0)
     .toNumber();
 
-  const feeData = fees.find((fee) => fee.pool_id === pool.id.low.toString());
+  const feeData = fees.find((fee) => fee.pool_id === pool.id.toString());
   const volume24H = Math.round(Number(feeData?.volume_24h || 0));
   const volume7d = Math.round(Number(feeData?.volume_7d || 0));
   const fees7D = Math.round(Number(feeData?.fees_spent_7d || 0));

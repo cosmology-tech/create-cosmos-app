@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { MsgTransfer } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/ibc.applications.transfer.v1.MsgTransfer", MsgTransfer]];
@@ -20,6 +21,22 @@ export const MessageComposer = {
       return {
         typeUrl: "/ibc.applications.transfer.v1.MsgTransfer",
         value
+      };
+    }
+  },
+  toJSON: {
+    transfer(value: MsgTransfer) {
+      return {
+        typeUrl: "/ibc.applications.transfer.v1.MsgTransfer",
+        value: MsgTransfer.toJSON(value)
+      };
+    }
+  },
+  fromJSON: {
+    transfer(value: any) {
+      return {
+        typeUrl: "/ibc.applications.transfer.v1.MsgTransfer",
+        value: MsgTransfer.fromJSON(value)
       };
     }
   },
