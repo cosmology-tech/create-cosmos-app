@@ -19,32 +19,32 @@ telescope({
         'cosmos/staking/v1beta1/staking.ts',
 
         'cosmos/authz/v1beta1/tx.amino.ts',
-        'cosmos/staking/v1beta1/tx.amino.ts'
-      ]
+        'cosmos/staking/v1beta1/tx.amino.ts',
+      ],
     },
     interfaces: {
       enabled: false,
-      useUnionTypes: false
+      useUnionTypes: false,
     },
     prototypes: {
       enabled: true,
       parser: {
-        keepCase: false
+        keepCase: false,
       },
       excluded: {
-        packages: ['cosmos.autocli.v1']
+        packages: ['cosmos.autocli.v1'],
       },
       addAminoTypeToObjects: true,
       addTypeUrlToObjects: true,
       typingsFormat: {
         customTypes: {
-          useCosmosSDKDec: true
+          useCosmosSDKDec: true,
         },
         num64: 'bigint',
         useDeepPartial: true,
         useExact: false,
         timestamp: 'date',
-        duration: 'duration'
+        duration: 'duration',
       },
 
       methods: {
@@ -59,34 +59,40 @@ telescope({
         toAmino: true,
         fromAmino: true,
         fromProto: true,
-        toProto: true
+        toProto: true,
       },
       includePackageVar: false,
       fieldDefaultIsOptional: true,
       useOptionalNullable: true,
-      allowUndefinedTypes: true
+      allowUndefinedTypes: true,
     },
     reactQuery: {
-      enabled: true
+      enabled: true,
+      instantExport: {
+        include: {
+          patterns: ['**'],
+        },
+      },
     },
     aminoEncoding: {
       enabled: true,
-      useRecursiveV2encoding: true
+      useRecursiveV2encoding: true,
     },
     lcdClients: {
-      enabled: false
+      enabled: false,
     },
     rpcClients: {
       enabled: true,
-      camelCase: true
+      camelCase: true,
     },
-    mobx:{
-      enabled: true
-    }
-  }
-}).then(() => {
-  console.log('✨ all done!');
-}).catch(e=>{
-  console.error(e);
-});
-
+    mobx: {
+      enabled: true,
+    },
+  },
+})
+  .then(() => {
+    console.log('✨ all done!');
+  })
+  .catch((e) => {
+    console.error(e);
+  });
