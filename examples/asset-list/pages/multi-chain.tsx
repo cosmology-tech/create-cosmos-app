@@ -1,18 +1,24 @@
-import { AssetList, Layout, WalletSection } from '@/components';
-import { useState } from 'react';
+import { AssetListSection, Layout, WalletSection } from '@/components';
+import { useEffect, useState } from 'react';
 import { ChainName } from '@cosmos-kit/core';
 
 export default function MultiChain() {
-  const [selectedChainName, setChainName] = useState<ChainName>();
+  const [chainName, setChainName] = useState<ChainName>();
+  const [content, setContent] = useState<JSX.Element>();
+
+  useEffect(() => {
+    if (!chainName) return;
+    setContent(<AssetListSection chainName={chainName} />);
+  }, [chainName]);
 
   return (
     <Layout>
       <WalletSection
         isMultiChain={true}
-        providedChainName={selectedChainName}
+        providedChainName={chainName}
         setChainName={setChainName}
       />
-      {selectedChainName && <AssetList selectedChainName={selectedChainName} />}
+      {content}
     </Layout>
   );
 }

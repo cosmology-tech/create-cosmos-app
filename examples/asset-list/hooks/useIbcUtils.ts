@@ -1,45 +1,34 @@
 import { useManager } from '@cosmos-kit/react';
 import { useMemo } from 'react';
-import { Asset } from '@chain-registry/types';
+import { Asset, AssetList } from '@chain-registry/types';
 import { asset_lists as ibcAssetLists } from '@chain-registry/assets';
 import { assets as chainAssets, ibc } from 'chain-registry';
-import { getPrices } from '../api';
 import { CoinDenom, CoinSymbol, Exponent, PriceHash } from '../utils/types';
 import BigNumber from 'bignumber.js';
 import { Coin } from '@cosmjs/amino';
 import { PrettyAsset } from '../components';
 import { ChainName } from '@cosmos-kit/core';
 
-export const useIbcAssets = (chainName: string) => {
+export const useIbcUtils = (chainName: string) => {
   const { getChainRecord } = useManager();
 
+  const filterAssets = (assetList: AssetList[]): Asset[] => {
+    return (
+      assetList
+        .find(({ chain_name }) => chain_name === chainName)
+        ?.assets?.filter(({ type_asset }) => type_asset !== 'ics20') || []
+    );
+  };
+
   const { nativeAssets, ibcAssets } = useMemo(() => {
-    const nativeAssets: Asset[] =
-      chainAssets.find((chain) => chain.chain_name === chainName)?.assets || [];
-    const ibcAssets: Asset[] =
-      ibcAssetLists.find((chain) => chain.chain_name === chainName)?.assets ||
-      [];
+    const nativeAssets = filterAssets(chainAssets);
+    const ibcAssets = filterAssets(ibcAssetLists);
+
     return { nativeAssets, ibcAssets };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chainName]);
 
   const allAssets = [...nativeAssets, ...ibcAssets];
-
-  const getPriceHash = async (): Promise<PriceHash> => {
-    const geckoIdAssets = allAssets.filter((asset) => !!asset?.coingecko_id);
-
-    const geckoIds = geckoIdAssets.map(
-      (asset) => asset!.coingecko_id
-    ) as string[];
-
-    return getPrices(geckoIds).then((geckoPrices) =>
-      Object.entries(geckoPrices).reduce((priceHash, cur) => {
-        const denom = geckoIdAssets.find(
-          (asset) => asset.coingecko_id === cur[0]
-        )!.base;
-        return { ...priceHash, [denom]: cur[1].usd };
-      }, {})
-    );
-  };
 
   const getIbcAssetsLength = () => {
     return ibcAssets.length;
@@ -145,9 +134,9 @@ export const useIbcAssets = (chainName: string) => {
   };
 
   return {
+    allAssets,
     nativeAssets,
     ibcAssets,
-    getPriceHash,
     getAssetByDenom,
     denomToSymbol,
     symbolToDenom,

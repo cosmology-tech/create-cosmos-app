@@ -10,10 +10,10 @@ import {
 } from '@chakra-ui/react';
 import { ChainName } from '@cosmos-kit/core';
 import BigNumber from 'bignumber.js';
-import React, { useEffect } from 'react';
-import { useIbcAssets, useOsmosisClient, useRequest } from '../../hooks';
-import { PriceHash, Transfer, TransferInfo } from '../types';
-import { ChainLogo } from './OsmosisAssets';
+import React, { useMemo } from 'react';
+import { useBalance, useIbcUtils } from '../../hooks';
+import { PriceHash, Transfer, TransferInfo } from './types';
+import { ChainLogo } from './ChainAssetsList';
 
 const ratioLabels = [
   { label: 'Max', divisor: 1 },
@@ -21,11 +21,8 @@ const ratioLabels = [
   { label: '1/3', divisor: 3 },
 ];
 
-const ZERO_AMOUNT = '0';
-
 interface IProps {
   prices: PriceHash;
-  address: string | undefined;
   transferInfo: TransferInfo;
   inputState: { inputValue: string; setInputValue: (val: string) => void };
   selectedChainName: ChainName;
@@ -33,15 +30,12 @@ interface IProps {
 
 const AmountInput: React.FC<IProps> = ({
   prices,
-  address,
   inputState,
   transferInfo,
   selectedChainName,
 }) => {
   const { inputValue, setInputValue } = inputState;
-
-  const { convRawToDispAmount, symbolToDenom } =
-    useIbcAssets(selectedChainName);
+  const { convRawToDispAmount, symbolToDenom } = useIbcUtils(selectedChainName);
 
   const {
     type: transferType,
@@ -49,26 +43,21 @@ const AmountInput: React.FC<IProps> = ({
     sourceChainName,
   } = transferInfo;
 
-  const osmosisClient = useOsmosisClient(sourceChainName);
-  const getBalance = useRequest(osmosisClient.getBalance);
+  const isDeposit = transferType === Transfer.Deposit;
+  const { balance, isLoading } = useBalance(sourceChainName, isDeposit);
 
-  useEffect(() => {
-    if (!address || transferType === Transfer.Withdraw) return;
-    getBalance.request({ address, denom: transferToken.denom });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+  const ZERO_AMOUNT = '0';
 
-  let availableAmount: string =
-    transferType === Transfer.Deposit
-      ? ZERO_AMOUNT
-      : transferToken.displayAmount;
+  const availableAmount = useMemo(() => {
+    if (!isDeposit) return transferToken.displayAmount;
+    if (isLoading) return ZERO_AMOUNT;
 
-  if (getBalance.data && transferType === Transfer.Deposit) {
-    availableAmount = convRawToDispAmount(
+    return convRawToDispAmount(
       transferToken.symbol,
-      getBalance.data.amount
+      balance?.amount || ZERO_AMOUNT
     );
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDeposit, isLoading, transferToken]);
 
   const dollarValue = new BigNumber(inputValue)
     .multipliedBy(prices[symbolToDenom(transferToken.symbol)])
@@ -94,7 +83,7 @@ const AmountInput: React.FC<IProps> = ({
         </Text>
         <Flex fontSize="14px" color={titleColor} lineHeight="16px">
           Available&nbsp;
-          {getBalance.loading ? (
+          {isLoading && isDeposit ? (
             <Skeleton w="30px" h="16px" mr="4px" />
           ) : (
             <span style={{ fontWeight: '600' }}>{availableAmount}&nbsp;</span>
@@ -144,7 +133,7 @@ const AmountInput: React.FC<IProps> = ({
             fontWeight="semibold"
             fontSize="18px"
             color={statColor}
-            disabled={getBalance.loading}
+            disabled={isLoading && isDeposit}
           />
         </NumberInput>
 
@@ -176,7 +165,7 @@ const AmountInput: React.FC<IProps> = ({
             label={label}
             key={label}
             onClick={() => {
-              if (getBalance.loading) return;
+              if (isLoading && isDeposit) return;
               const inputVal = new BigNumber(availableAmount)
                 .div(divisor)
                 .decimalPlaces(9)
