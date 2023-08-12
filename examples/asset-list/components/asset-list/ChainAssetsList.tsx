@@ -13,41 +13,24 @@ import {
 } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React, { useMemo, useState } from 'react';
-import { PrettyAsset, PriceHash, Transfer, TransferInfo } from '../types';
+import { PrettyAsset, PriceHash, Transfer, TransferInfo } from './types';
 import { SimpleButton } from './Buttons';
 import TransferModal from './TransferModal';
 import { ChainName } from '@cosmos-kit/core';
-import { QueryAllBalancesRequest } from 'osmojs/types/codegen/cosmos/bank/v1beta1/query';
-import { useIbcAssets } from '../../hooks';
-
-export const truncDecimals = (
-  val: string | number | undefined,
-  decimals: number
-) => {
-  return new BigNumber(val || 0).decimalPlaces(decimals).toString();
-};
-
-export const formatDollarValue = (dollarValue: string, amount: string) => {
-  return new BigNumber(dollarValue).gt(0.01)
-    ? '$' + truncDecimals(dollarValue, 2)
-    : new BigNumber(amount).gt(0)
-    ? '< $0.01'
-    : '$0';
-};
-
-const ZERO_AMOUNT = '0';
+import { useIbcUtils } from '../../hooks';
+import { truncDecimals, formatDollarValue } from '@/utils';
 
 interface IProps {
   assets: PrettyAsset[];
   prices: PriceHash;
-  updateBalances: (arg: QueryAllBalancesRequest) => Promise<void>;
+  updateData: () => void;
   selectedChainName: ChainName;
 }
 
-const OsmosisAssetsList: React.FC<IProps> = ({
+const ChainAssetsList: React.FC<IProps> = ({
   assets,
   prices,
-  updateBalances,
+  updateData,
   selectedChainName,
 }) => {
   const [showAll, setShowAll] = useState(false);
@@ -56,12 +39,14 @@ const OsmosisAssetsList: React.FC<IProps> = ({
   const { colorMode } = useColorMode();
   const transferModalControl = useDisclosure();
   const { getChainName, isNativeAsset, getNativeDenom } =
-    useIbcAssets(selectedChainName);
+    useIbcUtils(selectedChainName);
 
   const assetsToShow = useMemo(
     () => (showAll ? assets : assets.slice(0, 6)),
     [assets, showAll]
   );
+
+  const ZERO_AMOUNT = '0';
 
   if (assets.length === 0) {
     return (
@@ -179,7 +164,7 @@ const OsmosisAssetsList: React.FC<IProps> = ({
         <TransferModal
           prices={prices}
           transferInfo={transferInfo}
-          updateBalances={updateBalances}
+          updateData={updateData}
           modalControl={transferModalControl}
           selectedChainName={selectedChainName}
         />
@@ -267,4 +252,4 @@ const Header = ({ text, ml }: { text: string; ml?: string }) => {
   );
 };
 
-export default OsmosisAssetsList;
+export default ChainAssetsList;

@@ -3637,6 +3637,16 @@
     bowser "2.11.0"
     events "3.3.0"
 
+"@cosmos-kit/core@2.2.2", "@cosmos-kit/core@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.npmjs.org/@cosmos-kit/core/-/core-2.2.2.tgz#9368731f6c42cb5094b78e8e7b978e4360e679a5"
+  integrity sha512-sh6rqON5jJ+B3zHw0Zfve7ydzB0tZzQCK3qiyaq83/Pl/14T9o969933XH5MV55Gu2og0OlcqhTOPPorI4cGxg==
+  dependencies:
+    "@chain-registry/types" "0.13.0"
+    "@walletconnect/types" "2.7.2"
+    bowser "2.11.0"
+    events "3.3.0"
+
 "@cosmos-kit/cosmostation-extension@^2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@cosmos-kit/cosmostation-extension/-/cosmostation-extension-2.0.3.tgz#134f22053964f13dbe6b86f301c765927d98a53e"
@@ -3644,6 +3654,14 @@
   dependencies:
     "@chain-registry/cosmostation" "1.8.0"
     "@cosmos-kit/core" "^2.0.3"
+
+"@cosmos-kit/cosmostation-extension@^2.1.7":
+  version "2.1.7"
+  resolved "https://registry.npmjs.org/@cosmos-kit/cosmostation-extension/-/cosmostation-extension-2.1.7.tgz#43fb4b2fe0af8096061952bdb97df826df3d0c14"
+  integrity sha512-dOsVYXVYa/hdxaPH4qF06vWHgqt8bXVbbfV3NwAH07lIFsbIJFVJ9joPuo1PIqnk8BPYqnAosEdnAiv0apJcJA==
+  dependencies:
+    "@chain-registry/cosmostation" "1.8.0"
+    "@cosmos-kit/core" "^2.2.2"
 
 "@cosmos-kit/cosmostation-mobile@^2.0.3":
   version "2.0.3"
@@ -3654,6 +3672,15 @@
     "@cosmos-kit/core" "^2.0.3"
     "@cosmos-kit/walletconnect" "^2.0.3"
 
+"@cosmos-kit/cosmostation-mobile@^2.1.7":
+  version "2.1.7"
+  resolved "https://registry.npmjs.org/@cosmos-kit/cosmostation-mobile/-/cosmostation-mobile-2.1.7.tgz#5657730eee203cfb037adab5b09431b039f2422f"
+  integrity sha512-1m+02tpFy9xWcXZZuEGqKNrfJX+ivjb8gakQOXA7lhnc9NuENS80frXo1ybWd7qooKMFU63YGoGQZF1mQllnhA==
+  dependencies:
+    "@chain-registry/cosmostation" "1.8.0"
+    "@cosmos-kit/core" "^2.2.2"
+    "@cosmos-kit/walletconnect" "^2.1.7"
+
 "@cosmos-kit/cosmostation@2.0.3", "@cosmos-kit/cosmostation@^2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@cosmos-kit/cosmostation/-/cosmostation-2.0.3.tgz#ebe76aa7b8da16b9a31bbf87a5666d56dbbbb44c"
@@ -3662,6 +3689,14 @@
     "@cosmos-kit/cosmostation-extension" "^2.0.3"
     "@cosmos-kit/cosmostation-mobile" "^2.0.3"
 
+"@cosmos-kit/cosmostation@2.1.7":
+  version "2.1.7"
+  resolved "https://registry.npmjs.org/@cosmos-kit/cosmostation/-/cosmostation-2.1.7.tgz#24b5c8c87e043a8bd2f5262febb869cd74b28bf5"
+  integrity sha512-6eLodVjPskn1gLKBKOuK7B+wueYudyeX0kWmf6HaR3lSOl2Grd9nDfVx68BK3eGX73O4xKax+zcFkBH1p2A2cQ==
+  dependencies:
+    "@cosmos-kit/cosmostation-extension" "^2.1.7"
+    "@cosmos-kit/cosmostation-mobile" "^2.1.7"
+
 "@cosmos-kit/keplr-extension@^2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@cosmos-kit/keplr-extension/-/keplr-extension-2.0.3.tgz#def6f2f691482f11ac41b2a9e0dc83eb744f9239"
@@ -3669,6 +3704,14 @@
   dependencies:
     "@chain-registry/keplr" "1.8.0"
     "@cosmos-kit/core" "^2.0.3"
+
+"@cosmos-kit/keplr-extension@^2.1.7":
+  version "2.1.7"
+  resolved "https://registry.npmjs.org/@cosmos-kit/keplr-extension/-/keplr-extension-2.1.7.tgz#acc670c18a9248485b9133ca4a214fa1fe1945c5"
+  integrity sha512-bUmUij8eWYoSd64EtNRve3d1hesxqfa7+mu6G8ZZF1GqMQFPGa/YBeLGjpjCBdhTrIQaUYFjv5qYJYZt5C9fng==
+  dependencies:
+    "@chain-registry/keplr" "1.8.0"
+    "@cosmos-kit/core" "^2.2.2"
 
 "@cosmos-kit/keplr-mobile@^2.0.3":
   version "2.0.3"
@@ -3679,6 +3722,15 @@
     "@cosmos-kit/core" "^2.0.3"
     "@cosmos-kit/walletconnect" "^2.0.3"
 
+"@cosmos-kit/keplr-mobile@^2.1.7":
+  version "2.1.7"
+  resolved "https://registry.npmjs.org/@cosmos-kit/keplr-mobile/-/keplr-mobile-2.1.7.tgz#0c40616fe1a25190fbecb4ec3599281475f59cab"
+  integrity sha512-ZlRhf93iD1DRkkroiArGSydFx8JFNFMOngwcl0QVXHVlLiMQk35xXMHo+uHvFzc5K4z4Sz8SyWdJ33Q/DDJxvg==
+  dependencies:
+    "@chain-registry/keplr" "1.8.0"
+    "@cosmos-kit/core" "^2.2.2"
+    "@cosmos-kit/walletconnect" "^2.1.7"
+
 "@cosmos-kit/keplr@2.0.3", "@cosmos-kit/keplr@^2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@cosmos-kit/keplr/-/keplr-2.0.3.tgz#cc39a7a57383f268f22f42c264a01e2216cc6874"
@@ -3687,6 +3739,14 @@
     "@cosmos-kit/keplr-extension" "^2.0.3"
     "@cosmos-kit/keplr-mobile" "^2.0.3"
 
+"@cosmos-kit/keplr@2.1.7":
+  version "2.1.7"
+  resolved "https://registry.npmjs.org/@cosmos-kit/keplr/-/keplr-2.1.7.tgz#1ff6a66a2092210f97f722d467f8719a1f73be86"
+  integrity sha512-PnD4Ups0zsLPfhdx+Yw+OdtvtsQzht+If+dz8D2R2QpgLbForJny0xciPHv0ciaSAf3tIfmxwA5n4sSCcgvOHw==
+  dependencies:
+    "@cosmos-kit/keplr-extension" "^2.1.7"
+    "@cosmos-kit/keplr-mobile" "^2.1.7"
+
 "@cosmos-kit/leap-extension@^2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@cosmos-kit/leap-extension/-/leap-extension-2.0.3.tgz#4d712bf60c3fa77e8ebd5a33043189f08e8df76d"
@@ -3694,6 +3754,14 @@
   dependencies:
     "@chain-registry/keplr" "1.8.0"
     "@cosmos-kit/core" "^2.0.3"
+
+"@cosmos-kit/leap-extension@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.npmjs.org/@cosmos-kit/leap-extension/-/leap-extension-2.2.2.tgz#87ee990e7f32106673c48c8ea8aa1e8c23b4325e"
+  integrity sha512-JydwSuz9g491ca5nuj/8QT+FJHcRlhyO0J3zKLdxUfaUjp9hQZTIl1sFAosGHOtaXwxhAHLnDF98+3EdvHw8Cw==
+  dependencies:
+    "@chain-registry/keplr" "1.8.0"
+    "@cosmos-kit/core" "^2.2.2"
 
 "@cosmos-kit/leap-mobile@^2.0.3":
   version "2.0.3"
@@ -3704,6 +3772,15 @@
     "@cosmos-kit/core" "^2.0.3"
     "@cosmos-kit/walletconnect" "^2.0.3"
 
+"@cosmos-kit/leap-mobile@^2.1.7":
+  version "2.1.7"
+  resolved "https://registry.npmjs.org/@cosmos-kit/leap-mobile/-/leap-mobile-2.1.7.tgz#d8257d783cf8c0f88f342f5f3ca6884028d296cb"
+  integrity sha512-rHHkrcQQk+wiq4zdgPceq9BaOeSGbep1sk3kOuMea/dD5cxVOWzBOOv4yZ5MRDsRciTjW4rlzjW2E5x0rbfGww==
+  dependencies:
+    "@chain-registry/keplr" "1.8.0"
+    "@cosmos-kit/core" "^2.2.2"
+    "@cosmos-kit/walletconnect" "^2.1.7"
+
 "@cosmos-kit/leap@2.0.3", "@cosmos-kit/leap@^2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@cosmos-kit/leap/-/leap-2.0.3.tgz#986b15b99728ad4a72ad02a363ae27a9b0e56b77"
@@ -3712,6 +3789,14 @@
     "@cosmos-kit/leap-extension" "^2.0.3"
     "@cosmos-kit/leap-mobile" "^2.0.3"
 
+"@cosmos-kit/leap@2.1.7":
+  version "2.1.7"
+  resolved "https://registry.npmjs.org/@cosmos-kit/leap/-/leap-2.1.7.tgz#680fc3f9f1171dca5604dc06531396acf73f9ebc"
+  integrity sha512-M6XOb0kueX7Y/NOK6wCj8FEPNG2cT1Nhh7yu3vcvesgI49iwFsa1Krd//KgACBeE54oVl6acZodEUeS5Z87UJw==
+  dependencies:
+    "@cosmos-kit/leap-extension" "^2.2.2"
+    "@cosmos-kit/leap-mobile" "^2.1.7"
+
 "@cosmos-kit/react-lite@^2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@cosmos-kit/react-lite/-/react-lite-2.0.3.tgz#96db4459f8aadc93f1f9214f5222b082dc3a9a44"
@@ -3719,6 +3804,14 @@
   dependencies:
     "@chain-registry/types" "0.13.1"
     "@cosmos-kit/core" "^2.0.3"
+
+"@cosmos-kit/react-lite@^2.1.8":
+  version "2.1.8"
+  resolved "https://registry.npmjs.org/@cosmos-kit/react-lite/-/react-lite-2.1.8.tgz#49644951ed06977b088056073cb916aab292cd9e"
+  integrity sha512-0zcCC0bnWEUhdC3MKdBjjvsc8szBJa4yURnrKBsMXLLpM+retS/wpPMmyQNLvS4CQoyR7m3l6TsYkei8yaJBag==
+  dependencies:
+    "@chain-registry/types" "0.13.1"
+    "@cosmos-kit/core" "^2.2.2"
 
 "@cosmos-kit/react@2.0.3", "@cosmos-kit/react@^2.0.3":
   version "2.0.3"
@@ -3731,6 +3824,17 @@
     "@interchain-ui/react" "1.1.11"
     "@react-icons/all-files" "^4.1.0"
 
+"@cosmos-kit/react@2.2.2":
+  version "2.2.2"
+  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-2.2.2.tgz#0c0975ac2a245a6919b8003cb4dac034dc4bafe2"
+  integrity sha512-hum6U/hNHPqqOADsDAOuCJy8Za6QPEP2Yo/PMkpBogZTu1oDwYRsREi79PUhPWk6gfdYgTjbcjMSuTDo+ihnVA==
+  dependencies:
+    "@chain-registry/types" "0.13.1"
+    "@cosmos-kit/core" "^2.2.2"
+    "@cosmos-kit/react-lite" "^2.1.8"
+    "@interchain-ui/react" "1.3.0"
+    "@react-icons/all-files" "^4.1.0"
+
 "@cosmos-kit/walletconnect@^2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@cosmos-kit/walletconnect/-/walletconnect-2.0.3.tgz#d4f8f730e928f6ca660bf4d44160e20d5206188d"
@@ -3738,6 +3842,17 @@
   dependencies:
     "@babel/runtime" "7.11.2"
     "@cosmos-kit/core" "^2.0.3"
+    "@walletconnect/sign-client" "^2.9.0"
+    "@walletconnect/types" "^2.9.0"
+    "@walletconnect/utils" "^2.9.0"
+    events "3.3.0"
+
+"@cosmos-kit/walletconnect@^2.1.7":
+  version "2.1.7"
+  resolved "https://registry.npmjs.org/@cosmos-kit/walletconnect/-/walletconnect-2.1.7.tgz#f639e72a3e55c6db16f327d3be7f99717505bbac"
+  integrity sha512-7JX683s22LkP6jFWI4hxHnKY9IUXfokVzpWK2cQ1sydC6x5yvptX0p4HNsa0ol7l5RxMNeALfrqTx/Yxa0ETIQ==
+  dependencies:
+    "@cosmos-kit/core" "^2.2.2"
     "@walletconnect/sign-client" "^2.9.0"
     "@walletconnect/types" "^2.9.0"
     "@walletconnect/utils" "^2.9.0"
@@ -4146,6 +4261,31 @@
     lodash "^4.17.21"
     motion "^10.16.2"
     polished "^4.2.2"
+    zustand "^4.3.8"
+
+"@interchain-ui/react@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/@interchain-ui/react/-/react-1.3.0.tgz#57e98420c37585055880c1ab56cadb2a59e473db"
+  integrity sha512-17Forqigz0o0vUsg9b+oJoYiYTr5FLwCcj5VNivOBH4+Icg/IzAl7nR5UeCkcpXbd6QHdFPBZtijLKLmfj1O1Q==
+  dependencies:
+    "@fastify/deepmerge" "^1.3.0"
+    "@formkit/auto-animate" "1.0.0-beta.6"
+    "@types/react-transition-group" "4.4.5"
+    "@vanilla-extract/css" "^1.12.0"
+    "@vanilla-extract/css-utils" "^0.1.3"
+    "@vanilla-extract/dynamic" "^2.0.3"
+    "@vanilla-extract/recipes" "^0.4.0"
+    "@zag-js/dialog" "^0.9.2"
+    "@zag-js/react" "^0.9.2"
+    animejs "^3.2.1"
+    bignumber.js "^9.1.1"
+    clsx "^1.2.1"
+    copy-to-clipboard "^3.3.3"
+    immer "^9.0.19"
+    lodash "^4.17.21"
+    motion "^10.16.2"
+    polished "^4.2.2"
+    rainbow-sprinkles "^0.17.0"
     zustand "^4.3.8"
 
 "@iov/crypto@2.1.0":
@@ -13457,6 +13597,17 @@ osenv@^0.1.4:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
+osmo-query@16.5.1:
+  version "16.5.1"
+  resolved "https://registry.npmjs.org/osmo-query/-/osmo-query-16.5.1.tgz#0b021bd2bc55f33eeb66c326efc807212a1dde1a"
+  integrity sha512-7MbhCy2tnYxdZ44P21TYXp2UKozz0j+IWh8XNPBs2+GWdOMM9ZOkl6774cxiLYdc7PzXCcSRJPmTc7nSvPeisQ==
+  dependencies:
+    "@cosmjs/amino" "0.29.3"
+    "@cosmjs/proto-signing" "0.29.3"
+    "@cosmjs/stargate" "0.29.3"
+    "@cosmjs/tendermint-rpc" "^0.29.3"
+    "@cosmology/lcd" "^0.12.0"
+
 osmojs@15.5.0:
   version "15.5.0"
   resolved "https://registry.npmjs.org/osmojs/-/osmojs-15.5.0.tgz#d53a1ea4b1b8fb1073e5c331393b4bcdc95963fd"
@@ -14141,6 +14292,11 @@ quick-lru@^5.1.1:
   version "5.1.1"
   resolved "https://registry.npmjs.org/quick-lru/-/quick-lru-5.1.1.tgz"
   integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
+
+rainbow-sprinkles@^0.17.0:
+  version "0.17.0"
+  resolved "https://registry.npmjs.org/rainbow-sprinkles/-/rainbow-sprinkles-0.17.0.tgz#6ee06c6decc767b89bf01fc5fe87ecf859fd4c2f"
+  integrity sha512-ok3NrylQ0szvJtuBYaB/w09L9zOvvqcSQrvycT2A5XJxQNvwvkeADvTqQWGOQ3b6MkO8UmYccBPt8g8vVvxM9A==
 
 react-clientside-effect@^1.2.6:
   version "1.2.6"

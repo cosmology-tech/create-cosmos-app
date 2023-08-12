@@ -11,10 +11,10 @@ import {
   ibcAminoConverters,
   osmosisAminoConverters,
   osmosisProtoRegistry,
-} from 'osmojs';
+} from 'osmo-query';
 
 export const defaultChainName = 'osmosis';
-// export const chainName = 'osmosistestnet';
+export const KeplrWalletName = 'keplr-extension';
 
 export const chainassets: AssetList = assets.find(
   (chain) => chain.chain_name === defaultChainName

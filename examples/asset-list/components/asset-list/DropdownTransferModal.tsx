@@ -15,28 +15,26 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { ChainLogo } from './OsmosisAssets';
+import { ChainLogo } from './ChainAssetsList';
 import { HiOutlineClock } from 'react-icons/hi';
 import { LargeButton } from './Buttons';
 import DropdownInput from './DropdownInput';
-import {
-  PrettyAsset,
-  PriceHash,
-  TransactionResult,
-  Transfer,
-  TransferInfo,
-} from '../types';
-import { useChain, useManager } from '@cosmos-kit/react';
+import { PrettyAsset, PriceHash, TransferInfo } from './types';
+import { useChainWallet, useManager } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
-import { StdFee } from '@cosmjs/amino';
-import { useIbcAssets, useTransactionToast } from '../../hooks';
+import { StdFee, coins } from '@cosmjs/amino';
+import { useIbcUtils, useTx } from '../../hooks';
 import { ChainName } from '@cosmos-kit/core';
+import { KeplrWalletName } from '@/config';
+import { ibc } from 'osmo-query';
+
+const { transfer } = ibc.applications.transfer.v1.MessageComposer.withTypeUrl;
 
 interface IProps {
   prices: PriceHash;
   assets: PrettyAsset[];
   modalControl: UseDisclosureReturn;
-  updateBalances: ({ address }: { address: string }) => void;
+  updateData: () => void;
   transferInfoState: {
     transferInfo: TransferInfo;
     setTransferInfo: React.Dispatch<
@@ -51,14 +49,14 @@ const DropdownTransferModal: React.FC<IProps> = ({
   prices,
   modalControl,
   transferInfoState,
-  updateBalances,
+  updateData,
   selectedChainName,
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const { symbolToDenom, getExponentByDenom, getIbcInfo } =
-    useIbcAssets(selectedChainName);
+    useIbcUtils(selectedChainName);
 
   const { transferInfo, setTransferInfo } = transferInfoState;
 
@@ -69,17 +67,16 @@ const DropdownTransferModal: React.FC<IProps> = ({
     sourceChainName,
   } = transferInfo;
 
-  const {
-    address: sourceAddress,
-    connect: connectSourceChain,
-    getSigningStargateClient,
-  } = useChain(sourceChainName);
+  const { address: sourceAddress, connect: connectSourceChain } =
+    useChainWallet(sourceChainName, KeplrWalletName);
 
-  const { address: destAddress, connect: connectDestChain } =
-    useChain(destChainName);
+  const { address: destAddress, connect: connectDestChain } = useChainWallet(
+    destChainName,
+    KeplrWalletName
+  );
 
   const { getChainLogo } = useManager();
-  const { showToast } = useTransactionToast();
+  const { tx } = useTx(sourceChainName);
 
   useEffect(() => {
     if (!modalControl.isOpen) return;
@@ -91,6 +88,7 @@ const DropdownTransferModal: React.FC<IProps> = ({
   const closeModal = () => {
     modalControl.onClose();
     setInputValue('');
+    setIsLoading(false);
   };
 
   const handleClick = async () => {
@@ -101,23 +99,13 @@ const DropdownTransferModal: React.FC<IProps> = ({
       .shiftedBy(getExponentByDenom(symbolToDenom(transferToken.symbol)))
       .toString();
 
-    const currentTime = Math.floor(Date.now() / 1000);
-    const timeoutTime = currentTime + 300; // 5 minutes
-
-    const client = await getSigningStargateClient();
-
     const { sourcePort, sourceChannel } = getIbcInfo(
       sourceChainName,
       destChainName
     );
 
     const fee: StdFee = {
-      amount: [
-        {
-          denom: transferToken.denom,
-          amount: '1000',
-        },
-      ],
+      amount: coins('1000', transferToken.denom),
       gas: '250000',
     };
 
@@ -126,37 +114,29 @@ const DropdownTransferModal: React.FC<IProps> = ({
       amount: transferAmount,
     };
 
-    client
-      .sendIbcTokens(
-        sourceAddress,
-        destAddress,
-        token,
-        sourcePort,
-        sourceChannel,
-        undefined,
-        timeoutTime,
-        fee
-      )
-      .then((res) => {
-        if (res.code === TransactionResult.Success) {
-          showToast(res.code);
-          updateBalances({
-            address:
-              transferType === Transfer.Deposit ? destAddress : sourceAddress,
-          });
-          closeModal();
-        } else {
-          throw Error('transaction failed');
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        showToast(TransactionResult.Failed, err);
-      })
-      .finally(() => {
-        client.disconnect();
-        setIsLoading(false);
-      });
+    const stamp = Date.now();
+    const timeoutInNanos = (stamp + 1.2e6) * 1e6;
+
+    const msg = transfer({
+      sourcePort,
+      sourceChannel,
+      sender: sourceAddress,
+      receiver: destAddress,
+      token,
+      // @ts-ignore
+      timeoutHeight: undefined,
+      timeoutTimestamp: BigInt(timeoutInNanos),
+    });
+
+    await tx([msg], {
+      fee,
+      onSuccess: () => {
+        updateData();
+        closeModal();
+      },
+    });
+
+    setIsLoading(false);
   };
 
   const titleColor = useColorModeValue('#697584', '#A7B4C2');
@@ -189,7 +169,6 @@ const DropdownTransferModal: React.FC<IProps> = ({
             <DropdownInput
               assets={assets}
               prices={prices}
-              address={sourceAddress}
               transferInfo={transferInfo}
               setTransferInfo={setTransferInfo}
               inputState={{ inputValue, setInputValue }}

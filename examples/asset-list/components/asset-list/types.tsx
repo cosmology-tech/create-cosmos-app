@@ -33,11 +33,6 @@ export const Transfer = {
 
 export type TransferValues = typeof Transfer[keyof typeof Transfer];
 
-export enum TransactionResult {
-  Success = 0,
-  Failed = 1,
-}
-
 export type TransferInfo = {
   type: TransferValues;
   sourceChainName: string;

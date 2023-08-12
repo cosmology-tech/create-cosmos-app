@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Flex,
@@ -11,7 +11,7 @@ import {
   useDisclosure,
   Skeleton,
 } from '@chakra-ui/react';
-import { ChainLogo, truncDecimals } from './OsmosisAssets';
+import { ChainLogo } from './ChainAssetsList';
 import { SwapDropdown } from '@cosmology-ui/react';
 import {
   PrettyAsset,
@@ -19,18 +19,16 @@ import {
   PriceHash,
   Transfer,
   TransferInfo,
-} from '../types';
+} from './types';
 import BigNumber from 'bignumber.js';
-import { useIbcAssets, useOsmosisClient, useRequest } from '../../hooks';
+import { useBalance, useIbcUtils } from '../../hooks';
 import { ChainName } from '@cosmos-kit/core';
-
-const ZERO_AMOUNT = '0';
+import { truncDecimals } from '@/utils';
 
 interface IProps {
   prices: PriceHash;
   assets: PrettyAsset[];
   transferInfo: TransferInfo;
-  address: string | undefined;
   setTransferInfo: React.Dispatch<
     React.SetStateAction<TransferInfo | undefined>
   >;
@@ -44,16 +42,14 @@ interface IProps {
 const DropdownInput: React.FC<IProps> = ({
   assets,
   prices,
-  address,
   inputState,
   transferInfo,
   setTransferInfo,
   selectedChainName,
 }) => {
   const { inputValue, setInputValue } = inputState;
-
   const { convRawToDispAmount, symbolToDenom, getChainName, getNativeDenom } =
-    useIbcAssets(selectedChainName);
+    useIbcUtils(selectedChainName);
 
   const {
     type: transferType,
@@ -61,29 +57,22 @@ const DropdownInput: React.FC<IProps> = ({
     sourceChainName,
   } = transferInfo;
 
+  const isDeposit = transferType === Transfer.Deposit;
+  const { balance, isLoading } = useBalance(sourceChainName, isDeposit);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const osmosisClient = useOsmosisClient(sourceChainName);
-  const getBalance = useRequest(osmosisClient.getBalance);
-  const isDeposit = transferType === Transfer.Deposit;
+  const ZERO_AMOUNT = '0';
 
-  useEffect(() => {
-    if (!address || !isDeposit) return;
-    getBalance.request({ address, denom: transferToken.denom });
+  const availableAmount = useMemo(() => {
+    if (!isDeposit) return transferToken.displayAmount;
+    if (isLoading) return ZERO_AMOUNT;
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
-
-  let availableAmount: string = isDeposit
-    ? ZERO_AMOUNT
-    : transferToken.displayAmount;
-
-  if (getBalance.data && isDeposit) {
-    availableAmount = convRawToDispAmount(
+    return convRawToDispAmount(
       transferToken.symbol,
-      getBalance.data.amount
+      balance?.amount || ZERO_AMOUNT
     );
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDeposit, isLoading, transferToken]);
 
   const dollarValue = new BigNumber(inputValue)
     .multipliedBy(prices[symbolToDenom(transferToken.symbol)])
@@ -157,7 +146,7 @@ const DropdownInput: React.FC<IProps> = ({
           mr="20px"
         >
           Available&nbsp;&nbsp;
-          {getBalance.loading && isDeposit ? (
+          {isLoading && isDeposit ? (
             <Skeleton w="30px" h="16px" />
           ) : (
             <span style={{ color: statColor }}>{availableAmount}</span>
@@ -227,7 +216,7 @@ const DropdownInput: React.FC<IProps> = ({
             <NumberInputField
               h="100%"
               px={0}
-              disabled={getBalance.loading && isDeposit}
+              disabled={isLoading && isDeposit}
               fontWeight="600"
               fontSize="22px"
               lineHeight="26px"
@@ -271,7 +260,9 @@ const DropdownInput: React.FC<IProps> = ({
         <SwapDropdown
           isOpen={isOpen}
           onClose={onClose}
+          // @ts-ignore
           dropdownData={assetOptions}
+          // @ts-ignore
           onDropdownChange={handleOnChange}
         />
       </Box>
