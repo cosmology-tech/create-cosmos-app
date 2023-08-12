@@ -1,17 +1,25 @@
 import React, { MouseEventHandler, ReactNode } from 'react';
 import { Button, Icon, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import { IoWallet } from 'react-icons/io5';
-import { ConnectWalletType } from '../types';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { WalletStatus } from '@cosmos-kit/core';
+import { IconType } from 'react-icons';
+
+interface IConnectWalletButton {
+  buttonText?: string;
+  isLoading?: boolean;
+  isDisabled?: boolean;
+  icon?: IconType;
+  onClickConnectBtn?: MouseEventHandler<HTMLButtonElement>;
+}
 
 export const ConnectWalletButton = ({
   buttonText,
   isLoading,
   isDisabled,
   icon,
-  onClickConnectBtn
-}: ConnectWalletType) => {
+  onClickConnectBtn,
+}: IConnectWalletButton) => {
   return (
     <Button
       w="full"
@@ -26,12 +34,12 @@ export const ConnectWalletButton = ({
       _hover={{
         bgImage:
           'linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)',
-        opacity: 0.75
+        opacity: 0.75,
       }}
       _active={{
         bgImage:
           'linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)',
-        opacity: 0.9
+        opacity: 0.9,
       }}
       onClick={onClickConnectBtn}
     >
@@ -43,7 +51,7 @@ export const ConnectWalletButton = ({
 
 export const Disconnected = ({
   buttonText,
-  onClick
+  onClick,
 }: {
   buttonText: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
@@ -55,7 +63,7 @@ export const Disconnected = ({
 
 export const Connected = ({
   buttonText,
-  onClick
+  onClick,
 }: {
   buttonText: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
@@ -72,7 +80,7 @@ export const Connecting = () => {
 export const Rejected = ({
   buttonText,
   wordOfWarning,
-  onClick
+  onClick,
 }: {
   buttonText: string;
   wordOfWarning?: string;
@@ -112,7 +120,7 @@ export const Rejected = ({
 export const Error = ({
   buttonText,
   wordOfWarning,
-  onClick
+  onClick,
 }: {
   buttonText: string;
   wordOfWarning?: string;
@@ -151,7 +159,7 @@ export const Error = ({
 
 export const NotExist = ({
   buttonText,
-  onClick
+  onClick,
 }: {
   buttonText: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
@@ -172,7 +180,7 @@ export const WalletConnectComponent = ({
   connected,
   rejected,
   error,
-  notExist
+  notExist,
 }: {
   walletStatus: WalletStatus;
   disconnect: ReactNode;
