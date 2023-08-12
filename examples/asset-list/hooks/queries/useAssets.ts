@@ -5,7 +5,7 @@ import { UseQueryResult } from '@tanstack/react-query';
 import BigNumber from 'bignumber.js';
 import { QueryAllBalancesResponse } from 'osmo-query/dist/codegen/cosmos/bank/v1beta1/query';
 import { useEffect, useMemo } from 'react';
-import { useIbcUtils } from './useIbcUtils';
+import { useIbcUtils } from '../useIbcUtils';
 import { useInterchainQuery } from './useInterchainQuery';
 import { usePrices } from './usePrices';
 import { useTopTokens } from './useTopTokens';

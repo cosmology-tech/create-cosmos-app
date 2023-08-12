@@ -1,6 +1,6 @@
 import { Asset } from '@chain-registry/types';
 import { useQuery } from '@tanstack/react-query';
-import { useIbcUtils } from './useIbcUtils';
+import { useIbcUtils } from '../useIbcUtils';
 import { handleError } from './useTopTokens';
 
 type CoinGeckoId = string;
