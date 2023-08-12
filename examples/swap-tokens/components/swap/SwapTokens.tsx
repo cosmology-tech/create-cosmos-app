@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import Long from 'long';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Box, Center, Text } from '@chakra-ui/react';
+import { Box, Center, Divider, Text } from '@chakra-ui/react';
 
 import { Asset } from '@chain-registry/types';
 import { coin } from '@cosmjs/amino';
@@ -30,9 +30,14 @@ import {
   osmosisAssets,
   truncDecimals,
 } from '../../utils';
-import { chainName } from '../../config';
+import { defaultChainName } from '../../config';
 import { useTransactionToast, useRpcClient } from '../../hooks';
-import { LoadingConfig, LoadingMode, SwapOptionType, SwapView } from '../swap';
+import {
+  LoadingConfig,
+  LoadingMode,
+  SwapOptionType,
+  SwapView,
+} from './swap-ui';
 
 const slippages = ['1%', '2.5%', '3%', '5%'];
 
@@ -62,11 +67,12 @@ export const SwapTokens = () => {
     isLoading: false,
   });
 
-  const { address, getSigningStargateClient, connect } = useChain(chainName);
+  const { address, getSigningStargateClient, connect } =
+    useChain(defaultChainName);
 
   const { getChainRecord } = useManager();
   const { showToast } = useTransactionToast();
-  const { getRpcClient } = useRpcClient(chainName);
+  const { getRpcClient } = useRpcClient(defaultChainName);
 
   const getPrettyChainName = useCallback(
     (ibcDenom: CoinDenom) => {
@@ -118,8 +124,8 @@ export const SwapTokens = () => {
     const inputAmount = !isValueNumericAndPositive
       ? '0'
       : val.gt(inputMaxAmount)
-        ? inputMaxAmount
-        : value;
+      ? inputMaxAmount
+      : value;
 
     setInputAmount(inputAmount);
   };
@@ -541,8 +547,8 @@ export const SwapTokens = () => {
     !hasRoute && !loadingConfig.isLoading
       ? 'No route for this trade'
       : isAmountOverMaximum
-        ? 'Insufficient balance'
-        : '';
+      ? 'Insufficient balance'
+      : '';
 
   const dropdownData = useMemo(() => {
     return assetOptions.filter(
@@ -551,7 +557,8 @@ export const SwapTokens = () => {
   }, [assetOptions, fromToken?.symbol, toToken?.symbol]);
 
   return (
-    <>
+    <Box>
+      <Divider mb="60px" />
       {address ? (
         <Box width="500px" mx="auto" mb="60px">
           <SwapView
@@ -597,6 +604,7 @@ export const SwapTokens = () => {
           </Text>
         </Center>
       )}
-    </>
+      <Divider mb="60px" />
+    </Box>
   );
 };
