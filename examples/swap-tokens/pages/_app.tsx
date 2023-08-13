@@ -6,12 +6,23 @@ import { aminoTypes, registry } from '../config/defaults';
 import { wallets as keplrWallets } from '@cosmos-kit/keplr';
 import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
 import { wallets as leapWallets } from '@cosmos-kit/leap';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { assets, chains } from 'chain-registry';
 import { GasPrice } from '@cosmjs/stargate';
 import { SignerOptions } from '@cosmos-kit/core';
 import { ThemeProvider, defaultTheme } from '@cosmology-ui/react';
 import '@interchain-ui/react/styles';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
@@ -53,7 +64,9 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
           }}
           signerOptions={signerOptions}
         >
-          <Component {...pageProps} />
+          <QueryClientProvider client={queryClient}>
+            <Component {...pageProps} />
+          </QueryClientProvider>
         </ChainProvider>
       </ChakraProvider>
     </ThemeProvider>
