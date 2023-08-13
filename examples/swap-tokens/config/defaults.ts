@@ -11,7 +11,7 @@ import {
   ibcAminoConverters,
   osmosisAminoConverters,
   osmosisProtoRegistry,
-} from 'osmojs';
+} from 'osmo-query';
 
 export const defaultChainName = 'osmosis';
 
