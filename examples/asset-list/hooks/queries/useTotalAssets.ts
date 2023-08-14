@@ -8,7 +8,7 @@ import { usePrices } from './usePrices';
 import { defaultChainName as osmoChainName } from '@/config';
 import { Pool } from 'osmo-query/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { convertGammTokenToDollarValue } from '@/utils';
-import { useInterchainQuery } from './useInterchainQuery';
+import { useQueryHooks } from './useQueryHooks';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -26,7 +26,7 @@ export const useTotalAssets = (chainName: string) => {
   const { address } = useChain(chainName);
 
   const { cosmosQuery, osmosisQuery, isReady, isFetching } =
-    useInterchainQuery(chainName);
+    useQueryHooks(chainName);
 
   const isOsmosisChain = chainName === osmoChainName;
 
