@@ -9,10 +9,10 @@ import {
   useMediaQuery,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Pool } from './provide-liquidity';
-import { getLogoUrlFromDenom } from './pool-list';
+import { Pool } from './ProvideLiquidity';
+import { getLogoUrlFromDenom } from './PoolList';
 import BigNumber from 'bignumber.js';
-import { truncDecimals } from './pool-detail-modal';
+import { truncDecimals } from './modals/PoolDetailModal';
 import { getSymbolForDenom } from '../../utils';
 
 const formatNumber = (number: number | string) => {

@@ -17,29 +17,29 @@ import {
   useMediaQuery,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Pool } from './provide-liquidity';
-import { LargeButton, PoolAssetDisplay } from './modal-components';
-import { useTransactionToast } from './hooks';
+import { Pool } from '../ProvideLiquidity';
+import { LargeButton, PoolAssetDisplay } from './ModalComponents';
+import { useTransactionToast } from '../hooks';
 import {
   convertDollarValueToCoins,
   convertDollarValueToShares,
   getSymbolForDenom,
   noDecimals,
-} from '../../utils';
-import { truncDecimals } from './pool-detail-modal';
+} from '../../../utils';
+import { truncDecimals } from './PoolDetailModal';
 import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
-import { PriceHash } from '../../utils/types';
-import { getLogoUrlFromDenom } from './pool-list';
+import { PriceHash } from '../../../utils/types';
+import { getLogoUrlFromDenom } from '../PoolList';
 import BigNumber from 'bignumber.js';
 import { osmosis } from 'osmojs';
-import { chainName } from '../../config/defaults';
+import { defaultChainName } from '../../../config/defaults';
 import { useChain } from '@cosmos-kit/react';
-import { TransactionResult } from '../types';
+import { TransactionResult } from '../../types';
 import { coin, coins as aminoCoins } from '@cosmjs/amino';
 
 const { exitPool } = osmosis.gamm.v1beta1.MessageComposer.withTypeUrl;
 
-const RemoveLiquidityModal = ({
+export const RemoveLiquidityModal = ({
   isOpen,
   onClose,
   currentPool,
@@ -56,7 +56,7 @@ const RemoveLiquidityModal = ({
 }) => {
   const [percent, setPercent] = useState(50);
   const [isLoading, setIsLoading] = useState(false);
-  const { getSigningStargateClient, address } = useChain(chainName);
+  const { getSigningStargateClient, address } = useChain(defaultChainName);
   const { showToast } = useTransactionToast();
   const [isMobile] = useMediaQuery('(max-width: 480px)');
 
@@ -264,5 +264,3 @@ const RemoveLiquidityModal = ({
     </Modal>
   );
 };
-
-export default RemoveLiquidityModal;

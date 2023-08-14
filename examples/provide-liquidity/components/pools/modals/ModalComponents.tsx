@@ -9,8 +9,8 @@ import {
   UseRadioProps,
 } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
-import { ChainLogo } from './pool-card';
-import { truncDecimals } from './pool-detail-modal';
+import { ChainLogo } from '../PoolCard';
+import { truncDecimals } from './PoolDetailModal';
 
 export const NormalButton = ({
   type,

@@ -19,12 +19,12 @@ import {
   baseUnitsToDisplayUnits,
   calcMaxCoinsForPool,
   getSymbolForDenom,
-} from '../../utils';
-import { getLogoUrlFromDenom } from './pool-list';
-import { ChainLogo } from './pool-card';
-import { PoolPretty, PriceHash } from '../../utils/types';
+} from '../../../utils';
+import { getLogoUrlFromDenom } from '../PoolList';
+import { ChainLogo } from '../PoolCard';
+import { PoolPretty, PriceHash } from '../../../utils/types';
 import BigNumber from 'bignumber.js';
-import { truncDecimals } from './pool-detail-modal';
+import { truncDecimals } from './PoolDetailModal';
 
 type PrettyAsset = Pick<
   ReturnType<typeof prettyPool>,
@@ -110,9 +110,9 @@ export const TokenInput = ({
         ...inputToken,
         inputAmount: new BigNumber(displayAmount).gt(0)
           ? new BigNumber(displayAmountToValue(displayAmount))
-            .dividedBy(prices[inputToken.denom])
-            .decimalPlaces(2)
-            .toString()
+              .dividedBy(prices[inputToken.denom])
+              .decimalPlaces(2)
+              .toString()
           : '',
       };
     });
@@ -241,10 +241,10 @@ export const TokenInput = ({
                 isMobile
                   ? '100%'
                   : {
-                    sm: '100%',
-                    md: isMiddleScreen ? '100%' : '240px',
-                    lg: '420px',
-                  }
+                      sm: '100%',
+                      md: isMiddleScreen ? '100%' : '240px',
+                      lg: '420px',
+                    }
               }
               borderTopRightRadius="6px"
               borderBottomRightRadius="6px"

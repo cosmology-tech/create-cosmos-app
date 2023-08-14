@@ -26,9 +26,9 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { SlOptionsVertical } from 'react-icons/sl';
-import { Pool } from './provide-liquidity';
+import { Pool } from './ProvideLiquidity';
 import BigNumber from 'bignumber.js';
-import { truncDecimals } from './pool-detail-modal';
+import { truncDecimals } from './modals/PoolDetailModal';
 import { getOsmoAssetByDenom, getSymbolForDenom } from '../../utils';
 
 export const getLogoUrlFromDenom = (denom: string | undefined) => {
@@ -88,8 +88,8 @@ const PoolName = ({ isMyPools, pool }: { isMyPools: boolean; pool: Pool }) => {
         {pool.poolAssets.length > 2
           ? `${pool.poolAssets.length} Token Pool`
           : pool.poolAssets
-            .map(({ token }) => getSymbolForDenom(token!.denom))
-            .join('/')}
+              .map(({ token }) => getSymbolForDenom(token!.denom))
+              .join('/')}
       </Text>
       <Text fontWeight="400" fontSize="14px" color={poolIdColor}>
         {`Pool #${pool.id}`}

@@ -3,6 +3,7 @@ import { useChain } from '@cosmos-kit/react';
 import {
   Box,
   Center,
+  Divider,
   Flex,
   Heading,
   Spinner,
@@ -16,13 +17,15 @@ import { Pool as OsmosisPool } from 'osmojs/dist/codegen/osmosis/gamm/pool-model
 import { Asset } from '@chain-registry/types';
 import { asset_list, assets } from '@chain-registry/osmosis';
 import BigNumber from 'bignumber.js';
-import { chainName } from '../../config';
-import PoolList from './pool-list';
-import PoolCard from './pool-card';
-import { PoolDetailModal } from './pool-detail-modal';
-import AddLiquidityModal from './add-liquidity-modal';
-import RemoveLiquidityModal from './remove-liquidity-modal';
-import BondSharesModal from './bond-shares-modal';
+import { defaultChainName } from '../../config';
+import PoolList from './PoolList';
+import PoolCard from './PoolCard';
+import {
+  AddLiquidityModal,
+  BondSharesModal,
+  PoolDetailModal,
+  RemoveLiquidityModal,
+} from './modals';
 import {
   ExtraPoolProperties,
   GaugeQueryResult,
@@ -31,16 +34,13 @@ import {
 } from '../types';
 import { calcPoolAprs, addPropertiesToPool } from '../../utils';
 import { PriceHash } from '../../utils/types';
-import { PoolsOverview } from './pools-overview';
+import { PoolsOverview } from './PoolsOverview';
 import * as api from '../../api';
 import { useOsmosisRequests, useQueuedRequests, useRequest } from '../../hooks';
 
 export type Pool = OsmosisPool & ExtraPoolProperties;
 
-const osmosisAssets: Asset[] = [
-  ...assets.assets,
-  ...asset_list.assets,
-];
+const osmosisAssets: Asset[] = [...assets.assets, ...asset_list.assets];
 
 export const ProvideLiquidity = () => {
   const [showAll, setShowAll] = useState(false);
@@ -52,7 +52,7 @@ export const ProvideLiquidity = () => {
   const addLiquidityModal = useDisclosure();
   const removeLiquidityModal = useDisclosure();
 
-  const { address, assets } = useChain(chainName);
+  const { address, assets } = useChain(defaultChainName);
   const { colorMode } = useColorMode();
 
   const getFees = useRequest<typeof api.getFees>(api.getFees);
@@ -76,7 +76,7 @@ export const ProvideLiquidity = () => {
     getSuperfluidAssets,
     getSuperfluidDelegations,
     getActiveGauges,
-  } = useOsmosisRequests(chainName);
+  } = useOsmosisRequests(defaultChainName);
 
   const prices = useMemo(() => {
     if (!getTokens.data) return;
@@ -118,8 +118,8 @@ export const ProvideLiquidity = () => {
       owner: address,
       duration: {
         seconds: 0n,
-        nanos: 0
-      }
+        nanos: 0,
+      },
     });
     getSuperfluidDelegations.request({ delegatorAddress: address });
 
@@ -426,6 +426,8 @@ export const ProvideLiquidity = () => {
           </Flex>
         )}
       </Box>
+
+      <Divider mb={16} />
 
       {pool && prices && getLocks.data && getSuperfluidDelegations.data && (
         <PoolDetailModal
