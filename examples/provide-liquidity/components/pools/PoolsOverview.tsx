@@ -11,8 +11,8 @@ import {
 import { useChain, useManager } from '@cosmos-kit/react';
 import { EpochInfo } from 'osmojs/dist/codegen/osmosis/epochs/genesis';
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
-import { chainName } from '../../config';
-import { RewardText } from './modal-components';
+import { defaultChainName } from '../../config';
+import { RewardText } from './modals/ModalComponents';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import { osmosis } from 'osmojs';
@@ -60,7 +60,7 @@ export const PoolsOverview = ({
   const [countdown, setCountdown] = useState(['00', '00', '00']);
   const isMountedRef = useRef(false);
 
-  const { getRpcEndpoint } = useChain(chainName);
+  const { getRpcEndpoint } = useChain(defaultChainName);
   const { getChainLogo } = useManager();
 
   const [isMobile] = useMediaQuery('(max-width: 660px)');
@@ -70,7 +70,7 @@ export const PoolsOverview = ({
 
     if (!rpcEndpoint) {
       console.log('no rpc endpoint — using a fallback');
-      rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
+      rpcEndpoint = `https://rpc.cosmos.directory/${defaultChainName}`;
     }
 
     const client = await osmosis.ClientFactory.createRPCQueryClient({
@@ -118,7 +118,7 @@ export const PoolsOverview = ({
             <Image
               w="56px"
               alt="Osmosis"
-              src={getChainLogo(chainName)}
+              src={getChainLogo(defaultChainName)}
               transform="translateX(-8px)"
             />
             <Flex flexDir="column" justifyContent="space-between">

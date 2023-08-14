@@ -13,34 +13,34 @@ import {
   useMediaQuery,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Pool } from './provide-liquidity';
-import { getLogoUrlFromDenom } from './pool-list';
-import { ChainLogo } from './pool-card';
+import { Pool } from '../ProvideLiquidity';
+import { getLogoUrlFromDenom } from '../PoolList';
+import { ChainLogo } from '../PoolCard';
 import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
 import {
   NormalButton,
   PoolAssetDisplay,
   BondLiquidityCard,
   RewardText,
-} from './modal-components';
-import { useTransactionToast } from './hooks';
+} from './ModalComponents';
+import { useTransactionToast } from '../hooks';
 import BigNumber from 'bignumber.js';
 import {
   convertDollarValueToShares,
   convertDollarValueToCoins,
   convertGammTokenToDollarValue,
   getSymbolForDenom,
-} from '../../utils';
-import { PriceHash } from '../../utils/types';
+} from '../../../utils';
+import { PriceHash } from '../../../utils/types';
 import { osmosis } from 'osmojs';
 import { useChain } from '@cosmos-kit/react';
-import { chainName } from '../../config/defaults';
+import { defaultChainName } from '../../../config/defaults';
 import { PeriodLock } from 'osmojs/dist/codegen/osmosis/lockup/lock';
-import { daysToSeconds } from './bond-shares-modal';
+import { daysToSeconds } from './BondSharesModal';
 import Long from 'long';
 import dayjs from 'dayjs';
 import { coins as aminoCoins } from '@cosmjs/amino';
-import { Peroid, TransactionResult } from '../types';
+import { Peroid, TransactionResult } from '../../types';
 
 export const truncDecimals = (
   val: string | number | undefined,
@@ -86,7 +86,7 @@ export const PoolDetailModal = ({
     [key: string]: boolean;
   }>();
 
-  const { getSigningStargateClient, address } = useChain(chainName);
+  const { getSigningStargateClient, address } = useChain(defaultChainName);
   const { showToast } = useTransactionToast();
   const [isMobile] = useMediaQuery('(max-width: 480px)');
 

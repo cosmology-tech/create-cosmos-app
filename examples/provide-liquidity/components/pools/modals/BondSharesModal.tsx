@@ -14,17 +14,17 @@ import {
   useMediaQuery,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Pool } from './provide-liquidity';
-import { LargeButton } from './modal-components';
-import { useTransactionToast } from './hooks';
-import { convertDollarValueToShares, getSymbolForDenom } from '../../utils';
-import { PriceHash } from '../../utils/types';
-import { truncDecimals } from './pool-detail-modal';
+import { Pool } from '../ProvideLiquidity';
+import { LargeButton } from './ModalComponents';
+import { useTransactionToast } from '../hooks';
+import { convertDollarValueToShares, getSymbolForDenom } from '../../../utils';
+import { PriceHash } from '../../../utils/types';
+import { truncDecimals } from './PoolDetailModal';
 import BigNumber from 'bignumber.js';
 import { osmosis } from 'osmojs';
 import { useChain } from '@cosmos-kit/react';
-import { chainName } from '../../config/defaults';
-import { Peroid, TransactionResult } from '../types';
+import { defaultChainName } from '../../../config/defaults';
+import { Peroid, TransactionResult } from '../../types';
 import { coins as aminoCoins } from '@cosmjs/amino';
 
 const { lockTokens } = osmosis.lockup.MessageComposer.withTypeUrl;
@@ -33,7 +33,7 @@ export const daysToSeconds = (days: string) => {
   return (Number(days) * 24 * 60 * 60).toString();
 };
 
-const BondSharesModal = ({
+export const BondSharesModal = ({
   isOpen,
   onClose,
   currentPool,
@@ -53,7 +53,7 @@ const BondSharesModal = ({
   const [inputShares, setInputShares] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { getSigningStargateClient, address } = useChain(chainName);
+  const { getSigningStargateClient, address } = useChain(defaultChainName);
   const { showToast } = useTransactionToast();
   const [isMobile] = useMediaQuery('(max-width: 480px)');
 
@@ -79,8 +79,8 @@ const BondSharesModal = ({
   const btnText = isAmountEmpty
     ? 'Amount is empty'
     : isAmountInsufficient
-      ? 'Insufficient amount'
-      : 'Bond';
+    ? 'Insufficient amount'
+    : 'Bond';
 
   const closeModal = () => {
     onClose();
@@ -223,5 +223,3 @@ const BondSharesModal = ({
     </Modal>
   );
 };
-
-export default BondSharesModal;

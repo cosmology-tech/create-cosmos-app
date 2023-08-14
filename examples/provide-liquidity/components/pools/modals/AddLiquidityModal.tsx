@@ -12,12 +12,12 @@ import {
   useMediaQuery,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Pool } from './provide-liquidity';
+import { Pool } from '../ProvideLiquidity';
 import { useChain } from '@cosmos-kit/react';
 import { osmosis } from 'osmojs';
 import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
-import { chainName } from '../../config/defaults';
-import { LargeButton } from './modal-components';
+import { defaultChainName } from '../../../config/defaults';
+import { LargeButton } from './ModalComponents';
 import {
   getSymbolForDenom,
   prettyPool,
@@ -27,13 +27,13 @@ import {
   getOsmoDenomForSymbol,
   baseUnitsToDollarValue,
   convertDollarValueToCoins,
-} from '../../utils';
-import { PriceHash } from '../../utils/types';
+} from '../../../utils';
+import { PriceHash } from '../../../utils/types';
 import BigNumber from 'bignumber.js';
-import { TransactionResult } from '../types';
+import { TransactionResult } from '../../types';
 import { coin, coins as aminoCoins } from '@cosmjs/amino';
-import { useTransactionToast } from './hooks';
-import { TokenInput } from './token-input';
+import { useTransactionToast } from '../hooks';
+import { TokenInput } from './TokenInput';
 
 type InputToken = {
   denom: string;
@@ -56,7 +56,7 @@ export const calcAmountWithSlippage = (
 const { joinPool, joinSwapExternAmountIn } =
   osmosis.gamm.v1beta1.MessageComposer.withTypeUrl;
 
-const AddLiquidityModal = ({
+export const AddLiquidityModal = ({
   isOpen,
   onClose,
   currentPool,
@@ -94,7 +94,7 @@ const AddLiquidityModal = ({
     );
   }, [currentPool]);
 
-  const { getSigningStargateClient, address } = useChain(chainName);
+  const { getSigningStargateClient, address } = useChain(defaultChainName);
 
   const poolName = currentPool?.poolAssets.map(({ token }) =>
     getSymbolForDenom(token!.denom)
@@ -104,10 +104,10 @@ const AddLiquidityModal = ({
 
   const currentInputTokens = singleToken
     ? [
-      inputTokens.find(
-        ({ denom }) => denom === getOsmoDenomForSymbol(singleToken)
-      )!,
-    ]
+        inputTokens.find(
+          ({ denom }) => denom === getOsmoDenomForSymbol(singleToken)
+        )!,
+      ]
     : inputTokens;
 
   const hasEmptyAmount = currentInputTokens.some((t) => !t.inputAmount);
@@ -127,10 +127,10 @@ const AddLiquidityModal = ({
   const btnText = hasEmptyAmount
     ? 'Amount is empty'
     : hasInsufficientAmount
-      ? 'Insufficient amount'
-      : hasZeroAmount
-        ? 'Amount is Zero'
-        : 'Add liquidity';
+    ? 'Insufficient amount'
+    : hasZeroAmount
+    ? 'Amount is Zero'
+    : 'Add liquidity';
 
   const closeModal = () => {
     setInputTokens(
@@ -280,5 +280,3 @@ const AddLiquidityModal = ({
     </Modal>
   );
 };
-
-export default AddLiquidityModal;
