@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js';
 import { QueryAllBalancesResponse } from 'osmo-query/dist/codegen/cosmos/bank/v1beta1/query';
 import { useEffect, useMemo } from 'react';
 import { useIbcUtils } from '../useIbcUtils';
-import { useInterchainQuery } from './useInterchainQuery';
+import { useQueryHooks } from './useQueryHooks';
 import { usePrices } from './usePrices';
 import { useTopTokens } from './useTopTokens';
 import { getPagination } from './useTotalAssets';
@@ -20,7 +20,7 @@ const MAX_TOKENS_TO_SHOW = 50;
 export const useAssets = (chainName: string) => {
   const { address } = useChain(chainName);
 
-  const { cosmosQuery, isReady, isFetching } = useInterchainQuery(chainName);
+  const { cosmosQuery, isReady, isFetching } = useQueryHooks(chainName);
 
   const allBalancesQuery: UseQueryResult<QueryAllBalancesResponse['balances']> =
     cosmosQuery.bank.v1beta1.useAllBalances({

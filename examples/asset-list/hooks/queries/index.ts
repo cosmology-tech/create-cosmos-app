@@ -3,4 +3,4 @@ export * from './useTopTokens';
 export * from './useAssets';
 export * from './useTotalAssets';
 export * from './useBalance';
-export * from './useInterchainQuery';
+export * from './useQueryHooks';

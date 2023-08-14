@@ -2,12 +2,12 @@ import { Coin } from '@cosmjs/stargate';
 import { useChain } from '@cosmos-kit/react';
 import { UseQueryResult } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { useInterchainQuery } from './useInterchainQuery';
+import { useQueryHooks } from './useQueryHooks';
 
 export const useBalance = (chainName: string, enabled: boolean = true) => {
   const { address, assets } = useChain(chainName);
 
-  const { cosmosQuery, isReady, isFetching } = useInterchainQuery(
+  const { cosmosQuery, isReady, isFetching } = useQueryHooks(
     chainName,
     'balance'
   );
