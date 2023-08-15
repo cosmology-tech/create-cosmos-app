@@ -29,6 +29,7 @@
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
     "@osmonauts/math": "1.7.0",
+    "@tanstack/react-query": "4.32.0",
     "bignumber.js": "9.1.1",
     "chain-registry": "1.17.1",
     "chakra-react-select": "4.6.0",
@@ -36,12 +37,13 @@
     "framer-motion": "9.0.7",
     "long": "5.2.1",
     "next": "12.2.5",
-    "osmojs": "16.5.1",
+    "osmo-query": "16.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.6.0"
   },
   "devDependencies": {
+    "@tanstack/react-query-devtools": "4.32.0",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",

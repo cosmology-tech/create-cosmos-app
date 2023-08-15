@@ -1,5 +1,5 @@
-import { Pool } from "osmojs/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool";
-import { Coin } from "osmojs/dist/codegen/cosmos/base/v1beta1/coin";
+import { Pool } from 'osmo-query/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
+import { Coin } from 'osmo-query/dist/codegen/cosmos/base/v1beta1/coin';
 import {
   calcPoolLiquidity as _calcPoolLiquidity,
   getPoolByGammName as _getPoolByGammName,
@@ -21,8 +21,8 @@ import {
   CoinBalance,
   PoolAssetPretty,
   PrettyPair,
-} from "./types";
-import { osmosisAssets } from "./assets";
+} from './types';
+import { osmosisAssets } from './assets';
 
 export const calcPoolLiquidity = (pool: Pool, prices: PriceHash): string => {
   return _calcPoolLiquidity(osmosisAssets, pool, prices);
@@ -87,10 +87,7 @@ export const calcMaxCoinsForPool = (
   return _calcMaxCoinsForPool(osmosisAssets, prices, poolInfo, balances);
 };
 
-export const calcShareOutAmount = (
-  pool: Pool,
-  coinsNeeded: Coin[]
-): string => {
+export const calcShareOutAmount = (pool: Pool, coinsNeeded: Coin[]): string => {
   return _calcShareOutAmount(pool, coinsNeeded);
 };
 
