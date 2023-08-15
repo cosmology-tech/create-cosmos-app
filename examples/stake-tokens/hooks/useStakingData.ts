@@ -23,7 +23,7 @@ import {
   return this.toString();
 };
 
-export const useCosmosQuery = (chainName: string) => {
+export const useStakingData = (chainName: string) => {
   const { address, getRpcEndpoint } = useChain(chainName);
 
   const coin = getCoin(chainName);

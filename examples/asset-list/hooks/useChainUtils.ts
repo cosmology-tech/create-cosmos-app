@@ -9,7 +9,7 @@ import { Coin } from '@cosmjs/amino';
 import { PrettyAsset } from '../components';
 import { ChainName } from '@cosmos-kit/core';
 
-export const useIbcUtils = (chainName: string) => {
+export const useChainUtils = (chainName: string) => {
   const { getChainRecord } = useManager();
 
   const filterAssets = (assetList: AssetList[]): Asset[] => {

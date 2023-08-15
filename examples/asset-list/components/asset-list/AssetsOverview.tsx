@@ -11,7 +11,7 @@ import {
 import { NormalButton } from './Buttons';
 import DropdownTransferModal from './DropdownTransferModal';
 import { PrettyAsset, Transfer, TransferInfo } from './types';
-import { useIbcUtils, useTotalAssets } from '../../hooks';
+import { useChainUtils, useTotalAssets } from '../../hooks';
 import { useChain } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
 import { ChainName } from '@cosmos-kit/core';
@@ -27,7 +27,7 @@ const AssetsOverview: React.FC<IProps> = ({ assets, selectedChainName }) => {
 
   const { data, isLoading, refetch } = useTotalAssets(selectedChainName);
   const { getChainName, getNativeDenom, isNativeAsset } =
-    useIbcUtils(selectedChainName);
+    useChainUtils(selectedChainName);
 
   const modalControl = useDisclosure();
 

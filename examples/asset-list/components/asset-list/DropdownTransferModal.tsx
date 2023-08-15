@@ -23,7 +23,7 @@ import { PrettyAsset, PriceHash, TransferInfo } from './types';
 import { useChainWallet, useManager } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
 import { StdFee, coins } from '@cosmjs/amino';
-import { useIbcUtils, useTx } from '../../hooks';
+import { useChainUtils, useTx } from '../../hooks';
 import { ChainName } from '@cosmos-kit/core';
 import { KeplrWalletName } from '@/config';
 import { ibc } from 'osmo-query';
@@ -56,7 +56,7 @@ const DropdownTransferModal: React.FC<IProps> = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const { symbolToDenom, getExponentByDenom, getIbcInfo } =
-    useIbcUtils(selectedChainName);
+    useChainUtils(selectedChainName);
 
   const { transferInfo, setTransferInfo } = transferInfoState;
 

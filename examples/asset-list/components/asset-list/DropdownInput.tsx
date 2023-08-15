@@ -21,7 +21,7 @@ import {
   TransferInfo,
 } from './types';
 import BigNumber from 'bignumber.js';
-import { useBalance, useIbcUtils } from '../../hooks';
+import { useBalance, useChainUtils } from '../../hooks';
 import { ChainName } from '@cosmos-kit/core';
 import { truncDecimals } from '@/utils';
 
@@ -49,7 +49,7 @@ const DropdownInput: React.FC<IProps> = ({
 }) => {
   const { inputValue, setInputValue } = inputState;
   const { convRawToDispAmount, symbolToDenom, getChainName, getNativeDenom } =
-    useIbcUtils(selectedChainName);
+    useChainUtils(selectedChainName);
 
   const {
     type: transferType,

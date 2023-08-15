@@ -25,7 +25,7 @@ import { useChainWallet, useManager } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
 import { ChainName } from '@cosmos-kit/core';
 import { coins, StdFee } from '@cosmjs/amino';
-import { useIbcUtils, useTx } from '../../hooks';
+import { useChainUtils, useTx } from '../../hooks';
 import { KeplrWalletName } from '@/config';
 import { ibc } from 'osmo-query';
 import { shortenAddress } from '@/utils';
@@ -51,7 +51,7 @@ const TransferModal: React.FC<IProps> = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const { getIbcInfo, symbolToDenom, getExponentByDenom } =
-    useIbcUtils(selectedChainName);
+    useChainUtils(selectedChainName);
 
   const {
     type: transferType,

@@ -3,9 +3,8 @@ import { Coin } from '@cosmjs/stargate';
 import { useChain } from '@cosmos-kit/react';
 import { UseQueryResult } from '@tanstack/react-query';
 import BigNumber from 'bignumber.js';
-import { QueryAllBalancesResponse } from 'osmo-query/dist/codegen/cosmos/bank/v1beta1/query';
 import { useEffect, useMemo } from 'react';
-import { useIbcUtils } from '../useIbcUtils';
+import { useChainUtils } from '../useChainUtils';
 import { useQueryHooks } from './useQueryHooks';
 import { usePrices } from './usePrices';
 import { useTopTokens } from './useTopTokens';
@@ -22,7 +21,7 @@ export const useAssets = (chainName: string) => {
 
   const { cosmosQuery, isReady, isFetching } = useQueryHooks(chainName);
 
-  const allBalancesQuery: UseQueryResult<QueryAllBalancesResponse['balances']> =
+  const allBalancesQuery: UseQueryResult<Coin[]> =
     cosmosQuery.bank.v1beta1.useAllBalances({
       request: {
         address: address || '',
@@ -69,7 +68,7 @@ export const useAssets = (chainName: string) => {
     calcCoinDollarValue,
     denomToSymbol,
     getPrettyChainName,
-  } = useIbcUtils(chainName);
+  } = useChainUtils(chainName);
 
   const data = useMemo(() => {
     if (isLoading) return;

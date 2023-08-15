@@ -6,7 +6,7 @@ import { Pool } from 'osmo-query/dist/codegen/osmosis/gamm/pool-models/balancer/
 import BigNumber from 'bignumber.js';
 
 import { defaultChainName } from '@/config';
-import { useInterchainQuery } from './useInterchainQuery';
+import { useQueryHooks } from './useQueryHooks';
 import { usePrices } from './usePrices';
 import {
   baseUnitsToDisplayUnits,
@@ -37,7 +37,7 @@ export const useSwapData = () => {
   const { getChainRecord } = useManager();
 
   const { cosmosQuery, osmosisQuery, isReady, isFetching } =
-    useInterchainQuery(defaultChainName);
+    useQueryHooks(defaultChainName);
 
   const allBalancesQuery: UseQueryResult<Coin[]> =
     cosmosQuery.bank.v1beta1.useAllBalances({
