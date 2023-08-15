@@ -1,6 +1,6 @@
 import { Asset } from '@chain-registry/types';
 import { useQuery } from '@tanstack/react-query';
-import { useIbcUtils } from '../useIbcUtils';
+import { useChainUtils } from '../useChainUtils';
 import { handleError } from './useTopTokens';
 
 type CoinGeckoId = string;
@@ -36,7 +36,7 @@ const fetchPrices = async (
 };
 
 export const usePrices = (chainName: string) => {
-  const { allAssets } = useIbcUtils(chainName);
+  const { allAssets } = useChainUtils(chainName);
   const assetsWithGeckoIds = getAssetsWithGeckoIds(allAssets);
   const geckoIds = getGeckoIds(assetsWithGeckoIds);
 

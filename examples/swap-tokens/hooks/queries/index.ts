@@ -1,3 +1,3 @@
 export * from './usePrices';
 export * from './useSwapData';
-export * from './useInterchainQuery';
+export * from './useQueryHooks';

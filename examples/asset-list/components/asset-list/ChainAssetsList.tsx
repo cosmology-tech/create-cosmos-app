@@ -17,7 +17,7 @@ import { PrettyAsset, PriceHash, Transfer, TransferInfo } from './types';
 import { SimpleButton } from './Buttons';
 import TransferModal from './TransferModal';
 import { ChainName } from '@cosmos-kit/core';
-import { useIbcUtils } from '../../hooks';
+import { useChainUtils } from '../../hooks';
 import { truncDecimals, formatDollarValue } from '@/utils';
 
 interface IProps {
@@ -39,7 +39,7 @@ const ChainAssetsList: React.FC<IProps> = ({
   const { colorMode } = useColorMode();
   const transferModalControl = useDisclosure();
   const { getChainName, isNativeAsset, getNativeDenom } =
-    useIbcUtils(selectedChainName);
+    useChainUtils(selectedChainName);
 
   const assetsToShow = useMemo(
     () => (showAll ? assets : assets.slice(0, 6)),

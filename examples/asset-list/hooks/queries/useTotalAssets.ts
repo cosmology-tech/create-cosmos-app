@@ -3,7 +3,7 @@ import { useChain } from '@cosmos-kit/react';
 import { UseQueryResult } from '@tanstack/react-query';
 import BigNumber from 'bignumber.js';
 import { useEffect, useMemo } from 'react';
-import { useIbcUtils } from '../useIbcUtils';
+import { useChainUtils } from '../useChainUtils';
 import { usePrices } from './usePrices';
 import { defaultChainName as osmoChainName } from '@/config';
 import { Pool } from 'osmo-query/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
@@ -109,7 +109,7 @@ export const useTotalAssets = (chainName: string) => {
     [Key in keyof AllQueries]: NonNullable<AllQueries[Key]['data']>;
   };
 
-  const { calcCoinDollarValue } = useIbcUtils(chainName);
+  const { calcCoinDollarValue } = useChainUtils(chainName);
 
   const zero = new BigNumber(0);
 

@@ -11,7 +11,7 @@ import {
 import { ChainName } from '@cosmos-kit/core';
 import BigNumber from 'bignumber.js';
 import React, { useMemo } from 'react';
-import { useBalance, useIbcUtils } from '../../hooks';
+import { useBalance, useChainUtils } from '../../hooks';
 import { PriceHash, Transfer, TransferInfo } from './types';
 import { ChainLogo } from './ChainAssetsList';
 
@@ -35,7 +35,8 @@ const AmountInput: React.FC<IProps> = ({
   selectedChainName,
 }) => {
   const { inputValue, setInputValue } = inputState;
-  const { convRawToDispAmount, symbolToDenom } = useIbcUtils(selectedChainName);
+  const { convRawToDispAmount, symbolToDenom } =
+    useChainUtils(selectedChainName);
 
   const {
     type: transferType,

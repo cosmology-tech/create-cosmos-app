@@ -4,11 +4,11 @@ import Overview from './Overview';
 import { MyValidators } from './MyValidators';
 import { AllValidators } from './AllValidators';
 import { ChainName } from '@cosmos-kit/core';
-import { useCosmosQuery, useValidatorLogos } from '@/hooks';
+import { useStakingData, useValidatorLogos } from '@/hooks';
 
 export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
   const { isWalletConnected } = useChain(chainName);
-  const { data, isLoading, refetch } = useCosmosQuery(chainName);
+  const { data, isLoading, refetch } = useStakingData(chainName);
   const { data: logos, isLoading: isFetchingLogos } = useValidatorLogos(
     chainName,
     data?.allValidators || []
