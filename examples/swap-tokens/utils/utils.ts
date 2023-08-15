@@ -1,6 +1,9 @@
 import BigNumber from 'bignumber.js';
 import { Asset as OsmosisAsset } from '@chain-registry/types';
-import { assets as nativeAssets, asset_list as ibcAssets } from '@chain-registry/osmosis';
+import {
+  assets as nativeAssets,
+  asset_list as ibcAssets,
+} from '@chain-registry/osmosis';
 import {
   getAssetByDenom,
   getDenomByCoinGeckoId,
@@ -22,13 +25,15 @@ import {
   CoinGeckoUSDResponse,
 } from './types';
 import { osmosisAssets } from './assets';
-import { chainName } from '../config';
+import { defaultChainName } from '../config';
 
 export const getOsmoAssetByDenom = (denom: CoinDenom): OsmosisAsset => {
   return getAssetByDenom(osmosisAssets, denom);
 };
 
-export const getDenomForCoinGeckoId = (coinGeckoId: CoinGeckoToken): CoinDenom => {
+export const getDenomForCoinGeckoId = (
+  coinGeckoId: CoinGeckoToken
+): CoinDenom => {
   return getDenomByCoinGeckoId(osmosisAssets, coinGeckoId);
 };
 
@@ -44,7 +49,9 @@ export const getExponentByDenom = (denom: CoinDenom): Exponent => {
   return _getExponentByDenom(osmosisAssets, denom);
 };
 
-export const convertGeckoPricesToDenomPriceHash = (prices: CoinGeckoUSDResponse): PriceHash => {
+export const convertGeckoPricesToDenomPriceHash = (
+  prices: CoinGeckoUSDResponse
+): PriceHash => {
   return convertCoinGeckoPricesToDenomPriceMap(osmosisAssets, prices);
 };
 
@@ -105,7 +112,7 @@ export const truncDecimals = (val: string | undefined, decimals: number) => {
 
 export const getChainName = (ibcDenom: CoinDenom) => {
   if (nativeAssets.assets.find((asset) => asset.base === ibcDenom)) {
-    return chainName;
+    return defaultChainName;
   }
   const asset = ibcAssets.assets.find((asset) => asset.base === ibcDenom);
   const ibcChainName = asset?.traces?.[0].counterparty.chain_name;

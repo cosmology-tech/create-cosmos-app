@@ -13,10 +13,10 @@ import {
   osmosisProtoRegistry,
 } from 'osmojs';
 
-export const chainName = 'osmosis';
+export const defaultChainName = 'osmosis';
 
 export const chainAssets: AssetList = assets.find(
-  (chain) => chain.chain_name === chainName
+  (chain) => chain.chain_name === defaultChainName
 ) as AssetList;
 
 export const coin: Asset = chainAssets.assets.find(

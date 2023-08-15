@@ -1,5 +1,5 @@
-import { Pool } from "osmojs/types/codegen/osmosis/gamm/pool-models/balancer/balancerPool";
-import { Coin } from "osmojs/types/codegen/cosmos/base/v1beta1/coin";
+import { Pool } from 'osmo-query/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
+import { Coin } from 'osmo-query/dist/codegen/cosmos/base/v1beta1/coin';
 import {
   PriceHash,
   CoinValue,
@@ -7,9 +7,9 @@ import {
   CoinBalance,
   PoolAssetPretty,
   PrettyPair,
-} from "./types";
-import BigNumber from "bignumber.js";
-import { osmosisAssets } from "./assets";
+} from './types';
+import BigNumber from 'bignumber.js';
+import { osmosisAssets } from './assets';
 import {
   baseUnitsToDisplayUnits,
   baseUnitsToDollarValue,
@@ -18,7 +18,7 @@ import {
   osmoDenomToSymbol,
   noDecimals,
   getOsmoAssetByDenom,
-} from "./utils";
+} from './base';
 
 export const calcPoolLiquidity = (pool: Pool, prices: PriceHash): string => {
   return pool.poolAssets
@@ -114,7 +114,7 @@ export const prettyPool = (
     return obj;
   });
   const value = {
-    nickname: tokens.map((t) => t.symbol).join("/"),
+    nickname: tokens.map((t) => t.symbol).join('/'),
     images: undefined,
   };
   if (includeDetails) {
@@ -245,7 +245,7 @@ export const makePoolPairs = (pools: Pool[]): PrettyPair[] => {
     .filter(
       (pool) =>
         pool.poolAssets.length === 2 &&
-        pool.poolAssets.every(({ token }) => !token.denom.startsWith("gamm"))
+        pool.poolAssets.every(({ token }) => !token.denom.startsWith('gamm'))
     )
     .map((pool) => {
       const assetA = pool.poolAssets[0].token;
@@ -256,7 +256,7 @@ export const makePoolPairs = (pools: Pool[]): PrettyPair[] => {
       if (!assetAinfo || !assetBinfo) return;
 
       return {
-        poolId: typeof pool.id === "string" ? pool.id : pool.id.low.toString(),
+        poolId: typeof pool.id === 'string' ? pool.id : pool.id.low.toString(),
         poolAddress: pool.address,
         baseName: assetAinfo.display,
         baseSymbol: assetAinfo.symbol,
