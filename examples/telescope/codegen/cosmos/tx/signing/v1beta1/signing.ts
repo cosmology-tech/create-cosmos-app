@@ -1,6 +1,6 @@
 //@ts-nocheck
-import { CompactBitArray, CompactBitArrayAmino, CompactBitArraySDKType } from "../../../crypto/multisig/v1beta1/multisig";
-import { Any, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
+import { CompactBitArray, CompactBitArraySDKType } from "../../../crypto/multisig/v1beta1/multisig";
+import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { DeepPartial, isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 /**
@@ -47,7 +47,6 @@ export enum SignMode {
   UNRECOGNIZED = -1,
 }
 export const SignModeSDKType = SignMode;
-export const SignModeAmino = SignMode;
 export function signModeFromJSON(object: any): SignMode {
   switch (object) {
     case 0:
@@ -93,19 +92,6 @@ export interface SignatureDescriptors {
   /** signatures are the signature descriptors */
   signatures: SignatureDescriptor[];
 }
-export interface SignatureDescriptorsProtoMsg {
-  typeUrl: "/cosmos.tx.signing.v1beta1.SignatureDescriptors";
-  value: Uint8Array;
-}
-/** SignatureDescriptors wraps multiple SignatureDescriptor's. */
-export interface SignatureDescriptorsAmino {
-  /** signatures are the signature descriptors */
-  signatures: SignatureDescriptorAmino[];
-}
-export interface SignatureDescriptorsAminoMsg {
-  type: "cosmos-sdk/SignatureDescriptors";
-  value: SignatureDescriptorsAmino;
-}
 /** SignatureDescriptors wraps multiple SignatureDescriptor's. */
 export interface SignatureDescriptorsSDKType {
   signatures: SignatureDescriptorSDKType[];
@@ -127,31 +113,6 @@ export interface SignatureDescriptor {
    */
   sequence: bigint;
 }
-export interface SignatureDescriptorProtoMsg {
-  typeUrl: "/cosmos.tx.signing.v1beta1.SignatureDescriptor";
-  value: Uint8Array;
-}
-/**
- * SignatureDescriptor is a convenience type which represents the full data for
- * a signature including the public key of the signer, signing modes and the
- * signature itself. It is primarily used for coordinating signatures between
- * clients.
- */
-export interface SignatureDescriptorAmino {
-  /** public_key is the public key of the signer */
-  public_key?: AnyAmino | undefined;
-  data?: SignatureDescriptor_DataAmino | undefined;
-  /**
-   * sequence is the sequence of the account, which describes the
-   * number of committed transactions signed by a given address. It is used to prevent
-   * replay attacks.
-   */
-  sequence: string;
-}
-export interface SignatureDescriptorAminoMsg {
-  type: "cosmos-sdk/SignatureDescriptor";
-  value: SignatureDescriptorAmino;
-}
 /**
  * SignatureDescriptor is a convenience type which represents the full data for
  * a signature including the public key of the signer, signing modes and the
@@ -170,21 +131,6 @@ export interface SignatureDescriptor_Data {
   /** multi represents a multisig signer */
   multi?: SignatureDescriptor_Data_Multi | undefined;
 }
-export interface SignatureDescriptor_DataProtoMsg {
-  typeUrl: "/cosmos.tx.signing.v1beta1.Data";
-  value: Uint8Array;
-}
-/** Data represents signature data */
-export interface SignatureDescriptor_DataAmino {
-  /** single represents a single signer */
-  single?: SignatureDescriptor_Data_SingleAmino | undefined;
-  /** multi represents a multisig signer */
-  multi?: SignatureDescriptor_Data_MultiAmino | undefined;
-}
-export interface SignatureDescriptor_DataAminoMsg {
-  type: "cosmos-sdk/Data";
-  value: SignatureDescriptor_DataAmino;
-}
 /** Data represents signature data */
 export interface SignatureDescriptor_DataSDKType {
   single?: SignatureDescriptor_Data_SingleSDKType | undefined;
@@ -197,21 +143,6 @@ export interface SignatureDescriptor_Data_Single {
   /** signature is the raw signature bytes */
   signature: Uint8Array;
 }
-export interface SignatureDescriptor_Data_SingleProtoMsg {
-  typeUrl: "/cosmos.tx.signing.v1beta1.Single";
-  value: Uint8Array;
-}
-/** Single is the signature data for a single signer */
-export interface SignatureDescriptor_Data_SingleAmino {
-  /** mode is the signing mode of the single signer */
-  mode: SignMode;
-  /** signature is the raw signature bytes */
-  signature: Uint8Array;
-}
-export interface SignatureDescriptor_Data_SingleAminoMsg {
-  type: "cosmos-sdk/Single";
-  value: SignatureDescriptor_Data_SingleAmino;
-}
 /** Single is the signature data for a single signer */
 export interface SignatureDescriptor_Data_SingleSDKType {
   mode: SignMode;
@@ -223,21 +154,6 @@ export interface SignatureDescriptor_Data_Multi {
   bitarray: CompactBitArray | undefined;
   /** signatures is the signatures of the multi-signature */
   signatures: SignatureDescriptor_Data[];
-}
-export interface SignatureDescriptor_Data_MultiProtoMsg {
-  typeUrl: "/cosmos.tx.signing.v1beta1.Multi";
-  value: Uint8Array;
-}
-/** Multi is the signature data for a multisig public key */
-export interface SignatureDescriptor_Data_MultiAmino {
-  /** bitarray specifies which keys within the multisig are signing */
-  bitarray?: CompactBitArrayAmino | undefined;
-  /** signatures is the signatures of the multi-signature */
-  signatures: SignatureDescriptor_DataAmino[];
-}
-export interface SignatureDescriptor_Data_MultiAminoMsg {
-  type: "cosmos-sdk/Multi";
-  value: SignatureDescriptor_Data_MultiAmino;
 }
 /** Multi is the signature data for a multisig public key */
 export interface SignatureDescriptor_Data_MultiSDKType {
@@ -347,7 +263,7 @@ export const SignatureDescriptors = {
 function createBaseSignatureDescriptor(): SignatureDescriptor {
   return {
     publicKey: Any.fromPartial({}),
-    data: Data.fromPartial({}),
+    data: SignatureDescriptor_Data.fromPartial({}),
     sequence: BigInt(0)
   };
 }

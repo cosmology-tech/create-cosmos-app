@@ -6,19 +6,6 @@ export interface ProtocolVersion {
   block: bigint;
   app: bigint;
 }
-export interface ProtocolVersionProtoMsg {
-  typeUrl: "/tendermint.p2p.ProtocolVersion";
-  value: Uint8Array;
-}
-export interface ProtocolVersionAmino {
-  p2p: string;
-  block: string;
-  app: string;
-}
-export interface ProtocolVersionAminoMsg {
-  type: "/tendermint.p2p.ProtocolVersion";
-  value: ProtocolVersionAmino;
-}
 export interface ProtocolVersionSDKType {
   p2p: bigint;
   block: bigint;
@@ -34,24 +21,6 @@ export interface NodeInfo {
   moniker: string;
   other: NodeInfoOther | undefined;
 }
-export interface NodeInfoProtoMsg {
-  typeUrl: "/tendermint.p2p.NodeInfo";
-  value: Uint8Array;
-}
-export interface NodeInfoAmino {
-  protocol_version?: ProtocolVersionAmino | undefined;
-  node_id: string;
-  listen_addr: string;
-  network: string;
-  version: string;
-  channels: Uint8Array;
-  moniker: string;
-  other?: NodeInfoOtherAmino | undefined;
-}
-export interface NodeInfoAminoMsg {
-  type: "/tendermint.p2p.NodeInfo";
-  value: NodeInfoAmino;
-}
 export interface NodeInfoSDKType {
   protocol_version: ProtocolVersionSDKType | undefined;
   node_id: string;
@@ -66,18 +35,6 @@ export interface NodeInfoOther {
   txIndex: string;
   rpcAddress: string;
 }
-export interface NodeInfoOtherProtoMsg {
-  typeUrl: "/tendermint.p2p.NodeInfoOther";
-  value: Uint8Array;
-}
-export interface NodeInfoOtherAmino {
-  tx_index: string;
-  rpc_address: string;
-}
-export interface NodeInfoOtherAminoMsg {
-  type: "/tendermint.p2p.NodeInfoOther";
-  value: NodeInfoOtherAmino;
-}
 export interface NodeInfoOtherSDKType {
   tx_index: string;
   rpc_address: string;
@@ -86,19 +43,6 @@ export interface PeerInfo {
   id: string;
   addressInfo: PeerAddressInfo[];
   lastConnected: Date | undefined;
-}
-export interface PeerInfoProtoMsg {
-  typeUrl: "/tendermint.p2p.PeerInfo";
-  value: Uint8Array;
-}
-export interface PeerInfoAmino {
-  id: string;
-  address_info: PeerAddressInfoAmino[];
-  last_connected?: Date | undefined;
-}
-export interface PeerInfoAminoMsg {
-  type: "/tendermint.p2p.PeerInfo";
-  value: PeerInfoAmino;
 }
 export interface PeerInfoSDKType {
   id: string;
@@ -110,20 +54,6 @@ export interface PeerAddressInfo {
   lastDialSuccess: Date | undefined;
   lastDialFailure: Date | undefined;
   dialFailures: number;
-}
-export interface PeerAddressInfoProtoMsg {
-  typeUrl: "/tendermint.p2p.PeerAddressInfo";
-  value: Uint8Array;
-}
-export interface PeerAddressInfoAmino {
-  address: string;
-  last_dial_success?: Date | undefined;
-  last_dial_failure?: Date | undefined;
-  dial_failures: number;
-}
-export interface PeerAddressInfoAminoMsg {
-  type: "/tendermint.p2p.PeerAddressInfo";
-  value: PeerAddressInfoAmino;
 }
 export interface PeerAddressInfoSDKType {
   address: string;

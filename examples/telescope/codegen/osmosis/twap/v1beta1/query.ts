@@ -1,5 +1,5 @@
 import { Timestamp } from "../../../google/protobuf/timestamp";
-import { Params, ParamsAmino, ParamsSDKType } from "./genesis";
+import { Params, ParamsSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { Decimal } from "@cosmjs/math";
@@ -9,21 +9,6 @@ export interface ArithmeticTwapRequest {
   quoteAsset: string;
   startTime: Date | undefined;
   endTime?: Date | undefined;
-}
-export interface ArithmeticTwapRequestProtoMsg {
-  typeUrl: "/osmosis.twap.v1beta1.ArithmeticTwapRequest";
-  value: Uint8Array;
-}
-export interface ArithmeticTwapRequestAmino {
-  pool_id: string;
-  base_asset: string;
-  quote_asset: string;
-  start_time?: Date | undefined;
-  end_time?: Date | undefined;
-}
-export interface ArithmeticTwapRequestAminoMsg {
-  type: "osmosis/twap/arithmetic-twap-request";
-  value: ArithmeticTwapRequestAmino;
 }
 export interface ArithmeticTwapRequestSDKType {
   pool_id: bigint;
@@ -35,17 +20,6 @@ export interface ArithmeticTwapRequestSDKType {
 export interface ArithmeticTwapResponse {
   arithmeticTwap: string;
 }
-export interface ArithmeticTwapResponseProtoMsg {
-  typeUrl: "/osmosis.twap.v1beta1.ArithmeticTwapResponse";
-  value: Uint8Array;
-}
-export interface ArithmeticTwapResponseAmino {
-  arithmetic_twap: string;
-}
-export interface ArithmeticTwapResponseAminoMsg {
-  type: "osmosis/twap/arithmetic-twap-response";
-  value: ArithmeticTwapResponseAmino;
-}
 export interface ArithmeticTwapResponseSDKType {
   arithmetic_twap: string;
 }
@@ -54,20 +28,6 @@ export interface ArithmeticTwapToNowRequest {
   baseAsset: string;
   quoteAsset: string;
   startTime: Date | undefined;
-}
-export interface ArithmeticTwapToNowRequestProtoMsg {
-  typeUrl: "/osmosis.twap.v1beta1.ArithmeticTwapToNowRequest";
-  value: Uint8Array;
-}
-export interface ArithmeticTwapToNowRequestAmino {
-  pool_id: string;
-  base_asset: string;
-  quote_asset: string;
-  start_time?: Date | undefined;
-}
-export interface ArithmeticTwapToNowRequestAminoMsg {
-  type: "osmosis/twap/arithmetic-twap-to-now-request";
-  value: ArithmeticTwapToNowRequestAmino;
 }
 export interface ArithmeticTwapToNowRequestSDKType {
   pool_id: bigint;
@@ -78,44 +38,13 @@ export interface ArithmeticTwapToNowRequestSDKType {
 export interface ArithmeticTwapToNowResponse {
   arithmeticTwap: string;
 }
-export interface ArithmeticTwapToNowResponseProtoMsg {
-  typeUrl: "/osmosis.twap.v1beta1.ArithmeticTwapToNowResponse";
-  value: Uint8Array;
-}
-export interface ArithmeticTwapToNowResponseAmino {
-  arithmetic_twap: string;
-}
-export interface ArithmeticTwapToNowResponseAminoMsg {
-  type: "osmosis/twap/arithmetic-twap-to-now-response";
-  value: ArithmeticTwapToNowResponseAmino;
-}
 export interface ArithmeticTwapToNowResponseSDKType {
   arithmetic_twap: string;
 }
 export interface ParamsRequest {}
-export interface ParamsRequestProtoMsg {
-  typeUrl: "/osmosis.twap.v1beta1.ParamsRequest";
-  value: Uint8Array;
-}
-export interface ParamsRequestAmino {}
-export interface ParamsRequestAminoMsg {
-  type: "osmosis/twap/params-request";
-  value: ParamsRequestAmino;
-}
 export interface ParamsRequestSDKType {}
 export interface ParamsResponse {
   params: Params | undefined;
-}
-export interface ParamsResponseProtoMsg {
-  typeUrl: "/osmosis.twap.v1beta1.ParamsResponse";
-  value: Uint8Array;
-}
-export interface ParamsResponseAmino {
-  params?: ParamsAmino | undefined;
-}
-export interface ParamsResponseAminoMsg {
-  type: "osmosis/twap/params-response";
-  value: ParamsResponseAmino;
 }
 export interface ParamsResponseSDKType {
   params: ParamsSDKType | undefined;

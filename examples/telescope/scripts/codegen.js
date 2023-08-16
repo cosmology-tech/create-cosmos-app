@@ -76,7 +76,7 @@ telescope({
     },
     aminoEncoding: {
       enabled: true,
-      useRecursiveV2encoding: true,
+      useRecursiveV2encoding: false,
     },
     lcdClients: {
       enabled: false,

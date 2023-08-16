@@ -1,62 +1,22 @@
 import { Timestamp } from "../../google/protobuf/timestamp";
-import { Duration, DurationAmino, DurationSDKType } from "../../google/protobuf/duration";
-import { Coin, CoinAmino, CoinSDKType } from "../../cosmos/base/v1beta1/coin";
-import { PeriodLock, PeriodLockAmino, PeriodLockSDKType, SyntheticLock, SyntheticLockAmino, SyntheticLockSDKType } from "./lock";
-import { Params, ParamsAmino, ParamsSDKType } from "./params";
+import { Duration, DurationSDKType } from "../../google/protobuf/duration";
+import { Coin, CoinSDKType } from "../../cosmos/base/v1beta1/coin";
+import { PeriodLock, PeriodLockSDKType, SyntheticLock, SyntheticLockSDKType } from "./lock";
+import { Params, ParamsSDKType } from "./params";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { DeepPartial, isSet, toTimestamp, fromTimestamp } from "../../helpers";
 export interface ModuleBalanceRequest {}
-export interface ModuleBalanceRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.ModuleBalanceRequest";
-  value: Uint8Array;
-}
-export interface ModuleBalanceRequestAmino {}
-export interface ModuleBalanceRequestAminoMsg {
-  type: "osmosis/lockup/module-balance-request";
-  value: ModuleBalanceRequestAmino;
-}
 export interface ModuleBalanceRequestSDKType {}
 export interface ModuleBalanceResponse {
   coins: Coin[];
-}
-export interface ModuleBalanceResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.ModuleBalanceResponse";
-  value: Uint8Array;
-}
-export interface ModuleBalanceResponseAmino {
-  coins: CoinAmino[];
-}
-export interface ModuleBalanceResponseAminoMsg {
-  type: "osmosis/lockup/module-balance-response";
-  value: ModuleBalanceResponseAmino;
 }
 export interface ModuleBalanceResponseSDKType {
   coins: CoinSDKType[];
 }
 export interface ModuleLockedAmountRequest {}
-export interface ModuleLockedAmountRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.ModuleLockedAmountRequest";
-  value: Uint8Array;
-}
-export interface ModuleLockedAmountRequestAmino {}
-export interface ModuleLockedAmountRequestAminoMsg {
-  type: "osmosis/lockup/module-locked-amount-request";
-  value: ModuleLockedAmountRequestAmino;
-}
 export interface ModuleLockedAmountRequestSDKType {}
 export interface ModuleLockedAmountResponse {
   coins: Coin[];
-}
-export interface ModuleLockedAmountResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.ModuleLockedAmountResponse";
-  value: Uint8Array;
-}
-export interface ModuleLockedAmountResponseAmino {
-  coins: CoinAmino[];
-}
-export interface ModuleLockedAmountResponseAminoMsg {
-  type: "osmosis/lockup/module-locked-amount-response";
-  value: ModuleLockedAmountResponseAmino;
 }
 export interface ModuleLockedAmountResponseSDKType {
   coins: CoinSDKType[];
@@ -64,33 +24,11 @@ export interface ModuleLockedAmountResponseSDKType {
 export interface AccountUnlockableCoinsRequest {
   owner: string;
 }
-export interface AccountUnlockableCoinsRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountUnlockableCoinsRequest";
-  value: Uint8Array;
-}
-export interface AccountUnlockableCoinsRequestAmino {
-  owner: string;
-}
-export interface AccountUnlockableCoinsRequestAminoMsg {
-  type: "osmosis/lockup/account-unlockable-coins-request";
-  value: AccountUnlockableCoinsRequestAmino;
-}
 export interface AccountUnlockableCoinsRequestSDKType {
   owner: string;
 }
 export interface AccountUnlockableCoinsResponse {
   coins: Coin[];
-}
-export interface AccountUnlockableCoinsResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountUnlockableCoinsResponse";
-  value: Uint8Array;
-}
-export interface AccountUnlockableCoinsResponseAmino {
-  coins: CoinAmino[];
-}
-export interface AccountUnlockableCoinsResponseAminoMsg {
-  type: "osmosis/lockup/account-unlockable-coins-response";
-  value: AccountUnlockableCoinsResponseAmino;
 }
 export interface AccountUnlockableCoinsResponseSDKType {
   coins: CoinSDKType[];
@@ -98,33 +36,11 @@ export interface AccountUnlockableCoinsResponseSDKType {
 export interface AccountUnlockingCoinsRequest {
   owner: string;
 }
-export interface AccountUnlockingCoinsRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountUnlockingCoinsRequest";
-  value: Uint8Array;
-}
-export interface AccountUnlockingCoinsRequestAmino {
-  owner: string;
-}
-export interface AccountUnlockingCoinsRequestAminoMsg {
-  type: "osmosis/lockup/account-unlocking-coins-request";
-  value: AccountUnlockingCoinsRequestAmino;
-}
 export interface AccountUnlockingCoinsRequestSDKType {
   owner: string;
 }
 export interface AccountUnlockingCoinsResponse {
   coins: Coin[];
-}
-export interface AccountUnlockingCoinsResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountUnlockingCoinsResponse";
-  value: Uint8Array;
-}
-export interface AccountUnlockingCoinsResponseAmino {
-  coins: CoinAmino[];
-}
-export interface AccountUnlockingCoinsResponseAminoMsg {
-  type: "osmosis/lockup/account-unlocking-coins-response";
-  value: AccountUnlockingCoinsResponseAmino;
 }
 export interface AccountUnlockingCoinsResponseSDKType {
   coins: CoinSDKType[];
@@ -132,33 +48,11 @@ export interface AccountUnlockingCoinsResponseSDKType {
 export interface AccountLockedCoinsRequest {
   owner: string;
 }
-export interface AccountLockedCoinsRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedCoinsRequest";
-  value: Uint8Array;
-}
-export interface AccountLockedCoinsRequestAmino {
-  owner: string;
-}
-export interface AccountLockedCoinsRequestAminoMsg {
-  type: "osmosis/lockup/account-locked-coins-request";
-  value: AccountLockedCoinsRequestAmino;
-}
 export interface AccountLockedCoinsRequestSDKType {
   owner: string;
 }
 export interface AccountLockedCoinsResponse {
   coins: Coin[];
-}
-export interface AccountLockedCoinsResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedCoinsResponse";
-  value: Uint8Array;
-}
-export interface AccountLockedCoinsResponseAmino {
-  coins: CoinAmino[];
-}
-export interface AccountLockedCoinsResponseAminoMsg {
-  type: "osmosis/lockup/account-locked-coins-response";
-  value: AccountLockedCoinsResponseAmino;
 }
 export interface AccountLockedCoinsResponseSDKType {
   coins: CoinSDKType[];
@@ -167,35 +61,12 @@ export interface AccountLockedPastTimeRequest {
   owner: string;
   timestamp: Date | undefined;
 }
-export interface AccountLockedPastTimeRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedPastTimeRequest";
-  value: Uint8Array;
-}
-export interface AccountLockedPastTimeRequestAmino {
-  owner: string;
-  timestamp?: Date | undefined;
-}
-export interface AccountLockedPastTimeRequestAminoMsg {
-  type: "osmosis/lockup/account-locked-past-time-request";
-  value: AccountLockedPastTimeRequestAmino;
-}
 export interface AccountLockedPastTimeRequestSDKType {
   owner: string;
   timestamp: Date | undefined;
 }
 export interface AccountLockedPastTimeResponse {
   locks: PeriodLock[];
-}
-export interface AccountLockedPastTimeResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedPastTimeResponse";
-  value: Uint8Array;
-}
-export interface AccountLockedPastTimeResponseAmino {
-  locks: PeriodLockAmino[];
-}
-export interface AccountLockedPastTimeResponseAminoMsg {
-  type: "osmosis/lockup/account-locked-past-time-response";
-  value: AccountLockedPastTimeResponseAmino;
 }
 export interface AccountLockedPastTimeResponseSDKType {
   locks: PeriodLockSDKType[];
@@ -204,35 +75,12 @@ export interface AccountLockedPastTimeNotUnlockingOnlyRequest {
   owner: string;
   timestamp: Date | undefined;
 }
-export interface AccountLockedPastTimeNotUnlockingOnlyRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedPastTimeNotUnlockingOnlyRequest";
-  value: Uint8Array;
-}
-export interface AccountLockedPastTimeNotUnlockingOnlyRequestAmino {
-  owner: string;
-  timestamp?: Date | undefined;
-}
-export interface AccountLockedPastTimeNotUnlockingOnlyRequestAminoMsg {
-  type: "osmosis/lockup/account-locked-past-time-not-unlocking-only-request";
-  value: AccountLockedPastTimeNotUnlockingOnlyRequestAmino;
-}
 export interface AccountLockedPastTimeNotUnlockingOnlyRequestSDKType {
   owner: string;
   timestamp: Date | undefined;
 }
 export interface AccountLockedPastTimeNotUnlockingOnlyResponse {
   locks: PeriodLock[];
-}
-export interface AccountLockedPastTimeNotUnlockingOnlyResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedPastTimeNotUnlockingOnlyResponse";
-  value: Uint8Array;
-}
-export interface AccountLockedPastTimeNotUnlockingOnlyResponseAmino {
-  locks: PeriodLockAmino[];
-}
-export interface AccountLockedPastTimeNotUnlockingOnlyResponseAminoMsg {
-  type: "osmosis/lockup/account-locked-past-time-not-unlocking-only-response";
-  value: AccountLockedPastTimeNotUnlockingOnlyResponseAmino;
 }
 export interface AccountLockedPastTimeNotUnlockingOnlyResponseSDKType {
   locks: PeriodLockSDKType[];
@@ -241,35 +89,12 @@ export interface AccountUnlockedBeforeTimeRequest {
   owner: string;
   timestamp: Date | undefined;
 }
-export interface AccountUnlockedBeforeTimeRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountUnlockedBeforeTimeRequest";
-  value: Uint8Array;
-}
-export interface AccountUnlockedBeforeTimeRequestAmino {
-  owner: string;
-  timestamp?: Date | undefined;
-}
-export interface AccountUnlockedBeforeTimeRequestAminoMsg {
-  type: "osmosis/lockup/account-unlocked-before-time-request";
-  value: AccountUnlockedBeforeTimeRequestAmino;
-}
 export interface AccountUnlockedBeforeTimeRequestSDKType {
   owner: string;
   timestamp: Date | undefined;
 }
 export interface AccountUnlockedBeforeTimeResponse {
   locks: PeriodLock[];
-}
-export interface AccountUnlockedBeforeTimeResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountUnlockedBeforeTimeResponse";
-  value: Uint8Array;
-}
-export interface AccountUnlockedBeforeTimeResponseAmino {
-  locks: PeriodLockAmino[];
-}
-export interface AccountUnlockedBeforeTimeResponseAminoMsg {
-  type: "osmosis/lockup/account-unlocked-before-time-response";
-  value: AccountUnlockedBeforeTimeResponseAmino;
 }
 export interface AccountUnlockedBeforeTimeResponseSDKType {
   locks: PeriodLockSDKType[];
@@ -279,19 +104,6 @@ export interface AccountLockedPastTimeDenomRequest {
   timestamp: Date | undefined;
   denom: string;
 }
-export interface AccountLockedPastTimeDenomRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedPastTimeDenomRequest";
-  value: Uint8Array;
-}
-export interface AccountLockedPastTimeDenomRequestAmino {
-  owner: string;
-  timestamp?: Date | undefined;
-  denom: string;
-}
-export interface AccountLockedPastTimeDenomRequestAminoMsg {
-  type: "osmosis/lockup/account-locked-past-time-denom-request";
-  value: AccountLockedPastTimeDenomRequestAmino;
-}
 export interface AccountLockedPastTimeDenomRequestSDKType {
   owner: string;
   timestamp: Date | undefined;
@@ -300,35 +112,12 @@ export interface AccountLockedPastTimeDenomRequestSDKType {
 export interface AccountLockedPastTimeDenomResponse {
   locks: PeriodLock[];
 }
-export interface AccountLockedPastTimeDenomResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedPastTimeDenomResponse";
-  value: Uint8Array;
-}
-export interface AccountLockedPastTimeDenomResponseAmino {
-  locks: PeriodLockAmino[];
-}
-export interface AccountLockedPastTimeDenomResponseAminoMsg {
-  type: "osmosis/lockup/account-locked-past-time-denom-response";
-  value: AccountLockedPastTimeDenomResponseAmino;
-}
 export interface AccountLockedPastTimeDenomResponseSDKType {
   locks: PeriodLockSDKType[];
 }
 export interface LockedDenomRequest {
   denom: string;
   duration: Duration | undefined;
-}
-export interface LockedDenomRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.LockedDenomRequest";
-  value: Uint8Array;
-}
-export interface LockedDenomRequestAmino {
-  denom: string;
-  duration?: DurationAmino | undefined;
-}
-export interface LockedDenomRequestAminoMsg {
-  type: "osmosis/lockup/locked-denom-request";
-  value: LockedDenomRequestAmino;
 }
 export interface LockedDenomRequestSDKType {
   denom: string;
@@ -337,33 +126,11 @@ export interface LockedDenomRequestSDKType {
 export interface LockedDenomResponse {
   amount: string;
 }
-export interface LockedDenomResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.LockedDenomResponse";
-  value: Uint8Array;
-}
-export interface LockedDenomResponseAmino {
-  amount: string;
-}
-export interface LockedDenomResponseAminoMsg {
-  type: "osmosis/lockup/locked-denom-response";
-  value: LockedDenomResponseAmino;
-}
 export interface LockedDenomResponseSDKType {
   amount: string;
 }
 export interface LockedRequest {
   lockId: bigint;
-}
-export interface LockedRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.LockedRequest";
-  value: Uint8Array;
-}
-export interface LockedRequestAmino {
-  lock_id: string;
-}
-export interface LockedRequestAminoMsg {
-  type: "osmosis/lockup/locked-request";
-  value: LockedRequestAmino;
 }
 export interface LockedRequestSDKType {
   lock_id: bigint;
@@ -371,50 +138,17 @@ export interface LockedRequestSDKType {
 export interface LockedResponse {
   lock: PeriodLock | undefined;
 }
-export interface LockedResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.LockedResponse";
-  value: Uint8Array;
-}
-export interface LockedResponseAmino {
-  lock?: PeriodLockAmino | undefined;
-}
-export interface LockedResponseAminoMsg {
-  type: "osmosis/lockup/locked-response";
-  value: LockedResponseAmino;
-}
 export interface LockedResponseSDKType {
   lock: PeriodLockSDKType | undefined;
 }
 export interface SyntheticLockupsByLockupIDRequest {
   lockId: bigint;
 }
-export interface SyntheticLockupsByLockupIDRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.SyntheticLockupsByLockupIDRequest";
-  value: Uint8Array;
-}
-export interface SyntheticLockupsByLockupIDRequestAmino {
-  lock_id: string;
-}
-export interface SyntheticLockupsByLockupIDRequestAminoMsg {
-  type: "osmosis/lockup/synthetic-lockups-by-lockup-id-request";
-  value: SyntheticLockupsByLockupIDRequestAmino;
-}
 export interface SyntheticLockupsByLockupIDRequestSDKType {
   lock_id: bigint;
 }
 export interface SyntheticLockupsByLockupIDResponse {
   syntheticLocks: SyntheticLock[];
-}
-export interface SyntheticLockupsByLockupIDResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.SyntheticLockupsByLockupIDResponse";
-  value: Uint8Array;
-}
-export interface SyntheticLockupsByLockupIDResponseAmino {
-  synthetic_locks: SyntheticLockAmino[];
-}
-export interface SyntheticLockupsByLockupIDResponseAminoMsg {
-  type: "osmosis/lockup/synthetic-lockups-by-lockup-id-response";
-  value: SyntheticLockupsByLockupIDResponseAmino;
 }
 export interface SyntheticLockupsByLockupIDResponseSDKType {
   synthetic_locks: SyntheticLockSDKType[];
@@ -423,35 +157,12 @@ export interface AccountLockedLongerDurationRequest {
   owner: string;
   duration: Duration | undefined;
 }
-export interface AccountLockedLongerDurationRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedLongerDurationRequest";
-  value: Uint8Array;
-}
-export interface AccountLockedLongerDurationRequestAmino {
-  owner: string;
-  duration?: DurationAmino | undefined;
-}
-export interface AccountLockedLongerDurationRequestAminoMsg {
-  type: "osmosis/lockup/account-locked-longer-duration-request";
-  value: AccountLockedLongerDurationRequestAmino;
-}
 export interface AccountLockedLongerDurationRequestSDKType {
   owner: string;
   duration: DurationSDKType | undefined;
 }
 export interface AccountLockedLongerDurationResponse {
   locks: PeriodLock[];
-}
-export interface AccountLockedLongerDurationResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedLongerDurationResponse";
-  value: Uint8Array;
-}
-export interface AccountLockedLongerDurationResponseAmino {
-  locks: PeriodLockAmino[];
-}
-export interface AccountLockedLongerDurationResponseAminoMsg {
-  type: "osmosis/lockup/account-locked-longer-duration-response";
-  value: AccountLockedLongerDurationResponseAmino;
 }
 export interface AccountLockedLongerDurationResponseSDKType {
   locks: PeriodLockSDKType[];
@@ -460,35 +171,12 @@ export interface AccountLockedDurationRequest {
   owner: string;
   duration: Duration | undefined;
 }
-export interface AccountLockedDurationRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedDurationRequest";
-  value: Uint8Array;
-}
-export interface AccountLockedDurationRequestAmino {
-  owner: string;
-  duration?: DurationAmino | undefined;
-}
-export interface AccountLockedDurationRequestAminoMsg {
-  type: "osmosis/lockup/account-locked-duration-request";
-  value: AccountLockedDurationRequestAmino;
-}
 export interface AccountLockedDurationRequestSDKType {
   owner: string;
   duration: DurationSDKType | undefined;
 }
 export interface AccountLockedDurationResponse {
   locks: PeriodLock[];
-}
-export interface AccountLockedDurationResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedDurationResponse";
-  value: Uint8Array;
-}
-export interface AccountLockedDurationResponseAmino {
-  locks: PeriodLockAmino[];
-}
-export interface AccountLockedDurationResponseAminoMsg {
-  type: "osmosis/lockup/account-locked-duration-response";
-  value: AccountLockedDurationResponseAmino;
 }
 export interface AccountLockedDurationResponseSDKType {
   locks: PeriodLockSDKType[];
@@ -497,35 +185,12 @@ export interface AccountLockedLongerDurationNotUnlockingOnlyRequest {
   owner: string;
   duration: Duration | undefined;
 }
-export interface AccountLockedLongerDurationNotUnlockingOnlyRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedLongerDurationNotUnlockingOnlyRequest";
-  value: Uint8Array;
-}
-export interface AccountLockedLongerDurationNotUnlockingOnlyRequestAmino {
-  owner: string;
-  duration?: DurationAmino | undefined;
-}
-export interface AccountLockedLongerDurationNotUnlockingOnlyRequestAminoMsg {
-  type: "osmosis/lockup/account-locked-longer-duration-not-unlocking-only-request";
-  value: AccountLockedLongerDurationNotUnlockingOnlyRequestAmino;
-}
 export interface AccountLockedLongerDurationNotUnlockingOnlyRequestSDKType {
   owner: string;
   duration: DurationSDKType | undefined;
 }
 export interface AccountLockedLongerDurationNotUnlockingOnlyResponse {
   locks: PeriodLock[];
-}
-export interface AccountLockedLongerDurationNotUnlockingOnlyResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedLongerDurationNotUnlockingOnlyResponse";
-  value: Uint8Array;
-}
-export interface AccountLockedLongerDurationNotUnlockingOnlyResponseAmino {
-  locks: PeriodLockAmino[];
-}
-export interface AccountLockedLongerDurationNotUnlockingOnlyResponseAminoMsg {
-  type: "osmosis/lockup/account-locked-longer-duration-not-unlocking-only-response";
-  value: AccountLockedLongerDurationNotUnlockingOnlyResponseAmino;
 }
 export interface AccountLockedLongerDurationNotUnlockingOnlyResponseSDKType {
   locks: PeriodLockSDKType[];
@@ -535,19 +200,6 @@ export interface AccountLockedLongerDurationDenomRequest {
   duration: Duration | undefined;
   denom: string;
 }
-export interface AccountLockedLongerDurationDenomRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedLongerDurationDenomRequest";
-  value: Uint8Array;
-}
-export interface AccountLockedLongerDurationDenomRequestAmino {
-  owner: string;
-  duration?: DurationAmino | undefined;
-  denom: string;
-}
-export interface AccountLockedLongerDurationDenomRequestAminoMsg {
-  type: "osmosis/lockup/account-locked-longer-duration-denom-request";
-  value: AccountLockedLongerDurationDenomRequestAmino;
-}
 export interface AccountLockedLongerDurationDenomRequestSDKType {
   owner: string;
   duration: DurationSDKType | undefined;
@@ -556,44 +208,13 @@ export interface AccountLockedLongerDurationDenomRequestSDKType {
 export interface AccountLockedLongerDurationDenomResponse {
   locks: PeriodLock[];
 }
-export interface AccountLockedLongerDurationDenomResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.AccountLockedLongerDurationDenomResponse";
-  value: Uint8Array;
-}
-export interface AccountLockedLongerDurationDenomResponseAmino {
-  locks: PeriodLockAmino[];
-}
-export interface AccountLockedLongerDurationDenomResponseAminoMsg {
-  type: "osmosis/lockup/account-locked-longer-duration-denom-response";
-  value: AccountLockedLongerDurationDenomResponseAmino;
-}
 export interface AccountLockedLongerDurationDenomResponseSDKType {
   locks: PeriodLockSDKType[];
 }
 export interface QueryParamsRequest {}
-export interface QueryParamsRequestProtoMsg {
-  typeUrl: "/osmosis.lockup.QueryParamsRequest";
-  value: Uint8Array;
-}
-export interface QueryParamsRequestAmino {}
-export interface QueryParamsRequestAminoMsg {
-  type: "osmosis/lockup/query-params-request";
-  value: QueryParamsRequestAmino;
-}
 export interface QueryParamsRequestSDKType {}
 export interface QueryParamsResponse {
   params: Params | undefined;
-}
-export interface QueryParamsResponseProtoMsg {
-  typeUrl: "/osmosis.lockup.QueryParamsResponse";
-  value: Uint8Array;
-}
-export interface QueryParamsResponseAmino {
-  params?: ParamsAmino | undefined;
-}
-export interface QueryParamsResponseAminoMsg {
-  type: "osmosis/lockup/query-params-response";
-  value: QueryParamsResponseAmino;
 }
 export interface QueryParamsResponseSDKType {
   params: ParamsSDKType | undefined;

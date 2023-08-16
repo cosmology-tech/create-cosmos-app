@@ -1,5 +1,5 @@
-import { Params, ParamsAmino, ParamsSDKType, DistrInfo, DistrInfoAmino, DistrInfoSDKType, PoolToGauges, PoolToGaugesAmino, PoolToGaugesSDKType } from "./incentives";
-import { Duration, DurationAmino, DurationSDKType } from "../../../google/protobuf/duration";
+import { Params, ParamsSDKType, DistrInfo, DistrInfoSDKType, PoolToGauges, PoolToGaugesSDKType } from "./incentives";
+import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 /** GenesisState defines the pool incentives module's genesis state. */
@@ -9,22 +9,6 @@ export interface GenesisState {
   lockableDurations: Duration[];
   distrInfo?: DistrInfo | undefined;
   poolToGauges?: PoolToGauges | undefined;
-}
-export interface GenesisStateProtoMsg {
-  typeUrl: "/osmosis.poolincentives.v1beta1.GenesisState";
-  value: Uint8Array;
-}
-/** GenesisState defines the pool incentives module's genesis state. */
-export interface GenesisStateAmino {
-  /** params defines all the paramaters of the module. */
-  params?: ParamsAmino | undefined;
-  lockable_durations: DurationAmino[];
-  distr_info?: DistrInfoAmino | undefined;
-  pool_to_gauges?: PoolToGaugesAmino | undefined;
-}
-export interface GenesisStateAminoMsg {
-  type: "osmosis/poolincentives/genesis-state";
-  value: GenesisStateAmino;
 }
 /** GenesisState defines the pool incentives module's genesis state. */
 export interface GenesisStateSDKType {
