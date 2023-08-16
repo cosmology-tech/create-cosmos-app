@@ -13,10 +13,13 @@ import {
 import { ProposalCard } from './proposal-card';
 import { ProposalModal } from './proposal-modal';
 import { useChain } from '@cosmos-kit/react';
-import { cosmos } from '../../codegen';
+import { cosmos } from '../../src/codegen';
 import BigNumber from 'bignumber.js';
-import { Proposal, ProposalStatus } from '../../codegen/cosmos/gov/v1beta1/gov';
-import { QueryProposalsRequest } from '../../codegen/cosmos/gov/v1beta1/query';
+import {
+  Proposal,
+  ProposalStatus,
+} from '../../src/codegen/cosmos/gov/v1beta1/gov';
+import { QueryProposalsRequest } from '../../src/codegen/cosmos/gov/v1beta1/query';
 
 const proposalStatus = ProposalStatus;
 

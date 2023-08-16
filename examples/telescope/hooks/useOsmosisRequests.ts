@@ -1,17 +1,17 @@
 import { useRequest } from './useRequest';
-import { osmosis } from '../codegen/osmosis/bundle';
-import { QueryAllBalancesRequest } from '../codegen/cosmos/bank/v1beta1/query';
-import { Pool } from '../codegen/osmosis/gamm/pool-models/balancer/balancerPool';
+import { osmosis } from '../src/codegen/osmosis/bundle';
+import { QueryAllBalancesRequest } from '../src/codegen/cosmos/bank/v1beta1/query';
+import { Pool } from '../src/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { useRef, useState } from 'react';
 import { useClient } from './useClient';
 import {
   AccountLockedCoinsRequest,
   AccountLockedLongerDurationRequest,
-} from '../codegen/osmosis/lockup/query';
-import { QueryDelegatorDelegationsRequest } from '../codegen/cosmos/staking/v1beta1/query';
+} from '../src/codegen/osmosis/lockup/query';
+import { QueryDelegatorDelegationsRequest } from '../src/codegen/cosmos/staking/v1beta1/query';
 import { PriceHash } from '../utils/liquidity/types';
-import { SuperfluidDelegationsByDelegatorRequest } from '../codegen/osmosis/superfluid/query';
-import { ActiveGaugesPerDenomRequest } from '../codegen/osmosis/incentives/query';
+import { SuperfluidDelegationsByDelegatorRequest } from '../src/codegen/osmosis/superfluid/query';
+import { ActiveGaugesPerDenomRequest } from '../src/codegen/osmosis/incentives/query';
 import {
   assets as nativeAssets,
   asset_list as osmosisIbcAssets,

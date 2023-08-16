@@ -31,7 +31,7 @@ import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
 import { PriceHash } from '../../../utils/liquidity/types';
 import { getLogoUrlFromDenom } from './pool-list';
 import BigNumber from 'bignumber.js';
-import { osmosis } from '../../../codegen/osmosis/bundle';
+import { osmosis } from '../../../src/codegen/osmosis/bundle';
 import { chainName } from '../../../config/liquidity/defaults';
 import { useChain } from '@cosmos-kit/react';
 import { TransactionResult } from './types';

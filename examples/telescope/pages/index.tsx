@@ -39,9 +39,9 @@ import {
 } from '../components';
 import { SendTokensCard } from '../components/react/send-tokens-card';
 
-import { cosmos, createRpcQueryHooks } from '../codegen';
-import { getRpcClient } from '../codegen';
-import { useRpcClient, useRpcEndpoint } from '../codegen';
+import { cosmos, createRpcQueryHooks } from '../src/codegen';
+import { useRpcClient, useRpcEndpoint } from '../src/codegen';
+import { QueryValidatorsRequest } from '../src/codegen/cosmos/staking/v1beta1/query';
 
 const library = {
   title: 'Telescope',
@@ -155,6 +155,26 @@ export default function Home() {
         isBalanceLoaded,
         isFetchingBalance,
         refetchBalance,
+      },
+      null,
+      2
+    )
+  );
+
+  const {
+    data: validators,
+    isSuccess: isValidatorsLoaded,
+    isLoading: isFetchingValidators,
+  } = hooks.useValidators({
+    request: QueryValidatorsRequest.fromPartial({}),
+  });
+
+  console.log(
+    JSON.stringify(
+      {
+        validators,
+        isValidatorsLoaded,
+        isFetchingValidators,
       },
       null,
       2

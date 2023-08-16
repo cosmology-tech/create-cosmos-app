@@ -43,9 +43,9 @@ import {
   cosmos,
   createRpcQueryHooks,
   createRpcQueryMobxStores,
-} from '../codegen';
-import { getRpcClient } from '../codegen';
-import { useRpcClient, useRpcEndpoint } from '../codegen';
+} from '../src/codegen';
+import { getRpcClient } from '../src/codegen';
+import { useRpcClient, useRpcEndpoint } from '../src/codegen';
 import { observer } from 'mobx-react';
 import { trace } from 'mobx';
 

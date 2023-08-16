@@ -12,7 +12,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
-import { Pool as OsmosisPool } from '../../../codegen/osmosis/gamm/pool-models/balancer/balancerPool';
+import { Pool as OsmosisPool } from '../../../src/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
 import BigNumber from 'bignumber.js';
 import { chainName } from '../../../config/liquidity';

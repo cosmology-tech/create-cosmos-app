@@ -10,7 +10,7 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import { chains, assets } from 'chain-registry';
-import { getSigningCosmosClientOptions } from '../codegen';
+import { getSigningCosmosClientOptions } from '../src/codegen';
 
 import { SignerOptions } from '@cosmos-kit/core';
 import { GasPrice } from '@cosmjs/stargate';

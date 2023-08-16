@@ -32,10 +32,10 @@ import {
   getSymbolForDenom,
 } from '../../../utils/liquidity';
 import { PriceHash } from '../../../utils/liquidity/types';
-import { osmosis } from '../../../codegen/osmosis/bundle';
+import { osmosis } from '../../../src/codegen/osmosis/bundle';
 import { useChain } from '@cosmos-kit/react';
 import { chainName } from '../../../config/liquidity/defaults';
-import { PeriodLock } from '../../../codegen/osmosis/lockup/lock';
+import { PeriodLock } from '../../../src/codegen/osmosis/lockup/lock';
 import { daysToSeconds } from './bond-shares-modal';
 import Long from 'long';
 import dayjs from 'dayjs';

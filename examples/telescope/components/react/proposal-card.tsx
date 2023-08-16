@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
-import { cosmos } from '../../codegen';
+import { cosmos } from '../../src/codegen';
 import { VoteOption } from '../types';
 import { decodeUint8Arr, Votes } from './vote';
 import {
@@ -15,7 +15,7 @@ import {
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Proposal } from '../../codegen/cosmos/gov/v1beta1/gov';
+import { Proposal } from '../../src/codegen/cosmos/gov/v1beta1/gov';
 
 const ProposalStatus = cosmos.gov.v1beta1.ProposalStatus;
 

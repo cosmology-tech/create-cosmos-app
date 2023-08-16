@@ -1,5 +1,5 @@
 import { CalcPoolAprsParams } from './types';
-import { Duration } from '../../codegen/google/protobuf/duration';
+import { Duration } from '../../src/codegen/google/protobuf/duration';
 import {
   getSymbolForDenom,
   calcPoolLiquidity,
