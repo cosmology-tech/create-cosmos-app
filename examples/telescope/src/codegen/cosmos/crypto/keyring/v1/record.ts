@@ -1,37 +1,37 @@
 import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { BIP44Params, BIP44ParamsSDKType } from "../../hd/v1/hd";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet } from "../../../../helpers";
+import { isSet, DeepPartial } from "../../../../helpers";
 /** Record is used for representing a key in the keyring. */
 export interface Record {
   /** name represents a name of Record */
   name: string;
   /** pub_key represents a public key in any format */
-  pubKey: Any;
+  pubKey: Any | undefined;
   /** local stores the public information about a locally stored key */
-  local?: Record_Local;
+  local?: Record_Local | undefined;
   /** ledger stores the public information about a Ledger key */
-  ledger?: Record_Ledger;
+  ledger?: Record_Ledger | undefined;
   /** Multi does not store any information. */
-  multi?: Record_Multi;
+  multi?: Record_Multi | undefined;
   /** Offline does not store any information. */
-  offline?: Record_Offline;
+  offline?: Record_Offline | undefined;
 }
 /** Record is used for representing a key in the keyring. */
 export interface RecordSDKType {
   name: string;
-  pub_key: AnySDKType;
-  local?: Record_LocalSDKType;
-  ledger?: Record_LedgerSDKType;
-  multi?: Record_MultiSDKType;
-  offline?: Record_OfflineSDKType;
+  pub_key: AnySDKType | undefined;
+  local?: Record_LocalSDKType | undefined;
+  ledger?: Record_LedgerSDKType | undefined;
+  multi?: Record_MultiSDKType | undefined;
+  offline?: Record_OfflineSDKType | undefined;
 }
 /**
  * Item is a keyring item stored in a keyring backend.
  * Local item
  */
 export interface Record_Local {
-  privKey: Any;
+  privKey: Any | undefined;
   privKeyType: string;
 }
 /**
@@ -39,16 +39,16 @@ export interface Record_Local {
  * Local item
  */
 export interface Record_LocalSDKType {
-  priv_key: AnySDKType;
+  priv_key: AnySDKType | undefined;
   priv_key_type: string;
 }
 /** Ledger item */
 export interface Record_Ledger {
-  path: BIP44Params;
+  path: BIP44Params | undefined;
 }
 /** Ledger item */
 export interface Record_LedgerSDKType {
-  path: BIP44ParamsSDKType;
+  path: BIP44ParamsSDKType | undefined;
 }
 /** Multi item */
 export interface Record_Multi {}
@@ -69,6 +69,8 @@ function createBaseRecord(): Record {
   };
 }
 export const Record = {
+  typeUrl: "/cosmos.crypto.keyring.v1.Record",
+  aminoType: "cosmos-sdk/Record",
   encode(message: Record, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -142,7 +144,7 @@ export const Record = {
     message.offline !== undefined && (obj.offline = message.offline ? Record_Offline.toJSON(message.offline) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<Record>): Record {
+  fromPartial(object: DeepPartial<Record>): Record {
     const message = createBaseRecord();
     message.name = object.name ?? "";
     message.pubKey = object.pubKey !== undefined && object.pubKey !== null ? Any.fromPartial(object.pubKey) : undefined;
@@ -151,6 +153,67 @@ export const Record = {
     message.multi = object.multi !== undefined && object.multi !== null ? Record_Multi.fromPartial(object.multi) : undefined;
     message.offline = object.offline !== undefined && object.offline !== null ? Record_Offline.fromPartial(object.offline) : undefined;
     return message;
+  },
+  fromSDK(object: RecordSDKType): Record {
+    return {
+      name: object?.name,
+      pubKey: object.pub_key ? Any.fromSDK(object.pub_key) : undefined,
+      local: object.local ? Record_Local.fromSDK(object.local) : undefined,
+      ledger: object.ledger ? Record_Ledger.fromSDK(object.ledger) : undefined,
+      multi: object.multi ? Record_Multi.fromSDK(object.multi) : undefined,
+      offline: object.offline ? Record_Offline.fromSDK(object.offline) : undefined
+    };
+  },
+  toSDK(message: Record): RecordSDKType {
+    const obj: any = {};
+    obj.name = message.name;
+    message.pubKey !== undefined && (obj.pub_key = message.pubKey ? Any.toSDK(message.pubKey) : undefined);
+    message.local !== undefined && (obj.local = message.local ? Record_Local.toSDK(message.local) : undefined);
+    message.ledger !== undefined && (obj.ledger = message.ledger ? Record_Ledger.toSDK(message.ledger) : undefined);
+    message.multi !== undefined && (obj.multi = message.multi ? Record_Multi.toSDK(message.multi) : undefined);
+    message.offline !== undefined && (obj.offline = message.offline ? Record_Offline.toSDK(message.offline) : undefined);
+    return obj;
+  },
+  fromAmino(object: RecordAmino): Record {
+    return {
+      name: object.name,
+      pubKey: object?.pub_key ? Any.fromAmino(object.pub_key) : undefined,
+      local: object?.local ? Record_Local.fromAmino(object.local) : undefined,
+      ledger: object?.ledger ? Record_Ledger.fromAmino(object.ledger) : undefined,
+      multi: object?.multi ? Record_Multi.fromAmino(object.multi) : undefined,
+      offline: object?.offline ? Record_Offline.fromAmino(object.offline) : undefined
+    };
+  },
+  toAmino(message: Record): RecordAmino {
+    const obj: any = {};
+    obj.name = message.name;
+    obj.pub_key = message.pubKey ? Any.toAmino(message.pubKey) : undefined;
+    obj.local = message.local ? Record_Local.toAmino(message.local) : undefined;
+    obj.ledger = message.ledger ? Record_Ledger.toAmino(message.ledger) : undefined;
+    obj.multi = message.multi ? Record_Multi.toAmino(message.multi) : undefined;
+    obj.offline = message.offline ? Record_Offline.toAmino(message.offline) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: RecordAminoMsg): Record {
+    return Record.fromAmino(object.value);
+  },
+  toAminoMsg(message: Record): RecordAminoMsg {
+    return {
+      type: "cosmos-sdk/Record",
+      value: Record.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: RecordProtoMsg): Record {
+    return Record.decode(message.value);
+  },
+  toProto(message: Record): Uint8Array {
+    return Record.encode(message).finish();
+  },
+  toProtoMsg(message: Record): RecordProtoMsg {
+    return {
+      typeUrl: "/cosmos.crypto.keyring.v1.Record",
+      value: Record.encode(message).finish()
+    };
   }
 };
 function createBaseRecord_Local(): Record_Local {
@@ -160,6 +223,8 @@ function createBaseRecord_Local(): Record_Local {
   };
 }
 export const Record_Local = {
+  typeUrl: "/cosmos.crypto.keyring.v1.Local",
+  aminoType: "cosmos-sdk/Local",
   encode(message: Record_Local, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.privKey !== undefined) {
       Any.encode(message.privKey, writer.uint32(10).fork()).ldelim();
@@ -201,11 +266,56 @@ export const Record_Local = {
     message.privKeyType !== undefined && (obj.privKeyType = message.privKeyType);
     return obj;
   },
-  fromPartial(object: Partial<Record_Local>): Record_Local {
+  fromPartial(object: DeepPartial<Record_Local>): Record_Local {
     const message = createBaseRecord_Local();
     message.privKey = object.privKey !== undefined && object.privKey !== null ? Any.fromPartial(object.privKey) : undefined;
     message.privKeyType = object.privKeyType ?? "";
     return message;
+  },
+  fromSDK(object: Record_LocalSDKType): Record_Local {
+    return {
+      privKey: object.priv_key ? Any.fromSDK(object.priv_key) : undefined,
+      privKeyType: object?.priv_key_type
+    };
+  },
+  toSDK(message: Record_Local): Record_LocalSDKType {
+    const obj: any = {};
+    message.privKey !== undefined && (obj.priv_key = message.privKey ? Any.toSDK(message.privKey) : undefined);
+    obj.priv_key_type = message.privKeyType;
+    return obj;
+  },
+  fromAmino(object: Record_LocalAmino): Record_Local {
+    return {
+      privKey: object?.priv_key ? Any.fromAmino(object.priv_key) : undefined,
+      privKeyType: object.priv_key_type
+    };
+  },
+  toAmino(message: Record_Local): Record_LocalAmino {
+    const obj: any = {};
+    obj.priv_key = message.privKey ? Any.toAmino(message.privKey) : undefined;
+    obj.priv_key_type = message.privKeyType;
+    return obj;
+  },
+  fromAminoMsg(object: Record_LocalAminoMsg): Record_Local {
+    return Record_Local.fromAmino(object.value);
+  },
+  toAminoMsg(message: Record_Local): Record_LocalAminoMsg {
+    return {
+      type: "cosmos-sdk/Local",
+      value: Record_Local.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: Record_LocalProtoMsg): Record_Local {
+    return Record_Local.decode(message.value);
+  },
+  toProto(message: Record_Local): Uint8Array {
+    return Record_Local.encode(message).finish();
+  },
+  toProtoMsg(message: Record_Local): Record_LocalProtoMsg {
+    return {
+      typeUrl: "/cosmos.crypto.keyring.v1.Local",
+      value: Record_Local.encode(message).finish()
+    };
   }
 };
 function createBaseRecord_Ledger(): Record_Ledger {
@@ -214,6 +324,8 @@ function createBaseRecord_Ledger(): Record_Ledger {
   };
 }
 export const Record_Ledger = {
+  typeUrl: "/cosmos.crypto.keyring.v1.Ledger",
+  aminoType: "cosmos-sdk/Ledger",
   encode(message: Record_Ledger, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path !== undefined) {
       BIP44Params.encode(message.path, writer.uint32(10).fork()).ldelim();
@@ -247,16 +359,59 @@ export const Record_Ledger = {
     message.path !== undefined && (obj.path = message.path ? BIP44Params.toJSON(message.path) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<Record_Ledger>): Record_Ledger {
+  fromPartial(object: DeepPartial<Record_Ledger>): Record_Ledger {
     const message = createBaseRecord_Ledger();
     message.path = object.path !== undefined && object.path !== null ? BIP44Params.fromPartial(object.path) : undefined;
     return message;
+  },
+  fromSDK(object: Record_LedgerSDKType): Record_Ledger {
+    return {
+      path: object.path ? BIP44Params.fromSDK(object.path) : undefined
+    };
+  },
+  toSDK(message: Record_Ledger): Record_LedgerSDKType {
+    const obj: any = {};
+    message.path !== undefined && (obj.path = message.path ? BIP44Params.toSDK(message.path) : undefined);
+    return obj;
+  },
+  fromAmino(object: Record_LedgerAmino): Record_Ledger {
+    return {
+      path: object?.path ? BIP44Params.fromAmino(object.path) : undefined
+    };
+  },
+  toAmino(message: Record_Ledger): Record_LedgerAmino {
+    const obj: any = {};
+    obj.path = message.path ? BIP44Params.toAmino(message.path) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: Record_LedgerAminoMsg): Record_Ledger {
+    return Record_Ledger.fromAmino(object.value);
+  },
+  toAminoMsg(message: Record_Ledger): Record_LedgerAminoMsg {
+    return {
+      type: "cosmos-sdk/Ledger",
+      value: Record_Ledger.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: Record_LedgerProtoMsg): Record_Ledger {
+    return Record_Ledger.decode(message.value);
+  },
+  toProto(message: Record_Ledger): Uint8Array {
+    return Record_Ledger.encode(message).finish();
+  },
+  toProtoMsg(message: Record_Ledger): Record_LedgerProtoMsg {
+    return {
+      typeUrl: "/cosmos.crypto.keyring.v1.Ledger",
+      value: Record_Ledger.encode(message).finish()
+    };
   }
 };
 function createBaseRecord_Multi(): Record_Multi {
   return {};
 }
 export const Record_Multi = {
+  typeUrl: "/cosmos.crypto.keyring.v1.Multi",
+  aminoType: "cosmos-sdk/Multi",
   encode(_: Record_Multi, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -281,15 +436,52 @@ export const Record_Multi = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<Record_Multi>): Record_Multi {
+  fromPartial(_: DeepPartial<Record_Multi>): Record_Multi {
     const message = createBaseRecord_Multi();
     return message;
+  },
+  fromSDK(_: Record_MultiSDKType): Record_Multi {
+    return {};
+  },
+  toSDK(_: Record_Multi): Record_MultiSDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: Record_MultiAmino): Record_Multi {
+    return {};
+  },
+  toAmino(_: Record_Multi): Record_MultiAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: Record_MultiAminoMsg): Record_Multi {
+    return Record_Multi.fromAmino(object.value);
+  },
+  toAminoMsg(message: Record_Multi): Record_MultiAminoMsg {
+    return {
+      type: "cosmos-sdk/Multi",
+      value: Record_Multi.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: Record_MultiProtoMsg): Record_Multi {
+    return Record_Multi.decode(message.value);
+  },
+  toProto(message: Record_Multi): Uint8Array {
+    return Record_Multi.encode(message).finish();
+  },
+  toProtoMsg(message: Record_Multi): Record_MultiProtoMsg {
+    return {
+      typeUrl: "/cosmos.crypto.keyring.v1.Multi",
+      value: Record_Multi.encode(message).finish()
+    };
   }
 };
 function createBaseRecord_Offline(): Record_Offline {
   return {};
 }
 export const Record_Offline = {
+  typeUrl: "/cosmos.crypto.keyring.v1.Offline",
+  aminoType: "cosmos-sdk/Offline",
   encode(_: Record_Offline, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -314,8 +506,43 @@ export const Record_Offline = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<Record_Offline>): Record_Offline {
+  fromPartial(_: DeepPartial<Record_Offline>): Record_Offline {
     const message = createBaseRecord_Offline();
     return message;
+  },
+  fromSDK(_: Record_OfflineSDKType): Record_Offline {
+    return {};
+  },
+  toSDK(_: Record_Offline): Record_OfflineSDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: Record_OfflineAmino): Record_Offline {
+    return {};
+  },
+  toAmino(_: Record_Offline): Record_OfflineAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: Record_OfflineAminoMsg): Record_Offline {
+    return Record_Offline.fromAmino(object.value);
+  },
+  toAminoMsg(message: Record_Offline): Record_OfflineAminoMsg {
+    return {
+      type: "cosmos-sdk/Offline",
+      value: Record_Offline.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: Record_OfflineProtoMsg): Record_Offline {
+    return Record_Offline.decode(message.value);
+  },
+  toProto(message: Record_Offline): Uint8Array {
+    return Record_Offline.encode(message).finish();
+  },
+  toProtoMsg(message: Record_Offline): Record_OfflineProtoMsg {
+    return {
+      typeUrl: "/cosmos.crypto.keyring.v1.Offline",
+      value: Record_Offline.encode(message).finish()
+    };
   }
 };

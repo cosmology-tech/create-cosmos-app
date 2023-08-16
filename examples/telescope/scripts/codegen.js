@@ -6,7 +6,7 @@ const protoDirs = [join(__dirname, '/../proto')];
 
 telescope({
   protoDirs,
-  outPath: join(__dirname, '../codegen'),
+  outPath: join(__dirname, '../src/codegen'),
   options: {
     env: 'v-next',
     tsDisable: {

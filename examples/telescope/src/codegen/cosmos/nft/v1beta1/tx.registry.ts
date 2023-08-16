@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { MsgSend } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/cosmos.nft.v1beta1.MsgSend", MsgSend]];

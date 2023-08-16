@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet } from "../../../../helpers";
+import { isSet, DeepPartial } from "../../../../helpers";
 /**
  * FungibleTokenPacketData defines a struct for the packet payload
  * See FungibleTokenPacketData spec:
@@ -35,6 +35,8 @@ function createBaseFungibleTokenPacketData(): FungibleTokenPacketData {
   };
 }
 export const FungibleTokenPacketData = {
+  typeUrl: "/ibc.applications.transfer.v2.FungibleTokenPacketData",
+  aminoType: "cosmos-sdk/FungibleTokenPacketData",
   encode(message: FungibleTokenPacketData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
@@ -92,12 +94,65 @@ export const FungibleTokenPacketData = {
     message.receiver !== undefined && (obj.receiver = message.receiver);
     return obj;
   },
-  fromPartial(object: Partial<FungibleTokenPacketData>): FungibleTokenPacketData {
+  fromPartial(object: DeepPartial<FungibleTokenPacketData>): FungibleTokenPacketData {
     const message = createBaseFungibleTokenPacketData();
     message.denom = object.denom ?? "";
     message.amount = object.amount ?? "";
     message.sender = object.sender ?? "";
     message.receiver = object.receiver ?? "";
     return message;
+  },
+  fromSDK(object: FungibleTokenPacketDataSDKType): FungibleTokenPacketData {
+    return {
+      denom: object?.denom,
+      amount: object?.amount,
+      sender: object?.sender,
+      receiver: object?.receiver
+    };
+  },
+  toSDK(message: FungibleTokenPacketData): FungibleTokenPacketDataSDKType {
+    const obj: any = {};
+    obj.denom = message.denom;
+    obj.amount = message.amount;
+    obj.sender = message.sender;
+    obj.receiver = message.receiver;
+    return obj;
+  },
+  fromAmino(object: FungibleTokenPacketDataAmino): FungibleTokenPacketData {
+    return {
+      denom: object.denom,
+      amount: object.amount,
+      sender: object.sender,
+      receiver: object.receiver
+    };
+  },
+  toAmino(message: FungibleTokenPacketData): FungibleTokenPacketDataAmino {
+    const obj: any = {};
+    obj.denom = message.denom;
+    obj.amount = message.amount;
+    obj.sender = message.sender;
+    obj.receiver = message.receiver;
+    return obj;
+  },
+  fromAminoMsg(object: FungibleTokenPacketDataAminoMsg): FungibleTokenPacketData {
+    return FungibleTokenPacketData.fromAmino(object.value);
+  },
+  toAminoMsg(message: FungibleTokenPacketData): FungibleTokenPacketDataAminoMsg {
+    return {
+      type: "cosmos-sdk/FungibleTokenPacketData",
+      value: FungibleTokenPacketData.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: FungibleTokenPacketDataProtoMsg): FungibleTokenPacketData {
+    return FungibleTokenPacketData.decode(message.value);
+  },
+  toProto(message: FungibleTokenPacketData): Uint8Array {
+    return FungibleTokenPacketData.encode(message).finish();
+  },
+  toProtoMsg(message: FungibleTokenPacketData): FungibleTokenPacketDataProtoMsg {
+    return {
+      typeUrl: "/ibc.applications.transfer.v2.FungibleTokenPacketData",
+      value: FungibleTokenPacketData.encode(message).finish()
+    };
   }
 };

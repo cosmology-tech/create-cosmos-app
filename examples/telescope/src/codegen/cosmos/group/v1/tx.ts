@@ -1,7 +1,7 @@
 import { Member, MemberSDKType, VoteOption, voteOptionFromJSON, voteOptionToJSON } from "./types";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet } from "../../../helpers";
+import { isSet, DeepPartial } from "../../../helpers";
 /** Exec defines modes of execution of a proposal on creation or on new vote. */
 export enum Exec {
   /**
@@ -137,14 +137,14 @@ export interface MsgCreateGroupPolicy {
   /** metadata is any arbitrary metadata attached to the group policy. */
   metadata: string;
   /** decision_policy specifies the group policy's decision policy. */
-  decisionPolicy: Any;
+  decisionPolicy: Any | undefined;
 }
 /** MsgCreateGroupPolicy is the Msg/CreateGroupPolicy request type. */
 export interface MsgCreateGroupPolicySDKType {
   admin: string;
   group_id: bigint;
   metadata: string;
-  decision_policy: AnySDKType;
+  decision_policy: AnySDKType | undefined;
 }
 /** MsgCreateGroupPolicyResponse is the Msg/CreateGroupPolicy response type. */
 export interface MsgCreateGroupPolicyResponse {
@@ -183,7 +183,7 @@ export interface MsgCreateGroupWithPolicy {
   /** group_policy_as_admin is a boolean field, if set to true, the group policy account address will be used as group and group policy admin. */
   groupPolicyAsAdmin: boolean;
   /** decision_policy specifies the group policy's decision policy. */
-  decisionPolicy: Any;
+  decisionPolicy: Any | undefined;
 }
 /** MsgCreateGroupWithPolicy is the Msg/CreateGroupWithPolicy request type. */
 export interface MsgCreateGroupWithPolicySDKType {
@@ -192,7 +192,7 @@ export interface MsgCreateGroupWithPolicySDKType {
   group_metadata: string;
   group_policy_metadata: string;
   group_policy_as_admin: boolean;
-  decision_policy: AnySDKType;
+  decision_policy: AnySDKType | undefined;
 }
 /** MsgCreateGroupWithPolicyResponse is the Msg/CreateGroupWithPolicy response type. */
 export interface MsgCreateGroupWithPolicyResponse {
@@ -217,13 +217,13 @@ export interface MsgUpdateGroupPolicyDecisionPolicy {
   /** address is the account address of group policy. */
   address: string;
   /** decision_policy is the updated group policy's decision policy. */
-  decisionPolicy: Any;
+  decisionPolicy: Any | undefined;
 }
 /** MsgUpdateGroupPolicyDecisionPolicy is the Msg/UpdateGroupPolicyDecisionPolicy request type. */
 export interface MsgUpdateGroupPolicyDecisionPolicySDKType {
   admin: string;
   address: string;
-  decision_policy: AnySDKType;
+  decision_policy: AnySDKType | undefined;
 }
 /** MsgUpdateGroupPolicyDecisionPolicyResponse is the Msg/UpdateGroupPolicyDecisionPolicy response type. */
 export interface MsgUpdateGroupPolicyDecisionPolicyResponse {}
@@ -369,6 +369,8 @@ function createBaseMsgCreateGroup(): MsgCreateGroup {
   };
 }
 export const MsgCreateGroup = {
+  typeUrl: "/cosmos.group.v1.MsgCreateGroup",
+  aminoType: "cosmos-sdk/MsgCreateGroup",
   encode(message: MsgCreateGroup, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -422,12 +424,69 @@ export const MsgCreateGroup = {
     message.metadata !== undefined && (obj.metadata = message.metadata);
     return obj;
   },
-  fromPartial(object: Partial<MsgCreateGroup>): MsgCreateGroup {
+  fromPartial(object: DeepPartial<MsgCreateGroup>): MsgCreateGroup {
     const message = createBaseMsgCreateGroup();
     message.admin = object.admin ?? "";
     message.members = object.members?.map(e => Member.fromPartial(e)) || [];
     message.metadata = object.metadata ?? "";
     return message;
+  },
+  fromSDK(object: MsgCreateGroupSDKType): MsgCreateGroup {
+    return {
+      admin: object?.admin,
+      members: Array.isArray(object?.members) ? object.members.map((e: any) => Member.fromSDK(e)) : [],
+      metadata: object?.metadata
+    };
+  },
+  toSDK(message: MsgCreateGroup): MsgCreateGroupSDKType {
+    const obj: any = {};
+    obj.admin = message.admin;
+    if (message.members) {
+      obj.members = message.members.map(e => e ? Member.toSDK(e) : undefined);
+    } else {
+      obj.members = [];
+    }
+    obj.metadata = message.metadata;
+    return obj;
+  },
+  fromAmino(object: MsgCreateGroupAmino): MsgCreateGroup {
+    return {
+      admin: object.admin,
+      members: Array.isArray(object?.members) ? object.members.map((e: any) => Member.fromAmino(e)) : [],
+      metadata: object.metadata
+    };
+  },
+  toAmino(message: MsgCreateGroup): MsgCreateGroupAmino {
+    const obj: any = {};
+    obj.admin = message.admin;
+    if (message.members) {
+      obj.members = message.members.map(e => e ? Member.toAmino(e) : undefined);
+    } else {
+      obj.members = [];
+    }
+    obj.metadata = message.metadata;
+    return obj;
+  },
+  fromAminoMsg(object: MsgCreateGroupAminoMsg): MsgCreateGroup {
+    return MsgCreateGroup.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgCreateGroup): MsgCreateGroupAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgCreateGroup",
+      value: MsgCreateGroup.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgCreateGroupProtoMsg): MsgCreateGroup {
+    return MsgCreateGroup.decode(message.value);
+  },
+  toProto(message: MsgCreateGroup): Uint8Array {
+    return MsgCreateGroup.encode(message).finish();
+  },
+  toProtoMsg(message: MsgCreateGroup): MsgCreateGroupProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgCreateGroup",
+      value: MsgCreateGroup.encode(message).finish()
+    };
   }
 };
 function createBaseMsgCreateGroupResponse(): MsgCreateGroupResponse {
@@ -436,6 +495,8 @@ function createBaseMsgCreateGroupResponse(): MsgCreateGroupResponse {
   };
 }
 export const MsgCreateGroupResponse = {
+  typeUrl: "/cosmos.group.v1.MsgCreateGroupResponse",
+  aminoType: "cosmos-sdk/MsgCreateGroupResponse",
   encode(message: MsgCreateGroupResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.groupId !== BigInt(0)) {
       writer.uint32(8).uint64(message.groupId);
@@ -469,10 +530,51 @@ export const MsgCreateGroupResponse = {
     message.groupId !== undefined && (obj.groupId = (message.groupId || BigInt(0)).toString());
     return obj;
   },
-  fromPartial(object: Partial<MsgCreateGroupResponse>): MsgCreateGroupResponse {
+  fromPartial(object: DeepPartial<MsgCreateGroupResponse>): MsgCreateGroupResponse {
     const message = createBaseMsgCreateGroupResponse();
     message.groupId = object.groupId !== undefined && object.groupId !== null ? BigInt(object.groupId.toString()) : BigInt(0);
     return message;
+  },
+  fromSDK(object: MsgCreateGroupResponseSDKType): MsgCreateGroupResponse {
+    return {
+      groupId: object?.group_id
+    };
+  },
+  toSDK(message: MsgCreateGroupResponse): MsgCreateGroupResponseSDKType {
+    const obj: any = {};
+    obj.group_id = message.groupId;
+    return obj;
+  },
+  fromAmino(object: MsgCreateGroupResponseAmino): MsgCreateGroupResponse {
+    return {
+      groupId: BigInt(object.group_id)
+    };
+  },
+  toAmino(message: MsgCreateGroupResponse): MsgCreateGroupResponseAmino {
+    const obj: any = {};
+    obj.group_id = message.groupId ? message.groupId.toString() : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: MsgCreateGroupResponseAminoMsg): MsgCreateGroupResponse {
+    return MsgCreateGroupResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgCreateGroupResponse): MsgCreateGroupResponseAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgCreateGroupResponse",
+      value: MsgCreateGroupResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgCreateGroupResponseProtoMsg): MsgCreateGroupResponse {
+    return MsgCreateGroupResponse.decode(message.value);
+  },
+  toProto(message: MsgCreateGroupResponse): Uint8Array {
+    return MsgCreateGroupResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgCreateGroupResponse): MsgCreateGroupResponseProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgCreateGroupResponse",
+      value: MsgCreateGroupResponse.encode(message).finish()
+    };
   }
 };
 function createBaseMsgUpdateGroupMembers(): MsgUpdateGroupMembers {
@@ -483,6 +585,8 @@ function createBaseMsgUpdateGroupMembers(): MsgUpdateGroupMembers {
   };
 }
 export const MsgUpdateGroupMembers = {
+  typeUrl: "/cosmos.group.v1.MsgUpdateGroupMembers",
+  aminoType: "cosmos-sdk/MsgUpdateGroupMembers",
   encode(message: MsgUpdateGroupMembers, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -536,18 +640,77 @@ export const MsgUpdateGroupMembers = {
     }
     return obj;
   },
-  fromPartial(object: Partial<MsgUpdateGroupMembers>): MsgUpdateGroupMembers {
+  fromPartial(object: DeepPartial<MsgUpdateGroupMembers>): MsgUpdateGroupMembers {
     const message = createBaseMsgUpdateGroupMembers();
     message.admin = object.admin ?? "";
     message.groupId = object.groupId !== undefined && object.groupId !== null ? BigInt(object.groupId.toString()) : BigInt(0);
     message.memberUpdates = object.memberUpdates?.map(e => Member.fromPartial(e)) || [];
     return message;
+  },
+  fromSDK(object: MsgUpdateGroupMembersSDKType): MsgUpdateGroupMembers {
+    return {
+      admin: object?.admin,
+      groupId: object?.group_id,
+      memberUpdates: Array.isArray(object?.member_updates) ? object.member_updates.map((e: any) => Member.fromSDK(e)) : []
+    };
+  },
+  toSDK(message: MsgUpdateGroupMembers): MsgUpdateGroupMembersSDKType {
+    const obj: any = {};
+    obj.admin = message.admin;
+    obj.group_id = message.groupId;
+    if (message.memberUpdates) {
+      obj.member_updates = message.memberUpdates.map(e => e ? Member.toSDK(e) : undefined);
+    } else {
+      obj.member_updates = [];
+    }
+    return obj;
+  },
+  fromAmino(object: MsgUpdateGroupMembersAmino): MsgUpdateGroupMembers {
+    return {
+      admin: object.admin,
+      groupId: BigInt(object.group_id),
+      memberUpdates: Array.isArray(object?.member_updates) ? object.member_updates.map((e: any) => Member.fromAmino(e)) : []
+    };
+  },
+  toAmino(message: MsgUpdateGroupMembers): MsgUpdateGroupMembersAmino {
+    const obj: any = {};
+    obj.admin = message.admin;
+    obj.group_id = message.groupId ? message.groupId.toString() : undefined;
+    if (message.memberUpdates) {
+      obj.member_updates = message.memberUpdates.map(e => e ? Member.toAmino(e) : undefined);
+    } else {
+      obj.member_updates = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: MsgUpdateGroupMembersAminoMsg): MsgUpdateGroupMembers {
+    return MsgUpdateGroupMembers.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgUpdateGroupMembers): MsgUpdateGroupMembersAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgUpdateGroupMembers",
+      value: MsgUpdateGroupMembers.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgUpdateGroupMembersProtoMsg): MsgUpdateGroupMembers {
+    return MsgUpdateGroupMembers.decode(message.value);
+  },
+  toProto(message: MsgUpdateGroupMembers): Uint8Array {
+    return MsgUpdateGroupMembers.encode(message).finish();
+  },
+  toProtoMsg(message: MsgUpdateGroupMembers): MsgUpdateGroupMembersProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgUpdateGroupMembers",
+      value: MsgUpdateGroupMembers.encode(message).finish()
+    };
   }
 };
 function createBaseMsgUpdateGroupMembersResponse(): MsgUpdateGroupMembersResponse {
   return {};
 }
 export const MsgUpdateGroupMembersResponse = {
+  typeUrl: "/cosmos.group.v1.MsgUpdateGroupMembersResponse",
+  aminoType: "cosmos-sdk/MsgUpdateGroupMembersResponse",
   encode(_: MsgUpdateGroupMembersResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -572,9 +735,44 @@ export const MsgUpdateGroupMembersResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgUpdateGroupMembersResponse>): MsgUpdateGroupMembersResponse {
+  fromPartial(_: DeepPartial<MsgUpdateGroupMembersResponse>): MsgUpdateGroupMembersResponse {
     const message = createBaseMsgUpdateGroupMembersResponse();
     return message;
+  },
+  fromSDK(_: MsgUpdateGroupMembersResponseSDKType): MsgUpdateGroupMembersResponse {
+    return {};
+  },
+  toSDK(_: MsgUpdateGroupMembersResponse): MsgUpdateGroupMembersResponseSDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: MsgUpdateGroupMembersResponseAmino): MsgUpdateGroupMembersResponse {
+    return {};
+  },
+  toAmino(_: MsgUpdateGroupMembersResponse): MsgUpdateGroupMembersResponseAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: MsgUpdateGroupMembersResponseAminoMsg): MsgUpdateGroupMembersResponse {
+    return MsgUpdateGroupMembersResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgUpdateGroupMembersResponse): MsgUpdateGroupMembersResponseAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgUpdateGroupMembersResponse",
+      value: MsgUpdateGroupMembersResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgUpdateGroupMembersResponseProtoMsg): MsgUpdateGroupMembersResponse {
+    return MsgUpdateGroupMembersResponse.decode(message.value);
+  },
+  toProto(message: MsgUpdateGroupMembersResponse): Uint8Array {
+    return MsgUpdateGroupMembersResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgUpdateGroupMembersResponse): MsgUpdateGroupMembersResponseProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgUpdateGroupMembersResponse",
+      value: MsgUpdateGroupMembersResponse.encode(message).finish()
+    };
   }
 };
 function createBaseMsgUpdateGroupAdmin(): MsgUpdateGroupAdmin {
@@ -585,6 +783,8 @@ function createBaseMsgUpdateGroupAdmin(): MsgUpdateGroupAdmin {
   };
 }
 export const MsgUpdateGroupAdmin = {
+  typeUrl: "/cosmos.group.v1.MsgUpdateGroupAdmin",
+  aminoType: "cosmos-sdk/MsgUpdateGroupAdmin",
   encode(message: MsgUpdateGroupAdmin, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -634,18 +834,69 @@ export const MsgUpdateGroupAdmin = {
     message.newAdmin !== undefined && (obj.newAdmin = message.newAdmin);
     return obj;
   },
-  fromPartial(object: Partial<MsgUpdateGroupAdmin>): MsgUpdateGroupAdmin {
+  fromPartial(object: DeepPartial<MsgUpdateGroupAdmin>): MsgUpdateGroupAdmin {
     const message = createBaseMsgUpdateGroupAdmin();
     message.admin = object.admin ?? "";
     message.groupId = object.groupId !== undefined && object.groupId !== null ? BigInt(object.groupId.toString()) : BigInt(0);
     message.newAdmin = object.newAdmin ?? "";
     return message;
+  },
+  fromSDK(object: MsgUpdateGroupAdminSDKType): MsgUpdateGroupAdmin {
+    return {
+      admin: object?.admin,
+      groupId: object?.group_id,
+      newAdmin: object?.new_admin
+    };
+  },
+  toSDK(message: MsgUpdateGroupAdmin): MsgUpdateGroupAdminSDKType {
+    const obj: any = {};
+    obj.admin = message.admin;
+    obj.group_id = message.groupId;
+    obj.new_admin = message.newAdmin;
+    return obj;
+  },
+  fromAmino(object: MsgUpdateGroupAdminAmino): MsgUpdateGroupAdmin {
+    return {
+      admin: object.admin,
+      groupId: BigInt(object.group_id),
+      newAdmin: object.new_admin
+    };
+  },
+  toAmino(message: MsgUpdateGroupAdmin): MsgUpdateGroupAdminAmino {
+    const obj: any = {};
+    obj.admin = message.admin;
+    obj.group_id = message.groupId ? message.groupId.toString() : undefined;
+    obj.new_admin = message.newAdmin;
+    return obj;
+  },
+  fromAminoMsg(object: MsgUpdateGroupAdminAminoMsg): MsgUpdateGroupAdmin {
+    return MsgUpdateGroupAdmin.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgUpdateGroupAdmin): MsgUpdateGroupAdminAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgUpdateGroupAdmin",
+      value: MsgUpdateGroupAdmin.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgUpdateGroupAdminProtoMsg): MsgUpdateGroupAdmin {
+    return MsgUpdateGroupAdmin.decode(message.value);
+  },
+  toProto(message: MsgUpdateGroupAdmin): Uint8Array {
+    return MsgUpdateGroupAdmin.encode(message).finish();
+  },
+  toProtoMsg(message: MsgUpdateGroupAdmin): MsgUpdateGroupAdminProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgUpdateGroupAdmin",
+      value: MsgUpdateGroupAdmin.encode(message).finish()
+    };
   }
 };
 function createBaseMsgUpdateGroupAdminResponse(): MsgUpdateGroupAdminResponse {
   return {};
 }
 export const MsgUpdateGroupAdminResponse = {
+  typeUrl: "/cosmos.group.v1.MsgUpdateGroupAdminResponse",
+  aminoType: "cosmos-sdk/MsgUpdateGroupAdminResponse",
   encode(_: MsgUpdateGroupAdminResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -670,9 +921,44 @@ export const MsgUpdateGroupAdminResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgUpdateGroupAdminResponse>): MsgUpdateGroupAdminResponse {
+  fromPartial(_: DeepPartial<MsgUpdateGroupAdminResponse>): MsgUpdateGroupAdminResponse {
     const message = createBaseMsgUpdateGroupAdminResponse();
     return message;
+  },
+  fromSDK(_: MsgUpdateGroupAdminResponseSDKType): MsgUpdateGroupAdminResponse {
+    return {};
+  },
+  toSDK(_: MsgUpdateGroupAdminResponse): MsgUpdateGroupAdminResponseSDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: MsgUpdateGroupAdminResponseAmino): MsgUpdateGroupAdminResponse {
+    return {};
+  },
+  toAmino(_: MsgUpdateGroupAdminResponse): MsgUpdateGroupAdminResponseAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: MsgUpdateGroupAdminResponseAminoMsg): MsgUpdateGroupAdminResponse {
+    return MsgUpdateGroupAdminResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgUpdateGroupAdminResponse): MsgUpdateGroupAdminResponseAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgUpdateGroupAdminResponse",
+      value: MsgUpdateGroupAdminResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgUpdateGroupAdminResponseProtoMsg): MsgUpdateGroupAdminResponse {
+    return MsgUpdateGroupAdminResponse.decode(message.value);
+  },
+  toProto(message: MsgUpdateGroupAdminResponse): Uint8Array {
+    return MsgUpdateGroupAdminResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgUpdateGroupAdminResponse): MsgUpdateGroupAdminResponseProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgUpdateGroupAdminResponse",
+      value: MsgUpdateGroupAdminResponse.encode(message).finish()
+    };
   }
 };
 function createBaseMsgUpdateGroupMetadata(): MsgUpdateGroupMetadata {
@@ -683,6 +969,8 @@ function createBaseMsgUpdateGroupMetadata(): MsgUpdateGroupMetadata {
   };
 }
 export const MsgUpdateGroupMetadata = {
+  typeUrl: "/cosmos.group.v1.MsgUpdateGroupMetadata",
+  aminoType: "cosmos-sdk/MsgUpdateGroupMetadata",
   encode(message: MsgUpdateGroupMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -732,18 +1020,69 @@ export const MsgUpdateGroupMetadata = {
     message.metadata !== undefined && (obj.metadata = message.metadata);
     return obj;
   },
-  fromPartial(object: Partial<MsgUpdateGroupMetadata>): MsgUpdateGroupMetadata {
+  fromPartial(object: DeepPartial<MsgUpdateGroupMetadata>): MsgUpdateGroupMetadata {
     const message = createBaseMsgUpdateGroupMetadata();
     message.admin = object.admin ?? "";
     message.groupId = object.groupId !== undefined && object.groupId !== null ? BigInt(object.groupId.toString()) : BigInt(0);
     message.metadata = object.metadata ?? "";
     return message;
+  },
+  fromSDK(object: MsgUpdateGroupMetadataSDKType): MsgUpdateGroupMetadata {
+    return {
+      admin: object?.admin,
+      groupId: object?.group_id,
+      metadata: object?.metadata
+    };
+  },
+  toSDK(message: MsgUpdateGroupMetadata): MsgUpdateGroupMetadataSDKType {
+    const obj: any = {};
+    obj.admin = message.admin;
+    obj.group_id = message.groupId;
+    obj.metadata = message.metadata;
+    return obj;
+  },
+  fromAmino(object: MsgUpdateGroupMetadataAmino): MsgUpdateGroupMetadata {
+    return {
+      admin: object.admin,
+      groupId: BigInt(object.group_id),
+      metadata: object.metadata
+    };
+  },
+  toAmino(message: MsgUpdateGroupMetadata): MsgUpdateGroupMetadataAmino {
+    const obj: any = {};
+    obj.admin = message.admin;
+    obj.group_id = message.groupId ? message.groupId.toString() : undefined;
+    obj.metadata = message.metadata;
+    return obj;
+  },
+  fromAminoMsg(object: MsgUpdateGroupMetadataAminoMsg): MsgUpdateGroupMetadata {
+    return MsgUpdateGroupMetadata.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgUpdateGroupMetadata): MsgUpdateGroupMetadataAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgUpdateGroupMetadata",
+      value: MsgUpdateGroupMetadata.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgUpdateGroupMetadataProtoMsg): MsgUpdateGroupMetadata {
+    return MsgUpdateGroupMetadata.decode(message.value);
+  },
+  toProto(message: MsgUpdateGroupMetadata): Uint8Array {
+    return MsgUpdateGroupMetadata.encode(message).finish();
+  },
+  toProtoMsg(message: MsgUpdateGroupMetadata): MsgUpdateGroupMetadataProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgUpdateGroupMetadata",
+      value: MsgUpdateGroupMetadata.encode(message).finish()
+    };
   }
 };
 function createBaseMsgUpdateGroupMetadataResponse(): MsgUpdateGroupMetadataResponse {
   return {};
 }
 export const MsgUpdateGroupMetadataResponse = {
+  typeUrl: "/cosmos.group.v1.MsgUpdateGroupMetadataResponse",
+  aminoType: "cosmos-sdk/MsgUpdateGroupMetadataResponse",
   encode(_: MsgUpdateGroupMetadataResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -768,9 +1107,44 @@ export const MsgUpdateGroupMetadataResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgUpdateGroupMetadataResponse>): MsgUpdateGroupMetadataResponse {
+  fromPartial(_: DeepPartial<MsgUpdateGroupMetadataResponse>): MsgUpdateGroupMetadataResponse {
     const message = createBaseMsgUpdateGroupMetadataResponse();
     return message;
+  },
+  fromSDK(_: MsgUpdateGroupMetadataResponseSDKType): MsgUpdateGroupMetadataResponse {
+    return {};
+  },
+  toSDK(_: MsgUpdateGroupMetadataResponse): MsgUpdateGroupMetadataResponseSDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: MsgUpdateGroupMetadataResponseAmino): MsgUpdateGroupMetadataResponse {
+    return {};
+  },
+  toAmino(_: MsgUpdateGroupMetadataResponse): MsgUpdateGroupMetadataResponseAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: MsgUpdateGroupMetadataResponseAminoMsg): MsgUpdateGroupMetadataResponse {
+    return MsgUpdateGroupMetadataResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgUpdateGroupMetadataResponse): MsgUpdateGroupMetadataResponseAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgUpdateGroupMetadataResponse",
+      value: MsgUpdateGroupMetadataResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgUpdateGroupMetadataResponseProtoMsg): MsgUpdateGroupMetadataResponse {
+    return MsgUpdateGroupMetadataResponse.decode(message.value);
+  },
+  toProto(message: MsgUpdateGroupMetadataResponse): Uint8Array {
+    return MsgUpdateGroupMetadataResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgUpdateGroupMetadataResponse): MsgUpdateGroupMetadataResponseProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgUpdateGroupMetadataResponse",
+      value: MsgUpdateGroupMetadataResponse.encode(message).finish()
+    };
   }
 };
 function createBaseMsgCreateGroupPolicy(): MsgCreateGroupPolicy {
@@ -782,6 +1156,8 @@ function createBaseMsgCreateGroupPolicy(): MsgCreateGroupPolicy {
   };
 }
 export const MsgCreateGroupPolicy = {
+  typeUrl: "/cosmos.group.v1.MsgCreateGroupPolicy",
+  aminoType: "cosmos-sdk/MsgCreateGroupPolicy",
   encode(message: MsgCreateGroupPolicy, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -839,13 +1215,66 @@ export const MsgCreateGroupPolicy = {
     message.decisionPolicy !== undefined && (obj.decisionPolicy = message.decisionPolicy ? Any.toJSON(message.decisionPolicy) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<MsgCreateGroupPolicy>): MsgCreateGroupPolicy {
+  fromPartial(object: DeepPartial<MsgCreateGroupPolicy>): MsgCreateGroupPolicy {
     const message = createBaseMsgCreateGroupPolicy();
     message.admin = object.admin ?? "";
     message.groupId = object.groupId !== undefined && object.groupId !== null ? BigInt(object.groupId.toString()) : BigInt(0);
     message.metadata = object.metadata ?? "";
     message.decisionPolicy = object.decisionPolicy !== undefined && object.decisionPolicy !== null ? Any.fromPartial(object.decisionPolicy) : undefined;
     return message;
+  },
+  fromSDK(object: MsgCreateGroupPolicySDKType): MsgCreateGroupPolicy {
+    return {
+      admin: object?.admin,
+      groupId: object?.group_id,
+      metadata: object?.metadata,
+      decisionPolicy: object.decision_policy ? Any.fromSDK(object.decision_policy) : undefined
+    };
+  },
+  toSDK(message: MsgCreateGroupPolicy): MsgCreateGroupPolicySDKType {
+    const obj: any = {};
+    obj.admin = message.admin;
+    obj.group_id = message.groupId;
+    obj.metadata = message.metadata;
+    message.decisionPolicy !== undefined && (obj.decision_policy = message.decisionPolicy ? Any.toSDK(message.decisionPolicy) : undefined);
+    return obj;
+  },
+  fromAmino(object: MsgCreateGroupPolicyAmino): MsgCreateGroupPolicy {
+    return {
+      admin: object.admin,
+      groupId: BigInt(object.group_id),
+      metadata: object.metadata,
+      decisionPolicy: object?.decision_policy ? Any.fromAmino(object.decision_policy) : undefined
+    };
+  },
+  toAmino(message: MsgCreateGroupPolicy): MsgCreateGroupPolicyAmino {
+    const obj: any = {};
+    obj.admin = message.admin;
+    obj.group_id = message.groupId ? message.groupId.toString() : undefined;
+    obj.metadata = message.metadata;
+    obj.decision_policy = message.decisionPolicy ? Any.toAmino(message.decisionPolicy) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: MsgCreateGroupPolicyAminoMsg): MsgCreateGroupPolicy {
+    return MsgCreateGroupPolicy.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgCreateGroupPolicy): MsgCreateGroupPolicyAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgCreateGroupPolicy",
+      value: MsgCreateGroupPolicy.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgCreateGroupPolicyProtoMsg): MsgCreateGroupPolicy {
+    return MsgCreateGroupPolicy.decode(message.value);
+  },
+  toProto(message: MsgCreateGroupPolicy): Uint8Array {
+    return MsgCreateGroupPolicy.encode(message).finish();
+  },
+  toProtoMsg(message: MsgCreateGroupPolicy): MsgCreateGroupPolicyProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgCreateGroupPolicy",
+      value: MsgCreateGroupPolicy.encode(message).finish()
+    };
   }
 };
 function createBaseMsgCreateGroupPolicyResponse(): MsgCreateGroupPolicyResponse {
@@ -854,6 +1283,8 @@ function createBaseMsgCreateGroupPolicyResponse(): MsgCreateGroupPolicyResponse 
   };
 }
 export const MsgCreateGroupPolicyResponse = {
+  typeUrl: "/cosmos.group.v1.MsgCreateGroupPolicyResponse",
+  aminoType: "cosmos-sdk/MsgCreateGroupPolicyResponse",
   encode(message: MsgCreateGroupPolicyResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
@@ -887,10 +1318,51 @@ export const MsgCreateGroupPolicyResponse = {
     message.address !== undefined && (obj.address = message.address);
     return obj;
   },
-  fromPartial(object: Partial<MsgCreateGroupPolicyResponse>): MsgCreateGroupPolicyResponse {
+  fromPartial(object: DeepPartial<MsgCreateGroupPolicyResponse>): MsgCreateGroupPolicyResponse {
     const message = createBaseMsgCreateGroupPolicyResponse();
     message.address = object.address ?? "";
     return message;
+  },
+  fromSDK(object: MsgCreateGroupPolicyResponseSDKType): MsgCreateGroupPolicyResponse {
+    return {
+      address: object?.address
+    };
+  },
+  toSDK(message: MsgCreateGroupPolicyResponse): MsgCreateGroupPolicyResponseSDKType {
+    const obj: any = {};
+    obj.address = message.address;
+    return obj;
+  },
+  fromAmino(object: MsgCreateGroupPolicyResponseAmino): MsgCreateGroupPolicyResponse {
+    return {
+      address: object.address
+    };
+  },
+  toAmino(message: MsgCreateGroupPolicyResponse): MsgCreateGroupPolicyResponseAmino {
+    const obj: any = {};
+    obj.address = message.address;
+    return obj;
+  },
+  fromAminoMsg(object: MsgCreateGroupPolicyResponseAminoMsg): MsgCreateGroupPolicyResponse {
+    return MsgCreateGroupPolicyResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgCreateGroupPolicyResponse): MsgCreateGroupPolicyResponseAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgCreateGroupPolicyResponse",
+      value: MsgCreateGroupPolicyResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgCreateGroupPolicyResponseProtoMsg): MsgCreateGroupPolicyResponse {
+    return MsgCreateGroupPolicyResponse.decode(message.value);
+  },
+  toProto(message: MsgCreateGroupPolicyResponse): Uint8Array {
+    return MsgCreateGroupPolicyResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgCreateGroupPolicyResponse): MsgCreateGroupPolicyResponseProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgCreateGroupPolicyResponse",
+      value: MsgCreateGroupPolicyResponse.encode(message).finish()
+    };
   }
 };
 function createBaseMsgUpdateGroupPolicyAdmin(): MsgUpdateGroupPolicyAdmin {
@@ -901,6 +1373,8 @@ function createBaseMsgUpdateGroupPolicyAdmin(): MsgUpdateGroupPolicyAdmin {
   };
 }
 export const MsgUpdateGroupPolicyAdmin = {
+  typeUrl: "/cosmos.group.v1.MsgUpdateGroupPolicyAdmin",
+  aminoType: "cosmos-sdk/MsgUpdateGroupPolicyAdmin",
   encode(message: MsgUpdateGroupPolicyAdmin, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -950,12 +1424,61 @@ export const MsgUpdateGroupPolicyAdmin = {
     message.newAdmin !== undefined && (obj.newAdmin = message.newAdmin);
     return obj;
   },
-  fromPartial(object: Partial<MsgUpdateGroupPolicyAdmin>): MsgUpdateGroupPolicyAdmin {
+  fromPartial(object: DeepPartial<MsgUpdateGroupPolicyAdmin>): MsgUpdateGroupPolicyAdmin {
     const message = createBaseMsgUpdateGroupPolicyAdmin();
     message.admin = object.admin ?? "";
     message.address = object.address ?? "";
     message.newAdmin = object.newAdmin ?? "";
     return message;
+  },
+  fromSDK(object: MsgUpdateGroupPolicyAdminSDKType): MsgUpdateGroupPolicyAdmin {
+    return {
+      admin: object?.admin,
+      address: object?.address,
+      newAdmin: object?.new_admin
+    };
+  },
+  toSDK(message: MsgUpdateGroupPolicyAdmin): MsgUpdateGroupPolicyAdminSDKType {
+    const obj: any = {};
+    obj.admin = message.admin;
+    obj.address = message.address;
+    obj.new_admin = message.newAdmin;
+    return obj;
+  },
+  fromAmino(object: MsgUpdateGroupPolicyAdminAmino): MsgUpdateGroupPolicyAdmin {
+    return {
+      admin: object.admin,
+      address: object.address,
+      newAdmin: object.new_admin
+    };
+  },
+  toAmino(message: MsgUpdateGroupPolicyAdmin): MsgUpdateGroupPolicyAdminAmino {
+    const obj: any = {};
+    obj.admin = message.admin;
+    obj.address = message.address;
+    obj.new_admin = message.newAdmin;
+    return obj;
+  },
+  fromAminoMsg(object: MsgUpdateGroupPolicyAdminAminoMsg): MsgUpdateGroupPolicyAdmin {
+    return MsgUpdateGroupPolicyAdmin.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgUpdateGroupPolicyAdmin): MsgUpdateGroupPolicyAdminAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgUpdateGroupPolicyAdmin",
+      value: MsgUpdateGroupPolicyAdmin.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgUpdateGroupPolicyAdminProtoMsg): MsgUpdateGroupPolicyAdmin {
+    return MsgUpdateGroupPolicyAdmin.decode(message.value);
+  },
+  toProto(message: MsgUpdateGroupPolicyAdmin): Uint8Array {
+    return MsgUpdateGroupPolicyAdmin.encode(message).finish();
+  },
+  toProtoMsg(message: MsgUpdateGroupPolicyAdmin): MsgUpdateGroupPolicyAdminProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgUpdateGroupPolicyAdmin",
+      value: MsgUpdateGroupPolicyAdmin.encode(message).finish()
+    };
   }
 };
 function createBaseMsgCreateGroupWithPolicy(): MsgCreateGroupWithPolicy {
@@ -969,6 +1492,8 @@ function createBaseMsgCreateGroupWithPolicy(): MsgCreateGroupWithPolicy {
   };
 }
 export const MsgCreateGroupWithPolicy = {
+  typeUrl: "/cosmos.group.v1.MsgCreateGroupWithPolicy",
+  aminoType: "cosmos-sdk/MsgCreateGroupWithPolicy",
   encode(message: MsgCreateGroupWithPolicy, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -1046,7 +1571,7 @@ export const MsgCreateGroupWithPolicy = {
     message.decisionPolicy !== undefined && (obj.decisionPolicy = message.decisionPolicy ? Any.toJSON(message.decisionPolicy) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<MsgCreateGroupWithPolicy>): MsgCreateGroupWithPolicy {
+  fromPartial(object: DeepPartial<MsgCreateGroupWithPolicy>): MsgCreateGroupWithPolicy {
     const message = createBaseMsgCreateGroupWithPolicy();
     message.admin = object.admin ?? "";
     message.members = object.members?.map(e => Member.fromPartial(e)) || [];
@@ -1055,6 +1580,75 @@ export const MsgCreateGroupWithPolicy = {
     message.groupPolicyAsAdmin = object.groupPolicyAsAdmin ?? false;
     message.decisionPolicy = object.decisionPolicy !== undefined && object.decisionPolicy !== null ? Any.fromPartial(object.decisionPolicy) : undefined;
     return message;
+  },
+  fromSDK(object: MsgCreateGroupWithPolicySDKType): MsgCreateGroupWithPolicy {
+    return {
+      admin: object?.admin,
+      members: Array.isArray(object?.members) ? object.members.map((e: any) => Member.fromSDK(e)) : [],
+      groupMetadata: object?.group_metadata,
+      groupPolicyMetadata: object?.group_policy_metadata,
+      groupPolicyAsAdmin: object?.group_policy_as_admin,
+      decisionPolicy: object.decision_policy ? Any.fromSDK(object.decision_policy) : undefined
+    };
+  },
+  toSDK(message: MsgCreateGroupWithPolicy): MsgCreateGroupWithPolicySDKType {
+    const obj: any = {};
+    obj.admin = message.admin;
+    if (message.members) {
+      obj.members = message.members.map(e => e ? Member.toSDK(e) : undefined);
+    } else {
+      obj.members = [];
+    }
+    obj.group_metadata = message.groupMetadata;
+    obj.group_policy_metadata = message.groupPolicyMetadata;
+    obj.group_policy_as_admin = message.groupPolicyAsAdmin;
+    message.decisionPolicy !== undefined && (obj.decision_policy = message.decisionPolicy ? Any.toSDK(message.decisionPolicy) : undefined);
+    return obj;
+  },
+  fromAmino(object: MsgCreateGroupWithPolicyAmino): MsgCreateGroupWithPolicy {
+    return {
+      admin: object.admin,
+      members: Array.isArray(object?.members) ? object.members.map((e: any) => Member.fromAmino(e)) : [],
+      groupMetadata: object.group_metadata,
+      groupPolicyMetadata: object.group_policy_metadata,
+      groupPolicyAsAdmin: object.group_policy_as_admin,
+      decisionPolicy: object?.decision_policy ? Any.fromAmino(object.decision_policy) : undefined
+    };
+  },
+  toAmino(message: MsgCreateGroupWithPolicy): MsgCreateGroupWithPolicyAmino {
+    const obj: any = {};
+    obj.admin = message.admin;
+    if (message.members) {
+      obj.members = message.members.map(e => e ? Member.toAmino(e) : undefined);
+    } else {
+      obj.members = [];
+    }
+    obj.group_metadata = message.groupMetadata;
+    obj.group_policy_metadata = message.groupPolicyMetadata;
+    obj.group_policy_as_admin = message.groupPolicyAsAdmin;
+    obj.decision_policy = message.decisionPolicy ? Any.toAmino(message.decisionPolicy) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: MsgCreateGroupWithPolicyAminoMsg): MsgCreateGroupWithPolicy {
+    return MsgCreateGroupWithPolicy.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgCreateGroupWithPolicy): MsgCreateGroupWithPolicyAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgCreateGroupWithPolicy",
+      value: MsgCreateGroupWithPolicy.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgCreateGroupWithPolicyProtoMsg): MsgCreateGroupWithPolicy {
+    return MsgCreateGroupWithPolicy.decode(message.value);
+  },
+  toProto(message: MsgCreateGroupWithPolicy): Uint8Array {
+    return MsgCreateGroupWithPolicy.encode(message).finish();
+  },
+  toProtoMsg(message: MsgCreateGroupWithPolicy): MsgCreateGroupWithPolicyProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgCreateGroupWithPolicy",
+      value: MsgCreateGroupWithPolicy.encode(message).finish()
+    };
   }
 };
 function createBaseMsgCreateGroupWithPolicyResponse(): MsgCreateGroupWithPolicyResponse {
@@ -1064,6 +1658,8 @@ function createBaseMsgCreateGroupWithPolicyResponse(): MsgCreateGroupWithPolicyR
   };
 }
 export const MsgCreateGroupWithPolicyResponse = {
+  typeUrl: "/cosmos.group.v1.MsgCreateGroupWithPolicyResponse",
+  aminoType: "cosmos-sdk/MsgCreateGroupWithPolicyResponse",
   encode(message: MsgCreateGroupWithPolicyResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.groupId !== BigInt(0)) {
       writer.uint32(8).uint64(message.groupId);
@@ -1105,17 +1701,64 @@ export const MsgCreateGroupWithPolicyResponse = {
     message.groupPolicyAddress !== undefined && (obj.groupPolicyAddress = message.groupPolicyAddress);
     return obj;
   },
-  fromPartial(object: Partial<MsgCreateGroupWithPolicyResponse>): MsgCreateGroupWithPolicyResponse {
+  fromPartial(object: DeepPartial<MsgCreateGroupWithPolicyResponse>): MsgCreateGroupWithPolicyResponse {
     const message = createBaseMsgCreateGroupWithPolicyResponse();
     message.groupId = object.groupId !== undefined && object.groupId !== null ? BigInt(object.groupId.toString()) : BigInt(0);
     message.groupPolicyAddress = object.groupPolicyAddress ?? "";
     return message;
+  },
+  fromSDK(object: MsgCreateGroupWithPolicyResponseSDKType): MsgCreateGroupWithPolicyResponse {
+    return {
+      groupId: object?.group_id,
+      groupPolicyAddress: object?.group_policy_address
+    };
+  },
+  toSDK(message: MsgCreateGroupWithPolicyResponse): MsgCreateGroupWithPolicyResponseSDKType {
+    const obj: any = {};
+    obj.group_id = message.groupId;
+    obj.group_policy_address = message.groupPolicyAddress;
+    return obj;
+  },
+  fromAmino(object: MsgCreateGroupWithPolicyResponseAmino): MsgCreateGroupWithPolicyResponse {
+    return {
+      groupId: BigInt(object.group_id),
+      groupPolicyAddress: object.group_policy_address
+    };
+  },
+  toAmino(message: MsgCreateGroupWithPolicyResponse): MsgCreateGroupWithPolicyResponseAmino {
+    const obj: any = {};
+    obj.group_id = message.groupId ? message.groupId.toString() : undefined;
+    obj.group_policy_address = message.groupPolicyAddress;
+    return obj;
+  },
+  fromAminoMsg(object: MsgCreateGroupWithPolicyResponseAminoMsg): MsgCreateGroupWithPolicyResponse {
+    return MsgCreateGroupWithPolicyResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgCreateGroupWithPolicyResponse): MsgCreateGroupWithPolicyResponseAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgCreateGroupWithPolicyResponse",
+      value: MsgCreateGroupWithPolicyResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgCreateGroupWithPolicyResponseProtoMsg): MsgCreateGroupWithPolicyResponse {
+    return MsgCreateGroupWithPolicyResponse.decode(message.value);
+  },
+  toProto(message: MsgCreateGroupWithPolicyResponse): Uint8Array {
+    return MsgCreateGroupWithPolicyResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgCreateGroupWithPolicyResponse): MsgCreateGroupWithPolicyResponseProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgCreateGroupWithPolicyResponse",
+      value: MsgCreateGroupWithPolicyResponse.encode(message).finish()
+    };
   }
 };
 function createBaseMsgUpdateGroupPolicyAdminResponse(): MsgUpdateGroupPolicyAdminResponse {
   return {};
 }
 export const MsgUpdateGroupPolicyAdminResponse = {
+  typeUrl: "/cosmos.group.v1.MsgUpdateGroupPolicyAdminResponse",
+  aminoType: "cosmos-sdk/MsgUpdateGroupPolicyAdminResponse",
   encode(_: MsgUpdateGroupPolicyAdminResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1140,9 +1783,44 @@ export const MsgUpdateGroupPolicyAdminResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgUpdateGroupPolicyAdminResponse>): MsgUpdateGroupPolicyAdminResponse {
+  fromPartial(_: DeepPartial<MsgUpdateGroupPolicyAdminResponse>): MsgUpdateGroupPolicyAdminResponse {
     const message = createBaseMsgUpdateGroupPolicyAdminResponse();
     return message;
+  },
+  fromSDK(_: MsgUpdateGroupPolicyAdminResponseSDKType): MsgUpdateGroupPolicyAdminResponse {
+    return {};
+  },
+  toSDK(_: MsgUpdateGroupPolicyAdminResponse): MsgUpdateGroupPolicyAdminResponseSDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: MsgUpdateGroupPolicyAdminResponseAmino): MsgUpdateGroupPolicyAdminResponse {
+    return {};
+  },
+  toAmino(_: MsgUpdateGroupPolicyAdminResponse): MsgUpdateGroupPolicyAdminResponseAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: MsgUpdateGroupPolicyAdminResponseAminoMsg): MsgUpdateGroupPolicyAdminResponse {
+    return MsgUpdateGroupPolicyAdminResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgUpdateGroupPolicyAdminResponse): MsgUpdateGroupPolicyAdminResponseAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgUpdateGroupPolicyAdminResponse",
+      value: MsgUpdateGroupPolicyAdminResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgUpdateGroupPolicyAdminResponseProtoMsg): MsgUpdateGroupPolicyAdminResponse {
+    return MsgUpdateGroupPolicyAdminResponse.decode(message.value);
+  },
+  toProto(message: MsgUpdateGroupPolicyAdminResponse): Uint8Array {
+    return MsgUpdateGroupPolicyAdminResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgUpdateGroupPolicyAdminResponse): MsgUpdateGroupPolicyAdminResponseProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgUpdateGroupPolicyAdminResponse",
+      value: MsgUpdateGroupPolicyAdminResponse.encode(message).finish()
+    };
   }
 };
 function createBaseMsgUpdateGroupPolicyDecisionPolicy(): MsgUpdateGroupPolicyDecisionPolicy {
@@ -1153,6 +1831,8 @@ function createBaseMsgUpdateGroupPolicyDecisionPolicy(): MsgUpdateGroupPolicyDec
   };
 }
 export const MsgUpdateGroupPolicyDecisionPolicy = {
+  typeUrl: "/cosmos.group.v1.MsgUpdateGroupPolicyDecisionPolicy",
+  aminoType: "cosmos-sdk/MsgUpdateGroupPolicyDecisionPolicy",
   encode(message: MsgUpdateGroupPolicyDecisionPolicy, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -1202,18 +1882,69 @@ export const MsgUpdateGroupPolicyDecisionPolicy = {
     message.decisionPolicy !== undefined && (obj.decisionPolicy = message.decisionPolicy ? Any.toJSON(message.decisionPolicy) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<MsgUpdateGroupPolicyDecisionPolicy>): MsgUpdateGroupPolicyDecisionPolicy {
+  fromPartial(object: DeepPartial<MsgUpdateGroupPolicyDecisionPolicy>): MsgUpdateGroupPolicyDecisionPolicy {
     const message = createBaseMsgUpdateGroupPolicyDecisionPolicy();
     message.admin = object.admin ?? "";
     message.address = object.address ?? "";
     message.decisionPolicy = object.decisionPolicy !== undefined && object.decisionPolicy !== null ? Any.fromPartial(object.decisionPolicy) : undefined;
     return message;
+  },
+  fromSDK(object: MsgUpdateGroupPolicyDecisionPolicySDKType): MsgUpdateGroupPolicyDecisionPolicy {
+    return {
+      admin: object?.admin,
+      address: object?.address,
+      decisionPolicy: object.decision_policy ? Any.fromSDK(object.decision_policy) : undefined
+    };
+  },
+  toSDK(message: MsgUpdateGroupPolicyDecisionPolicy): MsgUpdateGroupPolicyDecisionPolicySDKType {
+    const obj: any = {};
+    obj.admin = message.admin;
+    obj.address = message.address;
+    message.decisionPolicy !== undefined && (obj.decision_policy = message.decisionPolicy ? Any.toSDK(message.decisionPolicy) : undefined);
+    return obj;
+  },
+  fromAmino(object: MsgUpdateGroupPolicyDecisionPolicyAmino): MsgUpdateGroupPolicyDecisionPolicy {
+    return {
+      admin: object.admin,
+      address: object.address,
+      decisionPolicy: object?.decision_policy ? Any.fromAmino(object.decision_policy) : undefined
+    };
+  },
+  toAmino(message: MsgUpdateGroupPolicyDecisionPolicy): MsgUpdateGroupPolicyDecisionPolicyAmino {
+    const obj: any = {};
+    obj.admin = message.admin;
+    obj.address = message.address;
+    obj.decision_policy = message.decisionPolicy ? Any.toAmino(message.decisionPolicy) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: MsgUpdateGroupPolicyDecisionPolicyAminoMsg): MsgUpdateGroupPolicyDecisionPolicy {
+    return MsgUpdateGroupPolicyDecisionPolicy.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgUpdateGroupPolicyDecisionPolicy): MsgUpdateGroupPolicyDecisionPolicyAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgUpdateGroupPolicyDecisionPolicy",
+      value: MsgUpdateGroupPolicyDecisionPolicy.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgUpdateGroupPolicyDecisionPolicyProtoMsg): MsgUpdateGroupPolicyDecisionPolicy {
+    return MsgUpdateGroupPolicyDecisionPolicy.decode(message.value);
+  },
+  toProto(message: MsgUpdateGroupPolicyDecisionPolicy): Uint8Array {
+    return MsgUpdateGroupPolicyDecisionPolicy.encode(message).finish();
+  },
+  toProtoMsg(message: MsgUpdateGroupPolicyDecisionPolicy): MsgUpdateGroupPolicyDecisionPolicyProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgUpdateGroupPolicyDecisionPolicy",
+      value: MsgUpdateGroupPolicyDecisionPolicy.encode(message).finish()
+    };
   }
 };
 function createBaseMsgUpdateGroupPolicyDecisionPolicyResponse(): MsgUpdateGroupPolicyDecisionPolicyResponse {
   return {};
 }
 export const MsgUpdateGroupPolicyDecisionPolicyResponse = {
+  typeUrl: "/cosmos.group.v1.MsgUpdateGroupPolicyDecisionPolicyResponse",
+  aminoType: "cosmos-sdk/MsgUpdateGroupPolicyDecisionPolicyResponse",
   encode(_: MsgUpdateGroupPolicyDecisionPolicyResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1238,9 +1969,44 @@ export const MsgUpdateGroupPolicyDecisionPolicyResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgUpdateGroupPolicyDecisionPolicyResponse>): MsgUpdateGroupPolicyDecisionPolicyResponse {
+  fromPartial(_: DeepPartial<MsgUpdateGroupPolicyDecisionPolicyResponse>): MsgUpdateGroupPolicyDecisionPolicyResponse {
     const message = createBaseMsgUpdateGroupPolicyDecisionPolicyResponse();
     return message;
+  },
+  fromSDK(_: MsgUpdateGroupPolicyDecisionPolicyResponseSDKType): MsgUpdateGroupPolicyDecisionPolicyResponse {
+    return {};
+  },
+  toSDK(_: MsgUpdateGroupPolicyDecisionPolicyResponse): MsgUpdateGroupPolicyDecisionPolicyResponseSDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: MsgUpdateGroupPolicyDecisionPolicyResponseAmino): MsgUpdateGroupPolicyDecisionPolicyResponse {
+    return {};
+  },
+  toAmino(_: MsgUpdateGroupPolicyDecisionPolicyResponse): MsgUpdateGroupPolicyDecisionPolicyResponseAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: MsgUpdateGroupPolicyDecisionPolicyResponseAminoMsg): MsgUpdateGroupPolicyDecisionPolicyResponse {
+    return MsgUpdateGroupPolicyDecisionPolicyResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgUpdateGroupPolicyDecisionPolicyResponse): MsgUpdateGroupPolicyDecisionPolicyResponseAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgUpdateGroupPolicyDecisionPolicyResponse",
+      value: MsgUpdateGroupPolicyDecisionPolicyResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgUpdateGroupPolicyDecisionPolicyResponseProtoMsg): MsgUpdateGroupPolicyDecisionPolicyResponse {
+    return MsgUpdateGroupPolicyDecisionPolicyResponse.decode(message.value);
+  },
+  toProto(message: MsgUpdateGroupPolicyDecisionPolicyResponse): Uint8Array {
+    return MsgUpdateGroupPolicyDecisionPolicyResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgUpdateGroupPolicyDecisionPolicyResponse): MsgUpdateGroupPolicyDecisionPolicyResponseProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgUpdateGroupPolicyDecisionPolicyResponse",
+      value: MsgUpdateGroupPolicyDecisionPolicyResponse.encode(message).finish()
+    };
   }
 };
 function createBaseMsgUpdateGroupPolicyMetadata(): MsgUpdateGroupPolicyMetadata {
@@ -1251,6 +2017,8 @@ function createBaseMsgUpdateGroupPolicyMetadata(): MsgUpdateGroupPolicyMetadata 
   };
 }
 export const MsgUpdateGroupPolicyMetadata = {
+  typeUrl: "/cosmos.group.v1.MsgUpdateGroupPolicyMetadata",
+  aminoType: "cosmos-sdk/MsgUpdateGroupPolicyMetadata",
   encode(message: MsgUpdateGroupPolicyMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -1300,18 +2068,69 @@ export const MsgUpdateGroupPolicyMetadata = {
     message.metadata !== undefined && (obj.metadata = message.metadata);
     return obj;
   },
-  fromPartial(object: Partial<MsgUpdateGroupPolicyMetadata>): MsgUpdateGroupPolicyMetadata {
+  fromPartial(object: DeepPartial<MsgUpdateGroupPolicyMetadata>): MsgUpdateGroupPolicyMetadata {
     const message = createBaseMsgUpdateGroupPolicyMetadata();
     message.admin = object.admin ?? "";
     message.address = object.address ?? "";
     message.metadata = object.metadata ?? "";
     return message;
+  },
+  fromSDK(object: MsgUpdateGroupPolicyMetadataSDKType): MsgUpdateGroupPolicyMetadata {
+    return {
+      admin: object?.admin,
+      address: object?.address,
+      metadata: object?.metadata
+    };
+  },
+  toSDK(message: MsgUpdateGroupPolicyMetadata): MsgUpdateGroupPolicyMetadataSDKType {
+    const obj: any = {};
+    obj.admin = message.admin;
+    obj.address = message.address;
+    obj.metadata = message.metadata;
+    return obj;
+  },
+  fromAmino(object: MsgUpdateGroupPolicyMetadataAmino): MsgUpdateGroupPolicyMetadata {
+    return {
+      admin: object.admin,
+      address: object.address,
+      metadata: object.metadata
+    };
+  },
+  toAmino(message: MsgUpdateGroupPolicyMetadata): MsgUpdateGroupPolicyMetadataAmino {
+    const obj: any = {};
+    obj.admin = message.admin;
+    obj.address = message.address;
+    obj.metadata = message.metadata;
+    return obj;
+  },
+  fromAminoMsg(object: MsgUpdateGroupPolicyMetadataAminoMsg): MsgUpdateGroupPolicyMetadata {
+    return MsgUpdateGroupPolicyMetadata.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgUpdateGroupPolicyMetadata): MsgUpdateGroupPolicyMetadataAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgUpdateGroupPolicyMetadata",
+      value: MsgUpdateGroupPolicyMetadata.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgUpdateGroupPolicyMetadataProtoMsg): MsgUpdateGroupPolicyMetadata {
+    return MsgUpdateGroupPolicyMetadata.decode(message.value);
+  },
+  toProto(message: MsgUpdateGroupPolicyMetadata): Uint8Array {
+    return MsgUpdateGroupPolicyMetadata.encode(message).finish();
+  },
+  toProtoMsg(message: MsgUpdateGroupPolicyMetadata): MsgUpdateGroupPolicyMetadataProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgUpdateGroupPolicyMetadata",
+      value: MsgUpdateGroupPolicyMetadata.encode(message).finish()
+    };
   }
 };
 function createBaseMsgUpdateGroupPolicyMetadataResponse(): MsgUpdateGroupPolicyMetadataResponse {
   return {};
 }
 export const MsgUpdateGroupPolicyMetadataResponse = {
+  typeUrl: "/cosmos.group.v1.MsgUpdateGroupPolicyMetadataResponse",
+  aminoType: "cosmos-sdk/MsgUpdateGroupPolicyMetadataResponse",
   encode(_: MsgUpdateGroupPolicyMetadataResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1336,9 +2155,44 @@ export const MsgUpdateGroupPolicyMetadataResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgUpdateGroupPolicyMetadataResponse>): MsgUpdateGroupPolicyMetadataResponse {
+  fromPartial(_: DeepPartial<MsgUpdateGroupPolicyMetadataResponse>): MsgUpdateGroupPolicyMetadataResponse {
     const message = createBaseMsgUpdateGroupPolicyMetadataResponse();
     return message;
+  },
+  fromSDK(_: MsgUpdateGroupPolicyMetadataResponseSDKType): MsgUpdateGroupPolicyMetadataResponse {
+    return {};
+  },
+  toSDK(_: MsgUpdateGroupPolicyMetadataResponse): MsgUpdateGroupPolicyMetadataResponseSDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: MsgUpdateGroupPolicyMetadataResponseAmino): MsgUpdateGroupPolicyMetadataResponse {
+    return {};
+  },
+  toAmino(_: MsgUpdateGroupPolicyMetadataResponse): MsgUpdateGroupPolicyMetadataResponseAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: MsgUpdateGroupPolicyMetadataResponseAminoMsg): MsgUpdateGroupPolicyMetadataResponse {
+    return MsgUpdateGroupPolicyMetadataResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgUpdateGroupPolicyMetadataResponse): MsgUpdateGroupPolicyMetadataResponseAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgUpdateGroupPolicyMetadataResponse",
+      value: MsgUpdateGroupPolicyMetadataResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgUpdateGroupPolicyMetadataResponseProtoMsg): MsgUpdateGroupPolicyMetadataResponse {
+    return MsgUpdateGroupPolicyMetadataResponse.decode(message.value);
+  },
+  toProto(message: MsgUpdateGroupPolicyMetadataResponse): Uint8Array {
+    return MsgUpdateGroupPolicyMetadataResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgUpdateGroupPolicyMetadataResponse): MsgUpdateGroupPolicyMetadataResponseProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgUpdateGroupPolicyMetadataResponse",
+      value: MsgUpdateGroupPolicyMetadataResponse.encode(message).finish()
+    };
   }
 };
 function createBaseMsgSubmitProposal(): MsgSubmitProposal {
@@ -1351,6 +2205,8 @@ function createBaseMsgSubmitProposal(): MsgSubmitProposal {
   };
 }
 export const MsgSubmitProposal = {
+  typeUrl: "/cosmos.group.v1.MsgSubmitProposal",
+  aminoType: "cosmos-sdk/group/MsgSubmitProposal",
   encode(message: MsgSubmitProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
@@ -1424,7 +2280,7 @@ export const MsgSubmitProposal = {
     message.exec !== undefined && (obj.exec = execToJSON(message.exec));
     return obj;
   },
-  fromPartial(object: Partial<MsgSubmitProposal>): MsgSubmitProposal {
+  fromPartial(object: DeepPartial<MsgSubmitProposal>): MsgSubmitProposal {
     const message = createBaseMsgSubmitProposal();
     message.address = object.address ?? "";
     message.proposers = object.proposers?.map(e => e) || [];
@@ -1432,6 +2288,79 @@ export const MsgSubmitProposal = {
     message.messages = object.messages?.map(e => Any.fromPartial(e)) || [];
     message.exec = object.exec ?? 0;
     return message;
+  },
+  fromSDK(object: MsgSubmitProposalSDKType): MsgSubmitProposal {
+    return {
+      address: object?.address,
+      proposers: Array.isArray(object?.proposers) ? object.proposers.map((e: any) => e) : [],
+      metadata: object?.metadata,
+      messages: Array.isArray(object?.messages) ? object.messages.map((e: any) => Any.fromSDK(e)) : [],
+      exec: isSet(object.exec) ? execFromJSON(object.exec) : -1
+    };
+  },
+  toSDK(message: MsgSubmitProposal): MsgSubmitProposalSDKType {
+    const obj: any = {};
+    obj.address = message.address;
+    if (message.proposers) {
+      obj.proposers = message.proposers.map(e => e);
+    } else {
+      obj.proposers = [];
+    }
+    obj.metadata = message.metadata;
+    if (message.messages) {
+      obj.messages = message.messages.map(e => e ? Any.toSDK(e) : undefined);
+    } else {
+      obj.messages = [];
+    }
+    message.exec !== undefined && (obj.exec = execToJSON(message.exec));
+    return obj;
+  },
+  fromAmino(object: MsgSubmitProposalAmino): MsgSubmitProposal {
+    return {
+      address: object.address,
+      proposers: Array.isArray(object?.proposers) ? object.proposers.map((e: any) => e) : [],
+      metadata: object.metadata,
+      messages: Array.isArray(object?.messages) ? object.messages.map((e: any) => Any.fromAmino(e)) : [],
+      exec: isSet(object.exec) ? execFromJSON(object.exec) : -1
+    };
+  },
+  toAmino(message: MsgSubmitProposal): MsgSubmitProposalAmino {
+    const obj: any = {};
+    obj.address = message.address;
+    if (message.proposers) {
+      obj.proposers = message.proposers.map(e => e);
+    } else {
+      obj.proposers = [];
+    }
+    obj.metadata = message.metadata;
+    if (message.messages) {
+      obj.messages = message.messages.map(e => e ? Any.toAmino(e) : undefined);
+    } else {
+      obj.messages = [];
+    }
+    obj.exec = message.exec;
+    return obj;
+  },
+  fromAminoMsg(object: MsgSubmitProposalAminoMsg): MsgSubmitProposal {
+    return MsgSubmitProposal.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgSubmitProposal): MsgSubmitProposalAminoMsg {
+    return {
+      type: "cosmos-sdk/group/MsgSubmitProposal",
+      value: MsgSubmitProposal.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgSubmitProposalProtoMsg): MsgSubmitProposal {
+    return MsgSubmitProposal.decode(message.value);
+  },
+  toProto(message: MsgSubmitProposal): Uint8Array {
+    return MsgSubmitProposal.encode(message).finish();
+  },
+  toProtoMsg(message: MsgSubmitProposal): MsgSubmitProposalProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgSubmitProposal",
+      value: MsgSubmitProposal.encode(message).finish()
+    };
   }
 };
 function createBaseMsgSubmitProposalResponse(): MsgSubmitProposalResponse {
@@ -1440,6 +2369,8 @@ function createBaseMsgSubmitProposalResponse(): MsgSubmitProposalResponse {
   };
 }
 export const MsgSubmitProposalResponse = {
+  typeUrl: "/cosmos.group.v1.MsgSubmitProposalResponse",
+  aminoType: "cosmos-sdk/MsgSubmitProposalResponse",
   encode(message: MsgSubmitProposalResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.proposalId !== BigInt(0)) {
       writer.uint32(8).uint64(message.proposalId);
@@ -1473,10 +2404,51 @@ export const MsgSubmitProposalResponse = {
     message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt(0)).toString());
     return obj;
   },
-  fromPartial(object: Partial<MsgSubmitProposalResponse>): MsgSubmitProposalResponse {
+  fromPartial(object: DeepPartial<MsgSubmitProposalResponse>): MsgSubmitProposalResponse {
     const message = createBaseMsgSubmitProposalResponse();
     message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt(0);
     return message;
+  },
+  fromSDK(object: MsgSubmitProposalResponseSDKType): MsgSubmitProposalResponse {
+    return {
+      proposalId: object?.proposal_id
+    };
+  },
+  toSDK(message: MsgSubmitProposalResponse): MsgSubmitProposalResponseSDKType {
+    const obj: any = {};
+    obj.proposal_id = message.proposalId;
+    return obj;
+  },
+  fromAmino(object: MsgSubmitProposalResponseAmino): MsgSubmitProposalResponse {
+    return {
+      proposalId: BigInt(object.proposal_id)
+    };
+  },
+  toAmino(message: MsgSubmitProposalResponse): MsgSubmitProposalResponseAmino {
+    const obj: any = {};
+    obj.proposal_id = message.proposalId ? message.proposalId.toString() : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: MsgSubmitProposalResponseAminoMsg): MsgSubmitProposalResponse {
+    return MsgSubmitProposalResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgSubmitProposalResponse): MsgSubmitProposalResponseAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgSubmitProposalResponse",
+      value: MsgSubmitProposalResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgSubmitProposalResponseProtoMsg): MsgSubmitProposalResponse {
+    return MsgSubmitProposalResponse.decode(message.value);
+  },
+  toProto(message: MsgSubmitProposalResponse): Uint8Array {
+    return MsgSubmitProposalResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgSubmitProposalResponse): MsgSubmitProposalResponseProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgSubmitProposalResponse",
+      value: MsgSubmitProposalResponse.encode(message).finish()
+    };
   }
 };
 function createBaseMsgWithdrawProposal(): MsgWithdrawProposal {
@@ -1486,6 +2458,8 @@ function createBaseMsgWithdrawProposal(): MsgWithdrawProposal {
   };
 }
 export const MsgWithdrawProposal = {
+  typeUrl: "/cosmos.group.v1.MsgWithdrawProposal",
+  aminoType: "cosmos-sdk/group/MsgWithdrawProposal",
   encode(message: MsgWithdrawProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.proposalId !== BigInt(0)) {
       writer.uint32(8).uint64(message.proposalId);
@@ -1527,17 +2501,64 @@ export const MsgWithdrawProposal = {
     message.address !== undefined && (obj.address = message.address);
     return obj;
   },
-  fromPartial(object: Partial<MsgWithdrawProposal>): MsgWithdrawProposal {
+  fromPartial(object: DeepPartial<MsgWithdrawProposal>): MsgWithdrawProposal {
     const message = createBaseMsgWithdrawProposal();
     message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt(0);
     message.address = object.address ?? "";
     return message;
+  },
+  fromSDK(object: MsgWithdrawProposalSDKType): MsgWithdrawProposal {
+    return {
+      proposalId: object?.proposal_id,
+      address: object?.address
+    };
+  },
+  toSDK(message: MsgWithdrawProposal): MsgWithdrawProposalSDKType {
+    const obj: any = {};
+    obj.proposal_id = message.proposalId;
+    obj.address = message.address;
+    return obj;
+  },
+  fromAmino(object: MsgWithdrawProposalAmino): MsgWithdrawProposal {
+    return {
+      proposalId: BigInt(object.proposal_id),
+      address: object.address
+    };
+  },
+  toAmino(message: MsgWithdrawProposal): MsgWithdrawProposalAmino {
+    const obj: any = {};
+    obj.proposal_id = message.proposalId ? message.proposalId.toString() : undefined;
+    obj.address = message.address;
+    return obj;
+  },
+  fromAminoMsg(object: MsgWithdrawProposalAminoMsg): MsgWithdrawProposal {
+    return MsgWithdrawProposal.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgWithdrawProposal): MsgWithdrawProposalAminoMsg {
+    return {
+      type: "cosmos-sdk/group/MsgWithdrawProposal",
+      value: MsgWithdrawProposal.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgWithdrawProposalProtoMsg): MsgWithdrawProposal {
+    return MsgWithdrawProposal.decode(message.value);
+  },
+  toProto(message: MsgWithdrawProposal): Uint8Array {
+    return MsgWithdrawProposal.encode(message).finish();
+  },
+  toProtoMsg(message: MsgWithdrawProposal): MsgWithdrawProposalProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgWithdrawProposal",
+      value: MsgWithdrawProposal.encode(message).finish()
+    };
   }
 };
 function createBaseMsgWithdrawProposalResponse(): MsgWithdrawProposalResponse {
   return {};
 }
 export const MsgWithdrawProposalResponse = {
+  typeUrl: "/cosmos.group.v1.MsgWithdrawProposalResponse",
+  aminoType: "cosmos-sdk/MsgWithdrawProposalResponse",
   encode(_: MsgWithdrawProposalResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1562,9 +2583,44 @@ export const MsgWithdrawProposalResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgWithdrawProposalResponse>): MsgWithdrawProposalResponse {
+  fromPartial(_: DeepPartial<MsgWithdrawProposalResponse>): MsgWithdrawProposalResponse {
     const message = createBaseMsgWithdrawProposalResponse();
     return message;
+  },
+  fromSDK(_: MsgWithdrawProposalResponseSDKType): MsgWithdrawProposalResponse {
+    return {};
+  },
+  toSDK(_: MsgWithdrawProposalResponse): MsgWithdrawProposalResponseSDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: MsgWithdrawProposalResponseAmino): MsgWithdrawProposalResponse {
+    return {};
+  },
+  toAmino(_: MsgWithdrawProposalResponse): MsgWithdrawProposalResponseAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: MsgWithdrawProposalResponseAminoMsg): MsgWithdrawProposalResponse {
+    return MsgWithdrawProposalResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgWithdrawProposalResponse): MsgWithdrawProposalResponseAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgWithdrawProposalResponse",
+      value: MsgWithdrawProposalResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgWithdrawProposalResponseProtoMsg): MsgWithdrawProposalResponse {
+    return MsgWithdrawProposalResponse.decode(message.value);
+  },
+  toProto(message: MsgWithdrawProposalResponse): Uint8Array {
+    return MsgWithdrawProposalResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgWithdrawProposalResponse): MsgWithdrawProposalResponseProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgWithdrawProposalResponse",
+      value: MsgWithdrawProposalResponse.encode(message).finish()
+    };
   }
 };
 function createBaseMsgVote(): MsgVote {
@@ -1577,6 +2633,8 @@ function createBaseMsgVote(): MsgVote {
   };
 }
 export const MsgVote = {
+  typeUrl: "/cosmos.group.v1.MsgVote",
+  aminoType: "cosmos-sdk/group/MsgVote",
   encode(message: MsgVote, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.proposalId !== BigInt(0)) {
       writer.uint32(8).uint64(message.proposalId);
@@ -1642,7 +2700,7 @@ export const MsgVote = {
     message.exec !== undefined && (obj.exec = execToJSON(message.exec));
     return obj;
   },
-  fromPartial(object: Partial<MsgVote>): MsgVote {
+  fromPartial(object: DeepPartial<MsgVote>): MsgVote {
     const message = createBaseMsgVote();
     message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt(0);
     message.voter = object.voter ?? "";
@@ -1650,12 +2708,71 @@ export const MsgVote = {
     message.metadata = object.metadata ?? "";
     message.exec = object.exec ?? 0;
     return message;
+  },
+  fromSDK(object: MsgVoteSDKType): MsgVote {
+    return {
+      proposalId: object?.proposal_id,
+      voter: object?.voter,
+      option: isSet(object.option) ? voteOptionFromJSON(object.option) : -1,
+      metadata: object?.metadata,
+      exec: isSet(object.exec) ? execFromJSON(object.exec) : -1
+    };
+  },
+  toSDK(message: MsgVote): MsgVoteSDKType {
+    const obj: any = {};
+    obj.proposal_id = message.proposalId;
+    obj.voter = message.voter;
+    message.option !== undefined && (obj.option = voteOptionToJSON(message.option));
+    obj.metadata = message.metadata;
+    message.exec !== undefined && (obj.exec = execToJSON(message.exec));
+    return obj;
+  },
+  fromAmino(object: MsgVoteAmino): MsgVote {
+    return {
+      proposalId: BigInt(object.proposal_id),
+      voter: object.voter,
+      option: isSet(object.option) ? voteOptionFromJSON(object.option) : -1,
+      metadata: object.metadata,
+      exec: isSet(object.exec) ? execFromJSON(object.exec) : -1
+    };
+  },
+  toAmino(message: MsgVote): MsgVoteAmino {
+    const obj: any = {};
+    obj.proposal_id = message.proposalId ? message.proposalId.toString() : undefined;
+    obj.voter = message.voter;
+    obj.option = message.option;
+    obj.metadata = message.metadata;
+    obj.exec = message.exec;
+    return obj;
+  },
+  fromAminoMsg(object: MsgVoteAminoMsg): MsgVote {
+    return MsgVote.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgVote): MsgVoteAminoMsg {
+    return {
+      type: "cosmos-sdk/group/MsgVote",
+      value: MsgVote.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgVoteProtoMsg): MsgVote {
+    return MsgVote.decode(message.value);
+  },
+  toProto(message: MsgVote): Uint8Array {
+    return MsgVote.encode(message).finish();
+  },
+  toProtoMsg(message: MsgVote): MsgVoteProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgVote",
+      value: MsgVote.encode(message).finish()
+    };
   }
 };
 function createBaseMsgVoteResponse(): MsgVoteResponse {
   return {};
 }
 export const MsgVoteResponse = {
+  typeUrl: "/cosmos.group.v1.MsgVoteResponse",
+  aminoType: "cosmos-sdk/MsgVoteResponse",
   encode(_: MsgVoteResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1680,9 +2797,44 @@ export const MsgVoteResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgVoteResponse>): MsgVoteResponse {
+  fromPartial(_: DeepPartial<MsgVoteResponse>): MsgVoteResponse {
     const message = createBaseMsgVoteResponse();
     return message;
+  },
+  fromSDK(_: MsgVoteResponseSDKType): MsgVoteResponse {
+    return {};
+  },
+  toSDK(_: MsgVoteResponse): MsgVoteResponseSDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: MsgVoteResponseAmino): MsgVoteResponse {
+    return {};
+  },
+  toAmino(_: MsgVoteResponse): MsgVoteResponseAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: MsgVoteResponseAminoMsg): MsgVoteResponse {
+    return MsgVoteResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgVoteResponse): MsgVoteResponseAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgVoteResponse",
+      value: MsgVoteResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgVoteResponseProtoMsg): MsgVoteResponse {
+    return MsgVoteResponse.decode(message.value);
+  },
+  toProto(message: MsgVoteResponse): Uint8Array {
+    return MsgVoteResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgVoteResponse): MsgVoteResponseProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgVoteResponse",
+      value: MsgVoteResponse.encode(message).finish()
+    };
   }
 };
 function createBaseMsgExec(): MsgExec {
@@ -1692,6 +2844,8 @@ function createBaseMsgExec(): MsgExec {
   };
 }
 export const MsgExec = {
+  typeUrl: "/cosmos.group.v1.MsgExec",
+  aminoType: "cosmos-sdk/group/MsgExec",
   encode(message: MsgExec, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.proposalId !== BigInt(0)) {
       writer.uint32(8).uint64(message.proposalId);
@@ -1733,17 +2887,64 @@ export const MsgExec = {
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
   },
-  fromPartial(object: Partial<MsgExec>): MsgExec {
+  fromPartial(object: DeepPartial<MsgExec>): MsgExec {
     const message = createBaseMsgExec();
     message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt(0);
     message.signer = object.signer ?? "";
     return message;
+  },
+  fromSDK(object: MsgExecSDKType): MsgExec {
+    return {
+      proposalId: object?.proposal_id,
+      signer: object?.signer
+    };
+  },
+  toSDK(message: MsgExec): MsgExecSDKType {
+    const obj: any = {};
+    obj.proposal_id = message.proposalId;
+    obj.signer = message.signer;
+    return obj;
+  },
+  fromAmino(object: MsgExecAmino): MsgExec {
+    return {
+      proposalId: BigInt(object.proposal_id),
+      signer: object.signer
+    };
+  },
+  toAmino(message: MsgExec): MsgExecAmino {
+    const obj: any = {};
+    obj.proposal_id = message.proposalId ? message.proposalId.toString() : undefined;
+    obj.signer = message.signer;
+    return obj;
+  },
+  fromAminoMsg(object: MsgExecAminoMsg): MsgExec {
+    return MsgExec.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgExec): MsgExecAminoMsg {
+    return {
+      type: "cosmos-sdk/group/MsgExec",
+      value: MsgExec.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgExecProtoMsg): MsgExec {
+    return MsgExec.decode(message.value);
+  },
+  toProto(message: MsgExec): Uint8Array {
+    return MsgExec.encode(message).finish();
+  },
+  toProtoMsg(message: MsgExec): MsgExecProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgExec",
+      value: MsgExec.encode(message).finish()
+    };
   }
 };
 function createBaseMsgExecResponse(): MsgExecResponse {
   return {};
 }
 export const MsgExecResponse = {
+  typeUrl: "/cosmos.group.v1.MsgExecResponse",
+  aminoType: "cosmos-sdk/MsgExecResponse",
   encode(_: MsgExecResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1768,9 +2969,44 @@ export const MsgExecResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgExecResponse>): MsgExecResponse {
+  fromPartial(_: DeepPartial<MsgExecResponse>): MsgExecResponse {
     const message = createBaseMsgExecResponse();
     return message;
+  },
+  fromSDK(_: MsgExecResponseSDKType): MsgExecResponse {
+    return {};
+  },
+  toSDK(_: MsgExecResponse): MsgExecResponseSDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: MsgExecResponseAmino): MsgExecResponse {
+    return {};
+  },
+  toAmino(_: MsgExecResponse): MsgExecResponseAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: MsgExecResponseAminoMsg): MsgExecResponse {
+    return MsgExecResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgExecResponse): MsgExecResponseAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgExecResponse",
+      value: MsgExecResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgExecResponseProtoMsg): MsgExecResponse {
+    return MsgExecResponse.decode(message.value);
+  },
+  toProto(message: MsgExecResponse): Uint8Array {
+    return MsgExecResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgExecResponse): MsgExecResponseProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgExecResponse",
+      value: MsgExecResponse.encode(message).finish()
+    };
   }
 };
 function createBaseMsgLeaveGroup(): MsgLeaveGroup {
@@ -1780,6 +3016,8 @@ function createBaseMsgLeaveGroup(): MsgLeaveGroup {
   };
 }
 export const MsgLeaveGroup = {
+  typeUrl: "/cosmos.group.v1.MsgLeaveGroup",
+  aminoType: "cosmos-sdk/group/MsgLeaveGroup",
   encode(message: MsgLeaveGroup, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
@@ -1821,17 +3059,64 @@ export const MsgLeaveGroup = {
     message.groupId !== undefined && (obj.groupId = (message.groupId || BigInt(0)).toString());
     return obj;
   },
-  fromPartial(object: Partial<MsgLeaveGroup>): MsgLeaveGroup {
+  fromPartial(object: DeepPartial<MsgLeaveGroup>): MsgLeaveGroup {
     const message = createBaseMsgLeaveGroup();
     message.address = object.address ?? "";
     message.groupId = object.groupId !== undefined && object.groupId !== null ? BigInt(object.groupId.toString()) : BigInt(0);
     return message;
+  },
+  fromSDK(object: MsgLeaveGroupSDKType): MsgLeaveGroup {
+    return {
+      address: object?.address,
+      groupId: object?.group_id
+    };
+  },
+  toSDK(message: MsgLeaveGroup): MsgLeaveGroupSDKType {
+    const obj: any = {};
+    obj.address = message.address;
+    obj.group_id = message.groupId;
+    return obj;
+  },
+  fromAmino(object: MsgLeaveGroupAmino): MsgLeaveGroup {
+    return {
+      address: object.address,
+      groupId: BigInt(object.group_id)
+    };
+  },
+  toAmino(message: MsgLeaveGroup): MsgLeaveGroupAmino {
+    const obj: any = {};
+    obj.address = message.address;
+    obj.group_id = message.groupId ? message.groupId.toString() : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: MsgLeaveGroupAminoMsg): MsgLeaveGroup {
+    return MsgLeaveGroup.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgLeaveGroup): MsgLeaveGroupAminoMsg {
+    return {
+      type: "cosmos-sdk/group/MsgLeaveGroup",
+      value: MsgLeaveGroup.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgLeaveGroupProtoMsg): MsgLeaveGroup {
+    return MsgLeaveGroup.decode(message.value);
+  },
+  toProto(message: MsgLeaveGroup): Uint8Array {
+    return MsgLeaveGroup.encode(message).finish();
+  },
+  toProtoMsg(message: MsgLeaveGroup): MsgLeaveGroupProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgLeaveGroup",
+      value: MsgLeaveGroup.encode(message).finish()
+    };
   }
 };
 function createBaseMsgLeaveGroupResponse(): MsgLeaveGroupResponse {
   return {};
 }
 export const MsgLeaveGroupResponse = {
+  typeUrl: "/cosmos.group.v1.MsgLeaveGroupResponse",
+  aminoType: "cosmos-sdk/MsgLeaveGroupResponse",
   encode(_: MsgLeaveGroupResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1856,8 +3141,43 @@ export const MsgLeaveGroupResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<MsgLeaveGroupResponse>): MsgLeaveGroupResponse {
+  fromPartial(_: DeepPartial<MsgLeaveGroupResponse>): MsgLeaveGroupResponse {
     const message = createBaseMsgLeaveGroupResponse();
     return message;
+  },
+  fromSDK(_: MsgLeaveGroupResponseSDKType): MsgLeaveGroupResponse {
+    return {};
+  },
+  toSDK(_: MsgLeaveGroupResponse): MsgLeaveGroupResponseSDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: MsgLeaveGroupResponseAmino): MsgLeaveGroupResponse {
+    return {};
+  },
+  toAmino(_: MsgLeaveGroupResponse): MsgLeaveGroupResponseAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: MsgLeaveGroupResponseAminoMsg): MsgLeaveGroupResponse {
+    return MsgLeaveGroupResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgLeaveGroupResponse): MsgLeaveGroupResponseAminoMsg {
+    return {
+      type: "cosmos-sdk/MsgLeaveGroupResponse",
+      value: MsgLeaveGroupResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgLeaveGroupResponseProtoMsg): MsgLeaveGroupResponse {
+    return MsgLeaveGroupResponse.decode(message.value);
+  },
+  toProto(message: MsgLeaveGroupResponse): Uint8Array {
+    return MsgLeaveGroupResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgLeaveGroupResponse): MsgLeaveGroupResponseProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.MsgLeaveGroupResponse",
+      value: MsgLeaveGroupResponse.encode(message).finish()
+    };
   }
 };

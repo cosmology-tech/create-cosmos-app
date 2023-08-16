@@ -1,12 +1,12 @@
 import { Minter, MinterSDKType, Params, ParamsSDKType } from "./mint";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet } from "../../../helpers";
+import { isSet, DeepPartial } from "../../../helpers";
 /** GenesisState defines the mint module's genesis state. */
 export interface GenesisState {
   /** minter is an abstraction for holding current rewards information. */
-  minter: Minter;
+  minter: Minter | undefined;
   /** params defines all the paramaters of the mint module. */
-  params: Params;
+  params: Params | undefined;
   /**
    * reduction_started_epoch is the first epoch in which the reduction of mint
    * begins.
@@ -15,8 +15,8 @@ export interface GenesisState {
 }
 /** GenesisState defines the mint module's genesis state. */
 export interface GenesisStateSDKType {
-  minter: MinterSDKType;
-  params: ParamsSDKType;
+  minter: MinterSDKType | undefined;
+  params: ParamsSDKType | undefined;
   reduction_started_epoch: bigint;
 }
 function createBaseGenesisState(): GenesisState {
@@ -27,6 +27,8 @@ function createBaseGenesisState(): GenesisState {
   };
 }
 export const GenesisState = {
+  typeUrl: "/osmosis.mint.v1beta1.GenesisState",
+  aminoType: "osmosis/mint/genesis-state",
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.minter !== undefined) {
       Minter.encode(message.minter, writer.uint32(10).fork()).ldelim();
@@ -76,11 +78,60 @@ export const GenesisState = {
     message.reductionStartedEpoch !== undefined && (obj.reductionStartedEpoch = (message.reductionStartedEpoch || BigInt(0)).toString());
     return obj;
   },
-  fromPartial(object: Partial<GenesisState>): GenesisState {
+  fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
     message.minter = object.minter !== undefined && object.minter !== null ? Minter.fromPartial(object.minter) : undefined;
     message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
     message.reductionStartedEpoch = object.reductionStartedEpoch !== undefined && object.reductionStartedEpoch !== null ? BigInt(object.reductionStartedEpoch.toString()) : BigInt(0);
     return message;
+  },
+  fromSDK(object: GenesisStateSDKType): GenesisState {
+    return {
+      minter: object.minter ? Minter.fromSDK(object.minter) : undefined,
+      params: object.params ? Params.fromSDK(object.params) : undefined,
+      reductionStartedEpoch: object?.reduction_started_epoch
+    };
+  },
+  toSDK(message: GenesisState): GenesisStateSDKType {
+    const obj: any = {};
+    message.minter !== undefined && (obj.minter = message.minter ? Minter.toSDK(message.minter) : undefined);
+    message.params !== undefined && (obj.params = message.params ? Params.toSDK(message.params) : undefined);
+    obj.reduction_started_epoch = message.reductionStartedEpoch;
+    return obj;
+  },
+  fromAmino(object: GenesisStateAmino): GenesisState {
+    return {
+      minter: object?.minter ? Minter.fromAmino(object.minter) : undefined,
+      params: object?.params ? Params.fromAmino(object.params) : undefined,
+      reductionStartedEpoch: BigInt(object.reduction_started_epoch)
+    };
+  },
+  toAmino(message: GenesisState): GenesisStateAmino {
+    const obj: any = {};
+    obj.minter = message.minter ? Minter.toAmino(message.minter) : undefined;
+    obj.params = message.params ? Params.toAmino(message.params) : undefined;
+    obj.reduction_started_epoch = message.reductionStartedEpoch ? message.reductionStartedEpoch.toString() : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: GenesisStateAminoMsg): GenesisState {
+    return GenesisState.fromAmino(object.value);
+  },
+  toAminoMsg(message: GenesisState): GenesisStateAminoMsg {
+    return {
+      type: "osmosis/mint/genesis-state",
+      value: GenesisState.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: GenesisStateProtoMsg): GenesisState {
+    return GenesisState.decode(message.value);
+  },
+  toProto(message: GenesisState): Uint8Array {
+    return GenesisState.encode(message).finish();
+  },
+  toProtoMsg(message: GenesisState): GenesisStateProtoMsg {
+    return {
+      typeUrl: "/osmosis.mint.v1beta1.GenesisState",
+      value: GenesisState.encode(message).finish()
+    };
   }
 };

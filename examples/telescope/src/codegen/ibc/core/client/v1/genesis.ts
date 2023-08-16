@@ -1,6 +1,6 @@
 import { IdentifiedClientState, IdentifiedClientStateSDKType, ClientConsensusStates, ClientConsensusStatesSDKType, Params, ParamsSDKType } from "./client";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
+import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 /** GenesisState defines the ibc client submodule's genesis state. */
 export interface GenesisState {
   /** client states with their corresponding identifiers */
@@ -9,7 +9,7 @@ export interface GenesisState {
   clientsConsensus: ClientConsensusStates[];
   /** metadata from each client */
   clientsMetadata: IdentifiedGenesisMetadata[];
-  params: Params;
+  params: Params | undefined;
   /** create localhost on initialization */
   createLocalhost: boolean;
   /** the sequence for the next generated client identifier */
@@ -20,7 +20,7 @@ export interface GenesisStateSDKType {
   clients: IdentifiedClientStateSDKType[];
   clients_consensus: ClientConsensusStatesSDKType[];
   clients_metadata: IdentifiedGenesisMetadataSDKType[];
-  params: ParamsSDKType;
+  params: ParamsSDKType | undefined;
   create_localhost: boolean;
   next_client_sequence: bigint;
 }
@@ -69,6 +69,8 @@ function createBaseGenesisState(): GenesisState {
   };
 }
 export const GenesisState = {
+  typeUrl: "/ibc.core.client.v1.GenesisState",
+  aminoType: "cosmos-sdk/GenesisState",
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.clients) {
       IdentifiedClientState.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -154,7 +156,7 @@ export const GenesisState = {
     message.nextClientSequence !== undefined && (obj.nextClientSequence = (message.nextClientSequence || BigInt(0)).toString());
     return obj;
   },
-  fromPartial(object: Partial<GenesisState>): GenesisState {
+  fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
     message.clients = object.clients?.map(e => IdentifiedClientState.fromPartial(e)) || [];
     message.clientsConsensus = object.clientsConsensus?.map(e => ClientConsensusStates.fromPartial(e)) || [];
@@ -163,6 +165,91 @@ export const GenesisState = {
     message.createLocalhost = object.createLocalhost ?? false;
     message.nextClientSequence = object.nextClientSequence !== undefined && object.nextClientSequence !== null ? BigInt(object.nextClientSequence.toString()) : BigInt(0);
     return message;
+  },
+  fromSDK(object: GenesisStateSDKType): GenesisState {
+    return {
+      clients: Array.isArray(object?.clients) ? object.clients.map((e: any) => IdentifiedClientState.fromSDK(e)) : [],
+      clientsConsensus: Array.isArray(object?.clients_consensus) ? object.clients_consensus.map((e: any) => ClientConsensusStates.fromSDK(e)) : [],
+      clientsMetadata: Array.isArray(object?.clients_metadata) ? object.clients_metadata.map((e: any) => IdentifiedGenesisMetadata.fromSDK(e)) : [],
+      params: object.params ? Params.fromSDK(object.params) : undefined,
+      createLocalhost: object?.create_localhost,
+      nextClientSequence: object?.next_client_sequence
+    };
+  },
+  toSDK(message: GenesisState): GenesisStateSDKType {
+    const obj: any = {};
+    if (message.clients) {
+      obj.clients = message.clients.map(e => e ? IdentifiedClientState.toSDK(e) : undefined);
+    } else {
+      obj.clients = [];
+    }
+    if (message.clientsConsensus) {
+      obj.clients_consensus = message.clientsConsensus.map(e => e ? ClientConsensusStates.toSDK(e) : undefined);
+    } else {
+      obj.clients_consensus = [];
+    }
+    if (message.clientsMetadata) {
+      obj.clients_metadata = message.clientsMetadata.map(e => e ? IdentifiedGenesisMetadata.toSDK(e) : undefined);
+    } else {
+      obj.clients_metadata = [];
+    }
+    message.params !== undefined && (obj.params = message.params ? Params.toSDK(message.params) : undefined);
+    obj.create_localhost = message.createLocalhost;
+    obj.next_client_sequence = message.nextClientSequence;
+    return obj;
+  },
+  fromAmino(object: GenesisStateAmino): GenesisState {
+    return {
+      clients: Array.isArray(object?.clients) ? object.clients.map((e: any) => IdentifiedClientState.fromAmino(e)) : [],
+      clientsConsensus: Array.isArray(object?.clients_consensus) ? object.clients_consensus.map((e: any) => ClientConsensusStates.fromAmino(e)) : [],
+      clientsMetadata: Array.isArray(object?.clients_metadata) ? object.clients_metadata.map((e: any) => IdentifiedGenesisMetadata.fromAmino(e)) : [],
+      params: object?.params ? Params.fromAmino(object.params) : undefined,
+      createLocalhost: object.create_localhost,
+      nextClientSequence: BigInt(object.next_client_sequence)
+    };
+  },
+  toAmino(message: GenesisState): GenesisStateAmino {
+    const obj: any = {};
+    if (message.clients) {
+      obj.clients = message.clients.map(e => e ? IdentifiedClientState.toAmino(e) : undefined);
+    } else {
+      obj.clients = [];
+    }
+    if (message.clientsConsensus) {
+      obj.clients_consensus = message.clientsConsensus.map(e => e ? ClientConsensusStates.toAmino(e) : undefined);
+    } else {
+      obj.clients_consensus = [];
+    }
+    if (message.clientsMetadata) {
+      obj.clients_metadata = message.clientsMetadata.map(e => e ? IdentifiedGenesisMetadata.toAmino(e) : undefined);
+    } else {
+      obj.clients_metadata = [];
+    }
+    obj.params = message.params ? Params.toAmino(message.params) : undefined;
+    obj.create_localhost = message.createLocalhost;
+    obj.next_client_sequence = message.nextClientSequence ? message.nextClientSequence.toString() : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: GenesisStateAminoMsg): GenesisState {
+    return GenesisState.fromAmino(object.value);
+  },
+  toAminoMsg(message: GenesisState): GenesisStateAminoMsg {
+    return {
+      type: "cosmos-sdk/GenesisState",
+      value: GenesisState.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: GenesisStateProtoMsg): GenesisState {
+    return GenesisState.decode(message.value);
+  },
+  toProto(message: GenesisState): Uint8Array {
+    return GenesisState.encode(message).finish();
+  },
+  toProtoMsg(message: GenesisState): GenesisStateProtoMsg {
+    return {
+      typeUrl: "/ibc.core.client.v1.GenesisState",
+      value: GenesisState.encode(message).finish()
+    };
   }
 };
 function createBaseGenesisMetadata(): GenesisMetadata {
@@ -172,6 +259,8 @@ function createBaseGenesisMetadata(): GenesisMetadata {
   };
 }
 export const GenesisMetadata = {
+  typeUrl: "/ibc.core.client.v1.GenesisMetadata",
+  aminoType: "cosmos-sdk/GenesisMetadata",
   encode(message: GenesisMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key);
@@ -213,11 +302,56 @@ export const GenesisMetadata = {
     message.value !== undefined && (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));
     return obj;
   },
-  fromPartial(object: Partial<GenesisMetadata>): GenesisMetadata {
+  fromPartial(object: DeepPartial<GenesisMetadata>): GenesisMetadata {
     const message = createBaseGenesisMetadata();
     message.key = object.key ?? new Uint8Array();
     message.value = object.value ?? new Uint8Array();
     return message;
+  },
+  fromSDK(object: GenesisMetadataSDKType): GenesisMetadata {
+    return {
+      key: object?.key,
+      value: object?.value
+    };
+  },
+  toSDK(message: GenesisMetadata): GenesisMetadataSDKType {
+    const obj: any = {};
+    obj.key = message.key;
+    obj.value = message.value;
+    return obj;
+  },
+  fromAmino(object: GenesisMetadataAmino): GenesisMetadata {
+    return {
+      key: object.key,
+      value: object.value
+    };
+  },
+  toAmino(message: GenesisMetadata): GenesisMetadataAmino {
+    const obj: any = {};
+    obj.key = message.key;
+    obj.value = message.value;
+    return obj;
+  },
+  fromAminoMsg(object: GenesisMetadataAminoMsg): GenesisMetadata {
+    return GenesisMetadata.fromAmino(object.value);
+  },
+  toAminoMsg(message: GenesisMetadata): GenesisMetadataAminoMsg {
+    return {
+      type: "cosmos-sdk/GenesisMetadata",
+      value: GenesisMetadata.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: GenesisMetadataProtoMsg): GenesisMetadata {
+    return GenesisMetadata.decode(message.value);
+  },
+  toProto(message: GenesisMetadata): Uint8Array {
+    return GenesisMetadata.encode(message).finish();
+  },
+  toProtoMsg(message: GenesisMetadata): GenesisMetadataProtoMsg {
+    return {
+      typeUrl: "/ibc.core.client.v1.GenesisMetadata",
+      value: GenesisMetadata.encode(message).finish()
+    };
   }
 };
 function createBaseIdentifiedGenesisMetadata(): IdentifiedGenesisMetadata {
@@ -227,6 +361,8 @@ function createBaseIdentifiedGenesisMetadata(): IdentifiedGenesisMetadata {
   };
 }
 export const IdentifiedGenesisMetadata = {
+  typeUrl: "/ibc.core.client.v1.IdentifiedGenesisMetadata",
+  aminoType: "cosmos-sdk/IdentifiedGenesisMetadata",
   encode(message: IdentifiedGenesisMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
@@ -272,10 +408,63 @@ export const IdentifiedGenesisMetadata = {
     }
     return obj;
   },
-  fromPartial(object: Partial<IdentifiedGenesisMetadata>): IdentifiedGenesisMetadata {
+  fromPartial(object: DeepPartial<IdentifiedGenesisMetadata>): IdentifiedGenesisMetadata {
     const message = createBaseIdentifiedGenesisMetadata();
     message.clientId = object.clientId ?? "";
     message.clientMetadata = object.clientMetadata?.map(e => GenesisMetadata.fromPartial(e)) || [];
     return message;
+  },
+  fromSDK(object: IdentifiedGenesisMetadataSDKType): IdentifiedGenesisMetadata {
+    return {
+      clientId: object?.client_id,
+      clientMetadata: Array.isArray(object?.client_metadata) ? object.client_metadata.map((e: any) => GenesisMetadata.fromSDK(e)) : []
+    };
+  },
+  toSDK(message: IdentifiedGenesisMetadata): IdentifiedGenesisMetadataSDKType {
+    const obj: any = {};
+    obj.client_id = message.clientId;
+    if (message.clientMetadata) {
+      obj.client_metadata = message.clientMetadata.map(e => e ? GenesisMetadata.toSDK(e) : undefined);
+    } else {
+      obj.client_metadata = [];
+    }
+    return obj;
+  },
+  fromAmino(object: IdentifiedGenesisMetadataAmino): IdentifiedGenesisMetadata {
+    return {
+      clientId: object.client_id,
+      clientMetadata: Array.isArray(object?.client_metadata) ? object.client_metadata.map((e: any) => GenesisMetadata.fromAmino(e)) : []
+    };
+  },
+  toAmino(message: IdentifiedGenesisMetadata): IdentifiedGenesisMetadataAmino {
+    const obj: any = {};
+    obj.client_id = message.clientId;
+    if (message.clientMetadata) {
+      obj.client_metadata = message.clientMetadata.map(e => e ? GenesisMetadata.toAmino(e) : undefined);
+    } else {
+      obj.client_metadata = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: IdentifiedGenesisMetadataAminoMsg): IdentifiedGenesisMetadata {
+    return IdentifiedGenesisMetadata.fromAmino(object.value);
+  },
+  toAminoMsg(message: IdentifiedGenesisMetadata): IdentifiedGenesisMetadataAminoMsg {
+    return {
+      type: "cosmos-sdk/IdentifiedGenesisMetadata",
+      value: IdentifiedGenesisMetadata.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: IdentifiedGenesisMetadataProtoMsg): IdentifiedGenesisMetadata {
+    return IdentifiedGenesisMetadata.decode(message.value);
+  },
+  toProto(message: IdentifiedGenesisMetadata): Uint8Array {
+    return IdentifiedGenesisMetadata.encode(message).finish();
+  },
+  toProtoMsg(message: IdentifiedGenesisMetadata): IdentifiedGenesisMetadataProtoMsg {
+    return {
+      typeUrl: "/ibc.core.client.v1.IdentifiedGenesisMetadata",
+      value: IdentifiedGenesisMetadata.encode(message).finish()
+    };
   }
 };

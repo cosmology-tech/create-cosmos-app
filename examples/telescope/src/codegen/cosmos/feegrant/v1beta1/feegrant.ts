@@ -1,9 +1,9 @@
 import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
-import { Timestamp, TimestampSDKType } from "../../../google/protobuf/timestamp";
+import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet, fromJsonTimestamp, fromTimestamp } from "../../../helpers";
+import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 /**
  * BasicAllowance implements Allowance with a one-time grant of tokens
  * that optionally expires. The grantee can use up to SpendLimit to cover fees.
@@ -16,7 +16,7 @@ export interface BasicAllowance {
    */
   spendLimit: Coin[];
   /** expiration specifies an optional time when this allowance expires */
-  expiration: Timestamp;
+  expiration: Date | undefined;
 }
 /**
  * BasicAllowance implements Allowance with a one-time grant of tokens
@@ -24,7 +24,7 @@ export interface BasicAllowance {
  */
 export interface BasicAllowanceSDKType {
   spend_limit: CoinSDKType[];
-  expiration: TimestampSDKType;
+  expiration: Date | undefined;
 }
 /**
  * PeriodicAllowance extends Allowance to allow for both a maximum cap,
@@ -32,12 +32,12 @@ export interface BasicAllowanceSDKType {
  */
 export interface PeriodicAllowance {
   /** basic specifies a struct of `BasicAllowance` */
-  basic: BasicAllowance;
+  basic: BasicAllowance | undefined;
   /**
    * period specifies the time duration in which period_spend_limit coins can
    * be spent before that allowance is reset
    */
-  period: Duration;
+  period: Duration | undefined;
   /**
    * period_spend_limit specifies the maximum number of coins that can be spent
    * in the period
@@ -50,29 +50,29 @@ export interface PeriodicAllowance {
    * it is calculated from the start time of the first transaction after the
    * last period ended
    */
-  periodReset: Timestamp;
+  periodReset: Date | undefined;
 }
 /**
  * PeriodicAllowance extends Allowance to allow for both a maximum cap,
  * as well as a limit per time period.
  */
 export interface PeriodicAllowanceSDKType {
-  basic: BasicAllowanceSDKType;
-  period: DurationSDKType;
+  basic: BasicAllowanceSDKType | undefined;
+  period: DurationSDKType | undefined;
   period_spend_limit: CoinSDKType[];
   period_can_spend: CoinSDKType[];
-  period_reset: TimestampSDKType;
+  period_reset: Date | undefined;
 }
 /** AllowedMsgAllowance creates allowance only for specified message types. */
 export interface AllowedMsgAllowance {
   /** allowance can be any of basic and periodic fee allowance. */
-  allowance: Any;
+  allowance: Any | undefined;
   /** allowed_messages are the messages for which the grantee has the access. */
   allowedMessages: string[];
 }
 /** AllowedMsgAllowance creates allowance only for specified message types. */
 export interface AllowedMsgAllowanceSDKType {
-  allowance: AnySDKType;
+  allowance: AnySDKType | undefined;
   allowed_messages: string[];
 }
 /** Grant is stored in the KVStore to record a grant with full context */
@@ -82,27 +82,29 @@ export interface Grant {
   /** grantee is the address of the user being granted an allowance of another user's funds. */
   grantee: string;
   /** allowance can be any of basic, periodic, allowed fee allowance. */
-  allowance: Any;
+  allowance: Any | undefined;
 }
 /** Grant is stored in the KVStore to record a grant with full context */
 export interface GrantSDKType {
   granter: string;
   grantee: string;
-  allowance: AnySDKType;
+  allowance: AnySDKType | undefined;
 }
 function createBaseBasicAllowance(): BasicAllowance {
   return {
     spendLimit: [],
-    expiration: Timestamp.fromPartial({})
+    expiration: new Date()
   };
 }
 export const BasicAllowance = {
+  typeUrl: "/cosmos.feegrant.v1beta1.BasicAllowance",
+  aminoType: "cosmos-sdk/BasicAllowance",
   encode(message: BasicAllowance, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.spendLimit) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     if (message.expiration !== undefined) {
-      Timestamp.encode(message.expiration, writer.uint32(18).fork()).ldelim();
+      Timestamp.encode(toTimestamp(message.expiration), writer.uint32(18).fork()).ldelim();
     }
     return writer;
   },
@@ -117,7 +119,7 @@ export const BasicAllowance = {
           message.spendLimit.push(Coin.decode(reader, reader.uint32()));
           break;
         case 2:
-          message.expiration = Timestamp.decode(reader, reader.uint32());
+          message.expiration = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         default:
           reader.skipType(tag & 7);
@@ -129,7 +131,7 @@ export const BasicAllowance = {
   fromJSON(object: any): BasicAllowance {
     return {
       spendLimit: Array.isArray(object?.spendLimit) ? object.spendLimit.map((e: any) => Coin.fromJSON(e)) : [],
-      expiration: isSet(object.expiration) ? fromJsonTimestamp(object.expiration) : undefined
+      expiration: isSet(object.expiration) ? new Date(object.expiration) : undefined
     };
   },
   toJSON(message: BasicAllowance): unknown {
@@ -139,14 +141,67 @@ export const BasicAllowance = {
     } else {
       obj.spendLimit = [];
     }
-    message.expiration !== undefined && (obj.expiration = fromTimestamp(message.expiration).toISOString());
+    message.expiration !== undefined && (obj.expiration = message.expiration.toISOString());
     return obj;
   },
-  fromPartial(object: Partial<BasicAllowance>): BasicAllowance {
+  fromPartial(object: DeepPartial<BasicAllowance>): BasicAllowance {
     const message = createBaseBasicAllowance();
     message.spendLimit = object.spendLimit?.map(e => Coin.fromPartial(e)) || [];
-    message.expiration = object.expiration !== undefined && object.expiration !== null ? Timestamp.fromPartial(object.expiration) : undefined;
+    message.expiration = object.expiration ?? undefined;
     return message;
+  },
+  fromSDK(object: BasicAllowanceSDKType): BasicAllowance {
+    return {
+      spendLimit: Array.isArray(object?.spend_limit) ? object.spend_limit.map((e: any) => Coin.fromSDK(e)) : [],
+      expiration: object.expiration ?? undefined
+    };
+  },
+  toSDK(message: BasicAllowance): BasicAllowanceSDKType {
+    const obj: any = {};
+    if (message.spendLimit) {
+      obj.spend_limit = message.spendLimit.map(e => e ? Coin.toSDK(e) : undefined);
+    } else {
+      obj.spend_limit = [];
+    }
+    message.expiration !== undefined && (obj.expiration = message.expiration ?? undefined);
+    return obj;
+  },
+  fromAmino(object: BasicAllowanceAmino): BasicAllowance {
+    return {
+      spendLimit: Array.isArray(object?.spend_limit) ? object.spend_limit.map((e: any) => Coin.fromAmino(e)) : [],
+      expiration: object.expiration
+    };
+  },
+  toAmino(message: BasicAllowance): BasicAllowanceAmino {
+    const obj: any = {};
+    if (message.spendLimit) {
+      obj.spend_limit = message.spendLimit.map(e => e ? Coin.toAmino(e) : undefined);
+    } else {
+      obj.spend_limit = [];
+    }
+    obj.expiration = message.expiration;
+    return obj;
+  },
+  fromAminoMsg(object: BasicAllowanceAminoMsg): BasicAllowance {
+    return BasicAllowance.fromAmino(object.value);
+  },
+  toAminoMsg(message: BasicAllowance): BasicAllowanceAminoMsg {
+    return {
+      type: "cosmos-sdk/BasicAllowance",
+      value: BasicAllowance.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: BasicAllowanceProtoMsg): BasicAllowance {
+    return BasicAllowance.decode(message.value);
+  },
+  toProto(message: BasicAllowance): Uint8Array {
+    return BasicAllowance.encode(message).finish();
+  },
+  toProtoMsg(message: BasicAllowance): BasicAllowanceProtoMsg {
+    return {
+      typeUrl: "/cosmos.feegrant.v1beta1.BasicAllowance",
+      value: BasicAllowance.encode(message).finish()
+    };
   }
 };
 function createBasePeriodicAllowance(): PeriodicAllowance {
@@ -155,10 +210,12 @@ function createBasePeriodicAllowance(): PeriodicAllowance {
     period: Duration.fromPartial({}),
     periodSpendLimit: [],
     periodCanSpend: [],
-    periodReset: Timestamp.fromPartial({})
+    periodReset: new Date()
   };
 }
 export const PeriodicAllowance = {
+  typeUrl: "/cosmos.feegrant.v1beta1.PeriodicAllowance",
+  aminoType: "cosmos-sdk/PeriodicAllowance",
   encode(message: PeriodicAllowance, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.basic !== undefined) {
       BasicAllowance.encode(message.basic, writer.uint32(10).fork()).ldelim();
@@ -173,7 +230,7 @@ export const PeriodicAllowance = {
       Coin.encode(v!, writer.uint32(34).fork()).ldelim();
     }
     if (message.periodReset !== undefined) {
-      Timestamp.encode(message.periodReset, writer.uint32(42).fork()).ldelim();
+      Timestamp.encode(toTimestamp(message.periodReset), writer.uint32(42).fork()).ldelim();
     }
     return writer;
   },
@@ -197,7 +254,7 @@ export const PeriodicAllowance = {
           message.periodCanSpend.push(Coin.decode(reader, reader.uint32()));
           break;
         case 5:
-          message.periodReset = Timestamp.decode(reader, reader.uint32());
+          message.periodReset = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         default:
           reader.skipType(tag & 7);
@@ -212,7 +269,7 @@ export const PeriodicAllowance = {
       period: isSet(object.period) ? Duration.fromJSON(object.period) : undefined,
       periodSpendLimit: Array.isArray(object?.periodSpendLimit) ? object.periodSpendLimit.map((e: any) => Coin.fromJSON(e)) : [],
       periodCanSpend: Array.isArray(object?.periodCanSpend) ? object.periodCanSpend.map((e: any) => Coin.fromJSON(e)) : [],
-      periodReset: isSet(object.periodReset) ? fromJsonTimestamp(object.periodReset) : undefined
+      periodReset: isSet(object.periodReset) ? new Date(object.periodReset) : undefined
     };
   },
   toJSON(message: PeriodicAllowance): unknown {
@@ -229,17 +286,90 @@ export const PeriodicAllowance = {
     } else {
       obj.periodCanSpend = [];
     }
-    message.periodReset !== undefined && (obj.periodReset = fromTimestamp(message.periodReset).toISOString());
+    message.periodReset !== undefined && (obj.periodReset = message.periodReset.toISOString());
     return obj;
   },
-  fromPartial(object: Partial<PeriodicAllowance>): PeriodicAllowance {
+  fromPartial(object: DeepPartial<PeriodicAllowance>): PeriodicAllowance {
     const message = createBasePeriodicAllowance();
     message.basic = object.basic !== undefined && object.basic !== null ? BasicAllowance.fromPartial(object.basic) : undefined;
     message.period = object.period !== undefined && object.period !== null ? Duration.fromPartial(object.period) : undefined;
     message.periodSpendLimit = object.periodSpendLimit?.map(e => Coin.fromPartial(e)) || [];
     message.periodCanSpend = object.periodCanSpend?.map(e => Coin.fromPartial(e)) || [];
-    message.periodReset = object.periodReset !== undefined && object.periodReset !== null ? Timestamp.fromPartial(object.periodReset) : undefined;
+    message.periodReset = object.periodReset ?? undefined;
     return message;
+  },
+  fromSDK(object: PeriodicAllowanceSDKType): PeriodicAllowance {
+    return {
+      basic: object.basic ? BasicAllowance.fromSDK(object.basic) : undefined,
+      period: object.period ? Duration.fromSDK(object.period) : undefined,
+      periodSpendLimit: Array.isArray(object?.period_spend_limit) ? object.period_spend_limit.map((e: any) => Coin.fromSDK(e)) : [],
+      periodCanSpend: Array.isArray(object?.period_can_spend) ? object.period_can_spend.map((e: any) => Coin.fromSDK(e)) : [],
+      periodReset: object.period_reset ?? undefined
+    };
+  },
+  toSDK(message: PeriodicAllowance): PeriodicAllowanceSDKType {
+    const obj: any = {};
+    message.basic !== undefined && (obj.basic = message.basic ? BasicAllowance.toSDK(message.basic) : undefined);
+    message.period !== undefined && (obj.period = message.period ? Duration.toSDK(message.period) : undefined);
+    if (message.periodSpendLimit) {
+      obj.period_spend_limit = message.periodSpendLimit.map(e => e ? Coin.toSDK(e) : undefined);
+    } else {
+      obj.period_spend_limit = [];
+    }
+    if (message.periodCanSpend) {
+      obj.period_can_spend = message.periodCanSpend.map(e => e ? Coin.toSDK(e) : undefined);
+    } else {
+      obj.period_can_spend = [];
+    }
+    message.periodReset !== undefined && (obj.period_reset = message.periodReset ?? undefined);
+    return obj;
+  },
+  fromAmino(object: PeriodicAllowanceAmino): PeriodicAllowance {
+    return {
+      basic: object?.basic ? BasicAllowance.fromAmino(object.basic) : undefined,
+      period: object?.period ? Duration.fromAmino(object.period) : undefined,
+      periodSpendLimit: Array.isArray(object?.period_spend_limit) ? object.period_spend_limit.map((e: any) => Coin.fromAmino(e)) : [],
+      periodCanSpend: Array.isArray(object?.period_can_spend) ? object.period_can_spend.map((e: any) => Coin.fromAmino(e)) : [],
+      periodReset: object.period_reset
+    };
+  },
+  toAmino(message: PeriodicAllowance): PeriodicAllowanceAmino {
+    const obj: any = {};
+    obj.basic = message.basic ? BasicAllowance.toAmino(message.basic) : undefined;
+    obj.period = message.period ? Duration.toAmino(message.period) : undefined;
+    if (message.periodSpendLimit) {
+      obj.period_spend_limit = message.periodSpendLimit.map(e => e ? Coin.toAmino(e) : undefined);
+    } else {
+      obj.period_spend_limit = [];
+    }
+    if (message.periodCanSpend) {
+      obj.period_can_spend = message.periodCanSpend.map(e => e ? Coin.toAmino(e) : undefined);
+    } else {
+      obj.period_can_spend = [];
+    }
+    obj.period_reset = message.periodReset;
+    return obj;
+  },
+  fromAminoMsg(object: PeriodicAllowanceAminoMsg): PeriodicAllowance {
+    return PeriodicAllowance.fromAmino(object.value);
+  },
+  toAminoMsg(message: PeriodicAllowance): PeriodicAllowanceAminoMsg {
+    return {
+      type: "cosmos-sdk/PeriodicAllowance",
+      value: PeriodicAllowance.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: PeriodicAllowanceProtoMsg): PeriodicAllowance {
+    return PeriodicAllowance.decode(message.value);
+  },
+  toProto(message: PeriodicAllowance): Uint8Array {
+    return PeriodicAllowance.encode(message).finish();
+  },
+  toProtoMsg(message: PeriodicAllowance): PeriodicAllowanceProtoMsg {
+    return {
+      typeUrl: "/cosmos.feegrant.v1beta1.PeriodicAllowance",
+      value: PeriodicAllowance.encode(message).finish()
+    };
   }
 };
 function createBaseAllowedMsgAllowance(): AllowedMsgAllowance {
@@ -249,6 +379,8 @@ function createBaseAllowedMsgAllowance(): AllowedMsgAllowance {
   };
 }
 export const AllowedMsgAllowance = {
+  typeUrl: "/cosmos.feegrant.v1beta1.AllowedMsgAllowance",
+  aminoType: "cosmos-sdk/AllowedMsgAllowance",
   encode(message: AllowedMsgAllowance, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.allowance !== undefined) {
       Any.encode(message.allowance, writer.uint32(10).fork()).ldelim();
@@ -294,11 +426,64 @@ export const AllowedMsgAllowance = {
     }
     return obj;
   },
-  fromPartial(object: Partial<AllowedMsgAllowance>): AllowedMsgAllowance {
+  fromPartial(object: DeepPartial<AllowedMsgAllowance>): AllowedMsgAllowance {
     const message = createBaseAllowedMsgAllowance();
     message.allowance = object.allowance !== undefined && object.allowance !== null ? Any.fromPartial(object.allowance) : undefined;
     message.allowedMessages = object.allowedMessages?.map(e => e) || [];
     return message;
+  },
+  fromSDK(object: AllowedMsgAllowanceSDKType): AllowedMsgAllowance {
+    return {
+      allowance: object.allowance ? Any.fromSDK(object.allowance) : undefined,
+      allowedMessages: Array.isArray(object?.allowed_messages) ? object.allowed_messages.map((e: any) => e) : []
+    };
+  },
+  toSDK(message: AllowedMsgAllowance): AllowedMsgAllowanceSDKType {
+    const obj: any = {};
+    message.allowance !== undefined && (obj.allowance = message.allowance ? Any.toSDK(message.allowance) : undefined);
+    if (message.allowedMessages) {
+      obj.allowed_messages = message.allowedMessages.map(e => e);
+    } else {
+      obj.allowed_messages = [];
+    }
+    return obj;
+  },
+  fromAmino(object: AllowedMsgAllowanceAmino): AllowedMsgAllowance {
+    return {
+      allowance: object?.allowance ? Any.fromAmino(object.allowance) : undefined,
+      allowedMessages: Array.isArray(object?.allowed_messages) ? object.allowed_messages.map((e: any) => e) : []
+    };
+  },
+  toAmino(message: AllowedMsgAllowance): AllowedMsgAllowanceAmino {
+    const obj: any = {};
+    obj.allowance = message.allowance ? Any.toAmino(message.allowance) : undefined;
+    if (message.allowedMessages) {
+      obj.allowed_messages = message.allowedMessages.map(e => e);
+    } else {
+      obj.allowed_messages = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: AllowedMsgAllowanceAminoMsg): AllowedMsgAllowance {
+    return AllowedMsgAllowance.fromAmino(object.value);
+  },
+  toAminoMsg(message: AllowedMsgAllowance): AllowedMsgAllowanceAminoMsg {
+    return {
+      type: "cosmos-sdk/AllowedMsgAllowance",
+      value: AllowedMsgAllowance.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: AllowedMsgAllowanceProtoMsg): AllowedMsgAllowance {
+    return AllowedMsgAllowance.decode(message.value);
+  },
+  toProto(message: AllowedMsgAllowance): Uint8Array {
+    return AllowedMsgAllowance.encode(message).finish();
+  },
+  toProtoMsg(message: AllowedMsgAllowance): AllowedMsgAllowanceProtoMsg {
+    return {
+      typeUrl: "/cosmos.feegrant.v1beta1.AllowedMsgAllowance",
+      value: AllowedMsgAllowance.encode(message).finish()
+    };
   }
 };
 function createBaseGrant(): Grant {
@@ -309,6 +494,8 @@ function createBaseGrant(): Grant {
   };
 }
 export const Grant = {
+  typeUrl: "/cosmos.feegrant.v1beta1.Grant",
+  aminoType: "cosmos-sdk/Grant",
   encode(message: Grant, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.granter !== "") {
       writer.uint32(10).string(message.granter);
@@ -358,11 +545,60 @@ export const Grant = {
     message.allowance !== undefined && (obj.allowance = message.allowance ? Any.toJSON(message.allowance) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<Grant>): Grant {
+  fromPartial(object: DeepPartial<Grant>): Grant {
     const message = createBaseGrant();
     message.granter = object.granter ?? "";
     message.grantee = object.grantee ?? "";
     message.allowance = object.allowance !== undefined && object.allowance !== null ? Any.fromPartial(object.allowance) : undefined;
     return message;
+  },
+  fromSDK(object: GrantSDKType): Grant {
+    return {
+      granter: object?.granter,
+      grantee: object?.grantee,
+      allowance: object.allowance ? Any.fromSDK(object.allowance) : undefined
+    };
+  },
+  toSDK(message: Grant): GrantSDKType {
+    const obj: any = {};
+    obj.granter = message.granter;
+    obj.grantee = message.grantee;
+    message.allowance !== undefined && (obj.allowance = message.allowance ? Any.toSDK(message.allowance) : undefined);
+    return obj;
+  },
+  fromAmino(object: GrantAmino): Grant {
+    return {
+      granter: object.granter,
+      grantee: object.grantee,
+      allowance: object?.allowance ? Any.fromAmino(object.allowance) : undefined
+    };
+  },
+  toAmino(message: Grant): GrantAmino {
+    const obj: any = {};
+    obj.granter = message.granter;
+    obj.grantee = message.grantee;
+    obj.allowance = message.allowance ? Any.toAmino(message.allowance) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: GrantAminoMsg): Grant {
+    return Grant.fromAmino(object.value);
+  },
+  toAminoMsg(message: Grant): GrantAminoMsg {
+    return {
+      type: "cosmos-sdk/Grant",
+      value: Grant.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: GrantProtoMsg): Grant {
+    return Grant.decode(message.value);
+  },
+  toProto(message: Grant): Uint8Array {
+    return Grant.encode(message).finish();
+  },
+  toProtoMsg(message: Grant): GrantProtoMsg {
+    return {
+      typeUrl: "/cosmos.feegrant.v1beta1.Grant",
+      value: Grant.encode(message).finish()
+    };
   }
 };

@@ -1,4 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
+import { DeepPartial } from "../../helpers";
 /**
  * A generic empty message that you can re-use to avoid defining duplicated
  * empty messages in your APIs. A typical example is to use it as the request
@@ -27,6 +28,7 @@ function createBaseEmpty(): Empty {
   return {};
 }
 export const Empty = {
+  typeUrl: "/google.protobuf.Empty",
   encode(_: Empty, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -51,8 +53,37 @@ export const Empty = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<Empty>): Empty {
+  fromPartial(_: DeepPartial<Empty>): Empty {
     const message = createBaseEmpty();
     return message;
+  },
+  fromSDK(_: EmptySDKType): Empty {
+    return {};
+  },
+  toSDK(_: Empty): EmptySDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: EmptyAmino): Empty {
+    return {};
+  },
+  toAmino(_: Empty): EmptyAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: EmptyAminoMsg): Empty {
+    return Empty.fromAmino(object.value);
+  },
+  fromProtoMsg(message: EmptyProtoMsg): Empty {
+    return Empty.decode(message.value);
+  },
+  toProto(message: Empty): Uint8Array {
+    return Empty.encode(message).finish();
+  },
+  toProtoMsg(message: Empty): EmptyProtoMsg {
+    return {
+      typeUrl: "/google.protobuf.Empty",
+      value: Empty.encode(message).finish()
+    };
   }
 };

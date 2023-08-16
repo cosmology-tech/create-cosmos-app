@@ -1,5 +1,6 @@
 import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { DeepPartial } from "../../../helpers";
 /** Params defines the parameters for the tokenfactory module. */
 export interface Params {
   denomCreationFee: Coin[];
@@ -14,6 +15,8 @@ function createBaseParams(): Params {
   };
 }
 export const Params = {
+  typeUrl: "/osmosis.tokenfactory.v1beta1.Params",
+  aminoType: "osmosis/tokenfactory/params",
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.denomCreationFee) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -51,9 +54,58 @@ export const Params = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Params>): Params {
+  fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
     message.denomCreationFee = object.denomCreationFee?.map(e => Coin.fromPartial(e)) || [];
     return message;
+  },
+  fromSDK(object: ParamsSDKType): Params {
+    return {
+      denomCreationFee: Array.isArray(object?.denom_creation_fee) ? object.denom_creation_fee.map((e: any) => Coin.fromSDK(e)) : []
+    };
+  },
+  toSDK(message: Params): ParamsSDKType {
+    const obj: any = {};
+    if (message.denomCreationFee) {
+      obj.denom_creation_fee = message.denomCreationFee.map(e => e ? Coin.toSDK(e) : undefined);
+    } else {
+      obj.denom_creation_fee = [];
+    }
+    return obj;
+  },
+  fromAmino(object: ParamsAmino): Params {
+    return {
+      denomCreationFee: Array.isArray(object?.denom_creation_fee) ? object.denom_creation_fee.map((e: any) => Coin.fromAmino(e)) : []
+    };
+  },
+  toAmino(message: Params): ParamsAmino {
+    const obj: any = {};
+    if (message.denomCreationFee) {
+      obj.denom_creation_fee = message.denomCreationFee.map(e => e ? Coin.toAmino(e) : undefined);
+    } else {
+      obj.denom_creation_fee = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: ParamsAminoMsg): Params {
+    return Params.fromAmino(object.value);
+  },
+  toAminoMsg(message: Params): ParamsAminoMsg {
+    return {
+      type: "osmosis/tokenfactory/params",
+      value: Params.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: ParamsProtoMsg): Params {
+    return Params.decode(message.value);
+  },
+  toProto(message: Params): Uint8Array {
+    return Params.encode(message).finish();
+  },
+  toProtoMsg(message: Params): ParamsProtoMsg {
+    return {
+      typeUrl: "/osmosis.tokenfactory.v1beta1.Params",
+      value: Params.encode(message).finish()
+    };
   }
 };

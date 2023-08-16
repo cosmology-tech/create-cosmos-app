@@ -1,6 +1,6 @@
 import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet } from "../../../helpers";
+import { DeepPartial, isSet } from "../../../helpers";
 /**
  * Config represents the configuration for a Cosmos SDK ABCI app.
  * It is intended that all state machine logic including the version of
@@ -45,12 +45,12 @@ export interface ModuleConfig {
    * config is the config object for the module. Module config messages should
    * define a ModuleDescriptor using the cosmos.app.v1alpha1.is_module extension.
    */
-  config: Any;
+  config: Any | undefined;
 }
 /** ModuleConfig is a module configuration for an app. */
 export interface ModuleConfigSDKType {
   name: string;
-  config: AnySDKType;
+  config: AnySDKType | undefined;
 }
 function createBaseConfig(): Config {
   return {
@@ -58,6 +58,8 @@ function createBaseConfig(): Config {
   };
 }
 export const Config = {
+  typeUrl: "/cosmos.app.v1alpha1.Config",
+  aminoType: "cosmos-sdk/Config",
   encode(message: Config, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.modules) {
       ModuleConfig.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -95,10 +97,59 @@ export const Config = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Config>): Config {
+  fromPartial(object: DeepPartial<Config>): Config {
     const message = createBaseConfig();
     message.modules = object.modules?.map(e => ModuleConfig.fromPartial(e)) || [];
     return message;
+  },
+  fromSDK(object: ConfigSDKType): Config {
+    return {
+      modules: Array.isArray(object?.modules) ? object.modules.map((e: any) => ModuleConfig.fromSDK(e)) : []
+    };
+  },
+  toSDK(message: Config): ConfigSDKType {
+    const obj: any = {};
+    if (message.modules) {
+      obj.modules = message.modules.map(e => e ? ModuleConfig.toSDK(e) : undefined);
+    } else {
+      obj.modules = [];
+    }
+    return obj;
+  },
+  fromAmino(object: ConfigAmino): Config {
+    return {
+      modules: Array.isArray(object?.modules) ? object.modules.map((e: any) => ModuleConfig.fromAmino(e)) : []
+    };
+  },
+  toAmino(message: Config): ConfigAmino {
+    const obj: any = {};
+    if (message.modules) {
+      obj.modules = message.modules.map(e => e ? ModuleConfig.toAmino(e) : undefined);
+    } else {
+      obj.modules = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: ConfigAminoMsg): Config {
+    return Config.fromAmino(object.value);
+  },
+  toAminoMsg(message: Config): ConfigAminoMsg {
+    return {
+      type: "cosmos-sdk/Config",
+      value: Config.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: ConfigProtoMsg): Config {
+    return Config.decode(message.value);
+  },
+  toProto(message: Config): Uint8Array {
+    return Config.encode(message).finish();
+  },
+  toProtoMsg(message: Config): ConfigProtoMsg {
+    return {
+      typeUrl: "/cosmos.app.v1alpha1.Config",
+      value: Config.encode(message).finish()
+    };
   }
 };
 function createBaseModuleConfig(): ModuleConfig {
@@ -108,6 +159,8 @@ function createBaseModuleConfig(): ModuleConfig {
   };
 }
 export const ModuleConfig = {
+  typeUrl: "/cosmos.app.v1alpha1.ModuleConfig",
+  aminoType: "cosmos-sdk/ModuleConfig",
   encode(message: ModuleConfig, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -149,10 +202,55 @@ export const ModuleConfig = {
     message.config !== undefined && (obj.config = message.config ? Any.toJSON(message.config) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<ModuleConfig>): ModuleConfig {
+  fromPartial(object: DeepPartial<ModuleConfig>): ModuleConfig {
     const message = createBaseModuleConfig();
     message.name = object.name ?? "";
     message.config = object.config !== undefined && object.config !== null ? Any.fromPartial(object.config) : undefined;
     return message;
+  },
+  fromSDK(object: ModuleConfigSDKType): ModuleConfig {
+    return {
+      name: object?.name,
+      config: object.config ? Any.fromSDK(object.config) : undefined
+    };
+  },
+  toSDK(message: ModuleConfig): ModuleConfigSDKType {
+    const obj: any = {};
+    obj.name = message.name;
+    message.config !== undefined && (obj.config = message.config ? Any.toSDK(message.config) : undefined);
+    return obj;
+  },
+  fromAmino(object: ModuleConfigAmino): ModuleConfig {
+    return {
+      name: object.name,
+      config: object?.config ? Any.fromAmino(object.config) : undefined
+    };
+  },
+  toAmino(message: ModuleConfig): ModuleConfigAmino {
+    const obj: any = {};
+    obj.name = message.name;
+    obj.config = message.config ? Any.toAmino(message.config) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: ModuleConfigAminoMsg): ModuleConfig {
+    return ModuleConfig.fromAmino(object.value);
+  },
+  toAminoMsg(message: ModuleConfig): ModuleConfigAminoMsg {
+    return {
+      type: "cosmos-sdk/ModuleConfig",
+      value: ModuleConfig.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: ModuleConfigProtoMsg): ModuleConfig {
+    return ModuleConfig.decode(message.value);
+  },
+  toProto(message: ModuleConfig): Uint8Array {
+    return ModuleConfig.encode(message).finish();
+  },
+  toProtoMsg(message: ModuleConfig): ModuleConfigProtoMsg {
+    return {
+      typeUrl: "/cosmos.app.v1alpha1.ModuleConfig",
+      value: ModuleConfig.encode(message).finish()
+    };
   }
 };

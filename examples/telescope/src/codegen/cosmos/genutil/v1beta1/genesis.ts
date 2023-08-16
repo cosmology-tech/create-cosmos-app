@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { bytesFromBase64, base64FromBytes } from "../../../helpers";
+import { bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 /** GenesisState defines the raw genesis transaction in JSON. */
 export interface GenesisState {
   /** gen_txs defines the genesis transactions. */
@@ -15,6 +15,8 @@ function createBaseGenesisState(): GenesisState {
   };
 }
 export const GenesisState = {
+  typeUrl: "/cosmos.genutil.v1beta1.GenesisState",
+  aminoType: "cosmos-sdk/GenesisState",
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.genTxs) {
       writer.uint32(10).bytes(v!);
@@ -52,9 +54,58 @@ export const GenesisState = {
     }
     return obj;
   },
-  fromPartial(object: Partial<GenesisState>): GenesisState {
+  fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
     message.genTxs = object.genTxs?.map(e => e) || [];
     return message;
+  },
+  fromSDK(object: GenesisStateSDKType): GenesisState {
+    return {
+      genTxs: Array.isArray(object?.gen_txs) ? object.gen_txs.map((e: any) => e) : []
+    };
+  },
+  toSDK(message: GenesisState): GenesisStateSDKType {
+    const obj: any = {};
+    if (message.genTxs) {
+      obj.gen_txs = message.genTxs.map(e => e);
+    } else {
+      obj.gen_txs = [];
+    }
+    return obj;
+  },
+  fromAmino(object: GenesisStateAmino): GenesisState {
+    return {
+      genTxs: Array.isArray(object?.gen_txs) ? object.gen_txs.map((e: any) => e) : []
+    };
+  },
+  toAmino(message: GenesisState): GenesisStateAmino {
+    const obj: any = {};
+    if (message.genTxs) {
+      obj.gen_txs = message.genTxs.map(e => e);
+    } else {
+      obj.gen_txs = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: GenesisStateAminoMsg): GenesisState {
+    return GenesisState.fromAmino(object.value);
+  },
+  toAminoMsg(message: GenesisState): GenesisStateAminoMsg {
+    return {
+      type: "cosmos-sdk/GenesisState",
+      value: GenesisState.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: GenesisStateProtoMsg): GenesisState {
+    return GenesisState.decode(message.value);
+  },
+  toProto(message: GenesisState): Uint8Array {
+    return GenesisState.encode(message).finish();
+  },
+  toProtoMsg(message: GenesisState): GenesisStateProtoMsg {
+    return {
+      typeUrl: "/cosmos.genutil.v1beta1.GenesisState",
+      value: GenesisState.encode(message).finish()
+    };
   }
 };

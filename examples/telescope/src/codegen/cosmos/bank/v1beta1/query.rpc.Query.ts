@@ -1,6 +1,9 @@
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { ReactQueryParams } from "../../../react-query";
+import { useQuery } from "@tanstack/react-query";
+import { QueryStore } from "../../../mobx";
 import { QueryBalanceRequest, QueryBalanceResponse, QueryAllBalancesRequest, QueryAllBalancesResponse, QuerySpendableBalancesRequest, QuerySpendableBalancesResponse, QueryTotalSupplyRequest, QueryTotalSupplyResponse, QuerySupplyOfRequest, QuerySupplyOfResponse, QueryParamsRequest, QueryParamsResponse, QueryDenomMetadataRequest, QueryDenomMetadataResponse, QueryDenomsMetadataRequest, QueryDenomsMetadataResponse, QueryDenomOwnersRequest, QueryDenomOwnersResponse } from "./query";
 /** Query defines the gRPC querier service. */
 export interface Query {
@@ -127,5 +130,229 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     denomOwners(request: QueryDenomOwnersRequest): Promise<QueryDenomOwnersResponse> {
       return queryService.denomOwners(request);
     }
+  };
+};
+export interface UseBalanceQuery<TData> extends ReactQueryParams<QueryBalanceResponse, TData> {
+  request: QueryBalanceRequest;
+}
+export interface UseAllBalancesQuery<TData> extends ReactQueryParams<QueryAllBalancesResponse, TData> {
+  request: QueryAllBalancesRequest;
+}
+export interface UseSpendableBalancesQuery<TData> extends ReactQueryParams<QuerySpendableBalancesResponse, TData> {
+  request: QuerySpendableBalancesRequest;
+}
+export interface UseTotalSupplyQuery<TData> extends ReactQueryParams<QueryTotalSupplyResponse, TData> {
+  request?: QueryTotalSupplyRequest;
+}
+export interface UseSupplyOfQuery<TData> extends ReactQueryParams<QuerySupplyOfResponse, TData> {
+  request: QuerySupplyOfRequest;
+}
+export interface UseParamsQuery<TData> extends ReactQueryParams<QueryParamsResponse, TData> {
+  request?: QueryParamsRequest;
+}
+export interface UseDenomMetadataQuery<TData> extends ReactQueryParams<QueryDenomMetadataResponse, TData> {
+  request: QueryDenomMetadataRequest;
+}
+export interface UseDenomsMetadataQuery<TData> extends ReactQueryParams<QueryDenomsMetadataResponse, TData> {
+  request?: QueryDenomsMetadataRequest;
+}
+export interface UseDenomOwnersQuery<TData> extends ReactQueryParams<QueryDenomOwnersResponse, TData> {
+  request: QueryDenomOwnersRequest;
+}
+const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
+const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
+  if (!rpc) return;
+  if (_queryClients.has(rpc)) {
+    return _queryClients.get(rpc);
+  }
+  const queryService = new QueryClientImpl(rpc);
+  _queryClients.set(rpc, queryService);
+  return queryService;
+};
+export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
+  const queryService = getQueryService(rpc);
+  const useBalance = <TData = QueryBalanceResponse,>({
+    request,
+    options
+  }: UseBalanceQuery<TData>) => {
+    return useQuery<QueryBalanceResponse, Error, TData>(["balanceQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.balance(request);
+    }, options);
+  };
+  const useAllBalances = <TData = QueryAllBalancesResponse,>({
+    request,
+    options
+  }: UseAllBalancesQuery<TData>) => {
+    return useQuery<QueryAllBalancesResponse, Error, TData>(["allBalancesQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.allBalances(request);
+    }, options);
+  };
+  const useSpendableBalances = <TData = QuerySpendableBalancesResponse,>({
+    request,
+    options
+  }: UseSpendableBalancesQuery<TData>) => {
+    return useQuery<QuerySpendableBalancesResponse, Error, TData>(["spendableBalancesQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.spendableBalances(request);
+    }, options);
+  };
+  const useTotalSupply = <TData = QueryTotalSupplyResponse,>({
+    request,
+    options
+  }: UseTotalSupplyQuery<TData>) => {
+    return useQuery<QueryTotalSupplyResponse, Error, TData>(["totalSupplyQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.totalSupply(request);
+    }, options);
+  };
+  const useSupplyOf = <TData = QuerySupplyOfResponse,>({
+    request,
+    options
+  }: UseSupplyOfQuery<TData>) => {
+    return useQuery<QuerySupplyOfResponse, Error, TData>(["supplyOfQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.supplyOf(request);
+    }, options);
+  };
+  const useParams = <TData = QueryParamsResponse,>({
+    request,
+    options
+  }: UseParamsQuery<TData>) => {
+    return useQuery<QueryParamsResponse, Error, TData>(["paramsQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.params(request);
+    }, options);
+  };
+  const useDenomMetadata = <TData = QueryDenomMetadataResponse,>({
+    request,
+    options
+  }: UseDenomMetadataQuery<TData>) => {
+    return useQuery<QueryDenomMetadataResponse, Error, TData>(["denomMetadataQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.denomMetadata(request);
+    }, options);
+  };
+  const useDenomsMetadata = <TData = QueryDenomsMetadataResponse,>({
+    request,
+    options
+  }: UseDenomsMetadataQuery<TData>) => {
+    return useQuery<QueryDenomsMetadataResponse, Error, TData>(["denomsMetadataQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.denomsMetadata(request);
+    }, options);
+  };
+  const useDenomOwners = <TData = QueryDenomOwnersResponse,>({
+    request,
+    options
+  }: UseDenomOwnersQuery<TData>) => {
+    return useQuery<QueryDenomOwnersResponse, Error, TData>(["denomOwnersQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.denomOwners(request);
+    }, options);
+  };
+  return {
+    /** Balance queries the balance of a single coin for a single account. */useBalance,
+    /** AllBalances queries the balance of all coins for a single account. */useAllBalances,
+    /**
+     * SpendableBalances queries the spenable balance of all coins for a single
+     * account.
+     */
+    useSpendableBalances,
+    /** TotalSupply queries the total supply of all coins. */useTotalSupply,
+    /** SupplyOf queries the supply of a single coin. */useSupplyOf,
+    /** Params queries the parameters of x/bank module. */useParams,
+    /** DenomsMetadata queries the client metadata of a given coin denomination. */useDenomMetadata,
+    /**
+     * DenomsMetadata queries the client metadata for all registered coin
+     * denominations.
+     */
+    useDenomsMetadata,
+    /**
+     * DenomOwners queries for all account addresses that own a particular token
+     * denomination.
+     */
+    useDenomOwners
+  };
+};
+export const createRpcQueryMobxStores = (rpc: ProtobufRpcClient | undefined) => {
+  const queryService = getQueryService(rpc);
+  class QueryBalanceStore {
+    store = new QueryStore<QueryBalanceRequest, QueryBalanceResponse>(queryService?.balance);
+    balance(request: QueryBalanceRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryAllBalancesStore {
+    store = new QueryStore<QueryAllBalancesRequest, QueryAllBalancesResponse>(queryService?.allBalances);
+    allBalances(request: QueryAllBalancesRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QuerySpendableBalancesStore {
+    store = new QueryStore<QuerySpendableBalancesRequest, QuerySpendableBalancesResponse>(queryService?.spendableBalances);
+    spendableBalances(request: QuerySpendableBalancesRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryTotalSupplyStore {
+    store = new QueryStore<QueryTotalSupplyRequest, QueryTotalSupplyResponse>(queryService?.totalSupply);
+    totalSupply(request: QueryTotalSupplyRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QuerySupplyOfStore {
+    store = new QueryStore<QuerySupplyOfRequest, QuerySupplyOfResponse>(queryService?.supplyOf);
+    supplyOf(request: QuerySupplyOfRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryParamsStore {
+    store = new QueryStore<QueryParamsRequest, QueryParamsResponse>(queryService?.params);
+    params(request: QueryParamsRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryDenomMetadataStore {
+    store = new QueryStore<QueryDenomMetadataRequest, QueryDenomMetadataResponse>(queryService?.denomMetadata);
+    denomMetadata(request: QueryDenomMetadataRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryDenomsMetadataStore {
+    store = new QueryStore<QueryDenomsMetadataRequest, QueryDenomsMetadataResponse>(queryService?.denomsMetadata);
+    denomsMetadata(request: QueryDenomsMetadataRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryDenomOwnersStore {
+    store = new QueryStore<QueryDenomOwnersRequest, QueryDenomOwnersResponse>(queryService?.denomOwners);
+    denomOwners(request: QueryDenomOwnersRequest) {
+      return this.store.getData(request);
+    }
+  }
+  return {
+    /** Balance queries the balance of a single coin for a single account. */QueryBalanceStore,
+    /** AllBalances queries the balance of all coins for a single account. */QueryAllBalancesStore,
+    /**
+     * SpendableBalances queries the spenable balance of all coins for a single
+     * account.
+     */
+    QuerySpendableBalancesStore,
+    /** TotalSupply queries the total supply of all coins. */QueryTotalSupplyStore,
+    /** SupplyOf queries the supply of a single coin. */QuerySupplyOfStore,
+    /** Params queries the parameters of x/bank module. */QueryParamsStore,
+    /** DenomsMetadata queries the client metadata of a given coin denomination. */QueryDenomMetadataStore,
+    /**
+     * DenomsMetadata queries the client metadata for all registered coin
+     * denominations.
+     */
+    QueryDenomsMetadataStore,
+    /**
+     * DenomOwners queries for all account addresses that own a particular token
+     * denomination.
+     */
+    QueryDenomOwnersStore
   };
 };

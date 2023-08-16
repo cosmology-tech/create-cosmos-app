@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
-import { isSet } from "../../../../helpers";
+import { isSet, DeepPartial } from "../../../../helpers";
 /** BIP44Params is used as path field in ledger item in Record. */
 export interface BIP44Params {
   /** purpose is a constant set to 44' (or 0x8000002C) following the BIP43 recommendation */
@@ -34,6 +34,8 @@ function createBaseBIP44Params(): BIP44Params {
   };
 }
 export const BIP44Params = {
+  typeUrl: "/cosmos.crypto.hd.v1.BIP44Params",
+  aminoType: "cosmos-sdk/BIP44Params",
   encode(message: BIP44Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.purpose !== 0) {
       writer.uint32(8).uint32(message.purpose);
@@ -99,7 +101,7 @@ export const BIP44Params = {
     message.addressIndex !== undefined && (obj.addressIndex = Math.round(message.addressIndex));
     return obj;
   },
-  fromPartial(object: Partial<BIP44Params>): BIP44Params {
+  fromPartial(object: DeepPartial<BIP44Params>): BIP44Params {
     const message = createBaseBIP44Params();
     message.purpose = object.purpose ?? 0;
     message.coinType = object.coinType ?? 0;
@@ -107,5 +109,62 @@ export const BIP44Params = {
     message.change = object.change ?? false;
     message.addressIndex = object.addressIndex ?? 0;
     return message;
+  },
+  fromSDK(object: BIP44ParamsSDKType): BIP44Params {
+    return {
+      purpose: object?.purpose,
+      coinType: object?.coin_type,
+      account: object?.account,
+      change: object?.change,
+      addressIndex: object?.address_index
+    };
+  },
+  toSDK(message: BIP44Params): BIP44ParamsSDKType {
+    const obj: any = {};
+    obj.purpose = message.purpose;
+    obj.coin_type = message.coinType;
+    obj.account = message.account;
+    obj.change = message.change;
+    obj.address_index = message.addressIndex;
+    return obj;
+  },
+  fromAmino(object: BIP44ParamsAmino): BIP44Params {
+    return {
+      purpose: object.purpose,
+      coinType: object.coin_type,
+      account: object.account,
+      change: object.change,
+      addressIndex: object.address_index
+    };
+  },
+  toAmino(message: BIP44Params): BIP44ParamsAmino {
+    const obj: any = {};
+    obj.purpose = message.purpose;
+    obj.coin_type = message.coinType;
+    obj.account = message.account;
+    obj.change = message.change;
+    obj.address_index = message.addressIndex;
+    return obj;
+  },
+  fromAminoMsg(object: BIP44ParamsAminoMsg): BIP44Params {
+    return BIP44Params.fromAmino(object.value);
+  },
+  toAminoMsg(message: BIP44Params): BIP44ParamsAminoMsg {
+    return {
+      type: "cosmos-sdk/BIP44Params",
+      value: BIP44Params.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: BIP44ParamsProtoMsg): BIP44Params {
+    return BIP44Params.decode(message.value);
+  },
+  toProto(message: BIP44Params): Uint8Array {
+    return BIP44Params.encode(message).finish();
+  },
+  toProtoMsg(message: BIP44Params): BIP44ParamsProtoMsg {
+    return {
+      typeUrl: "/cosmos.crypto.hd.v1.BIP44Params",
+      value: BIP44Params.encode(message).finish()
+    };
   }
 };

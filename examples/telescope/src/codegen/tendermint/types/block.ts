@@ -1,18 +1,18 @@
 import { Header, HeaderSDKType, Data, DataSDKType, Commit, CommitSDKType } from "./types";
 import { EvidenceList, EvidenceListSDKType } from "./evidence";
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { isSet, DeepPartial } from "../../helpers";
 export interface Block {
-  header: Header;
-  data: Data;
-  evidence: EvidenceList;
-  lastCommit: Commit;
+  header: Header | undefined;
+  data: Data | undefined;
+  evidence: EvidenceList | undefined;
+  lastCommit: Commit | undefined;
 }
 export interface BlockSDKType {
-  header: HeaderSDKType;
-  data: DataSDKType;
-  evidence: EvidenceListSDKType;
-  last_commit: CommitSDKType;
+  header: HeaderSDKType | undefined;
+  data: DataSDKType | undefined;
+  evidence: EvidenceListSDKType | undefined;
+  last_commit: CommitSDKType | undefined;
 }
 function createBaseBlock(): Block {
   return {
@@ -23,6 +23,7 @@ function createBaseBlock(): Block {
   };
 }
 export const Block = {
+  typeUrl: "/tendermint.types.Block",
   encode(message: Block, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.header !== undefined) {
       Header.encode(message.header, writer.uint32(10).fork()).ldelim();
@@ -80,12 +81,59 @@ export const Block = {
     message.lastCommit !== undefined && (obj.lastCommit = message.lastCommit ? Commit.toJSON(message.lastCommit) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<Block>): Block {
+  fromPartial(object: DeepPartial<Block>): Block {
     const message = createBaseBlock();
     message.header = object.header !== undefined && object.header !== null ? Header.fromPartial(object.header) : undefined;
     message.data = object.data !== undefined && object.data !== null ? Data.fromPartial(object.data) : undefined;
     message.evidence = object.evidence !== undefined && object.evidence !== null ? EvidenceList.fromPartial(object.evidence) : undefined;
     message.lastCommit = object.lastCommit !== undefined && object.lastCommit !== null ? Commit.fromPartial(object.lastCommit) : undefined;
     return message;
+  },
+  fromSDK(object: BlockSDKType): Block {
+    return {
+      header: object.header ? Header.fromSDK(object.header) : undefined,
+      data: object.data ? Data.fromSDK(object.data) : undefined,
+      evidence: object.evidence ? EvidenceList.fromSDK(object.evidence) : undefined,
+      lastCommit: object.last_commit ? Commit.fromSDK(object.last_commit) : undefined
+    };
+  },
+  toSDK(message: Block): BlockSDKType {
+    const obj: any = {};
+    message.header !== undefined && (obj.header = message.header ? Header.toSDK(message.header) : undefined);
+    message.data !== undefined && (obj.data = message.data ? Data.toSDK(message.data) : undefined);
+    message.evidence !== undefined && (obj.evidence = message.evidence ? EvidenceList.toSDK(message.evidence) : undefined);
+    message.lastCommit !== undefined && (obj.last_commit = message.lastCommit ? Commit.toSDK(message.lastCommit) : undefined);
+    return obj;
+  },
+  fromAmino(object: BlockAmino): Block {
+    return {
+      header: object?.header ? Header.fromAmino(object.header) : undefined,
+      data: object?.data ? Data.fromAmino(object.data) : undefined,
+      evidence: object?.evidence ? EvidenceList.fromAmino(object.evidence) : undefined,
+      lastCommit: object?.last_commit ? Commit.fromAmino(object.last_commit) : undefined
+    };
+  },
+  toAmino(message: Block): BlockAmino {
+    const obj: any = {};
+    obj.header = message.header ? Header.toAmino(message.header) : undefined;
+    obj.data = message.data ? Data.toAmino(message.data) : undefined;
+    obj.evidence = message.evidence ? EvidenceList.toAmino(message.evidence) : undefined;
+    obj.last_commit = message.lastCommit ? Commit.toAmino(message.lastCommit) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: BlockAminoMsg): Block {
+    return Block.fromAmino(object.value);
+  },
+  fromProtoMsg(message: BlockProtoMsg): Block {
+    return Block.decode(message.value);
+  },
+  toProto(message: Block): Uint8Array {
+    return Block.encode(message).finish();
+  },
+  toProtoMsg(message: Block): BlockProtoMsg {
+    return {
+      typeUrl: "/tendermint.types.Block",
+      value: Block.encode(message).finish()
+    };
   }
 };
