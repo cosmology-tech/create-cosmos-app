@@ -1,11 +1,23 @@
-import { Vote, VoteSDKType, LightBlock, LightBlockSDKType } from "./types";
+import { Vote, VoteAmino, VoteSDKType, LightBlock, LightBlockAmino, LightBlockSDKType } from "./types";
 import { Timestamp } from "../../google/protobuf/timestamp";
-import { Validator, ValidatorSDKType } from "./validator";
+import { Validator, ValidatorAmino, ValidatorSDKType } from "./validator";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp } from "../../helpers";
 export interface Evidence {
   duplicateVoteEvidence?: DuplicateVoteEvidence | undefined;
   lightClientAttackEvidence?: LightClientAttackEvidence | undefined;
+}
+export interface EvidenceProtoMsg {
+  typeUrl: "/tendermint.types.Evidence";
+  value: Uint8Array;
+}
+export interface EvidenceAmino {
+  duplicate_vote_evidence?: DuplicateVoteEvidenceAmino | undefined;
+  light_client_attack_evidence?: LightClientAttackEvidenceAmino | undefined;
+}
+export interface EvidenceAminoMsg {
+  type: "/tendermint.types.Evidence";
+  value: EvidenceAmino;
 }
 export interface EvidenceSDKType {
   duplicate_vote_evidence?: DuplicateVoteEvidenceSDKType | undefined;
@@ -18,6 +30,22 @@ export interface DuplicateVoteEvidence {
   totalVotingPower: bigint;
   validatorPower: bigint;
   timestamp: Date | undefined;
+}
+export interface DuplicateVoteEvidenceProtoMsg {
+  typeUrl: "/tendermint.types.DuplicateVoteEvidence";
+  value: Uint8Array;
+}
+/** DuplicateVoteEvidence contains evidence of a validator signed two conflicting votes. */
+export interface DuplicateVoteEvidenceAmino {
+  vote_a?: VoteAmino | undefined;
+  vote_b?: VoteAmino | undefined;
+  total_voting_power: string;
+  validator_power: string;
+  timestamp?: Date | undefined;
+}
+export interface DuplicateVoteEvidenceAminoMsg {
+  type: "/tendermint.types.DuplicateVoteEvidence";
+  value: DuplicateVoteEvidenceAmino;
 }
 /** DuplicateVoteEvidence contains evidence of a validator signed two conflicting votes. */
 export interface DuplicateVoteEvidenceSDKType {
@@ -35,6 +63,22 @@ export interface LightClientAttackEvidence {
   totalVotingPower: bigint;
   timestamp: Date | undefined;
 }
+export interface LightClientAttackEvidenceProtoMsg {
+  typeUrl: "/tendermint.types.LightClientAttackEvidence";
+  value: Uint8Array;
+}
+/** LightClientAttackEvidence contains evidence of a set of validators attempting to mislead a light client. */
+export interface LightClientAttackEvidenceAmino {
+  conflicting_block?: LightBlockAmino | undefined;
+  common_height: string;
+  byzantine_validators: ValidatorAmino[];
+  total_voting_power: string;
+  timestamp?: Date | undefined;
+}
+export interface LightClientAttackEvidenceAminoMsg {
+  type: "/tendermint.types.LightClientAttackEvidence";
+  value: LightClientAttackEvidenceAmino;
+}
 /** LightClientAttackEvidence contains evidence of a set of validators attempting to mislead a light client. */
 export interface LightClientAttackEvidenceSDKType {
   conflicting_block: LightBlockSDKType | undefined;
@@ -45,6 +89,17 @@ export interface LightClientAttackEvidenceSDKType {
 }
 export interface EvidenceList {
   evidence: Evidence[];
+}
+export interface EvidenceListProtoMsg {
+  typeUrl: "/tendermint.types.EvidenceList";
+  value: Uint8Array;
+}
+export interface EvidenceListAmino {
+  evidence: EvidenceAmino[];
+}
+export interface EvidenceListAminoMsg {
+  type: "/tendermint.types.EvidenceList";
+  value: EvidenceListAmino;
 }
 export interface EvidenceListSDKType {
   evidence: EvidenceSDKType[];

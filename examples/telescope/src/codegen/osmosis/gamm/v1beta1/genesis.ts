@@ -1,10 +1,22 @@
-import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
-import { Any, AnySDKType } from "../../../google/protobuf/any";
+import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
+import { Any, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { DeepPartial, isSet } from "../../../helpers";
 /** Params holds parameters for the incentives module */
 export interface Params {
   poolCreationFee: Coin[];
+}
+export interface ParamsProtoMsg {
+  typeUrl: "/osmosis.gamm.v1beta1.Params";
+  value: Uint8Array;
+}
+/** Params holds parameters for the incentives module */
+export interface ParamsAmino {
+  pool_creation_fee: CoinAmino[];
+}
+export interface ParamsAminoMsg {
+  type: "osmosis/gamm/params";
+  value: ParamsAmino;
 }
 /** Params holds parameters for the incentives module */
 export interface ParamsSDKType {
@@ -16,6 +28,21 @@ export interface GenesisState {
   /** will be renamed to next_pool_id in an upcoming version */
   nextPoolNumber: bigint;
   params: Params | undefined;
+}
+export interface GenesisStateProtoMsg {
+  typeUrl: "/osmosis.gamm.v1beta1.GenesisState";
+  value: Uint8Array;
+}
+/** GenesisState defines the gamm module's genesis state. */
+export interface GenesisStateAmino {
+  pools: AnyAmino[];
+  /** will be renamed to next_pool_id in an upcoming version */
+  next_pool_number: string;
+  params?: ParamsAmino | undefined;
+}
+export interface GenesisStateAminoMsg {
+  type: "osmosis/gamm/genesis-state";
+  value: GenesisStateAmino;
 }
 /** GenesisState defines the gamm module's genesis state. */
 export interface GenesisStateSDKType {
