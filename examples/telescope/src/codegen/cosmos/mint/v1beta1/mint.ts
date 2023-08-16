@@ -1,5 +1,6 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet } from "../../../helpers";
+import { Decimal } from "@cosmjs/math";
+import { isSet, DeepPartial } from "../../../helpers";
 /** Minter represents the minting state. */
 export interface Minter {
   /** current annual inflation rate */
@@ -43,12 +44,14 @@ function createBaseMinter(): Minter {
   };
 }
 export const Minter = {
+  typeUrl: "/cosmos.mint.v1beta1.Minter",
+  aminoType: "cosmos-sdk/Minter",
   encode(message: Minter, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.inflation !== "") {
-      writer.uint32(10).string(message.inflation);
+      writer.uint32(10).string(Decimal.fromUserInput(message.inflation, 18).atomics);
     }
     if (message.annualProvisions !== "") {
-      writer.uint32(18).string(message.annualProvisions);
+      writer.uint32(18).string(Decimal.fromUserInput(message.annualProvisions, 18).atomics);
     }
     return writer;
   },
@@ -60,10 +63,10 @@ export const Minter = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.inflation = reader.string();
+          message.inflation = Decimal.fromAtomics(reader.string(), 18).toString();
           break;
         case 2:
-          message.annualProvisions = reader.string();
+          message.annualProvisions = Decimal.fromAtomics(reader.string(), 18).toString();
           break;
         default:
           reader.skipType(tag & 7);
@@ -84,11 +87,56 @@ export const Minter = {
     message.annualProvisions !== undefined && (obj.annualProvisions = message.annualProvisions);
     return obj;
   },
-  fromPartial(object: Partial<Minter>): Minter {
+  fromPartial(object: DeepPartial<Minter>): Minter {
     const message = createBaseMinter();
     message.inflation = object.inflation ?? "";
     message.annualProvisions = object.annualProvisions ?? "";
     return message;
+  },
+  fromSDK(object: MinterSDKType): Minter {
+    return {
+      inflation: object?.inflation,
+      annualProvisions: object?.annual_provisions
+    };
+  },
+  toSDK(message: Minter): MinterSDKType {
+    const obj: any = {};
+    obj.inflation = message.inflation;
+    obj.annual_provisions = message.annualProvisions;
+    return obj;
+  },
+  fromAmino(object: MinterAmino): Minter {
+    return {
+      inflation: object.inflation,
+      annualProvisions: object.annual_provisions
+    };
+  },
+  toAmino(message: Minter): MinterAmino {
+    const obj: any = {};
+    obj.inflation = message.inflation;
+    obj.annual_provisions = message.annualProvisions;
+    return obj;
+  },
+  fromAminoMsg(object: MinterAminoMsg): Minter {
+    return Minter.fromAmino(object.value);
+  },
+  toAminoMsg(message: Minter): MinterAminoMsg {
+    return {
+      type: "cosmos-sdk/Minter",
+      value: Minter.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MinterProtoMsg): Minter {
+    return Minter.decode(message.value);
+  },
+  toProto(message: Minter): Uint8Array {
+    return Minter.encode(message).finish();
+  },
+  toProtoMsg(message: Minter): MinterProtoMsg {
+    return {
+      typeUrl: "/cosmos.mint.v1beta1.Minter",
+      value: Minter.encode(message).finish()
+    };
   }
 };
 function createBaseParams(): Params {
@@ -102,21 +150,23 @@ function createBaseParams(): Params {
   };
 }
 export const Params = {
+  typeUrl: "/cosmos.mint.v1beta1.Params",
+  aminoType: "cosmos-sdk/Params",
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.mintDenom !== "") {
       writer.uint32(10).string(message.mintDenom);
     }
     if (message.inflationRateChange !== "") {
-      writer.uint32(18).string(message.inflationRateChange);
+      writer.uint32(18).string(Decimal.fromUserInput(message.inflationRateChange, 18).atomics);
     }
     if (message.inflationMax !== "") {
-      writer.uint32(26).string(message.inflationMax);
+      writer.uint32(26).string(Decimal.fromUserInput(message.inflationMax, 18).atomics);
     }
     if (message.inflationMin !== "") {
-      writer.uint32(34).string(message.inflationMin);
+      writer.uint32(34).string(Decimal.fromUserInput(message.inflationMin, 18).atomics);
     }
     if (message.goalBonded !== "") {
-      writer.uint32(42).string(message.goalBonded);
+      writer.uint32(42).string(Decimal.fromUserInput(message.goalBonded, 18).atomics);
     }
     if (message.blocksPerYear !== BigInt(0)) {
       writer.uint32(48).uint64(message.blocksPerYear);
@@ -134,16 +184,16 @@ export const Params = {
           message.mintDenom = reader.string();
           break;
         case 2:
-          message.inflationRateChange = reader.string();
+          message.inflationRateChange = Decimal.fromAtomics(reader.string(), 18).toString();
           break;
         case 3:
-          message.inflationMax = reader.string();
+          message.inflationMax = Decimal.fromAtomics(reader.string(), 18).toString();
           break;
         case 4:
-          message.inflationMin = reader.string();
+          message.inflationMin = Decimal.fromAtomics(reader.string(), 18).toString();
           break;
         case 5:
-          message.goalBonded = reader.string();
+          message.goalBonded = Decimal.fromAtomics(reader.string(), 18).toString();
           break;
         case 6:
           message.blocksPerYear = reader.uint64();
@@ -175,7 +225,7 @@ export const Params = {
     message.blocksPerYear !== undefined && (obj.blocksPerYear = (message.blocksPerYear || BigInt(0)).toString());
     return obj;
   },
-  fromPartial(object: Partial<Params>): Params {
+  fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
     message.mintDenom = object.mintDenom ?? "";
     message.inflationRateChange = object.inflationRateChange ?? "";
@@ -184,5 +234,66 @@ export const Params = {
     message.goalBonded = object.goalBonded ?? "";
     message.blocksPerYear = object.blocksPerYear !== undefined && object.blocksPerYear !== null ? BigInt(object.blocksPerYear.toString()) : BigInt(0);
     return message;
+  },
+  fromSDK(object: ParamsSDKType): Params {
+    return {
+      mintDenom: object?.mint_denom,
+      inflationRateChange: object?.inflation_rate_change,
+      inflationMax: object?.inflation_max,
+      inflationMin: object?.inflation_min,
+      goalBonded: object?.goal_bonded,
+      blocksPerYear: object?.blocks_per_year
+    };
+  },
+  toSDK(message: Params): ParamsSDKType {
+    const obj: any = {};
+    obj.mint_denom = message.mintDenom;
+    obj.inflation_rate_change = message.inflationRateChange;
+    obj.inflation_max = message.inflationMax;
+    obj.inflation_min = message.inflationMin;
+    obj.goal_bonded = message.goalBonded;
+    obj.blocks_per_year = message.blocksPerYear;
+    return obj;
+  },
+  fromAmino(object: ParamsAmino): Params {
+    return {
+      mintDenom: object.mint_denom,
+      inflationRateChange: object.inflation_rate_change,
+      inflationMax: object.inflation_max,
+      inflationMin: object.inflation_min,
+      goalBonded: object.goal_bonded,
+      blocksPerYear: BigInt(object.blocks_per_year)
+    };
+  },
+  toAmino(message: Params): ParamsAmino {
+    const obj: any = {};
+    obj.mint_denom = message.mintDenom;
+    obj.inflation_rate_change = message.inflationRateChange;
+    obj.inflation_max = message.inflationMax;
+    obj.inflation_min = message.inflationMin;
+    obj.goal_bonded = message.goalBonded;
+    obj.blocks_per_year = message.blocksPerYear ? message.blocksPerYear.toString() : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: ParamsAminoMsg): Params {
+    return Params.fromAmino(object.value);
+  },
+  toAminoMsg(message: Params): ParamsAminoMsg {
+    return {
+      type: "cosmos-sdk/Params",
+      value: Params.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: ParamsProtoMsg): Params {
+    return Params.decode(message.value);
+  },
+  toProto(message: Params): Uint8Array {
+    return Params.encode(message).finish();
+  },
+  toProtoMsg(message: Params): ParamsProtoMsg {
+    return {
+      typeUrl: "/cosmos.mint.v1beta1.Params",
+      value: Params.encode(message).finish()
+    };
   }
 };

@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { isSet, DeepPartial } from "../../helpers";
 /**
  * A Duration represents a signed, fixed-length span of time represented
  * as a count of seconds and fractions of seconds at nanosecond
@@ -148,6 +148,7 @@ function createBaseDuration(): Duration {
   };
 }
 export const Duration = {
+  typeUrl: "/google.protobuf.Duration",
   encode(message: Duration, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.seconds !== BigInt(0)) {
       writer.uint32(8).int64(message.seconds);
@@ -189,10 +190,47 @@ export const Duration = {
     message.nanos !== undefined && (obj.nanos = Math.round(message.nanos));
     return obj;
   },
-  fromPartial(object: Partial<Duration>): Duration {
+  fromPartial(object: DeepPartial<Duration>): Duration {
     const message = createBaseDuration();
     message.seconds = object.seconds !== undefined && object.seconds !== null ? BigInt(object.seconds.toString()) : BigInt(0);
     message.nanos = object.nanos ?? 0;
     return message;
+  },
+  fromSDK(object: DurationSDKType): Duration {
+    return {
+      seconds: object?.seconds,
+      nanos: object?.nanos
+    };
+  },
+  toSDK(message: Duration): DurationSDKType {
+    const obj: any = {};
+    obj.seconds = message.seconds;
+    obj.nanos = message.nanos;
+    return obj;
+  },
+  fromAmino(object: DurationAmino): Duration {
+    const value = BigInt(object);
+    return {
+      seconds: value / BigInt("1000000000"),
+      nanos: Number(value % BigInt("1000000000"))
+    };
+  },
+  toAmino(message: Duration): DurationAmino {
+    return (message.seconds * BigInt("1000000000") + BigInt(message.nanos)).toString();
+  },
+  fromAminoMsg(object: DurationAminoMsg): Duration {
+    return Duration.fromAmino(object.value);
+  },
+  fromProtoMsg(message: DurationProtoMsg): Duration {
+    return Duration.decode(message.value);
+  },
+  toProto(message: Duration): Uint8Array {
+    return Duration.encode(message).finish();
+  },
+  toProtoMsg(message: Duration): DurationProtoMsg {
+    return {
+      typeUrl: "/google.protobuf.Duration",
+      value: Duration.encode(message).finish()
+    };
   }
 };

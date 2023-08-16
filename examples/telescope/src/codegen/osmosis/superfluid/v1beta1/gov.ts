@@ -1,6 +1,6 @@
 import { SuperfluidAsset, SuperfluidAssetSDKType } from "../superfluid";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet } from "../../../helpers";
+import { isSet, DeepPartial } from "../../../helpers";
 /**
  * SetSuperfluidAssetsProposal is a gov Content type to update the superfluid
  * assets
@@ -65,6 +65,8 @@ function createBaseSetSuperfluidAssetsProposal(): SetSuperfluidAssetsProposal {
   };
 }
 export const SetSuperfluidAssetsProposal = {
+  typeUrl: "/osmosis.superfluid.v1beta1.SetSuperfluidAssetsProposal",
+  aminoType: "osmosis/v1beta1/set-superfluid-assets-proposal",
   encode(message: SetSuperfluidAssetsProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -118,12 +120,69 @@ export const SetSuperfluidAssetsProposal = {
     }
     return obj;
   },
-  fromPartial(object: Partial<SetSuperfluidAssetsProposal>): SetSuperfluidAssetsProposal {
+  fromPartial(object: DeepPartial<SetSuperfluidAssetsProposal>): SetSuperfluidAssetsProposal {
     const message = createBaseSetSuperfluidAssetsProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
     message.assets = object.assets?.map(e => SuperfluidAsset.fromPartial(e)) || [];
     return message;
+  },
+  fromSDK(object: SetSuperfluidAssetsProposalSDKType): SetSuperfluidAssetsProposal {
+    return {
+      title: object?.title,
+      description: object?.description,
+      assets: Array.isArray(object?.assets) ? object.assets.map((e: any) => SuperfluidAsset.fromSDK(e)) : []
+    };
+  },
+  toSDK(message: SetSuperfluidAssetsProposal): SetSuperfluidAssetsProposalSDKType {
+    const obj: any = {};
+    obj.title = message.title;
+    obj.description = message.description;
+    if (message.assets) {
+      obj.assets = message.assets.map(e => e ? SuperfluidAsset.toSDK(e) : undefined);
+    } else {
+      obj.assets = [];
+    }
+    return obj;
+  },
+  fromAmino(object: SetSuperfluidAssetsProposalAmino): SetSuperfluidAssetsProposal {
+    return {
+      title: object.title,
+      description: object.description,
+      assets: Array.isArray(object?.assets) ? object.assets.map((e: any) => SuperfluidAsset.fromAmino(e)) : []
+    };
+  },
+  toAmino(message: SetSuperfluidAssetsProposal): SetSuperfluidAssetsProposalAmino {
+    const obj: any = {};
+    obj.title = message.title;
+    obj.description = message.description;
+    if (message.assets) {
+      obj.assets = message.assets.map(e => e ? SuperfluidAsset.toAmino(e) : undefined);
+    } else {
+      obj.assets = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: SetSuperfluidAssetsProposalAminoMsg): SetSuperfluidAssetsProposal {
+    return SetSuperfluidAssetsProposal.fromAmino(object.value);
+  },
+  toAminoMsg(message: SetSuperfluidAssetsProposal): SetSuperfluidAssetsProposalAminoMsg {
+    return {
+      type: "osmosis/v1beta1/set-superfluid-assets-proposal",
+      value: SetSuperfluidAssetsProposal.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: SetSuperfluidAssetsProposalProtoMsg): SetSuperfluidAssetsProposal {
+    return SetSuperfluidAssetsProposal.decode(message.value);
+  },
+  toProto(message: SetSuperfluidAssetsProposal): Uint8Array {
+    return SetSuperfluidAssetsProposal.encode(message).finish();
+  },
+  toProtoMsg(message: SetSuperfluidAssetsProposal): SetSuperfluidAssetsProposalProtoMsg {
+    return {
+      typeUrl: "/osmosis.superfluid.v1beta1.SetSuperfluidAssetsProposal",
+      value: SetSuperfluidAssetsProposal.encode(message).finish()
+    };
   }
 };
 function createBaseRemoveSuperfluidAssetsProposal(): RemoveSuperfluidAssetsProposal {
@@ -134,6 +193,8 @@ function createBaseRemoveSuperfluidAssetsProposal(): RemoveSuperfluidAssetsPropo
   };
 }
 export const RemoveSuperfluidAssetsProposal = {
+  typeUrl: "/osmosis.superfluid.v1beta1.RemoveSuperfluidAssetsProposal",
+  aminoType: "osmosis/v1beta1/remove-superfluid-assets-proposal",
   encode(message: RemoveSuperfluidAssetsProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -187,12 +248,69 @@ export const RemoveSuperfluidAssetsProposal = {
     }
     return obj;
   },
-  fromPartial(object: Partial<RemoveSuperfluidAssetsProposal>): RemoveSuperfluidAssetsProposal {
+  fromPartial(object: DeepPartial<RemoveSuperfluidAssetsProposal>): RemoveSuperfluidAssetsProposal {
     const message = createBaseRemoveSuperfluidAssetsProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
     message.superfluidAssetDenoms = object.superfluidAssetDenoms?.map(e => e) || [];
     return message;
+  },
+  fromSDK(object: RemoveSuperfluidAssetsProposalSDKType): RemoveSuperfluidAssetsProposal {
+    return {
+      title: object?.title,
+      description: object?.description,
+      superfluidAssetDenoms: Array.isArray(object?.superfluid_asset_denoms) ? object.superfluid_asset_denoms.map((e: any) => e) : []
+    };
+  },
+  toSDK(message: RemoveSuperfluidAssetsProposal): RemoveSuperfluidAssetsProposalSDKType {
+    const obj: any = {};
+    obj.title = message.title;
+    obj.description = message.description;
+    if (message.superfluidAssetDenoms) {
+      obj.superfluid_asset_denoms = message.superfluidAssetDenoms.map(e => e);
+    } else {
+      obj.superfluid_asset_denoms = [];
+    }
+    return obj;
+  },
+  fromAmino(object: RemoveSuperfluidAssetsProposalAmino): RemoveSuperfluidAssetsProposal {
+    return {
+      title: object.title,
+      description: object.description,
+      superfluidAssetDenoms: Array.isArray(object?.superfluid_asset_denoms) ? object.superfluid_asset_denoms.map((e: any) => e) : []
+    };
+  },
+  toAmino(message: RemoveSuperfluidAssetsProposal): RemoveSuperfluidAssetsProposalAmino {
+    const obj: any = {};
+    obj.title = message.title;
+    obj.description = message.description;
+    if (message.superfluidAssetDenoms) {
+      obj.superfluid_asset_denoms = message.superfluidAssetDenoms.map(e => e);
+    } else {
+      obj.superfluid_asset_denoms = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: RemoveSuperfluidAssetsProposalAminoMsg): RemoveSuperfluidAssetsProposal {
+    return RemoveSuperfluidAssetsProposal.fromAmino(object.value);
+  },
+  toAminoMsg(message: RemoveSuperfluidAssetsProposal): RemoveSuperfluidAssetsProposalAminoMsg {
+    return {
+      type: "osmosis/v1beta1/remove-superfluid-assets-proposal",
+      value: RemoveSuperfluidAssetsProposal.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: RemoveSuperfluidAssetsProposalProtoMsg): RemoveSuperfluidAssetsProposal {
+    return RemoveSuperfluidAssetsProposal.decode(message.value);
+  },
+  toProto(message: RemoveSuperfluidAssetsProposal): Uint8Array {
+    return RemoveSuperfluidAssetsProposal.encode(message).finish();
+  },
+  toProtoMsg(message: RemoveSuperfluidAssetsProposal): RemoveSuperfluidAssetsProposalProtoMsg {
+    return {
+      typeUrl: "/osmosis.superfluid.v1beta1.RemoveSuperfluidAssetsProposal",
+      value: RemoveSuperfluidAssetsProposal.encode(message).finish()
+    };
   }
 };
 function createBaseUpdateUnpoolWhiteListProposal(): UpdateUnpoolWhiteListProposal {
@@ -204,6 +322,8 @@ function createBaseUpdateUnpoolWhiteListProposal(): UpdateUnpoolWhiteListProposa
   };
 }
 export const UpdateUnpoolWhiteListProposal = {
+  typeUrl: "/osmosis.superfluid.v1beta1.UpdateUnpoolWhiteListProposal",
+  aminoType: "osmosis/v1beta1/update-unpool-white-list-proposal",
   encode(message: UpdateUnpoolWhiteListProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -274,12 +394,73 @@ export const UpdateUnpoolWhiteListProposal = {
     message.isOverwrite !== undefined && (obj.isOverwrite = message.isOverwrite);
     return obj;
   },
-  fromPartial(object: Partial<UpdateUnpoolWhiteListProposal>): UpdateUnpoolWhiteListProposal {
+  fromPartial(object: DeepPartial<UpdateUnpoolWhiteListProposal>): UpdateUnpoolWhiteListProposal {
     const message = createBaseUpdateUnpoolWhiteListProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
     message.ids = object.ids?.map(e => BigInt(e.toString())) || [];
     message.isOverwrite = object.isOverwrite ?? false;
     return message;
+  },
+  fromSDK(object: UpdateUnpoolWhiteListProposalSDKType): UpdateUnpoolWhiteListProposal {
+    return {
+      title: object?.title,
+      description: object?.description,
+      ids: Array.isArray(object?.ids) ? object.ids.map((e: any) => e) : [],
+      isOverwrite: object?.is_overwrite
+    };
+  },
+  toSDK(message: UpdateUnpoolWhiteListProposal): UpdateUnpoolWhiteListProposalSDKType {
+    const obj: any = {};
+    obj.title = message.title;
+    obj.description = message.description;
+    if (message.ids) {
+      obj.ids = message.ids.map(e => e);
+    } else {
+      obj.ids = [];
+    }
+    obj.is_overwrite = message.isOverwrite;
+    return obj;
+  },
+  fromAmino(object: UpdateUnpoolWhiteListProposalAmino): UpdateUnpoolWhiteListProposal {
+    return {
+      title: object.title,
+      description: object.description,
+      ids: Array.isArray(object?.ids) ? object.ids.map((e: any) => BigInt(e)) : [],
+      isOverwrite: object.is_overwrite
+    };
+  },
+  toAmino(message: UpdateUnpoolWhiteListProposal): UpdateUnpoolWhiteListProposalAmino {
+    const obj: any = {};
+    obj.title = message.title;
+    obj.description = message.description;
+    if (message.ids) {
+      obj.ids = message.ids.map(e => e.toString());
+    } else {
+      obj.ids = [];
+    }
+    obj.is_overwrite = message.isOverwrite;
+    return obj;
+  },
+  fromAminoMsg(object: UpdateUnpoolWhiteListProposalAminoMsg): UpdateUnpoolWhiteListProposal {
+    return UpdateUnpoolWhiteListProposal.fromAmino(object.value);
+  },
+  toAminoMsg(message: UpdateUnpoolWhiteListProposal): UpdateUnpoolWhiteListProposalAminoMsg {
+    return {
+      type: "osmosis/v1beta1/update-unpool-white-list-proposal",
+      value: UpdateUnpoolWhiteListProposal.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: UpdateUnpoolWhiteListProposalProtoMsg): UpdateUnpoolWhiteListProposal {
+    return UpdateUnpoolWhiteListProposal.decode(message.value);
+  },
+  toProto(message: UpdateUnpoolWhiteListProposal): Uint8Array {
+    return UpdateUnpoolWhiteListProposal.encode(message).finish();
+  },
+  toProtoMsg(message: UpdateUnpoolWhiteListProposal): UpdateUnpoolWhiteListProposalProtoMsg {
+    return {
+      typeUrl: "/osmosis.superfluid.v1beta1.UpdateUnpoolWhiteListProposal",
+      value: UpdateUnpoolWhiteListProposal.encode(message).finish()
+    };
   }
 };

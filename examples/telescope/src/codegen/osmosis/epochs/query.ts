@@ -1,6 +1,6 @@
 import { EpochInfo, EpochInfoSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { DeepPartial, isSet } from "../../helpers";
 export interface QueryEpochsInfoRequest {}
 export interface QueryEpochsInfoRequestSDKType {}
 export interface QueryEpochsInfoResponse {
@@ -25,6 +25,8 @@ function createBaseQueryEpochsInfoRequest(): QueryEpochsInfoRequest {
   return {};
 }
 export const QueryEpochsInfoRequest = {
+  typeUrl: "/osmosis.epochs.v1beta1.QueryEpochsInfoRequest",
+  aminoType: "osmosis/epochs/query-epochs-info-request",
   encode(_: QueryEpochsInfoRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -49,9 +51,44 @@ export const QueryEpochsInfoRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: Partial<QueryEpochsInfoRequest>): QueryEpochsInfoRequest {
+  fromPartial(_: DeepPartial<QueryEpochsInfoRequest>): QueryEpochsInfoRequest {
     const message = createBaseQueryEpochsInfoRequest();
     return message;
+  },
+  fromSDK(_: QueryEpochsInfoRequestSDKType): QueryEpochsInfoRequest {
+    return {};
+  },
+  toSDK(_: QueryEpochsInfoRequest): QueryEpochsInfoRequestSDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: QueryEpochsInfoRequestAmino): QueryEpochsInfoRequest {
+    return {};
+  },
+  toAmino(_: QueryEpochsInfoRequest): QueryEpochsInfoRequestAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: QueryEpochsInfoRequestAminoMsg): QueryEpochsInfoRequest {
+    return QueryEpochsInfoRequest.fromAmino(object.value);
+  },
+  toAminoMsg(message: QueryEpochsInfoRequest): QueryEpochsInfoRequestAminoMsg {
+    return {
+      type: "osmosis/epochs/query-epochs-info-request",
+      value: QueryEpochsInfoRequest.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: QueryEpochsInfoRequestProtoMsg): QueryEpochsInfoRequest {
+    return QueryEpochsInfoRequest.decode(message.value);
+  },
+  toProto(message: QueryEpochsInfoRequest): Uint8Array {
+    return QueryEpochsInfoRequest.encode(message).finish();
+  },
+  toProtoMsg(message: QueryEpochsInfoRequest): QueryEpochsInfoRequestProtoMsg {
+    return {
+      typeUrl: "/osmosis.epochs.v1beta1.QueryEpochsInfoRequest",
+      value: QueryEpochsInfoRequest.encode(message).finish()
+    };
   }
 };
 function createBaseQueryEpochsInfoResponse(): QueryEpochsInfoResponse {
@@ -60,6 +97,8 @@ function createBaseQueryEpochsInfoResponse(): QueryEpochsInfoResponse {
   };
 }
 export const QueryEpochsInfoResponse = {
+  typeUrl: "/osmosis.epochs.v1beta1.QueryEpochsInfoResponse",
+  aminoType: "osmosis/epochs/query-epochs-info-response",
   encode(message: QueryEpochsInfoResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.epochs) {
       EpochInfo.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -97,10 +136,59 @@ export const QueryEpochsInfoResponse = {
     }
     return obj;
   },
-  fromPartial(object: Partial<QueryEpochsInfoResponse>): QueryEpochsInfoResponse {
+  fromPartial(object: DeepPartial<QueryEpochsInfoResponse>): QueryEpochsInfoResponse {
     const message = createBaseQueryEpochsInfoResponse();
     message.epochs = object.epochs?.map(e => EpochInfo.fromPartial(e)) || [];
     return message;
+  },
+  fromSDK(object: QueryEpochsInfoResponseSDKType): QueryEpochsInfoResponse {
+    return {
+      epochs: Array.isArray(object?.epochs) ? object.epochs.map((e: any) => EpochInfo.fromSDK(e)) : []
+    };
+  },
+  toSDK(message: QueryEpochsInfoResponse): QueryEpochsInfoResponseSDKType {
+    const obj: any = {};
+    if (message.epochs) {
+      obj.epochs = message.epochs.map(e => e ? EpochInfo.toSDK(e) : undefined);
+    } else {
+      obj.epochs = [];
+    }
+    return obj;
+  },
+  fromAmino(object: QueryEpochsInfoResponseAmino): QueryEpochsInfoResponse {
+    return {
+      epochs: Array.isArray(object?.epochs) ? object.epochs.map((e: any) => EpochInfo.fromAmino(e)) : []
+    };
+  },
+  toAmino(message: QueryEpochsInfoResponse): QueryEpochsInfoResponseAmino {
+    const obj: any = {};
+    if (message.epochs) {
+      obj.epochs = message.epochs.map(e => e ? EpochInfo.toAmino(e) : undefined);
+    } else {
+      obj.epochs = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: QueryEpochsInfoResponseAminoMsg): QueryEpochsInfoResponse {
+    return QueryEpochsInfoResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: QueryEpochsInfoResponse): QueryEpochsInfoResponseAminoMsg {
+    return {
+      type: "osmosis/epochs/query-epochs-info-response",
+      value: QueryEpochsInfoResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: QueryEpochsInfoResponseProtoMsg): QueryEpochsInfoResponse {
+    return QueryEpochsInfoResponse.decode(message.value);
+  },
+  toProto(message: QueryEpochsInfoResponse): Uint8Array {
+    return QueryEpochsInfoResponse.encode(message).finish();
+  },
+  toProtoMsg(message: QueryEpochsInfoResponse): QueryEpochsInfoResponseProtoMsg {
+    return {
+      typeUrl: "/osmosis.epochs.v1beta1.QueryEpochsInfoResponse",
+      value: QueryEpochsInfoResponse.encode(message).finish()
+    };
   }
 };
 function createBaseQueryCurrentEpochRequest(): QueryCurrentEpochRequest {
@@ -109,6 +197,8 @@ function createBaseQueryCurrentEpochRequest(): QueryCurrentEpochRequest {
   };
 }
 export const QueryCurrentEpochRequest = {
+  typeUrl: "/osmosis.epochs.v1beta1.QueryCurrentEpochRequest",
+  aminoType: "osmosis/epochs/query-current-epoch-request",
   encode(message: QueryCurrentEpochRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.identifier !== "") {
       writer.uint32(10).string(message.identifier);
@@ -142,10 +232,51 @@ export const QueryCurrentEpochRequest = {
     message.identifier !== undefined && (obj.identifier = message.identifier);
     return obj;
   },
-  fromPartial(object: Partial<QueryCurrentEpochRequest>): QueryCurrentEpochRequest {
+  fromPartial(object: DeepPartial<QueryCurrentEpochRequest>): QueryCurrentEpochRequest {
     const message = createBaseQueryCurrentEpochRequest();
     message.identifier = object.identifier ?? "";
     return message;
+  },
+  fromSDK(object: QueryCurrentEpochRequestSDKType): QueryCurrentEpochRequest {
+    return {
+      identifier: object?.identifier
+    };
+  },
+  toSDK(message: QueryCurrentEpochRequest): QueryCurrentEpochRequestSDKType {
+    const obj: any = {};
+    obj.identifier = message.identifier;
+    return obj;
+  },
+  fromAmino(object: QueryCurrentEpochRequestAmino): QueryCurrentEpochRequest {
+    return {
+      identifier: object.identifier
+    };
+  },
+  toAmino(message: QueryCurrentEpochRequest): QueryCurrentEpochRequestAmino {
+    const obj: any = {};
+    obj.identifier = message.identifier;
+    return obj;
+  },
+  fromAminoMsg(object: QueryCurrentEpochRequestAminoMsg): QueryCurrentEpochRequest {
+    return QueryCurrentEpochRequest.fromAmino(object.value);
+  },
+  toAminoMsg(message: QueryCurrentEpochRequest): QueryCurrentEpochRequestAminoMsg {
+    return {
+      type: "osmosis/epochs/query-current-epoch-request",
+      value: QueryCurrentEpochRequest.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: QueryCurrentEpochRequestProtoMsg): QueryCurrentEpochRequest {
+    return QueryCurrentEpochRequest.decode(message.value);
+  },
+  toProto(message: QueryCurrentEpochRequest): Uint8Array {
+    return QueryCurrentEpochRequest.encode(message).finish();
+  },
+  toProtoMsg(message: QueryCurrentEpochRequest): QueryCurrentEpochRequestProtoMsg {
+    return {
+      typeUrl: "/osmosis.epochs.v1beta1.QueryCurrentEpochRequest",
+      value: QueryCurrentEpochRequest.encode(message).finish()
+    };
   }
 };
 function createBaseQueryCurrentEpochResponse(): QueryCurrentEpochResponse {
@@ -154,6 +285,8 @@ function createBaseQueryCurrentEpochResponse(): QueryCurrentEpochResponse {
   };
 }
 export const QueryCurrentEpochResponse = {
+  typeUrl: "/osmosis.epochs.v1beta1.QueryCurrentEpochResponse",
+  aminoType: "osmosis/epochs/query-current-epoch-response",
   encode(message: QueryCurrentEpochResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.currentEpoch !== BigInt(0)) {
       writer.uint32(8).int64(message.currentEpoch);
@@ -187,9 +320,50 @@ export const QueryCurrentEpochResponse = {
     message.currentEpoch !== undefined && (obj.currentEpoch = (message.currentEpoch || BigInt(0)).toString());
     return obj;
   },
-  fromPartial(object: Partial<QueryCurrentEpochResponse>): QueryCurrentEpochResponse {
+  fromPartial(object: DeepPartial<QueryCurrentEpochResponse>): QueryCurrentEpochResponse {
     const message = createBaseQueryCurrentEpochResponse();
     message.currentEpoch = object.currentEpoch !== undefined && object.currentEpoch !== null ? BigInt(object.currentEpoch.toString()) : BigInt(0);
     return message;
+  },
+  fromSDK(object: QueryCurrentEpochResponseSDKType): QueryCurrentEpochResponse {
+    return {
+      currentEpoch: object?.current_epoch
+    };
+  },
+  toSDK(message: QueryCurrentEpochResponse): QueryCurrentEpochResponseSDKType {
+    const obj: any = {};
+    obj.current_epoch = message.currentEpoch;
+    return obj;
+  },
+  fromAmino(object: QueryCurrentEpochResponseAmino): QueryCurrentEpochResponse {
+    return {
+      currentEpoch: BigInt(object.current_epoch)
+    };
+  },
+  toAmino(message: QueryCurrentEpochResponse): QueryCurrentEpochResponseAmino {
+    const obj: any = {};
+    obj.current_epoch = message.currentEpoch ? message.currentEpoch.toString() : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: QueryCurrentEpochResponseAminoMsg): QueryCurrentEpochResponse {
+    return QueryCurrentEpochResponse.fromAmino(object.value);
+  },
+  toAminoMsg(message: QueryCurrentEpochResponse): QueryCurrentEpochResponseAminoMsg {
+    return {
+      type: "osmosis/epochs/query-current-epoch-response",
+      value: QueryCurrentEpochResponse.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: QueryCurrentEpochResponseProtoMsg): QueryCurrentEpochResponse {
+    return QueryCurrentEpochResponse.decode(message.value);
+  },
+  toProto(message: QueryCurrentEpochResponse): Uint8Array {
+    return QueryCurrentEpochResponse.encode(message).finish();
+  },
+  toProtoMsg(message: QueryCurrentEpochResponse): QueryCurrentEpochResponseProtoMsg {
+    return {
+      typeUrl: "/osmosis.epochs.v1beta1.QueryCurrentEpochResponse",
+      value: QueryCurrentEpochResponse.encode(message).finish()
+    };
   }
 };

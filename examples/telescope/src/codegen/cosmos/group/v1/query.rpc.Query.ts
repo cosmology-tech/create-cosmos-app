@@ -1,6 +1,9 @@
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { ReactQueryParams } from "../../../react-query";
+import { useQuery } from "@tanstack/react-query";
+import { QueryStore } from "../../../mobx";
 import { QueryGroupInfoRequest, QueryGroupInfoResponse, QueryGroupPolicyInfoRequest, QueryGroupPolicyInfoResponse, QueryGroupMembersRequest, QueryGroupMembersResponse, QueryGroupsByAdminRequest, QueryGroupsByAdminResponse, QueryGroupPoliciesByGroupRequest, QueryGroupPoliciesByGroupResponse, QueryGroupPoliciesByAdminRequest, QueryGroupPoliciesByAdminResponse, QueryProposalRequest, QueryProposalResponse, QueryProposalsByGroupPolicyRequest, QueryProposalsByGroupPolicyResponse, QueryVoteByProposalVoterRequest, QueryVoteByProposalVoterResponse, QueryVotesByProposalRequest, QueryVotesByProposalResponse, QueryVotesByVoterRequest, QueryVotesByVoterResponse, QueryGroupsByMemberRequest, QueryGroupsByMemberResponse, QueryTallyResultRequest, QueryTallyResultResponse } from "./query";
 /** Query is the cosmos.group.v1 Query service. */
 export interface Query {
@@ -158,5 +161,285 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     tallyResult(request: QueryTallyResultRequest): Promise<QueryTallyResultResponse> {
       return queryService.tallyResult(request);
     }
+  };
+};
+export interface UseGroupInfoQuery<TData> extends ReactQueryParams<QueryGroupInfoResponse, TData> {
+  request: QueryGroupInfoRequest;
+}
+export interface UseGroupPolicyInfoQuery<TData> extends ReactQueryParams<QueryGroupPolicyInfoResponse, TData> {
+  request: QueryGroupPolicyInfoRequest;
+}
+export interface UseGroupMembersQuery<TData> extends ReactQueryParams<QueryGroupMembersResponse, TData> {
+  request: QueryGroupMembersRequest;
+}
+export interface UseGroupsByAdminQuery<TData> extends ReactQueryParams<QueryGroupsByAdminResponse, TData> {
+  request: QueryGroupsByAdminRequest;
+}
+export interface UseGroupPoliciesByGroupQuery<TData> extends ReactQueryParams<QueryGroupPoliciesByGroupResponse, TData> {
+  request: QueryGroupPoliciesByGroupRequest;
+}
+export interface UseGroupPoliciesByAdminQuery<TData> extends ReactQueryParams<QueryGroupPoliciesByAdminResponse, TData> {
+  request: QueryGroupPoliciesByAdminRequest;
+}
+export interface UseProposalQuery<TData> extends ReactQueryParams<QueryProposalResponse, TData> {
+  request: QueryProposalRequest;
+}
+export interface UseProposalsByGroupPolicyQuery<TData> extends ReactQueryParams<QueryProposalsByGroupPolicyResponse, TData> {
+  request: QueryProposalsByGroupPolicyRequest;
+}
+export interface UseVoteByProposalVoterQuery<TData> extends ReactQueryParams<QueryVoteByProposalVoterResponse, TData> {
+  request: QueryVoteByProposalVoterRequest;
+}
+export interface UseVotesByProposalQuery<TData> extends ReactQueryParams<QueryVotesByProposalResponse, TData> {
+  request: QueryVotesByProposalRequest;
+}
+export interface UseVotesByVoterQuery<TData> extends ReactQueryParams<QueryVotesByVoterResponse, TData> {
+  request: QueryVotesByVoterRequest;
+}
+export interface UseGroupsByMemberQuery<TData> extends ReactQueryParams<QueryGroupsByMemberResponse, TData> {
+  request: QueryGroupsByMemberRequest;
+}
+export interface UseTallyResultQuery<TData> extends ReactQueryParams<QueryTallyResultResponse, TData> {
+  request: QueryTallyResultRequest;
+}
+const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
+const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
+  if (!rpc) return;
+  if (_queryClients.has(rpc)) {
+    return _queryClients.get(rpc);
+  }
+  const queryService = new QueryClientImpl(rpc);
+  _queryClients.set(rpc, queryService);
+  return queryService;
+};
+export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
+  const queryService = getQueryService(rpc);
+  const useGroupInfo = <TData = QueryGroupInfoResponse,>({
+    request,
+    options
+  }: UseGroupInfoQuery<TData>) => {
+    return useQuery<QueryGroupInfoResponse, Error, TData>(["groupInfoQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.groupInfo(request);
+    }, options);
+  };
+  const useGroupPolicyInfo = <TData = QueryGroupPolicyInfoResponse,>({
+    request,
+    options
+  }: UseGroupPolicyInfoQuery<TData>) => {
+    return useQuery<QueryGroupPolicyInfoResponse, Error, TData>(["groupPolicyInfoQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.groupPolicyInfo(request);
+    }, options);
+  };
+  const useGroupMembers = <TData = QueryGroupMembersResponse,>({
+    request,
+    options
+  }: UseGroupMembersQuery<TData>) => {
+    return useQuery<QueryGroupMembersResponse, Error, TData>(["groupMembersQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.groupMembers(request);
+    }, options);
+  };
+  const useGroupsByAdmin = <TData = QueryGroupsByAdminResponse,>({
+    request,
+    options
+  }: UseGroupsByAdminQuery<TData>) => {
+    return useQuery<QueryGroupsByAdminResponse, Error, TData>(["groupsByAdminQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.groupsByAdmin(request);
+    }, options);
+  };
+  const useGroupPoliciesByGroup = <TData = QueryGroupPoliciesByGroupResponse,>({
+    request,
+    options
+  }: UseGroupPoliciesByGroupQuery<TData>) => {
+    return useQuery<QueryGroupPoliciesByGroupResponse, Error, TData>(["groupPoliciesByGroupQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.groupPoliciesByGroup(request);
+    }, options);
+  };
+  const useGroupPoliciesByAdmin = <TData = QueryGroupPoliciesByAdminResponse,>({
+    request,
+    options
+  }: UseGroupPoliciesByAdminQuery<TData>) => {
+    return useQuery<QueryGroupPoliciesByAdminResponse, Error, TData>(["groupPoliciesByAdminQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.groupPoliciesByAdmin(request);
+    }, options);
+  };
+  const useProposal = <TData = QueryProposalResponse,>({
+    request,
+    options
+  }: UseProposalQuery<TData>) => {
+    return useQuery<QueryProposalResponse, Error, TData>(["proposalQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.proposal(request);
+    }, options);
+  };
+  const useProposalsByGroupPolicy = <TData = QueryProposalsByGroupPolicyResponse,>({
+    request,
+    options
+  }: UseProposalsByGroupPolicyQuery<TData>) => {
+    return useQuery<QueryProposalsByGroupPolicyResponse, Error, TData>(["proposalsByGroupPolicyQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.proposalsByGroupPolicy(request);
+    }, options);
+  };
+  const useVoteByProposalVoter = <TData = QueryVoteByProposalVoterResponse,>({
+    request,
+    options
+  }: UseVoteByProposalVoterQuery<TData>) => {
+    return useQuery<QueryVoteByProposalVoterResponse, Error, TData>(["voteByProposalVoterQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.voteByProposalVoter(request);
+    }, options);
+  };
+  const useVotesByProposal = <TData = QueryVotesByProposalResponse,>({
+    request,
+    options
+  }: UseVotesByProposalQuery<TData>) => {
+    return useQuery<QueryVotesByProposalResponse, Error, TData>(["votesByProposalQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.votesByProposal(request);
+    }, options);
+  };
+  const useVotesByVoter = <TData = QueryVotesByVoterResponse,>({
+    request,
+    options
+  }: UseVotesByVoterQuery<TData>) => {
+    return useQuery<QueryVotesByVoterResponse, Error, TData>(["votesByVoterQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.votesByVoter(request);
+    }, options);
+  };
+  const useGroupsByMember = <TData = QueryGroupsByMemberResponse,>({
+    request,
+    options
+  }: UseGroupsByMemberQuery<TData>) => {
+    return useQuery<QueryGroupsByMemberResponse, Error, TData>(["groupsByMemberQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.groupsByMember(request);
+    }, options);
+  };
+  const useTallyResult = <TData = QueryTallyResultResponse,>({
+    request,
+    options
+  }: UseTallyResultQuery<TData>) => {
+    return useQuery<QueryTallyResultResponse, Error, TData>(["tallyResultQuery", request], () => {
+      if (!queryService) throw new Error("Query Service not initialized");
+      return queryService.tallyResult(request);
+    }, options);
+  };
+  return {
+    /** GroupInfo queries group info based on group id. */useGroupInfo,
+    /** GroupPolicyInfo queries group policy info based on account address of group policy. */useGroupPolicyInfo,
+    /** GroupMembers queries members of a group */useGroupMembers,
+    /** GroupsByAdmin queries groups by admin address. */useGroupsByAdmin,
+    /** GroupPoliciesByGroup queries group policies by group id. */useGroupPoliciesByGroup,
+    /** GroupsByAdmin queries group policies by admin address. */useGroupPoliciesByAdmin,
+    /** Proposal queries a proposal based on proposal id. */useProposal,
+    /** ProposalsByGroupPolicy queries proposals based on account address of group policy. */useProposalsByGroupPolicy,
+    /** VoteByProposalVoter queries a vote by proposal id and voter. */useVoteByProposalVoter,
+    /** VotesByProposal queries a vote by proposal. */useVotesByProposal,
+    /** VotesByVoter queries a vote by voter. */useVotesByVoter,
+    /** GroupsByMember queries groups by member address. */useGroupsByMember,
+    /** TallyResult queries the tally of a proposal votes. */useTallyResult
+  };
+};
+export const createRpcQueryMobxStores = (rpc: ProtobufRpcClient | undefined) => {
+  const queryService = getQueryService(rpc);
+  class QueryGroupInfoStore {
+    store = new QueryStore<QueryGroupInfoRequest, QueryGroupInfoResponse>(queryService?.groupInfo);
+    groupInfo(request: QueryGroupInfoRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryGroupPolicyInfoStore {
+    store = new QueryStore<QueryGroupPolicyInfoRequest, QueryGroupPolicyInfoResponse>(queryService?.groupPolicyInfo);
+    groupPolicyInfo(request: QueryGroupPolicyInfoRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryGroupMembersStore {
+    store = new QueryStore<QueryGroupMembersRequest, QueryGroupMembersResponse>(queryService?.groupMembers);
+    groupMembers(request: QueryGroupMembersRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryGroupsByAdminStore {
+    store = new QueryStore<QueryGroupsByAdminRequest, QueryGroupsByAdminResponse>(queryService?.groupsByAdmin);
+    groupsByAdmin(request: QueryGroupsByAdminRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryGroupPoliciesByGroupStore {
+    store = new QueryStore<QueryGroupPoliciesByGroupRequest, QueryGroupPoliciesByGroupResponse>(queryService?.groupPoliciesByGroup);
+    groupPoliciesByGroup(request: QueryGroupPoliciesByGroupRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryGroupPoliciesByAdminStore {
+    store = new QueryStore<QueryGroupPoliciesByAdminRequest, QueryGroupPoliciesByAdminResponse>(queryService?.groupPoliciesByAdmin);
+    groupPoliciesByAdmin(request: QueryGroupPoliciesByAdminRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryProposalStore {
+    store = new QueryStore<QueryProposalRequest, QueryProposalResponse>(queryService?.proposal);
+    proposal(request: QueryProposalRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryProposalsByGroupPolicyStore {
+    store = new QueryStore<QueryProposalsByGroupPolicyRequest, QueryProposalsByGroupPolicyResponse>(queryService?.proposalsByGroupPolicy);
+    proposalsByGroupPolicy(request: QueryProposalsByGroupPolicyRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryVoteByProposalVoterStore {
+    store = new QueryStore<QueryVoteByProposalVoterRequest, QueryVoteByProposalVoterResponse>(queryService?.voteByProposalVoter);
+    voteByProposalVoter(request: QueryVoteByProposalVoterRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryVotesByProposalStore {
+    store = new QueryStore<QueryVotesByProposalRequest, QueryVotesByProposalResponse>(queryService?.votesByProposal);
+    votesByProposal(request: QueryVotesByProposalRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryVotesByVoterStore {
+    store = new QueryStore<QueryVotesByVoterRequest, QueryVotesByVoterResponse>(queryService?.votesByVoter);
+    votesByVoter(request: QueryVotesByVoterRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryGroupsByMemberStore {
+    store = new QueryStore<QueryGroupsByMemberRequest, QueryGroupsByMemberResponse>(queryService?.groupsByMember);
+    groupsByMember(request: QueryGroupsByMemberRequest) {
+      return this.store.getData(request);
+    }
+  }
+  class QueryTallyResultStore {
+    store = new QueryStore<QueryTallyResultRequest, QueryTallyResultResponse>(queryService?.tallyResult);
+    tallyResult(request: QueryTallyResultRequest) {
+      return this.store.getData(request);
+    }
+  }
+  return {
+    /** GroupInfo queries group info based on group id. */QueryGroupInfoStore,
+    /** GroupPolicyInfo queries group policy info based on account address of group policy. */QueryGroupPolicyInfoStore,
+    /** GroupMembers queries members of a group */QueryGroupMembersStore,
+    /** GroupsByAdmin queries groups by admin address. */QueryGroupsByAdminStore,
+    /** GroupPoliciesByGroup queries group policies by group id. */QueryGroupPoliciesByGroupStore,
+    /** GroupsByAdmin queries group policies by admin address. */QueryGroupPoliciesByAdminStore,
+    /** Proposal queries a proposal based on proposal id. */QueryProposalStore,
+    /** ProposalsByGroupPolicy queries proposals based on account address of group policy. */QueryProposalsByGroupPolicyStore,
+    /** VoteByProposalVoter queries a vote by proposal id and voter. */QueryVoteByProposalVoterStore,
+    /** VotesByProposal queries a vote by proposal. */QueryVotesByProposalStore,
+    /** VotesByVoter queries a vote by voter. */QueryVotesByVoterStore,
+    /** GroupsByMember queries groups by member address. */QueryGroupsByMemberStore,
+    /** TallyResult queries the tally of a proposal votes. */QueryTallyResultStore
   };
 };

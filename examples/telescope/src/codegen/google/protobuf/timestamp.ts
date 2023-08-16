@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { isSet, DeepPartial, fromJsonTimestamp, fromTimestamp } from "../../helpers";
 /**
  * A Timestamp represents a point in time independent of any time zone or local
  * calendar, encoded as a count of seconds and fractions of seconds at
@@ -194,6 +194,7 @@ function createBaseTimestamp(): Timestamp {
   };
 }
 export const Timestamp = {
+  typeUrl: "/google.protobuf.Timestamp",
   encode(message: Timestamp, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.seconds !== BigInt(0)) {
       writer.uint32(8).int64(message.seconds);
@@ -235,10 +236,43 @@ export const Timestamp = {
     message.nanos !== undefined && (obj.nanos = Math.round(message.nanos));
     return obj;
   },
-  fromPartial(object: Partial<Timestamp>): Timestamp {
+  fromPartial(object: DeepPartial<Timestamp>): Timestamp {
     const message = createBaseTimestamp();
     message.seconds = object.seconds !== undefined && object.seconds !== null ? BigInt(object.seconds.toString()) : BigInt(0);
     message.nanos = object.nanos ?? 0;
     return message;
+  },
+  fromSDK(object: TimestampSDKType): Timestamp {
+    return {
+      seconds: object?.seconds,
+      nanos: object?.nanos
+    };
+  },
+  toSDK(message: Timestamp): TimestampSDKType {
+    const obj: any = {};
+    obj.seconds = message.seconds;
+    obj.nanos = message.nanos;
+    return obj;
+  },
+  fromAmino(object: TimestampAmino): Timestamp {
+    return fromJsonTimestamp(object);
+  },
+  toAmino(message: Timestamp): TimestampAmino {
+    return fromTimestamp(message).toString();
+  },
+  fromAminoMsg(object: TimestampAminoMsg): Timestamp {
+    return Timestamp.fromAmino(object.value);
+  },
+  fromProtoMsg(message: TimestampProtoMsg): Timestamp {
+    return Timestamp.decode(message.value);
+  },
+  toProto(message: Timestamp): Uint8Array {
+    return Timestamp.encode(message).finish();
+  },
+  toProtoMsg(message: Timestamp): TimestampProtoMsg {
+    return {
+      typeUrl: "/google.protobuf.Timestamp",
+      value: Timestamp.encode(message).finish()
+    };
   }
 };

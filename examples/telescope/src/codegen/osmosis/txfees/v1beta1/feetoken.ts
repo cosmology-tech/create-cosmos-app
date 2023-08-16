@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet } from "../../../helpers";
+import { isSet, DeepPartial } from "../../../helpers";
 /**
  * FeeToken is a struct that specifies a coin denom, and pool ID pair.
  * This marks the token as eligible for use as a tx fee asset in Osmosis.
@@ -27,6 +27,8 @@ function createBaseFeeToken(): FeeToken {
   };
 }
 export const FeeToken = {
+  typeUrl: "/osmosis.txfees.v1beta1.FeeToken",
+  aminoType: "osmosis/txfees/fee-token",
   encode(message: FeeToken, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
@@ -68,10 +70,55 @@ export const FeeToken = {
     message.poolID !== undefined && (obj.poolID = (message.poolID || BigInt(0)).toString());
     return obj;
   },
-  fromPartial(object: Partial<FeeToken>): FeeToken {
+  fromPartial(object: DeepPartial<FeeToken>): FeeToken {
     const message = createBaseFeeToken();
     message.denom = object.denom ?? "";
     message.poolID = object.poolID !== undefined && object.poolID !== null ? BigInt(object.poolID.toString()) : BigInt(0);
     return message;
+  },
+  fromSDK(object: FeeTokenSDKType): FeeToken {
+    return {
+      denom: object?.denom,
+      poolID: object?.poolID
+    };
+  },
+  toSDK(message: FeeToken): FeeTokenSDKType {
+    const obj: any = {};
+    obj.denom = message.denom;
+    obj.poolID = message.poolID;
+    return obj;
+  },
+  fromAmino(object: FeeTokenAmino): FeeToken {
+    return {
+      denom: object.denom,
+      poolID: BigInt(object.poolID)
+    };
+  },
+  toAmino(message: FeeToken): FeeTokenAmino {
+    const obj: any = {};
+    obj.denom = message.denom;
+    obj.poolID = message.poolID ? message.poolID.toString() : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: FeeTokenAminoMsg): FeeToken {
+    return FeeToken.fromAmino(object.value);
+  },
+  toAminoMsg(message: FeeToken): FeeTokenAminoMsg {
+    return {
+      type: "osmosis/txfees/fee-token",
+      value: FeeToken.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: FeeTokenProtoMsg): FeeToken {
+    return FeeToken.decode(message.value);
+  },
+  toProto(message: FeeToken): Uint8Array {
+    return FeeToken.encode(message).finish();
+  },
+  toProtoMsg(message: FeeToken): FeeTokenProtoMsg {
+    return {
+      typeUrl: "/osmosis.txfees.v1beta1.FeeToken",
+      value: FeeToken.encode(message).finish()
+    };
   }
 };

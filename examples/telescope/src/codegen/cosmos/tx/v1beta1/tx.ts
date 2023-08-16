@@ -3,16 +3,16 @@ import { SignMode, signModeFromJSON, signModeToJSON } from "../signing/v1beta1/s
 import { CompactBitArray, CompactBitArraySDKType } from "../../crypto/multisig/v1beta1/multisig";
 import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet, bytesFromBase64, base64FromBytes } from "../../../helpers";
+import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 /** Tx is the standard type used for broadcasting transactions. */
 export interface Tx {
   /** body is the processable content of the transaction */
-  body: TxBody;
+  body: TxBody | undefined;
   /**
    * auth_info is the authorization related content of the transaction,
    * specifically signers, signer modes and fee
    */
-  authInfo: AuthInfo;
+  authInfo: AuthInfo | undefined;
   /**
    * signatures is a list of signatures that matches the length and order of
    * AuthInfo's signer_infos to allow connecting signature meta information like
@@ -22,8 +22,8 @@ export interface Tx {
 }
 /** Tx is the standard type used for broadcasting transactions. */
 export interface TxSDKType {
-  body: TxBodySDKType;
-  auth_info: AuthInfoSDKType;
+  body: TxBodySDKType | undefined;
+  auth_info: AuthInfoSDKType | undefined;
   signatures: Uint8Array[];
 }
 /**
@@ -104,7 +104,7 @@ export interface SignDocDirectAux {
    */
   bodyBytes: Uint8Array;
   /** public_key is the public key of the signing account. */
-  publicKey: Any;
+  publicKey: Any | undefined;
   /**
    * chain_id is the identifier of the chain this transaction targets.
    * It prevents signed transactions from being used on another chain by an
@@ -119,7 +119,7 @@ export interface SignDocDirectAux {
    * Tip is the optional tip used for meta-transactions. It should be left
    * empty if the signer is not the tipper for this transaction.
    */
-  tip: Tip;
+  tip: Tip | undefined;
 }
 /**
  * SignDocDirectAux is the type used for generating sign bytes for
@@ -129,11 +129,11 @@ export interface SignDocDirectAux {
  */
 export interface SignDocDirectAuxSDKType {
   body_bytes: Uint8Array;
-  public_key: AnySDKType;
+  public_key: AnySDKType | undefined;
   chain_id: string;
   account_number: bigint;
   sequence: bigint;
-  tip: TipSDKType;
+  tip: TipSDKType | undefined;
 }
 /** TxBody is the body of a transaction that all signers sign over. */
 export interface TxBody {
@@ -197,13 +197,13 @@ export interface AuthInfo {
    * based on the cost of evaluating the body and doing signature verification
    * of the signers. This can be estimated via simulation.
    */
-  fee: Fee;
+  fee: Fee | undefined;
   /**
    * Tip is the optional tip used for meta-transactions.
    * 
    * Since: cosmos-sdk 0.46
    */
-  tip: Tip;
+  tip: Tip | undefined;
 }
 /**
  * AuthInfo describes the fee and signer modes that are used to sign a
@@ -211,8 +211,8 @@ export interface AuthInfo {
  */
 export interface AuthInfoSDKType {
   signer_infos: SignerInfoSDKType[];
-  fee: FeeSDKType;
-  tip: TipSDKType;
+  fee: FeeSDKType | undefined;
+  tip: TipSDKType | undefined;
 }
 /**
  * SignerInfo describes the public key and signing mode of a single top-level
@@ -224,12 +224,12 @@ export interface SignerInfo {
    * that already exist in state. If unset, the verifier can use the required \
    * signer address for this position and lookup the public key.
    */
-  publicKey: Any;
+  publicKey: Any | undefined;
   /**
    * mode_info describes the signing mode of the signer and is a nested
    * structure to support nested multisig pubkey's
    */
-  modeInfo: ModeInfo;
+  modeInfo: ModeInfo | undefined;
   /**
    * sequence is the sequence of the account, which describes the
    * number of committed transactions signed by a given address. It is used to
@@ -242,21 +242,21 @@ export interface SignerInfo {
  * signer.
  */
 export interface SignerInfoSDKType {
-  public_key: AnySDKType;
-  mode_info: ModeInfoSDKType;
+  public_key: AnySDKType | undefined;
+  mode_info: ModeInfoSDKType | undefined;
   sequence: bigint;
 }
 /** ModeInfo describes the signing mode of a single or nested multisig signer. */
 export interface ModeInfo {
   /** single represents a single signer */
-  single?: ModeInfo_Single;
+  single?: ModeInfo_Single | undefined;
   /** multi represents a nested multisig signer */
-  multi?: ModeInfo_Multi;
+  multi?: ModeInfo_Multi | undefined;
 }
 /** ModeInfo describes the signing mode of a single or nested multisig signer. */
 export interface ModeInfoSDKType {
-  single?: ModeInfo_SingleSDKType;
-  multi?: ModeInfo_MultiSDKType;
+  single?: ModeInfo_SingleSDKType | undefined;
+  multi?: ModeInfo_MultiSDKType | undefined;
 }
 /**
  * Single is the mode info for a single signer. It is structured as a message
@@ -278,7 +278,7 @@ export interface ModeInfo_SingleSDKType {
 /** Multi is the mode info for a multisig public key */
 export interface ModeInfo_Multi {
   /** bitarray specifies which keys within the multisig are signing */
-  bitarray: CompactBitArray;
+  bitarray: CompactBitArray | undefined;
   /**
    * mode_infos is the corresponding modes of the signers of the multisig
    * which could include nested multisig public keys
@@ -287,7 +287,7 @@ export interface ModeInfo_Multi {
 }
 /** Multi is the mode info for a multisig public key */
 export interface ModeInfo_MultiSDKType {
-  bitarray: CompactBitArraySDKType;
+  bitarray: CompactBitArraySDKType | undefined;
   mode_infos: ModeInfoSDKType[];
 }
 /**
@@ -367,7 +367,7 @@ export interface AuxSignerData {
    * signs. Note: we use the same sign doc even if we're signing with
    * LEGACY_AMINO_JSON.
    */
-  signDoc: SignDocDirectAux;
+  signDoc: SignDocDirectAux | undefined;
   /** mode is the signing mode of the single signer */
   mode: SignMode;
   /** sig is the signature of the sign doc. */
@@ -383,7 +383,7 @@ export interface AuxSignerData {
  */
 export interface AuxSignerDataSDKType {
   address: string;
-  sign_doc: SignDocDirectAuxSDKType;
+  sign_doc: SignDocDirectAuxSDKType | undefined;
   mode: SignMode;
   sig: Uint8Array;
 }
@@ -395,6 +395,8 @@ function createBaseTx(): Tx {
   };
 }
 export const Tx = {
+  typeUrl: "/cosmos.tx.v1beta1.Tx",
+  aminoType: "cosmos-sdk/Tx",
   encode(message: Tx, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.body !== undefined) {
       TxBody.encode(message.body, writer.uint32(10).fork()).ldelim();
@@ -448,12 +450,69 @@ export const Tx = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Tx>): Tx {
+  fromPartial(object: DeepPartial<Tx>): Tx {
     const message = createBaseTx();
     message.body = object.body !== undefined && object.body !== null ? TxBody.fromPartial(object.body) : undefined;
     message.authInfo = object.authInfo !== undefined && object.authInfo !== null ? AuthInfo.fromPartial(object.authInfo) : undefined;
     message.signatures = object.signatures?.map(e => e) || [];
     return message;
+  },
+  fromSDK(object: TxSDKType): Tx {
+    return {
+      body: object.body ? TxBody.fromSDK(object.body) : undefined,
+      authInfo: object.auth_info ? AuthInfo.fromSDK(object.auth_info) : undefined,
+      signatures: Array.isArray(object?.signatures) ? object.signatures.map((e: any) => e) : []
+    };
+  },
+  toSDK(message: Tx): TxSDKType {
+    const obj: any = {};
+    message.body !== undefined && (obj.body = message.body ? TxBody.toSDK(message.body) : undefined);
+    message.authInfo !== undefined && (obj.auth_info = message.authInfo ? AuthInfo.toSDK(message.authInfo) : undefined);
+    if (message.signatures) {
+      obj.signatures = message.signatures.map(e => e);
+    } else {
+      obj.signatures = [];
+    }
+    return obj;
+  },
+  fromAmino(object: TxAmino): Tx {
+    return {
+      body: object?.body ? TxBody.fromAmino(object.body) : undefined,
+      authInfo: object?.auth_info ? AuthInfo.fromAmino(object.auth_info) : undefined,
+      signatures: Array.isArray(object?.signatures) ? object.signatures.map((e: any) => e) : []
+    };
+  },
+  toAmino(message: Tx): TxAmino {
+    const obj: any = {};
+    obj.body = message.body ? TxBody.toAmino(message.body) : undefined;
+    obj.auth_info = message.authInfo ? AuthInfo.toAmino(message.authInfo) : undefined;
+    if (message.signatures) {
+      obj.signatures = message.signatures.map(e => e);
+    } else {
+      obj.signatures = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: TxAminoMsg): Tx {
+    return Tx.fromAmino(object.value);
+  },
+  toAminoMsg(message: Tx): TxAminoMsg {
+    return {
+      type: "cosmos-sdk/Tx",
+      value: Tx.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: TxProtoMsg): Tx {
+    return Tx.decode(message.value);
+  },
+  toProto(message: Tx): Uint8Array {
+    return Tx.encode(message).finish();
+  },
+  toProtoMsg(message: Tx): TxProtoMsg {
+    return {
+      typeUrl: "/cosmos.tx.v1beta1.Tx",
+      value: Tx.encode(message).finish()
+    };
   }
 };
 function createBaseTxRaw(): TxRaw {
@@ -464,6 +523,8 @@ function createBaseTxRaw(): TxRaw {
   };
 }
 export const TxRaw = {
+  typeUrl: "/cosmos.tx.v1beta1.TxRaw",
+  aminoType: "cosmos-sdk/TxRaw",
   encode(message: TxRaw, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.bodyBytes.length !== 0) {
       writer.uint32(10).bytes(message.bodyBytes);
@@ -517,12 +578,69 @@ export const TxRaw = {
     }
     return obj;
   },
-  fromPartial(object: Partial<TxRaw>): TxRaw {
+  fromPartial(object: DeepPartial<TxRaw>): TxRaw {
     const message = createBaseTxRaw();
     message.bodyBytes = object.bodyBytes ?? new Uint8Array();
     message.authInfoBytes = object.authInfoBytes ?? new Uint8Array();
     message.signatures = object.signatures?.map(e => e) || [];
     return message;
+  },
+  fromSDK(object: TxRawSDKType): TxRaw {
+    return {
+      bodyBytes: object?.body_bytes,
+      authInfoBytes: object?.auth_info_bytes,
+      signatures: Array.isArray(object?.signatures) ? object.signatures.map((e: any) => e) : []
+    };
+  },
+  toSDK(message: TxRaw): TxRawSDKType {
+    const obj: any = {};
+    obj.body_bytes = message.bodyBytes;
+    obj.auth_info_bytes = message.authInfoBytes;
+    if (message.signatures) {
+      obj.signatures = message.signatures.map(e => e);
+    } else {
+      obj.signatures = [];
+    }
+    return obj;
+  },
+  fromAmino(object: TxRawAmino): TxRaw {
+    return {
+      bodyBytes: object.body_bytes,
+      authInfoBytes: object.auth_info_bytes,
+      signatures: Array.isArray(object?.signatures) ? object.signatures.map((e: any) => e) : []
+    };
+  },
+  toAmino(message: TxRaw): TxRawAmino {
+    const obj: any = {};
+    obj.body_bytes = message.bodyBytes;
+    obj.auth_info_bytes = message.authInfoBytes;
+    if (message.signatures) {
+      obj.signatures = message.signatures.map(e => e);
+    } else {
+      obj.signatures = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: TxRawAminoMsg): TxRaw {
+    return TxRaw.fromAmino(object.value);
+  },
+  toAminoMsg(message: TxRaw): TxRawAminoMsg {
+    return {
+      type: "cosmos-sdk/TxRaw",
+      value: TxRaw.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: TxRawProtoMsg): TxRaw {
+    return TxRaw.decode(message.value);
+  },
+  toProto(message: TxRaw): Uint8Array {
+    return TxRaw.encode(message).finish();
+  },
+  toProtoMsg(message: TxRaw): TxRawProtoMsg {
+    return {
+      typeUrl: "/cosmos.tx.v1beta1.TxRaw",
+      value: TxRaw.encode(message).finish()
+    };
   }
 };
 function createBaseSignDoc(): SignDoc {
@@ -534,6 +652,8 @@ function createBaseSignDoc(): SignDoc {
   };
 }
 export const SignDoc = {
+  typeUrl: "/cosmos.tx.v1beta1.SignDoc",
+  aminoType: "cosmos-sdk/SignDoc",
   encode(message: SignDoc, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.bodyBytes.length !== 0) {
       writer.uint32(10).bytes(message.bodyBytes);
@@ -591,13 +711,66 @@ export const SignDoc = {
     message.accountNumber !== undefined && (obj.accountNumber = (message.accountNumber || BigInt(0)).toString());
     return obj;
   },
-  fromPartial(object: Partial<SignDoc>): SignDoc {
+  fromPartial(object: DeepPartial<SignDoc>): SignDoc {
     const message = createBaseSignDoc();
     message.bodyBytes = object.bodyBytes ?? new Uint8Array();
     message.authInfoBytes = object.authInfoBytes ?? new Uint8Array();
     message.chainId = object.chainId ?? "";
     message.accountNumber = object.accountNumber !== undefined && object.accountNumber !== null ? BigInt(object.accountNumber.toString()) : BigInt(0);
     return message;
+  },
+  fromSDK(object: SignDocSDKType): SignDoc {
+    return {
+      bodyBytes: object?.body_bytes,
+      authInfoBytes: object?.auth_info_bytes,
+      chainId: object?.chain_id,
+      accountNumber: object?.account_number
+    };
+  },
+  toSDK(message: SignDoc): SignDocSDKType {
+    const obj: any = {};
+    obj.body_bytes = message.bodyBytes;
+    obj.auth_info_bytes = message.authInfoBytes;
+    obj.chain_id = message.chainId;
+    obj.account_number = message.accountNumber;
+    return obj;
+  },
+  fromAmino(object: SignDocAmino): SignDoc {
+    return {
+      bodyBytes: object.body_bytes,
+      authInfoBytes: object.auth_info_bytes,
+      chainId: object.chain_id,
+      accountNumber: BigInt(object.account_number)
+    };
+  },
+  toAmino(message: SignDoc): SignDocAmino {
+    const obj: any = {};
+    obj.body_bytes = message.bodyBytes;
+    obj.auth_info_bytes = message.authInfoBytes;
+    obj.chain_id = message.chainId;
+    obj.account_number = message.accountNumber ? message.accountNumber.toString() : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: SignDocAminoMsg): SignDoc {
+    return SignDoc.fromAmino(object.value);
+  },
+  toAminoMsg(message: SignDoc): SignDocAminoMsg {
+    return {
+      type: "cosmos-sdk/SignDoc",
+      value: SignDoc.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: SignDocProtoMsg): SignDoc {
+    return SignDoc.decode(message.value);
+  },
+  toProto(message: SignDoc): Uint8Array {
+    return SignDoc.encode(message).finish();
+  },
+  toProtoMsg(message: SignDoc): SignDocProtoMsg {
+    return {
+      typeUrl: "/cosmos.tx.v1beta1.SignDoc",
+      value: SignDoc.encode(message).finish()
+    };
   }
 };
 function createBaseSignDocDirectAux(): SignDocDirectAux {
@@ -611,6 +784,8 @@ function createBaseSignDocDirectAux(): SignDocDirectAux {
   };
 }
 export const SignDocDirectAux = {
+  typeUrl: "/cosmos.tx.v1beta1.SignDocDirectAux",
+  aminoType: "cosmos-sdk/SignDocDirectAux",
   encode(message: SignDocDirectAux, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.bodyBytes.length !== 0) {
       writer.uint32(10).bytes(message.bodyBytes);
@@ -684,7 +859,7 @@ export const SignDocDirectAux = {
     message.tip !== undefined && (obj.tip = message.tip ? Tip.toJSON(message.tip) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<SignDocDirectAux>): SignDocDirectAux {
+  fromPartial(object: DeepPartial<SignDocDirectAux>): SignDocDirectAux {
     const message = createBaseSignDocDirectAux();
     message.bodyBytes = object.bodyBytes ?? new Uint8Array();
     message.publicKey = object.publicKey !== undefined && object.publicKey !== null ? Any.fromPartial(object.publicKey) : undefined;
@@ -693,6 +868,67 @@ export const SignDocDirectAux = {
     message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt(0);
     message.tip = object.tip !== undefined && object.tip !== null ? Tip.fromPartial(object.tip) : undefined;
     return message;
+  },
+  fromSDK(object: SignDocDirectAuxSDKType): SignDocDirectAux {
+    return {
+      bodyBytes: object?.body_bytes,
+      publicKey: object.public_key ? Any.fromSDK(object.public_key) : undefined,
+      chainId: object?.chain_id,
+      accountNumber: object?.account_number,
+      sequence: object?.sequence,
+      tip: object.tip ? Tip.fromSDK(object.tip) : undefined
+    };
+  },
+  toSDK(message: SignDocDirectAux): SignDocDirectAuxSDKType {
+    const obj: any = {};
+    obj.body_bytes = message.bodyBytes;
+    message.publicKey !== undefined && (obj.public_key = message.publicKey ? Any.toSDK(message.publicKey) : undefined);
+    obj.chain_id = message.chainId;
+    obj.account_number = message.accountNumber;
+    obj.sequence = message.sequence;
+    message.tip !== undefined && (obj.tip = message.tip ? Tip.toSDK(message.tip) : undefined);
+    return obj;
+  },
+  fromAmino(object: SignDocDirectAuxAmino): SignDocDirectAux {
+    return {
+      bodyBytes: object.body_bytes,
+      publicKey: object?.public_key ? Any.fromAmino(object.public_key) : undefined,
+      chainId: object.chain_id,
+      accountNumber: BigInt(object.account_number),
+      sequence: BigInt(object.sequence),
+      tip: object?.tip ? Tip.fromAmino(object.tip) : undefined
+    };
+  },
+  toAmino(message: SignDocDirectAux): SignDocDirectAuxAmino {
+    const obj: any = {};
+    obj.body_bytes = message.bodyBytes;
+    obj.public_key = message.publicKey ? Any.toAmino(message.publicKey) : undefined;
+    obj.chain_id = message.chainId;
+    obj.account_number = message.accountNumber ? message.accountNumber.toString() : undefined;
+    obj.sequence = message.sequence ? message.sequence.toString() : undefined;
+    obj.tip = message.tip ? Tip.toAmino(message.tip) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: SignDocDirectAuxAminoMsg): SignDocDirectAux {
+    return SignDocDirectAux.fromAmino(object.value);
+  },
+  toAminoMsg(message: SignDocDirectAux): SignDocDirectAuxAminoMsg {
+    return {
+      type: "cosmos-sdk/SignDocDirectAux",
+      value: SignDocDirectAux.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: SignDocDirectAuxProtoMsg): SignDocDirectAux {
+    return SignDocDirectAux.decode(message.value);
+  },
+  toProto(message: SignDocDirectAux): Uint8Array {
+    return SignDocDirectAux.encode(message).finish();
+  },
+  toProtoMsg(message: SignDocDirectAux): SignDocDirectAuxProtoMsg {
+    return {
+      typeUrl: "/cosmos.tx.v1beta1.SignDocDirectAux",
+      value: SignDocDirectAux.encode(message).finish()
+    };
   }
 };
 function createBaseTxBody(): TxBody {
@@ -705,6 +941,8 @@ function createBaseTxBody(): TxBody {
   };
 }
 export const TxBody = {
+  typeUrl: "/cosmos.tx.v1beta1.TxBody",
+  aminoType: "cosmos-sdk/TxBody",
   encode(message: TxBody, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.messages) {
       Any.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -782,7 +1020,7 @@ export const TxBody = {
     }
     return obj;
   },
-  fromPartial(object: Partial<TxBody>): TxBody {
+  fromPartial(object: DeepPartial<TxBody>): TxBody {
     const message = createBaseTxBody();
     message.messages = object.messages?.map(e => Any.fromPartial(e)) || [];
     message.memo = object.memo ?? "";
@@ -790,6 +1028,87 @@ export const TxBody = {
     message.extensionOptions = object.extensionOptions?.map(e => Any.fromPartial(e)) || [];
     message.nonCriticalExtensionOptions = object.nonCriticalExtensionOptions?.map(e => Any.fromPartial(e)) || [];
     return message;
+  },
+  fromSDK(object: TxBodySDKType): TxBody {
+    return {
+      messages: Array.isArray(object?.messages) ? object.messages.map((e: any) => Any.fromSDK(e)) : [],
+      memo: object?.memo,
+      timeoutHeight: object?.timeout_height,
+      extensionOptions: Array.isArray(object?.extension_options) ? object.extension_options.map((e: any) => Any.fromSDK(e)) : [],
+      nonCriticalExtensionOptions: Array.isArray(object?.non_critical_extension_options) ? object.non_critical_extension_options.map((e: any) => Any.fromSDK(e)) : []
+    };
+  },
+  toSDK(message: TxBody): TxBodySDKType {
+    const obj: any = {};
+    if (message.messages) {
+      obj.messages = message.messages.map(e => e ? Any.toSDK(e) : undefined);
+    } else {
+      obj.messages = [];
+    }
+    obj.memo = message.memo;
+    obj.timeout_height = message.timeoutHeight;
+    if (message.extensionOptions) {
+      obj.extension_options = message.extensionOptions.map(e => e ? Any.toSDK(e) : undefined);
+    } else {
+      obj.extension_options = [];
+    }
+    if (message.nonCriticalExtensionOptions) {
+      obj.non_critical_extension_options = message.nonCriticalExtensionOptions.map(e => e ? Any.toSDK(e) : undefined);
+    } else {
+      obj.non_critical_extension_options = [];
+    }
+    return obj;
+  },
+  fromAmino(object: TxBodyAmino): TxBody {
+    return {
+      messages: Array.isArray(object?.messages) ? object.messages.map((e: any) => Any.fromAmino(e)) : [],
+      memo: object.memo,
+      timeoutHeight: BigInt(object.timeout_height),
+      extensionOptions: Array.isArray(object?.extension_options) ? object.extension_options.map((e: any) => Any.fromAmino(e)) : [],
+      nonCriticalExtensionOptions: Array.isArray(object?.non_critical_extension_options) ? object.non_critical_extension_options.map((e: any) => Any.fromAmino(e)) : []
+    };
+  },
+  toAmino(message: TxBody): TxBodyAmino {
+    const obj: any = {};
+    if (message.messages) {
+      obj.messages = message.messages.map(e => e ? Any.toAmino(e) : undefined);
+    } else {
+      obj.messages = [];
+    }
+    obj.memo = message.memo;
+    obj.timeout_height = message.timeoutHeight ? message.timeoutHeight.toString() : undefined;
+    if (message.extensionOptions) {
+      obj.extension_options = message.extensionOptions.map(e => e ? Any.toAmino(e) : undefined);
+    } else {
+      obj.extension_options = [];
+    }
+    if (message.nonCriticalExtensionOptions) {
+      obj.non_critical_extension_options = message.nonCriticalExtensionOptions.map(e => e ? Any.toAmino(e) : undefined);
+    } else {
+      obj.non_critical_extension_options = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: TxBodyAminoMsg): TxBody {
+    return TxBody.fromAmino(object.value);
+  },
+  toAminoMsg(message: TxBody): TxBodyAminoMsg {
+    return {
+      type: "cosmos-sdk/TxBody",
+      value: TxBody.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: TxBodyProtoMsg): TxBody {
+    return TxBody.decode(message.value);
+  },
+  toProto(message: TxBody): Uint8Array {
+    return TxBody.encode(message).finish();
+  },
+  toProtoMsg(message: TxBody): TxBodyProtoMsg {
+    return {
+      typeUrl: "/cosmos.tx.v1beta1.TxBody",
+      value: TxBody.encode(message).finish()
+    };
   }
 };
 function createBaseAuthInfo(): AuthInfo {
@@ -800,6 +1119,8 @@ function createBaseAuthInfo(): AuthInfo {
   };
 }
 export const AuthInfo = {
+  typeUrl: "/cosmos.tx.v1beta1.AuthInfo",
+  aminoType: "cosmos-sdk/AuthInfo",
   encode(message: AuthInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.signerInfos) {
       SignerInfo.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -853,12 +1174,69 @@ export const AuthInfo = {
     message.tip !== undefined && (obj.tip = message.tip ? Tip.toJSON(message.tip) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<AuthInfo>): AuthInfo {
+  fromPartial(object: DeepPartial<AuthInfo>): AuthInfo {
     const message = createBaseAuthInfo();
     message.signerInfos = object.signerInfos?.map(e => SignerInfo.fromPartial(e)) || [];
     message.fee = object.fee !== undefined && object.fee !== null ? Fee.fromPartial(object.fee) : undefined;
     message.tip = object.tip !== undefined && object.tip !== null ? Tip.fromPartial(object.tip) : undefined;
     return message;
+  },
+  fromSDK(object: AuthInfoSDKType): AuthInfo {
+    return {
+      signerInfos: Array.isArray(object?.signer_infos) ? object.signer_infos.map((e: any) => SignerInfo.fromSDK(e)) : [],
+      fee: object.fee ? Fee.fromSDK(object.fee) : undefined,
+      tip: object.tip ? Tip.fromSDK(object.tip) : undefined
+    };
+  },
+  toSDK(message: AuthInfo): AuthInfoSDKType {
+    const obj: any = {};
+    if (message.signerInfos) {
+      obj.signer_infos = message.signerInfos.map(e => e ? SignerInfo.toSDK(e) : undefined);
+    } else {
+      obj.signer_infos = [];
+    }
+    message.fee !== undefined && (obj.fee = message.fee ? Fee.toSDK(message.fee) : undefined);
+    message.tip !== undefined && (obj.tip = message.tip ? Tip.toSDK(message.tip) : undefined);
+    return obj;
+  },
+  fromAmino(object: AuthInfoAmino): AuthInfo {
+    return {
+      signerInfos: Array.isArray(object?.signer_infos) ? object.signer_infos.map((e: any) => SignerInfo.fromAmino(e)) : [],
+      fee: object?.fee ? Fee.fromAmino(object.fee) : undefined,
+      tip: object?.tip ? Tip.fromAmino(object.tip) : undefined
+    };
+  },
+  toAmino(message: AuthInfo): AuthInfoAmino {
+    const obj: any = {};
+    if (message.signerInfos) {
+      obj.signer_infos = message.signerInfos.map(e => e ? SignerInfo.toAmino(e) : undefined);
+    } else {
+      obj.signer_infos = [];
+    }
+    obj.fee = message.fee ? Fee.toAmino(message.fee) : undefined;
+    obj.tip = message.tip ? Tip.toAmino(message.tip) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: AuthInfoAminoMsg): AuthInfo {
+    return AuthInfo.fromAmino(object.value);
+  },
+  toAminoMsg(message: AuthInfo): AuthInfoAminoMsg {
+    return {
+      type: "cosmos-sdk/AuthInfo",
+      value: AuthInfo.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: AuthInfoProtoMsg): AuthInfo {
+    return AuthInfo.decode(message.value);
+  },
+  toProto(message: AuthInfo): Uint8Array {
+    return AuthInfo.encode(message).finish();
+  },
+  toProtoMsg(message: AuthInfo): AuthInfoProtoMsg {
+    return {
+      typeUrl: "/cosmos.tx.v1beta1.AuthInfo",
+      value: AuthInfo.encode(message).finish()
+    };
   }
 };
 function createBaseSignerInfo(): SignerInfo {
@@ -869,6 +1247,8 @@ function createBaseSignerInfo(): SignerInfo {
   };
 }
 export const SignerInfo = {
+  typeUrl: "/cosmos.tx.v1beta1.SignerInfo",
+  aminoType: "cosmos-sdk/SignerInfo",
   encode(message: SignerInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.publicKey !== undefined) {
       Any.encode(message.publicKey, writer.uint32(10).fork()).ldelim();
@@ -918,12 +1298,61 @@ export const SignerInfo = {
     message.sequence !== undefined && (obj.sequence = (message.sequence || BigInt(0)).toString());
     return obj;
   },
-  fromPartial(object: Partial<SignerInfo>): SignerInfo {
+  fromPartial(object: DeepPartial<SignerInfo>): SignerInfo {
     const message = createBaseSignerInfo();
     message.publicKey = object.publicKey !== undefined && object.publicKey !== null ? Any.fromPartial(object.publicKey) : undefined;
     message.modeInfo = object.modeInfo !== undefined && object.modeInfo !== null ? ModeInfo.fromPartial(object.modeInfo) : undefined;
     message.sequence = object.sequence !== undefined && object.sequence !== null ? BigInt(object.sequence.toString()) : BigInt(0);
     return message;
+  },
+  fromSDK(object: SignerInfoSDKType): SignerInfo {
+    return {
+      publicKey: object.public_key ? Any.fromSDK(object.public_key) : undefined,
+      modeInfo: object.mode_info ? ModeInfo.fromSDK(object.mode_info) : undefined,
+      sequence: object?.sequence
+    };
+  },
+  toSDK(message: SignerInfo): SignerInfoSDKType {
+    const obj: any = {};
+    message.publicKey !== undefined && (obj.public_key = message.publicKey ? Any.toSDK(message.publicKey) : undefined);
+    message.modeInfo !== undefined && (obj.mode_info = message.modeInfo ? ModeInfo.toSDK(message.modeInfo) : undefined);
+    obj.sequence = message.sequence;
+    return obj;
+  },
+  fromAmino(object: SignerInfoAmino): SignerInfo {
+    return {
+      publicKey: object?.public_key ? Any.fromAmino(object.public_key) : undefined,
+      modeInfo: object?.mode_info ? ModeInfo.fromAmino(object.mode_info) : undefined,
+      sequence: BigInt(object.sequence)
+    };
+  },
+  toAmino(message: SignerInfo): SignerInfoAmino {
+    const obj: any = {};
+    obj.public_key = message.publicKey ? Any.toAmino(message.publicKey) : undefined;
+    obj.mode_info = message.modeInfo ? ModeInfo.toAmino(message.modeInfo) : undefined;
+    obj.sequence = message.sequence ? message.sequence.toString() : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: SignerInfoAminoMsg): SignerInfo {
+    return SignerInfo.fromAmino(object.value);
+  },
+  toAminoMsg(message: SignerInfo): SignerInfoAminoMsg {
+    return {
+      type: "cosmos-sdk/SignerInfo",
+      value: SignerInfo.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: SignerInfoProtoMsg): SignerInfo {
+    return SignerInfo.decode(message.value);
+  },
+  toProto(message: SignerInfo): Uint8Array {
+    return SignerInfo.encode(message).finish();
+  },
+  toProtoMsg(message: SignerInfo): SignerInfoProtoMsg {
+    return {
+      typeUrl: "/cosmos.tx.v1beta1.SignerInfo",
+      value: SignerInfo.encode(message).finish()
+    };
   }
 };
 function createBaseModeInfo(): ModeInfo {
@@ -933,6 +1362,8 @@ function createBaseModeInfo(): ModeInfo {
   };
 }
 export const ModeInfo = {
+  typeUrl: "/cosmos.tx.v1beta1.ModeInfo",
+  aminoType: "cosmos-sdk/ModeInfo",
   encode(message: ModeInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.single !== undefined) {
       ModeInfo_Single.encode(message.single, writer.uint32(10).fork()).ldelim();
@@ -974,11 +1405,56 @@ export const ModeInfo = {
     message.multi !== undefined && (obj.multi = message.multi ? ModeInfo_Multi.toJSON(message.multi) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<ModeInfo>): ModeInfo {
+  fromPartial(object: DeepPartial<ModeInfo>): ModeInfo {
     const message = createBaseModeInfo();
     message.single = object.single !== undefined && object.single !== null ? ModeInfo_Single.fromPartial(object.single) : undefined;
     message.multi = object.multi !== undefined && object.multi !== null ? ModeInfo_Multi.fromPartial(object.multi) : undefined;
     return message;
+  },
+  fromSDK(object: ModeInfoSDKType): ModeInfo {
+    return {
+      single: object.single ? ModeInfo_Single.fromSDK(object.single) : undefined,
+      multi: object.multi ? ModeInfo_Multi.fromSDK(object.multi) : undefined
+    };
+  },
+  toSDK(message: ModeInfo): ModeInfoSDKType {
+    const obj: any = {};
+    message.single !== undefined && (obj.single = message.single ? ModeInfo_Single.toSDK(message.single) : undefined);
+    message.multi !== undefined && (obj.multi = message.multi ? ModeInfo_Multi.toSDK(message.multi) : undefined);
+    return obj;
+  },
+  fromAmino(object: ModeInfoAmino): ModeInfo {
+    return {
+      single: object?.single ? ModeInfo_Single.fromAmino(object.single) : undefined,
+      multi: object?.multi ? ModeInfo_Multi.fromAmino(object.multi) : undefined
+    };
+  },
+  toAmino(message: ModeInfo): ModeInfoAmino {
+    const obj: any = {};
+    obj.single = message.single ? ModeInfo_Single.toAmino(message.single) : undefined;
+    obj.multi = message.multi ? ModeInfo_Multi.toAmino(message.multi) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: ModeInfoAminoMsg): ModeInfo {
+    return ModeInfo.fromAmino(object.value);
+  },
+  toAminoMsg(message: ModeInfo): ModeInfoAminoMsg {
+    return {
+      type: "cosmos-sdk/ModeInfo",
+      value: ModeInfo.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: ModeInfoProtoMsg): ModeInfo {
+    return ModeInfo.decode(message.value);
+  },
+  toProto(message: ModeInfo): Uint8Array {
+    return ModeInfo.encode(message).finish();
+  },
+  toProtoMsg(message: ModeInfo): ModeInfoProtoMsg {
+    return {
+      typeUrl: "/cosmos.tx.v1beta1.ModeInfo",
+      value: ModeInfo.encode(message).finish()
+    };
   }
 };
 function createBaseModeInfo_Single(): ModeInfo_Single {
@@ -987,6 +1463,8 @@ function createBaseModeInfo_Single(): ModeInfo_Single {
   };
 }
 export const ModeInfo_Single = {
+  typeUrl: "/cosmos.tx.v1beta1.Single",
+  aminoType: "cosmos-sdk/Single",
   encode(message: ModeInfo_Single, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.mode !== 0) {
       writer.uint32(8).int32(message.mode);
@@ -1020,10 +1498,51 @@ export const ModeInfo_Single = {
     message.mode !== undefined && (obj.mode = signModeToJSON(message.mode));
     return obj;
   },
-  fromPartial(object: Partial<ModeInfo_Single>): ModeInfo_Single {
+  fromPartial(object: DeepPartial<ModeInfo_Single>): ModeInfo_Single {
     const message = createBaseModeInfo_Single();
     message.mode = object.mode ?? 0;
     return message;
+  },
+  fromSDK(object: ModeInfo_SingleSDKType): ModeInfo_Single {
+    return {
+      mode: isSet(object.mode) ? signModeFromJSON(object.mode) : -1
+    };
+  },
+  toSDK(message: ModeInfo_Single): ModeInfo_SingleSDKType {
+    const obj: any = {};
+    message.mode !== undefined && (obj.mode = signModeToJSON(message.mode));
+    return obj;
+  },
+  fromAmino(object: ModeInfo_SingleAmino): ModeInfo_Single {
+    return {
+      mode: isSet(object.mode) ? signModeFromJSON(object.mode) : -1
+    };
+  },
+  toAmino(message: ModeInfo_Single): ModeInfo_SingleAmino {
+    const obj: any = {};
+    obj.mode = message.mode;
+    return obj;
+  },
+  fromAminoMsg(object: ModeInfo_SingleAminoMsg): ModeInfo_Single {
+    return ModeInfo_Single.fromAmino(object.value);
+  },
+  toAminoMsg(message: ModeInfo_Single): ModeInfo_SingleAminoMsg {
+    return {
+      type: "cosmos-sdk/Single",
+      value: ModeInfo_Single.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: ModeInfo_SingleProtoMsg): ModeInfo_Single {
+    return ModeInfo_Single.decode(message.value);
+  },
+  toProto(message: ModeInfo_Single): Uint8Array {
+    return ModeInfo_Single.encode(message).finish();
+  },
+  toProtoMsg(message: ModeInfo_Single): ModeInfo_SingleProtoMsg {
+    return {
+      typeUrl: "/cosmos.tx.v1beta1.Single",
+      value: ModeInfo_Single.encode(message).finish()
+    };
   }
 };
 function createBaseModeInfo_Multi(): ModeInfo_Multi {
@@ -1033,6 +1552,8 @@ function createBaseModeInfo_Multi(): ModeInfo_Multi {
   };
 }
 export const ModeInfo_Multi = {
+  typeUrl: "/cosmos.tx.v1beta1.Multi",
+  aminoType: "cosmos-sdk/Multi",
   encode(message: ModeInfo_Multi, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.bitarray !== undefined) {
       CompactBitArray.encode(message.bitarray, writer.uint32(10).fork()).ldelim();
@@ -1078,11 +1599,64 @@ export const ModeInfo_Multi = {
     }
     return obj;
   },
-  fromPartial(object: Partial<ModeInfo_Multi>): ModeInfo_Multi {
+  fromPartial(object: DeepPartial<ModeInfo_Multi>): ModeInfo_Multi {
     const message = createBaseModeInfo_Multi();
     message.bitarray = object.bitarray !== undefined && object.bitarray !== null ? CompactBitArray.fromPartial(object.bitarray) : undefined;
     message.modeInfos = object.modeInfos?.map(e => ModeInfo.fromPartial(e)) || [];
     return message;
+  },
+  fromSDK(object: ModeInfo_MultiSDKType): ModeInfo_Multi {
+    return {
+      bitarray: object.bitarray ? CompactBitArray.fromSDK(object.bitarray) : undefined,
+      modeInfos: Array.isArray(object?.mode_infos) ? object.mode_infos.map((e: any) => ModeInfo.fromSDK(e)) : []
+    };
+  },
+  toSDK(message: ModeInfo_Multi): ModeInfo_MultiSDKType {
+    const obj: any = {};
+    message.bitarray !== undefined && (obj.bitarray = message.bitarray ? CompactBitArray.toSDK(message.bitarray) : undefined);
+    if (message.modeInfos) {
+      obj.mode_infos = message.modeInfos.map(e => e ? ModeInfo.toSDK(e) : undefined);
+    } else {
+      obj.mode_infos = [];
+    }
+    return obj;
+  },
+  fromAmino(object: ModeInfo_MultiAmino): ModeInfo_Multi {
+    return {
+      bitarray: object?.bitarray ? CompactBitArray.fromAmino(object.bitarray) : undefined,
+      modeInfos: Array.isArray(object?.mode_infos) ? object.mode_infos.map((e: any) => ModeInfo.fromAmino(e)) : []
+    };
+  },
+  toAmino(message: ModeInfo_Multi): ModeInfo_MultiAmino {
+    const obj: any = {};
+    obj.bitarray = message.bitarray ? CompactBitArray.toAmino(message.bitarray) : undefined;
+    if (message.modeInfos) {
+      obj.mode_infos = message.modeInfos.map(e => e ? ModeInfo.toAmino(e) : undefined);
+    } else {
+      obj.mode_infos = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: ModeInfo_MultiAminoMsg): ModeInfo_Multi {
+    return ModeInfo_Multi.fromAmino(object.value);
+  },
+  toAminoMsg(message: ModeInfo_Multi): ModeInfo_MultiAminoMsg {
+    return {
+      type: "cosmos-sdk/Multi",
+      value: ModeInfo_Multi.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: ModeInfo_MultiProtoMsg): ModeInfo_Multi {
+    return ModeInfo_Multi.decode(message.value);
+  },
+  toProto(message: ModeInfo_Multi): Uint8Array {
+    return ModeInfo_Multi.encode(message).finish();
+  },
+  toProtoMsg(message: ModeInfo_Multi): ModeInfo_MultiProtoMsg {
+    return {
+      typeUrl: "/cosmos.tx.v1beta1.Multi",
+      value: ModeInfo_Multi.encode(message).finish()
+    };
   }
 };
 function createBaseFee(): Fee {
@@ -1094,6 +1668,8 @@ function createBaseFee(): Fee {
   };
 }
 export const Fee = {
+  typeUrl: "/cosmos.tx.v1beta1.Fee",
+  aminoType: "cosmos-sdk/Fee",
   encode(message: Fee, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.amount) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1155,13 +1731,74 @@ export const Fee = {
     message.granter !== undefined && (obj.granter = message.granter);
     return obj;
   },
-  fromPartial(object: Partial<Fee>): Fee {
+  fromPartial(object: DeepPartial<Fee>): Fee {
     const message = createBaseFee();
     message.amount = object.amount?.map(e => Coin.fromPartial(e)) || [];
     message.gasLimit = object.gasLimit !== undefined && object.gasLimit !== null ? BigInt(object.gasLimit.toString()) : BigInt(0);
     message.payer = object.payer ?? "";
     message.granter = object.granter ?? "";
     return message;
+  },
+  fromSDK(object: FeeSDKType): Fee {
+    return {
+      amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromSDK(e)) : [],
+      gasLimit: object?.gas_limit,
+      payer: object?.payer,
+      granter: object?.granter
+    };
+  },
+  toSDK(message: Fee): FeeSDKType {
+    const obj: any = {};
+    if (message.amount) {
+      obj.amount = message.amount.map(e => e ? Coin.toSDK(e) : undefined);
+    } else {
+      obj.amount = [];
+    }
+    obj.gas_limit = message.gasLimit;
+    obj.payer = message.payer;
+    obj.granter = message.granter;
+    return obj;
+  },
+  fromAmino(object: FeeAmino): Fee {
+    return {
+      amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromAmino(e)) : [],
+      gasLimit: BigInt(object.gas_limit),
+      payer: object.payer,
+      granter: object.granter
+    };
+  },
+  toAmino(message: Fee): FeeAmino {
+    const obj: any = {};
+    if (message.amount) {
+      obj.amount = message.amount.map(e => e ? Coin.toAmino(e) : undefined);
+    } else {
+      obj.amount = [];
+    }
+    obj.gas_limit = message.gasLimit ? message.gasLimit.toString() : undefined;
+    obj.payer = message.payer;
+    obj.granter = message.granter;
+    return obj;
+  },
+  fromAminoMsg(object: FeeAminoMsg): Fee {
+    return Fee.fromAmino(object.value);
+  },
+  toAminoMsg(message: Fee): FeeAminoMsg {
+    return {
+      type: "cosmos-sdk/Fee",
+      value: Fee.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: FeeProtoMsg): Fee {
+    return Fee.decode(message.value);
+  },
+  toProto(message: Fee): Uint8Array {
+    return Fee.encode(message).finish();
+  },
+  toProtoMsg(message: Fee): FeeProtoMsg {
+    return {
+      typeUrl: "/cosmos.tx.v1beta1.Fee",
+      value: Fee.encode(message).finish()
+    };
   }
 };
 function createBaseTip(): Tip {
@@ -1171,6 +1808,8 @@ function createBaseTip(): Tip {
   };
 }
 export const Tip = {
+  typeUrl: "/cosmos.tx.v1beta1.Tip",
+  aminoType: "cosmos-sdk/Tip",
   encode(message: Tip, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.amount) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1216,11 +1855,64 @@ export const Tip = {
     message.tipper !== undefined && (obj.tipper = message.tipper);
     return obj;
   },
-  fromPartial(object: Partial<Tip>): Tip {
+  fromPartial(object: DeepPartial<Tip>): Tip {
     const message = createBaseTip();
     message.amount = object.amount?.map(e => Coin.fromPartial(e)) || [];
     message.tipper = object.tipper ?? "";
     return message;
+  },
+  fromSDK(object: TipSDKType): Tip {
+    return {
+      amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromSDK(e)) : [],
+      tipper: object?.tipper
+    };
+  },
+  toSDK(message: Tip): TipSDKType {
+    const obj: any = {};
+    if (message.amount) {
+      obj.amount = message.amount.map(e => e ? Coin.toSDK(e) : undefined);
+    } else {
+      obj.amount = [];
+    }
+    obj.tipper = message.tipper;
+    return obj;
+  },
+  fromAmino(object: TipAmino): Tip {
+    return {
+      amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromAmino(e)) : [],
+      tipper: object.tipper
+    };
+  },
+  toAmino(message: Tip): TipAmino {
+    const obj: any = {};
+    if (message.amount) {
+      obj.amount = message.amount.map(e => e ? Coin.toAmino(e) : undefined);
+    } else {
+      obj.amount = [];
+    }
+    obj.tipper = message.tipper;
+    return obj;
+  },
+  fromAminoMsg(object: TipAminoMsg): Tip {
+    return Tip.fromAmino(object.value);
+  },
+  toAminoMsg(message: Tip): TipAminoMsg {
+    return {
+      type: "cosmos-sdk/Tip",
+      value: Tip.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: TipProtoMsg): Tip {
+    return Tip.decode(message.value);
+  },
+  toProto(message: Tip): Uint8Array {
+    return Tip.encode(message).finish();
+  },
+  toProtoMsg(message: Tip): TipProtoMsg {
+    return {
+      typeUrl: "/cosmos.tx.v1beta1.Tip",
+      value: Tip.encode(message).finish()
+    };
   }
 };
 function createBaseAuxSignerData(): AuxSignerData {
@@ -1232,6 +1924,8 @@ function createBaseAuxSignerData(): AuxSignerData {
   };
 }
 export const AuxSignerData = {
+  typeUrl: "/cosmos.tx.v1beta1.AuxSignerData",
+  aminoType: "cosmos-sdk/AuxSignerData",
   encode(message: AuxSignerData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
@@ -1289,12 +1983,65 @@ export const AuxSignerData = {
     message.sig !== undefined && (obj.sig = base64FromBytes(message.sig !== undefined ? message.sig : new Uint8Array()));
     return obj;
   },
-  fromPartial(object: Partial<AuxSignerData>): AuxSignerData {
+  fromPartial(object: DeepPartial<AuxSignerData>): AuxSignerData {
     const message = createBaseAuxSignerData();
     message.address = object.address ?? "";
     message.signDoc = object.signDoc !== undefined && object.signDoc !== null ? SignDocDirectAux.fromPartial(object.signDoc) : undefined;
     message.mode = object.mode ?? 0;
     message.sig = object.sig ?? new Uint8Array();
     return message;
+  },
+  fromSDK(object: AuxSignerDataSDKType): AuxSignerData {
+    return {
+      address: object?.address,
+      signDoc: object.sign_doc ? SignDocDirectAux.fromSDK(object.sign_doc) : undefined,
+      mode: isSet(object.mode) ? signModeFromJSON(object.mode) : -1,
+      sig: object?.sig
+    };
+  },
+  toSDK(message: AuxSignerData): AuxSignerDataSDKType {
+    const obj: any = {};
+    obj.address = message.address;
+    message.signDoc !== undefined && (obj.sign_doc = message.signDoc ? SignDocDirectAux.toSDK(message.signDoc) : undefined);
+    message.mode !== undefined && (obj.mode = signModeToJSON(message.mode));
+    obj.sig = message.sig;
+    return obj;
+  },
+  fromAmino(object: AuxSignerDataAmino): AuxSignerData {
+    return {
+      address: object.address,
+      signDoc: object?.sign_doc ? SignDocDirectAux.fromAmino(object.sign_doc) : undefined,
+      mode: isSet(object.mode) ? signModeFromJSON(object.mode) : -1,
+      sig: object.sig
+    };
+  },
+  toAmino(message: AuxSignerData): AuxSignerDataAmino {
+    const obj: any = {};
+    obj.address = message.address;
+    obj.sign_doc = message.signDoc ? SignDocDirectAux.toAmino(message.signDoc) : undefined;
+    obj.mode = message.mode;
+    obj.sig = message.sig;
+    return obj;
+  },
+  fromAminoMsg(object: AuxSignerDataAminoMsg): AuxSignerData {
+    return AuxSignerData.fromAmino(object.value);
+  },
+  toAminoMsg(message: AuxSignerData): AuxSignerDataAminoMsg {
+    return {
+      type: "cosmos-sdk/AuxSignerData",
+      value: AuxSignerData.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: AuxSignerDataProtoMsg): AuxSignerData {
+    return AuxSignerData.decode(message.value);
+  },
+  toProto(message: AuxSignerData): Uint8Array {
+    return AuxSignerData.encode(message).finish();
+  },
+  toProtoMsg(message: AuxSignerData): AuxSignerDataProtoMsg {
+    return {
+      typeUrl: "/cosmos.tx.v1beta1.AuxSignerData",
+      value: AuxSignerData.encode(message).finish()
+    };
   }
 };

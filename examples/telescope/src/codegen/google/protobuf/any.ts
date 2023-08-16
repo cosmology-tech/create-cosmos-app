@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet, bytesFromBase64, base64FromBytes } from "../../helpers";
+import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../helpers";
 /**
  * `Any` contains an arbitrary serialized protocol buffer message along with a
  * URL that describes the type of the serialized message.
@@ -207,6 +207,7 @@ function createBaseAny(): Any {
   };
 }
 export const Any = {
+  typeUrl: "/google.protobuf.Any",
   encode(message: Any, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.typeUrl !== "") {
       writer.uint32(10).string(message.typeUrl);
@@ -248,10 +249,49 @@ export const Any = {
     message.value !== undefined && (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));
     return obj;
   },
-  fromPartial(object: Partial<Any>): Any {
+  fromPartial(object: DeepPartial<Any>): Any {
     const message = createBaseAny();
     message.typeUrl = object.typeUrl ?? "";
     message.value = object.value ?? new Uint8Array();
     return message;
+  },
+  fromSDK(object: AnySDKType): Any {
+    return {
+      typeUrl: object?.type_url,
+      value: object?.value
+    };
+  },
+  toSDK(message: Any): AnySDKType {
+    const obj: any = {};
+    obj.type_url = message.typeUrl;
+    obj.value = message.value;
+    return obj;
+  },
+  fromAmino(object: AnyAmino): Any {
+    return {
+      typeUrl: object.type,
+      value: object.value
+    };
+  },
+  toAmino(message: Any): AnyAmino {
+    const obj: any = {};
+    obj.type = message.typeUrl;
+    obj.value = message.value;
+    return obj;
+  },
+  fromAminoMsg(object: AnyAminoMsg): Any {
+    return Any.fromAmino(object.value);
+  },
+  fromProtoMsg(message: AnyProtoMsg): Any {
+    return Any.decode(message.value);
+  },
+  toProto(message: Any): Uint8Array {
+    return Any.encode(message).finish();
+  },
+  toProtoMsg(message: Any): AnyProtoMsg {
+    return {
+      typeUrl: "/google.protobuf.Any",
+      value: Any.encode(message).finish()
+    };
   }
 };

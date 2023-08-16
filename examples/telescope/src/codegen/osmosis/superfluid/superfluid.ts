@@ -1,6 +1,7 @@
 import { Coin, CoinSDKType } from "../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet } from "../../helpers";
+import { isSet, DeepPartial } from "../../helpers";
+import { Decimal } from "@cosmjs/math";
 /**
  * SuperfluidAssetType indicates whether the superfluid asset is
  * a native token itself or the lp share of a pool.
@@ -108,8 +109,8 @@ export interface OsmoEquivalentMultiplierRecordSDKType {
 export interface SuperfluidDelegationRecord {
   delegatorAddress: string;
   validatorAddress: string;
-  delegationAmount: Coin;
-  equivalentStakedAmount: Coin;
+  delegationAmount: Coin | undefined;
+  equivalentStakedAmount: Coin | undefined;
 }
 /**
  * SuperfluidDelegationRecord is a struct used to indicate superfluid
@@ -118,8 +119,8 @@ export interface SuperfluidDelegationRecord {
 export interface SuperfluidDelegationRecordSDKType {
   delegator_address: string;
   validator_address: string;
-  delegation_amount: CoinSDKType;
-  equivalent_staked_amount: CoinSDKType;
+  delegation_amount: CoinSDKType | undefined;
+  equivalent_staked_amount: CoinSDKType | undefined;
 }
 /**
  * LockIdIntermediaryAccountConnection is a struct used to indicate the
@@ -152,6 +153,8 @@ function createBaseSuperfluidAsset(): SuperfluidAsset {
   };
 }
 export const SuperfluidAsset = {
+  typeUrl: "/osmosis.superfluid.SuperfluidAsset",
+  aminoType: "osmosis/superfluid-asset",
   encode(message: SuperfluidAsset, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
@@ -193,11 +196,56 @@ export const SuperfluidAsset = {
     message.assetType !== undefined && (obj.assetType = superfluidAssetTypeToJSON(message.assetType));
     return obj;
   },
-  fromPartial(object: Partial<SuperfluidAsset>): SuperfluidAsset {
+  fromPartial(object: DeepPartial<SuperfluidAsset>): SuperfluidAsset {
     const message = createBaseSuperfluidAsset();
     message.denom = object.denom ?? "";
     message.assetType = object.assetType ?? 0;
     return message;
+  },
+  fromSDK(object: SuperfluidAssetSDKType): SuperfluidAsset {
+    return {
+      denom: object?.denom,
+      assetType: isSet(object.asset_type) ? superfluidAssetTypeFromJSON(object.asset_type) : -1
+    };
+  },
+  toSDK(message: SuperfluidAsset): SuperfluidAssetSDKType {
+    const obj: any = {};
+    obj.denom = message.denom;
+    message.assetType !== undefined && (obj.asset_type = superfluidAssetTypeToJSON(message.assetType));
+    return obj;
+  },
+  fromAmino(object: SuperfluidAssetAmino): SuperfluidAsset {
+    return {
+      denom: object.denom,
+      assetType: isSet(object.asset_type) ? superfluidAssetTypeFromJSON(object.asset_type) : -1
+    };
+  },
+  toAmino(message: SuperfluidAsset): SuperfluidAssetAmino {
+    const obj: any = {};
+    obj.denom = message.denom;
+    obj.asset_type = message.assetType;
+    return obj;
+  },
+  fromAminoMsg(object: SuperfluidAssetAminoMsg): SuperfluidAsset {
+    return SuperfluidAsset.fromAmino(object.value);
+  },
+  toAminoMsg(message: SuperfluidAsset): SuperfluidAssetAminoMsg {
+    return {
+      type: "osmosis/superfluid-asset",
+      value: SuperfluidAsset.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: SuperfluidAssetProtoMsg): SuperfluidAsset {
+    return SuperfluidAsset.decode(message.value);
+  },
+  toProto(message: SuperfluidAsset): Uint8Array {
+    return SuperfluidAsset.encode(message).finish();
+  },
+  toProtoMsg(message: SuperfluidAsset): SuperfluidAssetProtoMsg {
+    return {
+      typeUrl: "/osmosis.superfluid.SuperfluidAsset",
+      value: SuperfluidAsset.encode(message).finish()
+    };
   }
 };
 function createBaseSuperfluidIntermediaryAccount(): SuperfluidIntermediaryAccount {
@@ -208,6 +256,8 @@ function createBaseSuperfluidIntermediaryAccount(): SuperfluidIntermediaryAccoun
   };
 }
 export const SuperfluidIntermediaryAccount = {
+  typeUrl: "/osmosis.superfluid.SuperfluidIntermediaryAccount",
+  aminoType: "osmosis/superfluid-intermediary-account",
   encode(message: SuperfluidIntermediaryAccount, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
@@ -257,12 +307,61 @@ export const SuperfluidIntermediaryAccount = {
     message.gaugeId !== undefined && (obj.gaugeId = (message.gaugeId || BigInt(0)).toString());
     return obj;
   },
-  fromPartial(object: Partial<SuperfluidIntermediaryAccount>): SuperfluidIntermediaryAccount {
+  fromPartial(object: DeepPartial<SuperfluidIntermediaryAccount>): SuperfluidIntermediaryAccount {
     const message = createBaseSuperfluidIntermediaryAccount();
     message.denom = object.denom ?? "";
     message.valAddr = object.valAddr ?? "";
     message.gaugeId = object.gaugeId !== undefined && object.gaugeId !== null ? BigInt(object.gaugeId.toString()) : BigInt(0);
     return message;
+  },
+  fromSDK(object: SuperfluidIntermediaryAccountSDKType): SuperfluidIntermediaryAccount {
+    return {
+      denom: object?.denom,
+      valAddr: object?.val_addr,
+      gaugeId: object?.gauge_id
+    };
+  },
+  toSDK(message: SuperfluidIntermediaryAccount): SuperfluidIntermediaryAccountSDKType {
+    const obj: any = {};
+    obj.denom = message.denom;
+    obj.val_addr = message.valAddr;
+    obj.gauge_id = message.gaugeId;
+    return obj;
+  },
+  fromAmino(object: SuperfluidIntermediaryAccountAmino): SuperfluidIntermediaryAccount {
+    return {
+      denom: object.denom,
+      valAddr: object.val_addr,
+      gaugeId: BigInt(object.gauge_id)
+    };
+  },
+  toAmino(message: SuperfluidIntermediaryAccount): SuperfluidIntermediaryAccountAmino {
+    const obj: any = {};
+    obj.denom = message.denom;
+    obj.val_addr = message.valAddr;
+    obj.gauge_id = message.gaugeId ? message.gaugeId.toString() : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: SuperfluidIntermediaryAccountAminoMsg): SuperfluidIntermediaryAccount {
+    return SuperfluidIntermediaryAccount.fromAmino(object.value);
+  },
+  toAminoMsg(message: SuperfluidIntermediaryAccount): SuperfluidIntermediaryAccountAminoMsg {
+    return {
+      type: "osmosis/superfluid-intermediary-account",
+      value: SuperfluidIntermediaryAccount.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: SuperfluidIntermediaryAccountProtoMsg): SuperfluidIntermediaryAccount {
+    return SuperfluidIntermediaryAccount.decode(message.value);
+  },
+  toProto(message: SuperfluidIntermediaryAccount): Uint8Array {
+    return SuperfluidIntermediaryAccount.encode(message).finish();
+  },
+  toProtoMsg(message: SuperfluidIntermediaryAccount): SuperfluidIntermediaryAccountProtoMsg {
+    return {
+      typeUrl: "/osmosis.superfluid.SuperfluidIntermediaryAccount",
+      value: SuperfluidIntermediaryAccount.encode(message).finish()
+    };
   }
 };
 function createBaseOsmoEquivalentMultiplierRecord(): OsmoEquivalentMultiplierRecord {
@@ -273,6 +372,8 @@ function createBaseOsmoEquivalentMultiplierRecord(): OsmoEquivalentMultiplierRec
   };
 }
 export const OsmoEquivalentMultiplierRecord = {
+  typeUrl: "/osmosis.superfluid.OsmoEquivalentMultiplierRecord",
+  aminoType: "osmosis/osmo-equivalent-multiplier-record",
   encode(message: OsmoEquivalentMultiplierRecord, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.epochNumber !== BigInt(0)) {
       writer.uint32(8).int64(message.epochNumber);
@@ -281,7 +382,7 @@ export const OsmoEquivalentMultiplierRecord = {
       writer.uint32(18).string(message.denom);
     }
     if (message.multiplier !== "") {
-      writer.uint32(26).string(message.multiplier);
+      writer.uint32(26).string(Decimal.fromUserInput(message.multiplier, 18).atomics);
     }
     return writer;
   },
@@ -299,7 +400,7 @@ export const OsmoEquivalentMultiplierRecord = {
           message.denom = reader.string();
           break;
         case 3:
-          message.multiplier = reader.string();
+          message.multiplier = Decimal.fromAtomics(reader.string(), 18).toString();
           break;
         default:
           reader.skipType(tag & 7);
@@ -322,12 +423,61 @@ export const OsmoEquivalentMultiplierRecord = {
     message.multiplier !== undefined && (obj.multiplier = message.multiplier);
     return obj;
   },
-  fromPartial(object: Partial<OsmoEquivalentMultiplierRecord>): OsmoEquivalentMultiplierRecord {
+  fromPartial(object: DeepPartial<OsmoEquivalentMultiplierRecord>): OsmoEquivalentMultiplierRecord {
     const message = createBaseOsmoEquivalentMultiplierRecord();
     message.epochNumber = object.epochNumber !== undefined && object.epochNumber !== null ? BigInt(object.epochNumber.toString()) : BigInt(0);
     message.denom = object.denom ?? "";
     message.multiplier = object.multiplier ?? "";
     return message;
+  },
+  fromSDK(object: OsmoEquivalentMultiplierRecordSDKType): OsmoEquivalentMultiplierRecord {
+    return {
+      epochNumber: object?.epoch_number,
+      denom: object?.denom,
+      multiplier: object?.multiplier
+    };
+  },
+  toSDK(message: OsmoEquivalentMultiplierRecord): OsmoEquivalentMultiplierRecordSDKType {
+    const obj: any = {};
+    obj.epoch_number = message.epochNumber;
+    obj.denom = message.denom;
+    obj.multiplier = message.multiplier;
+    return obj;
+  },
+  fromAmino(object: OsmoEquivalentMultiplierRecordAmino): OsmoEquivalentMultiplierRecord {
+    return {
+      epochNumber: BigInt(object.epoch_number),
+      denom: object.denom,
+      multiplier: object.multiplier
+    };
+  },
+  toAmino(message: OsmoEquivalentMultiplierRecord): OsmoEquivalentMultiplierRecordAmino {
+    const obj: any = {};
+    obj.epoch_number = message.epochNumber ? message.epochNumber.toString() : undefined;
+    obj.denom = message.denom;
+    obj.multiplier = message.multiplier;
+    return obj;
+  },
+  fromAminoMsg(object: OsmoEquivalentMultiplierRecordAminoMsg): OsmoEquivalentMultiplierRecord {
+    return OsmoEquivalentMultiplierRecord.fromAmino(object.value);
+  },
+  toAminoMsg(message: OsmoEquivalentMultiplierRecord): OsmoEquivalentMultiplierRecordAminoMsg {
+    return {
+      type: "osmosis/osmo-equivalent-multiplier-record",
+      value: OsmoEquivalentMultiplierRecord.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: OsmoEquivalentMultiplierRecordProtoMsg): OsmoEquivalentMultiplierRecord {
+    return OsmoEquivalentMultiplierRecord.decode(message.value);
+  },
+  toProto(message: OsmoEquivalentMultiplierRecord): Uint8Array {
+    return OsmoEquivalentMultiplierRecord.encode(message).finish();
+  },
+  toProtoMsg(message: OsmoEquivalentMultiplierRecord): OsmoEquivalentMultiplierRecordProtoMsg {
+    return {
+      typeUrl: "/osmosis.superfluid.OsmoEquivalentMultiplierRecord",
+      value: OsmoEquivalentMultiplierRecord.encode(message).finish()
+    };
   }
 };
 function createBaseSuperfluidDelegationRecord(): SuperfluidDelegationRecord {
@@ -339,6 +489,8 @@ function createBaseSuperfluidDelegationRecord(): SuperfluidDelegationRecord {
   };
 }
 export const SuperfluidDelegationRecord = {
+  typeUrl: "/osmosis.superfluid.SuperfluidDelegationRecord",
+  aminoType: "osmosis/superfluid-delegation-record",
   encode(message: SuperfluidDelegationRecord, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
@@ -396,13 +548,66 @@ export const SuperfluidDelegationRecord = {
     message.equivalentStakedAmount !== undefined && (obj.equivalentStakedAmount = message.equivalentStakedAmount ? Coin.toJSON(message.equivalentStakedAmount) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<SuperfluidDelegationRecord>): SuperfluidDelegationRecord {
+  fromPartial(object: DeepPartial<SuperfluidDelegationRecord>): SuperfluidDelegationRecord {
     const message = createBaseSuperfluidDelegationRecord();
     message.delegatorAddress = object.delegatorAddress ?? "";
     message.validatorAddress = object.validatorAddress ?? "";
     message.delegationAmount = object.delegationAmount !== undefined && object.delegationAmount !== null ? Coin.fromPartial(object.delegationAmount) : undefined;
     message.equivalentStakedAmount = object.equivalentStakedAmount !== undefined && object.equivalentStakedAmount !== null ? Coin.fromPartial(object.equivalentStakedAmount) : undefined;
     return message;
+  },
+  fromSDK(object: SuperfluidDelegationRecordSDKType): SuperfluidDelegationRecord {
+    return {
+      delegatorAddress: object?.delegator_address,
+      validatorAddress: object?.validator_address,
+      delegationAmount: object.delegation_amount ? Coin.fromSDK(object.delegation_amount) : undefined,
+      equivalentStakedAmount: object.equivalent_staked_amount ? Coin.fromSDK(object.equivalent_staked_amount) : undefined
+    };
+  },
+  toSDK(message: SuperfluidDelegationRecord): SuperfluidDelegationRecordSDKType {
+    const obj: any = {};
+    obj.delegator_address = message.delegatorAddress;
+    obj.validator_address = message.validatorAddress;
+    message.delegationAmount !== undefined && (obj.delegation_amount = message.delegationAmount ? Coin.toSDK(message.delegationAmount) : undefined);
+    message.equivalentStakedAmount !== undefined && (obj.equivalent_staked_amount = message.equivalentStakedAmount ? Coin.toSDK(message.equivalentStakedAmount) : undefined);
+    return obj;
+  },
+  fromAmino(object: SuperfluidDelegationRecordAmino): SuperfluidDelegationRecord {
+    return {
+      delegatorAddress: object.delegator_address,
+      validatorAddress: object.validator_address,
+      delegationAmount: object?.delegation_amount ? Coin.fromAmino(object.delegation_amount) : undefined,
+      equivalentStakedAmount: object?.equivalent_staked_amount ? Coin.fromAmino(object.equivalent_staked_amount) : undefined
+    };
+  },
+  toAmino(message: SuperfluidDelegationRecord): SuperfluidDelegationRecordAmino {
+    const obj: any = {};
+    obj.delegator_address = message.delegatorAddress;
+    obj.validator_address = message.validatorAddress;
+    obj.delegation_amount = message.delegationAmount ? Coin.toAmino(message.delegationAmount) : undefined;
+    obj.equivalent_staked_amount = message.equivalentStakedAmount ? Coin.toAmino(message.equivalentStakedAmount) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: SuperfluidDelegationRecordAminoMsg): SuperfluidDelegationRecord {
+    return SuperfluidDelegationRecord.fromAmino(object.value);
+  },
+  toAminoMsg(message: SuperfluidDelegationRecord): SuperfluidDelegationRecordAminoMsg {
+    return {
+      type: "osmosis/superfluid-delegation-record",
+      value: SuperfluidDelegationRecord.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: SuperfluidDelegationRecordProtoMsg): SuperfluidDelegationRecord {
+    return SuperfluidDelegationRecord.decode(message.value);
+  },
+  toProto(message: SuperfluidDelegationRecord): Uint8Array {
+    return SuperfluidDelegationRecord.encode(message).finish();
+  },
+  toProtoMsg(message: SuperfluidDelegationRecord): SuperfluidDelegationRecordProtoMsg {
+    return {
+      typeUrl: "/osmosis.superfluid.SuperfluidDelegationRecord",
+      value: SuperfluidDelegationRecord.encode(message).finish()
+    };
   }
 };
 function createBaseLockIdIntermediaryAccountConnection(): LockIdIntermediaryAccountConnection {
@@ -412,6 +617,8 @@ function createBaseLockIdIntermediaryAccountConnection(): LockIdIntermediaryAcco
   };
 }
 export const LockIdIntermediaryAccountConnection = {
+  typeUrl: "/osmosis.superfluid.LockIdIntermediaryAccountConnection",
+  aminoType: "osmosis/lock-id-intermediary-account-connection",
   encode(message: LockIdIntermediaryAccountConnection, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.lockId !== BigInt(0)) {
       writer.uint32(8).uint64(message.lockId);
@@ -453,11 +660,56 @@ export const LockIdIntermediaryAccountConnection = {
     message.intermediaryAccount !== undefined && (obj.intermediaryAccount = message.intermediaryAccount);
     return obj;
   },
-  fromPartial(object: Partial<LockIdIntermediaryAccountConnection>): LockIdIntermediaryAccountConnection {
+  fromPartial(object: DeepPartial<LockIdIntermediaryAccountConnection>): LockIdIntermediaryAccountConnection {
     const message = createBaseLockIdIntermediaryAccountConnection();
     message.lockId = object.lockId !== undefined && object.lockId !== null ? BigInt(object.lockId.toString()) : BigInt(0);
     message.intermediaryAccount = object.intermediaryAccount ?? "";
     return message;
+  },
+  fromSDK(object: LockIdIntermediaryAccountConnectionSDKType): LockIdIntermediaryAccountConnection {
+    return {
+      lockId: object?.lock_id,
+      intermediaryAccount: object?.intermediary_account
+    };
+  },
+  toSDK(message: LockIdIntermediaryAccountConnection): LockIdIntermediaryAccountConnectionSDKType {
+    const obj: any = {};
+    obj.lock_id = message.lockId;
+    obj.intermediary_account = message.intermediaryAccount;
+    return obj;
+  },
+  fromAmino(object: LockIdIntermediaryAccountConnectionAmino): LockIdIntermediaryAccountConnection {
+    return {
+      lockId: BigInt(object.lock_id),
+      intermediaryAccount: object.intermediary_account
+    };
+  },
+  toAmino(message: LockIdIntermediaryAccountConnection): LockIdIntermediaryAccountConnectionAmino {
+    const obj: any = {};
+    obj.lock_id = message.lockId ? message.lockId.toString() : undefined;
+    obj.intermediary_account = message.intermediaryAccount;
+    return obj;
+  },
+  fromAminoMsg(object: LockIdIntermediaryAccountConnectionAminoMsg): LockIdIntermediaryAccountConnection {
+    return LockIdIntermediaryAccountConnection.fromAmino(object.value);
+  },
+  toAminoMsg(message: LockIdIntermediaryAccountConnection): LockIdIntermediaryAccountConnectionAminoMsg {
+    return {
+      type: "osmosis/lock-id-intermediary-account-connection",
+      value: LockIdIntermediaryAccountConnection.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: LockIdIntermediaryAccountConnectionProtoMsg): LockIdIntermediaryAccountConnection {
+    return LockIdIntermediaryAccountConnection.decode(message.value);
+  },
+  toProto(message: LockIdIntermediaryAccountConnection): Uint8Array {
+    return LockIdIntermediaryAccountConnection.encode(message).finish();
+  },
+  toProtoMsg(message: LockIdIntermediaryAccountConnection): LockIdIntermediaryAccountConnectionProtoMsg {
+    return {
+      typeUrl: "/osmosis.superfluid.LockIdIntermediaryAccountConnection",
+      value: LockIdIntermediaryAccountConnection.encode(message).finish()
+    };
   }
 };
 function createBaseUnpoolWhitelistedPools(): UnpoolWhitelistedPools {
@@ -466,6 +718,8 @@ function createBaseUnpoolWhitelistedPools(): UnpoolWhitelistedPools {
   };
 }
 export const UnpoolWhitelistedPools = {
+  typeUrl: "/osmosis.superfluid.UnpoolWhitelistedPools",
+  aminoType: "osmosis/unpool-whitelisted-pools",
   encode(message: UnpoolWhitelistedPools, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     writer.uint32(10).fork();
     for (const v of message.ids) {
@@ -512,9 +766,58 @@ export const UnpoolWhitelistedPools = {
     }
     return obj;
   },
-  fromPartial(object: Partial<UnpoolWhitelistedPools>): UnpoolWhitelistedPools {
+  fromPartial(object: DeepPartial<UnpoolWhitelistedPools>): UnpoolWhitelistedPools {
     const message = createBaseUnpoolWhitelistedPools();
     message.ids = object.ids?.map(e => BigInt(e.toString())) || [];
     return message;
+  },
+  fromSDK(object: UnpoolWhitelistedPoolsSDKType): UnpoolWhitelistedPools {
+    return {
+      ids: Array.isArray(object?.ids) ? object.ids.map((e: any) => e) : []
+    };
+  },
+  toSDK(message: UnpoolWhitelistedPools): UnpoolWhitelistedPoolsSDKType {
+    const obj: any = {};
+    if (message.ids) {
+      obj.ids = message.ids.map(e => e);
+    } else {
+      obj.ids = [];
+    }
+    return obj;
+  },
+  fromAmino(object: UnpoolWhitelistedPoolsAmino): UnpoolWhitelistedPools {
+    return {
+      ids: Array.isArray(object?.ids) ? object.ids.map((e: any) => BigInt(e)) : []
+    };
+  },
+  toAmino(message: UnpoolWhitelistedPools): UnpoolWhitelistedPoolsAmino {
+    const obj: any = {};
+    if (message.ids) {
+      obj.ids = message.ids.map(e => e.toString());
+    } else {
+      obj.ids = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: UnpoolWhitelistedPoolsAminoMsg): UnpoolWhitelistedPools {
+    return UnpoolWhitelistedPools.fromAmino(object.value);
+  },
+  toAminoMsg(message: UnpoolWhitelistedPools): UnpoolWhitelistedPoolsAminoMsg {
+    return {
+      type: "osmosis/unpool-whitelisted-pools",
+      value: UnpoolWhitelistedPools.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: UnpoolWhitelistedPoolsProtoMsg): UnpoolWhitelistedPools {
+    return UnpoolWhitelistedPools.decode(message.value);
+  },
+  toProto(message: UnpoolWhitelistedPools): Uint8Array {
+    return UnpoolWhitelistedPools.encode(message).finish();
+  },
+  toProtoMsg(message: UnpoolWhitelistedPools): UnpoolWhitelistedPoolsProtoMsg {
+    return {
+      typeUrl: "/osmosis.superfluid.UnpoolWhitelistedPools",
+      value: UnpoolWhitelistedPools.encode(message).finish()
+    };
   }
 };

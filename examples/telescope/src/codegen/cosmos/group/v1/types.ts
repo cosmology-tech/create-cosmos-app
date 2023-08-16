@@ -1,8 +1,8 @@
-import { Timestamp, TimestampSDKType } from "../../../google/protobuf/timestamp";
+import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isSet, fromJsonTimestamp, fromTimestamp } from "../../../helpers";
+import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 /** VoteOption enumerates the valid vote options for a given proposal. */
 export enum VoteOption {
   /** VOTE_OPTION_UNSPECIFIED - VOTE_OPTION_UNSPECIFIED defines a no-op vote option. */
@@ -224,7 +224,7 @@ export interface Member {
   /** metadata is any arbitrary metadata to attached to the member. */
   metadata: string;
   /** added_at is a timestamp specifying when a member was added. */
-  addedAt: Timestamp;
+  addedAt: Date | undefined;
 }
 /**
  * Member represents a group member with an account address,
@@ -234,7 +234,7 @@ export interface MemberSDKType {
   address: string;
   weight: string;
   metadata: string;
-  added_at: TimestampSDKType;
+  added_at: Date | undefined;
 }
 /** Members defines a repeated slice of Member objects. */
 export interface Members {
@@ -250,24 +250,24 @@ export interface ThresholdDecisionPolicy {
   /** threshold is the minimum weighted sum of yes votes that must be met or exceeded for a proposal to succeed. */
   threshold: string;
   /** windows defines the different windows for voting and execution. */
-  windows: DecisionPolicyWindows;
+  windows: DecisionPolicyWindows | undefined;
 }
 /** ThresholdDecisionPolicy implements the DecisionPolicy interface */
 export interface ThresholdDecisionPolicySDKType {
   threshold: string;
-  windows: DecisionPolicyWindowsSDKType;
+  windows: DecisionPolicyWindowsSDKType | undefined;
 }
 /** PercentageDecisionPolicy implements the DecisionPolicy interface */
 export interface PercentageDecisionPolicy {
   /** percentage is the minimum percentage the weighted sum of yes votes must meet for a proposal to succeed. */
   percentage: string;
   /** windows defines the different windows for voting and execution. */
-  windows: DecisionPolicyWindows;
+  windows: DecisionPolicyWindows | undefined;
 }
 /** PercentageDecisionPolicy implements the DecisionPolicy interface */
 export interface PercentageDecisionPolicySDKType {
   percentage: string;
-  windows: DecisionPolicyWindowsSDKType;
+  windows: DecisionPolicyWindowsSDKType | undefined;
 }
 /** DecisionPolicyWindows defines the different windows for voting and execution. */
 export interface DecisionPolicyWindows {
@@ -275,7 +275,7 @@ export interface DecisionPolicyWindows {
    * voting_period is the duration from submission of a proposal to the end of voting period
    * Within this times votes can be submitted with MsgVote.
    */
-  votingPeriod: Duration;
+  votingPeriod: Duration | undefined;
   /**
    * min_execution_period is the minimum duration after the proposal submission
    * where members can start sending MsgExec. This means that the window for
@@ -289,12 +289,12 @@ export interface DecisionPolicyWindows {
    * is empty, meaning that all proposals created with this decision policy
    * won't be able to be executed.
    */
-  minExecutionPeriod: Duration;
+  minExecutionPeriod: Duration | undefined;
 }
 /** DecisionPolicyWindows defines the different windows for voting and execution. */
 export interface DecisionPolicyWindowsSDKType {
-  voting_period: DurationSDKType;
-  min_execution_period: DurationSDKType;
+  voting_period: DurationSDKType | undefined;
+  min_execution_period: DurationSDKType | undefined;
 }
 /** GroupInfo represents the high-level on-chain information for a group. */
 export interface GroupInfo {
@@ -314,7 +314,7 @@ export interface GroupInfo {
   /** total_weight is the sum of the group members' weights. */
   totalWeight: string;
   /** created_at is a timestamp specifying when a group was created. */
-  createdAt: Timestamp;
+  createdAt: Date | undefined;
 }
 /** GroupInfo represents the high-level on-chain information for a group. */
 export interface GroupInfoSDKType {
@@ -323,19 +323,19 @@ export interface GroupInfoSDKType {
   metadata: string;
   version: bigint;
   total_weight: string;
-  created_at: TimestampSDKType;
+  created_at: Date | undefined;
 }
 /** GroupMember represents the relationship between a group and a member. */
 export interface GroupMember {
   /** group_id is the unique ID of the group. */
   groupId: bigint;
   /** member is the member data. */
-  member: Member;
+  member: Member | undefined;
 }
 /** GroupMember represents the relationship between a group and a member. */
 export interface GroupMemberSDKType {
   group_id: bigint;
-  member: MemberSDKType;
+  member: MemberSDKType | undefined;
 }
 /** GroupPolicyInfo represents the high-level on-chain information for a group policy. */
 export interface GroupPolicyInfo {
@@ -353,9 +353,9 @@ export interface GroupPolicyInfo {
    */
   version: bigint;
   /** decision_policy specifies the group policy's decision policy. */
-  decisionPolicy: Any;
+  decisionPolicy: Any | undefined;
   /** created_at is a timestamp specifying when a group policy was created. */
-  createdAt: Timestamp;
+  createdAt: Date | undefined;
 }
 /** GroupPolicyInfo represents the high-level on-chain information for a group policy. */
 export interface GroupPolicyInfoSDKType {
@@ -364,8 +364,8 @@ export interface GroupPolicyInfoSDKType {
   admin: string;
   metadata: string;
   version: bigint;
-  decision_policy: AnySDKType;
-  created_at: TimestampSDKType;
+  decision_policy: AnySDKType | undefined;
+  created_at: Date | undefined;
 }
 /**
  * Proposal defines a group proposal. Any member of a group can submit a proposal
@@ -383,7 +383,7 @@ export interface Proposal {
   /** proposers are the account addresses of the proposers. */
   proposers: string[];
   /** submit_time is a timestamp specifying when a proposal was submitted. */
-  submitTime: Timestamp;
+  submitTime: Date | undefined;
   /**
    * group_version tracks the version of the group that this proposal corresponds to.
    * When group membership is changed, existing proposals from previous group versions will become invalid.
@@ -407,7 +407,7 @@ export interface Proposal {
    * via gRPC, this field is not populated until the proposal's voting period
    * has ended.
    */
-  finalTallyResult: TallyResult;
+  finalTallyResult: TallyResult | undefined;
   /**
    * voting_period_end is the timestamp before which voting must be done.
    * Unless a successfull MsgExec is called before (to execute a proposal whose
@@ -415,7 +415,7 @@ export interface Proposal {
    * at this point, and the `final_tally_result`, as well
    * as `status` and `result` fields will be accordingly updated.
    */
-  votingPeriodEnd: Timestamp;
+  votingPeriodEnd: Date | undefined;
   /** executor_result is the final result based on the votes and election rule. Initial value is NotRun. */
   executorResult: ProposalExecutorResult;
   /** messages is a list of Msgs that will be executed if the proposal passes. */
@@ -432,13 +432,13 @@ export interface ProposalSDKType {
   address: string;
   metadata: string;
   proposers: string[];
-  submit_time: TimestampSDKType;
+  submit_time: Date | undefined;
   group_version: bigint;
   group_policy_version: bigint;
   status: ProposalStatus;
   result: ProposalResult;
-  final_tally_result: TallyResultSDKType;
-  voting_period_end: TimestampSDKType;
+  final_tally_result: TallyResultSDKType | undefined;
+  voting_period_end: Date | undefined;
   executor_result: ProposalExecutorResult;
   messages: AnySDKType[];
 }
@@ -471,7 +471,7 @@ export interface Vote {
   /** metadata is any arbitrary metadata to attached to the vote. */
   metadata: string;
   /** submit_time is the timestamp when the vote was submitted. */
-  submitTime: Timestamp;
+  submitTime: Date | undefined;
 }
 /** Vote represents a vote for a proposal. */
 export interface VoteSDKType {
@@ -479,17 +479,19 @@ export interface VoteSDKType {
   voter: string;
   option: VoteOption;
   metadata: string;
-  submit_time: TimestampSDKType;
+  submit_time: Date | undefined;
 }
 function createBaseMember(): Member {
   return {
     address: "",
     weight: "",
     metadata: "",
-    addedAt: Timestamp.fromPartial({})
+    addedAt: new Date()
   };
 }
 export const Member = {
+  typeUrl: "/cosmos.group.v1.Member",
+  aminoType: "cosmos-sdk/Member",
   encode(message: Member, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
@@ -501,7 +503,7 @@ export const Member = {
       writer.uint32(26).string(message.metadata);
     }
     if (message.addedAt !== undefined) {
-      Timestamp.encode(message.addedAt, writer.uint32(34).fork()).ldelim();
+      Timestamp.encode(toTimestamp(message.addedAt), writer.uint32(34).fork()).ldelim();
     }
     return writer;
   },
@@ -522,7 +524,7 @@ export const Member = {
           message.metadata = reader.string();
           break;
         case 4:
-          message.addedAt = Timestamp.decode(reader, reader.uint32());
+          message.addedAt = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         default:
           reader.skipType(tag & 7);
@@ -536,7 +538,7 @@ export const Member = {
       address: isSet(object.address) ? String(object.address) : "",
       weight: isSet(object.weight) ? String(object.weight) : "",
       metadata: isSet(object.metadata) ? String(object.metadata) : "",
-      addedAt: isSet(object.addedAt) ? fromJsonTimestamp(object.addedAt) : undefined
+      addedAt: isSet(object.addedAt) ? new Date(object.addedAt) : undefined
     };
   },
   toJSON(message: Member): unknown {
@@ -544,16 +546,69 @@ export const Member = {
     message.address !== undefined && (obj.address = message.address);
     message.weight !== undefined && (obj.weight = message.weight);
     message.metadata !== undefined && (obj.metadata = message.metadata);
-    message.addedAt !== undefined && (obj.addedAt = fromTimestamp(message.addedAt).toISOString());
+    message.addedAt !== undefined && (obj.addedAt = message.addedAt.toISOString());
     return obj;
   },
-  fromPartial(object: Partial<Member>): Member {
+  fromPartial(object: DeepPartial<Member>): Member {
     const message = createBaseMember();
     message.address = object.address ?? "";
     message.weight = object.weight ?? "";
     message.metadata = object.metadata ?? "";
-    message.addedAt = object.addedAt !== undefined && object.addedAt !== null ? Timestamp.fromPartial(object.addedAt) : undefined;
+    message.addedAt = object.addedAt ?? undefined;
     return message;
+  },
+  fromSDK(object: MemberSDKType): Member {
+    return {
+      address: object?.address,
+      weight: object?.weight,
+      metadata: object?.metadata,
+      addedAt: object.added_at ?? undefined
+    };
+  },
+  toSDK(message: Member): MemberSDKType {
+    const obj: any = {};
+    obj.address = message.address;
+    obj.weight = message.weight;
+    obj.metadata = message.metadata;
+    message.addedAt !== undefined && (obj.added_at = message.addedAt ?? undefined);
+    return obj;
+  },
+  fromAmino(object: MemberAmino): Member {
+    return {
+      address: object.address,
+      weight: object.weight,
+      metadata: object.metadata,
+      addedAt: object.added_at
+    };
+  },
+  toAmino(message: Member): MemberAmino {
+    const obj: any = {};
+    obj.address = message.address;
+    obj.weight = message.weight;
+    obj.metadata = message.metadata;
+    obj.added_at = message.addedAt;
+    return obj;
+  },
+  fromAminoMsg(object: MemberAminoMsg): Member {
+    return Member.fromAmino(object.value);
+  },
+  toAminoMsg(message: Member): MemberAminoMsg {
+    return {
+      type: "cosmos-sdk/Member",
+      value: Member.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MemberProtoMsg): Member {
+    return Member.decode(message.value);
+  },
+  toProto(message: Member): Uint8Array {
+    return Member.encode(message).finish();
+  },
+  toProtoMsg(message: Member): MemberProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.Member",
+      value: Member.encode(message).finish()
+    };
   }
 };
 function createBaseMembers(): Members {
@@ -562,6 +617,8 @@ function createBaseMembers(): Members {
   };
 }
 export const Members = {
+  typeUrl: "/cosmos.group.v1.Members",
+  aminoType: "cosmos-sdk/Members",
   encode(message: Members, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.members) {
       Member.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -599,10 +656,59 @@ export const Members = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Members>): Members {
+  fromPartial(object: DeepPartial<Members>): Members {
     const message = createBaseMembers();
     message.members = object.members?.map(e => Member.fromPartial(e)) || [];
     return message;
+  },
+  fromSDK(object: MembersSDKType): Members {
+    return {
+      members: Array.isArray(object?.members) ? object.members.map((e: any) => Member.fromSDK(e)) : []
+    };
+  },
+  toSDK(message: Members): MembersSDKType {
+    const obj: any = {};
+    if (message.members) {
+      obj.members = message.members.map(e => e ? Member.toSDK(e) : undefined);
+    } else {
+      obj.members = [];
+    }
+    return obj;
+  },
+  fromAmino(object: MembersAmino): Members {
+    return {
+      members: Array.isArray(object?.members) ? object.members.map((e: any) => Member.fromAmino(e)) : []
+    };
+  },
+  toAmino(message: Members): MembersAmino {
+    const obj: any = {};
+    if (message.members) {
+      obj.members = message.members.map(e => e ? Member.toAmino(e) : undefined);
+    } else {
+      obj.members = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: MembersAminoMsg): Members {
+    return Members.fromAmino(object.value);
+  },
+  toAminoMsg(message: Members): MembersAminoMsg {
+    return {
+      type: "cosmos-sdk/Members",
+      value: Members.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MembersProtoMsg): Members {
+    return Members.decode(message.value);
+  },
+  toProto(message: Members): Uint8Array {
+    return Members.encode(message).finish();
+  },
+  toProtoMsg(message: Members): MembersProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.Members",
+      value: Members.encode(message).finish()
+    };
   }
 };
 function createBaseThresholdDecisionPolicy(): ThresholdDecisionPolicy {
@@ -612,6 +718,8 @@ function createBaseThresholdDecisionPolicy(): ThresholdDecisionPolicy {
   };
 }
 export const ThresholdDecisionPolicy = {
+  typeUrl: "/cosmos.group.v1.ThresholdDecisionPolicy",
+  aminoType: "cosmos-sdk/ThresholdDecisionPolicy",
   encode(message: ThresholdDecisionPolicy, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.threshold !== "") {
       writer.uint32(10).string(message.threshold);
@@ -653,11 +761,56 @@ export const ThresholdDecisionPolicy = {
     message.windows !== undefined && (obj.windows = message.windows ? DecisionPolicyWindows.toJSON(message.windows) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<ThresholdDecisionPolicy>): ThresholdDecisionPolicy {
+  fromPartial(object: DeepPartial<ThresholdDecisionPolicy>): ThresholdDecisionPolicy {
     const message = createBaseThresholdDecisionPolicy();
     message.threshold = object.threshold ?? "";
     message.windows = object.windows !== undefined && object.windows !== null ? DecisionPolicyWindows.fromPartial(object.windows) : undefined;
     return message;
+  },
+  fromSDK(object: ThresholdDecisionPolicySDKType): ThresholdDecisionPolicy {
+    return {
+      threshold: object?.threshold,
+      windows: object.windows ? DecisionPolicyWindows.fromSDK(object.windows) : undefined
+    };
+  },
+  toSDK(message: ThresholdDecisionPolicy): ThresholdDecisionPolicySDKType {
+    const obj: any = {};
+    obj.threshold = message.threshold;
+    message.windows !== undefined && (obj.windows = message.windows ? DecisionPolicyWindows.toSDK(message.windows) : undefined);
+    return obj;
+  },
+  fromAmino(object: ThresholdDecisionPolicyAmino): ThresholdDecisionPolicy {
+    return {
+      threshold: object.threshold,
+      windows: object?.windows ? DecisionPolicyWindows.fromAmino(object.windows) : undefined
+    };
+  },
+  toAmino(message: ThresholdDecisionPolicy): ThresholdDecisionPolicyAmino {
+    const obj: any = {};
+    obj.threshold = message.threshold;
+    obj.windows = message.windows ? DecisionPolicyWindows.toAmino(message.windows) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: ThresholdDecisionPolicyAminoMsg): ThresholdDecisionPolicy {
+    return ThresholdDecisionPolicy.fromAmino(object.value);
+  },
+  toAminoMsg(message: ThresholdDecisionPolicy): ThresholdDecisionPolicyAminoMsg {
+    return {
+      type: "cosmos-sdk/ThresholdDecisionPolicy",
+      value: ThresholdDecisionPolicy.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: ThresholdDecisionPolicyProtoMsg): ThresholdDecisionPolicy {
+    return ThresholdDecisionPolicy.decode(message.value);
+  },
+  toProto(message: ThresholdDecisionPolicy): Uint8Array {
+    return ThresholdDecisionPolicy.encode(message).finish();
+  },
+  toProtoMsg(message: ThresholdDecisionPolicy): ThresholdDecisionPolicyProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.ThresholdDecisionPolicy",
+      value: ThresholdDecisionPolicy.encode(message).finish()
+    };
   }
 };
 function createBasePercentageDecisionPolicy(): PercentageDecisionPolicy {
@@ -667,6 +820,8 @@ function createBasePercentageDecisionPolicy(): PercentageDecisionPolicy {
   };
 }
 export const PercentageDecisionPolicy = {
+  typeUrl: "/cosmos.group.v1.PercentageDecisionPolicy",
+  aminoType: "cosmos-sdk/PercentageDecisionPolicy",
   encode(message: PercentageDecisionPolicy, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.percentage !== "") {
       writer.uint32(10).string(message.percentage);
@@ -708,11 +863,56 @@ export const PercentageDecisionPolicy = {
     message.windows !== undefined && (obj.windows = message.windows ? DecisionPolicyWindows.toJSON(message.windows) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<PercentageDecisionPolicy>): PercentageDecisionPolicy {
+  fromPartial(object: DeepPartial<PercentageDecisionPolicy>): PercentageDecisionPolicy {
     const message = createBasePercentageDecisionPolicy();
     message.percentage = object.percentage ?? "";
     message.windows = object.windows !== undefined && object.windows !== null ? DecisionPolicyWindows.fromPartial(object.windows) : undefined;
     return message;
+  },
+  fromSDK(object: PercentageDecisionPolicySDKType): PercentageDecisionPolicy {
+    return {
+      percentage: object?.percentage,
+      windows: object.windows ? DecisionPolicyWindows.fromSDK(object.windows) : undefined
+    };
+  },
+  toSDK(message: PercentageDecisionPolicy): PercentageDecisionPolicySDKType {
+    const obj: any = {};
+    obj.percentage = message.percentage;
+    message.windows !== undefined && (obj.windows = message.windows ? DecisionPolicyWindows.toSDK(message.windows) : undefined);
+    return obj;
+  },
+  fromAmino(object: PercentageDecisionPolicyAmino): PercentageDecisionPolicy {
+    return {
+      percentage: object.percentage,
+      windows: object?.windows ? DecisionPolicyWindows.fromAmino(object.windows) : undefined
+    };
+  },
+  toAmino(message: PercentageDecisionPolicy): PercentageDecisionPolicyAmino {
+    const obj: any = {};
+    obj.percentage = message.percentage;
+    obj.windows = message.windows ? DecisionPolicyWindows.toAmino(message.windows) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: PercentageDecisionPolicyAminoMsg): PercentageDecisionPolicy {
+    return PercentageDecisionPolicy.fromAmino(object.value);
+  },
+  toAminoMsg(message: PercentageDecisionPolicy): PercentageDecisionPolicyAminoMsg {
+    return {
+      type: "cosmos-sdk/PercentageDecisionPolicy",
+      value: PercentageDecisionPolicy.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: PercentageDecisionPolicyProtoMsg): PercentageDecisionPolicy {
+    return PercentageDecisionPolicy.decode(message.value);
+  },
+  toProto(message: PercentageDecisionPolicy): Uint8Array {
+    return PercentageDecisionPolicy.encode(message).finish();
+  },
+  toProtoMsg(message: PercentageDecisionPolicy): PercentageDecisionPolicyProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.PercentageDecisionPolicy",
+      value: PercentageDecisionPolicy.encode(message).finish()
+    };
   }
 };
 function createBaseDecisionPolicyWindows(): DecisionPolicyWindows {
@@ -722,6 +922,8 @@ function createBaseDecisionPolicyWindows(): DecisionPolicyWindows {
   };
 }
 export const DecisionPolicyWindows = {
+  typeUrl: "/cosmos.group.v1.DecisionPolicyWindows",
+  aminoType: "cosmos-sdk/DecisionPolicyWindows",
   encode(message: DecisionPolicyWindows, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.votingPeriod !== undefined) {
       Duration.encode(message.votingPeriod, writer.uint32(10).fork()).ldelim();
@@ -763,11 +965,56 @@ export const DecisionPolicyWindows = {
     message.minExecutionPeriod !== undefined && (obj.minExecutionPeriod = message.minExecutionPeriod ? Duration.toJSON(message.minExecutionPeriod) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<DecisionPolicyWindows>): DecisionPolicyWindows {
+  fromPartial(object: DeepPartial<DecisionPolicyWindows>): DecisionPolicyWindows {
     const message = createBaseDecisionPolicyWindows();
     message.votingPeriod = object.votingPeriod !== undefined && object.votingPeriod !== null ? Duration.fromPartial(object.votingPeriod) : undefined;
     message.minExecutionPeriod = object.minExecutionPeriod !== undefined && object.minExecutionPeriod !== null ? Duration.fromPartial(object.minExecutionPeriod) : undefined;
     return message;
+  },
+  fromSDK(object: DecisionPolicyWindowsSDKType): DecisionPolicyWindows {
+    return {
+      votingPeriod: object.voting_period ? Duration.fromSDK(object.voting_period) : undefined,
+      minExecutionPeriod: object.min_execution_period ? Duration.fromSDK(object.min_execution_period) : undefined
+    };
+  },
+  toSDK(message: DecisionPolicyWindows): DecisionPolicyWindowsSDKType {
+    const obj: any = {};
+    message.votingPeriod !== undefined && (obj.voting_period = message.votingPeriod ? Duration.toSDK(message.votingPeriod) : undefined);
+    message.minExecutionPeriod !== undefined && (obj.min_execution_period = message.minExecutionPeriod ? Duration.toSDK(message.minExecutionPeriod) : undefined);
+    return obj;
+  },
+  fromAmino(object: DecisionPolicyWindowsAmino): DecisionPolicyWindows {
+    return {
+      votingPeriod: object?.voting_period ? Duration.fromAmino(object.voting_period) : undefined,
+      minExecutionPeriod: object?.min_execution_period ? Duration.fromAmino(object.min_execution_period) : undefined
+    };
+  },
+  toAmino(message: DecisionPolicyWindows): DecisionPolicyWindowsAmino {
+    const obj: any = {};
+    obj.voting_period = message.votingPeriod ? Duration.toAmino(message.votingPeriod) : undefined;
+    obj.min_execution_period = message.minExecutionPeriod ? Duration.toAmino(message.minExecutionPeriod) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: DecisionPolicyWindowsAminoMsg): DecisionPolicyWindows {
+    return DecisionPolicyWindows.fromAmino(object.value);
+  },
+  toAminoMsg(message: DecisionPolicyWindows): DecisionPolicyWindowsAminoMsg {
+    return {
+      type: "cosmos-sdk/DecisionPolicyWindows",
+      value: DecisionPolicyWindows.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: DecisionPolicyWindowsProtoMsg): DecisionPolicyWindows {
+    return DecisionPolicyWindows.decode(message.value);
+  },
+  toProto(message: DecisionPolicyWindows): Uint8Array {
+    return DecisionPolicyWindows.encode(message).finish();
+  },
+  toProtoMsg(message: DecisionPolicyWindows): DecisionPolicyWindowsProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.DecisionPolicyWindows",
+      value: DecisionPolicyWindows.encode(message).finish()
+    };
   }
 };
 function createBaseGroupInfo(): GroupInfo {
@@ -777,10 +1024,12 @@ function createBaseGroupInfo(): GroupInfo {
     metadata: "",
     version: BigInt(0),
     totalWeight: "",
-    createdAt: Timestamp.fromPartial({})
+    createdAt: new Date()
   };
 }
 export const GroupInfo = {
+  typeUrl: "/cosmos.group.v1.GroupInfo",
+  aminoType: "cosmos-sdk/GroupInfo",
   encode(message: GroupInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -798,7 +1047,7 @@ export const GroupInfo = {
       writer.uint32(42).string(message.totalWeight);
     }
     if (message.createdAt !== undefined) {
-      Timestamp.encode(message.createdAt, writer.uint32(50).fork()).ldelim();
+      Timestamp.encode(toTimestamp(message.createdAt), writer.uint32(50).fork()).ldelim();
     }
     return writer;
   },
@@ -825,7 +1074,7 @@ export const GroupInfo = {
           message.totalWeight = reader.string();
           break;
         case 6:
-          message.createdAt = Timestamp.decode(reader, reader.uint32());
+          message.createdAt = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         default:
           reader.skipType(tag & 7);
@@ -841,7 +1090,7 @@ export const GroupInfo = {
       metadata: isSet(object.metadata) ? String(object.metadata) : "",
       version: isSet(object.version) ? BigInt(object.version.toString()) : BigInt(0),
       totalWeight: isSet(object.totalWeight) ? String(object.totalWeight) : "",
-      createdAt: isSet(object.createdAt) ? fromJsonTimestamp(object.createdAt) : undefined
+      createdAt: isSet(object.createdAt) ? new Date(object.createdAt) : undefined
     };
   },
   toJSON(message: GroupInfo): unknown {
@@ -851,18 +1100,79 @@ export const GroupInfo = {
     message.metadata !== undefined && (obj.metadata = message.metadata);
     message.version !== undefined && (obj.version = (message.version || BigInt(0)).toString());
     message.totalWeight !== undefined && (obj.totalWeight = message.totalWeight);
-    message.createdAt !== undefined && (obj.createdAt = fromTimestamp(message.createdAt).toISOString());
+    message.createdAt !== undefined && (obj.createdAt = message.createdAt.toISOString());
     return obj;
   },
-  fromPartial(object: Partial<GroupInfo>): GroupInfo {
+  fromPartial(object: DeepPartial<GroupInfo>): GroupInfo {
     const message = createBaseGroupInfo();
     message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt(0);
     message.admin = object.admin ?? "";
     message.metadata = object.metadata ?? "";
     message.version = object.version !== undefined && object.version !== null ? BigInt(object.version.toString()) : BigInt(0);
     message.totalWeight = object.totalWeight ?? "";
-    message.createdAt = object.createdAt !== undefined && object.createdAt !== null ? Timestamp.fromPartial(object.createdAt) : undefined;
+    message.createdAt = object.createdAt ?? undefined;
     return message;
+  },
+  fromSDK(object: GroupInfoSDKType): GroupInfo {
+    return {
+      id: object?.id,
+      admin: object?.admin,
+      metadata: object?.metadata,
+      version: object?.version,
+      totalWeight: object?.total_weight,
+      createdAt: object.created_at ?? undefined
+    };
+  },
+  toSDK(message: GroupInfo): GroupInfoSDKType {
+    const obj: any = {};
+    obj.id = message.id;
+    obj.admin = message.admin;
+    obj.metadata = message.metadata;
+    obj.version = message.version;
+    obj.total_weight = message.totalWeight;
+    message.createdAt !== undefined && (obj.created_at = message.createdAt ?? undefined);
+    return obj;
+  },
+  fromAmino(object: GroupInfoAmino): GroupInfo {
+    return {
+      id: BigInt(object.id),
+      admin: object.admin,
+      metadata: object.metadata,
+      version: BigInt(object.version),
+      totalWeight: object.total_weight,
+      createdAt: object.created_at
+    };
+  },
+  toAmino(message: GroupInfo): GroupInfoAmino {
+    const obj: any = {};
+    obj.id = message.id ? message.id.toString() : undefined;
+    obj.admin = message.admin;
+    obj.metadata = message.metadata;
+    obj.version = message.version ? message.version.toString() : undefined;
+    obj.total_weight = message.totalWeight;
+    obj.created_at = message.createdAt;
+    return obj;
+  },
+  fromAminoMsg(object: GroupInfoAminoMsg): GroupInfo {
+    return GroupInfo.fromAmino(object.value);
+  },
+  toAminoMsg(message: GroupInfo): GroupInfoAminoMsg {
+    return {
+      type: "cosmos-sdk/GroupInfo",
+      value: GroupInfo.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: GroupInfoProtoMsg): GroupInfo {
+    return GroupInfo.decode(message.value);
+  },
+  toProto(message: GroupInfo): Uint8Array {
+    return GroupInfo.encode(message).finish();
+  },
+  toProtoMsg(message: GroupInfo): GroupInfoProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.GroupInfo",
+      value: GroupInfo.encode(message).finish()
+    };
   }
 };
 function createBaseGroupMember(): GroupMember {
@@ -872,6 +1182,8 @@ function createBaseGroupMember(): GroupMember {
   };
 }
 export const GroupMember = {
+  typeUrl: "/cosmos.group.v1.GroupMember",
+  aminoType: "cosmos-sdk/GroupMember",
   encode(message: GroupMember, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.groupId !== BigInt(0)) {
       writer.uint32(8).uint64(message.groupId);
@@ -913,11 +1225,56 @@ export const GroupMember = {
     message.member !== undefined && (obj.member = message.member ? Member.toJSON(message.member) : undefined);
     return obj;
   },
-  fromPartial(object: Partial<GroupMember>): GroupMember {
+  fromPartial(object: DeepPartial<GroupMember>): GroupMember {
     const message = createBaseGroupMember();
     message.groupId = object.groupId !== undefined && object.groupId !== null ? BigInt(object.groupId.toString()) : BigInt(0);
     message.member = object.member !== undefined && object.member !== null ? Member.fromPartial(object.member) : undefined;
     return message;
+  },
+  fromSDK(object: GroupMemberSDKType): GroupMember {
+    return {
+      groupId: object?.group_id,
+      member: object.member ? Member.fromSDK(object.member) : undefined
+    };
+  },
+  toSDK(message: GroupMember): GroupMemberSDKType {
+    const obj: any = {};
+    obj.group_id = message.groupId;
+    message.member !== undefined && (obj.member = message.member ? Member.toSDK(message.member) : undefined);
+    return obj;
+  },
+  fromAmino(object: GroupMemberAmino): GroupMember {
+    return {
+      groupId: BigInt(object.group_id),
+      member: object?.member ? Member.fromAmino(object.member) : undefined
+    };
+  },
+  toAmino(message: GroupMember): GroupMemberAmino {
+    const obj: any = {};
+    obj.group_id = message.groupId ? message.groupId.toString() : undefined;
+    obj.member = message.member ? Member.toAmino(message.member) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: GroupMemberAminoMsg): GroupMember {
+    return GroupMember.fromAmino(object.value);
+  },
+  toAminoMsg(message: GroupMember): GroupMemberAminoMsg {
+    return {
+      type: "cosmos-sdk/GroupMember",
+      value: GroupMember.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: GroupMemberProtoMsg): GroupMember {
+    return GroupMember.decode(message.value);
+  },
+  toProto(message: GroupMember): Uint8Array {
+    return GroupMember.encode(message).finish();
+  },
+  toProtoMsg(message: GroupMember): GroupMemberProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.GroupMember",
+      value: GroupMember.encode(message).finish()
+    };
   }
 };
 function createBaseGroupPolicyInfo(): GroupPolicyInfo {
@@ -928,10 +1285,12 @@ function createBaseGroupPolicyInfo(): GroupPolicyInfo {
     metadata: "",
     version: BigInt(0),
     decisionPolicy: Any.fromPartial({}),
-    createdAt: Timestamp.fromPartial({})
+    createdAt: new Date()
   };
 }
 export const GroupPolicyInfo = {
+  typeUrl: "/cosmos.group.v1.GroupPolicyInfo",
+  aminoType: "cosmos-sdk/GroupPolicyInfo",
   encode(message: GroupPolicyInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
@@ -952,7 +1311,7 @@ export const GroupPolicyInfo = {
       Any.encode(message.decisionPolicy, writer.uint32(50).fork()).ldelim();
     }
     if (message.createdAt !== undefined) {
-      Timestamp.encode(message.createdAt, writer.uint32(58).fork()).ldelim();
+      Timestamp.encode(toTimestamp(message.createdAt), writer.uint32(58).fork()).ldelim();
     }
     return writer;
   },
@@ -982,7 +1341,7 @@ export const GroupPolicyInfo = {
           message.decisionPolicy = Any.decode(reader, reader.uint32());
           break;
         case 7:
-          message.createdAt = Timestamp.decode(reader, reader.uint32());
+          message.createdAt = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         default:
           reader.skipType(tag & 7);
@@ -999,7 +1358,7 @@ export const GroupPolicyInfo = {
       metadata: isSet(object.metadata) ? String(object.metadata) : "",
       version: isSet(object.version) ? BigInt(object.version.toString()) : BigInt(0),
       decisionPolicy: isSet(object.decisionPolicy) ? Any.fromJSON(object.decisionPolicy) : undefined,
-      createdAt: isSet(object.createdAt) ? fromJsonTimestamp(object.createdAt) : undefined
+      createdAt: isSet(object.createdAt) ? new Date(object.createdAt) : undefined
     };
   },
   toJSON(message: GroupPolicyInfo): unknown {
@@ -1010,10 +1369,10 @@ export const GroupPolicyInfo = {
     message.metadata !== undefined && (obj.metadata = message.metadata);
     message.version !== undefined && (obj.version = (message.version || BigInt(0)).toString());
     message.decisionPolicy !== undefined && (obj.decisionPolicy = message.decisionPolicy ? Any.toJSON(message.decisionPolicy) : undefined);
-    message.createdAt !== undefined && (obj.createdAt = fromTimestamp(message.createdAt).toISOString());
+    message.createdAt !== undefined && (obj.createdAt = message.createdAt.toISOString());
     return obj;
   },
-  fromPartial(object: Partial<GroupPolicyInfo>): GroupPolicyInfo {
+  fromPartial(object: DeepPartial<GroupPolicyInfo>): GroupPolicyInfo {
     const message = createBaseGroupPolicyInfo();
     message.address = object.address ?? "";
     message.groupId = object.groupId !== undefined && object.groupId !== null ? BigInt(object.groupId.toString()) : BigInt(0);
@@ -1021,8 +1380,73 @@ export const GroupPolicyInfo = {
     message.metadata = object.metadata ?? "";
     message.version = object.version !== undefined && object.version !== null ? BigInt(object.version.toString()) : BigInt(0);
     message.decisionPolicy = object.decisionPolicy !== undefined && object.decisionPolicy !== null ? Any.fromPartial(object.decisionPolicy) : undefined;
-    message.createdAt = object.createdAt !== undefined && object.createdAt !== null ? Timestamp.fromPartial(object.createdAt) : undefined;
+    message.createdAt = object.createdAt ?? undefined;
     return message;
+  },
+  fromSDK(object: GroupPolicyInfoSDKType): GroupPolicyInfo {
+    return {
+      address: object?.address,
+      groupId: object?.group_id,
+      admin: object?.admin,
+      metadata: object?.metadata,
+      version: object?.version,
+      decisionPolicy: object.decision_policy ? Any.fromSDK(object.decision_policy) : undefined,
+      createdAt: object.created_at ?? undefined
+    };
+  },
+  toSDK(message: GroupPolicyInfo): GroupPolicyInfoSDKType {
+    const obj: any = {};
+    obj.address = message.address;
+    obj.group_id = message.groupId;
+    obj.admin = message.admin;
+    obj.metadata = message.metadata;
+    obj.version = message.version;
+    message.decisionPolicy !== undefined && (obj.decision_policy = message.decisionPolicy ? Any.toSDK(message.decisionPolicy) : undefined);
+    message.createdAt !== undefined && (obj.created_at = message.createdAt ?? undefined);
+    return obj;
+  },
+  fromAmino(object: GroupPolicyInfoAmino): GroupPolicyInfo {
+    return {
+      address: object.address,
+      groupId: BigInt(object.group_id),
+      admin: object.admin,
+      metadata: object.metadata,
+      version: BigInt(object.version),
+      decisionPolicy: object?.decision_policy ? Any.fromAmino(object.decision_policy) : undefined,
+      createdAt: object.created_at
+    };
+  },
+  toAmino(message: GroupPolicyInfo): GroupPolicyInfoAmino {
+    const obj: any = {};
+    obj.address = message.address;
+    obj.group_id = message.groupId ? message.groupId.toString() : undefined;
+    obj.admin = message.admin;
+    obj.metadata = message.metadata;
+    obj.version = message.version ? message.version.toString() : undefined;
+    obj.decision_policy = message.decisionPolicy ? Any.toAmino(message.decisionPolicy) : undefined;
+    obj.created_at = message.createdAt;
+    return obj;
+  },
+  fromAminoMsg(object: GroupPolicyInfoAminoMsg): GroupPolicyInfo {
+    return GroupPolicyInfo.fromAmino(object.value);
+  },
+  toAminoMsg(message: GroupPolicyInfo): GroupPolicyInfoAminoMsg {
+    return {
+      type: "cosmos-sdk/GroupPolicyInfo",
+      value: GroupPolicyInfo.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: GroupPolicyInfoProtoMsg): GroupPolicyInfo {
+    return GroupPolicyInfo.decode(message.value);
+  },
+  toProto(message: GroupPolicyInfo): Uint8Array {
+    return GroupPolicyInfo.encode(message).finish();
+  },
+  toProtoMsg(message: GroupPolicyInfo): GroupPolicyInfoProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.GroupPolicyInfo",
+      value: GroupPolicyInfo.encode(message).finish()
+    };
   }
 };
 function createBaseProposal(): Proposal {
@@ -1031,18 +1455,20 @@ function createBaseProposal(): Proposal {
     address: "",
     metadata: "",
     proposers: [],
-    submitTime: Timestamp.fromPartial({}),
+    submitTime: new Date(),
     groupVersion: BigInt(0),
     groupPolicyVersion: BigInt(0),
     status: 0,
     result: 0,
     finalTallyResult: TallyResult.fromPartial({}),
-    votingPeriodEnd: Timestamp.fromPartial({}),
+    votingPeriodEnd: new Date(),
     executorResult: 0,
     messages: []
   };
 }
 export const Proposal = {
+  typeUrl: "/cosmos.group.v1.Proposal",
+  aminoType: "cosmos-sdk/Proposal",
   encode(message: Proposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -1057,7 +1483,7 @@ export const Proposal = {
       writer.uint32(34).string(v!);
     }
     if (message.submitTime !== undefined) {
-      Timestamp.encode(message.submitTime, writer.uint32(42).fork()).ldelim();
+      Timestamp.encode(toTimestamp(message.submitTime), writer.uint32(42).fork()).ldelim();
     }
     if (message.groupVersion !== BigInt(0)) {
       writer.uint32(48).uint64(message.groupVersion);
@@ -1075,7 +1501,7 @@ export const Proposal = {
       TallyResult.encode(message.finalTallyResult, writer.uint32(82).fork()).ldelim();
     }
     if (message.votingPeriodEnd !== undefined) {
-      Timestamp.encode(message.votingPeriodEnd, writer.uint32(90).fork()).ldelim();
+      Timestamp.encode(toTimestamp(message.votingPeriodEnd), writer.uint32(90).fork()).ldelim();
     }
     if (message.executorResult !== 0) {
       writer.uint32(96).int32(message.executorResult);
@@ -1105,7 +1531,7 @@ export const Proposal = {
           message.proposers.push(reader.string());
           break;
         case 5:
-          message.submitTime = Timestamp.decode(reader, reader.uint32());
+          message.submitTime = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         case 6:
           message.groupVersion = reader.uint64();
@@ -1123,7 +1549,7 @@ export const Proposal = {
           message.finalTallyResult = TallyResult.decode(reader, reader.uint32());
           break;
         case 11:
-          message.votingPeriodEnd = Timestamp.decode(reader, reader.uint32());
+          message.votingPeriodEnd = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         case 12:
           message.executorResult = (reader.int32() as any);
@@ -1144,13 +1570,13 @@ export const Proposal = {
       address: isSet(object.address) ? String(object.address) : "",
       metadata: isSet(object.metadata) ? String(object.metadata) : "",
       proposers: Array.isArray(object?.proposers) ? object.proposers.map((e: any) => String(e)) : [],
-      submitTime: isSet(object.submitTime) ? fromJsonTimestamp(object.submitTime) : undefined,
+      submitTime: isSet(object.submitTime) ? new Date(object.submitTime) : undefined,
       groupVersion: isSet(object.groupVersion) ? BigInt(object.groupVersion.toString()) : BigInt(0),
       groupPolicyVersion: isSet(object.groupPolicyVersion) ? BigInt(object.groupPolicyVersion.toString()) : BigInt(0),
       status: isSet(object.status) ? proposalStatusFromJSON(object.status) : -1,
       result: isSet(object.result) ? proposalResultFromJSON(object.result) : -1,
       finalTallyResult: isSet(object.finalTallyResult) ? TallyResult.fromJSON(object.finalTallyResult) : undefined,
-      votingPeriodEnd: isSet(object.votingPeriodEnd) ? fromJsonTimestamp(object.votingPeriodEnd) : undefined,
+      votingPeriodEnd: isSet(object.votingPeriodEnd) ? new Date(object.votingPeriodEnd) : undefined,
       executorResult: isSet(object.executorResult) ? proposalExecutorResultFromJSON(object.executorResult) : -1,
       messages: Array.isArray(object?.messages) ? object.messages.map((e: any) => Any.fromJSON(e)) : []
     };
@@ -1165,13 +1591,13 @@ export const Proposal = {
     } else {
       obj.proposers = [];
     }
-    message.submitTime !== undefined && (obj.submitTime = fromTimestamp(message.submitTime).toISOString());
+    message.submitTime !== undefined && (obj.submitTime = message.submitTime.toISOString());
     message.groupVersion !== undefined && (obj.groupVersion = (message.groupVersion || BigInt(0)).toString());
     message.groupPolicyVersion !== undefined && (obj.groupPolicyVersion = (message.groupPolicyVersion || BigInt(0)).toString());
     message.status !== undefined && (obj.status = proposalStatusToJSON(message.status));
     message.result !== undefined && (obj.result = proposalResultToJSON(message.result));
     message.finalTallyResult !== undefined && (obj.finalTallyResult = message.finalTallyResult ? TallyResult.toJSON(message.finalTallyResult) : undefined);
-    message.votingPeriodEnd !== undefined && (obj.votingPeriodEnd = fromTimestamp(message.votingPeriodEnd).toISOString());
+    message.votingPeriodEnd !== undefined && (obj.votingPeriodEnd = message.votingPeriodEnd.toISOString());
     message.executorResult !== undefined && (obj.executorResult = proposalExecutorResultToJSON(message.executorResult));
     if (message.messages) {
       obj.messages = message.messages.map(e => e ? Any.toJSON(e) : undefined);
@@ -1180,22 +1606,127 @@ export const Proposal = {
     }
     return obj;
   },
-  fromPartial(object: Partial<Proposal>): Proposal {
+  fromPartial(object: DeepPartial<Proposal>): Proposal {
     const message = createBaseProposal();
     message.id = object.id !== undefined && object.id !== null ? BigInt(object.id.toString()) : BigInt(0);
     message.address = object.address ?? "";
     message.metadata = object.metadata ?? "";
     message.proposers = object.proposers?.map(e => e) || [];
-    message.submitTime = object.submitTime !== undefined && object.submitTime !== null ? Timestamp.fromPartial(object.submitTime) : undefined;
+    message.submitTime = object.submitTime ?? undefined;
     message.groupVersion = object.groupVersion !== undefined && object.groupVersion !== null ? BigInt(object.groupVersion.toString()) : BigInt(0);
     message.groupPolicyVersion = object.groupPolicyVersion !== undefined && object.groupPolicyVersion !== null ? BigInt(object.groupPolicyVersion.toString()) : BigInt(0);
     message.status = object.status ?? 0;
     message.result = object.result ?? 0;
     message.finalTallyResult = object.finalTallyResult !== undefined && object.finalTallyResult !== null ? TallyResult.fromPartial(object.finalTallyResult) : undefined;
-    message.votingPeriodEnd = object.votingPeriodEnd !== undefined && object.votingPeriodEnd !== null ? Timestamp.fromPartial(object.votingPeriodEnd) : undefined;
+    message.votingPeriodEnd = object.votingPeriodEnd ?? undefined;
     message.executorResult = object.executorResult ?? 0;
     message.messages = object.messages?.map(e => Any.fromPartial(e)) || [];
     return message;
+  },
+  fromSDK(object: ProposalSDKType): Proposal {
+    return {
+      id: object?.id,
+      address: object?.address,
+      metadata: object?.metadata,
+      proposers: Array.isArray(object?.proposers) ? object.proposers.map((e: any) => e) : [],
+      submitTime: object.submit_time ?? undefined,
+      groupVersion: object?.group_version,
+      groupPolicyVersion: object?.group_policy_version,
+      status: isSet(object.status) ? proposalStatusFromJSON(object.status) : -1,
+      result: isSet(object.result) ? proposalResultFromJSON(object.result) : -1,
+      finalTallyResult: object.final_tally_result ? TallyResult.fromSDK(object.final_tally_result) : undefined,
+      votingPeriodEnd: object.voting_period_end ?? undefined,
+      executorResult: isSet(object.executor_result) ? proposalExecutorResultFromJSON(object.executor_result) : -1,
+      messages: Array.isArray(object?.messages) ? object.messages.map((e: any) => Any.fromSDK(e)) : []
+    };
+  },
+  toSDK(message: Proposal): ProposalSDKType {
+    const obj: any = {};
+    obj.id = message.id;
+    obj.address = message.address;
+    obj.metadata = message.metadata;
+    if (message.proposers) {
+      obj.proposers = message.proposers.map(e => e);
+    } else {
+      obj.proposers = [];
+    }
+    message.submitTime !== undefined && (obj.submit_time = message.submitTime ?? undefined);
+    obj.group_version = message.groupVersion;
+    obj.group_policy_version = message.groupPolicyVersion;
+    message.status !== undefined && (obj.status = proposalStatusToJSON(message.status));
+    message.result !== undefined && (obj.result = proposalResultToJSON(message.result));
+    message.finalTallyResult !== undefined && (obj.final_tally_result = message.finalTallyResult ? TallyResult.toSDK(message.finalTallyResult) : undefined);
+    message.votingPeriodEnd !== undefined && (obj.voting_period_end = message.votingPeriodEnd ?? undefined);
+    message.executorResult !== undefined && (obj.executor_result = proposalExecutorResultToJSON(message.executorResult));
+    if (message.messages) {
+      obj.messages = message.messages.map(e => e ? Any.toSDK(e) : undefined);
+    } else {
+      obj.messages = [];
+    }
+    return obj;
+  },
+  fromAmino(object: ProposalAmino): Proposal {
+    return {
+      id: BigInt(object.id),
+      address: object.address,
+      metadata: object.metadata,
+      proposers: Array.isArray(object?.proposers) ? object.proposers.map((e: any) => e) : [],
+      submitTime: object.submit_time,
+      groupVersion: BigInt(object.group_version),
+      groupPolicyVersion: BigInt(object.group_policy_version),
+      status: isSet(object.status) ? proposalStatusFromJSON(object.status) : -1,
+      result: isSet(object.result) ? proposalResultFromJSON(object.result) : -1,
+      finalTallyResult: object?.final_tally_result ? TallyResult.fromAmino(object.final_tally_result) : undefined,
+      votingPeriodEnd: object.voting_period_end,
+      executorResult: isSet(object.executor_result) ? proposalExecutorResultFromJSON(object.executor_result) : -1,
+      messages: Array.isArray(object?.messages) ? object.messages.map((e: any) => Any.fromAmino(e)) : []
+    };
+  },
+  toAmino(message: Proposal): ProposalAmino {
+    const obj: any = {};
+    obj.id = message.id ? message.id.toString() : undefined;
+    obj.address = message.address;
+    obj.metadata = message.metadata;
+    if (message.proposers) {
+      obj.proposers = message.proposers.map(e => e);
+    } else {
+      obj.proposers = [];
+    }
+    obj.submit_time = message.submitTime;
+    obj.group_version = message.groupVersion ? message.groupVersion.toString() : undefined;
+    obj.group_policy_version = message.groupPolicyVersion ? message.groupPolicyVersion.toString() : undefined;
+    obj.status = message.status;
+    obj.result = message.result;
+    obj.final_tally_result = message.finalTallyResult ? TallyResult.toAmino(message.finalTallyResult) : undefined;
+    obj.voting_period_end = message.votingPeriodEnd;
+    obj.executor_result = message.executorResult;
+    if (message.messages) {
+      obj.messages = message.messages.map(e => e ? Any.toAmino(e) : undefined);
+    } else {
+      obj.messages = [];
+    }
+    return obj;
+  },
+  fromAminoMsg(object: ProposalAminoMsg): Proposal {
+    return Proposal.fromAmino(object.value);
+  },
+  toAminoMsg(message: Proposal): ProposalAminoMsg {
+    return {
+      type: "cosmos-sdk/Proposal",
+      value: Proposal.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: ProposalProtoMsg): Proposal {
+    return Proposal.decode(message.value);
+  },
+  toProto(message: Proposal): Uint8Array {
+    return Proposal.encode(message).finish();
+  },
+  toProtoMsg(message: Proposal): ProposalProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.Proposal",
+      value: Proposal.encode(message).finish()
+    };
   }
 };
 function createBaseTallyResult(): TallyResult {
@@ -1207,6 +1738,8 @@ function createBaseTallyResult(): TallyResult {
   };
 }
 export const TallyResult = {
+  typeUrl: "/cosmos.group.v1.TallyResult",
+  aminoType: "cosmos-sdk/TallyResult",
   encode(message: TallyResult, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.yesCount !== "") {
       writer.uint32(10).string(message.yesCount);
@@ -1264,13 +1797,66 @@ export const TallyResult = {
     message.noWithVetoCount !== undefined && (obj.noWithVetoCount = message.noWithVetoCount);
     return obj;
   },
-  fromPartial(object: Partial<TallyResult>): TallyResult {
+  fromPartial(object: DeepPartial<TallyResult>): TallyResult {
     const message = createBaseTallyResult();
     message.yesCount = object.yesCount ?? "";
     message.abstainCount = object.abstainCount ?? "";
     message.noCount = object.noCount ?? "";
     message.noWithVetoCount = object.noWithVetoCount ?? "";
     return message;
+  },
+  fromSDK(object: TallyResultSDKType): TallyResult {
+    return {
+      yesCount: object?.yes_count,
+      abstainCount: object?.abstain_count,
+      noCount: object?.no_count,
+      noWithVetoCount: object?.no_with_veto_count
+    };
+  },
+  toSDK(message: TallyResult): TallyResultSDKType {
+    const obj: any = {};
+    obj.yes_count = message.yesCount;
+    obj.abstain_count = message.abstainCount;
+    obj.no_count = message.noCount;
+    obj.no_with_veto_count = message.noWithVetoCount;
+    return obj;
+  },
+  fromAmino(object: TallyResultAmino): TallyResult {
+    return {
+      yesCount: object.yes_count,
+      abstainCount: object.abstain_count,
+      noCount: object.no_count,
+      noWithVetoCount: object.no_with_veto_count
+    };
+  },
+  toAmino(message: TallyResult): TallyResultAmino {
+    const obj: any = {};
+    obj.yes_count = message.yesCount;
+    obj.abstain_count = message.abstainCount;
+    obj.no_count = message.noCount;
+    obj.no_with_veto_count = message.noWithVetoCount;
+    return obj;
+  },
+  fromAminoMsg(object: TallyResultAminoMsg): TallyResult {
+    return TallyResult.fromAmino(object.value);
+  },
+  toAminoMsg(message: TallyResult): TallyResultAminoMsg {
+    return {
+      type: "cosmos-sdk/TallyResult",
+      value: TallyResult.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: TallyResultProtoMsg): TallyResult {
+    return TallyResult.decode(message.value);
+  },
+  toProto(message: TallyResult): Uint8Array {
+    return TallyResult.encode(message).finish();
+  },
+  toProtoMsg(message: TallyResult): TallyResultProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.TallyResult",
+      value: TallyResult.encode(message).finish()
+    };
   }
 };
 function createBaseVote(): Vote {
@@ -1279,10 +1865,12 @@ function createBaseVote(): Vote {
     voter: "",
     option: 0,
     metadata: "",
-    submitTime: Timestamp.fromPartial({})
+    submitTime: new Date()
   };
 }
 export const Vote = {
+  typeUrl: "/cosmos.group.v1.Vote",
+  aminoType: "cosmos-sdk/Vote",
   encode(message: Vote, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.proposalId !== BigInt(0)) {
       writer.uint32(8).uint64(message.proposalId);
@@ -1297,7 +1885,7 @@ export const Vote = {
       writer.uint32(34).string(message.metadata);
     }
     if (message.submitTime !== undefined) {
-      Timestamp.encode(message.submitTime, writer.uint32(42).fork()).ldelim();
+      Timestamp.encode(toTimestamp(message.submitTime), writer.uint32(42).fork()).ldelim();
     }
     return writer;
   },
@@ -1321,7 +1909,7 @@ export const Vote = {
           message.metadata = reader.string();
           break;
         case 5:
-          message.submitTime = Timestamp.decode(reader, reader.uint32());
+          message.submitTime = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           break;
         default:
           reader.skipType(tag & 7);
@@ -1336,7 +1924,7 @@ export const Vote = {
       voter: isSet(object.voter) ? String(object.voter) : "",
       option: isSet(object.option) ? voteOptionFromJSON(object.option) : -1,
       metadata: isSet(object.metadata) ? String(object.metadata) : "",
-      submitTime: isSet(object.submitTime) ? fromJsonTimestamp(object.submitTime) : undefined
+      submitTime: isSet(object.submitTime) ? new Date(object.submitTime) : undefined
     };
   },
   toJSON(message: Vote): unknown {
@@ -1345,16 +1933,73 @@ export const Vote = {
     message.voter !== undefined && (obj.voter = message.voter);
     message.option !== undefined && (obj.option = voteOptionToJSON(message.option));
     message.metadata !== undefined && (obj.metadata = message.metadata);
-    message.submitTime !== undefined && (obj.submitTime = fromTimestamp(message.submitTime).toISOString());
+    message.submitTime !== undefined && (obj.submitTime = message.submitTime.toISOString());
     return obj;
   },
-  fromPartial(object: Partial<Vote>): Vote {
+  fromPartial(object: DeepPartial<Vote>): Vote {
     const message = createBaseVote();
     message.proposalId = object.proposalId !== undefined && object.proposalId !== null ? BigInt(object.proposalId.toString()) : BigInt(0);
     message.voter = object.voter ?? "";
     message.option = object.option ?? 0;
     message.metadata = object.metadata ?? "";
-    message.submitTime = object.submitTime !== undefined && object.submitTime !== null ? Timestamp.fromPartial(object.submitTime) : undefined;
+    message.submitTime = object.submitTime ?? undefined;
     return message;
+  },
+  fromSDK(object: VoteSDKType): Vote {
+    return {
+      proposalId: object?.proposal_id,
+      voter: object?.voter,
+      option: isSet(object.option) ? voteOptionFromJSON(object.option) : -1,
+      metadata: object?.metadata,
+      submitTime: object.submit_time ?? undefined
+    };
+  },
+  toSDK(message: Vote): VoteSDKType {
+    const obj: any = {};
+    obj.proposal_id = message.proposalId;
+    obj.voter = message.voter;
+    message.option !== undefined && (obj.option = voteOptionToJSON(message.option));
+    obj.metadata = message.metadata;
+    message.submitTime !== undefined && (obj.submit_time = message.submitTime ?? undefined);
+    return obj;
+  },
+  fromAmino(object: VoteAmino): Vote {
+    return {
+      proposalId: BigInt(object.proposal_id),
+      voter: object.voter,
+      option: isSet(object.option) ? voteOptionFromJSON(object.option) : -1,
+      metadata: object.metadata,
+      submitTime: object.submit_time
+    };
+  },
+  toAmino(message: Vote): VoteAmino {
+    const obj: any = {};
+    obj.proposal_id = message.proposalId ? message.proposalId.toString() : undefined;
+    obj.voter = message.voter;
+    obj.option = message.option;
+    obj.metadata = message.metadata;
+    obj.submit_time = message.submitTime;
+    return obj;
+  },
+  fromAminoMsg(object: VoteAminoMsg): Vote {
+    return Vote.fromAmino(object.value);
+  },
+  toAminoMsg(message: Vote): VoteAminoMsg {
+    return {
+      type: "cosmos-sdk/Vote",
+      value: Vote.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: VoteProtoMsg): Vote {
+    return Vote.decode(message.value);
+  },
+  toProto(message: Vote): Uint8Array {
+    return Vote.encode(message).finish();
+  },
+  toProtoMsg(message: Vote): VoteProtoMsg {
+    return {
+      typeUrl: "/cosmos.group.v1.Vote",
+      value: Vote.encode(message).finish()
+    };
   }
 };
