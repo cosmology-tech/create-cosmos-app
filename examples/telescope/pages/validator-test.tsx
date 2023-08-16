@@ -51,6 +51,43 @@ import { AnyAmino } from '../src/codegen/google/protobuf/any';
   return this.toString();
 };
 
+function encodeAmino(
+  typeUrl: string,
+  pubkey: { key: Uint8Array },
+  pubkeyType: string,
+  prefix: string
+): AnyAmino {
+  const pubKeyString = toBase64(pubkey.key);
+
+  const cryptoEncodedPubkey = encodeBech32Pubkey(
+    {
+      type: pubkeyType,
+      value: pubKeyString,
+    },
+    prefix
+  );
+
+  return {
+    type: typeUrl,
+    value: {
+      key: new TextEncoder().encode(cryptoEncodedPubkey),
+    },
+  };
+}
+
+function decodeAmino(typeUrl: string, pubkey: { key: Uint8Array }) {
+  const cryptoEncodedKeyString = new TextDecoder().decode(pubkey.key);
+
+  const cryptoDecodedPubkey = decodeBech32Pubkey(cryptoEncodedKeyString);
+
+  return {
+    typeUrl: typeUrl,
+    value: {
+      key: new TextEncoder().encode(cryptoDecodedPubkey.value),
+    },
+  };
+}
+
 const library = {
   title: 'Telescope',
   text: 'telescope',
