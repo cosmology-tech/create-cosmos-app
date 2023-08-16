@@ -1,4 +1,4 @@
-import { osmosis } from '../codegen/osmosis/bundle';
+import { osmosis } from '../src/codegen/osmosis/bundle';
 import { useChain } from '@cosmos-kit/react';
 
 export const useClient = (chainName: string) => {

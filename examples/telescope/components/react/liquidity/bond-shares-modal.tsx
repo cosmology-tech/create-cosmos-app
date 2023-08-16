@@ -24,7 +24,7 @@ import {
 import { PriceHash } from '../../../utils/liquidity/types';
 import { truncDecimals } from './pool-detail-modal';
 import BigNumber from 'bignumber.js';
-import { osmosis } from '../../../codegen/osmosis/bundle';
+import { osmosis } from '../../../src/codegen/osmosis/bundle';
 import { useChain } from '@cosmos-kit/react';
 import { chainName } from '../../../config/liquidity/defaults';
 import { Peroid, TransactionResult } from './types';

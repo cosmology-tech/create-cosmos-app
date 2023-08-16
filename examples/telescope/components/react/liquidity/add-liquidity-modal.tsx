@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { Pool } from './provide-liquidity';
 import { useChain } from '@cosmos-kit/react';
-import { osmosis } from '../../../codegen/osmosis/bundle';
+import { osmosis } from '../../../src/codegen/osmosis/bundle';
 import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
 import { chainName } from '../../../config/liquidity/defaults';
 import { LargeButton } from './modal-components';

@@ -15,7 +15,7 @@ import { chainName } from '../../../config/liquidity';
 import { RewardText } from './modal-components';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
-import { osmosis } from '../../../codegen/osmosis/bundle';
+import { osmosis } from '../../../src/codegen/osmosis/bundle';
 
 dayjs.extend(duration);
 

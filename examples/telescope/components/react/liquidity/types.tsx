@@ -1,4 +1,4 @@
-import { Gauge } from '../../../codegen/osmosis/incentives/gauge';
+import { Gauge } from '../../../src/codegen/osmosis/incentives/gauge';
 import { MouseEventHandler, ReactNode } from 'react';
 import { IconType } from 'react-icons';
 import { calcPoolAprs } from '../../../utils/liquidity';

@@ -13,7 +13,7 @@ import {
   VoteColor,
 } from './proposal-card';
 import dayjs from 'dayjs';
-import { cosmos } from '../../codegen';
+import { cosmos } from '../../src/codegen';
 import BigNumber from 'bignumber.js';
 import { assets } from 'chain-registry';
 import { AssetList, Asset } from '@chain-registry/types';
@@ -46,7 +46,10 @@ import {
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Proposal, ProposalStatus } from '../../codegen/cosmos/gov/v1beta1/gov';
+import {
+  Proposal,
+  ProposalStatus,
+} from '../../src/codegen/cosmos/gov/v1beta1/gov';
 
 const VoteType = cosmos.gov.v1beta1.VoteOption;
 

@@ -1,6 +1,6 @@
 import { asset_list, assets } from '@chain-registry/osmosis';
 import { Asset as OsmosisAsset } from '@chain-registry/types';
-import { Pool } from '../../codegen/osmosis/gamm/pool-models/balancer/balancerPool';
+import { Pool } from '../../src/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
 import {
   CoinGeckoToken,
