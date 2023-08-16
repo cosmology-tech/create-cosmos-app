@@ -1,5 +1,5 @@
 import { Timestamp } from "../../../google/protobuf/timestamp";
-import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
+import { Duration, DurationAmino, DurationSDKType } from "../../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 /** Params defines the claim module's parameters. */
@@ -9,6 +9,22 @@ export interface Params {
   durationOfDecay: Duration | undefined;
   /** denom of claimable asset */
   claimDenom: string;
+}
+export interface ParamsProtoMsg {
+  typeUrl: "/osmosis.claim.v1beta1.Params";
+  value: Uint8Array;
+}
+/** Params defines the claim module's parameters. */
+export interface ParamsAmino {
+  airdrop_start_time?: Date | undefined;
+  duration_until_decay?: DurationAmino | undefined;
+  duration_of_decay?: DurationAmino | undefined;
+  /** denom of claimable asset */
+  claim_denom: string;
+}
+export interface ParamsAminoMsg {
+  type: "osmosis/claim/params";
+  value: ParamsAmino;
 }
 /** Params defines the claim module's parameters. */
 export interface ParamsSDKType {

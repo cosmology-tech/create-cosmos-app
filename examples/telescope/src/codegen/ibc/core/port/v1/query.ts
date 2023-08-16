@@ -1,4 +1,4 @@
-import { Order, Counterparty, CounterpartySDKType, orderFromJSON, orderToJSON } from "../../channel/v1/channel";
+import { Order, Counterparty, CounterpartyAmino, CounterpartySDKType, orderFromJSON, orderToJSON } from "../../channel/v1/channel";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 /** QueryAppVersionRequest is the request type for the Query/AppVersion RPC method */
@@ -14,6 +14,27 @@ export interface QueryAppVersionRequest {
   /** proposed version */
   proposedVersion: string;
 }
+export interface QueryAppVersionRequestProtoMsg {
+  typeUrl: "/ibc.core.port.v1.QueryAppVersionRequest";
+  value: Uint8Array;
+}
+/** QueryAppVersionRequest is the request type for the Query/AppVersion RPC method */
+export interface QueryAppVersionRequestAmino {
+  /** port unique identifier */
+  port_id: string;
+  /** connection unique identifier */
+  connection_id: string;
+  /** whether the channel is ordered or unordered */
+  ordering: Order;
+  /** counterparty channel end */
+  counterparty?: CounterpartyAmino | undefined;
+  /** proposed version */
+  proposed_version: string;
+}
+export interface QueryAppVersionRequestAminoMsg {
+  type: "cosmos-sdk/QueryAppVersionRequest";
+  value: QueryAppVersionRequestAmino;
+}
 /** QueryAppVersionRequest is the request type for the Query/AppVersion RPC method */
 export interface QueryAppVersionRequestSDKType {
   port_id: string;
@@ -28,6 +49,21 @@ export interface QueryAppVersionResponse {
   portId: string;
   /** supported app version */
   version: string;
+}
+export interface QueryAppVersionResponseProtoMsg {
+  typeUrl: "/ibc.core.port.v1.QueryAppVersionResponse";
+  value: Uint8Array;
+}
+/** QueryAppVersionResponse is the response type for the Query/AppVersion RPC method. */
+export interface QueryAppVersionResponseAmino {
+  /** port id associated with the request identifiers */
+  port_id: string;
+  /** supported app version */
+  version: string;
+}
+export interface QueryAppVersionResponseAminoMsg {
+  type: "cosmos-sdk/QueryAppVersionResponse";
+  value: QueryAppVersionResponseAmino;
 }
 /** QueryAppVersionResponse is the response type for the Query/AppVersion RPC method. */
 export interface QueryAppVersionResponseSDKType {

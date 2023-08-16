@@ -1,10 +1,30 @@
-import { EpochInfo, EpochInfoSDKType } from "./genesis";
+import { EpochInfo, EpochInfoAmino, EpochInfoSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { DeepPartial, isSet } from "../../helpers";
 export interface QueryEpochsInfoRequest {}
+export interface QueryEpochsInfoRequestProtoMsg {
+  typeUrl: "/osmosis.epochs.v1beta1.QueryEpochsInfoRequest";
+  value: Uint8Array;
+}
+export interface QueryEpochsInfoRequestAmino {}
+export interface QueryEpochsInfoRequestAminoMsg {
+  type: "osmosis/epochs/query-epochs-info-request";
+  value: QueryEpochsInfoRequestAmino;
+}
 export interface QueryEpochsInfoRequestSDKType {}
 export interface QueryEpochsInfoResponse {
   epochs: EpochInfo[];
+}
+export interface QueryEpochsInfoResponseProtoMsg {
+  typeUrl: "/osmosis.epochs.v1beta1.QueryEpochsInfoResponse";
+  value: Uint8Array;
+}
+export interface QueryEpochsInfoResponseAmino {
+  epochs: EpochInfoAmino[];
+}
+export interface QueryEpochsInfoResponseAminoMsg {
+  type: "osmosis/epochs/query-epochs-info-response";
+  value: QueryEpochsInfoResponseAmino;
 }
 export interface QueryEpochsInfoResponseSDKType {
   epochs: EpochInfoSDKType[];
@@ -12,11 +32,33 @@ export interface QueryEpochsInfoResponseSDKType {
 export interface QueryCurrentEpochRequest {
   identifier: string;
 }
+export interface QueryCurrentEpochRequestProtoMsg {
+  typeUrl: "/osmosis.epochs.v1beta1.QueryCurrentEpochRequest";
+  value: Uint8Array;
+}
+export interface QueryCurrentEpochRequestAmino {
+  identifier: string;
+}
+export interface QueryCurrentEpochRequestAminoMsg {
+  type: "osmosis/epochs/query-current-epoch-request";
+  value: QueryCurrentEpochRequestAmino;
+}
 export interface QueryCurrentEpochRequestSDKType {
   identifier: string;
 }
 export interface QueryCurrentEpochResponse {
   currentEpoch: bigint;
+}
+export interface QueryCurrentEpochResponseProtoMsg {
+  typeUrl: "/osmosis.epochs.v1beta1.QueryCurrentEpochResponse";
+  value: Uint8Array;
+}
+export interface QueryCurrentEpochResponseAmino {
+  current_epoch: string;
+}
+export interface QueryCurrentEpochResponseAminoMsg {
+  type: "osmosis/epochs/query-current-epoch-response";
+  value: QueryCurrentEpochResponseAmino;
 }
 export interface QueryCurrentEpochResponseSDKType {
   current_epoch: bigint;

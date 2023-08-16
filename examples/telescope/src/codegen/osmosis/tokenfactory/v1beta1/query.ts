@@ -1,15 +1,38 @@
-import { Params, ParamsSDKType } from "./params";
-import { DenomAuthorityMetadata, DenomAuthorityMetadataSDKType } from "./authorityMetadata";
+import { Params, ParamsAmino, ParamsSDKType } from "./params";
+import { DenomAuthorityMetadata, DenomAuthorityMetadataAmino, DenomAuthorityMetadataSDKType } from "./authorityMetadata";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { DeepPartial, isSet } from "../../../helpers";
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
+export interface QueryParamsRequestProtoMsg {
+  typeUrl: "/osmosis.tokenfactory.v1beta1.QueryParamsRequest";
+  value: Uint8Array;
+}
+/** QueryParamsRequest is the request type for the Query/Params RPC method. */
+export interface QueryParamsRequestAmino {}
+export interface QueryParamsRequestAminoMsg {
+  type: "osmosis/tokenfactory/query-params-request";
+  value: QueryParamsRequestAmino;
+}
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequestSDKType {}
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
   params: Params | undefined;
+}
+export interface QueryParamsResponseProtoMsg {
+  typeUrl: "/osmosis.tokenfactory.v1beta1.QueryParamsResponse";
+  value: Uint8Array;
+}
+/** QueryParamsResponse is the response type for the Query/Params RPC method. */
+export interface QueryParamsResponseAmino {
+  /** params defines the parameters of the module. */
+  params?: ParamsAmino | undefined;
+}
+export interface QueryParamsResponseAminoMsg {
+  type: "osmosis/tokenfactory/query-params-response";
+  value: QueryParamsResponseAmino;
 }
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 export interface QueryParamsResponseSDKType {
@@ -21,6 +44,21 @@ export interface QueryParamsResponseSDKType {
  */
 export interface QueryDenomAuthorityMetadataRequest {
   denom: string;
+}
+export interface QueryDenomAuthorityMetadataRequestProtoMsg {
+  typeUrl: "/osmosis.tokenfactory.v1beta1.QueryDenomAuthorityMetadataRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryDenomAuthorityMetadataRequest defines the request structure for the
+ * DenomAuthorityMetadata gRPC query.
+ */
+export interface QueryDenomAuthorityMetadataRequestAmino {
+  denom: string;
+}
+export interface QueryDenomAuthorityMetadataRequestAminoMsg {
+  type: "osmosis/tokenfactory/query-denom-authority-metadata-request";
+  value: QueryDenomAuthorityMetadataRequestAmino;
 }
 /**
  * QueryDenomAuthorityMetadataRequest defines the request structure for the
@@ -36,6 +74,21 @@ export interface QueryDenomAuthorityMetadataRequestSDKType {
 export interface QueryDenomAuthorityMetadataResponse {
   authorityMetadata: DenomAuthorityMetadata | undefined;
 }
+export interface QueryDenomAuthorityMetadataResponseProtoMsg {
+  typeUrl: "/osmosis.tokenfactory.v1beta1.QueryDenomAuthorityMetadataResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryDenomAuthorityMetadataResponse defines the response structure for the
+ * DenomAuthorityMetadata gRPC query.
+ */
+export interface QueryDenomAuthorityMetadataResponseAmino {
+  authority_metadata?: DenomAuthorityMetadataAmino | undefined;
+}
+export interface QueryDenomAuthorityMetadataResponseAminoMsg {
+  type: "osmosis/tokenfactory/query-denom-authority-metadata-response";
+  value: QueryDenomAuthorityMetadataResponseAmino;
+}
 /**
  * QueryDenomAuthorityMetadataResponse defines the response structure for the
  * DenomAuthorityMetadata gRPC query.
@@ -50,6 +103,21 @@ export interface QueryDenomAuthorityMetadataResponseSDKType {
 export interface QueryDenomsFromCreatorRequest {
   creator: string;
 }
+export interface QueryDenomsFromCreatorRequestProtoMsg {
+  typeUrl: "/osmosis.tokenfactory.v1beta1.QueryDenomsFromCreatorRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryDenomsFromCreatorRequest defines the request structure for the
+ * DenomsFromCreator gRPC query.
+ */
+export interface QueryDenomsFromCreatorRequestAmino {
+  creator: string;
+}
+export interface QueryDenomsFromCreatorRequestAminoMsg {
+  type: "osmosis/tokenfactory/query-denoms-from-creator-request";
+  value: QueryDenomsFromCreatorRequestAmino;
+}
 /**
  * QueryDenomsFromCreatorRequest defines the request structure for the
  * DenomsFromCreator gRPC query.
@@ -63,6 +131,21 @@ export interface QueryDenomsFromCreatorRequestSDKType {
  */
 export interface QueryDenomsFromCreatorResponse {
   denoms: string[];
+}
+export interface QueryDenomsFromCreatorResponseProtoMsg {
+  typeUrl: "/osmosis.tokenfactory.v1beta1.QueryDenomsFromCreatorResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryDenomsFromCreatorRequest defines the response structure for the
+ * DenomsFromCreator gRPC query.
+ */
+export interface QueryDenomsFromCreatorResponseAmino {
+  denoms: string[];
+}
+export interface QueryDenomsFromCreatorResponseAminoMsg {
+  type: "osmosis/tokenfactory/query-denoms-from-creator-response";
+  value: QueryDenomsFromCreatorResponseAmino;
 }
 /**
  * QueryDenomsFromCreatorRequest defines the response structure for the

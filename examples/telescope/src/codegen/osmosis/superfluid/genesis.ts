@@ -1,5 +1,5 @@
-import { Params, ParamsSDKType } from "./params";
-import { SuperfluidAsset, SuperfluidAssetSDKType, OsmoEquivalentMultiplierRecord, OsmoEquivalentMultiplierRecordSDKType, SuperfluidIntermediaryAccount, SuperfluidIntermediaryAccountSDKType, LockIdIntermediaryAccountConnection, LockIdIntermediaryAccountConnectionSDKType } from "./superfluid";
+import { Params, ParamsAmino, ParamsSDKType } from "./params";
+import { SuperfluidAsset, SuperfluidAssetAmino, SuperfluidAssetSDKType, OsmoEquivalentMultiplierRecord, OsmoEquivalentMultiplierRecordAmino, OsmoEquivalentMultiplierRecordSDKType, SuperfluidIntermediaryAccount, SuperfluidIntermediaryAccountAmino, SuperfluidIntermediaryAccountSDKType, LockIdIntermediaryAccountConnection, LockIdIntermediaryAccountConnectionAmino, LockIdIntermediaryAccountConnectionSDKType } from "./superfluid";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 /** GenesisState defines the module's genesis state. */
@@ -21,6 +21,34 @@ export interface GenesisState {
    */
   intermediaryAccounts: SuperfluidIntermediaryAccount[];
   intemediaryAccountConnections: LockIdIntermediaryAccountConnection[];
+}
+export interface GenesisStateProtoMsg {
+  typeUrl: "/osmosis.superfluid.GenesisState";
+  value: Uint8Array;
+}
+/** GenesisState defines the module's genesis state. */
+export interface GenesisStateAmino {
+  params?: ParamsAmino | undefined;
+  /**
+   * superfluid_assets defines the registered superfluid assets that have been
+   * registered via governance.
+   */
+  superfluid_assets: SuperfluidAssetAmino[];
+  /**
+   * osmo_equivalent_multipliers is the records of osmo equivalent amount of
+   * each superfluid registered pool, updated every epoch.
+   */
+  osmo_equivalent_multipliers: OsmoEquivalentMultiplierRecordAmino[];
+  /**
+   * intermediary_accounts is a secondary account for superfluid staking that
+   * plays an intermediary role between validators and the delegators.
+   */
+  intermediary_accounts: SuperfluidIntermediaryAccountAmino[];
+  intemediary_account_connections: LockIdIntermediaryAccountConnectionAmino[];
+}
+export interface GenesisStateAminoMsg {
+  type: "osmosis/genesis-state";
+  value: GenesisStateAmino;
 }
 /** GenesisState defines the module's genesis state. */
 export interface GenesisStateSDKType {

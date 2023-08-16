@@ -1,6 +1,6 @@
-import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../../../cosmos/base/query/v1beta1/pagination";
-import { Any, AnySDKType } from "../../../../google/protobuf/any";
-import { Height, HeightSDKType, IdentifiedClientState, IdentifiedClientStateSDKType, ConsensusStateWithHeight, ConsensusStateWithHeightSDKType, Params, ParamsSDKType } from "./client";
+import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../../../cosmos/base/query/v1beta1/pagination";
+import { Any, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
+import { Height, HeightAmino, HeightSDKType, IdentifiedClientState, IdentifiedClientStateAmino, IdentifiedClientStateSDKType, ConsensusStateWithHeight, ConsensusStateWithHeightAmino, ConsensusStateWithHeightSDKType, Params, ParamsAmino, ParamsSDKType } from "./client";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 /**
@@ -10,6 +10,22 @@ import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../.
 export interface QueryClientStateRequest {
   /** client state unique identifier */
   clientId: string;
+}
+export interface QueryClientStateRequestProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryClientStateRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryClientStateRequest is the request type for the Query/ClientState RPC
+ * method
+ */
+export interface QueryClientStateRequestAmino {
+  /** client state unique identifier */
+  client_id: string;
+}
+export interface QueryClientStateRequestAminoMsg {
+  type: "cosmos-sdk/QueryClientStateRequest";
+  value: QueryClientStateRequestAmino;
 }
 /**
  * QueryClientStateRequest is the request type for the Query/ClientState RPC
@@ -31,6 +47,27 @@ export interface QueryClientStateResponse {
   /** height at which the proof was retrieved */
   proofHeight: Height | undefined;
 }
+export interface QueryClientStateResponseProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryClientStateResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryClientStateResponse is the response type for the Query/ClientState RPC
+ * method. Besides the client state, it includes a proof and the height from
+ * which the proof was retrieved.
+ */
+export interface QueryClientStateResponseAmino {
+  /** client state associated with the request identifier */
+  client_state?: AnyAmino | undefined;
+  /** merkle proof of existence */
+  proof: Uint8Array;
+  /** height at which the proof was retrieved */
+  proof_height?: HeightAmino | undefined;
+}
+export interface QueryClientStateResponseAminoMsg {
+  type: "cosmos-sdk/QueryClientStateResponse";
+  value: QueryClientStateResponseAmino;
+}
 /**
  * QueryClientStateResponse is the response type for the Query/ClientState RPC
  * method. Besides the client state, it includes a proof and the height from
@@ -49,6 +86,22 @@ export interface QueryClientStatesRequest {
   /** pagination request */
   pagination: PageRequest | undefined;
 }
+export interface QueryClientStatesRequestProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryClientStatesRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryClientStatesRequest is the request type for the Query/ClientStates RPC
+ * method
+ */
+export interface QueryClientStatesRequestAmino {
+  /** pagination request */
+  pagination?: PageRequestAmino | undefined;
+}
+export interface QueryClientStatesRequestAminoMsg {
+  type: "cosmos-sdk/QueryClientStatesRequest";
+  value: QueryClientStatesRequestAmino;
+}
 /**
  * QueryClientStatesRequest is the request type for the Query/ClientStates RPC
  * method
@@ -65,6 +118,24 @@ export interface QueryClientStatesResponse {
   clientStates: IdentifiedClientState[];
   /** pagination response */
   pagination: PageResponse | undefined;
+}
+export interface QueryClientStatesResponseProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryClientStatesResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryClientStatesResponse is the response type for the Query/ClientStates RPC
+ * method.
+ */
+export interface QueryClientStatesResponseAmino {
+  /** list of stored ClientStates of the chain. */
+  client_states: IdentifiedClientStateAmino[];
+  /** pagination response */
+  pagination?: PageResponseAmino | undefined;
+}
+export interface QueryClientStatesResponseAminoMsg {
+  type: "cosmos-sdk/QueryClientStatesResponse";
+  value: QueryClientStatesResponseAmino;
 }
 /**
  * QueryClientStatesResponse is the response type for the Query/ClientStates RPC
@@ -92,6 +163,32 @@ export interface QueryConsensusStateRequest {
    */
   latestHeight: boolean;
 }
+export interface QueryConsensusStateRequestProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryConsensusStateRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryConsensusStateRequest is the request type for the Query/ConsensusState
+ * RPC method. Besides the consensus state, it includes a proof and the height
+ * from which the proof was retrieved.
+ */
+export interface QueryConsensusStateRequestAmino {
+  /** client identifier */
+  client_id: string;
+  /** consensus state revision number */
+  revision_number: string;
+  /** consensus state revision height */
+  revision_height: string;
+  /**
+   * latest_height overrrides the height field and queries the latest stored
+   * ConsensusState
+   */
+  latest_height: boolean;
+}
+export interface QueryConsensusStateRequestAminoMsg {
+  type: "cosmos-sdk/QueryConsensusStateRequest";
+  value: QueryConsensusStateRequestAmino;
+}
 /**
  * QueryConsensusStateRequest is the request type for the Query/ConsensusState
  * RPC method. Besides the consensus state, it includes a proof and the height
@@ -115,6 +212,26 @@ export interface QueryConsensusStateResponse {
   /** height at which the proof was retrieved */
   proofHeight: Height | undefined;
 }
+export interface QueryConsensusStateResponseProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryConsensusStateResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryConsensusStateResponse is the response type for the Query/ConsensusState
+ * RPC method
+ */
+export interface QueryConsensusStateResponseAmino {
+  /** consensus state associated with the client identifier at the given height */
+  consensus_state?: AnyAmino | undefined;
+  /** merkle proof of existence */
+  proof: Uint8Array;
+  /** height at which the proof was retrieved */
+  proof_height?: HeightAmino | undefined;
+}
+export interface QueryConsensusStateResponseAminoMsg {
+  type: "cosmos-sdk/QueryConsensusStateResponse";
+  value: QueryConsensusStateResponseAmino;
+}
 /**
  * QueryConsensusStateResponse is the response type for the Query/ConsensusState
  * RPC method
@@ -134,6 +251,24 @@ export interface QueryConsensusStatesRequest {
   /** pagination request */
   pagination: PageRequest | undefined;
 }
+export interface QueryConsensusStatesRequestProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryConsensusStatesRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryConsensusStatesRequest is the request type for the Query/ConsensusStates
+ * RPC method.
+ */
+export interface QueryConsensusStatesRequestAmino {
+  /** client identifier */
+  client_id: string;
+  /** pagination request */
+  pagination?: PageRequestAmino | undefined;
+}
+export interface QueryConsensusStatesRequestAminoMsg {
+  type: "cosmos-sdk/QueryConsensusStatesRequest";
+  value: QueryConsensusStatesRequestAmino;
+}
 /**
  * QueryConsensusStatesRequest is the request type for the Query/ConsensusStates
  * RPC method.
@@ -152,6 +287,24 @@ export interface QueryConsensusStatesResponse {
   /** pagination response */
   pagination: PageResponse | undefined;
 }
+export interface QueryConsensusStatesResponseProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryConsensusStatesResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryConsensusStatesResponse is the response type for the
+ * Query/ConsensusStates RPC method
+ */
+export interface QueryConsensusStatesResponseAmino {
+  /** consensus states associated with the identifier */
+  consensus_states: ConsensusStateWithHeightAmino[];
+  /** pagination response */
+  pagination?: PageResponseAmino | undefined;
+}
+export interface QueryConsensusStatesResponseAminoMsg {
+  type: "cosmos-sdk/QueryConsensusStatesResponse";
+  value: QueryConsensusStatesResponseAmino;
+}
 /**
  * QueryConsensusStatesResponse is the response type for the
  * Query/ConsensusStates RPC method
@@ -168,6 +321,22 @@ export interface QueryClientStatusRequest {
   /** client unique identifier */
   clientId: string;
 }
+export interface QueryClientStatusRequestProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryClientStatusRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryClientStatusRequest is the request type for the Query/ClientStatus RPC
+ * method
+ */
+export interface QueryClientStatusRequestAmino {
+  /** client unique identifier */
+  client_id: string;
+}
+export interface QueryClientStatusRequestAminoMsg {
+  type: "cosmos-sdk/QueryClientStatusRequest";
+  value: QueryClientStatusRequestAmino;
+}
 /**
  * QueryClientStatusRequest is the request type for the Query/ClientStatus RPC
  * method
@@ -182,6 +351,21 @@ export interface QueryClientStatusRequestSDKType {
 export interface QueryClientStatusResponse {
   status: string;
 }
+export interface QueryClientStatusResponseProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryClientStatusResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryClientStatusResponse is the response type for the Query/ClientStatus RPC
+ * method. It returns the current status of the IBC client.
+ */
+export interface QueryClientStatusResponseAmino {
+  status: string;
+}
+export interface QueryClientStatusResponseAminoMsg {
+  type: "cosmos-sdk/QueryClientStatusResponse";
+  value: QueryClientStatusResponseAmino;
+}
 /**
  * QueryClientStatusResponse is the response type for the Query/ClientStatus RPC
  * method. It returns the current status of the IBC client.
@@ -194,6 +378,19 @@ export interface QueryClientStatusResponseSDKType {
  * method.
  */
 export interface QueryClientParamsRequest {}
+export interface QueryClientParamsRequestProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryClientParamsRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryClientParamsRequest is the request type for the Query/ClientParams RPC
+ * method.
+ */
+export interface QueryClientParamsRequestAmino {}
+export interface QueryClientParamsRequestAminoMsg {
+  type: "cosmos-sdk/QueryClientParamsRequest";
+  value: QueryClientParamsRequestAmino;
+}
 /**
  * QueryClientParamsRequest is the request type for the Query/ClientParams RPC
  * method.
@@ -207,6 +404,22 @@ export interface QueryClientParamsResponse {
   /** params defines the parameters of the module. */
   params: Params | undefined;
 }
+export interface QueryClientParamsResponseProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryClientParamsResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryClientParamsResponse is the response type for the Query/ClientParams RPC
+ * method.
+ */
+export interface QueryClientParamsResponseAmino {
+  /** params defines the parameters of the module. */
+  params?: ParamsAmino | undefined;
+}
+export interface QueryClientParamsResponseAminoMsg {
+  type: "cosmos-sdk/QueryClientParamsResponse";
+  value: QueryClientParamsResponseAmino;
+}
 /**
  * QueryClientParamsResponse is the response type for the Query/ClientParams RPC
  * method.
@@ -219,6 +432,19 @@ export interface QueryClientParamsResponseSDKType {
  * Query/UpgradedClientState RPC method
  */
 export interface QueryUpgradedClientStateRequest {}
+export interface QueryUpgradedClientStateRequestProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryUpgradedClientStateRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryUpgradedClientStateRequest is the request type for the
+ * Query/UpgradedClientState RPC method
+ */
+export interface QueryUpgradedClientStateRequestAmino {}
+export interface QueryUpgradedClientStateRequestAminoMsg {
+  type: "cosmos-sdk/QueryUpgradedClientStateRequest";
+  value: QueryUpgradedClientStateRequestAmino;
+}
 /**
  * QueryUpgradedClientStateRequest is the request type for the
  * Query/UpgradedClientState RPC method
@@ -232,6 +458,22 @@ export interface QueryUpgradedClientStateResponse {
   /** client state associated with the request identifier */
   upgradedClientState: Any | undefined;
 }
+export interface QueryUpgradedClientStateResponseProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryUpgradedClientStateResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryUpgradedClientStateResponse is the response type for the
+ * Query/UpgradedClientState RPC method.
+ */
+export interface QueryUpgradedClientStateResponseAmino {
+  /** client state associated with the request identifier */
+  upgraded_client_state?: AnyAmino | undefined;
+}
+export interface QueryUpgradedClientStateResponseAminoMsg {
+  type: "cosmos-sdk/QueryUpgradedClientStateResponse";
+  value: QueryUpgradedClientStateResponseAmino;
+}
 /**
  * QueryUpgradedClientStateResponse is the response type for the
  * Query/UpgradedClientState RPC method.
@@ -244,6 +486,19 @@ export interface QueryUpgradedClientStateResponseSDKType {
  * Query/UpgradedConsensusState RPC method
  */
 export interface QueryUpgradedConsensusStateRequest {}
+export interface QueryUpgradedConsensusStateRequestProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryUpgradedConsensusStateRequest";
+  value: Uint8Array;
+}
+/**
+ * QueryUpgradedConsensusStateRequest is the request type for the
+ * Query/UpgradedConsensusState RPC method
+ */
+export interface QueryUpgradedConsensusStateRequestAmino {}
+export interface QueryUpgradedConsensusStateRequestAminoMsg {
+  type: "cosmos-sdk/QueryUpgradedConsensusStateRequest";
+  value: QueryUpgradedConsensusStateRequestAmino;
+}
 /**
  * QueryUpgradedConsensusStateRequest is the request type for the
  * Query/UpgradedConsensusState RPC method
@@ -256,6 +511,22 @@ export interface QueryUpgradedConsensusStateRequestSDKType {}
 export interface QueryUpgradedConsensusStateResponse {
   /** Consensus state associated with the request identifier */
   upgradedConsensusState: Any | undefined;
+}
+export interface QueryUpgradedConsensusStateResponseProtoMsg {
+  typeUrl: "/ibc.core.client.v1.QueryUpgradedConsensusStateResponse";
+  value: Uint8Array;
+}
+/**
+ * QueryUpgradedConsensusStateResponse is the response type for the
+ * Query/UpgradedConsensusState RPC method.
+ */
+export interface QueryUpgradedConsensusStateResponseAmino {
+  /** Consensus state associated with the request identifier */
+  upgraded_consensus_state?: AnyAmino | undefined;
+}
+export interface QueryUpgradedConsensusStateResponseAminoMsg {
+  type: "cosmos-sdk/QueryUpgradedConsensusStateResponse";
+  value: QueryUpgradedConsensusStateResponseAmino;
 }
 /**
  * QueryUpgradedConsensusStateResponse is the response type for the

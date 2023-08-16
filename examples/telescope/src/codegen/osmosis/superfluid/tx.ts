@@ -1,4 +1,4 @@
-import { Coin, CoinSDKType } from "../../cosmos/base/v1beta1/coin";
+import { Coin, CoinAmino, CoinSDKType } from "../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 export interface MsgSuperfluidDelegate {
@@ -6,32 +6,96 @@ export interface MsgSuperfluidDelegate {
   lockId: bigint;
   valAddr: string;
 }
+export interface MsgSuperfluidDelegateProtoMsg {
+  typeUrl: "/osmosis.superfluid.MsgSuperfluidDelegate";
+  value: Uint8Array;
+}
+export interface MsgSuperfluidDelegateAmino {
+  sender: string;
+  lock_id: string;
+  val_addr: string;
+}
+export interface MsgSuperfluidDelegateAminoMsg {
+  type: "osmosis/superfluid-delegate";
+  value: MsgSuperfluidDelegateAmino;
+}
 export interface MsgSuperfluidDelegateSDKType {
   sender: string;
   lock_id: bigint;
   val_addr: string;
 }
 export interface MsgSuperfluidDelegateResponse {}
+export interface MsgSuperfluidDelegateResponseProtoMsg {
+  typeUrl: "/osmosis.superfluid.MsgSuperfluidDelegateResponse";
+  value: Uint8Array;
+}
+export interface MsgSuperfluidDelegateResponseAmino {}
+export interface MsgSuperfluidDelegateResponseAminoMsg {
+  type: "osmosis/superfluid-delegate-response";
+  value: MsgSuperfluidDelegateResponseAmino;
+}
 export interface MsgSuperfluidDelegateResponseSDKType {}
 export interface MsgSuperfluidUndelegate {
   sender: string;
   lockId: bigint;
+}
+export interface MsgSuperfluidUndelegateProtoMsg {
+  typeUrl: "/osmosis.superfluid.MsgSuperfluidUndelegate";
+  value: Uint8Array;
+}
+export interface MsgSuperfluidUndelegateAmino {
+  sender: string;
+  lock_id: string;
+}
+export interface MsgSuperfluidUndelegateAminoMsg {
+  type: "osmosis/superfluid-undelegate";
+  value: MsgSuperfluidUndelegateAmino;
 }
 export interface MsgSuperfluidUndelegateSDKType {
   sender: string;
   lock_id: bigint;
 }
 export interface MsgSuperfluidUndelegateResponse {}
+export interface MsgSuperfluidUndelegateResponseProtoMsg {
+  typeUrl: "/osmosis.superfluid.MsgSuperfluidUndelegateResponse";
+  value: Uint8Array;
+}
+export interface MsgSuperfluidUndelegateResponseAmino {}
+export interface MsgSuperfluidUndelegateResponseAminoMsg {
+  type: "osmosis/superfluid-undelegate-response";
+  value: MsgSuperfluidUndelegateResponseAmino;
+}
 export interface MsgSuperfluidUndelegateResponseSDKType {}
 export interface MsgSuperfluidUnbondLock {
   sender: string;
   lockId: bigint;
+}
+export interface MsgSuperfluidUnbondLockProtoMsg {
+  typeUrl: "/osmosis.superfluid.MsgSuperfluidUnbondLock";
+  value: Uint8Array;
+}
+export interface MsgSuperfluidUnbondLockAmino {
+  sender: string;
+  lock_id: string;
+}
+export interface MsgSuperfluidUnbondLockAminoMsg {
+  type: "osmosis/superfluid-unbond-lock";
+  value: MsgSuperfluidUnbondLockAmino;
 }
 export interface MsgSuperfluidUnbondLockSDKType {
   sender: string;
   lock_id: bigint;
 }
 export interface MsgSuperfluidUnbondLockResponse {}
+export interface MsgSuperfluidUnbondLockResponseProtoMsg {
+  typeUrl: "/osmosis.superfluid.MsgSuperfluidUnbondLockResponse";
+  value: Uint8Array;
+}
+export interface MsgSuperfluidUnbondLockResponseAmino {}
+export interface MsgSuperfluidUnbondLockResponseAminoMsg {
+  type: "osmosis/superfluid-unbond-lock-response";
+  value: MsgSuperfluidUnbondLockResponseAmino;
+}
 export interface MsgSuperfluidUnbondLockResponseSDKType {}
 /**
  * MsgLockAndSuperfluidDelegate locks coins with the unbonding period duration,
@@ -42,6 +106,24 @@ export interface MsgLockAndSuperfluidDelegate {
   sender: string;
   coins: Coin[];
   valAddr: string;
+}
+export interface MsgLockAndSuperfluidDelegateProtoMsg {
+  typeUrl: "/osmosis.superfluid.MsgLockAndSuperfluidDelegate";
+  value: Uint8Array;
+}
+/**
+ * MsgLockAndSuperfluidDelegate locks coins with the unbonding period duration,
+ * and then does a superfluid lock from the newly created lockup, to the
+ * specified validator addr.
+ */
+export interface MsgLockAndSuperfluidDelegateAmino {
+  sender: string;
+  coins: CoinAmino[];
+  val_addr: string;
+}
+export interface MsgLockAndSuperfluidDelegateAminoMsg {
+  type: "osmosis/lock-and-superfluid-delegate";
+  value: MsgLockAndSuperfluidDelegateAmino;
 }
 /**
  * MsgLockAndSuperfluidDelegate locks coins with the unbonding period duration,
@@ -55,6 +137,17 @@ export interface MsgLockAndSuperfluidDelegateSDKType {
 }
 export interface MsgLockAndSuperfluidDelegateResponse {
   ID: bigint;
+}
+export interface MsgLockAndSuperfluidDelegateResponseProtoMsg {
+  typeUrl: "/osmosis.superfluid.MsgLockAndSuperfluidDelegateResponse";
+  value: Uint8Array;
+}
+export interface MsgLockAndSuperfluidDelegateResponseAmino {
+  ID: string;
+}
+export interface MsgLockAndSuperfluidDelegateResponseAminoMsg {
+  type: "osmosis/lock-and-superfluid-delegate-response";
+  value: MsgLockAndSuperfluidDelegateResponseAmino;
 }
 export interface MsgLockAndSuperfluidDelegateResponseSDKType {
   ID: bigint;
@@ -73,6 +166,28 @@ export interface MsgUnPoolWhitelistedPool {
   sender: string;
   poolId: bigint;
 }
+export interface MsgUnPoolWhitelistedPoolProtoMsg {
+  typeUrl: "/osmosis.superfluid.MsgUnPoolWhitelistedPool";
+  value: Uint8Array;
+}
+/**
+ * MsgUnPoolWhitelistedPool Unpools every lock the sender has, that is
+ * associated with pool pool_id. If pool_id is not approved for unpooling by
+ * governance, this is a no-op. Unpooling takes the locked gamm shares, and runs
+ * "ExitPool" on it, to get the constituent tokens. e.g. z gamm/pool/1 tokens
+ * ExitPools into constituent tokens x uatom, y uosmo. Then it creates a new
+ * lock for every constituent token, with the duration associated with the lock.
+ * If the lock was unbonding, the new lockup durations should be the time left
+ * until unbond completion.
+ */
+export interface MsgUnPoolWhitelistedPoolAmino {
+  sender: string;
+  pool_id: string;
+}
+export interface MsgUnPoolWhitelistedPoolAminoMsg {
+  type: "osmosis/unpool-whitelisted-pool";
+  value: MsgUnPoolWhitelistedPoolAmino;
+}
 /**
  * MsgUnPoolWhitelistedPool Unpools every lock the sender has, that is
  * associated with pool pool_id. If pool_id is not approved for unpooling by
@@ -89,6 +204,17 @@ export interface MsgUnPoolWhitelistedPoolSDKType {
 }
 export interface MsgUnPoolWhitelistedPoolResponse {
   exitedLockIds: bigint[];
+}
+export interface MsgUnPoolWhitelistedPoolResponseProtoMsg {
+  typeUrl: "/osmosis.superfluid.MsgUnPoolWhitelistedPoolResponse";
+  value: Uint8Array;
+}
+export interface MsgUnPoolWhitelistedPoolResponseAmino {
+  exited_lock_ids: string[];
+}
+export interface MsgUnPoolWhitelistedPoolResponseAminoMsg {
+  type: "osmosis/un-pool-whitelisted-pool-response";
+  value: MsgUnPoolWhitelistedPoolResponseAmino;
 }
 export interface MsgUnPoolWhitelistedPoolResponseSDKType {
   exited_lock_ids: bigint[];

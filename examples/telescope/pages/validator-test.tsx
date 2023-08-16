@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import { useChain } from '@cosmos-kit/react';
-import { StdFee } from '@cosmjs/amino';
+import { pubkeyType, StdFee } from '@cosmjs/amino';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import BigNumber from 'bignumber.js';
+import { toBase64, fromBase64 } from '@cosmjs/encoding';
+import { Pubkey, encodeBech32Pubkey, decodeBech32Pubkey } from '@cosmjs/amino';
 
 import {
   Box,
@@ -41,7 +43,13 @@ import { SendTokensCard } from '../components/react/send-tokens-card';
 
 import { cosmos, createRpcQueryHooks } from '../src/codegen';
 import { useRpcClient, useRpcEndpoint } from '../src/codegen';
-import { QueryValidatorsRequest } from '../src/codegen/cosmos/staking/v1beta1/query';
+import { QueryValidatorRequest } from '../src/codegen/cosmos/staking/v1beta1/query';
+import { PubKey } from '../src/codegen/cosmos/crypto/ed25519/keys';
+import { AnyAmino } from '../src/codegen/google/protobuf/any';
+
+(BigInt.prototype as any).toJSON = function () {
+  return this.toString();
+};
 
 const library = {
   title: 'Telescope',
@@ -127,39 +135,93 @@ export default function Home() {
   // const hooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
   const hooks = createRpcQueryHooks({ rpc: rpcClient });
 
+  //validatorAddr: cosmosvaloper1tflk30mq5vgqjdly92kkhhq3raev2hnz6eete3
+  //"consensusPubkey": {
+  //  "typeUrl": "/cosmos.crypto.ed25519.PubKey",
+  //  "value": {}
+  // }
   const {
-    data: balance,
-    isSuccess: isBalanceLoaded,
-    isLoading: isFetchingBalance,
-    refetch: refetchBalance,
-  } = hooks.useBalance({
-    request: {
-      address: address || '',
-      denom: chainassets?.assets[0].base as string,
-    },
-    options: {
-      enabled: !!address && !!rpcClient,
-      // transform the returned balance into a BigNumber
-      select: ({ balance }) =>
-        new BigNumber(balance?.amount ?? 0).multipliedBy(
-          10 ** -COIN_DISPLAY_EXPONENT
-        ),
-    },
+    data: validator,
+    isSuccess: isValidatorLoaded,
+    isLoading: isFetchingValidator,
+    refetch,
+  } = hooks.useValidator({
+    request: QueryValidatorRequest.fromPartial({
+      validatorAddr: 'cosmosvaloper1tflk30mq5vgqjdly92kkhhq3raev2hnz6eete3',
+    }),
   });
 
-  console.log(
-    JSON.stringify(
+  if (validator) {
+    // toAmino
+    // use the logic the same with interface.enabled
+    // to decide Which PubKey to use(ed25519? secp256k1? secp256r1)
+    const pubkey = PubKey.decode(validator!.validator!.consensusPubkey!.value);
+
+    //dhhD3I5QbtC870Il4IzML5Q2AwVDiSn9/HJ9w09Rgdg=
+    //not crypto encoded
+    const pubKeyString = toBase64(pubkey.key);
+
+    //cosmos1zcjduepqwcvy8hyw2phdp080ggj7prxv972rvqc9gwyjnl0uwf7uxn63s8vquhs900
+    const cryptoEncodedPubkey = encodeBech32Pubkey(
       {
-        address,
-        balance,
-        isBalanceLoaded,
-        isFetchingBalance,
-        refetchBalance,
+        type: pubkeyType.ed25519,
+        value: pubKeyString,
       },
-      null,
-      2
-    )
-  );
+      'cosmos'
+    );
+
+    const consensus_pubkey: AnyAmino = {
+      type: validator!.validator!.consensusPubkey!.typeUrl,
+      value: {
+        key: new TextEncoder().encode(cryptoEncodedPubkey),
+      },
+    };
+
+    console.log(
+      JSON.stringify(
+        {
+          pubKeyString,
+          cryptoEncodedPubkey,
+          consensus_pubkey,
+          isValidatorLoaded,
+          isFetchingValidator,
+        },
+        null,
+        2
+      )
+    );
+
+    //fromAmino
+    const decodedAminoAny = consensus_pubkey;
+
+    const cryptoEncodedKeyString = new TextDecoder().decode(
+      decodedAminoAny.value.key
+    );
+
+    const cryptoDecodedPubkey = decodeBech32Pubkey(cryptoEncodedKeyString);
+
+    const consensusPubkey: {
+      typeUrl: string;
+      value: PubKey;
+    } = {
+      typeUrl: decodedAminoAny.type,
+      value: {
+        key: new TextEncoder().encode(cryptoDecodedPubkey.value),
+      },
+    };
+
+    console.log(
+      JSON.stringify(
+        {
+          cryptoEncodedKeyString,
+          cryptoDecodedPubkey,
+          consensusPubkey,
+        },
+        null,
+        2
+      )
+    );
+  }
 
   return (
     <Container maxW="5xl" py={10}>
@@ -209,8 +271,12 @@ export default function Home() {
       <Center mb={16}>
         <SendTokensCard
           isConnectWallet={status === WalletStatus.Connected}
-          balance={isBalanceLoaded ? balance.toNumber() : 0}
-          isFetchingBalance={isFetchingBalance}
+          balance={
+            isValidatorLoaded
+              ? Number(validator?.validator?.unbondingHeight)
+              : ''
+          }
+          isFetchingBalance={isFetchingValidator}
           response={resp}
           sendTokensButtonText="Send Tokens"
           handleClickSendTokens={sendTokens(
@@ -218,7 +284,7 @@ export default function Home() {
             setResp as () => any,
             address as string
           )}
-          handleClickGetBalance={refetchBalance}
+          handleClickGetBalance={refetch}
         />
       </Center>
 

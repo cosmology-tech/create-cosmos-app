@@ -1,4 +1,4 @@
-import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
+import { Duration, DurationAmino, DurationSDKType } from "../../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 export interface Params {
@@ -10,11 +10,39 @@ export interface Params {
    */
   mintedDenom: string;
 }
+export interface ParamsProtoMsg {
+  typeUrl: "/osmosis.poolincentives.v1beta1.Params";
+  value: Uint8Array;
+}
+export interface ParamsAmino {
+  /**
+   * minted_denom is the denomination of the coin expected to be minted by the
+   * minting module. Pool-incentives module doesn’t actually mint the coin
+   * itself, but rather manages the distribution of coins that matches the
+   * defined minted_denom.
+   */
+  minted_denom: string;
+}
+export interface ParamsAminoMsg {
+  type: "osmosis/poolincentives/params";
+  value: ParamsAmino;
+}
 export interface ParamsSDKType {
   minted_denom: string;
 }
 export interface LockableDurationsInfo {
   lockableDurations: Duration[];
+}
+export interface LockableDurationsInfoProtoMsg {
+  typeUrl: "/osmosis.poolincentives.v1beta1.LockableDurationsInfo";
+  value: Uint8Array;
+}
+export interface LockableDurationsInfoAmino {
+  lockable_durations: DurationAmino[];
+}
+export interface LockableDurationsInfoAminoMsg {
+  type: "osmosis/poolincentives/lockable-durations-info";
+  value: LockableDurationsInfoAmino;
 }
 export interface LockableDurationsInfoSDKType {
   lockable_durations: DurationSDKType[];
@@ -23,6 +51,18 @@ export interface DistrInfo {
   totalWeight: string;
   records: DistrRecord[];
 }
+export interface DistrInfoProtoMsg {
+  typeUrl: "/osmosis.poolincentives.v1beta1.DistrInfo";
+  value: Uint8Array;
+}
+export interface DistrInfoAmino {
+  total_weight: string;
+  records: DistrRecordAmino[];
+}
+export interface DistrInfoAminoMsg {
+  type: "osmosis/poolincentives/distr-info";
+  value: DistrInfoAmino;
+}
 export interface DistrInfoSDKType {
   total_weight: string;
   records: DistrRecordSDKType[];
@@ -30,6 +70,18 @@ export interface DistrInfoSDKType {
 export interface DistrRecord {
   gaugeId: bigint;
   weight: string;
+}
+export interface DistrRecordProtoMsg {
+  typeUrl: "/osmosis.poolincentives.v1beta1.DistrRecord";
+  value: Uint8Array;
+}
+export interface DistrRecordAmino {
+  gauge_id: string;
+  weight: string;
+}
+export interface DistrRecordAminoMsg {
+  type: "osmosis/poolincentives/distr-record";
+  value: DistrRecordAmino;
 }
 export interface DistrRecordSDKType {
   gauge_id: bigint;
@@ -40,6 +92,19 @@ export interface PoolToGauge {
   gaugeId: bigint;
   duration: Duration | undefined;
 }
+export interface PoolToGaugeProtoMsg {
+  typeUrl: "/osmosis.poolincentives.v1beta1.PoolToGauge";
+  value: Uint8Array;
+}
+export interface PoolToGaugeAmino {
+  pool_id: string;
+  gauge_id: string;
+  duration?: DurationAmino | undefined;
+}
+export interface PoolToGaugeAminoMsg {
+  type: "osmosis/poolincentives/pool-to-gauge";
+  value: PoolToGaugeAmino;
+}
 export interface PoolToGaugeSDKType {
   pool_id: bigint;
   gauge_id: bigint;
@@ -47,6 +112,17 @@ export interface PoolToGaugeSDKType {
 }
 export interface PoolToGauges {
   poolToGauge: PoolToGauge[];
+}
+export interface PoolToGaugesProtoMsg {
+  typeUrl: "/osmosis.poolincentives.v1beta1.PoolToGauges";
+  value: Uint8Array;
+}
+export interface PoolToGaugesAmino {
+  pool_to_gauge: PoolToGaugeAmino[];
+}
+export interface PoolToGaugesAminoMsg {
+  type: "osmosis/poolincentives/pool-to-gauges";
+  value: PoolToGaugesAmino;
 }
 export interface PoolToGaugesSDKType {
   pool_to_gauge: PoolToGaugeSDKType[];

@@ -1,5 +1,5 @@
-import { Params, ParamsSDKType } from "./params";
-import { DenomAuthorityMetadata, DenomAuthorityMetadataSDKType } from "./authorityMetadata";
+import { Params, ParamsAmino, ParamsSDKType } from "./params";
+import { DenomAuthorityMetadata, DenomAuthorityMetadataAmino, DenomAuthorityMetadataSDKType } from "./authorityMetadata";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 /** GenesisState defines the tokenfactory module's genesis state. */
@@ -7,6 +7,20 @@ export interface GenesisState {
   /** params defines the paramaters of the module. */
   params: Params | undefined;
   factoryDenoms: GenesisDenom[];
+}
+export interface GenesisStateProtoMsg {
+  typeUrl: "/osmosis.tokenfactory.v1beta1.GenesisState";
+  value: Uint8Array;
+}
+/** GenesisState defines the tokenfactory module's genesis state. */
+export interface GenesisStateAmino {
+  /** params defines the paramaters of the module. */
+  params?: ParamsAmino | undefined;
+  factory_denoms: GenesisDenomAmino[];
+}
+export interface GenesisStateAminoMsg {
+  type: "osmosis/tokenfactory/genesis-state";
+  value: GenesisStateAmino;
 }
 /** GenesisState defines the tokenfactory module's genesis state. */
 export interface GenesisStateSDKType {
@@ -21,6 +35,23 @@ export interface GenesisStateSDKType {
 export interface GenesisDenom {
   denom: string;
   authorityMetadata: DenomAuthorityMetadata | undefined;
+}
+export interface GenesisDenomProtoMsg {
+  typeUrl: "/osmosis.tokenfactory.v1beta1.GenesisDenom";
+  value: Uint8Array;
+}
+/**
+ * GenesisDenom defines a tokenfactory denom that is defined within genesis
+ * state. The structure contains DenomAuthorityMetadata which defines the
+ * denom's admin.
+ */
+export interface GenesisDenomAmino {
+  denom: string;
+  authority_metadata?: DenomAuthorityMetadataAmino | undefined;
+}
+export interface GenesisDenomAminoMsg {
+  type: "osmosis/tokenfactory/genesis-denom";
+  value: GenesisDenomAmino;
 }
 /**
  * GenesisDenom defines a tokenfactory denom that is defined within genesis

@@ -1,4 +1,4 @@
-import { FeeToken, FeeTokenSDKType } from "./feetoken";
+import { FeeToken, FeeTokenAmino, FeeTokenSDKType } from "./feetoken";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 /**
@@ -12,6 +12,26 @@ export interface UpdateFeeTokenProposal {
   title: string;
   description: string;
   feetoken: FeeToken | undefined;
+}
+export interface UpdateFeeTokenProposalProtoMsg {
+  typeUrl: "/osmosis.txfees.v1beta1.UpdateFeeTokenProposal";
+  value: Uint8Array;
+}
+/**
+ * UpdateFeeTokenProposal is a gov Content type for adding a new whitelisted fee
+ * token. It must specify a denom along with gamm pool ID to use as a spot price
+ * calculator. It can be used to add a new denom to the whitelist It can also be
+ * used to update the Pool to associate with the denom. If Pool ID is set to 0,
+ * it will remove the denom from the whitelisted set.
+ */
+export interface UpdateFeeTokenProposalAmino {
+  title: string;
+  description: string;
+  feetoken?: FeeTokenAmino | undefined;
+}
+export interface UpdateFeeTokenProposalAminoMsg {
+  type: "osmosis/txfees/update-fee-token-proposal";
+  value: UpdateFeeTokenProposalAmino;
 }
 /**
  * UpdateFeeTokenProposal is a gov Content type for adding a new whitelisted fee

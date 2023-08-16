@@ -1,6 +1,6 @@
-import { Params, ParamsSDKType } from "./params";
-import { Gauge, GaugeSDKType } from "./gauge";
-import { Duration, DurationSDKType } from "../../google/protobuf/duration";
+import { Params, ParamsAmino, ParamsSDKType } from "./params";
+import { Gauge, GaugeAmino, GaugeSDKType } from "./gauge";
+import { Duration, DurationAmino, DurationSDKType } from "../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 /**
@@ -22,6 +22,34 @@ export interface GenesisState {
    * the next gauge after genesis
    */
   lastGaugeId: bigint;
+}
+export interface GenesisStateProtoMsg {
+  typeUrl: "/osmosis.incentives.GenesisState";
+  value: Uint8Array;
+}
+/**
+ * GenesisState defines the incentives module's various parameters when first
+ * initialized
+ */
+export interface GenesisStateAmino {
+  /** params are all the parameters of the module */
+  params?: ParamsAmino | undefined;
+  /** gauges are all gauges that should exist at genesis */
+  gauges: GaugeAmino[];
+  /**
+   * lockable_durations are all lockup durations that gauges can be locked for
+   * in order to recieve incentives
+   */
+  lockable_durations: DurationAmino[];
+  /**
+   * last_gauge_id is what the gauge number will increment from when creating
+   * the next gauge after genesis
+   */
+  last_gauge_id: string;
+}
+export interface GenesisStateAminoMsg {
+  type: "osmosis/incentives/genesis-state";
+  value: GenesisStateAmino;
 }
 /**
  * GenesisState defines the incentives module's various parameters when first
