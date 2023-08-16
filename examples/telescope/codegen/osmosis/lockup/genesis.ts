@@ -1,4 +1,4 @@
-import { PeriodLock, PeriodLockAmino, PeriodLockSDKType, SyntheticLock, SyntheticLockAmino, SyntheticLockSDKType } from "./lock";
+import { PeriodLock, PeriodLockSDKType, SyntheticLock, SyntheticLockSDKType } from "./lock";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 /** GenesisState defines the lockup module's genesis state. */
@@ -6,20 +6,6 @@ export interface GenesisState {
   lastLockId: bigint;
   locks: PeriodLock[];
   syntheticLocks: SyntheticLock[];
-}
-export interface GenesisStateProtoMsg {
-  typeUrl: "/osmosis.lockup.GenesisState";
-  value: Uint8Array;
-}
-/** GenesisState defines the lockup module's genesis state. */
-export interface GenesisStateAmino {
-  last_lock_id: string;
-  locks: PeriodLockAmino[];
-  synthetic_locks: SyntheticLockAmino[];
-}
-export interface GenesisStateAminoMsg {
-  type: "osmosis/lockup/genesis-state";
-  value: GenesisStateAmino;
 }
 /** GenesisState defines the lockup module's genesis state. */
 export interface GenesisStateSDKType {

@@ -1,4 +1,4 @@
-import { IdentifiedChannel, IdentifiedChannelAmino, IdentifiedChannelSDKType, PacketState, PacketStateAmino, PacketStateSDKType } from "./channel";
+import { IdentifiedChannel, IdentifiedChannelSDKType, PacketState, PacketStateSDKType } from "./channel";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 /** GenesisState defines the ibc channel submodule's genesis state. */
@@ -12,26 +12,6 @@ export interface GenesisState {
   ackSequences: PacketSequence[];
   /** the sequence for the next generated channel identifier */
   nextChannelSequence: bigint;
-}
-export interface GenesisStateProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.GenesisState";
-  value: Uint8Array;
-}
-/** GenesisState defines the ibc channel submodule's genesis state. */
-export interface GenesisStateAmino {
-  channels: IdentifiedChannelAmino[];
-  acknowledgements: PacketStateAmino[];
-  commitments: PacketStateAmino[];
-  receipts: PacketStateAmino[];
-  send_sequences: PacketSequenceAmino[];
-  recv_sequences: PacketSequenceAmino[];
-  ack_sequences: PacketSequenceAmino[];
-  /** the sequence for the next generated channel identifier */
-  next_channel_sequence: string;
-}
-export interface GenesisStateAminoMsg {
-  type: "cosmos-sdk/GenesisState";
-  value: GenesisStateAmino;
 }
 /** GenesisState defines the ibc channel submodule's genesis state. */
 export interface GenesisStateSDKType {
@@ -52,23 +32,6 @@ export interface PacketSequence {
   portId: string;
   channelId: string;
   sequence: bigint;
-}
-export interface PacketSequenceProtoMsg {
-  typeUrl: "/ibc.core.channel.v1.PacketSequence";
-  value: Uint8Array;
-}
-/**
- * PacketSequence defines the genesis type necessary to retrieve and store
- * next send and receive sequences.
- */
-export interface PacketSequenceAmino {
-  port_id: string;
-  channel_id: string;
-  sequence: string;
-}
-export interface PacketSequenceAminoMsg {
-  type: "cosmos-sdk/PacketSequence";
-  value: PacketSequenceAmino;
 }
 /**
  * PacketSequence defines the genesis type necessary to retrieve and store

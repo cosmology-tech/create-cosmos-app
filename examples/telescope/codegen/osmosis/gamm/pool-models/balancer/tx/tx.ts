@@ -1,4 +1,4 @@
-import { PoolParams, PoolParamsAmino, PoolParamsSDKType, PoolAsset, PoolAssetAmino, PoolAssetSDKType } from "../balancerPool";
+import { PoolParams, PoolParamsSDKType, PoolAsset, PoolAssetSDKType } from "../balancerPool";
 import { BinaryReader, BinaryWriter } from "../../../../../binary";
 import { isSet, DeepPartial } from "../../../../../helpers";
 /** ===================== MsgCreatePool */
@@ -7,21 +7,6 @@ export interface MsgCreateBalancerPool {
   poolParams: PoolParams | undefined;
   poolAssets: PoolAsset[];
   futurePoolGovernor: string;
-}
-export interface MsgCreateBalancerPoolProtoMsg {
-  typeUrl: "/osmosis.gamm.poolmodels.balancer.v1beta1.MsgCreateBalancerPool";
-  value: Uint8Array;
-}
-/** ===================== MsgCreatePool */
-export interface MsgCreateBalancerPoolAmino {
-  sender: string;
-  pool_params?: PoolParamsAmino | undefined;
-  pool_assets: PoolAssetAmino[];
-  future_pool_governor: string;
-}
-export interface MsgCreateBalancerPoolAminoMsg {
-  type: "osmosis/gamm/poolmodels/balancer/create-balancer-pool";
-  value: MsgCreateBalancerPoolAmino;
 }
 /** ===================== MsgCreatePool */
 export interface MsgCreateBalancerPoolSDKType {
@@ -33,18 +18,6 @@ export interface MsgCreateBalancerPoolSDKType {
 /** Returns the poolID */
 export interface MsgCreateBalancerPoolResponse {
   poolId: bigint;
-}
-export interface MsgCreateBalancerPoolResponseProtoMsg {
-  typeUrl: "/osmosis.gamm.poolmodels.balancer.v1beta1.MsgCreateBalancerPoolResponse";
-  value: Uint8Array;
-}
-/** Returns the poolID */
-export interface MsgCreateBalancerPoolResponseAmino {
-  pool_id: string;
-}
-export interface MsgCreateBalancerPoolResponseAminoMsg {
-  type: "osmosis/gamm/poolmodels/balancer/create-balancer-pool-response";
-  value: MsgCreateBalancerPoolResponseAmino;
 }
 /** Returns the poolID */
 export interface MsgCreateBalancerPoolResponseSDKType {

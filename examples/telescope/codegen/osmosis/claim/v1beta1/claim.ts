@@ -1,4 +1,4 @@
-import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
+import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 export enum Action {
@@ -9,7 +9,6 @@ export enum Action {
   UNRECOGNIZED = -1,
 }
 export const ActionSDKType = Action;
-export const ActionAmino = Action;
 export function actionFromJSON(object: any): Action {
   switch (object) {
     case 0:
@@ -56,26 +55,6 @@ export interface ClaimRecord {
    * index of bool in array refers to action enum #
    */
   actionCompleted: boolean[];
-}
-export interface ClaimRecordProtoMsg {
-  typeUrl: "/osmosis.claim.v1beta1.ClaimRecord";
-  value: Uint8Array;
-}
-/** A Claim Records is the metadata of claim data per address */
-export interface ClaimRecordAmino {
-  /** address of claim user */
-  address: string;
-  /** total initial claimable amount for the user */
-  initial_claimable_amount: CoinAmino[];
-  /**
-   * true if action is completed
-   * index of bool in array refers to action enum #
-   */
-  action_completed: boolean[];
-}
-export interface ClaimRecordAminoMsg {
-  type: "osmosis/claim/claim-record";
-  value: ClaimRecordAmino;
 }
 /** A Claim Records is the metadata of claim data per address */
 export interface ClaimRecordSDKType {

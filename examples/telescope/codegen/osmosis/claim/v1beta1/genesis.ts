@@ -1,6 +1,6 @@
-import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
-import { Params, ParamsAmino, ParamsSDKType } from "./params";
-import { ClaimRecord, ClaimRecordAmino, ClaimRecordSDKType } from "./claim";
+import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
+import { Params, ParamsSDKType } from "./params";
+import { ClaimRecord, ClaimRecordSDKType } from "./claim";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 /** GenesisState defines the claim module's genesis state. */
@@ -11,23 +11,6 @@ export interface GenesisState {
   params: Params | undefined;
   /** list of claim records, one for every airdrop recipient */
   claimRecords: ClaimRecord[];
-}
-export interface GenesisStateProtoMsg {
-  typeUrl: "/osmosis.claim.v1beta1.GenesisState";
-  value: Uint8Array;
-}
-/** GenesisState defines the claim module's genesis state. */
-export interface GenesisStateAmino {
-  /** balance of the claim module's account */
-  module_account_balance?: CoinAmino | undefined;
-  /** params defines all the parameters of the module. */
-  params?: ParamsAmino | undefined;
-  /** list of claim records, one for every airdrop recipient */
-  claim_records: ClaimRecordAmino[];
-}
-export interface GenesisStateAminoMsg {
-  type: "osmosis/claim/genesis-state";
-  value: GenesisStateAmino;
 }
 /** GenesisState defines the claim module's genesis state. */
 export interface GenesisStateSDKType {

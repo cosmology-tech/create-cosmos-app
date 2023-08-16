@@ -1,4 +1,4 @@
-import { SuperfluidAsset, SuperfluidAssetAmino, SuperfluidAssetSDKType } from "../superfluid";
+import { SuperfluidAsset, SuperfluidAssetSDKType } from "../superfluid";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 /**
@@ -9,23 +9,6 @@ export interface SetSuperfluidAssetsProposal {
   title: string;
   description: string;
   assets: SuperfluidAsset[];
-}
-export interface SetSuperfluidAssetsProposalProtoMsg {
-  typeUrl: "/osmosis.superfluid.v1beta1.SetSuperfluidAssetsProposal";
-  value: Uint8Array;
-}
-/**
- * SetSuperfluidAssetsProposal is a gov Content type to update the superfluid
- * assets
- */
-export interface SetSuperfluidAssetsProposalAmino {
-  title: string;
-  description: string;
-  assets: SuperfluidAssetAmino[];
-}
-export interface SetSuperfluidAssetsProposalAminoMsg {
-  type: "osmosis/v1beta1/set-superfluid-assets-proposal";
-  value: SetSuperfluidAssetsProposalAmino;
 }
 /**
  * SetSuperfluidAssetsProposal is a gov Content type to update the superfluid
@@ -45,23 +28,6 @@ export interface RemoveSuperfluidAssetsProposal {
   description: string;
   superfluidAssetDenoms: string[];
 }
-export interface RemoveSuperfluidAssetsProposalProtoMsg {
-  typeUrl: "/osmosis.superfluid.v1beta1.RemoveSuperfluidAssetsProposal";
-  value: Uint8Array;
-}
-/**
- * RemoveSuperfluidAssetsProposal is a gov Content type to remove the superfluid
- * assets by denom
- */
-export interface RemoveSuperfluidAssetsProposalAmino {
-  title: string;
-  description: string;
-  superfluid_asset_denoms: string[];
-}
-export interface RemoveSuperfluidAssetsProposalAminoMsg {
-  type: "osmosis/v1beta1/remove-superfluid-assets-proposal";
-  value: RemoveSuperfluidAssetsProposalAmino;
-}
 /**
  * RemoveSuperfluidAssetsProposal is a gov Content type to remove the superfluid
  * assets by denom
@@ -80,24 +46,6 @@ export interface UpdateUnpoolWhiteListProposal {
   description: string;
   ids: bigint[];
   isOverwrite: boolean;
-}
-export interface UpdateUnpoolWhiteListProposalProtoMsg {
-  typeUrl: "/osmosis.superfluid.v1beta1.UpdateUnpoolWhiteListProposal";
-  value: Uint8Array;
-}
-/**
- * UpdateUnpoolWhiteListProposal is a gov Content type to update the
- * allowed list of pool ids.
- */
-export interface UpdateUnpoolWhiteListProposalAmino {
-  title: string;
-  description: string;
-  ids: string[];
-  is_overwrite: boolean;
-}
-export interface UpdateUnpoolWhiteListProposalAminoMsg {
-  type: "osmosis/v1beta1/update-unpool-white-list-proposal";
-  value: UpdateUnpoolWhiteListProposalAmino;
 }
 /**
  * UpdateUnpoolWhiteListProposal is a gov Content type to update the
