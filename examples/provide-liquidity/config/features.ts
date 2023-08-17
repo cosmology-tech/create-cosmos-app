@@ -40,7 +40,7 @@ export const products: FeatureProps[] = [
 export const dependencies: FeatureProps[] = [
   {
     title: 'OsmoJS',
-    text: 'OsmosJS makes it easy to compose and broadcast messages.',
+    text: 'Use osmo-query to simplify data fetching.',
     href: 'https://github.com/osmosis-labs/osmojs',
   },
   {

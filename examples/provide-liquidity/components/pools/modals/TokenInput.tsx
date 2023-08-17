@@ -11,7 +11,7 @@ import {
   useMediaQuery,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
+import { Coin } from 'osmo-query/dist/codegen/cosmos/base/v1beta1/coin';
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import {
   prettyPool,
@@ -19,10 +19,10 @@ import {
   baseUnitsToDisplayUnits,
   calcMaxCoinsForPool,
   getSymbolForDenom,
-} from '../../../utils';
+} from '@/utils';
 import { getLogoUrlFromDenom } from '../PoolList';
 import { ChainLogo } from '../PoolCard';
-import { PoolPretty, PriceHash } from '../../../utils/types';
+import { PoolPretty, PriceHash } from '@/utils/types';
 import BigNumber from 'bignumber.js';
 import { truncDecimals } from './PoolDetailModal';
 

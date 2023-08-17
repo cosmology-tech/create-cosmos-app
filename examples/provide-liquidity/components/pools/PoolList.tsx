@@ -26,10 +26,14 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { SlOptionsVertical } from 'react-icons/sl';
-import { Pool } from './ProvideLiquidity';
 import BigNumber from 'bignumber.js';
 import { truncDecimals } from './modals/PoolDetailModal';
-import { getOsmoAssetByDenom, getSymbolForDenom } from '../../utils';
+import {
+  getOsmoAssetByDenom,
+  getSymbolForDenom,
+  ExtendedPool,
+} from '../../utils';
+import { PoolsApr } from '@/hooks';
 
 export const getLogoUrlFromDenom = (denom: string | undefined) => {
   if (!denom) return '';
@@ -72,7 +76,13 @@ export const ChainLogo = ({
   );
 };
 
-const PoolName = ({ isMyPools, pool }: { isMyPools: boolean; pool: Pool }) => {
+const PoolName = ({
+  isMyPools,
+  pool,
+}: {
+  isMyPools: boolean;
+  pool: ExtendedPool;
+}) => {
   const myPoolsColor = useColorModeValue('#2C3137', '#EEF2F8');
   const allPoolsColor = useColorModeValue('#697584', '#A7B4C2');
   const poolIdColor = useColorModeValue('#697584', '#A7B4C2');
@@ -103,7 +113,7 @@ const ChainLogoGroup = ({
   style,
   logoWidth,
 }: {
-  pool: Pool;
+  pool: ExtendedPool;
   logoWidth: number;
   style?: React.CSSProperties;
 }) => {
@@ -174,7 +184,7 @@ const MenuPopover = ({
   handleRemoveLiquidityClick,
   handleViewDetailClick,
 }: {
-  pool: Pool;
+  pool: ExtendedPool;
   handleAddLiquidityClick: () => void;
   handleRemoveLiquidityClick: () => void;
   handleViewDetailClick: () => void;
@@ -257,12 +267,14 @@ const PoolList = ({
   openPoolDetailModal,
   isFetchingApr,
   openModals,
+  poolsApr,
 }: {
-  pools: Pool[];
+  pools: ExtendedPool[];
   isMyPools?: boolean;
-  setPool: (pool: Pool) => void;
+  setPool: (pool: ExtendedPool) => void;
   openPoolDetailModal: () => void;
   isFetchingApr: boolean;
+  poolsApr: PoolsApr | undefined;
   openModals: {
     onAddLiquidityOpen: () => void;
     onRemoveLiquidityOpen: () => void;
@@ -286,7 +298,7 @@ const PoolList = ({
   const hasMultiTokens = pools.some(({ poolAssets }) => poolAssets.length > 2);
   const [isMobile] = useMediaQuery('(max-width: 780px)');
 
-  const transformData = (isMyPools: boolean, pool: Pool) => {
+  const transformData = (isMyPools: boolean, pool: ExtendedPool) => {
     const dataSource = isMyPools
       ? [pool.myLiquidity, pool.bonded]
       : [pool.volume24H, pool.fees7D];
@@ -343,7 +355,12 @@ const PoolList = ({
                     h="100%"
                   >
                     <PoolStat
-                      amount={truncDecimals(pool.apr['14'].totalApr, 2) + '%'}
+                      amount={
+                        truncDecimals(
+                          poolsApr?.[pool.denom]?.['14'].totalApr,
+                          2
+                        ) + '%'
+                      }
                       isMyPools={isMyPools}
                       name="APR"
                     />
@@ -451,7 +468,10 @@ const PoolList = ({
                             isMyPools ? myPoolsStatColor : allPoolsStatColor
                           }
                         >
-                          {truncDecimals(pool.apr['14'].totalApr, 2) + '%'}
+                          {truncDecimals(
+                            poolsApr?.[pool.denom]?.['14'].totalApr,
+                            2
+                          ) + '%'}
                         </Text>
                       </Skeleton>
                     </Td>

@@ -14,18 +14,19 @@ import {
   useMediaQuery,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Pool } from '../ProvideLiquidity';
 import { LargeButton } from './ModalComponents';
-import { useTransactionToast } from '../hooks';
-import { convertDollarValueToShares, getSymbolForDenom } from '../../../utils';
-import { PriceHash } from '../../../utils/types';
-import { truncDecimals } from './PoolDetailModal';
+import {
+  convertDollarValueToShares,
+  getSymbolForDenom,
+  ExtendedPool,
+} from '@/utils';
+import { PriceHash } from '@/utils/types';
 import BigNumber from 'bignumber.js';
-import { osmosis } from 'osmojs';
+import { osmosis } from 'osmo-query';
 import { useChain } from '@cosmos-kit/react';
-import { defaultChainName } from '../../../config/defaults';
-import { Peroid, TransactionResult } from '../../types';
+import { defaultChainName } from '@/config';
 import { coins as aminoCoins } from '@cosmjs/amino';
+import { Durations, useTx } from '@/hooks';
 
 const { lockTokens } = osmosis.lockup.MessageComposer.withTypeUrl;
 
@@ -44,17 +45,17 @@ export const BondSharesModal = ({
 }: {
   isOpen: boolean;
   onClose: () => void;
-  currentPool: Pool;
+  currentPool: ExtendedPool;
   prices: PriceHash;
   updatePoolsData: () => void;
-  period: Peroid;
+  period: Durations;
   closeDetailModal: () => void;
 }) => {
   const [inputShares, setInputShares] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { getSigningStargateClient, address } = useChain(defaultChainName);
-  const { showToast } = useTransactionToast();
+  const { tx } = useTx(defaultChainName);
+  const { address } = useChain(defaultChainName);
   const [isMobile] = useMediaQuery('(max-width: 480px)');
 
   const poolName = currentPool?.poolAssets.map(({ token }) =>
@@ -88,14 +89,9 @@ export const BondSharesModal = ({
   };
 
   const handleClick = async () => {
+    if (!address) return;
+
     setIsLoading(true);
-
-    const stargateClient = await getSigningStargateClient();
-
-    if (!stargateClient || !address) {
-      console.error('stargateClient undefined or address undefined.');
-      return;
-    }
 
     const coins = [
       {
@@ -118,21 +114,16 @@ export const BondSharesModal = ({
       gas: '450000',
     };
 
-    try {
-      const res = await stargateClient.signAndBroadcast(address, [msg], fee);
-      if (res?.code !== TransactionResult.Success) throw res;
-      stargateClient.disconnect();
-      setIsLoading(false);
-      showToast(res.code);
-      closeModal();
-      closeDetailModal();
-      updatePoolsData();
-    } catch (error) {
-      console.error(error);
-      stargateClient.disconnect();
-      setIsLoading(false);
-      showToast(TransactionResult.Failed, error);
-    }
+    await tx([msg], {
+      fee,
+      onSuccess: () => {
+        closeModal();
+        closeDetailModal();
+        updatePoolsData();
+      },
+    });
+
+    setIsLoading(false);
   };
 
   const titleColor = useColorModeValue('#697584', '#A7B4C2');
