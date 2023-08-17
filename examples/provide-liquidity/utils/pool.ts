@@ -13,8 +13,8 @@ import {
   convertDollarValueToDenomUnits,
   convertBaseUnitsToDisplayUnits,
 } from '@chain-registry/utils';
-import { Pool } from 'osmojs/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
-import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
+import { Pool } from 'osmo-query/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
+import { Coin } from 'osmo-query/dist/codegen/cosmos/base/v1beta1/coin';
 import {
   calcPoolLiquidity as _calcPoolLiquidity,
   getPoolByGammName as _getPoolByGammName,
@@ -40,18 +40,20 @@ import {
   CoinBalance,
   PoolAssetPretty,
 } from './types';
-import { Fee } from '../components';
+import { Fee } from '@/hooks';
 
 export const osmosisAssets: Asset[] = [
   ...assets.assets,
   ...asset_list.assets,
-];
+].filter(({ type_asset }) => type_asset !== 'ics20');
 
 export const getOsmoAssetByDenom = (denom: CoinDenom): Asset => {
   return getAssetByDenom(osmosisAssets, denom);
 };
 
-export const getDenomForCoinGeckoId = (coinGeckoId: CoinGeckoToken): CoinDenom => {
+export const getDenomForCoinGeckoId = (
+  coinGeckoId: CoinGeckoToken
+): CoinDenom => {
   return getDenomByCoinGeckoId(osmosisAssets, coinGeckoId);
 };
 
@@ -63,7 +65,9 @@ export const getExponentByDenom = (denom: CoinDenom): Exponent => {
   return _getExponentByDenom(osmosisAssets, denom);
 };
 
-export const convertGeckoPricesToDenomPriceHash = (prices: CoinGeckoUSDResponse): PriceHash => {
+export const convertGeckoPricesToDenomPriceHash = (
+  prices: CoinGeckoUSDResponse
+): PriceHash => {
   return convertCoinGeckoPricesToDenomPriceMap(osmosisAssets, prices);
 };
 
@@ -99,7 +103,10 @@ export const convertDollarValueToShares = (
   return _convertDollarValueToShares(osmosisAssets, value, pool, prices);
 };
 
-export const prettyPool = (pool: Pool, { includeDetails = false } = {}): PoolPretty => {
+export const prettyPool = (
+  pool: Pool,
+  { includeDetails = false } = {}
+): PoolPretty => {
   return _prettyPool(osmosisAssets, pool, { includeDetails });
 };
 
@@ -127,7 +134,10 @@ export const dollarValueToDenomUnits = (
   return convertDollarValueToDenomUnits(osmosisAssets, prices, symbol, value);
 };
 
-export const baseUnitsToDisplayUnits = (symbol: string, amount: string | number) => {
+export const baseUnitsToDisplayUnits = (
+  symbol: string,
+  amount: string | number
+) => {
   return convertBaseUnitsToDisplayUnits(osmosisAssets, symbol, amount);
 };
 
@@ -155,17 +165,41 @@ export const calcMaxCoinsForPool = (
   return _calcMaxCoinsForPool(osmosisAssets, prices, poolInfo, balances);
 };
 
-export const calcShareOutAmount = (poolInfo: Pool, coinsNeeded: Coin[]): string => {
+export const calcShareOutAmount = (
+  poolInfo: Pool,
+  coinsNeeded: Coin[]
+): string => {
   return _calcShareOutAmount(poolInfo, coinsNeeded);
 };
 
-export const addPropertiesToPool = (
-  pool: Pool,
-  fees: Fee[],
-  balances: Coin[],
-  lockedCoins: Coin[],
-  prices: PriceHash
-) => {
+export const filterPools = (pools: Pool[], prices: PriceHash) => {
+  return pools
+    .filter(({ $typeUrl }) => !$typeUrl?.includes('stableswap'))
+    .filter(({ poolAssets }) =>
+      poolAssets.every(
+        ({ token }) =>
+          prices[token.denom] &&
+          !token.denom.startsWith('gamm/pool') &&
+          osmosisAssets.find(({ base }) => base === token.denom)
+      )
+    );
+};
+
+interface ExtendPoolProps {
+  pool: Pool;
+  fees: Fee[];
+  balances: Coin[];
+  lockedCoins: Coin[];
+  prices: PriceHash;
+}
+
+export const extendPool = ({
+  pool,
+  fees,
+  balances,
+  lockedCoins,
+  prices,
+}: ExtendPoolProps) => {
   const liquidity = new BigNumber(calcPoolLiquidity(pool, prices))
     .decimalPlaces(0)
     .toNumber();
@@ -175,25 +209,17 @@ export const addPropertiesToPool = (
   const volume7d = Math.round(Number(feeData?.volume_7d || 0));
   const fees7D = Math.round(Number(feeData?.fees_spent_7d || 0));
 
-  const balanceCoin = balances.find(
-    ({ denom }) => denom === pool.totalShares?.denom
-  );
+  const poolDenom = pool.totalShares?.denom;
+
+  const balanceCoin = balances.find(({ denom }) => denom === poolDenom);
   const myLiquidity = balanceCoin
     ? convertGammTokenToDollarValue(balanceCoin, pool, prices)
     : 0;
 
-  const lockedCoin = lockedCoins.find(
-    ({ denom }) => denom === pool.totalShares?.denom
-  );
+  const lockedCoin = lockedCoins.find(({ denom }) => denom === poolDenom);
   const bonded = lockedCoin
     ? convertGammTokenToDollarValue(lockedCoin, pool, prices)
     : 0;
-
-  const apr = {
-    1: { totalApr: '0' },
-    7: { totalApr: '0' },
-    14: { totalApr: '0' },
-  };
 
   return {
     ...pool,
@@ -201,8 +227,31 @@ export const addPropertiesToPool = (
     volume24H,
     fees7D,
     volume7d,
-    apr,
     myLiquidity,
     bonded,
+    denom: poolDenom,
   };
+};
+
+export type ExtendedPool = ReturnType<typeof extendPool>;
+
+export const descByLiquidity = (pool1: ExtendedPool, pool2: ExtendedPool) => {
+  return new BigNumber(pool1.liquidity).lt(pool2.liquidity) ? 1 : -1;
+};
+
+export const descByMyLiquidity = (pool1: ExtendedPool, pool2: ExtendedPool) => {
+  return new BigNumber(pool1.myLiquidity).lt(pool2.myLiquidity) ? 1 : -1;
+};
+
+type Item = {
+  denom: string;
+  [key: string]: any;
+};
+
+export const getPoolsByDenom = (allPools: ExtendedPool[], items: Item[]) => {
+  return items
+    .filter(({ denom }) => allPools.find(({ denom: d }) => d === denom))
+    .map(({ denom }) => {
+      return allPools.find(({ denom: d }) => d === denom) as ExtendedPool;
+    });
 };

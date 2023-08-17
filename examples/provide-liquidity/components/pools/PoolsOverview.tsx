@@ -8,14 +8,13 @@ import {
   Box,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useChain, useManager } from '@cosmos-kit/react';
-import { EpochInfo } from 'osmojs/dist/codegen/osmosis/epochs/genesis';
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
-import { defaultChainName } from '../../config';
+import { useManager } from '@cosmos-kit/react';
+import { ReactElement, useEffect, useState } from 'react';
+import { coin, defaultChainName } from '@/config';
 import { RewardText } from './modals/ModalComponents';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
-import { osmosis } from 'osmojs';
+import { useEpochs, usePrices } from '@/hooks';
 
 dayjs.extend(duration);
 
@@ -51,56 +50,39 @@ const StatBox = ({
 };
 
 export const PoolsOverview = ({
-  osmoPrice,
-  totalRewardPerDay,
+  totalDayReward,
 }: {
-  osmoPrice: string | number;
-  totalRewardPerDay: number;
+  totalDayReward: number;
 }) => {
   const [countdown, setCountdown] = useState(['00', '00', '00']);
-  const isMountedRef = useRef(false);
+  const { epochs, updateEpochs } = useEpochs();
+  const { data: prices } = usePrices();
 
-  const { getRpcEndpoint } = useChain(defaultChainName);
   const { getChainLogo } = useManager();
-
   const [isMobile] = useMediaQuery('(max-width: 660px)');
 
-  const getEpoch = useCallback(async () => {
-    let rpcEndpoint = await getRpcEndpoint();
-
-    if (!rpcEndpoint) {
-      console.log('no rpc endpoint — using a fallback');
-      rpcEndpoint = `https://rpc.cosmos.directory/${defaultChainName}`;
-    }
-
-    const client = await osmosis.ClientFactory.createRPCQueryClient({
-      rpcEndpoint,
-    });
-
-    const { epochs } = await client.osmosis.epochs.v1beta1.epochInfos();
-
-    const currentEpoch = epochs.find(
-      (epoch) => epoch.identifier === 'day'
-    ) as EpochInfo;
+  useEffect(() => {
+    if (!epochs) return;
+    const currentEpoch = epochs.find((epoch) => epoch.identifier === 'day')!;
 
     const startTime = currentEpoch.currentEpochStartTime;
     const duration = Number(currentEpoch.duration?.seconds) || 60 * 60 * 24;
     const endTime = dayjs(startTime).add(duration, 'second');
 
-    const countdownInterval = setInterval(async () => {
-      if (dayjs().isAfter(endTime)) clearInterval(countdownInterval);
+    const countdownInterval = setInterval(() => {
+      if (dayjs().isAfter(endTime)) {
+        clearInterval(countdownInterval);
+        updateEpochs();
+      }
 
       const leftTime = dayjs.duration(endTime.diff(dayjs())).format('HH:mm:ss');
       setCountdown(leftTime.split(':'));
     }, 1000);
-  }, [getRpcEndpoint]);
 
-  useEffect(() => {
-    if (!isMountedRef.current) {
-      getEpoch();
-      isMountedRef.current = true;
-    }
-  }, [getEpoch]);
+    return () => clearInterval(countdownInterval);
+  }, [epochs, updateEpochs]);
+
+  const osmoPrice = prices?.[coin.base] || 0;
 
   const titleColor = useColorModeValue('#697584', '#A7B4C2');
   const amountColor = useColorModeValue('#2C3137', '#EEF2F8');
@@ -183,7 +165,7 @@ export const PoolsOverview = ({
             >
               Currently earning
             </Text>
-            <RewardText reward={totalRewardPerDay} />
+            <RewardText reward={totalDayReward} />
           </Flex>
         </StatBox>
       </GridItem>

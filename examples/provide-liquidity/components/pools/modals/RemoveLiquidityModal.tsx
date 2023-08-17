@@ -17,25 +17,24 @@ import {
   useMediaQuery,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Pool } from '../ProvideLiquidity';
 import { LargeButton, PoolAssetDisplay } from './ModalComponents';
-import { useTransactionToast } from '../hooks';
 import {
   convertDollarValueToCoins,
   convertDollarValueToShares,
   getSymbolForDenom,
   noDecimals,
-} from '../../../utils';
+  ExtendedPool,
+} from '@/utils';
 import { truncDecimals } from './PoolDetailModal';
-import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
-import { PriceHash } from '../../../utils/types';
+import { Coin } from 'osmo-query/dist/codegen/cosmos/base/v1beta1/coin';
+import { PriceHash } from '@/utils/types';
 import { getLogoUrlFromDenom } from '../PoolList';
 import BigNumber from 'bignumber.js';
-import { osmosis } from 'osmojs';
-import { defaultChainName } from '../../../config/defaults';
+import { osmosis } from 'osmo-query';
+import { defaultChainName } from '@/config';
 import { useChain } from '@cosmos-kit/react';
-import { TransactionResult } from '../../types';
 import { coin, coins as aminoCoins } from '@cosmjs/amino';
+import { useTx } from '@/hooks';
 
 const { exitPool } = osmosis.gamm.v1beta1.MessageComposer.withTypeUrl;
 
@@ -49,15 +48,15 @@ export const RemoveLiquidityModal = ({
 }: {
   isOpen: boolean;
   onClose: () => void;
-  currentPool: Pool;
+  currentPool: ExtendedPool;
   prices: PriceHash;
   updatePoolsData: () => void;
   closeDetailModal: () => void;
 }) => {
   const [percent, setPercent] = useState(50);
   const [isLoading, setIsLoading] = useState(false);
-  const { getSigningStargateClient, address } = useChain(defaultChainName);
-  const { showToast } = useTransactionToast();
+  const { tx } = useTx(defaultChainName);
+  const { address } = useChain(defaultChainName);
   const [isMobile] = useMediaQuery('(max-width: 480px)');
 
   const myLiquidity = new BigNumber(currentPool.myLiquidity || 0)
@@ -87,14 +86,9 @@ export const RemoveLiquidityModal = ({
   };
 
   const handleClick = async () => {
+    if (!address) return;
+
     setIsLoading(true);
-
-    const stargateClient = await getSigningStargateClient();
-
-    if (!stargateClient || !address) {
-      console.error('stargateClient undefined or address undefined.');
-      return;
-    }
 
     const coinsNeeded = coins.map(({ denom, amount }) => {
       const slippage = 2.5;
@@ -130,21 +124,16 @@ export const RemoveLiquidityModal = ({
       gas: '280000',
     };
 
-    try {
-      const res = await stargateClient.signAndBroadcast(address, [msg], fee);
-      if (res?.code !== TransactionResult.Success) throw res;
-      stargateClient.disconnect();
-      setIsLoading(false);
-      showToast(res.code);
-      closeModal();
-      closeDetailModal();
-      updatePoolsData();
-    } catch (error) {
-      console.error(error);
-      stargateClient.disconnect();
-      setIsLoading(false);
-      showToast(TransactionResult.Failed, error);
-    }
+    await tx([msg], {
+      fee,
+      onSuccess: () => {
+        closeModal();
+        closeDetailModal();
+        updatePoolsData();
+      },
+    });
+
+    setIsLoading(false);
   };
 
   const titleColor = useColorModeValue('#697584', '#A7B4C2');

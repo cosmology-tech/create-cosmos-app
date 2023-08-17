@@ -12,11 +12,10 @@ import {
   useMediaQuery,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Pool } from '../ProvideLiquidity';
 import { useChain } from '@cosmos-kit/react';
-import { osmosis } from 'osmojs';
-import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
-import { defaultChainName } from '../../../config/defaults';
+import { osmosis } from 'osmo-query';
+import { Coin } from 'osmo-query/dist/codegen/cosmos/base/v1beta1/coin';
+import { defaultChainName } from '@/config';
 import { LargeButton } from './ModalComponents';
 import {
   getSymbolForDenom,
@@ -27,13 +26,13 @@ import {
   getOsmoDenomForSymbol,
   baseUnitsToDollarValue,
   convertDollarValueToCoins,
-} from '../../../utils';
-import { PriceHash } from '../../../utils/types';
+  ExtendedPool,
+} from '@/utils';
+import { PriceHash } from '@/utils/types';
 import BigNumber from 'bignumber.js';
-import { TransactionResult } from '../../types';
 import { coin, coins as aminoCoins } from '@cosmjs/amino';
-import { useTransactionToast } from '../hooks';
 import { TokenInput } from './TokenInput';
+import { useTx } from '@/hooks';
 
 type InputToken = {
   denom: string;
@@ -67,7 +66,7 @@ export const AddLiquidityModal = ({
 }: {
   isOpen: boolean;
   onClose: () => void;
-  currentPool: Pool;
+  currentPool: ExtendedPool;
   balances: Coin[];
   prices: PriceHash;
   updatePoolsData: () => void;
@@ -82,7 +81,7 @@ export const AddLiquidityModal = ({
     }))
   );
 
-  const { showToast } = useTransactionToast();
+  const { tx } = useTx(defaultChainName);
   const [isMobile] = useMediaQuery('(max-width: 480px)');
 
   useEffect(() => {
@@ -94,7 +93,7 @@ export const AddLiquidityModal = ({
     );
   }, [currentPool]);
 
-  const { getSigningStargateClient, address } = useChain(defaultChainName);
+  const { address } = useChain(defaultChainName);
 
   const poolName = currentPool?.poolAssets.map(({ token }) =>
     getSymbolForDenom(token!.denom)
@@ -145,14 +144,9 @@ export const AddLiquidityModal = ({
   };
 
   const handleClick = async () => {
+    if (!address) return;
+
     setIsLoading(true);
-
-    const stargateClient = await getSigningStargateClient();
-
-    if (!stargateClient || !address) {
-      console.error('stargateClient undefined or address undefined.');
-      return;
-    }
 
     const allCoins = inputTokens.map(({ denom, inputAmount }) => ({
       denom,
@@ -161,7 +155,7 @@ export const AddLiquidityModal = ({
         .toString(),
     }));
 
-    let msg = [];
+    let msgs = [];
 
     if (singleToken) {
       const inputCoin = allCoins.find(
@@ -184,7 +178,7 @@ export const AddLiquidityModal = ({
           DEFAULT_SLIPPAGE
         ),
       });
-      msg.push(joinSwapExternAmountInMsg);
+      msgs.push(joinSwapExternAmountInMsg);
     } else {
       const shareOutAmount = calcShareOutAmount(pool, allCoins);
       const tokenInMaxs = allCoins.map((c: Coin) => {
@@ -199,7 +193,7 @@ export const AddLiquidityModal = ({
         ),
         tokenInMaxs,
       });
-      msg.push(joinPoolMsg);
+      msgs.push(joinPoolMsg);
     }
 
     const fee = {
@@ -207,21 +201,16 @@ export const AddLiquidityModal = ({
       gas: '240000',
     };
 
-    try {
-      const res = await stargateClient.signAndBroadcast(address, msg, fee);
-      if (res?.code !== TransactionResult.Success) throw res;
-      stargateClient.disconnect();
-      setIsLoading(false);
-      showToast(res.code);
-      closeModal();
-      closeDetailModal();
-      updatePoolsData();
-    } catch (error) {
-      console.error(error);
-      stargateClient.disconnect();
-      setIsLoading(false);
-      showToast(TransactionResult.Failed, error);
-    }
+    await tx(msgs, {
+      fee,
+      onSuccess: () => {
+        closeModal();
+        closeDetailModal();
+        updatePoolsData();
+      },
+    });
+
+    setIsLoading(false);
   };
 
   const titleColor = useColorModeValue('#697584', '#A7B4C2');
