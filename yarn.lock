@@ -1773,12 +1773,19 @@
   dependencies:
     regenerator-runtime "^0.13.11"
 
-"@babel/runtime@^7.11.2", "@babel/runtime@^7.17.8", "@babel/runtime@^7.18.9", "@babel/runtime@^7.19.0", "@babel/runtime@^7.19.4", "@babel/runtime@^7.21.0", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.11.2", "@babel/runtime@^7.17.8", "@babel/runtime@^7.18.9", "@babel/runtime@^7.19.0", "@babel/runtime@^7.19.4", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4":
   version "7.22.6"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.22.6.tgz#57d64b9ae3cff1d67eb067ae117dac087f5bd438"
   integrity sha512-wDb5pWm4WDdF6LFUde3Jl8WzPA+3ZbxYqkC6xAXuD3irdEHN1k0NfTRrJD8ZD378SJ61miMLCqIOXYhd8x+AJQ==
   dependencies:
     regenerator-runtime "^0.13.11"
+
+"@babel/runtime@^7.21.0":
+  version "7.22.10"
+  resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.22.10.tgz#ae3e9631fd947cb7e3610d3e9d8fef5f76696682"
+  integrity sha512-21t/fkKLMZI4pqP2wlmsQAWnYW1PDyKyyUV4vCi+B25ydmdaYTKXPwCj0BzSUnZf4seIiYvSA3jcZ3gdsMFkLQ==
+  dependencies:
+    regenerator-runtime "^0.14.0"
 
 "@babel/template@^7.18.10", "@babel/template@^7.20.7", "@babel/template@^7.22.5":
   version "7.22.5"
@@ -1949,10 +1956,10 @@
   resolved "https://registry.npmmirror.com/@bufbuild/protobuf/-/protobuf-1.2.0.tgz#7efd5d4aa0540b108eb3b89b42507739e0974299"
   integrity sha512-MBVuQMOBHxgGnZ9XCUIi8WOy5O/T4ma3TduCRhRvndv3UDbG9cHgd8h6nOYSGyBYPEvXf1z9nTwhp8mVIDbq2g==
 
-"@chain-registry/assets@1.18.1":
-  version "1.18.1"
-  resolved "https://registry.npmjs.org/@chain-registry/assets/-/assets-1.18.1.tgz#164db7502bd14e021556c5aff129e179b742b826"
-  integrity sha512-nWjdNU+luTkQlRzC+KNHh6L9mXmbIo152iIVJHbN0LRaidNWy/T+gn7WfpipArll6ucvC8ctXupLeskGQH9p4w==
+"@chain-registry/assets@1.20.0":
+  version "1.20.0"
+  resolved "https://registry.npmjs.org/@chain-registry/assets/-/assets-1.20.0.tgz#23f60adfc3512ff10da0849f51f7f8b3daa8bddc"
+  integrity sha512-wwhWBN/3nCAJpdu0aMHny/THDwTiYO1uYfd1QR8s7E2c7VGR0l8/3PNow/OLSEIvHsTW/1NgPLlYd0MdV4VzDw==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@chain-registry/types" "^0.16.0"
@@ -1978,10 +1985,10 @@
     "@keplr-wallet/crypto" "0.11.16"
     semver "^7.3.8"
 
-"@chain-registry/osmosis@1.18.1":
-  version "1.18.1"
-  resolved "https://registry.npmjs.org/@chain-registry/osmosis/-/osmosis-1.18.1.tgz#7da9403896eb2da45fe1faf32ea646daf6ea97ff"
-  integrity sha512-6+h4Lgszx71F+ItaGb32/KXJqbAivkYL1wfZNus2noHN2w9GyFCAnVP81wcytM9vt1o77g4zDW8JhLEJ4enj9A==
+"@chain-registry/osmosis@1.20.0":
+  version "1.20.0"
+  resolved "https://registry.npmjs.org/@chain-registry/osmosis/-/osmosis-1.20.0.tgz#a3d4b1ff530a4a7f30b78c534ee2b54e067bfd54"
+  integrity sha512-e4P3S07n/SRQCukzBUZKsSj9cUCsOZYu0orBUCo/Df92pEj6ebX0Mdo+Nci5Mn/SDuMRs1DHqe3kWCKAb+Jy7g==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@chain-registry/types" "^0.16.0"
@@ -2028,7 +2035,7 @@
 
 "@chain-registry/utils@1.13.2":
   version "1.13.2"
-  resolved "https://registry.npmmirror.com/@chain-registry/utils/-/utils-1.13.2.tgz#bcba8516805112895dac060851aaa2b72f2e6525"
+  resolved "https://registry.npmjs.org/@chain-registry/utils/-/utils-1.13.2.tgz#bcba8516805112895dac060851aaa2b72f2e6525"
   integrity sha512-8s+XBdgdFrxwB0OaSvokLbCbtoG0sMscKZF1x0NLRBAJBX14S3PhyIcK3H6sAFe+EZKspErh6kMr8Tq+Ql/now==
   dependencies:
     "@babel/runtime" "^7.21.0"
@@ -6006,20 +6013,6 @@
     case "1.6.3"
     dotty "0.1.2"
 
-"@osmonauts/ast@^0.86.11":
-  version "0.86.11"
-  resolved "https://registry.npmjs.org/@osmonauts/ast/-/ast-0.86.11.tgz#136f3d1a64f32004d81dfa600322e19affbf86a0"
-  integrity sha512-ROpI6KN9DtHdI2VIaTDlMYlPp49pZo1US25xFerypJhV1nKCIX2GAdzlLJ5y2VkXa1Qhh5cBuTIA/LB4Fn5gQQ==
-  dependencies:
-    "@babel/parser" "^7.21.4"
-    "@babel/runtime" "^7.21.0"
-    "@babel/types" "7.21.4"
-    "@osmonauts/proto-parser" "^0.45.1"
-    "@osmonauts/types" "^0.36.1"
-    "@osmonauts/utils" "^0.11.1"
-    case "1.6.3"
-    dotty "0.1.2"
-
 "@osmonauts/lcd@0.8.0", "@osmonauts/lcd@^0.8.0":
   version "0.8.0"
   resolved "https://registry.npmjs.org/@osmonauts/lcd/-/lcd-0.8.0.tgz"
@@ -6059,19 +6052,6 @@
     glob "8.0.3"
     mkdirp "1.0.4"
 
-"@osmonauts/proto-parser@^0.45.1":
-  version "0.45.1"
-  resolved "https://registry.npmjs.org/@osmonauts/proto-parser/-/proto-parser-0.45.1.tgz#43f5cb40cea64a975a9b3796fa73254cf0f11693"
-  integrity sha512-zRPx8f7PeZPL2uLfDRjIn+LWZtbGKUtO7RUUxFju08fSgnoegxfdYRzZKTz9z20OnyHomzYhpW8B4+3rxgpZ+g==
-  dependencies:
-    "@babel/runtime" "^7.21.0"
-    "@cosmology/protobufjs" "6.11.6"
-    "@osmonauts/types" "^0.36.1"
-    dotty "0.1.2"
-    glob "8.0.3"
-    minimatch "5.1.0"
-    mkdirp "3.0.0"
-
 "@osmonauts/telescope@^0.75.1":
   version "0.75.1"
   resolved "https://registry.npmmirror.com/@osmonauts/telescope/-/telescope-0.75.1.tgz#63004c70386b533186743ce9d5c9c4c42d52eeaa"
@@ -6110,44 +6090,6 @@
     rimraf "3.0.2"
     shelljs "0.8.5"
 
-"@osmonauts/telescope@^0.99.12":
-  version "0.99.12"
-  resolved "https://registry.npmjs.org/@osmonauts/telescope/-/telescope-0.99.12.tgz#d41d649c1740dc95ac585ce5645089df8ee79b24"
-  integrity sha512-gE9MR9FuVZE2hLlaBoxM38h8y9mcu1gnNcxr1nTu8z909jrX+MXPSCnG264Vwv3fJyOhox8L1cdCWy7gsttxVA==
-  dependencies:
-    "@babel/core" "7.21.4"
-    "@babel/generator" "7.21.4"
-    "@babel/parser" "^7.21.4"
-    "@babel/plugin-proposal-class-properties" "7.18.6"
-    "@babel/plugin-proposal-export-default-from" "7.18.10"
-    "@babel/plugin-proposal-object-rest-spread" "7.20.7"
-    "@babel/plugin-transform-runtime" "7.21.4"
-    "@babel/preset-env" "7.21.4"
-    "@babel/preset-typescript" "^7.21.4"
-    "@babel/runtime" "^7.21.0"
-    "@babel/traverse" "7.21.4"
-    "@babel/types" "7.21.4"
-    "@cosmwasm/ts-codegen" "0.31.6"
-    "@osmonauts/ast" "^0.86.11"
-    "@osmonauts/proto-parser" "^0.45.1"
-    "@osmonauts/types" "^0.36.1"
-    "@osmonauts/utils" "^0.11.1"
-    "@types/parse-package-name" "0.1.0"
-    case "1.6.3"
-    dargs "7.0.0"
-    deepmerge "4.3.1"
-    dotty "0.1.2"
-    fuzzy "0.1.3"
-    glob "8.0.3"
-    inquirerer "0.1.3"
-    long "^5.2.1"
-    minimatch "5.1.0"
-    minimist "1.2.8"
-    mkdirp "3.0.0"
-    parse-package-name "1.0.0"
-    rimraf "5.0.0"
-    shelljs "0.8.5"
-
 "@osmonauts/types@^0.24.0":
   version "0.24.0"
   resolved "https://registry.npmjs.org/@osmonauts/types/-/types-0.24.0.tgz"
@@ -6156,22 +6098,6 @@
     "@babel/runtime" "^7.19.0"
     "@osmonauts/utils" "^0.7.0"
     case "1.6.3"
-
-"@osmonauts/types@^0.36.1":
-  version "0.36.1"
-  resolved "https://registry.npmmirror.com/@osmonauts/types/-/types-0.36.1.tgz#d9485e74e06d679a5874d90ac685a268445d8b11"
-  integrity sha512-rT08PJD600/EYwxtueEmBYOB+l48xpkunjeXDoariiuwPioGfn9C0HyW9M7x7qeVrn69lX+xU0OyLhyg2HsBcw==
-  dependencies:
-    "@babel/runtime" "^7.21.0"
-    "@osmonauts/utils" "^0.11.1"
-    case "1.6.3"
-
-"@osmonauts/utils@^0.11.1":
-  version "0.11.1"
-  resolved "https://registry.npmjs.org/@osmonauts/utils/-/utils-0.11.1.tgz#26f08c842770cc2d79271fd65ac8e576db72d114"
-  integrity sha512-N2tVi+nnFy7vI+wEPLOryhKgbakBYkpo8TD37NcCs99+VliwXQGz+3L6BCtWGhDI32Ongu37PVks5tqRCgb+kQ==
-  dependencies:
-    "@babel/runtime" "^7.21.0"
 
 "@osmonauts/utils@^0.7.0":
   version "0.7.0"
@@ -6938,9 +6864,9 @@
     "@types/react" "*"
 
 "@types/react@*":
-  version "18.2.16"
-  resolved "https://registry.npmjs.org/@types/react/-/react-18.2.16.tgz#403dda0e933caccac9efde569923239ac426786c"
-  integrity sha512-LLFWr12ZhBJ4YVw7neWLe6Pk7Ey5R9OCydfuMsz1L8bZxzaawJj2p06Q8/EFEHDeTBQNFLF62X+CG7B2zIyu0Q==
+  version "18.2.20"
+  resolved "https://registry.npmjs.org/@types/react/-/react-18.2.20.tgz#1605557a83df5c8a2cc4eeb743b3dfc0eb6aaeb2"
+  integrity sha512-WKNtmsLWJM/3D5mG4U84cysVY31ivmyw85dE84fOCk5Hx78wezB/XEjVPWl2JTZ5FkEeaTJf+VgUAUn3PE7Isw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -8367,10 +8293,10 @@ caseless@~0.12.0:
   resolved "https://registry.npmjs.org/caseless/-/caseless-0.12.0.tgz"
   integrity sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==
 
-chain-registry@1.17.1:
-  version "1.17.1"
-  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.17.1.tgz#73878b7ede203cbeb8d6aaaaef21bf8aec486a83"
-  integrity sha512-O/v63seK1XeZsTxYfFwbUKspTNqusG7mASO88UBGO5tVi8p8DgtZybUpOoIoXuNQa2OE8wDFdLI95LudnfsWBg==
+chain-registry@1.19.0:
+  version "1.19.0"
+  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.19.0.tgz#6d2d56b56efebee0d15ced8f9bd8329a099ce04d"
+  integrity sha512-7Ax0cRurfS+I0Oru3Td8NqBY/2YRCv570XM555E5vu3ib3f/k5SELwxsSalTtQj+Furx6quEyKWuOjrNwPpcQg==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@chain-registry/types" "^0.16.0"
@@ -14741,6 +14667,11 @@ regenerator-runtime@^0.13.11, regenerator-runtime@^0.13.4:
   version "0.13.11"
   resolved "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.13.11.tgz"
   integrity sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==
+
+regenerator-runtime@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.14.0.tgz#5e19d68eb12d486f797e15a3c6a918f7cec5eb45"
+  integrity sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==
 
 regenerator-transform@^0.15.1:
   version "0.15.1"

@@ -24,7 +24,7 @@
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^2.0.13",
     "bowser": "^2.11.0",
-    "chain-registry": "1.17.1",
+    "chain-registry": "1.19.0",
     "copy-to-clipboard": "^3.3.2",
     "framer-motion": "9.0.7",
     "next": "12.2.5",

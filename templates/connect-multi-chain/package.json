@@ -24,7 +24,7 @@
     "@cosmos-kit/react": "^2.0.3",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
-    "chain-registry": "1.17.1",
+    "chain-registry": "1.19.0",
     "chakra-react-select": "4.4.0",
     "fast-fuzzy": "1.12.0",
     "framer-motion": "9.0.7",
