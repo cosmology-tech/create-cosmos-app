@@ -1,5 +1,4 @@
-export * from './useClient';
-export * from './useRequest';
-export * from './useQueuedRequests';
-export * from './useOsmosisRequests';
-export * from './useTransactionToast';
+export * from './queries';
+
+export * from './useTx';
+export * from './useToaster';
