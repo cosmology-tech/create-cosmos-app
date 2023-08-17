@@ -1,4 +1,3 @@
-import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { ChainProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -6,12 +5,24 @@ import { aminoTypes, registry } from '../config/defaults';
 import { wallets as keplrWallets } from '@cosmos-kit/keplr';
 import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
 import { wallets as leapWallets } from '@cosmos-kit/leap';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { assets, chains } from 'chain-registry';
 import { GasPrice } from '@cosmjs/stargate';
 import { SignerOptions } from '@cosmos-kit/core';
-import '@interchain-ui/react/styles';
 import { defaultTheme } from '../config';
+import '@interchain-ui/react/styles';
+import '../styles/globals.css';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
@@ -52,7 +63,9 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
           },
         }}
       >
-        <Component {...pageProps} />
+        <QueryClientProvider client={queryClient}>
+          <Component {...pageProps} />
+        </QueryClientProvider>
       </ChainProvider>
     </ChakraProvider>
   );

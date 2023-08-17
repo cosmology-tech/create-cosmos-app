@@ -13,34 +13,32 @@ import {
   useMediaQuery,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Pool } from '../ProvideLiquidity';
 import { getLogoUrlFromDenom } from '../PoolList';
 import { ChainLogo } from '../PoolCard';
-import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
+import { Coin } from 'osmo-query/dist/codegen/cosmos/base/v1beta1/coin';
 import {
   NormalButton,
   PoolAssetDisplay,
   BondLiquidityCard,
   RewardText,
 } from './ModalComponents';
-import { useTransactionToast } from '../hooks';
 import BigNumber from 'bignumber.js';
 import {
   convertDollarValueToShares,
   convertDollarValueToCoins,
   convertGammTokenToDollarValue,
   getSymbolForDenom,
-} from '../../../utils';
-import { PriceHash } from '../../../utils/types';
-import { osmosis } from 'osmojs';
+  ExtendedPool,
+} from '@/utils';
+import { PriceHash } from '@/utils/types';
+import { osmosis } from 'osmo-query';
 import { useChain } from '@cosmos-kit/react';
-import { defaultChainName } from '../../../config/defaults';
-import { PeriodLock } from 'osmojs/dist/codegen/osmosis/lockup/lock';
+import { defaultChainName } from '@/config';
+import { PeriodLock } from 'osmo-query/dist/codegen/osmosis/lockup/lock';
 import { daysToSeconds } from './BondSharesModal';
-import Long from 'long';
 import dayjs from 'dayjs';
 import { coins as aminoCoins } from '@cosmjs/amino';
-import { Peroid, TransactionResult } from '../../types';
+import { durations, Durations, PoolApr, useTx } from '@/hooks';
 
 export const truncDecimals = (
   val: string | number | undefined,
@@ -53,8 +51,6 @@ const { beginUnlocking } = osmosis.lockup.MessageComposer.withTypeUrl;
 const { superfluidUnbondLock, superfluidUndelegate } =
   osmosis.superfluid.MessageComposer.withTypeUrl;
 
-const durations = ['1', '7', '14'] as const;
-
 export const PoolDetailModal = ({
   isOpen,
   onClose,
@@ -66,16 +62,18 @@ export const PoolDetailModal = ({
   rewardPerDay,
   setPeroid,
   locks,
+  poolApr,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  pool: Pool;
+  pool: ExtendedPool;
   prices: PriceHash;
   locks: PeriodLock[];
   delegatedCoins: Coin[];
   updatePoolsData: () => void;
   rewardPerDay: number;
-  setPeroid: (peroid: Peroid) => void;
+  setPeroid: (peroid: Durations) => void;
+  poolApr: PoolApr | undefined;
   openModals: {
     onAddLiquidityOpen: () => void;
     onRemoveLiquidityOpen: () => void;
@@ -86,8 +84,8 @@ export const PoolDetailModal = ({
     [key: string]: boolean;
   }>();
 
-  const { getSigningStargateClient, address } = useChain(defaultChainName);
-  const { showToast } = useTransactionToast();
+  const { tx } = useTx(defaultChainName);
+  const { address } = useChain(defaultChainName);
   const [isMobile] = useMediaQuery('(max-width: 480px)');
 
   const poolId = pool?.id;
@@ -97,7 +95,7 @@ export const PoolDetailModal = ({
   );
 
   const swapFee = new BigNumber(pool!.poolParams!.swapFee)
-    .shiftedBy(-16)
+    .shiftedBy(2)
     .toString();
 
   const totalBalance = new BigNumber(pool?.myLiquidity || 0).plus(
@@ -124,7 +122,7 @@ export const PoolDetailModal = ({
 
   const bondedData = durations
     .filter((duration) => {
-      const gaugeAprs = pool.apr[duration].gaugeAprs;
+      const gaugeAprs = poolApr?.[duration].gaugeAprs;
       return gaugeAprs && gaugeAprs.length > 0;
     })
     .map((duration) => {
@@ -138,7 +136,7 @@ export const PoolDetailModal = ({
       if (!lock) {
         return {
           ID: '',
-          apr: pool.apr[duration],
+          apr: poolApr?.[duration],
           value: '0',
           shares: '0',
           duration,
@@ -150,7 +148,7 @@ export const PoolDetailModal = ({
 
       return {
         ID: lock.ID.toString(),
-        apr: pool.apr[duration],
+        apr: poolApr?.[duration],
         value,
         shares,
         duration,
@@ -158,15 +156,8 @@ export const PoolDetailModal = ({
     });
 
   const handleUnbondClick = async (ID: string | null, duration: string) => {
-    if (!ID) return;
+    if (!ID || !address) return;
     setUnbondingStatus((prev) => ({ ...prev, [ID]: true }));
-
-    const stargateClient = await getSigningStargateClient();
-
-    if (!stargateClient || !address) {
-      console.error('stargateClient undefined or address undefined.');
-      return;
-    }
 
     const hasOsmoToken = pool.poolAssets.some(
       ({ token }) => token?.denom === 'uosmo'
@@ -177,7 +168,7 @@ export const PoolDetailModal = ({
     const isSuperfluidBonded =
       hasOsmoToken && duration === '14' && hasDelegatedCoin;
 
-    let msg = [];
+    let msgs = [];
 
     if (isSuperfluidBonded) {
       const superfluidUndelegateMsg = superfluidUndelegate({
@@ -188,14 +179,14 @@ export const PoolDetailModal = ({
         lockId: BigInt(ID),
         sender: address,
       });
-      msg = [superfluidUndelegateMsg, superfluidUnbondLockMsg];
+      msgs = [superfluidUndelegateMsg, superfluidUnbondLockMsg];
     } else {
       const beginUnlockingMsg = beginUnlocking({
         ID: BigInt(ID),
         coins: [],
         owner: address,
       });
-      msg.push(beginUnlockingMsg);
+      msgs.push(beginUnlockingMsg);
     }
 
     const fee = {
@@ -203,20 +194,15 @@ export const PoolDetailModal = ({
       gas: '600000',
     };
 
-    try {
-      const res = await stargateClient.signAndBroadcast(address, msg, fee);
-      if (res?.code !== TransactionResult.Success) throw res;
-      stargateClient.disconnect();
-      setUnbondingStatus((prev) => ({ ...prev, [ID]: false }));
-      showToast(res.code);
-      onClose();
-      updatePoolsData();
-    } catch (error) {
-      console.error(error);
-      stargateClient.disconnect();
-      setUnbondingStatus((prev) => ({ ...prev, [ID]: false }));
-      showToast(TransactionResult.Failed, error);
-    }
+    await tx(msgs, {
+      fee,
+      onSuccess: () => {
+        onClose();
+        updatePoolsData();
+      },
+    });
+
+    setUnbondingStatus((prev) => ({ ...prev, [ID]: false }));
   };
 
   const titleColor = useColorModeValue('#697584', '#A7B4C2');
@@ -402,7 +388,7 @@ export const PoolDetailModal = ({
               {bondedData.map((bonded) => (
                 <BondLiquidityCard
                   duration={bonded.duration}
-                  apr={bonded.apr.totalApr}
+                  apr={bonded.apr?.totalApr || 0}
                   bondedShares={bonded.shares}
                   bondedValue={bonded.value}
                   openBondModal={() => {

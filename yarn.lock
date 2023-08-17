@@ -13630,7 +13630,7 @@ osmojs@15.5.0:
     long "^5.2.0"
     protobufjs "^6.11.3"
 
-osmojs@16.5.1, osmojs@^16.5.1:
+osmojs@^16.5.1:
   version "16.5.1"
   resolved "https://registry.npmmirror.com/osmojs/-/osmojs-16.5.1.tgz#38f2fe3cd65dbd4e4b415e9f22f387a24b634155"
   integrity sha512-V2Q2yMt7Paax6i+S5Q1l29Km0As/waXKmSVRe8gtd9he42kcbkpwwk/QUCvgS98XsL7Qz+vas2Tca016uBQHTQ==

@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Box,
-  Divider,
   Flex,
   Text,
   Image,
@@ -9,11 +8,11 @@ import {
   useMediaQuery,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Pool } from './ProvideLiquidity';
 import { getLogoUrlFromDenom } from './PoolList';
 import BigNumber from 'bignumber.js';
 import { truncDecimals } from './modals/PoolDetailModal';
-import { getSymbolForDenom } from '../../utils';
+import { getSymbolForDenom, ExtendedPool } from '@/utils';
+import { PoolApr } from '@/hooks';
 
 const formatNumber = (number: number | string) => {
   const formatter = Intl.NumberFormat('en', {
@@ -63,11 +62,13 @@ export const ChainLogo = ({
 const PoolCard = ({
   pool,
   setPool,
+  poolApr,
   openPoolDetailModal,
   isFetchingApr,
 }: {
-  pool: Pool;
-  setPool: (pool: Pool) => void;
+  pool: ExtendedPool;
+  poolApr: PoolApr | undefined;
+  setPool: (pool: ExtendedPool) => void;
   openPoolDetailModal: () => void;
   isFetchingApr: boolean;
 }) => {
@@ -125,7 +126,7 @@ const PoolCard = ({
             gap="2px"
           >
             <Text fontSize="22px" lineHeight="26px">
-              {truncDecimals(pool.apr['14'].totalApr, 2)}
+              {truncDecimals(poolApr?.['14'].totalApr, 2)}
             </Text>
             <Text fontSize="14px">%</Text>
           </Flex>
@@ -149,20 +150,6 @@ const PoolCard = ({
         <Text fontWeight="400">7D Fees</Text>
         <Text fontWeight="600">${pool.fees7D.toLocaleString()}</Text>
       </Flex>
-      {/* <Divider mb="15px" /> */}
-      {/* <Flex
-        justifyContent="space-between"
-        mb="6px"
-        fontSize="14px"
-        color="#2C3137"
-      >
-        <Text fontWeight="400">Your Liquidity</Text>
-        <Text fontWeight="600">$1329.32</Text>
-      </Flex>
-      <Flex justifyContent="space-between" fontSize="14px" color="#2C3137">
-        <Text fontWeight="400">Bonded</Text>
-        <Text fontWeight="600">$600.00</Text>
-      </Flex> */}
     </Box>
   );
 };
