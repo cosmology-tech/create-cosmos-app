@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React from 'react';
-import { StarsIcon } from './stars-icon';
+import { StarsIcon } from './StarsIcon';
 
 interface IProps {
   mb?: string;

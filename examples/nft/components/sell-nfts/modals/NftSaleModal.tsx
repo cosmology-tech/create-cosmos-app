@@ -17,9 +17,9 @@ import {
 import { useColor } from 'hooks';
 import React from 'react';
 import { isGtZero } from 'utils';
-import { Collection, SaleType, Token } from '../../types';
-import { ListTab } from '../ui/list-tab';
-import { SellNowTab } from '../ui/sell-now-tab';
+import { Collection, SaleType, Token } from '@/components/types';
+import { ListTab } from '../ListTab';
+import { SellNowTab } from '../SellNowTab';
 
 const inputTitle = {
   [SaleType.FIXED_PRICE]: 'Sale Price',

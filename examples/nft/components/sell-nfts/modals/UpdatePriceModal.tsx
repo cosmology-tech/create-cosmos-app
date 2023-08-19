@@ -15,10 +15,11 @@ import { coin, exponent } from 'config';
 import { useClient, useColor, useTransactionToast } from 'hooks';
 import { isGtZero, toDisplayAmount, toRawAmount } from 'utils';
 import { Collection, Token, TxResult } from '../../types';
-import { AmountInput } from '../ui/amount-input';
-import { LargeButton } from '../../base/buttons';
-import { SplitText } from '../ui/nft-cards';
-import { Subtitle, Fees } from '../ui';
+import { AmountInput } from '../AmountInput';
+import { LargeButton } from '@/components';
+import { SplitText } from '../NftCards';
+import { Subtitle } from '../ListTab';
+import { Fees } from '../Fees';
 
 export const UpdatePriceModal = ({
   modalControl,

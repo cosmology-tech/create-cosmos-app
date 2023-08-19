@@ -1,7 +1,7 @@
 import { Flex, VStack, Text, Grid, GridItem } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import { useColor } from 'hooks';
-import { Trait } from '../../types';
+import { Trait } from '@/components/types';
 
 export const TraitDisplay = ({ trait }: { trait: Trait }) => {
   const { textColor } = useColor();

@@ -13,11 +13,11 @@ import {
 import BigNumber from 'bignumber.js';
 import React, { useEffect, useRef, useState } from 'react';
 import { HiOutlineClock } from 'react-icons/hi';
-import { LargeButton } from 'components/base';
+import { LargeButton } from '@/components';
 import { contracts, stargaze } from 'stargazejs';
 import { useChain } from '@cosmos-kit/react';
 import {
-  chainName,
+  defaultChainName,
   coin,
   COLLECTION,
   COLLECTIONS_MINT,
@@ -33,10 +33,10 @@ import {
   Minter,
   SG721,
   Whitelist,
-} from './types';
+} from '../types';
 import { useQuery, useLazyQuery } from '@apollo/client';
 import { getHttpUrl, toDisplayAmount } from 'utils';
-import { Hero } from './mint/hero';
+import { Hero } from './Hero';
 import { useTx } from 'hooks';
 
 dayjs.extend(relativeTime);
@@ -51,7 +51,7 @@ type TData = {
   };
 };
 
-export const MintNfts = () => {
+export const MintNftsSection = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isMinting, setIsMinting] = useState(false);
   const [data, setData] = useState<Partial<TData>>({});
@@ -62,7 +62,7 @@ export const MintNfts = () => {
     getRpcEndpoint,
     getCosmWasmClient,
     getSigningCosmWasmClient,
-  } = useChain(chainName);
+  } = useChain(defaultChainName);
   const { tx } = useTx();
   const collectionsQuery = useQuery<CollectionsMint>(COLLECTIONS_MINT, {
     variables: {
@@ -84,7 +84,7 @@ export const MintNfts = () => {
 
       if (!rpcEndpoint) {
         console.log('no rpc endpoint — using a fallback');
-        rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
+        rpcEndpoint = `https://rpc.cosmos.directory/${defaultChainName}`;
       }
 
       const client = await stargaze.ClientFactory.createRPCQueryClient({

@@ -1,7 +1,11 @@
 import { Box, Stack, useColorModeValue, Image, Text } from '@chakra-ui/react';
-import { ChainCardProps } from '../types';
 
-export const ChainCard = (props: ChainCardProps) => {
+interface IChainCard {
+  prettyName: string;
+  icon?: string;
+}
+
+export const ChainCard = (props: IChainCard) => {
   return (
     <Stack
       isInline={true}

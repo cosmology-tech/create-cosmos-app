@@ -2,8 +2,8 @@ import { GridItem, Flex, Text, Image, Grid } from '@chakra-ui/react';
 import { exponent } from 'config';
 import { useColor } from 'hooks';
 import { getHttpUrl, isGtZero, toDisplayAmount } from 'utils';
-import { Token, Tokens } from '../../types';
-import { StarsIcon } from './stars-icon';
+import { Token, Tokens } from '@/components/types';
+import { StarsIcon } from './StarsIcon';
 
 interface INftCard {
   handleCardClick: (token: Token) => void;
