@@ -21,20 +21,21 @@ import {
 } from '../../config';
 import { useLazyQuery } from '@apollo/client';
 import { Collections, Tokens, Names, Token } from '../types';
-import { shortenAddress, getStargazeProfileLink } from '../../utils';
-import {
-  TransferNftModal,
-  BurnNftModal,
-  NftSaleModal,
-  NftDetailModal,
-  UpdatePriceModal,
-  RemoveListingModal,
-  SimpleButton,
-  NftCards,
-  ProfileStat,
-} from '.';
+import { shortenAddress, getStargazeProfileLink } from '@/utils';
+
 import { getPrices } from '../../api';
 import { useColor } from 'hooks';
+import { SimpleButton } from '../common';
+import {
+  NftDetailModal,
+  NftSaleModal,
+  TransferNftModal,
+  BurnNftModal,
+  UpdatePriceModal,
+  RemoveListingModal,
+} from './modals';
+import { NftCards } from './NftCards';
+import { ProfileStat } from './ProfileStat';
 
 export const SellNftsSection = () => {
   const { address } = useChain(defaultChainName);

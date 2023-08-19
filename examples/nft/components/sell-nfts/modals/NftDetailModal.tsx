@@ -16,29 +16,26 @@ import {
   Link,
 } from '@chakra-ui/react';
 import React, { useEffect, useMemo } from 'react';
-import {
-  NormalButton,
-  SemiLargeButton,
-  SimpleButton,
-} from '../../common/Buttons';
-import { SplitText } from '../ui/nft-cards';
 import { AiOutlineTag, AiOutlineFire } from 'react-icons/ai';
 import { BsSend } from 'react-icons/bs';
 import { FiShare } from 'react-icons/fi';
 import { IoMdRemoveCircleOutline } from 'react-icons/io';
-import { NftTraits } from '../ui/nft-traits';
-import { Collection, Events, Token } from '../../types';
+import { useChain } from '@cosmos-kit/react';
+import { useLazyQuery } from '@apollo/client';
+
+import { NormalButton, SemiLargeButton, SimpleButton } from '@/components';
+import { Collection, Events, Token } from '@/components/types';
 import {
   download,
   getHttpUrl,
   getTwitterShareLink,
   shortenAddress,
   toDisplayAmount,
-} from 'utils';
-import { useLazyQuery } from '@apollo/client';
-import { defaultChainName, EVENTS, exponent } from 'config';
-import { useChain } from '@cosmos-kit/react';
-import { useColor } from 'hooks';
+} from '@/utils';
+import { defaultChainName, EVENTS, exponent } from '@/config';
+import { useColor } from '@/hooks';
+import { SplitText } from '../NftCards';
+import { NftTraits } from '../NftTraits';
 
 export const NftDetailModal = ({
   token,
