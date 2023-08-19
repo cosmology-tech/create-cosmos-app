@@ -11,7 +11,7 @@ import {
   ModalFooter,
   Input,
 } from '@chakra-ui/react';
-import { LargeButton } from '../../base/buttons';
+import { LargeButton } from '../../common/Buttons';
 import { Token, TxResult } from '../../types';
 import { useClient, useColor, useTransactionToast } from 'hooks';
 import { isAddressValid } from 'utils';

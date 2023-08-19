@@ -1,4 +1,4 @@
-import { useChain } from '@cosmos-kit/react';
+import { useChain, useManager } from '@cosmos-kit/react';
 import {
   Box,
   Center,
@@ -7,27 +7,25 @@ import {
   Icon,
   Stack,
   useColorModeValue,
-  Text,
 } from '@chakra-ui/react';
 import { MouseEventHandler } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
+
 import {
-  Astronaut,
-  Error,
   Connected,
-  ConnectedShowAddress,
-  ConnectedUserInfo,
   Connecting,
-  ConnectStatusWarn,
-  CopyAddressBtn,
   Disconnected,
   NotExist,
+  Error,
   Rejected,
-  RejectedWarn,
   WalletConnectComponent,
-  ChainCard,
-} from './wallet-ui';
-import { chainName } from '../config';
+} from './WalletConnect';
+import { ConnectStatusWarn, RejectedWarn } from './WarnBlock';
+import { ConnectedShowAddress, CopyAddressBtn } from './AddressCard';
+import { UserInfo } from './UserInfo';
+import { Astronaut } from './Astronaut';
+import { ChainCard } from './ChainCard';
+import { defaultChainName } from '@/config';
 
 export const WalletSection = () => {
   const {
@@ -39,14 +37,15 @@ export const WalletSection = () => {
     message,
     wallet,
     chain: chainInfo,
-    logoUrl,
-  } = useChain(chainName);
+  } = useChain(defaultChainName);
+
+  const { getChainLogo } = useManager();
 
   const chain = {
-    chainName,
+    chainName: defaultChainName,
     label: chainInfo.pretty_name,
-    value: chainName,
-    icon: logoUrl,
+    value: defaultChainName,
+    icon: getChainLogo(defaultChainName),
   };
 
   // Events
@@ -98,8 +97,9 @@ export const WalletSection = () => {
   );
 
   const userInfo = username && (
-    <ConnectedUserInfo username={username} icon={<Astronaut />} />
+    <UserInfo username={username} icon={<Astronaut />} />
   );
+
   const addressBtn = (
     <CopyAddressBtn
       walletStatus={status}
@@ -119,7 +119,7 @@ export const WalletSection = () => {
       >
         <GridItem marginBottom={'20px'}>
           <ChainCard
-            prettyName={chain?.label || chainName}
+            prettyName={chain?.label || defaultChainName}
             icon={chain?.icon}
           />
         </GridItem>

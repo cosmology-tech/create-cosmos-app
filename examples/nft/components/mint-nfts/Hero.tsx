@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import { Box, Flex, useColorModeValue, Text, Image } from '@chakra-ui/react';
-import { LargeButton } from 'components/base';
+import { LargeButton } from '@/components';
 import { SG721, TokensMint } from 'components/types';
 import { TOKENS } from 'config';
 import React, { useMemo } from 'react';

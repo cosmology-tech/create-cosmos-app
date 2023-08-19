@@ -20,7 +20,7 @@ import {
   NormalButton,
   SemiLargeButton,
   SimpleButton,
-} from '../../base/buttons';
+} from '../../common/Buttons';
 import { SplitText } from '../ui/nft-cards';
 import { AiOutlineTag, AiOutlineFire } from 'react-icons/ai';
 import { BsSend } from 'react-icons/bs';
@@ -36,7 +36,7 @@ import {
   toDisplayAmount,
 } from 'utils';
 import { useLazyQuery } from '@apollo/client';
-import { chainName, EVENTS, exponent } from 'config';
+import { defaultChainName, EVENTS, exponent } from 'config';
 import { useChain } from '@cosmos-kit/react';
 import { useColor } from 'hooks';
 
@@ -59,7 +59,7 @@ export const NftDetailModal = ({
     removeListing: () => void;
   };
 }) => {
-  const { address } = useChain(chainName);
+  const { address } = useChain(defaultChainName);
   const [execEventsQuery, queryEventsResult] = useLazyQuery<Events>(EVENTS);
 
   const { isOpen, onClose } = modalControl;

@@ -2,15 +2,15 @@ import { Text, Flex } from '@chakra-ui/react';
 import { useChain } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
 import React, { useState } from 'react';
-import { chainName, exponent, marketplaceContract } from 'config';
+import { defaultChainName, exponent, marketplaceContract } from 'config';
 import { useClient, useColor, useTx } from 'hooks';
 import { getExpirationTime, toDisplayAmount } from 'utils';
-import { Collection, Token } from '../../types';
-import { LargeButton } from '../../base/buttons';
-import { SplitText } from './nft-cards';
-import { StarsIcon } from './stars-icon';
-import { Fees } from './fees';
-import { Subtitle } from './list-tab';
+import { Collection, Token } from '@/components/types';
+import { LargeButton } from '@/components';
+import { SplitText } from './NftCards';
+import { StarsIcon } from './StarsIcon';
+import { Fees } from './Fees';
+import { Subtitle } from './ListTab';
 
 export const SellNowTab = ({
   token,
@@ -23,7 +23,7 @@ export const SellNowTab = ({
   closeModal: () => void;
   collection: Collection;
 }) => {
-  const { address } = useChain(chainName);
+  const { address } = useChain(defaultChainName);
   const [isLoading, setIsLoading] = useState(false);
   const { getMarketplaceMsgComposer, getSg721UpdatableMsgComposer } =
     useClient();

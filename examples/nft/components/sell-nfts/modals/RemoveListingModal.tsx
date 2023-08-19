@@ -13,7 +13,7 @@ import {
 import { useState } from 'react';
 import { useClient, useColor, useTransactionToast } from 'hooks';
 import { Token, TxResult } from '../../types';
-import { LargeButton } from '../../base/buttons';
+import { LargeButton } from '../../common/Buttons';
 
 export const RemoveListingModal = ({
   token,

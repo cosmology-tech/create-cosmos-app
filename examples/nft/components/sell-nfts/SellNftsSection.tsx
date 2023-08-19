@@ -12,10 +12,16 @@ import {
 } from '@chakra-ui/react';
 import { MdVerified } from 'react-icons/md';
 import { useChain } from '@cosmos-kit/react';
-import { chainName, NAMES, OWNED_TOKENS, COLLECTIONS, coin } from '../config';
+import {
+  defaultChainName,
+  NAMES,
+  OWNED_TOKENS,
+  COLLECTIONS,
+  coin,
+} from '../../config';
 import { useLazyQuery } from '@apollo/client';
-import { Collections, Tokens, Names, Token } from './types';
-import { shortenAddress, getStargazeProfileLink } from '../utils';
+import { Collections, Tokens, Names, Token } from '../types';
+import { shortenAddress, getStargazeProfileLink } from '../../utils';
 import {
   TransferNftModal,
   BurnNftModal,
@@ -26,12 +32,12 @@ import {
   SimpleButton,
   NftCards,
   ProfileStat,
-} from './sell';
-import { getPrices } from '../api';
+} from '.';
+import { getPrices } from '../../api';
 import { useColor } from 'hooks';
 
-export const SellNfts = () => {
-  const { address } = useChain(chainName);
+export const SellNftsSection = () => {
+  const { address } = useChain(defaultChainName);
   const [selectedToken, setSelectedToken] = useState<Token>();
   const [price, setPrice] = useState<number>();
 
