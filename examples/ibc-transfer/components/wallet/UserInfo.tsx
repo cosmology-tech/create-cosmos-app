@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Text, Stack, Box } from '@chakra-ui/react';
-import { ConnectedUserCardType } from '../types';
 
-export const ConnectedUserInfo = ({
-  username,
-  icon
-}: ConnectedUserCardType) => {
+interface IUserInfo {
+  walletIcon?: string;
+  username?: string;
+  icon?: ReactNode;
+}
+
+export const UserInfo = ({ username, icon }: IUserInfo) => {
   return (
     <Stack spacing={1} alignItems="center">
       {username && (

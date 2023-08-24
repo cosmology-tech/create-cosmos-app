@@ -14,73 +14,40 @@ import {
   Text,
   Icon,
   useColorMode,
-  useToast,
 } from '@chakra-ui/react';
 import { useChain } from '@cosmos-kit/react';
 import { WalletStatus } from '@cosmos-kit/core';
-import { StdFee } from '@cosmjs/amino';
-import { ConnectStatusWarn, RejectedWarn } from './warn-block';
+import { coins, StdFee } from '@cosmjs/amino';
 import { FiAlertTriangle } from 'react-icons/fi';
-import { ConnectWalletButton } from './wallet-connect';
-import { ibc } from 'chain-registry';
 
-import { denomToExponent, getCoin, getExponent } from './ibc-transfer';
-import { Balance, TransactionResult } from '../types';
-import store from '../../store';
+import store from '@/store';
+import {
+  ConnectWalletButton,
+  ConnectStatusWarn,
+  RejectedWarn,
+} from '@/components';
+import { getCoin, PrettyBalance, getIbcInfo } from '@/utils';
+import { ibc } from 'interchain-query';
+import { useBalances, useTx } from '@/hooks';
+import BigNumber from 'bignumber.js';
 
-export const getIbcInfo = (fromChainName: string, toChainName: string) => {
-  let flipped = false;
-
-  let ibcInfo = ibc.find(
-    (i) =>
-      i.chain_1.chain_name === fromChainName &&
-      i.chain_2.chain_name === toChainName
-  );
-
-  if (!ibcInfo) {
-    ibcInfo = ibc.find(
-      (i) =>
-        i.chain_1.chain_name === toChainName &&
-        i.chain_2.chain_name === fromChainName
-    );
-    flipped = true;
-  }
-
-  if (!ibcInfo) {
-    throw new Error('cannot find IBC info');
-  }
-
-  const key = flipped ? 'chain_2' : 'chain_1';
-  const sourcePort = ibcInfo.channels[0][key].port_id;
-  const sourceChannel = ibcInfo.channels[0][key].channel_id;
-
-  return { sourcePort, sourceChannel };
-};
+const { transfer } = ibc.applications.transfer.v1.MessageComposer.withTypeUrl;
 
 const linearGradient =
   'linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)';
 
-export const InputFields = ({
-  balances,
-  toChainName,
-  updateBalance,
-}: {
-  balances: Balance[];
-  toChainName: string;
-  updateBalance: () => void;
-}) => {
+export const InputFields = ({ toChainName }: { toChainName: string }) => {
   const sourceChainName = store.sourceChain;
 
-  const { address, connect, status, message, wallet } = useChain(toChainName);
-  const { getSigningStargateClient } = useChain(sourceChainName);
-
-  const { colorMode } = useColorMode();
-
-  const [selectedToken, setSelectedToken] = useState<Balance>();
   const [amount, setAmount] = useState<number | string>('');
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedToken, setSelectedToken] = useState<PrettyBalance>();
 
-  const toast = useToast();
+  const { balances, refetch, isLoading: isFetchingBalances } = useBalances();
+  const { address, connect, status, message, wallet } = useChain(toChainName);
+  const { tx } = useTx(sourceChainName);
+
+  const { colorMode } = useColorMode();
 
   useEffect(() => {
     connect();
@@ -91,26 +58,19 @@ export const InputFields = ({
     setSelectedToken(undefined);
   }, [sourceChainName]);
 
-  const showToast = (code: number) => {
-    toast({
-      title: `Transaction ${code === 0 ? 'successful' : 'failed'}`,
-      status: code === 0 ? 'success' : 'error',
-      duration: 3000,
-      isClosable: true,
-      position: 'top-right',
-    });
-  };
-
   const onSelectChange = (e: any) => {
     setAmount('');
     setSelectedToken(
-      balances.find((balance) => balance.denom === e.target.value)
+      balances?.find((balance) => balance.denom === e.target.value)
     );
   };
 
   const onInputChange = (value: string) => {
     if (!selectedToken || Number(value) < selectedToken.displayAmount) {
-      setAmount(value);
+      const val = new BigNumber(value || 0);
+      const decimals = val.decimalPlaces()!;
+      const formatted = decimals > 6 ? val.decimalPlaces(6).toString() : value;
+      setAmount(formatted);
       return;
     }
     setAmount(selectedToken.displayAmount);
@@ -121,66 +81,51 @@ export const InputFields = ({
 
     setIsLoading(true);
 
-    const fromAddress = store.sourceAddress;
-    const toAddress = address;
-
     const coin = getCoin(store.sourceChain);
-    const defaultExp = getExponent(toChainName);
-    const exp = selectedToken.denom.startsWith('ibc/')
-      ? denomToExponent(selectedToken.denom) || defaultExp
-      : defaultExp;
-    const transferAmount = (Number(amount) * 10 ** exp).toString();
+    const transferAmount = new BigNumber(amount)
+      .shiftedBy(selectedToken.exponent)
+      .toString();
 
-    const currentTime = Math.floor(Date.now() / 1000);
-    const timeoutTime = currentTime + 300; // 5 minutes
+    const fee: StdFee = {
+      amount: coins('1000', coin.base),
+      gas: '250000',
+    };
 
-    const fromClient = await getSigningStargateClient();
     const { sourcePort, sourceChannel } = getIbcInfo(
       store.sourceChain,
       toChainName
     );
 
-    const fee: StdFee = {
-      amount: [
-        {
-          denom: coin.base,
-          amount: '1000',
-        },
-      ],
-      gas: '250000',
-    };
-
     const token = {
-      denom: selectedToken?.denom,
+      denom: selectedToken.denom,
       amount: transferAmount,
     };
 
-    fromClient
-      .sendIbcTokens(
-        fromAddress,
-        toAddress,
-        token,
-        sourcePort,
-        sourceChannel,
-        undefined,
-        timeoutTime,
-        fee
-      )
-      .then((tx) => {
-        console.log(tx);
-        showToast(tx.code);
-        updateBalance();
+    const stamp = Date.now();
+    const timeoutInNanos = (stamp + 1.2e6) * 1e6;
+
+    const msg = transfer({
+      sourcePort,
+      sourceChannel,
+      sender: store.sourceAddress,
+      receiver: address,
+      token,
+      timeoutHeight: undefined,
+      //@ts-ignore
+      timeoutTimestamp: timeoutInNanos,
+      memo: '',
+    });
+
+    await tx([msg], {
+      fee,
+      onSuccess: () => {
+        refetch();
         setAmount('');
         setSelectedToken(undefined);
-      })
-      .catch((err) => {
-        console.log(err);
-        showToast(TransactionResult.Failed);
-      })
-      .finally(() => {
-        fromClient.disconnect();
-        setIsLoading(false);
-      });
+      },
+    });
+
+    setIsLoading(false);
   };
 
   if (status === WalletStatus.Rejected || status === WalletStatus.Error) {
@@ -235,7 +180,7 @@ export const InputFields = ({
             <option value="default" key="default" disabled>
               Select a token
             </option>
-            {balances.map((balance) => (
+            {(balances || []).map((balance) => (
               <option value={balance.denom} key={balance.denom}>
                 {balance.symbol}
               </option>
@@ -260,8 +205,6 @@ export const InputFields = ({
             )}
           </Flex>
           <NumberInput
-            step={0.000001}
-            precision={6}
             min={0}
             max={selectedToken?.displayAmount}
             size="lg"
@@ -301,7 +244,9 @@ export const InputFields = ({
             opacity: 0.6,
           }}
           onClick={onSubmitClick}
-          isDisabled={!Number(amount) || !selectedToken || isLoading}
+          isDisabled={
+            !Number(amount) || !selectedToken || isLoading || isFetchingBalances
+          }
         >
           Submit
         </Button>

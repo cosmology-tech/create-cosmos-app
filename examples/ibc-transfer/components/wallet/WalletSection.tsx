@@ -1,18 +1,18 @@
+import { useEffect, useMemo, useState } from 'react';
+import { ChainName } from '@cosmos-kit/core';
 import { useManager } from '@cosmos-kit/react';
 import { Center, Grid, GridItem } from '@chakra-ui/react';
-import { useEffect, useMemo, useState } from 'react';
-import {
-  ChainOption,
-  ChooseChain,
-  handleSelectChainDropdown,
-  ConnectWalletButton,
-} from '.';
-import { ChainName } from '@cosmos-kit/core';
-import { WalletCardSection } from './card';
-import store from '../store';
+
+import { WalletCard } from './WalletCard';
+import { ChooseChain } from './ChooseChain';
+import { ConnectWalletButton } from './WalletConnect';
+import { ChainOption, HandleSelectChain } from './ChainDropdown';
+import store, { defaultChainName } from '@/store';
 
 export const WalletSection = () => {
-  const [chainName, setChainName] = useState<ChainName | undefined>('osmosis');
+  const [chainName, setChainName] = useState<ChainName | undefined>(
+    defaultChainName
+  );
   const { chainRecords, getChainLogo } = useManager();
 
   const chainOptions = useMemo(
@@ -30,13 +30,13 @@ export const WalletSection = () => {
 
   useEffect(() => {
     const currentChain =
-      window.localStorage.getItem('selected-chain') || 'osmosis';
+      window.localStorage.getItem('selected-chain') || defaultChainName;
 
     setChainName(currentChain);
     store.setSourceChain(currentChain);
   }, []);
 
-  const onChainChange: handleSelectChainDropdown = async (
+  const onChainChange: HandleSelectChain = async (
     selectedValue: ChainOption | null
   ) => {
     setChainName(selectedValue?.chainName);
@@ -46,7 +46,6 @@ export const WalletSection = () => {
       window?.localStorage.setItem('selected-chain', selectedValue?.chainName);
     } else {
       window?.localStorage.removeItem('selected-chain');
-      store.setSourceChain('osmosis');
       store.setSourceAddress('');
     }
   };
@@ -71,9 +70,9 @@ export const WalletSection = () => {
       >
         <GridItem>{chooseChain}</GridItem>
         {chainName ? (
-          <WalletCardSection chainName={chainName} />
+          <WalletCard chainName={chainName} />
         ) : (
-          <ConnectWalletButton buttonText={'Connect Wallet'} isDisabled />
+          <ConnectWalletButton buttonText="Connect Wallet" isDisabled />
         )}
       </Grid>
     </Center>
