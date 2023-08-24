@@ -7424,6 +7424,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-no-ssr@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.npmjs.org/@types/react-no-ssr/-/react-no-ssr-1.1.3.tgz#895baced8f49e270289c8ad11be1a4a50328d243"
+  integrity sha512-uMR17qGISe0qTTiVFuRfatP+9plEe/Q0beQ47xy0OXatwb3Z2bEj3OW7FC+9PVqCYEsfR4b01LU9tXw2urzBzw==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-transition-group@4.4.5", "@types/react-transition-group@^4.4.0":
   version "4.4.5"
   resolved "https://registry.npmjs.org/@types/react-transition-group/-/react-transition-group-4.4.5.tgz"
@@ -8644,6 +8651,14 @@ babel-preset-jest@^29.2.0, babel-preset-jest@^29.5.0:
     babel-plugin-jest-hoist "^29.5.0"
     babel-preset-current-node-syntax "^1.0.0"
 
+babel-runtime@6.x.x:
+  version "6.26.0"
+  resolved "https://registry.npmjs.org/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
+  integrity sha512-ITKNuq2wKlW1fJg9sSW52eepoYgZBggvOAHC0u/CYu/qxQ9EVzThCgR69BnSXLHjy2f7SY5zaQ4yt7H9ZVxY2g==
+  dependencies:
+    core-js "^2.4.0"
+    regenerator-runtime "^0.11.0"
+
 bail@^2.0.0:
   version "2.0.2"
   resolved "https://registry.npmjs.org/bail/-/bail-2.0.2.tgz"
@@ -9548,6 +9563,11 @@ core-js-compat@^3.21.0, core-js-compat@^3.22.1, core-js-compat@^3.25.1:
   integrity sha512-wIDWd2s5/5aJSdpOJHfSibxNODxoGoWOBHt8JSPB41NOE94M7kuTPZCYLOlTtuoXTsBPKobpJ6T+y0SSy5L9SA==
   dependencies:
     browserslist "^4.21.9"
+
+core-js@^2.4.0:
+  version "2.6.12"
+  resolved "https://registry.npmjs.org/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
+  integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
 core-js@^3.30.2:
   version "3.31.1"
@@ -11995,6 +12015,17 @@ interchain-query@0.1.24:
   version "0.1.24"
   resolved "https://registry.npmjs.org/interchain-query/-/interchain-query-0.1.24.tgz"
   integrity sha512-JJDn6ogds91Cbli7jznIJP7gkwuyv3eG0mIDEIMQQHrxgUW51fDPD+EqzfbBJF7+Vf3FxdoIxpeBVh6sqneiyQ==
+  dependencies:
+    "@cosmjs/amino" "0.29.4"
+    "@cosmjs/proto-signing" "0.29.4"
+    "@cosmjs/stargate" "0.29.4"
+    "@cosmjs/tendermint-rpc" "^0.29.4"
+    protobufjs "^6.11.2"
+
+interchain-query@0.1.26:
+  version "0.1.26"
+  resolved "https://registry.npmjs.org/interchain-query/-/interchain-query-0.1.26.tgz#cc63c17ea19ce34dac4299a824b88c4cc365149a"
+  integrity sha512-TvTpy8x/NDTSaeZCNl0OhaBy77lKF2UgckiPDTkls1v9ldeOAS+kjh0z9tMHEVY21ouNc7OoAIK6znVrD/qwXg==
   dependencies:
     "@cosmjs/amino" "0.29.4"
     "@cosmjs/proto-signing" "0.29.4"
@@ -15634,6 +15665,13 @@ react-minimal-pie-chart@^8.4.0:
   dependencies:
     "@types/svg-path-parser" "^1.1.3"
 
+react-no-ssr@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/react-no-ssr/-/react-no-ssr-1.1.0.tgz#313b48d2e26020f969ed98e472f10481604e3cc8"
+  integrity sha512-3td8iPIEFKWXOJ3Ar5xURvZAsv/aIlngJLBH6fP5QC3WhsfuO2pn7WQR0ZlkTE0puWCL0RDEvXtOfAg4qMp+xA==
+  dependencies:
+    babel-runtime "6.x.x"
+
 react-query@3.39.3:
   version "3.39.3"
   resolved "https://registry.npmmirror.com/react-query/-/react-query-3.39.3.tgz"
@@ -15900,6 +15938,11 @@ regenerate@^1.4.2:
   version "1.4.2"
   resolved "https://registry.npmjs.org/regenerate/-/regenerate-1.4.2.tgz"
   integrity sha512-zrceR/XhGYU/d/opr2EKO7aRHUeiBI8qjtfHqADTwZd6Szfy16la6kqD0MIUs5z5hx6AaKa+PixpPrR289+I0A==
+
+regenerator-runtime@^0.11.0:
+  version "0.11.1"
+  resolved "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
+  integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
 
 regenerator-runtime@^0.13.11, regenerator-runtime@^0.13.4:
   version "0.13.11"

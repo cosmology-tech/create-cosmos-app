@@ -1,8 +1,10 @@
 import { makeAutoObservable } from 'mobx';
 import type { ChainName } from '@cosmos-kit/core';
 
+export const defaultChainName = 'osmosis';
+
 class ChainStore {
-  sourceChain: ChainName = 'osmosis';
+  sourceChain: ChainName = defaultChainName;
   sourceAddress: string = '';
 
   constructor() {

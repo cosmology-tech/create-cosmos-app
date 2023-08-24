@@ -1,3 +1,4 @@
+import { MouseEventHandler, useEffect } from 'react';
 import { useChain } from '@cosmos-kit/react';
 import {
   Box,
@@ -6,26 +7,24 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { MouseEventHandler, useEffect } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
+
 import {
-  Astronaut,
-  Error,
   Connected,
-  ConnectedShowAddress,
-  ConnectedUserInfo,
   Connecting,
-  ConnectStatusWarn,
-  CopyAddressBtn,
   Disconnected,
   NotExist,
   Rejected,
-  RejectedWarn,
+  Error,
   WalletConnectComponent,
-} from '.';
-import store from '../store';
+} from './WalletConnect';
+import { UserInfo } from './UserInfo';
+import { Astronaut } from './Astronaut';
+import { ConnectStatusWarn, RejectedWarn } from './WarnBlock';
+import { ConnectedShowAddress, CopyAddressBtn } from './AddressCard';
+import store from '@/store';
 
-export const WalletCardSection = ({ chainName }: { chainName: string }) => {
+export const WalletCard = ({ chainName }: { chainName: string }) => {
   const { connect, openView, status, username, address, message, wallet } =
     useChain(chainName);
 
@@ -82,7 +81,7 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
   );
 
   const userInfo = username && (
-    <ConnectedUserInfo username={username} icon={<Astronaut />} />
+    <UserInfo username={username} icon={<Astronaut />} />
   );
 
   const addressBtn = (
