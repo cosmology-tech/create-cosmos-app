@@ -1,13 +1,13 @@
 import { GridItem, Flex, Text, Image, Grid } from '@chakra-ui/react';
-import { exponent } from 'config';
-import { useColor } from 'hooks';
-import { getHttpUrl, isGtZero, toDisplayAmount } from 'utils';
-import { Token, Tokens } from '@/components/types';
+
+import { useColor } from '@/hooks';
 import { StarsIcon } from './StarsIcon';
+import { exponent, Token } from '@/config';
+import { getHttpUrl, isGtZero, toDisplayAmount } from '@/utils';
 
 interface INftCard {
-  handleCardClick: (token: Token) => void;
   token: Token;
+  handleCardClick: (token: Token) => void;
 }
 
 const NftCard: React.FC<INftCard> = ({ token, handleCardClick }) => {
@@ -16,10 +16,10 @@ const NftCard: React.FC<INftCard> = ({ token, handleCardClick }) => {
     <GridItem cursor="pointer" onClick={() => handleCardClick(token)}>
       <Image
         mb="12px"
-        alt={token.name}
+        alt={token.name!}
         boxSize="232px"
         borderRadius="6px"
-        src={getHttpUrl(token.imageUrl)}
+        src={getHttpUrl(token.imageUrl!)}
       />
       <Text
         fontWeight="600"
@@ -111,7 +111,7 @@ export const NftCards = ({
   allNfts,
   handleCardClick,
 }: {
-  allNfts: Tokens;
+  allNfts: Token[];
   handleCardClick: (token: Token) => void;
 }) => {
   return (
@@ -120,7 +120,7 @@ export const NftCards = ({
       justifyContent="space-between"
       gridGap="24px"
     >
-      {allNfts.tokens.tokens.map((token) => (
+      {allNfts.map((token) => (
         <NftCard
           key={token.id}
           token={token}

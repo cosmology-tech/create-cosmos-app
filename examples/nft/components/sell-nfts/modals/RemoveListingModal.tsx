@@ -11,9 +11,9 @@ import {
   Center,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useClient, useColor, useTransactionToast } from 'hooks';
-import { Token, TxResult } from '../../types';
-import { LargeButton } from '../../common/Buttons';
+import { useColor, useContracts, useToaster } from '@/hooks';
+import { LargeButton } from '@/components';
+import { marketplaceContract, Token } from '@/config';
 
 export const RemoveListingModal = ({
   token,
@@ -25,24 +25,25 @@ export const RemoveListingModal = ({
   modalControl: UseDisclosureReturn;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const { getMarketplaceClient } = useClient();
-
-  const { showToast } = useTransactionToast();
+  const { contracts, isReady } = useContracts();
+  const { toastSuccess, toastFailed } = useToaster();
 
   const handleUnlistClick = async () => {
+    if (!isReady) return;
     setIsLoading(true);
 
+    const client = contracts.marketplace.getSigningClient(marketplaceContract);
+
     try {
-      const marketplaceClient = await getMarketplaceClient();
-      await marketplaceClient.removeAsk({
+      await client.removeAsk({
         collection: token.collectionAddr,
         tokenId: parseInt(token.tokenId),
       });
-      showToast(TxResult.Success);
+      toastSuccess();
       update();
       modalControl.onClose();
     } catch (error) {
-      showToast(TxResult.Failed, error);
+      toastFailed(error);
       console.error(error);
     } finally {
       setIsLoading(false);

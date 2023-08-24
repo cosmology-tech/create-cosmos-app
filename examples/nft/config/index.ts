@@ -1,4 +1,4 @@
 export * from './theme';
 export * from './features';
 export * from './defaults';
-export * from './queries';
+export * from './documents';

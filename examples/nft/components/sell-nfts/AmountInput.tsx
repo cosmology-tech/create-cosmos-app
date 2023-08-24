@@ -9,20 +9,21 @@ import {
 import BigNumber from 'bignumber.js';
 import React from 'react';
 import { StarsIcon } from './StarsIcon';
+import { useStarsPrice } from '@/hooks';
 
 interface IProps {
   mb?: string;
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
-  price: number | undefined;
 }
 
 export const AmountInput: React.FC<IProps> = ({
   mb,
   inputValue,
   setInputValue,
-  price,
 }) => {
+  const { starsPrice } = useStarsPrice();
+
   const bgColor = useColorModeValue('#EEF2F8', '#1D2024');
   const statColor = useColorModeValue('#2C3137', '#EEF2F8');
   const titleColor = useColorModeValue('#697584', '#A7B4C2');
@@ -30,7 +31,7 @@ export const AmountInput: React.FC<IProps> = ({
   const symbolColor = useColorModeValue('#2C3137', '#A7B4C2');
 
   const inputDollarValue = new BigNumber(inputValue || 0)
-    .multipliedBy(price || 0)
+    .multipliedBy(starsPrice || 0)
     .decimalPlaces(2)
     .toString();
 

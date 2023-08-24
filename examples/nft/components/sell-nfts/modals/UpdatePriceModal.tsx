@@ -11,12 +11,18 @@ import {
 } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
-import { coin, exponent } from 'config';
-import { useClient, useColor, useTransactionToast } from 'hooks';
-import { isGtZero, toDisplayAmount, toRawAmount } from 'utils';
-import { Collection, Token, TxResult } from '../../types';
-import { AmountInput } from '../AmountInput';
+
+import {
+  coin,
+  Collection,
+  exponent,
+  marketplaceContract,
+  Token,
+} from '@/config';
+import { useColor, useContracts, useToaster } from '@/hooks';
+import { isGtZero, toDisplayAmount, toRawAmount } from '@/utils';
 import { LargeButton } from '@/components';
+import { AmountInput } from '../AmountInput';
 import { SplitText } from '../NftCards';
 import { Subtitle } from '../ListTab';
 import { Fees } from '../Fees';
@@ -25,23 +31,21 @@ export const UpdatePriceModal = ({
   modalControl,
   collection,
   token,
-  price,
   update,
 }: {
   token: Token;
-  price: number | undefined;
   modalControl: UseDisclosureReturn;
   collection: Collection;
   update: () => void;
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { getMarketplaceClient } = useClient();
 
-  const { showToast } = useTransactionToast();
+  const { contracts, isReady } = useContracts();
+  const { toastSuccess, toastFailed } = useToaster();
 
   const symbol = coin.symbol;
-  const floorPrice = collection.floorPrice.toString();
+  const floorPrice = collection.floorPrice?.toString();
   const highestOffer = toDisplayAmount(token.highestCollectionBid, exponent);
 
   const closeModal = () => {
@@ -50,11 +54,13 @@ export const UpdatePriceModal = ({
   };
 
   const handleUpdateClick = async () => {
+    if (!isReady) return;
     setIsLoading(true);
 
+    const client = contracts.marketplace.getSigningClient(marketplaceContract);
+
     try {
-      const marketplaceClient = await getMarketplaceClient();
-      await marketplaceClient.updateAskPrice({
+      await client.updateAskPrice({
         collection: token.collectionAddr,
         price: {
           amount: toRawAmount(inputValue, exponent),
@@ -62,11 +68,11 @@ export const UpdatePriceModal = ({
         },
         tokenId: parseInt(token.tokenId),
       });
-      showToast(TxResult.Success);
+      toastSuccess();
       update();
       closeModal();
     } catch (error) {
-      showToast(TxResult.Failed, error);
+      toastFailed(error);
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -101,7 +107,6 @@ export const UpdatePriceModal = ({
             <AmountInput
               inputValue={inputValue}
               setInputValue={setInputValue}
-              price={price}
               mb="22px"
             />
 
@@ -109,8 +114,8 @@ export const UpdatePriceModal = ({
               <SplitText
                 left="Floor Price"
                 right={`${floorPrice} ${symbol}`}
-                rightClickable={true}
-                onRightClick={() => setInputValue(floorPrice)}
+                rightClickable={!!floorPrice}
+                onRightClick={() => setInputValue(floorPrice || '0')}
                 withIcon
                 size="md"
               />

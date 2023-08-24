@@ -1,7 +1,7 @@
 import { Flex, VStack, Text, Grid, GridItem } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
-import { useColor } from 'hooks';
-import { Trait } from '@/components/types';
+import { Trait } from '@/config';
+import { useColor } from '@/hooks';
 
 export const TraitDisplay = ({ trait }: { trait: Trait }) => {
   const { textColor } = useColor();
@@ -32,7 +32,8 @@ export const TraitDisplay = ({ trait }: { trait: Trait }) => {
         lineHeight="12px"
         color={textColor.primary}
       >
-        {new BigNumber(trait.rarityPercent).decimalPlaces(2).toString()}&nbsp;
+        {new BigNumber(trait?.rarityPercent || 0).decimalPlaces(2).toString()}
+        &nbsp;
         <Text as="span" fontSize="14px" lineHeight="8px">
           %
         </Text>

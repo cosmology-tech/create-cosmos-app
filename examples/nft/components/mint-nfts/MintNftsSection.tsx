@@ -11,258 +11,56 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { HiOutlineClock } from 'react-icons/hi';
-import { LargeButton } from '@/components';
-import { contracts, stargaze } from 'stargazejs';
 import { useChain } from '@cosmos-kit/react';
-import {
-  defaultChainName,
-  coin,
-  COLLECTION,
-  COLLECTIONS_MINT,
-  exponent,
-} from 'config';
-import { getPrices } from 'api';
-import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import {
-  CollectionMint,
-  CollectionsMint,
-  ContractsAddress,
-  Minter,
-  SG721,
-  Whitelist,
-} from '../types';
-import { useQuery, useLazyQuery } from '@apollo/client';
-import { getHttpUrl, toDisplayAmount } from 'utils';
+import dayjs from 'dayjs';
+
 import { Hero } from './Hero';
-import { useTx } from 'hooks';
+import { LargeButton } from '@/components';
+import { defaultChainName, exponent } from '@/config';
+import { getHttpUrl, toDisplayAmount } from '@/utils';
+import {
+  useTx,
+  useStarsBalance,
+  useCollection,
+  useStarsPrice,
+  useContracts,
+} from '@/hooks';
 
 dayjs.extend(relativeTime);
 
-type TData = {
-  balanceAmount: string;
-  starsPrice: number;
-  collectionInfo: {
-    minter: Minter;
-    sg721: SG721;
-    whitelist?: Whitelist;
-  };
-};
-
 export const MintNftsSection = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const [isMinting, setIsMinting] = useState(false);
-  const [data, setData] = useState<Partial<TData>>({});
-  const [contractsAddress, setContractsAddress] = useState<ContractsAddress>();
   const [inputAmount, setInputAmount] = useState('1');
-  const {
-    address,
-    getRpcEndpoint,
-    getCosmWasmClient,
-    getSigningCosmWasmClient,
-  } = useChain(defaultChainName);
+
+  const { contracts, isReady } = useContracts();
+  const { starsPrice, isFetchingPrice } = useStarsPrice();
+  const { starsBalance, isFetchingBalance, refetchBalance } = useStarsBalance();
+  const { collection, isFetchingCollection, refetchCollection } =
+    useCollection();
+
   const { tx } = useTx();
-  const collectionsQuery = useQuery<CollectionsMint>(COLLECTIONS_MINT, {
-    variables: {
-      limit: 100,
-      sortBy: 'VOLUME_24H_DESC',
-    },
-  });
-
-  const [getCollectionImage, collectionQuery] =
-    useLazyQuery<CollectionMint>(COLLECTION);
-
+  const { address } = useChain(defaultChainName);
   const mintBoxRef = useRef<HTMLDivElement>(null);
 
-  const getBalance = async () => {
-    if (!address) return;
-
-    try {
-      let rpcEndpoint = await getRpcEndpoint();
-
-      if (!rpcEndpoint) {
-        console.log('no rpc endpoint — using a fallback');
-        rpcEndpoint = `https://rpc.cosmos.directory/${defaultChainName}`;
-      }
-
-      const client = await stargaze.ClientFactory.createRPCQueryClient({
-        rpcEndpoint:
-          typeof rpcEndpoint === 'string' ? rpcEndpoint : rpcEndpoint.url,
-      });
-
-      const { balance } = await client.cosmos.bank.v1beta1.balance({
-        address,
-        denom: coin.base,
-      });
-
-      const balanceAmount = toDisplayAmount(balance!.amount, exponent);
-
-      setData((prev) => ({ ...prev, balanceAmount }));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getStarsPrice = async () => {
-    const geckoId = coin?.coingecko_id || 'stargaze';
-    try {
-      const res = await getPrices([geckoId]);
-      setData((prev) => ({ ...prev, starsPrice: res.stargaze.usd }));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getCollectionInfo = async () => {
-    if (!address || !contractsAddress) return;
-
-    getCollectionImage({
-      variables: {
-        collectionAddr: contractsAddress.sg721,
-      },
-    });
-
-    try {
-      const cosmWasmClient = await getCosmWasmClient();
-
-      // *MINTER QUERY*
-      const { VendingMinterQueryClient } = contracts.VendingMinter;
-      const minterQueryClient = new VendingMinterQueryClient(
-        cosmWasmClient,
-        contractsAddress.minter
-      );
-      const [minterInfo, mintPrice, mintableNumTokens, mintCount] =
-        await Promise.all([
-          minterQueryClient.config(),
-          minterQueryClient.mintPrice(),
-          minterQueryClient.mintableNumTokens(),
-          minterQueryClient.mintCount({ address }),
-        ]);
-      const minter: Minter = {
-        ...minterInfo,
-        all_prices: mintPrice,
-        user_minted: mintCount.count,
-        remaining_tokens: mintableNumTokens.count,
-      };
-
-      // *WHITELIST QUERY*
-      let whitelist: Whitelist;
-      if (minterInfo.whitelist) {
-        const whitelistContractAddress = minterInfo.whitelist || '';
-        const { WhitelistQueryClient } = contracts.Whitelist;
-        const whitelistQueryClient = new WhitelistQueryClient(
-          cosmWasmClient,
-          whitelistContractAddress
-        );
-        whitelist = await whitelistQueryClient.config();
-      }
-
-      // *SG721 QUERY*
-      const { SG721BaseQueryClient } = contracts.SG721Base;
-      const sg721QueryClient = new SG721BaseQueryClient(
-        cosmWasmClient,
-        contractsAddress.sg721
-      );
-      const [collectionInfo, contractInfo] = await Promise.all([
-        sg721QueryClient.collectionInfo(),
-        sg721QueryClient.contractInfo(),
-      ]);
-      const sg721: SG721 = { ...collectionInfo, ...contractInfo };
-
-      setData((prev) => ({
-        ...prev,
-        collectionInfo: { minter, sg721, whitelist },
-      }));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getData = async () => {
-    setIsLoading(true);
-    await Promise.all([getBalance(), getStarsPrice(), getCollectionInfo()]);
-    setIsLoading(false);
-  };
-
-  const getMinterContractAddr = async () => {
-    if (!collectionsQuery.data || contractsAddress) return;
-
-    const sortedCollections = [
-      ...collectionsQuery.data.collections.collections,
-    ].sort((a, b) => a.floorPrice - b.floorPrice);
-
-    const signingCosmWasmClient = await getSigningCosmWasmClient();
-    const { SG721BaseQueryClient } = contracts.SG721Base;
-    const { VendingMinterQueryClient } = contracts.VendingMinter;
-
-    for (const collection of sortedCollections) {
-      const sg721QueryClient = new SG721BaseQueryClient(
-        signingCosmWasmClient,
-        collection.collectionAddr
-      );
-
-      try {
-        const { minter: minterAddr } = await sg721QueryClient.minter();
-
-        const minterQueryClient = new VendingMinterQueryClient(
-          signingCosmWasmClient,
-          minterAddr
-        );
-
-        const [{ current_price: price }, { count: remainingTokens }] =
-          await Promise.all([
-            minterQueryClient.mintPrice(),
-            minterQueryClient.mintableNumTokens(),
-          ]);
-
-        const isLowPrice = new BigNumber(price.amount)
-          .shiftedBy(-exponent)
-          .lte(80);
-
-        if (remainingTokens && isLowPrice) {
-          setContractsAddress({
-            minter: minterAddr,
-            sg721: collection.collectionAddr,
-          });
-          break;
-        }
-      } catch (error) {
-        console.log(error);
-        continue;
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (!address) {
-      setIsLoading(true);
-      return;
-    }
-    if (collectionsQuery.data) getMinterContractAddr();
-    if (contractsAddress) getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, contractsAddress, collectionsQuery.data]);
-
   const handleClick = async () => {
-    if (!address || !contractsAddress) return;
+    const minterAddr = collection?.address.minterAddr;
+    if (!address || !isReady || !minterAddr) return;
+
     setIsMinting(true);
 
-    const { VendingMinterMessageComposer } = contracts.VendingMinter;
-    const { mint } = new VendingMinterMessageComposer(
-      address,
-      contractsAddress.minter
-    );
+    const { mint } = contracts.vendingMinter.getMessageComposer(minterAddr);
+    const mintPrice = collection?.minter.current_price;
 
-    const price = data.collectionInfo?.minter.all_prices.current_price;
-
-    if (!price) {
+    if (!mintPrice) {
       console.error('no mint price found');
+      setIsMinting(false);
       return;
     }
 
-    const msgs = Array(Number(inputAmount)).fill(mint([price]));
+    const msgs = Array(Number(inputAmount)).fill(mint([mintPrice]));
 
     await tx(
       msgs,
@@ -272,30 +70,30 @@ export const MintNftsSection = () => {
       },
       () => {
         setInputAmount('1');
-        getData();
+        refetchBalance();
+        refetchCollection();
       }
     );
 
     setIsMinting(false);
   };
 
-  const isWhitelistActive = !!data.collectionInfo?.whitelist?.is_active;
+  const isWhitelistActive = !!collection?.whitelist?.is_active;
 
-  const priceRawAmount =
-    data.collectionInfo?.minter.all_prices.current_price.amount || '0';
-  const priceDisplayAmount = toDisplayAmount(priceRawAmount, exponent);
+  const mintPriceRaw = collection?.minter.current_price.amount || '0';
+  const mintPriceDisplay = toDisplayAmount(mintPriceRaw, exponent);
 
   const maxTokens = isWhitelistActive
-    ? data.collectionInfo!.whitelist!.per_address_limit
-    : data.collectionInfo?.minter.per_address_limit;
+    ? collection!.whitelist!.per_address_limit
+    : collection?.minter.per_address_limit;
 
   const inputDollarValue = new BigNumber(inputAmount || 0)
-    .multipliedBy(priceDisplayAmount)
-    .multipliedBy(data?.starsPrice || 0)
+    .multipliedBy(mintPriceDisplay)
+    .multipliedBy(starsPrice || 0)
     .decimalPlaces(2)
     .toString();
 
-  const isSoldOut = !data.collectionInfo?.minter.remaining_tokens;
+  const isSoldOut = !collection?.minter.remaining_tokens;
 
   const tagText = isWhitelistActive
     ? 'WHITELIST MINT LIVE'
@@ -306,18 +104,18 @@ export const MintNftsSection = () => {
   const timeLeft =
     isWhitelistActive &&
     dayjs().to(
-      dayjs.unix(Number(data.collectionInfo!.whitelist!.end_time.slice(0, 10))),
+      dayjs.unix(Number(collection!.whitelist!.end_time.slice(0, 10))),
       true
     );
 
-  const totalTokens = data.collectionInfo?.minter.num_tokens || 0;
+  const totalTokens = collection?.minter.num_tokens || 0;
 
   const collectionStats = [
     { type: 'Quantity', value: totalTokens.toLocaleString() },
     {
       type: 'Royalties',
       value:
-        new BigNumber(data.collectionInfo?.sg721.royalty_info?.share || 0)
+        new BigNumber(collection?.sg721.royalty_info?.share || 0)
           .shiftedBy(2)
           .toString() + '%',
     },
@@ -325,7 +123,7 @@ export const MintNftsSection = () => {
       type: 'Minted',
       value:
         new BigNumber(totalTokens)
-          .minus(data.collectionInfo?.minter.remaining_tokens || 0)
+          .minus(collection?.minter.remaining_tokens || 0)
           .div(totalTokens || 1)
           .multipliedBy(100)
           .decimalPlaces(0, BigNumber.ROUND_DOWN)
@@ -334,16 +132,16 @@ export const MintNftsSection = () => {
   ];
 
   const starsNeeded = new BigNumber(inputAmount || 0).multipliedBy(
-    priceDisplayAmount
+    mintPriceDisplay
   );
 
-  const isAffordable = starsNeeded.lte(data.balanceAmount || 0);
+  const isAffordable = starsNeeded.lte(starsBalance || 0);
   const isAmountEmpty = new BigNumber(inputAmount || 0).isEqualTo(0);
   const btnText = isAffordable ? 'Mint' : 'Insufficient Balance';
 
-  const imageUrl = collectionQuery.data?.collection?.image?.startsWith('https')
-    ? collectionQuery.data?.collection.image
-    : getHttpUrl(data.collectionInfo?.sg721.image);
+  const imageUrl = collection?.image?.startsWith('http')
+    ? collection.image
+    : getHttpUrl(collection?.sg721.image);
 
   const titleColor = useColorModeValue('#697584', '#A7B4C2');
   const statColor = useColorModeValue('#2C3137', '#EEF2F8');
@@ -353,19 +151,12 @@ export const MintNftsSection = () => {
   const symbolColor = useColorModeValue('#2C3137', '#A7B4C2');
   const tagTextColor = useColorModeValue('#FFF', '#1D2024');
 
-  if (collectionsQuery.error) {
-    return <pre>{collectionsQuery.error.message}</pre>;
-  }
+  const isLoading =
+    isFetchingPrice || isFetchingCollection || isFetchingBalance;
 
   return (
     <>
-      {contractsAddress?.sg721 && data.collectionInfo?.sg721 && (
-        <Hero
-          collectionAddr={contractsAddress?.sg721}
-          collectionInfo={data.collectionInfo?.sg721}
-          mintBoxRef={mintBoxRef}
-        />
-      )}
+      <Hero collectionInfo={collection?.sg721} mintBoxRef={mintBoxRef} />
       <Flex
         w="816px"
         minH="595px"
@@ -395,7 +186,7 @@ export const MintNftsSection = () => {
               Please connect the wallet
             </Text>
           </Center>
-        ) : isLoading || collectionsQuery.loading ? (
+        ) : isLoading ? (
           <Center h="100%" flex="1 1 100%">
             <Spinner
               color={statColor}
@@ -424,7 +215,7 @@ export const MintNftsSection = () => {
                   </Text>
                   <Flex fontSize="14px" color={titleColor} lineHeight="16px">
                     Available&nbsp;
-                    <Text fontWeight="600">{data?.balanceAmount} STARS</Text>
+                    <Text fontWeight="600">{starsBalance} STARS</Text>
                   </Flex>
                 </Flex>
 
@@ -440,12 +231,12 @@ export const MintNftsSection = () => {
                     step={1}
                     precision={0}
                     onChange={(val) => {
-                      if (!maxTokens || !data.collectionInfo?.minter) return;
+                      if (!maxTokens || !collection?.minter) return;
                       const mintQuotaLeft =
-                        maxTokens - data.collectionInfo?.minter.user_minted;
+                        maxTokens - collection?.minter.user_minted;
                       const maxAmount = Math.min(
                         mintQuotaLeft,
-                        data.collectionInfo?.minter.remaining_tokens
+                        collection?.minter.remaining_tokens
                       );
                       if (new BigNumber(val).gt(maxAmount)) {
                         setInputAmount(maxAmount.toString());
@@ -490,7 +281,7 @@ export const MintNftsSection = () => {
                         {new BigNumber(inputAmount).gt(0) && (
                           <Text as="span">
                             {new BigNumber(inputAmount)
-                              .multipliedBy(priceDisplayAmount)
+                              .multipliedBy(mintPriceDisplay)
                               .toString()}
                           </Text>
                         )}{' '}
@@ -530,7 +321,7 @@ export const MintNftsSection = () => {
                   w="80%"
                   mb="6px"
                 >
-                  {data.collectionInfo?.sg721.name}
+                  {collection?.sg721.name}
                 </Text>
                 <Text
                   w="85%"
@@ -539,10 +330,9 @@ export const MintNftsSection = () => {
                   lineHeight="20px"
                   color={titleColor}
                 >
-                  {(data.collectionInfo?.sg721.description.length || 0) > 200
-                    ? data.collectionInfo?.sg721.description.slice(0, 200) +
-                      '...'
-                    : data.collectionInfo?.sg721.description}
+                  {(collection?.sg721.description.length || 0) > 200
+                    ? collection?.sg721.description.slice(0, 200) + '...'
+                    : collection?.sg721.description}
                 </Text>
                 <Flex justifyContent="space-between" mt="22px">
                   {collectionStats.map(({ type, value }) => {
@@ -596,7 +386,7 @@ export const MintNftsSection = () => {
                 <Flex justifyContent="space-between" mb="13px">
                   <Flex fontSize="14px" color={titleColor} lineHeight="16px">
                     Price:&nbsp;
-                    <Text fontWeight="600">{priceDisplayAmount} STARS</Text>
+                    <Text fontWeight="600">{mintPriceDisplay} STARS</Text>
                   </Flex>
                   <Text fontSize="14px" color={titleColor} lineHeight="16px">
                     Limited to {maxTokens} tokens

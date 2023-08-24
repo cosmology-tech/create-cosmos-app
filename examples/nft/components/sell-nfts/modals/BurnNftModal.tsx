@@ -15,8 +15,8 @@ import {
   AlertTitle,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useClient, useColor, useTransactionToast } from 'hooks';
-import { Token, TxResult } from '../../types';
+import { useColor, useContracts, useToaster } from '@/hooks';
+import { Token } from '@/config';
 
 export const BurnNftModal = ({
   modalControl,
@@ -28,21 +28,24 @@ export const BurnNftModal = ({
   update: () => void;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const { getSg721UpdatableClient } = useClient();
-
-  const { showToast } = useTransactionToast();
+  const { contracts, isReady } = useContracts();
+  const { toastSuccess, toastFailed } = useToaster();
 
   const handleBurnClick = async () => {
+    if (!isReady) return;
     setIsLoading(true);
 
+    const client = contracts.sg721Updatable.getSigningClient(
+      token.collectionAddr
+    );
+
     try {
-      const client = await getSg721UpdatableClient(token.collectionAddr);
       await client.burn({ tokenId: token.tokenId });
-      showToast(TxResult.Success);
+      toastSuccess();
       update();
       modalControl.onClose();
     } catch (error) {
-      showToast(TxResult.Failed, error);
+      toastFailed(error);
       console.error(error);
     } finally {
       setIsLoading(false);

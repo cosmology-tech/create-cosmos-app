@@ -1,11 +1,12 @@
-import { cosmos } from 'stargazejs';
-import { isDeliverTxSuccess, StdFee, coins } from '@cosmjs/stargate';
-import { useToaster, ToastType, type CustomToast } from 'hooks/useToaster';
-import { useChain } from '@cosmos-kit/react';
-import { defaultChainName, coin } from 'config';
-import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
-import { TxRaw } from 'stargazejs/types/codegen/cosmos/tx/v1beta1/tx';
+import { cosmos } from 'stargaze-query';
 import { ToastId } from '@chakra-ui/react';
+import { useChain } from '@cosmos-kit/react';
+import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
+import { isDeliverTxSuccess, StdFee, coins } from '@cosmjs/stargate';
+import { TxRaw } from 'stargaze-query/types/codegen/cosmos/tx/v1beta1/tx';
+
+import { defaultChainName, coin } from '@/config';
+import { useToaster, ToastType, type CustomToast } from './useToaster';
 
 interface Msg {
   typeUrl: string;
