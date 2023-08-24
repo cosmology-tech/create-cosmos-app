@@ -46,6 +46,7 @@ import { useRpcClient, useRpcEndpoint } from '../src/codegen';
 import { QueryValidatorRequest } from '../src/codegen/cosmos/staking/v1beta1/query';
 import { PubKey } from '../src/codegen/cosmos/crypto/ed25519/keys';
 import { AnyAmino } from '../src/codegen/google/protobuf/any';
+import { Validator } from '../src/codegen/cosmos/staking/v1beta1/staking';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -189,75 +190,13 @@ export default function Home() {
   });
 
   if (validator) {
-    // toAmino
-    // use the logic the same with interface.enabled
-    // to decide Which PubKey to use(ed25519? secp256k1? secp256r1)
-    const pubkey = PubKey.decode(validator!.validator!.consensusPubkey!.value);
+    const aminoValidator = Validator.toAmino(validator!.validator!);
 
-    //dhhD3I5QbtC870Il4IzML5Q2AwVDiSn9/HJ9w09Rgdg=
-    //not crypto encoded
-    const pubKeyString = toBase64(pubkey.key);
+    console.log(aminoValidator);
 
-    //cosmos1zcjduepqwcvy8hyw2phdp080ggj7prxv972rvqc9gwyjnl0uwf7uxn63s8vquhs900
-    const cryptoEncodedPubkey = encodeBech32Pubkey(
-      {
-        type: pubkeyType.ed25519,
-        value: pubKeyString,
-      },
-      'cosmos'
-    );
+    const protoValidator = Validator.fromAmino(aminoValidator);
 
-    const consensus_pubkey: AnyAmino = {
-      type: validator!.validator!.consensusPubkey!.typeUrl,
-      value: {
-        key: new TextEncoder().encode(cryptoEncodedPubkey),
-      },
-    };
-
-    console.log(
-      JSON.stringify(
-        {
-          pubKeyString,
-          cryptoEncodedPubkey,
-          consensus_pubkey,
-          isValidatorLoaded,
-          isFetchingValidator,
-        },
-        null,
-        2
-      )
-    );
-
-    //fromAmino
-    const decodedAminoAny = consensus_pubkey;
-
-    const cryptoEncodedKeyString = new TextDecoder().decode(
-      decodedAminoAny.value.key
-    );
-
-    const cryptoDecodedPubkey = decodeBech32Pubkey(cryptoEncodedKeyString);
-
-    const consensusPubkey: {
-      typeUrl: string;
-      value: PubKey;
-    } = {
-      typeUrl: decodedAminoAny.type,
-      value: {
-        key: new TextEncoder().encode(cryptoDecodedPubkey.value),
-      },
-    };
-
-    console.log(
-      JSON.stringify(
-        {
-          cryptoEncodedKeyString,
-          cryptoDecodedPubkey,
-          consensusPubkey,
-        },
-        null,
-        2
-      )
-    );
+    console.log(protoValidator);
   }
 
   return (
@@ -311,7 +250,7 @@ export default function Home() {
           balance={
             isValidatorLoaded
               ? Number(validator?.validator?.unbondingHeight)
-              : ''
+              : 0
           }
           isFetchingBalance={isFetchingValidator}
           response={resp}
