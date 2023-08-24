@@ -6,6 +6,9 @@ export const defaultChainName = 'stargaze';
 export const marketplaceContract =
   'stars1fvhcnyddukcqfnt7nlwv3thm5we22lyxyxylr9h77cvgkcn43xfsvgv0pl';
 
+export const stargazeGraphQLEndpoint =
+  'https://constellations-api.mainnet.stargaze-apis.com/graphql';
+
 export const chainassets: AssetList = assets.find(
   (chain) => chain.chain_name === defaultChainName
 ) as AssetList;

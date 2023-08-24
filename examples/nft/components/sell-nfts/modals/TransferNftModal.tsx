@@ -11,10 +11,10 @@ import {
   ModalFooter,
   Input,
 } from '@chakra-ui/react';
-import { LargeButton } from '../../common/Buttons';
-import { Token, TxResult } from '../../types';
-import { useClient, useColor, useTransactionToast } from 'hooks';
-import { isAddressValid } from 'utils';
+import { Token } from '@/config';
+import { LargeButton } from '@/components';
+import { isAddressValid } from '@/utils';
+import { useColor, useContracts, useToaster } from '@/hooks';
 
 export const TransferNftModal = ({
   token,
@@ -27,9 +27,9 @@ export const TransferNftModal = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { getSg721UpdatableClient } = useClient();
 
-  const { showToast } = useTransactionToast();
+  const { contracts, isReady } = useContracts();
+  const { toastSuccess, toastFailed } = useToaster();
 
   const closeModal = () => {
     modalControl.onClose();
@@ -37,19 +37,23 @@ export const TransferNftModal = ({
   };
 
   const handleTransferClick = async () => {
+    if (!isReady) return;
     setIsLoading(true);
 
+    const client = contracts.sg721Updatable.getSigningClient(
+      token.collectionAddr
+    );
+
     try {
-      const client = await getSg721UpdatableClient(token.collectionAddr);
       await client.transferNft({
         recipient: inputValue,
         tokenId: token.tokenId,
       });
-      showToast(TxResult.Success);
+      toastSuccess();
       update();
       closeModal();
     } catch (error) {
-      showToast(TxResult.Failed, error);
+      toastFailed(error);
       console.error(error);
     } finally {
       setIsLoading(false);

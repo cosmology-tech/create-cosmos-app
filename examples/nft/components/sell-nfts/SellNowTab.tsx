@@ -2,10 +2,15 @@ import { Text, Flex } from '@chakra-ui/react';
 import { useChain } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
 import React, { useState } from 'react';
-import { defaultChainName, exponent, marketplaceContract } from 'config';
-import { useClient, useColor, useTx } from 'hooks';
-import { getExpirationTime, toDisplayAmount } from 'utils';
-import { Collection, Token } from '@/components/types';
+import {
+  Collection,
+  defaultChainName,
+  exponent,
+  marketplaceContract,
+  Token,
+} from '@/config';
+import { useColor, useContracts, useTx } from '@/hooks';
+import { getExpirationTime, toDisplayAmount } from '@/utils';
 import { LargeButton } from '@/components';
 import { SplitText } from './NftCards';
 import { StarsIcon } from './StarsIcon';
@@ -25,27 +30,26 @@ export const SellNowTab = ({
 }) => {
   const { address } = useChain(defaultChainName);
   const [isLoading, setIsLoading] = useState(false);
-  const { getMarketplaceMsgComposer, getSg721UpdatableMsgComposer } =
-    useClient();
 
   const { tx } = useTx();
+  const { contracts, isReady } = useContracts();
 
-  const floorPrice = collection.floorPrice.toString();
+  const floorPrice = collection.floorPrice?.toString();
   const highestOffer = toDisplayAmount(token.highestCollectionBid, exponent);
 
   const offerToFloorPriceRatio = new BigNumber(highestOffer)
-    .div(floorPrice)
+    .div(floorPrice || 1)
     .decimalPlaces(2)
     .toString();
 
   const handleClick = async () => {
-    if (!address) return;
+    if (!address || !isReady) return;
     setIsLoading(true);
 
-    const marketplaceMsgComposer = getMarketplaceMsgComposer();
-    const sg721UpdatableMsgComposer = getSg721UpdatableMsgComposer(
-      token.collectionAddr
-    );
+    const marketplaceMsgComposer =
+      contracts.marketplace.getMessageComposer(marketplaceContract);
+    const sg721UpdatableMsgComposer =
+      contracts.sg721Updatable.getMessageComposer(token.collectionAddr);
 
     const msgs = [
       sg721UpdatableMsgComposer.approve({
@@ -56,7 +60,7 @@ export const SellNowTab = ({
       marketplaceMsgComposer.acceptCollectionBid({
         collection: token.collectionAddr,
         tokenId: parseInt(token.tokenId),
-        bidder: token.highestCollectionBidEvent.bidder.addr,
+        bidder: token.highestCollectionBidEvent!.bidder!.addr,
       }),
     ];
 

@@ -17,9 +17,14 @@ import {
 import { useColor } from 'hooks';
 import React from 'react';
 import { isGtZero } from 'utils';
-import { Collection, SaleType, Token } from '@/components/types';
 import { ListTab } from '../ListTab';
 import { SellNowTab } from '../SellNowTab';
+import { Collection, Token } from '@/config';
+
+export enum SaleType {
+  FIXED_PRICE = 'fixed_price',
+  AUCTION = 'auction',
+}
 
 const inputTitle = {
   [SaleType.FIXED_PRICE]: 'Sale Price',
@@ -30,12 +35,10 @@ export const NftSaleModal = ({
   modalControl,
   token,
   collection,
-  price,
   update,
 }: {
   token: Token;
   modalControl: UseDisclosureReturn;
-  price: number | undefined;
   collection: Collection;
   update: () => void;
 }) => {
@@ -85,7 +88,6 @@ export const NftSaleModal = ({
                   <ListTab
                     closeModal={modalControl.onClose}
                     inputTitle={inputTitle[saleType]}
-                    price={price}
                     saleType={saleType}
                     token={token}
                     collection={collection}

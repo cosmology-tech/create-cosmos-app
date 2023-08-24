@@ -2,25 +2,31 @@ import { Text, Flex, Select, Input } from '@chakra-ui/react';
 import { useChain } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
 import React, { useState } from 'react';
-import { defaultChainName, coin, exponent, marketplaceContract } from 'config';
-import { useClient, useColor, useTx } from 'hooks';
+import {
+  coin,
+  exponent,
+  defaultChainName,
+  marketplaceContract,
+  type Token,
+  type Collection,
+} from '@/config';
+import { useColor, useContracts, useTx } from '@/hooks';
 import {
   getExpirationTime,
   getStarsCoin,
   isAddressValid,
   isGtZero,
   toDisplayAmount,
-} from 'utils';
-import { Collection, SaleType, Token } from '@/components/types';
+} from '@/utils';
 import { AmountInput } from './AmountInput';
 import { LargeButton } from '@/components';
 import { Fees } from './Fees';
 import { SplitText } from './NftCards';
+import { SaleType } from './modals';
 
 export const ListTab = ({
   closeModal,
   inputTitle,
-  price,
   saleType,
   token,
   collection,
@@ -28,7 +34,6 @@ export const ListTab = ({
 }: {
   closeModal: () => void;
   inputTitle: string;
-  price: number | undefined;
   saleType: SaleType;
   token: Token;
   collection: Collection;
@@ -41,22 +46,21 @@ export const ListTab = ({
 
   const { tx } = useTx();
   const { address } = useChain(defaultChainName);
-  const { getMarketplaceMsgComposer, getSg721UpdatableMsgComposer } =
-    useClient();
+  const { contracts, isReady } = useContracts();
 
   const symbol = coin.symbol;
-  const floorPrice = collection.floorPrice.toString();
+  const floorPrice = collection.floorPrice?.toString();
   const highestOffer = toDisplayAmount(token.highestCollectionBid, exponent);
   const isAuctionTab = saleType === SaleType.AUCTION;
 
   const handleClick = async () => {
-    if (!address) return;
+    if (!address || !isReady) return;
     setIsLoading(true);
 
-    const marketplaceMsgComposer = getMarketplaceMsgComposer();
-    const sg721UpdatableMsgComposer = getSg721UpdatableMsgComposer(
-      token.collectionAddr
-    );
+    const marketplaceMsgComposer =
+      contracts.marketplace.getMessageComposer(marketplaceContract);
+    const sg721UpdatableMsgComposer =
+      contracts.sg721Updatable.getMessageComposer(token.collectionAddr);
 
     const expirationTime = getExpirationTime(period);
 
@@ -115,7 +119,6 @@ export const ListTab = ({
       <AmountInput
         inputValue={inputValue}
         setInputValue={setInputValue}
-        price={price}
         mb="22px"
       />
 
@@ -123,8 +126,8 @@ export const ListTab = ({
         <SplitText
           left="Floor Price"
           right={`${floorPrice} ${symbol}`}
-          rightClickable={true}
-          onRightClick={() => setInputValue(floorPrice)}
+          rightClickable={!!floorPrice}
+          onRightClick={() => setInputValue(floorPrice || '0')}
           withIcon
           size="md"
         />

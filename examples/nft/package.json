@@ -9,10 +9,10 @@
     "lint": "next lint",
     "locks:remove": "rm -f yarn.lock",
     "locks:create": "generate-lockfile --lockfile ../../yarn.lock --package package.json --write yarn.lock --force",
-    "locks": "npm run locks:remove && npm run locks:create"
+    "locks": "npm run locks:remove && npm run locks:create",
+    "watch:codegen": "npx graphql-code-generator --config ./config/codegen.ts --watch"
   },
   "dependencies": {
-    "@apollo/client": "3.7.14",
     "@chain-registry/types": "0.16.0",
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.5.1",
@@ -25,18 +25,24 @@
     "@cosmos-kit/react": "2.0.3",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
+    "@tanstack/react-query": "4.32.0",
     "bignumber.js": "9.1.0",
     "chain-registry": "1.19.0",
     "dayjs": "1.11.8",
     "framer-motion": "9.0.7",
-    "graphql": "16.6.0",
+    "graphql": "16.8.0",
+    "graphql-request": "6.1.0",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.8.0",
-    "stargazejs": "0.14.0"
+    "stargaze-query": "0.15.2"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "5.0.0",
+    "@graphql-codegen/client-preset": "4.1.0",
+    "@parcel/watcher": "2.2.0",
+    "@tanstack/react-query-devtools": "4.32.0",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",

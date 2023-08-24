@@ -15,16 +15,13 @@ import {
   HStack,
   Link,
 } from '@chakra-ui/react';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { AiOutlineTag, AiOutlineFire } from 'react-icons/ai';
 import { BsSend } from 'react-icons/bs';
 import { FiShare } from 'react-icons/fi';
 import { IoMdRemoveCircleOutline } from 'react-icons/io';
-import { useChain } from '@cosmos-kit/react';
-import { useLazyQuery } from '@apollo/client';
 
 import { NormalButton, SemiLargeButton, SimpleButton } from '@/components';
-import { Collection, Events, Token } from '@/components/types';
 import {
   download,
   getHttpUrl,
@@ -32,8 +29,8 @@ import {
   shortenAddress,
   toDisplayAmount,
 } from '@/utils';
-import { defaultChainName, EVENTS, exponent } from '@/config';
-import { useColor } from '@/hooks';
+import { exponent, Token, Collection } from '@/config';
+import { useColor, useEvents } from '@/hooks';
 import { SplitText } from '../NftCards';
 import { NftTraits } from '../NftTraits';
 
@@ -56,8 +53,11 @@ export const NftDetailModal = ({
     removeListing: () => void;
   };
 }) => {
-  const { address } = useChain(defaultChainName);
-  const [execEventsQuery, queryEventsResult] = useLazyQuery<Events>(EVENTS);
+  const { events } = useEvents(
+    collection.collectionAddr,
+    token.tokenId,
+    !token.lastSale
+  );
 
   const { isOpen, onClose } = modalControl;
 
@@ -65,30 +65,15 @@ export const NftDetailModal = ({
     ? collection.createdBy.name.name + '.stars'
     : shortenAddress(collection.createdBy.addr);
 
-  useEffect(() => {
-    if (token.lastSale || !address) return;
-    execEventsQuery({
-      variables: {
-        forToken: {
-          collectionAddr: collection.collectionAddr,
-          tokenId: token.tokenId,
-        },
-        filter: 'TOKEN_METADATAS',
-        sortBy: 'BLOCK_HEIGHT_ASC',
-      },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, token.id]);
-
   const lastSaleEvent = useMemo(() => {
-    if (token.lastSale) {
+    if (token?.lastSale) {
       return {
         name: 'Last sale',
-        value: toDisplayAmount(token.lastSale.price.amount, exponent),
+        value: toDisplayAmount(token.lastSale.price?.amount, exponent),
       };
     }
-    if (!queryEventsResult.data) return;
-    const mintEvent = queryEventsResult.data.events.edges.find(
+    if (!events) return;
+    const mintEvent = events.find(
       (event) => event.node.action === 'mint_sender'
     );
     return mintEvent
@@ -97,7 +82,7 @@ export const NftDetailModal = ({
           value: toDisplayAmount(mintEvent.node.data.mintPrice, exponent),
         }
       : undefined;
-  }, [queryEventsResult.data, token.lastSale]);
+  }, [events, token.lastSale]);
 
   const priceText: {
     [key: string]: string;
@@ -121,7 +106,7 @@ export const NftDetailModal = ({
                 alt="nft"
                 boxSize="100%"
                 borderRadius="6px"
-                src={getHttpUrl(token.imageUrl)}
+                src={getHttpUrl(token.imageUrl!)}
               />
             </GridItem>
             <GridItem>
@@ -156,7 +141,7 @@ export const NftDetailModal = ({
               </Text>
               {lastSaleEvent && (
                 <SplitText
-                  left={lastSaleEvent?.name}
+                  left={lastSaleEvent.name}
                   right={`${lastSaleEvent.value} STARS`}
                   withIcon
                   mb="8px"
@@ -233,16 +218,16 @@ export const NftDetailModal = ({
           >
             Rank&nbsp;
             <Text as="span" fontWeight="600" color={textColor.primary}>
-              {token.rarityOrder.toLocaleString()}
+              {token.rarityOrder?.toLocaleString()}
             </Text>
-            &nbsp;of {collection.tokensCount.toLocaleString()}
+            &nbsp;of {collection.tokensCount?.toLocaleString()}
           </Text>
 
           <HStack spacing="16px" mb="28px">
             <SimpleButton
               content="Download"
               onClick={() =>
-                download(getHttpUrl(token.imageUrl), `${token.name}.png`)
+                download(getHttpUrl(token.imageUrl!), `${token.name}.png`)
               }
             />
             <SimpleButton
@@ -250,7 +235,7 @@ export const NftDetailModal = ({
                 <Link
                   href={getTwitterShareLink(
                     token.tokenId,
-                    token.name,
+                    token.name!,
                     collection.collectionAddr
                   )}
                   isExternal
@@ -261,7 +246,7 @@ export const NftDetailModal = ({
             />
           </HStack>
 
-          <NftTraits traits={token.traits} />
+          {token?.traits && <NftTraits traits={token.traits} />}
         </ModalBody>
       </ModalContent>
     </Modal>

@@ -43,5 +43,19 @@ export const useToaster = () => {
     });
   };
 
-  return { ...toast, toast: customToast };
+  const toastSuccess = () =>
+    customToast({
+      title: 'Transaction successful',
+      type: ToastType.Success,
+    });
+
+  const toastFailed = (error?: any) =>
+    customToast({
+      title: 'Transaction failed',
+      type: ToastType.Error,
+      duration: 12000,
+      message: error?.message || error?.rawLog,
+    });
+
+  return { ...toast, toast: customToast, toastSuccess, toastFailed };
 };

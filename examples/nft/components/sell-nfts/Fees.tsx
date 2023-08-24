@@ -1,11 +1,8 @@
-import { useLazyQuery } from '@apollo/client';
+import { useMemo } from 'react';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
 import { SimpleGrid, Flex, Tooltip, Text, Skeleton } from '@chakra-ui/react';
-import { Contract } from 'components/types';
-import { CONTRACT } from 'config';
-import { useColor } from 'hooks';
-import { useEffect, useMemo } from 'react';
-import { minus, multiply, sum } from 'utils';
+import { useColor, useRoyaltyShare } from '@/hooks';
+import { minus, multiply, sum } from '@/utils';
 
 const FAIR_BURN_RATE = 0.02;
 const LISTING_FEE = 0.5;
@@ -25,28 +22,18 @@ export const Fees = ({
   showListingFee?: boolean;
   countListingFee?: boolean;
 }) => {
-  const [execContractQuery, queryContractResult] =
-    useLazyQuery<Contract>(CONTRACT);
-
-  useEffect(() => {
-    execContractQuery({
-      variables: { address },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { royaltyShare, isLoading } = useRoyaltyShare(address);
 
   const listingFee = countListingFee ? LISTING_FEE : '0';
 
   const amountConfig = useMemo(() => {
-    const rayaltyShare =
-      queryContractResult.data?.contract.contractInfo.royalty_info.share;
     const priceAmount = salePrice ? salePrice : '0';
-    const rayalties = rayaltyShare ? multiply(priceAmount, rayaltyShare) : '0';
+    const royalties = royaltyShare ? multiply(priceAmount, royaltyShare) : '0';
     const fairBurn = multiply(priceAmount, FAIR_BURN_RATE);
-    const proceeds = minus(priceAmount, sum(listingFee, fairBurn, rayalties));
+    const proceeds = minus(priceAmount, sum(listingFee, fairBurn, royalties));
 
-    return { rayalties, fairBurn, proceeds };
-  }, [salePrice, queryContractResult.data, listingFee]);
+    return { royalties, fairBurn, proceeds };
+  }, [salePrice, royaltyShare, listingFee]);
 
   const fees = [
     {
@@ -57,7 +44,7 @@ export const Fees = ({
     },
     {
       feeName: 'Creator Royalties',
-      amount: amountConfig.rayalties,
+      amount: amountConfig.royalties,
       desc: 'Paid to creators when selling your item',
       show: true,
       loadable: true,
@@ -103,7 +90,7 @@ export const Fees = ({
               />
             </Tooltip>
           </Text>
-          {queryContractResult.loading && fee?.loadable ? (
+          {isLoading && fee?.loadable ? (
             <Skeleton w="40px" h="14px" />
           ) : (
             <Text color={textColor.primary}>{fee.amount} STARS</Text>

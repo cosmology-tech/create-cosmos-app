@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Center,
   Flex,
@@ -12,19 +12,10 @@ import {
 } from '@chakra-ui/react';
 import { MdVerified } from 'react-icons/md';
 import { useChain } from '@cosmos-kit/react';
-import {
-  defaultChainName,
-  NAMES,
-  OWNED_TOKENS,
-  COLLECTIONS,
-  coin,
-} from '../../config';
-import { useLazyQuery } from '@apollo/client';
-import { Collections, Tokens, Names, Token } from '../types';
-import { shortenAddress, getStargazeProfileLink } from '@/utils';
 
-import { getPrices } from '../../api';
-import { useColor } from 'hooks';
+import { defaultChainName, Token } from '@/config';
+import { shortenAddress, getStargazeProfileLink } from '@/utils';
+import { useColor, useProfile } from '@/hooks';
 import { SimpleButton } from '../common';
 import {
   NftDetailModal,
@@ -38,29 +29,9 @@ import { NftCards } from './NftCards';
 import { ProfileStat } from './ProfileStat';
 
 export const SellNftsSection = () => {
-  const { address } = useChain(defaultChainName);
   const [selectedToken, setSelectedToken] = useState<Token>();
-  const [price, setPrice] = useState<number>();
-
-  const [execNamesQuery, queryNamesResult] = useLazyQuery<Names>(NAMES);
-  const [execOwnedTokensQuery, queryOwnedTokensResult] = useLazyQuery<Tokens>(
-    OWNED_TOKENS,
-    { notifyOnNetworkStatusChange: true }
-  );
-  const [execCollectionsQuery, queryCollectionsResult] =
-    useLazyQuery<Collections>(COLLECTIONS, {
-      notifyOnNetworkStatusChange: true,
-    });
-
-  const getStarsPrice = async () => {
-    const geckoId = coin?.coingecko_id || 'stargaze';
-    try {
-      const res = await getPrices([geckoId]);
-      setPrice(res.stargaze.usd);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { profile, isLoading, refetch } = useProfile();
+  const { address } = useChain(defaultChainName);
 
   const nftDetailModalControl = useDisclosure();
   const nftSaleModalControl = useDisclosure();
@@ -69,75 +40,37 @@ export const SellNftsSection = () => {
   const updatePriceModalControl = useDisclosure();
   const removeListingModalControl = useDisclosure();
 
-  useEffect(() => {
-    getStarsPrice();
-  }, []);
-
-  useEffect(() => {
-    if (!address) return;
-    execOwnedTokensQuery({
-      variables: {
-        ownerAddr: address,
-        sortBy: 'PRICE_DESC',
-        limit: 100,
-      },
-    });
-    execNamesQuery({
-      variables: {
-        associatedAddr: address,
-      },
-    });
-    execCollectionsQuery({
-      variables: {
-        tokenOwnerAddr: address,
-      },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
-
-  const updateData = () => {
-    queryOwnedTokensResult.refetch();
-    queryCollectionsResult.refetch();
-  };
-
   const update = () => {
-    updateData();
+    refetch();
     nftDetailModalControl.onClose();
   };
 
-  const isLoading =
-    queryNamesResult.loading ||
-    queryCollectionsResult.loading ||
-    queryOwnedTokensResult.loading;
-
-  const names = queryNamesResult.data?.names.names;
+  const names = profile?.names;
 
   const name =
     names && names?.length > 0
       ? names[0].name + '.stars'
       : shortenAddress(address);
 
-  const isNameVerified = names?.[0]?.records.some((record) => record.verified);
+  const isNameVerified = names?.[0]?.records?.some((record) => record.verified);
 
   const profileStats = [
     {
       name: 'Collections',
-      value: queryCollectionsResult.data?.collections.total || 0,
+      value: profile?.collections.total || 0,
     },
-    { name: 'NFTs', value: queryOwnedTokensResult.data?.tokens.total || 0 },
+    { name: 'NFTs', value: profile?.ownedTokens.total || 0 },
     {
       name: 'Listed on marketplace',
       value:
-        queryOwnedTokensResult.data?.tokens.tokens.filter(
-          (token) => token.forSale
-        ).length || 0,
+        profile?.ownedTokens.tokens.filter((token) => token.forSale).length ||
+        0,
     },
   ];
 
-  const selectedCollection =
-    queryCollectionsResult.data?.collections.collections.find(
-      (colletion) => colletion.collectionAddr === selectedToken?.collectionAddr
-    );
+  const selectedCollection = profile?.collections.collections.find(
+    (colletion) => colletion.collectionAddr === selectedToken?.collectionAddr
+  );
 
   const { colorMode } = useColorMode();
   const { textColor, borderColor, bgColor } = useColor();
@@ -224,13 +157,12 @@ export const SellNftsSection = () => {
                 speed="0.4s"
               />
             </Center>
-          ) : queryOwnedTokensResult.data &&
-            queryOwnedTokensResult.data?.tokens.total > 0 ? (
+          ) : profile?.ownedTokens && profile?.ownedTokens?.total > 0 ? (
             <NftCards
-              allNfts={queryOwnedTokensResult.data}
-              handleCardClick={(token: Token) => {
-                nftDetailModalControl.onOpen();
+              allNfts={profile.ownedTokens.tokens}
+              handleCardClick={(token) => {
                 setSelectedToken(token);
+                nftDetailModalControl.onOpen();
               }}
             />
           ) : (
@@ -269,7 +201,6 @@ export const SellNftsSection = () => {
           token={selectedToken}
           update={update}
           collection={selectedCollection}
-          price={price}
         />
       )}
 
@@ -295,7 +226,6 @@ export const SellNftsSection = () => {
           collection={selectedCollection}
           update={update}
           token={selectedToken}
-          price={price}
         />
       )}
 

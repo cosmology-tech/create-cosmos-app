@@ -1,7 +1,8 @@
-import { gql } from '@apollo/client';
+import { graphql as gql } from '@/gql';
+import { TokensQuery, CollectionsQuery } from '@/gql/graphql';
 
-export const TOKENS = gql`
-  query Tokens($collectionAddr: String, $limit: Int) {
+export const mintTokensQueryDoc = gql(`
+  query MintTokens($collectionAddr: String, $limit: Int) {
     tokens(collectionAddr: $collectionAddr, limit: $limit) {
       tokens {
         tokenId
@@ -9,10 +10,10 @@ export const TOKENS = gql`
       }
     }
   }
-`;
+`);
 
-export const COLLECTIONS_MINT = gql`
-  query Collections($limit: Int, $sortBy: CollectionSortBy) {
+export const mintCollectionsQueryDoc = gql(`
+  query MintCollections($limit: Int, $sortBy: CollectionSortBy) {
     collections(limit: $limit, sortBy: $sortBy) {
       collections {
         collectionAddr
@@ -20,9 +21,9 @@ export const COLLECTIONS_MINT = gql`
       }
     }
   }
-`;
+`);
 
-export const COLLECTIONS = gql`
+export const collectionsQueryDoc = gql(`
   query Collections($tokenOwnerAddr: String) {
     collections(tokenOwnerAddr: $tokenOwnerAddr) {
       collections {
@@ -43,17 +44,19 @@ export const COLLECTIONS = gql`
       total
     }
   }
-`;
+`);
 
-export const COLLECTION = gql`
-  query Collection($collectionAddr: String!) {
+export type Collection = CollectionsQuery['collections']['collections'][0];
+
+export const collectionImageQueryDoc = gql(`
+  query CollectionImage($collectionAddr: String!) {
     collection(collectionAddr: $collectionAddr) {
       image
     }
   }
-`;
+`);
 
-export const OWNED_TOKENS = gql`
+export const ownedTokensQueryDoc = gql(`
   query Tokens($ownerAddr: String, $sortBy: TokenSortBy, $limit: Int) {
     tokens(ownerAddr: $ownerAddr, sortBy: $sortBy, limit: $limit) {
       total
@@ -93,9 +96,13 @@ export const OWNED_TOKENS = gql`
       }
     }
   }
-`;
+`);
 
-export const NAMES = gql`
+export type Token = TokensQuery['tokens']['tokens'][0];
+
+export type Trait = NonNullable<Token['traits']>[0];
+
+export const namesQueryDoc = gql(`
   query Names($associatedAddr: String) {
     names(associatedAddr: $associatedAddr) {
       names {
@@ -113,9 +120,9 @@ export const NAMES = gql`
       }
     }
   }
-`;
+`);
 
-export const EVENTS = gql`
+export const eventsQueryDoc = gql(`
   query Events($forToken: TokenInput, $filter: Filter, $sortBy: EventSortBy) {
     events(forToken: $forToken, filter: $filter, sortBy: $sortBy) {
       edges {
@@ -132,12 +139,12 @@ export const EVENTS = gql`
       }
     }
   }
-`;
+`);
 
-export const CONTRACT = gql`
+export const contractQueryDoc = gql(`
   query Contract($address: String!) {
     contract(address: $address) {
       contractInfo
     }
   }
-`;
+`);
