@@ -1,15 +1,10 @@
-import { AssetListSection, Layout, WalletSection } from '@/components';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import NoSSR from 'react-no-ssr';
 import { ChainName } from '@cosmos-kit/core';
+import { AssetListSection, Layout, WalletSection } from '@/components';
 
 export default function MultiChain() {
   const [chainName, setChainName] = useState<ChainName>();
-  const [content, setContent] = useState<JSX.Element>();
-
-  useEffect(() => {
-    if (!chainName) return;
-    setContent(<AssetListSection chainName={chainName} />);
-  }, [chainName]);
 
   return (
     <Layout>
@@ -18,7 +13,7 @@ export default function MultiChain() {
         providedChainName={chainName}
         setChainName={setChainName}
       />
-      {content}
+      <NoSSR>{chainName && <AssetListSection chainName={chainName} />}</NoSSR>
     </Layout>
   );
 }

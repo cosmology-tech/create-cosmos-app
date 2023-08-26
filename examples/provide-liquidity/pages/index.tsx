@@ -1,17 +1,13 @@
-import { useEffect, useState } from 'react';
+import NoSSR from 'react-no-ssr';
 import { WalletSection, ProvideLiquidity, Layout } from '@/components';
 
 export default function Home() {
-  const [content, setContent] = useState<JSX.Element>();
-
-  useEffect(() => {
-    setContent(<ProvideLiquidity />);
-  }, []);
-
   return (
     <Layout>
       <WalletSection />
-      {content}
+      <NoSSR>
+        <ProvideLiquidity />
+      </NoSSR>
     </Layout>
   );
 }
