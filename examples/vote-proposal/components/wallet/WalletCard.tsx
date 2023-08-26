@@ -1,30 +1,29 @@
-import { useChain } from "@cosmos-kit/react";
+import { MouseEventHandler } from 'react';
+import { useChain } from '@cosmos-kit/react';
 import {
   Box,
   GridItem,
   Icon,
   Stack,
   useColorModeValue,
-} from "@chakra-ui/react";
-import { MouseEventHandler, useEffect } from "react";
-import { FiAlertTriangle } from "react-icons/fi";
+} from '@chakra-ui/react';
+import { FiAlertTriangle } from 'react-icons/fi';
+
 import {
-  Astronaut,
-  Error,
   Connected,
-  ConnectedShowAddress,
-  ConnectedUserInfo,
   Connecting,
-  ConnectStatusWarn,
-  CopyAddressBtn,
   Disconnected,
   NotExist,
   Rejected,
-  RejectedWarn,
+  Error,
   WalletConnectComponent,
-} from ".";
+} from './WalletConnect';
+import { UserInfo } from './UserInfo';
+import { Astronaut } from './Astronaut';
+import { ConnectStatusWarn, RejectedWarn } from './WarnBlock';
+import { ConnectedShowAddress, CopyAddressBtn } from './AddressCard';
 
-export const WalletCardSection = ({ chainName }: { chainName: string }) => {
+export const WalletCard = ({ chainName }: { chainName: string }) => {
   const { connect, openView, status, username, address, message, wallet } =
     useChain(chainName);
 
@@ -48,7 +47,7 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
       }
       connecting={<Connecting />}
       connected={
-        <Connected buttonText={"My Wallet"} onClick={onClickOpenView} />
+        <Connected buttonText={'My Wallet'} onClick={onClickOpenView} />
       }
       rejected={<Rejected buttonText="Reconnect" onClick={onClickConnect} />}
       error={<Error buttonText="Change Wallet" onClick={onClickOpenView} />}
@@ -77,8 +76,9 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
   );
 
   const userInfo = username && (
-    <ConnectedUserInfo username={username} icon={<Astronaut />} />
+    <UserInfo username={username} icon={<Astronaut />} />
   );
+
   const addressBtn = (
     <CopyAddressBtn
       walletStatus={status}
@@ -94,10 +94,10 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
           justifyContent="center"
           alignItems="center"
           borderRadius="lg"
-          bg={useColorModeValue("white", "blackAlpha.400")}
+          bg={useColorModeValue('white', 'blackAlpha.400')}
           boxShadow={useColorModeValue(
-            "0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3",
-            "0 0 2px #363636, 0 0 8px -2px #4f4f4f"
+            '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
+            '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
           )}
           spacing={4}
           px={4}
