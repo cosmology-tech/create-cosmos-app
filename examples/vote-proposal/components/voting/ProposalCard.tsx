@@ -1,11 +1,8 @@
 import React, { useMemo } from 'react';
-import type { Proposal } from 'interchain/types/codegen/cosmos/gov/v1beta1/gov';
+import { Proposal } from 'interchain-query/cosmos/gov/v1beta1/gov';
+import { cosmos } from 'interchain-query';
 import dayjs from 'dayjs';
-import { cosmos } from 'interchain';
-import { VoteOption } from '../types';
-import { decodeUint8Arr, Votes } from './vote';
 import {
-  Badge,
   Box,
   Center,
   Flex,
@@ -17,17 +14,11 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
+import { Votes } from '@/hooks';
+import { decodeUint8Arr, getPercentage, getTitleFromDecoded } from '@/utils';
+import { StatusBadge, VotedBadge, VoteOption } from './common';
+
 const ProposalStatus = cosmos.gov.v1beta1.ProposalStatus;
-
-export const getTitleFromDecoded = (decodedStr: string) => {
-  return decodedStr.slice(0, 250).match(/[A-Z][A-Za-z].*(?=\u0012)/)?.[0];
-};
-
-export const getPercentage = (option: string | undefined, total: number) => {
-  if (!total) return '0.00%';
-  const voted = option ? Number(option) : 0;
-  return ((voted / total) * 100).toFixed(2) + '%';
-};
 
 export const VoteColor: { [key in VoteOption]: string } = {
   [VoteOption.YES]: '#17a572',
@@ -35,50 +26,6 @@ export const VoteColor: { [key in VoteOption]: string } = {
   [VoteOption.NWV]: '#ff5b6d',
   [VoteOption.ABSTAIN]: '#546198',
 };
-
-export const StatusBadge = ({ status }: { status: number }) => {
-  let statusConfig: { color: string; name: string } = {
-    color: 'purple',
-    name: 'Deposit Period',
-  };
-
-  switch (status) {
-    case ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD:
-      break;
-    case ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD:
-      statusConfig = {
-        color: 'twitter',
-        name: 'Voting Period',
-      };
-      break;
-    case ProposalStatus.PROPOSAL_STATUS_PASSED:
-      statusConfig = {
-        color: 'green',
-        name: 'Passed',
-      };
-      break;
-    case ProposalStatus.PROPOSAL_STATUS_REJECTED:
-      statusConfig = {
-        color: 'red',
-        name: 'Rejected',
-      };
-      break;
-    default:
-      break;
-  }
-
-  return (
-    <Badge colorScheme={statusConfig.color} variant="subtle" borderRadius={4}>
-      <Flex alignItems="center">{statusConfig.name}</Flex>
-    </Badge>
-  );
-};
-
-const VotedBadge = () => (
-  <Badge colorScheme="purple" variant="solid" borderRadius={4} h="min-content">
-    Voted
-  </Badge>
-);
 
 export const ProposalCard = ({
   proposal,
@@ -100,7 +47,7 @@ export const ProposalCard = ({
     return total ? total : 0;
   }, [proposal]);
 
-  const isVoted = votes && votes[proposal.proposalId.low];
+  const isVoted = votes && votes[proposal.proposalId.toString()];
 
   return (
     <Grid
@@ -119,7 +66,7 @@ export const ProposalCard = ({
     >
       <GridItem colSpan={2}>
         <Center w="100%" h="100%">
-          # {proposal.proposalId.low.toString().padStart(6, '0')}
+          # {proposal.proposalId.toString().padStart(6, '0')}
         </Center>
       </GridItem>
       <GridItem colSpan={9} py={2}>

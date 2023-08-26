@@ -1,28 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import { TransactionResult, VoteOption } from '../types';
-import {
-  AiFillCheckCircle,
-  AiFillCloseCircle,
-  AiFillMinusCircle,
-} from 'react-icons/ai';
 import { PieChart } from 'react-minimal-pie-chart';
-import {
-  getPercentage,
-  getTitleFromDecoded,
-  StatusBadge,
-  VoteColor,
-} from './proposal-card';
-import { Proposal } from 'interchain/types/codegen/cosmos/gov/v1beta1/gov';
-import dayjs from 'dayjs';
-import { cosmos } from 'interchain';
-import BigNumber from 'bignumber.js';
-import { assets } from 'chain-registry';
-import { AssetList, Asset } from '@chain-registry/types';
-import { decodeUint8Arr, Votes } from './vote';
-import { IconType } from 'react-icons';
-import { useChain } from '@cosmos-kit/react';
-import { StdFee } from '@cosmjs/stargate';
-import ReactMarkdown from 'react-markdown';
+import { Proposal } from 'interchain-query/cosmos/gov/v1beta1/gov';
+import { cosmos } from 'interchain-query';
 import {
   Modal,
   ModalOverlay,
@@ -34,175 +13,37 @@ import {
   Button,
   useDisclosure,
   Flex,
-  Icon,
-  Stack,
   Text,
   Box,
   Center,
   Divider,
   Heading,
-  Radio,
-  RadioGroup,
-  useToast,
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
 
-const VoteType = cosmos.gov.v1beta1.VoteOption;
+import { VoteColor } from './ProposalCard';
+import { Votes } from '@/hooks';
+import {
+  decodeUint8Arr,
+  exponentiate,
+  formatDate,
+  getCoin,
+  getExponent,
+  getPercentage,
+  getTitleFromDecoded,
+} from '@/utils';
+import {
+  VoteResult,
+  TimeDisplay,
+  VoteRatio,
+  NewLineText,
+  StatusBadge,
+  VoteOption,
+} from './common';
+import { VoteModal } from './VoteModal';
 
 const ProposalStatus = cosmos.gov.v1beta1.ProposalStatus;
-
-const getChainAssets = (chainName: string) => {
-  return assets.find((chain) => chain.chain_name === chainName) as AssetList;
-};
-
-const getCoin = (chainName: string) => {
-  const chainAssets = getChainAssets(chainName);
-  return chainAssets.assets[0] as Asset;
-};
-
-const getExponent = (chainName: string) => {
-  return getCoin(chainName).denom_units.find(
-    (unit) => unit.denom === getCoin(chainName).display
-  )?.exponent as number;
-};
-
-const exponentiate = (num: number | string | undefined, exp: number) => {
-  if (!num) return 0;
-  return new BigNumber(num)
-    .multipliedBy(new BigNumber(10).exponentiatedBy(exp))
-    .toNumber();
-};
-
-const formatDate = (date: Date | undefined) => {
-  if (!date) return 'not specified';
-  return dayjs(date).format('YYYY-MM-DD hh:mm:ss');
-};
-
-const TimeDisplay = ({ title, time }: { title: string; time: string }) => (
-  <Stack spacing="0.5">
-    <Text
-      fontSize="sm"
-      fontWeight="semibold"
-      color={useColorModeValue('gray.600', 'gray.400')}
-    >
-      {title}
-    </Text>
-    <Text
-      fontWeight="semibold"
-      color={useColorModeValue('gray.600', 'gray.400')}
-      letterSpacing="tight"
-    >
-      {time}
-    </Text>
-  </Stack>
-);
-
-const VoteRatio = ({
-  type,
-  ratio,
-  amount,
-  token,
-}: {
-  type: keyof typeof VoteOption;
-  ratio: string;
-  amount: string;
-  token: string;
-}) => (
-  <Box
-    py={2}
-    px={4}
-    border="1px solid"
-    borderRadius="md"
-    borderColor={useColorModeValue('gray.200', 'gray.900')}
-    bgColor={useColorModeValue('whiteAlpha.800', 'gray.800')}
-    w="200px"
-  >
-    <Text color={VoteColor[type]} fontWeight="bold">
-      {type} {ratio}
-    </Text>
-    <Text
-      fontSize="sm"
-      fontWeight="semibold"
-      color={useColorModeValue('gray.600', 'gray.400')}
-    >
-      {amount} {token}
-    </Text>
-  </Box>
-);
-
-const VoteResult = ({ voteOption }: { voteOption: number }) => {
-  let optionConfig: { color: string; icon: IconType; option: string } = {
-    color: VoteColor.YES,
-    icon: AiFillCheckCircle,
-    option: 'Yes',
-  };
-
-  switch (voteOption) {
-    case VoteType.VOTE_OPTION_YES:
-      break;
-    case VoteType.VOTE_OPTION_NO:
-      optionConfig = {
-        color: VoteColor.NO,
-        icon: AiFillCloseCircle,
-        option: 'No',
-      };
-      break;
-    case VoteType.VOTE_OPTION_NO_WITH_VETO:
-      optionConfig = {
-        color: VoteColor.NWV,
-        icon: AiFillCloseCircle,
-        option: 'NoWithVeto',
-      };
-      break;
-    case VoteType.VOTE_OPTION_ABSTAIN:
-      optionConfig = {
-        color: VoteColor.ABSTAIN,
-        icon: AiFillMinusCircle,
-        option: 'Abstain',
-      };
-      break;
-    default:
-      break;
-  }
-
-  return (
-    <>
-      <Text
-        fontSize="sm"
-        fontWeight="semibold"
-        color={useColorModeValue('gray.600', 'gray.400')}
-      >
-        You Voted
-      </Text>
-      <Flex color={optionConfig.color} alignItems="center" gap="2px">
-        <Icon
-          as={optionConfig.icon}
-          fontSize="lg"
-          transform="translateY(1px)"
-        />
-        <Text fontSize="sm" fontWeight="bold">
-          {optionConfig.option}
-        </Text>
-      </Flex>
-    </>
-  );
-};
-
-const NewLineText = ({ text }: { text: string }) => {
-  let count = 0;
-  return (
-    <>
-      {text.split('\\n').map((str) => (
-        <Box lineHeight="taller" fontSize="sm" key={count++}>
-          <ReactMarkdown linkTarget="_blank" className="markdown-text">
-            {str}
-          </ReactMarkdown>
-        </Box>
-      ))}
-    </>
-  );
-};
 
 export const ProposalModal = ({
   isOpen,
@@ -223,20 +64,12 @@ export const ProposalModal = ({
   votes: Votes | undefined;
   updateVotes: () => void;
 }) => {
-  const [option, setOption] = useState<number>();
   const [showMore, setShowMore] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const {
-    isOpen: isVoteOptionsOpen,
-    onOpen: onVoteOptionsOpen,
-    onClose: onVoteOptionsClose,
-  } = useDisclosure();
-  const toast = useToast();
+  const voteModalControl = useDisclosure();
   const { colorMode } = useColorMode();
 
   const coin = getCoin(chainName);
   const exponent = getExponent(chainName);
-  const { address, getSigningStargateClient } = useChain(chainName);
 
   const chartData = [
     {
@@ -278,7 +111,7 @@ export const ProposalModal = ({
     return total ? total : 0;
   }, [proposal]);
 
-  const isVoted = !!(votes && votes[proposal.proposalId.low]);
+  const vote = votes?.[proposal.proposalId.toString()];
 
   const isDepositPeriod =
     proposal.status === ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD;
@@ -290,6 +123,8 @@ export const ProposalModal = ({
 
   const minStakedTokens =
     quorum && exponentiate(quorum * Number(bondedTokens), -exponent).toFixed(6);
+
+  const title = getTitleFromDecoded(decodeUint8Arr(proposal.content?.value));
 
   const description =
     decodeUint8Arr(proposal.content?.value)
@@ -303,136 +138,16 @@ export const ProposalModal = ({
         : `${description.slice(0, 200)}...`
       : description || '';
 
-  const showToast = (code: number) => {
-    toast({
-      title: `Transaction ${code === 0 ? 'successful' : 'failed'}`,
-      status: code === 0 ? 'success' : 'error',
-      duration: 3000,
-      isClosable: true,
-      position: 'top-right',
-    });
-  };
-
-  const handleConfirmClick = async () => {
-    setIsLoading(true);
-
-    const stargateClient = await getSigningStargateClient();
-
-    if (!stargateClient || !address || !option) {
-      console.error('stargateClient/address undefined or option not selected');
-      return;
-    }
-
-    const { vote: createVoteMsg } =
-      cosmos.gov.v1beta1.MessageComposer.fromPartial;
-
-    const msg = createVoteMsg({
-      option,
-      voter: address,
-      proposalId: proposal.proposalId,
-    });
-
-    const fee: StdFee = {
-      amount: [
-        {
-          denom: coin.base,
-          amount: '1000',
-        },
-      ],
-      gas: '86721',
-    };
-
-    try {
-      const res = await stargateClient.signAndBroadcast(address, [msg], fee);
-      stargateClient.disconnect();
-
-      showToast(res.code);
-      setIsLoading(false);
-      updateVotes();
-      onVoteOptionsClose();
-    } catch (error) {
-      console.error(error);
-      stargateClient.disconnect();
-      showToast(TransactionResult.Failed);
-      setIsLoading(false);
-    }
-  };
-
-  const checkIfDisable = (option: number) => {
-    return isVoted
-      ? votes[proposal.proposalId.low] === option
-        ? true
-        : false
-      : false;
-  };
-
   return (
     <>
-      <Modal
-        isOpen={isVoteOptionsOpen}
-        onClose={() => {
-          onVoteOptionsClose();
-          setOption(undefined);
-        }}
-        isCentered
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader mr={4}>
-            {getTitleFromDecoded(decodeUint8Arr(proposal.content?.value))}
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <RadioGroup onChange={(e) => setOption(Number(e))}>
-              <Stack>
-                <Radio
-                  colorScheme="blue"
-                  size="lg"
-                  value={VoteType.VOTE_OPTION_YES.toString()}
-                  isDisabled={checkIfDisable(VoteType.VOTE_OPTION_YES)}
-                >
-                  Yes
-                </Radio>
-                <Radio
-                  colorScheme="red"
-                  size="lg"
-                  value={VoteType.VOTE_OPTION_NO.toString()}
-                  isDisabled={checkIfDisable(VoteType.VOTE_OPTION_NO)}
-                >
-                  No
-                </Radio>
-                <Radio
-                  colorScheme="red"
-                  size="lg"
-                  value={VoteType.VOTE_OPTION_NO_WITH_VETO.toString()}
-                  isDisabled={checkIfDisable(VoteType.VOTE_OPTION_NO_WITH_VETO)}
-                >
-                  No with Veto
-                </Radio>
-                <Radio
-                  colorScheme="gray"
-                  size="lg"
-                  value={VoteType.VOTE_OPTION_ABSTAIN.toString()}
-                  isDisabled={checkIfDisable(VoteType.VOTE_OPTION_ABSTAIN)}
-                >
-                  Abstain
-                </Radio>
-              </Stack>
-            </RadioGroup>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button
-              colorScheme="blue"
-              onClick={handleConfirmClick}
-              disabled={!option || isLoading}
-              isLoading={isLoading}
-            >
-              Confirm
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <VoteModal
+        chainName={chainName}
+        modalControl={voteModalControl}
+        updateVotes={updateVotes}
+        title={title || ''}
+        vote={vote}
+        proposalId={proposal.proposalId}
+      />
 
       <Modal
         isOpen={isOpen}
@@ -450,13 +165,9 @@ export const ProposalModal = ({
               <Center h="min-content" transform="translateY(1px)">
                 <StatusBadge status={proposal.status} />
               </Center>
-              {isVoted && (
-                <VoteResult voteOption={votes[proposal.proposalId.low]} />
-              )}
+              {vote && <VoteResult voteOption={vote} />}
             </Flex>
-            <Text>{`#${proposal.proposalId} ${getTitleFromDecoded(
-              decodeUint8Arr(proposal.content?.value)
-            )}`}</Text>
+            <Text>{`#${proposal.proposalId} ${title}`}</Text>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -482,19 +193,16 @@ export const ProposalModal = ({
                 }
               />
               <Button
-                disabled={!isVotingPeriod}
+                isDisabled={!isVotingPeriod}
                 colorScheme="blue"
                 w="140px"
-                onClick={onVoteOptionsOpen}
+                onClick={voteModalControl.onOpen}
               >
-                {isVoted ? 'Edit Vote' : 'Vote'}
+                {vote ? 'Edit Vote' : 'Vote'}
               </Button>
             </Flex>
-
-            <Center my={4}></Center>
-
+            <Center my={4} />
             <Divider />
-
             <Box mt={4}>
               <Heading
                 fontSize="sm"
