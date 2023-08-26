@@ -1,20 +1,16 @@
 import { Divider } from '@chakra-ui/react';
-import { defaultChainName } from '../config';
-import { useState, useEffect } from 'react';
+import NoSSR from 'react-no-ssr';
+import { defaultChainName } from '@/config';
 import { Layout, StakingSection, WalletSection } from '@/components';
 
 export default function SingleChain() {
-  const [content, setContent] = useState<JSX.Element>();
-
-  useEffect(() => {
-    setContent(<StakingSection chainName={defaultChainName} />);
-  }, []);
-
   return (
     <Layout>
       <WalletSection isMultiChain={false} />
       <Divider />
-      {content}
+      <NoSSR>
+        <StakingSection chainName={defaultChainName} />
+      </NoSSR>
     </Layout>
   );
 }
