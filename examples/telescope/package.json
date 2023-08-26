@@ -15,6 +15,7 @@
   "dependencies": {
     "@bufbuild/protobuf": "1.2.0",
     "@chain-registry/types": "0.16.0",
+    "@chain-registry/osmosis": "^1.20.0",
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.5.1",
     "@cosmjs/amino": "0.29.5",
@@ -38,11 +39,16 @@
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-icons": "^4.4.0"
+    "react-icons": "^4.4.0",
+    "react-markdown": "^8.0.7",
+    "osmojs": "^16.5.1",
+    "chakra-react-select": "^4.7.0",
+    "react-minimal-pie-chart": "^8.4.0",
+    "fast-fuzzy": "^1.12.0"
   },
   "devDependencies": {
     "@cosmjson/wasmswap": "^0.0.9",
-    "@cosmology/telescope": "^0.104.0",
+    "@cosmology/telescope": "^0.106.0",
     "@protobufs/cosmos": "^0.1.0",
     "@protobufs/cosmwasm": "^0.1.1",
     "@protobufs/ibc": "^0.1.0",
