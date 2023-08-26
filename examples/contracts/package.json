@@ -16,7 +16,7 @@
   "dependencies": {
     "@chain-registry/types": "0.16.0",
     "@chakra-ui/icons": "2.0.12",
-    "@chakra-ui/react": "2.5.1",
+    "@chakra-ui/react": "2.5.5",
     "@cosmjs/amino": "0.29.5",
     "@cosmjs/cosmwasm-stargate": "0.29.5",
     "@cosmjs/stargate": "0.29.5",

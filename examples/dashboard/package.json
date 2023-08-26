@@ -15,7 +15,7 @@
     "deploy:all": "npm run export && npm run deploy && ./seo/prepare.sh"
   },
   "dependencies": {
-    "@chakra-ui/react": "2.5.1",
+    "@chakra-ui/react": "2.5.5",
     "@cosmos-kit/core": "2.0.3",
     "@cosmos-kit/cosmostation": "2.0.3",
     "@cosmos-kit/keplr": "2.0.3",
