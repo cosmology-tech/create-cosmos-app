@@ -124,12 +124,12 @@ export const useTotalAssets = (chainName: string) => {
       queriesData;
 
     const stakedTotal = delegations
-      .map((coin) => calcCoinDollarValue(prices, coin))
+      ?.map((coin) => calcCoinDollarValue(prices, coin))
       .reduce((total, cur) => total.plus(cur), zero)
       .toString();
 
     const balancesTotal = allBalances
-      .filter(({ denom }) => !denom.startsWith('gamm') && prices[denom])
+      ?.filter(({ denom }) => !denom.startsWith('gamm') && prices[denom])
       .map((coin) => calcCoinDollarValue(prices, coin))
       .reduce((total, cur) => total.plus(cur), zero)
       .toString();
