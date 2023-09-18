@@ -3,9 +3,9 @@ import type { AppProps } from 'next/app';
 import { ChainProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { aminoTypes, registry } from '../config/defaults';
-import { wallets as keplrWallets } from '@cosmos-kit/keplr';
-import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
-import { wallets as leapWallets } from '@cosmos-kit/leap';
+import { wallets as keplr } from '@cosmos-kit/keplr';
+import { wallets as cosmostation } from '@cosmos-kit/cosmostation';
+import { wallets as leap } from '@cosmos-kit/leap';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -49,7 +49,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         <ChainProvider
           chains={chains}
           assetLists={assets}
-          wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
+          wallets={[...keplr, ...cosmostation, ...leap]}
           walletConnectOptions={{
             signClient: {
               projectId: 'a8510432ebb71e6948cfd6cde54b70f7',
