@@ -1,6 +1,6 @@
 {
   "name": "@cosmology/connect-chain-with-telescope",
-  "version": "1.7.5",
+  "version": "1.7.6",
   "private": true,
   "scripts": {
     "dev": "next dev",
