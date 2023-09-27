@@ -12,11 +12,11 @@
     "locks": "npm run locks:remove && npm run locks:create"
   },
   "dependencies": {
-    "@chain-registry/types": "0.16.0",
+    "@chain-registry/types": "0.17.0",
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.5.1",
-    "@cosmjs/cosmwasm-stargate": "0.29.5",
-    "@cosmjs/stargate": "0.29.5",
+    "@cosmjs/cosmwasm-stargate": "0.31.1",
+    "@cosmjs/stargate": "0.31.1",
     "@cosmos-kit/core": "^2.0.3",
     "@cosmos-kit/cosmostation": "^2.0.3",
     "@cosmos-kit/keplr": "^2.0.3",
@@ -24,7 +24,7 @@
     "@cosmos-kit/react": "^2.0.3",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
-    "chain-registry": "1.19.0",
+    "chain-registry": "1.20.0",
     "chakra-react-select": "4.4.0",
     "fast-fuzzy": "1.12.0",
     "framer-motion": "9.0.7",
