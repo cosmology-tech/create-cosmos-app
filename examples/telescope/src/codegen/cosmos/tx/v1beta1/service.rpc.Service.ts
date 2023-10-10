@@ -1,3 +1,4 @@
+import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
 import { Rpc } from '../../../helpers';
 import { BinaryReader } from '../../../binary';
 import {
@@ -26,7 +27,7 @@ import {
   GetBlockWithTxsResponse,
   BroadcastMode,
 } from './service';
-import { IBroadcastClient } from '../../../extern';
+import { IBroadcastClient, IRpc } from '../../../extern';
 /** Service defines a gRPC service for interacting with transactions. */
 export interface Service {
   /** Simulate simulates executing a transaction for estimating gas usage. */
@@ -53,8 +54,8 @@ export interface Service {
   ): Promise<GetBlockWithTxsResponse>;
 }
 export class ServiceClientImpl implements Service {
-  private readonly rpc: Rpc;
-  constructor(rpc: Rpc) {
+  private readonly rpc: IRpc;
+  constructor(rpc: IRpc) {
     this.rpc = rpc;
     this.simulate = this.simulate.bind(this);
     this.getTx = this.getTx.bind(this);
@@ -89,10 +90,10 @@ export class ServiceClientImpl implements Service {
     | BroadcastTxSyncResponse
     | BroadcastTxCommitResponse
   > {
-    const client: IBroadcastClient = (this.rpc as any).client;
+    const client = this.rpc.client;
 
     if (!client) {
-      throw new Error("A IBroadcastClient has to be input.");
+      throw new Error('A IBroadcastClient has to be input.');
     }
 
     switch (request.mode) {
@@ -140,8 +141,12 @@ export class ServiceClientImpl implements Service {
     );
   }
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
+export const createRpcQueryExtension = (
+  base: QueryClient,
+  tmClient: Tendermint34Client
+) => {
+  const rpc: IRpc = createProtobufRpcClient(base);
+  rpc.client = tmClient;
   const queryService = new ServiceClientImpl(rpc);
   return {
     simulate(request: SimulateRequest): Promise<SimulateResponse> {

@@ -9,7 +9,15 @@ import {
   createProtobufRpcClient,
   ProtobufRpcClient,
 } from '@cosmjs/stargate';
-import { Tendermint34Client, HttpEndpoint, BroadcastTxAsyncResponse, BroadcastTxSyncResponse, BroadcastTxCommitResponse, BroadcastTxParams } from '@cosmjs/tendermint-rpc';
+import {
+  Tendermint34Client,
+  HttpEndpoint,
+  BroadcastTxAsyncResponse,
+  BroadcastTxSyncResponse,
+  BroadcastTxCommitResponse,
+  BroadcastTxParams,
+} from '@cosmjs/tendermint-rpc';
+import { Rpc } from './helpers';
 
 const _rpcClients: Record<string, ProtobufRpcClient> = {};
 
@@ -31,10 +39,15 @@ export const getRpcClient = async (rpcEndpoint: string | HttpEndpoint) => {
   const tmClient = await Tendermint34Client.connect(rpcEndpoint);
   //@ts-ignore
   const client = new QueryClient(tmClient);
-  const rpc = createProtobufRpcClient(client);
+  const rpc: IRpc = createProtobufRpcClient(client);
+  rpc.client = tmClient;
   _rpcClients[key] = rpc;
   return rpc;
 };
+
+export interface IRpc extends Rpc {
+  client?: IBroadcastClient;
+}
 
 export interface IBroadcastClient {
   /**

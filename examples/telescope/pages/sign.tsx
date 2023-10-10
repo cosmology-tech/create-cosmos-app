@@ -115,18 +115,14 @@ const sendTokens = (
     console.log(signed_tx);
 
     const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
-    // const response = await webClient.cosmos.tx.v1beta1.broadcastTx({
-    //   txBytes: txRawBytes,
-    //   mode: 1,
-    // });
-    // const response = await new cosmos.tx.v1beta1.ServiceClientImpl(
-    //   webClient
-    // ).broadcastTx({
-    //   txBytes: txRawBytes,
-    //   mode: cosmos.tx.v1beta1.BroadcastMode.BROADCAST_MODE_SYNC,
-    // });
+    const txResponse = await new cosmos.tx.v1beta1.ServiceClientImpl(
+      webClient
+    ).broadcastTx({
+      txBytes: txRawBytes,
+      mode: cosmos.tx.v1beta1.BroadcastMode.BROADCAST_MODE_SYNC,
+    });
 
-    const response = setResp(JSON.stringify(response, null, 2));
+    const response = setResp(JSON.stringify(txResponse, null, 2));
   };
 };
 
@@ -139,24 +135,7 @@ const COIN_DISPLAY_EXPONENT = coin.denom_units.find(
 const getWebClient = async () => {
   const rpcEndpoint = 'https://rpc-juno.whispernode.com:443';
 
-  // const rpcClient = await getRpcClient(rpcEndpoint);
-
-  const tmClient = await Tendermint34Client.connect(rpcEndpoint);
-
-  const rpcClient = {
-    client: tmClient,
-    request: async (
-      service: string,
-      method: string,
-      data: Uint8Array
-    ): Promise<Uint8Array> => {
-      const res = await tmClient.broadcastTxSync({
-        tx: data,
-      });
-
-      return res.data || Uint8Array.from([]);
-    },
-  };
+  const rpcClient = await getRpcClient(rpcEndpoint);
 
   return rpcClient;
 };
