@@ -24,9 +24,9 @@ export function SwapSlippageTolerance({
 }: SwapSlippageProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  function onToleranceChange(tolerance: number) {
+  function onSlippageChange(slippage: number) {
     setIsOpen(false);
-    onChange?.(tolerance);
+    onChange?.(slippage);
   }
 
   return (
@@ -58,7 +58,7 @@ export function SwapSlippageTolerance({
           <Button
             size="sm"
             key={percent}
-            onClick={() => onToleranceChange?.(percent) }
+            onClick={() => onSlippageChange?.(percent) }
             intent={slippage === percent ? "tertiary" : "text"}
           >
             {percent}%
