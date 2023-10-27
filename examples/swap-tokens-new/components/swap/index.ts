@@ -3,6 +3,7 @@ import { Asset, Chain } from '@chain-registry/types';
 import { CoinDenom } from '@osmonauts/math/dist/types';
 
 export * from './Swap';
+export * from './SwapInfo';
 
 export const Slippages = [1, 2.5, 3, 5];
 
