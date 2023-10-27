@@ -45,7 +45,7 @@ export function useSwap() {
   const pools = usePools(prices);
 
   const pairs = makePoolPairs(Osmosis.Assets, pools.freefloat.priced, prices);  // see pairs data structure at file bottom
-  const denoms = Array.from(new Set(pairs.map((pair) => ([pair.baseAddress, pair.quoteAddress])).flat()));
+  const denoms = denomsInPairs(pairs);
   const tokens = newTokens(denoms, prices, balances.hash, from, to);
 
   const swap = newSwap(from!, to!, amount, prices, slippage);
@@ -195,6 +195,10 @@ export function newRoutes(swap: Swap, pairs: PrettyPair[]) {
     buy: newCoin(swap.to),
   }
   return getRoutesForTrade(Osmosis.Assets, { trade, pairs });
+}
+
+export function denomsInPairs(pairs: PrettyPair[]) {
+  return Array.from(new Set(pairs.map((pair) => ([pair.baseAddress, pair.quoteAddress])).flat()));
 }
 
 export function calcPriceImpact(
