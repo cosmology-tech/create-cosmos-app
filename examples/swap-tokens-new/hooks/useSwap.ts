@@ -284,16 +284,7 @@ export function newSwapInfo(
   return info;
 }
 
-export function newSwapSteps(
-  swap: Swap,
-  pools: Pools,
-  routes: SwapAmountInRoute[] = []
-) {
-  if (routes.length === 0) return [];
-  if (routes.length === 1) {
-    return [newSwapStep(swap, routes[0], pools)];
-  }
-
+export function newSwapSteps(swap: Swap, pools: Pools, routes: SwapAmountInRoute[] = []) {
   return routes.map((route) => newSwapStep(swap, route, pools));
 }
 
