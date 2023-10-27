@@ -14,7 +14,7 @@ import { makePoolPairs, getRoutesForTrade, calcPriceImpactGivenIn, calcPriceImpa
 import { Token, Slippages, TokenList, SwapInfoProps } from "@/components/swap";
 import { Pools, usePools, usePrices, useBalances, useTx } from "@/hooks";
 import { defaultChainName, Osmosis } from "@/config";
-import { getAssetLogo, integer } from "@/utils";
+import { getLogo, integer } from "@/utils";
 
 export type Swap = {
   to: Token
@@ -157,7 +157,7 @@ export function newTokens(
 ) {
   const tokens = denoms.map((denom) => {
     const asset = Osmosis.Assets.CoinDenomToAsset[denom];
-    const logo = getAssetLogo(asset);
+    const logo = getLogo(asset);
     const balance = balances[asset.base];
     const value = balance ? convertBaseUnitsToDollarValue(Osmosis.Assets, prices, asset.symbol, balance.amount) : '0';
     return {
@@ -299,7 +299,7 @@ export function newSwapSteps(
 
 export function newSwapStep(swap: Swap, route: SwapAmountInRoute, pools: Pools) {
   const token = (asset: Asset) =>
-    ({ logo: getAssetLogo(asset), denom: asset.base, symbol: asset.symbol })
+    ({ logo: getLogo(asset), denom: asset.base, symbol: asset.symbol })
 
   const pool = pools.map.get(route.poolId)!;
 
