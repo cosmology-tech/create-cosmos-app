@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { Box, IconButton } from '@interchain-ui/react';
-import { Token } from '@/components/swap';
-import { SwapPrice } from './SwapPrice';
-import { SwapRoute, SwapRouteStep } from './SwapRoute';
-import { SwapInfo, SwapInfoProps } from './SwapInfo';
+import { Token, SwapPrice, SwapRoute, SwapRouteStep, SwapInfo, SwapInfoProps } from '.';
 
 export type SwapDetailsProps = {
   to: Token;

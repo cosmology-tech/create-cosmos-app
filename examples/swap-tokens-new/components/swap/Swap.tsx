@@ -1,13 +1,11 @@
-import { Box, Divider, Spinner, useColorModeValue } from '@interchain-ui/react';
-import { SwapSlippage } from './SwapSlippage';
-import { SwapButton } from './SwapButton';
-import { SwapFromTo } from './SwapFromTo';
-import { SwapDetails } from './SwapDetails';
-import { Swap } from '@/hooks';
-import { Token, TokenList } from '.';
-import { SwapInfoProps } from './SwapInfo';
-import { SwapRouteStep } from './SwapRoute';
 import BigNumber from 'bignumber.js';
+import { Box, Divider, Spinner, useColorModeValue } from '@interchain-ui/react';
+import { Swap } from '@/hooks';
+import {
+  Token, TokenList,
+  SwapButton, SwapFromTo, SwapDetails,
+  SwapSlippage, SwapInfoProps, SwapRouteStep
+} from '.';
 
 export type SwapProps = {
   from?: Token,

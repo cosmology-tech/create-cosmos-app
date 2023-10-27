@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Box, Stack, IconButton, IconName, useColorModeValue } from '@interchain-ui/react';
-import { SwapTokenInput } from './SwapTokenInput';
+import { Token, TokenList, SwapTokenInput } from '.';
 import { Swap } from '@/hooks';
-import { Token, TokenList } from '.';
 
 export type SwapFromToProps = {
   from: Token
