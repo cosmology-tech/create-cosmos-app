@@ -27,7 +27,7 @@ export function SwapInfo({
       <Stack align="center" attributes={{ justifyContent: "space-between", marginBottom: '$10' }}>
         <Text color="$textSecondary">Swap Fee ({swapFee?.percent})</Text>
         <Text color="$textSecondary" fontWeight="$semibold" fontFamily="monospace">
-          {swapFee?.value}
+         {swapFee?.value}
         </Text>
       </Stack>
       <Stack align="center" attributes={{ justifyContent: "space-between", marginBottom: '$7' }}>
