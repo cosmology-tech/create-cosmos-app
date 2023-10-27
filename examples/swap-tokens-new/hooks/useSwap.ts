@@ -221,18 +221,13 @@ export function calcPriceImpact(
   ).toString()
 }
 
-export function calcSwapFee(
-  swap: Swap,
-  pools: Pools,
-  routes: SwapAmountInRoute[] = []
+export function calcSwapFee(pools: Pools, routes: SwapAmountInRoute[] = []
 ) {
   if (routes.length === 0) return '0';
-  if (routes.length === 1) {
-    return pools.map.get(routes[0].poolId)?.poolParams?.swapFee || '0';
-  }
-
-  const route = routes.find((route) => route.tokenOutDenom !== swap.to.denom);
-  return pools.map.get(route!.poolId)?.poolParams?.swapFee || '0';
+  return routes.reduce((total, route) => {
+    const pool = pools.map.get(route.poolId)!;
+    return new BigNumber(total).plus(pool.poolParams.swapFee).toString();
+  }, '0');
 }
 
 export function newSwapInfo(
@@ -247,7 +242,7 @@ export function newSwapInfo(
   const priceImpact = new BigNumber(calcPriceImpact(swap, pools, routes));
   const priceImpactPercent = priceImpact.decimalPlaces(5).shiftedBy(2);
   const priceImpactPercentString = priceImpactPercent.toString() + '%';
-  const swapFee = calcSwapFee(swap, pools, routes);
+  const swapFee = calcSwapFee(pools, routes);
   const swapFeeValue = new BigNumber(swap.from.value || '0').multipliedBy(swapFee).decimalPlaces(2, BigNumber.ROUND_DOWN);
   const swapFeePercent = new BigNumber(swapFee).shiftedBy(2)
   const swapFeePercentString = swapFeePercent.toString() + '%';
@@ -280,10 +275,10 @@ export function newSwapInfo(
   info.display = {
     priceImpact: info.priceImpact.display,
     swapFee: {
-      value: swapFeeValue.gt(0.01) ? info.swapFee.$value : '< \$0.01',
+      value: `≈ ${swapFeeValue.gt(0.01) ? info.swapFee.$value : '< \$0.01'}`,
       percent: swapFeePercentString
     },
-    expectedOutput: `~ ${info.expectedOutput!} ${swap.to.symbol}`,
+    expectedOutput: `≈ ${info.expectedOutput!} ${swap.to.symbol}`,
     minimumReceived: `${info.minimumReceived} ${swap.to.symbol}`
   }
 
