@@ -4,6 +4,13 @@ import { CoinDenom } from '@osmonauts/math/dist/types';
 
 export * from './Swap';
 export * from './SwapInfo';
+export * from './SwapPrice';
+export * from './SwapRoute';
+export * from './SwapButton';
+export * from './SwapFromTo';
+export * from './SwapDetails';
+export * from './SwapSlippage';
+export * from './SwapTokenInput';
 
 export const Slippages = [1, 2.5, 3, 5];
 
