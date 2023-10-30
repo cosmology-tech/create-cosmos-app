@@ -1,3 +1,3 @@
 export * from './assets';
 export * from './defaults';
-export * from './features';
+export * from './projects';
