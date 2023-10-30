@@ -4968,31 +4968,7 @@
     rainbow-sprinkles "^0.17.0"
     zustand "^4.3.8"
 
-"@interchain-ui/react@1.11.7":
-  version "1.11.7"
-  resolved "https://registry.npmjs.org/@interchain-ui/react/-/react-1.11.7.tgz#8410dd4374c9e46c1d3b2bae4d98cd10a603ec51"
-  integrity sha512-ktdQ5QvxDq9PDXoLpajHTaxWbT9U5ohUZI4jbYZZrG2+nErUKH+H9DgG5TRiGJjaAEXa3JPLM0KD5GcCNFj+OA==
-  dependencies:
-    "@fastify/deepmerge" "^1.3.0"
-    "@floating-ui/dom" "^1.5.2"
-    "@floating-ui/react" "^0.26.0"
-    "@formkit/auto-animate" "1.0.0-beta.6"
-    "@vanilla-extract/css" "^1.12.0"
-    "@vanilla-extract/css-utils" "^0.1.3"
-    "@vanilla-extract/dynamic" "^2.0.3"
-    "@vanilla-extract/recipes" "^0.4.0"
-    "@zag-js/number-input" "^0.26.0"
-    "@zag-js/react" "^0.26.0"
-    animejs "^3.2.1"
-    bignumber.js "^9.1.1"
-    clsx "^1.2.1"
-    copy-to-clipboard "^3.3.3"
-    immer "^9.0.19"
-    lodash "^4.17.21"
-    rainbow-sprinkles "^0.17.0"
-    zustand "^4.3.8"
-
-"@interchain-ui/react@^1.11.0":
+"@interchain-ui/react@1.11.8", "@interchain-ui/react@^1.11.0":
   version "1.11.8"
   resolved "https://registry.npmjs.org/@interchain-ui/react/-/react-1.11.8.tgz#9a39924695fc8850cc24965204eb8450209eb4e6"
   integrity sha512-qEsCa2dhPHPrimXoSo1Z3s7mR/WT6/jzSR/oLnnuXTi+5KpCi7Fc6ThsTR4BgJ05pKHMU+KLHUbcnu68SFPaUQ==
