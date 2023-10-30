@@ -44,8 +44,8 @@ export const dependencies: Project[] = [
     link: 'https://github.com/osmosis-labs/osmojs',
   },
   {
-    name: 'Chakra UI',
-    desc: 'A simple, modular and accessible React Component Library.',
+    name: 'Interchain UI',
+    desc: 'A simple, modular and cross-framework Component Library for Cosmos',
     link: 'https://chakra-ui.com/docs/components/',
   },
   {
