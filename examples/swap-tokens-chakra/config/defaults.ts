@@ -13,13 +13,13 @@ import {
   osmosisProtoRegistry,
 } from 'osmo-query';
 
-export const defaultChainName = 'osmosis'
+export const defaultChainName = 'osmosis';
 
-export const chainassets = assets.find(
+export const chainassets: AssetList = assets.find(
   (chain) => chain.chain_name === defaultChainName
 ) as AssetList;
 
-export const coin = chainassets.assets.find(
+export const coin: Asset = chainassets.assets.find(
   (asset) => asset.base === 'uosmo'
 ) as Asset;
 
