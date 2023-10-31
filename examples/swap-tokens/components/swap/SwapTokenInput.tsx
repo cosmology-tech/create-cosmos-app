@@ -39,8 +39,8 @@ export function SwapTokenInput({
   amount = '0',
   $value = '$0',
   disabled = false,
-  balanceLabel = 'Balance',
-  showBalance = true,
+  balanceLabel = 'Available',
+  showBalance = false,
   showMaxButton = false,
   showHalfButton = false,
   onAmountChange = () => {},
@@ -124,7 +124,7 @@ export function SwapTokenInput({
         }}
       >
         <Text color="$textSecondary" attributes={{ minWidth: '66px' }}>{title}</Text>
-        <Stack space="$5" attributes={{ flex: "1", alignItems: "center" }}>
+        <Stack space="$5" attributes={{ alignItems: "center" }}>
           {showBalance ? <>
             <Text color="$textSecondary" fontWeight="$semibold">
               {balanceLabel}
