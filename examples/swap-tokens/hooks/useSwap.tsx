@@ -4,6 +4,7 @@ import { Coin } from "@cosmjs/stargate";
 import { FEES, osmosis } from "osmo-query";
 import { useEffect, useState } from "react";
 import { useChain } from "@cosmos-kit/react";
+import { Text } from '@interchain-ui/react';
 import { toast } from '@interchain-ui/react';
 import { Asset } from "@chain-registry/types";
 import { getExponentByDenom } from "@chain-registry/utils";
@@ -100,7 +101,9 @@ export function useSwap() {
     setIsSwapping(false)
 
     if (res.error) {
-      toast.error(res.errorMsg);
+      // will be simple as toast.error(res.errorMsg) when interchain-ui fixs the text overflow issue
+      const error = <Text fontSize="$sm" wordBreak="break-word" color="$red500">{res.errorMsg}</Text>
+      toast.error(error);
       console.log(res.response);
       console.log(res.error.message);
     } else if (res.isSuccess) {
