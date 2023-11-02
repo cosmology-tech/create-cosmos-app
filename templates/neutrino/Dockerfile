@@ -1,6 +1,6 @@
 FROM golang:1.21 as build-stage
 WORKDIR /
-RUN git clone https://github.com/fatal-fruit/neutrino
+COPY neutrino /neutrino
 WORKDIR /neutrino
 RUN go mod download
 ENV LINK_STATICALLY=true
