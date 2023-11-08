@@ -15,16 +15,10 @@ export function Main() {
   } = useSwap();
 
   function buttonText() {
-    switch (true) {
-      case isSwapping:
-        return 'Swapping';
-      case !isLoading && isRoutesEmpty:
-        return 'No Route for This Trade';
-      case isInsufficientBalance:
-        return 'Insufficient Balance';
-      default:
-        return 'Swap';
-    }
+    if (isSwapping) return 'Swapping';
+    if (!isLoading && isRoutesEmpty) return 'No Route for This Trade';
+    if (isInsufficientBalance) return 'Insufficient Balance';
+    return 'Swap';
   }
 
   return (
