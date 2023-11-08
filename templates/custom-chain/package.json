@@ -1,9 +1,10 @@
 {
-  "name": "@cosmology/connect-chain",
+  "name": "@cosmology/custom-chain",
   "version": "0.15.5",
   "private": true,
   "scripts": {
     "prebuild": "ts-node scripts/prebuild.ts",
+    "start-chain": "cd chain/ && make docker-build-run",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
