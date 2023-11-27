@@ -4908,6 +4908,11 @@
   resolved "https://registry.npmjs.org/@formkit/auto-animate/-/auto-animate-1.0.0-beta.6.tgz"
   integrity sha512-PVDhLAlr+B4Xb7e+1wozBUWmXa6BFU8xUPR/W/E+TsQhPS1qkAdAsJ25keEnFrcePSnXHrOsh3tiFbEToOzV9w==
 
+"@formkit/auto-animate@^0.8.1":
+  version "0.8.1"
+  resolved "https://registry.npmjs.org/@formkit/auto-animate/-/auto-animate-0.8.1.tgz#bcaba2969609ca3a7453eacd42b383a2739dfa35"
+  integrity sha512-0/Z2cuNXWVVIG/l0SpcHAWFhGdvLJ8DRvEfRWvmojtmRWfEy+LWNwgDazbZqY0qQYtkHcoEK3jBLkhiZaB/4Ig==
+
 "@gar/promisify@^1.0.1":
   version "1.1.3"
   resolved "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.3.tgz"
@@ -5475,20 +5480,19 @@
     rainbow-sprinkles "^0.17.0"
     zustand "^4.3.8"
 
-"@interchain-ui/react@^1.13.13":
-  version "1.13.13"
-  resolved "https://registry.npmjs.org/@interchain-ui/react/-/react-1.13.13.tgz#89574960c30913c2f784c41365d6fbae498f436f"
-  integrity sha512-TWfv7lIMFmXMm8tLw3VxDwn4lX+eVvXzQwdIb20gpRSnvDXw+uGvPMXU8+UeVAJ+OHXswY5UjzQmVDCPVkjIPg==
+"@interchain-ui/react@^1.13.19":
+  version "1.13.19"
+  resolved "https://registry.npmjs.org/@interchain-ui/react/-/react-1.13.19.tgz#802b9706ae52fe23728f69130512870d0f90d7a8"
+  integrity sha512-3T1Oyp2rxPFPffM0P5MLYbppoifte+ckusASGJUJaQxIktNvvQDpMJxkYsEgHXRm4snBNyASN1LvWaXeUzt8Xw==
   dependencies:
     "@fastify/deepmerge" "^1.3.0"
     "@floating-ui/dom" "^1.5.2"
     "@floating-ui/react" "^0.26.0"
-    "@formkit/auto-animate" "1.0.0-beta.6"
+    "@formkit/auto-animate" "^0.8.1"
     "@react-aria/utils" "^3.21.1"
-    "@vanilla-extract/css" "^1.12.0"
-    "@vanilla-extract/css-utils" "^0.1.3"
-    "@vanilla-extract/dynamic" "^2.0.3"
-    "@vanilla-extract/recipes" "^0.4.0"
+    "@vanilla-extract/css" "^1.14.0"
+    "@vanilla-extract/dynamic" "^2.1.0"
+    "@vanilla-extract/recipes" "^0.5.1"
     animejs "^3.2.1"
     bignumber.js "^9.1.1"
     client-only "^0.0.1"
@@ -8909,6 +8913,14 @@
   dependencies:
     tslib "^2.4.0"
 
+"@swc/helpers@^0.4.14":
+  version "0.4.36"
+  resolved "https://registry.npmjs.org/@swc/helpers/-/helpers-0.4.36.tgz#fcfff76ed52c214f357e8e9d3f37b568908072d9"
+  integrity sha512-5lxnyLEYFskErRPenYItLRSge5DjrJngYKdVjRSrWfza9G6KkgHEXi0vUZiyUeMU5JfXH1YnvXZzSp8ul88o2Q==
+  dependencies:
+    legacy-swc-helpers "npm:@swc/helpers@=0.4.14"
+    tslib "^2.4.0"
+
 "@swc/helpers@^0.5.0":
   version "0.5.3"
   resolved "https://registry.npmjs.org/@swc/helpers/-/helpers-0.5.3.tgz#98c6da1e196f5f08f977658b80d6bd941b5f294f"
@@ -9515,10 +9527,34 @@
     media-query-parser "^2.0.2"
     outdent "^0.8.0"
 
+"@vanilla-extract/css@^1.14.0":
+  version "1.14.0"
+  resolved "https://registry.npmjs.org/@vanilla-extract/css/-/css-1.14.0.tgz#45fab9c04d893e3e363cf2cde7559d21233b7f63"
+  integrity sha512-rYfm7JciWZ8PFzBM/HDiE2GLnKI3xJ6/vdmVJ5BSgcCZ5CxRlM9Cjqclni9lGzF3eMOijnUhCd/KV8TOzyzbMA==
+  dependencies:
+    "@emotion/hash" "^0.9.0"
+    "@vanilla-extract/private" "^1.0.3"
+    chalk "^4.1.1"
+    css-what "^6.1.0"
+    cssesc "^3.0.0"
+    csstype "^3.0.7"
+    deep-object-diff "^1.1.9"
+    deepmerge "^4.2.2"
+    media-query-parser "^2.0.2"
+    modern-ahocorasick "^1.0.0"
+    outdent "^0.8.0"
+
 "@vanilla-extract/dynamic@^2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@vanilla-extract/dynamic/-/dynamic-2.0.3.tgz"
   integrity sha512-Rglfw2gXAYiBzAQ4jgUG7rBgE2c88e/zcG27ZVoIqMHVq56wf2C1katGMm1yFMNBgzqM7oBNYzz4YOMzznydkg==
+  dependencies:
+    "@vanilla-extract/private" "^1.0.3"
+
+"@vanilla-extract/dynamic@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@vanilla-extract/dynamic/-/dynamic-2.1.0.tgz#316d3bd4adfd5f5c9fb080445c41d55abe3b463c"
+  integrity sha512-8zl0IgBYRtgD1h+56Zu13wHTiMTJSVEa4F7RWX9vTB/5Xe2KtjoiqApy/szHPVFA56c+ex6A4GpCQjT1bKXbYw==
   dependencies:
     "@vanilla-extract/private" "^1.0.3"
 
@@ -9531,6 +9567,11 @@
   version "0.4.0"
   resolved "https://registry.npmjs.org/@vanilla-extract/recipes/-/recipes-0.4.0.tgz"
   integrity sha512-gFgB7BofUYbtbxINHK6DhMv1JDFDXp/YI/Xm+cqKar+1I/2dfxPepeDxSexL6YB4ftfeaDw8Kn5zydMvHcGOEQ==
+
+"@vanilla-extract/recipes@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.npmjs.org/@vanilla-extract/recipes/-/recipes-0.5.1.tgz#617d1a0375af60835341770397810317d2f61998"
+  integrity sha512-7dCuBgPQQ/89siQ0w2lkfjgkmToPUUDzFlHf5DRmt9ykiiycfA52tmPJ2RI/mr7jXi7U/vEN2aGP9QJSXEpGlA==
 
 "@walletconnect/core@2.9.1":
   version "2.9.1"
@@ -16806,6 +16847,11 @@ mobx@^6.1.7:
   version "6.10.2"
   resolved "https://registry.npmjs.org/mobx/-/mobx-6.10.2.tgz#96e123deef140750360ca9a5b02a8b91fbffd4d9"
   integrity sha512-B1UGC3ieK3boCjnMEcZSwxqRDMdzX65H/8zOHbuTY8ZhvrIjTUoLRR2TP2bPqIgYRfb3+dUigu8yMZufNjn0LQ==
+
+modern-ahocorasick@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/modern-ahocorasick/-/modern-ahocorasick-1.0.1.tgz#dec373444f51b5458ac05216a8ec376e126dd283"
+  integrity sha512-yoe+JbhTClckZ67b2itRtistFKf8yPYelHLc7e5xAwtNAXxM6wJTUx2C7QeVSJFDzKT7bCIFyBVybPMKvmB9AA==
 
 modify-values@^1.0.0:
   version "1.0.1"
