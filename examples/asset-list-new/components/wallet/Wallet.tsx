@@ -16,12 +16,11 @@ import {
   ConnectWalletButton,
 } from './WalletConnect';
 import { ConnectStatusWarn, RejectedWarn } from './WarnBlock';
-import { ChooseChain } from './ChooseChain';
+import { ChooseChain, ChooseChainProps } from './ChooseChain';
 import { ConnectedShowAddress, CopyAddressBtn } from './AddressCard';
 import { UserInfo } from './UserInfo';
 import { Astronaut } from './Astronaut';
 import { ChainCard } from './ChainCard';
-import { ChainOption, HandleSelectChain } from './ChainDropdown';
 
 export interface WalletSectionProps {
   isMultiChain: boolean;
@@ -131,9 +130,7 @@ export const WalletSection = ({
     );
   }, [setChainName]);
 
-  const onChainChange: HandleSelectChain = async (
-    selectedValue: ChainOption | null
-  ) => {
+  const onChainChange: ChooseChainProps['onChange'] = async (selectedValue) => {
     setChainName?.(selectedValue?.chainName);
     if (selectedValue?.chainName) {
       window?.localStorage.setItem('selected-chain', selectedValue?.chainName);
