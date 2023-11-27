@@ -113,8 +113,6 @@ const AssetsOverview: React.FC<IProps> = ({
     selectedChainName,
   ]);
 
-  console.log('rowModal', rowModalControl);
-
   const onWithdrawAsset = () => {
     const destChainName = getChainName(ibcAssets[0].denom);
     setTransferInfo({
