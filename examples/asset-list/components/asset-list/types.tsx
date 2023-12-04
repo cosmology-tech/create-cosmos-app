@@ -1,3 +1,7 @@
+import { AvailableItem } from '@interchain-ui/react';
+
+export type Unpacked<T> = T extends (infer U)[] ? U : T;
+
 export type PrettyAsset = {
   logoUrl: string | undefined;
   symbol: string;
@@ -37,7 +41,7 @@ export type TransferInfo = {
   type: TransferValues;
   sourceChainName: string;
   destChainName: string;
-  token: PrettyAsset;
+  token: AvailableItem;
 };
 
 export type AssetOption = {
