@@ -125,7 +125,7 @@ export const useTotalAssets = (chainName: string) => {
       delegations,
       lockedCoins = [],
       pools = [],
-      prices,
+      prices = {},
     } = queriesData;
 
     const stakedTotal = delegations

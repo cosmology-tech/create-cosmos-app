@@ -1,4 +1,6 @@
 import BigNumber from 'bignumber.js';
+import { PrettyAsset } from '../components/asset-list/types';
+import { AvailableItem } from '@interchain-ui/react';
 
 export const truncDecimals = (
   val: string | number | undefined,
@@ -17,4 +19,17 @@ export const formatDollarValue = (dollarValue: string, amount: string) => {
 
 export const shortenAddress = (address: string) => {
   return address.slice(0, 9) + '...' + address.slice(-9);
+};
+
+export const prettyAssetToTransferItem = (from: PrettyAsset): AvailableItem => {
+  return {
+    imgSrc: from.logoUrl ?? '',
+    symbol: from.symbol,
+    name: from.prettyChainName,
+    denom: from.denom,
+    available: new BigNumber(from.displayAmount).toNumber(),
+    priceDisplayAmount: new BigNumber(
+      truncDecimals(from.dollarValue, 2)
+    ).toNumber(),
+  };
 };
