@@ -88,7 +88,7 @@ export const useAssets = (chainName: string) => {
         const notInBalances = !nativeAndIbcBalances.find(
           ({ denom }) => denom === base
         );
-        return notInBalances && prices && prices[base];
+        return notInBalances && prices[base];
       })
       .filter((asset) => {
         const isWithinLimit = ibcAssets.length <= MAX_TOKENS_TO_SHOW;

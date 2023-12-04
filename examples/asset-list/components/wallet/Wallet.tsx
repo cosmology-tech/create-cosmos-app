@@ -1,17 +1,9 @@
 import { useChain, useManager } from '@cosmos-kit/react';
-import {
-  Box,
-  Center,
-  Grid,
-  GridItem,
-  Icon,
-  Stack,
-  useColorMode,
-} from '@chakra-ui/react';
+import { Box, Stack, useTheme } from '@interchain-ui/react';
 import { MouseEventHandler, useEffect, useMemo } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName, WalletStatus } from '@cosmos-kit/core';
 import { defaultChainName } from '@/config';
 import {
   Connected,
@@ -24,22 +16,23 @@ import {
   ConnectWalletButton,
 } from './WalletConnect';
 import { ConnectStatusWarn, RejectedWarn } from './WarnBlock';
-import { ChooseChain } from './ChooseChain';
+import { ChooseChain, ChooseChainProps } from './ChooseChain';
 import { ConnectedShowAddress, CopyAddressBtn } from './AddressCard';
 import { UserInfo } from './UserInfo';
 import { Astronaut } from './Astronaut';
 import { ChainCard } from './ChainCard';
-import { ChainOption, HandleSelectChain } from './ChainDropdown';
+
+export interface WalletSectionProps {
+  isMultiChain: boolean;
+  providedChainName?: ChainName;
+  setChainName?: (chainName: ChainName | undefined) => void;
+}
 
 export const WalletSection = ({
   isMultiChain,
   providedChainName,
   setChainName,
-}: {
-  isMultiChain: boolean;
-  providedChainName?: ChainName;
-  setChainName?: (chainName: ChainName | undefined) => void;
-}) => {
+}: WalletSectionProps) => {
   const { chainRecords, getChainLogo } = useManager();
   const {
     connect,
@@ -51,7 +44,9 @@ export const WalletSection = ({
     wallet,
     chain: chainInfo,
   } = useChain(providedChainName || defaultChainName);
-  const { colorMode } = useColorMode();
+
+  const { theme } = useTheme();
+  // const { colorMode } = useColorMode();
 
   const chain = {
     chainName: defaultChainName,
@@ -103,23 +98,31 @@ export const WalletSection = ({
     />
   );
 
-  const connectWalletWarn = (
+  const connectWalletWarn = message ? (
     <ConnectStatusWarn
       walletStatus={status}
       rejected={
         <RejectedWarn
-          icon={<Icon as={FiAlertTriangle} mt={1} />}
+          icon={
+            <Box mt="$2">
+              <FiAlertTriangle />
+            </Box>
+          }
           wordOfWarning={`${wallet?.prettyName}: ${message}`}
         />
       }
       error={
         <RejectedWarn
-          icon={<Icon as={FiAlertTriangle} mt={1} />}
+          icon={
+            <Box mt="$2">
+              <FiAlertTriangle />
+            </Box>
+          }
           wordOfWarning={`${wallet?.prettyName}: ${message}`}
         />
       }
     />
-  );
+  ) : null;
 
   useEffect(() => {
     setChainName?.(
@@ -127,9 +130,7 @@ export const WalletSection = ({
     );
   }, [setChainName]);
 
-  const onChainChange: HandleSelectChain = async (
-    selectedValue: ChainOption | null
-  ) => {
+  const onChainChange: ChooseChainProps['onChange'] = async (selectedValue) => {
     setChainName?.(selectedValue?.chainName);
     if (selectedValue?.chainName) {
       window?.localStorage.setItem('selected-chain', selectedValue?.chainName);
@@ -158,53 +159,76 @@ export const WalletSection = ({
   );
 
   return (
-    <Center py={16}>
-      <Grid
-        w="full"
-        maxW="sm"
-        templateColumns="1fr"
-        rowGap={4}
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      py="$12"
+      width="100%"
+      attributes={{
+        'data-part-id': 'wallet-section',
+      }}
+    >
+      <Box
+        display="grid"
+        width="$full"
+        maxWidth={{
+          mobile: '100%',
+          tablet: '450px',
+        }}
+        gridTemplateColumns="1fr"
+        rowGap="$4"
         alignItems="center"
         justifyContent="center"
       >
         {isMultiChain ? (
-          <GridItem>{chooseChain}</GridItem>
+          <Box>{chooseChain}</Box>
         ) : (
-          <GridItem marginBottom={'20px'}>
+          <Box marginBottom={'$9'}>
             <ChainCard
               prettyName={chain?.label || defaultChainName}
               icon={chain?.icon}
             />
-          </GridItem>
+          </Box>
         )}
+
         {!providedChainName && isMultiChain ? (
           <ConnectWalletButton buttonText={'Connect Wallet'} isDisabled />
         ) : (
-          <GridItem px={6}>
+          <Box px={6}>
             <Stack
-              justifyContent="center"
-              alignItems="center"
-              borderRadius="lg"
-              bg={colorMode === 'light' ? 'white' : 'blackAlpha.400'}
-              boxShadow={
-                colorMode === 'light'
-                  ? '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3'
-                  : '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
-              }
-              spacing={4}
-              px={4}
-              py={{ base: 6, md: 12 }}
+              direction="vertical"
+              attributes={{
+                px: '$2',
+                py: '$12',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: '$lg',
+                backgroundColor:
+                  theme === 'light' ? '$white' : '$blackAlpha400',
+                boxShadow:
+                  theme === 'light'
+                    ? '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3'
+                    : '0 0 2px #363636, 0 0 8px -2px #4f4f4f',
+              }}
+              space="$8"
             >
               {userInfo}
               {addressBtn}
-              <Box w="full" maxW={{ base: 52, md: 64 }}>
+
+              <Box
+                width="100%"
+                maxWidth="200px"
+                attributes={{ id: 'connect-button' }}
+              >
                 {connectWalletButton}
               </Box>
-              {connectWalletWarn && <GridItem>{connectWalletWarn}</GridItem>}
+
+              {connectWalletWarn}
             </Stack>
-          </GridItem>
+          </Box>
         )}
-      </Grid>
-    </Center>
+      </Box>
+    </Box>
   );
 };

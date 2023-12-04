@@ -9,7 +9,7 @@ export default function MultiChain() {
   return (
     <Layout>
       <WalletSection
-        isMultiChain={true}
+        isMultiChain
         providedChainName={chainName}
         setChainName={setChainName}
       />
