@@ -1,15 +1,4 @@
-import {
-  Box,
-  Heading,
-  Text,
-  Button,
-  Flex,
-  Icon,
-  useColorMode,
-  useColorModeValue,
-  Link,
-} from '@chakra-ui/react';
-import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
+import { Link, Box, Button, Icon, Text, useTheme } from '@interchain-ui/react';
 import { dependencies } from '@/config';
 
 const stacks = ['CosmosKit', 'Next.js'];
@@ -17,30 +6,66 @@ const stacks = ['CosmosKit', 'Next.js'];
 const osmojs = dependencies[0];
 
 export function Header() {
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { theme, setTheme } = useTheme();
+
+  const toggleColorMode = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
 
   return (
     <>
-      <Flex justifyContent="end" mb={4}>
-        <Button variant="outline" px={0} onClick={toggleColorMode}>
-          <Icon as={colorMode === 'light' ? BsFillMoonStarsFill : BsFillSunFill} />
+      <Box display="flex" justifyContent="end" mb="$8">
+        <Button
+          intent="secondary"
+          size="sm"
+          attributes={{
+            paddingX: 0,
+          }}
+          onClick={toggleColorMode}
+        >
+          <Icon name={theme === 'light' ? 'moonLine' : 'sunLine'} />
         </Button>
-      </Flex>
+      </Box>
+
       <Box textAlign="center">
-        <Heading as="h1" mb={3} fontWeight="extrabold" fontSize={{ base: '3xl', sm: '4xl', md: '5xl' }}>
+        <Text
+          as="h1"
+          fontWeight="$extrabold"
+          fontSize={{ mobile: '$3xl', tablet: '$4xl', desktop: '$10xl' }}
+          attributes={{
+            marginBottom: '$6',
+          }}
+        >
           Create Cosmos App
-        </Heading>
-        <Heading as="h1" fontWeight="bold" fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
-          <Text as="span">Welcome to&nbsp;</Text>
-          <Text as="span" color={useColorModeValue('primary.500', 'primary.200')}>
+        </Text>
+        <Text as="h1" fontWeight="$bold">
+          <Text
+            as="span"
+            fontSize={{ mobile: '$4xl', tablet: '$8xl', desktop: '$8xl' }}
+          >
+            Welcome to&nbsp;
+          </Text>
+          <Text
+            as="span"
+            fontSize={{ mobile: '$4xl', tablet: '$8xl', desktop: '$8xl' }}
+            color={theme === 'light' ? '$primary500' : '$primary200'}
+          >
             {stacks.join(' + ')}
             {' + '}
-            <Link href={osmojs.name} target="_blank" rel="noreferrer">
+
+            <Link
+              href={osmojs.name}
+              target="_blank"
+              rel="noreferrer"
+              attributes={{
+                fontSize: { mobile: '$4xl', tablet: '$8xl', desktop: '$8xl' },
+              }}
+            >
               {osmojs.name}
             </Link>
           </Text>
-        </Heading>
+        </Text>
       </Box>
     </>
   );
-};
+}
