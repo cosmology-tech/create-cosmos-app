@@ -33,6 +33,11 @@ export type Scalars = {
   NaiveDateTime: { input: any; output: any; }
 };
 
+export type AttributeFilter = {
+  filters: Array<DataFilter>;
+  operator?: InputMaybe<EventAttributeFilterOperator>;
+};
+
 export enum AuctionEndPreset {
   Next_1Hour = 'NEXT_1_HOUR',
   Next_6Hours = 'NEXT_6_HOURS',
@@ -49,6 +54,21 @@ export enum CollectionSortBy {
   TokensCountDesc = 'TOKENS_COUNT_DESC',
   Volume_7DDesc = 'VOLUME_7D_DESC',
   Volume_24HDesc = 'VOLUME_24H_DESC'
+}
+
+export type ContractDataFilter = {
+  name: Scalars['String']['input'];
+  operator?: InputMaybe<ContractDataFilterOperator>;
+  type: Scalars['String']['input'];
+  value: Scalars['String']['input'];
+};
+
+export enum ContractDataFilterOperator {
+  Equal = 'EQUAL',
+  Greater = 'GREATER',
+  GreaterOrEqual = 'GREATER_OR_EQUAL',
+  Lower = 'LOWER',
+  LowerOrEqual = 'LOWER_OR_EQUAL'
 }
 
 /** Contract filter */
@@ -151,6 +171,12 @@ export type Event = {
   txHash?: Maybe<Scalars['String']['output']>;
 };
 
+/** What operator should be applied */
+export enum EventAttributeFilterOperator {
+  And = 'AND',
+  Or = 'OR'
+}
+
 export type EventConnection = {
   __typename?: 'EventConnection';
   edges: Array<EventEdge>;
@@ -220,16 +246,11 @@ export enum NameSortBy {
   OffersDesc = 'OFFERS_DESC'
 }
 
-/** Information about pagination in a connection */
 export type PageInfo = {
   __typename?: 'PageInfo';
-  /** When paginating forwards, the cursor to continue. */
   endCursor?: Maybe<Scalars['String']['output']>;
-  /** When paginating forwards, are there more items? */
   hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
   hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['String']['output']>;
 };
 
@@ -271,6 +292,8 @@ export type Query = {
   names: Name_Node;
   /** Fetch collection addresses and count of tokens owned for an address */
   ownedCollections: Owned_Collections_Node;
+  /** Fetch NFT sales */
+  sales: Sales_Node;
   /** Fetch historical sales stats for Stargaze or for a specific collection */
   salesStats: Sales_Stats_Node;
   token?: Maybe<Token>;
@@ -304,6 +327,8 @@ export type QueryContractArgs = {
 
 
 export type QueryContractsArgs = {
+  contractTypes?: InputMaybe<Array<Scalars['String']['input']>>;
+  dataFilters?: InputMaybe<Array<ContractDataFilter>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   sortBy?: InputMaybe<ContractSortBy>;
@@ -312,12 +337,14 @@ export type QueryContractsArgs = {
 
 export type QueryEventsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
+  attributeFilters?: InputMaybe<AttributeFilter>;
   before?: InputMaybe<Scalars['String']['input']>;
   contractFilters?: InputMaybe<Array<ContractFilter>>;
   dataFilters?: InputMaybe<Array<DataFilter>>;
   filter?: InputMaybe<Filter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   forAddresses?: InputMaybe<Array<Scalars['String']['input']>>;
+  forContractAddrs?: InputMaybe<Array<Scalars['String']['input']>>;
   forNames?: InputMaybe<Array<Scalars['String']['input']>>;
   forToken?: InputMaybe<TokenInput>;
   isValid?: InputMaybe<Scalars['Boolean']['input']>;
@@ -348,6 +375,17 @@ export type QueryOwnedCollectionsArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   ownerAddr?: InputMaybe<Scalars['String']['input']>;
   sellerAddr?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QuerySalesArgs = {
+  datePresetFilter?: InputMaybe<DatePreset>;
+  dateRangeFilter?: InputMaybe<DateRange>;
+  filterByCollectionAddrs?: InputMaybe<Array<Scalars['String']['input']>>;
+  filterBySaleType?: InputMaybe<Array<SalesSaleType>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  sortBy?: InputMaybe<SalesSortBy>;
 };
 
 
@@ -402,12 +440,34 @@ export enum SaleType {
   Unlisted = 'UNLISTED'
 }
 
+export enum SalesSaleType {
+  Auction = 'AUCTION',
+  CollectionOffer = 'COLLECTION_OFFER',
+  FixedPrice = 'FIXED_PRICE',
+  Offer = 'OFFER'
+}
+
+export enum SalesSortBy {
+  RarityAsc = 'RARITY_ASC',
+  RarityDesc = 'RARITY_DESC',
+  SaleTimeAsc = 'SALE_TIME_ASC',
+  SaleTimeDesc = 'SALE_TIME_DESC',
+  StarsPriceAsc = 'STARS_PRICE_ASC',
+  StarsPriceDesc = 'STARS_PRICE_DESC',
+  TokenIdAsc = 'TOKEN_ID_ASC',
+  TokenIdDesc = 'TOKEN_ID_DESC',
+  UsdPriceAsc = 'USD_PRICE_ASC',
+  UsdPriceDesc = 'USD_PRICE_DESC'
+}
+
 export type TokenInput = {
   collectionAddr: Scalars['String']['input'];
   tokenId: Scalars['String']['input'];
 };
 
 export enum TokenSortBy {
+  AcquiredAsc = 'ACQUIRED_ASC',
+  AcquiredDesc = 'ACQUIRED_DESC',
   CollectionAddrTokenIdAsc = 'COLLECTION_ADDR_TOKEN_ID_ASC',
   ListedAsc = 'LISTED_ASC',
   ListedDesc = 'LISTED_DESC',
@@ -608,6 +668,40 @@ export type Owned_Collections_Node = {
   offset: Scalars['Int']['output'];
   /** @deprecated Field owned_collections_token_count is deprecated, use collections instead */
   ownedCollectionsTokenCount: Array<Collection_Token_Count>;
+  total: Scalars['Int']['output'];
+};
+
+export type Sale = {
+  __typename?: 'sale';
+  /** Block Height */
+  blockHeight: Scalars['Int']['output'];
+  /** Buyer Address */
+  buyer?: Maybe<Scalars['String']['output']>;
+  /** Collection Address */
+  collectionAddr: Scalars['String']['output'];
+  /** Sale Time */
+  createdAt: Scalars['NaiveDateTime']['output'];
+  /** Rarity Order */
+  rarityOrder?: Maybe<Scalars['Int']['output']>;
+  /** Sale Price in STARS */
+  salePriceStars: Scalars['Int']['output'];
+  /** Sale Price in USD */
+  salePriceUsd: Scalars['Decimal']['output'];
+  /** Event Name */
+  saleType: Scalars['String']['output'];
+  /** Seller Address */
+  seller?: Maybe<Scalars['String']['output']>;
+  /** Token ID */
+  tokenId: Scalars['String']['output'];
+  /** Transaction Hash */
+  txHash?: Maybe<Scalars['String']['output']>;
+};
+
+export type Sales_Node = {
+  __typename?: 'sales_node';
+  limit: Scalars['Int']['output'];
+  offset: Scalars['Int']['output'];
+  sales: Array<Sale>;
   total: Scalars['Int']['output'];
 };
 

@@ -47,8 +47,8 @@ export const useCollectionAddress = () => {
 
   const sg721AddrGroup = mintCollectionsQuery.data
     ? mintCollectionsQuery.data
-        .slice(leftIndex, rightIndex)
-        .map(({ collectionAddr }) => collectionAddr)
+      .slice(leftIndex, rightIndex)
+      .map(({ collectionAddr }) => collectionAddr)
     : null;
 
   const sg721BaseQueryClients =
@@ -72,8 +72,8 @@ export const useCollectionAddress = () => {
   const vendingMinterQueryClients =
     minterAddrGroup && isReady
       ? minterAddrGroup.map((addr) =>
-          contracts.vendingMinter.getQueryClient(addr)
-        )
+        contracts.vendingMinter.getQueryClient(addr)
+      )
       : null;
 
   const mintPriceQueries = useQueries({

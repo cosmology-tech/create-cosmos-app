@@ -1,59 +1,72 @@
-import {
-  Box,
-  Heading,
-  Text,
-  Button,
-  Flex,
-  Icon,
-  useColorMode,
-  useColorModeValue,
-  Link,
-} from '@chakra-ui/react';
-import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
+import { Link, Box, Button, Icon, Text, useTheme, useColorModeValue } from '@interchain-ui/react';
 import { dependencies } from '@/config';
 
-const stargazejs = dependencies[0];
 const stacks = ['CosmosKit', 'Next.js'];
 
-export const Header = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
+const stargazejs = dependencies[0];
+
+export function Header() {
+  const { theme, setTheme } = useTheme();
+
+  const toggleColorMode = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
 
   return (
     <>
-      <Flex justifyContent="end" mb={4}>
-        <Button variant="outline" px={0} onClick={toggleColorMode}>
-          <Icon
-            as={colorMode === 'light' ? BsFillMoonStarsFill : BsFillSunFill}
-          />
+      <Box display="flex" justifyContent="end" mb="$8">
+        <Button
+          intent="secondary"
+          size="sm"
+          attributes={{
+            paddingX: 0,
+          }}
+          onClick={toggleColorMode}
+        >
+          <Icon name={useColorModeValue('moonLine', 'sunLine')}/>
         </Button>
-      </Flex>
+      </Box>
+
       <Box textAlign="center">
-        <Heading
+        <Text
           as="h1"
-          fontSize={{ base: '3xl', sm: '4xl', md: '5xl' }}
-          fontWeight="extrabold"
-          mb={3}
+          fontWeight="$extrabold"
+          fontSize={{ mobile: '$6xl', tablet: '$10xl' }}
+          attributes={{
+            marginBottom: '$8',
+          }}
         >
           Create Cosmos App
-        </Heading>
-        <Heading
-          as="h1"
-          fontWeight="bold"
-          fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
-        >
-          <Text as="span">Welcome to&nbsp;</Text>
+        </Text>
+        <Text as="h2" fontWeight="$bold">
           <Text
             as="span"
-            color={useColorModeValue('primary.500', 'primary.200')}
+            fontSize={{ mobile: '$3xl', tablet: '$8xl', desktop: '$8xl' }}
+          >
+            Welcome to&nbsp;
+          </Text>
+          <Text
+            as="span"
+            fontSize={{ mobile: '$3xl', tablet: '$8xl', desktop: '$8xl' }}
+            color={useColorModeValue('$primary500', '$primary200')}
           >
             {stacks.join(' + ')}
             {' + '}
-            <Link href={stargazejs.href} target="_blank" rel="noreferrer">
-              {stargazejs.title}
+
+            <Link
+              href={stargazejs.name}
+              target="_blank"
+              rel="noreferrer"
+              attributes={{
+                color: useColorModeValue('$primary500', '$primary200'),
+                fontSize: { mobile: '$4xl', tablet: '$8xl', desktop: '$8xl' },
+              }}
+            >
+              {stargazejs.name}
             </Link>
           </Text>
-        </Heading>
+        </Text>
       </Box>
     </>
   );
-};
+}
