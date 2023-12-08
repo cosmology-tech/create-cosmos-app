@@ -26,6 +26,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const { themeClass } = useTheme();
 
   const signerOptions: SignerOptions = {
+    // @ts-ignore
     signingStargate: () => {
       return getSigningCosmosClientOptions();
     },
@@ -57,6 +58,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
             },
           },
         }}
+        // @ts-ignore
         signerOptions={signerOptions}
       >
         <QueryClientProvider client={queryClient}>
