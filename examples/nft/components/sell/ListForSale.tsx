@@ -110,7 +110,7 @@ function FixedPrice({
         onSelectItem={(item) => onSelect(item, onValidChange)}
       >
         {ValidForOptions.map((option) =>
-          <SelectOption optionKey={option.key} label={option.label} />
+          <SelectOption key={option.key} optionKey={option.key} label={option.label} />
         )}
       </Select>
     </Box>
@@ -185,7 +185,7 @@ function Auction({
         onSelectItem={(item) => onSelect(item, onValidChange)}
       >
         {ValidForOptions.map((option) =>
-          <SelectOption optionKey={option.key} label={option.label} />
+          <SelectOption key={option.key} optionKey={option.key} label={option.label} />
         )}
       </Select>
     </Box>

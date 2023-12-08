@@ -1,4 +1,4 @@
-
+import Image from 'next/image';
 import { Box, Text, Stack, useColorModeValue } from '@interchain-ui/react'
 
 export type ChainProps = {
@@ -33,7 +33,7 @@ export function Chain({ name, logo = DefaultChainLogo }: ChainProps) {
         borderRadius="full"
         overflow="hidden"
       >
-        <img alt={name} src={logo} width="38" height="38" style={{ borderRadius: '100%' }} />
+        <Image alt={name} src={logo} width="38" height="38" style={{ borderRadius: '100%' }} />
       </Box>
       <Text fontSize="$xl" fontWeight="$semibold">
         {name}

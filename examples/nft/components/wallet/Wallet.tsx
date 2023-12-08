@@ -5,20 +5,28 @@ import { getChainLogo } from '@/utils';
 import { CHAIN_NAME } from "@/config";
 import { User } from './User';
 import { Chain } from './Chain';
-import { Button } from './Connect';
 import { Warning } from './Warning';
+import {
+  ButtonError,
+  ButtonRejected,
+  ButtonConnect,
+  ButtonConnected,
+  ButtonConnecting,
+  ButtonDisconnected,
+  ButtonNotExist,
+} from './Connect';
 
 export function Wallet() {
   const { chain, status, wallet, username, address, message, connect, openView } = useChain(CHAIN_NAME);
   
   const ConnectButton = {
-    [WalletStatus.Connected]: <Button.Connected onClick={openView} />,
-    [WalletStatus.Connecting]: <Button.Connecting />,
-    [WalletStatus.Disconnected]: <Button.Disconnected onClick={connect} />,
-    [WalletStatus.Error]: <Button.Error onClick={openView} />,
-    [WalletStatus.Rejected]: <Button.Rejected onClick={connect} />,
-    [WalletStatus.NotExist]: <Button.NotExist onClick={openView} />
-  }[status] || <Button.Connect onClick={connect} />;
+    [WalletStatus.Connected]: <ButtonConnected onClick={openView} />,
+    [WalletStatus.Connecting]: <ButtonConnecting />,
+    [WalletStatus.Disconnected]: <ButtonDisconnected onClick={connect} />,
+    [WalletStatus.Error]: <ButtonError onClick={openView} />,
+    [WalletStatus.Rejected]: <ButtonRejected onClick={connect} />,
+    [WalletStatus.NotExist]: <ButtonNotExist onClick={openView} />
+  }[status] || <ButtonConnect onClick={connect} />;
 
   return (
     <Box py="$16">

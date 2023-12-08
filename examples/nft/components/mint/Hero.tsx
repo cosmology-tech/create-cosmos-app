@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { ipfs, ellipsis } from '@/utils';
 import { Collection, useTokens } from '@/hooks/mint';
 import { Box, Text, Button } from '@interchain-ui/react';
@@ -47,11 +48,12 @@ export function Hero({ collection, onMint = () => {} }: HeroProps) {
       </Box>
       <Box position="relative" flex="1">
         {
-          images.map(({ url, css }) => <img
+          images.map(({ url, css }) => <Image
+            alt={""}
             key={url}
             src={ipfs(url)}
-            width="180px"
-            height="180px"
+            width="180"
+            height="180"
             style={{
               ...css,
               borderRadius: '6px',
