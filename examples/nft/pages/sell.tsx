@@ -2,7 +2,7 @@ import { Layout, Wallet } from "@/components";
 import { Divider } from "@interchain-ui/react";
 import { Sell } from "@/components/sell";
 
-export default function() {
+export default function SellPage() {
   return (
     <Layout>
       <Wallet />

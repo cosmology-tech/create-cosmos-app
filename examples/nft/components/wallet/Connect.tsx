@@ -38,23 +38,23 @@ export function Button({
   );
 };
 
-Button.Connect = ({ text = 'Connect Wallet', onClick = noop }: ConnectProps) =>
+export const ButtonConnect = ({ text = 'Connect Wallet', onClick = noop }: ConnectProps) =>
   <Button text={text} icon="walletFilled" onClick={onClick} />
 
-Button.Connected = ({ text = 'My Wallet', onClick = noop }: ConnectProps) =>
+export const ButtonConnected = ({ text = 'My Wallet', onClick = noop }: ConnectProps) =>
   <Button text={text} icon="walletFilled" onClick={onClick} />
 
-Button.Disconnected = ({ text = 'Connect Wallet', onClick = noop }: ConnectProps) =>
+export const ButtonDisconnected = ({ text = 'Connect Wallet', onClick = noop }: ConnectProps) =>
   <Button text={text} icon="walletFilled" onClick={onClick} />
 
-Button.Connecting = ({ text = 'Connecting ...', loading = true }: ConnectProps) =>
+export const ButtonConnecting = ({ text = 'Connecting ...', loading = true }: ConnectProps) =>
   <Button text={text} loading={loading} />
 
-Button.Rejected = ({ text = 'Reconnect', onClick = noop }: ConnectProps) =>
+export const ButtonRejected = ({ text = 'Reconnect', onClick = noop }: ConnectProps) =>
   <Button text={text} icon="walletFilled" onClick={onClick} />
 
-Button.Error = ({ text = 'Change Wallet', onClick = noop }: ConnectProps) =>
+export const ButtonError = ({ text = 'Change Wallet', onClick = noop }: ConnectProps) =>
   <Button text={text} icon="walletFilled" onClick={onClick} />
 
-Button.NotExist = ({ text = 'Install Wallet', onClick = noop }: ConnectProps) =>
+export const ButtonNotExist = ({ text = 'Install Wallet', onClick = noop }: ConnectProps) =>
   <Button text={text} icon="walletFilled" onClick={onClick} />
