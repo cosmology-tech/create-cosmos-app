@@ -22,6 +22,10 @@ export function Mint() {
     mintBoxRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
+  const mintButtonLabel =
+    isMinting ? 'Minting...' :
+    isInsufficientBalance ? 'Insuficient Balance' : 'Mint';
+
   const Loading = (
     <Box
       position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)"
@@ -60,7 +64,7 @@ export function Mint() {
             royalties={royalties}
             pricePerToken={starPrice}
             isMintButtonDisabled={!count || isMinting || isInsufficientBalance}
-            mintButtonDisabledLabel={isMinting ? 'Minting...' : 'Mint'}
+            mintButtonDisabledLabel={mintButtonLabel}
           />}
       </Box>
     </Box> : 
