@@ -11,6 +11,7 @@ import { CHAIN_NAME } from '@/config';
 export function useMint() {
   const [count, setCount] = useState(0);
   const [isMinting, setIsMinting] = useState(false);
+  const [isInsufficientBalance, setIsInsufficientBalance] = useState(false);
   const { address } = useChain(CHAIN_NAME);
   const { contracts, isReady } = useContracts();
 
@@ -44,7 +45,11 @@ export function useMint() {
     : 0;
 
   function onCountChange(value: string | number) {
-    setCount(Number(value));
+    const n = Number(value);
+    setCount(n);
+    setIsInsufficientBalance(
+      n > 0 && n * Number(mintPrice) > Number(balance.display || 0)
+    );
   }
 
   async function onMint() {
@@ -78,7 +83,7 @@ export function useMint() {
   return {
     count, price, balance, collection, address,
     tag, quantity, royalties, minted, limited,
-    starPrice, mintPrice, isMinting,
+    starPrice, mintPrice, isMinting, isInsufficientBalance,
     onMint, onCountChange
   }
 }

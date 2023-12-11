@@ -14,7 +14,7 @@ export function Mint() {
   const {
     count, balance, collection, address,
     tag, quantity, royalties, minted, 
-    limited, starPrice, mintPrice,
+    limited, starPrice, mintPrice, isInsufficientBalance,
     isMinting, onMint, onCountChange
   } = useMint();
 
@@ -24,9 +24,8 @@ export function Mint() {
 
   const Loading = (
     <Box
-      position="absolute" top="$0" left="$0" right="$0" bottom="0"
+      position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)"
       justifyContent="right" borderRadius="$md" p="$8"
-      backgroundColor={useColorModeValue('$blackAlpha200', '$blackAlpha500')}
       display={collection.isLoading || isMinting ? 'flex' : 'none'}
     >
       <Spinner size="$5xl" color={useColorModeValue('$blackAlpha800', '$whiteAlpha900') } />
@@ -37,28 +36,32 @@ export function Mint() {
     <Box>
       <Hero collection={collection} onMint={focus} />
       <Box
-        ref={mintBoxRef}
-        mx="auto" maxWidth="56rem" px="$12" py="$14" boxShadow="$lg" borderRadius="$lg"
+        ref={mintBoxRef} minHeight="600px" maxWidth="56rem"
+        mx="auto" px="$12" py="$14" boxShadow="$lg" borderRadius="$lg"
         position="relative" borderWidth="1px" borderStyle="$solid" borderColor="$gray100"
       >
         {Loading}
-        <NftMint
-          tag={tag}
-          title="NFT Mint"
-          available={balance.display}
-          description={collection.info?.description || ''}
-          imgSrc={ipfs(collection.image)}
-          limited={limited}
-          minted={minted}
-          amount={count || undefined}
-          name={collection.contract?.name || ''}
-          onChange={onCountChange}
-          onMint={onMint}
-          priceDisplayAmount={mintPrice}
-          quantity={quantity}
-          royalties={royalties}
-          pricePerToken={starPrice}
-        />
+        {collection.isLoading ?
+          <Text fontSize="$xl" fontWeight="$semibold">NFT Mint</Text> :
+          <NftMint
+            tag={tag}
+            title="NFT Mint"
+            available={balance.display}
+            description={collection.info?.description || ''}
+            imgSrc={ipfs(collection.image)}
+            limited={limited}
+            minted={minted}
+            amount={count || undefined}
+            name={collection.contract?.name || ''}
+            onChange={onCountChange}
+            onMint={onMint}
+            priceDisplayAmount={mintPrice}
+            quantity={quantity}
+            royalties={royalties}
+            pricePerToken={starPrice}
+            isMintButtonDisabled={!count || isMinting || isInsufficientBalance}
+            mintButtonDisabledLabel={isMinting ? 'Minting...' : 'Mint'}
+          />}
       </Box>
     </Box> : 
     <Box display="flex" alignItems="center" justifyContent="center">
