@@ -24,7 +24,7 @@ export function Mint() {
 
   const mintButtonLabel =
     isMinting ? 'Minting...' :
-    isInsufficientBalance ? 'Insuficient Balance' : 'Mint';
+    isInsufficientBalance ? 'Insufficient Balance' : 'Mint';
 
   const Loading = (
     <Box
