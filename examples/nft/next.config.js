@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['ipfs-gw.stargaze-apis.com']
+    domains: ['ipfs-gw.stargaze-apis.com'],
   }
 }
 

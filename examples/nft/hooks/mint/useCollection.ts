@@ -145,10 +145,6 @@ export function useCollection() {
     mintableNumTokensQuery.refetch();
   }
 
-  if (isLoading) {
-    return { isLoading, refetch }
-  }
-
   return {
     isLoading, refetch,
     mint: {
