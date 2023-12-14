@@ -12,7 +12,7 @@ export function Mint() {
   const mintBoxRef = useRef<HTMLDivElement>();
 
   const {
-    count, balance, collection, address,
+    count, value, amount, balance, collection, address,
     tag, quantity, royalties, minted, 
     limited, starPrice, mintPrice, isInsufficientBalance,
     isMinting, onMint, onCountChange
@@ -42,7 +42,7 @@ export function Mint() {
       <Box
         ref={mintBoxRef} minHeight="600px" maxWidth="56rem"
         mx="auto" px="$12" py="$14" boxShadow="$lg" borderRadius="$lg"
-        position="relative" borderWidth="1px" borderStyle="$solid" borderColor="$gray100"
+        position="relative" borderWidth="1px" borderStyle="$solid" borderColor="$divider"
       >
         {Loading}
         {collection.isLoading ?
@@ -57,12 +57,16 @@ export function Mint() {
             minted={minted}
             amount={count || undefined}
             name={collection.contract?.name || ''}
-            onChange={onCountChange}
             onMint={onMint}
+            onInput={(e: any) => onCountChange(e.target.value)}
+            notionalAmount={value}
             priceDisplayAmount={mintPrice}
             quantity={quantity}
             royalties={royalties}
+            tokenName="STARS"
+            tokenAmount={amount}
             pricePerToken={starPrice}
+            isMintLoading={isMinting}
             isMintButtonDisabled={!count || isMinting || isInsufficientBalance}
             mintButtonDisabledLabel={mintButtonLabel}
           />}
