@@ -44,6 +44,11 @@ export function useMint() {
     ? display(collection?.mint.price.current_price.amount)
     : 0;
 
+  const value = new BigNumber(count)
+    .multipliedBy(price.value || 0).precision(2).toNumber();
+  const amount = new BigNumber(count)
+    .multipliedBy(mintPrice || 0).precision(2).toNumber();
+
   function onCountChange(value: string | number) {
     const n = Number(value);
     setCount(n);
@@ -81,7 +86,7 @@ export function useMint() {
   }
 
   return {
-    count, price, balance, collection, address,
+    count, price, value, amount, balance, collection, address,
     tag, quantity, royalties, minted, limited,
     starPrice, mintPrice, isMinting, isInsufficientBalance,
     onMint, onCountChange

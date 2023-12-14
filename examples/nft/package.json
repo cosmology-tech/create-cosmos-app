@@ -21,7 +21,7 @@
     "@cosmos-kit/keplr": "2.4.11",
     "@cosmos-kit/leap": "2.4.10",
     "@cosmos-kit/react": "2.9.11",
-    "@interchain-ui/react": "^1.15.0",
+    "@interchain-ui/react": "^1.16.4",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
     "@tanstack/react-query": "4.32.0",
