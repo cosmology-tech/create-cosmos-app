@@ -1,8 +1,8 @@
 import { CodegenConfig } from '@graphql-codegen/cli';
-import { stargazeGraphQLEndpoint } from './defaults';
+import { STARGAZE_GRAPHQL_ENDPOINT } from '.';
 
 const config: CodegenConfig = {
-  schema: stargazeGraphQLEndpoint,
+  schema: STARGAZE_GRAPHQL_ENDPOINT,
   documents: './config/documents.ts',
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
