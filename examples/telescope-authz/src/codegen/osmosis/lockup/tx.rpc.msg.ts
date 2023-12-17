@@ -1,17 +1,16 @@
-import { TxRpc } from "../../types";
-import { BinaryReader } from "../../binary";
-import { MsgLockTokens, MsgLockTokensResponse, MsgBeginUnlockingAll, MsgBeginUnlockingAllResponse, MsgBeginUnlocking, MsgBeginUnlockingResponse, MsgExtendLockup, MsgExtendLockupResponse, MsgForceUnlock, MsgForceUnlockResponse } from "./tx";
+import { DeliverTxResponse, StdFee, TxRpc } from "../../types";
+import { MsgLockTokens, MsgBeginUnlockingAll, MsgBeginUnlocking, MsgExtendLockup, MsgForceUnlock } from "./tx";
 /** Msg defines the Msg service. */
 export interface Msg {
   /** LockTokens lock tokens */
-  lockTokens(request: MsgLockTokens): Promise<MsgLockTokensResponse>;
+  lockTokens(signerAddress: string, message: MsgLockTokens, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
   /** BeginUnlockingAll begin unlocking all tokens */
-  beginUnlockingAll(request: MsgBeginUnlockingAll): Promise<MsgBeginUnlockingAllResponse>;
+  beginUnlockingAll(signerAddress: string, message: MsgBeginUnlockingAll, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
   /** MsgBeginUnlocking begins unlocking tokens by lock ID */
-  beginUnlocking(request: MsgBeginUnlocking): Promise<MsgBeginUnlockingResponse>;
+  beginUnlocking(signerAddress: string, message: MsgBeginUnlocking, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
   /** MsgEditLockup edits the existing lockups by lock ID */
-  extendLockup(request: MsgExtendLockup): Promise<MsgExtendLockupResponse>;
-  forceUnlock(request: MsgForceUnlock): Promise<MsgForceUnlockResponse>;
+  extendLockup(signerAddress: string, message: MsgExtendLockup, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
+  forceUnlock(signerAddress: string, message: MsgForceUnlock, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: TxRpc;
@@ -19,34 +18,44 @@ export class MsgClientImpl implements Msg {
     this.rpc = rpc;
   }
   /* LockTokens lock tokens */
-  lockTokens = async (request: MsgLockTokens): Promise<MsgLockTokensResponse> => {
-    const data = MsgLockTokens.encode(request).finish();
-    const promise = this.rpc.request("osmosis.lockup.Msg", "LockTokens", data);
-    return promise.then(data => MsgLockTokensResponse.decode(new BinaryReader(data)));
+  lockTokens = async (signerAddress: string, message: MsgLockTokens, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgLockTokens.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* BeginUnlockingAll begin unlocking all tokens */
-  beginUnlockingAll = async (request: MsgBeginUnlockingAll): Promise<MsgBeginUnlockingAllResponse> => {
-    const data = MsgBeginUnlockingAll.encode(request).finish();
-    const promise = this.rpc.request("osmosis.lockup.Msg", "BeginUnlockingAll", data);
-    return promise.then(data => MsgBeginUnlockingAllResponse.decode(new BinaryReader(data)));
+  beginUnlockingAll = async (signerAddress: string, message: MsgBeginUnlockingAll, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgBeginUnlockingAll.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* MsgBeginUnlocking begins unlocking tokens by lock ID */
-  beginUnlocking = async (request: MsgBeginUnlocking): Promise<MsgBeginUnlockingResponse> => {
-    const data = MsgBeginUnlocking.encode(request).finish();
-    const promise = this.rpc.request("osmosis.lockup.Msg", "BeginUnlocking", data);
-    return promise.then(data => MsgBeginUnlockingResponse.decode(new BinaryReader(data)));
+  beginUnlocking = async (signerAddress: string, message: MsgBeginUnlocking, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgBeginUnlocking.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* MsgEditLockup edits the existing lockups by lock ID */
-  extendLockup = async (request: MsgExtendLockup): Promise<MsgExtendLockupResponse> => {
-    const data = MsgExtendLockup.encode(request).finish();
-    const promise = this.rpc.request("osmosis.lockup.Msg", "ExtendLockup", data);
-    return promise.then(data => MsgExtendLockupResponse.decode(new BinaryReader(data)));
+  extendLockup = async (signerAddress: string, message: MsgExtendLockup, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgExtendLockup.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* ForceUnlock */
-  forceUnlock = async (request: MsgForceUnlock): Promise<MsgForceUnlockResponse> => {
-    const data = MsgForceUnlock.encode(request).finish();
-    const promise = this.rpc.request("osmosis.lockup.Msg", "ForceUnlock", data);
-    return promise.then(data => MsgForceUnlockResponse.decode(new BinaryReader(data)));
+  forceUnlock = async (signerAddress: string, message: MsgForceUnlock, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgForceUnlock.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
 }
 export const createClientImpl = (rpc: TxRpc) => {

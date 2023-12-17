@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../../types";
 import { BinaryReader } from "../../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../../mobx";
 import { QueryClientStateRequest, QueryClientStateResponse, QueryClientStatesRequest, QueryClientStatesResponse, QueryConsensusStateRequest, QueryConsensusStateResponse, QueryConsensusStatesRequest, QueryConsensusStatesResponse, QueryClientStatusRequest, QueryClientStatusResponse, QueryClientParamsRequest, QueryClientParamsResponse, QueryUpgradedClientStateRequest, QueryUpgradedClientStateResponse, QueryUpgradedConsensusStateRequest, QueryUpgradedConsensusStateResponse } from "./query";
@@ -88,35 +88,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryUpgradedConsensusStateResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    clientState(request: QueryClientStateRequest): Promise<QueryClientStateResponse> {
-      return queryService.clientState(request);
-    },
-    clientStates(request?: QueryClientStatesRequest): Promise<QueryClientStatesResponse> {
-      return queryService.clientStates(request);
-    },
-    consensusState(request: QueryConsensusStateRequest): Promise<QueryConsensusStateResponse> {
-      return queryService.consensusState(request);
-    },
-    consensusStates(request: QueryConsensusStatesRequest): Promise<QueryConsensusStatesResponse> {
-      return queryService.consensusStates(request);
-    },
-    clientStatus(request: QueryClientStatusRequest): Promise<QueryClientStatusResponse> {
-      return queryService.clientStatus(request);
-    },
-    clientParams(request?: QueryClientParamsRequest): Promise<QueryClientParamsResponse> {
-      return queryService.clientParams(request);
-    },
-    upgradedClientState(request?: QueryUpgradedClientStateRequest): Promise<QueryUpgradedClientStateResponse> {
-      return queryService.upgradedClientState(request);
-    },
-    upgradedConsensusState(request?: QueryUpgradedConsensusStateRequest): Promise<QueryUpgradedConsensusStateResponse> {
-      return queryService.upgradedConsensusState(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseClientStateQuery<TData> extends ReactQueryParams<QueryClientStateResponse, TData> {
   request: QueryClientStateRequest;

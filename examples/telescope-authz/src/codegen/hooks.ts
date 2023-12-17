@@ -25,7 +25,6 @@ import * as _IbcCoreConnectionV1Queryrpc from "./ibc/core/connection/v1/query.rp
 import * as _IbcCorePortV1Queryrpc from "./ibc/core/port/v1/query.rpc.Query";
 import * as _OsmosisClaimV1beta1Queryrpc from "./osmosis/claim/v1beta1/query.rpc.Query";
 import * as _OsmosisEpochsQueryrpc from "./osmosis/epochs/query.rpc.Query";
-import * as _OsmosisGammV1beta1Queryrpc from "./osmosis/gamm/v1beta1/query.rpc.Query";
 import * as _OsmosisGammV2Queryrpc from "./osmosis/gamm/v2/query.rpc.Query";
 import * as _OsmosisIbcratelimitV1beta1Queryrpc from "./osmosis/ibc-rate-limit/v1beta1/query.rpc.Query";
 import * as _OsmosisIncentivesQueryrpc from "./osmosis/incentives/query.rpc.Query";
@@ -132,7 +131,6 @@ export const createRpcQueryHooks = ({
         v1beta1: _OsmosisEpochsQueryrpc.createRpcQueryHooks(rpc)
       },
       gamm: {
-        v1beta1: _OsmosisGammV1beta1Queryrpc.createRpcQueryHooks(rpc),
         v2: _OsmosisGammV2Queryrpc.createRpcQueryHooks(rpc)
       },
       ibcratelimit: {

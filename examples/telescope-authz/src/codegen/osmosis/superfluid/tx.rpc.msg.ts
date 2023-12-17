@@ -1,20 +1,19 @@
-import { TxRpc } from "../../types";
-import { BinaryReader } from "../../binary";
-import { MsgSuperfluidDelegate, MsgSuperfluidDelegateResponse, MsgSuperfluidUndelegate, MsgSuperfluidUndelegateResponse, MsgSuperfluidUnbondLock, MsgSuperfluidUnbondLockResponse, MsgLockAndSuperfluidDelegate, MsgLockAndSuperfluidDelegateResponse, MsgUnPoolWhitelistedPool, MsgUnPoolWhitelistedPoolResponse } from "./tx";
+import { DeliverTxResponse, StdFee, TxRpc } from "../../types";
+import { MsgSuperfluidDelegate, MsgSuperfluidUndelegate, MsgSuperfluidUnbondLock, MsgLockAndSuperfluidDelegate, MsgUnPoolWhitelistedPool } from "./tx";
 /** Msg defines the Msg service. */
 export interface Msg {
   /** Execute superfluid delegation for a lockup */
-  superfluidDelegate(request: MsgSuperfluidDelegate): Promise<MsgSuperfluidDelegateResponse>;
+  superfluidDelegate(signerAddress: string, message: MsgSuperfluidDelegate, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
   /** Execute superfluid undelegation for a lockup */
-  superfluidUndelegate(request: MsgSuperfluidUndelegate): Promise<MsgSuperfluidUndelegateResponse>;
+  superfluidUndelegate(signerAddress: string, message: MsgSuperfluidUndelegate, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
   /**
    * For a given lock that is being superfluidly undelegated,
    * also unbond the underlying lock.
    */
-  superfluidUnbondLock(request: MsgSuperfluidUnbondLock): Promise<MsgSuperfluidUnbondLockResponse>;
+  superfluidUnbondLock(signerAddress: string, message: MsgSuperfluidUnbondLock, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
   /** Execute lockup lock and superfluid delegation in a single msg */
-  lockAndSuperfluidDelegate(request: MsgLockAndSuperfluidDelegate): Promise<MsgLockAndSuperfluidDelegateResponse>;
-  unPoolWhitelistedPool(request: MsgUnPoolWhitelistedPool): Promise<MsgUnPoolWhitelistedPoolResponse>;
+  lockAndSuperfluidDelegate(signerAddress: string, message: MsgLockAndSuperfluidDelegate, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
+  unPoolWhitelistedPool(signerAddress: string, message: MsgUnPoolWhitelistedPool, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: TxRpc;
@@ -22,35 +21,45 @@ export class MsgClientImpl implements Msg {
     this.rpc = rpc;
   }
   /* Execute superfluid delegation for a lockup */
-  superfluidDelegate = async (request: MsgSuperfluidDelegate): Promise<MsgSuperfluidDelegateResponse> => {
-    const data = MsgSuperfluidDelegate.encode(request).finish();
-    const promise = this.rpc.request("osmosis.superfluid.Msg", "SuperfluidDelegate", data);
-    return promise.then(data => MsgSuperfluidDelegateResponse.decode(new BinaryReader(data)));
+  superfluidDelegate = async (signerAddress: string, message: MsgSuperfluidDelegate, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgSuperfluidDelegate.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* Execute superfluid undelegation for a lockup */
-  superfluidUndelegate = async (request: MsgSuperfluidUndelegate): Promise<MsgSuperfluidUndelegateResponse> => {
-    const data = MsgSuperfluidUndelegate.encode(request).finish();
-    const promise = this.rpc.request("osmosis.superfluid.Msg", "SuperfluidUndelegate", data);
-    return promise.then(data => MsgSuperfluidUndelegateResponse.decode(new BinaryReader(data)));
+  superfluidUndelegate = async (signerAddress: string, message: MsgSuperfluidUndelegate, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgSuperfluidUndelegate.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* For a given lock that is being superfluidly undelegated,
    also unbond the underlying lock. */
-  superfluidUnbondLock = async (request: MsgSuperfluidUnbondLock): Promise<MsgSuperfluidUnbondLockResponse> => {
-    const data = MsgSuperfluidUnbondLock.encode(request).finish();
-    const promise = this.rpc.request("osmosis.superfluid.Msg", "SuperfluidUnbondLock", data);
-    return promise.then(data => MsgSuperfluidUnbondLockResponse.decode(new BinaryReader(data)));
+  superfluidUnbondLock = async (signerAddress: string, message: MsgSuperfluidUnbondLock, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgSuperfluidUnbondLock.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* Execute lockup lock and superfluid delegation in a single msg */
-  lockAndSuperfluidDelegate = async (request: MsgLockAndSuperfluidDelegate): Promise<MsgLockAndSuperfluidDelegateResponse> => {
-    const data = MsgLockAndSuperfluidDelegate.encode(request).finish();
-    const promise = this.rpc.request("osmosis.superfluid.Msg", "LockAndSuperfluidDelegate", data);
-    return promise.then(data => MsgLockAndSuperfluidDelegateResponse.decode(new BinaryReader(data)));
+  lockAndSuperfluidDelegate = async (signerAddress: string, message: MsgLockAndSuperfluidDelegate, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgLockAndSuperfluidDelegate.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* UnPoolWhitelistedPool */
-  unPoolWhitelistedPool = async (request: MsgUnPoolWhitelistedPool): Promise<MsgUnPoolWhitelistedPoolResponse> => {
-    const data = MsgUnPoolWhitelistedPool.encode(request).finish();
-    const promise = this.rpc.request("osmosis.superfluid.Msg", "UnPoolWhitelistedPool", data);
-    return promise.then(data => MsgUnPoolWhitelistedPoolResponse.decode(new BinaryReader(data)));
+  unPoolWhitelistedPool = async (signerAddress: string, message: MsgUnPoolWhitelistedPool, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgUnPoolWhitelistedPool.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
 }
 export const createClientImpl = (rpc: TxRpc) => {

@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../mobx";
 import { QueryBalanceRequest, QueryBalanceResponse, QueryAllBalancesRequest, QueryAllBalancesResponse, QuerySpendableBalancesRequest, QuerySpendableBalancesResponse, QueryTotalSupplyRequest, QueryTotalSupplyResponse, QuerySupplyOfRequest, QuerySupplyOfResponse, QueryParamsRequest, QueryParamsResponse, QueryDenomMetadataRequest, QueryDenomMetadataResponse, QueryDenomsMetadataRequest, QueryDenomsMetadataResponse, QueryDenomOwnersRequest, QueryDenomOwnersResponse } from "./query";
@@ -102,38 +102,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryDenomOwnersResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    balance(request: QueryBalanceRequest): Promise<QueryBalanceResponse> {
-      return queryService.balance(request);
-    },
-    allBalances(request: QueryAllBalancesRequest): Promise<QueryAllBalancesResponse> {
-      return queryService.allBalances(request);
-    },
-    spendableBalances(request: QuerySpendableBalancesRequest): Promise<QuerySpendableBalancesResponse> {
-      return queryService.spendableBalances(request);
-    },
-    totalSupply(request?: QueryTotalSupplyRequest): Promise<QueryTotalSupplyResponse> {
-      return queryService.totalSupply(request);
-    },
-    supplyOf(request: QuerySupplyOfRequest): Promise<QuerySupplyOfResponse> {
-      return queryService.supplyOf(request);
-    },
-    params(request?: QueryParamsRequest): Promise<QueryParamsResponse> {
-      return queryService.params(request);
-    },
-    denomMetadata(request: QueryDenomMetadataRequest): Promise<QueryDenomMetadataResponse> {
-      return queryService.denomMetadata(request);
-    },
-    denomsMetadata(request?: QueryDenomsMetadataRequest): Promise<QueryDenomsMetadataResponse> {
-      return queryService.denomsMetadata(request);
-    },
-    denomOwners(request: QueryDenomOwnersRequest): Promise<QueryDenomOwnersResponse> {
-      return queryService.denomOwners(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseBalanceQuery<TData> extends ReactQueryParams<QueryBalanceResponse, TData> {
   request: QueryBalanceRequest;

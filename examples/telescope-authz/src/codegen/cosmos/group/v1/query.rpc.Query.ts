@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../mobx";
 import { QueryGroupInfoRequest, QueryGroupInfoResponse, QueryGroupPolicyInfoRequest, QueryGroupPolicyInfoResponse, QueryGroupMembersRequest, QueryGroupMembersResponse, QueryGroupsByAdminRequest, QueryGroupsByAdminResponse, QueryGroupPoliciesByGroupRequest, QueryGroupPoliciesByGroupResponse, QueryGroupPoliciesByAdminRequest, QueryGroupPoliciesByAdminResponse, QueryProposalRequest, QueryProposalResponse, QueryProposalsByGroupPolicyRequest, QueryProposalsByGroupPolicyResponse, QueryVoteByProposalVoterRequest, QueryVoteByProposalVoterResponse, QueryVotesByProposalRequest, QueryVotesByProposalResponse, QueryVotesByVoterRequest, QueryVotesByVoterResponse, QueryGroupsByMemberRequest, QueryGroupsByMemberResponse, QueryTallyResultRequest, QueryTallyResultResponse } from "./query";
@@ -118,50 +118,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryTallyResultResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    groupInfo(request: QueryGroupInfoRequest): Promise<QueryGroupInfoResponse> {
-      return queryService.groupInfo(request);
-    },
-    groupPolicyInfo(request: QueryGroupPolicyInfoRequest): Promise<QueryGroupPolicyInfoResponse> {
-      return queryService.groupPolicyInfo(request);
-    },
-    groupMembers(request: QueryGroupMembersRequest): Promise<QueryGroupMembersResponse> {
-      return queryService.groupMembers(request);
-    },
-    groupsByAdmin(request: QueryGroupsByAdminRequest): Promise<QueryGroupsByAdminResponse> {
-      return queryService.groupsByAdmin(request);
-    },
-    groupPoliciesByGroup(request: QueryGroupPoliciesByGroupRequest): Promise<QueryGroupPoliciesByGroupResponse> {
-      return queryService.groupPoliciesByGroup(request);
-    },
-    groupPoliciesByAdmin(request: QueryGroupPoliciesByAdminRequest): Promise<QueryGroupPoliciesByAdminResponse> {
-      return queryService.groupPoliciesByAdmin(request);
-    },
-    proposal(request: QueryProposalRequest): Promise<QueryProposalResponse> {
-      return queryService.proposal(request);
-    },
-    proposalsByGroupPolicy(request: QueryProposalsByGroupPolicyRequest): Promise<QueryProposalsByGroupPolicyResponse> {
-      return queryService.proposalsByGroupPolicy(request);
-    },
-    voteByProposalVoter(request: QueryVoteByProposalVoterRequest): Promise<QueryVoteByProposalVoterResponse> {
-      return queryService.voteByProposalVoter(request);
-    },
-    votesByProposal(request: QueryVotesByProposalRequest): Promise<QueryVotesByProposalResponse> {
-      return queryService.votesByProposal(request);
-    },
-    votesByVoter(request: QueryVotesByVoterRequest): Promise<QueryVotesByVoterResponse> {
-      return queryService.votesByVoter(request);
-    },
-    groupsByMember(request: QueryGroupsByMemberRequest): Promise<QueryGroupsByMemberResponse> {
-      return queryService.groupsByMember(request);
-    },
-    tallyResult(request: QueryTallyResultRequest): Promise<QueryTallyResultResponse> {
-      return queryService.tallyResult(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseGroupInfoQuery<TData> extends ReactQueryParams<QueryGroupInfoResponse, TData> {
   request: QueryGroupInfoRequest;

@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../mobx";
 import { QueryConfigRequest, QueryConfigResponse } from "./query";
@@ -22,14 +22,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryConfigResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    config(request?: QueryConfigRequest): Promise<QueryConfigResponse> {
-      return queryService.config(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseConfigQuery<TData> extends ReactQueryParams<QueryConfigResponse, TData> {
   request?: QueryConfigRequest;

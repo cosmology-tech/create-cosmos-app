@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../mobx";
 import { QueryGaugeIdsRequest, QueryGaugeIdsResponse, QueryDistrInfoRequest, QueryDistrInfoResponse, QueryParamsRequest, QueryParamsResponse, QueryLockableDurationsRequest, QueryLockableDurationsResponse, QueryIncentivizedPoolsRequest, QueryIncentivizedPoolsResponse, QueryExternalIncentiveGaugesRequest, QueryExternalIncentiveGaugesResponse } from "./query";
@@ -61,29 +61,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryExternalIncentiveGaugesResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    gaugeIds(request: QueryGaugeIdsRequest): Promise<QueryGaugeIdsResponse> {
-      return queryService.gaugeIds(request);
-    },
-    distrInfo(request?: QueryDistrInfoRequest): Promise<QueryDistrInfoResponse> {
-      return queryService.distrInfo(request);
-    },
-    params(request?: QueryParamsRequest): Promise<QueryParamsResponse> {
-      return queryService.params(request);
-    },
-    lockableDurations(request?: QueryLockableDurationsRequest): Promise<QueryLockableDurationsResponse> {
-      return queryService.lockableDurations(request);
-    },
-    incentivizedPools(request?: QueryIncentivizedPoolsRequest): Promise<QueryIncentivizedPoolsResponse> {
-      return queryService.incentivizedPools(request);
-    },
-    externalIncentiveGauges(request?: QueryExternalIncentiveGaugesRequest): Promise<QueryExternalIncentiveGaugesResponse> {
-      return queryService.externalIncentiveGauges(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseGaugeIdsQuery<TData> extends ReactQueryParams<QueryGaugeIdsResponse, TData> {
   request: QueryGaugeIdsRequest;

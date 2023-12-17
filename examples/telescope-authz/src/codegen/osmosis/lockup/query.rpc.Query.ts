@@ -1,7 +1,7 @@
 import { TxRpc } from "../../types";
 import { BinaryReader } from "../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../mobx";
 import { ModuleBalanceRequest, ModuleBalanceResponse, ModuleLockedAmountRequest, ModuleLockedAmountResponse, AccountUnlockableCoinsRequest, AccountUnlockableCoinsResponse, AccountUnlockingCoinsRequest, AccountUnlockingCoinsResponse, AccountLockedCoinsRequest, AccountLockedCoinsResponse, AccountLockedPastTimeRequest, AccountLockedPastTimeResponse, AccountLockedPastTimeNotUnlockingOnlyRequest, AccountLockedPastTimeNotUnlockingOnlyResponse, AccountUnlockedBeforeTimeRequest, AccountUnlockedBeforeTimeResponse, AccountLockedPastTimeDenomRequest, AccountLockedPastTimeDenomResponse, LockedDenomRequest, LockedDenomResponse, LockedRequest, LockedResponse, SyntheticLockupsByLockupIDRequest, SyntheticLockupsByLockupIDResponse, AccountLockedLongerDurationRequest, AccountLockedLongerDurationResponse, AccountLockedDurationRequest, AccountLockedDurationResponse, AccountLockedLongerDurationNotUnlockingOnlyRequest, AccountLockedLongerDurationNotUnlockingOnlyResponse, AccountLockedLongerDurationDenomRequest, AccountLockedLongerDurationDenomResponse, QueryParamsRequest, QueryParamsResponse } from "./query";
@@ -158,62 +158,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryParamsResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    moduleBalance(request?: ModuleBalanceRequest): Promise<ModuleBalanceResponse> {
-      return queryService.moduleBalance(request);
-    },
-    moduleLockedAmount(request?: ModuleLockedAmountRequest): Promise<ModuleLockedAmountResponse> {
-      return queryService.moduleLockedAmount(request);
-    },
-    accountUnlockableCoins(request: AccountUnlockableCoinsRequest): Promise<AccountUnlockableCoinsResponse> {
-      return queryService.accountUnlockableCoins(request);
-    },
-    accountUnlockingCoins(request: AccountUnlockingCoinsRequest): Promise<AccountUnlockingCoinsResponse> {
-      return queryService.accountUnlockingCoins(request);
-    },
-    accountLockedCoins(request: AccountLockedCoinsRequest): Promise<AccountLockedCoinsResponse> {
-      return queryService.accountLockedCoins(request);
-    },
-    accountLockedPastTime(request: AccountLockedPastTimeRequest): Promise<AccountLockedPastTimeResponse> {
-      return queryService.accountLockedPastTime(request);
-    },
-    accountLockedPastTimeNotUnlockingOnly(request: AccountLockedPastTimeNotUnlockingOnlyRequest): Promise<AccountLockedPastTimeNotUnlockingOnlyResponse> {
-      return queryService.accountLockedPastTimeNotUnlockingOnly(request);
-    },
-    accountUnlockedBeforeTime(request: AccountUnlockedBeforeTimeRequest): Promise<AccountUnlockedBeforeTimeResponse> {
-      return queryService.accountUnlockedBeforeTime(request);
-    },
-    accountLockedPastTimeDenom(request: AccountLockedPastTimeDenomRequest): Promise<AccountLockedPastTimeDenomResponse> {
-      return queryService.accountLockedPastTimeDenom(request);
-    },
-    lockedDenom(request: LockedDenomRequest): Promise<LockedDenomResponse> {
-      return queryService.lockedDenom(request);
-    },
-    lockedByID(request: LockedRequest): Promise<LockedResponse> {
-      return queryService.lockedByID(request);
-    },
-    syntheticLockupsByLockupID(request: SyntheticLockupsByLockupIDRequest): Promise<SyntheticLockupsByLockupIDResponse> {
-      return queryService.syntheticLockupsByLockupID(request);
-    },
-    accountLockedLongerDuration(request: AccountLockedLongerDurationRequest): Promise<AccountLockedLongerDurationResponse> {
-      return queryService.accountLockedLongerDuration(request);
-    },
-    accountLockedDuration(request: AccountLockedDurationRequest): Promise<AccountLockedDurationResponse> {
-      return queryService.accountLockedDuration(request);
-    },
-    accountLockedLongerDurationNotUnlockingOnly(request: AccountLockedLongerDurationNotUnlockingOnlyRequest): Promise<AccountLockedLongerDurationNotUnlockingOnlyResponse> {
-      return queryService.accountLockedLongerDurationNotUnlockingOnly(request);
-    },
-    accountLockedLongerDurationDenom(request: AccountLockedLongerDurationDenomRequest): Promise<AccountLockedLongerDurationDenomResponse> {
-      return queryService.accountLockedLongerDurationDenom(request);
-    },
-    params(request?: QueryParamsRequest): Promise<QueryParamsResponse> {
-      return queryService.params(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseModuleBalanceQuery<TData> extends ReactQueryParams<ModuleBalanceResponse, TData> {
   request?: ModuleBalanceRequest;

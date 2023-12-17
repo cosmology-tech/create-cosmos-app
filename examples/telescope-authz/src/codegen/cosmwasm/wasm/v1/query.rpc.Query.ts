@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../mobx";
 import { QueryContractInfoRequest, QueryContractInfoResponse, QueryContractHistoryRequest, QueryContractHistoryResponse, QueryContractsByCodeRequest, QueryContractsByCodeResponse, QueryAllContractStateRequest, QueryAllContractStateResponse, QueryRawContractStateRequest, QueryRawContractStateResponse, QuerySmartContractStateRequest, QuerySmartContractStateResponse, QueryCodeRequest, QueryCodeResponse, QueryCodesRequest, QueryCodesResponse, QueryPinnedCodesRequest, QueryPinnedCodesResponse } from "./query";
@@ -90,38 +90,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryPinnedCodesResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    contractInfo(request: QueryContractInfoRequest): Promise<QueryContractInfoResponse> {
-      return queryService.contractInfo(request);
-    },
-    contractHistory(request: QueryContractHistoryRequest): Promise<QueryContractHistoryResponse> {
-      return queryService.contractHistory(request);
-    },
-    contractsByCode(request: QueryContractsByCodeRequest): Promise<QueryContractsByCodeResponse> {
-      return queryService.contractsByCode(request);
-    },
-    allContractState(request: QueryAllContractStateRequest): Promise<QueryAllContractStateResponse> {
-      return queryService.allContractState(request);
-    },
-    rawContractState(request: QueryRawContractStateRequest): Promise<QueryRawContractStateResponse> {
-      return queryService.rawContractState(request);
-    },
-    smartContractState(request: QuerySmartContractStateRequest): Promise<QuerySmartContractStateResponse> {
-      return queryService.smartContractState(request);
-    },
-    code(request: QueryCodeRequest): Promise<QueryCodeResponse> {
-      return queryService.code(request);
-    },
-    codes(request?: QueryCodesRequest): Promise<QueryCodesResponse> {
-      return queryService.codes(request);
-    },
-    pinnedCodes(request?: QueryPinnedCodesRequest): Promise<QueryPinnedCodesResponse> {
-      return queryService.pinnedCodes(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseContractInfoQuery<TData> extends ReactQueryParams<QueryContractInfoResponse, TData> {
   request: QueryContractInfoRequest;

@@ -1,7 +1,7 @@
 import { TxRpc } from "../../types";
 import { BinaryReader } from "../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../mobx";
 import { ModuleToDistributeCoinsRequest, ModuleToDistributeCoinsResponse, GaugeByIDRequest, GaugeByIDResponse, GaugesRequest, GaugesResponse, ActiveGaugesRequest, ActiveGaugesResponse, ActiveGaugesPerDenomRequest, ActiveGaugesPerDenomResponse, UpcomingGaugesRequest, UpcomingGaugesResponse, UpcomingGaugesPerDenomRequest, UpcomingGaugesPerDenomResponse, RewardsEstRequest, RewardsEstResponse, QueryLockableDurationsRequest, QueryLockableDurationsResponse } from "./query";
@@ -106,38 +106,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryLockableDurationsResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    moduleToDistributeCoins(request?: ModuleToDistributeCoinsRequest): Promise<ModuleToDistributeCoinsResponse> {
-      return queryService.moduleToDistributeCoins(request);
-    },
-    gaugeByID(request: GaugeByIDRequest): Promise<GaugeByIDResponse> {
-      return queryService.gaugeByID(request);
-    },
-    gauges(request?: GaugesRequest): Promise<GaugesResponse> {
-      return queryService.gauges(request);
-    },
-    activeGauges(request?: ActiveGaugesRequest): Promise<ActiveGaugesResponse> {
-      return queryService.activeGauges(request);
-    },
-    activeGaugesPerDenom(request: ActiveGaugesPerDenomRequest): Promise<ActiveGaugesPerDenomResponse> {
-      return queryService.activeGaugesPerDenom(request);
-    },
-    upcomingGauges(request?: UpcomingGaugesRequest): Promise<UpcomingGaugesResponse> {
-      return queryService.upcomingGauges(request);
-    },
-    upcomingGaugesPerDenom(request: UpcomingGaugesPerDenomRequest): Promise<UpcomingGaugesPerDenomResponse> {
-      return queryService.upcomingGaugesPerDenom(request);
-    },
-    rewardsEst(request: RewardsEstRequest): Promise<RewardsEstResponse> {
-      return queryService.rewardsEst(request);
-    },
-    lockableDurations(request?: QueryLockableDurationsRequest): Promise<QueryLockableDurationsResponse> {
-      return queryService.lockableDurations(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseModuleToDistributeCoinsQuery<TData> extends ReactQueryParams<ModuleToDistributeCoinsResponse, TData> {
   request?: ModuleToDistributeCoinsRequest;

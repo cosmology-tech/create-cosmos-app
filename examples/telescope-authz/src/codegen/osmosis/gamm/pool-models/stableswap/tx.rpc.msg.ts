@@ -1,9 +1,8 @@
-import { TxRpc } from "../../../../types";
-import { BinaryReader } from "../../../../binary";
-import { MsgCreateStableswapPool, MsgCreateStableswapPoolResponse, MsgStableSwapAdjustScalingFactors, MsgStableSwapAdjustScalingFactorsResponse } from "./tx";
+import { DeliverTxResponse, StdFee, TxRpc } from "../../../../types";
+import { MsgCreateStableswapPool, MsgStableSwapAdjustScalingFactors } from "./tx";
 export interface Msg {
-  createStableswapPool(request: MsgCreateStableswapPool): Promise<MsgCreateStableswapPoolResponse>;
-  stableSwapAdjustScalingFactors(request: MsgStableSwapAdjustScalingFactors): Promise<MsgStableSwapAdjustScalingFactorsResponse>;
+  createStableswapPool(signerAddress: string, message: MsgCreateStableswapPool, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
+  stableSwapAdjustScalingFactors(signerAddress: string, message: MsgStableSwapAdjustScalingFactors, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: TxRpc;
@@ -11,16 +10,20 @@ export class MsgClientImpl implements Msg {
     this.rpc = rpc;
   }
   /* CreateStableswapPool */
-  createStableswapPool = async (request: MsgCreateStableswapPool): Promise<MsgCreateStableswapPoolResponse> => {
-    const data = MsgCreateStableswapPool.encode(request).finish();
-    const promise = this.rpc.request("osmosis.gamm.poolmodels.stableswap.v1beta1.Msg", "CreateStableswapPool", data);
-    return promise.then(data => MsgCreateStableswapPoolResponse.decode(new BinaryReader(data)));
+  createStableswapPool = async (signerAddress: string, message: MsgCreateStableswapPool, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgCreateStableswapPool.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* StableSwapAdjustScalingFactors */
-  stableSwapAdjustScalingFactors = async (request: MsgStableSwapAdjustScalingFactors): Promise<MsgStableSwapAdjustScalingFactorsResponse> => {
-    const data = MsgStableSwapAdjustScalingFactors.encode(request).finish();
-    const promise = this.rpc.request("osmosis.gamm.poolmodels.stableswap.v1beta1.Msg", "StableSwapAdjustScalingFactors", data);
-    return promise.then(data => MsgStableSwapAdjustScalingFactorsResponse.decode(new BinaryReader(data)));
+  stableSwapAdjustScalingFactors = async (signerAddress: string, message: MsgStableSwapAdjustScalingFactors, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgStableSwapAdjustScalingFactors.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
 }
 export const createClientImpl = (rpc: TxRpc) => {

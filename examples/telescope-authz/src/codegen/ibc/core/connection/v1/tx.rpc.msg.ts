@@ -1,19 +1,18 @@
-import { TxRpc } from "../../../../types";
-import { BinaryReader } from "../../../../binary";
-import { MsgConnectionOpenInit, MsgConnectionOpenInitResponse, MsgConnectionOpenTry, MsgConnectionOpenTryResponse, MsgConnectionOpenAck, MsgConnectionOpenAckResponse, MsgConnectionOpenConfirm, MsgConnectionOpenConfirmResponse } from "./tx";
+import { DeliverTxResponse, StdFee, TxRpc } from "../../../../types";
+import { MsgConnectionOpenInit, MsgConnectionOpenTry, MsgConnectionOpenAck, MsgConnectionOpenConfirm } from "./tx";
 /** Msg defines the ibc/connection Msg service. */
 export interface Msg {
   /** ConnectionOpenInit defines a rpc handler method for MsgConnectionOpenInit. */
-  connectionOpenInit(request: MsgConnectionOpenInit): Promise<MsgConnectionOpenInitResponse>;
+  connectionOpenInit(signerAddress: string, message: MsgConnectionOpenInit, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
   /** ConnectionOpenTry defines a rpc handler method for MsgConnectionOpenTry. */
-  connectionOpenTry(request: MsgConnectionOpenTry): Promise<MsgConnectionOpenTryResponse>;
+  connectionOpenTry(signerAddress: string, message: MsgConnectionOpenTry, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
   /** ConnectionOpenAck defines a rpc handler method for MsgConnectionOpenAck. */
-  connectionOpenAck(request: MsgConnectionOpenAck): Promise<MsgConnectionOpenAckResponse>;
+  connectionOpenAck(signerAddress: string, message: MsgConnectionOpenAck, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
   /**
    * ConnectionOpenConfirm defines a rpc handler method for
    * MsgConnectionOpenConfirm.
    */
-  connectionOpenConfirm(request: MsgConnectionOpenConfirm): Promise<MsgConnectionOpenConfirmResponse>;
+  connectionOpenConfirm(signerAddress: string, message: MsgConnectionOpenConfirm, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: TxRpc;
@@ -21,29 +20,37 @@ export class MsgClientImpl implements Msg {
     this.rpc = rpc;
   }
   /* ConnectionOpenInit defines a rpc handler method for MsgConnectionOpenInit. */
-  connectionOpenInit = async (request: MsgConnectionOpenInit): Promise<MsgConnectionOpenInitResponse> => {
-    const data = MsgConnectionOpenInit.encode(request).finish();
-    const promise = this.rpc.request("ibc.core.connection.v1.Msg", "ConnectionOpenInit", data);
-    return promise.then(data => MsgConnectionOpenInitResponse.decode(new BinaryReader(data)));
+  connectionOpenInit = async (signerAddress: string, message: MsgConnectionOpenInit, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgConnectionOpenInit.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* ConnectionOpenTry defines a rpc handler method for MsgConnectionOpenTry. */
-  connectionOpenTry = async (request: MsgConnectionOpenTry): Promise<MsgConnectionOpenTryResponse> => {
-    const data = MsgConnectionOpenTry.encode(request).finish();
-    const promise = this.rpc.request("ibc.core.connection.v1.Msg", "ConnectionOpenTry", data);
-    return promise.then(data => MsgConnectionOpenTryResponse.decode(new BinaryReader(data)));
+  connectionOpenTry = async (signerAddress: string, message: MsgConnectionOpenTry, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgConnectionOpenTry.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* ConnectionOpenAck defines a rpc handler method for MsgConnectionOpenAck. */
-  connectionOpenAck = async (request: MsgConnectionOpenAck): Promise<MsgConnectionOpenAckResponse> => {
-    const data = MsgConnectionOpenAck.encode(request).finish();
-    const promise = this.rpc.request("ibc.core.connection.v1.Msg", "ConnectionOpenAck", data);
-    return promise.then(data => MsgConnectionOpenAckResponse.decode(new BinaryReader(data)));
+  connectionOpenAck = async (signerAddress: string, message: MsgConnectionOpenAck, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgConnectionOpenAck.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* ConnectionOpenConfirm defines a rpc handler method for
    MsgConnectionOpenConfirm. */
-  connectionOpenConfirm = async (request: MsgConnectionOpenConfirm): Promise<MsgConnectionOpenConfirmResponse> => {
-    const data = MsgConnectionOpenConfirm.encode(request).finish();
-    const promise = this.rpc.request("ibc.core.connection.v1.Msg", "ConnectionOpenConfirm", data);
-    return promise.then(data => MsgConnectionOpenConfirmResponse.decode(new BinaryReader(data)));
+  connectionOpenConfirm = async (signerAddress: string, message: MsgConnectionOpenConfirm, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgConnectionOpenConfirm.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
 }
 export const createClientImpl = (rpc: TxRpc) => {

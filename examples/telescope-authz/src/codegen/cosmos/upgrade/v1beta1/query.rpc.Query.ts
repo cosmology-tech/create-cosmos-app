@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../mobx";
 import { QueryCurrentPlanRequest, QueryCurrentPlanResponse, QueryAppliedPlanRequest, QueryAppliedPlanResponse, QueryUpgradedConsensusStateRequest, QueryUpgradedConsensusStateResponse, QueryModuleVersionsRequest, QueryModuleVersionsResponse, QueryAuthorityRequest, QueryAuthorityResponse } from "./query";
@@ -72,26 +72,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryAuthorityResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    currentPlan(request?: QueryCurrentPlanRequest): Promise<QueryCurrentPlanResponse> {
-      return queryService.currentPlan(request);
-    },
-    appliedPlan(request: QueryAppliedPlanRequest): Promise<QueryAppliedPlanResponse> {
-      return queryService.appliedPlan(request);
-    },
-    upgradedConsensusState(request: QueryUpgradedConsensusStateRequest): Promise<QueryUpgradedConsensusStateResponse> {
-      return queryService.upgradedConsensusState(request);
-    },
-    moduleVersions(request: QueryModuleVersionsRequest): Promise<QueryModuleVersionsResponse> {
-      return queryService.moduleVersions(request);
-    },
-    authority(request?: QueryAuthorityRequest): Promise<QueryAuthorityResponse> {
-      return queryService.authority(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseCurrentPlanQuery<TData> extends ReactQueryParams<QueryCurrentPlanResponse, TData> {
   request?: QueryCurrentPlanRequest;
