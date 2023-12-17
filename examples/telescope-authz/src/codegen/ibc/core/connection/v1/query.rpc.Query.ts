@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../../types";
 import { BinaryReader } from "../../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../../mobx";
 import { QueryConnectionRequest, QueryConnectionResponse, QueryConnectionsRequest, QueryConnectionsResponse, QueryClientConnectionsRequest, QueryClientConnectionsResponse, QueryConnectionClientStateRequest, QueryConnectionClientStateResponse, QueryConnectionConsensusStateRequest, QueryConnectionConsensusStateResponse } from "./query";
@@ -68,26 +68,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryConnectionConsensusStateResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    connection(request: QueryConnectionRequest): Promise<QueryConnectionResponse> {
-      return queryService.connection(request);
-    },
-    connections(request?: QueryConnectionsRequest): Promise<QueryConnectionsResponse> {
-      return queryService.connections(request);
-    },
-    clientConnections(request: QueryClientConnectionsRequest): Promise<QueryClientConnectionsResponse> {
-      return queryService.clientConnections(request);
-    },
-    connectionClientState(request: QueryConnectionClientStateRequest): Promise<QueryConnectionClientStateResponse> {
-      return queryService.connectionClientState(request);
-    },
-    connectionConsensusState(request: QueryConnectionConsensusStateRequest): Promise<QueryConnectionConsensusStateResponse> {
-      return queryService.connectionConsensusState(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseConnectionQuery<TData> extends ReactQueryParams<QueryConnectionResponse, TData> {
   request: QueryConnectionRequest;

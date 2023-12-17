@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../mobx";
 import { SimulateRequest, SimulateResponse, GetTxRequest, GetTxResponse, BroadcastTxRequest, BroadcastTxResponse, GetTxsEventRequest, GetTxsEventResponse, GetBlockWithTxsRequest, GetBlockWithTxsResponse } from "./service";
@@ -60,26 +60,8 @@ export class ServiceClientImpl implements Service {
     return promise.then(data => GetBlockWithTxsResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new ServiceClientImpl(rpc);
-  return {
-    simulate(request: SimulateRequest): Promise<SimulateResponse> {
-      return queryService.simulate(request);
-    },
-    getTx(request: GetTxRequest): Promise<GetTxResponse> {
-      return queryService.getTx(request);
-    },
-    broadcastTx(request: BroadcastTxRequest): Promise<BroadcastTxResponse> {
-      return queryService.broadcastTx(request);
-    },
-    getTxsEvent(request: GetTxsEventRequest): Promise<GetTxsEventResponse> {
-      return queryService.getTxsEvent(request);
-    },
-    getBlockWithTxs(request: GetBlockWithTxsRequest): Promise<GetBlockWithTxsResponse> {
-      return queryService.getBlockWithTxs(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new ServiceClientImpl(rpc);
 };
 export interface UseSimulateQuery<TData> extends ReactQueryParams<SimulateResponse, TData> {
   request: SimulateRequest;

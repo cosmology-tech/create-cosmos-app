@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../mobx";
 import { QueryAccountsRequest, QueryAccountsResponse, QueryAccountRequest, QueryAccountResponse, QueryParamsRequest, QueryParamsResponse, QueryModuleAccountsRequest, QueryModuleAccountsResponse, Bech32PrefixRequest, Bech32PrefixResponse, AddressBytesToStringRequest, AddressBytesToStringResponse, AddressStringToBytesRequest, AddressStringToBytesResponse } from "./query";
@@ -78,32 +78,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => AddressStringToBytesResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    accounts(request?: QueryAccountsRequest): Promise<QueryAccountsResponse> {
-      return queryService.accounts(request);
-    },
-    account(request: QueryAccountRequest): Promise<QueryAccountResponse> {
-      return queryService.account(request);
-    },
-    params(request?: QueryParamsRequest): Promise<QueryParamsResponse> {
-      return queryService.params(request);
-    },
-    moduleAccounts(request?: QueryModuleAccountsRequest): Promise<QueryModuleAccountsResponse> {
-      return queryService.moduleAccounts(request);
-    },
-    bech32Prefix(request?: Bech32PrefixRequest): Promise<Bech32PrefixResponse> {
-      return queryService.bech32Prefix(request);
-    },
-    addressBytesToString(request: AddressBytesToStringRequest): Promise<AddressBytesToStringResponse> {
-      return queryService.addressBytesToString(request);
-    },
-    addressStringToBytes(request: AddressStringToBytesRequest): Promise<AddressStringToBytesResponse> {
-      return queryService.addressStringToBytes(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseAccountsQuery<TData> extends ReactQueryParams<QueryAccountsResponse, TData> {
   request?: QueryAccountsRequest;

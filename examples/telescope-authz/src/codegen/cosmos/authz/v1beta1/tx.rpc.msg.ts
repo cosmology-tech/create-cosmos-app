@@ -1,6 +1,5 @@
-import { TxRpc } from "../../../types";
-import { BinaryReader } from "../../../binary";
-import { MsgGrant, MsgGrantResponse, MsgExec, MsgExecResponse, MsgRevoke, MsgRevokeResponse } from "./tx";
+import { DeliverTxResponse, StdFee, TxRpc } from "../../../types";
+import { MsgGrant, MsgExec, MsgRevoke } from "./tx";
 /** Msg defines the authz Msg service. */
 export interface Msg {
   /**
@@ -9,18 +8,18 @@ export interface Msg {
    * for the given (granter, grantee, Authorization) triple, then the grant
    * will be overwritten.
    */
-  grant(request: MsgGrant): Promise<MsgGrantResponse>;
+  grant(signerAddress: string, message: MsgGrant, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
   /**
    * Exec attempts to execute the provided messages using
    * authorizations granted to the grantee. Each message should have only
    * one signer corresponding to the granter of the authorization.
    */
-  exec(request: MsgExec): Promise<MsgExecResponse>;
+  exec(signerAddress: string, message: MsgExec, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
   /**
    * Revoke revokes any authorization corresponding to the provided method name on the
    * granter's account that has been granted to the grantee.
    */
-  revoke(request: MsgRevoke): Promise<MsgRevokeResponse>;
+  revoke(signerAddress: string, message: MsgRevoke, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: TxRpc;
@@ -31,25 +30,31 @@ export class MsgClientImpl implements Msg {
    account with the provided expiration time. If there is already a grant
    for the given (granter, grantee, Authorization) triple, then the grant
    will be overwritten. */
-  grant = async (request: MsgGrant): Promise<MsgGrantResponse> => {
-    const data = MsgGrant.encode(request).finish();
-    const promise = this.rpc.request("cosmos.authz.v1beta1.Msg", "Grant", data);
-    return promise.then(data => MsgGrantResponse.decode(new BinaryReader(data)));
+  grant = async (signerAddress: string, message: MsgGrant, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgGrant.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* Exec attempts to execute the provided messages using
    authorizations granted to the grantee. Each message should have only
    one signer corresponding to the granter of the authorization. */
-  exec = async (request: MsgExec): Promise<MsgExecResponse> => {
-    const data = MsgExec.encode(request).finish();
-    const promise = this.rpc.request("cosmos.authz.v1beta1.Msg", "Exec", data);
-    return promise.then(data => MsgExecResponse.decode(new BinaryReader(data)));
+  exec = async (signerAddress: string, message: MsgExec, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgExec.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* Revoke revokes any authorization corresponding to the provided method name on the
    granter's account that has been granted to the grantee. */
-  revoke = async (request: MsgRevoke): Promise<MsgRevokeResponse> => {
-    const data = MsgRevoke.encode(request).finish();
-    const promise = this.rpc.request("cosmos.authz.v1beta1.Msg", "Revoke", data);
-    return promise.then(data => MsgRevokeResponse.decode(new BinaryReader(data)));
+  revoke = async (signerAddress: string, message: MsgRevoke, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgRevoke.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
 }
 export const createClientImpl = (rpc: TxRpc) => {

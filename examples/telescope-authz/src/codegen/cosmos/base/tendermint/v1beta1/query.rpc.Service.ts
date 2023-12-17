@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../../types";
 import { BinaryReader } from "../../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../../mobx";
 import { GetNodeInfoRequest, GetNodeInfoResponse, GetSyncingRequest, GetSyncingResponse, GetLatestBlockRequest, GetLatestBlockResponse, GetBlockByHeightRequest, GetBlockByHeightResponse, GetLatestValidatorSetRequest, GetLatestValidatorSetResponse, GetValidatorSetByHeightRequest, GetValidatorSetByHeightResponse } from "./query";
@@ -64,29 +64,8 @@ export class ServiceClientImpl implements Service {
     return promise.then(data => GetValidatorSetByHeightResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new ServiceClientImpl(rpc);
-  return {
-    getNodeInfo(request?: GetNodeInfoRequest): Promise<GetNodeInfoResponse> {
-      return queryService.getNodeInfo(request);
-    },
-    getSyncing(request?: GetSyncingRequest): Promise<GetSyncingResponse> {
-      return queryService.getSyncing(request);
-    },
-    getLatestBlock(request?: GetLatestBlockRequest): Promise<GetLatestBlockResponse> {
-      return queryService.getLatestBlock(request);
-    },
-    getBlockByHeight(request: GetBlockByHeightRequest): Promise<GetBlockByHeightResponse> {
-      return queryService.getBlockByHeight(request);
-    },
-    getLatestValidatorSet(request?: GetLatestValidatorSetRequest): Promise<GetLatestValidatorSetResponse> {
-      return queryService.getLatestValidatorSet(request);
-    },
-    getValidatorSetByHeight(request: GetValidatorSetByHeightRequest): Promise<GetValidatorSetByHeightResponse> {
-      return queryService.getValidatorSetByHeight(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new ServiceClientImpl(rpc);
 };
 export interface UseGetNodeInfoQuery<TData> extends ReactQueryParams<GetNodeInfoResponse, TData> {
   request?: GetNodeInfoRequest;

@@ -8,6 +8,11 @@ telescope({
   outPath: join(__dirname, '../src/codegen'),
   options: {
     env: 'v-next',
+    tsDisable: {
+      files: [
+        'cosmos/auth/v1beta1/query.ts',
+      ],
+    },
     classesUseArrowFunctions: true,
     interfaces: {
       enabled: true,
@@ -16,6 +21,9 @@ telescope({
     },
     prototypes: {
       enabled: true,
+      excluded: {
+        packages: ['osmosis.gamm.v1beta1'],
+      },
       parser: {
         keepCase: false,
       },
@@ -63,7 +71,13 @@ telescope({
     },
     rpcClients: {
       enabled: true,
+      extensions: false,
       camelCase: true,
+      serviceImplement: {
+        Msg: {
+          type: "Tx",
+        },
+      },
     },
     mobx: {
       enabled: true,

@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../../types";
 import { BinaryReader } from "../../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../../mobx";
 import { QueryChannelRequest, QueryChannelResponse, QueryChannelsRequest, QueryChannelsResponse, QueryConnectionChannelsRequest, QueryConnectionChannelsResponse, QueryChannelClientStateRequest, QueryChannelClientStateResponse, QueryChannelConsensusStateRequest, QueryChannelConsensusStateResponse, QueryPacketCommitmentRequest, QueryPacketCommitmentResponse, QueryPacketCommitmentsRequest, QueryPacketCommitmentsResponse, QueryPacketReceiptRequest, QueryPacketReceiptResponse, QueryPacketAcknowledgementRequest, QueryPacketAcknowledgementResponse, QueryPacketAcknowledgementsRequest, QueryPacketAcknowledgementsResponse, QueryUnreceivedPacketsRequest, QueryUnreceivedPacketsResponse, QueryUnreceivedAcksRequest, QueryUnreceivedAcksResponse, QueryNextSequenceReceiveRequest, QueryNextSequenceReceiveResponse } from "./query";
@@ -152,50 +152,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryNextSequenceReceiveResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    channel(request: QueryChannelRequest): Promise<QueryChannelResponse> {
-      return queryService.channel(request);
-    },
-    channels(request?: QueryChannelsRequest): Promise<QueryChannelsResponse> {
-      return queryService.channels(request);
-    },
-    connectionChannels(request: QueryConnectionChannelsRequest): Promise<QueryConnectionChannelsResponse> {
-      return queryService.connectionChannels(request);
-    },
-    channelClientState(request: QueryChannelClientStateRequest): Promise<QueryChannelClientStateResponse> {
-      return queryService.channelClientState(request);
-    },
-    channelConsensusState(request: QueryChannelConsensusStateRequest): Promise<QueryChannelConsensusStateResponse> {
-      return queryService.channelConsensusState(request);
-    },
-    packetCommitment(request: QueryPacketCommitmentRequest): Promise<QueryPacketCommitmentResponse> {
-      return queryService.packetCommitment(request);
-    },
-    packetCommitments(request: QueryPacketCommitmentsRequest): Promise<QueryPacketCommitmentsResponse> {
-      return queryService.packetCommitments(request);
-    },
-    packetReceipt(request: QueryPacketReceiptRequest): Promise<QueryPacketReceiptResponse> {
-      return queryService.packetReceipt(request);
-    },
-    packetAcknowledgement(request: QueryPacketAcknowledgementRequest): Promise<QueryPacketAcknowledgementResponse> {
-      return queryService.packetAcknowledgement(request);
-    },
-    packetAcknowledgements(request: QueryPacketAcknowledgementsRequest): Promise<QueryPacketAcknowledgementsResponse> {
-      return queryService.packetAcknowledgements(request);
-    },
-    unreceivedPackets(request: QueryUnreceivedPacketsRequest): Promise<QueryUnreceivedPacketsResponse> {
-      return queryService.unreceivedPackets(request);
-    },
-    unreceivedAcks(request: QueryUnreceivedAcksRequest): Promise<QueryUnreceivedAcksResponse> {
-      return queryService.unreceivedAcks(request);
-    },
-    nextSequenceReceive(request: QueryNextSequenceReceiveRequest): Promise<QueryNextSequenceReceiveResponse> {
-      return queryService.nextSequenceReceive(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseChannelQuery<TData> extends ReactQueryParams<QueryChannelResponse, TData> {
   request: QueryChannelRequest;

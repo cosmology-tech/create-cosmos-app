@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../mobx";
 import { QueryBalanceRequest, QueryBalanceResponse, QueryOwnerRequest, QueryOwnerResponse, QuerySupplyRequest, QuerySupplyResponse, QueryNFTsRequest, QueryNFTsResponse, QueryNFTRequest, QueryNFTResponse, QueryClassRequest, QueryClassResponse, QueryClassesRequest, QueryClassesResponse } from "./query";
@@ -76,32 +76,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryClassesResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    balance(request: QueryBalanceRequest): Promise<QueryBalanceResponse> {
-      return queryService.balance(request);
-    },
-    owner(request: QueryOwnerRequest): Promise<QueryOwnerResponse> {
-      return queryService.owner(request);
-    },
-    supply(request: QuerySupplyRequest): Promise<QuerySupplyResponse> {
-      return queryService.supply(request);
-    },
-    nFTs(request: QueryNFTsRequest): Promise<QueryNFTsResponse> {
-      return queryService.nFTs(request);
-    },
-    nFT(request: QueryNFTRequest): Promise<QueryNFTResponse> {
-      return queryService.nFT(request);
-    },
-    class(request: QueryClassRequest): Promise<QueryClassResponse> {
-      return queryService.class(request);
-    },
-    classes(request?: QueryClassesRequest): Promise<QueryClassesResponse> {
-      return queryService.classes(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseBalanceQuery<TData> extends ReactQueryParams<QueryBalanceResponse, TData> {
   request: QueryBalanceRequest;

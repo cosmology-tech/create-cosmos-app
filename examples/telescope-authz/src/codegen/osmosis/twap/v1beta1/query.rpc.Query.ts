@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../mobx";
 import { ParamsRequest, ParamsResponse, ArithmeticTwapRequest, ArithmeticTwapResponse, ArithmeticTwapToNowRequest, ArithmeticTwapToNowResponse } from "./query";
@@ -34,20 +34,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => ArithmeticTwapToNowResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    params(request?: ParamsRequest): Promise<ParamsResponse> {
-      return queryService.params(request);
-    },
-    arithmeticTwap(request: ArithmeticTwapRequest): Promise<ArithmeticTwapResponse> {
-      return queryService.arithmeticTwap(request);
-    },
-    arithmeticTwapToNow(request: ArithmeticTwapToNowRequest): Promise<ArithmeticTwapToNowResponse> {
-      return queryService.arithmeticTwapToNow(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseParamsQuery<TData> extends ReactQueryParams<ParamsResponse, TData> {
   request?: ParamsRequest;

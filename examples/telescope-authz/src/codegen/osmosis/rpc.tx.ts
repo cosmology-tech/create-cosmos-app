@@ -55,8 +55,7 @@ export const createRPCMsgClient = async ({
         stableswap: {
           v1beta1: new (await import("./gamm/pool-models/stableswap/tx.rpc.msg")).MsgClientImpl(rpc)
         }
-      },
-      v1beta1: new (await import("./gamm/v1beta1/tx.rpc.msg")).MsgClientImpl(rpc)
+      }
     },
     incentives: new (await import("./incentives/tx.rpc.msg")).MsgClientImpl(rpc),
     lockup: new (await import("./lockup/tx.rpc.msg")).MsgClientImpl(rpc),

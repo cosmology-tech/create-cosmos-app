@@ -1,23 +1,22 @@
-import { TxRpc } from "../../../types";
-import { BinaryReader } from "../../../binary";
-import { MsgCreateVestingAccount, MsgCreateVestingAccountResponse, MsgCreatePermanentLockedAccount, MsgCreatePermanentLockedAccountResponse, MsgCreatePeriodicVestingAccount, MsgCreatePeriodicVestingAccountResponse } from "./tx";
+import { DeliverTxResponse, StdFee, TxRpc } from "../../../types";
+import { MsgCreateVestingAccount, MsgCreatePermanentLockedAccount, MsgCreatePeriodicVestingAccount } from "./tx";
 /** Msg defines the bank Msg service. */
 export interface Msg {
   /**
    * CreateVestingAccount defines a method that enables creating a vesting
    * account.
    */
-  createVestingAccount(request: MsgCreateVestingAccount): Promise<MsgCreateVestingAccountResponse>;
+  createVestingAccount(signerAddress: string, message: MsgCreateVestingAccount, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
   /**
    * CreatePermanentLockedAccount defines a method that enables creating a permanent
    * locked account.
    */
-  createPermanentLockedAccount(request: MsgCreatePermanentLockedAccount): Promise<MsgCreatePermanentLockedAccountResponse>;
+  createPermanentLockedAccount(signerAddress: string, message: MsgCreatePermanentLockedAccount, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
   /**
    * CreatePeriodicVestingAccount defines a method that enables creating a
    * periodic vesting account.
    */
-  createPeriodicVestingAccount(request: MsgCreatePeriodicVestingAccount): Promise<MsgCreatePeriodicVestingAccountResponse>;
+  createPeriodicVestingAccount(signerAddress: string, message: MsgCreatePeriodicVestingAccount, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: TxRpc;
@@ -26,24 +25,30 @@ export class MsgClientImpl implements Msg {
   }
   /* CreateVestingAccount defines a method that enables creating a vesting
    account. */
-  createVestingAccount = async (request: MsgCreateVestingAccount): Promise<MsgCreateVestingAccountResponse> => {
-    const data = MsgCreateVestingAccount.encode(request).finish();
-    const promise = this.rpc.request("cosmos.vesting.v1beta1.Msg", "CreateVestingAccount", data);
-    return promise.then(data => MsgCreateVestingAccountResponse.decode(new BinaryReader(data)));
+  createVestingAccount = async (signerAddress: string, message: MsgCreateVestingAccount, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgCreateVestingAccount.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* CreatePermanentLockedAccount defines a method that enables creating a permanent
    locked account. */
-  createPermanentLockedAccount = async (request: MsgCreatePermanentLockedAccount): Promise<MsgCreatePermanentLockedAccountResponse> => {
-    const data = MsgCreatePermanentLockedAccount.encode(request).finish();
-    const promise = this.rpc.request("cosmos.vesting.v1beta1.Msg", "CreatePermanentLockedAccount", data);
-    return promise.then(data => MsgCreatePermanentLockedAccountResponse.decode(new BinaryReader(data)));
+  createPermanentLockedAccount = async (signerAddress: string, message: MsgCreatePermanentLockedAccount, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgCreatePermanentLockedAccount.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
   /* CreatePeriodicVestingAccount defines a method that enables creating a
    periodic vesting account. */
-  createPeriodicVestingAccount = async (request: MsgCreatePeriodicVestingAccount): Promise<MsgCreatePeriodicVestingAccountResponse> => {
-    const data = MsgCreatePeriodicVestingAccount.encode(request).finish();
-    const promise = this.rpc.request("cosmos.vesting.v1beta1.Msg", "CreatePeriodicVestingAccount", data);
-    return promise.then(data => MsgCreatePeriodicVestingAccountResponse.decode(new BinaryReader(data)));
+  createPeriodicVestingAccount = async (signerAddress: string, message: MsgCreatePeriodicVestingAccount, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgCreatePeriodicVestingAccount.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
 }
 export const createClientImpl = (rpc: TxRpc) => {

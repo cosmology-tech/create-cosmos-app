@@ -1,8 +1,7 @@
-import { TxRpc } from "../../../../../types";
-import { BinaryReader } from "../../../../../binary";
-import { MsgCreateBalancerPool, MsgCreateBalancerPoolResponse } from "./tx";
+import { DeliverTxResponse, StdFee, TxRpc } from "../../../../../types";
+import { MsgCreateBalancerPool } from "./tx";
 export interface Msg {
-  createBalancerPool(request: MsgCreateBalancerPool): Promise<MsgCreateBalancerPoolResponse>;
+  createBalancerPool(signerAddress: string, message: MsgCreateBalancerPool, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: TxRpc;
@@ -10,10 +9,12 @@ export class MsgClientImpl implements Msg {
     this.rpc = rpc;
   }
   /* CreateBalancerPool */
-  createBalancerPool = async (request: MsgCreateBalancerPool): Promise<MsgCreateBalancerPoolResponse> => {
-    const data = MsgCreateBalancerPool.encode(request).finish();
-    const promise = this.rpc.request("osmosis.gamm.poolmodels.balancer.v1beta1.Msg", "CreateBalancerPool", data);
-    return promise.then(data => MsgCreateBalancerPoolResponse.decode(new BinaryReader(data)));
+  createBalancerPool = async (signerAddress: string, message: MsgCreateBalancerPool, fee: number | StdFee | "auto" = "auto", memo: string = ""): Promise<DeliverTxResponse> => {
+    const data = [{
+      typeUrl: MsgCreateBalancerPool.typeUrl,
+      value: message
+    }];
+    return this.rpc.signAndBroadcast!(signerAddress, data, fee, memo);
   };
 }
 export const createClientImpl = (rpc: TxRpc) => {

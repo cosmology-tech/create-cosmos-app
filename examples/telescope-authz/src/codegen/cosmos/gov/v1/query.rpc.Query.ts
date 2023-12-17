@@ -1,7 +1,7 @@
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { ReactQueryParams } from "../../../react-query";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useQuery } from "@tanstack/react-query";
 import { QueryStore } from "../../../mobx";
 import { QueryProposalRequest, QueryProposalResponse, QueryProposalsRequest, QueryProposalsResponse, QueryVoteRequest, QueryVoteResponse, QueryVotesRequest, QueryVotesResponse, QueryParamsRequest, QueryParamsResponse, QueryDepositRequest, QueryDepositResponse, QueryDepositsRequest, QueryDepositsResponse, QueryTallyResultRequest, QueryTallyResultResponse } from "./query";
@@ -78,35 +78,8 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryTallyResultResponse.decode(new BinaryReader(data)));
   };
 }
-export const createRpcQueryExtension = (base: QueryClient) => {
-  const rpc = createProtobufRpcClient(base);
-  const queryService = new QueryClientImpl(rpc);
-  return {
-    proposal(request: QueryProposalRequest): Promise<QueryProposalResponse> {
-      return queryService.proposal(request);
-    },
-    proposals(request: QueryProposalsRequest): Promise<QueryProposalsResponse> {
-      return queryService.proposals(request);
-    },
-    vote(request: QueryVoteRequest): Promise<QueryVoteResponse> {
-      return queryService.vote(request);
-    },
-    votes(request: QueryVotesRequest): Promise<QueryVotesResponse> {
-      return queryService.votes(request);
-    },
-    params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
-      return queryService.params(request);
-    },
-    deposit(request: QueryDepositRequest): Promise<QueryDepositResponse> {
-      return queryService.deposit(request);
-    },
-    deposits(request: QueryDepositsRequest): Promise<QueryDepositsResponse> {
-      return queryService.deposits(request);
-    },
-    tallyResult(request: QueryTallyResultRequest): Promise<QueryTallyResultResponse> {
-      return queryService.tallyResult(request);
-    }
-  };
+export const createClientImpl = (rpc: TxRpc) => {
+  return new QueryClientImpl(rpc);
 };
 export interface UseProposalQuery<TData> extends ReactQueryParams<QueryProposalResponse, TData> {
   request: QueryProposalRequest;
