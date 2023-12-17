@@ -107,6 +107,14 @@
     "@babel/highlight" "^7.22.10"
     chalk "^2.4.2"
 
+"@babel/code-frame@^7.22.13":
+  version "7.23.5"
+  resolved "https://registry.npmmirror.com/@babel/code-frame/-/code-frame-7.23.5.tgz#9009b69a8c602293476ad598ff53e4562e15c244"
+  integrity sha512-CgH3s1a96LipHCmSUmYFPwY7MNx8C3avkq7i4Wl3cfa662ldtUe4VM1TPXX70pfmrlWTb6jLqTYrZyT2ZTJBgA==
+  dependencies:
+    "@babel/highlight" "^7.23.4"
+    chalk "^2.4.2"
+
 "@babel/compat-data@^7.17.7", "@babel/compat-data@^7.18.8", "@babel/compat-data@^7.20.5", "@babel/compat-data@^7.21.4", "@babel/compat-data@^7.22.9":
   version "7.22.9"
   resolved "https://registry.npmjs.org/@babel/compat-data/-/compat-data-7.22.9.tgz"
@@ -331,6 +339,16 @@
     "@jridgewell/trace-mapping" "^0.3.17"
     jsesc "^2.5.1"
 
+"@babel/generator@^7.23.0":
+  version "7.23.6"
+  resolved "https://registry.npmmirror.com/@babel/generator/-/generator-7.23.6.tgz#9e1fca4811c77a10580d17d26b57b036133f3c2e"
+  integrity sha512-qrSfCYxYQB5owCmGLbl8XRpX1ytXlpueOb0N0UmQwA073KZxejgQTzAmJezxvpwQD9uGtK2shHdi55QT+MbjIw==
+  dependencies:
+    "@babel/types" "^7.23.6"
+    "@jridgewell/gen-mapping" "^0.3.2"
+    "@jridgewell/trace-mapping" "^0.3.17"
+    jsesc "^2.5.1"
+
 "@babel/helper-annotate-as-pure@^7.18.6", "@babel/helper-annotate-as-pure@^7.22.5":
   version "7.22.5"
   resolved "https://registry.npmjs.org/@babel/helper-annotate-as-pure/-/helper-annotate-as-pure-7.22.5.tgz"
@@ -419,6 +437,11 @@
   resolved "https://registry.npmjs.org/@babel/helper-environment-visitor/-/helper-environment-visitor-7.22.5.tgz"
   integrity sha512-XGmhECfVA/5sAt+H+xpSg0mfrHq6FzNr9Oxh7PSEBBRUb/mL7Kz3NICXb194rCqAEdxkhPT1a88teizAFyvk8Q==
 
+"@babel/helper-environment-visitor@^7.22.20":
+  version "7.22.20"
+  resolved "https://registry.npmmirror.com/@babel/helper-environment-visitor/-/helper-environment-visitor-7.22.20.tgz#96159db61d34a29dba454c959f5ae4a649ba9167"
+  integrity sha512-zfedSIzFhat/gFhWfHtgWvlec0nqB9YEIVrpuwjruLlXfUSnA8cJB0miHKwqDnQ7d32aKo2xt88/xZptwxbfhA==
+
 "@babel/helper-function-name@^7.18.9", "@babel/helper-function-name@^7.19.0", "@babel/helper-function-name@^7.21.0", "@babel/helper-function-name@^7.22.5":
   version "7.22.5"
   resolved "https://registry.npmjs.org/@babel/helper-function-name/-/helper-function-name-7.22.5.tgz"
@@ -426,6 +449,14 @@
   dependencies:
     "@babel/template" "^7.22.5"
     "@babel/types" "^7.22.5"
+
+"@babel/helper-function-name@^7.23.0":
+  version "7.23.0"
+  resolved "https://registry.npmmirror.com/@babel/helper-function-name/-/helper-function-name-7.23.0.tgz#1f9a3cdbd5b2698a670c30d2735f9af95ed52759"
+  integrity sha512-OErEqsrxjZTJciZ4Oo+eoZqeW9UIiOcuYKRJA4ZAgV9myA+pOXhhmpfNCKjEH/auVfEYVFJ6y1Tc4r0eIApqiw==
+  dependencies:
+    "@babel/template" "^7.22.15"
+    "@babel/types" "^7.23.0"
 
 "@babel/helper-hoist-variables@^7.18.6", "@babel/helper-hoist-variables@^7.22.5":
   version "7.22.5"
@@ -529,10 +560,20 @@
   resolved "https://registry.npmmirror.com/@babel/helper-string-parser/-/helper-string-parser-7.22.5.tgz"
   integrity sha512-mM4COjgZox8U+JcXQwPijIZLElkgEpO5rsERVDJTc2qfCDfERyob6k5WegS14SX18IIjv+XD+GrqNumY5JRCDw==
 
+"@babel/helper-string-parser@^7.23.4":
+  version "7.23.4"
+  resolved "https://registry.npmmirror.com/@babel/helper-string-parser/-/helper-string-parser-7.23.4.tgz#9478c707febcbbe1ddb38a3d91a2e054ae622d83"
+  integrity sha512-803gmbQdqwdf4olxrX4AJyFBV/RTr3rSmOj0rKwesmzlfhYNDEs+/iOcznzpNWlJlIlTJC2QfPFcHB6DlzdVLQ==
+
 "@babel/helper-validator-identifier@^7.18.6", "@babel/helper-validator-identifier@^7.19.1", "@babel/helper-validator-identifier@^7.22.5":
   version "7.22.5"
   resolved "https://registry.npmmirror.com/@babel/helper-validator-identifier/-/helper-validator-identifier-7.22.5.tgz"
   integrity sha512-aJXu+6lErq8ltp+JhkJUfk1MTGyuA4v7f3pA+BJ5HLfNC6nAQ0Cpi9uOquUj8Hehg0aUiHzWQbOVJGao6ztBAQ==
+
+"@babel/helper-validator-identifier@^7.22.20":
+  version "7.22.20"
+  resolved "https://registry.npmmirror.com/@babel/helper-validator-identifier/-/helper-validator-identifier-7.22.20.tgz#c4ae002c61d2879e724581d96665583dbc1dc0e0"
+  integrity sha512-Y4OZ+ytlatR8AI+8KZfKuL5urKp7qey08ha31L8b3BwewJAoJamTzyvxPR/5D+KkdJCGPq/+8TukHBlY10FX9A==
 
 "@babel/helper-validator-option@^7.18.6", "@babel/helper-validator-option@^7.21.0", "@babel/helper-validator-option@^7.22.5":
   version "7.22.5"
@@ -593,6 +634,15 @@
     chalk "^2.4.2"
     js-tokens "^4.0.0"
 
+"@babel/highlight@^7.23.4":
+  version "7.23.4"
+  resolved "https://registry.npmmirror.com/@babel/highlight/-/highlight-7.23.4.tgz#edaadf4d8232e1a961432db785091207ead0621b"
+  integrity sha512-acGdbYSfp2WheJoJm/EBBBLh/ID8KDc64ISZ9DYtBmC8/Q204PZJLHyzeB5qMzJ5trcOkybd78M4x2KWsUq++A==
+  dependencies:
+    "@babel/helper-validator-identifier" "^7.22.20"
+    chalk "^2.4.2"
+    js-tokens "^4.0.0"
+
 "@babel/node@^7.19.1":
   version "7.22.6"
   resolved "https://registry.npmmirror.com/@babel/node/-/node-7.22.6.tgz"
@@ -624,6 +674,11 @@
   version "7.22.7"
   resolved "https://registry.npmjs.org/@babel/parser/-/parser-7.22.7.tgz"
   integrity sha512-7NF8pOkHP5o2vpmGgNGcfAeCvOYhGLyA3Z4eBQkT1RJlWu47n63bCs93QfJ2hIAFCil7L5P2IWhs1oToVgrL0Q==
+
+"@babel/parser@^7.22.15", "@babel/parser@^7.23.0":
+  version "7.23.6"
+  resolved "https://registry.npmmirror.com/@babel/parser/-/parser-7.23.6.tgz#ba1c9e512bda72a47e285ae42aff9d2a635a9e3b"
+  integrity sha512-Z2uID7YJ7oNvAI20O9X0bblw7Qqs8Q2hFy0R9tAfnfLkp5MW0UH9eUvnDSnFwKZ0AvgS1ucqR4KzvVHgnke1VQ==
 
 "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@^7.18.6":
   version "7.22.5"
@@ -1854,6 +1909,15 @@
     "@babel/parser" "^7.22.5"
     "@babel/types" "^7.22.5"
 
+"@babel/template@^7.22.15":
+  version "7.22.15"
+  resolved "https://registry.npmmirror.com/@babel/template/-/template-7.22.15.tgz#09576efc3830f0430f4548ef971dde1350ef2f38"
+  integrity sha512-QPErUVm4uyJa60rkI73qneDacvdvzxshT3kksGqlGWYdOTIUOwJ7RDUL8sGqslY1uXWSL6xMFKEXDS3ox2uF0w==
+  dependencies:
+    "@babel/code-frame" "^7.22.13"
+    "@babel/parser" "^7.22.15"
+    "@babel/types" "^7.22.15"
+
 "@babel/template@^7.3.3":
   version "7.20.7"
   resolved "https://registry.npmjs.org/@babel/template/-/template-7.20.7.tgz"
@@ -1892,6 +1956,22 @@
     "@babel/helper-split-export-declaration" "^7.18.6"
     "@babel/parser" "^7.21.4"
     "@babel/types" "^7.21.4"
+    debug "^4.1.0"
+    globals "^11.1.0"
+
+"@babel/traverse@7.23.2":
+  version "7.23.2"
+  resolved "https://registry.npmmirror.com/@babel/traverse/-/traverse-7.23.2.tgz#329c7a06735e144a506bdb2cad0268b7f46f4ad8"
+  integrity sha512-azpe59SQ48qG6nu2CzcMLbxUudtN+dOM9kDbUqGq3HXUJRlo7i8fvPoxQUzYgLZ4cMVmuZgm8vvBpNeRhd6XSw==
+  dependencies:
+    "@babel/code-frame" "^7.22.13"
+    "@babel/generator" "^7.23.0"
+    "@babel/helper-environment-visitor" "^7.22.20"
+    "@babel/helper-function-name" "^7.23.0"
+    "@babel/helper-hoist-variables" "^7.22.5"
+    "@babel/helper-split-export-declaration" "^7.22.6"
+    "@babel/parser" "^7.23.0"
+    "@babel/types" "^7.23.0"
     debug "^4.1.0"
     globals "^11.1.0"
 
@@ -2002,6 +2082,15 @@
   dependencies:
     "@babel/helper-string-parser" "^7.19.4"
     "@babel/helper-validator-identifier" "^7.19.1"
+    to-fast-properties "^2.0.0"
+
+"@babel/types@^7.22.15", "@babel/types@^7.23.0", "@babel/types@^7.23.6":
+  version "7.23.6"
+  resolved "https://registry.npmmirror.com/@babel/types/-/types-7.23.6.tgz#be33fdb151e1f5a56877d704492c240fc71c7ccd"
+  integrity sha512-+uarb83brBzPKN38NX1MkB6vb6+mwvR6amUulqAE7ccQw1pEl+bCia9TbdG1lsnFP7lZySvUn37CHyXQdfTwzg==
+  dependencies:
+    "@babel/helper-string-parser" "^7.23.4"
+    "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
 "@bcoe/v8-coverage@^0.2.3":
@@ -3775,6 +3864,18 @@
     case "1.6.3"
     dotty "0.1.2"
 
+"@cosmology/ast@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.npmmirror.com/@cosmology/ast/-/ast-1.3.2.tgz#04ac69fe1fe15e7452f7302fa185a759bab1134b"
+  integrity sha512-T5NfCP1WcAlVqumX4py2L2onC0a0q7Z5dTEuvIhTrjDOyQp87ciMiAFxBqd4AXGFiXYRYBelFP+zVX1uOcjeng==
+  dependencies:
+    "@babel/parser" "^7.21.4"
+    "@babel/types" "7.21.4"
+    "@cosmology/types" "^1.3.2"
+    "@cosmology/utils" "^1.3.2"
+    case "1.6.3"
+    dotty "0.1.2"
+
 "@cosmology/lcd@^0.11.1":
   version "0.11.1"
   resolved "https://registry.npmjs.org/@cosmology/lcd/-/lcd-0.11.1.tgz"
@@ -3813,6 +3914,19 @@
     "@cosmology/protobufjs" "6.11.6"
     "@cosmology/types" "^0.39.0"
     "@cosmology/utils" "^0.14.0"
+    dotty "0.1.2"
+    glob "8.0.3"
+    minimatch "5.1.0"
+    mkdirp "3.0.0"
+
+"@cosmology/proto-parser@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.npmmirror.com/@cosmology/proto-parser/-/proto-parser-1.3.2.tgz#7a4d0c4c6a06ee62f3d1d44f234ce805ad099b91"
+  integrity sha512-ieI+dVlmWZP8uhXyabKYes2AY8O22klRehmpnW6/49Lvz4FDk6AhqRPIA0qZnbbi0pwpHd0glf5el6UjKBSgGg==
+  dependencies:
+    "@cosmology/protobufjs" "6.11.6"
+    "@cosmology/types" "^1.3.2"
+    "@cosmology/utils" "^1.3.2"
     dotty "0.1.2"
     glob "8.0.3"
     minimatch "5.1.0"
@@ -3951,6 +4065,36 @@
     rimraf "5.0.0"
     shelljs "0.8.5"
 
+"@cosmology/telescope@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.npmmirror.com/@cosmology/telescope/-/telescope-1.3.2.tgz#bbd8a52dceb0c9e34cf2c17094823d23d03dea82"
+  integrity sha512-AFmVugUmFpg1Zg2Fk6HNJJPWNblEdEce81ElJJYzP7epo+1tH1aynRywS/GNYW1LcuVnPsLn4S8g1aKrCq9bAg==
+  dependencies:
+    "@babel/generator" "7.21.4"
+    "@babel/parser" "^7.21.4"
+    "@babel/traverse" "7.23.2"
+    "@babel/types" "7.21.4"
+    "@cosmology/ast" "^1.3.2"
+    "@cosmology/proto-parser" "^1.3.2"
+    "@cosmology/types" "^1.3.2"
+    "@cosmology/utils" "^1.3.2"
+    "@cosmwasm/ts-codegen" "0.34.0"
+    "@types/parse-package-name" "0.1.0"
+    case "1.6.3"
+    dargs "7.0.0"
+    deepmerge "4.3.1"
+    dotty "0.1.2"
+    fuzzy "0.1.3"
+    glob "8.0.3"
+    inquirerer "0.1.3"
+    long "^5.2.1"
+    minimatch "5.1.0"
+    minimist "1.2.8"
+    mkdirp "3.0.0"
+    parse-package-name "1.0.0"
+    rimraf "5.0.0"
+    shelljs "0.8.5"
+
 "@cosmology/types@^0.37.0":
   version "0.37.0"
   resolved "https://registry.npmjs.org/@cosmology/types/-/types-0.37.0.tgz"
@@ -3968,6 +4112,13 @@
     "@babel/runtime" "^7.21.0"
     case "1.6.3"
 
+"@cosmology/types@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.npmmirror.com/@cosmology/types/-/types-1.3.2.tgz#dc25dc4280c1708166412b3ae27d2677c14147b9"
+  integrity sha512-teQ5jAtgzw1JDQTGAzEHSZaABoVrweEyHbjizBoq0+2U1pwAPbuMcVtem1VGQJl54f4/qqWUFPz2fY5vZkK1Ig==
+  dependencies:
+    case "1.6.3"
+
 "@cosmology/utils@^0.12.0":
   version "0.12.0"
   resolved "https://registry.npmjs.org/@cosmology/utils/-/utils-0.12.0.tgz"
@@ -3982,6 +4133,14 @@
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@cosmology/types" "^0.39.0"
+    dotty "0.1.2"
+
+"@cosmology/utils@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.npmmirror.com/@cosmology/utils/-/utils-1.3.2.tgz#833ea869dad7730b3977bd8447708828c2563d82"
+  integrity sha512-KcxpnLNHBkkIJ7Dy5wVs72C5JYJ8iO1TdqRIvJVMJ5gNavIcm1BRlzaXdSfHuPuifZjxSc2hmYJ5WGgEp/QhRw==
+  dependencies:
+    "@cosmology/types" "^1.3.2"
     dotty "0.1.2"
 
 "@cosmos-kit/core@2.6.4":
