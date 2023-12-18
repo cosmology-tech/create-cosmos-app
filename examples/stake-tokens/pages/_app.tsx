@@ -8,11 +8,11 @@ import { wallets as leapWallets } from '@cosmos-kit/leap';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { SignerOptions } from '@cosmos-kit/core';
 import { chains, assets } from 'chain-registry';
-import '@interchain-ui/react/styles';
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-
-import { defaultTheme, formatDenom } from '../config';
 import { GasPrice } from '@cosmjs/stargate';
+import '@interchain-ui/react/styles';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+import { defaultTheme } from '../config';
 import '../styles/globals.css';
 
 const queryClient = new QueryClient({
@@ -27,10 +27,14 @@ const queryClient = new QueryClient({
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
     signingStargate: (chain) => {
-      const feeToken = chain.fees?.fee_tokens[0];
-      const price = feeToken?.average_gas_price || '0.025';
-      const denom = formatDenom(feeToken?.denom);
-      const gasPrice = GasPrice.fromString(price + denom);
+      let gasPrice;
+      try {
+        const feeToken = chain.fees?.fee_tokens[0];
+        const fee = `${feeToken?.average_gas_price || 0.025}${feeToken?.denom}`;
+        gasPrice = GasPrice.fromString(fee);
+      } catch (error) {
+        gasPrice = GasPrice.fromString('0.025uosmo');
+      }
       return { gasPrice };
     },
   };
@@ -57,6 +61,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       >
         <QueryClientProvider client={queryClient}>
           <Component {...pageProps} />
+          <ReactQueryDevtools />
         </QueryClientProvider>
       </ChainProvider>
     </ChakraProvider>
