@@ -17,11 +17,3 @@ export const getExponent = (chainName: string) => {
     (unit) => unit.denom === getCoin(chainName).display
   )?.exponent as number;
 };
-
-export const formatDenom = (denom: string | undefined) => {
-  return denom
-    ? denom.length < 3 || denom.startsWith('ibc')
-      ? 'uosmo'
-      : denom
-    : 'uosmo';
-};
