@@ -1,6 +1,12 @@
 import { generateMnemonic } from '@confio/relayer/build/lib/helpers';
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
-import { assertIsDeliverTxSuccess } from '@cosmjs/stargate';
+import {
+  assertIsDeliverTxSuccess,
+  createProtobufRpcClient,
+} from '@cosmjs/stargate';
+
+import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
+import { QueryClient } from '@cosmjs/stargate';
 
 import { ibc, getSigningOsmosisClient } from '../src/codegen';
 import { useChain } from '../src';
@@ -16,13 +22,13 @@ describe('Token transfers', () => {
       getCoin,
       getStargateClient,
       getRpcEndpoint,
-      creditFromFaucet
+      creditFromFaucet,
     } = useChain('osmosis'));
     denom = getCoin().base;
 
     // Initialize wallet
     wallet = await DirectSecp256k1HdWallet.fromMnemonic(generateMnemonic(), {
-      prefix: chainInfo.chain.bech32_prefix
+      prefix: chainInfo.chain.bech32_prefix,
     });
     address = (await wallet.getAccounts())[0].address;
 
@@ -39,22 +45,22 @@ describe('Token transfers', () => {
 
     const signingClient = await getSigningOsmosisClient({
       rpcEndpoint: getRpcEndpoint(),
-      signer: wallet
+      signer: wallet,
     });
 
     const fee = {
       amount: [
         {
           denom,
-          amount: '100000'
-        }
+          amount: '100000',
+        },
       ],
-      gas: '550000'
+      gas: '550000',
     };
 
     const token = {
       amount: '10000000',
-      denom
+      denom,
     };
 
     // Transfer uosmo tokens from faceut
@@ -75,13 +81,13 @@ describe('Token transfers', () => {
   it('send ibc osmo tokens to address on cosmos chain', async () => {
     const signingClient = await getSigningOsmosisClient({
       rpcEndpoint: getRpcEndpoint(),
-      signer: wallet
+      signer: wallet,
     });
 
     const {
       chainInfo: cosmosChainInfo,
       getStargateClient: cosmosGetStargateClient,
-      getRpcEndpoint: cosmosRpcEndpoint
+      getRpcEndpoint: cosmosRpcEndpoint,
     } = useChain('cosmos');
 
     // Initialize wallet address for cosmos chain
@@ -113,15 +119,15 @@ describe('Token transfers', () => {
       amount: [
         {
           denom,
-          amount: '100000'
-        }
+          amount: '100000',
+        },
       ],
-      gas: '550000'
+      gas: '550000',
     };
 
     const token = {
       denom,
-      amount: '10000000'
+      amount: '10000000',
     };
 
     // send ibc tokens
@@ -150,13 +156,17 @@ describe('Token transfers', () => {
     expect(ibcBalance!.amount).toEqual(token.amount);
     expect(ibcBalance!.denom).toContain('ibc/');
 
+    const tmClient: any = await Tendermint34Client.connect(getRpcEndpoint());
+    const client = new QueryClient(tmClient);
+    const rpc = createProtobufRpcClient(client);
+
     // check ibc denom trace of the same
     const queryClient = await ibc.ClientFactory.createRPCQueryClient({
-      rpcEndpoint: cosmosRpcEndpoint()
+      rpc,
     });
     const trace = await queryClient.ibc.applications.transfer.v1.denomTrace({
-      hash: ibcBalance!.denom.replace('ibc/', '')
+      hash: ibcBalance!.denom.replace('ibc/', ''),
     });
-    expect(trace.denomTrace.baseDenom).toEqual(denom);
+    expect(trace.denomTrace?.baseDenom).toEqual(denom);
   }, 10000);
 });

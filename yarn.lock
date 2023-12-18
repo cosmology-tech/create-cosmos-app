@@ -3932,10 +3932,10 @@
     case "1.6.3"
     dotty "0.1.2"
 
-"@cosmology/ast@^1.3.2":
-  version "1.3.2"
-  resolved "https://registry.npmmirror.com/@cosmology/ast/-/ast-1.3.2.tgz#04ac69fe1fe15e7452f7302fa185a759bab1134b"
-  integrity sha512-T5NfCP1WcAlVqumX4py2L2onC0a0q7Z5dTEuvIhTrjDOyQp87ciMiAFxBqd4AXGFiXYRYBelFP+zVX1uOcjeng==
+"@cosmology/ast@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.npmmirror.com/@cosmology/ast/-/ast-1.3.3.tgz#6330abf82f5a54b56c97b10c6dd6c591282c808b"
+  integrity sha512-z1bHVKJW1GHEFEJdJ6nK07URpZ7k/3xjRoTOtlGzXs2CRiSbz3gPXLm7KBwMgWbFfBAfx3g0tsIiZo8jczvr2Q==
   dependencies:
     "@babel/parser" "^7.21.4"
     "@babel/types" "7.21.4"
@@ -4133,16 +4133,16 @@
     rimraf "5.0.0"
     shelljs "0.8.5"
 
-"@cosmology/telescope@^1.3.2":
-  version "1.3.2"
-  resolved "https://registry.npmmirror.com/@cosmology/telescope/-/telescope-1.3.2.tgz#bbd8a52dceb0c9e34cf2c17094823d23d03dea82"
-  integrity sha512-AFmVugUmFpg1Zg2Fk6HNJJPWNblEdEce81ElJJYzP7epo+1tH1aynRywS/GNYW1LcuVnPsLn4S8g1aKrCq9bAg==
+"@cosmology/telescope@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.npmmirror.com/@cosmology/telescope/-/telescope-1.3.3.tgz#2d0ae83bea6dff655def0b2ba898abe8348aa551"
+  integrity sha512-R/pCefpUtHFg9QNsUb8+ccZ5j8iVDop96XISwwbf9K1uQ5uArf7H+BeSLO2ZekCqH3BkzpdFasdp5abzImO0+Q==
   dependencies:
     "@babel/generator" "7.21.4"
     "@babel/parser" "^7.21.4"
     "@babel/traverse" "7.23.2"
     "@babel/types" "7.21.4"
-    "@cosmology/ast" "^1.3.2"
+    "@cosmology/ast" "^1.3.3"
     "@cosmology/proto-parser" "^1.3.2"
     "@cosmology/types" "^1.3.2"
     "@cosmology/utils" "^1.3.2"

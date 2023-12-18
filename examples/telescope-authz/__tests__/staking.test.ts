@@ -1,7 +1,13 @@
 import { generateMnemonic } from '@confio/relayer/build/lib/helpers';
-import { assertIsDeliverTxSuccess } from '@cosmjs/stargate';
+import {
+  assertIsDeliverTxSuccess,
+  createProtobufRpcClient,
+} from '@cosmjs/stargate';
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import BigNumber from 'bignumber.js';
+
+import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
+import { QueryClient } from '@cosmjs/stargate';
 
 import { cosmos, getSigningOsmosisClient } from '../src/codegen';
 import { useChain } from '../src';
@@ -22,19 +28,23 @@ describe('Staking tokens testing', () => {
       getCoin,
       getStargateClient,
       getRpcEndpoint,
-      creditFromFaucet
+      creditFromFaucet,
     } = useChain('osmosis'));
     denom = getCoin().base;
 
     // Initialize wallet
     wallet = await DirectSecp256k1HdWallet.fromMnemonic(generateMnemonic(), {
-      prefix: chainInfo.chain.bech32_prefix
+      prefix: chainInfo.chain.bech32_prefix,
     });
     address = (await wallet.getAccounts())[0].address;
 
+    const tmClient: any = await Tendermint34Client.connect(getRpcEndpoint());
+    const client = new QueryClient(tmClient);
+    const rpc = createProtobufRpcClient(client);
+
     // Create custom cosmos interchain client
     queryClient = await cosmos.ClientFactory.createRPCQueryClient({
-      rpcEndpoint: getRpcEndpoint()
+      rpc,
     });
 
     // Transfer osmosis and ibc tokens to address, send only osmo to address
@@ -44,7 +54,7 @@ describe('Staking tokens testing', () => {
   it('check address has tokens', async () => {
     const { balance } = await queryClient.cosmos.bank.v1beta1.balance({
       address,
-      denom
+      denom,
     });
 
     expect(balance.amount).toEqual('10000000000');
@@ -54,7 +64,7 @@ describe('Staking tokens testing', () => {
     const { validators } = await queryClient.cosmos.staking.v1beta1.validators({
       status: cosmos.staking.v1beta1.bondStatusToJSON(
         cosmos.staking.v1beta1.BondStatus.BOND_STATUS_BONDED
-      )
+      ),
     });
     let allValidators = validators;
     if (validators.length > 1) {
@@ -72,12 +82,12 @@ describe('Staking tokens testing', () => {
   it('stake tokens to genesis validator', async () => {
     const signingClient = await getSigningOsmosisClient({
       rpcEndpoint: getRpcEndpoint(),
-      signer: wallet
+      signer: wallet,
     });
 
     const { balance } = await queryClient.cosmos.bank.v1beta1.balance({
       address,
-      denom
+      denom,
     });
 
     // Stake half of the tokens
@@ -88,18 +98,18 @@ describe('Staking tokens testing', () => {
       validatorAddress: validatorAddress,
       amount: {
         amount: delegationAmount,
-        denom: balance.denom
-      }
+        denom: balance.denom,
+      },
     });
 
     const fee = {
       amount: [
         {
           denom,
-          amount: '100000'
-        }
+          amount: '100000',
+        },
       ],
-      gas: '550000'
+      gas: '550000',
     };
 
     const result = await signingClient.signAndBroadcast(address, [msg], fee);
@@ -110,7 +120,7 @@ describe('Staking tokens testing', () => {
     const { delegationResponse } =
       await queryClient.cosmos.staking.v1beta1.delegation({
         delegatorAddr: address,
-        validatorAddr: validatorAddress
+        validatorAddr: validatorAddress,
       });
 
     // Assert that the delegation amount is the set delegation amount
