@@ -39,7 +39,7 @@ const AllValidatorsList = ({
   const coin = getCoin(chainName);
 
   const { colorMode } = useColorMode();
-  const hasApr = !!validators[0].apr;
+  const hasApr = !!validators[0]?.apr;
 
   return (
     <TableContainer>
