@@ -31,10 +31,12 @@ export const useStakingData = (chainName: string) => {
 
   const rpcEndpointQuery = useRpcEndpoint({
     getter: getRpcEndpoint,
-    extraKey: chainName,
     options: {
       enabled: !!address,
       staleTime: Infinity,
+      queryKeyHashFn: (queryKey) => {
+        return JSON.stringify([...queryKey, chainName]);
+      },
     },
   });
 
@@ -227,14 +229,14 @@ export const useStakingData = (chainName: string) => {
     const extendedAllValidators = extendValidators(
       allValidators,
       delegations,
-      rewards.byValidators,
+      rewards?.byValidators,
       chainMetadata
     );
 
     const extendedMyValidators = extendValidators(
       myValidators,
       delegations,
-      rewards.byValidators,
+      rewards?.byValidators,
       chainMetadata
     );
 

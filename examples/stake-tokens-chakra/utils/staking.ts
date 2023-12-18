@@ -47,6 +47,12 @@ export const decodeUint8Arr = (uint8array: Uint8Array | undefined) => {
   return new TextDecoder('utf-8').decode(uint8array);
 };
 
+const formatCommission = (commission: string) => {
+  return new BigNumber(commission).isLessThan(1)
+    ? commission
+    : shiftDigits(commission, -18);
+};
+
 export type ParsedValidator = ReturnType<typeof parseValidators>[0];
 
 export const parseValidators = (validators: Validator[]) => {
@@ -55,7 +61,9 @@ export const parseValidators = (validators: Validator[]) => {
     name: validator.description?.moniker || '',
     identity: validator.description?.identity || '',
     address: validator.operatorAddress,
-    commission: validator.commission?.commissionRates?.rate || ZERO,
+    commission: formatCommission(
+      validator.commission?.commissionRates?.rate || '0'
+    ),
     votingPower: toNumber(shiftDigits(validator.tokens, -6, 0), 0),
   }));
 };
@@ -77,23 +85,19 @@ export const extendValidators = (
   const { annualProvisions, communityTax, pool } = chainMetadata;
 
   return validators.map((validator) => {
-    const delegation =
-      delegations.find(
-        ({ validatorAddress }) => validatorAddress === validator.address
-      )?.amount || ZERO;
-    const reward =
-      rewards.find(
-        ({ validatorAddress }) => validatorAddress === validator.address
-      )?.amount || ZERO;
+    const { address, commission } = validator;
 
-    const apr = annualProvisions
-      ? calcStakingApr({
-          annualProvisions,
-          commission: validator.commission,
-          communityTax,
-          pool,
-        })
-      : null;
+    const delegation =
+      delegations.find(({ validatorAddress }) => validatorAddress === address)
+        ?.amount || ZERO;
+    const reward =
+      rewards.find(({ validatorAddress }) => validatorAddress === address)
+        ?.amount || ZERO;
+
+    const apr =
+      annualProvisions && communityTax && pool && commission
+        ? calcStakingApr({ annualProvisions, commission, communityTax, pool })
+        : null;
 
     return { ...validator, delegation, reward, apr };
   });
@@ -116,6 +120,8 @@ export const parseRewards = (
   denom: string,
   exponent: number
 ) => {
+  if (!rewards || !total) return { byValidators: [], total: ZERO };
+
   const totalReward = findAndDecodeReward(total, denom, exponent);
 
   const rewardsParsed = rewards.map(({ reward, validatorAddress }) => ({
@@ -132,6 +138,7 @@ export const parseDelegations = (
   delegations: QueryDelegatorDelegationsResponse['delegationResponses'],
   exponent: number
 ) => {
+  if (!delegations) return [];
   return delegations.map(({ balance, delegation }) => ({
     validatorAddress: delegation?.validatorAddress || '',
     amount: shiftDigits(balance?.amount || ZERO, exponent),
@@ -139,6 +146,8 @@ export const parseDelegations = (
 };
 
 export const calcTotalDelegation = (delegations: ParsedDelegations) => {
+  if (!delegations) return ZERO;
+
   return delegations
     .reduce((prev, cur) => prev.plus(cur.amount), new BigNumber(0))
     .toString();
