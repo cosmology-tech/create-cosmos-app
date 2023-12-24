@@ -87,6 +87,10 @@ export class GlobalDecoderRegistry {
     return GlobalDecoderRegistry.getDecoder<T, SDK, Amino>(typeUrl);
   }
   static wrapAny(obj: unknown): Any {
+    if(Any.is(obj)){
+      return obj;
+    }
+
     const decoder = getDecoderByInstance(obj);
 
     return {
