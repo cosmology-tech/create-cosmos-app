@@ -28,7 +28,7 @@ install_linux() {
         kubectl) curl -Lks "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" > ~/.local/bin/kubectl && chmod +x ~/.local/bin/kubectl ;;
         helm) curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash ;;
         yq) curl -Lks "https://github.com/mikefarah/yq/releases/download/v4.33.3/yq_linux_amd64" > ~/.local/bin/yq && chmod +x ~/.local/bin/yq ;;
-        kind) curl -Lks https://kind.sigs.k8s.io/dl/v0.18.1/kind-linux-amd64 > ~/.local/bin/kind && chmod +x ~/.local/bin/kind ;;
+        kind) curl -Lks https://kind.sigs.k8s.io/dl/v0.18.0/kind-linux-amd64 > ~/.local/bin/kind && chmod +x ~/.local/bin/kind ;;
     esac
 }
 

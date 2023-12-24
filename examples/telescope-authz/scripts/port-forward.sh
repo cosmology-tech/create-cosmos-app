@@ -21,7 +21,6 @@ function stop_port_forward() {
 
 # Default values
 CHAIN_RPC_PORT=26657
-CHAIN_GRPC_PORT=9090
 CHAIN_LCD_PORT=1317
 CHAIN_EXPOSER_PORT=8081
 CHAIN_FAUCET_PORT=8000
@@ -54,22 +53,17 @@ if [[ $num_chains -lt 0 ]]; then
   exit 1
 fi
 for i in $(seq 0 $num_chains); do
-  # derive chain pod name from chain id
-  # https://github.com/cosmology-tech/starship/blob/main/charts/devnet/templates/_helpers.tpl#L56
   chain=$(yq -r ".chains[$i].name" ${CONFIGFILE} )
-  chain=${chain/_/"-"}
   localrpc=$(yq -r ".chains[$i].ports.rpc" ${CONFIGFILE} )
-  localgrpc=$(yq -r ".chains[$i].ports.grpc" ${CONFIGFILE} )
   locallcd=$(yq -r ".chains[$i].ports.rest" ${CONFIGFILE} )
   localexp=$(yq -r ".chains[$i].ports.exposer" ${CONFIGFILE})
   localfaucet=$(yq -r ".chains[$i].ports.faucet" ${CONFIGFILE})
-  color yellow "chains: forwarded $chain"
-  [[ "$localrpc" != "null" ]] && color yellow "    rpc to http://localhost:$localrpc" && kubectl port-forward pods/$chain-genesis-0 $localrpc:$CHAIN_RPC_PORT > /dev/null 2>&1 &
-  [[ "$localgrpc" != "null" ]] && color yellow "    grpc to http://localhost:$localgrpc" && kubectl port-forward pods/$chain-genesis-0 $localgrpc:$CHAIN_GRPC_PORT > /dev/null 2>&1 &
-  [[ "$locallcd" != "null" ]] && color yellow "    lcd to http://localhost:$locallcd" && kubectl port-forward pods/$chain-genesis-0 $locallcd:$CHAIN_LCD_PORT > /dev/null 2>&1 &
-  [[ "$localexp" != "null" ]] && color yellow "    exposer to http://localhost:$localexp" && kubectl port-forward pods/$chain-genesis-0 $localexp:$CHAIN_EXPOSER_PORT > /dev/null 2>&1 &
-  [[ "$localfaucet" != "null" ]] && color yellow "    faucet to http://localhost:$localfaucet" && kubectl port-forward pods/$chain-genesis-0 $localfaucet:$CHAIN_FAUCET_PORT > /dev/null 2>&1 &
+  [[ "$localrpc" != "null" ]] && kubectl port-forward pods/$chain-genesis-0 $localrpc:$CHAIN_RPC_PORT > /dev/null 2>&1 &
+  [[ "$locallcd" != "null" ]] && kubectl port-forward pods/$chain-genesis-0 $locallcd:$CHAIN_LCD_PORT > /dev/null 2>&1 &
+  [[ "$localexp" != "null" ]] && kubectl port-forward pods/$chain-genesis-0 $localexp:$CHAIN_EXPOSER_PORT > /dev/null 2>&1 &
+  [[ "$localfaucet" != "null" ]] && kubectl port-forward pods/$chain-genesis-0 $localfaucet:$CHAIN_FAUCET_PORT > /dev/null 2>&1 &
   sleep 1
+  color yellow "chains: forwarded $chain lcd to http://localhost:$locallcd, rpc to http://localhost:$localrpc, faucet to http://localhost:$localfaucet"
 done
 
 echo "Port forward services"

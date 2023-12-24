@@ -13,7 +13,7 @@ describe('Test clients', () => {
   let client;
 
   beforeAll(async () => {
-    const { getStargateClient } = useChain('osmosis');
+    const { getStargateClient } = useChain('cosmos');
     client = await getStargateClient();
   });
 

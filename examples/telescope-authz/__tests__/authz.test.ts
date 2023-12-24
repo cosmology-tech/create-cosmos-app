@@ -7,6 +7,8 @@ import {
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import BigNumber from 'bignumber.js';
 
+import { useChains } from '@cosmos-kit/react-lite';
+
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
 import { QueryClient } from '@cosmjs/stargate';
 
@@ -18,9 +20,15 @@ import {
 } from '../src/codegen';
 import { useChain } from '../src';
 import './setup.test';
-import { MsgDelegate } from '../src/codegen/cosmos/staking/v1beta1/tx';
+import {
+  GenericAuthorization,
+  Grant,
+} from '../src/codegen/cosmos/authz/v1beta1/authz';
+import { MsgGrant } from '../src/codegen/cosmos/authz/v1beta1/tx';
+import { MsgVote } from '../src/codegen/cosmos/gov/v1beta1/tx';
+import { SendAuthorization } from '../src/codegen/cosmos/bank/v1beta1/authz';
 
-describe('Staking tokens testing', () => {
+describe('Authz testing', () => {
   let wallet1, address1, denom;
   let wallet2, address2;
   let chainInfo, getCoin, getStargateClient, getRpcEndpoint, creditFromFaucet;
@@ -30,9 +38,6 @@ describe('Staking tokens testing', () => {
   let msgClient1;
   let msgClient2;
 
-  let validatorAddress;
-  let delegationAmount;
-
   beforeAll(async () => {
     ({
       chainInfo,
@@ -40,8 +45,12 @@ describe('Staking tokens testing', () => {
       getStargateClient,
       getRpcEndpoint,
       creditFromFaucet,
-    } = useChain('osmosis'));
+    } = useChain('cosmos'));
     denom = getCoin().base;
+
+    // const chains = useChains([chainInfo.chain_name]);
+
+    // Promise.all(Object.values(wallets).forEach())
 
     // Initialize wallet
     wallet1 = await DirectSecp256k1HdWallet.fromMnemonic(generateMnemonic(), {
@@ -69,7 +78,12 @@ describe('Staking tokens testing', () => {
       fee: number | StdFee | 'auto',
       memo?: string | undefined
     ) => {
-      return signingClient1.signAndBroadcast(signerAddress, messages, fee, memo);
+      return signingClient1.signAndBroadcast(
+        signerAddress,
+        messages,
+        fee,
+        memo
+      );
     };
 
     const signingClient2 = await getSigningCosmosClient({
@@ -82,7 +96,12 @@ describe('Staking tokens testing', () => {
       fee: number | StdFee | 'auto',
       memo?: string | undefined
     ) => {
-      return signingClient2.signAndBroadcast(signerAddress, messages, fee, memo);
+      return signingClient2.signAndBroadcast(
+        signerAddress,
+        messages,
+        fee,
+        memo
+      );
     };
 
     // Create custom cosmos interchain client
@@ -103,7 +122,7 @@ describe('Staking tokens testing', () => {
     await creditFromFaucet(address2);
   }, 200000);
 
-  it('check address has tokens', async () => {
+  it('check address1 has tokens', async () => {
     const { balance } = await queryClient.cosmos.bank.v1beta1.balance({
       address: address1,
       denom,
@@ -112,40 +131,16 @@ describe('Staking tokens testing', () => {
     expect(balance.amount).toEqual('10000000000');
   }, 10000);
 
-  it('query validator address', async () => {
-    const { validators } = await queryClient.cosmos.staking.v1beta1.validators({
-      status: cosmos.staking.v1beta1.bondStatusToJSON(
-        cosmos.staking.v1beta1.BondStatus.BOND_STATUS_BONDED
-      ),
-    });
-    let allValidators = validators;
-    if (validators.length > 1) {
-      allValidators = validators.sort((a, b) =>
-        new BigNumber(b.tokens).minus(new BigNumber(a.tokens)).toNumber()
-      );
-    }
-
-    expect(allValidators.length).toBeGreaterThan(0);
-
-    // set validator address to the first one
-    validatorAddress = allValidators[0].operatorAddress;
-  });
-
-  it('stake tokens to genesis validator', async () => {
-    const signingClient = await getSigningCosmosClient({
-      rpcEndpoint: getRpcEndpoint(),
-      signer: wallet1,
-    });
-
+  it('check address2 has tokens', async () => {
     const { balance } = await queryClient.cosmos.bank.v1beta1.balance({
-      address: address1,
+      address: address2,
       denom,
     });
 
-    // Stake half of the tokens
-    // eslint-disable-next-line no-undef
-    delegationAmount = (BigInt(balance.amount) / BigInt(2)).toString();
+    expect(balance.amount).toEqual('10000000000');
+  }, 10000);
 
+  it('grant address2', async () => {
     const fee = {
       amount: [
         {
@@ -156,38 +151,34 @@ describe('Staking tokens testing', () => {
       gas: '550000',
     };
 
-    let msg = MsgDelegate.fromPartial({
-      delegatorAddress: address1,
-      validatorAddress: validatorAddress,
-      amount: {
-        denom,
-        amount: delegationAmount,
-      },
+    const msg = MsgGrant.fromPartial({
+      granter: address1,
+      grantee: address2,
+      grant: Grant.fromPartial({
+        authorization: SendAuthorization.fromPartial({
+          spendLimit: [
+            {
+              denom: denom,
+              amount: '100000',
+            },
+          ],
+        }),
+      }),
     });
 
-    const result = await msgClient1.cosmos.staking.v1beta1.delegate(
+    const result = await msgClient1.cosmos.authz.v1beta1.grant(
       address1,
       msg,
       fee
     );
 
     assertIsDeliverTxSuccess(result);
-  });
 
-  it('query delegation', async () => {
-    const { delegationResponse } =
-      await queryClient.cosmos.staking.v1beta1.delegation({
-        delegatorAddr: address1,
-        validatorAddr: validatorAddress,
-      });
 
-    // Assert that the delegation amount is the set delegation amount
-    // eslint-disable-next-line no-undef
-    expect(BigInt(delegationResponse.balance.amount)).toBeGreaterThan(
-      // eslint-disable-next-line no-undef
-      BigInt(0)
-    );
-    expect(delegationResponse.balance.amount).toEqual(delegationAmount);
-    expect(delegationResponse.balance.denom).toEqual(denom);
-  });
+    const authsResults = await queryClient.cosmos.authz.v1beta1.granteeGrants({
+      grantee: address2,
+    });
+
+    expect(authsResults?.grants?.length).toBeGreaterThan(0);
+  }, 10000);
 });
