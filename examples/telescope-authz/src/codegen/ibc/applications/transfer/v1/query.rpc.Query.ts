@@ -1,10 +1,9 @@
+import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../../../cosmos/base/query/v1beta1/pagination";
+import { DenomTrace, DenomTraceSDKType, Params, ParamsSDKType } from "./transfer";
 import { TxRpc } from "../../../../types";
 import { BinaryReader } from "../../../../binary";
-import { ReactQueryParams } from "../../../../react-query";
-import { ProtobufRpcClient } from "@cosmjs/stargate";
-import { useQuery } from "@tanstack/react-query";
-import { QueryStore } from "../../../../mobx";
-import { QueryDenomTraceRequest, QueryDenomTraceResponse, QueryDenomTracesRequest, QueryDenomTracesResponse, QueryParamsRequest, QueryParamsResponse } from "./query";
+import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryDenomTraceRequest, QueryDenomTraceRequestSDKType, QueryDenomTraceResponse, QueryDenomTraceResponseSDKType, QueryDenomTracesRequest, QueryDenomTracesRequestSDKType, QueryDenomTracesResponse, QueryDenomTracesResponseSDKType, QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType } from "./query";
 /** Query provides defines the gRPC querier service. */
 export interface Query {
   /** DenomTrace queries a denomination trace information. */
@@ -27,7 +26,7 @@ export class QueryClientImpl implements Query {
   };
   /* DenomTraces queries all denomination traces. */
   denomTraces = async (request: QueryDenomTracesRequest = {
-    pagination: undefined
+    pagination: PageRequest.fromPartial({})
   }): Promise<QueryDenomTracesResponse> => {
     const data = QueryDenomTracesRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.applications.transfer.v1.Query", "DenomTraces", data);
@@ -40,86 +39,18 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryParamsResponse.decode(new BinaryReader(data)));
   };
 }
-export const createClientImpl = (rpc: TxRpc) => {
-  return new QueryClientImpl(rpc);
-};
-export interface UseDenomTraceQuery<TData> extends ReactQueryParams<QueryDenomTraceResponse, TData> {
-  request: QueryDenomTraceRequest;
-}
-export interface UseDenomTracesQuery<TData> extends ReactQueryParams<QueryDenomTracesResponse, TData> {
-  request?: QueryDenomTracesRequest;
-}
-export interface UseParamsQuery<TData> extends ReactQueryParams<QueryParamsResponse, TData> {
-  request?: QueryParamsRequest;
-}
-const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
-const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
-  if (!rpc) return;
-  if (_queryClients.has(rpc)) {
-    return _queryClients.get(rpc);
-  }
+export const createRpcQueryExtension = (base: QueryClient) => {
+  const rpc = createProtobufRpcClient(base);
   const queryService = new QueryClientImpl(rpc);
-  _queryClients.set(rpc, queryService);
-  return queryService;
-};
-export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  const useDenomTrace = <TData = QueryDenomTraceResponse,>({
-    request,
-    options
-  }: UseDenomTraceQuery<TData>) => {
-    return useQuery<QueryDenomTraceResponse, Error, TData>(["denomTraceQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+  return {
+    denomTrace(request: QueryDenomTraceRequest): Promise<QueryDenomTraceResponse> {
       return queryService.denomTrace(request);
-    }, options);
-  };
-  const useDenomTraces = <TData = QueryDenomTracesResponse,>({
-    request,
-    options
-  }: UseDenomTracesQuery<TData>) => {
-    return useQuery<QueryDenomTracesResponse, Error, TData>(["denomTracesQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    denomTraces(request?: QueryDenomTracesRequest): Promise<QueryDenomTracesResponse> {
       return queryService.denomTraces(request);
-    }, options);
-  };
-  const useParams = <TData = QueryParamsResponse,>({
-    request,
-    options
-  }: UseParamsQuery<TData>) => {
-    return useQuery<QueryParamsResponse, Error, TData>(["paramsQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    params(request?: QueryParamsRequest): Promise<QueryParamsResponse> {
       return queryService.params(request);
-    }, options);
-  };
-  return {
-    /** DenomTrace queries a denomination trace information. */useDenomTrace,
-    /** DenomTraces queries all denomination traces. */useDenomTraces,
-    /** Params queries all parameters of the ibc-transfer module. */useParams
-  };
-};
-export const createRpcQueryMobxStores = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  class QueryDenomTraceStore {
-    store = new QueryStore<QueryDenomTraceRequest, QueryDenomTraceResponse>(queryService?.denomTrace);
-    denomTrace(request: QueryDenomTraceRequest) {
-      return this.store.getData(request);
     }
-  }
-  class QueryDenomTracesStore {
-    store = new QueryStore<QueryDenomTracesRequest, QueryDenomTracesResponse>(queryService?.denomTraces);
-    denomTraces(request: QueryDenomTracesRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryParamsStore {
-    store = new QueryStore<QueryParamsRequest, QueryParamsResponse>(queryService?.params);
-    params(request: QueryParamsRequest) {
-      return this.store.getData(request);
-    }
-  }
-  return {
-    /** DenomTrace queries a denomination trace information. */QueryDenomTraceStore,
-    /** DenomTraces queries all denomination traces. */QueryDenomTracesStore,
-    /** Params queries all parameters of the ibc-transfer module. */QueryParamsStore
   };
 };

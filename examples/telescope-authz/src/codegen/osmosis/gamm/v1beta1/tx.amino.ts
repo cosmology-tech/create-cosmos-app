@@ -1,4 +1,5 @@
-import { MsgJoinPool, MsgExitPool, MsgSwapExactAmountIn, MsgSwapExactAmountOut, MsgJoinSwapExternAmountIn, MsgJoinSwapShareAmountOut, MsgExitSwapExternAmountOut, MsgExitSwapShareAmountIn } from "./tx";
+import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
+import { MsgJoinPool, MsgJoinPoolSDKType, MsgExitPool, MsgExitPoolSDKType, MsgSwapExactAmountIn, MsgSwapExactAmountInSDKType, MsgSwapExactAmountOut, MsgSwapExactAmountOutSDKType, MsgJoinSwapExternAmountIn, MsgJoinSwapExternAmountInSDKType, MsgJoinSwapShareAmountOut, MsgJoinSwapShareAmountOutSDKType, MsgExitSwapExternAmountOut, MsgExitSwapExternAmountOutSDKType, MsgExitSwapShareAmountIn, MsgExitSwapShareAmountInSDKType } from "./tx";
 export const AminoConverter = {
   "/osmosis.gamm.v1beta1.MsgJoinPool": {
     aminoType: "osmosis/gamm/join-pool",

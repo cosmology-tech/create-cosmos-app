@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { GlobalDecoderRegistry } from "../../../../registry";
+export const protobufPackage = "cosmos.crypto.hd.v1";
 /** BIP44Params is used as path field in ledger item in Record. */
 export interface BIP44Params {
   /** purpose is a constant set to 44' (or 0x8000002C) following the BIP43 recommendation */
@@ -71,19 +72,19 @@ export const BIP44Params = {
     return o && (o.$typeUrl === BIP44Params.typeUrl || typeof o.purpose === "number" && typeof o.coin_type === "number" && typeof o.account === "number" && typeof o.change === "boolean" && typeof o.address_index === "number");
   },
   encode(message: BIP44Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.purpose !== 0) {
+    if (message.purpose !== undefined) {
       writer.uint32(8).uint32(message.purpose);
     }
-    if (message.coinType !== 0) {
+    if (message.coinType !== undefined) {
       writer.uint32(16).uint32(message.coinType);
     }
-    if (message.account !== 0) {
+    if (message.account !== undefined) {
       writer.uint32(24).uint32(message.account);
     }
-    if (message.change === true) {
+    if (message.change !== undefined) {
       writer.uint32(32).bool(message.change);
     }
-    if (message.addressIndex !== 0) {
+    if (message.addressIndex !== undefined) {
       writer.uint32(40).uint32(message.addressIndex);
     }
     return writer;
@@ -118,13 +119,13 @@ export const BIP44Params = {
     return message;
   },
   fromJSON(object: any): BIP44Params {
-    return {
-      purpose: isSet(object.purpose) ? Number(object.purpose) : 0,
-      coinType: isSet(object.coinType) ? Number(object.coinType) : 0,
-      account: isSet(object.account) ? Number(object.account) : 0,
-      change: isSet(object.change) ? Boolean(object.change) : false,
-      addressIndex: isSet(object.addressIndex) ? Number(object.addressIndex) : 0
-    };
+    const obj = createBaseBIP44Params();
+    if (isSet(object.purpose)) obj.purpose = Number(object.purpose);
+    if (isSet(object.coinType)) obj.coinType = Number(object.coinType);
+    if (isSet(object.account)) obj.account = Number(object.account);
+    if (isSet(object.change)) obj.change = Boolean(object.change);
+    if (isSet(object.addressIndex)) obj.addressIndex = Number(object.addressIndex);
+    return obj;
   },
   toJSON(message: BIP44Params): unknown {
     const obj: any = {};

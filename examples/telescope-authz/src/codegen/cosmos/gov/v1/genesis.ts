@@ -2,6 +2,7 @@ import { Deposit, DepositAmino, DepositSDKType, Vote, VoteAmino, VoteSDKType, Pr
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.gov.v1";
 /** GenesisState defines the gov module's genesis state. */
 export interface GenesisState {
   /** starting_proposal_id is the ID of the starting proposal. */
@@ -13,11 +14,11 @@ export interface GenesisState {
   /** proposals defines all the proposals present at genesis. */
   proposals: Proposal[];
   /** params defines all the paramaters of related to deposit. */
-  depositParams?: DepositParams | undefined;
+  depositParams?: DepositParams;
   /** params defines all the paramaters of related to voting. */
-  votingParams?: VotingParams | undefined;
+  votingParams?: VotingParams;
   /** params defines all the paramaters of related to tally. */
-  tallyParams?: TallyParams | undefined;
+  tallyParams?: TallyParams;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/cosmos.gov.v1.GenesisState";
@@ -34,11 +35,11 @@ export interface GenesisStateAmino {
   /** proposals defines all the proposals present at genesis. */
   proposals?: ProposalAmino[];
   /** params defines all the paramaters of related to deposit. */
-  deposit_params?: DepositParamsAmino | undefined;
+  deposit_params?: DepositParamsAmino;
   /** params defines all the paramaters of related to voting. */
-  voting_params?: VotingParamsAmino | undefined;
+  voting_params?: VotingParamsAmino;
   /** params defines all the paramaters of related to tally. */
-  tally_params?: TallyParamsAmino | undefined;
+  tally_params?: TallyParamsAmino;
 }
 export interface GenesisStateAminoMsg {
   type: "cosmos-sdk/v1/GenesisState";
@@ -50,9 +51,9 @@ export interface GenesisStateSDKType {
   deposits: DepositSDKType[];
   votes: VoteSDKType[];
   proposals: ProposalSDKType[];
-  deposit_params?: DepositParamsSDKType | undefined;
-  voting_params?: VotingParamsSDKType | undefined;
-  tally_params?: TallyParamsSDKType | undefined;
+  deposit_params?: DepositParamsSDKType;
+  voting_params?: VotingParamsSDKType;
+  tally_params?: TallyParamsSDKType;
 }
 function createBaseGenesisState(): GenesisState {
   return {
@@ -78,7 +79,7 @@ export const GenesisState = {
     return o && (o.$typeUrl === GenesisState.typeUrl || typeof o.starting_proposal_id === "bigint" && Array.isArray(o.deposits) && (!o.deposits.length || Deposit.isAmino(o.deposits[0])) && Array.isArray(o.votes) && (!o.votes.length || Vote.isAmino(o.votes[0])) && Array.isArray(o.proposals) && (!o.proposals.length || Proposal.isAmino(o.proposals[0])));
   },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.startingProposalId !== BigInt(0)) {
+    if (message.startingProposalId !== undefined) {
       writer.uint32(8).uint64(message.startingProposalId);
     }
     for (const v of message.deposits) {
@@ -137,15 +138,15 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      startingProposalId: isSet(object.startingProposalId) ? BigInt(object.startingProposalId.toString()) : BigInt(0),
-      deposits: Array.isArray(object?.deposits) ? object.deposits.map((e: any) => Deposit.fromJSON(e)) : [],
-      votes: Array.isArray(object?.votes) ? object.votes.map((e: any) => Vote.fromJSON(e)) : [],
-      proposals: Array.isArray(object?.proposals) ? object.proposals.map((e: any) => Proposal.fromJSON(e)) : [],
-      depositParams: isSet(object.depositParams) ? DepositParams.fromJSON(object.depositParams) : undefined,
-      votingParams: isSet(object.votingParams) ? VotingParams.fromJSON(object.votingParams) : undefined,
-      tallyParams: isSet(object.tallyParams) ? TallyParams.fromJSON(object.tallyParams) : undefined
-    };
+    const obj = createBaseGenesisState();
+    if (isSet(object.startingProposalId)) obj.startingProposalId = BigInt(object.startingProposalId.toString());
+    if (Array.isArray(object?.deposits)) obj.deposits = object.deposits.map((e: any) => Deposit.fromJSON(e));
+    if (Array.isArray(object?.votes)) obj.votes = object.votes.map((e: any) => Vote.fromJSON(e));
+    if (Array.isArray(object?.proposals)) obj.proposals = object.proposals.map((e: any) => Proposal.fromJSON(e));
+    if (isSet(object.depositParams)) obj.depositParams = DepositParams.fromJSON(object.depositParams);
+    if (isSet(object.votingParams)) obj.votingParams = VotingParams.fromJSON(object.votingParams);
+    if (isSet(object.tallyParams)) obj.tallyParams = TallyParams.fromJSON(object.tallyParams);
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
@@ -172,13 +173,21 @@ export const GenesisState = {
   },
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.startingProposalId = object.startingProposalId !== undefined && object.startingProposalId !== null ? BigInt(object.startingProposalId.toString()) : BigInt(0);
+    if (object.startingProposalId !== undefined && object.startingProposalId !== null) {
+      message.startingProposalId = BigInt(object.startingProposalId.toString());
+    }
     message.deposits = object.deposits?.map(e => Deposit.fromPartial(e)) || [];
     message.votes = object.votes?.map(e => Vote.fromPartial(e)) || [];
     message.proposals = object.proposals?.map(e => Proposal.fromPartial(e)) || [];
-    message.depositParams = object.depositParams !== undefined && object.depositParams !== null ? DepositParams.fromPartial(object.depositParams) : undefined;
-    message.votingParams = object.votingParams !== undefined && object.votingParams !== null ? VotingParams.fromPartial(object.votingParams) : undefined;
-    message.tallyParams = object.tallyParams !== undefined && object.tallyParams !== null ? TallyParams.fromPartial(object.tallyParams) : undefined;
+    if (object.depositParams !== undefined && object.depositParams !== null) {
+      message.depositParams = DepositParams.fromPartial(object.depositParams);
+    }
+    if (object.votingParams !== undefined && object.votingParams !== null) {
+      message.votingParams = VotingParams.fromPartial(object.votingParams);
+    }
+    if (object.tallyParams !== undefined && object.tallyParams !== null) {
+      message.tallyParams = TallyParams.fromPartial(object.tallyParams);
+    }
     return message;
   },
   fromSDK(object: GenesisStateSDKType): GenesisState {

@@ -3,6 +3,7 @@ import { Input, InputAmino, InputSDKType, Output, OutputAmino, OutputSDKType } f
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.bank.v1beta1";
 /** MsgSend represents a message to send coins from one account to another. */
 export interface MsgSend {
   fromAddress: string;
@@ -100,10 +101,10 @@ export const MsgSend = {
     return o && (o.$typeUrl === MsgSend.typeUrl || typeof o.from_address === "string" && typeof o.to_address === "string" && Array.isArray(o.amount) && (!o.amount.length || Coin.isAmino(o.amount[0])));
   },
   encode(message: MsgSend, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.fromAddress !== "") {
+    if (message.fromAddress !== undefined) {
       writer.uint32(10).string(message.fromAddress);
     }
-    if (message.toAddress !== "") {
+    if (message.toAddress !== undefined) {
       writer.uint32(18).string(message.toAddress);
     }
     for (const v of message.amount) {
@@ -135,11 +136,11 @@ export const MsgSend = {
     return message;
   },
   fromJSON(object: any): MsgSend {
-    return {
-      fromAddress: isSet(object.fromAddress) ? String(object.fromAddress) : "",
-      toAddress: isSet(object.toAddress) ? String(object.toAddress) : "",
-      amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromJSON(e)) : []
-    };
+    const obj = createBaseMsgSend();
+    if (isSet(object.fromAddress)) obj.fromAddress = String(object.fromAddress);
+    if (isSet(object.toAddress)) obj.toAddress = String(object.toAddress);
+    if (Array.isArray(object?.amount)) obj.amount = object.amount.map((e: any) => Coin.fromJSON(e));
+    return obj;
   },
   toJSON(message: MsgSend): unknown {
     const obj: any = {};
@@ -256,7 +257,8 @@ export const MsgSendResponse = {
     return message;
   },
   fromJSON(_: any): MsgSendResponse {
-    return {};
+    const obj = createBaseMsgSendResponse();
+    return obj;
   },
   toJSON(_: MsgSendResponse): unknown {
     const obj: any = {};
@@ -353,10 +355,10 @@ export const MsgMultiSend = {
     return message;
   },
   fromJSON(object: any): MsgMultiSend {
-    return {
-      inputs: Array.isArray(object?.inputs) ? object.inputs.map((e: any) => Input.fromJSON(e)) : [],
-      outputs: Array.isArray(object?.outputs) ? object.outputs.map((e: any) => Output.fromJSON(e)) : []
-    };
+    const obj = createBaseMsgMultiSend();
+    if (Array.isArray(object?.inputs)) obj.inputs = object.inputs.map((e: any) => Input.fromJSON(e));
+    if (Array.isArray(object?.outputs)) obj.outputs = object.outputs.map((e: any) => Output.fromJSON(e));
+    return obj;
   },
   toJSON(message: MsgMultiSend): unknown {
     const obj: any = {};
@@ -475,7 +477,8 @@ export const MsgMultiSendResponse = {
     return message;
   },
   fromJSON(_: any): MsgMultiSendResponse {
-    return {};
+    const obj = createBaseMsgMultiSendResponse();
+    return obj;
   },
   toJSON(_: MsgMultiSendResponse): unknown {
     const obj: any = {};

@@ -1,5 +1,7 @@
+import { Plan, PlanSDKType } from "./upgrade";
 import { DeliverTxResponse, StdFee, TxRpc } from "../../../types";
-import { MsgSoftwareUpgrade, MsgCancelUpgrade } from "./tx";
+import { BinaryReader } from "../../../binary";
+import { MsgSoftwareUpgrade, MsgSoftwareUpgradeSDKType, MsgSoftwareUpgradeResponse, MsgSoftwareUpgradeResponseSDKType, MsgCancelUpgrade, MsgCancelUpgradeSDKType, MsgCancelUpgradeResponse, MsgCancelUpgradeResponseSDKType } from "./tx";
 /** Msg defines the upgrade Msg service. */
 export interface Msg {
   /**

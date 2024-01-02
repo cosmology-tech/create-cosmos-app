@@ -1,8 +1,9 @@
-import { Timestamp } from "../../../google/protobuf/timestamp";
+import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../google/protobuf/timestamp";
 import { Duration, DurationAmino, DurationSDKType } from "../../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.slashing.v1beta1";
 /**
  * ValidatorSigningInfo defines a validator's signing info for monitoring their
  * liveness activity.
@@ -18,7 +19,7 @@ export interface ValidatorSigningInfo {
    */
   indexOffset: bigint;
   /** Timestamp until which the validator is jailed due to liveness downtime. */
-  jailedUntil: Date | undefined;
+  jailedUntil: Date;
   /**
    * Whether or not a validator has been tombstoned (killed out of validator set). It is set
    * once the validator commits an equivocation or for any other configured misbehiavor.
@@ -49,7 +50,7 @@ export interface ValidatorSigningInfoAmino {
    */
   index_offset?: string;
   /** Timestamp until which the validator is jailed due to liveness downtime. */
-  jailed_until?: string | undefined;
+  jailed_until?: string;
   /**
    * Whether or not a validator has been tombstoned (killed out of validator set). It is set
    * once the validator commits an equivocation or for any other configured misbehiavor.
@@ -73,7 +74,7 @@ export interface ValidatorSigningInfoSDKType {
   address: string;
   start_height: bigint;
   index_offset: bigint;
-  jailed_until: Date | undefined;
+  jailed_until: Date;
   tombstoned: boolean;
   missed_blocks_counter: bigint;
 }
@@ -81,7 +82,7 @@ export interface ValidatorSigningInfoSDKType {
 export interface Params {
   signedBlocksWindow: bigint;
   minSignedPerWindow: Uint8Array;
-  downtimeJailDuration: Duration | undefined;
+  downtimeJailDuration: Duration;
   slashFractionDoubleSign: Uint8Array;
   slashFractionDowntime: Uint8Array;
 }
@@ -93,7 +94,7 @@ export interface ParamsProtoMsg {
 export interface ParamsAmino {
   signed_blocks_window?: string;
   min_signed_per_window?: string;
-  downtime_jail_duration?: DurationAmino | undefined;
+  downtime_jail_duration?: DurationAmino;
   slash_fraction_double_sign?: string;
   slash_fraction_downtime?: string;
 }
@@ -105,7 +106,7 @@ export interface ParamsAminoMsg {
 export interface ParamsSDKType {
   signed_blocks_window: bigint;
   min_signed_per_window: Uint8Array;
-  downtime_jail_duration: DurationSDKType | undefined;
+  downtime_jail_duration: DurationSDKType;
   slash_fraction_double_sign: Uint8Array;
   slash_fraction_downtime: Uint8Array;
 }
@@ -132,22 +133,22 @@ export const ValidatorSigningInfo = {
     return o && (o.$typeUrl === ValidatorSigningInfo.typeUrl || typeof o.address === "string" && typeof o.start_height === "bigint" && typeof o.index_offset === "bigint" && Timestamp.isAmino(o.jailed_until) && typeof o.tombstoned === "boolean" && typeof o.missed_blocks_counter === "bigint");
   },
   encode(message: ValidatorSigningInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.address !== "") {
+    if (message.address !== undefined) {
       writer.uint32(10).string(message.address);
     }
-    if (message.startHeight !== BigInt(0)) {
+    if (message.startHeight !== undefined) {
       writer.uint32(16).int64(message.startHeight);
     }
-    if (message.indexOffset !== BigInt(0)) {
+    if (message.indexOffset !== undefined) {
       writer.uint32(24).int64(message.indexOffset);
     }
     if (message.jailedUntil !== undefined) {
       Timestamp.encode(toTimestamp(message.jailedUntil), writer.uint32(34).fork()).ldelim();
     }
-    if (message.tombstoned === true) {
+    if (message.tombstoned !== undefined) {
       writer.uint32(40).bool(message.tombstoned);
     }
-    if (message.missedBlocksCounter !== BigInt(0)) {
+    if (message.missedBlocksCounter !== undefined) {
       writer.uint32(48).int64(message.missedBlocksCounter);
     }
     return writer;
@@ -185,14 +186,14 @@ export const ValidatorSigningInfo = {
     return message;
   },
   fromJSON(object: any): ValidatorSigningInfo {
-    return {
-      address: isSet(object.address) ? String(object.address) : "",
-      startHeight: isSet(object.startHeight) ? BigInt(object.startHeight.toString()) : BigInt(0),
-      indexOffset: isSet(object.indexOffset) ? BigInt(object.indexOffset.toString()) : BigInt(0),
-      jailedUntil: isSet(object.jailedUntil) ? new Date(object.jailedUntil) : undefined,
-      tombstoned: isSet(object.tombstoned) ? Boolean(object.tombstoned) : false,
-      missedBlocksCounter: isSet(object.missedBlocksCounter) ? BigInt(object.missedBlocksCounter.toString()) : BigInt(0)
-    };
+    const obj = createBaseValidatorSigningInfo();
+    if (isSet(object.address)) obj.address = String(object.address);
+    if (isSet(object.startHeight)) obj.startHeight = BigInt(object.startHeight.toString());
+    if (isSet(object.indexOffset)) obj.indexOffset = BigInt(object.indexOffset.toString());
+    if (isSet(object.jailedUntil)) obj.jailedUntil = new Date(object.jailedUntil);
+    if (isSet(object.tombstoned)) obj.tombstoned = Boolean(object.tombstoned);
+    if (isSet(object.missedBlocksCounter)) obj.missedBlocksCounter = BigInt(object.missedBlocksCounter.toString());
+    return obj;
   },
   toJSON(message: ValidatorSigningInfo): unknown {
     const obj: any = {};
@@ -207,11 +208,17 @@ export const ValidatorSigningInfo = {
   fromPartial(object: DeepPartial<ValidatorSigningInfo>): ValidatorSigningInfo {
     const message = createBaseValidatorSigningInfo();
     message.address = object.address ?? "";
-    message.startHeight = object.startHeight !== undefined && object.startHeight !== null ? BigInt(object.startHeight.toString()) : BigInt(0);
-    message.indexOffset = object.indexOffset !== undefined && object.indexOffset !== null ? BigInt(object.indexOffset.toString()) : BigInt(0);
+    if (object.startHeight !== undefined && object.startHeight !== null) {
+      message.startHeight = BigInt(object.startHeight.toString());
+    }
+    if (object.indexOffset !== undefined && object.indexOffset !== null) {
+      message.indexOffset = BigInt(object.indexOffset.toString());
+    }
     message.jailedUntil = object.jailedUntil ?? undefined;
     message.tombstoned = object.tombstoned ?? false;
-    message.missedBlocksCounter = object.missedBlocksCounter !== undefined && object.missedBlocksCounter !== null ? BigInt(object.missedBlocksCounter.toString()) : BigInt(0);
+    if (object.missedBlocksCounter !== undefined && object.missedBlocksCounter !== null) {
+      message.missedBlocksCounter = BigInt(object.missedBlocksCounter.toString());
+    }
     return message;
   },
   fromSDK(object: ValidatorSigningInfoSDKType): ValidatorSigningInfo {
@@ -312,7 +319,7 @@ export const Params = {
     return o && (o.$typeUrl === Params.typeUrl || typeof o.signed_blocks_window === "bigint" && (o.min_signed_per_window instanceof Uint8Array || typeof o.min_signed_per_window === "string") && Duration.isAmino(o.downtime_jail_duration) && (o.slash_fraction_double_sign instanceof Uint8Array || typeof o.slash_fraction_double_sign === "string") && (o.slash_fraction_downtime instanceof Uint8Array || typeof o.slash_fraction_downtime === "string"));
   },
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.signedBlocksWindow !== BigInt(0)) {
+    if (message.signedBlocksWindow !== undefined) {
       writer.uint32(8).int64(message.signedBlocksWindow);
     }
     if (message.minSignedPerWindow.length !== 0) {
@@ -359,13 +366,13 @@ export const Params = {
     return message;
   },
   fromJSON(object: any): Params {
-    return {
-      signedBlocksWindow: isSet(object.signedBlocksWindow) ? BigInt(object.signedBlocksWindow.toString()) : BigInt(0),
-      minSignedPerWindow: isSet(object.minSignedPerWindow) ? bytesFromBase64(object.minSignedPerWindow) : new Uint8Array(),
-      downtimeJailDuration: isSet(object.downtimeJailDuration) ? Duration.fromJSON(object.downtimeJailDuration) : undefined,
-      slashFractionDoubleSign: isSet(object.slashFractionDoubleSign) ? bytesFromBase64(object.slashFractionDoubleSign) : new Uint8Array(),
-      slashFractionDowntime: isSet(object.slashFractionDowntime) ? bytesFromBase64(object.slashFractionDowntime) : new Uint8Array()
-    };
+    const obj = createBaseParams();
+    if (isSet(object.signedBlocksWindow)) obj.signedBlocksWindow = BigInt(object.signedBlocksWindow.toString());
+    if (isSet(object.minSignedPerWindow)) obj.minSignedPerWindow = bytesFromBase64(object.minSignedPerWindow);
+    if (isSet(object.downtimeJailDuration)) obj.downtimeJailDuration = Duration.fromJSON(object.downtimeJailDuration);
+    if (isSet(object.slashFractionDoubleSign)) obj.slashFractionDoubleSign = bytesFromBase64(object.slashFractionDoubleSign);
+    if (isSet(object.slashFractionDowntime)) obj.slashFractionDowntime = bytesFromBase64(object.slashFractionDowntime);
+    return obj;
   },
   toJSON(message: Params): unknown {
     const obj: any = {};
@@ -378,9 +385,13 @@ export const Params = {
   },
   fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
-    message.signedBlocksWindow = object.signedBlocksWindow !== undefined && object.signedBlocksWindow !== null ? BigInt(object.signedBlocksWindow.toString()) : BigInt(0);
+    if (object.signedBlocksWindow !== undefined && object.signedBlocksWindow !== null) {
+      message.signedBlocksWindow = BigInt(object.signedBlocksWindow.toString());
+    }
     message.minSignedPerWindow = object.minSignedPerWindow ?? new Uint8Array();
-    message.downtimeJailDuration = object.downtimeJailDuration !== undefined && object.downtimeJailDuration !== null ? Duration.fromPartial(object.downtimeJailDuration) : undefined;
+    if (object.downtimeJailDuration !== undefined && object.downtimeJailDuration !== null) {
+      message.downtimeJailDuration = Duration.fromPartial(object.downtimeJailDuration);
+    }
     message.slashFractionDoubleSign = object.slashFractionDoubleSign ?? new Uint8Array();
     message.slashFractionDowntime = object.slashFractionDowntime ?? new Uint8Array();
     return message;

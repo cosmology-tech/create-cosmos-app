@@ -2,12 +2,13 @@ import { CapabilityOwners, CapabilityOwnersAmino, CapabilityOwnersSDKType } from
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.capability.v1beta1";
 /** GenesisOwners defines the capability owners with their corresponding index. */
 export interface GenesisOwners {
   /** index is the index of the capability owner. */
   index: bigint;
   /** index_owners are the owners at the given index. */
-  indexOwners: CapabilityOwners | undefined;
+  indexOwners: CapabilityOwners;
 }
 export interface GenesisOwnersProtoMsg {
   typeUrl: "/cosmos.capability.v1beta1.GenesisOwners";
@@ -18,7 +19,7 @@ export interface GenesisOwnersAmino {
   /** index is the index of the capability owner. */
   index?: string;
   /** index_owners are the owners at the given index. */
-  index_owners?: CapabilityOwnersAmino | undefined;
+  index_owners?: CapabilityOwnersAmino;
 }
 export interface GenesisOwnersAminoMsg {
   type: "cosmos-sdk/GenesisOwners";
@@ -27,7 +28,7 @@ export interface GenesisOwnersAminoMsg {
 /** GenesisOwners defines the capability owners with their corresponding index. */
 export interface GenesisOwnersSDKType {
   index: bigint;
-  index_owners: CapabilityOwnersSDKType | undefined;
+  index_owners: CapabilityOwnersSDKType;
 }
 /** GenesisState defines the capability module's genesis state. */
 export interface GenesisState {
@@ -81,7 +82,7 @@ export const GenesisOwners = {
     return o && (o.$typeUrl === GenesisOwners.typeUrl || typeof o.index === "bigint" && CapabilityOwners.isAmino(o.index_owners));
   },
   encode(message: GenesisOwners, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.index !== BigInt(0)) {
+    if (message.index !== undefined) {
       writer.uint32(8).uint64(message.index);
     }
     if (message.indexOwners !== undefined) {
@@ -110,10 +111,10 @@ export const GenesisOwners = {
     return message;
   },
   fromJSON(object: any): GenesisOwners {
-    return {
-      index: isSet(object.index) ? BigInt(object.index.toString()) : BigInt(0),
-      indexOwners: isSet(object.indexOwners) ? CapabilityOwners.fromJSON(object.indexOwners) : undefined
-    };
+    const obj = createBaseGenesisOwners();
+    if (isSet(object.index)) obj.index = BigInt(object.index.toString());
+    if (isSet(object.indexOwners)) obj.indexOwners = CapabilityOwners.fromJSON(object.indexOwners);
+    return obj;
   },
   toJSON(message: GenesisOwners): unknown {
     const obj: any = {};
@@ -123,8 +124,12 @@ export const GenesisOwners = {
   },
   fromPartial(object: DeepPartial<GenesisOwners>): GenesisOwners {
     const message = createBaseGenesisOwners();
-    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt(0);
-    message.indexOwners = object.indexOwners !== undefined && object.indexOwners !== null ? CapabilityOwners.fromPartial(object.indexOwners) : undefined;
+    if (object.index !== undefined && object.index !== null) {
+      message.index = BigInt(object.index.toString());
+    }
+    if (object.indexOwners !== undefined && object.indexOwners !== null) {
+      message.indexOwners = CapabilityOwners.fromPartial(object.indexOwners);
+    }
     return message;
   },
   fromSDK(object: GenesisOwnersSDKType): GenesisOwners {
@@ -198,7 +203,7 @@ export const GenesisState = {
     return o && (o.$typeUrl === GenesisState.typeUrl || typeof o.index === "bigint" && Array.isArray(o.owners) && (!o.owners.length || GenesisOwners.isAmino(o.owners[0])));
   },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.index !== BigInt(0)) {
+    if (message.index !== undefined) {
       writer.uint32(8).uint64(message.index);
     }
     for (const v of message.owners) {
@@ -227,10 +232,10 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      index: isSet(object.index) ? BigInt(object.index.toString()) : BigInt(0),
-      owners: Array.isArray(object?.owners) ? object.owners.map((e: any) => GenesisOwners.fromJSON(e)) : []
-    };
+    const obj = createBaseGenesisState();
+    if (isSet(object.index)) obj.index = BigInt(object.index.toString());
+    if (Array.isArray(object?.owners)) obj.owners = object.owners.map((e: any) => GenesisOwners.fromJSON(e));
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
@@ -244,7 +249,9 @@ export const GenesisState = {
   },
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt(0);
+    if (object.index !== undefined && object.index !== null) {
+      message.index = BigInt(object.index.toString());
+    }
     message.owners = object.owners?.map(e => GenesisOwners.fromPartial(e)) || [];
     return message;
   },

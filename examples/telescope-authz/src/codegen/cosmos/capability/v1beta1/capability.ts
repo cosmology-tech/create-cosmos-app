@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.capability.v1beta1";
 /**
  * Capability defines an implementation of an object capability. The index
  * provided to a Capability must be globally unique.
@@ -109,7 +110,7 @@ export const Capability = {
     return o && (o.$typeUrl === Capability.typeUrl || typeof o.index === "bigint");
   },
   encode(message: Capability, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.index !== BigInt(0)) {
+    if (message.index !== undefined) {
       writer.uint32(8).uint64(message.index);
     }
     return writer;
@@ -132,9 +133,9 @@ export const Capability = {
     return message;
   },
   fromJSON(object: any): Capability {
-    return {
-      index: isSet(object.index) ? BigInt(object.index.toString()) : BigInt(0)
-    };
+    const obj = createBaseCapability();
+    if (isSet(object.index)) obj.index = BigInt(object.index.toString());
+    return obj;
   },
   toJSON(message: Capability): unknown {
     const obj: any = {};
@@ -143,7 +144,9 @@ export const Capability = {
   },
   fromPartial(object: DeepPartial<Capability>): Capability {
     const message = createBaseCapability();
-    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt(0);
+    if (object.index !== undefined && object.index !== null) {
+      message.index = BigInt(object.index.toString());
+    }
     return message;
   },
   fromSDK(object: CapabilitySDKType): Capability {
@@ -211,10 +214,10 @@ export const Owner = {
     return o && (o.$typeUrl === Owner.typeUrl || typeof o.module === "string" && typeof o.name === "string");
   },
   encode(message: Owner, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.module !== "") {
+    if (message.module !== undefined) {
       writer.uint32(10).string(message.module);
     }
-    if (message.name !== "") {
+    if (message.name !== undefined) {
       writer.uint32(18).string(message.name);
     }
     return writer;
@@ -240,10 +243,10 @@ export const Owner = {
     return message;
   },
   fromJSON(object: any): Owner {
-    return {
-      module: isSet(object.module) ? String(object.module) : "",
-      name: isSet(object.name) ? String(object.name) : ""
-    };
+    const obj = createBaseOwner();
+    if (isSet(object.module)) obj.module = String(object.module);
+    if (isSet(object.name)) obj.name = String(object.name);
+    return obj;
   },
   toJSON(message: Owner): unknown {
     const obj: any = {};
@@ -350,9 +353,9 @@ export const CapabilityOwners = {
     return message;
   },
   fromJSON(object: any): CapabilityOwners {
-    return {
-      owners: Array.isArray(object?.owners) ? object.owners.map((e: any) => Owner.fromJSON(e)) : []
-    };
+    const obj = createBaseCapabilityOwners();
+    if (Array.isArray(object?.owners)) obj.owners = object.owners.map((e: any) => Owner.fromJSON(e));
+    return obj;
   },
   toJSON(message: CapabilityOwners): unknown {
     const obj: any = {};

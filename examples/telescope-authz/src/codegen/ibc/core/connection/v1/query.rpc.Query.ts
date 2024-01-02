@@ -1,10 +1,11 @@
+import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../../../cosmos/base/query/v1beta1/pagination";
+import { ConnectionEnd, ConnectionEndSDKType, IdentifiedConnection, IdentifiedConnectionSDKType } from "./connection";
+import { Height, HeightSDKType, IdentifiedClientState, IdentifiedClientStateSDKType } from "../../client/v1/client";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
 import { TxRpc } from "../../../../types";
 import { BinaryReader } from "../../../../binary";
-import { ReactQueryParams } from "../../../../react-query";
-import { ProtobufRpcClient } from "@cosmjs/stargate";
-import { useQuery } from "@tanstack/react-query";
-import { QueryStore } from "../../../../mobx";
-import { QueryConnectionRequest, QueryConnectionResponse, QueryConnectionsRequest, QueryConnectionsResponse, QueryClientConnectionsRequest, QueryClientConnectionsResponse, QueryConnectionClientStateRequest, QueryConnectionClientStateResponse, QueryConnectionConsensusStateRequest, QueryConnectionConsensusStateResponse } from "./query";
+import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryConnectionRequest, QueryConnectionRequestSDKType, QueryConnectionResponse, QueryConnectionResponseSDKType, QueryConnectionsRequest, QueryConnectionsRequestSDKType, QueryConnectionsResponse, QueryConnectionsResponseSDKType, QueryClientConnectionsRequest, QueryClientConnectionsRequestSDKType, QueryClientConnectionsResponse, QueryClientConnectionsResponseSDKType, QueryConnectionClientStateRequest, QueryConnectionClientStateRequestSDKType, QueryConnectionClientStateResponse, QueryConnectionClientStateResponseSDKType, QueryConnectionConsensusStateRequest, QueryConnectionConsensusStateRequestSDKType, QueryConnectionConsensusStateResponse, QueryConnectionConsensusStateResponseSDKType } from "./query";
 /** Query provides defines the gRPC querier service */
 export interface Query {
   /** Connection queries an IBC connection end. */
@@ -40,7 +41,7 @@ export class QueryClientImpl implements Query {
   };
   /* Connections queries all the IBC connections of a chain. */
   connections = async (request: QueryConnectionsRequest = {
-    pagination: undefined
+    pagination: PageRequest.fromPartial({})
   }): Promise<QueryConnectionsResponse> => {
     const data = QueryConnectionsRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.connection.v1.Query", "Connections", data);
@@ -68,150 +69,24 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryConnectionConsensusStateResponse.decode(new BinaryReader(data)));
   };
 }
-export const createClientImpl = (rpc: TxRpc) => {
-  return new QueryClientImpl(rpc);
-};
-export interface UseConnectionQuery<TData> extends ReactQueryParams<QueryConnectionResponse, TData> {
-  request: QueryConnectionRequest;
-}
-export interface UseConnectionsQuery<TData> extends ReactQueryParams<QueryConnectionsResponse, TData> {
-  request?: QueryConnectionsRequest;
-}
-export interface UseClientConnectionsQuery<TData> extends ReactQueryParams<QueryClientConnectionsResponse, TData> {
-  request: QueryClientConnectionsRequest;
-}
-export interface UseConnectionClientStateQuery<TData> extends ReactQueryParams<QueryConnectionClientStateResponse, TData> {
-  request: QueryConnectionClientStateRequest;
-}
-export interface UseConnectionConsensusStateQuery<TData> extends ReactQueryParams<QueryConnectionConsensusStateResponse, TData> {
-  request: QueryConnectionConsensusStateRequest;
-}
-const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
-const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
-  if (!rpc) return;
-  if (_queryClients.has(rpc)) {
-    return _queryClients.get(rpc);
-  }
+export const createRpcQueryExtension = (base: QueryClient) => {
+  const rpc = createProtobufRpcClient(base);
   const queryService = new QueryClientImpl(rpc);
-  _queryClients.set(rpc, queryService);
-  return queryService;
-};
-export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  const useConnection = <TData = QueryConnectionResponse,>({
-    request,
-    options
-  }: UseConnectionQuery<TData>) => {
-    return useQuery<QueryConnectionResponse, Error, TData>(["connectionQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+  return {
+    connection(request: QueryConnectionRequest): Promise<QueryConnectionResponse> {
       return queryService.connection(request);
-    }, options);
-  };
-  const useConnections = <TData = QueryConnectionsResponse,>({
-    request,
-    options
-  }: UseConnectionsQuery<TData>) => {
-    return useQuery<QueryConnectionsResponse, Error, TData>(["connectionsQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    connections(request?: QueryConnectionsRequest): Promise<QueryConnectionsResponse> {
       return queryService.connections(request);
-    }, options);
-  };
-  const useClientConnections = <TData = QueryClientConnectionsResponse,>({
-    request,
-    options
-  }: UseClientConnectionsQuery<TData>) => {
-    return useQuery<QueryClientConnectionsResponse, Error, TData>(["clientConnectionsQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    clientConnections(request: QueryClientConnectionsRequest): Promise<QueryClientConnectionsResponse> {
       return queryService.clientConnections(request);
-    }, options);
-  };
-  const useConnectionClientState = <TData = QueryConnectionClientStateResponse,>({
-    request,
-    options
-  }: UseConnectionClientStateQuery<TData>) => {
-    return useQuery<QueryConnectionClientStateResponse, Error, TData>(["connectionClientStateQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    connectionClientState(request: QueryConnectionClientStateRequest): Promise<QueryConnectionClientStateResponse> {
       return queryService.connectionClientState(request);
-    }, options);
-  };
-  const useConnectionConsensusState = <TData = QueryConnectionConsensusStateResponse,>({
-    request,
-    options
-  }: UseConnectionConsensusStateQuery<TData>) => {
-    return useQuery<QueryConnectionConsensusStateResponse, Error, TData>(["connectionConsensusStateQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    connectionConsensusState(request: QueryConnectionConsensusStateRequest): Promise<QueryConnectionConsensusStateResponse> {
       return queryService.connectionConsensusState(request);
-    }, options);
-  };
-  return {
-    /** Connection queries an IBC connection end. */useConnection,
-    /** Connections queries all the IBC connections of a chain. */useConnections,
-    /**
-     * ClientConnections queries the connection paths associated with a client
-     * state.
-     */
-    useClientConnections,
-    /**
-     * ConnectionClientState queries the client state associated with the
-     * connection.
-     */
-    useConnectionClientState,
-    /**
-     * ConnectionConsensusState queries the consensus state associated with the
-     * connection.
-     */
-    useConnectionConsensusState
-  };
-};
-export const createRpcQueryMobxStores = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  class QueryConnectionStore {
-    store = new QueryStore<QueryConnectionRequest, QueryConnectionResponse>(queryService?.connection);
-    connection(request: QueryConnectionRequest) {
-      return this.store.getData(request);
     }
-  }
-  class QueryConnectionsStore {
-    store = new QueryStore<QueryConnectionsRequest, QueryConnectionsResponse>(queryService?.connections);
-    connections(request: QueryConnectionsRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryClientConnectionsStore {
-    store = new QueryStore<QueryClientConnectionsRequest, QueryClientConnectionsResponse>(queryService?.clientConnections);
-    clientConnections(request: QueryClientConnectionsRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryConnectionClientStateStore {
-    store = new QueryStore<QueryConnectionClientStateRequest, QueryConnectionClientStateResponse>(queryService?.connectionClientState);
-    connectionClientState(request: QueryConnectionClientStateRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryConnectionConsensusStateStore {
-    store = new QueryStore<QueryConnectionConsensusStateRequest, QueryConnectionConsensusStateResponse>(queryService?.connectionConsensusState);
-    connectionConsensusState(request: QueryConnectionConsensusStateRequest) {
-      return this.store.getData(request);
-    }
-  }
-  return {
-    /** Connection queries an IBC connection end. */QueryConnectionStore,
-    /** Connections queries all the IBC connections of a chain. */QueryConnectionsStore,
-    /**
-     * ClientConnections queries the connection paths associated with a client
-     * state.
-     */
-    QueryClientConnectionsStore,
-    /**
-     * ConnectionClientState queries the client state associated with the
-     * connection.
-     */
-    QueryConnectionClientStateStore,
-    /**
-     * ConnectionConsensusState queries the consensus state associated with the
-     * connection.
-     */
-    QueryConnectionConsensusStateStore
   };
 };

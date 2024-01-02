@@ -1,7 +1,8 @@
-import { Any, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.crypto.multisig";
 /**
  * LegacyAminoPubKey specifies a public key type
  * which nests multiple public keys and a threshold,
@@ -56,7 +57,7 @@ export const LegacyAminoPubKey = {
     return o && (o.$typeUrl === LegacyAminoPubKey.typeUrl || typeof o.threshold === "number" && Array.isArray(o.public_keys) && (!o.public_keys.length || Any.isAmino(o.public_keys[0])));
   },
   encode(message: LegacyAminoPubKey, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.threshold !== 0) {
+    if (message.threshold !== undefined) {
       writer.uint32(8).uint32(message.threshold);
     }
     for (const v of message.publicKeys) {
@@ -85,10 +86,10 @@ export const LegacyAminoPubKey = {
     return message;
   },
   fromJSON(object: any): LegacyAminoPubKey {
-    return {
-      threshold: isSet(object.threshold) ? Number(object.threshold) : 0,
-      publicKeys: Array.isArray(object?.publicKeys) ? object.publicKeys.map((e: any) => Any.fromJSON(e)) : []
-    };
+    const obj = createBaseLegacyAminoPubKey();
+    if (isSet(object.threshold)) obj.threshold = Number(object.threshold);
+    if (Array.isArray(object?.publicKeys)) obj.publicKeys = object.publicKeys.map((e: any) => Any.fromJSON(e));
+    return obj;
   },
   toJSON(message: LegacyAminoPubKey): unknown {
     const obj: any = {};

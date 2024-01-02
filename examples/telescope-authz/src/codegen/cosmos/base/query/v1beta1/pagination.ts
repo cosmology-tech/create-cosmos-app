@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
 import { GlobalDecoderRegistry } from "../../../../registry";
+export const protobufPackage = "cosmos.base.query.v1beta1";
 /**
  * PageRequest is to be embedded in gRPC request messages for efficient
  * pagination. Ex:
@@ -197,16 +198,16 @@ export const PageRequest = {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key);
     }
-    if (message.offset !== BigInt(0)) {
+    if (message.offset !== undefined) {
       writer.uint32(16).uint64(message.offset);
     }
-    if (message.limit !== BigInt(0)) {
+    if (message.limit !== undefined) {
       writer.uint32(24).uint64(message.limit);
     }
-    if (message.countTotal === true) {
+    if (message.countTotal !== undefined) {
       writer.uint32(32).bool(message.countTotal);
     }
-    if (message.reverse === true) {
+    if (message.reverse !== undefined) {
       writer.uint32(40).bool(message.reverse);
     }
     return writer;
@@ -241,13 +242,13 @@ export const PageRequest = {
     return message;
   },
   fromJSON(object: any): PageRequest {
-    return {
-      key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
-      offset: isSet(object.offset) ? BigInt(object.offset.toString()) : BigInt(0),
-      limit: isSet(object.limit) ? BigInt(object.limit.toString()) : BigInt(0),
-      countTotal: isSet(object.countTotal) ? Boolean(object.countTotal) : false,
-      reverse: isSet(object.reverse) ? Boolean(object.reverse) : false
-    };
+    const obj = createBasePageRequest();
+    if (isSet(object.key)) obj.key = bytesFromBase64(object.key);
+    if (isSet(object.offset)) obj.offset = BigInt(object.offset.toString());
+    if (isSet(object.limit)) obj.limit = BigInt(object.limit.toString());
+    if (isSet(object.countTotal)) obj.countTotal = Boolean(object.countTotal);
+    if (isSet(object.reverse)) obj.reverse = Boolean(object.reverse);
+    return obj;
   },
   toJSON(message: PageRequest): unknown {
     const obj: any = {};
@@ -261,8 +262,12 @@ export const PageRequest = {
   fromPartial(object: DeepPartial<PageRequest>): PageRequest {
     const message = createBasePageRequest();
     message.key = object.key ?? new Uint8Array();
-    message.offset = object.offset !== undefined && object.offset !== null ? BigInt(object.offset.toString()) : BigInt(0);
-    message.limit = object.limit !== undefined && object.limit !== null ? BigInt(object.limit.toString()) : BigInt(0);
+    if (object.offset !== undefined && object.offset !== null) {
+      message.offset = BigInt(object.offset.toString());
+    }
+    if (object.limit !== undefined && object.limit !== null) {
+      message.limit = BigInt(object.limit.toString());
+    }
     message.countTotal = object.countTotal ?? false;
     message.reverse = object.reverse ?? false;
     return message;
@@ -359,7 +364,7 @@ export const PageResponse = {
     if (message.nextKey.length !== 0) {
       writer.uint32(10).bytes(message.nextKey);
     }
-    if (message.total !== BigInt(0)) {
+    if (message.total !== undefined) {
       writer.uint32(16).uint64(message.total);
     }
     return writer;
@@ -385,10 +390,10 @@ export const PageResponse = {
     return message;
   },
   fromJSON(object: any): PageResponse {
-    return {
-      nextKey: isSet(object.nextKey) ? bytesFromBase64(object.nextKey) : new Uint8Array(),
-      total: isSet(object.total) ? BigInt(object.total.toString()) : BigInt(0)
-    };
+    const obj = createBasePageResponse();
+    if (isSet(object.nextKey)) obj.nextKey = bytesFromBase64(object.nextKey);
+    if (isSet(object.total)) obj.total = BigInt(object.total.toString());
+    return obj;
   },
   toJSON(message: PageResponse): unknown {
     const obj: any = {};
@@ -399,7 +404,9 @@ export const PageResponse = {
   fromPartial(object: DeepPartial<PageResponse>): PageResponse {
     const message = createBasePageResponse();
     message.nextKey = object.nextKey ?? new Uint8Array();
-    message.total = object.total !== undefined && object.total !== null ? BigInt(object.total.toString()) : BigInt(0);
+    if (object.total !== undefined && object.total !== null) {
+      message.total = BigInt(object.total.toString());
+    }
     return message;
   },
   fromSDK(object: PageResponseSDKType): PageResponse {

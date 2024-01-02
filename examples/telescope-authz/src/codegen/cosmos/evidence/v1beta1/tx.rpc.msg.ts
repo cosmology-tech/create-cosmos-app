@@ -1,5 +1,7 @@
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { DeliverTxResponse, StdFee, TxRpc } from "../../../types";
-import { MsgSubmitEvidence } from "./tx";
+import { BinaryReader } from "../../../binary";
+import { MsgSubmitEvidence, MsgSubmitEvidenceSDKType, MsgSubmitEvidenceResponse, MsgSubmitEvidenceResponseSDKType } from "./tx";
 /** Msg defines the evidence Msg service. */
 export interface Msg {
   /**

@@ -2,6 +2,7 @@ import { FeeToken, FeeTokenAmino, FeeTokenSDKType } from "./feetoken";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "osmosis.txfees.v1beta1";
 /** GenesisState defines the txfees module's genesis state. */
 export interface GenesisState {
   basedenom: string;
@@ -44,7 +45,7 @@ export const GenesisState = {
     return o && (o.$typeUrl === GenesisState.typeUrl || typeof o.basedenom === "string" && Array.isArray(o.feetokens) && (!o.feetokens.length || FeeToken.isAmino(o.feetokens[0])));
   },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.basedenom !== "") {
+    if (message.basedenom !== undefined) {
       writer.uint32(10).string(message.basedenom);
     }
     for (const v of message.feetokens) {
@@ -73,10 +74,10 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      basedenom: isSet(object.basedenom) ? String(object.basedenom) : "",
-      feetokens: Array.isArray(object?.feetokens) ? object.feetokens.map((e: any) => FeeToken.fromJSON(e)) : []
-    };
+    const obj = createBaseGenesisState();
+    if (isSet(object.basedenom)) obj.basedenom = String(object.basedenom);
+    if (Array.isArray(object?.feetokens)) obj.feetokens = object.feetokens.map((e: any) => FeeToken.fromJSON(e));
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};

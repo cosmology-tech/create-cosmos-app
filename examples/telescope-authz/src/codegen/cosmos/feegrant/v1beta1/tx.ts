@@ -3,6 +3,7 @@ import { BasicAllowance, BasicAllowanceProtoMsg, BasicAllowanceSDKType, Periodic
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.feegrant.v1beta1";
 /**
  * MsgGrantAllowance adds permission for Grantee to spend up to Allowance
  * of fees from the account of Granter.
@@ -32,7 +33,7 @@ export interface MsgGrantAllowanceAmino {
   /** grantee is the address of the user being granted an allowance of another user's funds. */
   grantee?: string;
   /** allowance can be any of basic, periodic, allowed fee allowance. */
-  allowance?: AnyAmino | undefined;
+  allowance?: AnyAmino;
 }
 export interface MsgGrantAllowanceAminoMsg {
   type: "cosmos-sdk/MsgGrantAllowance";
@@ -122,10 +123,10 @@ export const MsgGrantAllowance = {
     return o && (o.$typeUrl === MsgGrantAllowance.typeUrl || typeof o.granter === "string" && typeof o.grantee === "string");
   },
   encode(message: MsgGrantAllowance, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.granter !== "") {
+    if (message.granter !== undefined) {
       writer.uint32(10).string(message.granter);
     }
-    if (message.grantee !== "") {
+    if (message.grantee !== undefined) {
       writer.uint32(18).string(message.grantee);
     }
     if (message.allowance !== undefined) {
@@ -157,11 +158,11 @@ export const MsgGrantAllowance = {
     return message;
   },
   fromJSON(object: any): MsgGrantAllowance {
-    return {
-      granter: isSet(object.granter) ? String(object.granter) : "",
-      grantee: isSet(object.grantee) ? String(object.grantee) : "",
-      allowance: isSet(object.allowance) ? GlobalDecoderRegistry.fromJSON(object.allowance) : undefined
-    };
+    const obj = createBaseMsgGrantAllowance();
+    if (isSet(object.granter)) obj.granter = String(object.granter);
+    if (isSet(object.grantee)) obj.grantee = String(object.grantee);
+    if (isSet(object.allowance)) obj.allowance = GlobalDecoderRegistry.fromJSON(object.allowance);
+    return obj;
   },
   toJSON(message: MsgGrantAllowance): unknown {
     const obj: any = {};
@@ -174,7 +175,9 @@ export const MsgGrantAllowance = {
     const message = createBaseMsgGrantAllowance();
     message.granter = object.granter ?? "";
     message.grantee = object.grantee ?? "";
-    message.allowance = object.allowance !== undefined && object.allowance !== null ? GlobalDecoderRegistry.fromPartial(object.allowance) : undefined;
+    if (object.allowance !== undefined && object.allowance !== null) {
+      message.allowance = GlobalDecoderRegistry.fromPartial(object.allowance);
+    }
     return message;
   },
   fromSDK(object: MsgGrantAllowanceSDKType): MsgGrantAllowance {
@@ -268,7 +271,8 @@ export const MsgGrantAllowanceResponse = {
     return message;
   },
   fromJSON(_: any): MsgGrantAllowanceResponse {
-    return {};
+    const obj = createBaseMsgGrantAllowanceResponse();
+    return obj;
   },
   toJSON(_: MsgGrantAllowanceResponse): unknown {
     const obj: any = {};
@@ -336,10 +340,10 @@ export const MsgRevokeAllowance = {
     return o && (o.$typeUrl === MsgRevokeAllowance.typeUrl || typeof o.granter === "string" && typeof o.grantee === "string");
   },
   encode(message: MsgRevokeAllowance, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.granter !== "") {
+    if (message.granter !== undefined) {
       writer.uint32(10).string(message.granter);
     }
-    if (message.grantee !== "") {
+    if (message.grantee !== undefined) {
       writer.uint32(18).string(message.grantee);
     }
     return writer;
@@ -365,10 +369,10 @@ export const MsgRevokeAllowance = {
     return message;
   },
   fromJSON(object: any): MsgRevokeAllowance {
-    return {
-      granter: isSet(object.granter) ? String(object.granter) : "",
-      grantee: isSet(object.grantee) ? String(object.grantee) : ""
-    };
+    const obj = createBaseMsgRevokeAllowance();
+    if (isSet(object.granter)) obj.granter = String(object.granter);
+    if (isSet(object.grantee)) obj.grantee = String(object.grantee);
+    return obj;
   },
   toJSON(message: MsgRevokeAllowance): unknown {
     const obj: any = {};
@@ -467,7 +471,8 @@ export const MsgRevokeAllowanceResponse = {
     return message;
   },
   fromJSON(_: any): MsgRevokeAllowanceResponse {
-    return {};
+    const obj = createBaseMsgRevokeAllowanceResponse();
+    return obj;
   },
   toJSON(_: MsgRevokeAllowanceResponse): unknown {
     const obj: any = {};

@@ -1,4 +1,6 @@
-import { MsgCreateDenom, MsgMint, MsgBurn, MsgChangeAdmin, MsgSetDenomMetadata } from "./tx";
+import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
+import { Metadata, MetadataSDKType } from "../../../cosmos/bank/v1beta1/bank";
+import { MsgCreateDenom, MsgCreateDenomSDKType, MsgMint, MsgMintSDKType, MsgBurn, MsgBurnSDKType, MsgChangeAdmin, MsgChangeAdminSDKType, MsgSetDenomMetadata, MsgSetDenomMetadataSDKType } from "./tx";
 export const AminoConverter = {
   "/osmosis.tokenfactory.v1beta1.MsgCreateDenom": {
     aminoType: "osmosis/tokenfactory/create-denom",

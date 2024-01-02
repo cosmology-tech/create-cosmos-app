@@ -8,40 +8,26 @@ telescope({
   outPath: join(__dirname, '../src/codegen'),
   options: {
     env: 'v-next',
-    tsDisable: {
-      files: [
-        'cosmos/auth/v1beta1/query.ts',
-      ],
-    },
+    removeUnusedImports: false,
     classesUseArrowFunctions: true,
+
     interfaces: {
       enabled: true,
       useGlobalDecoderRegistry: true,
-      useUnionTypes: true,
+      useUnionTypes: true
     },
+
     prototypes: {
       enabled: true,
-      excluded: {
-        packages: ['osmosis.gamm.v1beta1'],
-      },
-      parser: {
-        keepCase: false,
-      },
+      addTypeUrlToObjects: true,
       addTypeUrlToDecoders: true,
       addAminoTypeToObjects: true,
-      addTypeUrlToObjects: true,
-      typingsFormat: {
-        customTypes: {
-          useCosmosSDKDec: true,
-        },
-        num64: 'bigint',
-        useDeepPartial: true,
-        useExact: false,
-        timestamp: 'date',
-        duration: 'duration',
-        useTelescopeGeneratedType: true,
+      excluded: {
+        packages: ['google.api.**', 'google.logging.**', 'google.protobuf.**']
       },
-
+      parser: {
+        keepCase: false
+      },
       methods: {
         encode: true,
         decode: true,
@@ -50,38 +36,122 @@ telescope({
         fromPartial: true,
         toSDK: true,
         fromSDK: true,
-        //
         toAmino: true,
         fromAmino: true,
-        fromProto: true,
         toProto: true,
+        fromProto: true
       },
-      includePackageVar: false,
+      strictNullCheckForPrototypeMethods: true,
+      paginationDefaultFromPartial: true,
+      includePackageVar: true,
+      fieldDefaultIsOptional: false,
       useOptionalNullable: true,
-      allowUndefinedTypes: true,
+      allowUndefinedTypes: false,
+      allowEncodeDefaultScalars: true,
+      typingsFormat: {
+        customTypes: {
+          useCosmosSDKDec: true
+        },
+        num64: 'bigint',
+        useDeepPartial: true,
+        useExact: false,
+        timestamp: 'date',
+        duration: 'duration',
+        useTelescopeGeneratedType: true
+      }
     },
-    reactQuery: {
+
+    bundle: {
+      enabled: true
+    },
+
+    stargateClients: {
       enabled: true,
+      includeCosmosDefaultTypes: true,
+      addGetTxRpc: true
     },
-    aminoEncoding: {
-      enabled: true,
+
+    aggregatedLCD: {
+      dir: 'osmosis',
+      filename: 'agg-lcd.ts',
+      packages: ['cosmos.bank.v1beta1', 'osmosis.gamm.v1beta1'],
+      addToBundle: true
     },
+
     lcdClients: {
-      enabled: false,
+      enabled: true,
+      scopedIsExclusive: false,
+      scoped: [
+        {
+          dir: 'osmosis',
+          filename: 'custom-lcd-client.ts',
+          packages: [
+            'cosmos.bank.v1beta1',
+            'cosmos.gov.v1beta1',
+            'osmosis.gamm.v1beta1'
+          ],
+          addToBundle: true,
+          methodName: 'createCustomLCDClient'
+        },
+        {
+          dir: 'evmos',
+          filename: 'custom-lcd-client.ts',
+          packages: [
+            'cosmos.bank.v1beta1',
+            'cosmos.gov.v1beta1',
+            'evmos.erc20.v1'
+          ],
+          addToBundle: true,
+          methodName: 'createEvmosLCDClient'
+        }
+      ]
     },
+
     rpcClients: {
       enabled: true,
-      extensions: false,
+      extensions: true,
       camelCase: true,
+      scopedIsExclusive: false,
+      useConnectComet: true,
+      scoped: [
+        {
+          dir: 'cosmos',
+          filename: 'cosmos-rpc-client.ts',
+          packages: ['cosmos.bank.v1beta1', 'cosmos.gov.v1beta1'],
+          addToBundle: true,
+          methodNameQuery: 'createCosmicRPCQueryClient',
+          methodNameTx: 'createCosmicRPCTxClient'
+        },
+        {
+          dir: 'evmos',
+          filename: 'evmos-rpc-client.ts',
+          packages: [
+            'cosmos.bank.v1beta1',
+            'cosmos.gov.v1beta1',
+            'evmos.erc20.v1'
+          ],
+          addToBundle: true,
+          methodNameQuery: 'createEvmosRPCQueryClient',
+          methodNameTx: 'createEvmosRPCTxClient'
+        }
+      ],
       serviceImplement: {
         Msg: {
-          type: "Tx",
-        },
+          type: 'Tx'
+        }
       },
+      enabledServices: [
+        'Msg',
+        'Query',
+        'Service',
+        'ReflectionService',
+        'ABCIApplication'
+      ]
     },
-    mobx: {
-      enabled: true,
-    },
+
+    aminoEncoding: {
+      enabled: true
+    }
   },
 })
   .then(() => {

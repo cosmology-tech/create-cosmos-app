@@ -2,6 +2,7 @@ import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin"
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "osmosis.claim.v1beta1";
 export enum Action {
   ActionAddLiquidity = 0,
   ActionSwap = 1,
@@ -104,7 +105,7 @@ export const ClaimRecord = {
     return o && (o.$typeUrl === ClaimRecord.typeUrl || typeof o.address === "string" && Array.isArray(o.initial_claimable_amount) && (!o.initial_claimable_amount.length || Coin.isAmino(o.initial_claimable_amount[0])) && Array.isArray(o.action_completed) && (!o.action_completed.length || typeof o.action_completed[0] === "boolean"));
   },
   encode(message: ClaimRecord, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.address !== "") {
+    if (message.address !== undefined) {
       writer.uint32(10).string(message.address);
     }
     for (const v of message.initialClaimableAmount) {
@@ -148,11 +149,11 @@ export const ClaimRecord = {
     return message;
   },
   fromJSON(object: any): ClaimRecord {
-    return {
-      address: isSet(object.address) ? String(object.address) : "",
-      initialClaimableAmount: Array.isArray(object?.initialClaimableAmount) ? object.initialClaimableAmount.map((e: any) => Coin.fromJSON(e)) : [],
-      actionCompleted: Array.isArray(object?.actionCompleted) ? object.actionCompleted.map((e: any) => Boolean(e)) : []
-    };
+    const obj = createBaseClaimRecord();
+    if (isSet(object.address)) obj.address = String(object.address);
+    if (Array.isArray(object?.initialClaimableAmount)) obj.initialClaimableAmount = object.initialClaimableAmount.map((e: any) => Coin.fromJSON(e));
+    if (Array.isArray(object?.actionCompleted)) obj.actionCompleted = object.actionCompleted.map((e: any) => Boolean(e));
+    return obj;
   },
   toJSON(message: ClaimRecord): unknown {
     const obj: any = {};

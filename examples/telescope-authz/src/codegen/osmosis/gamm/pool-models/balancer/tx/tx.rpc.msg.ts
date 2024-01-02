@@ -1,5 +1,7 @@
+import { PoolParams, PoolParamsSDKType, PoolAsset, PoolAssetSDKType } from "../balancerPool";
 import { DeliverTxResponse, StdFee, TxRpc } from "../../../../../types";
-import { MsgCreateBalancerPool } from "./tx";
+import { BinaryReader } from "../../../../../binary";
+import { MsgCreateBalancerPool, MsgCreateBalancerPoolSDKType, MsgCreateBalancerPoolResponse, MsgCreateBalancerPoolResponseSDKType } from "./tx";
 export interface Msg {
   createBalancerPool(signerAddress: string, message: MsgCreateBalancerPool, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
 }

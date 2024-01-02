@@ -1,56 +1,35 @@
-import { generateMnemonic } from '@confio/relayer/build/lib/helpers';
-import {
-  StdFee,
-  assertIsDeliverTxSuccess,
-  createProtobufRpcClient,
-} from '@cosmjs/stargate';
-import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
-import BigNumber from 'bignumber.js';
+import { generateMnemonic } from "@confio/relayer/build/lib/helpers";
+import { assertIsDeliverTxSuccess } from "@cosmjs/stargate";
+import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 
-import { useChains } from '@cosmos-kit/react-lite';
-
-import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
-import { QueryClient } from '@cosmjs/stargate';
-
-import {
-  EncodeObject,
-  TxRpc,
-  cosmos,
-  getSigningCosmosClient,
-} from '../src/codegen';
-import { useChain } from '../src';
-import './setup.test';
+import { cosmos, getSigningCosmosTxRpc } from "../src/codegen";
+import { useChain } from "../src";
+import "./setup.test";
 import {
   GenericAuthorization,
   Grant,
-} from '../src/codegen/cosmos/authz/v1beta1/authz';
-import { MsgGrant } from '../src/codegen/cosmos/authz/v1beta1/tx';
-import { MsgVote } from '../src/codegen/cosmos/gov/v1beta1/tx';
-import { SendAuthorization } from '../src/codegen/cosmos/bank/v1beta1/authz';
+} from "../src/codegen/cosmos/authz/v1beta1/authz";
+import {
+  MsgExec,
+  MsgGrant,
+  MsgRevoke,
+} from "../src/codegen/cosmos/authz/v1beta1/tx";
+import { SendAuthorization } from "../src/codegen/cosmos/bank/v1beta1/authz";
+import { MsgVote } from "../src/codegen/cosmos/gov/v1beta1/tx";
+import { QueryGrantsRequest } from "../src/codegen/cosmos/authz/v1beta1/query";
+import { MsgSend } from "../src/codegen/cosmos/bank/v1beta1/tx";
 
-describe('Authz testing', () => {
+describe("Authz testing", () => {
   let wallet1, address1, denom;
   let wallet2, address2;
-  let chainInfo, getCoin, getStargateClient, getRpcEndpoint, creditFromFaucet;
+  let chainInfo, getCoin, getRpcEndpoint, creditFromFaucet;
 
   // Variables used accross testcases
-  let queryClient;
-  let msgClient1;
-  let msgClient2;
 
   beforeAll(async () => {
-    ({
-      chainInfo,
-      getCoin,
-      getStargateClient,
-      getRpcEndpoint,
-      creditFromFaucet,
-    } = useChain('cosmos'));
+    ({ chainInfo, getCoin, getRpcEndpoint, creditFromFaucet } =
+      useChain("cosmos"));
     denom = getCoin().base;
-
-    // const chains = useChains([chainInfo.chain_name]);
-
-    // Promise.all(Object.values(wallets).forEach())
 
     // Initialize wallet
     wallet1 = await DirectSecp256k1HdWallet.fromMnemonic(generateMnemonic(), {
@@ -63,92 +42,55 @@ describe('Authz testing', () => {
     });
     address2 = (await wallet2.getAccounts())[0].address;
 
-    const tmClient: any = await Tendermint34Client.connect(getRpcEndpoint());
-    const client = new QueryClient(tmClient);
-    const rpc1: any = createProtobufRpcClient(client);
-    const rpc2: any = createProtobufRpcClient(client);
-
-    const signingClient1 = await getSigningCosmosClient({
-      rpcEndpoint: getRpcEndpoint(),
-      signer: wallet1,
-    });
-    rpc1.signAndBroadcast = (
-      signerAddress: string,
-      messages: readonly EncodeObject[],
-      fee: number | StdFee | 'auto',
-      memo?: string | undefined
-    ) => {
-      return signingClient1.signAndBroadcast(
-        signerAddress,
-        messages,
-        fee,
-        memo
-      );
-    };
-
-    const signingClient2 = await getSigningCosmosClient({
-      rpcEndpoint: getRpcEndpoint(),
-      signer: wallet2,
-    });
-    rpc2.signAndBroadcast = (
-      signerAddress: string,
-      messages: readonly EncodeObject[],
-      fee: number | StdFee | 'auto',
-      memo?: string | undefined
-    ) => {
-      return signingClient2.signAndBroadcast(
-        signerAddress,
-        messages,
-        fee,
-        memo
-      );
-    };
-
-    // Create custom cosmos interchain client
-    queryClient = await cosmos.ClientFactory.createRPCQueryClient({
-      rpc: rpc1,
-    });
-
-    msgClient1 = await cosmos.ClientFactory.createRPCMsgClient({
-      rpc: rpc1,
-    });
-
-    msgClient2 = await cosmos.ClientFactory.createRPCMsgClient({
-      rpc: rpc2,
-    });
-
     // Transfer osmosis and ibc tokens to address, send only osmo to address
     await creditFromFaucet(address1);
     await creditFromFaucet(address2);
   }, 200000);
 
-  it('check address1 has tokens', async () => {
+  it("check address1 has tokens", async () => {
+    const queryClient = await cosmos.ClientFactory.createRPCQueryClient({
+      rpcEndpoint: getRpcEndpoint(),
+    });
+
     const { balance } = await queryClient.cosmos.bank.v1beta1.balance({
       address: address1,
       denom,
     });
 
-    expect(balance.amount).toEqual('10000000000');
-  }, 10000);
+    expect(balance?.amount).toEqual("10000000000");
+  }, 200000);
 
-  it('check address2 has tokens', async () => {
+  it("check address2 has tokens", async () => {
+    const queryClient = await cosmos.ClientFactory.createRPCQueryClient({
+      rpcEndpoint: getRpcEndpoint(),
+    });
+
     const { balance } = await queryClient.cosmos.bank.v1beta1.balance({
       address: address2,
       denom,
     });
 
-    expect(balance.amount).toEqual('10000000000');
-  }, 10000);
+    expect(balance?.amount).toEqual("10000000000");
+  }, 200000);
 
-  it('grant address2', async () => {
+  it("grant address2 Send Auth", async () => {
+    const msgClient1 = await cosmos.ClientFactory.createRPCMsgExtensions({
+      rpcEndpoint: getRpcEndpoint(),
+      signer: wallet1
+    });
+
+    const queryClient = await cosmos.ClientFactory.createRPCQueryClient({
+      rpcEndpoint: getRpcEndpoint(),
+    });
+
     const fee = {
       amount: [
         {
           denom,
-          amount: '100000',
+          amount: "100000",
         },
       ],
-      gas: '550000',
+      gas: "550000",
     };
 
     const msg = MsgGrant.fromPartial({
@@ -159,7 +101,7 @@ describe('Authz testing', () => {
           spendLimit: [
             {
               denom: denom,
-              amount: '100000',
+              amount: "1000000",
             },
           ],
         }),
@@ -174,11 +116,231 @@ describe('Authz testing', () => {
 
     assertIsDeliverTxSuccess(result);
 
+    const authsResults = await queryClient.cosmos.authz.v1beta1.granteeGrants({
+      grantee: address2,
+    });
+
+    expect(authsResults?.grants?.length).toBeGreaterThan(0);
+
+    const auth = authsResults.grants[0].authorization;
+
+    expect(SendAuthorization.is(auth)).toBeTruthy();
+
+    if (SendAuthorization.is(auth)) {
+      expect(auth.spendLimit[0].amount).toBe("1000000");
+    }
+  }, 200000);
+
+  it("grant address2 Generic Vote Auth", async () => {
+    const msgClient1 = await cosmos.ClientFactory.createRPCMsgExtensions({
+      rpcEndpoint: getRpcEndpoint(),
+      signer: wallet1
+    });
+
+    const queryClient = await cosmos.ClientFactory.createRPCQueryClient({
+      rpcEndpoint: getRpcEndpoint(),
+    });
+
+    const fee = {
+      amount: [
+        {
+          denom,
+          amount: "100000",
+        },
+      ],
+      gas: "550000",
+    };
+
+    const msg = MsgGrant.fromPartial({
+      granter: address1,
+      grantee: address2,
+      grant: Grant.fromPartial({
+        authorization: GenericAuthorization.fromPartial({
+          msg: MsgVote.typeUrl,
+        }),
+      }),
+    });
+
+    const result = await msgClient1.cosmos.authz.v1beta1.grant(
+      address1,
+      msg,
+      fee
+    );
+
+    assertIsDeliverTxSuccess(result);
 
     const authsResults = await queryClient.cosmos.authz.v1beta1.granteeGrants({
       grantee: address2,
     });
 
     expect(authsResults?.grants?.length).toBeGreaterThan(0);
-  }, 10000);
+
+    const auth = authsResults.grants[1].authorization;
+
+    expect(GenericAuthorization.is(auth)).toBeTruthy();
+
+    if (GenericAuthorization.is(auth)) {
+      expect(auth.msg).toBe(MsgVote.typeUrl);
+    }
+  }, 200000);
+
+  // it("get address2 auths", async () => {
+  //   const queryClient = await cosmos.ClientFactory.createRPCQueryClient({
+  //     rpcEndpoint: getRpcEndpoint(),
+  //   });
+
+  //   const authsResults = await queryClient.cosmos.authz.v1beta1.grants(QueryGrantsRequest.fromPartial({
+  //     granter: address1,
+  //     grantee: address2,
+  //     msgTypeUrl: MsgVote.typeUrl
+  //   }));
+
+  //   console.log(authsResults);
+
+  // }, 200000);
+
+  // it("exec address2 send", async () => {
+  //   const msgClient2 = await cosmos.ClientFactory.createRPCMsgClient({
+  //     rpc: txRpc2,
+  //   });
+
+  //   const queryClient = await cosmos.ClientFactory.createRPCQueryClient({
+  //     rpcEndpoint: getRpcEndpoint(),
+  //   });
+
+  //   const fee = {
+  //     amount: [
+  //       {
+  //         denom,
+  //         amount: "100000",
+  //       },
+  //     ],
+  //     gas: "550000",
+  //   };
+
+  //   const msg = MsgExec.fromPartial({
+  //     grantee: address2,
+  //     msgs: [
+  //       MsgSend.toProtoMsg(
+  //         MsgSend.fromPartial({
+  //           fromAddress: address1,
+  //           toAddress: address2,
+  //           amount: [
+  //             {
+  //               denom,
+  //               amount: "90000",
+  //             },
+  //           ],
+  //         })
+  //       ),
+  //     ],
+  //   });
+
+  //   const result = await msgClient2.cosmos.authz.v1beta1.exec(
+  //     address2,
+  //     msg,
+  //     fee
+  //   );
+
+  //   assertIsDeliverTxSuccess(result);
+
+  //   const { balance } = await queryClient.cosmos.bank.v1beta1.balance({
+  //     address: address2,
+  //     denom,
+  //   });
+
+  //   console.log(balance)
+
+  //   // expect(balance?.amount).toEqual("10000000000");
+  // }, 200000);
+
+  it("revoke address2 vote auth", async () => {
+    const msgClient1 = await cosmos.ClientFactory.createRPCMsgExtensions({
+      rpcEndpoint: getRpcEndpoint(),
+      signer: wallet1
+    });
+
+    const queryClient = await cosmos.ClientFactory.createRPCQueryClient({
+      rpcEndpoint: getRpcEndpoint(),
+    });
+
+    const fee = {
+      amount: [
+        {
+          denom,
+          amount: "100000",
+        },
+      ],
+      gas: "550000",
+    };
+
+    const msg = MsgRevoke.fromPartial({
+      granter: address1,
+      grantee: address2,
+      msgTypeUrl: MsgVote.typeUrl,
+    });
+
+    const result = await msgClient1.cosmos.authz.v1beta1.revoke(
+      address1,
+      msg,
+      fee
+    );
+
+    assertIsDeliverTxSuccess(result);
+
+    const authsResults = await queryClient.cosmos.authz.v1beta1.granteeGrants({
+      grantee: address2,
+    });
+
+    expect(authsResults?.grants?.length).toBe(1);
+
+    const auth = authsResults.grants[0].authorization;
+
+    expect(SendAuthorization.is(auth)).toBeTruthy();
+
+    if (SendAuthorization.is(auth)) {
+      expect(auth.spendLimit[0].amount).toBe("1000000");
+    }
+  }, 200000);
+
+  it("revoke address2 send auth", async () => {
+    const msgClient1 = await cosmos.ClientFactory.createRPCMsgExtensions({
+      rpcEndpoint: getRpcEndpoint(),
+      signer: wallet1
+    });
+
+    const queryClient = await cosmos.ClientFactory.createRPCQueryClient({
+      rpcEndpoint: getRpcEndpoint(),
+    });
+
+    const fee = {
+      amount: [
+        {
+          denom,
+          amount: "100000",
+        },
+      ],
+      gas: "550000",
+    };
+
+    const msg = MsgRevoke.fromPartial({
+      granter: address1,
+      grantee: address2,
+      msgTypeUrl: MsgSend.typeUrl,
+    });
+
+    const result = await msgClient1.cosmos.authz.v1beta1.revoke(
+      address1,
+      msg,
+      fee
+    );
+
+    assertIsDeliverTxSuccess(result);
+
+    const authsResults = await queryClient.cosmos.authz.v1beta1.granteeGrants({
+      grantee: address2,
+    });
+
+    expect(authsResults?.grants?.length).toBe(0);
+  }, 200000);
 });

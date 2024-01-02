@@ -3,10 +3,11 @@ import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.bank.v1beta1";
 /** GenesisState defines the bank module's genesis state. */
 export interface GenesisState {
   /** params defines all the paramaters of the module. */
-  params: Params | undefined;
+  params: Params;
   /** balances is an array containing the balances of all the accounts. */
   balances: Balance[];
   /**
@@ -24,7 +25,7 @@ export interface GenesisStateProtoMsg {
 /** GenesisState defines the bank module's genesis state. */
 export interface GenesisStateAmino {
   /** params defines all the paramaters of the module. */
-  params?: ParamsAmino | undefined;
+  params?: ParamsAmino;
   /** balances is an array containing the balances of all the accounts. */
   balances?: BalanceAmino[];
   /**
@@ -41,7 +42,7 @@ export interface GenesisStateAminoMsg {
 }
 /** GenesisState defines the bank module's genesis state. */
 export interface GenesisStateSDKType {
-  params: ParamsSDKType | undefined;
+  params: ParamsSDKType;
   balances: BalanceSDKType[];
   supply: CoinSDKType[];
   denom_metadata: MetadataSDKType[];
@@ -144,12 +145,12 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-      balances: Array.isArray(object?.balances) ? object.balances.map((e: any) => Balance.fromJSON(e)) : [],
-      supply: Array.isArray(object?.supply) ? object.supply.map((e: any) => Coin.fromJSON(e)) : [],
-      denomMetadata: Array.isArray(object?.denomMetadata) ? object.denomMetadata.map((e: any) => Metadata.fromJSON(e)) : []
-    };
+    const obj = createBaseGenesisState();
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    if (Array.isArray(object?.balances)) obj.balances = object.balances.map((e: any) => Balance.fromJSON(e));
+    if (Array.isArray(object?.supply)) obj.supply = object.supply.map((e: any) => Coin.fromJSON(e));
+    if (Array.isArray(object?.denomMetadata)) obj.denomMetadata = object.denomMetadata.map((e: any) => Metadata.fromJSON(e));
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
@@ -173,7 +174,9 @@ export const GenesisState = {
   },
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     message.balances = object.balances?.map(e => Balance.fromPartial(e)) || [];
     message.supply = object.supply?.map(e => Coin.fromPartial(e)) || [];
     message.denomMetadata = object.denomMetadata?.map(e => Metadata.fromPartial(e)) || [];
@@ -280,7 +283,7 @@ export const Balance = {
     return o && (o.$typeUrl === Balance.typeUrl || typeof o.address === "string" && Array.isArray(o.coins) && (!o.coins.length || Coin.isAmino(o.coins[0])));
   },
   encode(message: Balance, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.address !== "") {
+    if (message.address !== undefined) {
       writer.uint32(10).string(message.address);
     }
     for (const v of message.coins) {
@@ -309,10 +312,10 @@ export const Balance = {
     return message;
   },
   fromJSON(object: any): Balance {
-    return {
-      address: isSet(object.address) ? String(object.address) : "",
-      coins: Array.isArray(object?.coins) ? object.coins.map((e: any) => Coin.fromJSON(e)) : []
-    };
+    const obj = createBaseBalance();
+    if (isSet(object.address)) obj.address = String(object.address);
+    if (Array.isArray(object?.coins)) obj.coins = object.coins.map((e: any) => Coin.fromJSON(e));
+    return obj;
   },
   toJSON(message: Balance): unknown {
     const obj: any = {};

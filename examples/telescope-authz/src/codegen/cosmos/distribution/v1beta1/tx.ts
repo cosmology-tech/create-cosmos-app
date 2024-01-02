@@ -2,6 +2,7 @@ import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.distribution.v1beta1";
 /**
  * MsgSetWithdrawAddress sets the withdraw address for
  * a delegator (or validator self-delegation).
@@ -214,10 +215,10 @@ export const MsgSetWithdrawAddress = {
     return o && (o.$typeUrl === MsgSetWithdrawAddress.typeUrl || typeof o.delegator_address === "string" && typeof o.withdraw_address === "string");
   },
   encode(message: MsgSetWithdrawAddress, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.delegatorAddress !== "") {
+    if (message.delegatorAddress !== undefined) {
       writer.uint32(10).string(message.delegatorAddress);
     }
-    if (message.withdrawAddress !== "") {
+    if (message.withdrawAddress !== undefined) {
       writer.uint32(18).string(message.withdrawAddress);
     }
     return writer;
@@ -243,10 +244,10 @@ export const MsgSetWithdrawAddress = {
     return message;
   },
   fromJSON(object: any): MsgSetWithdrawAddress {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      withdrawAddress: isSet(object.withdrawAddress) ? String(object.withdrawAddress) : ""
-    };
+    const obj = createBaseMsgSetWithdrawAddress();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    if (isSet(object.withdrawAddress)) obj.withdrawAddress = String(object.withdrawAddress);
+    return obj;
   },
   toJSON(message: MsgSetWithdrawAddress): unknown {
     const obj: any = {};
@@ -345,7 +346,8 @@ export const MsgSetWithdrawAddressResponse = {
     return message;
   },
   fromJSON(_: any): MsgSetWithdrawAddressResponse {
-    return {};
+    const obj = createBaseMsgSetWithdrawAddressResponse();
+    return obj;
   },
   toJSON(_: MsgSetWithdrawAddressResponse): unknown {
     const obj: any = {};
@@ -413,10 +415,10 @@ export const MsgWithdrawDelegatorReward = {
     return o && (o.$typeUrl === MsgWithdrawDelegatorReward.typeUrl || typeof o.delegator_address === "string" && typeof o.validator_address === "string");
   },
   encode(message: MsgWithdrawDelegatorReward, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.delegatorAddress !== "") {
+    if (message.delegatorAddress !== undefined) {
       writer.uint32(10).string(message.delegatorAddress);
     }
-    if (message.validatorAddress !== "") {
+    if (message.validatorAddress !== undefined) {
       writer.uint32(18).string(message.validatorAddress);
     }
     return writer;
@@ -442,10 +444,10 @@ export const MsgWithdrawDelegatorReward = {
     return message;
   },
   fromJSON(object: any): MsgWithdrawDelegatorReward {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : ""
-    };
+    const obj = createBaseMsgWithdrawDelegatorReward();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    return obj;
   },
   toJSON(message: MsgWithdrawDelegatorReward): unknown {
     const obj: any = {};
@@ -552,9 +554,9 @@ export const MsgWithdrawDelegatorRewardResponse = {
     return message;
   },
   fromJSON(object: any): MsgWithdrawDelegatorRewardResponse {
-    return {
-      amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromJSON(e)) : []
-    };
+    const obj = createBaseMsgWithdrawDelegatorRewardResponse();
+    if (Array.isArray(object?.amount)) obj.amount = object.amount.map((e: any) => Coin.fromJSON(e));
+    return obj;
   },
   toJSON(message: MsgWithdrawDelegatorRewardResponse): unknown {
     const obj: any = {};
@@ -640,7 +642,7 @@ export const MsgWithdrawValidatorCommission = {
     return o && (o.$typeUrl === MsgWithdrawValidatorCommission.typeUrl || typeof o.validator_address === "string");
   },
   encode(message: MsgWithdrawValidatorCommission, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.validatorAddress !== "") {
+    if (message.validatorAddress !== undefined) {
       writer.uint32(10).string(message.validatorAddress);
     }
     return writer;
@@ -663,9 +665,9 @@ export const MsgWithdrawValidatorCommission = {
     return message;
   },
   fromJSON(object: any): MsgWithdrawValidatorCommission {
-    return {
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : ""
-    };
+    const obj = createBaseMsgWithdrawValidatorCommission();
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    return obj;
   },
   toJSON(message: MsgWithdrawValidatorCommission): unknown {
     const obj: any = {};
@@ -764,9 +766,9 @@ export const MsgWithdrawValidatorCommissionResponse = {
     return message;
   },
   fromJSON(object: any): MsgWithdrawValidatorCommissionResponse {
-    return {
-      amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromJSON(e)) : []
-    };
+    const obj = createBaseMsgWithdrawValidatorCommissionResponse();
+    if (Array.isArray(object?.amount)) obj.amount = object.amount.map((e: any) => Coin.fromJSON(e));
+    return obj;
   },
   toJSON(message: MsgWithdrawValidatorCommissionResponse): unknown {
     const obj: any = {};
@@ -856,7 +858,7 @@ export const MsgFundCommunityPool = {
     for (const v of message.amount) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
-    if (message.depositor !== "") {
+    if (message.depositor !== undefined) {
       writer.uint32(18).string(message.depositor);
     }
     return writer;
@@ -882,10 +884,10 @@ export const MsgFundCommunityPool = {
     return message;
   },
   fromJSON(object: any): MsgFundCommunityPool {
-    return {
-      amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromJSON(e)) : [],
-      depositor: isSet(object.depositor) ? String(object.depositor) : ""
-    };
+    const obj = createBaseMsgFundCommunityPool();
+    if (Array.isArray(object?.amount)) obj.amount = object.amount.map((e: any) => Coin.fromJSON(e));
+    if (isSet(object.depositor)) obj.depositor = String(object.depositor);
+    return obj;
   },
   toJSON(message: MsgFundCommunityPool): unknown {
     const obj: any = {};
@@ -994,7 +996,8 @@ export const MsgFundCommunityPoolResponse = {
     return message;
   },
   fromJSON(_: any): MsgFundCommunityPoolResponse {
-    return {};
+    const obj = createBaseMsgFundCommunityPoolResponse();
+    return obj;
   },
   toJSON(_: MsgFundCommunityPoolResponse): unknown {
     const obj: any = {};

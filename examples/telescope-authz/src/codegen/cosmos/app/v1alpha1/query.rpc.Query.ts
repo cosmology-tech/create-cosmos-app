@@ -1,10 +1,8 @@
+import { Config, ConfigSDKType } from "./config";
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { ReactQueryParams } from "../../../react-query";
-import { ProtobufRpcClient } from "@cosmjs/stargate";
-import { useQuery } from "@tanstack/react-query";
-import { QueryStore } from "../../../mobx";
-import { QueryConfigRequest, QueryConfigResponse } from "./query";
+import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryConfigRequest, QueryConfigRequestSDKType, QueryConfigResponse, QueryConfigResponseSDKType } from "./query";
 /** Query is the app module query service. */
 export interface Query {
   /** Config returns the current app config. */
@@ -22,46 +20,12 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryConfigResponse.decode(new BinaryReader(data)));
   };
 }
-export const createClientImpl = (rpc: TxRpc) => {
-  return new QueryClientImpl(rpc);
-};
-export interface UseConfigQuery<TData> extends ReactQueryParams<QueryConfigResponse, TData> {
-  request?: QueryConfigRequest;
-}
-const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
-const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
-  if (!rpc) return;
-  if (_queryClients.has(rpc)) {
-    return _queryClients.get(rpc);
-  }
+export const createRpcQueryExtension = (base: QueryClient) => {
+  const rpc = createProtobufRpcClient(base);
   const queryService = new QueryClientImpl(rpc);
-  _queryClients.set(rpc, queryService);
-  return queryService;
-};
-export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  const useConfig = <TData = QueryConfigResponse,>({
-    request,
-    options
-  }: UseConfigQuery<TData>) => {
-    return useQuery<QueryConfigResponse, Error, TData>(["configQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+  return {
+    config(request?: QueryConfigRequest): Promise<QueryConfigResponse> {
       return queryService.config(request);
-    }, options);
-  };
-  return {
-    /** Config returns the current app config. */useConfig
-  };
-};
-export const createRpcQueryMobxStores = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  class QueryConfigStore {
-    store = new QueryStore<QueryConfigRequest, QueryConfigResponse>(queryService?.config);
-    config(request: QueryConfigRequest) {
-      return this.store.getData(request);
     }
-  }
-  return {
-    /** Config returns the current app config. */QueryConfigStore
   };
 };

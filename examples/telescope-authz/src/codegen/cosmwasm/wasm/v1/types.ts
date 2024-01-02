@@ -3,6 +3,7 @@ import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../h
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { GlobalDecoderRegistry } from "../../../registry";
 import { toUtf8, fromUtf8 } from "@cosmjs/encoding";
+export const protobufPackage = "cosmwasm.wasm.v1";
 /** AccessType permission types */
 export enum AccessType {
   /** ACCESS_TYPE_UNSPECIFIED - AccessTypeUnspecified placeholder for empty value */
@@ -146,7 +147,7 @@ export interface AccessConfigSDKType {
 }
 /** Params defines the set of wasm parameters. */
 export interface Params {
-  codeUploadAccess: AccessConfig | undefined;
+  codeUploadAccess: AccessConfig;
   instantiateDefaultPermission: AccessType;
   maxWasmCodeSize: bigint;
 }
@@ -156,7 +157,7 @@ export interface ParamsProtoMsg {
 }
 /** Params defines the set of wasm parameters. */
 export interface ParamsAmino {
-  code_upload_access?: AccessConfigAmino | undefined;
+  code_upload_access?: AccessConfigAmino;
   instantiate_default_permission?: AccessType;
   max_wasm_code_size?: string;
 }
@@ -166,7 +167,7 @@ export interface ParamsAminoMsg {
 }
 /** Params defines the set of wasm parameters. */
 export interface ParamsSDKType {
-  code_upload_access: AccessConfigSDKType | undefined;
+  code_upload_access: AccessConfigSDKType;
   instantiate_default_permission: AccessType;
   max_wasm_code_size: bigint;
 }
@@ -177,7 +178,7 @@ export interface CodeInfo {
   /** Creator address who initially stored the code */
   creator: string;
   /** InstantiateConfig access control to apply on contract creation, optional */
-  instantiateConfig: AccessConfig | undefined;
+  instantiateConfig: AccessConfig;
 }
 export interface CodeInfoProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.CodeInfo";
@@ -190,7 +191,7 @@ export interface CodeInfoAmino {
   /** Creator address who initially stored the code */
   creator?: string;
   /** InstantiateConfig access control to apply on contract creation, optional */
-  instantiate_config?: AccessConfigAmino | undefined;
+  instantiate_config?: AccessConfigAmino;
 }
 export interface CodeInfoAminoMsg {
   type: "wasm/CodeInfo";
@@ -200,7 +201,7 @@ export interface CodeInfoAminoMsg {
 export interface CodeInfoSDKType {
   code_hash: Uint8Array;
   creator: string;
-  instantiate_config: AccessConfigSDKType | undefined;
+  instantiate_config: AccessConfigSDKType;
 }
 /** ContractInfo stores a WASM contract instance */
 export interface ContractInfo {
@@ -217,7 +218,7 @@ export interface ContractInfo {
    * This data should kept internal and not be exposed via query results. Just
    * use for sorting
    */
-  created?: AbsoluteTxPosition | undefined;
+  created?: AbsoluteTxPosition;
   ibcPortId: string;
   /**
    * Extension is an extension point to store custom metadata within the
@@ -251,13 +252,13 @@ export interface ContractInfoAmino {
    * This data should kept internal and not be exposed via query results. Just
    * use for sorting
    */
-  created?: AbsoluteTxPositionAmino | undefined;
+  created?: AbsoluteTxPositionAmino;
   ibc_port_id?: string;
   /**
    * Extension is an extension point to store custom metadata within the
    * persistence model.
    */
-  extension?: AnyAmino | undefined;
+  extension?: AnyAmino;
 }
 export interface ContractInfoAminoMsg {
   type: "wasm/ContractInfo";
@@ -269,7 +270,7 @@ export interface ContractInfoSDKType {
   creator: string;
   admin: string;
   label: string;
-  created?: AbsoluteTxPositionSDKType | undefined;
+  created?: AbsoluteTxPositionSDKType;
   ibc_port_id: string;
   extension?: AnySDKType | undefined;
 }
@@ -279,7 +280,7 @@ export interface ContractCodeHistoryEntry {
   /** CodeID is the reference to the stored WASM code */
   codeId: bigint;
   /** Updated Tx position when the operation was executed. */
-  updated?: AbsoluteTxPosition | undefined;
+  updated?: AbsoluteTxPosition;
   msg: Uint8Array;
 }
 export interface ContractCodeHistoryEntryProtoMsg {
@@ -292,7 +293,7 @@ export interface ContractCodeHistoryEntryAmino {
   /** CodeID is the reference to the stored WASM code */
   code_id?: string;
   /** Updated Tx position when the operation was executed. */
-  updated?: AbsoluteTxPositionAmino | undefined;
+  updated?: AbsoluteTxPositionAmino;
   msg?: any;
 }
 export interface ContractCodeHistoryEntryAminoMsg {
@@ -303,7 +304,7 @@ export interface ContractCodeHistoryEntryAminoMsg {
 export interface ContractCodeHistoryEntrySDKType {
   operation: ContractCodeHistoryOperationType;
   code_id: bigint;
-  updated?: AbsoluteTxPositionSDKType | undefined;
+  updated?: AbsoluteTxPositionSDKType;
   msg: Uint8Array;
 }
 /**
@@ -416,9 +417,9 @@ export const AccessTypeParam = {
     return message;
   },
   fromJSON(object: any): AccessTypeParam {
-    return {
-      value: isSet(object.value) ? accessTypeFromJSON(object.value) : -1
-    };
+    const obj = createBaseAccessTypeParam();
+    if (isSet(object.value)) obj.value = accessTypeFromJSON(object.value);
+    return obj;
   },
   toJSON(message: AccessTypeParam): unknown {
     const obj: any = {};
@@ -498,7 +499,7 @@ export const AccessConfig = {
     if (message.permission !== 0) {
       writer.uint32(8).int32(message.permission);
     }
-    if (message.address !== "") {
+    if (message.address !== undefined) {
       writer.uint32(18).string(message.address);
     }
     return writer;
@@ -524,10 +525,10 @@ export const AccessConfig = {
     return message;
   },
   fromJSON(object: any): AccessConfig {
-    return {
-      permission: isSet(object.permission) ? accessTypeFromJSON(object.permission) : -1,
-      address: isSet(object.address) ? String(object.address) : ""
-    };
+    const obj = createBaseAccessConfig();
+    if (isSet(object.permission)) obj.permission = accessTypeFromJSON(object.permission);
+    if (isSet(object.address)) obj.address = String(object.address);
+    return obj;
   },
   toJSON(message: AccessConfig): unknown {
     const obj: any = {};
@@ -619,7 +620,7 @@ export const Params = {
     if (message.instantiateDefaultPermission !== 0) {
       writer.uint32(16).int32(message.instantiateDefaultPermission);
     }
-    if (message.maxWasmCodeSize !== BigInt(0)) {
+    if (message.maxWasmCodeSize !== undefined) {
       writer.uint32(24).uint64(message.maxWasmCodeSize);
     }
     return writer;
@@ -648,11 +649,11 @@ export const Params = {
     return message;
   },
   fromJSON(object: any): Params {
-    return {
-      codeUploadAccess: isSet(object.codeUploadAccess) ? AccessConfig.fromJSON(object.codeUploadAccess) : undefined,
-      instantiateDefaultPermission: isSet(object.instantiateDefaultPermission) ? accessTypeFromJSON(object.instantiateDefaultPermission) : -1,
-      maxWasmCodeSize: isSet(object.maxWasmCodeSize) ? BigInt(object.maxWasmCodeSize.toString()) : BigInt(0)
-    };
+    const obj = createBaseParams();
+    if (isSet(object.codeUploadAccess)) obj.codeUploadAccess = AccessConfig.fromJSON(object.codeUploadAccess);
+    if (isSet(object.instantiateDefaultPermission)) obj.instantiateDefaultPermission = accessTypeFromJSON(object.instantiateDefaultPermission);
+    if (isSet(object.maxWasmCodeSize)) obj.maxWasmCodeSize = BigInt(object.maxWasmCodeSize.toString());
+    return obj;
   },
   toJSON(message: Params): unknown {
     const obj: any = {};
@@ -663,9 +664,13 @@ export const Params = {
   },
   fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
-    message.codeUploadAccess = object.codeUploadAccess !== undefined && object.codeUploadAccess !== null ? AccessConfig.fromPartial(object.codeUploadAccess) : undefined;
+    if (object.codeUploadAccess !== undefined && object.codeUploadAccess !== null) {
+      message.codeUploadAccess = AccessConfig.fromPartial(object.codeUploadAccess);
+    }
     message.instantiateDefaultPermission = object.instantiateDefaultPermission ?? 0;
-    message.maxWasmCodeSize = object.maxWasmCodeSize !== undefined && object.maxWasmCodeSize !== null ? BigInt(object.maxWasmCodeSize.toString()) : BigInt(0);
+    if (object.maxWasmCodeSize !== undefined && object.maxWasmCodeSize !== null) {
+      message.maxWasmCodeSize = BigInt(object.maxWasmCodeSize.toString());
+    }
     return message;
   },
   fromSDK(object: ParamsSDKType): Params {
@@ -749,7 +754,7 @@ export const CodeInfo = {
     if (message.codeHash.length !== 0) {
       writer.uint32(10).bytes(message.codeHash);
     }
-    if (message.creator !== "") {
+    if (message.creator !== undefined) {
       writer.uint32(18).string(message.creator);
     }
     if (message.instantiateConfig !== undefined) {
@@ -781,11 +786,11 @@ export const CodeInfo = {
     return message;
   },
   fromJSON(object: any): CodeInfo {
-    return {
-      codeHash: isSet(object.codeHash) ? bytesFromBase64(object.codeHash) : new Uint8Array(),
-      creator: isSet(object.creator) ? String(object.creator) : "",
-      instantiateConfig: isSet(object.instantiateConfig) ? AccessConfig.fromJSON(object.instantiateConfig) : undefined
-    };
+    const obj = createBaseCodeInfo();
+    if (isSet(object.codeHash)) obj.codeHash = bytesFromBase64(object.codeHash);
+    if (isSet(object.creator)) obj.creator = String(object.creator);
+    if (isSet(object.instantiateConfig)) obj.instantiateConfig = AccessConfig.fromJSON(object.instantiateConfig);
+    return obj;
   },
   toJSON(message: CodeInfo): unknown {
     const obj: any = {};
@@ -798,7 +803,9 @@ export const CodeInfo = {
     const message = createBaseCodeInfo();
     message.codeHash = object.codeHash ?? new Uint8Array();
     message.creator = object.creator ?? "";
-    message.instantiateConfig = object.instantiateConfig !== undefined && object.instantiateConfig !== null ? AccessConfig.fromPartial(object.instantiateConfig) : undefined;
+    if (object.instantiateConfig !== undefined && object.instantiateConfig !== null) {
+      message.instantiateConfig = AccessConfig.fromPartial(object.instantiateConfig);
+    }
     return message;
   },
   fromSDK(object: CodeInfoSDKType): CodeInfo {
@@ -883,22 +890,22 @@ export const ContractInfo = {
     return o && (o.$typeUrl === ContractInfo.typeUrl || typeof o.code_id === "bigint" && typeof o.creator === "string" && typeof o.admin === "string" && typeof o.label === "string" && typeof o.ibc_port_id === "string");
   },
   encode(message: ContractInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.codeId !== BigInt(0)) {
+    if (message.codeId !== undefined) {
       writer.uint32(8).uint64(message.codeId);
     }
-    if (message.creator !== "") {
+    if (message.creator !== undefined) {
       writer.uint32(18).string(message.creator);
     }
-    if (message.admin !== "") {
+    if (message.admin !== undefined) {
       writer.uint32(26).string(message.admin);
     }
-    if (message.label !== "") {
+    if (message.label !== undefined) {
       writer.uint32(34).string(message.label);
     }
     if (message.created !== undefined) {
       AbsoluteTxPosition.encode(message.created, writer.uint32(42).fork()).ldelim();
     }
-    if (message.ibcPortId !== "") {
+    if (message.ibcPortId !== undefined) {
       writer.uint32(50).string(message.ibcPortId);
     }
     if (message.extension !== undefined) {
@@ -942,15 +949,15 @@ export const ContractInfo = {
     return message;
   },
   fromJSON(object: any): ContractInfo {
-    return {
-      codeId: isSet(object.codeId) ? BigInt(object.codeId.toString()) : BigInt(0),
-      creator: isSet(object.creator) ? String(object.creator) : "",
-      admin: isSet(object.admin) ? String(object.admin) : "",
-      label: isSet(object.label) ? String(object.label) : "",
-      created: isSet(object.created) ? AbsoluteTxPosition.fromJSON(object.created) : undefined,
-      ibcPortId: isSet(object.ibcPortId) ? String(object.ibcPortId) : "",
-      extension: isSet(object.extension) ? GlobalDecoderRegistry.fromJSON(object.extension) : undefined
-    };
+    const obj = createBaseContractInfo();
+    if (isSet(object.codeId)) obj.codeId = BigInt(object.codeId.toString());
+    if (isSet(object.creator)) obj.creator = String(object.creator);
+    if (isSet(object.admin)) obj.admin = String(object.admin);
+    if (isSet(object.label)) obj.label = String(object.label);
+    if (isSet(object.created)) obj.created = AbsoluteTxPosition.fromJSON(object.created);
+    if (isSet(object.ibcPortId)) obj.ibcPortId = String(object.ibcPortId);
+    if (isSet(object.extension)) obj.extension = GlobalDecoderRegistry.fromJSON(object.extension);
+    return obj;
   },
   toJSON(message: ContractInfo): unknown {
     const obj: any = {};
@@ -965,13 +972,19 @@ export const ContractInfo = {
   },
   fromPartial(object: DeepPartial<ContractInfo>): ContractInfo {
     const message = createBaseContractInfo();
-    message.codeId = object.codeId !== undefined && object.codeId !== null ? BigInt(object.codeId.toString()) : BigInt(0);
+    if (object.codeId !== undefined && object.codeId !== null) {
+      message.codeId = BigInt(object.codeId.toString());
+    }
     message.creator = object.creator ?? "";
     message.admin = object.admin ?? "";
     message.label = object.label ?? "";
-    message.created = object.created !== undefined && object.created !== null ? AbsoluteTxPosition.fromPartial(object.created) : undefined;
+    if (object.created !== undefined && object.created !== null) {
+      message.created = AbsoluteTxPosition.fromPartial(object.created);
+    }
     message.ibcPortId = object.ibcPortId ?? "";
-    message.extension = object.extension !== undefined && object.extension !== null ? GlobalDecoderRegistry.fromPartial(object.extension) : undefined;
+    if (object.extension !== undefined && object.extension !== null) {
+      message.extension = GlobalDecoderRegistry.fromPartial(object.extension);
+    }
     return message;
   },
   fromSDK(object: ContractInfoSDKType): ContractInfo {
@@ -1080,7 +1093,7 @@ export const ContractCodeHistoryEntry = {
     if (message.operation !== 0) {
       writer.uint32(8).int32(message.operation);
     }
-    if (message.codeId !== BigInt(0)) {
+    if (message.codeId !== undefined) {
       writer.uint32(16).uint64(message.codeId);
     }
     if (message.updated !== undefined) {
@@ -1118,12 +1131,12 @@ export const ContractCodeHistoryEntry = {
     return message;
   },
   fromJSON(object: any): ContractCodeHistoryEntry {
-    return {
-      operation: isSet(object.operation) ? contractCodeHistoryOperationTypeFromJSON(object.operation) : -1,
-      codeId: isSet(object.codeId) ? BigInt(object.codeId.toString()) : BigInt(0),
-      updated: isSet(object.updated) ? AbsoluteTxPosition.fromJSON(object.updated) : undefined,
-      msg: isSet(object.msg) ? bytesFromBase64(object.msg) : new Uint8Array()
-    };
+    const obj = createBaseContractCodeHistoryEntry();
+    if (isSet(object.operation)) obj.operation = contractCodeHistoryOperationTypeFromJSON(object.operation);
+    if (isSet(object.codeId)) obj.codeId = BigInt(object.codeId.toString());
+    if (isSet(object.updated)) obj.updated = AbsoluteTxPosition.fromJSON(object.updated);
+    if (isSet(object.msg)) obj.msg = bytesFromBase64(object.msg);
+    return obj;
   },
   toJSON(message: ContractCodeHistoryEntry): unknown {
     const obj: any = {};
@@ -1136,8 +1149,12 @@ export const ContractCodeHistoryEntry = {
   fromPartial(object: DeepPartial<ContractCodeHistoryEntry>): ContractCodeHistoryEntry {
     const message = createBaseContractCodeHistoryEntry();
     message.operation = object.operation ?? 0;
-    message.codeId = object.codeId !== undefined && object.codeId !== null ? BigInt(object.codeId.toString()) : BigInt(0);
-    message.updated = object.updated !== undefined && object.updated !== null ? AbsoluteTxPosition.fromPartial(object.updated) : undefined;
+    if (object.codeId !== undefined && object.codeId !== null) {
+      message.codeId = BigInt(object.codeId.toString());
+    }
+    if (object.updated !== undefined && object.updated !== null) {
+      message.updated = AbsoluteTxPosition.fromPartial(object.updated);
+    }
     message.msg = object.msg ?? new Uint8Array();
     return message;
   },
@@ -1224,10 +1241,10 @@ export const AbsoluteTxPosition = {
     return o && (o.$typeUrl === AbsoluteTxPosition.typeUrl || typeof o.block_height === "bigint" && typeof o.tx_index === "bigint");
   },
   encode(message: AbsoluteTxPosition, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.blockHeight !== BigInt(0)) {
+    if (message.blockHeight !== undefined) {
       writer.uint32(8).uint64(message.blockHeight);
     }
-    if (message.txIndex !== BigInt(0)) {
+    if (message.txIndex !== undefined) {
       writer.uint32(16).uint64(message.txIndex);
     }
     return writer;
@@ -1253,10 +1270,10 @@ export const AbsoluteTxPosition = {
     return message;
   },
   fromJSON(object: any): AbsoluteTxPosition {
-    return {
-      blockHeight: isSet(object.blockHeight) ? BigInt(object.blockHeight.toString()) : BigInt(0),
-      txIndex: isSet(object.txIndex) ? BigInt(object.txIndex.toString()) : BigInt(0)
-    };
+    const obj = createBaseAbsoluteTxPosition();
+    if (isSet(object.blockHeight)) obj.blockHeight = BigInt(object.blockHeight.toString());
+    if (isSet(object.txIndex)) obj.txIndex = BigInt(object.txIndex.toString());
+    return obj;
   },
   toJSON(message: AbsoluteTxPosition): unknown {
     const obj: any = {};
@@ -1266,8 +1283,12 @@ export const AbsoluteTxPosition = {
   },
   fromPartial(object: DeepPartial<AbsoluteTxPosition>): AbsoluteTxPosition {
     const message = createBaseAbsoluteTxPosition();
-    message.blockHeight = object.blockHeight !== undefined && object.blockHeight !== null ? BigInt(object.blockHeight.toString()) : BigInt(0);
-    message.txIndex = object.txIndex !== undefined && object.txIndex !== null ? BigInt(object.txIndex.toString()) : BigInt(0);
+    if (object.blockHeight !== undefined && object.blockHeight !== null) {
+      message.blockHeight = BigInt(object.blockHeight.toString());
+    }
+    if (object.txIndex !== undefined && object.txIndex !== null) {
+      message.txIndex = BigInt(object.txIndex.toString());
+    }
     return message;
   },
   fromSDK(object: AbsoluteTxPositionSDKType): AbsoluteTxPosition {
@@ -1370,10 +1391,10 @@ export const Model = {
     return message;
   },
   fromJSON(object: any): Model {
-    return {
-      key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
-      value: isSet(object.value) ? bytesFromBase64(object.value) : new Uint8Array()
-    };
+    const obj = createBaseModel();
+    if (isSet(object.key)) obj.key = bytesFromBase64(object.key);
+    if (isSet(object.value)) obj.value = bytesFromBase64(object.value);
+    return obj;
   },
   toJSON(message: Model): unknown {
     const obj: any = {};

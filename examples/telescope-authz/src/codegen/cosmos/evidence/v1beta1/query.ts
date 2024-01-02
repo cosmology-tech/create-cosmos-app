@@ -1,8 +1,9 @@
 import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../base/query/v1beta1/pagination";
-import { Any, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.evidence.v1beta1";
 /** QueryEvidenceRequest is the request type for the Query/Evidence RPC method. */
 export interface QueryEvidenceRequest {
   /** evidence_hash defines the hash of the requested evidence. */
@@ -28,7 +29,7 @@ export interface QueryEvidenceRequestSDKType {
 /** QueryEvidenceResponse is the response type for the Query/Evidence RPC method. */
 export interface QueryEvidenceResponse {
   /** evidence returns the requested evidence. */
-  evidence?: Any | undefined;
+  evidence?: Any;
 }
 export interface QueryEvidenceResponseProtoMsg {
   typeUrl: "/cosmos.evidence.v1beta1.QueryEvidenceResponse";
@@ -37,7 +38,7 @@ export interface QueryEvidenceResponseProtoMsg {
 /** QueryEvidenceResponse is the response type for the Query/Evidence RPC method. */
 export interface QueryEvidenceResponseAmino {
   /** evidence returns the requested evidence. */
-  evidence?: AnyAmino | undefined;
+  evidence?: AnyAmino;
 }
 export interface QueryEvidenceResponseAminoMsg {
   type: "cosmos-sdk/QueryEvidenceResponse";
@@ -45,7 +46,7 @@ export interface QueryEvidenceResponseAminoMsg {
 }
 /** QueryEvidenceResponse is the response type for the Query/Evidence RPC method. */
 export interface QueryEvidenceResponseSDKType {
-  evidence?: AnySDKType | undefined;
+  evidence?: AnySDKType;
 }
 /**
  * QueryEvidenceRequest is the request type for the Query/AllEvidence RPC
@@ -53,7 +54,7 @@ export interface QueryEvidenceResponseSDKType {
  */
 export interface QueryAllEvidenceRequest {
   /** pagination defines an optional pagination for the request. */
-  pagination?: PageRequest | undefined;
+  pagination?: PageRequest;
 }
 export interface QueryAllEvidenceRequestProtoMsg {
   typeUrl: "/cosmos.evidence.v1beta1.QueryAllEvidenceRequest";
@@ -65,7 +66,7 @@ export interface QueryAllEvidenceRequestProtoMsg {
  */
 export interface QueryAllEvidenceRequestAmino {
   /** pagination defines an optional pagination for the request. */
-  pagination?: PageRequestAmino | undefined;
+  pagination?: PageRequestAmino;
 }
 export interface QueryAllEvidenceRequestAminoMsg {
   type: "cosmos-sdk/QueryAllEvidenceRequest";
@@ -76,7 +77,7 @@ export interface QueryAllEvidenceRequestAminoMsg {
  * method.
  */
 export interface QueryAllEvidenceRequestSDKType {
-  pagination?: PageRequestSDKType | undefined;
+  pagination?: PageRequestSDKType;
 }
 /**
  * QueryAllEvidenceResponse is the response type for the Query/AllEvidence RPC
@@ -86,7 +87,7 @@ export interface QueryAllEvidenceResponse {
   /** evidence returns all evidences. */
   evidence: Any[];
   /** pagination defines the pagination in the response. */
-  pagination?: PageResponse | undefined;
+  pagination?: PageResponse;
 }
 export interface QueryAllEvidenceResponseProtoMsg {
   typeUrl: "/cosmos.evidence.v1beta1.QueryAllEvidenceResponse";
@@ -100,7 +101,7 @@ export interface QueryAllEvidenceResponseAmino {
   /** evidence returns all evidences. */
   evidence?: AnyAmino[];
   /** pagination defines the pagination in the response. */
-  pagination?: PageResponseAmino | undefined;
+  pagination?: PageResponseAmino;
 }
 export interface QueryAllEvidenceResponseAminoMsg {
   type: "cosmos-sdk/QueryAllEvidenceResponse";
@@ -112,7 +113,7 @@ export interface QueryAllEvidenceResponseAminoMsg {
  */
 export interface QueryAllEvidenceResponseSDKType {
   evidence: AnySDKType[];
-  pagination?: PageResponseSDKType | undefined;
+  pagination?: PageResponseSDKType;
 }
 function createBaseQueryEvidenceRequest(): QueryEvidenceRequest {
   return {
@@ -155,9 +156,9 @@ export const QueryEvidenceRequest = {
     return message;
   },
   fromJSON(object: any): QueryEvidenceRequest {
-    return {
-      evidenceHash: isSet(object.evidenceHash) ? bytesFromBase64(object.evidenceHash) : new Uint8Array()
-    };
+    const obj = createBaseQueryEvidenceRequest();
+    if (isSet(object.evidenceHash)) obj.evidenceHash = bytesFromBase64(object.evidenceHash);
+    return obj;
   },
   toJSON(message: QueryEvidenceRequest): unknown {
     const obj: any = {};
@@ -256,9 +257,9 @@ export const QueryEvidenceResponse = {
     return message;
   },
   fromJSON(object: any): QueryEvidenceResponse {
-    return {
-      evidence: isSet(object.evidence) ? Any.fromJSON(object.evidence) : undefined
-    };
+    const obj = createBaseQueryEvidenceResponse();
+    if (isSet(object.evidence)) obj.evidence = Any.fromJSON(object.evidence);
+    return obj;
   },
   toJSON(message: QueryEvidenceResponse): unknown {
     const obj: any = {};
@@ -267,7 +268,9 @@ export const QueryEvidenceResponse = {
   },
   fromPartial(object: DeepPartial<QueryEvidenceResponse>): QueryEvidenceResponse {
     const message = createBaseQueryEvidenceResponse();
-    message.evidence = object.evidence !== undefined && object.evidence !== null ? Any.fromPartial(object.evidence) : undefined;
+    if (object.evidence !== undefined && object.evidence !== null) {
+      message.evidence = Any.fromPartial(object.evidence);
+    }
     return message;
   },
   fromSDK(object: QueryEvidenceResponseSDKType): QueryEvidenceResponse {
@@ -357,9 +360,9 @@ export const QueryAllEvidenceRequest = {
     return message;
   },
   fromJSON(object: any): QueryAllEvidenceRequest {
-    return {
-      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
-    };
+    const obj = createBaseQueryAllEvidenceRequest();
+    if (isSet(object.pagination)) obj.pagination = PageRequest.fromJSON(object.pagination);
+    return obj;
   },
   toJSON(message: QueryAllEvidenceRequest): unknown {
     const obj: any = {};
@@ -368,7 +371,9 @@ export const QueryAllEvidenceRequest = {
   },
   fromPartial(object: DeepPartial<QueryAllEvidenceRequest>): QueryAllEvidenceRequest {
     const message = createBaseQueryAllEvidenceRequest();
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    }
     return message;
   },
   fromSDK(object: QueryAllEvidenceRequestSDKType): QueryAllEvidenceRequest {
@@ -465,10 +470,10 @@ export const QueryAllEvidenceResponse = {
     return message;
   },
   fromJSON(object: any): QueryAllEvidenceResponse {
-    return {
-      evidence: Array.isArray(object?.evidence) ? object.evidence.map((e: any) => Any.fromJSON(e)) : [],
-      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
-    };
+    const obj = createBaseQueryAllEvidenceResponse();
+    if (Array.isArray(object?.evidence)) obj.evidence = object.evidence.map((e: any) => Any.fromJSON(e));
+    if (isSet(object.pagination)) obj.pagination = PageResponse.fromJSON(object.pagination);
+    return obj;
   },
   toJSON(message: QueryAllEvidenceResponse): unknown {
     const obj: any = {};
@@ -483,7 +488,9 @@ export const QueryAllEvidenceResponse = {
   fromPartial(object: DeepPartial<QueryAllEvidenceResponse>): QueryAllEvidenceResponse {
     const message = createBaseQueryAllEvidenceResponse();
     message.evidence = object.evidence?.map(e => Any.fromPartial(e)) || [];
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    }
     return message;
   },
   fromSDK(object: QueryAllEvidenceResponseSDKType): QueryAllEvidenceResponse {

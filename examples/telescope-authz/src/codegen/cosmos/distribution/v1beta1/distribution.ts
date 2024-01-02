@@ -3,6 +3,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.distribution.v1beta1";
 /** Params defines the set of params for the distribution module. */
 export interface Params {
   communityTax: string;
@@ -451,16 +452,16 @@ export const Params = {
     return o && (o.$typeUrl === Params.typeUrl || typeof o.community_tax === "string" && typeof o.base_proposer_reward === "string" && typeof o.bonus_proposer_reward === "string" && typeof o.withdraw_addr_enabled === "boolean");
   },
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.communityTax !== "") {
+    if (message.communityTax !== undefined) {
       writer.uint32(10).string(Decimal.fromUserInput(message.communityTax, 18).atomics);
     }
-    if (message.baseProposerReward !== "") {
+    if (message.baseProposerReward !== undefined) {
       writer.uint32(18).string(Decimal.fromUserInput(message.baseProposerReward, 18).atomics);
     }
-    if (message.bonusProposerReward !== "") {
+    if (message.bonusProposerReward !== undefined) {
       writer.uint32(26).string(Decimal.fromUserInput(message.bonusProposerReward, 18).atomics);
     }
-    if (message.withdrawAddrEnabled === true) {
+    if (message.withdrawAddrEnabled !== undefined) {
       writer.uint32(32).bool(message.withdrawAddrEnabled);
     }
     return writer;
@@ -492,12 +493,12 @@ export const Params = {
     return message;
   },
   fromJSON(object: any): Params {
-    return {
-      communityTax: isSet(object.communityTax) ? String(object.communityTax) : "",
-      baseProposerReward: isSet(object.baseProposerReward) ? String(object.baseProposerReward) : "",
-      bonusProposerReward: isSet(object.bonusProposerReward) ? String(object.bonusProposerReward) : "",
-      withdrawAddrEnabled: isSet(object.withdrawAddrEnabled) ? Boolean(object.withdrawAddrEnabled) : false
-    };
+    const obj = createBaseParams();
+    if (isSet(object.communityTax)) obj.communityTax = String(object.communityTax);
+    if (isSet(object.baseProposerReward)) obj.baseProposerReward = String(object.baseProposerReward);
+    if (isSet(object.bonusProposerReward)) obj.bonusProposerReward = String(object.bonusProposerReward);
+    if (isSet(object.withdrawAddrEnabled)) obj.withdrawAddrEnabled = Boolean(object.withdrawAddrEnabled);
+    return obj;
   },
   toJSON(message: Params): unknown {
     const obj: any = {};
@@ -601,7 +602,7 @@ export const ValidatorHistoricalRewards = {
     for (const v of message.cumulativeRewardRatio) {
       DecCoin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
-    if (message.referenceCount !== 0) {
+    if (message.referenceCount !== undefined) {
       writer.uint32(16).uint32(message.referenceCount);
     }
     return writer;
@@ -627,10 +628,10 @@ export const ValidatorHistoricalRewards = {
     return message;
   },
   fromJSON(object: any): ValidatorHistoricalRewards {
-    return {
-      cumulativeRewardRatio: Array.isArray(object?.cumulativeRewardRatio) ? object.cumulativeRewardRatio.map((e: any) => DecCoin.fromJSON(e)) : [],
-      referenceCount: isSet(object.referenceCount) ? Number(object.referenceCount) : 0
-    };
+    const obj = createBaseValidatorHistoricalRewards();
+    if (Array.isArray(object?.cumulativeRewardRatio)) obj.cumulativeRewardRatio = object.cumulativeRewardRatio.map((e: any) => DecCoin.fromJSON(e));
+    if (isSet(object.referenceCount)) obj.referenceCount = Number(object.referenceCount);
+    return obj;
   },
   toJSON(message: ValidatorHistoricalRewards): unknown {
     const obj: any = {};
@@ -728,7 +729,7 @@ export const ValidatorCurrentRewards = {
     for (const v of message.rewards) {
       DecCoin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
-    if (message.period !== BigInt(0)) {
+    if (message.period !== undefined) {
       writer.uint32(16).uint64(message.period);
     }
     return writer;
@@ -754,10 +755,10 @@ export const ValidatorCurrentRewards = {
     return message;
   },
   fromJSON(object: any): ValidatorCurrentRewards {
-    return {
-      rewards: Array.isArray(object?.rewards) ? object.rewards.map((e: any) => DecCoin.fromJSON(e)) : [],
-      period: isSet(object.period) ? BigInt(object.period.toString()) : BigInt(0)
-    };
+    const obj = createBaseValidatorCurrentRewards();
+    if (Array.isArray(object?.rewards)) obj.rewards = object.rewards.map((e: any) => DecCoin.fromJSON(e));
+    if (isSet(object.period)) obj.period = BigInt(object.period.toString());
+    return obj;
   },
   toJSON(message: ValidatorCurrentRewards): unknown {
     const obj: any = {};
@@ -772,7 +773,9 @@ export const ValidatorCurrentRewards = {
   fromPartial(object: DeepPartial<ValidatorCurrentRewards>): ValidatorCurrentRewards {
     const message = createBaseValidatorCurrentRewards();
     message.rewards = object.rewards?.map(e => DecCoin.fromPartial(e)) || [];
-    message.period = object.period !== undefined && object.period !== null ? BigInt(object.period.toString()) : BigInt(0);
+    if (object.period !== undefined && object.period !== null) {
+      message.period = BigInt(object.period.toString());
+    }
     return message;
   },
   fromSDK(object: ValidatorCurrentRewardsSDKType): ValidatorCurrentRewards {
@@ -874,9 +877,9 @@ export const ValidatorAccumulatedCommission = {
     return message;
   },
   fromJSON(object: any): ValidatorAccumulatedCommission {
-    return {
-      commission: Array.isArray(object?.commission) ? object.commission.map((e: any) => DecCoin.fromJSON(e)) : []
-    };
+    const obj = createBaseValidatorAccumulatedCommission();
+    if (Array.isArray(object?.commission)) obj.commission = object.commission.map((e: any) => DecCoin.fromJSON(e));
+    return obj;
   },
   toJSON(message: ValidatorAccumulatedCommission): unknown {
     const obj: any = {};
@@ -985,9 +988,9 @@ export const ValidatorOutstandingRewards = {
     return message;
   },
   fromJSON(object: any): ValidatorOutstandingRewards {
-    return {
-      rewards: Array.isArray(object?.rewards) ? object.rewards.map((e: any) => DecCoin.fromJSON(e)) : []
-    };
+    const obj = createBaseValidatorOutstandingRewards();
+    if (Array.isArray(object?.rewards)) obj.rewards = object.rewards.map((e: any) => DecCoin.fromJSON(e));
+    return obj;
   },
   toJSON(message: ValidatorOutstandingRewards): unknown {
     const obj: any = {};
@@ -1074,10 +1077,10 @@ export const ValidatorSlashEvent = {
     return o && (o.$typeUrl === ValidatorSlashEvent.typeUrl || typeof o.validator_period === "bigint" && typeof o.fraction === "string");
   },
   encode(message: ValidatorSlashEvent, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.validatorPeriod !== BigInt(0)) {
+    if (message.validatorPeriod !== undefined) {
       writer.uint32(8).uint64(message.validatorPeriod);
     }
-    if (message.fraction !== "") {
+    if (message.fraction !== undefined) {
       writer.uint32(18).string(Decimal.fromUserInput(message.fraction, 18).atomics);
     }
     return writer;
@@ -1103,10 +1106,10 @@ export const ValidatorSlashEvent = {
     return message;
   },
   fromJSON(object: any): ValidatorSlashEvent {
-    return {
-      validatorPeriod: isSet(object.validatorPeriod) ? BigInt(object.validatorPeriod.toString()) : BigInt(0),
-      fraction: isSet(object.fraction) ? String(object.fraction) : ""
-    };
+    const obj = createBaseValidatorSlashEvent();
+    if (isSet(object.validatorPeriod)) obj.validatorPeriod = BigInt(object.validatorPeriod.toString());
+    if (isSet(object.fraction)) obj.fraction = String(object.fraction);
+    return obj;
   },
   toJSON(message: ValidatorSlashEvent): unknown {
     const obj: any = {};
@@ -1116,7 +1119,9 @@ export const ValidatorSlashEvent = {
   },
   fromPartial(object: DeepPartial<ValidatorSlashEvent>): ValidatorSlashEvent {
     const message = createBaseValidatorSlashEvent();
-    message.validatorPeriod = object.validatorPeriod !== undefined && object.validatorPeriod !== null ? BigInt(object.validatorPeriod.toString()) : BigInt(0);
+    if (object.validatorPeriod !== undefined && object.validatorPeriod !== null) {
+      message.validatorPeriod = BigInt(object.validatorPeriod.toString());
+    }
     message.fraction = object.fraction ?? "";
     return message;
   },
@@ -1213,9 +1218,9 @@ export const ValidatorSlashEvents = {
     return message;
   },
   fromJSON(object: any): ValidatorSlashEvents {
-    return {
-      validatorSlashEvents: Array.isArray(object?.validatorSlashEvents) ? object.validatorSlashEvents.map((e: any) => ValidatorSlashEvent.fromJSON(e)) : []
-    };
+    const obj = createBaseValidatorSlashEvents();
+    if (Array.isArray(object?.validatorSlashEvents)) obj.validatorSlashEvents = object.validatorSlashEvents.map((e: any) => ValidatorSlashEvent.fromJSON(e));
+    return obj;
   },
   toJSON(message: ValidatorSlashEvents): unknown {
     const obj: any = {};
@@ -1324,9 +1329,9 @@ export const FeePool = {
     return message;
   },
   fromJSON(object: any): FeePool {
-    return {
-      communityPool: Array.isArray(object?.communityPool) ? object.communityPool.map((e: any) => DecCoin.fromJSON(e)) : []
-    };
+    const obj = createBaseFeePool();
+    if (Array.isArray(object?.communityPool)) obj.communityPool = object.communityPool.map((e: any) => DecCoin.fromJSON(e));
+    return obj;
   },
   toJSON(message: FeePool): unknown {
     const obj: any = {};
@@ -1416,13 +1421,13 @@ export const CommunityPoolSpendProposal = {
     return o && (o.$typeUrl === CommunityPoolSpendProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && typeof o.recipient === "string" && Array.isArray(o.amount) && (!o.amount.length || Coin.isAmino(o.amount[0])));
   },
   encode(message: CommunityPoolSpendProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.title !== "") {
+    if (message.title !== undefined) {
       writer.uint32(10).string(message.title);
     }
-    if (message.description !== "") {
+    if (message.description !== undefined) {
       writer.uint32(18).string(message.description);
     }
-    if (message.recipient !== "") {
+    if (message.recipient !== undefined) {
       writer.uint32(26).string(message.recipient);
     }
     for (const v of message.amount) {
@@ -1457,12 +1462,12 @@ export const CommunityPoolSpendProposal = {
     return message;
   },
   fromJSON(object: any): CommunityPoolSpendProposal {
-    return {
-      title: isSet(object.title) ? String(object.title) : "",
-      description: isSet(object.description) ? String(object.description) : "",
-      recipient: isSet(object.recipient) ? String(object.recipient) : "",
-      amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromJSON(e)) : []
-    };
+    const obj = createBaseCommunityPoolSpendProposal();
+    if (isSet(object.title)) obj.title = String(object.title);
+    if (isSet(object.description)) obj.description = String(object.description);
+    if (isSet(object.recipient)) obj.recipient = String(object.recipient);
+    if (Array.isArray(object?.amount)) obj.amount = object.amount.map((e: any) => Coin.fromJSON(e));
+    return obj;
   },
   toJSON(message: CommunityPoolSpendProposal): unknown {
     const obj: any = {};
@@ -1574,13 +1579,13 @@ export const DelegatorStartingInfo = {
     return o && (o.$typeUrl === DelegatorStartingInfo.typeUrl || typeof o.previous_period === "bigint" && typeof o.stake === "string" && typeof o.height === "bigint");
   },
   encode(message: DelegatorStartingInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.previousPeriod !== BigInt(0)) {
+    if (message.previousPeriod !== undefined) {
       writer.uint32(8).uint64(message.previousPeriod);
     }
-    if (message.stake !== "") {
+    if (message.stake !== undefined) {
       writer.uint32(18).string(Decimal.fromUserInput(message.stake, 18).atomics);
     }
-    if (message.height !== BigInt(0)) {
+    if (message.height !== undefined) {
       writer.uint32(24).uint64(message.height);
     }
     return writer;
@@ -1609,11 +1614,11 @@ export const DelegatorStartingInfo = {
     return message;
   },
   fromJSON(object: any): DelegatorStartingInfo {
-    return {
-      previousPeriod: isSet(object.previousPeriod) ? BigInt(object.previousPeriod.toString()) : BigInt(0),
-      stake: isSet(object.stake) ? String(object.stake) : "",
-      height: isSet(object.height) ? BigInt(object.height.toString()) : BigInt(0)
-    };
+    const obj = createBaseDelegatorStartingInfo();
+    if (isSet(object.previousPeriod)) obj.previousPeriod = BigInt(object.previousPeriod.toString());
+    if (isSet(object.stake)) obj.stake = String(object.stake);
+    if (isSet(object.height)) obj.height = BigInt(object.height.toString());
+    return obj;
   },
   toJSON(message: DelegatorStartingInfo): unknown {
     const obj: any = {};
@@ -1624,9 +1629,13 @@ export const DelegatorStartingInfo = {
   },
   fromPartial(object: DeepPartial<DelegatorStartingInfo>): DelegatorStartingInfo {
     const message = createBaseDelegatorStartingInfo();
-    message.previousPeriod = object.previousPeriod !== undefined && object.previousPeriod !== null ? BigInt(object.previousPeriod.toString()) : BigInt(0);
+    if (object.previousPeriod !== undefined && object.previousPeriod !== null) {
+      message.previousPeriod = BigInt(object.previousPeriod.toString());
+    }
     message.stake = object.stake ?? "";
-    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt(0);
+    if (object.height !== undefined && object.height !== null) {
+      message.height = BigInt(object.height.toString());
+    }
     return message;
   },
   fromSDK(object: DelegatorStartingInfoSDKType): DelegatorStartingInfo {
@@ -1706,7 +1715,7 @@ export const DelegationDelegatorReward = {
     return o && (o.$typeUrl === DelegationDelegatorReward.typeUrl || typeof o.validator_address === "string" && Array.isArray(o.reward) && (!o.reward.length || DecCoin.isAmino(o.reward[0])));
   },
   encode(message: DelegationDelegatorReward, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.validatorAddress !== "") {
+    if (message.validatorAddress !== undefined) {
       writer.uint32(10).string(message.validatorAddress);
     }
     for (const v of message.reward) {
@@ -1735,10 +1744,10 @@ export const DelegationDelegatorReward = {
     return message;
   },
   fromJSON(object: any): DelegationDelegatorReward {
-    return {
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
-      reward: Array.isArray(object?.reward) ? object.reward.map((e: any) => DecCoin.fromJSON(e)) : []
-    };
+    const obj = createBaseDelegationDelegatorReward();
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    if (Array.isArray(object?.reward)) obj.reward = object.reward.map((e: any) => DecCoin.fromJSON(e));
+    return obj;
   },
   toJSON(message: DelegationDelegatorReward): unknown {
     const obj: any = {};
@@ -1837,19 +1846,19 @@ export const CommunityPoolSpendProposalWithDeposit = {
     return o && (o.$typeUrl === CommunityPoolSpendProposalWithDeposit.typeUrl || typeof o.title === "string" && typeof o.description === "string" && typeof o.recipient === "string" && typeof o.amount === "string" && typeof o.deposit === "string");
   },
   encode(message: CommunityPoolSpendProposalWithDeposit, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.title !== "") {
+    if (message.title !== undefined) {
       writer.uint32(10).string(message.title);
     }
-    if (message.description !== "") {
+    if (message.description !== undefined) {
       writer.uint32(18).string(message.description);
     }
-    if (message.recipient !== "") {
+    if (message.recipient !== undefined) {
       writer.uint32(26).string(message.recipient);
     }
-    if (message.amount !== "") {
+    if (message.amount !== undefined) {
       writer.uint32(34).string(message.amount);
     }
-    if (message.deposit !== "") {
+    if (message.deposit !== undefined) {
       writer.uint32(42).string(message.deposit);
     }
     return writer;
@@ -1884,13 +1893,13 @@ export const CommunityPoolSpendProposalWithDeposit = {
     return message;
   },
   fromJSON(object: any): CommunityPoolSpendProposalWithDeposit {
-    return {
-      title: isSet(object.title) ? String(object.title) : "",
-      description: isSet(object.description) ? String(object.description) : "",
-      recipient: isSet(object.recipient) ? String(object.recipient) : "",
-      amount: isSet(object.amount) ? String(object.amount) : "",
-      deposit: isSet(object.deposit) ? String(object.deposit) : ""
-    };
+    const obj = createBaseCommunityPoolSpendProposalWithDeposit();
+    if (isSet(object.title)) obj.title = String(object.title);
+    if (isSet(object.description)) obj.description = String(object.description);
+    if (isSet(object.recipient)) obj.recipient = String(object.recipient);
+    if (isSet(object.amount)) obj.amount = String(object.amount);
+    if (isSet(object.deposit)) obj.deposit = String(object.deposit);
+    return obj;
   },
   toJSON(message: CommunityPoolSpendProposalWithDeposit): unknown {
     const obj: any = {};

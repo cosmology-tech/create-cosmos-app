@@ -2,10 +2,11 @@ import { PoolParams, PoolParamsAmino, PoolParamsSDKType, PoolAsset, PoolAssetAmi
 import { BinaryReader, BinaryWriter } from "../../../../../binary";
 import { isSet, DeepPartial } from "../../../../../helpers";
 import { GlobalDecoderRegistry } from "../../../../../registry";
+export const protobufPackage = "osmosis.gamm.poolmodels.balancer.v1beta1";
 /** ===================== MsgCreatePool */
 export interface MsgCreateBalancerPool {
   sender: string;
-  poolParams?: PoolParams | undefined;
+  poolParams?: PoolParams;
   poolAssets: PoolAsset[];
   futurePoolGovernor: string;
 }
@@ -16,7 +17,7 @@ export interface MsgCreateBalancerPoolProtoMsg {
 /** ===================== MsgCreatePool */
 export interface MsgCreateBalancerPoolAmino {
   sender?: string;
-  pool_params?: PoolParamsAmino | undefined;
+  pool_params?: PoolParamsAmino;
   pool_assets?: PoolAssetAmino[];
   future_pool_governor?: string;
 }
@@ -27,7 +28,7 @@ export interface MsgCreateBalancerPoolAminoMsg {
 /** ===================== MsgCreatePool */
 export interface MsgCreateBalancerPoolSDKType {
   sender: string;
-  pool_params?: PoolParamsSDKType | undefined;
+  pool_params?: PoolParamsSDKType;
   pool_assets: PoolAssetSDKType[];
   future_pool_governor: string;
 }
@@ -72,7 +73,7 @@ export const MsgCreateBalancerPool = {
     return o && (o.$typeUrl === MsgCreateBalancerPool.typeUrl || typeof o.sender === "string" && Array.isArray(o.pool_assets) && (!o.pool_assets.length || PoolAsset.isAmino(o.pool_assets[0])) && typeof o.future_pool_governor === "string");
   },
   encode(message: MsgCreateBalancerPool, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.sender !== "") {
+    if (message.sender !== undefined) {
       writer.uint32(10).string(message.sender);
     }
     if (message.poolParams !== undefined) {
@@ -81,7 +82,7 @@ export const MsgCreateBalancerPool = {
     for (const v of message.poolAssets) {
       PoolAsset.encode(v!, writer.uint32(26).fork()).ldelim();
     }
-    if (message.futurePoolGovernor !== "") {
+    if (message.futurePoolGovernor !== undefined) {
       writer.uint32(34).string(message.futurePoolGovernor);
     }
     return writer;
@@ -113,12 +114,12 @@ export const MsgCreateBalancerPool = {
     return message;
   },
   fromJSON(object: any): MsgCreateBalancerPool {
-    return {
-      sender: isSet(object.sender) ? String(object.sender) : "",
-      poolParams: isSet(object.poolParams) ? PoolParams.fromJSON(object.poolParams) : undefined,
-      poolAssets: Array.isArray(object?.poolAssets) ? object.poolAssets.map((e: any) => PoolAsset.fromJSON(e)) : [],
-      futurePoolGovernor: isSet(object.futurePoolGovernor) ? String(object.futurePoolGovernor) : ""
-    };
+    const obj = createBaseMsgCreateBalancerPool();
+    if (isSet(object.sender)) obj.sender = String(object.sender);
+    if (isSet(object.poolParams)) obj.poolParams = PoolParams.fromJSON(object.poolParams);
+    if (Array.isArray(object?.poolAssets)) obj.poolAssets = object.poolAssets.map((e: any) => PoolAsset.fromJSON(e));
+    if (isSet(object.futurePoolGovernor)) obj.futurePoolGovernor = String(object.futurePoolGovernor);
+    return obj;
   },
   toJSON(message: MsgCreateBalancerPool): unknown {
     const obj: any = {};
@@ -135,7 +136,9 @@ export const MsgCreateBalancerPool = {
   fromPartial(object: DeepPartial<MsgCreateBalancerPool>): MsgCreateBalancerPool {
     const message = createBaseMsgCreateBalancerPool();
     message.sender = object.sender ?? "";
-    message.poolParams = object.poolParams !== undefined && object.poolParams !== null ? PoolParams.fromPartial(object.poolParams) : undefined;
+    if (object.poolParams !== undefined && object.poolParams !== null) {
+      message.poolParams = PoolParams.fromPartial(object.poolParams);
+    }
     message.poolAssets = object.poolAssets?.map(e => PoolAsset.fromPartial(e)) || [];
     message.futurePoolGovernor = object.futurePoolGovernor ?? "";
     return message;
@@ -228,7 +231,7 @@ export const MsgCreateBalancerPoolResponse = {
     return o && (o.$typeUrl === MsgCreateBalancerPoolResponse.typeUrl || typeof o.pool_id === "bigint");
   },
   encode(message: MsgCreateBalancerPoolResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.poolId !== BigInt(0)) {
+    if (message.poolId !== undefined) {
       writer.uint32(8).uint64(message.poolId);
     }
     return writer;
@@ -251,9 +254,9 @@ export const MsgCreateBalancerPoolResponse = {
     return message;
   },
   fromJSON(object: any): MsgCreateBalancerPoolResponse {
-    return {
-      poolId: isSet(object.poolId) ? BigInt(object.poolId.toString()) : BigInt(0)
-    };
+    const obj = createBaseMsgCreateBalancerPoolResponse();
+    if (isSet(object.poolId)) obj.poolId = BigInt(object.poolId.toString());
+    return obj;
   },
   toJSON(message: MsgCreateBalancerPoolResponse): unknown {
     const obj: any = {};
@@ -262,7 +265,9 @@ export const MsgCreateBalancerPoolResponse = {
   },
   fromPartial(object: DeepPartial<MsgCreateBalancerPoolResponse>): MsgCreateBalancerPoolResponse {
     const message = createBaseMsgCreateBalancerPoolResponse();
-    message.poolId = object.poolId !== undefined && object.poolId !== null ? BigInt(object.poolId.toString()) : BigInt(0);
+    if (object.poolId !== undefined && object.poolId !== null) {
+      message.poolId = BigInt(object.poolId.toString());
+    }
     return message;
   },
   fromSDK(object: MsgCreateBalancerPoolResponseSDKType): MsgCreateBalancerPoolResponse {

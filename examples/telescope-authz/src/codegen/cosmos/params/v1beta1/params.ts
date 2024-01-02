@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.params.v1beta1";
 /** ParameterChangeProposal defines a proposal to change one or more parameters. */
 export interface ParameterChangeProposal {
   $typeUrl?: "/cosmos.params.v1beta1.ParameterChangeProposal";
@@ -85,10 +86,10 @@ export const ParameterChangeProposal = {
     return o && (o.$typeUrl === ParameterChangeProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && Array.isArray(o.changes) && (!o.changes.length || ParamChange.isAmino(o.changes[0])));
   },
   encode(message: ParameterChangeProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.title !== "") {
+    if (message.title !== undefined) {
       writer.uint32(10).string(message.title);
     }
-    if (message.description !== "") {
+    if (message.description !== undefined) {
       writer.uint32(18).string(message.description);
     }
     for (const v of message.changes) {
@@ -120,11 +121,11 @@ export const ParameterChangeProposal = {
     return message;
   },
   fromJSON(object: any): ParameterChangeProposal {
-    return {
-      title: isSet(object.title) ? String(object.title) : "",
-      description: isSet(object.description) ? String(object.description) : "",
-      changes: Array.isArray(object?.changes) ? object.changes.map((e: any) => ParamChange.fromJSON(e)) : []
-    };
+    const obj = createBaseParameterChangeProposal();
+    if (isSet(object.title)) obj.title = String(object.title);
+    if (isSet(object.description)) obj.description = String(object.description);
+    if (Array.isArray(object?.changes)) obj.changes = object.changes.map((e: any) => ParamChange.fromJSON(e));
+    return obj;
   },
   toJSON(message: ParameterChangeProposal): unknown {
     const obj: any = {};
@@ -228,13 +229,13 @@ export const ParamChange = {
     return o && (o.$typeUrl === ParamChange.typeUrl || typeof o.subspace === "string" && typeof o.key === "string" && typeof o.value === "string");
   },
   encode(message: ParamChange, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.subspace !== "") {
+    if (message.subspace !== undefined) {
       writer.uint32(10).string(message.subspace);
     }
-    if (message.key !== "") {
+    if (message.key !== undefined) {
       writer.uint32(18).string(message.key);
     }
-    if (message.value !== "") {
+    if (message.value !== undefined) {
       writer.uint32(26).string(message.value);
     }
     return writer;
@@ -263,11 +264,11 @@ export const ParamChange = {
     return message;
   },
   fromJSON(object: any): ParamChange {
-    return {
-      subspace: isSet(object.subspace) ? String(object.subspace) : "",
-      key: isSet(object.key) ? String(object.key) : "",
-      value: isSet(object.value) ? String(object.value) : ""
-    };
+    const obj = createBaseParamChange();
+    if (isSet(object.subspace)) obj.subspace = String(object.subspace);
+    if (isSet(object.key)) obj.key = String(object.key);
+    if (isSet(object.value)) obj.value = String(object.value);
+    return obj;
   },
   toJSON(message: ParamChange): unknown {
     const obj: any = {};

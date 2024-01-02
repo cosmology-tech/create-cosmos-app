@@ -3,10 +3,11 @@ import { TwapRecord, TwapRecordAmino, TwapRecordSDKType } from "./twap_record";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "osmosis.twap.v1beta1";
 /** Params holds parameters for the twap module */
 export interface Params {
   pruneEpochIdentifier: string;
-  recordHistoryKeepPeriod: Duration | undefined;
+  recordHistoryKeepPeriod: Duration;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/osmosis.twap.v1beta1.Params";
@@ -15,7 +16,7 @@ export interface ParamsProtoMsg {
 /** Params holds parameters for the twap module */
 export interface ParamsAmino {
   prune_epoch_identifier?: string;
-  record_history_keep_period?: DurationAmino | undefined;
+  record_history_keep_period?: DurationAmino;
 }
 export interface ParamsAminoMsg {
   type: "osmosis/twap/params";
@@ -24,14 +25,14 @@ export interface ParamsAminoMsg {
 /** Params holds parameters for the twap module */
 export interface ParamsSDKType {
   prune_epoch_identifier: string;
-  record_history_keep_period: DurationSDKType | undefined;
+  record_history_keep_period: DurationSDKType;
 }
 /** GenesisState defines the twap module's genesis state. */
 export interface GenesisState {
   /** twaps is the collection of all twap records. */
   twaps: TwapRecord[];
   /** params is the container of twap parameters. */
-  params: Params | undefined;
+  params: Params;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.twap.v1beta1.GenesisState";
@@ -42,7 +43,7 @@ export interface GenesisStateAmino {
   /** twaps is the collection of all twap records. */
   twaps?: TwapRecordAmino[];
   /** params is the container of twap parameters. */
-  params?: ParamsAmino | undefined;
+  params?: ParamsAmino;
 }
 export interface GenesisStateAminoMsg {
   type: "osmosis/twap/genesis-state";
@@ -51,7 +52,7 @@ export interface GenesisStateAminoMsg {
 /** GenesisState defines the twap module's genesis state. */
 export interface GenesisStateSDKType {
   twaps: TwapRecordSDKType[];
-  params: ParamsSDKType | undefined;
+  params: ParamsSDKType;
 }
 function createBaseParams(): Params {
   return {
@@ -72,7 +73,7 @@ export const Params = {
     return o && (o.$typeUrl === Params.typeUrl || typeof o.prune_epoch_identifier === "string" && Duration.isAmino(o.record_history_keep_period));
   },
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.pruneEpochIdentifier !== "") {
+    if (message.pruneEpochIdentifier !== undefined) {
       writer.uint32(10).string(message.pruneEpochIdentifier);
     }
     if (message.recordHistoryKeepPeriod !== undefined) {
@@ -101,10 +102,10 @@ export const Params = {
     return message;
   },
   fromJSON(object: any): Params {
-    return {
-      pruneEpochIdentifier: isSet(object.pruneEpochIdentifier) ? String(object.pruneEpochIdentifier) : "",
-      recordHistoryKeepPeriod: isSet(object.recordHistoryKeepPeriod) ? Duration.fromJSON(object.recordHistoryKeepPeriod) : undefined
-    };
+    const obj = createBaseParams();
+    if (isSet(object.pruneEpochIdentifier)) obj.pruneEpochIdentifier = String(object.pruneEpochIdentifier);
+    if (isSet(object.recordHistoryKeepPeriod)) obj.recordHistoryKeepPeriod = Duration.fromJSON(object.recordHistoryKeepPeriod);
+    return obj;
   },
   toJSON(message: Params): unknown {
     const obj: any = {};
@@ -115,7 +116,9 @@ export const Params = {
   fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
     message.pruneEpochIdentifier = object.pruneEpochIdentifier ?? "";
-    message.recordHistoryKeepPeriod = object.recordHistoryKeepPeriod !== undefined && object.recordHistoryKeepPeriod !== null ? Duration.fromPartial(object.recordHistoryKeepPeriod) : undefined;
+    if (object.recordHistoryKeepPeriod !== undefined && object.recordHistoryKeepPeriod !== null) {
+      message.recordHistoryKeepPeriod = Duration.fromPartial(object.recordHistoryKeepPeriod);
+    }
     return message;
   },
   fromSDK(object: ParamsSDKType): Params {
@@ -218,10 +221,10 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      twaps: Array.isArray(object?.twaps) ? object.twaps.map((e: any) => TwapRecord.fromJSON(e)) : [],
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined
-    };
+    const obj = createBaseGenesisState();
+    if (Array.isArray(object?.twaps)) obj.twaps = object.twaps.map((e: any) => TwapRecord.fromJSON(e));
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
@@ -236,7 +239,9 @@ export const GenesisState = {
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
     message.twaps = object.twaps?.map(e => TwapRecord.fromPartial(e)) || [];
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     return message;
   },
   fromSDK(object: GenesisStateSDKType): GenesisState {

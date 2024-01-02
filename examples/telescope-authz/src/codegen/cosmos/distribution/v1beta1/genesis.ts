@@ -3,6 +3,7 @@ import { ValidatorAccumulatedCommission, ValidatorAccumulatedCommissionAmino, Va
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.distribution.v1beta1";
 /**
  * DelegatorWithdrawInfo is the address for where distributions rewards are
  * withdrawn to by default this struct is only used at genesis to feed in
@@ -77,7 +78,7 @@ export interface ValidatorAccumulatedCommissionRecord {
   /** validator_address is the address of the validator. */
   validatorAddress: string;
   /** accumulated is the accumulated commission of a validator. */
-  accumulated: ValidatorAccumulatedCommission | undefined;
+  accumulated: ValidatorAccumulatedCommission;
 }
 export interface ValidatorAccumulatedCommissionRecordProtoMsg {
   typeUrl: "/cosmos.distribution.v1beta1.ValidatorAccumulatedCommissionRecord";
@@ -91,7 +92,7 @@ export interface ValidatorAccumulatedCommissionRecordAmino {
   /** validator_address is the address of the validator. */
   validator_address?: string;
   /** accumulated is the accumulated commission of a validator. */
-  accumulated?: ValidatorAccumulatedCommissionAmino | undefined;
+  accumulated?: ValidatorAccumulatedCommissionAmino;
 }
 export interface ValidatorAccumulatedCommissionRecordAminoMsg {
   type: "cosmos-sdk/ValidatorAccumulatedCommissionRecord";
@@ -103,7 +104,7 @@ export interface ValidatorAccumulatedCommissionRecordAminoMsg {
  */
 export interface ValidatorAccumulatedCommissionRecordSDKType {
   validator_address: string;
-  accumulated: ValidatorAccumulatedCommissionSDKType | undefined;
+  accumulated: ValidatorAccumulatedCommissionSDKType;
 }
 /**
  * ValidatorHistoricalRewardsRecord is used for import / export via genesis
@@ -115,7 +116,7 @@ export interface ValidatorHistoricalRewardsRecord {
   /** period defines the period the historical rewards apply to. */
   period: bigint;
   /** rewards defines the historical rewards of a validator. */
-  rewards: ValidatorHistoricalRewards | undefined;
+  rewards: ValidatorHistoricalRewards;
 }
 export interface ValidatorHistoricalRewardsRecordProtoMsg {
   typeUrl: "/cosmos.distribution.v1beta1.ValidatorHistoricalRewardsRecord";
@@ -131,7 +132,7 @@ export interface ValidatorHistoricalRewardsRecordAmino {
   /** period defines the period the historical rewards apply to. */
   period?: string;
   /** rewards defines the historical rewards of a validator. */
-  rewards?: ValidatorHistoricalRewardsAmino | undefined;
+  rewards?: ValidatorHistoricalRewardsAmino;
 }
 export interface ValidatorHistoricalRewardsRecordAminoMsg {
   type: "cosmos-sdk/ValidatorHistoricalRewardsRecord";
@@ -144,14 +145,14 @@ export interface ValidatorHistoricalRewardsRecordAminoMsg {
 export interface ValidatorHistoricalRewardsRecordSDKType {
   validator_address: string;
   period: bigint;
-  rewards: ValidatorHistoricalRewardsSDKType | undefined;
+  rewards: ValidatorHistoricalRewardsSDKType;
 }
 /** ValidatorCurrentRewardsRecord is used for import / export via genesis json. */
 export interface ValidatorCurrentRewardsRecord {
   /** validator_address is the address of the validator. */
   validatorAddress: string;
   /** rewards defines the current rewards of a validator. */
-  rewards: ValidatorCurrentRewards | undefined;
+  rewards: ValidatorCurrentRewards;
 }
 export interface ValidatorCurrentRewardsRecordProtoMsg {
   typeUrl: "/cosmos.distribution.v1beta1.ValidatorCurrentRewardsRecord";
@@ -162,7 +163,7 @@ export interface ValidatorCurrentRewardsRecordAmino {
   /** validator_address is the address of the validator. */
   validator_address?: string;
   /** rewards defines the current rewards of a validator. */
-  rewards?: ValidatorCurrentRewardsAmino | undefined;
+  rewards?: ValidatorCurrentRewardsAmino;
 }
 export interface ValidatorCurrentRewardsRecordAminoMsg {
   type: "cosmos-sdk/ValidatorCurrentRewardsRecord";
@@ -171,7 +172,7 @@ export interface ValidatorCurrentRewardsRecordAminoMsg {
 /** ValidatorCurrentRewardsRecord is used for import / export via genesis json. */
 export interface ValidatorCurrentRewardsRecordSDKType {
   validator_address: string;
-  rewards: ValidatorCurrentRewardsSDKType | undefined;
+  rewards: ValidatorCurrentRewardsSDKType;
 }
 /** DelegatorStartingInfoRecord used for import / export via genesis json. */
 export interface DelegatorStartingInfoRecord {
@@ -180,7 +181,7 @@ export interface DelegatorStartingInfoRecord {
   /** validator_address is the address of the validator. */
   validatorAddress: string;
   /** starting_info defines the starting info of a delegator. */
-  startingInfo: DelegatorStartingInfo | undefined;
+  startingInfo: DelegatorStartingInfo;
 }
 export interface DelegatorStartingInfoRecordProtoMsg {
   typeUrl: "/cosmos.distribution.v1beta1.DelegatorStartingInfoRecord";
@@ -193,7 +194,7 @@ export interface DelegatorStartingInfoRecordAmino {
   /** validator_address is the address of the validator. */
   validator_address?: string;
   /** starting_info defines the starting info of a delegator. */
-  starting_info?: DelegatorStartingInfoAmino | undefined;
+  starting_info?: DelegatorStartingInfoAmino;
 }
 export interface DelegatorStartingInfoRecordAminoMsg {
   type: "cosmos-sdk/DelegatorStartingInfoRecord";
@@ -203,7 +204,7 @@ export interface DelegatorStartingInfoRecordAminoMsg {
 export interface DelegatorStartingInfoRecordSDKType {
   delegator_address: string;
   validator_address: string;
-  starting_info: DelegatorStartingInfoSDKType | undefined;
+  starting_info: DelegatorStartingInfoSDKType;
 }
 /** ValidatorSlashEventRecord is used for import / export via genesis json. */
 export interface ValidatorSlashEventRecord {
@@ -214,7 +215,7 @@ export interface ValidatorSlashEventRecord {
   /** period is the period of the slash event. */
   period: bigint;
   /** validator_slash_event describes the slash event. */
-  validatorSlashEvent: ValidatorSlashEvent | undefined;
+  validatorSlashEvent: ValidatorSlashEvent;
 }
 export interface ValidatorSlashEventRecordProtoMsg {
   typeUrl: "/cosmos.distribution.v1beta1.ValidatorSlashEventRecord";
@@ -229,7 +230,7 @@ export interface ValidatorSlashEventRecordAmino {
   /** period is the period of the slash event. */
   period?: string;
   /** validator_slash_event describes the slash event. */
-  validator_slash_event?: ValidatorSlashEventAmino | undefined;
+  validator_slash_event?: ValidatorSlashEventAmino;
 }
 export interface ValidatorSlashEventRecordAminoMsg {
   type: "cosmos-sdk/ValidatorSlashEventRecord";
@@ -240,14 +241,14 @@ export interface ValidatorSlashEventRecordSDKType {
   validator_address: string;
   height: bigint;
   period: bigint;
-  validator_slash_event: ValidatorSlashEventSDKType | undefined;
+  validator_slash_event: ValidatorSlashEventSDKType;
 }
 /** GenesisState defines the distribution module's genesis state. */
 export interface GenesisState {
   /** params defines all the paramaters of the module. */
-  params: Params | undefined;
+  params: Params;
   /** fee_pool defines the fee pool at genesis. */
-  feePool: FeePool | undefined;
+  feePool: FeePool;
   /** fee_pool defines the delegator withdraw infos at genesis. */
   delegatorWithdrawInfos: DelegatorWithdrawInfo[];
   /** fee_pool defines the previous proposer at genesis. */
@@ -272,9 +273,9 @@ export interface GenesisStateProtoMsg {
 /** GenesisState defines the distribution module's genesis state. */
 export interface GenesisStateAmino {
   /** params defines all the paramaters of the module. */
-  params?: ParamsAmino | undefined;
+  params?: ParamsAmino;
   /** fee_pool defines the fee pool at genesis. */
-  fee_pool?: FeePoolAmino | undefined;
+  fee_pool?: FeePoolAmino;
   /** fee_pool defines the delegator withdraw infos at genesis. */
   delegator_withdraw_infos?: DelegatorWithdrawInfoAmino[];
   /** fee_pool defines the previous proposer at genesis. */
@@ -298,8 +299,8 @@ export interface GenesisStateAminoMsg {
 }
 /** GenesisState defines the distribution module's genesis state. */
 export interface GenesisStateSDKType {
-  params: ParamsSDKType | undefined;
-  fee_pool: FeePoolSDKType | undefined;
+  params: ParamsSDKType;
+  fee_pool: FeePoolSDKType;
   delegator_withdraw_infos: DelegatorWithdrawInfoSDKType[];
   previous_proposer: string;
   outstanding_rewards: ValidatorOutstandingRewardsRecordSDKType[];
@@ -328,10 +329,10 @@ export const DelegatorWithdrawInfo = {
     return o && (o.$typeUrl === DelegatorWithdrawInfo.typeUrl || typeof o.delegator_address === "string" && typeof o.withdraw_address === "string");
   },
   encode(message: DelegatorWithdrawInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.delegatorAddress !== "") {
+    if (message.delegatorAddress !== undefined) {
       writer.uint32(10).string(message.delegatorAddress);
     }
-    if (message.withdrawAddress !== "") {
+    if (message.withdrawAddress !== undefined) {
       writer.uint32(18).string(message.withdrawAddress);
     }
     return writer;
@@ -357,10 +358,10 @@ export const DelegatorWithdrawInfo = {
     return message;
   },
   fromJSON(object: any): DelegatorWithdrawInfo {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      withdrawAddress: isSet(object.withdrawAddress) ? String(object.withdrawAddress) : ""
-    };
+    const obj = createBaseDelegatorWithdrawInfo();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    if (isSet(object.withdrawAddress)) obj.withdrawAddress = String(object.withdrawAddress);
+    return obj;
   },
   toJSON(message: DelegatorWithdrawInfo): unknown {
     const obj: any = {};
@@ -445,7 +446,7 @@ export const ValidatorOutstandingRewardsRecord = {
     return o && (o.$typeUrl === ValidatorOutstandingRewardsRecord.typeUrl || typeof o.validator_address === "string" && Array.isArray(o.outstanding_rewards) && (!o.outstanding_rewards.length || DecCoin.isAmino(o.outstanding_rewards[0])));
   },
   encode(message: ValidatorOutstandingRewardsRecord, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.validatorAddress !== "") {
+    if (message.validatorAddress !== undefined) {
       writer.uint32(10).string(message.validatorAddress);
     }
     for (const v of message.outstandingRewards) {
@@ -474,10 +475,10 @@ export const ValidatorOutstandingRewardsRecord = {
     return message;
   },
   fromJSON(object: any): ValidatorOutstandingRewardsRecord {
-    return {
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
-      outstandingRewards: Array.isArray(object?.outstandingRewards) ? object.outstandingRewards.map((e: any) => DecCoin.fromJSON(e)) : []
-    };
+    const obj = createBaseValidatorOutstandingRewardsRecord();
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    if (Array.isArray(object?.outstandingRewards)) obj.outstandingRewards = object.outstandingRewards.map((e: any) => DecCoin.fromJSON(e));
+    return obj;
   },
   toJSON(message: ValidatorOutstandingRewardsRecord): unknown {
     const obj: any = {};
@@ -572,7 +573,7 @@ export const ValidatorAccumulatedCommissionRecord = {
     return o && (o.$typeUrl === ValidatorAccumulatedCommissionRecord.typeUrl || typeof o.validator_address === "string" && ValidatorAccumulatedCommission.isAmino(o.accumulated));
   },
   encode(message: ValidatorAccumulatedCommissionRecord, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.validatorAddress !== "") {
+    if (message.validatorAddress !== undefined) {
       writer.uint32(10).string(message.validatorAddress);
     }
     if (message.accumulated !== undefined) {
@@ -601,10 +602,10 @@ export const ValidatorAccumulatedCommissionRecord = {
     return message;
   },
   fromJSON(object: any): ValidatorAccumulatedCommissionRecord {
-    return {
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
-      accumulated: isSet(object.accumulated) ? ValidatorAccumulatedCommission.fromJSON(object.accumulated) : undefined
-    };
+    const obj = createBaseValidatorAccumulatedCommissionRecord();
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    if (isSet(object.accumulated)) obj.accumulated = ValidatorAccumulatedCommission.fromJSON(object.accumulated);
+    return obj;
   },
   toJSON(message: ValidatorAccumulatedCommissionRecord): unknown {
     const obj: any = {};
@@ -615,7 +616,9 @@ export const ValidatorAccumulatedCommissionRecord = {
   fromPartial(object: DeepPartial<ValidatorAccumulatedCommissionRecord>): ValidatorAccumulatedCommissionRecord {
     const message = createBaseValidatorAccumulatedCommissionRecord();
     message.validatorAddress = object.validatorAddress ?? "";
-    message.accumulated = object.accumulated !== undefined && object.accumulated !== null ? ValidatorAccumulatedCommission.fromPartial(object.accumulated) : undefined;
+    if (object.accumulated !== undefined && object.accumulated !== null) {
+      message.accumulated = ValidatorAccumulatedCommission.fromPartial(object.accumulated);
+    }
     return message;
   },
   fromSDK(object: ValidatorAccumulatedCommissionRecordSDKType): ValidatorAccumulatedCommissionRecord {
@@ -690,10 +693,10 @@ export const ValidatorHistoricalRewardsRecord = {
     return o && (o.$typeUrl === ValidatorHistoricalRewardsRecord.typeUrl || typeof o.validator_address === "string" && typeof o.period === "bigint" && ValidatorHistoricalRewards.isAmino(o.rewards));
   },
   encode(message: ValidatorHistoricalRewardsRecord, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.validatorAddress !== "") {
+    if (message.validatorAddress !== undefined) {
       writer.uint32(10).string(message.validatorAddress);
     }
-    if (message.period !== BigInt(0)) {
+    if (message.period !== undefined) {
       writer.uint32(16).uint64(message.period);
     }
     if (message.rewards !== undefined) {
@@ -725,11 +728,11 @@ export const ValidatorHistoricalRewardsRecord = {
     return message;
   },
   fromJSON(object: any): ValidatorHistoricalRewardsRecord {
-    return {
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
-      period: isSet(object.period) ? BigInt(object.period.toString()) : BigInt(0),
-      rewards: isSet(object.rewards) ? ValidatorHistoricalRewards.fromJSON(object.rewards) : undefined
-    };
+    const obj = createBaseValidatorHistoricalRewardsRecord();
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    if (isSet(object.period)) obj.period = BigInt(object.period.toString());
+    if (isSet(object.rewards)) obj.rewards = ValidatorHistoricalRewards.fromJSON(object.rewards);
+    return obj;
   },
   toJSON(message: ValidatorHistoricalRewardsRecord): unknown {
     const obj: any = {};
@@ -741,8 +744,12 @@ export const ValidatorHistoricalRewardsRecord = {
   fromPartial(object: DeepPartial<ValidatorHistoricalRewardsRecord>): ValidatorHistoricalRewardsRecord {
     const message = createBaseValidatorHistoricalRewardsRecord();
     message.validatorAddress = object.validatorAddress ?? "";
-    message.period = object.period !== undefined && object.period !== null ? BigInt(object.period.toString()) : BigInt(0);
-    message.rewards = object.rewards !== undefined && object.rewards !== null ? ValidatorHistoricalRewards.fromPartial(object.rewards) : undefined;
+    if (object.period !== undefined && object.period !== null) {
+      message.period = BigInt(object.period.toString());
+    }
+    if (object.rewards !== undefined && object.rewards !== null) {
+      message.rewards = ValidatorHistoricalRewards.fromPartial(object.rewards);
+    }
     return message;
   },
   fromSDK(object: ValidatorHistoricalRewardsRecordSDKType): ValidatorHistoricalRewardsRecord {
@@ -822,7 +829,7 @@ export const ValidatorCurrentRewardsRecord = {
     return o && (o.$typeUrl === ValidatorCurrentRewardsRecord.typeUrl || typeof o.validator_address === "string" && ValidatorCurrentRewards.isAmino(o.rewards));
   },
   encode(message: ValidatorCurrentRewardsRecord, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.validatorAddress !== "") {
+    if (message.validatorAddress !== undefined) {
       writer.uint32(10).string(message.validatorAddress);
     }
     if (message.rewards !== undefined) {
@@ -851,10 +858,10 @@ export const ValidatorCurrentRewardsRecord = {
     return message;
   },
   fromJSON(object: any): ValidatorCurrentRewardsRecord {
-    return {
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
-      rewards: isSet(object.rewards) ? ValidatorCurrentRewards.fromJSON(object.rewards) : undefined
-    };
+    const obj = createBaseValidatorCurrentRewardsRecord();
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    if (isSet(object.rewards)) obj.rewards = ValidatorCurrentRewards.fromJSON(object.rewards);
+    return obj;
   },
   toJSON(message: ValidatorCurrentRewardsRecord): unknown {
     const obj: any = {};
@@ -865,7 +872,9 @@ export const ValidatorCurrentRewardsRecord = {
   fromPartial(object: DeepPartial<ValidatorCurrentRewardsRecord>): ValidatorCurrentRewardsRecord {
     const message = createBaseValidatorCurrentRewardsRecord();
     message.validatorAddress = object.validatorAddress ?? "";
-    message.rewards = object.rewards !== undefined && object.rewards !== null ? ValidatorCurrentRewards.fromPartial(object.rewards) : undefined;
+    if (object.rewards !== undefined && object.rewards !== null) {
+      message.rewards = ValidatorCurrentRewards.fromPartial(object.rewards);
+    }
     return message;
   },
   fromSDK(object: ValidatorCurrentRewardsRecordSDKType): ValidatorCurrentRewardsRecord {
@@ -940,10 +949,10 @@ export const DelegatorStartingInfoRecord = {
     return o && (o.$typeUrl === DelegatorStartingInfoRecord.typeUrl || typeof o.delegator_address === "string" && typeof o.validator_address === "string" && DelegatorStartingInfo.isAmino(o.starting_info));
   },
   encode(message: DelegatorStartingInfoRecord, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.delegatorAddress !== "") {
+    if (message.delegatorAddress !== undefined) {
       writer.uint32(10).string(message.delegatorAddress);
     }
-    if (message.validatorAddress !== "") {
+    if (message.validatorAddress !== undefined) {
       writer.uint32(18).string(message.validatorAddress);
     }
     if (message.startingInfo !== undefined) {
@@ -975,11 +984,11 @@ export const DelegatorStartingInfoRecord = {
     return message;
   },
   fromJSON(object: any): DelegatorStartingInfoRecord {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
-      startingInfo: isSet(object.startingInfo) ? DelegatorStartingInfo.fromJSON(object.startingInfo) : undefined
-    };
+    const obj = createBaseDelegatorStartingInfoRecord();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    if (isSet(object.startingInfo)) obj.startingInfo = DelegatorStartingInfo.fromJSON(object.startingInfo);
+    return obj;
   },
   toJSON(message: DelegatorStartingInfoRecord): unknown {
     const obj: any = {};
@@ -992,7 +1001,9 @@ export const DelegatorStartingInfoRecord = {
     const message = createBaseDelegatorStartingInfoRecord();
     message.delegatorAddress = object.delegatorAddress ?? "";
     message.validatorAddress = object.validatorAddress ?? "";
-    message.startingInfo = object.startingInfo !== undefined && object.startingInfo !== null ? DelegatorStartingInfo.fromPartial(object.startingInfo) : undefined;
+    if (object.startingInfo !== undefined && object.startingInfo !== null) {
+      message.startingInfo = DelegatorStartingInfo.fromPartial(object.startingInfo);
+    }
     return message;
   },
   fromSDK(object: DelegatorStartingInfoRecordSDKType): DelegatorStartingInfoRecord {
@@ -1074,13 +1085,13 @@ export const ValidatorSlashEventRecord = {
     return o && (o.$typeUrl === ValidatorSlashEventRecord.typeUrl || typeof o.validator_address === "string" && typeof o.height === "bigint" && typeof o.period === "bigint" && ValidatorSlashEvent.isAmino(o.validator_slash_event));
   },
   encode(message: ValidatorSlashEventRecord, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.validatorAddress !== "") {
+    if (message.validatorAddress !== undefined) {
       writer.uint32(10).string(message.validatorAddress);
     }
-    if (message.height !== BigInt(0)) {
+    if (message.height !== undefined) {
       writer.uint32(16).uint64(message.height);
     }
-    if (message.period !== BigInt(0)) {
+    if (message.period !== undefined) {
       writer.uint32(24).uint64(message.period);
     }
     if (message.validatorSlashEvent !== undefined) {
@@ -1115,12 +1126,12 @@ export const ValidatorSlashEventRecord = {
     return message;
   },
   fromJSON(object: any): ValidatorSlashEventRecord {
-    return {
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
-      height: isSet(object.height) ? BigInt(object.height.toString()) : BigInt(0),
-      period: isSet(object.period) ? BigInt(object.period.toString()) : BigInt(0),
-      validatorSlashEvent: isSet(object.validatorSlashEvent) ? ValidatorSlashEvent.fromJSON(object.validatorSlashEvent) : undefined
-    };
+    const obj = createBaseValidatorSlashEventRecord();
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    if (isSet(object.height)) obj.height = BigInt(object.height.toString());
+    if (isSet(object.period)) obj.period = BigInt(object.period.toString());
+    if (isSet(object.validatorSlashEvent)) obj.validatorSlashEvent = ValidatorSlashEvent.fromJSON(object.validatorSlashEvent);
+    return obj;
   },
   toJSON(message: ValidatorSlashEventRecord): unknown {
     const obj: any = {};
@@ -1133,9 +1144,15 @@ export const ValidatorSlashEventRecord = {
   fromPartial(object: DeepPartial<ValidatorSlashEventRecord>): ValidatorSlashEventRecord {
     const message = createBaseValidatorSlashEventRecord();
     message.validatorAddress = object.validatorAddress ?? "";
-    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt(0);
-    message.period = object.period !== undefined && object.period !== null ? BigInt(object.period.toString()) : BigInt(0);
-    message.validatorSlashEvent = object.validatorSlashEvent !== undefined && object.validatorSlashEvent !== null ? ValidatorSlashEvent.fromPartial(object.validatorSlashEvent) : undefined;
+    if (object.height !== undefined && object.height !== null) {
+      message.height = BigInt(object.height.toString());
+    }
+    if (object.period !== undefined && object.period !== null) {
+      message.period = BigInt(object.period.toString());
+    }
+    if (object.validatorSlashEvent !== undefined && object.validatorSlashEvent !== null) {
+      message.validatorSlashEvent = ValidatorSlashEvent.fromPartial(object.validatorSlashEvent);
+    }
     return message;
   },
   fromSDK(object: ValidatorSlashEventRecordSDKType): ValidatorSlashEventRecord {
@@ -1238,7 +1255,7 @@ export const GenesisState = {
     for (const v of message.delegatorWithdrawInfos) {
       DelegatorWithdrawInfo.encode(v!, writer.uint32(26).fork()).ldelim();
     }
-    if (message.previousProposer !== "") {
+    if (message.previousProposer !== undefined) {
       writer.uint32(34).string(message.previousProposer);
     }
     for (const v of message.outstandingRewards) {
@@ -1306,18 +1323,18 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-      feePool: isSet(object.feePool) ? FeePool.fromJSON(object.feePool) : undefined,
-      delegatorWithdrawInfos: Array.isArray(object?.delegatorWithdrawInfos) ? object.delegatorWithdrawInfos.map((e: any) => DelegatorWithdrawInfo.fromJSON(e)) : [],
-      previousProposer: isSet(object.previousProposer) ? String(object.previousProposer) : "",
-      outstandingRewards: Array.isArray(object?.outstandingRewards) ? object.outstandingRewards.map((e: any) => ValidatorOutstandingRewardsRecord.fromJSON(e)) : [],
-      validatorAccumulatedCommissions: Array.isArray(object?.validatorAccumulatedCommissions) ? object.validatorAccumulatedCommissions.map((e: any) => ValidatorAccumulatedCommissionRecord.fromJSON(e)) : [],
-      validatorHistoricalRewards: Array.isArray(object?.validatorHistoricalRewards) ? object.validatorHistoricalRewards.map((e: any) => ValidatorHistoricalRewardsRecord.fromJSON(e)) : [],
-      validatorCurrentRewards: Array.isArray(object?.validatorCurrentRewards) ? object.validatorCurrentRewards.map((e: any) => ValidatorCurrentRewardsRecord.fromJSON(e)) : [],
-      delegatorStartingInfos: Array.isArray(object?.delegatorStartingInfos) ? object.delegatorStartingInfos.map((e: any) => DelegatorStartingInfoRecord.fromJSON(e)) : [],
-      validatorSlashEvents: Array.isArray(object?.validatorSlashEvents) ? object.validatorSlashEvents.map((e: any) => ValidatorSlashEventRecord.fromJSON(e)) : []
-    };
+    const obj = createBaseGenesisState();
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    if (isSet(object.feePool)) obj.feePool = FeePool.fromJSON(object.feePool);
+    if (Array.isArray(object?.delegatorWithdrawInfos)) obj.delegatorWithdrawInfos = object.delegatorWithdrawInfos.map((e: any) => DelegatorWithdrawInfo.fromJSON(e));
+    if (isSet(object.previousProposer)) obj.previousProposer = String(object.previousProposer);
+    if (Array.isArray(object?.outstandingRewards)) obj.outstandingRewards = object.outstandingRewards.map((e: any) => ValidatorOutstandingRewardsRecord.fromJSON(e));
+    if (Array.isArray(object?.validatorAccumulatedCommissions)) obj.validatorAccumulatedCommissions = object.validatorAccumulatedCommissions.map((e: any) => ValidatorAccumulatedCommissionRecord.fromJSON(e));
+    if (Array.isArray(object?.validatorHistoricalRewards)) obj.validatorHistoricalRewards = object.validatorHistoricalRewards.map((e: any) => ValidatorHistoricalRewardsRecord.fromJSON(e));
+    if (Array.isArray(object?.validatorCurrentRewards)) obj.validatorCurrentRewards = object.validatorCurrentRewards.map((e: any) => ValidatorCurrentRewardsRecord.fromJSON(e));
+    if (Array.isArray(object?.delegatorStartingInfos)) obj.delegatorStartingInfos = object.delegatorStartingInfos.map((e: any) => DelegatorStartingInfoRecord.fromJSON(e));
+    if (Array.isArray(object?.validatorSlashEvents)) obj.validatorSlashEvents = object.validatorSlashEvents.map((e: any) => ValidatorSlashEventRecord.fromJSON(e));
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
@@ -1363,8 +1380,12 @@ export const GenesisState = {
   },
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
-    message.feePool = object.feePool !== undefined && object.feePool !== null ? FeePool.fromPartial(object.feePool) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
+    if (object.feePool !== undefined && object.feePool !== null) {
+      message.feePool = FeePool.fromPartial(object.feePool);
+    }
     message.delegatorWithdrawInfos = object.delegatorWithdrawInfos?.map(e => DelegatorWithdrawInfo.fromPartial(e)) || [];
     message.previousProposer = object.previousProposer ?? "";
     message.outstandingRewards = object.outstandingRewards?.map(e => ValidatorOutstandingRewardsRecord.fromPartial(e)) || [];

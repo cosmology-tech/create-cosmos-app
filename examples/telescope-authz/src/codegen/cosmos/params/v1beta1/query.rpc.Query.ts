@@ -1,10 +1,8 @@
+import { ParamChange, ParamChangeSDKType } from "./params";
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { ReactQueryParams } from "../../../react-query";
-import { ProtobufRpcClient } from "@cosmjs/stargate";
-import { useQuery } from "@tanstack/react-query";
-import { QueryStore } from "../../../mobx";
-import { QueryParamsRequest, QueryParamsResponse, QuerySubspacesRequest, QuerySubspacesResponse } from "./query";
+import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, QuerySubspacesRequest, QuerySubspacesRequestSDKType, QuerySubspacesResponse, QuerySubspacesResponseSDKType } from "./query";
 /** Query defines the gRPC querier service. */
 export interface Query {
   /**
@@ -34,74 +32,15 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QuerySubspacesResponse.decode(new BinaryReader(data)));
   };
 }
-export const createClientImpl = (rpc: TxRpc) => {
-  return new QueryClientImpl(rpc);
-};
-export interface UseParamsQuery<TData> extends ReactQueryParams<QueryParamsResponse, TData> {
-  request: QueryParamsRequest;
-}
-export interface UseSubspacesQuery<TData> extends ReactQueryParams<QuerySubspacesResponse, TData> {
-  request?: QuerySubspacesRequest;
-}
-const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
-const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
-  if (!rpc) return;
-  if (_queryClients.has(rpc)) {
-    return _queryClients.get(rpc);
-  }
+export const createRpcQueryExtension = (base: QueryClient) => {
+  const rpc = createProtobufRpcClient(base);
   const queryService = new QueryClientImpl(rpc);
-  _queryClients.set(rpc, queryService);
-  return queryService;
-};
-export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  const useParams = <TData = QueryParamsResponse,>({
-    request,
-    options
-  }: UseParamsQuery<TData>) => {
-    return useQuery<QueryParamsResponse, Error, TData>(["paramsQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+  return {
+    params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
       return queryService.params(request);
-    }, options);
-  };
-  const useSubspaces = <TData = QuerySubspacesResponse,>({
-    request,
-    options
-  }: UseSubspacesQuery<TData>) => {
-    return useQuery<QuerySubspacesResponse, Error, TData>(["subspacesQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    subspaces(request?: QuerySubspacesRequest): Promise<QuerySubspacesResponse> {
       return queryService.subspaces(request);
-    }, options);
-  };
-  return {
-    /**
-     * Params queries a specific parameter of a module, given its subspace and
-     * key.
-     */
-    useParams,
-    /** Subspaces queries for all registered subspaces and all keys for a subspace. */useSubspaces
-  };
-};
-export const createRpcQueryMobxStores = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  class QueryParamsStore {
-    store = new QueryStore<QueryParamsRequest, QueryParamsResponse>(queryService?.params);
-    params(request: QueryParamsRequest) {
-      return this.store.getData(request);
     }
-  }
-  class QuerySubspacesStore {
-    store = new QueryStore<QuerySubspacesRequest, QuerySubspacesResponse>(queryService?.subspaces);
-    subspaces(request: QuerySubspacesRequest) {
-      return this.store.getData(request);
-    }
-  }
-  return {
-    /**
-     * Params queries a specific parameter of a module, given its subspace and
-     * key.
-     */
-    QueryParamsStore,
-    /** Subspaces queries for all registered subspaces and all keys for a subspace. */QuerySubspacesStore
   };
 };

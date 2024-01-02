@@ -2,6 +2,7 @@ import { SuperfluidAsset, SuperfluidAssetAmino, SuperfluidAssetSDKType } from ".
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "osmosis.superfluid.v1beta1";
 /**
  * SetSuperfluidAssetsProposal is a gov Content type to update the superfluid
  * assets
@@ -137,10 +138,10 @@ export const SetSuperfluidAssetsProposal = {
     return o && (o.$typeUrl === SetSuperfluidAssetsProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && Array.isArray(o.assets) && (!o.assets.length || SuperfluidAsset.isAmino(o.assets[0])));
   },
   encode(message: SetSuperfluidAssetsProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.title !== "") {
+    if (message.title !== undefined) {
       writer.uint32(10).string(message.title);
     }
-    if (message.description !== "") {
+    if (message.description !== undefined) {
       writer.uint32(18).string(message.description);
     }
     for (const v of message.assets) {
@@ -172,11 +173,11 @@ export const SetSuperfluidAssetsProposal = {
     return message;
   },
   fromJSON(object: any): SetSuperfluidAssetsProposal {
-    return {
-      title: isSet(object.title) ? String(object.title) : "",
-      description: isSet(object.description) ? String(object.description) : "",
-      assets: Array.isArray(object?.assets) ? object.assets.map((e: any) => SuperfluidAsset.fromJSON(e)) : []
-    };
+    const obj = createBaseSetSuperfluidAssetsProposal();
+    if (isSet(object.title)) obj.title = String(object.title);
+    if (isSet(object.description)) obj.description = String(object.description);
+    if (Array.isArray(object?.assets)) obj.assets = object.assets.map((e: any) => SuperfluidAsset.fromJSON(e));
+    return obj;
   },
   toJSON(message: SetSuperfluidAssetsProposal): unknown {
     const obj: any = {};
@@ -281,10 +282,10 @@ export const RemoveSuperfluidAssetsProposal = {
     return o && (o.$typeUrl === RemoveSuperfluidAssetsProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && Array.isArray(o.superfluid_asset_denoms) && (!o.superfluid_asset_denoms.length || typeof o.superfluid_asset_denoms[0] === "string"));
   },
   encode(message: RemoveSuperfluidAssetsProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.title !== "") {
+    if (message.title !== undefined) {
       writer.uint32(10).string(message.title);
     }
-    if (message.description !== "") {
+    if (message.description !== undefined) {
       writer.uint32(18).string(message.description);
     }
     for (const v of message.superfluidAssetDenoms) {
@@ -316,11 +317,11 @@ export const RemoveSuperfluidAssetsProposal = {
     return message;
   },
   fromJSON(object: any): RemoveSuperfluidAssetsProposal {
-    return {
-      title: isSet(object.title) ? String(object.title) : "",
-      description: isSet(object.description) ? String(object.description) : "",
-      superfluidAssetDenoms: Array.isArray(object?.superfluidAssetDenoms) ? object.superfluidAssetDenoms.map((e: any) => String(e)) : []
-    };
+    const obj = createBaseRemoveSuperfluidAssetsProposal();
+    if (isSet(object.title)) obj.title = String(object.title);
+    if (isSet(object.description)) obj.description = String(object.description);
+    if (Array.isArray(object?.superfluidAssetDenoms)) obj.superfluidAssetDenoms = object.superfluidAssetDenoms.map((e: any) => String(e));
+    return obj;
   },
   toJSON(message: RemoveSuperfluidAssetsProposal): unknown {
     const obj: any = {};
@@ -426,10 +427,10 @@ export const UpdateUnpoolWhiteListProposal = {
     return o && (o.$typeUrl === UpdateUnpoolWhiteListProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && Array.isArray(o.ids) && (!o.ids.length || typeof o.ids[0] === "bigint") && typeof o.is_overwrite === "boolean");
   },
   encode(message: UpdateUnpoolWhiteListProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.title !== "") {
+    if (message.title !== undefined) {
       writer.uint32(10).string(message.title);
     }
-    if (message.description !== "") {
+    if (message.description !== undefined) {
       writer.uint32(18).string(message.description);
     }
     writer.uint32(26).fork();
@@ -437,7 +438,7 @@ export const UpdateUnpoolWhiteListProposal = {
       writer.uint64(v);
     }
     writer.ldelim();
-    if (message.isOverwrite === true) {
+    if (message.isOverwrite !== undefined) {
       writer.uint32(32).bool(message.isOverwrite);
     }
     return writer;
@@ -476,12 +477,12 @@ export const UpdateUnpoolWhiteListProposal = {
     return message;
   },
   fromJSON(object: any): UpdateUnpoolWhiteListProposal {
-    return {
-      title: isSet(object.title) ? String(object.title) : "",
-      description: isSet(object.description) ? String(object.description) : "",
-      ids: Array.isArray(object?.ids) ? object.ids.map((e: any) => BigInt(e.toString())) : [],
-      isOverwrite: isSet(object.isOverwrite) ? Boolean(object.isOverwrite) : false
-    };
+    const obj = createBaseUpdateUnpoolWhiteListProposal();
+    if (isSet(object.title)) obj.title = String(object.title);
+    if (isSet(object.description)) obj.description = String(object.description);
+    if (Array.isArray(object?.ids)) obj.ids = object.ids.map((e: any) => BigInt(e.toString()));
+    if (isSet(object.isOverwrite)) obj.isOverwrite = Boolean(object.isOverwrite);
+    return obj;
   },
   toJSON(message: UpdateUnpoolWhiteListProposal): unknown {
     const obj: any = {};

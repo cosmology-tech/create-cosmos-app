@@ -2,11 +2,12 @@ import { DenomTrace, DenomTraceAmino, DenomTraceSDKType, Params, ParamsAmino, Pa
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { GlobalDecoderRegistry } from "../../../../registry";
+export const protobufPackage = "ibc.applications.transfer.v1";
 /** GenesisState defines the ibc-transfer genesis state */
 export interface GenesisState {
   portId: string;
   denomTraces: DenomTrace[];
-  params: Params | undefined;
+  params: Params;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/ibc.applications.transfer.v1.GenesisState";
@@ -16,7 +17,7 @@ export interface GenesisStateProtoMsg {
 export interface GenesisStateAmino {
   port_id?: string;
   denom_traces?: DenomTraceAmino[];
-  params?: ParamsAmino | undefined;
+  params?: ParamsAmino;
 }
 export interface GenesisStateAminoMsg {
   type: "cosmos-sdk/GenesisState";
@@ -26,7 +27,7 @@ export interface GenesisStateAminoMsg {
 export interface GenesisStateSDKType {
   port_id: string;
   denom_traces: DenomTraceSDKType[];
-  params: ParamsSDKType | undefined;
+  params: ParamsSDKType;
 }
 function createBaseGenesisState(): GenesisState {
   return {
@@ -48,7 +49,7 @@ export const GenesisState = {
     return o && (o.$typeUrl === GenesisState.typeUrl || typeof o.port_id === "string" && Array.isArray(o.denom_traces) && (!o.denom_traces.length || DenomTrace.isAmino(o.denom_traces[0])) && Params.isAmino(o.params));
   },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.portId !== "") {
+    if (message.portId !== undefined) {
       writer.uint32(10).string(message.portId);
     }
     for (const v of message.denomTraces) {
@@ -83,11 +84,11 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      portId: isSet(object.portId) ? String(object.portId) : "",
-      denomTraces: Array.isArray(object?.denomTraces) ? object.denomTraces.map((e: any) => DenomTrace.fromJSON(e)) : [],
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined
-    };
+    const obj = createBaseGenesisState();
+    if (isSet(object.portId)) obj.portId = String(object.portId);
+    if (Array.isArray(object?.denomTraces)) obj.denomTraces = object.denomTraces.map((e: any) => DenomTrace.fromJSON(e));
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
@@ -104,7 +105,9 @@ export const GenesisState = {
     const message = createBaseGenesisState();
     message.portId = object.portId ?? "";
     message.denomTraces = object.denomTraces?.map(e => DenomTrace.fromPartial(e)) || [];
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     return message;
   },
   fromSDK(object: GenesisStateSDKType): GenesisState {

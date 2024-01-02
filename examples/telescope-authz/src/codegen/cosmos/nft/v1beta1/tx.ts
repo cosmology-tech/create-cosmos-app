@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.nft.v1beta1";
 /** MsgSend represents a message to send a nft from one account to another account. */
 export interface MsgSend {
   /** class_id defines the unique identifier of the nft classification, similar to the contract address of ERC721 */
@@ -73,16 +74,16 @@ export const MsgSend = {
     return o && (o.$typeUrl === MsgSend.typeUrl || typeof o.class_id === "string" && typeof o.id === "string" && typeof o.sender === "string" && typeof o.receiver === "string");
   },
   encode(message: MsgSend, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.classId !== "") {
+    if (message.classId !== undefined) {
       writer.uint32(10).string(message.classId);
     }
-    if (message.id !== "") {
+    if (message.id !== undefined) {
       writer.uint32(18).string(message.id);
     }
-    if (message.sender !== "") {
+    if (message.sender !== undefined) {
       writer.uint32(26).string(message.sender);
     }
-    if (message.receiver !== "") {
+    if (message.receiver !== undefined) {
       writer.uint32(34).string(message.receiver);
     }
     return writer;
@@ -114,12 +115,12 @@ export const MsgSend = {
     return message;
   },
   fromJSON(object: any): MsgSend {
-    return {
-      classId: isSet(object.classId) ? String(object.classId) : "",
-      id: isSet(object.id) ? String(object.id) : "",
-      sender: isSet(object.sender) ? String(object.sender) : "",
-      receiver: isSet(object.receiver) ? String(object.receiver) : ""
-    };
+    const obj = createBaseMsgSend();
+    if (isSet(object.classId)) obj.classId = String(object.classId);
+    if (isSet(object.id)) obj.id = String(object.id);
+    if (isSet(object.sender)) obj.sender = String(object.sender);
+    if (isSet(object.receiver)) obj.receiver = String(object.receiver);
+    return obj;
   },
   toJSON(message: MsgSend): unknown {
     const obj: any = {};
@@ -234,7 +235,8 @@ export const MsgSendResponse = {
     return message;
   },
   fromJSON(_: any): MsgSendResponse {
-    return {};
+    const obj = createBaseMsgSendResponse();
+    return obj;
   },
   toJSON(_: MsgSendResponse): unknown {
     const obj: any = {};

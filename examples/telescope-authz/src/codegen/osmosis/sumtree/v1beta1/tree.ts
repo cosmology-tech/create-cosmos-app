@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { DeepPartial, isSet, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "osmosis.store.v1beta1";
 export interface Node {
   children: Child[];
 }
@@ -39,21 +40,21 @@ export interface ChildSDKType {
   accumulation: string;
 }
 export interface Leaf {
-  leaf?: Child | undefined;
+  leaf?: Child;
 }
 export interface LeafProtoMsg {
   typeUrl: "/osmosis.store.v1beta1.Leaf";
   value: Uint8Array;
 }
 export interface LeafAmino {
-  leaf?: ChildAmino | undefined;
+  leaf?: ChildAmino;
 }
 export interface LeafAminoMsg {
   type: "osmosis/store/leaf";
   value: LeafAmino;
 }
 export interface LeafSDKType {
-  leaf?: ChildSDKType | undefined;
+  leaf?: ChildSDKType;
 }
 function createBaseNode(): Node {
   return {
@@ -96,9 +97,9 @@ export const Node = {
     return message;
   },
   fromJSON(object: any): Node {
-    return {
-      children: Array.isArray(object?.children) ? object.children.map((e: any) => Child.fromJSON(e)) : []
-    };
+    const obj = createBaseNode();
+    if (Array.isArray(object?.children)) obj.children = object.children.map((e: any) => Child.fromJSON(e));
+    return obj;
   },
   toJSON(message: Node): unknown {
     const obj: any = {};
@@ -188,7 +189,7 @@ export const Child = {
     if (message.index.length !== 0) {
       writer.uint32(10).bytes(message.index);
     }
-    if (message.accumulation !== "") {
+    if (message.accumulation !== undefined) {
       writer.uint32(18).string(message.accumulation);
     }
     return writer;
@@ -214,10 +215,10 @@ export const Child = {
     return message;
   },
   fromJSON(object: any): Child {
-    return {
-      index: isSet(object.index) ? bytesFromBase64(object.index) : new Uint8Array(),
-      accumulation: isSet(object.accumulation) ? String(object.accumulation) : ""
-    };
+    const obj = createBaseChild();
+    if (isSet(object.index)) obj.index = bytesFromBase64(object.index);
+    if (isSet(object.accumulation)) obj.accumulation = String(object.accumulation);
+    return obj;
   },
   toJSON(message: Child): unknown {
     const obj: any = {};
@@ -324,9 +325,9 @@ export const Leaf = {
     return message;
   },
   fromJSON(object: any): Leaf {
-    return {
-      leaf: isSet(object.leaf) ? Child.fromJSON(object.leaf) : undefined
-    };
+    const obj = createBaseLeaf();
+    if (isSet(object.leaf)) obj.leaf = Child.fromJSON(object.leaf);
+    return obj;
   },
   toJSON(message: Leaf): unknown {
     const obj: any = {};
@@ -335,7 +336,9 @@ export const Leaf = {
   },
   fromPartial(object: DeepPartial<Leaf>): Leaf {
     const message = createBaseLeaf();
-    message.leaf = object.leaf !== undefined && object.leaf !== null ? Child.fromPartial(object.leaf) : undefined;
+    if (object.leaf !== undefined && object.leaf !== null) {
+      message.leaf = Child.fromPartial(object.leaf);
+    }
     return message;
   },
   fromSDK(object: LeafSDKType): Leaf {

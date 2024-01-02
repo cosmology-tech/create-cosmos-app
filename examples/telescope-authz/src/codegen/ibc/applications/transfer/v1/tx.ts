@@ -3,6 +3,7 @@ import { Height, HeightAmino, HeightSDKType } from "../../../core/client/v1/clie
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { GlobalDecoderRegistry } from "../../../../registry";
+export const protobufPackage = "ibc.applications.transfer.v1";
 /**
  * MsgTransfer defines a msg to transfer fungible tokens (i.e Coins) between
  * ICS20 enabled chains. See ICS Spec here:
@@ -14,7 +15,7 @@ export interface MsgTransfer {
   /** the channel by which the packet will be sent */
   sourceChannel: string;
   /** the tokens to be transferred */
-  token: Coin | undefined;
+  token: Coin;
   /** the sender address */
   sender: string;
   /** the recipient address on the destination chain */
@@ -23,7 +24,7 @@ export interface MsgTransfer {
    * Timeout height relative to the current block height.
    * The timeout is disabled when set to 0.
    */
-  timeoutHeight: Height | undefined;
+  timeoutHeight: Height;
   /**
    * Timeout timestamp (in nanoseconds) relative to the current block timestamp.
    * The timeout is disabled when set to 0.
@@ -45,7 +46,7 @@ export interface MsgTransferAmino {
   /** the channel by which the packet will be sent */
   source_channel?: string;
   /** the tokens to be transferred */
-  token?: CoinAmino | undefined;
+  token?: CoinAmino;
   /** the sender address */
   sender?: string;
   /** the recipient address on the destination chain */
@@ -54,7 +55,7 @@ export interface MsgTransferAmino {
    * Timeout height relative to the current block height.
    * The timeout is disabled when set to 0.
    */
-  timeout_height?: HeightAmino | undefined;
+  timeout_height?: HeightAmino;
   /**
    * Timeout timestamp (in nanoseconds) relative to the current block timestamp.
    * The timeout is disabled when set to 0.
@@ -73,10 +74,10 @@ export interface MsgTransferAminoMsg {
 export interface MsgTransferSDKType {
   source_port: string;
   source_channel: string;
-  token: CoinSDKType | undefined;
+  token: CoinSDKType;
   sender: string;
   receiver: string;
-  timeout_height: HeightSDKType | undefined;
+  timeout_height: HeightSDKType;
   timeout_timestamp: bigint;
 }
 /** MsgTransferResponse defines the Msg/Transfer response type. */
@@ -117,25 +118,25 @@ export const MsgTransfer = {
     return o && (o.$typeUrl === MsgTransfer.typeUrl || typeof o.source_port === "string" && typeof o.source_channel === "string" && Coin.isAmino(o.token) && typeof o.sender === "string" && typeof o.receiver === "string" && Height.isAmino(o.timeout_height) && typeof o.timeout_timestamp === "bigint");
   },
   encode(message: MsgTransfer, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.sourcePort !== "") {
+    if (message.sourcePort !== undefined) {
       writer.uint32(10).string(message.sourcePort);
     }
-    if (message.sourceChannel !== "") {
+    if (message.sourceChannel !== undefined) {
       writer.uint32(18).string(message.sourceChannel);
     }
     if (message.token !== undefined) {
       Coin.encode(message.token, writer.uint32(26).fork()).ldelim();
     }
-    if (message.sender !== "") {
+    if (message.sender !== undefined) {
       writer.uint32(34).string(message.sender);
     }
-    if (message.receiver !== "") {
+    if (message.receiver !== undefined) {
       writer.uint32(42).string(message.receiver);
     }
     if (message.timeoutHeight !== undefined) {
       Height.encode(message.timeoutHeight, writer.uint32(50).fork()).ldelim();
     }
-    if (message.timeoutTimestamp !== BigInt(0)) {
+    if (message.timeoutTimestamp !== undefined) {
       writer.uint32(56).uint64(message.timeoutTimestamp);
     }
     return writer;
@@ -176,15 +177,15 @@ export const MsgTransfer = {
     return message;
   },
   fromJSON(object: any): MsgTransfer {
-    return {
-      sourcePort: isSet(object.sourcePort) ? String(object.sourcePort) : "",
-      sourceChannel: isSet(object.sourceChannel) ? String(object.sourceChannel) : "",
-      token: isSet(object.token) ? Coin.fromJSON(object.token) : undefined,
-      sender: isSet(object.sender) ? String(object.sender) : "",
-      receiver: isSet(object.receiver) ? String(object.receiver) : "",
-      timeoutHeight: isSet(object.timeoutHeight) ? Height.fromJSON(object.timeoutHeight) : undefined,
-      timeoutTimestamp: isSet(object.timeoutTimestamp) ? BigInt(object.timeoutTimestamp.toString()) : BigInt(0)
-    };
+    const obj = createBaseMsgTransfer();
+    if (isSet(object.sourcePort)) obj.sourcePort = String(object.sourcePort);
+    if (isSet(object.sourceChannel)) obj.sourceChannel = String(object.sourceChannel);
+    if (isSet(object.token)) obj.token = Coin.fromJSON(object.token);
+    if (isSet(object.sender)) obj.sender = String(object.sender);
+    if (isSet(object.receiver)) obj.receiver = String(object.receiver);
+    if (isSet(object.timeoutHeight)) obj.timeoutHeight = Height.fromJSON(object.timeoutHeight);
+    if (isSet(object.timeoutTimestamp)) obj.timeoutTimestamp = BigInt(object.timeoutTimestamp.toString());
+    return obj;
   },
   toJSON(message: MsgTransfer): unknown {
     const obj: any = {};
@@ -201,11 +202,17 @@ export const MsgTransfer = {
     const message = createBaseMsgTransfer();
     message.sourcePort = object.sourcePort ?? "";
     message.sourceChannel = object.sourceChannel ?? "";
-    message.token = object.token !== undefined && object.token !== null ? Coin.fromPartial(object.token) : undefined;
+    if (object.token !== undefined && object.token !== null) {
+      message.token = Coin.fromPartial(object.token);
+    }
     message.sender = object.sender ?? "";
     message.receiver = object.receiver ?? "";
-    message.timeoutHeight = object.timeoutHeight !== undefined && object.timeoutHeight !== null ? Height.fromPartial(object.timeoutHeight) : undefined;
-    message.timeoutTimestamp = object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null ? BigInt(object.timeoutTimestamp.toString()) : BigInt(0);
+    if (object.timeoutHeight !== undefined && object.timeoutHeight !== null) {
+      message.timeoutHeight = Height.fromPartial(object.timeoutHeight);
+    }
+    if (object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null) {
+      message.timeoutTimestamp = BigInt(object.timeoutTimestamp.toString());
+    }
     return message;
   },
   fromSDK(object: MsgTransferSDKType): MsgTransfer {
@@ -323,7 +330,8 @@ export const MsgTransferResponse = {
     return message;
   },
   fromJSON(_: any): MsgTransferResponse {
-    return {};
+    const obj = createBaseMsgTransferResponse();
+    return obj;
   },
   toJSON(_: MsgTransferResponse): unknown {
     const obj: any = {};

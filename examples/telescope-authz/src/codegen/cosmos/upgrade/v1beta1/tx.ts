@@ -2,6 +2,7 @@ import { Plan, PlanAmino, PlanSDKType } from "./upgrade";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.upgrade.v1beta1";
 /**
  * MsgSoftwareUpgrade is the Msg/SoftwareUpgrade request type.
  * 
@@ -11,7 +12,7 @@ export interface MsgSoftwareUpgrade {
   /** authority is the address of the governance account. */
   authority: string;
   /** plan is the upgrade plan. */
-  plan: Plan | undefined;
+  plan: Plan;
 }
 export interface MsgSoftwareUpgradeProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade";
@@ -26,7 +27,7 @@ export interface MsgSoftwareUpgradeAmino {
   /** authority is the address of the governance account. */
   authority?: string;
   /** plan is the upgrade plan. */
-  plan?: PlanAmino | undefined;
+  plan?: PlanAmino;
 }
 export interface MsgSoftwareUpgradeAminoMsg {
   type: "cosmos-sdk/MsgSoftwareUpgrade";
@@ -39,7 +40,7 @@ export interface MsgSoftwareUpgradeAminoMsg {
  */
 export interface MsgSoftwareUpgradeSDKType {
   authority: string;
-  plan: PlanSDKType | undefined;
+  plan: PlanSDKType;
 }
 /**
  * MsgSoftwareUpgradeResponse is the Msg/SoftwareUpgrade response type.
@@ -146,7 +147,7 @@ export const MsgSoftwareUpgrade = {
     return o && (o.$typeUrl === MsgSoftwareUpgrade.typeUrl || typeof o.authority === "string" && Plan.isAmino(o.plan));
   },
   encode(message: MsgSoftwareUpgrade, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.authority !== "") {
+    if (message.authority !== undefined) {
       writer.uint32(10).string(message.authority);
     }
     if (message.plan !== undefined) {
@@ -175,10 +176,10 @@ export const MsgSoftwareUpgrade = {
     return message;
   },
   fromJSON(object: any): MsgSoftwareUpgrade {
-    return {
-      authority: isSet(object.authority) ? String(object.authority) : "",
-      plan: isSet(object.plan) ? Plan.fromJSON(object.plan) : undefined
-    };
+    const obj = createBaseMsgSoftwareUpgrade();
+    if (isSet(object.authority)) obj.authority = String(object.authority);
+    if (isSet(object.plan)) obj.plan = Plan.fromJSON(object.plan);
+    return obj;
   },
   toJSON(message: MsgSoftwareUpgrade): unknown {
     const obj: any = {};
@@ -189,7 +190,9 @@ export const MsgSoftwareUpgrade = {
   fromPartial(object: DeepPartial<MsgSoftwareUpgrade>): MsgSoftwareUpgrade {
     const message = createBaseMsgSoftwareUpgrade();
     message.authority = object.authority ?? "";
-    message.plan = object.plan !== undefined && object.plan !== null ? Plan.fromPartial(object.plan) : undefined;
+    if (object.plan !== undefined && object.plan !== null) {
+      message.plan = Plan.fromPartial(object.plan);
+    }
     return message;
   },
   fromSDK(object: MsgSoftwareUpgradeSDKType): MsgSoftwareUpgrade {
@@ -277,7 +280,8 @@ export const MsgSoftwareUpgradeResponse = {
     return message;
   },
   fromJSON(_: any): MsgSoftwareUpgradeResponse {
-    return {};
+    const obj = createBaseMsgSoftwareUpgradeResponse();
+    return obj;
   },
   toJSON(_: MsgSoftwareUpgradeResponse): unknown {
     const obj: any = {};
@@ -344,7 +348,7 @@ export const MsgCancelUpgrade = {
     return o && (o.$typeUrl === MsgCancelUpgrade.typeUrl || typeof o.authority === "string");
   },
   encode(message: MsgCancelUpgrade, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.authority !== "") {
+    if (message.authority !== undefined) {
       writer.uint32(10).string(message.authority);
     }
     return writer;
@@ -367,9 +371,9 @@ export const MsgCancelUpgrade = {
     return message;
   },
   fromJSON(object: any): MsgCancelUpgrade {
-    return {
-      authority: isSet(object.authority) ? String(object.authority) : ""
-    };
+    const obj = createBaseMsgCancelUpgrade();
+    if (isSet(object.authority)) obj.authority = String(object.authority);
+    return obj;
   },
   toJSON(message: MsgCancelUpgrade): unknown {
     const obj: any = {};
@@ -460,7 +464,8 @@ export const MsgCancelUpgradeResponse = {
     return message;
   },
   fromJSON(_: any): MsgCancelUpgradeResponse {
-    return {};
+    const obj = createBaseMsgCancelUpgradeResponse();
+    return obj;
   },
   toJSON(_: MsgCancelUpgradeResponse): unknown {
     const obj: any = {};

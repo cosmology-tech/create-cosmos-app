@@ -1,10 +1,11 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.orm.v1";
 /** TableDescriptor describes an ORM table. */
 export interface TableDescriptor {
   /** primary_key defines the primary key for the table. */
-  primaryKey?: PrimaryKeyDescriptor | undefined;
+  primaryKey?: PrimaryKeyDescriptor;
   /** index defines one or more secondary indexes. */
   index: SecondaryIndexDescriptor[];
   /**
@@ -21,7 +22,7 @@ export interface TableDescriptorProtoMsg {
 /** TableDescriptor describes an ORM table. */
 export interface TableDescriptorAmino {
   /** primary_key defines the primary key for the table. */
-  primary_key?: PrimaryKeyDescriptorAmino | undefined;
+  primary_key?: PrimaryKeyDescriptorAmino;
   /** index defines one or more secondary indexes. */
   index?: SecondaryIndexDescriptorAmino[];
   /**
@@ -37,7 +38,7 @@ export interface TableDescriptorAminoMsg {
 }
 /** TableDescriptor describes an ORM table. */
 export interface TableDescriptorSDKType {
-  primary_key?: PrimaryKeyDescriptorSDKType | undefined;
+  primary_key?: PrimaryKeyDescriptorSDKType;
   index: SecondaryIndexDescriptorSDKType[];
   id: number;
 }
@@ -254,7 +255,7 @@ export const TableDescriptor = {
     for (const v of message.index) {
       SecondaryIndexDescriptor.encode(v!, writer.uint32(18).fork()).ldelim();
     }
-    if (message.id !== 0) {
+    if (message.id !== undefined) {
       writer.uint32(24).uint32(message.id);
     }
     return writer;
@@ -283,11 +284,11 @@ export const TableDescriptor = {
     return message;
   },
   fromJSON(object: any): TableDescriptor {
-    return {
-      primaryKey: isSet(object.primaryKey) ? PrimaryKeyDescriptor.fromJSON(object.primaryKey) : undefined,
-      index: Array.isArray(object?.index) ? object.index.map((e: any) => SecondaryIndexDescriptor.fromJSON(e)) : [],
-      id: isSet(object.id) ? Number(object.id) : 0
-    };
+    const obj = createBaseTableDescriptor();
+    if (isSet(object.primaryKey)) obj.primaryKey = PrimaryKeyDescriptor.fromJSON(object.primaryKey);
+    if (Array.isArray(object?.index)) obj.index = object.index.map((e: any) => SecondaryIndexDescriptor.fromJSON(e));
+    if (isSet(object.id)) obj.id = Number(object.id);
+    return obj;
   },
   toJSON(message: TableDescriptor): unknown {
     const obj: any = {};
@@ -302,7 +303,9 @@ export const TableDescriptor = {
   },
   fromPartial(object: DeepPartial<TableDescriptor>): TableDescriptor {
     const message = createBaseTableDescriptor();
-    message.primaryKey = object.primaryKey !== undefined && object.primaryKey !== null ? PrimaryKeyDescriptor.fromPartial(object.primaryKey) : undefined;
+    if (object.primaryKey !== undefined && object.primaryKey !== null) {
+      message.primaryKey = PrimaryKeyDescriptor.fromPartial(object.primaryKey);
+    }
     message.index = object.index?.map(e => SecondaryIndexDescriptor.fromPartial(e)) || [];
     message.id = object.id ?? 0;
     return message;
@@ -390,10 +393,10 @@ export const PrimaryKeyDescriptor = {
     return o && (o.$typeUrl === PrimaryKeyDescriptor.typeUrl || typeof o.fields === "string" && typeof o.auto_increment === "boolean");
   },
   encode(message: PrimaryKeyDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.fields !== "") {
+    if (message.fields !== undefined) {
       writer.uint32(10).string(message.fields);
     }
-    if (message.autoIncrement === true) {
+    if (message.autoIncrement !== undefined) {
       writer.uint32(16).bool(message.autoIncrement);
     }
     return writer;
@@ -419,10 +422,10 @@ export const PrimaryKeyDescriptor = {
     return message;
   },
   fromJSON(object: any): PrimaryKeyDescriptor {
-    return {
-      fields: isSet(object.fields) ? String(object.fields) : "",
-      autoIncrement: isSet(object.autoIncrement) ? Boolean(object.autoIncrement) : false
-    };
+    const obj = createBasePrimaryKeyDescriptor();
+    if (isSet(object.fields)) obj.fields = String(object.fields);
+    if (isSet(object.autoIncrement)) obj.autoIncrement = Boolean(object.autoIncrement);
+    return obj;
   },
   toJSON(message: PrimaryKeyDescriptor): unknown {
     const obj: any = {};
@@ -508,13 +511,13 @@ export const SecondaryIndexDescriptor = {
     return o && (o.$typeUrl === SecondaryIndexDescriptor.typeUrl || typeof o.fields === "string" && typeof o.id === "number" && typeof o.unique === "boolean");
   },
   encode(message: SecondaryIndexDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.fields !== "") {
+    if (message.fields !== undefined) {
       writer.uint32(10).string(message.fields);
     }
-    if (message.id !== 0) {
+    if (message.id !== undefined) {
       writer.uint32(16).uint32(message.id);
     }
-    if (message.unique === true) {
+    if (message.unique !== undefined) {
       writer.uint32(24).bool(message.unique);
     }
     return writer;
@@ -543,11 +546,11 @@ export const SecondaryIndexDescriptor = {
     return message;
   },
   fromJSON(object: any): SecondaryIndexDescriptor {
-    return {
-      fields: isSet(object.fields) ? String(object.fields) : "",
-      id: isSet(object.id) ? Number(object.id) : 0,
-      unique: isSet(object.unique) ? Boolean(object.unique) : false
-    };
+    const obj = createBaseSecondaryIndexDescriptor();
+    if (isSet(object.fields)) obj.fields = String(object.fields);
+    if (isSet(object.id)) obj.id = Number(object.id);
+    if (isSet(object.unique)) obj.unique = Boolean(object.unique);
+    return obj;
   },
   toJSON(message: SecondaryIndexDescriptor): unknown {
     const obj: any = {};
@@ -639,7 +642,7 @@ export const SingletonDescriptor = {
     return o && (o.$typeUrl === SingletonDescriptor.typeUrl || typeof o.id === "number");
   },
   encode(message: SingletonDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.id !== 0) {
+    if (message.id !== undefined) {
       writer.uint32(8).uint32(message.id);
     }
     return writer;
@@ -662,9 +665,9 @@ export const SingletonDescriptor = {
     return message;
   },
   fromJSON(object: any): SingletonDescriptor {
-    return {
-      id: isSet(object.id) ? Number(object.id) : 0
-    };
+    const obj = createBaseSingletonDescriptor();
+    if (isSet(object.id)) obj.id = Number(object.id);
+    return obj;
   },
   toJSON(message: SingletonDescriptor): unknown {
     const obj: any = {};

@@ -1,7 +1,8 @@
-import { Any, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { DeepPartial, isSet } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.app.v1alpha1";
 /**
  * Config represents the configuration for a Cosmos SDK ABCI app.
  * It is intended that all state machine logic including the version of
@@ -67,7 +68,7 @@ export interface ModuleConfig {
    * config is the config object for the module. Module config messages should
    * define a ModuleDescriptor using the cosmos.app.v1alpha1.is_module extension.
    */
-  config?: Any | undefined;
+  config?: Any;
 }
 export interface ModuleConfigProtoMsg {
   typeUrl: "/cosmos.app.v1alpha1.ModuleConfig";
@@ -92,7 +93,7 @@ export interface ModuleConfigAmino {
    * config is the config object for the module. Module config messages should
    * define a ModuleDescriptor using the cosmos.app.v1alpha1.is_module extension.
    */
-  config?: AnyAmino | undefined;
+  config?: AnyAmino;
 }
 export interface ModuleConfigAminoMsg {
   type: "cosmos-sdk/ModuleConfig";
@@ -101,7 +102,7 @@ export interface ModuleConfigAminoMsg {
 /** ModuleConfig is a module configuration for an app. */
 export interface ModuleConfigSDKType {
   name: string;
-  config?: AnySDKType | undefined;
+  config?: AnySDKType;
 }
 function createBaseConfig(): Config {
   return {
@@ -144,9 +145,9 @@ export const Config = {
     return message;
   },
   fromJSON(object: any): Config {
-    return {
-      modules: Array.isArray(object?.modules) ? object.modules.map((e: any) => ModuleConfig.fromJSON(e)) : []
-    };
+    const obj = createBaseConfig();
+    if (Array.isArray(object?.modules)) obj.modules = object.modules.map((e: any) => ModuleConfig.fromJSON(e));
+    return obj;
   },
   toJSON(message: Config): unknown {
     const obj: any = {};
@@ -233,7 +234,7 @@ export const ModuleConfig = {
     return o && (o.$typeUrl === ModuleConfig.typeUrl || typeof o.name === "string");
   },
   encode(message: ModuleConfig, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.name !== "") {
+    if (message.name !== undefined) {
       writer.uint32(10).string(message.name);
     }
     if (message.config !== undefined) {
@@ -262,10 +263,10 @@ export const ModuleConfig = {
     return message;
   },
   fromJSON(object: any): ModuleConfig {
-    return {
-      name: isSet(object.name) ? String(object.name) : "",
-      config: isSet(object.config) ? Any.fromJSON(object.config) : undefined
-    };
+    const obj = createBaseModuleConfig();
+    if (isSet(object.name)) obj.name = String(object.name);
+    if (isSet(object.config)) obj.config = Any.fromJSON(object.config);
+    return obj;
   },
   toJSON(message: ModuleConfig): unknown {
     const obj: any = {};
@@ -276,7 +277,9 @@ export const ModuleConfig = {
   fromPartial(object: DeepPartial<ModuleConfig>): ModuleConfig {
     const message = createBaseModuleConfig();
     message.name = object.name ?? "";
-    message.config = object.config !== undefined && object.config !== null ? Any.fromPartial(object.config) : undefined;
+    if (object.config !== undefined && object.config !== null) {
+      message.config = Any.fromPartial(object.config);
+    }
     return message;
   },
   fromSDK(object: ModuleConfigSDKType): ModuleConfig {

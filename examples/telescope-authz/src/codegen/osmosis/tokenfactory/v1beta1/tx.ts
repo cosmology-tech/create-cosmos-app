@@ -3,6 +3,7 @@ import { Metadata, MetadataAmino, MetadataSDKType } from "../../../cosmos/bank/v
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "osmosis.tokenfactory.v1beta1";
 /**
  * MsgCreateDenom defines the message structure for the CreateDenom gRPC service
  * method. It allows an account to create a new denom. It requires a sender
@@ -93,7 +94,7 @@ export interface MsgCreateDenomResponseSDKType {
  */
 export interface MsgMint {
   sender: string;
-  amount: Coin | undefined;
+  amount: Coin;
 }
 export interface MsgMintProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.MsgMint";
@@ -105,7 +106,7 @@ export interface MsgMintProtoMsg {
  */
 export interface MsgMintAmino {
   sender?: string;
-  amount?: CoinAmino | undefined;
+  amount?: CoinAmino;
 }
 export interface MsgMintAminoMsg {
   type: "osmosis/tokenfactory/mint";
@@ -117,7 +118,7 @@ export interface MsgMintAminoMsg {
  */
 export interface MsgMintSDKType {
   sender: string;
-  amount: CoinSDKType | undefined;
+  amount: CoinSDKType;
 }
 export interface MsgMintResponse {}
 export interface MsgMintResponseProtoMsg {
@@ -136,7 +137,7 @@ export interface MsgMintResponseSDKType {}
  */
 export interface MsgBurn {
   sender: string;
-  amount: Coin | undefined;
+  amount: Coin;
 }
 export interface MsgBurnProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.MsgBurn";
@@ -148,7 +149,7 @@ export interface MsgBurnProtoMsg {
  */
 export interface MsgBurnAmino {
   sender?: string;
-  amount?: CoinAmino | undefined;
+  amount?: CoinAmino;
 }
 export interface MsgBurnAminoMsg {
   type: "osmosis/tokenfactory/burn";
@@ -160,7 +161,7 @@ export interface MsgBurnAminoMsg {
  */
 export interface MsgBurnSDKType {
   sender: string;
-  amount: CoinSDKType | undefined;
+  amount: CoinSDKType;
 }
 export interface MsgBurnResponse {}
 export interface MsgBurnResponseProtoMsg {
@@ -237,7 +238,7 @@ export interface MsgChangeAdminResponseSDKType {}
  */
 export interface MsgSetDenomMetadata {
   sender: string;
-  metadata: Metadata | undefined;
+  metadata: Metadata;
 }
 export interface MsgSetDenomMetadataProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.MsgSetDenomMetadata";
@@ -249,7 +250,7 @@ export interface MsgSetDenomMetadataProtoMsg {
  */
 export interface MsgSetDenomMetadataAmino {
   sender?: string;
-  metadata?: MetadataAmino | undefined;
+  metadata?: MetadataAmino;
 }
 export interface MsgSetDenomMetadataAminoMsg {
   type: "osmosis/tokenfactory/set-denom-metadata";
@@ -261,7 +262,7 @@ export interface MsgSetDenomMetadataAminoMsg {
  */
 export interface MsgSetDenomMetadataSDKType {
   sender: string;
-  metadata: MetadataSDKType | undefined;
+  metadata: MetadataSDKType;
 }
 /**
  * MsgSetDenomMetadataResponse defines the response structure for an executed
@@ -305,10 +306,10 @@ export const MsgCreateDenom = {
     return o && (o.$typeUrl === MsgCreateDenom.typeUrl || typeof o.sender === "string" && typeof o.subdenom === "string");
   },
   encode(message: MsgCreateDenom, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.sender !== "") {
+    if (message.sender !== undefined) {
       writer.uint32(10).string(message.sender);
     }
-    if (message.subdenom !== "") {
+    if (message.subdenom !== undefined) {
       writer.uint32(18).string(message.subdenom);
     }
     return writer;
@@ -334,10 +335,10 @@ export const MsgCreateDenom = {
     return message;
   },
   fromJSON(object: any): MsgCreateDenom {
-    return {
-      sender: isSet(object.sender) ? String(object.sender) : "",
-      subdenom: isSet(object.subdenom) ? String(object.subdenom) : ""
-    };
+    const obj = createBaseMsgCreateDenom();
+    if (isSet(object.sender)) obj.sender = String(object.sender);
+    if (isSet(object.subdenom)) obj.subdenom = String(object.subdenom);
+    return obj;
   },
   toJSON(message: MsgCreateDenom): unknown {
     const obj: any = {};
@@ -421,7 +422,7 @@ export const MsgCreateDenomResponse = {
     return o && (o.$typeUrl === MsgCreateDenomResponse.typeUrl || typeof o.new_token_denom === "string");
   },
   encode(message: MsgCreateDenomResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.newTokenDenom !== "") {
+    if (message.newTokenDenom !== undefined) {
       writer.uint32(10).string(message.newTokenDenom);
     }
     return writer;
@@ -444,9 +445,9 @@ export const MsgCreateDenomResponse = {
     return message;
   },
   fromJSON(object: any): MsgCreateDenomResponse {
-    return {
-      newTokenDenom: isSet(object.newTokenDenom) ? String(object.newTokenDenom) : ""
-    };
+    const obj = createBaseMsgCreateDenomResponse();
+    if (isSet(object.newTokenDenom)) obj.newTokenDenom = String(object.newTokenDenom);
+    return obj;
   },
   toJSON(message: MsgCreateDenomResponse): unknown {
     const obj: any = {};
@@ -523,7 +524,7 @@ export const MsgMint = {
     return o && (o.$typeUrl === MsgMint.typeUrl || typeof o.sender === "string" && Coin.isAmino(o.amount));
   },
   encode(message: MsgMint, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.sender !== "") {
+    if (message.sender !== undefined) {
       writer.uint32(10).string(message.sender);
     }
     if (message.amount !== undefined) {
@@ -552,10 +553,10 @@ export const MsgMint = {
     return message;
   },
   fromJSON(object: any): MsgMint {
-    return {
-      sender: isSet(object.sender) ? String(object.sender) : "",
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined
-    };
+    const obj = createBaseMsgMint();
+    if (isSet(object.sender)) obj.sender = String(object.sender);
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
+    return obj;
   },
   toJSON(message: MsgMint): unknown {
     const obj: any = {};
@@ -566,7 +567,9 @@ export const MsgMint = {
   fromPartial(object: DeepPartial<MsgMint>): MsgMint {
     const message = createBaseMsgMint();
     message.sender = object.sender ?? "";
-    message.amount = object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
+    }
     return message;
   },
   fromSDK(object: MsgMintSDKType): MsgMint {
@@ -654,7 +657,8 @@ export const MsgMintResponse = {
     return message;
   },
   fromJSON(_: any): MsgMintResponse {
-    return {};
+    const obj = createBaseMsgMintResponse();
+    return obj;
   },
   toJSON(_: MsgMintResponse): unknown {
     const obj: any = {};
@@ -722,7 +726,7 @@ export const MsgBurn = {
     return o && (o.$typeUrl === MsgBurn.typeUrl || typeof o.sender === "string" && Coin.isAmino(o.amount));
   },
   encode(message: MsgBurn, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.sender !== "") {
+    if (message.sender !== undefined) {
       writer.uint32(10).string(message.sender);
     }
     if (message.amount !== undefined) {
@@ -751,10 +755,10 @@ export const MsgBurn = {
     return message;
   },
   fromJSON(object: any): MsgBurn {
-    return {
-      sender: isSet(object.sender) ? String(object.sender) : "",
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined
-    };
+    const obj = createBaseMsgBurn();
+    if (isSet(object.sender)) obj.sender = String(object.sender);
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
+    return obj;
   },
   toJSON(message: MsgBurn): unknown {
     const obj: any = {};
@@ -765,7 +769,9 @@ export const MsgBurn = {
   fromPartial(object: DeepPartial<MsgBurn>): MsgBurn {
     const message = createBaseMsgBurn();
     message.sender = object.sender ?? "";
-    message.amount = object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
+    }
     return message;
   },
   fromSDK(object: MsgBurnSDKType): MsgBurn {
@@ -853,7 +859,8 @@ export const MsgBurnResponse = {
     return message;
   },
   fromJSON(_: any): MsgBurnResponse {
-    return {};
+    const obj = createBaseMsgBurnResponse();
+    return obj;
   },
   toJSON(_: MsgBurnResponse): unknown {
     const obj: any = {};
@@ -922,13 +929,13 @@ export const MsgChangeAdmin = {
     return o && (o.$typeUrl === MsgChangeAdmin.typeUrl || typeof o.sender === "string" && typeof o.denom === "string" && typeof o.new_admin === "string");
   },
   encode(message: MsgChangeAdmin, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.sender !== "") {
+    if (message.sender !== undefined) {
       writer.uint32(10).string(message.sender);
     }
-    if (message.denom !== "") {
+    if (message.denom !== undefined) {
       writer.uint32(18).string(message.denom);
     }
-    if (message.newAdmin !== "") {
+    if (message.newAdmin !== undefined) {
       writer.uint32(26).string(message.newAdmin);
     }
     return writer;
@@ -957,11 +964,11 @@ export const MsgChangeAdmin = {
     return message;
   },
   fromJSON(object: any): MsgChangeAdmin {
-    return {
-      sender: isSet(object.sender) ? String(object.sender) : "",
-      denom: isSet(object.denom) ? String(object.denom) : "",
-      newAdmin: isSet(object.newAdmin) ? String(object.newAdmin) : ""
-    };
+    const obj = createBaseMsgChangeAdmin();
+    if (isSet(object.sender)) obj.sender = String(object.sender);
+    if (isSet(object.denom)) obj.denom = String(object.denom);
+    if (isSet(object.newAdmin)) obj.newAdmin = String(object.newAdmin);
+    return obj;
   },
   toJSON(message: MsgChangeAdmin): unknown {
     const obj: any = {};
@@ -1068,7 +1075,8 @@ export const MsgChangeAdminResponse = {
     return message;
   },
   fromJSON(_: any): MsgChangeAdminResponse {
-    return {};
+    const obj = createBaseMsgChangeAdminResponse();
+    return obj;
   },
   toJSON(_: MsgChangeAdminResponse): unknown {
     const obj: any = {};
@@ -1136,7 +1144,7 @@ export const MsgSetDenomMetadata = {
     return o && (o.$typeUrl === MsgSetDenomMetadata.typeUrl || typeof o.sender === "string" && Metadata.isAmino(o.metadata));
   },
   encode(message: MsgSetDenomMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.sender !== "") {
+    if (message.sender !== undefined) {
       writer.uint32(10).string(message.sender);
     }
     if (message.metadata !== undefined) {
@@ -1165,10 +1173,10 @@ export const MsgSetDenomMetadata = {
     return message;
   },
   fromJSON(object: any): MsgSetDenomMetadata {
-    return {
-      sender: isSet(object.sender) ? String(object.sender) : "",
-      metadata: isSet(object.metadata) ? Metadata.fromJSON(object.metadata) : undefined
-    };
+    const obj = createBaseMsgSetDenomMetadata();
+    if (isSet(object.sender)) obj.sender = String(object.sender);
+    if (isSet(object.metadata)) obj.metadata = Metadata.fromJSON(object.metadata);
+    return obj;
   },
   toJSON(message: MsgSetDenomMetadata): unknown {
     const obj: any = {};
@@ -1179,7 +1187,9 @@ export const MsgSetDenomMetadata = {
   fromPartial(object: DeepPartial<MsgSetDenomMetadata>): MsgSetDenomMetadata {
     const message = createBaseMsgSetDenomMetadata();
     message.sender = object.sender ?? "";
-    message.metadata = object.metadata !== undefined && object.metadata !== null ? Metadata.fromPartial(object.metadata) : undefined;
+    if (object.metadata !== undefined && object.metadata !== null) {
+      message.metadata = Metadata.fromPartial(object.metadata);
+    }
     return message;
   },
   fromSDK(object: MsgSetDenomMetadataSDKType): MsgSetDenomMetadata {
@@ -1267,7 +1277,8 @@ export const MsgSetDenomMetadataResponse = {
     return message;
   },
   fromJSON(_: any): MsgSetDenomMetadataResponse {
-    return {};
+    const obj = createBaseMsgSetDenomMetadataResponse();
+    return obj;
   },
   toJSON(_: MsgSetDenomMetadataResponse): unknown {
     const obj: any = {};

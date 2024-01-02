@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "osmosis.tokenfactory.v1beta1";
 /**
  * DenomAuthorityMetadata specifies metadata for addresses that have specific
  * capabilities over a token factory denom. Right now there is only one Admin
@@ -53,7 +54,7 @@ export const DenomAuthorityMetadata = {
     return o && (o.$typeUrl === DenomAuthorityMetadata.typeUrl || typeof o.admin === "string");
   },
   encode(message: DenomAuthorityMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.admin !== "") {
+    if (message.admin !== undefined) {
       writer.uint32(10).string(message.admin);
     }
     return writer;
@@ -76,9 +77,9 @@ export const DenomAuthorityMetadata = {
     return message;
   },
   fromJSON(object: any): DenomAuthorityMetadata {
-    return {
-      admin: isSet(object.admin) ? String(object.admin) : ""
-    };
+    const obj = createBaseDenomAuthorityMetadata();
+    if (isSet(object.admin)) obj.admin = String(object.admin);
+    return obj;
   },
   toJSON(message: DenomAuthorityMetadata): unknown {
     const obj: any = {};

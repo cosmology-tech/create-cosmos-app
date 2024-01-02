@@ -2,6 +2,7 @@ import { Height, HeightAmino, HeightSDKType } from "../../../core/client/v1/clie
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { GlobalDecoderRegistry } from "../../../../registry";
+export const protobufPackage = "ibc.lightclients.localhost.v1";
 /**
  * ClientState defines a loopback (localhost) client. It requires (read-only)
  * access to keys outside the client prefix.
@@ -10,7 +11,7 @@ export interface ClientState {
   /** self chain ID */
   chainId: string;
   /** self latest block height */
-  height: Height | undefined;
+  height: Height;
 }
 export interface ClientStateProtoMsg {
   typeUrl: "/ibc.lightclients.localhost.v1.ClientState";
@@ -24,7 +25,7 @@ export interface ClientStateAmino {
   /** self chain ID */
   chain_id?: string;
   /** self latest block height */
-  height?: HeightAmino | undefined;
+  height?: HeightAmino;
 }
 export interface ClientStateAminoMsg {
   type: "cosmos-sdk/ClientState";
@@ -36,7 +37,7 @@ export interface ClientStateAminoMsg {
  */
 export interface ClientStateSDKType {
   chain_id: string;
-  height: HeightSDKType | undefined;
+  height: HeightSDKType;
 }
 function createBaseClientState(): ClientState {
   return {
@@ -57,7 +58,7 @@ export const ClientState = {
     return o && (o.$typeUrl === ClientState.typeUrl || typeof o.chain_id === "string" && Height.isAmino(o.height));
   },
   encode(message: ClientState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.chainId !== "") {
+    if (message.chainId !== undefined) {
       writer.uint32(10).string(message.chainId);
     }
     if (message.height !== undefined) {
@@ -86,10 +87,10 @@ export const ClientState = {
     return message;
   },
   fromJSON(object: any): ClientState {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-      height: isSet(object.height) ? Height.fromJSON(object.height) : undefined
-    };
+    const obj = createBaseClientState();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    if (isSet(object.height)) obj.height = Height.fromJSON(object.height);
+    return obj;
   },
   toJSON(message: ClientState): unknown {
     const obj: any = {};
@@ -100,7 +101,9 @@ export const ClientState = {
   fromPartial(object: DeepPartial<ClientState>): ClientState {
     const message = createBaseClientState();
     message.chainId = object.chainId ?? "";
-    message.height = object.height !== undefined && object.height !== null ? Height.fromPartial(object.height) : undefined;
+    if (object.height !== undefined && object.height !== null) {
+      message.height = Height.fromPartial(object.height);
+    }
     return message;
   },
   fromSDK(object: ClientStateSDKType): ClientState {

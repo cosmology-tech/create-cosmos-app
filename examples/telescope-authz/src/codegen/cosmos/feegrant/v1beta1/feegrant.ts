@@ -1,10 +1,11 @@
 import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
-import { Timestamp } from "../../../google/protobuf/timestamp";
+import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../google/protobuf/timestamp";
 import { Duration, DurationAmino, DurationSDKType } from "../../../google/protobuf/duration";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.feegrant.v1beta1";
 /**
  * BasicAllowance implements Allowance with a one-time grant of tokens
  * that optionally expires. The grantee can use up to SpendLimit to cover fees.
@@ -18,7 +19,7 @@ export interface BasicAllowance {
    */
   spendLimit: Coin[];
   /** expiration specifies an optional time when this allowance expires */
-  expiration?: Date | undefined;
+  expiration?: Date;
 }
 export interface BasicAllowanceProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.BasicAllowance";
@@ -36,7 +37,7 @@ export interface BasicAllowanceAmino {
    */
   spend_limit?: CoinAmino[];
   /** expiration specifies an optional time when this allowance expires */
-  expiration?: string | undefined;
+  expiration?: string;
 }
 export interface BasicAllowanceAminoMsg {
   type: "cosmos-sdk/BasicAllowance";
@@ -49,7 +50,7 @@ export interface BasicAllowanceAminoMsg {
 export interface BasicAllowanceSDKType {
   $typeUrl?: "/cosmos.feegrant.v1beta1.BasicAllowance";
   spend_limit: CoinSDKType[];
-  expiration?: Date | undefined;
+  expiration?: Date;
 }
 /**
  * PeriodicAllowance extends Allowance to allow for both a maximum cap,
@@ -58,12 +59,12 @@ export interface BasicAllowanceSDKType {
 export interface PeriodicAllowance {
   $typeUrl?: "/cosmos.feegrant.v1beta1.PeriodicAllowance";
   /** basic specifies a struct of `BasicAllowance` */
-  basic: BasicAllowance | undefined;
+  basic: BasicAllowance;
   /**
    * period specifies the time duration in which period_spend_limit coins can
    * be spent before that allowance is reset
    */
-  period: Duration | undefined;
+  period: Duration;
   /**
    * period_spend_limit specifies the maximum number of coins that can be spent
    * in the period
@@ -76,7 +77,7 @@ export interface PeriodicAllowance {
    * it is calculated from the start time of the first transaction after the
    * last period ended
    */
-  periodReset: Date | undefined;
+  periodReset: Date;
 }
 export interface PeriodicAllowanceProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.PeriodicAllowance";
@@ -88,12 +89,12 @@ export interface PeriodicAllowanceProtoMsg {
  */
 export interface PeriodicAllowanceAmino {
   /** basic specifies a struct of `BasicAllowance` */
-  basic?: BasicAllowanceAmino | undefined;
+  basic?: BasicAllowanceAmino;
   /**
    * period specifies the time duration in which period_spend_limit coins can
    * be spent before that allowance is reset
    */
-  period?: DurationAmino | undefined;
+  period?: DurationAmino;
   /**
    * period_spend_limit specifies the maximum number of coins that can be spent
    * in the period
@@ -106,7 +107,7 @@ export interface PeriodicAllowanceAmino {
    * it is calculated from the start time of the first transaction after the
    * last period ended
    */
-  period_reset?: string | undefined;
+  period_reset?: string;
 }
 export interface PeriodicAllowanceAminoMsg {
   type: "cosmos-sdk/PeriodicAllowance";
@@ -118,11 +119,11 @@ export interface PeriodicAllowanceAminoMsg {
  */
 export interface PeriodicAllowanceSDKType {
   $typeUrl?: "/cosmos.feegrant.v1beta1.PeriodicAllowance";
-  basic: BasicAllowanceSDKType | undefined;
-  period: DurationSDKType | undefined;
+  basic: BasicAllowanceSDKType;
+  period: DurationSDKType;
   period_spend_limit: CoinSDKType[];
   period_can_spend: CoinSDKType[];
-  period_reset: Date | undefined;
+  period_reset: Date;
 }
 /** AllowedMsgAllowance creates allowance only for specified message types. */
 export interface AllowedMsgAllowance {
@@ -142,7 +143,7 @@ export type AllowedMsgAllowanceEncoded = Omit<AllowedMsgAllowance, "allowance"> 
 /** AllowedMsgAllowance creates allowance only for specified message types. */
 export interface AllowedMsgAllowanceAmino {
   /** allowance can be any of basic and periodic fee allowance. */
-  allowance?: AnyAmino | undefined;
+  allowance?: AnyAmino;
   /** allowed_messages are the messages for which the grantee has the access. */
   allowed_messages?: string[];
 }
@@ -179,7 +180,7 @@ export interface GrantAmino {
   /** grantee is the address of the user being granted an allowance of another user's funds. */
   grantee?: string;
   /** allowance can be any of basic, periodic, allowed fee allowance. */
-  allowance?: AnyAmino | undefined;
+  allowance?: AnyAmino;
 }
 export interface GrantAminoMsg {
   type: "cosmos-sdk/Grant";
@@ -240,10 +241,10 @@ export const BasicAllowance = {
     return message;
   },
   fromJSON(object: any): BasicAllowance {
-    return {
-      spendLimit: Array.isArray(object?.spendLimit) ? object.spendLimit.map((e: any) => Coin.fromJSON(e)) : [],
-      expiration: isSet(object.expiration) ? new Date(object.expiration) : undefined
-    };
+    const obj = createBaseBasicAllowance();
+    if (Array.isArray(object?.spendLimit)) obj.spendLimit = object.spendLimit.map((e: any) => Coin.fromJSON(e));
+    if (isSet(object.expiration)) obj.expiration = new Date(object.expiration);
+    return obj;
   },
   toJSON(message: BasicAllowance): unknown {
     const obj: any = {};
@@ -389,13 +390,13 @@ export const PeriodicAllowance = {
     return message;
   },
   fromJSON(object: any): PeriodicAllowance {
-    return {
-      basic: isSet(object.basic) ? BasicAllowance.fromJSON(object.basic) : undefined,
-      period: isSet(object.period) ? Duration.fromJSON(object.period) : undefined,
-      periodSpendLimit: Array.isArray(object?.periodSpendLimit) ? object.periodSpendLimit.map((e: any) => Coin.fromJSON(e)) : [],
-      periodCanSpend: Array.isArray(object?.periodCanSpend) ? object.periodCanSpend.map((e: any) => Coin.fromJSON(e)) : [],
-      periodReset: isSet(object.periodReset) ? new Date(object.periodReset) : undefined
-    };
+    const obj = createBasePeriodicAllowance();
+    if (isSet(object.basic)) obj.basic = BasicAllowance.fromJSON(object.basic);
+    if (isSet(object.period)) obj.period = Duration.fromJSON(object.period);
+    if (Array.isArray(object?.periodSpendLimit)) obj.periodSpendLimit = object.periodSpendLimit.map((e: any) => Coin.fromJSON(e));
+    if (Array.isArray(object?.periodCanSpend)) obj.periodCanSpend = object.periodCanSpend.map((e: any) => Coin.fromJSON(e));
+    if (isSet(object.periodReset)) obj.periodReset = new Date(object.periodReset);
+    return obj;
   },
   toJSON(message: PeriodicAllowance): unknown {
     const obj: any = {};
@@ -416,8 +417,12 @@ export const PeriodicAllowance = {
   },
   fromPartial(object: DeepPartial<PeriodicAllowance>): PeriodicAllowance {
     const message = createBasePeriodicAllowance();
-    message.basic = object.basic !== undefined && object.basic !== null ? BasicAllowance.fromPartial(object.basic) : undefined;
-    message.period = object.period !== undefined && object.period !== null ? Duration.fromPartial(object.period) : undefined;
+    if (object.basic !== undefined && object.basic !== null) {
+      message.basic = BasicAllowance.fromPartial(object.basic);
+    }
+    if (object.period !== undefined && object.period !== null) {
+      message.period = Duration.fromPartial(object.period);
+    }
     message.periodSpendLimit = object.periodSpendLimit?.map(e => Coin.fromPartial(e)) || [];
     message.periodCanSpend = object.periodCanSpend?.map(e => Coin.fromPartial(e)) || [];
     message.periodReset = object.periodReset ?? undefined;
@@ -554,10 +559,10 @@ export const AllowedMsgAllowance = {
     return message;
   },
   fromJSON(object: any): AllowedMsgAllowance {
-    return {
-      allowance: isSet(object.allowance) ? GlobalDecoderRegistry.fromJSON(object.allowance) : undefined,
-      allowedMessages: Array.isArray(object?.allowedMessages) ? object.allowedMessages.map((e: any) => String(e)) : []
-    };
+    const obj = createBaseAllowedMsgAllowance();
+    if (isSet(object.allowance)) obj.allowance = GlobalDecoderRegistry.fromJSON(object.allowance);
+    if (Array.isArray(object?.allowedMessages)) obj.allowedMessages = object.allowedMessages.map((e: any) => String(e));
+    return obj;
   },
   toJSON(message: AllowedMsgAllowance): unknown {
     const obj: any = {};
@@ -571,7 +576,9 @@ export const AllowedMsgAllowance = {
   },
   fromPartial(object: DeepPartial<AllowedMsgAllowance>): AllowedMsgAllowance {
     const message = createBaseAllowedMsgAllowance();
-    message.allowance = object.allowance !== undefined && object.allowance !== null ? GlobalDecoderRegistry.fromPartial(object.allowance) : undefined;
+    if (object.allowance !== undefined && object.allowance !== null) {
+      message.allowance = GlobalDecoderRegistry.fromPartial(object.allowance);
+    }
     message.allowedMessages = object.allowedMessages?.map(e => e) || [];
     return message;
   },
@@ -653,10 +660,10 @@ export const Grant = {
     return o && (o.$typeUrl === Grant.typeUrl || typeof o.granter === "string" && typeof o.grantee === "string");
   },
   encode(message: Grant, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.granter !== "") {
+    if (message.granter !== undefined) {
       writer.uint32(10).string(message.granter);
     }
-    if (message.grantee !== "") {
+    if (message.grantee !== undefined) {
       writer.uint32(18).string(message.grantee);
     }
     if (message.allowance !== undefined) {
@@ -688,11 +695,11 @@ export const Grant = {
     return message;
   },
   fromJSON(object: any): Grant {
-    return {
-      granter: isSet(object.granter) ? String(object.granter) : "",
-      grantee: isSet(object.grantee) ? String(object.grantee) : "",
-      allowance: isSet(object.allowance) ? GlobalDecoderRegistry.fromJSON(object.allowance) : undefined
-    };
+    const obj = createBaseGrant();
+    if (isSet(object.granter)) obj.granter = String(object.granter);
+    if (isSet(object.grantee)) obj.grantee = String(object.grantee);
+    if (isSet(object.allowance)) obj.allowance = GlobalDecoderRegistry.fromJSON(object.allowance);
+    return obj;
   },
   toJSON(message: Grant): unknown {
     const obj: any = {};
@@ -705,7 +712,9 @@ export const Grant = {
     const message = createBaseGrant();
     message.granter = object.granter ?? "";
     message.grantee = object.grantee ?? "";
-    message.allowance = object.allowance !== undefined && object.allowance !== null ? GlobalDecoderRegistry.fromPartial(object.allowance) : undefined;
+    if (object.allowance !== undefined && object.allowance !== null) {
+      message.allowance = GlobalDecoderRegistry.fromPartial(object.allowance);
+    }
     return message;
   },
   fromSDK(object: GrantSDKType): Grant {

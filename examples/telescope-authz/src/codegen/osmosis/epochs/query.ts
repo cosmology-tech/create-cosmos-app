@@ -2,6 +2,7 @@ import { EpochInfo, EpochInfoAmino, EpochInfoSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { DeepPartial, isSet } from "../../helpers";
 import { GlobalDecoderRegistry } from "../../registry";
+export const protobufPackage = "osmosis.epochs.v1beta1";
 export interface QueryEpochsInfoRequest {}
 export interface QueryEpochsInfoRequestProtoMsg {
   typeUrl: "/osmosis.epochs.v1beta1.QueryEpochsInfoRequest";
@@ -97,7 +98,8 @@ export const QueryEpochsInfoRequest = {
     return message;
   },
   fromJSON(_: any): QueryEpochsInfoRequest {
-    return {};
+    const obj = createBaseQueryEpochsInfoRequest();
+    return obj;
   },
   toJSON(_: QueryEpochsInfoRequest): unknown {
     const obj: any = {};
@@ -187,9 +189,9 @@ export const QueryEpochsInfoResponse = {
     return message;
   },
   fromJSON(object: any): QueryEpochsInfoResponse {
-    return {
-      epochs: Array.isArray(object?.epochs) ? object.epochs.map((e: any) => EpochInfo.fromJSON(e)) : []
-    };
+    const obj = createBaseQueryEpochsInfoResponse();
+    if (Array.isArray(object?.epochs)) obj.epochs = object.epochs.map((e: any) => EpochInfo.fromJSON(e));
+    return obj;
   },
   toJSON(message: QueryEpochsInfoResponse): unknown {
     const obj: any = {};
@@ -275,7 +277,7 @@ export const QueryCurrentEpochRequest = {
     return o && (o.$typeUrl === QueryCurrentEpochRequest.typeUrl || typeof o.identifier === "string");
   },
   encode(message: QueryCurrentEpochRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.identifier !== "") {
+    if (message.identifier !== undefined) {
       writer.uint32(10).string(message.identifier);
     }
     return writer;
@@ -298,9 +300,9 @@ export const QueryCurrentEpochRequest = {
     return message;
   },
   fromJSON(object: any): QueryCurrentEpochRequest {
-    return {
-      identifier: isSet(object.identifier) ? String(object.identifier) : ""
-    };
+    const obj = createBaseQueryCurrentEpochRequest();
+    if (isSet(object.identifier)) obj.identifier = String(object.identifier);
+    return obj;
   },
   toJSON(message: QueryCurrentEpochRequest): unknown {
     const obj: any = {};
@@ -376,7 +378,7 @@ export const QueryCurrentEpochResponse = {
     return o && (o.$typeUrl === QueryCurrentEpochResponse.typeUrl || typeof o.current_epoch === "bigint");
   },
   encode(message: QueryCurrentEpochResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.currentEpoch !== BigInt(0)) {
+    if (message.currentEpoch !== undefined) {
       writer.uint32(8).int64(message.currentEpoch);
     }
     return writer;
@@ -399,9 +401,9 @@ export const QueryCurrentEpochResponse = {
     return message;
   },
   fromJSON(object: any): QueryCurrentEpochResponse {
-    return {
-      currentEpoch: isSet(object.currentEpoch) ? BigInt(object.currentEpoch.toString()) : BigInt(0)
-    };
+    const obj = createBaseQueryCurrentEpochResponse();
+    if (isSet(object.currentEpoch)) obj.currentEpoch = BigInt(object.currentEpoch.toString());
+    return obj;
   },
   toJSON(message: QueryCurrentEpochResponse): unknown {
     const obj: any = {};
@@ -410,7 +412,9 @@ export const QueryCurrentEpochResponse = {
   },
   fromPartial(object: DeepPartial<QueryCurrentEpochResponse>): QueryCurrentEpochResponse {
     const message = createBaseQueryCurrentEpochResponse();
-    message.currentEpoch = object.currentEpoch !== undefined && object.currentEpoch !== null ? BigInt(object.currentEpoch.toString()) : BigInt(0);
+    if (object.currentEpoch !== undefined && object.currentEpoch !== null) {
+      message.currentEpoch = BigInt(object.currentEpoch.toString());
+    }
     return message;
   },
   fromSDK(object: QueryCurrentEpochResponseSDKType): QueryCurrentEpochResponse {

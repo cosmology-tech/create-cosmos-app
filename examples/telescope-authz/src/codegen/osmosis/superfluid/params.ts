@@ -2,6 +2,7 @@ import { BinaryReader, BinaryWriter } from "../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../helpers";
 import { GlobalDecoderRegistry } from "../../registry";
+export const protobufPackage = "osmosis.superfluid";
 /** Params holds parameters for the superfluid module */
 export interface Params {
   /**
@@ -52,7 +53,7 @@ export const Params = {
     return o && (o.$typeUrl === Params.typeUrl || typeof o.minimum_risk_factor === "string");
   },
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.minimumRiskFactor !== "") {
+    if (message.minimumRiskFactor !== undefined) {
       writer.uint32(10).string(Decimal.fromUserInput(message.minimumRiskFactor, 18).atomics);
     }
     return writer;
@@ -75,9 +76,9 @@ export const Params = {
     return message;
   },
   fromJSON(object: any): Params {
-    return {
-      minimumRiskFactor: isSet(object.minimumRiskFactor) ? String(object.minimumRiskFactor) : ""
-    };
+    const obj = createBaseParams();
+    if (isSet(object.minimumRiskFactor)) obj.minimumRiskFactor = String(object.minimumRiskFactor);
+    return obj;
   },
   toJSON(message: Params): unknown {
     const obj: any = {};

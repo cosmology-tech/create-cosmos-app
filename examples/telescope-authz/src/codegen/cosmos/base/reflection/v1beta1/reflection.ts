@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { DeepPartial, isSet } from "../../../../helpers";
 import { GlobalDecoderRegistry } from "../../../../registry";
+export const protobufPackage = "cosmos.base.reflection.v1beta1";
 /** ListAllInterfacesRequest is the request type of the ListAllInterfaces RPC. */
 export interface ListAllInterfacesRequest {}
 export interface ListAllInterfacesRequestProtoMsg {
@@ -130,7 +131,8 @@ export const ListAllInterfacesRequest = {
     return message;
   },
   fromJSON(_: any): ListAllInterfacesRequest {
-    return {};
+    const obj = createBaseListAllInterfacesRequest();
+    return obj;
   },
   toJSON(_: ListAllInterfacesRequest): unknown {
     const obj: any = {};
@@ -220,9 +222,9 @@ export const ListAllInterfacesResponse = {
     return message;
   },
   fromJSON(object: any): ListAllInterfacesResponse {
-    return {
-      interfaceNames: Array.isArray(object?.interfaceNames) ? object.interfaceNames.map((e: any) => String(e)) : []
-    };
+    const obj = createBaseListAllInterfacesResponse();
+    if (Array.isArray(object?.interfaceNames)) obj.interfaceNames = object.interfaceNames.map((e: any) => String(e));
+    return obj;
   },
   toJSON(message: ListAllInterfacesResponse): unknown {
     const obj: any = {};
@@ -308,7 +310,7 @@ export const ListImplementationsRequest = {
     return o && (o.$typeUrl === ListImplementationsRequest.typeUrl || typeof o.interface_name === "string");
   },
   encode(message: ListImplementationsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.interfaceName !== "") {
+    if (message.interfaceName !== undefined) {
       writer.uint32(10).string(message.interfaceName);
     }
     return writer;
@@ -331,9 +333,9 @@ export const ListImplementationsRequest = {
     return message;
   },
   fromJSON(object: any): ListImplementationsRequest {
-    return {
-      interfaceName: isSet(object.interfaceName) ? String(object.interfaceName) : ""
-    };
+    const obj = createBaseListImplementationsRequest();
+    if (isSet(object.interfaceName)) obj.interfaceName = String(object.interfaceName);
+    return obj;
   },
   toJSON(message: ListImplementationsRequest): unknown {
     const obj: any = {};
@@ -432,9 +434,9 @@ export const ListImplementationsResponse = {
     return message;
   },
   fromJSON(object: any): ListImplementationsResponse {
-    return {
-      implementationMessageNames: Array.isArray(object?.implementationMessageNames) ? object.implementationMessageNames.map((e: any) => String(e)) : []
-    };
+    const obj = createBaseListImplementationsResponse();
+    if (Array.isArray(object?.implementationMessageNames)) obj.implementationMessageNames = object.implementationMessageNames.map((e: any) => String(e));
+    return obj;
   },
   toJSON(message: ListImplementationsResponse): unknown {
     const obj: any = {};

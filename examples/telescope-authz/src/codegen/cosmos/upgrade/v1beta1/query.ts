@@ -2,6 +2,7 @@ import { Plan, PlanAmino, PlanSDKType, ModuleVersion, ModuleVersionAmino, Module
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { DeepPartial, isSet, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.upgrade.v1beta1";
 /**
  * QueryCurrentPlanRequest is the request type for the Query/CurrentPlan RPC
  * method.
@@ -31,7 +32,7 @@ export interface QueryCurrentPlanRequestSDKType {}
  */
 export interface QueryCurrentPlanResponse {
   /** plan is the current upgrade plan. */
-  plan?: Plan | undefined;
+  plan?: Plan;
 }
 export interface QueryCurrentPlanResponseProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.QueryCurrentPlanResponse";
@@ -43,7 +44,7 @@ export interface QueryCurrentPlanResponseProtoMsg {
  */
 export interface QueryCurrentPlanResponseAmino {
   /** plan is the current upgrade plan. */
-  plan?: PlanAmino | undefined;
+  plan?: PlanAmino;
 }
 export interface QueryCurrentPlanResponseAminoMsg {
   type: "cosmos-sdk/QueryCurrentPlanResponse";
@@ -54,7 +55,7 @@ export interface QueryCurrentPlanResponseAminoMsg {
  * method.
  */
 export interface QueryCurrentPlanResponseSDKType {
-  plan?: PlanSDKType | undefined;
+  plan?: PlanSDKType;
 }
 /**
  * QueryCurrentPlanRequest is the request type for the Query/AppliedPlan RPC
@@ -365,7 +366,8 @@ export const QueryCurrentPlanRequest = {
     return message;
   },
   fromJSON(_: any): QueryCurrentPlanRequest {
-    return {};
+    const obj = createBaseQueryCurrentPlanRequest();
+    return obj;
   },
   toJSON(_: QueryCurrentPlanRequest): unknown {
     const obj: any = {};
@@ -455,9 +457,9 @@ export const QueryCurrentPlanResponse = {
     return message;
   },
   fromJSON(object: any): QueryCurrentPlanResponse {
-    return {
-      plan: isSet(object.plan) ? Plan.fromJSON(object.plan) : undefined
-    };
+    const obj = createBaseQueryCurrentPlanResponse();
+    if (isSet(object.plan)) obj.plan = Plan.fromJSON(object.plan);
+    return obj;
   },
   toJSON(message: QueryCurrentPlanResponse): unknown {
     const obj: any = {};
@@ -466,7 +468,9 @@ export const QueryCurrentPlanResponse = {
   },
   fromPartial(object: DeepPartial<QueryCurrentPlanResponse>): QueryCurrentPlanResponse {
     const message = createBaseQueryCurrentPlanResponse();
-    message.plan = object.plan !== undefined && object.plan !== null ? Plan.fromPartial(object.plan) : undefined;
+    if (object.plan !== undefined && object.plan !== null) {
+      message.plan = Plan.fromPartial(object.plan);
+    }
     return message;
   },
   fromSDK(object: QueryCurrentPlanResponseSDKType): QueryCurrentPlanResponse {
@@ -533,7 +537,7 @@ export const QueryAppliedPlanRequest = {
     return o && (o.$typeUrl === QueryAppliedPlanRequest.typeUrl || typeof o.name === "string");
   },
   encode(message: QueryAppliedPlanRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.name !== "") {
+    if (message.name !== undefined) {
       writer.uint32(10).string(message.name);
     }
     return writer;
@@ -556,9 +560,9 @@ export const QueryAppliedPlanRequest = {
     return message;
   },
   fromJSON(object: any): QueryAppliedPlanRequest {
-    return {
-      name: isSet(object.name) ? String(object.name) : ""
-    };
+    const obj = createBaseQueryAppliedPlanRequest();
+    if (isSet(object.name)) obj.name = String(object.name);
+    return obj;
   },
   toJSON(message: QueryAppliedPlanRequest): unknown {
     const obj: any = {};
@@ -634,7 +638,7 @@ export const QueryAppliedPlanResponse = {
     return o && (o.$typeUrl === QueryAppliedPlanResponse.typeUrl || typeof o.height === "bigint");
   },
   encode(message: QueryAppliedPlanResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.height !== BigInt(0)) {
+    if (message.height !== undefined) {
       writer.uint32(8).int64(message.height);
     }
     return writer;
@@ -657,9 +661,9 @@ export const QueryAppliedPlanResponse = {
     return message;
   },
   fromJSON(object: any): QueryAppliedPlanResponse {
-    return {
-      height: isSet(object.height) ? BigInt(object.height.toString()) : BigInt(0)
-    };
+    const obj = createBaseQueryAppliedPlanResponse();
+    if (isSet(object.height)) obj.height = BigInt(object.height.toString());
+    return obj;
   },
   toJSON(message: QueryAppliedPlanResponse): unknown {
     const obj: any = {};
@@ -668,7 +672,9 @@ export const QueryAppliedPlanResponse = {
   },
   fromPartial(object: DeepPartial<QueryAppliedPlanResponse>): QueryAppliedPlanResponse {
     const message = createBaseQueryAppliedPlanResponse();
-    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt(0);
+    if (object.height !== undefined && object.height !== null) {
+      message.height = BigInt(object.height.toString());
+    }
     return message;
   },
   fromSDK(object: QueryAppliedPlanResponseSDKType): QueryAppliedPlanResponse {
@@ -735,7 +741,7 @@ export const QueryUpgradedConsensusStateRequest = {
     return o && (o.$typeUrl === QueryUpgradedConsensusStateRequest.typeUrl || typeof o.last_height === "bigint");
   },
   encode(message: QueryUpgradedConsensusStateRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.lastHeight !== BigInt(0)) {
+    if (message.lastHeight !== undefined) {
       writer.uint32(8).int64(message.lastHeight);
     }
     return writer;
@@ -758,9 +764,9 @@ export const QueryUpgradedConsensusStateRequest = {
     return message;
   },
   fromJSON(object: any): QueryUpgradedConsensusStateRequest {
-    return {
-      lastHeight: isSet(object.lastHeight) ? BigInt(object.lastHeight.toString()) : BigInt(0)
-    };
+    const obj = createBaseQueryUpgradedConsensusStateRequest();
+    if (isSet(object.lastHeight)) obj.lastHeight = BigInt(object.lastHeight.toString());
+    return obj;
   },
   toJSON(message: QueryUpgradedConsensusStateRequest): unknown {
     const obj: any = {};
@@ -769,7 +775,9 @@ export const QueryUpgradedConsensusStateRequest = {
   },
   fromPartial(object: DeepPartial<QueryUpgradedConsensusStateRequest>): QueryUpgradedConsensusStateRequest {
     const message = createBaseQueryUpgradedConsensusStateRequest();
-    message.lastHeight = object.lastHeight !== undefined && object.lastHeight !== null ? BigInt(object.lastHeight.toString()) : BigInt(0);
+    if (object.lastHeight !== undefined && object.lastHeight !== null) {
+      message.lastHeight = BigInt(object.lastHeight.toString());
+    }
     return message;
   },
   fromSDK(object: QueryUpgradedConsensusStateRequestSDKType): QueryUpgradedConsensusStateRequest {
@@ -859,9 +867,9 @@ export const QueryUpgradedConsensusStateResponse = {
     return message;
   },
   fromJSON(object: any): QueryUpgradedConsensusStateResponse {
-    return {
-      upgradedConsensusState: isSet(object.upgradedConsensusState) ? bytesFromBase64(object.upgradedConsensusState) : new Uint8Array()
-    };
+    const obj = createBaseQueryUpgradedConsensusStateResponse();
+    if (isSet(object.upgradedConsensusState)) obj.upgradedConsensusState = bytesFromBase64(object.upgradedConsensusState);
+    return obj;
   },
   toJSON(message: QueryUpgradedConsensusStateResponse): unknown {
     const obj: any = {};
@@ -937,7 +945,7 @@ export const QueryModuleVersionsRequest = {
     return o && (o.$typeUrl === QueryModuleVersionsRequest.typeUrl || typeof o.module_name === "string");
   },
   encode(message: QueryModuleVersionsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.moduleName !== "") {
+    if (message.moduleName !== undefined) {
       writer.uint32(10).string(message.moduleName);
     }
     return writer;
@@ -960,9 +968,9 @@ export const QueryModuleVersionsRequest = {
     return message;
   },
   fromJSON(object: any): QueryModuleVersionsRequest {
-    return {
-      moduleName: isSet(object.moduleName) ? String(object.moduleName) : ""
-    };
+    const obj = createBaseQueryModuleVersionsRequest();
+    if (isSet(object.moduleName)) obj.moduleName = String(object.moduleName);
+    return obj;
   },
   toJSON(message: QueryModuleVersionsRequest): unknown {
     const obj: any = {};
@@ -1061,9 +1069,9 @@ export const QueryModuleVersionsResponse = {
     return message;
   },
   fromJSON(object: any): QueryModuleVersionsResponse {
-    return {
-      moduleVersions: Array.isArray(object?.moduleVersions) ? object.moduleVersions.map((e: any) => ModuleVersion.fromJSON(e)) : []
-    };
+    const obj = createBaseQueryModuleVersionsResponse();
+    if (Array.isArray(object?.moduleVersions)) obj.moduleVersions = object.moduleVersions.map((e: any) => ModuleVersion.fromJSON(e));
+    return obj;
   },
   toJSON(message: QueryModuleVersionsResponse): unknown {
     const obj: any = {};
@@ -1164,7 +1172,8 @@ export const QueryAuthorityRequest = {
     return message;
   },
   fromJSON(_: any): QueryAuthorityRequest {
-    return {};
+    const obj = createBaseQueryAuthorityRequest();
+    return obj;
   },
   toJSON(_: QueryAuthorityRequest): unknown {
     const obj: any = {};
@@ -1231,7 +1240,7 @@ export const QueryAuthorityResponse = {
     return o && (o.$typeUrl === QueryAuthorityResponse.typeUrl || typeof o.address === "string");
   },
   encode(message: QueryAuthorityResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.address !== "") {
+    if (message.address !== undefined) {
       writer.uint32(10).string(message.address);
     }
     return writer;
@@ -1254,9 +1263,9 @@ export const QueryAuthorityResponse = {
     return message;
   },
   fromJSON(object: any): QueryAuthorityResponse {
-    return {
-      address: isSet(object.address) ? String(object.address) : ""
-    };
+    const obj = createBaseQueryAuthorityResponse();
+    if (isSet(object.address)) obj.address = String(object.address);
+    return obj;
   },
   toJSON(message: QueryAuthorityResponse): unknown {
     const obj: any = {};

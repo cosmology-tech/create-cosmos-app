@@ -1,5 +1,6 @@
 import { DeliverTxResponse, StdFee, TxRpc } from "../../../types";
-import { MsgVerifyInvariant } from "./tx";
+import { BinaryReader } from "../../../binary";
+import { MsgVerifyInvariant, MsgVerifyInvariantSDKType, MsgVerifyInvariantResponse, MsgVerifyInvariantResponseSDKType } from "./tx";
 /** Msg defines the bank Msg service. */
 export interface Msg {
   /** VerifyInvariant defines a method to verify a particular invariance. */

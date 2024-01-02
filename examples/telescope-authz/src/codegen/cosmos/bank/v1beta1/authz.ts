@@ -2,6 +2,7 @@ import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.bank.v1beta1";
 /**
  * SendAuthorization allows the grantee to spend up to spend_limit coins from
  * the granter's account.
@@ -81,9 +82,9 @@ export const SendAuthorization = {
     return message;
   },
   fromJSON(object: any): SendAuthorization {
-    return {
-      spendLimit: Array.isArray(object?.spendLimit) ? object.spendLimit.map((e: any) => Coin.fromJSON(e)) : []
-    };
+    const obj = createBaseSendAuthorization();
+    if (Array.isArray(object?.spendLimit)) obj.spendLimit = object.spendLimit.map((e: any) => Coin.fromJSON(e));
+    return obj;
   },
   toJSON(message: SendAuthorization): unknown {
     const obj: any = {};
