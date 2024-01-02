@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.slashing.v1beta1";
 /** MsgUnjail defines the Msg/Unjail request type */
 export interface MsgUnjail {
   validatorAddr: string;
@@ -53,7 +54,7 @@ export const MsgUnjail = {
     return o && (o.$typeUrl === MsgUnjail.typeUrl || typeof o.validator_addr === "string");
   },
   encode(message: MsgUnjail, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.validatorAddr !== "") {
+    if (message.validatorAddr !== undefined) {
       writer.uint32(10).string(message.validatorAddr);
     }
     return writer;
@@ -76,9 +77,9 @@ export const MsgUnjail = {
     return message;
   },
   fromJSON(object: any): MsgUnjail {
-    return {
-      validatorAddr: isSet(object.validatorAddr) ? String(object.validatorAddr) : ""
-    };
+    const obj = createBaseMsgUnjail();
+    if (isSet(object.validatorAddr)) obj.validatorAddr = String(object.validatorAddr);
+    return obj;
   },
   toJSON(message: MsgUnjail): unknown {
     const obj: any = {};
@@ -169,7 +170,8 @@ export const MsgUnjailResponse = {
     return message;
   },
   fromJSON(_: any): MsgUnjailResponse {
-    return {};
+    const obj = createBaseMsgUnjailResponse();
+    return obj;
   },
   toJSON(_: MsgUnjailResponse): unknown {
     const obj: any = {};

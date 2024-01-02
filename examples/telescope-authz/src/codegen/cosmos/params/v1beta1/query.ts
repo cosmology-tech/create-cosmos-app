@@ -2,6 +2,7 @@ import { ParamChange, ParamChangeAmino, ParamChangeSDKType } from "./params";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.params.v1beta1";
 /** QueryParamsRequest is request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {
   /** subspace defines the module to query the parameter for. */
@@ -32,7 +33,7 @@ export interface QueryParamsRequestSDKType {
 /** QueryParamsResponse is response type for the Query/Params RPC method. */
 export interface QueryParamsResponse {
   /** param defines the queried parameter. */
-  param: ParamChange | undefined;
+  param: ParamChange;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/cosmos.params.v1beta1.QueryParamsResponse";
@@ -41,7 +42,7 @@ export interface QueryParamsResponseProtoMsg {
 /** QueryParamsResponse is response type for the Query/Params RPC method. */
 export interface QueryParamsResponseAmino {
   /** param defines the queried parameter. */
-  param?: ParamChangeAmino | undefined;
+  param?: ParamChangeAmino;
 }
 export interface QueryParamsResponseAminoMsg {
   type: "cosmos-sdk/QueryParamsResponse";
@@ -49,7 +50,7 @@ export interface QueryParamsResponseAminoMsg {
 }
 /** QueryParamsResponse is response type for the Query/Params RPC method. */
 export interface QueryParamsResponseSDKType {
-  param: ParamChangeSDKType | undefined;
+  param: ParamChangeSDKType;
 }
 /**
  * QuerySubspacesRequest defines a request type for querying for all registered
@@ -154,10 +155,10 @@ export const QueryParamsRequest = {
     return o && (o.$typeUrl === QueryParamsRequest.typeUrl || typeof o.subspace === "string" && typeof o.key === "string");
   },
   encode(message: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.subspace !== "") {
+    if (message.subspace !== undefined) {
       writer.uint32(10).string(message.subspace);
     }
-    if (message.key !== "") {
+    if (message.key !== undefined) {
       writer.uint32(18).string(message.key);
     }
     return writer;
@@ -183,10 +184,10 @@ export const QueryParamsRequest = {
     return message;
   },
   fromJSON(object: any): QueryParamsRequest {
-    return {
-      subspace: isSet(object.subspace) ? String(object.subspace) : "",
-      key: isSet(object.key) ? String(object.key) : ""
-    };
+    const obj = createBaseQueryParamsRequest();
+    if (isSet(object.subspace)) obj.subspace = String(object.subspace);
+    if (isSet(object.key)) obj.key = String(object.key);
+    return obj;
   },
   toJSON(message: QueryParamsRequest): unknown {
     const obj: any = {};
@@ -293,9 +294,9 @@ export const QueryParamsResponse = {
     return message;
   },
   fromJSON(object: any): QueryParamsResponse {
-    return {
-      param: isSet(object.param) ? ParamChange.fromJSON(object.param) : undefined
-    };
+    const obj = createBaseQueryParamsResponse();
+    if (isSet(object.param)) obj.param = ParamChange.fromJSON(object.param);
+    return obj;
   },
   toJSON(message: QueryParamsResponse): unknown {
     const obj: any = {};
@@ -304,7 +305,9 @@ export const QueryParamsResponse = {
   },
   fromPartial(object: DeepPartial<QueryParamsResponse>): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
-    message.param = object.param !== undefined && object.param !== null ? ParamChange.fromPartial(object.param) : undefined;
+    if (object.param !== undefined && object.param !== null) {
+      message.param = ParamChange.fromPartial(object.param);
+    }
     return message;
   },
   fromSDK(object: QueryParamsResponseSDKType): QueryParamsResponse {
@@ -386,7 +389,8 @@ export const QuerySubspacesRequest = {
     return message;
   },
   fromJSON(_: any): QuerySubspacesRequest {
-    return {};
+    const obj = createBaseQuerySubspacesRequest();
+    return obj;
   },
   toJSON(_: QuerySubspacesRequest): unknown {
     const obj: any = {};
@@ -476,9 +480,9 @@ export const QuerySubspacesResponse = {
     return message;
   },
   fromJSON(object: any): QuerySubspacesResponse {
-    return {
-      subspaces: Array.isArray(object?.subspaces) ? object.subspaces.map((e: any) => Subspace.fromJSON(e)) : []
-    };
+    const obj = createBaseQuerySubspacesResponse();
+    if (Array.isArray(object?.subspaces)) obj.subspaces = object.subspaces.map((e: any) => Subspace.fromJSON(e));
+    return obj;
   },
   toJSON(message: QuerySubspacesResponse): unknown {
     const obj: any = {};
@@ -565,7 +569,7 @@ export const Subspace = {
     return o && (o.$typeUrl === Subspace.typeUrl || typeof o.subspace === "string" && Array.isArray(o.keys) && (!o.keys.length || typeof o.keys[0] === "string"));
   },
   encode(message: Subspace, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.subspace !== "") {
+    if (message.subspace !== undefined) {
       writer.uint32(10).string(message.subspace);
     }
     for (const v of message.keys) {
@@ -594,10 +598,10 @@ export const Subspace = {
     return message;
   },
   fromJSON(object: any): Subspace {
-    return {
-      subspace: isSet(object.subspace) ? String(object.subspace) : "",
-      keys: Array.isArray(object?.keys) ? object.keys.map((e: any) => String(e)) : []
-    };
+    const obj = createBaseSubspace();
+    if (isSet(object.subspace)) obj.subspace = String(object.subspace);
+    if (Array.isArray(object?.keys)) obj.keys = object.keys.map((e: any) => String(e));
+    return obj;
   },
   toJSON(message: Subspace): unknown {
     const obj: any = {};

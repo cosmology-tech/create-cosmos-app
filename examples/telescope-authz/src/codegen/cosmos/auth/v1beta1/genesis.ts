@@ -1,12 +1,13 @@
 import { Params, ParamsAmino, ParamsSDKType } from "./auth";
-import { Any, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.auth.v1beta1";
 /** GenesisState defines the auth module's genesis state. */
 export interface GenesisState {
   /** params defines all the paramaters of the module. */
-  params: Params | undefined;
+  params: Params;
   /** accounts are the accounts present at genesis. */
   accounts: Any[];
 }
@@ -17,7 +18,7 @@ export interface GenesisStateProtoMsg {
 /** GenesisState defines the auth module's genesis state. */
 export interface GenesisStateAmino {
   /** params defines all the paramaters of the module. */
-  params?: ParamsAmino | undefined;
+  params?: ParamsAmino;
   /** accounts are the accounts present at genesis. */
   accounts?: AnyAmino[];
 }
@@ -27,7 +28,7 @@ export interface GenesisStateAminoMsg {
 }
 /** GenesisState defines the auth module's genesis state. */
 export interface GenesisStateSDKType {
-  params: ParamsSDKType | undefined;
+  params: ParamsSDKType;
   accounts: AnySDKType[];
 }
 function createBaseGenesisState(): GenesisState {
@@ -78,10 +79,10 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-      accounts: Array.isArray(object?.accounts) ? object.accounts.map((e: any) => Any.fromJSON(e)) : []
-    };
+    const obj = createBaseGenesisState();
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    if (Array.isArray(object?.accounts)) obj.accounts = object.accounts.map((e: any) => Any.fromJSON(e));
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
@@ -95,7 +96,9 @@ export const GenesisState = {
   },
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     message.accounts = object.accounts?.map(e => Any.fromPartial(e)) || [];
     return message;
   },

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.base.v1beta1";
 /**
  * Coin defines a token with a denomination and an amount.
  * 
@@ -136,10 +137,10 @@ export const Coin = {
     return o && (o.$typeUrl === Coin.typeUrl || typeof o.denom === "string" && typeof o.amount === "string");
   },
   encode(message: Coin, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.denom !== "") {
+    if (message.denom !== undefined) {
       writer.uint32(10).string(message.denom);
     }
-    if (message.amount !== "") {
+    if (message.amount !== undefined) {
       writer.uint32(18).string(message.amount);
     }
     return writer;
@@ -165,10 +166,10 @@ export const Coin = {
     return message;
   },
   fromJSON(object: any): Coin {
-    return {
-      denom: isSet(object.denom) ? String(object.denom) : "",
-      amount: isSet(object.amount) ? String(object.amount) : ""
-    };
+    const obj = createBaseCoin();
+    if (isSet(object.denom)) obj.denom = String(object.denom);
+    if (isSet(object.amount)) obj.amount = String(object.amount);
+    return obj;
   },
   toJSON(message: Coin): unknown {
     const obj: any = {};
@@ -253,10 +254,10 @@ export const DecCoin = {
     return o && (o.$typeUrl === DecCoin.typeUrl || typeof o.denom === "string" && typeof o.amount === "string");
   },
   encode(message: DecCoin, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.denom !== "") {
+    if (message.denom !== undefined) {
       writer.uint32(10).string(message.denom);
     }
-    if (message.amount !== "") {
+    if (message.amount !== undefined) {
       writer.uint32(18).string(message.amount);
     }
     return writer;
@@ -282,10 +283,10 @@ export const DecCoin = {
     return message;
   },
   fromJSON(object: any): DecCoin {
-    return {
-      denom: isSet(object.denom) ? String(object.denom) : "",
-      amount: isSet(object.amount) ? String(object.amount) : ""
-    };
+    const obj = createBaseDecCoin();
+    if (isSet(object.denom)) obj.denom = String(object.denom);
+    if (isSet(object.amount)) obj.amount = String(object.amount);
+    return obj;
   },
   toJSON(message: DecCoin): unknown {
     const obj: any = {};
@@ -369,7 +370,7 @@ export const IntProto = {
     return o && (o.$typeUrl === IntProto.typeUrl || typeof o.int === "string");
   },
   encode(message: IntProto, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.int !== "") {
+    if (message.int !== undefined) {
       writer.uint32(10).string(message.int);
     }
     return writer;
@@ -392,9 +393,9 @@ export const IntProto = {
     return message;
   },
   fromJSON(object: any): IntProto {
-    return {
-      int: isSet(object.int) ? String(object.int) : ""
-    };
+    const obj = createBaseIntProto();
+    if (isSet(object.int)) obj.int = String(object.int);
+    return obj;
   },
   toJSON(message: IntProto): unknown {
     const obj: any = {};
@@ -470,7 +471,7 @@ export const DecProto = {
     return o && (o.$typeUrl === DecProto.typeUrl || typeof o.dec === "string");
   },
   encode(message: DecProto, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.dec !== "") {
+    if (message.dec !== undefined) {
       writer.uint32(10).string(message.dec);
     }
     return writer;
@@ -493,9 +494,9 @@ export const DecProto = {
     return message;
   },
   fromJSON(object: any): DecProto {
-    return {
-      dec: isSet(object.dec) ? String(object.dec) : ""
-    };
+    const obj = createBaseDecProto();
+    if (isSet(object.dec)) obj.dec = String(object.dec);
+    return obj;
   },
   toJSON(message: DecProto): unknown {
     const obj: any = {};

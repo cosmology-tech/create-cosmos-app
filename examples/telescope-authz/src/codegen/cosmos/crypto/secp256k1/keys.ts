@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.crypto.secp256k1";
 /**
  * PubKey defines a secp256k1 public key
  * Key is the compressed form of the pubkey. The first byte depends is a 0x02 byte
@@ -100,9 +101,9 @@ export const PubKey = {
     return message;
   },
   fromJSON(object: any): PubKey {
-    return {
-      key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array()
-    };
+    const obj = createBasePubKey();
+    if (isSet(object.key)) obj.key = bytesFromBase64(object.key);
+    return obj;
   },
   toJSON(message: PubKey): unknown {
     const obj: any = {};
@@ -201,9 +202,9 @@ export const PrivKey = {
     return message;
   },
   fromJSON(object: any): PrivKey {
-    return {
-      key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array()
-    };
+    const obj = createBasePrivKey();
+    if (isSet(object.key)) obj.key = bytesFromBase64(object.key);
+    return obj;
   },
   toJSON(message: PrivKey): unknown {
     const obj: any = {};

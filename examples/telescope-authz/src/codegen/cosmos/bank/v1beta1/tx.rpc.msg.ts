@@ -1,5 +1,8 @@
+import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
+import { Input, InputSDKType, Output, OutputSDKType } from "./bank";
 import { DeliverTxResponse, StdFee, TxRpc } from "../../../types";
-import { MsgSend, MsgMultiSend } from "./tx";
+import { BinaryReader } from "../../../binary";
+import { MsgSend, MsgSendSDKType, MsgSendResponse, MsgSendResponseSDKType, MsgMultiSend, MsgMultiSendSDKType, MsgMultiSendResponse, MsgMultiSendResponseSDKType } from "./tx";
 /** Msg defines the bank Msg service. */
 export interface Msg {
   /** Send defines a method for sending coins from one account to another account. */

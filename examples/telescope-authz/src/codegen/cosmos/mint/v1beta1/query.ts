@@ -2,6 +2,7 @@ import { Params, ParamsAmino, ParamsSDKType } from "./mint";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { DeepPartial, isSet, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.mint.v1beta1";
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
@@ -19,7 +20,7 @@ export interface QueryParamsRequestSDKType {}
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
-  params: Params | undefined;
+  params: Params;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/cosmos.mint.v1beta1.QueryParamsResponse";
@@ -28,7 +29,7 @@ export interface QueryParamsResponseProtoMsg {
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 export interface QueryParamsResponseAmino {
   /** params defines the parameters of the module. */
-  params?: ParamsAmino | undefined;
+  params?: ParamsAmino;
 }
 export interface QueryParamsResponseAminoMsg {
   type: "cosmos-sdk/QueryParamsResponse";
@@ -36,7 +37,7 @@ export interface QueryParamsResponseAminoMsg {
 }
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 export interface QueryParamsResponseSDKType {
-  params: ParamsSDKType | undefined;
+  params: ParamsSDKType;
 }
 /** QueryInflationRequest is the request type for the Query/Inflation RPC method. */
 export interface QueryInflationRequest {}
@@ -170,7 +171,8 @@ export const QueryParamsRequest = {
     return message;
   },
   fromJSON(_: any): QueryParamsRequest {
-    return {};
+    const obj = createBaseQueryParamsRequest();
+    return obj;
   },
   toJSON(_: QueryParamsRequest): unknown {
     const obj: any = {};
@@ -260,9 +262,9 @@ export const QueryParamsResponse = {
     return message;
   },
   fromJSON(object: any): QueryParamsResponse {
-    return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined
-    };
+    const obj = createBaseQueryParamsResponse();
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    return obj;
   },
   toJSON(message: QueryParamsResponse): unknown {
     const obj: any = {};
@@ -271,7 +273,9 @@ export const QueryParamsResponse = {
   },
   fromPartial(object: DeepPartial<QueryParamsResponse>): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     return message;
   },
   fromSDK(object: QueryParamsResponseSDKType): QueryParamsResponse {
@@ -353,7 +357,8 @@ export const QueryInflationRequest = {
     return message;
   },
   fromJSON(_: any): QueryInflationRequest {
-    return {};
+    const obj = createBaseQueryInflationRequest();
+    return obj;
   },
   toJSON(_: QueryInflationRequest): unknown {
     const obj: any = {};
@@ -443,9 +448,9 @@ export const QueryInflationResponse = {
     return message;
   },
   fromJSON(object: any): QueryInflationResponse {
-    return {
-      inflation: isSet(object.inflation) ? bytesFromBase64(object.inflation) : new Uint8Array()
-    };
+    const obj = createBaseQueryInflationResponse();
+    if (isSet(object.inflation)) obj.inflation = bytesFromBase64(object.inflation);
+    return obj;
   },
   toJSON(message: QueryInflationResponse): unknown {
     const obj: any = {};
@@ -536,7 +541,8 @@ export const QueryAnnualProvisionsRequest = {
     return message;
   },
   fromJSON(_: any): QueryAnnualProvisionsRequest {
-    return {};
+    const obj = createBaseQueryAnnualProvisionsRequest();
+    return obj;
   },
   toJSON(_: QueryAnnualProvisionsRequest): unknown {
     const obj: any = {};
@@ -626,9 +632,9 @@ export const QueryAnnualProvisionsResponse = {
     return message;
   },
   fromJSON(object: any): QueryAnnualProvisionsResponse {
-    return {
-      annualProvisions: isSet(object.annualProvisions) ? bytesFromBase64(object.annualProvisions) : new Uint8Array()
-    };
+    const obj = createBaseQueryAnnualProvisionsResponse();
+    if (isSet(object.annualProvisions)) obj.annualProvisions = bytesFromBase64(object.annualProvisions);
+    return obj;
   },
   toJSON(message: QueryAnnualProvisionsResponse): unknown {
     const obj: any = {};

@@ -1,5 +1,8 @@
+import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
+import { Metadata, MetadataSDKType } from "../../../cosmos/bank/v1beta1/bank";
 import { DeliverTxResponse, StdFee, TxRpc } from "../../../types";
-import { MsgCreateDenom, MsgMint, MsgBurn, MsgChangeAdmin, MsgSetDenomMetadata } from "./tx";
+import { BinaryReader } from "../../../binary";
+import { MsgCreateDenom, MsgCreateDenomSDKType, MsgCreateDenomResponse, MsgCreateDenomResponseSDKType, MsgMint, MsgMintSDKType, MsgMintResponse, MsgMintResponseSDKType, MsgBurn, MsgBurnSDKType, MsgBurnResponse, MsgBurnResponseSDKType, MsgChangeAdmin, MsgChangeAdminSDKType, MsgChangeAdminResponse, MsgChangeAdminResponseSDKType, MsgSetDenomMetadata, MsgSetDenomMetadataSDKType, MsgSetDenomMetadataResponse, MsgSetDenomMetadataResponseSDKType } from "./tx";
 /** Msg defines the tokefactory module's gRPC message service. */
 export interface Msg {
   createDenom(signerAddress: string, message: MsgCreateDenom, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;

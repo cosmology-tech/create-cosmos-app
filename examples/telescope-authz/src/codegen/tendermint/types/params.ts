@@ -2,15 +2,16 @@ import { Duration, DurationAmino, DurationSDKType } from "../../google/protobuf/
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { GlobalDecoderRegistry } from "../../registry";
+export const protobufPackage = "tendermint.types";
 /**
  * ConsensusParams contains consensus critical parameters that determine the
  * validity of blocks.
  */
 export interface ConsensusParams {
-  block: BlockParams | undefined;
-  evidence: EvidenceParams | undefined;
-  validator: ValidatorParams | undefined;
-  version: VersionParams | undefined;
+  block: BlockParams;
+  evidence: EvidenceParams;
+  validator: ValidatorParams;
+  version: VersionParams;
 }
 export interface ConsensusParamsProtoMsg {
   typeUrl: "/tendermint.types.ConsensusParams";
@@ -21,10 +22,10 @@ export interface ConsensusParamsProtoMsg {
  * validity of blocks.
  */
 export interface ConsensusParamsAmino {
-  block?: BlockParamsAmino | undefined;
-  evidence?: EvidenceParamsAmino | undefined;
-  validator?: ValidatorParamsAmino | undefined;
-  version?: VersionParamsAmino | undefined;
+  block?: BlockParamsAmino;
+  evidence?: EvidenceParamsAmino;
+  validator?: ValidatorParamsAmino;
+  version?: VersionParamsAmino;
 }
 export interface ConsensusParamsAminoMsg {
   type: "/tendermint.types.ConsensusParams";
@@ -35,10 +36,10 @@ export interface ConsensusParamsAminoMsg {
  * validity of blocks.
  */
 export interface ConsensusParamsSDKType {
-  block: BlockParamsSDKType | undefined;
-  evidence: EvidenceParamsSDKType | undefined;
-  validator: ValidatorParamsSDKType | undefined;
-  version: VersionParamsSDKType | undefined;
+  block: BlockParamsSDKType;
+  evidence: EvidenceParamsSDKType;
+  validator: ValidatorParamsSDKType;
+  version: VersionParamsSDKType;
 }
 /** BlockParams contains limits on the block size. */
 export interface BlockParams {
@@ -110,7 +111,7 @@ export interface EvidenceParams {
    * mechanism for handling [Nothing-At-Stake
    * attacks](https://github.com/ethereum/wiki/wiki/Proof-of-Stake-FAQ#what-is-the-nothing-at-stake-problem-and-how-can-it-be-fixed).
    */
-  maxAgeDuration: Duration | undefined;
+  maxAgeDuration: Duration;
   /**
    * This sets the maximum size of total evidence in bytes that can be committed in a single block.
    * and should fall comfortably under the max block bytes.
@@ -138,7 +139,7 @@ export interface EvidenceParamsAmino {
    * mechanism for handling [Nothing-At-Stake
    * attacks](https://github.com/ethereum/wiki/wiki/Proof-of-Stake-FAQ#what-is-the-nothing-at-stake-problem-and-how-can-it-be-fixed).
    */
-  max_age_duration?: DurationAmino | undefined;
+  max_age_duration?: DurationAmino;
   /**
    * This sets the maximum size of total evidence in bytes that can be committed in a single block.
    * and should fall comfortably under the max block bytes.
@@ -153,7 +154,7 @@ export interface EvidenceParamsAminoMsg {
 /** EvidenceParams determine how we handle evidence of malfeasance. */
 export interface EvidenceParamsSDKType {
   max_age_num_blocks: bigint;
-  max_age_duration: DurationSDKType | undefined;
+  max_age_duration: DurationSDKType;
   max_bytes: bigint;
 }
 /**
@@ -301,12 +302,12 @@ export const ConsensusParams = {
     return message;
   },
   fromJSON(object: any): ConsensusParams {
-    return {
-      block: isSet(object.block) ? BlockParams.fromJSON(object.block) : undefined,
-      evidence: isSet(object.evidence) ? EvidenceParams.fromJSON(object.evidence) : undefined,
-      validator: isSet(object.validator) ? ValidatorParams.fromJSON(object.validator) : undefined,
-      version: isSet(object.version) ? VersionParams.fromJSON(object.version) : undefined
-    };
+    const obj = createBaseConsensusParams();
+    if (isSet(object.block)) obj.block = BlockParams.fromJSON(object.block);
+    if (isSet(object.evidence)) obj.evidence = EvidenceParams.fromJSON(object.evidence);
+    if (isSet(object.validator)) obj.validator = ValidatorParams.fromJSON(object.validator);
+    if (isSet(object.version)) obj.version = VersionParams.fromJSON(object.version);
+    return obj;
   },
   toJSON(message: ConsensusParams): unknown {
     const obj: any = {};
@@ -318,10 +319,18 @@ export const ConsensusParams = {
   },
   fromPartial(object: DeepPartial<ConsensusParams>): ConsensusParams {
     const message = createBaseConsensusParams();
-    message.block = object.block !== undefined && object.block !== null ? BlockParams.fromPartial(object.block) : undefined;
-    message.evidence = object.evidence !== undefined && object.evidence !== null ? EvidenceParams.fromPartial(object.evidence) : undefined;
-    message.validator = object.validator !== undefined && object.validator !== null ? ValidatorParams.fromPartial(object.validator) : undefined;
-    message.version = object.version !== undefined && object.version !== null ? VersionParams.fromPartial(object.version) : undefined;
+    if (object.block !== undefined && object.block !== null) {
+      message.block = BlockParams.fromPartial(object.block);
+    }
+    if (object.evidence !== undefined && object.evidence !== null) {
+      message.evidence = EvidenceParams.fromPartial(object.evidence);
+    }
+    if (object.validator !== undefined && object.validator !== null) {
+      message.validator = ValidatorParams.fromPartial(object.validator);
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = VersionParams.fromPartial(object.version);
+    }
     return message;
   },
   fromSDK(object: ConsensusParamsSDKType): ConsensusParams {
@@ -400,13 +409,13 @@ export const BlockParams = {
     return o && (o.$typeUrl === BlockParams.typeUrl || typeof o.max_bytes === "bigint" && typeof o.max_gas === "bigint" && typeof o.time_iota_ms === "bigint");
   },
   encode(message: BlockParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.maxBytes !== BigInt(0)) {
+    if (message.maxBytes !== undefined) {
       writer.uint32(8).int64(message.maxBytes);
     }
-    if (message.maxGas !== BigInt(0)) {
+    if (message.maxGas !== undefined) {
       writer.uint32(16).int64(message.maxGas);
     }
-    if (message.timeIotaMs !== BigInt(0)) {
+    if (message.timeIotaMs !== undefined) {
       writer.uint32(24).int64(message.timeIotaMs);
     }
     return writer;
@@ -435,11 +444,11 @@ export const BlockParams = {
     return message;
   },
   fromJSON(object: any): BlockParams {
-    return {
-      maxBytes: isSet(object.maxBytes) ? BigInt(object.maxBytes.toString()) : BigInt(0),
-      maxGas: isSet(object.maxGas) ? BigInt(object.maxGas.toString()) : BigInt(0),
-      timeIotaMs: isSet(object.timeIotaMs) ? BigInt(object.timeIotaMs.toString()) : BigInt(0)
-    };
+    const obj = createBaseBlockParams();
+    if (isSet(object.maxBytes)) obj.maxBytes = BigInt(object.maxBytes.toString());
+    if (isSet(object.maxGas)) obj.maxGas = BigInt(object.maxGas.toString());
+    if (isSet(object.timeIotaMs)) obj.timeIotaMs = BigInt(object.timeIotaMs.toString());
+    return obj;
   },
   toJSON(message: BlockParams): unknown {
     const obj: any = {};
@@ -450,9 +459,15 @@ export const BlockParams = {
   },
   fromPartial(object: DeepPartial<BlockParams>): BlockParams {
     const message = createBaseBlockParams();
-    message.maxBytes = object.maxBytes !== undefined && object.maxBytes !== null ? BigInt(object.maxBytes.toString()) : BigInt(0);
-    message.maxGas = object.maxGas !== undefined && object.maxGas !== null ? BigInt(object.maxGas.toString()) : BigInt(0);
-    message.timeIotaMs = object.timeIotaMs !== undefined && object.timeIotaMs !== null ? BigInt(object.timeIotaMs.toString()) : BigInt(0);
+    if (object.maxBytes !== undefined && object.maxBytes !== null) {
+      message.maxBytes = BigInt(object.maxBytes.toString());
+    }
+    if (object.maxGas !== undefined && object.maxGas !== null) {
+      message.maxGas = BigInt(object.maxGas.toString());
+    }
+    if (object.timeIotaMs !== undefined && object.timeIotaMs !== null) {
+      message.timeIotaMs = BigInt(object.timeIotaMs.toString());
+    }
     return message;
   },
   fromSDK(object: BlockParamsSDKType): BlockParams {
@@ -525,13 +540,13 @@ export const EvidenceParams = {
     return o && (o.$typeUrl === EvidenceParams.typeUrl || typeof o.max_age_num_blocks === "bigint" && Duration.isAmino(o.max_age_duration) && typeof o.max_bytes === "bigint");
   },
   encode(message: EvidenceParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.maxAgeNumBlocks !== BigInt(0)) {
+    if (message.maxAgeNumBlocks !== undefined) {
       writer.uint32(8).int64(message.maxAgeNumBlocks);
     }
     if (message.maxAgeDuration !== undefined) {
       Duration.encode(message.maxAgeDuration, writer.uint32(18).fork()).ldelim();
     }
-    if (message.maxBytes !== BigInt(0)) {
+    if (message.maxBytes !== undefined) {
       writer.uint32(24).int64(message.maxBytes);
     }
     return writer;
@@ -560,11 +575,11 @@ export const EvidenceParams = {
     return message;
   },
   fromJSON(object: any): EvidenceParams {
-    return {
-      maxAgeNumBlocks: isSet(object.maxAgeNumBlocks) ? BigInt(object.maxAgeNumBlocks.toString()) : BigInt(0),
-      maxAgeDuration: isSet(object.maxAgeDuration) ? Duration.fromJSON(object.maxAgeDuration) : undefined,
-      maxBytes: isSet(object.maxBytes) ? BigInt(object.maxBytes.toString()) : BigInt(0)
-    };
+    const obj = createBaseEvidenceParams();
+    if (isSet(object.maxAgeNumBlocks)) obj.maxAgeNumBlocks = BigInt(object.maxAgeNumBlocks.toString());
+    if (isSet(object.maxAgeDuration)) obj.maxAgeDuration = Duration.fromJSON(object.maxAgeDuration);
+    if (isSet(object.maxBytes)) obj.maxBytes = BigInt(object.maxBytes.toString());
+    return obj;
   },
   toJSON(message: EvidenceParams): unknown {
     const obj: any = {};
@@ -575,9 +590,15 @@ export const EvidenceParams = {
   },
   fromPartial(object: DeepPartial<EvidenceParams>): EvidenceParams {
     const message = createBaseEvidenceParams();
-    message.maxAgeNumBlocks = object.maxAgeNumBlocks !== undefined && object.maxAgeNumBlocks !== null ? BigInt(object.maxAgeNumBlocks.toString()) : BigInt(0);
-    message.maxAgeDuration = object.maxAgeDuration !== undefined && object.maxAgeDuration !== null ? Duration.fromPartial(object.maxAgeDuration) : undefined;
-    message.maxBytes = object.maxBytes !== undefined && object.maxBytes !== null ? BigInt(object.maxBytes.toString()) : BigInt(0);
+    if (object.maxAgeNumBlocks !== undefined && object.maxAgeNumBlocks !== null) {
+      message.maxAgeNumBlocks = BigInt(object.maxAgeNumBlocks.toString());
+    }
+    if (object.maxAgeDuration !== undefined && object.maxAgeDuration !== null) {
+      message.maxAgeDuration = Duration.fromPartial(object.maxAgeDuration);
+    }
+    if (object.maxBytes !== undefined && object.maxBytes !== null) {
+      message.maxBytes = BigInt(object.maxBytes.toString());
+    }
     return message;
   },
   fromSDK(object: EvidenceParamsSDKType): EvidenceParams {
@@ -671,9 +692,9 @@ export const ValidatorParams = {
     return message;
   },
   fromJSON(object: any): ValidatorParams {
-    return {
-      pubKeyTypes: Array.isArray(object?.pubKeyTypes) ? object.pubKeyTypes.map((e: any) => String(e)) : []
-    };
+    const obj = createBaseValidatorParams();
+    if (Array.isArray(object?.pubKeyTypes)) obj.pubKeyTypes = object.pubKeyTypes.map((e: any) => String(e));
+    return obj;
   },
   toJSON(message: ValidatorParams): unknown {
     const obj: any = {};
@@ -751,7 +772,7 @@ export const VersionParams = {
     return o && (o.$typeUrl === VersionParams.typeUrl || typeof o.app_version === "bigint");
   },
   encode(message: VersionParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.appVersion !== BigInt(0)) {
+    if (message.appVersion !== undefined) {
       writer.uint32(8).uint64(message.appVersion);
     }
     return writer;
@@ -774,9 +795,9 @@ export const VersionParams = {
     return message;
   },
   fromJSON(object: any): VersionParams {
-    return {
-      appVersion: isSet(object.appVersion) ? BigInt(object.appVersion.toString()) : BigInt(0)
-    };
+    const obj = createBaseVersionParams();
+    if (isSet(object.appVersion)) obj.appVersion = BigInt(object.appVersion.toString());
+    return obj;
   },
   toJSON(message: VersionParams): unknown {
     const obj: any = {};
@@ -785,7 +806,9 @@ export const VersionParams = {
   },
   fromPartial(object: DeepPartial<VersionParams>): VersionParams {
     const message = createBaseVersionParams();
-    message.appVersion = object.appVersion !== undefined && object.appVersion !== null ? BigInt(object.appVersion.toString()) : BigInt(0);
+    if (object.appVersion !== undefined && object.appVersion !== null) {
+      message.appVersion = BigInt(object.appVersion.toString());
+    }
     return message;
   },
   fromSDK(object: VersionParamsSDKType): VersionParams {
@@ -845,10 +868,10 @@ export const HashedParams = {
     return o && (o.$typeUrl === HashedParams.typeUrl || typeof o.block_max_bytes === "bigint" && typeof o.block_max_gas === "bigint");
   },
   encode(message: HashedParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.blockMaxBytes !== BigInt(0)) {
+    if (message.blockMaxBytes !== undefined) {
       writer.uint32(8).int64(message.blockMaxBytes);
     }
-    if (message.blockMaxGas !== BigInt(0)) {
+    if (message.blockMaxGas !== undefined) {
       writer.uint32(16).int64(message.blockMaxGas);
     }
     return writer;
@@ -874,10 +897,10 @@ export const HashedParams = {
     return message;
   },
   fromJSON(object: any): HashedParams {
-    return {
-      blockMaxBytes: isSet(object.blockMaxBytes) ? BigInt(object.blockMaxBytes.toString()) : BigInt(0),
-      blockMaxGas: isSet(object.blockMaxGas) ? BigInt(object.blockMaxGas.toString()) : BigInt(0)
-    };
+    const obj = createBaseHashedParams();
+    if (isSet(object.blockMaxBytes)) obj.blockMaxBytes = BigInt(object.blockMaxBytes.toString());
+    if (isSet(object.blockMaxGas)) obj.blockMaxGas = BigInt(object.blockMaxGas.toString());
+    return obj;
   },
   toJSON(message: HashedParams): unknown {
     const obj: any = {};
@@ -887,8 +910,12 @@ export const HashedParams = {
   },
   fromPartial(object: DeepPartial<HashedParams>): HashedParams {
     const message = createBaseHashedParams();
-    message.blockMaxBytes = object.blockMaxBytes !== undefined && object.blockMaxBytes !== null ? BigInt(object.blockMaxBytes.toString()) : BigInt(0);
-    message.blockMaxGas = object.blockMaxGas !== undefined && object.blockMaxGas !== null ? BigInt(object.blockMaxGas.toString()) : BigInt(0);
+    if (object.blockMaxBytes !== undefined && object.blockMaxBytes !== null) {
+      message.blockMaxBytes = BigInt(object.blockMaxBytes.toString());
+    }
+    if (object.blockMaxGas !== undefined && object.blockMaxGas !== null) {
+      message.blockMaxGas = BigInt(object.blockMaxGas.toString());
+    }
     return message;
   },
   fromSDK(object: HashedParamsSDKType): HashedParams {

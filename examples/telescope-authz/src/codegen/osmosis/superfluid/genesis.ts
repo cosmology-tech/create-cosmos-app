@@ -3,9 +3,10 @@ import { SuperfluidAsset, SuperfluidAssetAmino, SuperfluidAssetSDKType, OsmoEqui
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { GlobalDecoderRegistry } from "../../registry";
+export const protobufPackage = "osmosis.superfluid";
 /** GenesisState defines the module's genesis state. */
 export interface GenesisState {
-  params: Params | undefined;
+  params: Params;
   /**
    * superfluid_assets defines the registered superfluid assets that have been
    * registered via governance.
@@ -29,7 +30,7 @@ export interface GenesisStateProtoMsg {
 }
 /** GenesisState defines the module's genesis state. */
 export interface GenesisStateAmino {
-  params?: ParamsAmino | undefined;
+  params?: ParamsAmino;
   /**
    * superfluid_assets defines the registered superfluid assets that have been
    * registered via governance.
@@ -53,7 +54,7 @@ export interface GenesisStateAminoMsg {
 }
 /** GenesisState defines the module's genesis state. */
 export interface GenesisStateSDKType {
-  params: ParamsSDKType | undefined;
+  params: ParamsSDKType;
   superfluid_assets: SuperfluidAssetSDKType[];
   osmo_equivalent_multipliers: OsmoEquivalentMultiplierRecordSDKType[];
   intermediary_accounts: SuperfluidIntermediaryAccountSDKType[];
@@ -128,13 +129,13 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-      superfluidAssets: Array.isArray(object?.superfluidAssets) ? object.superfluidAssets.map((e: any) => SuperfluidAsset.fromJSON(e)) : [],
-      osmoEquivalentMultipliers: Array.isArray(object?.osmoEquivalentMultipliers) ? object.osmoEquivalentMultipliers.map((e: any) => OsmoEquivalentMultiplierRecord.fromJSON(e)) : [],
-      intermediaryAccounts: Array.isArray(object?.intermediaryAccounts) ? object.intermediaryAccounts.map((e: any) => SuperfluidIntermediaryAccount.fromJSON(e)) : [],
-      intemediaryAccountConnections: Array.isArray(object?.intemediaryAccountConnections) ? object.intemediaryAccountConnections.map((e: any) => LockIdIntermediaryAccountConnection.fromJSON(e)) : []
-    };
+    const obj = createBaseGenesisState();
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    if (Array.isArray(object?.superfluidAssets)) obj.superfluidAssets = object.superfluidAssets.map((e: any) => SuperfluidAsset.fromJSON(e));
+    if (Array.isArray(object?.osmoEquivalentMultipliers)) obj.osmoEquivalentMultipliers = object.osmoEquivalentMultipliers.map((e: any) => OsmoEquivalentMultiplierRecord.fromJSON(e));
+    if (Array.isArray(object?.intermediaryAccounts)) obj.intermediaryAccounts = object.intermediaryAccounts.map((e: any) => SuperfluidIntermediaryAccount.fromJSON(e));
+    if (Array.isArray(object?.intemediaryAccountConnections)) obj.intemediaryAccountConnections = object.intemediaryAccountConnections.map((e: any) => LockIdIntermediaryAccountConnection.fromJSON(e));
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
@@ -163,7 +164,9 @@ export const GenesisState = {
   },
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     message.superfluidAssets = object.superfluidAssets?.map(e => SuperfluidAsset.fromPartial(e)) || [];
     message.osmoEquivalentMultipliers = object.osmoEquivalentMultipliers?.map(e => OsmoEquivalentMultiplierRecord.fromPartial(e)) || [];
     message.intermediaryAccounts = object.intermediaryAccounts?.map(e => SuperfluidIntermediaryAccount.fromPartial(e)) || [];

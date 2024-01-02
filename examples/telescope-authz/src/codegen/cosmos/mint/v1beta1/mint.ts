@@ -2,6 +2,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.mint.v1beta1";
 /** Minter represents the minting state. */
 export interface Minter {
   /** current annual inflation rate */
@@ -95,10 +96,10 @@ export const Minter = {
     return o && (o.$typeUrl === Minter.typeUrl || typeof o.inflation === "string" && typeof o.annual_provisions === "string");
   },
   encode(message: Minter, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.inflation !== "") {
+    if (message.inflation !== undefined) {
       writer.uint32(10).string(Decimal.fromUserInput(message.inflation, 18).atomics);
     }
-    if (message.annualProvisions !== "") {
+    if (message.annualProvisions !== undefined) {
       writer.uint32(18).string(Decimal.fromUserInput(message.annualProvisions, 18).atomics);
     }
     return writer;
@@ -124,10 +125,10 @@ export const Minter = {
     return message;
   },
   fromJSON(object: any): Minter {
-    return {
-      inflation: isSet(object.inflation) ? String(object.inflation) : "",
-      annualProvisions: isSet(object.annualProvisions) ? String(object.annualProvisions) : ""
-    };
+    const obj = createBaseMinter();
+    if (isSet(object.inflation)) obj.inflation = String(object.inflation);
+    if (isSet(object.annualProvisions)) obj.annualProvisions = String(object.annualProvisions);
+    return obj;
   },
   toJSON(message: Minter): unknown {
     const obj: any = {};
@@ -216,22 +217,22 @@ export const Params = {
     return o && (o.$typeUrl === Params.typeUrl || typeof o.mint_denom === "string" && typeof o.inflation_rate_change === "string" && typeof o.inflation_max === "string" && typeof o.inflation_min === "string" && typeof o.goal_bonded === "string" && typeof o.blocks_per_year === "bigint");
   },
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.mintDenom !== "") {
+    if (message.mintDenom !== undefined) {
       writer.uint32(10).string(message.mintDenom);
     }
-    if (message.inflationRateChange !== "") {
+    if (message.inflationRateChange !== undefined) {
       writer.uint32(18).string(Decimal.fromUserInput(message.inflationRateChange, 18).atomics);
     }
-    if (message.inflationMax !== "") {
+    if (message.inflationMax !== undefined) {
       writer.uint32(26).string(Decimal.fromUserInput(message.inflationMax, 18).atomics);
     }
-    if (message.inflationMin !== "") {
+    if (message.inflationMin !== undefined) {
       writer.uint32(34).string(Decimal.fromUserInput(message.inflationMin, 18).atomics);
     }
-    if (message.goalBonded !== "") {
+    if (message.goalBonded !== undefined) {
       writer.uint32(42).string(Decimal.fromUserInput(message.goalBonded, 18).atomics);
     }
-    if (message.blocksPerYear !== BigInt(0)) {
+    if (message.blocksPerYear !== undefined) {
       writer.uint32(48).uint64(message.blocksPerYear);
     }
     return writer;
@@ -269,14 +270,14 @@ export const Params = {
     return message;
   },
   fromJSON(object: any): Params {
-    return {
-      mintDenom: isSet(object.mintDenom) ? String(object.mintDenom) : "",
-      inflationRateChange: isSet(object.inflationRateChange) ? String(object.inflationRateChange) : "",
-      inflationMax: isSet(object.inflationMax) ? String(object.inflationMax) : "",
-      inflationMin: isSet(object.inflationMin) ? String(object.inflationMin) : "",
-      goalBonded: isSet(object.goalBonded) ? String(object.goalBonded) : "",
-      blocksPerYear: isSet(object.blocksPerYear) ? BigInt(object.blocksPerYear.toString()) : BigInt(0)
-    };
+    const obj = createBaseParams();
+    if (isSet(object.mintDenom)) obj.mintDenom = String(object.mintDenom);
+    if (isSet(object.inflationRateChange)) obj.inflationRateChange = String(object.inflationRateChange);
+    if (isSet(object.inflationMax)) obj.inflationMax = String(object.inflationMax);
+    if (isSet(object.inflationMin)) obj.inflationMin = String(object.inflationMin);
+    if (isSet(object.goalBonded)) obj.goalBonded = String(object.goalBonded);
+    if (isSet(object.blocksPerYear)) obj.blocksPerYear = BigInt(object.blocksPerYear.toString());
+    return obj;
   },
   toJSON(message: Params): unknown {
     const obj: any = {};
@@ -295,7 +296,9 @@ export const Params = {
     message.inflationMax = object.inflationMax ?? "";
     message.inflationMin = object.inflationMin ?? "";
     message.goalBonded = object.goalBonded ?? "";
-    message.blocksPerYear = object.blocksPerYear !== undefined && object.blocksPerYear !== null ? BigInt(object.blocksPerYear.toString()) : BigInt(0);
+    if (object.blocksPerYear !== undefined && object.blocksPerYear !== null) {
+      message.blocksPerYear = BigInt(object.blocksPerYear.toString());
+    }
     return message;
   },
   fromSDK(object: ParamsSDKType): Params {

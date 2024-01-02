@@ -2,13 +2,14 @@ import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.crisis.v1beta1";
 /** GenesisState defines the crisis module's genesis state. */
 export interface GenesisState {
   /**
    * constant_fee is the fee used to verify the invariant in the crisis
    * module.
    */
-  constantFee: Coin | undefined;
+  constantFee: Coin;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/cosmos.crisis.v1beta1.GenesisState";
@@ -20,7 +21,7 @@ export interface GenesisStateAmino {
    * constant_fee is the fee used to verify the invariant in the crisis
    * module.
    */
-  constant_fee?: CoinAmino | undefined;
+  constant_fee?: CoinAmino;
 }
 export interface GenesisStateAminoMsg {
   type: "cosmos-sdk/GenesisState";
@@ -28,7 +29,7 @@ export interface GenesisStateAminoMsg {
 }
 /** GenesisState defines the crisis module's genesis state. */
 export interface GenesisStateSDKType {
-  constant_fee: CoinSDKType | undefined;
+  constant_fee: CoinSDKType;
 }
 function createBaseGenesisState(): GenesisState {
   return {
@@ -71,9 +72,9 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      constantFee: isSet(object.constantFee) ? Coin.fromJSON(object.constantFee) : undefined
-    };
+    const obj = createBaseGenesisState();
+    if (isSet(object.constantFee)) obj.constantFee = Coin.fromJSON(object.constantFee);
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
@@ -82,7 +83,9 @@ export const GenesisState = {
   },
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.constantFee = object.constantFee !== undefined && object.constantFee !== null ? Coin.fromPartial(object.constantFee) : undefined;
+    if (object.constantFee !== undefined && object.constantFee !== null) {
+      message.constantFee = Coin.fromPartial(object.constantFee);
+    }
     return message;
   },
   fromSDK(object: GenesisStateSDKType): GenesisState {

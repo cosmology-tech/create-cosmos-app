@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.crisis.v1beta1";
 /** MsgVerifyInvariant represents a message to verify a particular invariance. */
 export interface MsgVerifyInvariant {
   sender: string;
@@ -61,13 +62,13 @@ export const MsgVerifyInvariant = {
     return o && (o.$typeUrl === MsgVerifyInvariant.typeUrl || typeof o.sender === "string" && typeof o.invariant_module_name === "string" && typeof o.invariant_route === "string");
   },
   encode(message: MsgVerifyInvariant, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.sender !== "") {
+    if (message.sender !== undefined) {
       writer.uint32(10).string(message.sender);
     }
-    if (message.invariantModuleName !== "") {
+    if (message.invariantModuleName !== undefined) {
       writer.uint32(18).string(message.invariantModuleName);
     }
-    if (message.invariantRoute !== "") {
+    if (message.invariantRoute !== undefined) {
       writer.uint32(26).string(message.invariantRoute);
     }
     return writer;
@@ -96,11 +97,11 @@ export const MsgVerifyInvariant = {
     return message;
   },
   fromJSON(object: any): MsgVerifyInvariant {
-    return {
-      sender: isSet(object.sender) ? String(object.sender) : "",
-      invariantModuleName: isSet(object.invariantModuleName) ? String(object.invariantModuleName) : "",
-      invariantRoute: isSet(object.invariantRoute) ? String(object.invariantRoute) : ""
-    };
+    const obj = createBaseMsgVerifyInvariant();
+    if (isSet(object.sender)) obj.sender = String(object.sender);
+    if (isSet(object.invariantModuleName)) obj.invariantModuleName = String(object.invariantModuleName);
+    if (isSet(object.invariantRoute)) obj.invariantRoute = String(object.invariantRoute);
+    return obj;
   },
   toJSON(message: MsgVerifyInvariant): unknown {
     const obj: any = {};
@@ -207,7 +208,8 @@ export const MsgVerifyInvariantResponse = {
     return message;
   },
   fromJSON(_: any): MsgVerifyInvariantResponse {
-    return {};
+    const obj = createBaseMsgVerifyInvariantResponse();
+    return obj;
   },
   toJSON(_: MsgVerifyInvariantResponse): unknown {
     const obj: any = {};

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../helpers";
 import { GlobalDecoderRegistry } from "../../registry";
+export const protobufPackage = "tendermint.crypto";
 export interface Proof {
   total: bigint;
   index: bigint;
@@ -31,7 +32,7 @@ export interface ValueOp {
   /** Encoded in ProofOp.Key. */
   key: Uint8Array;
   /** To encode in ProofOp.Data */
-  proof?: Proof | undefined;
+  proof?: Proof;
 }
 export interface ValueOpProtoMsg {
   typeUrl: "/tendermint.crypto.ValueOp";
@@ -41,7 +42,7 @@ export interface ValueOpAmino {
   /** Encoded in ProofOp.Key. */
   key?: string;
   /** To encode in ProofOp.Data */
-  proof?: ProofAmino | undefined;
+  proof?: ProofAmino;
 }
 export interface ValueOpAminoMsg {
   type: "/tendermint.crypto.ValueOp";
@@ -49,7 +50,7 @@ export interface ValueOpAminoMsg {
 }
 export interface ValueOpSDKType {
   key: Uint8Array;
-  proof?: ProofSDKType | undefined;
+  proof?: ProofSDKType;
 }
 export interface DominoOp {
   key: string;
@@ -152,10 +153,10 @@ export const Proof = {
     return o && (o.$typeUrl === Proof.typeUrl || typeof o.total === "bigint" && typeof o.index === "bigint" && (o.leaf_hash instanceof Uint8Array || typeof o.leaf_hash === "string") && Array.isArray(o.aunts) && (!o.aunts.length || o.aunts[0] instanceof Uint8Array || typeof o.aunts[0] === "string"));
   },
   encode(message: Proof, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.total !== BigInt(0)) {
+    if (message.total !== undefined) {
       writer.uint32(8).int64(message.total);
     }
-    if (message.index !== BigInt(0)) {
+    if (message.index !== undefined) {
       writer.uint32(16).int64(message.index);
     }
     if (message.leafHash.length !== 0) {
@@ -193,12 +194,12 @@ export const Proof = {
     return message;
   },
   fromJSON(object: any): Proof {
-    return {
-      total: isSet(object.total) ? BigInt(object.total.toString()) : BigInt(0),
-      index: isSet(object.index) ? BigInt(object.index.toString()) : BigInt(0),
-      leafHash: isSet(object.leafHash) ? bytesFromBase64(object.leafHash) : new Uint8Array(),
-      aunts: Array.isArray(object?.aunts) ? object.aunts.map((e: any) => bytesFromBase64(e)) : []
-    };
+    const obj = createBaseProof();
+    if (isSet(object.total)) obj.total = BigInt(object.total.toString());
+    if (isSet(object.index)) obj.index = BigInt(object.index.toString());
+    if (isSet(object.leafHash)) obj.leafHash = bytesFromBase64(object.leafHash);
+    if (Array.isArray(object?.aunts)) obj.aunts = object.aunts.map((e: any) => bytesFromBase64(e));
+    return obj;
   },
   toJSON(message: Proof): unknown {
     const obj: any = {};
@@ -214,8 +215,12 @@ export const Proof = {
   },
   fromPartial(object: DeepPartial<Proof>): Proof {
     const message = createBaseProof();
-    message.total = object.total !== undefined && object.total !== null ? BigInt(object.total.toString()) : BigInt(0);
-    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt(0);
+    if (object.total !== undefined && object.total !== null) {
+      message.total = BigInt(object.total.toString());
+    }
+    if (object.index !== undefined && object.index !== null) {
+      message.index = BigInt(object.index.toString());
+    }
     message.leafHash = object.leafHash ?? new Uint8Array();
     message.aunts = object.aunts?.map(e => e) || [];
     return message;
@@ -330,10 +335,10 @@ export const ValueOp = {
     return message;
   },
   fromJSON(object: any): ValueOp {
-    return {
-      key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
-      proof: isSet(object.proof) ? Proof.fromJSON(object.proof) : undefined
-    };
+    const obj = createBaseValueOp();
+    if (isSet(object.key)) obj.key = bytesFromBase64(object.key);
+    if (isSet(object.proof)) obj.proof = Proof.fromJSON(object.proof);
+    return obj;
   },
   toJSON(message: ValueOp): unknown {
     const obj: any = {};
@@ -344,7 +349,9 @@ export const ValueOp = {
   fromPartial(object: DeepPartial<ValueOp>): ValueOp {
     const message = createBaseValueOp();
     message.key = object.key ?? new Uint8Array();
-    message.proof = object.proof !== undefined && object.proof !== null ? Proof.fromPartial(object.proof) : undefined;
+    if (object.proof !== undefined && object.proof !== null) {
+      message.proof = Proof.fromPartial(object.proof);
+    }
     return message;
   },
   fromSDK(object: ValueOpSDKType): ValueOp {
@@ -411,13 +418,13 @@ export const DominoOp = {
     return o && (o.$typeUrl === DominoOp.typeUrl || typeof o.key === "string" && typeof o.input === "string" && typeof o.output === "string");
   },
   encode(message: DominoOp, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.key !== "") {
+    if (message.key !== undefined) {
       writer.uint32(10).string(message.key);
     }
-    if (message.input !== "") {
+    if (message.input !== undefined) {
       writer.uint32(18).string(message.input);
     }
-    if (message.output !== "") {
+    if (message.output !== undefined) {
       writer.uint32(26).string(message.output);
     }
     return writer;
@@ -446,11 +453,11 @@ export const DominoOp = {
     return message;
   },
   fromJSON(object: any): DominoOp {
-    return {
-      key: isSet(object.key) ? String(object.key) : "",
-      input: isSet(object.input) ? String(object.input) : "",
-      output: isSet(object.output) ? String(object.output) : ""
-    };
+    const obj = createBaseDominoOp();
+    if (isSet(object.key)) obj.key = String(object.key);
+    if (isSet(object.input)) obj.input = String(object.input);
+    if (isSet(object.output)) obj.output = String(object.output);
+    return obj;
   },
   toJSON(message: DominoOp): unknown {
     const obj: any = {};
@@ -536,7 +543,7 @@ export const ProofOp = {
     return o && (o.$typeUrl === ProofOp.typeUrl || typeof o.type === "string" && (o.key instanceof Uint8Array || typeof o.key === "string") && (o.data instanceof Uint8Array || typeof o.data === "string"));
   },
   encode(message: ProofOp, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.type !== "") {
+    if (message.type !== undefined) {
       writer.uint32(10).string(message.type);
     }
     if (message.key.length !== 0) {
@@ -571,11 +578,11 @@ export const ProofOp = {
     return message;
   },
   fromJSON(object: any): ProofOp {
-    return {
-      type: isSet(object.type) ? String(object.type) : "",
-      key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
-      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array()
-    };
+    const obj = createBaseProofOp();
+    if (isSet(object.type)) obj.type = String(object.type);
+    if (isSet(object.key)) obj.key = bytesFromBase64(object.key);
+    if (isSet(object.data)) obj.data = bytesFromBase64(object.data);
+    return obj;
   },
   toJSON(message: ProofOp): unknown {
     const obj: any = {};
@@ -682,9 +689,9 @@ export const ProofOps = {
     return message;
   },
   fromJSON(object: any): ProofOps {
-    return {
-      ops: Array.isArray(object?.ops) ? object.ops.map((e: any) => ProofOp.fromJSON(e)) : []
-    };
+    const obj = createBaseProofOps();
+    if (Array.isArray(object?.ops)) obj.ops = object.ops.map((e: any) => ProofOp.fromJSON(e));
+    return obj;
   },
   toJSON(message: ProofOps): unknown {
     const obj: any = {};

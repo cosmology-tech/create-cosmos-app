@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
 import { GlobalDecoderRegistry } from "../../../../registry";
+export const protobufPackage = "cosmos.base.store.v1beta1";
 /**
  * StoreKVPair is a KVStore KVPair used for listening to state changes (Sets and Deletes)
  * It optionally includes the StoreKey for the originating KVStore and a Boolean flag to distinguish between Sets and
@@ -73,10 +74,10 @@ export const StoreKVPair = {
     return o && (o.$typeUrl === StoreKVPair.typeUrl || typeof o.store_key === "string" && typeof o.delete === "boolean" && (o.key instanceof Uint8Array || typeof o.key === "string") && (o.value instanceof Uint8Array || typeof o.value === "string"));
   },
   encode(message: StoreKVPair, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.storeKey !== "") {
+    if (message.storeKey !== undefined) {
       writer.uint32(10).string(message.storeKey);
     }
-    if (message.delete === true) {
+    if (message.delete !== undefined) {
       writer.uint32(16).bool(message.delete);
     }
     if (message.key.length !== 0) {
@@ -114,12 +115,12 @@ export const StoreKVPair = {
     return message;
   },
   fromJSON(object: any): StoreKVPair {
-    return {
-      storeKey: isSet(object.storeKey) ? String(object.storeKey) : "",
-      delete: isSet(object.delete) ? Boolean(object.delete) : false,
-      key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
-      value: isSet(object.value) ? bytesFromBase64(object.value) : new Uint8Array()
-    };
+    const obj = createBaseStoreKVPair();
+    if (isSet(object.storeKey)) obj.storeKey = String(object.storeKey);
+    if (isSet(object.delete)) obj.delete = Boolean(object.delete);
+    if (isSet(object.key)) obj.key = bytesFromBase64(object.key);
+    if (isSet(object.value)) obj.value = bytesFromBase64(object.value);
+    return obj;
   },
   toJSON(message: StoreKVPair): unknown {
     const obj: any = {};

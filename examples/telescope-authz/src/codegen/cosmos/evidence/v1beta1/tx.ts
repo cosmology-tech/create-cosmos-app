@@ -2,6 +2,7 @@ import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.evidence.v1beta1";
 /**
  * MsgSubmitEvidence represents a message that supports submitting arbitrary
  * Evidence of misbehavior such as equivocation or counterfactual signing.
@@ -23,7 +24,7 @@ export type MsgSubmitEvidenceEncoded = Omit<MsgSubmitEvidence, "evidence"> & {
  */
 export interface MsgSubmitEvidenceAmino {
   submitter?: string;
-  evidence?: AnyAmino | undefined;
+  evidence?: AnyAmino;
 }
 export interface MsgSubmitEvidenceAminoMsg {
   type: "cosmos-sdk/MsgSubmitEvidence";
@@ -78,7 +79,7 @@ export const MsgSubmitEvidence = {
     return o && (o.$typeUrl === MsgSubmitEvidence.typeUrl || typeof o.submitter === "string");
   },
   encode(message: MsgSubmitEvidence, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.submitter !== "") {
+    if (message.submitter !== undefined) {
       writer.uint32(10).string(message.submitter);
     }
     if (message.evidence !== undefined) {
@@ -107,10 +108,10 @@ export const MsgSubmitEvidence = {
     return message;
   },
   fromJSON(object: any): MsgSubmitEvidence {
-    return {
-      submitter: isSet(object.submitter) ? String(object.submitter) : "",
-      evidence: isSet(object.evidence) ? GlobalDecoderRegistry.fromJSON(object.evidence) : undefined
-    };
+    const obj = createBaseMsgSubmitEvidence();
+    if (isSet(object.submitter)) obj.submitter = String(object.submitter);
+    if (isSet(object.evidence)) obj.evidence = GlobalDecoderRegistry.fromJSON(object.evidence);
+    return obj;
   },
   toJSON(message: MsgSubmitEvidence): unknown {
     const obj: any = {};
@@ -121,7 +122,9 @@ export const MsgSubmitEvidence = {
   fromPartial(object: DeepPartial<MsgSubmitEvidence>): MsgSubmitEvidence {
     const message = createBaseMsgSubmitEvidence();
     message.submitter = object.submitter ?? "";
-    message.evidence = object.evidence !== undefined && object.evidence !== null ? GlobalDecoderRegistry.fromPartial(object.evidence) : undefined;
+    if (object.evidence !== undefined && object.evidence !== null) {
+      message.evidence = GlobalDecoderRegistry.fromPartial(object.evidence);
+    }
     return message;
   },
   fromSDK(object: MsgSubmitEvidenceSDKType): MsgSubmitEvidence {
@@ -217,9 +220,9 @@ export const MsgSubmitEvidenceResponse = {
     return message;
   },
   fromJSON(object: any): MsgSubmitEvidenceResponse {
-    return {
-      hash: isSet(object.hash) ? bytesFromBase64(object.hash) : new Uint8Array()
-    };
+    const obj = createBaseMsgSubmitEvidenceResponse();
+    if (isSet(object.hash)) obj.hash = bytesFromBase64(object.hash);
+    return obj;
   },
   toJSON(message: MsgSubmitEvidenceResponse): unknown {
     const obj: any = {};

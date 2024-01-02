@@ -1,9 +1,10 @@
-import { Action, ClaimRecord, ClaimRecordAmino, ClaimRecordSDKType, actionFromJSON, actionToJSON } from "./claim";
+import { Action, ActionSDKType, ClaimRecord, ClaimRecordAmino, ClaimRecordSDKType, actionFromJSON, actionToJSON } from "./claim";
 import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { Params, ParamsAmino, ParamsSDKType } from "./params";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { DeepPartial, isSet } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "osmosis.claim.v1beta1";
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryModuleAccountBalanceRequest {}
 export interface QueryModuleAccountBalanceRequestProtoMsg {
@@ -57,7 +58,7 @@ export interface QueryParamsRequestSDKType {}
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
-  params: Params | undefined;
+  params: Params;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/osmosis.claim.v1beta1.QueryParamsResponse";
@@ -66,7 +67,7 @@ export interface QueryParamsResponseProtoMsg {
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 export interface QueryParamsResponseAmino {
   /** params defines the parameters of the module. */
-  params?: ParamsAmino | undefined;
+  params?: ParamsAmino;
 }
 export interface QueryParamsResponseAminoMsg {
   type: "osmosis/claim/query-params-response";
@@ -74,7 +75,7 @@ export interface QueryParamsResponseAminoMsg {
 }
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 export interface QueryParamsResponseSDKType {
-  params: ParamsSDKType | undefined;
+  params: ParamsSDKType;
 }
 export interface QueryClaimRecordRequest {
   address: string;
@@ -94,21 +95,21 @@ export interface QueryClaimRecordRequestSDKType {
   address: string;
 }
 export interface QueryClaimRecordResponse {
-  claimRecord: ClaimRecord | undefined;
+  claimRecord: ClaimRecord;
 }
 export interface QueryClaimRecordResponseProtoMsg {
   typeUrl: "/osmosis.claim.v1beta1.QueryClaimRecordResponse";
   value: Uint8Array;
 }
 export interface QueryClaimRecordResponseAmino {
-  claim_record?: ClaimRecordAmino | undefined;
+  claim_record?: ClaimRecordAmino;
 }
 export interface QueryClaimRecordResponseAminoMsg {
   type: "osmosis/claim/query-claim-record-response";
   value: QueryClaimRecordResponseAmino;
 }
 export interface QueryClaimRecordResponseSDKType {
-  claim_record: ClaimRecordSDKType | undefined;
+  claim_record: ClaimRecordSDKType;
 }
 export interface QueryClaimableForActionRequest {
   address: string;
@@ -214,7 +215,8 @@ export const QueryModuleAccountBalanceRequest = {
     return message;
   },
   fromJSON(_: any): QueryModuleAccountBalanceRequest {
-    return {};
+    const obj = createBaseQueryModuleAccountBalanceRequest();
+    return obj;
   },
   toJSON(_: QueryModuleAccountBalanceRequest): unknown {
     const obj: any = {};
@@ -304,9 +306,9 @@ export const QueryModuleAccountBalanceResponse = {
     return message;
   },
   fromJSON(object: any): QueryModuleAccountBalanceResponse {
-    return {
-      moduleAccountBalance: Array.isArray(object?.moduleAccountBalance) ? object.moduleAccountBalance.map((e: any) => Coin.fromJSON(e)) : []
-    };
+    const obj = createBaseQueryModuleAccountBalanceResponse();
+    if (Array.isArray(object?.moduleAccountBalance)) obj.moduleAccountBalance = object.moduleAccountBalance.map((e: any) => Coin.fromJSON(e));
+    return obj;
   },
   toJSON(message: QueryModuleAccountBalanceResponse): unknown {
     const obj: any = {};
@@ -407,7 +409,8 @@ export const QueryParamsRequest = {
     return message;
   },
   fromJSON(_: any): QueryParamsRequest {
-    return {};
+    const obj = createBaseQueryParamsRequest();
+    return obj;
   },
   toJSON(_: QueryParamsRequest): unknown {
     const obj: any = {};
@@ -497,9 +500,9 @@ export const QueryParamsResponse = {
     return message;
   },
   fromJSON(object: any): QueryParamsResponse {
-    return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined
-    };
+    const obj = createBaseQueryParamsResponse();
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    return obj;
   },
   toJSON(message: QueryParamsResponse): unknown {
     const obj: any = {};
@@ -508,7 +511,9 @@ export const QueryParamsResponse = {
   },
   fromPartial(object: DeepPartial<QueryParamsResponse>): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     return message;
   },
   fromSDK(object: QueryParamsResponseSDKType): QueryParamsResponse {
@@ -575,7 +580,7 @@ export const QueryClaimRecordRequest = {
     return o && (o.$typeUrl === QueryClaimRecordRequest.typeUrl || typeof o.address === "string");
   },
   encode(message: QueryClaimRecordRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.address !== "") {
+    if (message.address !== undefined) {
       writer.uint32(10).string(message.address);
     }
     return writer;
@@ -598,9 +603,9 @@ export const QueryClaimRecordRequest = {
     return message;
   },
   fromJSON(object: any): QueryClaimRecordRequest {
-    return {
-      address: isSet(object.address) ? String(object.address) : ""
-    };
+    const obj = createBaseQueryClaimRecordRequest();
+    if (isSet(object.address)) obj.address = String(object.address);
+    return obj;
   },
   toJSON(message: QueryClaimRecordRequest): unknown {
     const obj: any = {};
@@ -699,9 +704,9 @@ export const QueryClaimRecordResponse = {
     return message;
   },
   fromJSON(object: any): QueryClaimRecordResponse {
-    return {
-      claimRecord: isSet(object.claimRecord) ? ClaimRecord.fromJSON(object.claimRecord) : undefined
-    };
+    const obj = createBaseQueryClaimRecordResponse();
+    if (isSet(object.claimRecord)) obj.claimRecord = ClaimRecord.fromJSON(object.claimRecord);
+    return obj;
   },
   toJSON(message: QueryClaimRecordResponse): unknown {
     const obj: any = {};
@@ -710,7 +715,9 @@ export const QueryClaimRecordResponse = {
   },
   fromPartial(object: DeepPartial<QueryClaimRecordResponse>): QueryClaimRecordResponse {
     const message = createBaseQueryClaimRecordResponse();
-    message.claimRecord = object.claimRecord !== undefined && object.claimRecord !== null ? ClaimRecord.fromPartial(object.claimRecord) : undefined;
+    if (object.claimRecord !== undefined && object.claimRecord !== null) {
+      message.claimRecord = ClaimRecord.fromPartial(object.claimRecord);
+    }
     return message;
   },
   fromSDK(object: QueryClaimRecordResponseSDKType): QueryClaimRecordResponse {
@@ -778,7 +785,7 @@ export const QueryClaimableForActionRequest = {
     return o && (o.$typeUrl === QueryClaimableForActionRequest.typeUrl || typeof o.address === "string" && isSet(o.action));
   },
   encode(message: QueryClaimableForActionRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.address !== "") {
+    if (message.address !== undefined) {
       writer.uint32(10).string(message.address);
     }
     if (message.action !== 0) {
@@ -807,10 +814,10 @@ export const QueryClaimableForActionRequest = {
     return message;
   },
   fromJSON(object: any): QueryClaimableForActionRequest {
-    return {
-      address: isSet(object.address) ? String(object.address) : "",
-      action: isSet(object.action) ? actionFromJSON(object.action) : -1
-    };
+    const obj = createBaseQueryClaimableForActionRequest();
+    if (isSet(object.address)) obj.address = String(object.address);
+    if (isSet(object.action)) obj.action = actionFromJSON(object.action);
+    return obj;
   },
   toJSON(message: QueryClaimableForActionRequest): unknown {
     const obj: any = {};
@@ -917,9 +924,9 @@ export const QueryClaimableForActionResponse = {
     return message;
   },
   fromJSON(object: any): QueryClaimableForActionResponse {
-    return {
-      coins: Array.isArray(object?.coins) ? object.coins.map((e: any) => Coin.fromJSON(e)) : []
-    };
+    const obj = createBaseQueryClaimableForActionResponse();
+    if (Array.isArray(object?.coins)) obj.coins = object.coins.map((e: any) => Coin.fromJSON(e));
+    return obj;
   },
   toJSON(message: QueryClaimableForActionResponse): unknown {
     const obj: any = {};
@@ -1005,7 +1012,7 @@ export const QueryTotalClaimableRequest = {
     return o && (o.$typeUrl === QueryTotalClaimableRequest.typeUrl || typeof o.address === "string");
   },
   encode(message: QueryTotalClaimableRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.address !== "") {
+    if (message.address !== undefined) {
       writer.uint32(10).string(message.address);
     }
     return writer;
@@ -1028,9 +1035,9 @@ export const QueryTotalClaimableRequest = {
     return message;
   },
   fromJSON(object: any): QueryTotalClaimableRequest {
-    return {
-      address: isSet(object.address) ? String(object.address) : ""
-    };
+    const obj = createBaseQueryTotalClaimableRequest();
+    if (isSet(object.address)) obj.address = String(object.address);
+    return obj;
   },
   toJSON(message: QueryTotalClaimableRequest): unknown {
     const obj: any = {};
@@ -1129,9 +1136,9 @@ export const QueryTotalClaimableResponse = {
     return message;
   },
   fromJSON(object: any): QueryTotalClaimableResponse {
-    return {
-      coins: Array.isArray(object?.coins) ? object.coins.map((e: any) => Coin.fromJSON(e)) : []
-    };
+    const obj = createBaseQueryTotalClaimableResponse();
+    if (Array.isArray(object?.coins)) obj.coins = object.coins.map((e: any) => Coin.fromJSON(e));
+    return obj;
   },
   toJSON(message: QueryTotalClaimableResponse): unknown {
     const obj: any = {};

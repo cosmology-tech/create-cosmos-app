@@ -3,6 +3,7 @@ import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.authz.v1beta1";
 /**
  * MsgGrant is a request type for Grant method. It declares authorization to the grantee
  * on behalf of the granter with the provided expiration time.
@@ -10,7 +11,7 @@ import { GlobalDecoderRegistry } from "../../../registry";
 export interface MsgGrant {
   granter: string;
   grantee: string;
-  grant: Grant | undefined;
+  grant: Grant;
 }
 export interface MsgGrantProtoMsg {
   typeUrl: "/cosmos.authz.v1beta1.MsgGrant";
@@ -23,7 +24,7 @@ export interface MsgGrantProtoMsg {
 export interface MsgGrantAmino {
   granter?: string;
   grantee?: string;
-  grant?: GrantAmino | undefined;
+  grant?: GrantAmino;
 }
 export interface MsgGrantAminoMsg {
   type: "cosmos-sdk/MsgGrant";
@@ -36,7 +37,7 @@ export interface MsgGrantAminoMsg {
 export interface MsgGrantSDKType {
   granter: string;
   grantee: string;
-  grant: GrantSDKType | undefined;
+  grant: GrantSDKType;
 }
 /** MsgExecResponse defines the Msg/MsgExecResponse response type. */
 export interface MsgExecResponse {
@@ -194,10 +195,10 @@ export const MsgGrant = {
     return o && (o.$typeUrl === MsgGrant.typeUrl || typeof o.granter === "string" && typeof o.grantee === "string" && Grant.isAmino(o.grant));
   },
   encode(message: MsgGrant, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.granter !== "") {
+    if (message.granter !== undefined) {
       writer.uint32(10).string(message.granter);
     }
-    if (message.grantee !== "") {
+    if (message.grantee !== undefined) {
       writer.uint32(18).string(message.grantee);
     }
     if (message.grant !== undefined) {
@@ -229,11 +230,11 @@ export const MsgGrant = {
     return message;
   },
   fromJSON(object: any): MsgGrant {
-    return {
-      granter: isSet(object.granter) ? String(object.granter) : "",
-      grantee: isSet(object.grantee) ? String(object.grantee) : "",
-      grant: isSet(object.grant) ? Grant.fromJSON(object.grant) : undefined
-    };
+    const obj = createBaseMsgGrant();
+    if (isSet(object.granter)) obj.granter = String(object.granter);
+    if (isSet(object.grantee)) obj.grantee = String(object.grantee);
+    if (isSet(object.grant)) obj.grant = Grant.fromJSON(object.grant);
+    return obj;
   },
   toJSON(message: MsgGrant): unknown {
     const obj: any = {};
@@ -246,7 +247,9 @@ export const MsgGrant = {
     const message = createBaseMsgGrant();
     message.granter = object.granter ?? "";
     message.grantee = object.grantee ?? "";
-    message.grant = object.grant !== undefined && object.grant !== null ? Grant.fromPartial(object.grant) : undefined;
+    if (object.grant !== undefined && object.grant !== null) {
+      message.grant = Grant.fromPartial(object.grant);
+    }
     return message;
   },
   fromSDK(object: MsgGrantSDKType): MsgGrant {
@@ -348,9 +351,9 @@ export const MsgExecResponse = {
     return message;
   },
   fromJSON(object: any): MsgExecResponse {
-    return {
-      results: Array.isArray(object?.results) ? object.results.map((e: any) => bytesFromBase64(e)) : []
-    };
+    const obj = createBaseMsgExecResponse();
+    if (Array.isArray(object?.results)) obj.results = object.results.map((e: any) => bytesFromBase64(e));
+    return obj;
   },
   toJSON(message: MsgExecResponse): unknown {
     const obj: any = {};
@@ -437,7 +440,7 @@ export const MsgExec = {
     return o && (o.$typeUrl === MsgExec.typeUrl || typeof o.grantee === "string" && Array.isArray(o.msgs) && (!o.msgs.length || Any.isAmino(o.msgs[0])));
   },
   encode(message: MsgExec, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.grantee !== "") {
+    if (message.grantee !== undefined) {
       writer.uint32(10).string(message.grantee);
     }
     for (const v of message.msgs) {
@@ -466,10 +469,10 @@ export const MsgExec = {
     return message;
   },
   fromJSON(object: any): MsgExec {
-    return {
-      grantee: isSet(object.grantee) ? String(object.grantee) : "",
-      msgs: Array.isArray(object?.msgs) ? object.msgs.map((e: any) => GlobalDecoderRegistry.fromJSON(e)) : []
-    };
+    const obj = createBaseMsgExec();
+    if (isSet(object.grantee)) obj.grantee = String(object.grantee);
+    if (Array.isArray(object?.msgs)) obj.msgs = object.msgs.map((e: any) => GlobalDecoderRegistry.fromJSON(e));
+    return obj;
   },
   toJSON(message: MsgExec): unknown {
     const obj: any = {};
@@ -484,7 +487,7 @@ export const MsgExec = {
   fromPartial(object: DeepPartial<MsgExec>): MsgExec {
     const message = createBaseMsgExec();
     message.grantee = object.grantee ?? "";
-    message.msgs = object.msgs?.map(e => GlobalDecoderRegistry.fromPartial(e)) || [];
+    message.msgs = object.msgs?.map(e => (Any.fromPartial(e) as any)) || [];
     return message;
   },
   fromSDK(object: MsgExecSDKType): MsgExec {
@@ -578,7 +581,8 @@ export const MsgGrantResponse = {
     return message;
   },
   fromJSON(_: any): MsgGrantResponse {
-    return {};
+    const obj = createBaseMsgGrantResponse();
+    return obj;
   },
   toJSON(_: MsgGrantResponse): unknown {
     const obj: any = {};
@@ -647,13 +651,13 @@ export const MsgRevoke = {
     return o && (o.$typeUrl === MsgRevoke.typeUrl || typeof o.granter === "string" && typeof o.grantee === "string" && typeof o.msg_type_url === "string");
   },
   encode(message: MsgRevoke, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.granter !== "") {
+    if (message.granter !== undefined) {
       writer.uint32(10).string(message.granter);
     }
-    if (message.grantee !== "") {
+    if (message.grantee !== undefined) {
       writer.uint32(18).string(message.grantee);
     }
-    if (message.msgTypeUrl !== "") {
+    if (message.msgTypeUrl !== undefined) {
       writer.uint32(26).string(message.msgTypeUrl);
     }
     return writer;
@@ -682,11 +686,11 @@ export const MsgRevoke = {
     return message;
   },
   fromJSON(object: any): MsgRevoke {
-    return {
-      granter: isSet(object.granter) ? String(object.granter) : "",
-      grantee: isSet(object.grantee) ? String(object.grantee) : "",
-      msgTypeUrl: isSet(object.msgTypeUrl) ? String(object.msgTypeUrl) : ""
-    };
+    const obj = createBaseMsgRevoke();
+    if (isSet(object.granter)) obj.granter = String(object.granter);
+    if (isSet(object.grantee)) obj.grantee = String(object.grantee);
+    if (isSet(object.msgTypeUrl)) obj.msgTypeUrl = String(object.msgTypeUrl);
+    return obj;
   },
   toJSON(message: MsgRevoke): unknown {
     const obj: any = {};
@@ -793,7 +797,8 @@ export const MsgRevokeResponse = {
     return message;
   },
   fromJSON(_: any): MsgRevokeResponse {
-    return {};
+    const obj = createBaseMsgRevokeResponse();
+    return obj;
   },
   toJSON(_: MsgRevokeResponse): unknown {
     const obj: any = {};

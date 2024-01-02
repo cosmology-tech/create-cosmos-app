@@ -2,10 +2,11 @@ import { Params, ParamsAmino, ParamsSDKType, ValidatorSigningInfo, ValidatorSign
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.slashing.v1beta1";
 /** GenesisState defines the slashing module's genesis state. */
 export interface GenesisState {
   /** params defines all the paramaters of related to deposit. */
-  params: Params | undefined;
+  params: Params;
   /**
    * signing_infos represents a map between validator addresses and their
    * signing infos.
@@ -24,7 +25,7 @@ export interface GenesisStateProtoMsg {
 /** GenesisState defines the slashing module's genesis state. */
 export interface GenesisStateAmino {
   /** params defines all the paramaters of related to deposit. */
-  params?: ParamsAmino | undefined;
+  params?: ParamsAmino;
   /**
    * signing_infos represents a map between validator addresses and their
    * signing infos.
@@ -42,7 +43,7 @@ export interface GenesisStateAminoMsg {
 }
 /** GenesisState defines the slashing module's genesis state. */
 export interface GenesisStateSDKType {
-  params: ParamsSDKType | undefined;
+  params: ParamsSDKType;
   signing_infos: SigningInfoSDKType[];
   missed_blocks: ValidatorMissedBlocksSDKType[];
 }
@@ -51,7 +52,7 @@ export interface SigningInfo {
   /** address is the validator address. */
   address: string;
   /** validator_signing_info represents the signing info of this validator. */
-  validatorSigningInfo: ValidatorSigningInfo | undefined;
+  validatorSigningInfo: ValidatorSigningInfo;
 }
 export interface SigningInfoProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.SigningInfo";
@@ -62,7 +63,7 @@ export interface SigningInfoAmino {
   /** address is the validator address. */
   address?: string;
   /** validator_signing_info represents the signing info of this validator. */
-  validator_signing_info?: ValidatorSigningInfoAmino | undefined;
+  validator_signing_info?: ValidatorSigningInfoAmino;
 }
 export interface SigningInfoAminoMsg {
   type: "cosmos-sdk/SigningInfo";
@@ -71,7 +72,7 @@ export interface SigningInfoAminoMsg {
 /** SigningInfo stores validator signing info of corresponding address. */
 export interface SigningInfoSDKType {
   address: string;
-  validator_signing_info: ValidatorSigningInfoSDKType | undefined;
+  validator_signing_info: ValidatorSigningInfoSDKType;
 }
 /**
  * ValidatorMissedBlocks contains array of missed blocks of corresponding
@@ -191,11 +192,11 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-      signingInfos: Array.isArray(object?.signingInfos) ? object.signingInfos.map((e: any) => SigningInfo.fromJSON(e)) : [],
-      missedBlocks: Array.isArray(object?.missedBlocks) ? object.missedBlocks.map((e: any) => ValidatorMissedBlocks.fromJSON(e)) : []
-    };
+    const obj = createBaseGenesisState();
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    if (Array.isArray(object?.signingInfos)) obj.signingInfos = object.signingInfos.map((e: any) => SigningInfo.fromJSON(e));
+    if (Array.isArray(object?.missedBlocks)) obj.missedBlocks = object.missedBlocks.map((e: any) => ValidatorMissedBlocks.fromJSON(e));
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
@@ -214,7 +215,9 @@ export const GenesisState = {
   },
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     message.signingInfos = object.signingInfos?.map(e => SigningInfo.fromPartial(e)) || [];
     message.missedBlocks = object.missedBlocks?.map(e => ValidatorMissedBlocks.fromPartial(e)) || [];
     return message;
@@ -308,7 +311,7 @@ export const SigningInfo = {
     return o && (o.$typeUrl === SigningInfo.typeUrl || typeof o.address === "string" && ValidatorSigningInfo.isAmino(o.validator_signing_info));
   },
   encode(message: SigningInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.address !== "") {
+    if (message.address !== undefined) {
       writer.uint32(10).string(message.address);
     }
     if (message.validatorSigningInfo !== undefined) {
@@ -337,10 +340,10 @@ export const SigningInfo = {
     return message;
   },
   fromJSON(object: any): SigningInfo {
-    return {
-      address: isSet(object.address) ? String(object.address) : "",
-      validatorSigningInfo: isSet(object.validatorSigningInfo) ? ValidatorSigningInfo.fromJSON(object.validatorSigningInfo) : undefined
-    };
+    const obj = createBaseSigningInfo();
+    if (isSet(object.address)) obj.address = String(object.address);
+    if (isSet(object.validatorSigningInfo)) obj.validatorSigningInfo = ValidatorSigningInfo.fromJSON(object.validatorSigningInfo);
+    return obj;
   },
   toJSON(message: SigningInfo): unknown {
     const obj: any = {};
@@ -351,7 +354,9 @@ export const SigningInfo = {
   fromPartial(object: DeepPartial<SigningInfo>): SigningInfo {
     const message = createBaseSigningInfo();
     message.address = object.address ?? "";
-    message.validatorSigningInfo = object.validatorSigningInfo !== undefined && object.validatorSigningInfo !== null ? ValidatorSigningInfo.fromPartial(object.validatorSigningInfo) : undefined;
+    if (object.validatorSigningInfo !== undefined && object.validatorSigningInfo !== null) {
+      message.validatorSigningInfo = ValidatorSigningInfo.fromPartial(object.validatorSigningInfo);
+    }
     return message;
   },
   fromSDK(object: SigningInfoSDKType): SigningInfo {
@@ -425,7 +430,7 @@ export const ValidatorMissedBlocks = {
     return o && (o.$typeUrl === ValidatorMissedBlocks.typeUrl || typeof o.address === "string" && Array.isArray(o.missed_blocks) && (!o.missed_blocks.length || MissedBlock.isAmino(o.missed_blocks[0])));
   },
   encode(message: ValidatorMissedBlocks, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.address !== "") {
+    if (message.address !== undefined) {
       writer.uint32(10).string(message.address);
     }
     for (const v of message.missedBlocks) {
@@ -454,10 +459,10 @@ export const ValidatorMissedBlocks = {
     return message;
   },
   fromJSON(object: any): ValidatorMissedBlocks {
-    return {
-      address: isSet(object.address) ? String(object.address) : "",
-      missedBlocks: Array.isArray(object?.missedBlocks) ? object.missedBlocks.map((e: any) => MissedBlock.fromJSON(e)) : []
-    };
+    const obj = createBaseValidatorMissedBlocks();
+    if (isSet(object.address)) obj.address = String(object.address);
+    if (Array.isArray(object?.missedBlocks)) obj.missedBlocks = object.missedBlocks.map((e: any) => MissedBlock.fromJSON(e));
+    return obj;
   },
   toJSON(message: ValidatorMissedBlocks): unknown {
     const obj: any = {};
@@ -552,10 +557,10 @@ export const MissedBlock = {
     return o && (o.$typeUrl === MissedBlock.typeUrl || typeof o.index === "bigint" && typeof o.missed === "boolean");
   },
   encode(message: MissedBlock, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.index !== BigInt(0)) {
+    if (message.index !== undefined) {
       writer.uint32(8).int64(message.index);
     }
-    if (message.missed === true) {
+    if (message.missed !== undefined) {
       writer.uint32(16).bool(message.missed);
     }
     return writer;
@@ -581,10 +586,10 @@ export const MissedBlock = {
     return message;
   },
   fromJSON(object: any): MissedBlock {
-    return {
-      index: isSet(object.index) ? BigInt(object.index.toString()) : BigInt(0),
-      missed: isSet(object.missed) ? Boolean(object.missed) : false
-    };
+    const obj = createBaseMissedBlock();
+    if (isSet(object.index)) obj.index = BigInt(object.index.toString());
+    if (isSet(object.missed)) obj.missed = Boolean(object.missed);
+    return obj;
   },
   toJSON(message: MissedBlock): unknown {
     const obj: any = {};
@@ -594,7 +599,9 @@ export const MissedBlock = {
   },
   fromPartial(object: DeepPartial<MissedBlock>): MissedBlock {
     const message = createBaseMissedBlock();
-    message.index = object.index !== undefined && object.index !== null ? BigInt(object.index.toString()) : BigInt(0);
+    if (object.index !== undefined && object.index !== null) {
+      message.index = BigInt(object.index.toString());
+    }
     message.missed = object.missed ?? false;
     return message;
   },

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { bytesFromBase64, base64FromBytes, DeepPartial, isSet } from "../../../../helpers";
 import { GlobalDecoderRegistry } from "../../../../registry";
+export const protobufPackage = "cosmos.crypto.multisig.v1beta1";
 /**
  * MultiSignature wraps the signatures from a multisig.LegacyAminoPubKey.
  * See cosmos.tx.v1betata1.ModeInfo.Multi for how to specify which signers
@@ -112,9 +113,9 @@ export const MultiSignature = {
     return message;
   },
   fromJSON(object: any): MultiSignature {
-    return {
-      signatures: Array.isArray(object?.signatures) ? object.signatures.map((e: any) => bytesFromBase64(e)) : []
-    };
+    const obj = createBaseMultiSignature();
+    if (Array.isArray(object?.signatures)) obj.signatures = object.signatures.map((e: any) => bytesFromBase64(e));
+    return obj;
   },
   toJSON(message: MultiSignature): unknown {
     const obj: any = {};
@@ -201,7 +202,7 @@ export const CompactBitArray = {
     return o && (o.$typeUrl === CompactBitArray.typeUrl || typeof o.extra_bits_stored === "number" && (o.elems instanceof Uint8Array || typeof o.elems === "string"));
   },
   encode(message: CompactBitArray, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.extraBitsStored !== 0) {
+    if (message.extraBitsStored !== undefined) {
       writer.uint32(8).uint32(message.extraBitsStored);
     }
     if (message.elems.length !== 0) {
@@ -230,10 +231,10 @@ export const CompactBitArray = {
     return message;
   },
   fromJSON(object: any): CompactBitArray {
-    return {
-      extraBitsStored: isSet(object.extraBitsStored) ? Number(object.extraBitsStored) : 0,
-      elems: isSet(object.elems) ? bytesFromBase64(object.elems) : new Uint8Array()
-    };
+    const obj = createBaseCompactBitArray();
+    if (isSet(object.extraBitsStored)) obj.extraBitsStored = Number(object.extraBitsStored);
+    if (isSet(object.elems)) obj.elems = bytesFromBase64(object.elems);
+    return obj;
   },
   toJSON(message: CompactBitArray): unknown {
     const obj: any = {};

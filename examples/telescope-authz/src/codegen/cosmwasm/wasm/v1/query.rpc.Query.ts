@@ -1,10 +1,9 @@
+import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../../cosmos/base/query/v1beta1/pagination";
+import { ContractInfo, ContractInfoSDKType, ContractCodeHistoryEntry, ContractCodeHistoryEntrySDKType, Model, ModelSDKType } from "./types";
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { ReactQueryParams } from "../../../react-query";
-import { ProtobufRpcClient } from "@cosmjs/stargate";
-import { useQuery } from "@tanstack/react-query";
-import { QueryStore } from "../../../mobx";
-import { QueryContractInfoRequest, QueryContractInfoResponse, QueryContractHistoryRequest, QueryContractHistoryResponse, QueryContractsByCodeRequest, QueryContractsByCodeResponse, QueryAllContractStateRequest, QueryAllContractStateResponse, QueryRawContractStateRequest, QueryRawContractStateResponse, QuerySmartContractStateRequest, QuerySmartContractStateResponse, QueryCodeRequest, QueryCodeResponse, QueryCodesRequest, QueryCodesResponse, QueryPinnedCodesRequest, QueryPinnedCodesResponse } from "./query";
+import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryContractInfoRequest, QueryContractInfoRequestSDKType, QueryContractInfoResponse, QueryContractInfoResponseSDKType, QueryContractHistoryRequest, QueryContractHistoryRequestSDKType, QueryContractHistoryResponse, QueryContractHistoryResponseSDKType, QueryContractsByCodeRequest, QueryContractsByCodeRequestSDKType, QueryContractsByCodeResponse, QueryContractsByCodeResponseSDKType, QueryAllContractStateRequest, QueryAllContractStateRequestSDKType, QueryAllContractStateResponse, QueryAllContractStateResponseSDKType, QueryRawContractStateRequest, QueryRawContractStateRequestSDKType, QueryRawContractStateResponse, QueryRawContractStateResponseSDKType, QuerySmartContractStateRequest, QuerySmartContractStateRequestSDKType, QuerySmartContractStateResponse, QuerySmartContractStateResponseSDKType, QueryCodeRequest, QueryCodeRequestSDKType, QueryCodeResponse, QueryCodeResponseSDKType, QueryCodesRequest, QueryCodesRequestSDKType, QueryCodesResponse, QueryCodesResponseSDKType, QueryPinnedCodesRequest, QueryPinnedCodesRequestSDKType, QueryPinnedCodesResponse, QueryPinnedCodesResponseSDKType } from "./query";
 /** Query provides defines the gRPC querier service */
 export interface Query {
   /** ContractInfo gets the contract meta data */
@@ -75,7 +74,7 @@ export class QueryClientImpl implements Query {
   };
   /* Codes gets the metadata for all stored wasm codes */
   codes = async (request: QueryCodesRequest = {
-    pagination: undefined
+    pagination: PageRequest.fromPartial({})
   }): Promise<QueryCodesResponse> => {
     const data = QueryCodesRequest.encode(request).finish();
     const promise = this.rpc.request("cosmwasm.wasm.v1.Query", "Codes", data);
@@ -83,213 +82,43 @@ export class QueryClientImpl implements Query {
   };
   /* PinnedCodes gets the pinned code ids */
   pinnedCodes = async (request: QueryPinnedCodesRequest = {
-    pagination: undefined
+    pagination: PageRequest.fromPartial({})
   }): Promise<QueryPinnedCodesResponse> => {
     const data = QueryPinnedCodesRequest.encode(request).finish();
     const promise = this.rpc.request("cosmwasm.wasm.v1.Query", "PinnedCodes", data);
     return promise.then(data => QueryPinnedCodesResponse.decode(new BinaryReader(data)));
   };
 }
-export const createClientImpl = (rpc: TxRpc) => {
-  return new QueryClientImpl(rpc);
-};
-export interface UseContractInfoQuery<TData> extends ReactQueryParams<QueryContractInfoResponse, TData> {
-  request: QueryContractInfoRequest;
-}
-export interface UseContractHistoryQuery<TData> extends ReactQueryParams<QueryContractHistoryResponse, TData> {
-  request: QueryContractHistoryRequest;
-}
-export interface UseContractsByCodeQuery<TData> extends ReactQueryParams<QueryContractsByCodeResponse, TData> {
-  request: QueryContractsByCodeRequest;
-}
-export interface UseAllContractStateQuery<TData> extends ReactQueryParams<QueryAllContractStateResponse, TData> {
-  request: QueryAllContractStateRequest;
-}
-export interface UseRawContractStateQuery<TData> extends ReactQueryParams<QueryRawContractStateResponse, TData> {
-  request: QueryRawContractStateRequest;
-}
-export interface UseSmartContractStateQuery<TData> extends ReactQueryParams<QuerySmartContractStateResponse, TData> {
-  request: QuerySmartContractStateRequest;
-}
-export interface UseCodeQuery<TData> extends ReactQueryParams<QueryCodeResponse, TData> {
-  request: QueryCodeRequest;
-}
-export interface UseCodesQuery<TData> extends ReactQueryParams<QueryCodesResponse, TData> {
-  request?: QueryCodesRequest;
-}
-export interface UsePinnedCodesQuery<TData> extends ReactQueryParams<QueryPinnedCodesResponse, TData> {
-  request?: QueryPinnedCodesRequest;
-}
-const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
-const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
-  if (!rpc) return;
-  if (_queryClients.has(rpc)) {
-    return _queryClients.get(rpc);
-  }
+export const createRpcQueryExtension = (base: QueryClient) => {
+  const rpc = createProtobufRpcClient(base);
   const queryService = new QueryClientImpl(rpc);
-  _queryClients.set(rpc, queryService);
-  return queryService;
-};
-export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  const useContractInfo = <TData = QueryContractInfoResponse,>({
-    request,
-    options
-  }: UseContractInfoQuery<TData>) => {
-    return useQuery<QueryContractInfoResponse, Error, TData>(["contractInfoQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+  return {
+    contractInfo(request: QueryContractInfoRequest): Promise<QueryContractInfoResponse> {
       return queryService.contractInfo(request);
-    }, options);
-  };
-  const useContractHistory = <TData = QueryContractHistoryResponse,>({
-    request,
-    options
-  }: UseContractHistoryQuery<TData>) => {
-    return useQuery<QueryContractHistoryResponse, Error, TData>(["contractHistoryQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    contractHistory(request: QueryContractHistoryRequest): Promise<QueryContractHistoryResponse> {
       return queryService.contractHistory(request);
-    }, options);
-  };
-  const useContractsByCode = <TData = QueryContractsByCodeResponse,>({
-    request,
-    options
-  }: UseContractsByCodeQuery<TData>) => {
-    return useQuery<QueryContractsByCodeResponse, Error, TData>(["contractsByCodeQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    contractsByCode(request: QueryContractsByCodeRequest): Promise<QueryContractsByCodeResponse> {
       return queryService.contractsByCode(request);
-    }, options);
-  };
-  const useAllContractState = <TData = QueryAllContractStateResponse,>({
-    request,
-    options
-  }: UseAllContractStateQuery<TData>) => {
-    return useQuery<QueryAllContractStateResponse, Error, TData>(["allContractStateQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    allContractState(request: QueryAllContractStateRequest): Promise<QueryAllContractStateResponse> {
       return queryService.allContractState(request);
-    }, options);
-  };
-  const useRawContractState = <TData = QueryRawContractStateResponse,>({
-    request,
-    options
-  }: UseRawContractStateQuery<TData>) => {
-    return useQuery<QueryRawContractStateResponse, Error, TData>(["rawContractStateQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    rawContractState(request: QueryRawContractStateRequest): Promise<QueryRawContractStateResponse> {
       return queryService.rawContractState(request);
-    }, options);
-  };
-  const useSmartContractState = <TData = QuerySmartContractStateResponse,>({
-    request,
-    options
-  }: UseSmartContractStateQuery<TData>) => {
-    return useQuery<QuerySmartContractStateResponse, Error, TData>(["smartContractStateQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    smartContractState(request: QuerySmartContractStateRequest): Promise<QuerySmartContractStateResponse> {
       return queryService.smartContractState(request);
-    }, options);
-  };
-  const useCode = <TData = QueryCodeResponse,>({
-    request,
-    options
-  }: UseCodeQuery<TData>) => {
-    return useQuery<QueryCodeResponse, Error, TData>(["codeQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    code(request: QueryCodeRequest): Promise<QueryCodeResponse> {
       return queryService.code(request);
-    }, options);
-  };
-  const useCodes = <TData = QueryCodesResponse,>({
-    request,
-    options
-  }: UseCodesQuery<TData>) => {
-    return useQuery<QueryCodesResponse, Error, TData>(["codesQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    codes(request?: QueryCodesRequest): Promise<QueryCodesResponse> {
       return queryService.codes(request);
-    }, options);
-  };
-  const usePinnedCodes = <TData = QueryPinnedCodesResponse,>({
-    request,
-    options
-  }: UsePinnedCodesQuery<TData>) => {
-    return useQuery<QueryPinnedCodesResponse, Error, TData>(["pinnedCodesQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    pinnedCodes(request?: QueryPinnedCodesRequest): Promise<QueryPinnedCodesResponse> {
       return queryService.pinnedCodes(request);
-    }, options);
-  };
-  return {
-    /** ContractInfo gets the contract meta data */useContractInfo,
-    /** ContractHistory gets the contract code history */useContractHistory,
-    /** ContractsByCode lists all smart contracts for a code id */useContractsByCode,
-    /** AllContractState gets all raw store data for a single contract */useAllContractState,
-    /** RawContractState gets single key from the raw store data of a contract */useRawContractState,
-    /** SmartContractState get smart query result from the contract */useSmartContractState,
-    /** Code gets the binary code and metadata for a singe wasm code */useCode,
-    /** Codes gets the metadata for all stored wasm codes */useCodes,
-    /** PinnedCodes gets the pinned code ids */usePinnedCodes
-  };
-};
-export const createRpcQueryMobxStores = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  class QueryContractInfoStore {
-    store = new QueryStore<QueryContractInfoRequest, QueryContractInfoResponse>(queryService?.contractInfo);
-    contractInfo(request: QueryContractInfoRequest) {
-      return this.store.getData(request);
     }
-  }
-  class QueryContractHistoryStore {
-    store = new QueryStore<QueryContractHistoryRequest, QueryContractHistoryResponse>(queryService?.contractHistory);
-    contractHistory(request: QueryContractHistoryRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryContractsByCodeStore {
-    store = new QueryStore<QueryContractsByCodeRequest, QueryContractsByCodeResponse>(queryService?.contractsByCode);
-    contractsByCode(request: QueryContractsByCodeRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryAllContractStateStore {
-    store = new QueryStore<QueryAllContractStateRequest, QueryAllContractStateResponse>(queryService?.allContractState);
-    allContractState(request: QueryAllContractStateRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryRawContractStateStore {
-    store = new QueryStore<QueryRawContractStateRequest, QueryRawContractStateResponse>(queryService?.rawContractState);
-    rawContractState(request: QueryRawContractStateRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QuerySmartContractStateStore {
-    store = new QueryStore<QuerySmartContractStateRequest, QuerySmartContractStateResponse>(queryService?.smartContractState);
-    smartContractState(request: QuerySmartContractStateRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryCodeStore {
-    store = new QueryStore<QueryCodeRequest, QueryCodeResponse>(queryService?.code);
-    code(request: QueryCodeRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryCodesStore {
-    store = new QueryStore<QueryCodesRequest, QueryCodesResponse>(queryService?.codes);
-    codes(request: QueryCodesRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryPinnedCodesStore {
-    store = new QueryStore<QueryPinnedCodesRequest, QueryPinnedCodesResponse>(queryService?.pinnedCodes);
-    pinnedCodes(request: QueryPinnedCodesRequest) {
-      return this.store.getData(request);
-    }
-  }
-  return {
-    /** ContractInfo gets the contract meta data */QueryContractInfoStore,
-    /** ContractHistory gets the contract code history */QueryContractHistoryStore,
-    /** ContractsByCode lists all smart contracts for a code id */QueryContractsByCodeStore,
-    /** AllContractState gets all raw store data for a single contract */QueryAllContractStateStore,
-    /** RawContractState gets single key from the raw store data of a contract */QueryRawContractStateStore,
-    /** SmartContractState get smart query result from the contract */QuerySmartContractStateStore,
-    /** Code gets the binary code and metadata for a singe wasm code */QueryCodeStore,
-    /** Codes gets the metadata for all stored wasm codes */QueryCodesStore,
-    /** PinnedCodes gets the pinned code ids */QueryPinnedCodesStore
   };
 };

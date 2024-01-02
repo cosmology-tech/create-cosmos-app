@@ -1,10 +1,11 @@
+import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../cosmos/base/query/v1beta1/pagination";
+import { Coin, CoinSDKType } from "../../cosmos/base/v1beta1/coin";
+import { Gauge, GaugeSDKType } from "./gauge";
+import { Duration, DurationSDKType } from "../../google/protobuf/duration";
 import { TxRpc } from "../../types";
 import { BinaryReader } from "../../binary";
-import { ReactQueryParams } from "../../react-query";
-import { ProtobufRpcClient } from "@cosmjs/stargate";
-import { useQuery } from "@tanstack/react-query";
-import { QueryStore } from "../../mobx";
-import { ModuleToDistributeCoinsRequest, ModuleToDistributeCoinsResponse, GaugeByIDRequest, GaugeByIDResponse, GaugesRequest, GaugesResponse, ActiveGaugesRequest, ActiveGaugesResponse, ActiveGaugesPerDenomRequest, ActiveGaugesPerDenomResponse, UpcomingGaugesRequest, UpcomingGaugesResponse, UpcomingGaugesPerDenomRequest, UpcomingGaugesPerDenomResponse, RewardsEstRequest, RewardsEstResponse, QueryLockableDurationsRequest, QueryLockableDurationsResponse } from "./query";
+import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { ModuleToDistributeCoinsRequest, ModuleToDistributeCoinsRequestSDKType, ModuleToDistributeCoinsResponse, ModuleToDistributeCoinsResponseSDKType, GaugeByIDRequest, GaugeByIDRequestSDKType, GaugeByIDResponse, GaugeByIDResponseSDKType, GaugesRequest, GaugesRequestSDKType, GaugesResponse, GaugesResponseSDKType, ActiveGaugesRequest, ActiveGaugesRequestSDKType, ActiveGaugesResponse, ActiveGaugesResponseSDKType, ActiveGaugesPerDenomRequest, ActiveGaugesPerDenomRequestSDKType, ActiveGaugesPerDenomResponse, ActiveGaugesPerDenomResponseSDKType, UpcomingGaugesRequest, UpcomingGaugesRequestSDKType, UpcomingGaugesResponse, UpcomingGaugesResponseSDKType, UpcomingGaugesPerDenomRequest, UpcomingGaugesPerDenomRequestSDKType, UpcomingGaugesPerDenomResponse, UpcomingGaugesPerDenomResponseSDKType, RewardsEstRequest, RewardsEstRequestSDKType, RewardsEstResponse, RewardsEstResponseSDKType, QueryLockableDurationsRequest, QueryLockableDurationsRequestSDKType, QueryLockableDurationsResponse, QueryLockableDurationsResponseSDKType } from "./query";
 /** Query defines the gRPC querier service */
 export interface Query {
   /** ModuleToDistributeCoins returns coins that are going to be distributed */
@@ -55,7 +56,7 @@ export class QueryClientImpl implements Query {
   };
   /* Gauges returns both upcoming and active gauges */
   gauges = async (request: GaugesRequest = {
-    pagination: undefined
+    pagination: PageRequest.fromPartial({})
   }): Promise<GaugesResponse> => {
     const data = GaugesRequest.encode(request).finish();
     const promise = this.rpc.request("osmosis.incentives.Query", "Gauges", data);
@@ -63,7 +64,7 @@ export class QueryClientImpl implements Query {
   };
   /* ActiveGauges returns active gauges */
   activeGauges = async (request: ActiveGaugesRequest = {
-    pagination: undefined
+    pagination: PageRequest.fromPartial({})
   }): Promise<ActiveGaugesResponse> => {
     const data = ActiveGaugesRequest.encode(request).finish();
     const promise = this.rpc.request("osmosis.incentives.Query", "ActiveGauges", data);
@@ -77,7 +78,7 @@ export class QueryClientImpl implements Query {
   };
   /* Returns scheduled gauges that have not yet occured */
   upcomingGauges = async (request: UpcomingGaugesRequest = {
-    pagination: undefined
+    pagination: PageRequest.fromPartial({})
   }): Promise<UpcomingGaugesResponse> => {
     const data = UpcomingGaugesRequest.encode(request).finish();
     const promise = this.rpc.request("osmosis.incentives.Query", "UpcomingGauges", data);
@@ -106,232 +107,36 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryLockableDurationsResponse.decode(new BinaryReader(data)));
   };
 }
-export const createClientImpl = (rpc: TxRpc) => {
-  return new QueryClientImpl(rpc);
-};
-export interface UseModuleToDistributeCoinsQuery<TData> extends ReactQueryParams<ModuleToDistributeCoinsResponse, TData> {
-  request?: ModuleToDistributeCoinsRequest;
-}
-export interface UseGaugeByIDQuery<TData> extends ReactQueryParams<GaugeByIDResponse, TData> {
-  request: GaugeByIDRequest;
-}
-export interface UseGaugesQuery<TData> extends ReactQueryParams<GaugesResponse, TData> {
-  request?: GaugesRequest;
-}
-export interface UseActiveGaugesQuery<TData> extends ReactQueryParams<ActiveGaugesResponse, TData> {
-  request?: ActiveGaugesRequest;
-}
-export interface UseActiveGaugesPerDenomQuery<TData> extends ReactQueryParams<ActiveGaugesPerDenomResponse, TData> {
-  request: ActiveGaugesPerDenomRequest;
-}
-export interface UseUpcomingGaugesQuery<TData> extends ReactQueryParams<UpcomingGaugesResponse, TData> {
-  request?: UpcomingGaugesRequest;
-}
-export interface UseUpcomingGaugesPerDenomQuery<TData> extends ReactQueryParams<UpcomingGaugesPerDenomResponse, TData> {
-  request: UpcomingGaugesPerDenomRequest;
-}
-export interface UseRewardsEstQuery<TData> extends ReactQueryParams<RewardsEstResponse, TData> {
-  request: RewardsEstRequest;
-}
-export interface UseLockableDurationsQuery<TData> extends ReactQueryParams<QueryLockableDurationsResponse, TData> {
-  request?: QueryLockableDurationsRequest;
-}
-const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
-const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
-  if (!rpc) return;
-  if (_queryClients.has(rpc)) {
-    return _queryClients.get(rpc);
-  }
+export const createRpcQueryExtension = (base: QueryClient) => {
+  const rpc = createProtobufRpcClient(base);
   const queryService = new QueryClientImpl(rpc);
-  _queryClients.set(rpc, queryService);
-  return queryService;
-};
-export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  const useModuleToDistributeCoins = <TData = ModuleToDistributeCoinsResponse,>({
-    request,
-    options
-  }: UseModuleToDistributeCoinsQuery<TData>) => {
-    return useQuery<ModuleToDistributeCoinsResponse, Error, TData>(["moduleToDistributeCoinsQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+  return {
+    moduleToDistributeCoins(request?: ModuleToDistributeCoinsRequest): Promise<ModuleToDistributeCoinsResponse> {
       return queryService.moduleToDistributeCoins(request);
-    }, options);
-  };
-  const useGaugeByID = <TData = GaugeByIDResponse,>({
-    request,
-    options
-  }: UseGaugeByIDQuery<TData>) => {
-    return useQuery<GaugeByIDResponse, Error, TData>(["gaugeByIDQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    gaugeByID(request: GaugeByIDRequest): Promise<GaugeByIDResponse> {
       return queryService.gaugeByID(request);
-    }, options);
-  };
-  const useGauges = <TData = GaugesResponse,>({
-    request,
-    options
-  }: UseGaugesQuery<TData>) => {
-    return useQuery<GaugesResponse, Error, TData>(["gaugesQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    gauges(request?: GaugesRequest): Promise<GaugesResponse> {
       return queryService.gauges(request);
-    }, options);
-  };
-  const useActiveGauges = <TData = ActiveGaugesResponse,>({
-    request,
-    options
-  }: UseActiveGaugesQuery<TData>) => {
-    return useQuery<ActiveGaugesResponse, Error, TData>(["activeGaugesQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    activeGauges(request?: ActiveGaugesRequest): Promise<ActiveGaugesResponse> {
       return queryService.activeGauges(request);
-    }, options);
-  };
-  const useActiveGaugesPerDenom = <TData = ActiveGaugesPerDenomResponse,>({
-    request,
-    options
-  }: UseActiveGaugesPerDenomQuery<TData>) => {
-    return useQuery<ActiveGaugesPerDenomResponse, Error, TData>(["activeGaugesPerDenomQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    activeGaugesPerDenom(request: ActiveGaugesPerDenomRequest): Promise<ActiveGaugesPerDenomResponse> {
       return queryService.activeGaugesPerDenom(request);
-    }, options);
-  };
-  const useUpcomingGauges = <TData = UpcomingGaugesResponse,>({
-    request,
-    options
-  }: UseUpcomingGaugesQuery<TData>) => {
-    return useQuery<UpcomingGaugesResponse, Error, TData>(["upcomingGaugesQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    upcomingGauges(request?: UpcomingGaugesRequest): Promise<UpcomingGaugesResponse> {
       return queryService.upcomingGauges(request);
-    }, options);
-  };
-  const useUpcomingGaugesPerDenom = <TData = UpcomingGaugesPerDenomResponse,>({
-    request,
-    options
-  }: UseUpcomingGaugesPerDenomQuery<TData>) => {
-    return useQuery<UpcomingGaugesPerDenomResponse, Error, TData>(["upcomingGaugesPerDenomQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    upcomingGaugesPerDenom(request: UpcomingGaugesPerDenomRequest): Promise<UpcomingGaugesPerDenomResponse> {
       return queryService.upcomingGaugesPerDenom(request);
-    }, options);
-  };
-  const useRewardsEst = <TData = RewardsEstResponse,>({
-    request,
-    options
-  }: UseRewardsEstQuery<TData>) => {
-    return useQuery<RewardsEstResponse, Error, TData>(["rewardsEstQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    rewardsEst(request: RewardsEstRequest): Promise<RewardsEstResponse> {
       return queryService.rewardsEst(request);
-    }, options);
-  };
-  const useLockableDurations = <TData = QueryLockableDurationsResponse,>({
-    request,
-    options
-  }: UseLockableDurationsQuery<TData>) => {
-    return useQuery<QueryLockableDurationsResponse, Error, TData>(["lockableDurationsQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    lockableDurations(request?: QueryLockableDurationsRequest): Promise<QueryLockableDurationsResponse> {
       return queryService.lockableDurations(request);
-    }, options);
-  };
-  return {
-    /** ModuleToDistributeCoins returns coins that are going to be distributed */useModuleToDistributeCoins,
-    /** GaugeByID returns gauges by their respective ID */useGaugeByID,
-    /** Gauges returns both upcoming and active gauges */useGauges,
-    /** ActiveGauges returns active gauges */useActiveGauges,
-    /** ActiveGaugesPerDenom returns active gauges by denom */useActiveGaugesPerDenom,
-    /** Returns scheduled gauges that have not yet occured */useUpcomingGauges,
-    /**
-     * UpcomingGaugesPerDenom returns scheduled gauges that have not yet occured
-     * by denom
-     */
-    useUpcomingGaugesPerDenom,
-    /**
-     * RewardsEst returns an estimate of the rewards from now until a specified
-     * time in the future The querier either provides an address or a set of locks
-     * for which they want to find the associated rewards
-     */
-    useRewardsEst,
-    /**
-     * LockableDurations returns lockable durations that are valid to distribute
-     * incentives for
-     */
-    useLockableDurations
-  };
-};
-export const createRpcQueryMobxStores = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  class QueryModuleToDistributeCoinsStore {
-    store = new QueryStore<ModuleToDistributeCoinsRequest, ModuleToDistributeCoinsResponse>(queryService?.moduleToDistributeCoins);
-    moduleToDistributeCoins(request: ModuleToDistributeCoinsRequest) {
-      return this.store.getData(request);
     }
-  }
-  class QueryGaugeByIDStore {
-    store = new QueryStore<GaugeByIDRequest, GaugeByIDResponse>(queryService?.gaugeByID);
-    gaugeByID(request: GaugeByIDRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryGaugesStore {
-    store = new QueryStore<GaugesRequest, GaugesResponse>(queryService?.gauges);
-    gauges(request: GaugesRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryActiveGaugesStore {
-    store = new QueryStore<ActiveGaugesRequest, ActiveGaugesResponse>(queryService?.activeGauges);
-    activeGauges(request: ActiveGaugesRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryActiveGaugesPerDenomStore {
-    store = new QueryStore<ActiveGaugesPerDenomRequest, ActiveGaugesPerDenomResponse>(queryService?.activeGaugesPerDenom);
-    activeGaugesPerDenom(request: ActiveGaugesPerDenomRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryUpcomingGaugesStore {
-    store = new QueryStore<UpcomingGaugesRequest, UpcomingGaugesResponse>(queryService?.upcomingGauges);
-    upcomingGauges(request: UpcomingGaugesRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryUpcomingGaugesPerDenomStore {
-    store = new QueryStore<UpcomingGaugesPerDenomRequest, UpcomingGaugesPerDenomResponse>(queryService?.upcomingGaugesPerDenom);
-    upcomingGaugesPerDenom(request: UpcomingGaugesPerDenomRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryRewardsEstStore {
-    store = new QueryStore<RewardsEstRequest, RewardsEstResponse>(queryService?.rewardsEst);
-    rewardsEst(request: RewardsEstRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryLockableDurationsStore {
-    store = new QueryStore<QueryLockableDurationsRequest, QueryLockableDurationsResponse>(queryService?.lockableDurations);
-    lockableDurations(request: QueryLockableDurationsRequest) {
-      return this.store.getData(request);
-    }
-  }
-  return {
-    /** ModuleToDistributeCoins returns coins that are going to be distributed */QueryModuleToDistributeCoinsStore,
-    /** GaugeByID returns gauges by their respective ID */QueryGaugeByIDStore,
-    /** Gauges returns both upcoming and active gauges */QueryGaugesStore,
-    /** ActiveGauges returns active gauges */QueryActiveGaugesStore,
-    /** ActiveGaugesPerDenom returns active gauges by denom */QueryActiveGaugesPerDenomStore,
-    /** Returns scheduled gauges that have not yet occured */QueryUpcomingGaugesStore,
-    /**
-     * UpcomingGaugesPerDenom returns scheduled gauges that have not yet occured
-     * by denom
-     */
-    QueryUpcomingGaugesPerDenomStore,
-    /**
-     * RewardsEst returns an estimate of the rewards from now until a specified
-     * time in the future The querier either provides an address or a set of locks
-     * for which they want to find the associated rewards
-     */
-    QueryRewardsEstStore,
-    /**
-     * LockableDurations returns lockable durations that are valid to distribute
-     * incentives for
-     */
-    QueryLockableDurationsStore
   };
 };

@@ -2,6 +2,7 @@ import { Config, ConfigAmino, ConfigSDKType } from "./config";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { DeepPartial, isSet } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.app.v1alpha1";
 /** QueryConfigRequest is the Query/Config request type. */
 export interface QueryConfigRequest {}
 export interface QueryConfigRequestProtoMsg {
@@ -19,7 +20,7 @@ export interface QueryConfigRequestSDKType {}
 /** QueryConfigRequest is the Query/Config response type. */
 export interface QueryConfigResponse {
   /** config is the current app config. */
-  config?: Config | undefined;
+  config?: Config;
 }
 export interface QueryConfigResponseProtoMsg {
   typeUrl: "/cosmos.app.v1alpha1.QueryConfigResponse";
@@ -28,7 +29,7 @@ export interface QueryConfigResponseProtoMsg {
 /** QueryConfigRequest is the Query/Config response type. */
 export interface QueryConfigResponseAmino {
   /** config is the current app config. */
-  config?: ConfigAmino | undefined;
+  config?: ConfigAmino;
 }
 export interface QueryConfigResponseAminoMsg {
   type: "cosmos-sdk/QueryConfigResponse";
@@ -36,7 +37,7 @@ export interface QueryConfigResponseAminoMsg {
 }
 /** QueryConfigRequest is the Query/Config response type. */
 export interface QueryConfigResponseSDKType {
-  config?: ConfigSDKType | undefined;
+  config?: ConfigSDKType;
 }
 function createBaseQueryConfigRequest(): QueryConfigRequest {
   return {};
@@ -71,7 +72,8 @@ export const QueryConfigRequest = {
     return message;
   },
   fromJSON(_: any): QueryConfigRequest {
-    return {};
+    const obj = createBaseQueryConfigRequest();
+    return obj;
   },
   toJSON(_: QueryConfigRequest): unknown {
     const obj: any = {};
@@ -161,9 +163,9 @@ export const QueryConfigResponse = {
     return message;
   },
   fromJSON(object: any): QueryConfigResponse {
-    return {
-      config: isSet(object.config) ? Config.fromJSON(object.config) : undefined
-    };
+    const obj = createBaseQueryConfigResponse();
+    if (isSet(object.config)) obj.config = Config.fromJSON(object.config);
+    return obj;
   },
   toJSON(message: QueryConfigResponse): unknown {
     const obj: any = {};
@@ -172,7 +174,9 @@ export const QueryConfigResponse = {
   },
   fromPartial(object: DeepPartial<QueryConfigResponse>): QueryConfigResponse {
     const message = createBaseQueryConfigResponse();
-    message.config = object.config !== undefined && object.config !== null ? Config.fromPartial(object.config) : undefined;
+    if (object.config !== undefined && object.config !== null) {
+      message.config = Config.fromPartial(object.config);
+    }
     return message;
   },
   fromSDK(object: QueryConfigResponseSDKType): QueryConfigResponse {

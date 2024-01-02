@@ -1,16 +1,17 @@
 import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../query/v1beta1/pagination";
-import { Any, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
 import { BlockID, BlockIDAmino, BlockIDSDKType } from "../../../../tendermint/types/types";
 import { Block, BlockAmino, BlockSDKType } from "../../../../tendermint/types/block";
 import { NodeInfo, NodeInfoAmino, NodeInfoSDKType } from "../../../../tendermint/p2p/types";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { GlobalDecoderRegistry } from "../../../../registry";
+export const protobufPackage = "cosmos.base.tendermint.v1beta1";
 /** GetValidatorSetByHeightRequest is the request type for the Query/GetValidatorSetByHeight RPC method. */
 export interface GetValidatorSetByHeightRequest {
   height: bigint;
   /** pagination defines an pagination for the request. */
-  pagination?: PageRequest | undefined;
+  pagination?: PageRequest;
 }
 export interface GetValidatorSetByHeightRequestProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetValidatorSetByHeightRequest";
@@ -20,7 +21,7 @@ export interface GetValidatorSetByHeightRequestProtoMsg {
 export interface GetValidatorSetByHeightRequestAmino {
   height?: string;
   /** pagination defines an pagination for the request. */
-  pagination?: PageRequestAmino | undefined;
+  pagination?: PageRequestAmino;
 }
 export interface GetValidatorSetByHeightRequestAminoMsg {
   type: "cosmos-sdk/GetValidatorSetByHeightRequest";
@@ -29,14 +30,14 @@ export interface GetValidatorSetByHeightRequestAminoMsg {
 /** GetValidatorSetByHeightRequest is the request type for the Query/GetValidatorSetByHeight RPC method. */
 export interface GetValidatorSetByHeightRequestSDKType {
   height: bigint;
-  pagination?: PageRequestSDKType | undefined;
+  pagination?: PageRequestSDKType;
 }
 /** GetValidatorSetByHeightResponse is the response type for the Query/GetValidatorSetByHeight RPC method. */
 export interface GetValidatorSetByHeightResponse {
   blockHeight: bigint;
   validators: Validator[];
   /** pagination defines an pagination for the response. */
-  pagination?: PageResponse | undefined;
+  pagination?: PageResponse;
 }
 export interface GetValidatorSetByHeightResponseProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetValidatorSetByHeightResponse";
@@ -47,7 +48,7 @@ export interface GetValidatorSetByHeightResponseAmino {
   block_height?: string;
   validators?: ValidatorAmino[];
   /** pagination defines an pagination for the response. */
-  pagination?: PageResponseAmino | undefined;
+  pagination?: PageResponseAmino;
 }
 export interface GetValidatorSetByHeightResponseAminoMsg {
   type: "cosmos-sdk/GetValidatorSetByHeightResponse";
@@ -57,12 +58,12 @@ export interface GetValidatorSetByHeightResponseAminoMsg {
 export interface GetValidatorSetByHeightResponseSDKType {
   block_height: bigint;
   validators: ValidatorSDKType[];
-  pagination?: PageResponseSDKType | undefined;
+  pagination?: PageResponseSDKType;
 }
 /** GetLatestValidatorSetRequest is the request type for the Query/GetValidatorSetByHeight RPC method. */
 export interface GetLatestValidatorSetRequest {
   /** pagination defines an pagination for the request. */
-  pagination?: PageRequest | undefined;
+  pagination?: PageRequest;
 }
 export interface GetLatestValidatorSetRequestProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetLatestValidatorSetRequest";
@@ -71,7 +72,7 @@ export interface GetLatestValidatorSetRequestProtoMsg {
 /** GetLatestValidatorSetRequest is the request type for the Query/GetValidatorSetByHeight RPC method. */
 export interface GetLatestValidatorSetRequestAmino {
   /** pagination defines an pagination for the request. */
-  pagination?: PageRequestAmino | undefined;
+  pagination?: PageRequestAmino;
 }
 export interface GetLatestValidatorSetRequestAminoMsg {
   type: "cosmos-sdk/GetLatestValidatorSetRequest";
@@ -79,14 +80,14 @@ export interface GetLatestValidatorSetRequestAminoMsg {
 }
 /** GetLatestValidatorSetRequest is the request type for the Query/GetValidatorSetByHeight RPC method. */
 export interface GetLatestValidatorSetRequestSDKType {
-  pagination?: PageRequestSDKType | undefined;
+  pagination?: PageRequestSDKType;
 }
 /** GetLatestValidatorSetResponse is the response type for the Query/GetValidatorSetByHeight RPC method. */
 export interface GetLatestValidatorSetResponse {
   blockHeight: bigint;
   validators: Validator[];
   /** pagination defines an pagination for the response. */
-  pagination?: PageResponse | undefined;
+  pagination?: PageResponse;
 }
 export interface GetLatestValidatorSetResponseProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetLatestValidatorSetResponse";
@@ -97,7 +98,7 @@ export interface GetLatestValidatorSetResponseAmino {
   block_height?: string;
   validators?: ValidatorAmino[];
   /** pagination defines an pagination for the response. */
-  pagination?: PageResponseAmino | undefined;
+  pagination?: PageResponseAmino;
 }
 export interface GetLatestValidatorSetResponseAminoMsg {
   type: "cosmos-sdk/GetLatestValidatorSetResponse";
@@ -107,12 +108,12 @@ export interface GetLatestValidatorSetResponseAminoMsg {
 export interface GetLatestValidatorSetResponseSDKType {
   block_height: bigint;
   validators: ValidatorSDKType[];
-  pagination?: PageResponseSDKType | undefined;
+  pagination?: PageResponseSDKType;
 }
 /** Validator is the type for the validator-set. */
 export interface Validator {
   address: string;
-  pubKey?: Any | undefined;
+  pubKey?: Any;
   votingPower: bigint;
   proposerPriority: bigint;
 }
@@ -123,7 +124,7 @@ export interface ValidatorProtoMsg {
 /** Validator is the type for the validator-set. */
 export interface ValidatorAmino {
   address?: string;
-  pub_key?: AnyAmino | undefined;
+  pub_key?: AnyAmino;
   voting_power?: string;
   proposer_priority?: string;
 }
@@ -134,7 +135,7 @@ export interface ValidatorAminoMsg {
 /** Validator is the type for the validator-set. */
 export interface ValidatorSDKType {
   address: string;
-  pub_key?: AnySDKType | undefined;
+  pub_key?: AnySDKType;
   voting_power: bigint;
   proposer_priority: bigint;
 }
@@ -160,8 +161,8 @@ export interface GetBlockByHeightRequestSDKType {
 }
 /** GetBlockByHeightResponse is the response type for the Query/GetBlockByHeight RPC method. */
 export interface GetBlockByHeightResponse {
-  blockId?: BlockID | undefined;
-  block?: Block | undefined;
+  blockId?: BlockID;
+  block?: Block;
 }
 export interface GetBlockByHeightResponseProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetBlockByHeightResponse";
@@ -169,8 +170,8 @@ export interface GetBlockByHeightResponseProtoMsg {
 }
 /** GetBlockByHeightResponse is the response type for the Query/GetBlockByHeight RPC method. */
 export interface GetBlockByHeightResponseAmino {
-  block_id?: BlockIDAmino | undefined;
-  block?: BlockAmino | undefined;
+  block_id?: BlockIDAmino;
+  block?: BlockAmino;
 }
 export interface GetBlockByHeightResponseAminoMsg {
   type: "cosmos-sdk/GetBlockByHeightResponse";
@@ -178,8 +179,8 @@ export interface GetBlockByHeightResponseAminoMsg {
 }
 /** GetBlockByHeightResponse is the response type for the Query/GetBlockByHeight RPC method. */
 export interface GetBlockByHeightResponseSDKType {
-  block_id?: BlockIDSDKType | undefined;
-  block?: BlockSDKType | undefined;
+  block_id?: BlockIDSDKType;
+  block?: BlockSDKType;
 }
 /** GetLatestBlockRequest is the request type for the Query/GetLatestBlock RPC method. */
 export interface GetLatestBlockRequest {}
@@ -197,8 +198,8 @@ export interface GetLatestBlockRequestAminoMsg {
 export interface GetLatestBlockRequestSDKType {}
 /** GetLatestBlockResponse is the response type for the Query/GetLatestBlock RPC method. */
 export interface GetLatestBlockResponse {
-  blockId?: BlockID | undefined;
-  block?: Block | undefined;
+  blockId?: BlockID;
+  block?: Block;
 }
 export interface GetLatestBlockResponseProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetLatestBlockResponse";
@@ -206,8 +207,8 @@ export interface GetLatestBlockResponseProtoMsg {
 }
 /** GetLatestBlockResponse is the response type for the Query/GetLatestBlock RPC method. */
 export interface GetLatestBlockResponseAmino {
-  block_id?: BlockIDAmino | undefined;
-  block?: BlockAmino | undefined;
+  block_id?: BlockIDAmino;
+  block?: BlockAmino;
 }
 export interface GetLatestBlockResponseAminoMsg {
   type: "cosmos-sdk/GetLatestBlockResponse";
@@ -215,8 +216,8 @@ export interface GetLatestBlockResponseAminoMsg {
 }
 /** GetLatestBlockResponse is the response type for the Query/GetLatestBlock RPC method. */
 export interface GetLatestBlockResponseSDKType {
-  block_id?: BlockIDSDKType | undefined;
-  block?: BlockSDKType | undefined;
+  block_id?: BlockIDSDKType;
+  block?: BlockSDKType;
 }
 /** GetSyncingRequest is the request type for the Query/GetSyncing RPC method. */
 export interface GetSyncingRequest {}
@@ -268,8 +269,8 @@ export interface GetNodeInfoRequestAminoMsg {
 export interface GetNodeInfoRequestSDKType {}
 /** GetNodeInfoResponse is the response type for the Query/GetNodeInfo RPC method. */
 export interface GetNodeInfoResponse {
-  nodeInfo?: NodeInfo | undefined;
-  applicationVersion?: VersionInfo | undefined;
+  nodeInfo?: NodeInfo;
+  applicationVersion?: VersionInfo;
 }
 export interface GetNodeInfoResponseProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetNodeInfoResponse";
@@ -277,8 +278,8 @@ export interface GetNodeInfoResponseProtoMsg {
 }
 /** GetNodeInfoResponse is the response type for the Query/GetNodeInfo RPC method. */
 export interface GetNodeInfoResponseAmino {
-  node_info?: NodeInfoAmino | undefined;
-  application_version?: VersionInfoAmino | undefined;
+  node_info?: NodeInfoAmino;
+  application_version?: VersionInfoAmino;
 }
 export interface GetNodeInfoResponseAminoMsg {
   type: "cosmos-sdk/GetNodeInfoResponse";
@@ -286,8 +287,8 @@ export interface GetNodeInfoResponseAminoMsg {
 }
 /** GetNodeInfoResponse is the response type for the Query/GetNodeInfo RPC method. */
 export interface GetNodeInfoResponseSDKType {
-  node_info?: NodeInfoSDKType | undefined;
-  application_version?: VersionInfoSDKType | undefined;
+  node_info?: NodeInfoSDKType;
+  application_version?: VersionInfoSDKType;
 }
 /** VersionInfo is the type for the GetNodeInfoResponse message. */
 export interface VersionInfo {
@@ -383,7 +384,7 @@ export const GetValidatorSetByHeightRequest = {
     return o && (o.$typeUrl === GetValidatorSetByHeightRequest.typeUrl || typeof o.height === "bigint");
   },
   encode(message: GetValidatorSetByHeightRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.height !== BigInt(0)) {
+    if (message.height !== undefined) {
       writer.uint32(8).int64(message.height);
     }
     if (message.pagination !== undefined) {
@@ -412,10 +413,10 @@ export const GetValidatorSetByHeightRequest = {
     return message;
   },
   fromJSON(object: any): GetValidatorSetByHeightRequest {
-    return {
-      height: isSet(object.height) ? BigInt(object.height.toString()) : BigInt(0),
-      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
-    };
+    const obj = createBaseGetValidatorSetByHeightRequest();
+    if (isSet(object.height)) obj.height = BigInt(object.height.toString());
+    if (isSet(object.pagination)) obj.pagination = PageRequest.fromJSON(object.pagination);
+    return obj;
   },
   toJSON(message: GetValidatorSetByHeightRequest): unknown {
     const obj: any = {};
@@ -425,8 +426,12 @@ export const GetValidatorSetByHeightRequest = {
   },
   fromPartial(object: DeepPartial<GetValidatorSetByHeightRequest>): GetValidatorSetByHeightRequest {
     const message = createBaseGetValidatorSetByHeightRequest();
-    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt(0);
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
+    if (object.height !== undefined && object.height !== null) {
+      message.height = BigInt(object.height.toString());
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    }
     return message;
   },
   fromSDK(object: GetValidatorSetByHeightRequestSDKType): GetValidatorSetByHeightRequest {
@@ -501,7 +506,7 @@ export const GetValidatorSetByHeightResponse = {
     return o && (o.$typeUrl === GetValidatorSetByHeightResponse.typeUrl || typeof o.block_height === "bigint" && Array.isArray(o.validators) && (!o.validators.length || Validator.isAmino(o.validators[0])));
   },
   encode(message: GetValidatorSetByHeightResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.blockHeight !== BigInt(0)) {
+    if (message.blockHeight !== undefined) {
       writer.uint32(8).int64(message.blockHeight);
     }
     for (const v of message.validators) {
@@ -536,11 +541,11 @@ export const GetValidatorSetByHeightResponse = {
     return message;
   },
   fromJSON(object: any): GetValidatorSetByHeightResponse {
-    return {
-      blockHeight: isSet(object.blockHeight) ? BigInt(object.blockHeight.toString()) : BigInt(0),
-      validators: Array.isArray(object?.validators) ? object.validators.map((e: any) => Validator.fromJSON(e)) : [],
-      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
-    };
+    const obj = createBaseGetValidatorSetByHeightResponse();
+    if (isSet(object.blockHeight)) obj.blockHeight = BigInt(object.blockHeight.toString());
+    if (Array.isArray(object?.validators)) obj.validators = object.validators.map((e: any) => Validator.fromJSON(e));
+    if (isSet(object.pagination)) obj.pagination = PageResponse.fromJSON(object.pagination);
+    return obj;
   },
   toJSON(message: GetValidatorSetByHeightResponse): unknown {
     const obj: any = {};
@@ -555,9 +560,13 @@ export const GetValidatorSetByHeightResponse = {
   },
   fromPartial(object: DeepPartial<GetValidatorSetByHeightResponse>): GetValidatorSetByHeightResponse {
     const message = createBaseGetValidatorSetByHeightResponse();
-    message.blockHeight = object.blockHeight !== undefined && object.blockHeight !== null ? BigInt(object.blockHeight.toString()) : BigInt(0);
+    if (object.blockHeight !== undefined && object.blockHeight !== null) {
+      message.blockHeight = BigInt(object.blockHeight.toString());
+    }
     message.validators = object.validators?.map(e => Validator.fromPartial(e)) || [];
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    }
     return message;
   },
   fromSDK(object: GetValidatorSetByHeightResponseSDKType): GetValidatorSetByHeightResponse {
@@ -665,9 +674,9 @@ export const GetLatestValidatorSetRequest = {
     return message;
   },
   fromJSON(object: any): GetLatestValidatorSetRequest {
-    return {
-      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
-    };
+    const obj = createBaseGetLatestValidatorSetRequest();
+    if (isSet(object.pagination)) obj.pagination = PageRequest.fromJSON(object.pagination);
+    return obj;
   },
   toJSON(message: GetLatestValidatorSetRequest): unknown {
     const obj: any = {};
@@ -676,7 +685,9 @@ export const GetLatestValidatorSetRequest = {
   },
   fromPartial(object: DeepPartial<GetLatestValidatorSetRequest>): GetLatestValidatorSetRequest {
     const message = createBaseGetLatestValidatorSetRequest();
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    }
     return message;
   },
   fromSDK(object: GetLatestValidatorSetRequestSDKType): GetLatestValidatorSetRequest {
@@ -745,7 +756,7 @@ export const GetLatestValidatorSetResponse = {
     return o && (o.$typeUrl === GetLatestValidatorSetResponse.typeUrl || typeof o.block_height === "bigint" && Array.isArray(o.validators) && (!o.validators.length || Validator.isAmino(o.validators[0])));
   },
   encode(message: GetLatestValidatorSetResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.blockHeight !== BigInt(0)) {
+    if (message.blockHeight !== undefined) {
       writer.uint32(8).int64(message.blockHeight);
     }
     for (const v of message.validators) {
@@ -780,11 +791,11 @@ export const GetLatestValidatorSetResponse = {
     return message;
   },
   fromJSON(object: any): GetLatestValidatorSetResponse {
-    return {
-      blockHeight: isSet(object.blockHeight) ? BigInt(object.blockHeight.toString()) : BigInt(0),
-      validators: Array.isArray(object?.validators) ? object.validators.map((e: any) => Validator.fromJSON(e)) : [],
-      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
-    };
+    const obj = createBaseGetLatestValidatorSetResponse();
+    if (isSet(object.blockHeight)) obj.blockHeight = BigInt(object.blockHeight.toString());
+    if (Array.isArray(object?.validators)) obj.validators = object.validators.map((e: any) => Validator.fromJSON(e));
+    if (isSet(object.pagination)) obj.pagination = PageResponse.fromJSON(object.pagination);
+    return obj;
   },
   toJSON(message: GetLatestValidatorSetResponse): unknown {
     const obj: any = {};
@@ -799,9 +810,13 @@ export const GetLatestValidatorSetResponse = {
   },
   fromPartial(object: DeepPartial<GetLatestValidatorSetResponse>): GetLatestValidatorSetResponse {
     const message = createBaseGetLatestValidatorSetResponse();
-    message.blockHeight = object.blockHeight !== undefined && object.blockHeight !== null ? BigInt(object.blockHeight.toString()) : BigInt(0);
+    if (object.blockHeight !== undefined && object.blockHeight !== null) {
+      message.blockHeight = BigInt(object.blockHeight.toString());
+    }
     message.validators = object.validators?.map(e => Validator.fromPartial(e)) || [];
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    }
     return message;
   },
   fromSDK(object: GetLatestValidatorSetResponseSDKType): GetLatestValidatorSetResponse {
@@ -889,16 +904,16 @@ export const Validator = {
     return o && (o.$typeUrl === Validator.typeUrl || typeof o.address === "string" && typeof o.voting_power === "bigint" && typeof o.proposer_priority === "bigint");
   },
   encode(message: Validator, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.address !== "") {
+    if (message.address !== undefined) {
       writer.uint32(10).string(message.address);
     }
     if (message.pubKey !== undefined) {
       Any.encode(message.pubKey, writer.uint32(18).fork()).ldelim();
     }
-    if (message.votingPower !== BigInt(0)) {
+    if (message.votingPower !== undefined) {
       writer.uint32(24).int64(message.votingPower);
     }
-    if (message.proposerPriority !== BigInt(0)) {
+    if (message.proposerPriority !== undefined) {
       writer.uint32(32).int64(message.proposerPriority);
     }
     return writer;
@@ -930,12 +945,12 @@ export const Validator = {
     return message;
   },
   fromJSON(object: any): Validator {
-    return {
-      address: isSet(object.address) ? String(object.address) : "",
-      pubKey: isSet(object.pubKey) ? Any.fromJSON(object.pubKey) : undefined,
-      votingPower: isSet(object.votingPower) ? BigInt(object.votingPower.toString()) : BigInt(0),
-      proposerPriority: isSet(object.proposerPriority) ? BigInt(object.proposerPriority.toString()) : BigInt(0)
-    };
+    const obj = createBaseValidator();
+    if (isSet(object.address)) obj.address = String(object.address);
+    if (isSet(object.pubKey)) obj.pubKey = Any.fromJSON(object.pubKey);
+    if (isSet(object.votingPower)) obj.votingPower = BigInt(object.votingPower.toString());
+    if (isSet(object.proposerPriority)) obj.proposerPriority = BigInt(object.proposerPriority.toString());
+    return obj;
   },
   toJSON(message: Validator): unknown {
     const obj: any = {};
@@ -948,9 +963,15 @@ export const Validator = {
   fromPartial(object: DeepPartial<Validator>): Validator {
     const message = createBaseValidator();
     message.address = object.address ?? "";
-    message.pubKey = object.pubKey !== undefined && object.pubKey !== null ? Any.fromPartial(object.pubKey) : undefined;
-    message.votingPower = object.votingPower !== undefined && object.votingPower !== null ? BigInt(object.votingPower.toString()) : BigInt(0);
-    message.proposerPriority = object.proposerPriority !== undefined && object.proposerPriority !== null ? BigInt(object.proposerPriority.toString()) : BigInt(0);
+    if (object.pubKey !== undefined && object.pubKey !== null) {
+      message.pubKey = Any.fromPartial(object.pubKey);
+    }
+    if (object.votingPower !== undefined && object.votingPower !== null) {
+      message.votingPower = BigInt(object.votingPower.toString());
+    }
+    if (object.proposerPriority !== undefined && object.proposerPriority !== null) {
+      message.proposerPriority = BigInt(object.proposerPriority.toString());
+    }
     return message;
   },
   fromSDK(object: ValidatorSDKType): Validator {
@@ -1035,7 +1056,7 @@ export const GetBlockByHeightRequest = {
     return o && (o.$typeUrl === GetBlockByHeightRequest.typeUrl || typeof o.height === "bigint");
   },
   encode(message: GetBlockByHeightRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.height !== BigInt(0)) {
+    if (message.height !== undefined) {
       writer.uint32(8).int64(message.height);
     }
     return writer;
@@ -1058,9 +1079,9 @@ export const GetBlockByHeightRequest = {
     return message;
   },
   fromJSON(object: any): GetBlockByHeightRequest {
-    return {
-      height: isSet(object.height) ? BigInt(object.height.toString()) : BigInt(0)
-    };
+    const obj = createBaseGetBlockByHeightRequest();
+    if (isSet(object.height)) obj.height = BigInt(object.height.toString());
+    return obj;
   },
   toJSON(message: GetBlockByHeightRequest): unknown {
     const obj: any = {};
@@ -1069,7 +1090,9 @@ export const GetBlockByHeightRequest = {
   },
   fromPartial(object: DeepPartial<GetBlockByHeightRequest>): GetBlockByHeightRequest {
     const message = createBaseGetBlockByHeightRequest();
-    message.height = object.height !== undefined && object.height !== null ? BigInt(object.height.toString()) : BigInt(0);
+    if (object.height !== undefined && object.height !== null) {
+      message.height = BigInt(object.height.toString());
+    }
     return message;
   },
   fromSDK(object: GetBlockByHeightRequestSDKType): GetBlockByHeightRequest {
@@ -1166,10 +1189,10 @@ export const GetBlockByHeightResponse = {
     return message;
   },
   fromJSON(object: any): GetBlockByHeightResponse {
-    return {
-      blockId: isSet(object.blockId) ? BlockID.fromJSON(object.blockId) : undefined,
-      block: isSet(object.block) ? Block.fromJSON(object.block) : undefined
-    };
+    const obj = createBaseGetBlockByHeightResponse();
+    if (isSet(object.blockId)) obj.blockId = BlockID.fromJSON(object.blockId);
+    if (isSet(object.block)) obj.block = Block.fromJSON(object.block);
+    return obj;
   },
   toJSON(message: GetBlockByHeightResponse): unknown {
     const obj: any = {};
@@ -1179,8 +1202,12 @@ export const GetBlockByHeightResponse = {
   },
   fromPartial(object: DeepPartial<GetBlockByHeightResponse>): GetBlockByHeightResponse {
     const message = createBaseGetBlockByHeightResponse();
-    message.blockId = object.blockId !== undefined && object.blockId !== null ? BlockID.fromPartial(object.blockId) : undefined;
-    message.block = object.block !== undefined && object.block !== null ? Block.fromPartial(object.block) : undefined;
+    if (object.blockId !== undefined && object.blockId !== null) {
+      message.blockId = BlockID.fromPartial(object.blockId);
+    }
+    if (object.block !== undefined && object.block !== null) {
+      message.block = Block.fromPartial(object.block);
+    }
     return message;
   },
   fromSDK(object: GetBlockByHeightResponseSDKType): GetBlockByHeightResponse {
@@ -1268,7 +1295,8 @@ export const GetLatestBlockRequest = {
     return message;
   },
   fromJSON(_: any): GetLatestBlockRequest {
-    return {};
+    const obj = createBaseGetLatestBlockRequest();
+    return obj;
   },
   toJSON(_: GetLatestBlockRequest): unknown {
     const obj: any = {};
@@ -1365,10 +1393,10 @@ export const GetLatestBlockResponse = {
     return message;
   },
   fromJSON(object: any): GetLatestBlockResponse {
-    return {
-      blockId: isSet(object.blockId) ? BlockID.fromJSON(object.blockId) : undefined,
-      block: isSet(object.block) ? Block.fromJSON(object.block) : undefined
-    };
+    const obj = createBaseGetLatestBlockResponse();
+    if (isSet(object.blockId)) obj.blockId = BlockID.fromJSON(object.blockId);
+    if (isSet(object.block)) obj.block = Block.fromJSON(object.block);
+    return obj;
   },
   toJSON(message: GetLatestBlockResponse): unknown {
     const obj: any = {};
@@ -1378,8 +1406,12 @@ export const GetLatestBlockResponse = {
   },
   fromPartial(object: DeepPartial<GetLatestBlockResponse>): GetLatestBlockResponse {
     const message = createBaseGetLatestBlockResponse();
-    message.blockId = object.blockId !== undefined && object.blockId !== null ? BlockID.fromPartial(object.blockId) : undefined;
-    message.block = object.block !== undefined && object.block !== null ? Block.fromPartial(object.block) : undefined;
+    if (object.blockId !== undefined && object.blockId !== null) {
+      message.blockId = BlockID.fromPartial(object.blockId);
+    }
+    if (object.block !== undefined && object.block !== null) {
+      message.block = Block.fromPartial(object.block);
+    }
     return message;
   },
   fromSDK(object: GetLatestBlockResponseSDKType): GetLatestBlockResponse {
@@ -1467,7 +1499,8 @@ export const GetSyncingRequest = {
     return message;
   },
   fromJSON(_: any): GetSyncingRequest {
-    return {};
+    const obj = createBaseGetSyncingRequest();
+    return obj;
   },
   toJSON(_: GetSyncingRequest): unknown {
     const obj: any = {};
@@ -1534,7 +1567,7 @@ export const GetSyncingResponse = {
     return o && (o.$typeUrl === GetSyncingResponse.typeUrl || typeof o.syncing === "boolean");
   },
   encode(message: GetSyncingResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.syncing === true) {
+    if (message.syncing !== undefined) {
       writer.uint32(8).bool(message.syncing);
     }
     return writer;
@@ -1557,9 +1590,9 @@ export const GetSyncingResponse = {
     return message;
   },
   fromJSON(object: any): GetSyncingResponse {
-    return {
-      syncing: isSet(object.syncing) ? Boolean(object.syncing) : false
-    };
+    const obj = createBaseGetSyncingResponse();
+    if (isSet(object.syncing)) obj.syncing = Boolean(object.syncing);
+    return obj;
   },
   toJSON(message: GetSyncingResponse): unknown {
     const obj: any = {};
@@ -1650,7 +1683,8 @@ export const GetNodeInfoRequest = {
     return message;
   },
   fromJSON(_: any): GetNodeInfoRequest {
-    return {};
+    const obj = createBaseGetNodeInfoRequest();
+    return obj;
   },
   toJSON(_: GetNodeInfoRequest): unknown {
     const obj: any = {};
@@ -1747,10 +1781,10 @@ export const GetNodeInfoResponse = {
     return message;
   },
   fromJSON(object: any): GetNodeInfoResponse {
-    return {
-      nodeInfo: isSet(object.nodeInfo) ? NodeInfo.fromJSON(object.nodeInfo) : undefined,
-      applicationVersion: isSet(object.applicationVersion) ? VersionInfo.fromJSON(object.applicationVersion) : undefined
-    };
+    const obj = createBaseGetNodeInfoResponse();
+    if (isSet(object.nodeInfo)) obj.nodeInfo = NodeInfo.fromJSON(object.nodeInfo);
+    if (isSet(object.applicationVersion)) obj.applicationVersion = VersionInfo.fromJSON(object.applicationVersion);
+    return obj;
   },
   toJSON(message: GetNodeInfoResponse): unknown {
     const obj: any = {};
@@ -1760,8 +1794,12 @@ export const GetNodeInfoResponse = {
   },
   fromPartial(object: DeepPartial<GetNodeInfoResponse>): GetNodeInfoResponse {
     const message = createBaseGetNodeInfoResponse();
-    message.nodeInfo = object.nodeInfo !== undefined && object.nodeInfo !== null ? NodeInfo.fromPartial(object.nodeInfo) : undefined;
-    message.applicationVersion = object.applicationVersion !== undefined && object.applicationVersion !== null ? VersionInfo.fromPartial(object.applicationVersion) : undefined;
+    if (object.nodeInfo !== undefined && object.nodeInfo !== null) {
+      message.nodeInfo = NodeInfo.fromPartial(object.nodeInfo);
+    }
+    if (object.applicationVersion !== undefined && object.applicationVersion !== null) {
+      message.applicationVersion = VersionInfo.fromPartial(object.applicationVersion);
+    }
     return message;
   },
   fromSDK(object: GetNodeInfoResponseSDKType): GetNodeInfoResponse {
@@ -1841,28 +1879,28 @@ export const VersionInfo = {
     return o && (o.$typeUrl === VersionInfo.typeUrl || typeof o.name === "string" && typeof o.app_name === "string" && typeof o.version === "string" && typeof o.git_commit === "string" && typeof o.build_tags === "string" && typeof o.go_version === "string" && Array.isArray(o.build_deps) && (!o.build_deps.length || Module.isAmino(o.build_deps[0])) && typeof o.cosmos_sdk_version === "string");
   },
   encode(message: VersionInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.name !== "") {
+    if (message.name !== undefined) {
       writer.uint32(10).string(message.name);
     }
-    if (message.appName !== "") {
+    if (message.appName !== undefined) {
       writer.uint32(18).string(message.appName);
     }
-    if (message.version !== "") {
+    if (message.version !== undefined) {
       writer.uint32(26).string(message.version);
     }
-    if (message.gitCommit !== "") {
+    if (message.gitCommit !== undefined) {
       writer.uint32(34).string(message.gitCommit);
     }
-    if (message.buildTags !== "") {
+    if (message.buildTags !== undefined) {
       writer.uint32(42).string(message.buildTags);
     }
-    if (message.goVersion !== "") {
+    if (message.goVersion !== undefined) {
       writer.uint32(50).string(message.goVersion);
     }
     for (const v of message.buildDeps) {
       Module.encode(v!, writer.uint32(58).fork()).ldelim();
     }
-    if (message.cosmosSdkVersion !== "") {
+    if (message.cosmosSdkVersion !== undefined) {
       writer.uint32(66).string(message.cosmosSdkVersion);
     }
     return writer;
@@ -1906,16 +1944,16 @@ export const VersionInfo = {
     return message;
   },
   fromJSON(object: any): VersionInfo {
-    return {
-      name: isSet(object.name) ? String(object.name) : "",
-      appName: isSet(object.appName) ? String(object.appName) : "",
-      version: isSet(object.version) ? String(object.version) : "",
-      gitCommit: isSet(object.gitCommit) ? String(object.gitCommit) : "",
-      buildTags: isSet(object.buildTags) ? String(object.buildTags) : "",
-      goVersion: isSet(object.goVersion) ? String(object.goVersion) : "",
-      buildDeps: Array.isArray(object?.buildDeps) ? object.buildDeps.map((e: any) => Module.fromJSON(e)) : [],
-      cosmosSdkVersion: isSet(object.cosmosSdkVersion) ? String(object.cosmosSdkVersion) : ""
-    };
+    const obj = createBaseVersionInfo();
+    if (isSet(object.name)) obj.name = String(object.name);
+    if (isSet(object.appName)) obj.appName = String(object.appName);
+    if (isSet(object.version)) obj.version = String(object.version);
+    if (isSet(object.gitCommit)) obj.gitCommit = String(object.gitCommit);
+    if (isSet(object.buildTags)) obj.buildTags = String(object.buildTags);
+    if (isSet(object.goVersion)) obj.goVersion = String(object.goVersion);
+    if (Array.isArray(object?.buildDeps)) obj.buildDeps = object.buildDeps.map((e: any) => Module.fromJSON(e));
+    if (isSet(object.cosmosSdkVersion)) obj.cosmosSdkVersion = String(object.cosmosSdkVersion);
+    return obj;
   },
   toJSON(message: VersionInfo): unknown {
     const obj: any = {};
@@ -2059,13 +2097,13 @@ export const Module = {
     return o && (o.$typeUrl === Module.typeUrl || typeof o.path === "string" && typeof o.version === "string" && typeof o.sum === "string");
   },
   encode(message: Module, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.path !== "") {
+    if (message.path !== undefined) {
       writer.uint32(10).string(message.path);
     }
-    if (message.version !== "") {
+    if (message.version !== undefined) {
       writer.uint32(18).string(message.version);
     }
-    if (message.sum !== "") {
+    if (message.sum !== undefined) {
       writer.uint32(26).string(message.sum);
     }
     return writer;
@@ -2094,11 +2132,11 @@ export const Module = {
     return message;
   },
   fromJSON(object: any): Module {
-    return {
-      path: isSet(object.path) ? String(object.path) : "",
-      version: isSet(object.version) ? String(object.version) : "",
-      sum: isSet(object.sum) ? String(object.sum) : ""
-    };
+    const obj = createBaseModule();
+    if (isSet(object.path)) obj.path = String(object.path);
+    if (isSet(object.version)) obj.version = String(object.version);
+    if (isSet(object.sum)) obj.sum = String(object.sum);
+    return obj;
   },
   toJSON(message: Module): unknown {
     const obj: any = {};

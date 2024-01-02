@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.app.v1alpha1";
 /** ModuleDescriptor describes an app module. */
 export interface ModuleDescriptor {
   /**
@@ -227,7 +228,7 @@ export const ModuleDescriptor = {
     return o && (o.$typeUrl === ModuleDescriptor.typeUrl || typeof o.go_import === "string" && Array.isArray(o.use_package) && (!o.use_package.length || PackageReference.isAmino(o.use_package[0])) && Array.isArray(o.can_migrate_from) && (!o.can_migrate_from.length || MigrateFromInfo.isAmino(o.can_migrate_from[0])));
   },
   encode(message: ModuleDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.goImport !== "") {
+    if (message.goImport !== undefined) {
       writer.uint32(10).string(message.goImport);
     }
     for (const v of message.usePackage) {
@@ -262,11 +263,11 @@ export const ModuleDescriptor = {
     return message;
   },
   fromJSON(object: any): ModuleDescriptor {
-    return {
-      goImport: isSet(object.goImport) ? String(object.goImport) : "",
-      usePackage: Array.isArray(object?.usePackage) ? object.usePackage.map((e: any) => PackageReference.fromJSON(e)) : [],
-      canMigrateFrom: Array.isArray(object?.canMigrateFrom) ? object.canMigrateFrom.map((e: any) => MigrateFromInfo.fromJSON(e)) : []
-    };
+    const obj = createBaseModuleDescriptor();
+    if (isSet(object.goImport)) obj.goImport = String(object.goImport);
+    if (Array.isArray(object?.usePackage)) obj.usePackage = object.usePackage.map((e: any) => PackageReference.fromJSON(e));
+    if (Array.isArray(object?.canMigrateFrom)) obj.canMigrateFrom = object.canMigrateFrom.map((e: any) => MigrateFromInfo.fromJSON(e));
+    return obj;
   },
   toJSON(message: ModuleDescriptor): unknown {
     const obj: any = {};
@@ -379,10 +380,10 @@ export const PackageReference = {
     return o && (o.$typeUrl === PackageReference.typeUrl || typeof o.name === "string" && typeof o.revision === "number");
   },
   encode(message: PackageReference, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.name !== "") {
+    if (message.name !== undefined) {
       writer.uint32(10).string(message.name);
     }
-    if (message.revision !== 0) {
+    if (message.revision !== undefined) {
       writer.uint32(16).uint32(message.revision);
     }
     return writer;
@@ -408,10 +409,10 @@ export const PackageReference = {
     return message;
   },
   fromJSON(object: any): PackageReference {
-    return {
-      name: isSet(object.name) ? String(object.name) : "",
-      revision: isSet(object.revision) ? Number(object.revision) : 0
-    };
+    const obj = createBasePackageReference();
+    if (isSet(object.name)) obj.name = String(object.name);
+    if (isSet(object.revision)) obj.revision = Number(object.revision);
+    return obj;
   },
   toJSON(message: PackageReference): unknown {
     const obj: any = {};
@@ -495,7 +496,7 @@ export const MigrateFromInfo = {
     return o && (o.$typeUrl === MigrateFromInfo.typeUrl || typeof o.module === "string");
   },
   encode(message: MigrateFromInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.module !== "") {
+    if (message.module !== undefined) {
       writer.uint32(10).string(message.module);
     }
     return writer;
@@ -518,9 +519,9 @@ export const MigrateFromInfo = {
     return message;
   },
   fromJSON(object: any): MigrateFromInfo {
-    return {
-      module: isSet(object.module) ? String(object.module) : ""
-    };
+    const obj = createBaseMigrateFromInfo();
+    if (isSet(object.module)) obj.module = String(object.module);
+    return obj;
   },
   toJSON(message: MigrateFromInfo): unknown {
     const obj: any = {};

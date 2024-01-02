@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { DeepPartial } from "../../helpers";
 import { GlobalDecoderRegistry } from "../../registry";
+export const protobufPackage = "google.protobuf";
 /**
  * A generic empty message that you can re-use to avoid defining duplicated
  * empty messages in your APIs. A typical example is to use it as the request
@@ -77,7 +78,8 @@ export const Empty = {
     return message;
   },
   fromJSON(_: any): Empty {
-    return {};
+    const obj = createBaseEmpty();
+    return obj;
   },
   toJSON(_: Empty): unknown {
     const obj: any = {};

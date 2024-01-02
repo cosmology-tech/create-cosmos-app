@@ -2,6 +2,7 @@ import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "cosmos.bank.v1beta1";
 /** Params defines the parameters for the bank module. */
 export interface Params {
   sendEnabled: SendEnabled[];
@@ -321,7 +322,7 @@ export const Params = {
     for (const v of message.sendEnabled) {
       SendEnabled.encode(v!, writer.uint32(10).fork()).ldelim();
     }
-    if (message.defaultSendEnabled === true) {
+    if (message.defaultSendEnabled !== undefined) {
       writer.uint32(16).bool(message.defaultSendEnabled);
     }
     return writer;
@@ -347,10 +348,10 @@ export const Params = {
     return message;
   },
   fromJSON(object: any): Params {
-    return {
-      sendEnabled: Array.isArray(object?.sendEnabled) ? object.sendEnabled.map((e: any) => SendEnabled.fromJSON(e)) : [],
-      defaultSendEnabled: isSet(object.defaultSendEnabled) ? Boolean(object.defaultSendEnabled) : false
-    };
+    const obj = createBaseParams();
+    if (Array.isArray(object?.sendEnabled)) obj.sendEnabled = object.sendEnabled.map((e: any) => SendEnabled.fromJSON(e));
+    if (isSet(object.defaultSendEnabled)) obj.defaultSendEnabled = Boolean(object.defaultSendEnabled);
+    return obj;
   },
   toJSON(message: Params): unknown {
     const obj: any = {};
@@ -445,10 +446,10 @@ export const SendEnabled = {
     return o && (o.$typeUrl === SendEnabled.typeUrl || typeof o.denom === "string" && typeof o.enabled === "boolean");
   },
   encode(message: SendEnabled, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.denom !== "") {
+    if (message.denom !== undefined) {
       writer.uint32(10).string(message.denom);
     }
-    if (message.enabled === true) {
+    if (message.enabled !== undefined) {
       writer.uint32(16).bool(message.enabled);
     }
     return writer;
@@ -474,10 +475,10 @@ export const SendEnabled = {
     return message;
   },
   fromJSON(object: any): SendEnabled {
-    return {
-      denom: isSet(object.denom) ? String(object.denom) : "",
-      enabled: isSet(object.enabled) ? Boolean(object.enabled) : false
-    };
+    const obj = createBaseSendEnabled();
+    if (isSet(object.denom)) obj.denom = String(object.denom);
+    if (isSet(object.enabled)) obj.enabled = Boolean(object.enabled);
+    return obj;
   },
   toJSON(message: SendEnabled): unknown {
     const obj: any = {};
@@ -562,7 +563,7 @@ export const Input = {
     return o && (o.$typeUrl === Input.typeUrl || typeof o.address === "string" && Array.isArray(o.coins) && (!o.coins.length || Coin.isAmino(o.coins[0])));
   },
   encode(message: Input, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.address !== "") {
+    if (message.address !== undefined) {
       writer.uint32(10).string(message.address);
     }
     for (const v of message.coins) {
@@ -591,10 +592,10 @@ export const Input = {
     return message;
   },
   fromJSON(object: any): Input {
-    return {
-      address: isSet(object.address) ? String(object.address) : "",
-      coins: Array.isArray(object?.coins) ? object.coins.map((e: any) => Coin.fromJSON(e)) : []
-    };
+    const obj = createBaseInput();
+    if (isSet(object.address)) obj.address = String(object.address);
+    if (Array.isArray(object?.coins)) obj.coins = object.coins.map((e: any) => Coin.fromJSON(e));
+    return obj;
   },
   toJSON(message: Input): unknown {
     const obj: any = {};
@@ -689,7 +690,7 @@ export const Output = {
     return o && (o.$typeUrl === Output.typeUrl || typeof o.address === "string" && Array.isArray(o.coins) && (!o.coins.length || Coin.isAmino(o.coins[0])));
   },
   encode(message: Output, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.address !== "") {
+    if (message.address !== undefined) {
       writer.uint32(10).string(message.address);
     }
     for (const v of message.coins) {
@@ -718,10 +719,10 @@ export const Output = {
     return message;
   },
   fromJSON(object: any): Output {
-    return {
-      address: isSet(object.address) ? String(object.address) : "",
-      coins: Array.isArray(object?.coins) ? object.coins.map((e: any) => Coin.fromJSON(e)) : []
-    };
+    const obj = createBaseOutput();
+    if (isSet(object.address)) obj.address = String(object.address);
+    if (Array.isArray(object?.coins)) obj.coins = object.coins.map((e: any) => Coin.fromJSON(e));
+    return obj;
   },
   toJSON(message: Output): unknown {
     const obj: any = {};
@@ -839,9 +840,9 @@ export const Supply = {
     return message;
   },
   fromJSON(object: any): Supply {
-    return {
-      total: Array.isArray(object?.total) ? object.total.map((e: any) => Coin.fromJSON(e)) : []
-    };
+    const obj = createBaseSupply();
+    if (Array.isArray(object?.total)) obj.total = object.total.map((e: any) => Coin.fromJSON(e));
+    return obj;
   },
   toJSON(message: Supply): unknown {
     const obj: any = {};
@@ -929,10 +930,10 @@ export const DenomUnit = {
     return o && (o.$typeUrl === DenomUnit.typeUrl || typeof o.denom === "string" && typeof o.exponent === "number" && Array.isArray(o.aliases) && (!o.aliases.length || typeof o.aliases[0] === "string"));
   },
   encode(message: DenomUnit, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.denom !== "") {
+    if (message.denom !== undefined) {
       writer.uint32(10).string(message.denom);
     }
-    if (message.exponent !== 0) {
+    if (message.exponent !== undefined) {
       writer.uint32(16).uint32(message.exponent);
     }
     for (const v of message.aliases) {
@@ -964,11 +965,11 @@ export const DenomUnit = {
     return message;
   },
   fromJSON(object: any): DenomUnit {
-    return {
-      denom: isSet(object.denom) ? String(object.denom) : "",
-      exponent: isSet(object.exponent) ? Number(object.exponent) : 0,
-      aliases: Array.isArray(object?.aliases) ? object.aliases.map((e: any) => String(e)) : []
-    };
+    const obj = createBaseDenomUnit();
+    if (isSet(object.denom)) obj.denom = String(object.denom);
+    if (isSet(object.exponent)) obj.exponent = Number(object.exponent);
+    if (Array.isArray(object?.aliases)) obj.aliases = object.aliases.map((e: any) => String(e));
+    return obj;
   },
   toJSON(message: DenomUnit): unknown {
     const obj: any = {};
@@ -1077,28 +1078,28 @@ export const Metadata = {
     return o && (o.$typeUrl === Metadata.typeUrl || typeof o.description === "string" && Array.isArray(o.denom_units) && (!o.denom_units.length || DenomUnit.isAmino(o.denom_units[0])) && typeof o.base === "string" && typeof o.display === "string" && typeof o.name === "string" && typeof o.symbol === "string" && typeof o.uri === "string" && typeof o.uri_hash === "string");
   },
   encode(message: Metadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.description !== "") {
+    if (message.description !== undefined) {
       writer.uint32(10).string(message.description);
     }
     for (const v of message.denomUnits) {
       DenomUnit.encode(v!, writer.uint32(18).fork()).ldelim();
     }
-    if (message.base !== "") {
+    if (message.base !== undefined) {
       writer.uint32(26).string(message.base);
     }
-    if (message.display !== "") {
+    if (message.display !== undefined) {
       writer.uint32(34).string(message.display);
     }
-    if (message.name !== "") {
+    if (message.name !== undefined) {
       writer.uint32(42).string(message.name);
     }
-    if (message.symbol !== "") {
+    if (message.symbol !== undefined) {
       writer.uint32(50).string(message.symbol);
     }
-    if (message.uri !== "") {
+    if (message.uri !== undefined) {
       writer.uint32(58).string(message.uri);
     }
-    if (message.uriHash !== "") {
+    if (message.uriHash !== undefined) {
       writer.uint32(66).string(message.uriHash);
     }
     return writer;
@@ -1142,16 +1143,16 @@ export const Metadata = {
     return message;
   },
   fromJSON(object: any): Metadata {
-    return {
-      description: isSet(object.description) ? String(object.description) : "",
-      denomUnits: Array.isArray(object?.denomUnits) ? object.denomUnits.map((e: any) => DenomUnit.fromJSON(e)) : [],
-      base: isSet(object.base) ? String(object.base) : "",
-      display: isSet(object.display) ? String(object.display) : "",
-      name: isSet(object.name) ? String(object.name) : "",
-      symbol: isSet(object.symbol) ? String(object.symbol) : "",
-      uri: isSet(object.uri) ? String(object.uri) : "",
-      uriHash: isSet(object.uriHash) ? String(object.uriHash) : ""
-    };
+    const obj = createBaseMetadata();
+    if (isSet(object.description)) obj.description = String(object.description);
+    if (Array.isArray(object?.denomUnits)) obj.denomUnits = object.denomUnits.map((e: any) => DenomUnit.fromJSON(e));
+    if (isSet(object.base)) obj.base = String(object.base);
+    if (isSet(object.display)) obj.display = String(object.display);
+    if (isSet(object.name)) obj.name = String(object.name);
+    if (isSet(object.symbol)) obj.symbol = String(object.symbol);
+    if (isSet(object.uri)) obj.uri = String(object.uri);
+    if (isSet(object.uriHash)) obj.uriHash = String(object.uriHash);
+    return obj;
   },
   toJSON(message: Metadata): unknown {
     const obj: any = {};

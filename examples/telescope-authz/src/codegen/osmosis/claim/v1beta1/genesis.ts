@@ -4,12 +4,13 @@ import { ClaimRecord, ClaimRecordAmino, ClaimRecordSDKType } from "./claim";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
+export const protobufPackage = "osmosis.claim.v1beta1";
 /** GenesisState defines the claim module's genesis state. */
 export interface GenesisState {
   /** balance of the claim module's account */
-  moduleAccountBalance: Coin | undefined;
+  moduleAccountBalance: Coin;
   /** params defines all the parameters of the module. */
-  params: Params | undefined;
+  params: Params;
   /** list of claim records, one for every airdrop recipient */
   claimRecords: ClaimRecord[];
 }
@@ -20,9 +21,9 @@ export interface GenesisStateProtoMsg {
 /** GenesisState defines the claim module's genesis state. */
 export interface GenesisStateAmino {
   /** balance of the claim module's account */
-  module_account_balance?: CoinAmino | undefined;
+  module_account_balance?: CoinAmino;
   /** params defines all the parameters of the module. */
-  params?: ParamsAmino | undefined;
+  params?: ParamsAmino;
   /** list of claim records, one for every airdrop recipient */
   claim_records?: ClaimRecordAmino[];
 }
@@ -32,8 +33,8 @@ export interface GenesisStateAminoMsg {
 }
 /** GenesisState defines the claim module's genesis state. */
 export interface GenesisStateSDKType {
-  module_account_balance: CoinSDKType | undefined;
-  params: ParamsSDKType | undefined;
+  module_account_balance: CoinSDKType;
+  params: ParamsSDKType;
   claim_records: ClaimRecordSDKType[];
 }
 function createBaseGenesisState(): GenesisState {
@@ -91,11 +92,11 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      moduleAccountBalance: isSet(object.moduleAccountBalance) ? Coin.fromJSON(object.moduleAccountBalance) : undefined,
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-      claimRecords: Array.isArray(object?.claimRecords) ? object.claimRecords.map((e: any) => ClaimRecord.fromJSON(e)) : []
-    };
+    const obj = createBaseGenesisState();
+    if (isSet(object.moduleAccountBalance)) obj.moduleAccountBalance = Coin.fromJSON(object.moduleAccountBalance);
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    if (Array.isArray(object?.claimRecords)) obj.claimRecords = object.claimRecords.map((e: any) => ClaimRecord.fromJSON(e));
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
@@ -110,8 +111,12 @@ export const GenesisState = {
   },
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.moduleAccountBalance = object.moduleAccountBalance !== undefined && object.moduleAccountBalance !== null ? Coin.fromPartial(object.moduleAccountBalance) : undefined;
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.moduleAccountBalance !== undefined && object.moduleAccountBalance !== null) {
+      message.moduleAccountBalance = Coin.fromPartial(object.moduleAccountBalance);
+    }
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     message.claimRecords = object.claimRecords?.map(e => ClaimRecord.fromPartial(e)) || [];
     return message;
   },

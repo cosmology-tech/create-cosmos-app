@@ -1,6 +1,8 @@
 import { GeneratedType, Registry, OfflineSigner } from "@cosmjs/proto-signing";
 import { AminoTypes, SigningStargateClient } from "@cosmjs/stargate";
 import { HttpEndpoint } from "@cosmjs/tendermint-rpc";
+import { createRpcClient } from "../extern";
+import { DeliverTxResponse, EncodeObject, StdFee, TxRpc, SigningClientParams } from "../types";
 import * as cosmosAuthzV1beta1TxRegistry from "./authz/v1beta1/tx.registry";
 import * as cosmosBankV1beta1TxRegistry from "./bank/v1beta1/tx.registry";
 import * as cosmosCrisisV1beta1TxRegistry from "./crisis/v1beta1/tx.registry";
@@ -75,4 +77,18 @@ export const getSigningCosmosClient = async ({
     aminoTypes
   });
   return client;
+};
+export const getSigningCosmosTxRpc = async ({
+  rpcEndpoint,
+  signer
+}: SigningClientParams) => {
+  let txRpc = (await createRpcClient(rpcEndpoint) as TxRpc);
+  const signingClient = await getSigningCosmosClient({
+    rpcEndpoint,
+    signer
+  });
+  txRpc.signAndBroadcast = (signerAddress: string, messages: EncodeObject[], fee: number | StdFee | "auto", memo?: string) => {
+    return (signingClient.signAndBroadcast(signerAddress, messages, fee, memo) as Promise<DeliverTxResponse>);
+  };
+  return txRpc;
 };

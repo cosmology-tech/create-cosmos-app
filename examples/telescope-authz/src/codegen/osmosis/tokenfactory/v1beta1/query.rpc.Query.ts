@@ -1,10 +1,9 @@
+import { Params, ParamsSDKType } from "./params";
+import { DenomAuthorityMetadata, DenomAuthorityMetadataSDKType } from "./authorityMetadata";
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
-import { ReactQueryParams } from "../../../react-query";
-import { ProtobufRpcClient } from "@cosmjs/stargate";
-import { useQuery } from "@tanstack/react-query";
-import { QueryStore } from "../../../mobx";
-import { QueryParamsRequest, QueryParamsResponse, QueryDenomAuthorityMetadataRequest, QueryDenomAuthorityMetadataResponse, QueryDenomsFromCreatorRequest, QueryDenomsFromCreatorResponse } from "./query";
+import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, QueryDenomAuthorityMetadataRequest, QueryDenomAuthorityMetadataRequestSDKType, QueryDenomAuthorityMetadataResponse, QueryDenomAuthorityMetadataResponseSDKType, QueryDenomsFromCreatorRequest, QueryDenomsFromCreatorRequestSDKType, QueryDenomsFromCreatorResponse, QueryDenomsFromCreatorResponseSDKType } from "./query";
 /** Query defines the gRPC querier service. */
 export interface Query {
   /**
@@ -50,110 +49,18 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryDenomsFromCreatorResponse.decode(new BinaryReader(data)));
   };
 }
-export const createClientImpl = (rpc: TxRpc) => {
-  return new QueryClientImpl(rpc);
-};
-export interface UseParamsQuery<TData> extends ReactQueryParams<QueryParamsResponse, TData> {
-  request?: QueryParamsRequest;
-}
-export interface UseDenomAuthorityMetadataQuery<TData> extends ReactQueryParams<QueryDenomAuthorityMetadataResponse, TData> {
-  request: QueryDenomAuthorityMetadataRequest;
-}
-export interface UseDenomsFromCreatorQuery<TData> extends ReactQueryParams<QueryDenomsFromCreatorResponse, TData> {
-  request: QueryDenomsFromCreatorRequest;
-}
-const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
-const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
-  if (!rpc) return;
-  if (_queryClients.has(rpc)) {
-    return _queryClients.get(rpc);
-  }
+export const createRpcQueryExtension = (base: QueryClient) => {
+  const rpc = createProtobufRpcClient(base);
   const queryService = new QueryClientImpl(rpc);
-  _queryClients.set(rpc, queryService);
-  return queryService;
-};
-export const createRpcQueryHooks = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  const useParams = <TData = QueryParamsResponse,>({
-    request,
-    options
-  }: UseParamsQuery<TData>) => {
-    return useQuery<QueryParamsResponse, Error, TData>(["paramsQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+  return {
+    params(request?: QueryParamsRequest): Promise<QueryParamsResponse> {
       return queryService.params(request);
-    }, options);
-  };
-  const useDenomAuthorityMetadata = <TData = QueryDenomAuthorityMetadataResponse,>({
-    request,
-    options
-  }: UseDenomAuthorityMetadataQuery<TData>) => {
-    return useQuery<QueryDenomAuthorityMetadataResponse, Error, TData>(["denomAuthorityMetadataQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    denomAuthorityMetadata(request: QueryDenomAuthorityMetadataRequest): Promise<QueryDenomAuthorityMetadataResponse> {
       return queryService.denomAuthorityMetadata(request);
-    }, options);
-  };
-  const useDenomsFromCreator = <TData = QueryDenomsFromCreatorResponse,>({
-    request,
-    options
-  }: UseDenomsFromCreatorQuery<TData>) => {
-    return useQuery<QueryDenomsFromCreatorResponse, Error, TData>(["denomsFromCreatorQuery", request], () => {
-      if (!queryService) throw new Error("Query Service not initialized");
+    },
+    denomsFromCreator(request: QueryDenomsFromCreatorRequest): Promise<QueryDenomsFromCreatorResponse> {
       return queryService.denomsFromCreator(request);
-    }, options);
-  };
-  return {
-    /**
-     * Params defines a gRPC query method that returns the tokenfactory module's
-     * parameters.
-     */
-    useParams,
-    /**
-     * DenomAuthorityMetadata defines a gRPC query method for fetching
-     * DenomAuthorityMetadata for a particular denom.
-     */
-    useDenomAuthorityMetadata,
-    /**
-     * DenomsFromCreator defines a gRPC query method for fetching all
-     * denominations created by a specific admin/creator.
-     */
-    useDenomsFromCreator
-  };
-};
-export const createRpcQueryMobxStores = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  class QueryParamsStore {
-    store = new QueryStore<QueryParamsRequest, QueryParamsResponse>(queryService?.params);
-    params(request: QueryParamsRequest) {
-      return this.store.getData(request);
     }
-  }
-  class QueryDenomAuthorityMetadataStore {
-    store = new QueryStore<QueryDenomAuthorityMetadataRequest, QueryDenomAuthorityMetadataResponse>(queryService?.denomAuthorityMetadata);
-    denomAuthorityMetadata(request: QueryDenomAuthorityMetadataRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryDenomsFromCreatorStore {
-    store = new QueryStore<QueryDenomsFromCreatorRequest, QueryDenomsFromCreatorResponse>(queryService?.denomsFromCreator);
-    denomsFromCreator(request: QueryDenomsFromCreatorRequest) {
-      return this.store.getData(request);
-    }
-  }
-  return {
-    /**
-     * Params defines a gRPC query method that returns the tokenfactory module's
-     * parameters.
-     */
-    QueryParamsStore,
-    /**
-     * DenomAuthorityMetadata defines a gRPC query method for fetching
-     * DenomAuthorityMetadata for a particular denom.
-     */
-    QueryDenomAuthorityMetadataStore,
-    /**
-     * DenomsFromCreator defines a gRPC query method for fetching all
-     * denominations created by a specific admin/creator.
-     */
-    QueryDenomsFromCreatorStore
   };
 };
