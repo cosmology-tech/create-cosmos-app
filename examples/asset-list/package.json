@@ -25,7 +25,7 @@
     "@cosmos-kit/keplr": "^2.4.11",
     "@cosmos-kit/leap": "^2.4.10",
     "@cosmos-kit/react": "^2.9.11",
-    "@interchain-ui/react": "^1.14.1",
+    "@interchain-ui/react": "^1.20.4",
     "@tanstack/react-query": "4.32.0",
     "@uidotdev/usehooks": "2.4.1",
     "bignumber.js": "^9.1.2",

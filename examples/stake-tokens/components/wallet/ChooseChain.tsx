@@ -64,7 +64,7 @@ export const ChooseChain = (props: ChooseChainProps) => {
       <ChangeChainCombobox
         maxHeight={350}
         valueItem={selectedChain ? selectedChain : undefined}
-        size="sm"
+        appearance="bold"
         onItemSelected={(item: ComboboxItem | null) => {
           setSelectedChain(item);
           onChange(item);
