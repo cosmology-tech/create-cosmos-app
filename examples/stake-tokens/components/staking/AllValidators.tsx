@@ -1,9 +1,10 @@
-import { Heading, useDisclosure } from '@chakra-ui/react';
 import { useState } from 'react';
+import { Text } from '@interchain-ui/react';
 import { ChainName } from '@cosmos-kit/core';
+
 import { DelegateModal } from './DelegateModal';
-import React from 'react';
 import AllValidatorsList from './AllValidatorsList';
+import { Prices, useDisclosure } from '@/hooks';
 import { type ExtendedValidator as Validator } from '@/utils';
 
 export const AllValidators = ({
@@ -13,6 +14,7 @@ export const AllValidators = ({
   unbondingDays,
   chainName,
   logos,
+  prices,
 }: {
   validators: Validator[];
   balance: string;
@@ -22,15 +24,21 @@ export const AllValidators = ({
   logos: {
     [key: string]: string;
   };
+  prices: Prices;
 }) => {
   const delegateModalControl = useDisclosure();
   const [selectedValidator, setSelectedValidator] = useState<Validator>();
 
   return (
     <>
-      <Heading as="h4" size="md" mt={12} mb={6}>
+      <Text
+        color="$textSecondary"
+        fontSize="$lg"
+        fontWeight="$semibold"
+        attributes={{ mt: '$14', mb: '$6' }}
+      >
         All Validators
-      </Heading>
+      </Text>
 
       <AllValidatorsList
         validators={validators}
@@ -46,6 +54,7 @@ export const AllValidators = ({
           updateData={updateData}
           unbondingDays={unbondingDays}
           chainName={chainName}
+          prices={prices}
           logoUrl={logos[selectedValidator.address]}
           modalControl={delegateModalControl}
           selectedValidator={selectedValidator}

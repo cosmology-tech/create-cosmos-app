@@ -1,24 +1,13 @@
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-  Button,
-  Box,
-  Icon,
-  Text,
-  useColorMode,
-} from '@chakra-ui/react';
-import { Token } from './Overview';
-import { IoArrowForward } from 'react-icons/io5';
-import { Dispatch, SetStateAction } from 'react';
-import { getCoin } from '../../config';
-import { ChainName } from '@cosmos-kit/core';
 import React from 'react';
-import { Logo } from './ModalElements';
+import { Dispatch, SetStateAction } from 'react';
+import {
+  Button,
+  ValidatorList,
+  ValidatorNameCell,
+  ValidatorTokenAmountCell,
+} from '@interchain-ui/react';
+import { ChainName } from '@cosmos-kit/core';
+import { getCoin } from '@/config';
 import { type ExtendedValidator as Validator } from '@/utils';
 
 const MyValidatorsList = ({
@@ -38,66 +27,70 @@ const MyValidatorsList = ({
 }) => {
   const coin = getCoin(chainName);
 
-  const { colorMode } = useColorMode();
-
   return (
-    <TableContainer>
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th>Validator</Th>
-            <Th>Amount Staked</Th>
-            <Th>Claimable Rewards</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {myValidators.map((validator, index) => (
-            <Tr key={validator.name}>
-              <Td>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  maxWidth={280}
-                  overflowX="hidden"
-                >
-                  <Text mr={4}>{index + 1}</Text>
-                  <Logo
-                    identity={validator.identity}
-                    name={validator.name}
-                    logoUrl={logos[validator.address]}
-                  />
-                  <Text>{validator.name}</Text>
-                </Box>
-              </Td>
-              <Td>
-                {validator.delegation}&nbsp;
-                <Token color="blackAlpha.800" token={coin.symbol} />
-              </Td>
-              <Td>
-                <Box width="100%" display="flex" alignItems="center">
-                  <span>
-                    {validator.reward}&nbsp;
-                    <Token color="blackAlpha.800" token={coin.symbol} />
-                  </span>
-                  <Button
-                    variant="ghost"
-                    ml="auto"
-                    onClick={() => {
-                      openModal();
-                      setSelectedValidator(validator);
-                    }}
-                    color={colorMode === 'light' ? 'purple.600' : 'purple.200'}
-                  >
-                    Manage
-                    <Icon as={IoArrowForward} />
-                  </Button>
-                </Box>
-              </Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
+    <ValidatorList
+      columns={[
+        {
+          id: 'validator',
+          label: 'Validator',
+          width: '196px',
+          align: 'left',
+          render: (validator: Validator) => (
+            <ValidatorNameCell
+              validatorName={validator.name}
+              validatorImg={logos[validator.address]}
+            />
+          ),
+        },
+        {
+          id: 'amount-staked',
+          label: 'Amount Staked',
+          width: '196px',
+          align: 'right',
+          render: (validator: Validator) => (
+            <ValidatorTokenAmountCell
+              amount={validator.delegation}
+              symbol={coin.symbol}
+            />
+          ),
+        },
+        {
+          id: 'claimable-rewards',
+          label: 'Claimable Rewards',
+          width: '196px',
+          align: 'right',
+          render: (validator: Validator) => (
+            <ValidatorTokenAmountCell
+              amount={validator.reward}
+              symbol={coin.symbol}
+            />
+          ),
+        },
+        {
+          id: 'action',
+          width: '196px',
+          align: 'right',
+          render: (validator) => (
+            <Button
+              variant="solid"
+              intent="tertiary"
+              size="sm"
+              onClick={() => {
+                openModal();
+                setSelectedValidator(validator);
+              }}
+              attributes={{ ml: 'auto' }}
+            >
+              Manage
+            </Button>
+          ),
+        },
+      ]}
+      data={myValidators}
+      tableProps={{
+        width: '$full',
+      }}
+    />
   );
 };
 

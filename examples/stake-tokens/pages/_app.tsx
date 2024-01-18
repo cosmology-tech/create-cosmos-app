@@ -1,19 +1,23 @@
 import type { AppProps } from 'next/app';
-
 import { ChainProvider } from '@cosmos-kit/react';
-import { ChakraProvider } from '@chakra-ui/react';
 import { wallets as keplrWallets } from '@cosmos-kit/keplr';
 import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
 import { wallets as leapWallets } from '@cosmos-kit/leap';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { SignerOptions } from '@cosmos-kit/core';
 import { chains, assets } from 'chain-registry';
-import '@interchain-ui/react/styles';
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-
-import { defaultTheme, formatDenom } from '../config';
 import { GasPrice } from '@cosmjs/stargate';
-import '../styles/globals.css';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import {
+  Box,
+  Toaster,
+  useTheme,
+  useColorModeValue,
+  ThemeProvider,
+} from '@interchain-ui/react';
+
+import '@interchain-ui/react/styles';
+import '@interchain-ui/react/globalStyles';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,18 +29,24 @@ const queryClient = new QueryClient({
 });
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
+  const { themeClass } = useTheme();
+
   const signerOptions: SignerOptions = {
     signingStargate: (chain) => {
-      const feeToken = chain.fees?.fee_tokens[0];
-      const price = feeToken?.average_gas_price || '0.025';
-      const denom = formatDenom(feeToken?.denom);
-      const gasPrice = GasPrice.fromString(price + denom);
+      let gasPrice;
+      try {
+        const feeToken = chain.fees?.fee_tokens[0];
+        const fee = `${feeToken?.average_gas_price || 0.025}${feeToken?.denom}`;
+        gasPrice = GasPrice.fromString(fee);
+      } catch (error) {
+        gasPrice = GasPrice.fromString('0.025uosmo');
+      }
       return { gasPrice };
     },
   };
 
   return (
-    <ChakraProvider theme={defaultTheme}>
+    <ThemeProvider>
       <ChainProvider
         chains={chains}
         assetLists={assets}
@@ -56,10 +66,18 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         signerOptions={signerOptions}
       >
         <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />
+          <Box
+            className={themeClass}
+            minHeight="100dvh"
+            backgroundColor={useColorModeValue('$white', '$background')}
+          >
+            <Component {...pageProps} />
+            <Toaster position="top-right" closeButton={true} />
+          </Box>
+          <ReactQueryDevtools />
         </QueryClientProvider>
       </ChainProvider>
-    </ChakraProvider>
+    </ThemeProvider>
   );
 }
 
