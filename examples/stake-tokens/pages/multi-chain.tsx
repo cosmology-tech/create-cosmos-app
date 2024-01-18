@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Divider } from '@chakra-ui/react';
+import { Divider } from '@interchain-ui/react';
 import { ChainName } from '@cosmos-kit/core';
 import NoSSR from 'react-no-ssr';
 import { Layout, StakingSection, WalletSection } from '@/components';
@@ -14,7 +14,7 @@ export default function MultiChain() {
         providedChainName={selectedChainName}
         setChainName={setChainName}
       />
-      <Divider />
+      <Divider height="0.1px" mt="$12" />
       <NoSSR>
         {selectedChainName && <StakingSection chainName={selectedChainName} />}
       </NoSSR>
