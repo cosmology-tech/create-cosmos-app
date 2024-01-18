@@ -1,15 +1,17 @@
 import { useEffect, useMemo } from 'react';
 import { useChain } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
-import { shiftDigits } from '../utils';
 import {
   cosmos,
   useRpcClient,
   useRpcEndpoint,
   createRpcQueryHooks,
 } from 'interchain-query';
-import { getCoin, getExponent } from '../config';
+
+import { usePrices } from './usePrices';
+import { getCoin, getExponent } from '@/config';
 import {
+  shiftDigits,
   calcTotalDelegation,
   extendValidators,
   parseAnnualProvisions,
@@ -17,7 +19,7 @@ import {
   parseRewards,
   parseUnbondingDays,
   parseValidators,
-} from '@/utils/staking';
+} from '@/utils';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -158,6 +160,8 @@ export const useStakingData = (chainName: string) => {
     },
   });
 
+  const pricesQuery = usePrices();
+
   const allQueries = {
     balance: balanceQuery,
     myValidators: myValidatorsQuery,
@@ -168,6 +172,7 @@ export const useStakingData = (chainName: string) => {
     annualProvisions: annualProvisionsQuery,
     pool: poolQuery,
     communityTax: communityTaxQuery,
+    prices: pricesQuery,
   };
 
   const queriesWithUnchangingKeys = [

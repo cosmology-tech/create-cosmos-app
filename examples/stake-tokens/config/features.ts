@@ -1,51 +1,51 @@
-interface FeatureProps {
-  title: string;
-  text: string;
-  href: string;
-}
+export type Project = {
+  name: string;
+  desc: string;
+  link: string;
+};
 
-export const products: FeatureProps[] = [
+export const products: Project[] = [
   {
-    title: 'CosmosKit',
-    text: 'A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.',
-    href: 'https://github.com/cosmology-tech/cosmos-kit',
+    name: 'CosmosKit',
+    desc: 'A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.',
+    link: 'https://github.com/cosmology-tech/cosmos-kit',
   },
   {
-    title: 'Telescope',
-    text: 'A TypeScript Transpiler for Cosmos Protobufs to generate libraries for Cosmos blockchains.',
-    href: 'https://github.com/cosmology-tech/telescope',
+    name: 'Telescope',
+    desc: 'A TypeScript Transpiler for Cosmos Protobufs to generate libraries for Cosmos blockchains.',
+    link: 'https://github.com/cosmology-tech/telescope',
   },
   {
-    title: 'TS Codegen',
-    text: 'The quickest and easiest way to convert CosmWasm Contracts into dev-friendly TypeScript classes.',
-    href: 'https://github.com/CosmWasm/ts-codegen',
+    name: 'TS Codegen',
+    desc: 'The quickest and easiest way to convert CosmWasm Contracts into dev-friendly TypeScript classes.',
+    link: 'https://github.com/CosmWasm/ts-codegen',
   },
   {
-    title: 'CosmWasm Academy',
-    text: 'Master CosmWasm and build your secure, multi-chain dApp on any CosmWasm chain!',
-    href: 'https://academy.cosmwasm.com/',
+    name: 'CosmWasm Academy',
+    desc: 'Master CosmWasm and build your secure, multi-chain dApp on any CosmWasm chain!',
+    link: 'https://academy.cosmwasm.com/',
   },
   {
-    title: 'Chain Registry',
-    text: 'Get chain and asset list information from the npm package for the Official Cosmos chain registry.',
-    href: 'https://github.com/cosmology-tech/chain-registry',
+    name: 'Chain Registry',
+    desc: 'Get chain and asset list information from the npm package for the Official Cosmos chain registry.',
+    link: 'https://github.com/cosmology-tech/chain-registry',
   },
   {
-    title: 'Videos',
-    text: 'How-to videos from the official Cosmology website, with learning resources for building in Cosmos.',
-    href: 'https://cosmology.tech/learn',
+    name: 'Videos',
+    desc: 'How-to videos from the official Cosmology website, with learning resources for building in Cosmos.',
+    link: 'https://cosmology.tech/learn',
   },
 ];
 
-export const dependencies: FeatureProps[] = [
+export const dependencies: Project[] = [
   {
-    title: 'Chakra UI',
-    text: 'A simple, modular and accessible React Component Library.',
-    href: 'https://chakra-ui.com/docs/components/',
+    name: 'Interchain UI',
+    desc: 'Cross-framework UI Kit for Crafting dApps.',
+    link: 'https://github.com/cosmology-tech/interchain-ui',
   },
   {
-    title: 'Next.js',
-    text: 'A React Framework supports hybrid static & server rendering.',
-    href: 'https://nextjs.org/',
+    name: 'Next.js',
+    desc: 'A React Framework supports hybrid static & server rendering.',
+    link: 'https://nextjs.org/',
   },
 ];

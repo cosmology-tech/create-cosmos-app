@@ -1,33 +1,24 @@
-import {
-  Stat,
-  StatLabel,
-  StatNumber,
-  StatGroup,
-  Button,
-  useColorModeValue,
-  Text,
-} from '@chakra-ui/react';
-import { useChain } from '@cosmos-kit/react';
 import { useState } from 'react';
-import { cosmos } from 'interchain-query';
-import { getCoin } from '../../config';
+import {
+  Box,
+  StakingAssetHeader,
+  StakingClaimHeader,
+} from '@interchain-ui/react';
+import { useChain } from '@cosmos-kit/react';
 import { ChainName } from '@cosmos-kit/core';
-import { useTx } from '@/hooks';
-import { type ParsedRewards as Rewards } from '@/utils/staking';
-import { isGreaterThanZero, sum } from '@/utils';
+import { cosmos } from 'interchain-query';
+
+import { getCoin } from '@/config';
+import { Prices, useTx } from '@/hooks';
+import {
+  sum,
+  calcDollarValue,
+  isGreaterThanZero,
+  type ParsedRewards as Rewards,
+} from '@/utils';
 
 const { withdrawDelegatorReward } =
   cosmos.distribution.v1beta1.MessageComposer.fromPartial;
-
-export const Token = ({ token, color }: { token: string; color?: string }) => (
-  <Text
-    fontSize="sm"
-    as="span"
-    color={useColorModeValue(color || 'blackAlpha.600', 'whiteAlpha.600')}
-  >
-    {token}
-  </Text>
-);
 
 const Overview = ({
   balance,
@@ -35,12 +26,14 @@ const Overview = ({
   staked,
   updateData,
   chainName,
+  prices,
 }: {
   balance: string;
   rewards: Rewards;
   staked: string;
   updateData: () => void;
   chainName: ChainName;
+  prices: Prices;
 }) => {
   const [isClaiming, setIsClaiming] = useState(false);
   const { address } = useChain(chainName);
@@ -69,84 +62,34 @@ const Overview = ({
   };
 
   return (
-    <StatGroup>
-      <Stat py={2} minWidth="200px">
-        <StatLabel
-          color={useColorModeValue('blackAlpha.600', 'whiteAlpha.600')}
-          fontWeight="semibold"
-          fontSize="md"
-        >
-          Total {coin.symbol} Amount
-        </StatLabel>
-        <StatNumber>
-          {totalAmount}&nbsp;
-          <Token token={coin.symbol} />
-        </StatNumber>
-      </Stat>
+    <>
+      <Box mb={{ mobile: '$8', tablet: '$12' }}>
+        <StakingAssetHeader
+          imgSrc={
+            coin.logo_URIs?.png ||
+            coin.logo_URIs?.svg ||
+            coin.logo_URIs?.jpeg ||
+            ''
+          }
+          symbol={coin.symbol}
+          totalAmount={Number(totalAmount) || 0}
+          totalPrice={calcDollarValue(coin.base, totalAmount, prices)}
+          available={Number(balance) || 0}
+          availablePrice={calcDollarValue(coin.base, balance, prices)}
+        />
+      </Box>
 
-      <Stat py={2} minWidth="200px">
-        <StatLabel
-          color={useColorModeValue('blackAlpha.600', 'whiteAlpha.600')}
-          fontWeight="semibold"
-          fontSize="md"
-        >
-          Available Balance
-        </StatLabel>
-        <StatNumber>
-          {balance} <Token token={coin.symbol} />
-        </StatNumber>
-      </Stat>
-
-      <Stat py={2} minWidth="200px">
-        <StatLabel
-          color={useColorModeValue('blackAlpha.600', 'whiteAlpha.600')}
-          fontWeight="semibold"
-          fontSize="md"
-        >
-          Staked Amount
-        </StatLabel>
-        <StatNumber>
-          {staked}&nbsp;
-          <Token token={coin.symbol} />
-        </StatNumber>
-      </Stat>
-
-      <Stat
-        pos="relative"
-        py={2}
-        px={4}
-        bgColor={useColorModeValue('purple.50', 'purple.700')}
-        borderRadius={10}
-        minWidth="200px"
-      >
-        <StatLabel
-          color={useColorModeValue('blackAlpha.600', 'whiteAlpha.600')}
-          fontWeight="semibold"
-          fontSize="md"
-        >
-          Claimable Rewards
-        </StatLabel>
-        <StatNumber>
-          {rewards.total}&nbsp;
-          <Token
-            color={useColorModeValue('blackAlpha.600', 'whiteAlpha.600')}
-            token={coin.symbol}
-          />
-        </StatNumber>
-        <Button
-          pos="absolute"
-          right={4}
-          top={5}
-          colorScheme="purple"
-          size="sm"
-          onClick={onClaimRewardClick}
-          isDisabled={!isGreaterThanZero(rewards.total)}
+      <Box mb={{ mobile: '$12', tablet: '$14' }}>
+        <StakingClaimHeader
+          symbol={coin.symbol}
+          rewardsAmount={Number(rewards.total) || 0}
+          stakedAmount={Number(staked) || 0}
+          onClaim={onClaimRewardClick}
           isLoading={isClaiming}
-        >
-          Claim
-        </Button>
-      </Stat>
-    </StatGroup>
+          isDisabled={!isGreaterThanZero(rewards.total)}
+        />
+      </Box>
+    </>
   );
 };
 

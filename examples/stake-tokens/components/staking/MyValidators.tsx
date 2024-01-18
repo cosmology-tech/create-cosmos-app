@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Heading, useDisclosure } from '@chakra-ui/react';
+import { Text } from '@interchain-ui/react';
 import { ChainName } from '@cosmos-kit/core';
 
 import MyValidatorsList from './MyValidatorsList';
@@ -9,6 +9,7 @@ import { SelectValidatorModal } from './SelectValidatorModal';
 import { RedelegateModal } from './RedelegateModal';
 import { type ExtendedValidator as Validator } from '@/utils';
 import { DelegateModal } from './DelegateModal';
+import { Prices, useDisclosure } from '@/hooks';
 
 export const MyValidators = ({
   myValidators,
@@ -18,6 +19,7 @@ export const MyValidators = ({
   unbondingDays,
   chainName,
   logos,
+  prices,
 }: {
   myValidators: Validator[];
   allValidators: Validator[];
@@ -25,6 +27,7 @@ export const MyValidators = ({
   updateData: () => void;
   unbondingDays: string;
   chainName: ChainName;
+  prices: Prices;
   logos: {
     [key: string]: string;
   };
@@ -41,9 +44,14 @@ export const MyValidators = ({
 
   return (
     <>
-      <Heading as="h4" size="md" mt={12} mb={6}>
+      <Text
+        color="$textSecondary"
+        fontSize="$lg"
+        fontWeight="$semibold"
+        attributes={{ mt: '$14', mb: '$6' }}
+      >
         My Validators
-      </Heading>
+      </Text>
 
       <MyValidatorsList
         logos={logos}
@@ -78,6 +86,7 @@ export const MyValidators = ({
           unbondingDays={unbondingDays}
           updateData={updateData}
           showDescription={false}
+          prices={prices}
         />
       )}
 
@@ -90,6 +99,7 @@ export const MyValidators = ({
           logoUrl={logos[selectedValidator.address]}
           unbondingDays={unbondingDays}
           updateData={updateData}
+          prices={prices}
         />
       )}
 
@@ -116,6 +126,7 @@ export const MyValidators = ({
             selectedValidator={selectedValidator}
             validatorToRedelegate={validatorToRedelegate}
             updateData={updateData}
+            prices={prices}
           />
         )}
     </>

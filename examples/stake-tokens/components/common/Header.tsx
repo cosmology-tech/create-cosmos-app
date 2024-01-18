@@ -1,52 +1,63 @@
 import {
   Box,
-  Heading,
-  Text,
   Button,
-  Flex,
   Icon,
-  useColorMode,
+  Text,
+  useTheme,
   useColorModeValue,
-} from '@chakra-ui/react';
-import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
+} from '@interchain-ui/react';
 
 const stacks = ['CosmosKit', 'Next.js'];
 
-export const Header = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
+export function Header() {
+  const { theme, setTheme } = useTheme();
+
+  const toggleColorMode = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
 
   return (
     <>
-      <Flex justifyContent="end" mb={4}>
-        <Button variant="outline" px={0} onClick={toggleColorMode}>
-          <Icon
-            as={colorMode === 'light' ? BsFillMoonStarsFill : BsFillSunFill}
-          />
+      <Box display="flex" justifyContent="end" mb="$8">
+        <Button
+          intent="secondary"
+          size="sm"
+          attributes={{
+            paddingX: 0,
+          }}
+          onClick={toggleColorMode}
+        >
+          <Icon name={useColorModeValue('moonLine', 'sunLine')} />
         </Button>
-      </Flex>
+      </Box>
+
       <Box textAlign="center">
-        <Heading
+        <Text
           as="h1"
-          fontSize={{ base: '3xl', sm: '4xl', md: '5xl' }}
-          fontWeight="extrabold"
-          mb={3}
+          fontWeight="$extrabold"
+          fontSize={{ mobile: '$6xl', tablet: '$10xl' }}
+          attributes={{
+            marginBottom: '$2',
+          }}
         >
           Create Cosmos App
-        </Heading>
-        <Heading
-          as="h1"
-          fontWeight="bold"
-          fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
-        >
-          <Text as="span">Welcome to&nbsp;</Text>
+        </Text>
+        <Text as="h2" fontWeight="$bold">
           <Text
             as="span"
-            color={useColorModeValue('primary.500', 'primary.200')}
+            fontSize={{ mobile: '$3xl', tablet: '$8xl', desktop: '$8xl' }}
+          >
+            Welcome to&nbsp;
+          </Text>
+          <Text
+            as="span"
+            fontSize={{ mobile: '$3xl', tablet: '$8xl', desktop: '$8xl' }}
+            color={useColorModeValue('$primary500', '$primary200')}
           >
             {stacks.join(' + ')}
           </Text>
-        </Heading>
+        </Text>
       </Box>
     </>
   );
-};
+}

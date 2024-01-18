@@ -1,3 +1,4 @@
+import { Prices } from '@/hooks';
 import BigNumber from 'bignumber.js';
 
 export const isGreaterThanZero = (val: number | string | undefined) => {
@@ -23,4 +24,15 @@ export const sum = (...args: string[]) => {
   return args
     .reduce((prev, cur) => prev.plus(cur), new BigNumber(0))
     .toString();
+};
+
+export const calcDollarValue = (
+  denom: string,
+  amount: string | number,
+  prices: Prices
+) => {
+  return new BigNumber(prices[denom] || 0)
+    .times(amount)
+    .decimalPlaces(2)
+    .toNumber();
 };

@@ -11,6 +11,7 @@ import {
 } from 'interchain-query/cosmos/staking/v1beta1/query';
 import BigNumber from 'bignumber.js';
 import { QueryAnnualProvisionsResponse } from 'interchain-query/cosmos/mint/v1beta1/query';
+import type { Asset } from '@chain-registry/types';
 
 const DAY_TO_SECONDS = 24 * 60 * 60;
 const ZERO = '0';
@@ -64,7 +65,7 @@ export const parseValidators = (validators: Validator[]) => {
     commission: formatCommission(
       validator.commission?.commissionRates?.rate || '0'
     ),
-    votingPower: toNumber(shiftDigits(validator.tokens, -6, 0), 0),
+    votingPower: toNumber(shiftDigits(validator.tokens, -6, 4), 4),
   }));
 };
 
@@ -163,4 +164,17 @@ export const parseUnbondingDays = (params: QueryParamsResponse['params']) => {
 export const parseAnnualProvisions = (data: QueryAnnualProvisionsResponse) => {
   const res = shiftDigits(decodeUint8Arr(data?.annualProvisions), -18);
   return isGreaterThanZero(res) ? res : null;
+};
+
+export const getAssetLogoUrl = (asset: Asset): string => {
+  return Object.values(asset?.logo_URIs || {})?.[0] || '';
+};
+
+export const formatValidatorMetaInfo = (
+  validator: ExtendedValidator
+): string => {
+  const commissionStr = `Commission ${shiftDigits(validator.commission, 2)}%`;
+  const aprStr = validator.apr ? `APR ${validator.apr}%` : '';
+
+  return [commissionStr, aprStr].filter(Boolean).join(' | ');
 };

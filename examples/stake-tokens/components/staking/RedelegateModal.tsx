@@ -1,27 +1,26 @@
+import { useState } from 'react';
+import { cosmos } from 'interchain-query';
+import { useChain } from '@cosmos-kit/react';
+import { ChainName } from '@cosmos-kit/core';
 import {
+  BasicModal,
+  Box,
   Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalOverlay,
-  Stack,
+  StakingDelegateCard,
+  StakingDelegateInput,
   Text,
-  UseDisclosureReturn,
-} from '@chakra-ui/react';
-import { StatBox } from './ModalElements';
+} from '@interchain-ui/react';
+import BigNumber from 'bignumber.js';
+
 import {
+  calcDollarValue,
+  getAssetLogoUrl,
   isGreaterThanZero,
   shiftDigits,
   type ExtendedValidator as Validator,
 } from '@/utils';
-import { useEffect, useState } from 'react';
-import { cosmos } from 'interchain-query';
-import { useChain } from '@cosmos-kit/react';
 import { getCoin, getExponent } from '@/config';
-import { ChainName } from '@cosmos-kit/core';
-import { useInputBox, useTx } from '@/hooks';
+import { Prices, UseDisclosureReturn, useTx } from '@/hooks';
 
 const { beginRedelegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
 
@@ -31,43 +30,36 @@ export const RedelegateModal = ({
   modalControl,
   selectedValidator,
   validatorToRedelegate,
+  prices,
 }: {
   updateData: () => void;
   chainName: ChainName;
   selectedValidator: Validator;
   validatorToRedelegate: Validator;
   modalControl: UseDisclosureReturn;
+  prices: Prices;
 }) => {
   const { address } = useChain(chainName);
 
+  const [amount, setAmount] = useState<number | undefined>(0);
   const [isRedelegating, setIsRedelegating] = useState(false);
+  const [, forceUpdate] = useState(0);
 
   const coin = getCoin(chainName);
   const exp = getExponent(chainName);
 
   const { tx } = useTx(chainName);
 
-  const {
-    amount: redelegateAmount,
-    setAmount: setRedelegateAmount,
-    renderInputBox: renderRedelegateInputBox,
-    setMax: setMaxRedelegateAmount,
-  } = useInputBox(selectedValidator.delegation);
-
-  useEffect(() => {
-    setMaxRedelegateAmount(selectedValidator.delegation);
-  }, [selectedValidator, setMaxRedelegateAmount]);
-
   const closeRedelegateModal = () => {
-    setRedelegateAmount('');
+    setAmount(0);
     setIsRedelegating(false);
     modalControl.onClose();
   };
 
   const onRedelegateClick = async () => {
-    setIsRedelegating(true);
+    if (!address || !amount) return;
 
-    if (!address) return;
+    setIsRedelegating(true);
 
     const msg = beginRedelegate({
       delegatorAddress: address,
@@ -75,7 +67,7 @@ export const RedelegateModal = ({
       validatorDstAddress: validatorToRedelegate.address,
       amount: {
         denom: coin.base,
-        amount: shiftDigits(redelegateAmount, exp),
+        amount: shiftDigits(amount, exp),
       },
     });
 
@@ -89,50 +81,108 @@ export const RedelegateModal = ({
     setIsRedelegating(false);
   };
 
+  const maxAmount = selectedValidator.delegation;
+
   return (
-    <Modal
+    <BasicModal
+      title="Redelegate"
       isOpen={modalControl.isOpen}
       onClose={closeRedelegateModal}
-      size="2xl"
-      isCentered
     >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalCloseButton />
+      <Box width={{ mobile: '100%', tablet: '$containerSm' }} mt="$6">
+        <RedelegateLabel
+          type="from"
+          validatorName={selectedValidator?.name}
+          mb="20px"
+        />
 
-        <ModalBody>
-          <Stack direction="row" mt={8} mb={2}>
-            <Text>From </Text>
-            <Text size="lg" fontWeight="bold">
-              {selectedValidator?.name}
-            </Text>
-          </Stack>
-          <StatBox
-            label="Your Delegation"
-            amount={selectedValidator?.delegation}
-            token={coin.symbol}
-          />
+        <StakingDelegateCard
+          label="Your Delegation"
+          tokenAmount={selectedValidator?.delegation}
+          tokenName={coin.symbol}
+          attributes={{ mb: '$12' }}
+        />
 
-          <Stack direction="row" mt={8} mb={2}>
-            <Text>To</Text>
-            <Text size="lg" fontWeight="bold">
-              {validatorToRedelegate.name}
-            </Text>
-          </Stack>
-          {renderRedelegateInputBox('Amount to Redelegate', coin.symbol)}
-        </ModalBody>
+        <RedelegateLabel
+          type="to"
+          validatorName={validatorToRedelegate.name}
+          mb="20px"
+        />
 
-        <ModalFooter>
-          <Button
-            colorScheme="primary"
-            onClick={onRedelegateClick}
-            isLoading={isRedelegating}
-            isDisabled={!isGreaterThanZero(redelegateAmount) || isRedelegating}
-          >
-            Redelegate
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        <StakingDelegateInput
+          inputToken={{
+            tokenName: coin.symbol,
+            tokenIconUrl: getAssetLogoUrl(coin),
+          }}
+          value={amount}
+          notionalValue={
+            amount ? calcDollarValue(coin.base, amount, prices) : undefined
+          }
+          onValueInput={(val) => {
+            if (!val) {
+              setAmount(undefined);
+              return;
+            }
+
+            if (new BigNumber(val).gt(maxAmount)) {
+              setAmount(Number(maxAmount));
+              forceUpdate((n) => n + 1);
+              return;
+            }
+
+            setAmount(Number(val));
+          }}
+          partials={[
+            {
+              label: '1/2',
+              onClick: () => {
+                setAmount(new BigNumber(maxAmount).dividedBy(2).toNumber());
+              },
+            },
+            {
+              label: '1/3',
+              onClick: () => {
+                setAmount(new BigNumber(maxAmount).dividedBy(3).toNumber());
+              },
+            },
+            {
+              label: 'Max',
+              onClick: () => setAmount(Number(maxAmount)),
+            },
+          ]}
+        />
+      </Box>
+
+      <Box mt="$12">
+        <Button
+          intent="tertiary"
+          onClick={onRedelegateClick}
+          isLoading={isRedelegating}
+          disabled={!isGreaterThanZero(amount) || isRedelegating}
+          fluidWidth
+        >
+          Redelegate
+        </Button>
+      </Box>
+    </BasicModal>
+  );
+};
+
+const RedelegateLabel = ({
+  type,
+  validatorName,
+  mb,
+}: {
+  type: 'from' | 'to';
+  validatorName: string;
+  mb?: string;
+}) => {
+  return (
+    <Text fontSize="$md" attributes={{ mb }}>
+      {type === 'from' ? 'From' : 'To'}&nbsp;
+      <Text as="span" fontSize="$md" fontWeight="$semibold">
+        {validatorName}
+      </Text>
+    </Text>
   );
 };
