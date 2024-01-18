@@ -1,0 +1,34 @@
+chains:
+  - name: osmosis-1
+    type: osmosis
+    numValidators: 1
+    ports:
+      rest: 1317
+      rpc: 26657
+      faucet: 8007
+  - name: cosmos-2
+    type: cosmos
+    numValidators: 1
+    ports:
+      rest: 1313
+      rpc: 26653
+      faucet: 8003
+
+relayers:
+  - name: osmos-cosmos
+    type: hermes
+    replicas: 1
+    chains:
+      - osmosis-1
+      - cosmos-2
+
+explorer:
+  enabled: true
+  ports:
+    rest: 8080
+
+registry:
+  enabled: true
+  ports:
+    rest: 8081
+    grpc: 9091
