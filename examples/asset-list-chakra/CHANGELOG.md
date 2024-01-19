@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.6 (2024-01-19)
+
+
+### Bug Fixes
+
+* upgrade interchain ui version and fix z index issue ([9f648a5](https://github.com/cosmology-tech/create-cosmos-app/commit/9f648a551cbf9868125aa1f9eef9feff15837bb5))
+
+
+
+
+
 ## [0.2.5](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/asset-list@0.2.4...@cosmology/asset-list@0.2.5) (2023-09-27)
 
 **Note:** Version bump only for package @cosmology/asset-list

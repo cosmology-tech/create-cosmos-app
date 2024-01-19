@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.6](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/nft@0.1.5...@cosmology/nft@0.1.6) (2024-01-19)
+
+
+### Bug Fixes
+
+* upgrade interchain ui version and fix z index issue ([9f648a5](https://github.com/cosmology-tech/create-cosmos-app/commit/9f648a551cbf9868125aa1f9eef9feff15837bb5))
+
+
+
+
+
 ## [0.1.5](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/nft@0.1.4...@cosmology/nft@0.1.5) (2023-09-27)
 
 **Note:** Version bump only for package @cosmology/nft
