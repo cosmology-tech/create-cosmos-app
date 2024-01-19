@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.6 (2024-01-19)
+
+
+### Bug Fixes
+
+* commission and apr calculations ([64b0fd5](https://github.com/cosmology-tech/create-cosmos-app/commit/64b0fd5fdb365faf2286ace6052c5e27d4a47917))
+* gas price ([9f811c5](https://github.com/cosmology-tech/create-cosmos-app/commit/9f811c5deebf52de9859b1b133757c4377dafd01))
+* rename old staking example ([8cedfe5](https://github.com/cosmology-tech/create-cosmos-app/commit/8cedfe59f912cf5a991126b32da5cf9d50d31cf1))
+
+
+
+
+
 ## [0.2.5](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/stake-tokens@0.2.4...@cosmology/stake-tokens@0.2.5) (2023-09-27)
 
 **Note:** Version bump only for package @cosmology/stake-tokens

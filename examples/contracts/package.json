@@ -1,6 +1,6 @@
 {
   "name": "@cosmology/connect-chain-with-telescope-and-contracts",
-  "version": "1.7.6",
+  "version": "1.7.7",
   "private": true,
   "scripts": {
     "dev": "next dev",
