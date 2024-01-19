@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/ibc-transfer@0.3.0...@cosmology/ibc-transfer@0.3.1) (2024-01-19)
+
+**Note:** Version bump only for package @cosmology/ibc-transfer
+
+
+
+
+
 # [0.3.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/ibc-transfer@0.2.7...@cosmology/ibc-transfer@0.3.0) (2024-01-19)
 
 **Note:** Version bump only for package @cosmology/ibc-transfer
