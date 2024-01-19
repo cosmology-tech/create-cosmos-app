@@ -24,7 +24,7 @@ The npm package for the Official Cosmos chain registry. Get chain and token data
 
 Checkout more videos for how to use various frontend tooling in the Cosmos!
 
-* https://cosmology.tech/learn
+* https://cosmology.zone/learn
 
 ### Cosmos Kit
 
@@ -66,7 +66,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Credits
 
-🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
+🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.zone/validator)
 
 Code built with the help of these related projects:
 

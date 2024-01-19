@@ -46,7 +46,7 @@ Everything is preconfigured, ready-to-go, so you can focus on your code!
 
 ## Education & Resources
 
-🎥 [Checkout our videos](https://cosmology.tech/learn) to learn to learn more about `create-cosmos-app` and tooling for building frontends in the Cosmos!
+🎥 [Checkout our videos](https://cosmology.zone/learn) to learn to learn more about `create-cosmos-app` and tooling for building frontends in the Cosmos!
 
 Checkout [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit) for more docs as well as [cosmos-kit/react](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/react#signing-clients) for getting cosmjs stargate and cosmjs signers.
 
@@ -283,7 +283,7 @@ Checkout these related projects:
 
 ## Credits
 
-🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
+🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.zone/validator)
 
 
 ## Disclaimer

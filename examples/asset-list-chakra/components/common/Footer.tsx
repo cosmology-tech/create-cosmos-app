@@ -83,7 +83,7 @@ export function Footer() {
       </Box>
       <Stack isInline={true} spacing={1} justifyContent="center" opacity={0.5} fontSize="sm">
         <Text>Built with</Text>
-        <Link href="https://cosmology.tech/" target="_blank" rel="noopener noreferrer">
+        <Link href="https://cosmology.zone/" target="_blank" rel="noopener noreferrer">
           Cosmology
         </Link>
       </Stack>

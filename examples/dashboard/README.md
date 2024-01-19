@@ -14,7 +14,7 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 
 ## Credits
 
-🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
+🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.zone/validator)
 
 Code built with the help of these related projects:
 
