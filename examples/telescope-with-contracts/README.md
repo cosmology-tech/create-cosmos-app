@@ -46,7 +46,7 @@ The quickest and easiest way to interact with CosmWasm Contracts. @cosmwasm/ts-c
 
 * https://github.com/CosmWasm/ts-codegen
 
-🎥 [Checkout the CosmWasm/ts-codegne video playlist](https://www.youtube.com/watch?v=D_A5V2PfNLA&list=PL-lMkVv7GZwz1KO3jANwr5W4MoziruXwK) to learn how to use `ts-codegen`!
+🎥 [Checkout the CosmWasm/ts-codegen video playlist](https://www.youtube.com/watch?v=D_A5V2PfNLA&list=PL-lMkVv7GZwz1KO3jANwr5W4MoziruXwK) to learn how to use `ts-codegen`!
 
 
 ## Learn More about Next.js
