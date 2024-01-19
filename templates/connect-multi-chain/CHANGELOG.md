@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.7](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/connect-multi-chain@0.15.6...@cosmology/connect-multi-chain@0.15.7) (2024-01-19)
+
+**Note:** Version bump only for package @cosmology/connect-multi-chain
+
+
+
+
+
 ## [0.15.6](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/connect-multi-chain@0.15.5...@cosmology/connect-multi-chain@0.15.6) (2024-01-19)
 
 **Note:** Version bump only for package @cosmology/connect-multi-chain
