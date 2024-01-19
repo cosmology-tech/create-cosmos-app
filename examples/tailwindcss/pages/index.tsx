@@ -53,7 +53,7 @@ export default function Home() {
         <span className="flex flex-row items-center space-x-2">
           <p>Built with</p>
           <a
-            href="https://cosmology.tech/"
+            href="https://cosmology.zone/"
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -132,7 +132,7 @@ export function Footer() {
         }}
       >
         <Text>Built with</Text>
-        <Link href="https://cosmology.tech/" target="_blank">
+        <Link href="https://cosmology.zone/" target="_blank">
           Cosmology
         </Link>
       </Stack>

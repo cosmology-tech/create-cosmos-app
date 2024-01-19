@@ -92,7 +92,7 @@ const sendTokens = (
     });
 
     console.log(account);
-    
+
 
     const baseAccount =
       account.account as import("./../codegen_grpc_web/cosmos/auth/v1beta1/auth").BaseAccount;
@@ -102,12 +102,12 @@ const sendTokens = (
       chainId: 'osmosis-1'
     };
     console.log("address:", address, "sequence:", Number(baseAccount.sequence));
-    
+
     const signed_tx = await stargateClient.sign(address, [msg], fee, 'sent through telescope grpc-web', signerData)
     console.log(signed_tx);
-    
+
     const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
-    const response = await grpcWebClient.cosmos.tx.v1beta1.broadcastTx(  
+    const response = await grpcWebClient.cosmos.tx.v1beta1.broadcastTx(
       {
         txBytes: txRawBytes,
         mode: 1
@@ -277,7 +277,7 @@ export default function Home() {
       >
         <Text>Built with</Text>
         <Link
-          href="https://cosmology.tech/"
+          href="https://cosmology.zone/"
           target="_blank"
           rel="noopener noreferrer"
         >
