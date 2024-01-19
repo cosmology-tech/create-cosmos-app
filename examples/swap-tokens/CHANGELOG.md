@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.4](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/swap-tokens@0.4.4...@cosmology/swap-tokens@0.4.4) (2024-01-19)
+
+
+### Bug Fixes
+
+* upgrade interchain ui version and fix z index issue ([9f648a5](https://github.com/cosmology-tech/create-cosmos-app/commit/9f648a551cbf9868125aa1f9eef9feff15837bb5))
+
+
+
+
+
 ## [0.4.3](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/swap-tokens@0.4.4...@cosmology/swap-tokens@0.4.3) (2024-01-19)
 
 
