@@ -1,6 +1,6 @@
 {
   "name": "@cosmology/connect-multi-chain",
-  "version": "0.15.7",
+  "version": "0.16.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
