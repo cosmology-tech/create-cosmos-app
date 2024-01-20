@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.2](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/connect-chain-with-telescope@1.8.1...@cosmology/connect-chain-with-telescope@1.8.2) (2024-01-20)
+
+**Note:** Version bump only for package @cosmology/connect-chain-with-telescope
+
+
+
+
+
 ## [1.8.1](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/connect-chain-with-telescope@1.8.0...@cosmology/connect-chain-with-telescope@1.8.1) (2024-01-19)
 
 **Note:** Version bump only for package @cosmology/connect-chain-with-telescope
