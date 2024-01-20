@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const { themeClass } = useTheme();
-  
+
   const signerOptions: SignerOptions = {
     signingStargate: () => {
       return {
@@ -56,7 +56,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
             metadata: {
               name: 'CosmosKit Template',
               description: 'CosmosKit dapp template',
-              url: 'https://docs.cosmoskit.com/',
+              url: 'https://docs.cosmology.zone/cosmos-kit/',
               icons: [],
             },
           },

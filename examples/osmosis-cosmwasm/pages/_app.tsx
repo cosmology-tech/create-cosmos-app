@@ -49,7 +49,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
             metadata: {
               name: 'CosmosKit Template',
               description: 'CosmosKit dapp template',
-              url: 'https://docs.cosmoskit.com/',
+              url: 'https://docs.cosmology.zone/cosmos-kit/',
               icons: [],
             },
           },
