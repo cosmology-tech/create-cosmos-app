@@ -39,7 +39,22 @@ export const cloneRepo = (argv, repo, name) => {
     const dir = join(argv.tmpdir || tmpdir(), tempname);
     mkdirp(dir);
     shell.cd(dir);
-    shell.exec(`git clone --depth 1 ${repo} ${name}`);
+
+    // Initialize the command arguments in an array
+    let gitCloneArgs = ['git', 'clone', '--depth', '1'];
+
+    // Add the branch argument if argv.fromBranch is provided
+    if (argv.fromBranch) {
+        gitCloneArgs.push('-b', argv.fromBranch);
+    }
+
+    // Add the repository and name arguments
+    gitCloneArgs.push.apply(repo, name);
+
+    // Join the arguments with spaces to form the command
+    const gitCloneCommand = gitCloneArgs.join(' ');
+
+    shell.exec(gitCloneCommand);
     return dir;
 }
 
