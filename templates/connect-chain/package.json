@@ -11,6 +11,12 @@
     "locks:create": "generate-lockfile --lockfile ../../yarn.lock --package package.json --write yarn.lock --force",
     "locks": "npm run locks:remove && npm run locks:create"
   },
+  "resolutions": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9"
+  },
   "dependencies": {
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.5.1",
@@ -23,7 +29,7 @@
     "chain-registry": "1.20.0",
     "cosmos-kit": "2.7.9",
     "framer-motion": "9.0.7",
-    "next": "12.2.5",
+    "next": "13.4.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.6.0"
