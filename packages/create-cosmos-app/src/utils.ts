@@ -49,7 +49,7 @@ export const cloneRepo = (argv, repo, name) => {
     }
 
     // Add the repository and name arguments
-    gitCloneArgs.push.apply(repo, name);
+    gitCloneArgs.push(repo, name);
 
     // Join the arguments with spaces to form the command
     const gitCloneCommand = gitCloneArgs.join(' ');
