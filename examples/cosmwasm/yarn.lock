@@ -1555,6 +1555,24 @@
   dependencies:
     "@cosmos-kit/omni-mobile" "^2.5.5"
 
+"@cosmos-kit/react-lite@^2.6.5":
+  version "2.6.5"
+  resolved "https://registry.npmjs.org/@cosmos-kit/react-lite/-/react-lite-2.6.5.tgz#b8a0e37c544635b8578a62dfb02390fe23feca50"
+  integrity sha512-+SuoAgIDwgh0TqmA26i2wUTp4c51dtEHetre74D7D/O5atwCV2ufE9QF3280ehJRnSb8B0BYvdrc5GOGZIN18w==
+  dependencies:
+    "@chain-registry/types" "0.17.0"
+    "@cosmos-kit/core" "^2.8.5"
+
+"@cosmos-kit/react@2.10.5":
+  version "2.10.5"
+  resolved "https://registry.npmjs.org/@cosmos-kit/react/-/react-2.10.5.tgz#fd4c00cf0c2bad8cca176a6f880876d13bc5ae96"
+  integrity sha512-xQUAOqu8NxkDKr/7Z/lRI8zGrmDoFQxtP/QELPLb3cJv5BAwfsGXZykm7ulHljuGuuBv0H6aLnxT50Bpyq6Ebw==
+  dependencies:
+    "@chain-registry/types" "0.17.0"
+    "@cosmos-kit/core" "^2.8.5"
+    "@cosmos-kit/react-lite" "^2.6.5"
+    "@react-icons/all-files" "^4.1.0"
+
 "@cosmos-kit/shell-extension@^2.6.5":
   version "2.6.5"
   resolved "https://registry.npmjs.org/@cosmos-kit/shell-extension/-/shell-extension-2.6.5.tgz#4b31d54c1c8c895326019c2a731ffecaca6afa18"
@@ -3280,6 +3298,11 @@
     "@react-aria/utils" "^3.22.0"
     "@react-types/shared" "^3.22.0"
     "@swc/helpers" "^0.5.0"
+
+"@react-icons/all-files@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.npmjs.org/@react-icons/all-files/-/all-files-4.1.0.tgz"
+  integrity sha512-hxBI2UOuVaI3O/BhQfhtb4kcGn9ft12RWAFVMUeNjqqhLsHvFtzIkFaptBJpFDANTKoDfdVoHTKZDlwKCACbMQ==
 
 "@react-stately/calendar@^3.4.2":
   version "3.4.2"
