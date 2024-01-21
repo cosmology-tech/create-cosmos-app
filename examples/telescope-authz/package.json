@@ -34,6 +34,12 @@
       "types/"
     ]
   },
+  "resolutions": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9"
+  },
   "dependencies": {
     "@chain-registry/client": "1.11.0",
     "@chain-registry/osmosis": "^1.21.0",
