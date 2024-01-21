@@ -1,5 +1,5 @@
 {
-  "name": "@cosmology/vote-proposal",
+  "name": "@cosmology/vote-proposal-chakra",
   "version": "0.3.1",
   "private": true,
   "scripts": {
