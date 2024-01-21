@@ -1,10 +1,15 @@
+import '@interchain-ui/react/styles';
+import '@interchain-ui/react/globalStyles';
+
 import type { AppProps } from 'next/app';
-import { ChainProvider } from '@cosmos-kit/react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
 import { SignerOptions, wallets } from 'cosmos-kit';
+import { ChainProvider } from '@cosmos-kit/react';
 import { chains, assets } from 'chain-registry';
 import { GasPrice } from '@cosmjs/stargate';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
 import {
   Box,
   Toaster,
@@ -12,9 +17,6 @@ import {
   useColorModeValue,
   ThemeProvider,
 } from '@interchain-ui/react';
-
-import '@interchain-ui/react/styles';
-import '@interchain-ui/react/globalStyles';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -71,7 +73,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
             <Toaster position="top-right" closeButton={true} />
           </Box>
-          <ReactQueryDevtools />
+          {/* <ReactQueryDevtools /> */}
         </QueryClientProvider>
       </ChainProvider>
     </ThemeProvider>

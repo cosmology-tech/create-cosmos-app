@@ -5,7 +5,7 @@ import {
   StakingClaimHeader,
 } from '@interchain-ui/react';
 import { useChain } from '@cosmos-kit/react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { cosmos } from 'interchain-query';
 
 import { getCoin } from '@/config';

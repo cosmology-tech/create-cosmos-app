@@ -8,7 +8,7 @@ import {
   useColorModeValue,
   Skeleton,
 } from '@chakra-ui/react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import BigNumber from 'bignumber.js';
 import React, { useMemo } from 'react';
 import { useBalance, useChainUtils } from '../../hooks';

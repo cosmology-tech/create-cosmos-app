@@ -44,7 +44,7 @@ import type {
   DelegationResponse as Delegation,
 } from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
 import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { MaxAmountAndFee, Thumbnail } from './all-validators';
 import {
   useFeeEstimation,

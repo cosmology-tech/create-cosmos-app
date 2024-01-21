@@ -1,5 +1,5 @@
 import { EncodeObject } from '@cosmjs/proto-signing';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { useChain } from '@cosmos-kit/react';
 import { GasPrice, calculateFee } from '@cosmjs/stargate';
 import { getCoin } from '../config';

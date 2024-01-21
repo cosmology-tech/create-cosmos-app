@@ -8,7 +8,7 @@ import { useChainWallet, useManager } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
 import { ibc } from 'osmo-query';
 import { StdFee, coins } from '@cosmjs/amino';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { KeplrWalletName } from '@/config';
 import { useDisclosure, useChainUtils, useTx, useBalance } from '@/hooks';
 import { truncDecimals } from '@/utils';

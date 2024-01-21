@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { Box, Heading, Stack, useDisclosure } from '@chakra-ui/react';
 import { useChain } from '@cosmos-kit/react';
 import { Proposal } from 'interchain-query/cosmos/gov/v1beta1/gov';

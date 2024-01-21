@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useChain } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { SingleChain, SingleChainProps } from '@interchain-ui/react';
 
 import { useDisclosure, useChainUtils, useTotalAssets } from '@/hooks';

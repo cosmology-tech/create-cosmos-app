@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Box, ClipboardCopyText, Stack } from '@interchain-ui/react';
-import { WalletStatus } from '@cosmos-kit/core';
+import { WalletStatus } from 'cosmos-kit';
 import React, { ReactNode, useEffect, useState } from 'react';
 
 const SIZES = {
@@ -54,9 +54,8 @@ export const ConnectedShowAddress = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
-  const walletImgDimension = `${
-    SIZES[size as keyof typeof SIZES].walletImageSize
-  }px`;
+  const walletImgDimension = `${SIZES[size as keyof typeof SIZES].walletImageSize
+    }px`;
 
   const chainIcon =
     address && walletIcon ? (

@@ -20,7 +20,7 @@ import {
 import { Token } from './Overview';
 import { shiftDigits } from '@/utils';
 import { getCoin } from '@/config';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { Logo } from './ModalElements';
 import { type ExtendedValidator as Validator } from '@/utils';
 

@@ -2,7 +2,7 @@ import React, { MouseEventHandler, ReactNode } from 'react';
 import { Button, Icon, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import { IoWallet } from 'react-icons/io5';
 import { FiAlertTriangle } from 'react-icons/fi';
-import { WalletStatus } from '@cosmos-kit/core';
+import { WalletStatus } from 'cosmos-kit';
 import { IconType } from 'react-icons';
 
 interface IConnectWalletButton {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import NoSSR from 'react-no-ssr';
 import { VotingSection, Layout, WalletSection } from '@/components';
 

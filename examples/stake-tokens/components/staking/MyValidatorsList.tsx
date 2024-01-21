@@ -6,7 +6,7 @@ import {
   ValidatorNameCell,
   ValidatorTokenAmountCell,
 } from '@interchain-ui/react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { getCoin } from '@/config';
 import { type ExtendedValidator as Validator } from '@/utils';
 

@@ -10,7 +10,7 @@ import AssetsOverview from './AssetsOverview';
 import ChainAssetsList from './ChainAssetsList';
 import { useChain } from '@cosmos-kit/react';
 import { useAssets } from '../../hooks';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 
 interface IProps {
   chainName: ChainName;

@@ -13,7 +13,7 @@ import {
 import { ValidatorInfo, ValidatorDesc, StatBox } from './ModalElements';
 import { shiftDigits } from '../../utils';
 import { getCoin } from '../../config';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { type ExtendedValidator as Validator } from '@/utils';
 
 export const ValidatorInfoModal = ({

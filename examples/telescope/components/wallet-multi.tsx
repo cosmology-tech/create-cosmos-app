@@ -8,7 +8,7 @@ import {
   ConnectWalletButton,
 } from '.';
 import { WalletCardSection } from './card';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import React from 'react';
 
 export const WalletSectionMulti = ({

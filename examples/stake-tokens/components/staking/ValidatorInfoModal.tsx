@@ -1,5 +1,5 @@
 import { getCoin } from '@/config';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import {
   formatValidatorMetaInfo,
   type ExtendedValidator as Validator,
