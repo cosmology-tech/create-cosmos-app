@@ -4,9 +4,6 @@ import '@interchain-ui/react/styles';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Decimal } from '@cosmjs/math';
 import { GasPrice } from '@cosmjs/stargate';
-import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
-import { wallets as keplrWallets } from '@cosmos-kit/keplr';
-import { wallets as leapWallets } from '@cosmos-kit/leap';
 import { ChainProvider } from '@cosmos-kit/react';
 import { assets, chains } from 'chain-registry';
 import type { AppProps } from 'next/app';
@@ -17,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
+        wallets={wallets}
         walletConnectOptions={{
           signClient: {
             projectId: 'a8510432ebb71e6948cfd6cde54b70f7',

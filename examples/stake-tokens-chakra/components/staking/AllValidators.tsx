@@ -1,6 +1,6 @@
 import { Heading, useDisclosure } from '@chakra-ui/react';
 import { useState } from 'react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { DelegateModal } from './DelegateModal';
 import React from 'react';
 import AllValidatorsList from './AllValidatorsList';

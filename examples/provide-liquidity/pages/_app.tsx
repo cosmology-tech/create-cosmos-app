@@ -1,19 +1,17 @@
+import '../styles/globals.css';
+import '@interchain-ui/react/styles';
+
 import type { AppProps } from 'next/app';
-import { ChainProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
-import { aminoTypes, registry } from '../config/defaults';
-import { wallets as keplrWallets } from '@cosmos-kit/keplr';
-import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
-import { wallets as leapWallets } from '@cosmos-kit/leap';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { defaultTheme } from '../config';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
+import { ChainProvider } from '@cosmos-kit/react';
+import { SignerOptions, wallets } from 'cosmos-kit';
 import { assets, chains } from 'chain-registry';
 import { GasPrice } from '@cosmjs/stargate';
-import { SignerOptions } from '@cosmos-kit/core';
-import { defaultTheme } from '../config';
-import '@interchain-ui/react/styles';
-import '../styles/globals.css';
+import { aminoTypes, registry } from '../config/defaults';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -48,7 +46,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
+        wallets={wallets}
         signerOptions={signerOptions}
         walletConnectOptions={{
           signClient: {

@@ -3,7 +3,7 @@ import { useChain } from '@cosmos-kit/react';
 import { Dialog } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
-import { ChainWalletBase } from '@cosmos-kit/core';
+import { ChainWalletBase } from 'cosmos-kit';
 
 export const WalletList = ({
   onClose,

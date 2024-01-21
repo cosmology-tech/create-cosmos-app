@@ -12,7 +12,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 
-import { WalletStatus } from "@cosmos-kit/core";
+import { WalletStatus } from 'cosmos-kit';
 
 import { ConnectWalletType } from "../types";
 import { handleChangeColorModeValue } from "./handleChangeColor";

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { useManager } from '@cosmos-kit/react';
 import { Center, Grid, GridItem } from '@chakra-ui/react';
 

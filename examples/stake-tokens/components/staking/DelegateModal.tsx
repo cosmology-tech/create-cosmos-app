@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { cosmos } from 'interchain-query';
 import { StdFee } from '@cosmjs/amino';
 import { useChain } from '@cosmos-kit/react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import BigNumber from 'bignumber.js';
 import {
   BasicModal,

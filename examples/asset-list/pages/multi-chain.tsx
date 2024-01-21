@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import NoSSR from 'react-no-ssr';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { AssetListSection, Layout, WalletSection } from '@/components';
 
 export default function MultiChain() {

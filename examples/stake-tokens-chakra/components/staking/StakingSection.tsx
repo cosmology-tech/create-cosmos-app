@@ -3,7 +3,7 @@ import { Box, Center, Spinner, Text } from '@chakra-ui/react';
 import Overview from './Overview';
 import { MyValidators } from './MyValidators';
 import { AllValidators } from './AllValidators';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { useStakingData, useValidatorLogos } from '@/hooks';
 
 export const StakingSection = ({ chainName }: { chainName: ChainName }) => {

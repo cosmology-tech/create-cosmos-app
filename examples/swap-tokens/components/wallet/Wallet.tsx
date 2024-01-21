@@ -1,5 +1,5 @@
 import { Box, Stack, ClipboardCopyText, useColorModeValue } from '@interchain-ui/react';
-import { WalletStatus } from '@cosmos-kit/core';
+import { WalletStatus } from 'cosmos-kit';
 import { useChain } from '@cosmos-kit/react';
 import { getChainLogo } from '@/utils';
 import { defaultChainName } from "@/config";
@@ -10,7 +10,7 @@ import { Warning } from './Warning';
 
 export function Wallet() {
   const { chain, status, wallet, username, address, message, connect, openView } = useChain(defaultChainName);
-  
+
   const ConnectButton = {
     [WalletStatus.Connected]: <Button.Connected onClick={openView} />,
     [WalletStatus.Connecting]: <Button.Connecting />,
@@ -41,8 +41,8 @@ export function Wallet() {
           )
         }}
       >
-        {username ? <User name={username} /> : null }
-        {address ? <ClipboardCopyText text={address} truncate="middle" /> : null }
+        {username ? <User name={username} /> : null}
+        {address ? <ClipboardCopyText text={address} truncate="middle" /> : null}
         <Box
           my="$8"
           flex="1"
@@ -56,7 +56,7 @@ export function Wallet() {
         </Box>
 
         {message && [WalletStatus.Error, WalletStatus.Rejected].includes(status)
-          ? <Warning text={`${wallet?.prettyName}: ${message}`} /> 
+          ? <Warning text={`${wallet?.prettyName}: ${message}`} />
           : null}
       </Stack>
     </Box>

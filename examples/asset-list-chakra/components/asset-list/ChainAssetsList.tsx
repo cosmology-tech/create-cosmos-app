@@ -16,7 +16,7 @@ import React, { useMemo, useState } from 'react';
 import { PrettyAsset, PriceHash, Transfer, TransferInfo } from './types';
 import { SimpleButton } from './Buttons';
 import TransferModal from './TransferModal';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { useChainUtils } from '../../hooks';
 import { truncDecimals, formatDollarValue } from '@/utils';
 

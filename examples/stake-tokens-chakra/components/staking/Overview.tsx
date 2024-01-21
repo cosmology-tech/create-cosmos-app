@@ -11,7 +11,7 @@ import { useChain } from '@cosmos-kit/react';
 import { useState } from 'react';
 import { cosmos } from 'interchain-query';
 import { getCoin } from '../../config';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { useTx } from '@/hooks';
 import { type ParsedRewards as Rewards } from '@/utils/staking';
 import { isGreaterThanZero, sum } from '@/utils';

@@ -3,7 +3,7 @@ import { Text, Box } from '@interchain-ui/react';
 import AssetsOverview from './AssetsOverview';
 import { useChain } from '@cosmos-kit/react';
 import { useAssets } from '../../hooks';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 
 interface IProps {
   chainName: ChainName;

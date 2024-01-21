@@ -20,7 +20,7 @@ import { useState } from 'react';
 import { cosmos } from 'interchain-query';
 import { useChain } from '@cosmos-kit/react';
 import { getCoin, getExponent } from '@/config';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { useInputBox, useTx } from '@/hooks';
 
 const { undelegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;

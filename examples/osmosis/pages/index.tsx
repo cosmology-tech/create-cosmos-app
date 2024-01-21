@@ -29,7 +29,7 @@ import {
   products,
 } from '../config';
 
-import { WalletStatus } from '@cosmos-kit/core';
+import { WalletStatus } from 'cosmos-kit';
 import {
   Product,
   Dependency,

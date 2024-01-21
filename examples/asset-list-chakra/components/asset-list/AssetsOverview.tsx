@@ -14,7 +14,7 @@ import { PrettyAsset, Transfer, TransferInfo } from './types';
 import { useChainUtils, useTotalAssets } from '../../hooks';
 import { useChain } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 
 interface IProps {
   assets: PrettyAsset[];
