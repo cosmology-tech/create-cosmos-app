@@ -28,7 +28,7 @@
     "@interchain-ui/react": "1.20.5",
     "bowser": "^2.11.0",
     "chain-registry": "1.20.0",
-    "cosmos-kit": "2.7.12",
+    "cosmos-kit": "2.8.0",
     "copy-to-clipboard": "^3.3.2",
     "framer-motion": "9.0.7",
     "next": "^13",

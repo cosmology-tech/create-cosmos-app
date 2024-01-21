@@ -30,7 +30,7 @@
     "@interchain-ui/react": "1.20.5",
     "bignumber.js": "9.1.0",
     "chain-registry": "1.20.0",
-    "cosmos-kit": "2.7.12",
+    "cosmos-kit": "2.8.0",
     "framer-motion": "9.0.7",
     "interchain": "1.10.1",
     "next": "^13",

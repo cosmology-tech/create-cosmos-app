@@ -4931,10 +4931,10 @@ cosmjs-types@^0.9.0:
   resolved "https://registry.npmmirror.com/cosmjs-types/-/cosmjs-types-0.9.0.tgz#c3bc482d28c7dfa25d1445093fdb2d9da1f6cfcc"
   integrity sha512-MN/yUe6mkJwHnCFfsNPeCfXVhyxHYW6c/xDUzrSbBycYzw++XvWDMJArXp2pLdgD6FQ8DW79vkPjeNKVrXaHeQ==
 
-cosmos-kit@2.7.12:
-  version "2.7.12"
-  resolved "https://registry.npmjs.org/cosmos-kit/-/cosmos-kit-2.7.12.tgz#d8698232dfb974da9a094f182cb62df7cb8197df"
-  integrity sha512-HqTyq5jq6Jn9yCuuaKv9h8LhBBRVGmUGKllGTHI1tMfadatXNCjL1aJRW/lw4IH66p2An4lQRbQitRNTLx6OsA==
+cosmos-kit@2.8.0:
+  version "2.8.0"
+  resolved "https://registry.npmjs.org/cosmos-kit/-/cosmos-kit-2.8.0.tgz#da634c235ecb928caf5fe1296a579b26cdaba119"
+  integrity sha512-Cbvv+AIXfScuElHPQ1JOmACPzoxpBviHEdWybeWgyu4QQqi2HQQZc3VzKRvBSeLQ3kukltYZI6Uf/dcO90Mbkw==
   dependencies:
     "@cosmos-kit/coin98" "^2.6.5"
     "@cosmos-kit/compass" "^2.6.5"
