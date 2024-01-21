@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useMemo } from 'react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 
 import { getCoin } from '@/config';
 import { shiftDigits, type ExtendedValidator as Validator } from '@/utils';

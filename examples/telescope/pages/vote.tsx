@@ -23,7 +23,7 @@ import {
 } from '../components';
 import { dependencies, products } from '../config';
 import { useState } from 'react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import React from 'react';
 
 export default function Home() {

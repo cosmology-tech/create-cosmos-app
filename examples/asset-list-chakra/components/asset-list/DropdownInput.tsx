@@ -22,7 +22,7 @@ import {
 } from './types';
 import BigNumber from 'bignumber.js';
 import { useBalance, useChainUtils } from '../../hooks';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { truncDecimals } from '@/utils';
 
 interface IProps {

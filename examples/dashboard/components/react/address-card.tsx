@@ -7,7 +7,7 @@ import {
   useClipboard,
   useColorMode,
 } from "@chakra-ui/react";
-import { WalletStatus } from "@cosmos-kit/core";
+import { WalletStatus } from 'cosmos-kit';
 import React, { ReactNode, useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FiCopy } from "react-icons/fi";
@@ -163,10 +163,10 @@ export const ConnectedShowAddress = ({
             hasCopied
               ? "green.400"
               : handleChangeColorModeValue(
-                  colorMode,
-                  "gray.500",
-                  "whiteAlpha.400"
-                )
+                colorMode,
+                "gray.500",
+                "whiteAlpha.400"
+              )
           }
         />
       )}

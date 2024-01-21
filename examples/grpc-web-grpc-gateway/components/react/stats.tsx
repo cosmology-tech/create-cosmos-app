@@ -13,7 +13,7 @@ import { cosmos } from 'interchain';
 import { getCoin } from '../../config';
 import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
 import { TransactionResult } from '../types';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { useFeeEstimation, useTransactionToast } from '../../hooks';
 
 export const Token = ({ token, color }: { token: string; color?: string }) => (

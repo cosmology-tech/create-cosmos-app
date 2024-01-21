@@ -16,7 +16,7 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import { useChain } from '@cosmos-kit/react';
-import { WalletStatus } from '@cosmos-kit/core';
+import { WalletStatus } from 'cosmos-kit';
 import { coins, StdFee } from '@cosmjs/amino';
 import { FiAlertTriangle } from 'react-icons/fi';
 

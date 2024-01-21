@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import {
   Text,
   GridColumn,

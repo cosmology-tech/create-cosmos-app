@@ -22,7 +22,7 @@ import { useChain } from '@cosmos-kit/react';
 import { cosmos } from 'interchain-query';
 import { getCoin, getExponent } from '@/config';
 import { StdFee } from '@cosmjs/amino';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import BigNumber from 'bignumber.js';
 import { useInputBox, useTx } from '@/hooks';
 import { type ExtendedValidator as Validator } from '@/utils';

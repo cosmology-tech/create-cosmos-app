@@ -46,7 +46,7 @@ export const dependencies: Project[] = [
   {
     name: 'Interchain UI',
     desc: 'A simple, modular and cross-framework Component Library for Cosmos',
-    link: 'https://chakra-ui.com/docs/components/',
+    link: 'https://cosmology.zone/explore',
   },
   {
     name: 'Next.js',

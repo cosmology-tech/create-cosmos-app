@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Divider } from '@chakra-ui/react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import NoSSR from 'react-no-ssr';
 import { Layout, StakingSection, WalletSection } from '@/components';
 

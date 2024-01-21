@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Text } from '@interchain-ui/react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 
 import { DelegateModal } from './DelegateModal';
 import AllValidatorsList from './AllValidatorsList';
