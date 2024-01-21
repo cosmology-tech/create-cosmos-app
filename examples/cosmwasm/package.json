@@ -25,6 +25,7 @@
     "@chakra-ui/react": "2.5.1",
     "@cosmjs/cosmwasm-stargate": "0.31.1",
     "@cosmjs/stargate": "0.31.1",
+    "@cosmos-kit/react": "2.10.5",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
     "@interchain-ui/react": "1.20.5",
