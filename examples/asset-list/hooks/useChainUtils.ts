@@ -7,7 +7,7 @@ import { CoinDenom, CoinSymbol, Exponent, PriceHash } from '../utils/types';
 import BigNumber from 'bignumber.js';
 import { Coin } from '@cosmjs/amino';
 import { PrettyAsset } from '../components';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 
 export const useChainUtils = (chainName: string) => {
   const { getChainRecord } = useManager();

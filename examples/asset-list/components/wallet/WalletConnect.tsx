@@ -8,7 +8,7 @@ import {
 } from '@interchain-ui/react';
 import { IoWallet } from 'react-icons/io5';
 import { FiAlertTriangle } from 'react-icons/fi';
-import { WalletStatus } from '@cosmos-kit/core';
+import { WalletStatus } from 'cosmos-kit';
 
 interface IConnectWalletButton {
   buttonText?: string;

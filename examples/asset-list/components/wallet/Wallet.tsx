@@ -3,7 +3,7 @@ import { Box, Stack, useTheme } from '@interchain-ui/react';
 import { MouseEventHandler, useEffect, useMemo } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 
-import { ChainName, WalletStatus } from '@cosmos-kit/core';
+import { ChainName, WalletStatus } from 'cosmos-kit';
 import { defaultChainName } from '@/config';
 import {
   Connected,

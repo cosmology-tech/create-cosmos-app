@@ -7,7 +7,7 @@ import {
   handleSelectChainDropdown,
   ConnectWalletButton,
 } from '.';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { WalletCardSection } from './card';
 
 export const WalletSection = () => {

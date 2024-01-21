@@ -23,7 +23,7 @@ import { LargeButton } from './Buttons';
 import { PriceHash, TransferInfo } from './types';
 import { useChainWallet, useManager } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { coins, StdFee } from '@cosmjs/amino';
 import { useChainUtils, useTx } from '../../hooks';
 import { KeplrWalletName } from '@/config';

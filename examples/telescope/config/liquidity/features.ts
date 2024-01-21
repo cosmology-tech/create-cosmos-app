@@ -35,9 +35,9 @@ export const products: FeatureProps[] = [
 
 export const dependencies: FeatureProps[] = [
   {
-    title: 'Chakra UI',
+    title: 'Interchain UI',
     text: 'A simple, modular and accessible React Component Library.',
-    href: 'https://chakra-ui.com/docs/components/'
+    href: 'https://cosmology.zone/explore'
   },
   {
     title: 'Next.js',

@@ -1,5 +1,5 @@
 import { Box, Button, Heading, HStack } from "@chakra-ui/react";
-import { ChainName, WalletStatus } from "@cosmos-kit/core";
+import { ChainName, WalletStatus } from "cosmos-kit";
 import { useChain } from "@cosmos-kit/react";
 import { useEffect } from "react";
 import { ConnectedShowAddress } from "./react";

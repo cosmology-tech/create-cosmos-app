@@ -31,7 +31,7 @@ import {
   ConnectWalletButton,
 } from '../components';
 import { defaultChainName } from '../config';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 
 export const WalletSection = ({
   isMultiChain,

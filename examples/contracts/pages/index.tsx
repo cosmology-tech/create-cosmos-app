@@ -2,7 +2,7 @@ import { Container, Button } from '@chakra-ui/react';
 import { useChain } from '@cosmos-kit/react';
 import { useState } from 'react';
 import { SigningStargateClient } from '@cosmjs/stargate';
-import { WalletStatus } from '@cosmos-kit/core';
+import { WalletStatus } from 'cosmos-kit';
 import BigNumber from 'bignumber.js';
 
 import { WalletSection } from '../components';

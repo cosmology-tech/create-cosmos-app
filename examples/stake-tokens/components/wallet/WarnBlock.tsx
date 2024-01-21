@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Box, Text, useColorModeValue } from '@interchain-ui/react';
-import { WalletStatus } from '@cosmos-kit/core';
+import { WalletStatus } from 'cosmos-kit';
 
 export const WarnBlock = ({
   wordOfWarning,

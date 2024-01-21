@@ -1,13 +1,14 @@
 import '../styles/globals.css';
+import '@interchain-ui/react/styles';
+
 import type { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
 
-import { ChainProvider } from '@cosmos-kit/react';
 import { SignerOptions, wallets } from 'cosmos-kit';
+import { ChainProvider } from '@cosmos-kit/react';
 import { chains, assets } from 'chain-registry';
 
 import { defaultTheme } from '../config';
-import '@interchain-ui/react/styles';
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
@@ -29,7 +30,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
             metadata: {
               name: 'CosmosKit Template',
               description: 'CosmosKit dapp template',
-              url: 'https://docs.cosmoskit.com/',
+              url: 'https://docs.cosmology.zone/cosmos-kit/',
               icons: [],
             },
           },

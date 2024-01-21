@@ -14,7 +14,7 @@ import {
   Text,
   useColorMode,
 } from '@chakra-ui/react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 
 import { getCoin } from '@/config';
 import { Token } from './Overview';

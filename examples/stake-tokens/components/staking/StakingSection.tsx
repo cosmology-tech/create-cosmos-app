@@ -1,5 +1,5 @@
 import { useChain } from '@cosmos-kit/react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { Box, Spinner, Text } from '@interchain-ui/react';
 
 import Overview from './Overview';

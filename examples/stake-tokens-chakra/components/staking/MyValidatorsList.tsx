@@ -16,7 +16,7 @@ import { Token } from './Overview';
 import { IoArrowForward } from 'react-icons/io5';
 import { Dispatch, SetStateAction } from 'react';
 import { getCoin } from '../../config';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import React from 'react';
 import { Logo } from './ModalElements';
 import { type ExtendedValidator as Validator } from '@/utils';
