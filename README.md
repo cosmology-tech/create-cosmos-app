@@ -176,7 +176,7 @@ cca --name osmowasm-example --example osmosis-cosmwasm
 uses [osmojs](https://github.com/osmosis-labs/osmojs) to swap tokens
 
 ```
-cca --name swap-example --example --template swap-tokens
+cca --name swap-example --example swap-tokens
 ```
 
 ### Provide Liquidity
