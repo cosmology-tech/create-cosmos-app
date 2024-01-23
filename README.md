@@ -106,7 +106,7 @@ cca --example
 </p>
 
 ```
-cca --name send-example --example --template send-tokens
+cca --name send-example --example send-tokens
 ```
 
 ### Stake Tokens
@@ -116,7 +116,7 @@ cca --name send-example --example --template send-tokens
 </p>
 
 ```
-cca --name stake-example --example --template stake-tokens
+cca --name stake-example --example stake-tokens
 ```
 
 ### Vote Proposal
@@ -126,7 +126,7 @@ cca --name stake-example --example --template stake-tokens
 </p>
 
 ```
-cca --name vote-example --example --template vote-proposal
+cca --name vote-example --example vote-proposal
 ```
 
 ### IBC Transfer
@@ -136,7 +136,7 @@ cca --name vote-example --example --template vote-proposal
 </p>
 
 ```
-cca --name ibc-example --example --template ibc-transfer
+cca --name ibc-example --example ibc-transfer
 ```
 
 ### grpc-web and grpc-gateway
@@ -146,7 +146,7 @@ cca --name ibc-example --example --template ibc-transfer
 </p>
 
 ```
-cca --name grpc-example --example --template grpc-web-grpc-gateway
+cca --name grpc-example --example grpc-web-grpc-gateway
 ```
 
 ### Osmosis
@@ -158,13 +158,13 @@ cca --name grpc-example --example --template grpc-web-grpc-gateway
 uses [osmojs](https://github.com/osmosis-labs/osmojs)
 
 ```
-cca --name osmo-example --example --template osmosis
+cca --name osmo-example --example osmosis
 ```
 
 or the cosmwasm example:
 
 ```
-cca --name osmowasm-example --example --template osmosis-cosmwasm
+cca --name osmowasm-example --example osmosis-cosmwasm
 ```
 
 ### Swap Tokens
@@ -188,7 +188,7 @@ cca --name swap-example --example --template swap-tokens
 uses [osmojs](https://github.com/osmosis-labs/osmojs) to provide liquidity
 
 ```
-cca --name liquidity-example --example --template provide-liquidity
+cca --name liquidity-example --example provide-liquidity
 ```
 
 ### Asset List
@@ -198,7 +198,7 @@ cca --name liquidity-example --example --template provide-liquidity
 </p>
 
 ```
-cca --name asset-list-example --example --template asset-list
+cca --name asset-list-example --example asset-list
 ```
 
 ### Juno
@@ -210,7 +210,7 @@ cca --name asset-list-example --example --template asset-list
 uses [juno-network](https://github.com/CosmosContracts/typescript)
 
 ```
-cca --name juno-example --example --template juno
+cca --name juno-example --example juno
 ```
 
 ### Stargaze
@@ -222,7 +222,7 @@ cca --name juno-example --example --template juno
 uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
 
 ```
-cca --name stargaze-example --example --template stargaze
+cca --name stargaze-example --example stargaze
 ```
 
 ### NFT
@@ -234,7 +234,7 @@ cca --name stargaze-example --example --template stargaze
 uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
 
 ```
-cca --name nft-example --example --template nft
+cca --name nft-example --example nft
 ```
 
 ### CosmWasm
@@ -244,13 +244,13 @@ cca --name nft-example --example --template nft
 </p>
 
 ```
-cca --name cosmwasm-example --example --template cosmwasm
+cca --name cosmwasm-example --example cosmwasm
 ```
 
 ### Tailwind
 
 ```
-cca --name tailwind-example --example --template tailwindcss
+cca --name tailwind-example --example tailwindcss
 ```
 
 ## Development
