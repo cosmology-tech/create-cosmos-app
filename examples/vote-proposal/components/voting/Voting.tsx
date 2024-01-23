@@ -126,7 +126,7 @@ export function Voting({ chainName }: VotingProps) {
     <Box mb="$20" position="relative">
       <Text fontWeight="600" fontSize="$2xl">Proposals</Text>
 
-      {Loading}
+      {address ? Loading : null}
 
       {address ? content : connect}
 
