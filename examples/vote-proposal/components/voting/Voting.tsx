@@ -131,7 +131,11 @@ export function Voting({ chainName }: VotingProps) {
       {address ? content : connect}
 
       <BasicModal
-        title={modal.title}
+        title={
+          <Box maxWidth="40rem">
+            <Text fontSize="$xl" fontWeight="$bold">{modal.title}</Text>
+          </Box>
+        }
         isOpen={modal.open}
         onOpen={openModal}
         onClose={closeModal}
