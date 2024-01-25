@@ -43,9 +43,15 @@ export function Hero({ collection, onMint = () => {} }: HeroProps) {
         width="$32"
       />
       <Skeleton
+        mb="$10"
         borderRadius="$sm"
         height="$12"
         width="$30"
+      />
+      <Skeleton
+        borderRadius="$md"
+        height="$16"
+        width="$28"
       />
     </Box>
   );
@@ -64,7 +70,7 @@ export function Hero({ collection, onMint = () => {} }: HeroProps) {
         >
           <Box flex="1">
             {collection.isLoading ? TitleSkeleton : (
-              <Box>
+              <>
                 <Text
                   fontSize="3rem"
                   fontWeight="600"
@@ -82,16 +88,16 @@ export function Hero({ collection, onMint = () => {} }: HeroProps) {
                 >
                   {ellipsis(collection.info?.description)}
                 </Text>
-              </Box>
+                <Button
+                  size="lg"
+                  intent="tertiary"
+                  onClick={onMint}
+                  domAttributes={{ style: { width: "260px" } }}
+                >
+                  Mint Now
+                </Button>
+              </>
             )}
-            <Button
-              size="lg"
-              intent="tertiary"
-              onClick={onMint}
-              domAttributes={{ style: { width: "260px" } }}
-            >
-              Mint Now
-            </Button>
           </Box>
           {collection.isLoading
             ? <Skeleton width="23rem" height="23rem" borderRadius="$md" />
