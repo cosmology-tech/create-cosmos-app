@@ -67,6 +67,7 @@ export function Voting({ chainName }: VotingProps) {
       {data.proposals?.map((proposal, index) => (
         <Box
           my="$8"
+          key={proposal.proposalId?.toString() || index}
           position="relative"
           attributes={{ onClick: () => onClickProposal(index) }}
         >
