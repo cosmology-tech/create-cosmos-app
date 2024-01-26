@@ -23,6 +23,8 @@
     "@chain-registry/types": "^0.16.0",
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.5.1",
+    "@emotion/react": "11.10.6",
+    "@emotion/styled": "11.10.6",
     "@cosmjs/amino": "^0.31.3",
     "@cosmjs/cosmwasm-stargate": "^0.31.3",
     "@cosmjs/stargate": "^0.31.3",
