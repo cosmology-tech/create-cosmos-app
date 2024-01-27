@@ -1,5 +1,6 @@
 import '@interchain-ui/react/styles';
 import '@interchain-ui/react/globalStyles';
+import 'react-calendar/dist/Calendar.css';
 
 import React from 'react';
 import type { AppProps } from 'next/app';
