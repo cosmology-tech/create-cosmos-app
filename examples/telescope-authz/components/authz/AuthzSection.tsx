@@ -12,7 +12,12 @@ export const AuthzSection = ({ chainName }: { chainName: ChainName }) => {
 
   return (
     <Box mb="$18">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mb="$16"
+      >
         <Tabs
           tabs={[
             {
@@ -33,8 +38,8 @@ export const AuthzSection = ({ chainName }: { chainName: ChainName }) => {
         </Button>
       </Box>
 
-      {activeTab === 0 && <GrantsToMe />}
-      {activeTab === 1 && <GrantsByMe />}
+      {activeTab === 0 && <GrantsToMe grants={[]} />}
+      {activeTab === 1 && <GrantsByMe grants={[{}]} />}
 
       <GrantModal
         isOpen={isOpen}

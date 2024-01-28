@@ -1,0 +1,9 @@
+.customInput {
+  background-color: #eef2f8;
+  color: #697584;
+}
+
+.customIconButton {
+  border-radius: 100%;
+  transform: scale(0.9);
+}
