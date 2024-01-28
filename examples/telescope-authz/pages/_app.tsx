@@ -33,9 +33,13 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const { themeClass } = useTheme();
 
   const signerOptions: SignerOptions = {
-    signingStargate: (chain) => {
+    signingStargate: (_chain) => {
       let gasPrice;
       try {
+        const chain =
+          typeof _chain === 'string'
+            ? chains.find(({ chain_name }) => chain_name === _chain)!
+            : _chain;
         const feeToken = chain.fees?.fee_tokens[0];
         const fee = `${feeToken?.average_gas_price || 0.025}${feeToken?.denom}`;
         gasPrice = GasPrice.fromString(fee);
