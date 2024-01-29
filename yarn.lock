@@ -2185,7 +2185,7 @@
   dependencies:
     "@babel/runtime" "^7.21.0"
 
-"@chain-registry/types@^0.17.1":
+"@chain-registry/types@0.17.1", "@chain-registry/types@^0.17.1":
   version "0.17.1"
   resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.17.1.tgz#0ac7bda6178d3917834578627f232a247fe5def8"
   integrity sha512-O0CgrtJgIlqXvZm1CqDZe/7jZz068O/uuCIoyDXCegFHK03rdHacKcDGwEIUuI0MNUf8YV3jdE4xHQMSAX+79w==
@@ -11627,6 +11627,14 @@ chain-registry@1.24.1:
   version "1.24.1"
   resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.24.1.tgz#e2e6cac787b69630fc6eb2f91c2407a3083f5efa"
   integrity sha512-1jfGg4FQ95SFMZLMDoYZwPPxkkk1cowuqBg4Lod7AtRrmoImCfH7f4yWXarcvWOc2j/NyU7XXNQu+qCnrkjDJg==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@chain-registry/types" "^0.17.1"
+
+chain-registry@1.25.4:
+  version "1.25.4"
+  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.25.4.tgz#6d1546cd6070201809ba255924a407ad71116311"
+  integrity sha512-QxBSg4lLR4CXqDgratAAqelw3K/WdROKNvq+IThuirXMfCcuL6wNPVunlvz3gPPdnyAA6D+dSZ4ky4ZWavDcOg==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@chain-registry/types" "^0.17.1"

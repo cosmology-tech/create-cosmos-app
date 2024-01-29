@@ -18,15 +18,13 @@
     "@types/react-dom": "18.0.9"
   },
   "dependencies": {
-    "@chakra-ui/icons": "2.0.12",
-    "@chakra-ui/react": "2.5.1",
     "@cosmjs/cosmwasm-stargate": "0.31.1",
     "@cosmjs/stargate": "0.31.1",
     "@cosmos-kit/react": "2.10.5",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
-    "@interchain-ui/react": "1.21.3",
-    "chain-registry": "1.20.0",
+    "@interchain-ui/react": "^1.21.3",
+    "chain-registry": "1.25.4",
     "cosmos-kit": "2.8.0",
     "framer-motion": "9.0.7",
     "next": "^13",
