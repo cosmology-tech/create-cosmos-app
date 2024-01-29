@@ -2,28 +2,30 @@ import { ChainName } from 'cosmos-kit';
 import {
   BasicModal,
   Box,
-  Select,
-  SelectOption,
   TextField,
-  Item,
   Button,
   Popover,
   PopoverTrigger,
   PopoverContent,
   Text,
   Icon,
+  SelectButton,
+  ListItem,
+  Stack,
+  FieldLabel,
 } from '@interchain-ui/react';
 import { useState } from 'react';
 import { IoMdCalendar } from 'react-icons/io';
 import Calendar from 'react-calendar';
 import dayjs from 'dayjs';
 
-import { isPermissionCustomizable, PermissionId, permissions } from '@/configs';
+import {
+  isPermissionCustomizable,
+  PermissionItem,
+  permissions,
+} from '@/configs';
 import { CustomizationField } from './CustomizationField';
-
-interface PermissionItem extends Item {
-  key: PermissionId;
-}
+import styles from '@/styles/custom.module.css';
 
 type GrantModalProps = {
   isOpen: boolean;
@@ -32,6 +34,7 @@ type GrantModalProps = {
 };
 
 export const GrantModal = ({ isOpen, onClose }: GrantModalProps) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [showCustomization, setShowCustomization] = useState(false);
 
@@ -56,7 +59,7 @@ export const GrantModal = ({ isOpen, onClose }: GrantModalProps) => {
   };
 
   const isCustomizable =
-    selectedPermission && isPermissionCustomizable(selectedPermission.key);
+    selectedPermission && isPermissionCustomizable(selectedPermission.id);
 
   return (
     <BasicModal title="Create Grant" isOpen={isOpen} onClose={onModalClose}>
@@ -74,23 +77,40 @@ export const GrantModal = ({ isOpen, onClose }: GrantModalProps) => {
           placeholder="Enter grantee address"
         />
 
-        <Select
-          label="Permission"
-          placeholder="Select permission"
-          selectedIndex={selectedPermission?.index}
-          onSelectItem={(item) => setSelectedPermission(item as PermissionItem)}
-          defaultSelectedItem={{
-            index: 1,
-            key: permissions[1].id,
-            label: permissions[1].name,
-          }}
-        >
-          {permissions.map(({ id, name }) => (
-            <SelectOption key={id} optionKey={id} label={name}>
-              {name}
-            </SelectOption>
-          ))}
-        </Select>
+        <Box>
+          <FieldLabel htmlFor="" label="Permission" attributes={{ mb: '$4' }} />
+          <Popover
+            triggerType="click"
+            isOpen={isDropdownOpen}
+            setIsOpen={setIsDropdownOpen}
+          >
+            <PopoverTrigger>
+              <SelectButton
+                className={styles.customSelect}
+                placeholder={selectedPermission?.name || 'Select permission'}
+              />
+            </PopoverTrigger>
+            <PopoverContent showArrow={false}>
+              <Stack direction="vertical" className={styles.customSelect}>
+                {permissions.map((p) => (
+                  <ListItem
+                    key={p.id}
+                    isActive={p.id === selectedPermission?.id}
+                    className={styles.customSelect}
+                    attributes={{
+                      onClick: () => {
+                        setSelectedPermission(p);
+                        setIsDropdownOpen(false);
+                      },
+                    }}
+                  >
+                    {p.name}
+                  </ListItem>
+                ))}
+              </Stack>
+            </PopoverContent>
+          </Popover>
+        </Box>
 
         <Box
           display={isCustomizable ? 'flex' : 'none'}
@@ -126,9 +146,9 @@ export const GrantModal = ({ isOpen, onClose }: GrantModalProps) => {
         </Box>
 
         <Box display={isCustomizable && showCustomization ? 'block' : 'none'}>
-          {selectedPermission?.key === 'send' && (
+          {selectedPermission?.id === 'send' && (
             <CustomizationField
-              permissionType={selectedPermission.key}
+              permissionType={selectedPermission.id}
               inputProps={{
                 value: sendLimit,
                 onChange: (val) => {
@@ -141,9 +161,9 @@ export const GrantModal = ({ isOpen, onClose }: GrantModalProps) => {
               }}
             />
           )}
-          {selectedPermission?.key === 'delegate' && (
+          {selectedPermission?.id === 'delegate' && (
             <CustomizationField
-              permissionType={selectedPermission.key}
+              permissionType={selectedPermission.id}
               inputProps={{
                 value: delegateLimit,
                 onChange: (val) => {
