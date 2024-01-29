@@ -88,6 +88,7 @@ export const GrantModal = ({ isOpen, onClose }: GrantModalProps) => {
               <SelectButton
                 className={styles.customSelect}
                 placeholder={selectedPermission?.name || 'Select permission'}
+                onClick={() => {}}
               />
             </PopoverTrigger>
             <PopoverContent showArrow={false}>
