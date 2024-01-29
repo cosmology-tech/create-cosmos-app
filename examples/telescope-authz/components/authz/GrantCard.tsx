@@ -9,16 +9,17 @@ import {
   TextField,
 } from '@interchain-ui/react';
 
-import { getChainLogoUrl } from '@/utils';
+import { getChainLogoByChainName } from '@/utils';
 import styles from '@/styles/custom.module.css';
 
 const granteeAddress = 'osmo1qx6kgrla69wmz90tn379p4kaux5prdkuzly2tw';
 
 type GrantCardProps = {
   permissions: string[];
+  onViewDetails: () => void;
 };
 
-export const GrantCard = ({ permissions }: GrantCardProps) => {
+export const GrantCard = ({ permissions, onViewDetails }: GrantCardProps) => {
   const [isCopied, setIsCopied] = useState(false);
 
   const copy = (text: string) => {
@@ -46,7 +47,7 @@ export const GrantCard = ({ permissions }: GrantCardProps) => {
       <Stack space="$4" attributes={{ alignItems: 'center', mb: '$10' }}>
         <Image
           alt="chain name"
-          src={getChainLogoUrl('juno')}
+          src={getChainLogoByChainName('juno')}
           width="30"
           height="30"
           sizes="100vw"
@@ -94,7 +95,7 @@ export const GrantCard = ({ permissions }: GrantCardProps) => {
         ))}
       </Box>
 
-      <Button intent="tertiary" fluidWidth>
+      <Button intent="tertiary" fluidWidth onClick={onViewDetails}>
         View Details
       </Button>
     </Box>
