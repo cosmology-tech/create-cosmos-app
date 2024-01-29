@@ -1,29 +1,29 @@
-import React, { useMemo, useState } from 'react';
-import { PieChart } from 'react-minimal-pie-chart';
-import { Proposal } from 'interchain-query/cosmos/gov/v1beta1/gov';
-import { cosmos } from 'interchain-query';
+import React, { useMemo, useState } from "react";
+import { PieChart } from "react-minimal-pie-chart";
+import { Proposal } from "interchain-query/cosmos/gov/v1beta1/gov";
+import { cosmos } from "interchain-query";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  Flex,
-  Text,
   Box,
+  Button,
   Center,
   Divider,
+  Flex,
   Heading,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
   useColorMode,
   useColorModeValue,
-} from '@chakra-ui/react';
+  useDisclosure,
+} from "@chakra-ui/react";
 
-import { VoteColor } from './ProposalCard';
-import { Votes } from '@/hooks';
+import { VoteColor } from "./ProposalCard";
+import { Votes } from "@/hooks";
 import {
   decodeUint8Arr,
   exponentiate,
@@ -32,16 +32,16 @@ import {
   getExponent,
   getPercentage,
   getTitleFromDecoded,
-} from '@/utils';
+} from "@/utils";
 import {
-  VoteResult,
-  TimeDisplay,
-  VoteRatio,
   NewLineText,
   StatusBadge,
+  TimeDisplay,
   VoteOption,
-} from './common';
-import { VoteModal } from './VoteModal';
+  VoteRatio,
+  VoteResult,
+} from "./common";
+import { VoteModal } from "./VoteModal";
 
 const ProposalStatus = cosmos.gov.v1beta1.ProposalStatus;
 
@@ -73,22 +73,22 @@ export const ProposalModal = ({
 
   const chartData = [
     {
-      title: 'YES',
+      title: "YES",
       value: Number(proposal.finalTallyResult?.yes),
       color: VoteColor.YES,
     },
     {
-      title: 'NO',
+      title: "NO",
       value: Number(proposal.finalTallyResult?.no),
       color: VoteColor.NO,
     },
     {
-      title: 'NWV',
+      title: "NWV",
       value: Number(proposal.finalTallyResult?.noWithVeto),
       color: VoteColor.NWV,
     },
     {
-      title: 'ABSTAIN',
+      title: "ABSTAIN",
       value: Number(proposal.finalTallyResult?.abstain),
       color: VoteColor.ABSTAIN,
     },
@@ -96,7 +96,7 @@ export const ProposalModal = ({
 
   const emptyChartData = [
     {
-      title: 'NO VOTES YET',
+      title: "NO VOTES YET",
       value: 100,
       color: VoteColor.ABSTAIN,
     },
@@ -106,7 +106,7 @@ export const ProposalModal = ({
     if (!proposal.finalTallyResult) return 0;
     const total = Object.values(proposal.finalTallyResult).reduce(
       (prev, cur) => prev + Number(cur),
-      0
+      0,
     );
     return total ? total : 0;
   }, [proposal]);
@@ -121,22 +121,19 @@ export const ProposalModal = ({
 
   const turnout = totalVotes / Number(bondedTokens);
 
-  const minStakedTokens =
-    quorum && exponentiate(quorum * Number(bondedTokens), -exponent).toFixed(6);
+  const minStakedTokens = quorum &&
+    exponentiate(quorum * Number(bondedTokens), -exponent).toFixed(6);
 
-  const title = getTitleFromDecoded(decodeUint8Arr(proposal.content?.value));
+  const title = proposal.content?.title ||
+    getTitleFromDecoded(decodeUint8Arr(proposal.content?.value));
 
-  const description =
-    decodeUint8Arr(proposal.content?.value)
-      .match(/(?<=\u0012).*/s)?.[0]
-      .slice(2) || '';
+  const description = decodeUint8Arr(proposal.content?.value)
+    .match(/(?<=\u0012).*/s)?.[0]
+    .slice(2) || "";
 
-  const renderedDescription =
-    description.length > 200
-      ? showMore
-        ? description
-        : `${description.slice(0, 200)}...`
-      : description || '';
+  const renderedDescription = description.length > 200
+    ? showMore ? description : `${description.slice(0, 200)}...`
+    : description || "";
 
   return (
     <>
@@ -144,7 +141,7 @@ export const ProposalModal = ({
         chainName={chainName}
         modalControl={voteModalControl}
         updateVotes={updateVotes}
-        title={title || ''}
+        title={title || ""}
         vote={vote}
         proposalId={proposal.proposalId}
       />
@@ -178,19 +175,15 @@ export const ProposalModal = ({
               />
               <TimeDisplay
                 title="Voting Starts"
-                time={
-                  isDepositPeriod
-                    ? 'Not Specified Yet'
-                    : formatDate(proposal.votingStartTime)
-                }
+                time={isDepositPeriod
+                  ? "Not Specified Yet"
+                  : formatDate(proposal.votingStartTime)}
               />
               <TimeDisplay
                 title="Voting Ends"
-                time={
-                  isDepositPeriod
-                    ? 'Not Specified Yet'
-                    : formatDate(proposal.votingEndTime)
-                }
+                time={isDepositPeriod
+                  ? "Not Specified Yet"
+                  : formatDate(proposal.votingEndTime)}
               />
               <Button
                 isDisabled={!isVotingPeriod}
@@ -198,7 +191,7 @@ export const ProposalModal = ({
                 w="140px"
                 onClick={voteModalControl.onOpen}
               >
-                {vote ? 'Edit Vote' : 'Vote'}
+                {vote ? "Edit Vote" : "Vote"}
               </Button>
             </Flex>
             <Center my={4} />
@@ -206,14 +199,14 @@ export const ProposalModal = ({
             <Box mt={4}>
               <Heading
                 fontSize="sm"
-                color={useColorModeValue('gray.600', 'gray.400')}
+                color={useColorModeValue("gray.600", "gray.400")}
                 mb={4}
               >
                 Vote Details
               </Heading>
 
               <Flex
-                bgColor={useColorModeValue('gray.50', 'blackAlpha.100')}
+                bgColor={useColorModeValue("gray.50", "blackAlpha.100")}
                 py={6}
                 borderRadius="lg"
               >
@@ -222,24 +215,24 @@ export const ProposalModal = ({
                     data={totalVotes ? chartData : emptyChartData}
                     lineWidth={14}
                     paddingAngle={totalVotes ? 1 : 0}
-                    style={{ height: '160px', width: '160px' }}
+                    style={{ height: "160px", width: "160px" }}
                     label={({ dataEntry }) => {
                       const { value, title, percentage } = dataEntry;
                       if (!totalVotes) return title;
 
                       const maxValue = Math.max(
-                        ...chartData.map((item) => item.value)
+                        ...chartData.map((item) => item.value),
                       );
 
-                      if (value !== maxValue) return '';
+                      if (value !== maxValue) return "";
                       return `${title} ${percentage.toFixed(2)}%`;
                     }}
                     labelStyle={{
-                      fontSize: '10px',
+                      fontSize: "10px",
                       fill: totalVotes
                         ? chartData.sort((a, b) => b.value - a.value)[0].color
                         : VoteColor.ABSTAIN,
-                      fontWeight: 'bold',
+                      fontWeight: "bold",
                     }}
                     labelPosition={0}
                   />
@@ -247,10 +240,10 @@ export const ProposalModal = ({
 
                 <Box pr={2}>
                   <Text
-                    color={turnout > (quorum || 0) ? 'green.500' : 'gray.400'}
-                    borderColor={
-                      turnout > (quorum || 0) ? 'green.500' : 'gray.400'
-                    }
+                    color={turnout > (quorum || 0) ? "green.500" : "gray.400"}
+                    borderColor={turnout > (quorum || 0)
+                      ? "green.500"
+                      : "gray.400"}
                     fontWeight="bold"
                     border="1px solid"
                     w="fit-content"
@@ -261,7 +254,7 @@ export const ProposalModal = ({
                   </Text>
                   {quorum && (
                     <Text
-                      color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
+                      color={colorMode === "light" ? "gray.600" : "gray.400"}
                       fontSize="sm"
                       my={2}
                       fontWeight="semibold"
@@ -277,11 +270,11 @@ export const ProposalModal = ({
                       type={VoteOption.YES}
                       ratio={getPercentage(
                         proposal.finalTallyResult?.yes,
-                        totalVotes
+                        totalVotes,
                       )}
                       amount={exponentiate(
                         proposal.finalTallyResult?.yes,
-                        -exponent
+                        -exponent,
                       ).toFixed(2)}
                       token={coin.symbol}
                     />
@@ -289,11 +282,11 @@ export const ProposalModal = ({
                       type={VoteOption.NO}
                       ratio={getPercentage(
                         proposal.finalTallyResult?.no,
-                        totalVotes
+                        totalVotes,
                       )}
                       amount={exponentiate(
                         proposal.finalTallyResult?.no,
-                        -exponent
+                        -exponent,
                       ).toFixed(2)}
                       token={coin.symbol}
                     />
@@ -301,11 +294,11 @@ export const ProposalModal = ({
                       type={VoteOption.NWV}
                       ratio={getPercentage(
                         proposal.finalTallyResult?.noWithVeto,
-                        totalVotes
+                        totalVotes,
                       )}
                       amount={exponentiate(
                         proposal.finalTallyResult?.noWithVeto,
-                        -exponent
+                        -exponent,
                       ).toFixed(2)}
                       token={coin.symbol}
                     />
@@ -313,11 +306,11 @@ export const ProposalModal = ({
                       type={VoteOption.ABSTAIN}
                       ratio={getPercentage(
                         proposal.finalTallyResult?.abstain,
-                        totalVotes
+                        totalVotes,
                       )}
                       amount={exponentiate(
                         proposal.finalTallyResult?.abstain,
-                        -exponent
+                        -exponent,
                       ).toFixed(2)}
                       token={coin.symbol}
                     />
@@ -329,7 +322,7 @@ export const ProposalModal = ({
             <Box mt={4}>
               <Heading
                 fontSize="sm"
-                color={useColorModeValue('gray.600', 'gray.400')}
+                color={useColorModeValue("gray.600", "gray.400")}
                 mb={2}
               >
                 Description
@@ -337,7 +330,7 @@ export const ProposalModal = ({
               <NewLineText text={renderedDescription} />
               {description.length > 200 && (
                 <Button onClick={() => setShowMore(!showMore)} size="sm">
-                  {showMore ? 'Show less' : 'Show more'}
+                  {showMore ? "Show less" : "Show more"}
                 </Button>
               )}
             </Box>

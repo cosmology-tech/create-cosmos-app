@@ -1,1 +1,2 @@
-export * from './VotingSection';
+export * from './Voting';
+export * from './Proposal';
