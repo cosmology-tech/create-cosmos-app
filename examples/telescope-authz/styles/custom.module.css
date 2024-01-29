@@ -7,3 +7,13 @@
   border-radius: 100%;
   transform: scale(0.9);
 }
+
+.customSelect {
+  width: 640px;
+}
+
+.customSelect button {
+  border-radius: 6px;
+  border: 1px solid #d1d6dd;
+  background: #eef2f8;
+}
