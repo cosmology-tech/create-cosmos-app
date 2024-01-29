@@ -1,16 +1,16 @@
-import '../styles/globals.css';
-import '@interchain-ui/react/styles';
-
 import type { AppProps } from 'next/app';
-import { ChakraProvider } from '@chakra-ui/react';
-
+import { ChainProvider } from '@cosmos-kit/react';
+import { wallets as keplr } from '@cosmos-kit/keplr';
+import { wallets as cosmostation } from '@cosmos-kit/cosmostation';
+import { wallets as leap } from '@cosmos-kit/leap';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { Box, ThemeProvider, Toaster, useTheme, useColorModeValue } from '@interchain-ui/react';
+import '@interchain-ui/react/styles';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import { SignerOptions, wallets } from 'cosmos-kit';
-import { ChainProvider } from '@cosmos-kit/react';
+import { SignerOptions } from '@cosmos-kit/core';
 import { chains, assets } from 'chain-registry';
-import { defaultTheme } from '../config';
+import '../styles/globals.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,6 +22,8 @@ const queryClient = new QueryClient({
 });
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
+  const { themeClass } = useTheme();
+
   const signerOptions: SignerOptions = {
     // signingStargate: () => {
     //   return getSigningCosmosClientOptions();
@@ -29,11 +31,11 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ChakraProvider theme={defaultTheme}>
+    <ThemeProvider>
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={wallets}
+        wallets={[...keplr, ...leap]}
         walletConnectOptions={{
           signClient: {
             projectId: 'a8510432ebb71e6948cfd6cde54b70f7',
@@ -41,7 +43,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
             metadata: {
               name: 'CosmosKit Template',
               description: 'CosmosKit dapp template',
-              url: 'https://docs.cosmology.zone/cosmos-kit/',
+              url: 'https://docs.cosmoskit.com/',
               icons: [],
             },
           },
@@ -49,10 +51,14 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         signerOptions={signerOptions}
       >
         <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />
+          <Box className={themeClass} minHeight="100dvh" backgroundColor={useColorModeValue('$white', '$background')}>
+            <Component {...pageProps} />
+          </Box>
         </QueryClientProvider>
       </ChainProvider>
-    </ChakraProvider>
+
+      <Toaster position={'top-right'} closeButton={true} />
+    </ThemeProvider>
   );
 }
 

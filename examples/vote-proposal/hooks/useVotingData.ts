@@ -1,50 +1,59 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useChain } from '@cosmos-kit/react';
 import { useQueries } from '@tanstack/react-query';
-import { ProposalStatus } from 'interchain-query/cosmos/gov/v1beta1/gov';
-
-import { useQueryHooks } from './useQueryHooks';
-import { useRpcQueryClient } from './useRpcQueryClient';
-import { parseProposals, parseQuorum } from '@/utils';
+import { Proposal, ProposalStatus } from 'interchain-query/cosmos/gov/v1beta1/gov';
+import { useQueryHooks, useRpcQueryClient } from '.';
+import { getTitle, paginate, parseQuorum } from '@/utils';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
 };
 
-const getPagination = (limit: bigint, reverse: boolean = false) => ({
-  limit,
-  reverse,
-  key: new Uint8Array(),
-  offset: 0n,
-  countTotal: true,
-});
-
 export interface Votes {
   [key: string]: number;
 }
 
-export const useVotingData = (chainName: string) => {
-  const [isLoading, setIsLoading] = useState(false);
+export function processProposals(proposals: Proposal[]) {
+  const sorted = proposals.sort(
+    (a, b) => Number(b.proposalId) - Number(a.proposalId)
+  );
 
+  proposals.forEach((proposal) => {
+    // @ts-ignore
+    if (!proposal.content?.title && proposal.content?.value) {
+      // @ts-ignore
+      proposal.content.title = getTitle(proposal.content?.value);
+    }
+  });
+
+  return sorted.filter(
+    ({ status }) => status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD
+  ).concat(sorted.filter(
+    ({ status }) => status !== ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD
+  ));
+};
+
+export function useVotingData(chainName: string) {
+  const [isLoading, setIsLoading] = useState(false);
   const { address } = useChain(chainName);
   const { rpcQueryClient } = useRpcQueryClient(chainName);
-  const { cosmosQuery, isReady, isFetching } = useQueryHooks(chainName);
+  const { cosmos, isReady, isFetching } = useQueryHooks(chainName);
 
-  const proposalsQuery = cosmosQuery.gov.v1beta1.useProposals({
+  const proposalsQuery = cosmos.gov.v1beta1.useProposals({
     request: {
       voter: '',
       depositor: '',
-      pagination: getPagination(50n, true),
+      pagination: paginate(50n, true),
       proposalStatus: ProposalStatus.PROPOSAL_STATUS_UNSPECIFIED,
     },
     options: {
       enabled: isReady,
       staleTime: Infinity,
-      select: ({ proposals }) => parseProposals(proposals),
+      select: ({ proposals }) => processProposals(proposals),
     },
   });
 
-  const bondedTokensQuery = cosmosQuery.staking.v1beta1.usePool({
+  const bondedTokensQuery = cosmos.staking.v1beta1.usePool({
     options: {
       enabled: isReady,
       staleTime: Infinity,
@@ -52,7 +61,7 @@ export const useVotingData = (chainName: string) => {
     },
   });
 
-  const quorumQuery = cosmosQuery.gov.v1beta1.useParams({
+  const quorumQuery = cosmos.gov.v1beta1.useParams({
     request: { paramsType: 'tallying' },
     options: {
       enabled: isReady,
@@ -61,15 +70,15 @@ export const useVotingData = (chainName: string) => {
     },
   });
 
-  const votedProposalsQuery = cosmosQuery.gov.v1beta1.useProposals({
+  const votedProposalsQuery = cosmos.gov.v1beta1.useProposals({
     request: {
       voter: address || '/', // use '/' to differentiate from proposalsQuery
       depositor: '',
-      pagination: getPagination(50n, true),
+      pagination: paginate(50n, true),
       proposalStatus: ProposalStatus.PROPOSAL_STATUS_UNSPECIFIED,
     },
     options: {
-      enabled: isReady && !!address,
+      enabled: isReady && Boolean(address),
       select: ({ proposals }) => proposals,
       keepPreviousData: true,
     },
@@ -83,7 +92,7 @@ export const useVotingData = (chainName: string) => {
           proposalId,
           voter: address || '',
         }),
-      enabled: !!rpcQueryClient && !!address && !!votedProposalsQuery.data,
+      enabled: Boolean(rpcQueryClient) && Boolean(address) && Boolean(votedProposalsQuery.data),
       keepPreviousData: true,
     })),
   });
@@ -153,4 +162,4 @@ export const useVotingData = (chainName: string) => {
   };
 
   return { data: { ...singleQueriesData, votes }, isLoading, refetch };
-};
+}

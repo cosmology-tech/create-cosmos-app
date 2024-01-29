@@ -1,1 +1,1 @@
-export * from './voting';
+export * from './utils';
