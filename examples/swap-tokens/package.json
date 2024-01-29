@@ -28,7 +28,7 @@
     "@cosmos-kit/react": "2.10.5",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
-    "@interchain-ui/react": "1.20.5",
+    "@interchain-ui/react": "1.21.3",
     "@osmonauts/math": "1.7.0",
     "@tanstack/react-query": "4.32.0",
     "bignumber.js": "9.1.1",
