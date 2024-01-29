@@ -1,235 +1,119 @@
-import { useChain, useManager } from '@cosmos-kit/react';
-import { Box, Stack, useTheme } from '@interchain-ui/react';
-import { MouseEventHandler, useEffect, useMemo } from 'react';
-import { FiAlertTriangle } from 'react-icons/fi';
-
-import { ChainName } from 'cosmos-kit';
-import { defaultChainName } from '@/configs';
+import { useEffect } from 'react';
 import {
-  Connected,
-  Connecting,
-  Disconnected,
-  NotExist,
-  Error,
-  Rejected,
-  WalletConnectComponent,
-  ConnectWalletButton,
-} from './WalletConnect';
-import { ConnectStatusWarn, RejectedWarn } from './WarnBlock';
-import { ChooseChain, ChooseChainProps } from './ChooseChain';
-import { ConnectedShowAddress, CopyAddressBtn } from './AddressCard';
-import { UserInfo } from './UserInfo';
-import { Astronaut } from './Astronaut';
-import { ChainCard } from './ChainCard';
+  Box,
+  ClipboardCopyText,
+  Stack,
+  useColorModeValue,
+} from '@interchain-ui/react';
+import { WalletStatus } from '@cosmos-kit/core';
+import { useChain } from '@cosmos-kit/react';
+import { chains } from 'chain-registry';
+import { User } from './User';
+import { Chain } from './Chain';
+import { Warning } from './Warning';
+import {
+  ButtonConnect,
+  ButtonConnected,
+  ButtonConnecting,
+  ButtonDisconnected,
+  ButtonError,
+  ButtonNotExist,
+  ButtonRejected,
+} from './Connect';
 
-export interface WalletSectionProps {
-  isMultiChain: boolean;
-  providedChainName?: ChainName;
-  setChainName?: (chainName: ChainName | undefined) => void;
-}
+export const CHAIN_NAME = 'cosmoshub';
+export const CHAIN_NAME_STORAGE_KEY = 'selected-chain';
 
-export const WalletSection = ({
-  isMultiChain,
-  providedChainName,
-  setChainName,
-}: WalletSectionProps) => {
-  const { chainRecords, getChainLogo } = useManager();
+export type WalletProps = {
+  chainName?: string;
+  onChainChange?: (chainName?: string) => void;
+};
+
+export function Wallet({
+  chainName = CHAIN_NAME,
+  onChainChange = () => {},
+}: WalletProps) {
   const {
-    connect,
-    openView,
+    chain,
     status,
+    wallet,
     username,
     address,
     message,
-    wallet,
-    chain: chainInfo,
-  } = useChain(providedChainName || defaultChainName);
+    connect,
+    openView,
+  } = useChain(chainName);
 
-  const { theme } = useTheme();
+  const ConnectButton = {
+    [WalletStatus.Connected]: <ButtonConnected onClick={openView} />,
+    [WalletStatus.Connecting]: <ButtonConnecting />,
+    [WalletStatus.Disconnected]: <ButtonDisconnected onClick={connect} />,
+    [WalletStatus.Error]: <ButtonError onClick={openView} />,
+    [WalletStatus.Rejected]: <ButtonRejected onClick={connect} />,
+    [WalletStatus.NotExist]: <ButtonNotExist onClick={openView} />,
+  }[status] || <ButtonConnect onClick={connect} />;
 
-  const chain = {
-    chainName: defaultChainName,
-    label: chainInfo.pretty_name,
-    value: defaultChainName,
-    icon: getChainLogo(defaultChainName),
-  };
-
-  const chainOptions = useMemo(
-    () =>
-      chainRecords.map((chainRecord) => {
-        return {
-          chainName: chainRecord?.name,
-          label: chainRecord?.chain.pretty_name,
-          value: chainRecord?.name,
-          icon: getChainLogo(chainRecord.name),
-        };
-      }),
-    [chainRecords, getChainLogo]
-  );
-
-  // Events
-  const onClickConnect: MouseEventHandler = async (e) => {
-    e.preventDefault();
-    await connect();
-  };
-
-  const onClickOpenView: MouseEventHandler = (e) => {
-    e.preventDefault();
-    openView();
-  };
-
-  // Components
-  const connectWalletButton = (
-    <WalletConnectComponent
-      walletStatus={status}
-      disconnect={
-        <Disconnected buttonText="Connect Wallet" onClick={onClickConnect} />
-      }
-      connecting={<Connecting />}
-      connected={
-        <Connected buttonText={'My Wallet'} onClick={onClickOpenView} />
-      }
-      rejected={<Rejected buttonText="Reconnect" onClick={onClickConnect} />}
-      error={<Error buttonText="Change Wallet" onClick={onClickOpenView} />}
-      notExist={
-        <NotExist buttonText="Install Wallet" onClick={onClickOpenView} />
-      }
-    />
-  );
-
-  const connectWalletWarn = message ? (
-    <ConnectStatusWarn
-      walletStatus={status}
-      rejected={
-        <RejectedWarn
-          icon={
-            <Box mt="$2">
-              <FiAlertTriangle />
-            </Box>
-          }
-          wordOfWarning={`${wallet?.prettyName}: ${message}`}
-        />
-      }
-      error={
-        <RejectedWarn
-          icon={
-            <Box mt="$2">
-              <FiAlertTriangle />
-            </Box>
-          }
-          wordOfWarning={`${wallet?.prettyName}: ${message}`}
-        />
-      }
-    />
-  ) : null;
+  function handleChainChange(chainName?: string) {
+    if (chainName) {
+      onChainChange(chainName);
+      localStorage.setItem(CHAIN_NAME_STORAGE_KEY, chainName!);
+    }
+  }
 
   useEffect(() => {
-    setChainName?.(
-      window.localStorage.getItem('selected-chain') || defaultChainName
-    );
-  }, [setChainName]);
-
-  const onChainChange: ChooseChainProps['onChange'] = async (selectedValue) => {
-    setChainName?.(selectedValue?.chainName);
-    if (selectedValue?.chainName) {
-      window?.localStorage.setItem('selected-chain', selectedValue?.chainName);
-    } else {
-      window?.localStorage.removeItem('selected-chain');
+    const selected = localStorage.getItem(CHAIN_NAME_STORAGE_KEY);
+    if (selected && selected !== chainName) {
+      onChainChange(selected);
     }
-  };
-
-  const chooseChain = (
-    <ChooseChain
-      chainName={providedChainName}
-      chainInfos={chainOptions}
-      onChange={onChainChange}
-    />
-  );
-
-  const userInfo = username && (
-    <UserInfo username={username} icon={<Astronaut />} />
-  );
-
-  const addressBtn = (
-    <CopyAddressBtn
-      walletStatus={status}
-      connected={<ConnectedShowAddress address={address} isLoading={false} />}
-    />
-  );
+  }, []);
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      py="$12"
-      width="100%"
-      attributes={{
-        'data-part-id': 'wallet-section',
-      }}
-    >
-      <Box
-        display="grid"
-        width="$full"
-        maxWidth={{
-          mobile: '100%',
-          tablet: '450px',
-        }}
-        gridTemplateColumns="1fr"
-        rowGap="$4"
-        alignItems="center"
-        justifyContent="center"
-      >
-        {isMultiChain ? (
-          <Box>{chooseChain}</Box>
-        ) : (
-          <Box marginBottom={'$9'}>
-            <ChainCard
-              prettyName={chain?.label || defaultChainName}
-              icon={chain?.icon}
-            />
-          </Box>
-        )}
-
-        {!providedChainName && isMultiChain ? (
-          <ConnectWalletButton buttonText={'Connect Wallet'} isDisabled />
-        ) : (
-          <Box px={6}>
-            <Stack
-              direction="vertical"
-              attributes={{
-                px: '$2',
-                py: '$12',
-                mx: 'auto',
-                maxWidth: '21rem',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: '$lg',
-                backgroundColor:
-                  theme === 'light' ? '$white' : '$blackAlpha400',
-                boxShadow:
-                  theme === 'light'
-                    ? '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3'
-                    : '0 0 2px #363636, 0 0 8px -2px #4f4f4f',
-              }}
-              space="$8"
-            >
-              {userInfo}
-              {addressBtn}
-
-              <Box
-                width="100%"
-                maxWidth="200px"
-                attributes={{ id: 'connect-button' }}
-              >
-                {connectWalletButton}
-              </Box>
-
-              {connectWalletWarn}
-            </Stack>
-          </Box>
-        )}
+    <Box py="$16">
+      <Box mx="auto" maxWidth="28rem" attributes={{ mb: '$12' }}>
+        <Chain
+          name={chain.chain_name}
+          chains={chains}
+          onChainChange={handleChainChange}
+        />
       </Box>
+      <Stack
+        direction="vertical"
+        attributes={{
+          mx: 'auto',
+          px: '$8',
+          py: '$15',
+          maxWidth: '21rem',
+          borderRadius: '$lg',
+          justifyContent: 'center',
+          backgroundColor: useColorModeValue('$white', '$blackAlpha500'),
+          boxShadow: useColorModeValue(
+            '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
+            '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
+          ),
+        }}
+      >
+        {username ? <User name={username} /> : null}
+        {address ? (
+          <ClipboardCopyText text={address} truncate="middle" />
+        ) : null}
+        <Box
+          my="$8"
+          flex="1"
+          width="full"
+          display="flex"
+          height="$16"
+          overflow="hidden"
+          justifyContent="center"
+          px={{ mobile: '$8', tablet: '$10' }}
+        >
+          {ConnectButton}
+        </Box>
+
+        {message &&
+        [WalletStatus.Error, WalletStatus.Rejected].includes(status) ? (
+          <Warning text={`${wallet?.prettyName}: ${message}`} />
+        ) : null}
+      </Stack>
     </Box>
   );
-};
+}
