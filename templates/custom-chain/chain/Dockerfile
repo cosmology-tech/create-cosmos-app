@@ -13,7 +13,7 @@ COPY . /code
 RUN make build
 
 # --------------------------------------------------------
-FROM alpine:3.16
+FROM alpine:3.19
 
 COPY --from=go-builder /code/build/minid /usr/bin/minid
 COPY --from=go-builder /code/scripts/init.sh /opt/init.sh
