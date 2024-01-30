@@ -1,4 +1,3 @@
-import NoSSR from "react-no-ssr";
 import { useState } from "react";
 import { Layout, Wallet } from "@/components";
 import { CHAIN_NAME } from "@/config";
@@ -13,9 +12,7 @@ export default function Home() {
 
   return (
     <Layout>
-      <NoSSR>
-        <Wallet chainName={chainName} onChainChange={onChainChange} />
-      </NoSSR>
+      <Wallet chainName={chainName} onChainChange={onChainChange} />
     </Layout>
   );
 }
