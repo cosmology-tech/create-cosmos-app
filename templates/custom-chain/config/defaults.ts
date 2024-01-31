@@ -52,7 +52,7 @@ export const chainInfo: Chain = {
   }
 };
 
-export const chainAsset: AssetList[] = [{
+export const chainAsset: AssetList = {
   chain_name: "mini",
   assets: [
     {
@@ -69,4 +69,4 @@ export const chainAsset: AssetList[] = [{
       symbol: "MINI",
     },
   ],
-}];
+};

@@ -13,8 +13,8 @@ import { chainAsset, chainInfo, defaultTheme } from '../config';
 import '@interchain-ui/react/styles';
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
-  const localchain: Chain = chainInfo;
-  const localassets: AssetList[] = chainAsset;
+  const _chains: Chain[] = [...chains, chainInfo];
+  const _assets: AssetList[] = [...assets, chainAsset];
 
   const signerOptions: SignerOptions = {
     // signingStargate: () => {
@@ -25,8 +25,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={defaultTheme}>
       <ChainProvider
-        chains={[localchain]}
-        assetLists={localassets}
+        chains={_chains}
+        assetLists={_assets}
         wallets={[...keplrWallets, ...cosmostationWallets, ...leapWallets]}
         walletConnectOptions={{
           signClient: {
