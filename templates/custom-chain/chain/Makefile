@@ -58,6 +58,6 @@ docker-run-shell:
 
 .PHONY: docker-run
 docker-run:
-	$(DOCKER) run --rm -it -p 1317:1317 -p 26657:26657 $(DOCKER_NAME):$(DOCKER_TAG)
+	$(DOCKER) run --rm -it -v ./:/code -p 1317:1317 -p 26657:26657 $(DOCKER_NAME):$(DOCKER_TAG)
 
 docker-build-run: docker-build docker-run
