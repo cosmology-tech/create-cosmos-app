@@ -3,6 +3,51 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/stake-tokens@0.3.1...@cosmology/stake-tokens@0.3.2) (2024-01-20)
+
+**Note:** Version bump only for package @cosmology/stake-tokens
+
+
+
+
+
+## [0.3.1](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/stake-tokens@0.3.0...@cosmology/stake-tokens@0.3.1) (2024-01-19)
+
+**Note:** Version bump only for package @cosmology/stake-tokens
+
+
+
+
+
+# [0.3.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/stake-tokens@0.2.7...@cosmology/stake-tokens@0.3.0) (2024-01-19)
+
+**Note:** Version bump only for package @cosmology/stake-tokens
+
+
+
+
+
+## [0.2.7](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/stake-tokens@0.2.6...@cosmology/stake-tokens@0.2.7) (2024-01-19)
+
+**Note:** Version bump only for package @cosmology/stake-tokens
+
+
+
+
+
+## [0.2.6](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/stake-tokens@0.2.5...@cosmology/stake-tokens@0.2.6) (2024-01-19)
+
+
+### Bug Fixes
+
+* commission and apr calculations ([64b0fd5](https://github.com/cosmology-tech/create-cosmos-app/commit/64b0fd5fdb365faf2286ace6052c5e27d4a47917))
+* gas price ([9f811c5](https://github.com/cosmology-tech/create-cosmos-app/commit/9f811c5deebf52de9859b1b133757c4377dafd01))
+* upgrade interchain ui version and fix z index issue ([9f648a5](https://github.com/cosmology-tech/create-cosmos-app/commit/9f648a551cbf9868125aa1f9eef9feff15837bb5))
+
+
+
+
+
 ## [0.2.5](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/stake-tokens@0.2.4...@cosmology/stake-tokens@0.2.5) (2023-09-27)
 
 **Note:** Version bump only for package @cosmology/stake-tokens

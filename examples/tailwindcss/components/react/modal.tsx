@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import type { ChainWalletBase, WalletModalProps } from '@cosmos-kit/core';
-import { WalletStatus } from '@cosmos-kit/core';
+import type { ChainWalletBase, WalletModalProps } from 'cosmos-kit';
+import { WalletStatus } from 'cosmos-kit';
 import { useCallback, Fragment, useState, useMemo, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import {
@@ -12,8 +12,6 @@ import {
   WalletList,
 } from './views';
 import { useRouter } from 'next/router';
-import Bowser from 'bowser';
-import { disconnect } from 'process';
 
 export enum ModalView {
   WalletList,
@@ -111,13 +109,11 @@ export const TailwindModal = ({
       case ModalView.Connecting:
         let subtitle: string;
         if (currentWalletData!.mode === 'wallet-connect') {
-          subtitle = `Approve ${
-            currentWalletData!.prettyName
-          } connection request on your mobile.`;
+          subtitle = `Approve ${currentWalletData!.prettyName
+            } connection request on your mobile.`;
         } else {
-          subtitle = `Open the ${
-            currentWalletData!.prettyName
-          } browser extension to connect your wallet.`;
+          subtitle = `Open the ${currentWalletData!.prettyName
+            } browser extension to connect your wallet.`;
         }
 
         return (

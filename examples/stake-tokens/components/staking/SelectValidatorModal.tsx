@@ -1,28 +1,19 @@
+import { useMemo } from 'react';
+import { ChainName } from 'cosmos-kit';
 import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-  Box,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
   Text,
-  useColorMode,
-  UseDisclosureReturn,
-} from '@chakra-ui/react';
-import { Token } from './Overview';
-import { shiftDigits } from '@/utils';
+  GridColumn,
+  ValidatorNameCell,
+  ValidatorTokenAmountCell,
+  ValidatorList,
+  Button,
+  BasicModal,
+  Box,
+} from '@interchain-ui/react';
+
 import { getCoin } from '@/config';
-import { ChainName } from '@cosmos-kit/core';
-import { Logo } from './ModalElements';
-import { type ExtendedValidator as Validator } from '@/utils';
+import { UseDisclosureReturn } from '@/hooks';
+import { shiftDigits, type ExtendedValidator as Validator } from '@/utils';
 
 export const SelectValidatorModal = ({
   allValidators,
@@ -40,78 +31,103 @@ export const SelectValidatorModal = ({
   };
 }) => {
   const coin = getCoin(chainName);
-  const { colorMode } = useColorMode();
-  const hasApr = !!allValidators[0].apr;
+
+  const columns = useMemo(() => {
+    const hasApr = !!allValidators[0]?.apr;
+
+    const _columns: GridColumn[] = [
+      {
+        id: 'validator',
+        label: 'Validator',
+        width: '196px',
+        align: 'left',
+        render: (validator: Validator) => (
+          <ValidatorNameCell
+            validatorName={validator.name}
+            validatorImg={logos[validator.address]}
+          />
+        ),
+      },
+      {
+        id: 'voting-power',
+        label: 'Voting Power',
+        width: '196px',
+        align: 'right',
+        render: (validator: Validator) => (
+          <ValidatorTokenAmountCell
+            amount={validator.votingPower}
+            symbol={coin.symbol}
+          />
+        ),
+      },
+      {
+        id: 'commission',
+        label: 'Commission',
+        width: '146px',
+        align: 'right',
+        render: (validator: Validator) => (
+          <Text fontWeight="$semibold">
+            {shiftDigits(validator.commission, 2)}%
+          </Text>
+        ),
+      },
+      {
+        id: 'action',
+        width: '126px',
+        align: 'right',
+        render: (validator) => (
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="flex-end"
+            pr="$8"
+          >
+            <Button
+              size="sm"
+              intent="secondary"
+              variant="solid"
+              onClick={() => handleValidatorClick(validator)}
+            >
+              Select
+            </Button>
+          </Box>
+        ),
+      },
+    ];
+
+    if (hasApr) {
+      _columns.splice(3, 0, {
+        id: 'apr',
+        label: 'APR',
+        width: '106px',
+        align: 'right',
+        render: (validator: Validator) => (
+          <Text fontWeight="$semibold">{validator.apr}%</Text>
+        ),
+      });
+    }
+
+    return _columns;
+  }, [chainName]);
 
   return (
-    <Modal
+    <BasicModal
+      title="Redelegate to"
       isOpen={modalControl.isOpen}
       onClose={modalControl.onClose}
-      size="4xl"
-      isCentered
     >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Redelegate to</ModalHeader>
-        <ModalCloseButton />
-
-        <ModalBody>
-          <TableContainer maxH={600} overflowY="scroll">
-            <Table variant="simple">
-              <Thead>
-                <Tr>
-                  <Th>Validator</Th>
-                  <Th>Voting Power</Th>
-                  <Th>Commission</Th>
-                  {hasApr && <Th>APR</Th>}
-                </Tr>
-              </Thead>
-              <Tbody>
-                {allValidators.map((validator: Validator, index: number) => (
-                  <Tr
-                    key={validator.address}
-                    onClick={() => handleValidatorClick(validator)}
-                    _hover={{
-                      background:
-                        colorMode === 'light' ? 'gray.100' : 'gray.800',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <Td>
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        maxWidth={280}
-                        overflowX="hidden"
-                      >
-                        <Text mr={4}>{index + 1}</Text>
-                        <Logo
-                          identity={validator.identity}
-                          name={validator.name}
-                          logoUrl={logos[validator.address]}
-                        />
-                        <Text>{validator.name}</Text>
-                      </Box>
-                    </Td>
-                    <Td>
-                      {validator.votingPower.toLocaleString()}&nbsp;
-                      <Token color="blackAlpha.800" token={coin.symbol} />
-                    </Td>
-                    <Td>{shiftDigits(validator.commission, 2)}%</Td>
-                    {hasApr && (
-                      <Td>
-                        <Box width="100%" display="flex" alignItems="center">
-                          <Text>{validator.apr + '%'}</Text>
-                        </Box>
-                      </Td>
-                    )}
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+      <Box
+        width={{ mobile: '100%', tablet: '$containerMd' }}
+        maxHeight="640px"
+        overflowY="scroll"
+      >
+        <ValidatorList
+          columns={columns}
+          data={allValidators}
+          tableProps={{ width: '$full' }}
+          variant="ghost"
+        />
+      </Box>
+    </BasicModal>
   );
 };

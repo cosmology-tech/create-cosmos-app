@@ -1,130 +1,141 @@
-import {
-  Box,
-  Divider,
-  Grid,
-  Heading,
-  Text,
-  Stack,
-  Link,
-  Icon,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { dependencies, products } from '../../config';
-import { LinkIcon } from '@chakra-ui/icons';
+import { Box, Link, Text, Icon, Stack, Divider, useColorModeValue } from '@interchain-ui/react';
+import { dependencies, products, Project } from '@/config';
 
-interface IFeature {
-  title: string;
-  text: string;
-  href: string;
-}
-
-const Product = ({ title, text, href }: IFeature) => {
+function Product({ name, desc, link }: Project) {
   return (
-    <Link href={href} target="_blank" _hover={{ textDecoration: 'none' }}>
+    <Link href={link} target="_blank" underline={false}>
       <Stack
-        h="full"
-        minH={36}
-        p={5}
-        spacing={2.5}
-        justifyContent="center"
-        borderRadius={5}
-        boxShadow={useColorModeValue(
-          '0 2px 5px #ccc',
-          '0 1px 3px #727272, 0 2px 12px -2px #2f2f2f'
-        )}
-        _hover={{
-          color: useColorModeValue('purple.600', 'purple.300'),
-          boxShadow: useColorModeValue(
-            '0 2px 5px #bca5e9',
-            '0 0 3px rgba(150, 75, 213, 0.8), 0 3px 8px -2px rgba(175, 89, 246, 0.9)'
-          ),
+        space="$5"
+        direction="vertical"
+        attributes={{
+          height: '$full',
+          minHeight: '$24',
+          padding: '$9',
+          justifyContent: 'center',
+          borderRadius: '$xl',
+          color: {
+            base: '$text',
+            hover: useColorModeValue('$purple600', '$purple300'),
+          },
+          boxShadow: {
+            base:
+              useColorModeValue(
+                '0 2px 5px #ccc',
+                '0 1px 3px #727272, 0 2px 12px -2px #2f2f2f'),
+            hover:
+              useColorModeValue(
+                '0 2px 5px #bca5e9',
+                '0 0 3px rgba(150, 75, 213, 0.8), 0 3px 8px -2px rgba(175, 89, 246, 0.9)')
+          },
         }}
       >
-        <Heading fontSize="xl">{title}&ensp;&rarr;</Heading>
-        <Text>{text}</Text>
+        <Text as="h2" fontSize="$xl" color="inherit" attributes={{ margin: 0 }}>
+          {name}&ensp;&rarr;
+        </Text>
+        <Text color="inherit" as="p" fontSize="$md" fontWeight="$normal" attributes={{ marginY: '$1' }}>
+          {desc}
+        </Text>
       </Stack>
     </Link>
   );
-};
+}
 
-const Dependency = ({ title, text, href }: IFeature) => {
+function Dependency({ name, desc, link }: Project) {
   return (
-    <Link href={href} target="_blank" _hover={{ textDecoration: 'none' }}>
+    <Link href={link} target="_blank" underline={false}>
       <Stack
-        isInline={true}
-        key={title}
-        spacing={3}
-        h="full"
-        p={4}
-        justifyContent="center"
-        borderRadius="md"
-        border="1px solid"
-        borderColor={useColorModeValue('blackAlpha.200', 'whiteAlpha.100')}
-        _hover={{
-          boxShadow: useColorModeValue(
-            '0 2px 5px #ccc',
-            '0 1px 3px #727272, 0 2px 12px -2px #2f2f2f'
-          ),
+        key={name}
+        space="$6"
+        direction="horizontal"
+        attributes={{
+          height: '$full',
+          padding: '$8',
+          justifyContent: 'center',
+          borderWidth: '1px',
+          borderStyle: 'solid',
+          borderColor: useColorModeValue('$blackAlpha200', '$whiteAlpha100'),
+          borderRadius: '$xl',
+          boxShadow: {
+            base: 'none',
+            hover:
+              useColorModeValue(
+                '0 2px 5px #ccc',
+                '0 1px 3px #727272, 0 2px 12px -2px #2f2f2f'),
+          },
         }}
       >
-        <Box color={useColorModeValue('primary.500', 'primary.200')}>
-          <Icon as={LinkIcon} />
+        <Box
+          color={useColorModeValue('$primary500', '$primary200')}
+          flex="0 0 auto"
+        >
+          <Icon name="link" size="$md" attributes={{ mt: '$2' }} />
         </Box>
-        <Stack spacing={1}>
-          <Text fontSize="lg" fontWeight="semibold">
-            {title}
+
+        <Stack space="$2" direction="vertical">
+          <Text as="p" fontSize="$lg" fontWeight="$semibold" attributes={{ marginY: '$1' }}>
+            {name}
           </Text>
           <Text
-            lineHeight="short"
-            color={useColorModeValue('blackAlpha.700', 'whiteAlpha.700')}
+            as="p"
+            fontSize="$md"
+            fontWeight="$light"
+            attributes={{
+              color: useColorModeValue('$blackAlpha700', '$whiteAlpha700'),
+              lineHeight: '$short',
+              marginY: '$1'
+            }}
           >
-            {text}
+            {desc}
           </Text>
         </Stack>
       </Stack>
     </Link>
   );
-};
+}
 
-export const Footer = () => {
+export function Footer() {
   return (
     <>
-      <Grid
-        templateColumns={{
-          md: 'repeat(2, 1fr)',
-          lg: 'repeat(3, 1fr)',
+      <Box
+        display="grid"
+        gridTemplateColumns={{
+          tablet: 'repeat(2, 1fr)',
+          desktop: 'repeat(3, 1fr)',
         }}
-        gap={8}
-        mb={14}
+        mb="$16"
+        gap="$12"
       >
         {products.map((product) => (
-          <Product key={product.title} {...product}></Product>
+          <Product key={product.name} {...product}></Product>
         ))}
-      </Grid>
-      <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={8} mb={20}>
+      </Box>
+      <Box
+        display="grid"
+        gridTemplateColumns={{ tablet: 'repeat(3, 1fr)' }}
+        gap="$12"
+        mb="$19"
+      >
         {dependencies.map((dependency) => (
-          <Dependency key={dependency.title} {...dependency}></Dependency>
+          <Dependency key={dependency.name} {...dependency}></Dependency>
         ))}
-      </Grid>
-      <Box mb={3}>
+      </Box>
+      <Box mb="$6">
         <Divider />
       </Box>
       <Stack
-        isInline={true}
-        spacing={1}
-        justifyContent="center"
-        opacity={0.5}
-        fontSize="sm"
+        direction="horizontal"
+        space="$2"
+        attributes={{
+          justifyContent: 'center',
+          opacity: 0.5,
+          fontSize: '$sm',
+        }}
       >
         <Text>Built with</Text>
-        <Link
-          href="https://cosmology.tech/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <Link href="https://cosmology.zone/" target="_blank">
           Cosmology
         </Link>
       </Stack>
     </>
   );
-};
+}

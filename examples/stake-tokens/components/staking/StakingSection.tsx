@@ -1,9 +1,10 @@
 import { useChain } from '@cosmos-kit/react';
-import { Box, Center, Spinner, Text } from '@chakra-ui/react';
+import { ChainName } from 'cosmos-kit';
+import { Box, Spinner, Text } from '@interchain-ui/react';
+
 import Overview from './Overview';
 import { MyValidators } from './MyValidators';
 import { AllValidators } from './AllValidators';
-import { ChainName } from '@cosmos-kit/core';
 import { useStakingData, useValidatorLogos } from '@/hooks';
 
 export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
@@ -15,17 +16,27 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
   );
 
   return (
-    <Box my={14}>
+    <Box my="$16">
       {!isWalletConnected ? (
-        <Center h={48} width="100%">
-          <Text fontWeight="600" fontSize="20px">
+        <Box
+          height="$28"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Text fontWeight="$semibold" fontSize="$xl">
             Please connect the wallet
           </Text>
-        </Center>
+        </Box>
       ) : isLoading || isFetchingLogos || !data ? (
-        <Center h={48} width="100%">
-          <Spinner size="lg" speed="0.4s" />
-        </Center>
+        <Box
+          height="$28"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Spinner size="$7xl" />
+        </Box>
       ) : (
         <>
           <Overview
@@ -34,6 +45,7 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
             staked={data.totalDelegated}
             updateData={refetch}
             chainName={chainName}
+            prices={data.prices}
           />
 
           {data.myValidators.length > 0 && (
@@ -45,6 +57,7 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
               unbondingDays={data.unbondingDays}
               chainName={chainName}
               logos={logos}
+              prices={data.prices}
             />
           )}
 
@@ -55,6 +68,7 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
             unbondingDays={data.unbondingDays}
             chainName={chainName}
             logos={logos}
+            prices={data.prices}
           />
         </>
       )}

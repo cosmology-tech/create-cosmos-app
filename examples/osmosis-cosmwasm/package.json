@@ -1,6 +1,6 @@
 {
   "name": "@cosmology/osmosis-cosmwasm",
-  "version": "1.9.6",
+  "version": "1.10.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,6 +12,12 @@
     "locks": "npm run locks:remove && npm run locks:create",
     "codegen": "node scripts/codegen.js"
   },
+  "resolutions": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9"
+  },
   "dependencies": {
     "@chain-registry/osmosis": "1.21.0",
     "@chain-registry/types": "0.17.0",
@@ -19,17 +25,15 @@
     "@chakra-ui/react": "2.5.1",
     "@cosmjs/cosmwasm-stargate": "0.31.1",
     "@cosmjs/stargate": "0.31.1",
-    "@cosmos-kit/core": "2.6.6",
-    "@cosmos-kit/cosmostation": "2.3.11",
-    "@cosmos-kit/keplr": "2.3.13",
-    "@cosmos-kit/leap": "2.3.10",
-    "@cosmos-kit/react": "2.8.4",
+    "@cosmos-kit/react": "2.10.5",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
+    "@interchain-ui/react": "1.21.3",
     "bignumber.js": "9.1.0",
     "chain-registry": "1.20.0",
+    "cosmos-kit": "2.8.0",
     "framer-motion": "9.0.7",
-    "next": "12.2.5",
+    "next": "^13",
     "osmojs": "16.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",

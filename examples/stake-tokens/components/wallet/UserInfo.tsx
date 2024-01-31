@@ -1,31 +1,43 @@
-import React, { ReactNode } from 'react';
-import { Text, Stack, Box } from '@chakra-ui/react';
+import * as React from 'react';
+import { Text, Stack, Box } from '@interchain-ui/react';
 
 interface IUserInfo {
   walletIcon?: string;
   username?: string;
-  icon?: ReactNode;
+  icon?: React.ReactNode;
 }
 
 export const UserInfo = ({ username, icon }: IUserInfo) => {
   return (
-    <Stack spacing={1} alignItems="center">
+    <Stack
+      direction="vertical"
+      space={1}
+      attributes={{
+        alignItems: 'center',
+      }}
+    >
       {username && (
         <>
           <Box
             display={icon ? 'block' : 'none'}
-            minW={20}
-            maxW={20}
-            w={20}
-            minH={20}
-            maxH={20}
-            h={20}
-            borderRadius="full"
+            width={{
+              mobile: '$16',
+              tablet: '$19',
+            }}
+            height={{
+              mobile: '$16',
+              tablet: '$19',
+            }}
+            borderRadius="$full"
             overflow="hidden"
           >
             {icon}
           </Box>
-          <Text fontSize={{ md: 'xl' }} fontWeight="semibold">
+
+          <Text
+            fontSize={{ mobile: '$sm', tablet: '$xl' }}
+            fontWeight="$semibold"
+          >
             {username}
           </Text>
         </>

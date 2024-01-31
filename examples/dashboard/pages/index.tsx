@@ -13,7 +13,7 @@ import {
   useColorMode,
   VStack,
 } from '@chakra-ui/react';
-import { WalletStatus } from '@cosmos-kit/core';
+import { WalletStatus } from 'cosmos-kit';
 import { useChain } from '@cosmos-kit/react';
 import { useState } from 'react';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';

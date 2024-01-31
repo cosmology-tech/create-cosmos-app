@@ -1,39 +1,34 @@
-import { ArrowForwardIcon } from '@chakra-ui/icons';
+import React, { useEffect, useState, useMemo } from 'react';
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  UseDisclosureReturn,
-  Text,
-  Flex,
-  Center,
-  Icon,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
-import { ChainLogo } from './ChainAssetsList';
-import { HiOutlineClock } from 'react-icons/hi';
-import { LargeButton } from './Buttons';
-import DropdownInput from './DropdownInput';
-import { PrettyAsset, PriceHash, TransferInfo } from './types';
+  BasicModal,
+  OverviewTransfer,
+  OverviewTransferProps,
+} from '@interchain-ui/react';
 import { useChainWallet, useManager } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
-import { StdFee, coins } from '@cosmjs/amino';
-import { useChainUtils, useTx } from '../../hooks';
-import { ChainName } from '@cosmos-kit/core';
-import { KeplrWalletName } from '@/config';
 import { ibc } from 'osmo-query';
+import { StdFee, coins } from '@cosmjs/amino';
+import { ChainName } from 'cosmos-kit';
+import { KeplrWalletName } from '@/config';
+import { useDisclosure, useChainUtils, useTx, useBalance } from '@/hooks';
+import { truncDecimals } from '@/utils';
+
+import {
+  PrettyAsset,
+  PriceHash,
+  TransferInfo,
+  Transfer,
+  Unpacked,
+} from './types';
 
 const { transfer } = ibc.applications.transfer.v1.MessageComposer.withTypeUrl;
+
+const ZERO_AMOUNT = '0';
 
 interface IProps {
   prices: PriceHash;
   assets: PrettyAsset[];
-  modalControl: UseDisclosureReturn;
+  modalControl: ReturnType<typeof useDisclosure>;
   updateData: () => void;
   transferInfoState: {
     transferInfo: TransferInfo;
@@ -44,19 +39,35 @@ interface IProps {
   selectedChainName: ChainName;
 }
 
-const DropdownTransferModal: React.FC<IProps> = ({
-  assets,
-  prices,
-  modalControl,
-  transferInfoState,
-  updateData,
-  selectedChainName,
-}) => {
-  const [inputValue, setInputValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+const OverviewTransferWrapper = (
+  props: IProps & {
+    isLoading: boolean;
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    inputValue: string;
+    setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  }
+) => {
+  const {
+    assets,
+    prices,
+    modalControl,
+    transferInfoState,
+    updateData,
+    selectedChainName,
+    isLoading,
+    setIsLoading,
+    inputValue,
+    setInputValue,
+  } = props;
 
-  const { symbolToDenom, getExponentByDenom, getIbcInfo } =
-    useChainUtils(selectedChainName);
+  const {
+    convRawToDispAmount,
+    symbolToDenom,
+    getExponentByDenom,
+    getIbcInfo,
+    getChainName,
+    getNativeDenom,
+  } = useChainUtils(selectedChainName);
 
   const { transferInfo, setTransferInfo } = transferInfoState;
 
@@ -66,6 +77,12 @@ const DropdownTransferModal: React.FC<IProps> = ({
     destChainName,
     sourceChainName,
   } = transferInfo;
+
+  const isDeposit = transferType === 'Deposit';
+  const { balance, isLoading: isLoadingBalance } = useBalance(
+    sourceChainName,
+    isDeposit
+  );
 
   const { address: sourceAddress, connect: connectSourceChain } =
     useChainWallet(sourceChainName, KeplrWalletName);
@@ -78,6 +95,26 @@ const DropdownTransferModal: React.FC<IProps> = ({
   const { getChainLogo } = useManager();
   const { tx } = useTx(sourceChainName);
 
+  const availableAmount = useMemo((): number => {
+    if (!isDeposit) {
+      return transferToken.priceDisplayAmount ?? 0;
+    }
+
+    if (isLoadingBalance) {
+      return 0;
+    }
+
+    return new BigNumber(
+      convRawToDispAmount(transferToken.symbol, balance?.amount || ZERO_AMOUNT)
+    ).toNumber();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDeposit, isLoadingBalance, transferToken]);
+
+  const dollarValue = new BigNumber(inputValue)
+    .multipliedBy(prices[symbolToDenom(transferToken.symbol)])
+    .decimalPlaces(2)
+    .toString();
+
   useEffect(() => {
     if (!modalControl.isOpen) return;
     if (!sourceAddress) connectSourceChain();
@@ -86,12 +123,12 @@ const DropdownTransferModal: React.FC<IProps> = ({
   }, [destAddress, sourceAddress, modalControl]);
 
   const closeModal = () => {
-    modalControl.onClose();
+    modalControl.close();
     setInputValue('');
     setIsLoading(false);
   };
 
-  const handleClick = async () => {
+  const handleTransferSubmit = async () => {
     if (!sourceAddress || !destAddress) return;
     setIsLoading(true);
 
@@ -105,12 +142,12 @@ const DropdownTransferModal: React.FC<IProps> = ({
     );
 
     const fee: StdFee = {
-      amount: coins('1000', transferToken.denom),
+      amount: coins('1000', transferToken.denom ?? ''),
       gas: '250000',
     };
 
     const token = {
-      denom: transferToken.denom,
+      denom: transferToken.denom ?? '',
       amount: transferAmount,
     };
 
@@ -139,101 +176,115 @@ const DropdownTransferModal: React.FC<IProps> = ({
     setIsLoading(false);
   };
 
-  const titleColor = useColorModeValue('#697584', '#A7B4C2');
-  const statColor = useColorModeValue('#2C3137', '#EEF2F8');
-  const arrowColor = useColorModeValue('#4A5568', '#A7B4C2');
-  const cancelColor = useColorModeValue('#697584', '#EEF2F8');
+  const assetOptions: OverviewTransferProps['dropdownList'] = useMemo(() => {
+    return assets
+      .filter((asset) => {
+        if (isDeposit) {
+          return true;
+        }
+        return new BigNumber(asset.amount).gt(0);
+      })
+      .filter((asset) => {
+        return asset.symbol !== transferToken.symbol;
+      })
+      .map((asset) => ({
+        available: new BigNumber(asset.amount).toNumber(),
+        symbol: asset.symbol,
+        name: asset.prettyChainName,
+        denom: asset.denom,
+        imgSrc: asset.logoUrl ?? '',
+        priceDisplayAmount: new BigNumber(
+          truncDecimals(asset.dollarValue, 2)
+        ).toNumber(),
+      }));
+  }, [assets, isDeposit, transferToken]);
+
+  const handleOnChange = (
+    assetOption: Unpacked<OverviewTransferProps['dropdownList']>,
+    value: number
+  ) => {
+    setInputValue(`${value}`);
+
+    setTransferInfo((prev) => {
+      if (!prev) return;
+
+      if (transferType === Transfer.Withdraw) {
+        const destChainName = getChainName(assetOption.denom ?? '');
+        return { ...prev, destChainName, token: assetOption };
+      }
+
+      const sourceChainName = getChainName(assetOption.denom ?? '');
+      const sourceChainAssetDenom = getNativeDenom(sourceChainName);
+      return {
+        ...prev,
+        sourceChainName,
+        token: {
+          ...assetOption,
+          available: availableAmount,
+          displayAmount: ZERO_AMOUNT,
+          dollarValue: ZERO_AMOUNT,
+          amount: ZERO_AMOUNT,
+          denom: sourceChainAssetDenom,
+        },
+      };
+    });
+  };
 
   return (
-    <Modal
-      isOpen={modalControl.isOpen}
-      onClose={closeModal}
-      size="xl"
-      isCentered
-    >
-      <ModalOverlay />
-      <ModalContent bg={useColorModeValue('#FFF', '#2C3137')}>
-        <ModalHeader
-          fontWeight="600"
-          fontSize="20px"
-          color={statColor}
-          py={0}
-          pt="24px"
-          mb="26px"
-        >
-          {transferType}
-        </ModalHeader>
-        <ModalCloseButton color={titleColor} size="lg" mt="10px" />
-        <ModalBody>
-          {transferInfo && (
-            <DropdownInput
-              assets={assets}
-              prices={prices}
-              transferInfo={transferInfo}
-              setTransferInfo={setTransferInfo}
-              inputState={{ inputValue, setInputValue }}
-              selectedChainName={selectedChainName}
-            />
-          )}
-          <Center mb="16px" mt="30px">
-            {transferInfo && (
-              <Flex gap="12px" alignItems="center">
-                <ChainLogo
-                  url={getChainLogo(transferInfo?.sourceChainName)}
-                  logoWidth="50px"
-                />
-                <Center h="50px">
-                  <ArrowForwardIcon boxSize={7} color={arrowColor} />
-                </Center>
-                <ChainLogo
-                  url={getChainLogo(transferInfo?.destChainName)}
-                  logoWidth="50px"
-                />
-              </Flex>
-            )}
-          </Center>
-        </ModalBody>
-
-        <ModalFooter flexDir="column" pt="0" mt="12px">
-          <LargeButton
-            btnContent={<BtnContent />}
-            handleClick={handleClick}
-            isLoading={isLoading}
-            width="100%"
-            disabled={
-              !inputValue ||
-              new BigNumber(inputValue).isEqualTo(0) ||
-              isNaN(Number(inputValue))
-            }
-          />
-          <Text
-            fontWeight="600"
-            fontSize="14px"
-            color={cancelColor}
-            mt="18px"
-            mb="4px"
-            lineHeight="shorter"
-            cursor="pointer"
-            onClick={closeModal}
-          >
-            Cancel
-          </Text>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+    <OverviewTransfer
+      selectedItem={transferToken}
+      isSubmitDisabled={
+        isLoading ||
+        !inputValue ||
+        new BigNumber(inputValue).isEqualTo(0) ||
+        isNaN(Number(inputValue))
+      }
+      fromChainLogoUrl={getChainLogo(transferInfo?.sourceChainName ?? '') ?? ''}
+      toChainLogoUrl={getChainLogo(transferInfo?.destChainName ?? '') ?? ''}
+      dropdownList={assetOptions}
+      onTransfer={() => {
+        handleTransferSubmit();
+      }}
+      onCancel={() => {
+        closeModal();
+      }}
+      onChange={handleOnChange}
+      timeEstimateLabel="≈ 20 seconds"
+    />
   );
 };
 
-const BtnContent = () => (
-  <Flex alignItems="center">
-    <Text fontWeight="600" fontSize="18px" lineHeight="22px" mr="12px">
-      Transfer
-    </Text>
-    <Icon as={HiOutlineClock} w="20px" h="20px" mr="4px" />
-    <Text fontWeight="400" fontSize="12px" lineHeight="14px">
-      ≈ 20 seconds
-    </Text>
-  </Flex>
-);
+export const DropdownTransferModal: React.FC<IProps> = (props) => {
+  const { modalControl, transferInfoState } = props;
 
-export default DropdownTransferModal;
+  const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const closeModal = () => {
+    modalControl.close();
+    setInputValue('');
+    setIsLoading(false);
+  };
+
+  return (
+    <BasicModal
+      isOpen={modalControl.isOpen}
+      title="Deposit"
+      onClose={() => closeModal()}
+    >
+      {transferInfoState ? (
+        <OverviewTransferWrapper
+          {...props}
+          modalControl={{
+            ...props.modalControl,
+            close: closeModal,
+          }}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+        />
+      ) : null}
+    </BasicModal>
+  );
+};

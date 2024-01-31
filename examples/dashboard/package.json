@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "0.36.5",
+  "version": "0.37.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -14,25 +14,25 @@
     "invalidate": "AWS_PROFILE=webinc aws cloudfront create-invalidation --distribution-id E1J4F8FDME5L4Z --paths \"/*\"",
     "deploy:all": "npm run export && npm run deploy && ./seo/prepare.sh"
   },
+  "resolutions": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9"
+  },
   "dependencies": {
-    "@chakra-ui/react": "2.5.1",
-    "@cosmos-kit/core": "2.6.6",
-    "@cosmos-kit/cosmostation": "2.3.11",
-    "@cosmos-kit/keplr": "2.3.13",
-    "@cosmos-kit/leap": "2.3.10",
-    "@cosmos-kit/react": "2.8.4",
+    "@cosmos-kit/react": "2.10.5",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
+    "@interchain-ui/react": "1.21.3",
     "chain-registry": "1.20.0",
     "cosmjs-utils": "0.1.0",
+    "cosmos-kit": "2.8.0",
     "framer-motion": "7.6.19",
-    "next": "12.3.1",
+    "next": "^13",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.7.1"
-  },
-  "resolutions": {
-    "@types/react": "18.0.20"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.20.7",

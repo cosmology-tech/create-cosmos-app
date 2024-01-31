@@ -1,110 +1,76 @@
 import { cosmos } from 'stargaze-query';
-import { ToastId } from '@chakra-ui/react';
 import { useChain } from '@cosmos-kit/react';
-import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
-import { isDeliverTxSuccess, StdFee, coins } from '@cosmjs/stargate';
-import { TxRaw } from 'stargaze-query/types/codegen/cosmos/tx/v1beta1/tx';
+import { DeliverTxResponse, isDeliverTxSuccess, StdFee, coins } from '@cosmjs/stargate';
+import { CHAIN_NAME, STARGAZE_TOKEN } from '@/config';
 
-import { defaultChainName, coin } from '@/config';
-import { useToaster, ToastType, type CustomToast } from './useToaster';
-
-interface Msg {
+export type Msg = {
   typeUrl: string;
-  value: any;
+  value: { [key: string]: any };
 }
 
-interface TxOptions {
+export type TxOptions = {
   gas: string | number;
-  toast?: Partial<CustomToast>;
 }
 
-export enum TxStatus {
-  Failed = 'Transaction Failed',
-  Successful = 'Transaction Successful',
-  Broadcasting = 'Transaction Broadcasting',
+export class TxError extends Error {
+  constructor(message: string = 'Tx Error', options?: ErrorOptions) {
+    super(message, options);
+    this.name = 'TxError';
+  }
 }
 
-const txRaw = cosmos.tx.v1beta1.TxRaw;
+export class TxResult {
+  error?: TxError
+  response?: DeliverTxResponse
 
-export const useTx = () => {
-  const { address, getSigningCosmWasmClient } = useChain(defaultChainName);
+  constructor({ error, response }: Pick<TxResult, 'error' | 'response'>) {
+    this.error = error;
+    this.response = response;
+  }
 
-  const toaster = useToaster();
+  get errorMsg() {
+    return this.isOutOfGas
+      ? `Out of gas. gasWanted: ${this.response?.gasWanted} gasUsed: ${this.response?.gasUsed}`
+      : this.error?.message || 'Mint Failed';
+  }
 
-  const tx = async (msgs: Msg[], options: TxOptions, callback?: () => void) => {
+  get isSuccess() {
+    return this.response && isDeliverTxSuccess(this.response);
+  }
+
+  get isOutOfGas() {
+    return this.response && this.response.gasUsed > this.response.gasWanted;
+  }
+}
+
+export function useTx() {
+  const { address, getSigningCosmWasmClient } = useChain(CHAIN_NAME);
+
+  return async function tx(msgs: Msg[], options: TxOptions) {
     if (!address) {
-      toaster.toast({
-        type: ToastType.Error,
-        title: 'Wallet not connected',
-        message: 'Please connect the wallet',
-      });
-      return;
+      return new TxResult({ error: new TxError('Wallet not connected') });
     }
-
-    const fee: StdFee = {
-      amount: coins(0, coin.base),
-      gas: String(options.gas),
-    };
-
-    let signed: TxRaw;
-    let client: SigningCosmWasmClient;
 
     try {
-      client = await getSigningCosmWasmClient();
-      signed = await client.sign(address, msgs, fee, '');
+      const txRaw = cosmos.tx.v1beta1.TxRaw;
+      const fee: StdFee = {
+        amount: coins(0, STARGAZE_TOKEN.base),
+        gas: String(options.gas),
+      };
+
+      const client = await getSigningCosmWasmClient();
+      const signed = await client.sign(address, msgs, fee, '');
+
+      if (!client) return new TxResult({ error: new TxError('Invalid SigningCosmWasm client') });
+      if (!signed) return new TxResult({ error: new TxError('Invalid transaction') });
+
+      const response = await client.broadcastTx(Uint8Array.from(txRaw.encode(signed).finish()));
+      return isDeliverTxSuccess(response)
+        ? new TxResult({ response })
+        : new TxResult({ response, error: new TxError(response.rawLog) });
+
     } catch (e: any) {
-      console.error(e);
-      toaster.toast({
-        title: TxStatus.Failed,
-        message: e?.message || 'An unexpected error has occured',
-        type: ToastType.Error,
-      });
-      return;
+      return new TxResult({ error: new TxError(e.message || 'Tx Error') });
     }
-
-    let broadcastToastId: ToastId;
-
-    broadcastToastId = toaster.toast({
-      title: TxStatus.Broadcasting,
-      message: 'Waiting for transaction to be included in the block',
-      type: ToastType.Loading,
-      duration: 999999,
-    });
-
-    if (client && signed) {
-      await client
-        .broadcastTx(Uint8Array.from(txRaw.encode(signed).finish()))
-        .then((res) => {
-          if (isDeliverTxSuccess(res)) {
-            if (callback) callback();
-
-            toaster.toast({
-              title: options.toast?.title || TxStatus.Successful,
-              type: options.toast?.type || ToastType.Success,
-              message: options.toast?.message,
-            });
-          } else {
-            toaster.toast({
-              title: TxStatus.Failed,
-              message: res?.rawLog,
-              type: ToastType.Error,
-              duration: 10000,
-            });
-          }
-        })
-        .catch((err) => {
-          toaster.toast({
-            title: TxStatus.Failed,
-            message: err?.message,
-            type: ToastType.Error,
-            duration: 10000,
-          });
-        })
-        .finally(() => toaster.close(broadcastToastId));
-    } else {
-      toaster.close(broadcastToastId);
-    }
-  };
-
-  return { tx };
-};
+  }
+}

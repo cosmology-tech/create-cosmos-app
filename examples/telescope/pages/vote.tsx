@@ -23,7 +23,7 @@ import {
 } from '../components';
 import { dependencies, products } from '../config';
 import { useState } from 'react';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import React from 'react';
 
 export default function Home() {
@@ -98,7 +98,7 @@ export default function Home() {
       >
         <Text>Built with</Text>
         <Link
-          href="https://cosmology.tech/"
+          href="https://cosmology.zone/"
           target="_blank"
           rel="noopener noreferrer"
         >

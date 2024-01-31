@@ -43,7 +43,7 @@ import type {
   DelegationResponse as Delegation,
 } from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
 import { TransactionResult } from '../types';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import BigNumber from 'bignumber.js';
 import {
   useFeeEstimation,
@@ -244,9 +244,9 @@ const AllValidators = ({
               commission={
                 currentValidator?.commission?.commissionRates?.rate
                   ? exponentiate(
-                      currentValidator.commission.commissionRates.rate,
-                      -16
-                    ).toFixed(0)
+                    currentValidator.commission.commissionRates.rate,
+                    -16
+                  ).toFixed(0)
                   : 0
               }
               apr={22.08}

@@ -1,151 +1,72 @@
-import { useChain, useManager } from '@cosmos-kit/react';
+import { Box, Stack, ClipboardCopyText, useColorModeValue } from '@interchain-ui/react';
+import { WalletStatus } from 'cosmos-kit';
+import { useChain } from '@cosmos-kit/react';
+import { getChainLogo } from '@/utils';
+import { CHAIN_NAME } from "@/config";
+import { User } from './User';
+import { Chain } from './Chain';
+import { Warning } from './Warning';
 import {
-  Box,
-  Center,
-  Grid,
-  GridItem,
-  Icon,
-  Stack,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { MouseEventHandler } from 'react';
-import { FiAlertTriangle } from 'react-icons/fi';
+  ButtonError,
+  ButtonRejected,
+  ButtonConnect,
+  ButtonConnected,
+  ButtonConnecting,
+  ButtonDisconnected,
+  ButtonNotExist,
+} from './Connect';
 
-import {
-  Connected,
-  Connecting,
-  Disconnected,
-  NotExist,
-  Error,
-  Rejected,
-  WalletConnectComponent,
-} from './WalletConnect';
-import { ConnectStatusWarn, RejectedWarn } from './WarnBlock';
-import { ConnectedShowAddress, CopyAddressBtn } from './AddressCard';
-import { UserInfo } from './UserInfo';
-import { Astronaut } from './Astronaut';
-import { ChainCard } from './ChainCard';
-import { defaultChainName } from '@/config';
+export function Wallet() {
+  const { chain, status, wallet, username, address, message, connect, openView } = useChain(CHAIN_NAME);
 
-export const WalletSection = () => {
-  const {
-    connect,
-    openView,
-    status,
-    username,
-    address,
-    message,
-    wallet,
-    chain: chainInfo,
-  } = useChain(defaultChainName);
-
-  const { getChainLogo } = useManager();
-
-  const chain = {
-    chainName: defaultChainName,
-    label: chainInfo.pretty_name,
-    value: defaultChainName,
-    icon: getChainLogo(defaultChainName),
-  };
-
-  // Events
-  const onClickConnect: MouseEventHandler = async (e) => {
-    e.preventDefault();
-    await connect();
-  };
-
-  const onClickOpenView: MouseEventHandler = (e) => {
-    e.preventDefault();
-    openView();
-  };
-
-  // Components
-  const connectWalletButton = (
-    <WalletConnectComponent
-      walletStatus={status}
-      disconnect={
-        <Disconnected buttonText="Connect Wallet" onClick={onClickConnect} />
-      }
-      connecting={<Connecting />}
-      connected={
-        <Connected buttonText={'My Wallet'} onClick={onClickOpenView} />
-      }
-      rejected={<Rejected buttonText="Reconnect" onClick={onClickConnect} />}
-      error={<Error buttonText="Change Wallet" onClick={onClickOpenView} />}
-      notExist={
-        <NotExist buttonText="Install Wallet" onClick={onClickOpenView} />
-      }
-    />
-  );
-
-  const connectWalletWarn = (
-    <ConnectStatusWarn
-      walletStatus={status}
-      rejected={
-        <RejectedWarn
-          icon={<Icon as={FiAlertTriangle} mt={1} />}
-          wordOfWarning={`${wallet?.prettyName}: ${message}`}
-        />
-      }
-      error={
-        <RejectedWarn
-          icon={<Icon as={FiAlertTriangle} mt={1} />}
-          wordOfWarning={`${wallet?.prettyName}: ${message}`}
-        />
-      }
-    />
-  );
-
-  const userInfo = username && (
-    <UserInfo username={username} icon={<Astronaut />} />
-  );
-
-  const addressBtn = (
-    <CopyAddressBtn
-      walletStatus={status}
-      connected={<ConnectedShowAddress address={address} isLoading={false} />}
-    />
-  );
+  const ConnectButton = {
+    [WalletStatus.Connected]: <ButtonConnected onClick={openView} />,
+    [WalletStatus.Connecting]: <ButtonConnecting />,
+    [WalletStatus.Disconnected]: <ButtonDisconnected onClick={connect} />,
+    [WalletStatus.Error]: <ButtonError onClick={openView} />,
+    [WalletStatus.Rejected]: <ButtonRejected onClick={connect} />,
+    [WalletStatus.NotExist]: <ButtonNotExist onClick={openView} />
+  }[status] || <ButtonConnect onClick={connect} />;
 
   return (
-    <Center py={16}>
-      <Grid
-        w="full"
-        maxW="sm"
-        templateColumns="1fr"
-        rowGap={4}
-        alignItems="center"
-        justifyContent="center"
+    <Box py="$16">
+      <Stack attributes={{ mb: '$12', justifyContent: 'center' }}>
+        <Chain name={chain.pretty_name} logo={getChainLogo(chain.chain_name)!} />
+      </Stack>
+      <Stack
+        direction="vertical"
+        attributes={{
+          mx: 'auto',
+          px: '$8',
+          py: '$15',
+          maxWidth: '21rem',
+          borderRadius: '$lg',
+          justifyContent: 'center',
+          backgroundColor: useColorModeValue('$white', '$blackAlpha500'),
+          boxShadow: useColorModeValue(
+            '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
+            '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
+          )
+        }}
       >
-        <GridItem marginBottom={'20px'}>
-          <ChainCard
-            prettyName={chain?.label || defaultChainName}
-            icon={chain?.icon}
-          />
-        </GridItem>
-        <GridItem px={6}>
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            borderRadius="lg"
-            bg={useColorModeValue('white', 'blackAlpha.400')}
-            boxShadow={useColorModeValue(
-              '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
-              '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
-            )}
-            spacing={4}
-            px={4}
-            py={{ base: 6, md: 12 }}
-          >
-            {userInfo}
-            {addressBtn}
-            <Box w="full" maxW={{ base: 52, md: 64 }}>
-              {connectWalletButton}
-            </Box>
-            {connectWalletWarn && <GridItem>{connectWalletWarn}</GridItem>}
-          </Stack>
-        </GridItem>
-      </Grid>
-    </Center>
-  );
-};
+        {username ? <User name={username} /> : null}
+        {address ? <ClipboardCopyText text={address} truncate="middle" /> : null}
+        <Box
+          my="$8"
+          flex="1"
+          width="full"
+          display="flex"
+          height="$16"
+          overflow="hidden"
+          justifyContent="center"
+          px={{ mobile: '$8', tablet: '$10' }}>
+          {ConnectButton}
+        </Box>
+
+        {message && [WalletStatus.Error, WalletStatus.Rejected].includes(status)
+          ? <Warning text={`${wallet?.prettyName}: ${message}`} />
+          : null}
+      </Stack>
+    </Box>
+  )
+}
