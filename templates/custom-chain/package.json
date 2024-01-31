@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "prebuild": "ts-node scripts/prebuild.ts",
-    "start-chain": "cd chain/ && make docker-build-run",
+    "setup-chain": "cd chain/ && make docker-build",
+    "start-chain": "cd chain/ && make docker-build",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
