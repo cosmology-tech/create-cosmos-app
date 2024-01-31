@@ -15,7 +15,7 @@ import Stats from './stats';
 import MyValidators from './my-validators';
 import AllValidators from './all-validators';
 import { getCoin } from '../../config';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 import { ImageSource } from '../types';
 
 export const exponentiate = (num: number | string, exp: number) => {

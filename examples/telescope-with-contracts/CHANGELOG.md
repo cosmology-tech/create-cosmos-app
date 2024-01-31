@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/telescope-contracts@0.2.0...@cosmology/telescope-contracts@0.2.1) (2024-01-19)
+
+**Note:** Version bump only for package @cosmology/telescope-contracts
+
+
+
+
+
+# [0.2.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/telescope-contracts@0.1.6...@cosmology/telescope-contracts@0.2.0) (2024-01-19)
+
+**Note:** Version bump only for package @cosmology/telescope-contracts
+
+
+
+
+
+## [0.1.6](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/telescope-contracts@0.1.5...@cosmology/telescope-contracts@0.1.6) (2024-01-19)
+
+**Note:** Version bump only for package @cosmology/telescope-contracts
+
+
+
+
+
+## [0.1.5](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/telescope-contracts@0.1.4...@cosmology/telescope-contracts@0.1.5) (2024-01-19)
+
+**Note:** Version bump only for package @cosmology/telescope-contracts
+
+
+
+
+
 ## [0.1.4](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/telescope-contracts@0.1.3...@cosmology/telescope-contracts@0.1.4) (2023-09-27)
 
 **Note:** Version bump only for package @cosmology/telescope-contracts

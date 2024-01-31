@@ -1,89 +1,55 @@
 import React from 'react';
-import {
-  Box,
-  Center,
-  Spinner,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Text, Box } from '@interchain-ui/react';
 import AssetsOverview from './AssetsOverview';
-import ChainAssetsList from './ChainAssetsList';
 import { useChain } from '@cosmos-kit/react';
 import { useAssets } from '../../hooks';
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName } from 'cosmos-kit';
 
 interface IProps {
   chainName: ChainName;
 }
 
 export const AssetListSection: React.FC<IProps> = ({ chainName }) => {
-  const { isWalletConnected, chain } = useChain(chainName);
+  const { isWalletConnected } = useChain(chainName);
   const { data, isLoading, refetch } = useAssets(chainName);
-
-  const titleColor = useColorModeValue('#697584', '#A7B4C2');
 
   if (!isWalletConnected) {
     return (
-      <Box maxW="768px" mx="auto" mb="60px">
-        <SectionTitle />
-        <Center h="160px" bg="#F5F7FB" borderRadius="6px">
-          <Text fontSize="18px" color="#2C3137">
+      <Box maxWidth="768px" marginX="auto" marginBottom="60px">
+        <Text
+          fontSize="$xl"
+          fontWeight="$semibold"
+          attributes={{ marginBottom: '$10' }}
+        >
+          My assets
+        </Text>
+
+        <Box
+          height="160px"
+          bg="$cardBg"
+          borderRadius="$md"
+          p="$6"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Text fontSize="$md" color="$textSecondary">
             Connect the wallet to see the assets
           </Text>
-        </Center>
+        </Box>
       </Box>
     );
   }
 
   return (
-    <Box maxW="768px" mx="auto" mb="60px">
-      <SectionTitle />
+    <Box maxWidth="$containerMd" marginX="auto" marginBottom="$17">
       <AssetsOverview
-        assets={data?.assets || []}
+        isLoading={isLoading || !data}
+        assets={data?.assets ?? []}
+        prices={data?.prices ?? {}}
         selectedChainName={chainName}
+        refetch={refetch}
       />
-      <Text
-        fontSize="18px"
-        fontWeight="600"
-        color={titleColor}
-        lineHeight="22px"
-        mb="20px"
-      >
-        On {chain.pretty_name}
-      </Text>
-      {isLoading || !data ? (
-        <Loader />
-      ) : (
-        <ChainAssetsList
-          assets={data.assets}
-          prices={data.prices}
-          updateData={refetch}
-          selectedChainName={chainName}
-        />
-      )}
     </Box>
-  );
-};
-
-const SectionTitle = () => {
-  const textColor = useColorModeValue('#2C3137', '#EEF2F8');
-  return (
-    <Text
-      fontSize="20px"
-      fontWeight="600"
-      color={textColor}
-      lineHeight="24px"
-      mb="26px"
-    >
-      My Assets
-    </Text>
-  );
-};
-
-const Loader = () => {
-  return (
-    <Center h="100px">
-      <Spinner size="md" color="#2C3137" emptyColor="#EEF2F8" speed="0.4s" />
-    </Center>
   );
 };

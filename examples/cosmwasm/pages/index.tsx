@@ -16,7 +16,7 @@ import {
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
 
 import { useChain } from '@cosmos-kit/react';
-import { WalletStatus } from '@cosmos-kit/core';
+import { WalletStatus } from 'cosmos-kit';
 
 import { ContractsProvider, useContracts } from '../codegen/contracts-context';
 
@@ -161,7 +161,7 @@ const Layout = () => {
       >
         <Text>Built with</Text>
         <Link
-          href="https://cosmology.tech/"
+          href="https://cosmology.zone/"
           target="_blank"
           rel="noopener noreferrer"
         >

@@ -16,7 +16,7 @@ import {
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
 
 import { useChain } from '@cosmos-kit/react';
-import { WalletStatus } from '@cosmos-kit/core';
+import { WalletStatus } from 'cosmos-kit';
 
 import {
   chainName,
@@ -132,7 +132,7 @@ export default function Home() {
       >
         <Text>Built with</Text>
         <Link
-          href="https://cosmology.tech/"
+          href="https://cosmology.zone/"
           target="_blank"
           rel="noopener noreferrer"
         >

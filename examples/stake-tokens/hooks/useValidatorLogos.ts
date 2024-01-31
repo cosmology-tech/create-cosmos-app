@@ -5,12 +5,9 @@ export const useValidatorLogos = (
   chainName: string,
   validators: ExtendedValidator[]
 ) => {
-  const { data, isLoading } = useQuery({
-    queryKey: ['validatorLogos', chainName],
+  return useQuery({
+    queryKey: ['validatorLogos', chainName, validators.length],
     queryFn: () => getLogoUrls(validators, chainName),
-    enabled: validators.length > 0,
     staleTime: Infinity,
   });
-
-  return { data, isLoading };
 };

@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.2.5](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/asset-list@0.2.4...@cosmology/asset-list@0.2.5) (2023-09-27)
+## [0.4.2](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/asset-list@0.4.1...@cosmology/asset-list@0.4.2) (2024-01-20)
 
 **Note:** Version bump only for package @cosmology/asset-list
 
@@ -11,9 +11,41 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.2.4](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/asset-list@0.2.3...@cosmology/asset-list@0.2.4) (2023-09-27)
+## [0.4.1](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/asset-list@0.4.0...@cosmology/asset-list@0.4.1) (2024-01-19)
 
 **Note:** Version bump only for package @cosmology/asset-list
+
+
+
+
+
+# [0.4.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/asset-list@0.3.1...@cosmology/asset-list@0.4.0) (2024-01-19)
+
+**Note:** Version bump only for package @cosmology/asset-list
+
+
+
+
+
+## [0.3.1](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/asset-list@0.3.0...@cosmology/asset-list@0.3.1) (2024-01-19)
+
+**Note:** Version bump only for package @cosmology/asset-list
+
+
+
+
+
+# [0.3.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/asset-list@0.2.5...@cosmology/asset-list@0.3.0) (2024-01-19)
+
+
+### Bug Fixes
+
+* upgrade interchain ui version and fix z index issue ([9f648a5](https://github.com/cosmology-tech/create-cosmos-app/commit/9f648a551cbf9868125aa1f9eef9feff15837bb5))
+
+
+### Features
+
+* new asset-list example with interchain ui ([95cb786](https://github.com/cosmology-tech/create-cosmos-app/commit/95cb78600c6f275fd64474dca61d271987ff2f97))
 
 
 

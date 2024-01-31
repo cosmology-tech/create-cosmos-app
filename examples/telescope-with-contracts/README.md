@@ -24,7 +24,7 @@ The npm package for the Official Cosmos chain registry. Get chain and token data
 
 Checkout more videos for how to use various frontend tooling in the Cosmos!
 
-* https://cosmology.tech/learn
+* https://cosmology.zone/learn
 
 ### Cosmos Kit
 
@@ -46,7 +46,7 @@ The quickest and easiest way to interact with CosmWasm Contracts. @cosmwasm/ts-c
 
 * https://github.com/CosmWasm/ts-codegen
 
-🎥 [Checkout the CosmWasm/ts-codegne video playlist](https://www.youtube.com/watch?v=D_A5V2PfNLA&list=PL-lMkVv7GZwz1KO3jANwr5W4MoziruXwK) to learn how to use `ts-codegen`!
+🎥 [Checkout the CosmWasm/ts-codegen video playlist](https://www.youtube.com/watch?v=D_A5V2PfNLA&list=PL-lMkVv7GZwz1KO3jANwr5W4MoziruXwK) to learn how to use `ts-codegen`!
 
 
 ## Learn More about Next.js
@@ -66,7 +66,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Credits
 
-🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
+🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.zone/validator)
 
 Code built with the help of these related projects:
 

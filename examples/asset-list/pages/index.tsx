@@ -1,23 +1,32 @@
 import NextLink from 'next/link';
-import { Stack, Button } from '@chakra-ui/react';
-import { ArrowForwardIcon } from '@chakra-ui/icons';
+import { Stack, Button } from '@interchain-ui/react';
 import { Layout } from '@/components';
 
 export default function Home() {
   return (
     <Layout>
-      <Stack direction="row" justifyContent="center" my="48px" spacing={4}>
+      <Stack
+        direction="horizontal"
+        space="$8"
+        attributes={{
+          justifyContent: 'center',
+          paddingTop: '$15',
+          paddingBottom: '$15',
+        }}
+      >
         <NextLink href="single-chain">
           <Button
-            colorScheme="purple"
-            rightIcon={<ArrowForwardIcon />}
-            variant="outline"
+            size="md"
+            intent="secondary"
+            variant="outlined"
+            rightIcon="arrowRightLine"
           >
             Single-Chain
           </Button>
         </NextLink>
+
         <NextLink href="multi-chain">
-          <Button colorScheme="purple" rightIcon={<ArrowForwardIcon />}>
+          <Button size="md" intent="primary" rightIcon="arrowRightLine">
             Multi-Chain
           </Button>
         </NextLink>

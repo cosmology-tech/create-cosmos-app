@@ -30,7 +30,7 @@ import {
   products,
 } from '../config';
 
-import { WalletStatus } from '@cosmos-kit/core';
+import { WalletStatus } from 'cosmos-kit';
 import {
   Product,
   Dependency,
@@ -101,7 +101,7 @@ const sendTokens = (
 
     const signed_tx = await stargateClient.sign(address, [msg], fee, 'sent through telescope grpc-gateway', signerData)
     const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
-    const response = await grpcGatewayClient.cosmos.tx.v1beta1.broadcastTx(  
+    const response = await grpcGatewayClient.cosmos.tx.v1beta1.broadcastTx(
       {
         txBytes: txRawBytes,
         mode: 1
@@ -271,7 +271,7 @@ export default function Home() {
       >
         <Text>Built with</Text>
         <Link
-          href="https://cosmology.tech/"
+          href="https://cosmology.zone/"
           target="_blank"
           rel="noopener noreferrer"
         >

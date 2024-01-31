@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import type { ChainName } from '@cosmos-kit/core';
+import type { ChainName } from 'cosmos-kit';
 
 export const defaultChainName = 'osmosis';
 

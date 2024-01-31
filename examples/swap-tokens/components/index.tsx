@@ -1,3 +1,4 @@
 export * from './swap';
-export * from './wallet';
 export * from './common';
+export * from './wallet';
+export * from './Main';

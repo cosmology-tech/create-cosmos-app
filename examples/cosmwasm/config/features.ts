@@ -29,15 +29,15 @@ export const products: FeatureProps[] = [
   {
     title: 'Videos',
     text: 'How-to videos from the official Cosmology website, with learning resources for building in Cosmos.',
-    href: 'https://cosmology.tech/learn'
+    href: 'https://cosmology.zone/learn'
   }
 ];
 
 export const dependencies: FeatureProps[] = [
   {
-    title: 'Chakra UI',
+    title: 'Interchain UI',
     text: 'A simple, modular and accessible React Component Library.',
-    href: 'https://chakra-ui.com/docs/components/'
+    href: 'https://cosmology.zone/explore'
   },
   {
     title: 'Next.js',

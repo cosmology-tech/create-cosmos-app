@@ -32,7 +32,7 @@ import {
   products,
 } from '../config';
 
-import { WalletStatus } from '@cosmos-kit/core';
+import { WalletStatus } from 'cosmos-kit';
 import {
   Dependency,
   handleChangeColorModeValue,
@@ -298,7 +298,7 @@ export default function Home() {
       >
         <Text>Built with</Text>
         <Link
-          href="https://cosmology.tech/"
+          href="https://cosmology.zone/"
           target="_blank"
           rel="noopener noreferrer"
         >

@@ -1,9 +1,9 @@
 import { cosmos } from 'interchain-query';
-import { isDeliverTxSuccess, StdFee } from '@cosmjs/stargate';
-import { useToaster, ToastType, type CustomToast } from './useToaster';
 import { useChain } from '@cosmos-kit/react';
-import { ToastId } from '@chakra-ui/react';
-import { TxRaw } from 'interchain-query/cosmos/tx/v1beta1/tx';
+import { isDeliverTxSuccess, StdFee } from '@cosmjs/stargate';
+import { useToast, type CustomToast } from './useToast';
+
+const txRaw = cosmos.tx.v1beta1.TxRaw;
 
 interface Msg {
   typeUrl: string;
@@ -22,25 +22,23 @@ export enum TxStatus {
   Broadcasting = 'Transaction Broadcasting',
 }
 
-const txRaw = cosmos.tx.v1beta1.TxRaw;
-
 export const useTx = (chainName: string) => {
   const { address, getSigningStargateClient, estimateFee } =
     useChain(chainName);
 
-  const toaster = useToaster();
+  const { toast } = useToast();
 
   const tx = async (msgs: Msg[], options: TxOptions) => {
     if (!address) {
-      toaster.toast({
-        type: ToastType.Error,
+      toast({
+        type: 'error',
         title: 'Wallet not connected',
-        message: 'Please connect the wallet',
+        description: 'Please connect the wallet',
       });
       return;
     }
 
-    let signed: TxRaw;
+    let signed: Parameters<typeof txRaw.encode>['0'];
     let client: Awaited<ReturnType<typeof getSigningStargateClient>>;
 
     try {
@@ -59,20 +57,20 @@ export const useTx = (chainName: string) => {
       signed = await client.sign(address, msgs, fee, '');
     } catch (e: any) {
       console.error(e);
-      toaster.toast({
+      toast({
         title: TxStatus.Failed,
-        message: e?.message || 'An unexpected error has occured',
-        type: ToastType.Error,
+        description: e?.message || 'An unexpected error has occured',
+        type: 'error',
       });
       return;
     }
 
-    let broadcastToastId: ToastId;
+    let broadcastToastId: string | number;
 
-    broadcastToastId = toaster.toast({
+    broadcastToastId = toast({
       title: TxStatus.Broadcasting,
-      message: 'Waiting for transaction to be included in the block',
-      type: ToastType.Loading,
+      description: 'Waiting for transaction to be included in the block',
+      type: 'loading',
       duration: 999999,
     });
 
@@ -83,31 +81,31 @@ export const useTx = (chainName: string) => {
           if (isDeliverTxSuccess(res)) {
             if (options.onSuccess) options.onSuccess();
 
-            toaster.toast({
+            toast({
               title: options.toast?.title || TxStatus.Successful,
-              type: options.toast?.type || ToastType.Success,
-              message: options.toast?.message,
+              type: options.toast?.type || 'success',
+              description: options.toast?.description,
             });
           } else {
-            toaster.toast({
+            toast({
               title: TxStatus.Failed,
-              message: res?.rawLog,
-              type: ToastType.Error,
+              description: res?.rawLog,
+              type: 'error',
               duration: 10000,
             });
           }
         })
         .catch((err) => {
-          toaster.toast({
+          toast({
             title: TxStatus.Failed,
-            message: err?.message,
-            type: ToastType.Error,
+            description: err?.message,
+            type: 'error',
             duration: 10000,
           });
         })
-        .finally(() => toaster.close(broadcastToastId));
+        .finally(() => toast.close(broadcastToastId));
     } else {
-      toaster.close(broadcastToastId);
+      toast.close(broadcastToastId);
     }
   };
 

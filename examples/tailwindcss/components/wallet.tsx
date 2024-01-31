@@ -9,7 +9,7 @@ import {
   WalletIcon,
 } from '@heroicons/react/24/outline';
 import { useChain } from '@cosmos-kit/react';
-import { WalletStatus } from '@cosmos-kit/core';
+import { WalletStatus } from 'cosmos-kit';
 import { chainName } from '../config';
 
 const buttons = {

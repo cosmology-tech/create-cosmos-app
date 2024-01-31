@@ -1,36 +1,33 @@
-import {
-  Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Stack,
-  UseDisclosureReturn,
-} from '@chakra-ui/react';
-import {
-  DelegateWarning,
-  StatBox,
-  ValidatorDesc,
-  ValidatorInfo,
-} from './ModalElements';
 import { useState } from 'react';
-import { isGreaterThanZero, shiftDigits } from '@/utils';
-import { useChain } from '@cosmos-kit/react';
 import { cosmos } from 'interchain-query';
-import { getCoin, getExponent } from '@/config';
 import { StdFee } from '@cosmjs/amino';
-import { ChainName } from '@cosmos-kit/core';
+import { useChain } from '@cosmos-kit/react';
+import { ChainName } from 'cosmos-kit';
 import BigNumber from 'bignumber.js';
-import { useInputBox, useTx } from '@/hooks';
-import { type ExtendedValidator as Validator } from '@/utils';
+import {
+  BasicModal,
+  StakingDelegate,
+  Box,
+  Button,
+  Callout,
+  Text,
+} from '@interchain-ui/react';
+
+import {
+  type ExtendedValidator as Validator,
+  formatValidatorMetaInfo,
+  getAssetLogoUrl,
+  isGreaterThanZero,
+  shiftDigits,
+  calcDollarValue,
+} from '@/utils';
+import { getCoin, getExponent } from '@/config';
+import { Prices, UseDisclosureReturn, useTx } from '@/hooks';
 
 const { delegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
 
 export type MaxAmountAndFee = {
-  maxAmount: string;
+  maxAmount: number;
   fee: StdFee;
 };
 
@@ -43,6 +40,7 @@ export const DelegateModal = ({
   modalControl,
   selectedValidator,
   closeOuterModal,
+  prices,
   modalTitle,
   showDescription = true,
 }: {
@@ -53,6 +51,7 @@ export const DelegateModal = ({
   modalControl: UseDisclosureReturn;
   selectedValidator: Validator;
   logoUrl: string;
+  prices: Prices;
   closeOuterModal?: () => void;
   modalTitle?: string;
   showDescription?: boolean;
@@ -60,27 +59,27 @@ export const DelegateModal = ({
   const { isOpen, onClose } = modalControl;
   const { address, estimateFee } = useChain(chainName);
 
+  const [amount, setAmount] = useState<number | undefined>(0);
   const [isDelegating, setIsDelegating] = useState(false);
   const [isSimulating, setIsSimulating] = useState(false);
   const [maxAmountAndFee, setMaxAmountAndFee] = useState<MaxAmountAndFee>();
+  const [, forceUpdate] = useState(0);
 
   const coin = getCoin(chainName);
   const exp = getExponent(chainName);
   const { tx } = useTx(chainName);
 
-  const { renderInputBox, amount, setAmount } = useInputBox(balance);
-
   const onModalClose = () => {
     onClose();
-    setAmount('');
+    setAmount(0);
     setIsDelegating(false);
     setIsSimulating(false);
   };
 
   const onDelegateClick = async () => {
-    setIsDelegating(true);
+    if (!address || !amount) return;
 
-    if (!address) return;
+    setIsDelegating(true);
 
     const msg = delegate({
       delegatorAddress: address,
@@ -132,7 +131,7 @@ export const DelegateModal = ({
       const feeAmount = new BigNumber(fee.amount[0].amount).shiftedBy(-exp);
       const balanceAfterFee = new BigNumber(balance)
         .minus(feeAmount)
-        .toString();
+        .toNumber();
       setMaxAmountAndFee({ fee, maxAmount: balanceAfterFee });
       setAmount(balanceAfterFee);
     } catch (error) {
@@ -142,56 +141,109 @@ export const DelegateModal = ({
     }
   };
 
-  return (
-    <Modal isOpen={isOpen} onClose={onModalClose} size="2xl" isCentered>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>{modalTitle || 'Delegate'}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <ValidatorInfo
-            logoUrl={logoUrl}
-            name={selectedValidator.name}
-            commission={shiftDigits(selectedValidator.commission, 2)}
-            apr={selectedValidator.apr}
-          />
-          {showDescription && (
-            <ValidatorDesc description={selectedValidator.description} />
-          )}
-          <DelegateWarning unbondingDays={unbondingDays} />
-          <Stack direction="row" spacing={4} my={4}>
-            <StatBox
-              label="Your Delegation"
-              token={coin.symbol}
-              amount={selectedValidator.delegation}
-            />
-            <StatBox
-              label="Available to Delegate"
-              amount={balance}
-              token={coin.symbol}
-            />
-          </Stack>
-          {renderInputBox(
-            'Amount to Delegate',
-            coin.symbol,
-            handleMaxClick,
-            isSimulating
-          )}
-        </ModalBody>
+  const headerExtra = (
+    <>
+      {showDescription && selectedValidator.description && (
+        <Text fontSize="$md">{selectedValidator.description}</Text>
+      )}
+      {unbondingDays && (
+        <Callout
+          title={`Staking will lock your funds for ${unbondingDays} days`}
+          intent="error"
+          iconName="errorWarningLine"
+        >
+          You will need to undelegate in order for your staked assets to be
+          liquid again. This process will take {unbondingDays} days to complete.
+        </Callout>
+      )}
+    </>
+  );
 
-        <ModalFooter>
-          <Button
-            colorScheme="primary"
-            onClick={onDelegateClick}
-            isDisabled={
-              !isGreaterThanZero(amount) || isDelegating || isSimulating
-            }
-            isLoading={isDelegating}
-          >
-            Delegate
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+  return (
+    <BasicModal
+      title={modalTitle || 'Delegate'}
+      isOpen={isOpen}
+      onClose={onModalClose}
+    >
+      <Box width={{ mobile: '100%', tablet: '$containerSm' }}>
+        <StakingDelegate
+          header={{
+            title: selectedValidator.name,
+            subtitle: formatValidatorMetaInfo(selectedValidator),
+            avatarUrl: logoUrl,
+          }}
+          headerExtra={headerExtra}
+          delegationItems={[
+            {
+              label: 'Your Delegation',
+              tokenAmount: selectedValidator.delegation,
+              tokenName: coin.symbol,
+            },
+            {
+              label: 'Available to Delegate',
+              tokenAmount: balance,
+              tokenName: coin.symbol,
+            },
+          ]}
+          inputProps={{
+            inputToken: {
+              tokenName: coin.symbol,
+              tokenIconUrl: getAssetLogoUrl(coin),
+            },
+            notionalValue: amount
+              ? calcDollarValue(coin.base, amount, prices)
+              : undefined,
+            value: amount,
+            onValueInput: (val) => {
+              if (!val) {
+                setAmount(undefined);
+                return;
+              }
+
+              const max = maxAmountAndFee?.maxAmount || balance;
+
+              if (new BigNumber(val).gt(max)) {
+                setAmount(Number(max));
+                forceUpdate((n) => n + 1);
+                return;
+              }
+
+              setAmount(Number(val));
+            },
+            partials: [
+              {
+                label: '1/2',
+                onClick: () => {
+                  setAmount(new BigNumber(balance).dividedBy(2).toNumber());
+                },
+              },
+              {
+                label: '1/3',
+                onClick: () => {
+                  setAmount(new BigNumber(balance).dividedBy(3).toNumber());
+                },
+              },
+              {
+                label: 'Max',
+                onClick: handleMaxClick,
+                isLoading: isSimulating,
+              },
+            ],
+          }}
+          footer={
+            <Button
+              intent="tertiary"
+              onClick={onDelegateClick}
+              disabled={
+                !isGreaterThanZero(amount) || isDelegating || isSimulating
+              }
+              isLoading={isDelegating}
+            >
+              Delegate
+            </Button>
+          }
+        />
+      </Box>
+    </BasicModal>
   );
 };

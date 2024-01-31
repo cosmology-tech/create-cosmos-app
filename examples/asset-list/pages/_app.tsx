@@ -1,19 +1,19 @@
 import '../styles/globals.css';
+import '@interchain-ui/react/globalStyles';
+import '@interchain-ui/react/styles';
+
+import { ThemeProvider, Toaster, useTheme } from '@interchain-ui/react';
 import type { AppProps } from 'next/app';
 import { ChainProvider } from '@cosmos-kit/react';
-import { ChakraProvider } from '@chakra-ui/react';
+
 import { aminoTypes, registry } from '../config/defaults';
-import { wallets as keplr } from '@cosmos-kit/keplr';
-import { wallets as cosmostation } from '@cosmos-kit/cosmostation';
-import { wallets as leap } from '@cosmos-kit/leap';
+
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { assets, chains } from 'chain-registry';
 import { GasPrice } from '@cosmjs/stargate';
-import { SignerOptions } from '@cosmos-kit/core';
-import { ThemeProvider, defaultTheme } from '@cosmology-ui/react';
-import '@interchain-ui/react/styles';
+import { SignerOptions, wallets } from 'cosmos-kit';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,6 +25,7 @@ const queryClient = new QueryClient({
 });
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
+  const { themeClass } = useTheme();
   const signerOptions: SignerOptions = {
     signingStargate: () => {
       return {
@@ -45,30 +46,32 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
 
   return (
     <ThemeProvider>
-      <ChakraProvider theme={defaultTheme}>
-        <ChainProvider
-          chains={chains}
-          assetLists={assets}
-          wallets={[...keplr, ...cosmostation, ...leap]}
-          walletConnectOptions={{
-            signClient: {
-              projectId: 'a8510432ebb71e6948cfd6cde54b70f7',
-              relayUrl: 'wss://relay.walletconnect.org',
-              metadata: {
-                name: 'CosmosKit Template',
-                description: 'CosmosKit dapp template',
-                url: 'https://docs.cosmoskit.com/',
-                icons: [],
-              },
+      <ChainProvider
+        chains={chains}
+        assetLists={assets}
+        wallets={wallets}
+        walletConnectOptions={{
+          signClient: {
+            projectId: 'a8510432ebb71e6948cfd6cde54b70f7',
+            relayUrl: 'wss://relay.walletconnect.org',
+            metadata: {
+              name: 'CosmosKit Template',
+              description: 'CosmosKit dapp template',
+              url: 'https://docs.cosmology.zone/cosmos-kit/',
+              icons: [],
             },
-          }}
-          signerOptions={signerOptions}
-        >
-          <QueryClientProvider client={queryClient}>
+          },
+        }}
+        signerOptions={signerOptions}
+      >
+        <QueryClientProvider client={queryClient}>
+          <main id="main" className={themeClass}>
             <Component {...pageProps} />
-          </QueryClientProvider>
-        </ChainProvider>
-      </ChakraProvider>
+          </main>
+        </QueryClientProvider>
+      </ChainProvider>
+
+      <Toaster position={'top-right'} closeButton={true} />
     </ThemeProvider>
   );
 }

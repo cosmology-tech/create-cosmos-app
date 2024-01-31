@@ -120,8 +120,13 @@ export const useTotalAssets = (chainName: string) => {
       Object.entries(dataQueries).map(([key, query]) => [key, query.data])
     ) as QueriesData;
 
-    const { allBalances, delegations, lockedCoins, pools, prices } =
-      queriesData;
+    const {
+      allBalances,
+      delegations,
+      lockedCoins = [],
+      pools = [],
+      prices = {},
+    } = queriesData;
 
     const stakedTotal = delegations
       ?.map((coin) => calcCoinDollarValue(prices, coin))
@@ -138,12 +143,14 @@ export const useTotalAssets = (chainName: string) => {
     let liquidityTotal;
 
     if (isOsmosisChain) {
-      const liquidityCoins = allBalances.filter(({ denom }) =>
+      const liquidityCoins = (allBalances ?? []).filter(({ denom }) =>
         denom.startsWith('gamm')
       );
-      const gammTokenDenoms = [...liquidityCoins, ...lockedCoins].map(
-        ({ denom }) => denom
-      );
+      const gammTokenDenoms = [
+        ...(liquidityCoins ?? []),
+        ...(lockedCoins ?? []),
+      ].map(({ denom }) => denom);
+
       const uniqueDenoms = [...new Set(gammTokenDenoms)];
 
       const poolsMap: Record<string, Pool> = pools
