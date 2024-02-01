@@ -117,7 +117,10 @@ export const ChooseChain = (props: ChooseChainProps) => {
             ) : null
           }
           styleProps={{
-            width: '350px',
+            width: {
+              mobile: '100%',
+              mdMobile: '350px',
+            },
           }}
         >
           {chainOptions.map((option) => (
