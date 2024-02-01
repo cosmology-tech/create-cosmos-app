@@ -245,7 +245,7 @@ const TransferModalBody = (
   );
 };
 
-export const RowTransferModal: React.FC<IProps> = (props) => {
+export const RowTransferModal = (props: IProps) => {
   const { modalControl } = props;
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);

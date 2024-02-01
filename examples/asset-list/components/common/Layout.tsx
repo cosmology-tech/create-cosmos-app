@@ -12,7 +12,7 @@ export const Layout = ({ children }: { children?: React.ReactNode }) => {
       bottom="0"
       left="0"
       right="0"
-      height="100%"
+      height="max(1dvh, 100%)"
       backgroundColor={theme === 'light' ? '$white' : '$gray900'}
       data-part-id="layout-container"
     >
