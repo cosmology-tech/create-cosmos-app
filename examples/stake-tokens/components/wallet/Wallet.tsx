@@ -3,7 +3,7 @@ import { Box, Stack, useTheme } from '@interchain-ui/react';
 import { MouseEventHandler, useEffect, useMemo } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 
-import { ChainName } from 'cosmos-kit';
+import { ChainName, WalletStatus } from 'cosmos-kit';
 import { defaultChainName } from '@/config';
 import {
   Connected,
@@ -59,7 +59,7 @@ export const WalletSection = ({
       chainRecords.map((chainRecord) => {
         return {
           chainName: chainRecord?.name,
-          label: chainRecord?.chain.pretty_name,
+          label: chainRecord?.chain?.pretty_name ?? '',
           value: chainRecord?.name,
           icon: getChainLogo(chainRecord.name),
         };
@@ -130,9 +130,11 @@ export const WalletSection = ({
   }, [setChainName]);
 
   const onChainChange: ChooseChainProps['onChange'] = async (selectedValue) => {
-    setChainName?.(selectedValue?.chainName);
-    if (selectedValue?.chainName) {
-      window?.localStorage.setItem('selected-chain', selectedValue?.chainName);
+    if (!selectedValue) return;
+
+    if (selectedValue?.value) {
+      setChainName?.(selectedValue?.value);
+      window?.localStorage.setItem('selected-chain', selectedValue?.value);
     } else {
       window?.localStorage.removeItem('selected-chain');
     }
@@ -176,7 +178,7 @@ export const WalletSection = ({
           tablet: '450px',
         }}
         gridTemplateColumns="1fr"
-        rowGap="$4"
+        rowGap="$10"
         alignItems="center"
         justifyContent="center"
       >
@@ -200,13 +202,10 @@ export const WalletSection = ({
               attributes={{
                 px: '$2',
                 py: '$12',
-                mx: 'auto',
-                maxWidth: '21rem',
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: '$lg',
-                backgroundColor:
-                  theme === 'light' ? '$white' : '$blackAlpha400',
+                backgroundColor: theme === 'light' ? '$white' : '$cardBg',
                 boxShadow:
                   theme === 'light'
                     ? '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3'
