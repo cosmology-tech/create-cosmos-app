@@ -1,4 +1,4 @@
-import { useChain, useManager } from '@cosmos-kit/react';
+import { useChain } from '@cosmos-kit/react';
 import {
   Box,
   Center,
@@ -39,14 +39,14 @@ export const WalletSection = () => {
     message,
     wallet,
     chain: chainInfo,
+    logoUrl,
   } = useChain(chainName);
-  const { getChainLogo } = useManager();
 
   const chain = {
     chainName,
     label: chainInfo.pretty_name,
     value: chainName,
-    icon: getChainLogo(chainName),
+    icon: logoUrl,
   };
 
   // Events

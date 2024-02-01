@@ -17,4 +17,4 @@ ENV MINID_BIN /usr/bin/minid
 
 EXPOSE 1317 26656 26657
 
-CMD [ "/bin/bash", "-c", "bash init.sh && bash start.sh" ]
+CMD [ "/bin/bash", "-c", "bash /code/scripts/init.sh && bash /code/scripts/start.sh" ]
