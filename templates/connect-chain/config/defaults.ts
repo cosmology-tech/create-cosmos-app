@@ -1,1 +1,1 @@
-export const chainName = 'cosmoshub';
+export const CHAIN_NAME = 'cosmoshub';

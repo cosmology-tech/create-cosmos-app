@@ -17,7 +17,7 @@ import { RowTransferModal } from './RowTransferModal';
 
 import { PrettyAsset, Transfer, TransferInfo } from './types';
 
-interface IProps {
+interface AssetsOverviewProps {
   isLoading?: boolean;
   assets: PrettyAsset[];
   prices: Record<string, number>;
@@ -25,11 +25,11 @@ interface IProps {
   refetch?: () => void;
 }
 
-const AssetsOverview: React.FC<IProps> = ({
+const AssetsOverview = ({
   assets,
   selectedChainName,
   isLoading,
-}) => {
+}: AssetsOverviewProps) => {
   const [dropdownTransferInfo, setTransferInfo] = useState<TransferInfo>();
   const [rowTransferInfo, setRowTransferInfo] = useState<TransferInfo>();
 
