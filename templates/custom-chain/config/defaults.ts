@@ -1,4 +1,5 @@
-import { Chain, AssetList } from '@chain-registry/types';
+import {Chain, AssetList, Asset} from '@chain-registry/types';
+import {chainassets} from "@cosmology/send-tokens/config";
 
 export const chainName = 'mini';
 
@@ -70,3 +71,7 @@ export const chainAsset: AssetList = {
     },
   ],
 };
+
+export const coin: Asset = chainAsset.assets.find(
+  (asset) => asset.base === 'mini'
+) as Asset;

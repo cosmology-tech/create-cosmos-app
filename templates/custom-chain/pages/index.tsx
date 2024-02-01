@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/react';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
 import {
-  chainassets,
+  chainAsset,
   chainName,
   coin,
   dependencies,
@@ -116,7 +116,7 @@ export default function Home() {
     // fetch balance
     const balance = await client.cosmos.bank.v1beta1.balance({
       address,
-      denom: chainassets?.assets[0].base as string,
+      denom: chainAsset?.assets[0].base as string,
     });
 
     // Get the display exponent
