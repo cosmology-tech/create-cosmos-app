@@ -25,7 +25,7 @@ const { transfer } = ibc.applications.transfer.v1.MessageComposer.withTypeUrl;
 
 const ZERO_AMOUNT = '0';
 
-interface IProps {
+interface OverviewTransferWrapperProps {
   prices: PriceHash;
   assets: PrettyAsset[];
   modalControl: ReturnType<typeof useDisclosure>;
@@ -40,7 +40,7 @@ interface IProps {
 }
 
 const OverviewTransferWrapper = (
-  props: IProps & {
+  props: OverviewTransferWrapperProps & {
     isLoading: boolean;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
     inputValue: string;
@@ -254,7 +254,7 @@ const OverviewTransferWrapper = (
   );
 };
 
-export const DropdownTransferModal: React.FC<IProps> = (props) => {
+export const DropdownTransferModal = (props: OverviewTransferWrapperProps) => {
   const { modalControl, transferInfoState } = props;
 
   const [inputValue, setInputValue] = useState('');
