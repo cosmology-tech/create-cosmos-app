@@ -1,16 +1,16 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import {
   Box,
   ClipboardCopyText,
   Stack,
   useColorModeValue,
-} from "@interchain-ui/react";
-import { WalletStatus } from "@cosmos-kit/core";
-import { useChain } from "@cosmos-kit/react";
-import { chains } from "chain-registry";
-import { User } from "./User";
-import { Chain } from "./Chain";
-import { Warning } from "./Warning";
+} from '@interchain-ui/react';
+import { WalletStatus } from '@cosmos-kit/core';
+import { useChain } from '@cosmos-kit/react';
+import { chains } from 'chain-registry';
+import { User } from './User';
+import { Chain } from './Chain';
+import { Warning } from './Warning';
 import {
   ButtonConnect,
   ButtonConnected,
@@ -19,10 +19,10 @@ import {
   ButtonError,
   ButtonNotExist,
   ButtonRejected,
-} from "./Connect";
+} from './Connect';
 
-export const CHAIN_NAME = "cosmoshub";
-export const CHAIN_NAME_STORAGE_KEY = "selected-chain";
+export const CHAIN_NAME = 'cosmoshub';
+export const CHAIN_NAME_STORAGE_KEY = 'selected-chain';
 
 export type WalletProps = {
   chainName?: string;
@@ -69,33 +69,33 @@ export function Wallet({
 
   return (
     <Box py="$16">
-      <Box mx="auto" maxWidth="28rem" attributes={{ mb: "$12" }}>
+      <Box mx="auto" maxWidth="28rem" attributes={{ mb: '$12' }}>
         <Chain
-          name={chain.chain_name}
-          chains={chains}
-          onChainChange={handleChainChange}
+          chainName={chain.chain_name}
+          chainInfos={chains}
+          onChange={handleChainChange}
         />
       </Box>
       <Stack
         direction="vertical"
         attributes={{
-          mx: "auto",
-          px: "$8",
-          py: "$15",
-          maxWidth: "21rem",
-          borderRadius: "$lg",
-          justifyContent: "center",
-          backgroundColor: useColorModeValue("$white", "$blackAlpha500"),
+          mx: 'auto',
+          px: '$8',
+          py: '$15',
+          maxWidth: '21rem',
+          borderRadius: '$lg',
+          justifyContent: 'center',
+          backgroundColor: useColorModeValue('$white', '$blackAlpha500'),
           boxShadow: useColorModeValue(
-            "0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3",
-            "0 0 2px #363636, 0 0 8px -2px #4f4f4f",
+            '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
+            '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
           ),
         }}
       >
         {username ? <User name={username} /> : null}
-        {address
-          ? <ClipboardCopyText text={address} truncate="middle" />
-          : null}
+        {address ? (
+          <ClipboardCopyText text={address} truncate="middle" />
+        ) : null}
         <Box
           my="$8"
           flex="1"
@@ -104,14 +104,15 @@ export function Wallet({
           height="$16"
           overflow="hidden"
           justifyContent="center"
-          px={{ mobile: "$8", tablet: "$10" }}
+          px={{ mobile: '$8', tablet: '$10' }}
         >
           {ConnectButton}
         </Box>
 
-        {message && [WalletStatus.Error, WalletStatus.Rejected].includes(status)
-          ? <Warning text={`${wallet?.prettyName}: ${message}`} />
-          : null}
+        {message &&
+        [WalletStatus.Error, WalletStatus.Rejected].includes(status) ? (
+          <Warning text={`${wallet?.prettyName}: ${message}`} />
+        ) : null}
       </Stack>
     </Box>
   );
