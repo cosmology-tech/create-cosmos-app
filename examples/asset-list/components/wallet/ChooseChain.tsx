@@ -5,9 +5,11 @@ import {
   Text,
   Stack,
   Avatar,
+  Skeleton,
   ThemeProvider,
   useTheme,
 } from '@interchain-ui/react';
+import { matchSorter } from 'match-sorter';
 
 type Option = {
   label: string;
@@ -55,27 +57,39 @@ export const ChooseChain = (props: ChooseChainProps) => {
   const { chainName, chainInfos, onChange } = props;
   const [selectedKey, setSelectedKey] = React.useState<React.Key>();
   const { themeClass } = useTheme();
+  let [filterValue, setFilterValue] = React.useState<string>('');
 
   React.useEffect(() => {
     // Init selected key to provided chainName
     if (chainName && chainInfos.length > 0) {
-      const initKey = chainInfos.filter(
+      const defaultChain = chainInfos.filter(
         (options) => options.chainName === chainName
-      )[0].value;
+      )[0];
 
-      return setSelectedKey(initKey);
+      setSelectedKey(defaultChain.value);
+      return setFilterValue(defaultChain.label);
     }
 
     if (!chainName) setSelectedKey(undefined);
   }, [chainInfos, chainName]);
 
-  const chainOptions = chainInfos
-    .map((chainInfo) => ({
-      iconUrl: chainInfo.icon,
-      label: chainInfo.label,
-      value: chainInfo.value,
-    }))
-    .filter((chainInfo) => chainInfo.label && chainInfo.value);
+  let filteredItems = React.useMemo(() => {
+    const initialItems = chainInfos
+      .map((chainInfo) => ({
+        iconUrl: chainInfo.icon,
+        label: chainInfo.label,
+        value: chainInfo.value,
+      }))
+      .filter((chainInfo) => chainInfo.label && chainInfo.value);
+
+    const filtered = matchSorter(initialItems, filterValue, {
+      keys: ['label', 'value'],
+    });
+    return filtered;
+  }, [chainInfos, filterValue]);
+
+  const avatarUrl =
+    filteredItems.find((i) => i.value === selectedKey)?.iconUrl ?? undefined;
 
   return (
     <ThemeProvider>
@@ -86,6 +100,16 @@ export const ChooseChain = (props: ChooseChainProps) => {
         className={themeClass}
       >
         <Combobox
+          items={filteredItems}
+          inputValue={filterValue}
+          onInputChange={(value) => {
+            console.log('input change', value);
+            setFilterValue(value);
+
+            if (!value) {
+              return setSelectedKey(undefined);
+            }
+          }}
           selectedKey={selectedKey as string}
           onSelectionChange={(item) => {
             if (item) {
@@ -100,21 +124,27 @@ export const ChooseChain = (props: ChooseChainProps) => {
             }
           }}
           inputAddonStart={
-            selectedKey ? (
+            selectedKey && avatarUrl ? (
               <Avatar
                 name={selectedKey as string}
                 getInitials={(name) => name[0]}
                 size="xs"
-                src={
-                  chainOptions.find((i) => i.value === selectedKey)?.iconUrl ??
-                  undefined
-                }
+                src={avatarUrl}
                 fallbackMode="bg"
                 attributes={{
                   paddingX: '$4',
                 }}
               />
-            ) : null
+            ) : (
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                px="$4"
+              >
+                <Skeleton width="24px" height="24px" borderRadius="$full" />
+              </Box>
+            )
           }
           styleProps={{
             width: {
@@ -123,7 +153,7 @@ export const ChooseChain = (props: ChooseChainProps) => {
             },
           }}
         >
-          {chainOptions.map((option) => (
+          {filteredItems.map((option) => (
             <Combobox.Item key={option.value} textValue={option.label}>
               <ChainOption
                 iconUrl={option.iconUrl ?? ''}
