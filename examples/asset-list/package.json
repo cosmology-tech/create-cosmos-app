@@ -35,6 +35,7 @@
     "cosmos-kit": "2.8.6",
     "fast-fuzzy": "1.12.0",
     "framer-motion": "9.0.7",
+    "match-sorter": "^6.3.3",
     "next": "^13",
     "osmo-query": "16.5.1",
     "react": "^18.2",
