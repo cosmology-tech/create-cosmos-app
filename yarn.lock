@@ -1886,7 +1886,7 @@
   dependencies:
     regenerator-runtime "^0.13.11"
 
-"@babel/runtime@^7.12.5":
+"@babel/runtime@^7.12.5", "@babel/runtime@^7.23.8":
   version "7.23.9"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.23.9.tgz#47791a15e4603bb5f905bc0753801cf21d6345f7"
   integrity sha512-0CX6F+BI2s9dkUqr08KFrAIZgNFj75rdBU/DjCyYLIaV/quFjkk6T+EJ2LkZHyZTbEV4L5p97mNkUsHl2wLFAw==
@@ -5899,10 +5899,10 @@
   dependencies:
     browser-headers "^0.4.1"
 
-"@interchain-ui/react@^1.21.11":
-  version "1.21.11"
-  resolved "https://registry.npmjs.org/@interchain-ui/react/-/react-1.21.11.tgz#75f872468fd0a9ccfee06717b0e3f9f7b4ab11c5"
-  integrity sha512-tQvPY6doA/hEce31G3/aEmgZ8dCUw81oOXGoNceFr3GUCQ8mwCqqBhqiDcrQgwBiyVLQI6ObdRXMjV//8N5v/A==
+"@interchain-ui/react@^1.21.16":
+  version "1.21.16"
+  resolved "https://registry.npmjs.org/@interchain-ui/react/-/react-1.21.16.tgz#1625dcf93f837a7d6a52546adaeb093521a9c2a9"
+  integrity sha512-/JIhovLWMP11KY5/ztp2AafW3fcs7oJqEphOhxVjjkhVkNNkebaYqdRVIIxrtb/iq/qCYR9+RVzIRxmKMyHCKg==
   dependencies:
     "@fastify/deepmerge" "^1.3.0"
     "@floating-ui/dom" "^1.5.3"
@@ -5910,7 +5910,7 @@
     "@formkit/auto-animate" "^0.8.1"
     "@react-aria/overlays" "^3.20.0"
     "@react-aria/utils" "^3.21.1"
-    "@vanilla-extract/css" "^1.14.0"
+    "@vanilla-extract/css" "^1.14.1"
     "@vanilla-extract/dynamic" "^2.1.0"
     "@vanilla-extract/recipes" "^0.5.1"
     animejs "^3.2.1"
@@ -9981,7 +9981,7 @@
   resolved "https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@vanilla-extract/css@^1.14.0":
+"@vanilla-extract/css@^1.14.1":
   version "1.14.1"
   resolved "https://registry.npmjs.org/@vanilla-extract/css/-/css-1.14.1.tgz#ae24b2d2ff6abd452f8e72440073b05a0372d62e"
   integrity sha512-V4JUuHNjZgl64NGfkDJePqizkNgiSpphODtZEs4cCPuxLAzwOUJYATGpejwimJr1n529kq4DEKWexW22LMBokw==
@@ -17462,6 +17462,14 @@ match-sorter@^6.0.2:
     "@babel/runtime" "^7.12.5"
     remove-accents "0.4.2"
 
+match-sorter@^6.3.3:
+  version "6.3.3"
+  resolved "https://registry.npmjs.org/match-sorter/-/match-sorter-6.3.3.tgz#95bd788b9d33e1a7f0b8d78434895e2e8ecf40da"
+  integrity sha512-sgiXxrRijEe0SzHKGX4HouCpfHRPnqteH42UdMEW7BlWy990ZkzcvonJGv4Uu9WE7Y1f8Yocm91+4qFPCbmNww==
+  dependencies:
+    "@babel/runtime" "^7.23.8"
+    remove-accents "0.5.0"
+
 md5.js@^1.3.4:
   version "1.3.5"
   resolved "https://registry.npmjs.org/md5.js/-/md5.js-1.3.5.tgz"
@@ -20573,6 +20581,11 @@ remove-accents@0.4.2:
   version "0.4.2"
   resolved "https://registry.npmmirror.com/remove-accents/-/remove-accents-0.4.2.tgz"
   integrity sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==
+
+remove-accents@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.npmjs.org/remove-accents/-/remove-accents-0.5.0.tgz#77991f37ba212afba162e375b627631315bed687"
+  integrity sha512-8g3/Otx1eJaVD12e31UbJj1YzdtVvzH85HV7t+9MJYk/u3XmkOUJ5Ys9wQrf9PCPK8+xn4ymzqYCiZl6QWKn+A==
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"

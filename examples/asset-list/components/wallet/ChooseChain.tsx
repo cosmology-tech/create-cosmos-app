@@ -102,8 +102,8 @@ export const ChooseChain = (props: ChooseChainProps) => {
         <Combobox
           items={filteredItems}
           inputValue={filterValue}
+          openOnFocus
           onInputChange={(value) => {
-            console.log('input change', value);
             setFilterValue(value);
 
             if (!value) {
