@@ -1,19 +1,7 @@
 .customInput {
   background-color: #eef2f8;
-  color: #697584;
 }
 
-.customIconButton {
-  border-radius: 100%;
-  transform: scale(0.9);
-}
-
-.customSelect {
+.containerSm {
   width: 640px;
-}
-
-.customSelect button {
-  border-radius: 6px;
-  border: 1px solid #d1d6dd;
-  background: #eef2f8;
 }

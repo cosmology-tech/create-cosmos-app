@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ChainName } from 'cosmos-kit';
 import {
   BasicModal,
@@ -7,24 +8,29 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  Text,
-  Icon,
   SelectButton,
   ListItem,
   Stack,
   FieldLabel,
 } from '@interchain-ui/react';
-import { useState } from 'react';
+import { coin } from '@cosmjs/amino';
+import { useChain } from '@cosmos-kit/react';
 import { IoMdCalendar } from 'react-icons/io';
 import Calendar from 'react-calendar';
 import dayjs from 'dayjs';
 
 import {
+  getExponent,
   isPermissionCustomizable,
+  PermissionId,
   PermissionItem,
   permissions,
 } from '@/configs';
+import { AuthorizationType } from '@/src/codegen/cosmos/staking/v1beta1/authz';
+import { GrantMsg, useAuthzTx } from '@/hooks';
+import { getTokenByChainName, shiftDigits } from '@/utils';
 import { CustomizationField } from './CustomizationField';
+
 import styles from '@/styles/custom.module.css';
 
 type GrantModalProps = {
@@ -33,10 +39,9 @@ type GrantModalProps = {
   chainName: ChainName;
 };
 
-export const GrantModal = ({ isOpen, onClose }: GrantModalProps) => {
+export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [showCustomization, setShowCustomization] = useState(false);
 
   const [granteeAddress, setGranteeAddress] = useState('');
   const [expiryDate, setExpiryDate] = useState<Date | null>(null);
@@ -47,27 +52,99 @@ export const GrantModal = ({ isOpen, onClose }: GrantModalProps) => {
   const [delegateLimit, setDelegateLimit] = useState<number | undefined>(
     undefined
   );
+  const [allowList, setAllowList] = useState<string[]>([]);
+  const [denyList, setDenyList] = useState<string[]>([]);
+
+  const [isGranting, setIsGranting] = useState(false);
+
+  const { address } = useChain(chainName);
+  const { authzTx, createGrantMsg } = useAuthzTx(chainName);
+
+  const token = getTokenByChainName(chainName);
+  const exponent = getExponent(chainName);
+  const denom = token.base;
 
   const onModalClose = () => {
-    setShowCustomization(false);
     setGranteeAddress('');
     setExpiryDate(null);
     setSelectedPermission(null);
     setSendLimit(undefined);
     setDelegateLimit(undefined);
+    setIsGranting(false);
+    setAllowList([]);
+    setDenyList([]);
     onClose();
+  };
+
+  const onGrantClick = () => {
+    if (!address || !granteeAddress || !expiryDate || !selectedPermission)
+      return;
+
+    setIsGranting(true);
+
+    const sendMsg: GrantMsg = {
+      grantType: 'send',
+      customize: sendLimit
+        ? {
+            spendLimit: [coin(shiftDigits(sendLimit, exponent), denom)],
+          }
+        : undefined,
+    };
+
+    const delegateMsg: GrantMsg = {
+      grantType: 'delegate',
+      customize: delegateLimit //TODO: add allowList and denyList later
+        ? {
+            authorizationType: AuthorizationType.AUTHORIZATION_TYPE_DELEGATE,
+            maxTokens: coin(shiftDigits(delegateLimit, exponent), denom),
+            allowList: { address: allowList },
+            // denyList: { address: [] },
+          }
+        : undefined,
+    };
+
+    const grantMsg: Record<PermissionId, GrantMsg> = {
+      send: sendMsg,
+      delegate: delegateMsg,
+      vote: { grantType: 'vote' },
+      'claim-rewards': { grantType: 'claim-rewards' },
+    };
+
+    const msg = createGrantMsg({
+      grantee: granteeAddress,
+      granter: address,
+      expiration: expiryDate,
+      ...grantMsg[selectedPermission.id],
+    });
+
+    authzTx({
+      msgs: [msg],
+      onSuccess: () => {
+        // onModalClose();
+        // console.log('success');
+      },
+      onComplete: () => {
+        setIsGranting(false);
+      },
+    });
   };
 
   const isCustomizable =
     selectedPermission && isPermissionCustomizable(selectedPermission.id);
 
   return (
-    <BasicModal title="Create Grant" isOpen={isOpen} onClose={onModalClose}>
+    <BasicModal
+      title="Create Grant"
+      isOpen={isOpen}
+      onClose={onModalClose}
+      closeOnClickaway={false}
+    >
       <Box
         width={{ mobile: '100%', tablet: '$containerSm' }}
         display="flex"
         flexDirection="column"
-        gap="$8"
+        gap="$9"
+        pt="$4"
       >
         <TextField
           id="grantee-address"
@@ -79,104 +156,74 @@ export const GrantModal = ({ isOpen, onClose }: GrantModalProps) => {
 
         <Box>
           <FieldLabel htmlFor="" label="Permission" attributes={{ mb: '$4' }} />
-          <Popover
-            triggerType="click"
-            isOpen={isDropdownOpen}
-            setIsOpen={setIsDropdownOpen}
-          >
-            <PopoverTrigger>
-              <SelectButton
-                className={styles.customSelect}
-                placeholder={selectedPermission?.name || 'Select permission'}
-                onClick={() => {}}
-              />
-            </PopoverTrigger>
-            <PopoverContent showArrow={false}>
-              <Stack direction="vertical" className={styles.customSelect}>
-                {permissions.map((p) => (
-                  <ListItem
-                    key={p.id}
-                    isActive={p.id === selectedPermission?.id}
-                    className={styles.customSelect}
-                    attributes={{
-                      onClick: () => {
-                        setSelectedPermission(p);
-                        setIsDropdownOpen(false);
-                      },
-                    }}
-                  >
-                    {p.name}
-                  </ListItem>
-                ))}
-              </Stack>
-            </PopoverContent>
-          </Popover>
-        </Box>
 
-        <Box
-          display={isCustomizable ? 'flex' : 'none'}
-          gap="$4"
-          justifyContent="flex-end"
-          alignItems="center"
-        >
-          <Text color="$textSecondary" fontWeight="$normal">
-            Customize
-          </Text>
-          <Box
-            width="$10"
-            height="$10"
-            backgroundColor={showCustomization ? '$text' : '$inputBg'}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            borderRadius="$base"
-            cursor="pointer"
-            attributes={{
-              onClick: () => {
-                setShowCustomization((prev) => !prev);
-              },
-            }}
-          >
-            <Icon
-              name="arrowRightRounded"
-              size="$xs"
-              color={showCustomization ? '$white' : '$textSecondary'}
-              attributes={{ transform: 'rotate(90deg)' }}
-            />
-          </Box>
-        </Box>
+          <Box display="flex" flexDirection="column" gap="$6">
+            <Popover
+              triggerType="click"
+              isOpen={isDropdownOpen}
+              setIsOpen={setIsDropdownOpen}
+            >
+              <PopoverTrigger>
+                <SelectButton
+                  className={styles.containerSm}
+                  placeholder={selectedPermission?.name || 'Select permission'}
+                  onClick={() => {}}
+                />
+              </PopoverTrigger>
+              <PopoverContent showArrow={false}>
+                <Stack direction="vertical">
+                  {permissions.map((p) => (
+                    <ListItem
+                      key={p.id}
+                      isActive={p.id === selectedPermission?.id}
+                      className={styles.containerSm}
+                      attributes={{
+                        onClick: () => {
+                          setSelectedPermission(p);
+                          setIsDropdownOpen(false);
+                        },
+                      }}
+                    >
+                      {p.name}
+                    </ListItem>
+                  ))}
+                </Stack>
+              </PopoverContent>
+            </Popover>
 
-        <Box display={isCustomizable && showCustomization ? 'block' : 'none'}>
-          {selectedPermission?.id === 'send' && (
-            <CustomizationField
-              permissionType={selectedPermission.id}
-              inputProps={{
-                value: sendLimit,
-                onChange: (val) => {
+            {selectedPermission?.id === 'send' && (
+              <CustomizationField
+                permissionType={selectedPermission.id}
+                value={sendLimit}
+                onChange={(val) => {
                   if (!val) {
                     setSendLimit(undefined);
                     return;
                   }
                   setSendLimit(Number(val));
-                },
-              }}
-            />
-          )}
-          {selectedPermission?.id === 'delegate' && (
-            <CustomizationField
-              permissionType={selectedPermission.id}
-              inputProps={{
-                value: delegateLimit,
-                onChange: (val) => {
+                }}
+              />
+            )}
+
+            {selectedPermission?.id === 'delegate' && (
+              <CustomizationField
+                permissionType={selectedPermission.id}
+                chainName={chainName}
+                allowList={allowList}
+                denyList={denyList}
+                setAllowList={setAllowList}
+                setDenyList={setDenyList}
+                value={delegateLimit}
+                onChange={(val) => {
                   if (!val) {
                     setDelegateLimit(undefined);
                     return;
                   }
                   setDelegateLimit(Number(val));
-                },
-              }}
-            />
-          )}
+                }}
+              />
+            )}
+          </Box>
         </Box>
 
         <Box position="relative">
@@ -217,8 +264,14 @@ export const GrantModal = ({ isOpen, onClose }: GrantModalProps) => {
           </Box>
         </Box>
 
-        <Box width="$full" mt="$12">
-          <Button intent="tertiary" fluidWidth>
+        <Box width="$full" mt="$9">
+          <Button
+            fluidWidth
+            intent="tertiary"
+            isLoading={isGranting}
+            disabled={isGranting}
+            onClick={onGrantClick}
+          >
             Grant
           </Button>
         </Box>

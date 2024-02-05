@@ -9,18 +9,28 @@ import {
   TextField,
 } from '@interchain-ui/react';
 
-import { getChainLogoByChainName } from '@/utils';
+import { getCoin } from '@/configs';
+import { getChainLogoByChainName, PrettyGrant } from '@/utils';
 import styles from '@/styles/custom.module.css';
 
-const granteeAddress = 'osmo1qx6kgrla69wmz90tn379p4kaux5prdkuzly2tw';
-
 type GrantCardProps = {
-  permissions: string[];
+  role: 'granter' | 'grantee';
+  grant: PrettyGrant;
+  chainName: string;
   onViewDetails: () => void;
 };
 
-export const GrantCard = ({ permissions, onViewDetails }: GrantCardProps) => {
+export const GrantCard = ({
+  role,
+  grant,
+  chainName,
+  onViewDetails,
+}: GrantCardProps) => {
   const [isCopied, setIsCopied] = useState(false);
+  const { address, permissions } = grant;
+
+  const isGranter = role === 'granter';
+  const token = getCoin(chainName);
 
   const copy = (text: string) => {
     if (isCopied) return;
@@ -46,22 +56,22 @@ export const GrantCard = ({ permissions, onViewDetails }: GrantCardProps) => {
     >
       <Stack space="$4" attributes={{ alignItems: 'center', mb: '$10' }}>
         <Image
-          alt="chain name"
-          src={getChainLogoByChainName('juno')}
+          alt={token.name}
+          src={getChainLogoByChainName(chainName)}
           width="30"
           height="30"
           sizes="100vw"
         />
         <Text fontWeight="$semibold" fontSize="$lg">
-          Juno
+          {token.name}
         </Text>
       </Stack>
 
       <Box position="relative" mb="$10">
         <TextField
-          id="grantee"
-          label="Grantee"
-          value={granteeAddress}
+          id="address"
+          label={isGranter ? 'Grantee' : 'Granter'}
+          value={address}
           inputClassName={styles.customInput}
         />
         <Box position="absolute" bottom="$2" right="$2">
@@ -70,7 +80,7 @@ export const GrantCard = ({ permissions, onViewDetails }: GrantCardProps) => {
             size="sm"
             intent="secondary"
             iconSize={isCopied ? '$xl' : '$md'}
-            onClick={() => copy(granteeAddress)}
+            onClick={() => copy(address)}
           />
         </Box>
       </Box>
@@ -85,17 +95,25 @@ export const GrantCard = ({ permissions, onViewDetails }: GrantCardProps) => {
         Permissions
       </Text>
 
-      <Box display="flex" gap="$6" flexWrap="wrap" mb="$12">
-        {permissions.map((permission) => (
+      <Box
+        display="flex"
+        gap="$6"
+        flexWrap="wrap"
+        mb="$12"
+        height="$12"
+        overflow="hidden"
+      >
+        {permissions.map(({ name }) => (
           <PermissionItem
-            key={permission}
-            name={permission}
-            onRevoke={() => {}}
+            key={name}
+            role={role}
+            name={name}
+            onClick={() => {}}
           />
         ))}
       </Box>
 
-      <Button intent="tertiary" fluidWidth onClick={onViewDetails}>
+      <Button intent="tertiary" onClick={onViewDetails} fluidWidth>
         View Details
       </Button>
     </Box>
@@ -104,39 +122,22 @@ export const GrantCard = ({ permissions, onViewDetails }: GrantCardProps) => {
 
 type PermissionItemProps = {
   name: string;
-  onRevoke: () => void;
+  role: 'granter' | 'grantee';
+  onClick: () => void;
 };
 
-const PermissionItem = ({ name, onRevoke }: PermissionItemProps) => {
+const PermissionItem = ({ name, role, onClick }: PermissionItemProps) => {
+  const isGranter = role === 'granter';
+
   return (
-    <Box
-      width="$fit"
-      py="$3"
-      pl="$6"
-      pr="$4"
-      backgroundColor="$inputBg"
-      borderRadius="$base"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      gap="$2"
+    <Button
+      size="sm"
+      intent="secondary"
+      rightIcon={isGranter ? 'close' : 'arrowRightRounded'}
+      iconSize={isGranter ? '$lg' : '$2xs'}
+      onClick={onClick}
     >
-      <Text
-        color="$textSecondary"
-        fontSize="$md"
-        fontWeight="$semibold"
-        lineHeight="$normal"
-      >
-        {name}
-      </Text>
-      <IconButton
-        className={styles.customIconButton}
-        icon="close"
-        iconSize="$xl"
-        intent="secondary"
-        size="xs"
-        onClick={onRevoke}
-      />
-    </Box>
+      {name}
+    </Button>
   );
 };

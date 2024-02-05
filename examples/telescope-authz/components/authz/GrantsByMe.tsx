@@ -1,37 +1,53 @@
-import { Box, Text } from '@interchain-ui/react';
 import { useState } from 'react';
+import { Box, Spinner, Text } from '@interchain-ui/react';
+
+import { useGrants } from '@/hooks';
+import { PrettyGrant } from '@/utils';
 import { GrantCard } from './GrantCard';
 import { GrantDetailsModal } from './GrantDetailsModal';
 
 type GrantsByMeProps = {
-  grants: any[];
+  chainName: string;
 };
 
-export const GrantsByMe = ({ grants }: GrantsByMeProps) => {
+export const GrantsByMe = ({ chainName }: GrantsByMeProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  if (grants.length === 0) {
-    return (
-      <Text
-        fontSize="$lg"
-        color="$textSecondary"
-        fontWeight="$semibold"
-        textAlign="center"
-        attributes={{ my: '$28' }}
-      >
-        You haven't granted any permission yet
-      </Text>
-    );
-  }
+  const [viewingGrant, setViewingGrant] = useState<PrettyGrant>();
+  const { data, isLoading } = useGrants(chainName);
 
   return (
-    <Box width="$full">
-      <GrantCard
-        permissions={['Send', 'Vote', 'Delegate']}
-        onViewDetails={() => setIsOpen(true)}
-      />
+    <Box flex="1" display="flex" justifyContent="center" alignItems="center">
+      {isLoading ? (
+        <Spinner size="$6xl" />
+      ) : data && data.granterGrants.length > 0 ? (
+        <Box width="$full" alignSelf="flex-start">
+          {data.granterGrants.map((grant) => (
+            <GrantCard
+              key={grant.address}
+              role="granter"
+              grant={grant}
+              chainName={chainName}
+              onViewDetails={() => {
+                setIsOpen(true);
+                setViewingGrant(grant);
+              }}
+            />
+          ))}
+        </Box>
+      ) : (
+        <Text fontSize="$lg" color="$textSecondary" fontWeight="$semibold">
+          You haven't granted any permission yet
+        </Text>
+      )}
 
-      <GrantDetailsModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      {viewingGrant && (
+        <GrantDetailsModal
+          grant={viewingGrant}
+          isOpen={isOpen}
+          chainName={chainName}
+          onClose={() => setIsOpen(false)}
+        />
+      )}
     </Box>
   );
 };
