@@ -21,7 +21,7 @@ import {
   ButtonRejected,
 } from './Connect';
 
-export const CHAIN_NAME = 'cosmoshub';
+export const DEFAULT_CHAIN_NAME = 'cosmoshub';
 export const CHAIN_NAME_STORAGE_KEY = 'selected-chain';
 
 export type WalletProps = {
@@ -30,7 +30,7 @@ export type WalletProps = {
 };
 
 export function Wallet({
-  chainName = CHAIN_NAME,
+  chainName = DEFAULT_CHAIN_NAME,
   onChainChange = () => {},
 }: WalletProps) {
   const {
@@ -54,17 +54,18 @@ export function Wallet({
   }[status] || <ButtonConnect onClick={connect} />;
 
   function handleChainChange(chainName?: string) {
+    onChainChange(chainName);
     if (chainName) {
-      onChainChange(chainName);
-      localStorage.setItem(CHAIN_NAME_STORAGE_KEY, chainName!);
+      localStorage.setItem(CHAIN_NAME_STORAGE_KEY, chainName);
+    } else {
+      localStorage.removeItem(CHAIN_NAME_STORAGE_KEY);
     }
   }
 
   useEffect(() => {
-    const selected = localStorage.getItem(CHAIN_NAME_STORAGE_KEY);
-    if (selected && selected !== chainName) {
-      onChainChange(selected);
-    }
+    onChainChange(
+      localStorage.getItem(CHAIN_NAME_STORAGE_KEY) || DEFAULT_CHAIN_NAME
+    );
   }, []);
 
   return (

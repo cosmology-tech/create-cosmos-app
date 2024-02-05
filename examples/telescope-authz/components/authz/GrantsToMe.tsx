@@ -12,7 +12,7 @@ export const GrantsToMe = ({ grants }: GrantsToMeProps) => {
         color="$textSecondary"
         fontWeight="$semibold"
         textAlign="center"
-        attributes={{ my: '$28' }}
+        attributes={{ my: '$30' }}
       >
         You don't have any grants
       </Text>

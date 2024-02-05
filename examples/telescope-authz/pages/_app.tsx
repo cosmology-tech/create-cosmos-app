@@ -5,7 +5,7 @@ import 'react-calendar/dist/Calendar.css';
 import React from 'react';
 import type { AppProps } from 'next/app';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { SignerOptions, wallets } from 'cosmos-kit';
 import { ChainProvider } from '@cosmos-kit/react';
@@ -79,7 +79,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
             <Toaster position="top-right" closeButton={true} />
           </Box>
-          {/* <ReactQueryDevtools /> */}
+          <ReactQueryDevtools />
         </QueryClientProvider>
       </ChainProvider>
     </ThemeProvider>
