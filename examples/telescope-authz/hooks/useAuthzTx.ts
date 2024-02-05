@@ -11,23 +11,26 @@ import {
 } from '@/src/codegen/cosmos/authz/v1beta1/tx';
 import { EncodeObject } from '@/src/codegen/types';
 import { SendAuthorization } from '@/src/codegen/cosmos/bank/v1beta1/authz';
-import { StakeAuthorization } from '@/src/codegen/cosmos/staking/v1beta1/authz';
+import {
+  AuthorizationType,
+  StakeAuthorization,
+} from '@/src/codegen/cosmos/staking/v1beta1/authz';
 import { GenericAuthorization } from '@/src/codegen/cosmos/authz/v1beta1/authz';
 
-import { getTokenByChainName } from '@/utils';
-import { Permission } from '@/configs';
+import { getTokenByChainName, PrettyPermission } from '@/utils';
+import { Permission, PermissionId } from '@/configs';
 import { useToast, type CustomToast } from './useToast';
 import { coin } from '@cosmjs/amino';
 import { MsgSend } from '@/src/codegen/cosmos/bank/v1beta1/tx';
-import { MsgDelegate } from '@/src/codegen/cosmos/staking/v1beta1/tx';
+import {
+  MsgDelegate,
+  MsgBeginRedelegate,
+  MsgUndelegate,
+} from '@/src/codegen/cosmos/staking/v1beta1/tx';
 
-const { grant } = cosmos.authz.v1beta1.MessageComposer.fromPartial;
+const { grant, revoke } = cosmos.authz.v1beta1.MessageComposer.fromPartial;
 
-/**
- authz type: grant, revoke, exec
-  msg type: MsgGrant, MsgRevoke, MsgExec
-  grant type: send, delegate, undelegate, withdraw, vote
-*/
+// ==========================================
 
 export type GrantMsg =
   | {
@@ -80,6 +83,49 @@ const createGrantMsg = (options: CreateGrantMsgOptions) => {
     },
   });
 };
+
+// ==========================================
+
+export const createRevokeMsg = (permission: PrettyPermission) => {
+  const { grantee, granter, authorization: authz } = permission;
+
+  let msgTypeUrl = '';
+
+  switch (true) {
+    case GenericAuthorization.is(authz):
+      msgTypeUrl = (authz as GenericAuthorization).msg;
+      break;
+
+    case SendAuthorization.is(authz):
+      msgTypeUrl = MsgSend.typeUrl;
+      break;
+
+    case StakeAuthorization.is(authz):
+      const authzType = (authz as StakeAuthorization).authorizationType;
+      if (authzType === AuthorizationType.AUTHORIZATION_TYPE_DELEGATE) {
+        msgTypeUrl = MsgDelegate.typeUrl;
+        break;
+      }
+      if (authzType === AuthorizationType.AUTHORIZATION_TYPE_UNDELEGATE) {
+        msgTypeUrl = MsgUndelegate.typeUrl;
+        break;
+      }
+      if (authzType === AuthorizationType.AUTHORIZATION_TYPE_REDELEGATE) {
+        msgTypeUrl = MsgBeginRedelegate.typeUrl;
+        break;
+      }
+    default:
+      break;
+  }
+
+  return revoke({
+    grantee,
+    granter,
+    msgTypeUrl,
+  });
+};
+
+// ==========================================
 
 const txRaw = cosmos.tx.v1beta1.TxRaw;
 
@@ -187,5 +233,5 @@ export const useAuthzTx = (chainName: string) => {
     if (onComplete) onComplete();
   };
 
-  return { authzTx, createGrantMsg };
+  return { authzTx, createGrantMsg, createRevokeMsg };
 };

@@ -36,6 +36,7 @@ export const useGrants = (chainName: string) => {
       }),
     enabled: !!address && hasQueryClient,
     select: (data) => data?.grants,
+    staleTime: Infinity,
   });
 
   const granteeGrantsQuery = useQuery({
@@ -46,6 +47,7 @@ export const useGrants = (chainName: string) => {
       }),
     enabled: !!address && hasQueryClient,
     select: (data) => data?.grants,
+    staleTime: Infinity,
   });
 
   const dataQueries = {

@@ -77,6 +77,7 @@ export const prettyGrants = (
 };
 
 export type PrettyGrant = ReturnType<typeof prettyGrants>[0];
+export type PrettyPermission = PrettyGrant['permissions'][0];
 
 const formatTokenAmount = (token: Coin) => {
   const symbol = getSymbolByDenom(token.denom);

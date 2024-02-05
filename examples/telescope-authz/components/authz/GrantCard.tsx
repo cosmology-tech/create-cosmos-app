@@ -10,7 +10,13 @@ import {
 } from '@interchain-ui/react';
 
 import { getCoin } from '@/configs';
-import { getChainLogoByChainName, PrettyGrant } from '@/utils';
+import {
+  getChainLogoByChainName,
+  PrettyGrant,
+  PrettyPermission,
+} from '@/utils';
+import { useAuthzTx, useGrants } from '@/hooks';
+
 import styles from '@/styles/custom.module.css';
 
 type GrantCardProps = {
@@ -27,6 +33,13 @@ export const GrantCard = ({
   onViewDetails,
 }: GrantCardProps) => {
   const [isCopied, setIsCopied] = useState(false);
+  const [isRevoking, setIsRevoking] = useState(false);
+  const [revokingPermission, setRevokingPermission] =
+    useState<PrettyPermission>();
+
+  const { refetch } = useGrants(chainName);
+  const { authzTx, createRevokeMsg } = useAuthzTx(chainName);
+
   const { address, permissions } = grant;
 
   const isGranter = role === 'granter';
@@ -44,6 +57,20 @@ export const GrantCard = ({
       .catch((error) => {
         console.error('Failed to copy:', error);
       });
+  };
+
+  const handleRevoke = (permission: PrettyPermission) => {
+    setIsRevoking(true);
+
+    authzTx({
+      msgs: [createRevokeMsg(permission)],
+      onSuccess: () => {
+        refetch();
+      },
+      onComplete: () => {
+        setIsRevoking(false);
+      },
+    });
   };
 
   return (
@@ -103,13 +130,23 @@ export const GrantCard = ({
         height="$12"
         overflow="hidden"
       >
-        {permissions.map(({ name }) => (
-          <PermissionItem
-            key={name}
-            role={role}
-            name={name}
-            onClick={() => {}}
-          />
+        {permissions.map((permission) => (
+          <Button
+            key={permission.name}
+            size="sm"
+            intent="secondary"
+            rightIcon={isGranter ? 'close' : 'arrowRightRounded'}
+            iconSize={isGranter ? '$lg' : '$2xs'}
+            onClick={() => {
+              handleRevoke(permission);
+              setRevokingPermission(permission);
+            }}
+            disabled={
+              isRevoking && revokingPermission?.name === permission.name
+            }
+          >
+            {permission.name}
+          </Button>
         ))}
       </Box>
 
@@ -117,27 +154,5 @@ export const GrantCard = ({
         View Details
       </Button>
     </Box>
-  );
-};
-
-type PermissionItemProps = {
-  name: string;
-  role: 'granter' | 'grantee';
-  onClick: () => void;
-};
-
-const PermissionItem = ({ name, role, onClick }: PermissionItemProps) => {
-  const isGranter = role === 'granter';
-
-  return (
-    <Button
-      size="sm"
-      intent="secondary"
-      rightIcon={isGranter ? 'close' : 'arrowRightRounded'}
-      iconSize={isGranter ? '$lg' : '$2xs'}
-      onClick={onClick}
-    >
-      {name}
-    </Button>
   );
 };
