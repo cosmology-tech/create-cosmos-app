@@ -54,8 +54,6 @@ export function AssetSelect({
     ), [assets, input]);
 
   useEffect(() => {
-    console.log("asset", asset);
-    console.log("assets", assets);
     if (!asset) setValue(undefined);
 
     if (asset && assets.length > 0) {
