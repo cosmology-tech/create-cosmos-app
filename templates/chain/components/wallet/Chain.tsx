@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
-import { Chains } from "@chain-registry/types";
-import { matchSorter } from "match-sorter";
+import { useEffect, useMemo, useState } from 'react';
+import { Chains } from '@chain-registry/types';
+import { matchSorter } from 'match-sorter';
 import {
   Avatar,
   Box,
@@ -8,9 +8,8 @@ import {
   Skeleton,
   Stack,
   Text,
-  ThemeProvider,
   useTheme,
-} from "@interchain-ui/react";
+} from '@interchain-ui/react';
 
 export type ChainSelectProps = {
   chains: Chains;
@@ -25,29 +24,32 @@ export function ChainSelect({
 }: ChainSelectProps) {
   const { themeClass } = useTheme();
   const [value, setValue] = useState<string>();
-  const [input, setInput] = useState<string>("");
+  const [input, setInput] = useState<string>('');
 
   const cache = useMemo(
     () =>
       chains.reduce(
-        (cache, chain) => (cache[chain.chain_name] = chain, cache),
-        {} as Record<string, Chains[number]>,
+        (cache, chain) => ((cache[chain.chain_name] = chain), cache),
+        {} as Record<string, Chains[number]>
       ),
-    [chains],
+    [chains]
   );
 
-  const options = useMemo(() =>
-    matchSorter(
-      chains
-        .map((chain) => ({
-          logo: chain.logo_URIs?.png || chain.logo_URIs?.svg || "",
-          value: chain.chain_name,
-          label: chain.pretty_name,
-        }))
-        .filter((chain) => chain.value && chain.label),
-      input,
-      { keys: ["value", "label"] },
-    ), [chains, input]);
+  const options = useMemo(
+    () =>
+      matchSorter(
+        chains
+          .map((chain) => ({
+            logo: chain.logo_URIs?.png || chain.logo_URIs?.svg || '',
+            value: chain.chain_name,
+            label: chain.pretty_name,
+          }))
+          .filter((chain) => chain.value && chain.label),
+        input,
+        { keys: ['value', 'label'] }
+      ),
+    [chains, input]
+  );
 
   useEffect(() => {
     if (!chainName) setValue(undefined);
@@ -65,67 +67,66 @@ export function ChainSelect({
   const avatar = cache[value!]?.logo_URIs?.png || cache[value!]?.logo_URIs?.svg;
 
   return (
-    <ThemeProvider>
-      <Box
-        display="flex"
-        justifyContent="center"
-        className={themeClass}
-      >
-        <Combobox
-          selectedKey={value}
-          inputValue={input}
-          onInputChange={(input) => {
-            setInput(input);
-            if (!input) setValue(undefined);
-          }}
-          onSelectionChange={(value) => {
-            const name = value as string;
-            if (name) {
-              setValue(name);
-              if (cache[name]) {
-                onChange(cache[name].chain_name);
-              }
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      className={themeClass}
+    >
+      <Combobox
+        openOnFocus
+        selectedKey={value}
+        inputValue={input}
+        onInputChange={(input) => {
+          setInput(input);
+          if (!input) setValue(undefined);
+        }}
+        onSelectionChange={(value) => {
+          const name = value as string;
+          if (name) {
+            setValue(name);
+            if (cache[name]) {
+              onChange(cache[name].chain_name);
             }
-          }}
-          inputAddonStart={value && avatar
-            ? (
-              <Avatar
-                name={value as string}
-                getInitials={(name) => name[0]}
-                size="xs"
-                src={avatar}
-                fallbackMode="bg"
-                attributes={{
-                  paddingX: "$4",
-                }}
-              />
-            )
-            : (
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                px="$4"
-              >
-                <Skeleton width="24px" height="24px" borderRadius="$full" />
-              </Box>
-            )}
-          styleProps={{
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          {options.map((option) => (
-            <Combobox.Item key={option.value} textValue={option.label}>
-              <ChainOption
-                logo={option.logo ?? ""}
-                label={option.label}
-              />
-            </Combobox.Item>
-          ))}
-        </Combobox>
-      </Box>
-    </ThemeProvider>
+          }
+        }}
+        inputAddonStart={
+          value && avatar ? (
+            <Avatar
+              name={value as string}
+              getInitials={(name) => name[0]}
+              size="xs"
+              src={avatar}
+              fallbackMode="bg"
+              attributes={{
+                paddingX: '$4',
+              }}
+            />
+          ) : (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              px="$4"
+            >
+              <Skeleton width="24px" height="24px" borderRadius="$full" />
+            </Box>
+          )
+        }
+        styleProps={{
+          width: {
+            mobile: '100%',
+            tablet: '280px',
+          },
+        }}
+      >
+        {options.map((option) => (
+          <Combobox.Item key={option.value} textValue={option.label}>
+            <ChainOption logo={option.logo ?? ''} label={option.label} />
+          </Combobox.Item>
+        ))}
+      </Combobox>
+    </Box>
   );
 }
 
@@ -134,7 +135,7 @@ function ChainOption({ logo, label }: { logo: string; label: string }) {
     <Stack
       direction="horizontal"
       space="$4"
-      attributes={{ alignItems: "center" }}
+      attributes={{ alignItems: 'center' }}
     >
       <Avatar
         name={label}
