@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Chains } from '@chain-registry/types';
-import { matchSorter } from 'match-sorter';
+import { useEffect, useMemo, useState } from "react";
+import { Chains } from "@chain-registry/types";
+import { matchSorter } from "match-sorter";
 import {
   Avatar,
   Box,
@@ -9,7 +9,7 @@ import {
   Stack,
   Text,
   useTheme,
-} from '@interchain-ui/react';
+} from "@interchain-ui/react";
 
 export type ChainSelectProps = {
   chains: Chains;
@@ -24,15 +24,15 @@ export function ChainSelect({
 }: ChainSelectProps) {
   const { themeClass } = useTheme();
   const [value, setValue] = useState<string>();
-  const [input, setInput] = useState<string>('');
+  const [input, setInput] = useState<string>("");
 
   const cache = useMemo(
     () =>
       chains.reduce(
         (cache, chain) => ((cache[chain.chain_name] = chain), cache),
-        {} as Record<string, Chains[number]>
+        {} as Record<string, Chains[number]>,
       ),
-    [chains]
+    [chains],
   );
 
   const options = useMemo(
@@ -40,15 +40,15 @@ export function ChainSelect({
       matchSorter(
         chains
           .map((chain) => ({
-            logo: chain.logo_URIs?.png || chain.logo_URIs?.svg || '',
+            logo: chain.logo_URIs?.png || chain.logo_URIs?.svg || "",
             value: chain.chain_name,
             label: chain.pretty_name,
           }))
           .filter((chain) => chain.value && chain.label),
         input,
-        { keys: ['value', 'label'] }
+        { keys: ["value", "label"] },
       ),
-    [chains, input]
+    [chains, input],
   );
 
   useEffect(() => {
@@ -90,8 +90,8 @@ export function ChainSelect({
             }
           }
         }}
-        inputAddonStart={
-          value && avatar ? (
+        inputAddonStart={value && avatar
+          ? (
             <Avatar
               name={value as string}
               getInitials={(name) => name[0]}
@@ -99,10 +99,11 @@ export function ChainSelect({
               src={avatar}
               fallbackMode="bg"
               attributes={{
-                paddingX: '$4',
+                paddingX: "$4",
               }}
             />
-          ) : (
+          )
+          : (
             <Box
               display="flex"
               justifyContent="center"
@@ -111,18 +112,17 @@ export function ChainSelect({
             >
               <Skeleton width="24px" height="24px" borderRadius="$full" />
             </Box>
-          )
-        }
+          )}
         styleProps={{
           width: {
-            mobile: '100%',
-            tablet: '280px',
+            mobile: "100%",
+            tablet: "280px",
           },
         }}
       >
         {options.map((option) => (
           <Combobox.Item key={option.value} textValue={option.label}>
-            <ChainOption logo={option.logo ?? ''} label={option.label} />
+            <ChainOption logo={option.logo ?? ""} label={option.label} />
           </Combobox.Item>
         ))}
       </Combobox>
@@ -135,7 +135,7 @@ function ChainOption({ logo, label }: { logo: string; label: string }) {
     <Stack
       direction="horizontal"
       space="$4"
-      attributes={{ alignItems: 'center' }}
+      attributes={{ alignItems: "center" }}
     >
       <Avatar
         name={label}
