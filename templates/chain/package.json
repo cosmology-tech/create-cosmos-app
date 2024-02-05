@@ -1,0 +1,47 @@
+{
+  "name": "@cosmology/chain",
+  "version": "0.16.2",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "locks:remove": "rm -f yarn.lock",
+    "locks:create": "generate-lockfile --lockfile ../../yarn.lock --package package.json --write yarn.lock --force",
+    "locks": "npm run locks:remove && npm run locks:create"
+  },
+  "resolutions": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9"
+  },
+  "dependencies": {
+    "@chain-registry/types": "0.17.1",
+    "@cosmjs/cosmwasm-stargate": "0.31.1",
+    "@cosmjs/stargate": "0.31.1",
+    "@cosmos-kit/react": "2.10.9",
+    "@emotion/react": "11.10.6",
+    "@emotion/styled": "11.10.6",
+    "@interchain-ui/react": "^1.21.16",
+    "chain-registry": "1.28.0",
+    "match-sorter": "^6.3.3",
+    "cosmos-kit": "2.8.0",
+    "fast-fuzzy": "1.12.0",
+    "framer-motion": "9.0.7",
+    "next": "^13",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "4.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.9",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9",
+    "eslint": "8.28.0",
+    "eslint-config-next": "13.0.5",
+    "generate-lockfile": "0.0.12",
+    "typescript": "4.9.3"
+  }
+}
