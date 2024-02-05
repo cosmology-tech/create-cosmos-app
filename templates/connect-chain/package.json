@@ -23,7 +23,7 @@
     "@cosmos-kit/react": "2.10.9",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
-    "@interchain-ui/react": "^1.21.16",
+    "@interchain-ui/react": "^1.21.17",
     "chain-registry": "1.25.4",
     "cosmos-kit": "2.8.6",
     "framer-motion": "9.0.7",

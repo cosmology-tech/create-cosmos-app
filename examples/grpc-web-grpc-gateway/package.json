@@ -32,7 +32,7 @@
     "@emotion/styled": "11.10.6",
     "@improbable-eng/grpc-web": "0.15.0",
     "@improbable-eng/grpc-web-node-http-transport": "0.15.0",
-    "@interchain-ui/react": "^1.21.16",
+    "@interchain-ui/react": "^1.21.17",
     "bignumber.js": "9.1.1",
     "chain-registry": "1.20.0",
     "chakra-react-select": "4.4.3",

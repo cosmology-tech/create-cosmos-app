@@ -28,7 +28,7 @@
     "@cosmos-kit/react": "2.10.9",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
-    "@interchain-ui/react": "^1.21.16",
+    "@interchain-ui/react": "^1.21.17",
     "bignumber.js": "9.1.0",
     "chain-registry": "1.20.0",
     "cosmos-kit": "2.8.6",
