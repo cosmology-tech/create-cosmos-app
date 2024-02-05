@@ -27,7 +27,7 @@ import {
   permissions,
 } from '@/configs';
 import { AuthorizationType } from '@/src/codegen/cosmos/staking/v1beta1/authz';
-import { GrantMsg, useAuthzTx } from '@/hooks';
+import { GrantMsg, useAuthzTx, useGrants } from '@/hooks';
 import { getTokenByChainName, shiftDigits } from '@/utils';
 import { CustomizationField } from './CustomizationField';
 
@@ -57,6 +57,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
 
   const [isGranting, setIsGranting] = useState(false);
 
+  const { refetch } = useGrants(chainName);
   const { address } = useChain(chainName);
   const { authzTx, createGrantMsg } = useAuthzTx(chainName);
 
@@ -120,8 +121,8 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
     authzTx({
       msgs: [msg],
       onSuccess: () => {
-        // onModalClose();
-        // console.log('success');
+        refetch();
+        onModalClose();
       },
       onComplete: () => {
         setIsGranting(false);

@@ -4,17 +4,21 @@ import { useValidators } from '@/hooks';
 import { getAttributePairs, PrettyGrant } from '@/utils';
 
 type PermissionDetailCardProps = {
+  onRevoke: () => void;
+  isRevoking: boolean;
   chainName: string;
   permission: PrettyGrant['permissions'][0];
 };
 
 export const PermissionDetailCard = ({
+  onRevoke,
+  isRevoking,
   chainName,
   permission,
 }: PermissionDetailCardProps) => {
-  const { data, isLoading } = useValidators(chainName, { fetchLogos: false });
   const { name, expiration, expiry, authorization } = permission;
 
+  const { data, isLoading } = useValidators(chainName, { fetchLogos: false });
   const attributes = getAttributePairs(authorization, data || []);
 
   return (
@@ -36,7 +40,12 @@ export const PermissionDetailCard = ({
         <Text fontWeight="$semibold" fontSize="$md">
           {name}
         </Text>
-        <Button intent="tertiary" size="sm">
+        <Button
+          intent="tertiary"
+          size="sm"
+          onClick={onRevoke}
+          disabled={isRevoking}
+        >
           Revoke
         </Button>
       </Box>
