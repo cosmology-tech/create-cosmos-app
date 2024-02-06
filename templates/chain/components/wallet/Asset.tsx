@@ -11,6 +11,7 @@ import {
   ThemeProvider,
   useTheme,
 } from "@interchain-ui/react";
+import { capitalize } from "@/utils";
 
 export type AssetSelectProps = {
   asset?: Asset;
@@ -19,7 +20,11 @@ export type AssetSelectProps = {
 };
 
 function label(asset: Asset) {
-  return `${asset.symbol} - ${asset.name}`;
+  const title = `${asset.symbol} - ${asset.name}`;
+  const chain = capitalize(
+    (asset.traces || [])[0]?.counterparty.chain_name || "",
+  );
+  return chain ? `${title} (${chain})` : title;
 }
 
 export function AssetSelect({

@@ -10,6 +10,7 @@ import {
   Text,
   TextField,
   toast,
+  useColorModeValue,
 } from "@interchain-ui/react";
 import { AssetSelect, ChainContext } from "@/components";
 
@@ -70,14 +71,26 @@ export function Faucet() {
             attributes={{ mb: "$4" }}
           />
           <Box gap="$6" display="flex" alignItems="center">
-            <TextField
-              id="address"
-              type="text"
-              value={receiver}
-              onChange={(e) => setReceiver(e.target.value)}
-              placeholder="Enter your address"
-              attributes={{ flex: "1" }}
-            />
+            <Box flex="1" position="relative">
+              <TextField
+                id="address"
+                type="text"
+                value={receiver}
+                onChange={(e) => setReceiver(e.target.value)}
+                placeholder="Enter your address"
+              />
+              <Icon
+                name="close"
+                size="$md"
+                color={useColorModeValue("$blackAlpha400", "$divider")}
+                attributes={{
+                  position: "absolute",
+                  top: "$6",
+                  right: "$4",
+                  onClick: () => setReceiver(""),
+                }}
+              />
+            </Box>
             <Button
               size="sm"
               intent="secondary"
@@ -112,6 +125,7 @@ export function Faucet() {
             attributes={{ mb: "$4" }}
           />
           <AssetSelect assets={assets} onChange={setAsset} />
+          <Text color="$blackAlpha400">{asset?.description}</Text>
         </Box>
 
         <Box mt="$12" maxWidth="31rem">
