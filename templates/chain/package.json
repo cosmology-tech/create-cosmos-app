@@ -25,6 +25,7 @@
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
     "@interchain-ui/react": "^1.21.17",
+    "@chain-registry/assets": "1.29.0",
     "chain-registry": "1.28.0",
     "match-sorter": "^6.3.3",
     "cosmos-kit": "2.8.0",

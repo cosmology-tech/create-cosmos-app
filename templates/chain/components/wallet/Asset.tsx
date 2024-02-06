@@ -13,9 +13,9 @@ import {
 } from "@interchain-ui/react";
 
 export type AssetSelectProps = {
-  asset: Asset;
+  asset?: Asset;
   assets: Asset[];
-  onChange?: (asset: Asset) => void;
+  onChange?: (asset: Asset | null) => void;
 };
 
 function label(asset: Asset) {
@@ -80,7 +80,10 @@ export function AssetSelect({
           inputValue={input}
           onInputChange={(input) => {
             setInput(input);
-            if (!input) setValue(undefined);
+            if (!input) {
+              setValue(undefined);
+              onChange(null);
+            }
           }}
           onSelectionChange={(value) => {
             const base = value as string;

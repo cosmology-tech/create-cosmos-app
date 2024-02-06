@@ -47,6 +47,10 @@ export const ButtonConnected = (
   { text = "My Wallet", onClick = noop }: ConnectProps,
 ) => <Button text={text} icon="walletFilled" onClick={onClick} />;
 
+export const ButtonDisconnect = (
+  { text = "Disconnect", onClick = noop }: ConnectProps,
+) => <Button text={text} icon="walletFilled" onClick={onClick} />;
+
 export const ButtonDisconnected = (
   { text = "Connect Wallet", onClick = noop }: ConnectProps,
 ) => <Button text={text} icon="walletFilled" onClick={onClick} />;

@@ -8,11 +8,10 @@ import {
 } from "@interchain-ui/react";
 import {
   ButtonConnect,
-  ButtonConnected,
   ButtonConnecting,
+  ButtonDisconnect,
   ButtonDisconnected,
   ButtonError,
-  ButtonNotExist,
   ButtonRejected,
   User,
   Warning,
@@ -45,10 +44,11 @@ export function Sidebar({
     message,
     connect,
     openView,
+    disconnect,
   } = useChain(chainName);
 
   const ConnectButton = {
-    [WalletStatus.Connected]: <ButtonConnected onClick={openView} />,
+    [WalletStatus.Connected]: <ButtonDisconnect onClick={() => disconnect()} />,
     [WalletStatus.Connecting]: <ButtonConnecting />,
     [WalletStatus.Disconnected]: <ButtonDisconnected onClick={connect} />,
     [WalletStatus.Error]: <ButtonError onClick={openView} />,
@@ -106,9 +106,11 @@ export function Sidebar({
         }}
       >
         {username ? <User name={username} /> : null}
-        {address
-          ? <ClipboardCopyText text={address} truncate="middle" />
-          : null}
+        <Box mt="$8" display={{ mobile: "block", desktop: "none" }}>
+          {address
+            ? <ClipboardCopyText text={address} truncate="middle" />
+            : null}
+        </Box>
         <Box
           my="$8"
           flex="1"

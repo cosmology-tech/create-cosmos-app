@@ -2113,6 +2113,14 @@
     "@babel/runtime" "^7.21.0"
     "@chain-registry/types" "^0.17.0"
 
+"@chain-registry/assets@1.29.0":
+  version "1.29.0"
+  resolved "https://registry.npmjs.org/@chain-registry/assets/-/assets-1.29.0.tgz#bd13cd6bf0cf06e1e6072d0bce27483b7171fb83"
+  integrity sha512-LyXfQwa1Hxjcggk2N0RMT4BAaPyqT1oTdzZvcXu0Fy8fB8dNiuRWahfQ+fF4ew7JN8uilLHBecJtlA17PxkvRw==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@chain-registry/types" "^0.18.0"
+
 "@chain-registry/client@1.11.0":
   version "1.11.0"
   resolved "https://registry.npmmirror.com/@chain-registry/client/-/client-1.11.0.tgz#dd11b0c8fddc13dfcab436b9ee2d7973d82dfa66"

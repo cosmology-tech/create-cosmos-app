@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  ClipboardCopyText,
   Icon,
   Stack,
   Text,
@@ -26,12 +27,11 @@ export function Header({
   onMoreButtonClick = () => {},
 }: HeaderProps) {
   const { theme, setTheme } = useTheme();
+  const { chain, address } = useChain(chainName);
 
   const toggleColorMode = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
-
-  const { chain } = useChain(chainName);
 
   useEffect(() => {
     const selected = localStorage.getItem(CHAIN_NAME_STORAGE_KEY);
@@ -51,14 +51,6 @@ export function Header({
       borderBottomStyle="solid"
       borderBottomColor="$divider"
     >
-      <Box
-        flex="1"
-        display={{ mobile: "none", tablet: "none", desktop: "flex" }}
-      >
-        <Text fontSize="$3xl" fontWeight="bold">
-          Cosmos Chain Dashboard
-        </Text>
-      </Box>
       <Box display={{ tablet: "block", desktop: "none" }}>
         <Button
           size="md"
@@ -94,6 +86,15 @@ export function Header({
       </Box>
 
       <Stack space="$6">
+        <Box
+          minWidth="16rem"
+          display={{ mobile: "none", desktop: "flex" }}
+          alignItems="center"
+        >
+          {address
+            ? <ClipboardCopyText text={address} truncate="middle" />
+            : null}
+        </Box>
         <Box display={{ mobile: "none", tablet: "none", desktop: "block" }}>
           <ChainSelect
             chains={chains}
