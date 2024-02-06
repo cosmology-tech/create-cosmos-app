@@ -125,7 +125,6 @@ export function Faucet() {
             attributes={{ mb: "$4" }}
           />
           <AssetSelect assets={assets} onChange={setAsset} />
-          <Text color="$blackAlpha400">{asset?.description}</Text>
         </Box>
 
         <Box mt="$12" maxWidth="31rem">

@@ -4,7 +4,6 @@ import {
   Stack,
   Text,
   useColorModeValue,
-  useTheme,
 } from "@interchain-ui/react";
 import {
   ButtonConnect,
@@ -33,10 +32,7 @@ export function Sidebar({
   border = false,
   chainName = CHAIN_NAME,
 }: SidebarProps) {
-  const theme = useTheme();
-
   const {
-    chain,
     status,
     wallet,
     username,
