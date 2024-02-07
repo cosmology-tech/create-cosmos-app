@@ -8,9 +8,9 @@ import {
 import { WalletStatus } from "@cosmos-kit/core";
 import { useChain } from "@cosmos-kit/react";
 import { chains } from "chain-registry";
-import { User } from "./User";
-import { Chain } from "./Chain";
+import { ChainSelect } from "./Chain";
 import { Warning } from "./Warning";
+import { User } from "./User";
 import {
   ButtonConnect,
   ButtonConnected,
@@ -70,10 +70,10 @@ export function Wallet({
   return (
     <Box py="$16">
       <Box mx="auto" maxWidth="28rem" attributes={{ mb: "$12" }}>
-        <Chain
-          name={chain.chain_name}
+        <ChainSelect
           chains={chains}
-          onChainChange={handleChainChange}
+          chainName={chain.chain_name}
+          onChange={handleChainChange}
         />
       </Box>
       <Stack
@@ -109,7 +109,8 @@ export function Wallet({
           {ConnectButton}
         </Box>
 
-        {message && [WalletStatus.Error, WalletStatus.Rejected].includes(status)
+        {message &&
+            [WalletStatus.Error, WalletStatus.Rejected].includes(status)
           ? <Warning text={`${wallet?.prettyName}: ${message}`} />
           : null}
       </Stack>

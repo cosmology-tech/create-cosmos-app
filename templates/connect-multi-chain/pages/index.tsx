@@ -7,7 +7,6 @@ export default function Home() {
 
   function onChainChange(chainName?: string) {
     setChainName(chainName!);
-    console.log("current chain", chainName);
   }
 
   return (
