@@ -2,8 +2,17 @@ This is a Cosmos App project bootstrapped with [`create-cosmos-app`](https://git
 
 ## Getting Started
 
-First, install the packages and run the development server:
+First, start the cosmos-sdk chain by building and running the docker container:
 
+```bash
+## This will build the docker image, do this anytime there are changes to chain/ dir
+yarn && yarn setup-chain
+
+## Run sdk chain in docker
+yarn start-chain
+```
+
+Then one can start the chain with:
 ```bash
 yarn && yarn dev
 ```
