@@ -40,10 +40,11 @@ export function Sidebar({
     message,
     connect,
     openView,
+    disconnect,
   } = useChain(chainName);
 
   const ConnectButton = {
-    [WalletStatus.Connected]: <ButtonDisconnect onClick={openView} />,
+    [WalletStatus.Connected]: <ButtonDisconnect onClick={() => disconnect()} />,
     [WalletStatus.Connecting]: <ButtonConnecting />,
     [WalletStatus.Disconnected]: <ButtonDisconnected onClick={connect} />,
     [WalletStatus.Error]: <ButtonError onClick={openView} />,
