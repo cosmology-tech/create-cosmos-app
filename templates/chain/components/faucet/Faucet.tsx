@@ -131,7 +131,7 @@ export function Faucet() {
         <Box mt="$12" maxWidth="32rem">
           <Button
             fluidWidth
-            disabled={!address || !asset || receiver.length < 44}
+            disabled={!address || !asset || receiver.length < 40}
             intent="tertiary"
             onClick={onSend}
           >
