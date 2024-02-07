@@ -59,6 +59,7 @@ export function Sidebar({
         zIndex: 10,
         minHeight: "100vh",
         minWidth: { mobile: "20rem", desktop: "16rem" },
+        maxWidth: { mobile: "20rem", desktop: "16rem" },
         backgroundColor: useColorModeValue("$white", "$background"),
         borderRightWidth: border ? "1px" : "0",
         borderRightColor: "$divider",

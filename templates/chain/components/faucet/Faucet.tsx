@@ -61,10 +61,10 @@ export function Faucet() {
       justifyContent="center"
       minHeight="80vh"
     >
-      <Box minWidth={{ mobile: "23rem", desktop: "31rem" }}>
+      <Box minWidth={{ mobile: "23rem", tablet: "26rem", desktop: "32rem" }}>
         <Text fontSize="$2xl" fontWeight="$bold">Faucet</Text>
 
-        <Box mt="$9" maxWidth="31rem">
+        <Box mt="$9" maxWidth="32rem">
           <FieldLabel
             htmlFor="address"
             label="Address"
@@ -85,6 +85,7 @@ export function Faucet() {
                 color={useColorModeValue("$blackAlpha400", "$divider")}
                 attributes={{
                   position: "absolute",
+                  cursor: "pointer",
                   top: "$6",
                   right: "$4",
                   onClick: () => setReceiver(""),
@@ -118,7 +119,7 @@ export function Faucet() {
           </Box>
         </Box>
 
-        <Box mt="$8" maxWidth="31rem">
+        <Box mt="$8" maxWidth="32rem">
           <FieldLabel
             htmlFor="asset"
             label="Asset"
@@ -127,7 +128,7 @@ export function Faucet() {
           <AssetSelect assets={assets} onChange={setAsset} />
         </Box>
 
-        <Box mt="$12" maxWidth="31rem">
+        <Box mt="$12" maxWidth="32rem">
           <Button
             fluidWidth
             disabled={!address || !asset || receiver.length < 44}

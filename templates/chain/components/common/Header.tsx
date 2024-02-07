@@ -87,7 +87,7 @@ export function Header({
 
       <Stack space="$6">
         <Box
-          minWidth="16rem"
+          minWidth="14rem"
           display={{ mobile: "none", desktop: "flex" }}
           alignItems="center"
         >
