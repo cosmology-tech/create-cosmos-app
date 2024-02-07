@@ -8,3 +8,4 @@ packages/**/main
 packages/**/module
 
 .idea/
+bin/
