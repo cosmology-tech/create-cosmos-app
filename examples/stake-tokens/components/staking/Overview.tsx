@@ -39,7 +39,7 @@ const Overview = ({
   const { address } = useChain(chainName);
   const { tx } = useTx(chainName);
 
-  const totalAmount = sum(balance, staked, rewards.total);
+  const totalAmount = sum(balance, staked, rewards?.total ?? 0);
   const coin = getCoin(chainName);
 
   const onClaimRewardClick = async () => {

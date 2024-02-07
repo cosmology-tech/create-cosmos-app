@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
-// import { Box, Stack, Text, useColorModeValue } from '@chakra-ui/react';
-import { Box, Stack, Text, useColorModeValue } from '@interchain-ui/react';
+import { Box, Text, useColorModeValue } from '@interchain-ui/react';
 import { WalletStatus } from 'cosmos-kit';
 
 export const WarnBlock = ({
@@ -57,7 +56,13 @@ export const WarnBlock = ({
         <Box position="sticky" top={0}>
           {icon}
         </Box>
-        <Text maxHeight="40px">{wordOfWarning}</Text>
+        <Text
+          attributes={{
+            maxHeight: '40px',
+          }}
+        >
+          {wordOfWarning}
+        </Text>
       </Box>
     </Box>
   );

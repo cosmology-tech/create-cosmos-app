@@ -5,11 +5,12 @@ import { useChain } from '@cosmos-kit/react';
 import { useAssets } from '../../hooks';
 import { ChainName } from 'cosmos-kit';
 
-interface IProps {
+interface AssetListSectionProps {
   chainName: ChainName;
+  children?: React.ReactNode;
 }
 
-export const AssetListSection: React.FC<IProps> = ({ chainName }) => {
+export const AssetListSection = ({ chainName }: AssetListSectionProps) => {
   const { isWalletConnected } = useChain(chainName);
   const { data, isLoading, refetch } = useAssets(chainName);
 
