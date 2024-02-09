@@ -23,8 +23,8 @@ telescope({
       ],
     },
     interfaces: {
-      enabled: false,
-      useUnionTypes: false,
+      enabled: true,
+      useUnionTypes: true,
     },
     prototypes: {
       enabled: true,

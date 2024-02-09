@@ -1,6 +1,6 @@
 import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Duration, DurationAmino, DurationSDKType } from "../../../google/protobuf/duration";
-import { Any, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 /** VoteOption enumerates the valid vote options for a given proposal. */
@@ -495,7 +495,7 @@ export interface GroupPolicyInfo {
    */
   version: bigint;
   /** decision_policy specifies the group policy's decision policy. */
-  decisionPolicy: Any | undefined;
+  decisionPolicy: ThresholdDecisionPolicy | PercentageDecisionPolicy | Any | undefined;
   /** created_at is a timestamp specifying when a group policy was created. */
   createdAt: Date | undefined;
 }
@@ -503,6 +503,9 @@ export interface GroupPolicyInfoProtoMsg {
   typeUrl: "/cosmos.group.v1.GroupPolicyInfo";
   value: Uint8Array;
 }
+export type GroupPolicyInfoEncoded = Omit<GroupPolicyInfo, "decisionPolicy"> & {
+  /** decision_policy specifies the group policy's decision policy. */decisionPolicy?: ThresholdDecisionPolicyProtoMsg | PercentageDecisionPolicyProtoMsg | AnyProtoMsg | undefined;
+};
 /** GroupPolicyInfo represents the high-level on-chain information for a group policy. */
 export interface GroupPolicyInfoAmino {
   /** address is the account address of group policy. */
@@ -534,7 +537,7 @@ export interface GroupPolicyInfoSDKType {
   admin: string;
   metadata: string;
   version: bigint;
-  decision_policy: AnySDKType | undefined;
+  decision_policy: ThresholdDecisionPolicySDKType | PercentageDecisionPolicySDKType | AnySDKType | undefined;
   created_at: Date | undefined;
 }
 /**
@@ -1580,7 +1583,7 @@ export const GroupPolicyInfo = {
       writer.uint32(40).uint64(message.version);
     }
     if (message.decisionPolicy !== undefined) {
-      Any.encode(message.decisionPolicy, writer.uint32(50).fork()).ldelim();
+      Any.encode((message.decisionPolicy as Any), writer.uint32(50).fork()).ldelim();
     }
     if (message.createdAt !== undefined) {
       Timestamp.encode(toTimestamp(message.createdAt), writer.uint32(58).fork()).ldelim();
@@ -1610,7 +1613,7 @@ export const GroupPolicyInfo = {
           message.version = reader.uint64();
           break;
         case 6:
-          message.decisionPolicy = Any.decode(reader, reader.uint32());
+          message.decisionPolicy = (DecisionPolicy_InterfaceDecoder(reader) as Any);
           break;
         case 7:
           message.createdAt = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
@@ -1684,7 +1687,7 @@ export const GroupPolicyInfo = {
       admin: object.admin,
       metadata: object.metadata,
       version: BigInt(object.version),
-      decisionPolicy: object?.decision_policy ? Any.fromAmino(object.decision_policy) : undefined,
+      decisionPolicy: object?.decision_policy ? DecisionPolicy_FromAmino(object.decision_policy) : undefined,
       createdAt: object.created_at
     };
   },
@@ -1695,7 +1698,7 @@ export const GroupPolicyInfo = {
     obj.admin = message.admin;
     obj.metadata = message.metadata;
     obj.version = message.version ? message.version.toString() : undefined;
-    obj.decision_policy = message.decisionPolicy ? Any.toAmino(message.decisionPolicy) : undefined;
+    obj.decision_policy = message.decisionPolicy ? DecisionPolicy_ToAmino((message.decisionPolicy as Any)) : undefined;
     obj.created_at = message.createdAt;
     return obj;
   },
@@ -2273,5 +2276,49 @@ export const Vote = {
       typeUrl: "/cosmos.group.v1.Vote",
       value: Vote.encode(message).finish()
     };
+  }
+};
+export const DecisionPolicy_InterfaceDecoder = (input: BinaryReader | Uint8Array): ThresholdDecisionPolicy | PercentageDecisionPolicy | Any => {
+  const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  const data = Any.decode(reader, reader.uint32());
+  switch (data.typeUrl) {
+    case "/cosmos.group.v1.ThresholdDecisionPolicy":
+      return ThresholdDecisionPolicy.decode(data.value);
+    case "/cosmos.group.v1.PercentageDecisionPolicy":
+      return PercentageDecisionPolicy.decode(data.value);
+    default:
+      return data;
+  }
+};
+export const DecisionPolicy_FromAmino = (content: AnyAmino) => {
+  switch (content.type) {
+    case "cosmos-sdk/ThresholdDecisionPolicy":
+      return Any.fromPartial({
+        typeUrl: "/cosmos.group.v1.ThresholdDecisionPolicy",
+        value: ThresholdDecisionPolicy.encode(ThresholdDecisionPolicy.fromPartial(ThresholdDecisionPolicy.fromAmino(content.value))).finish()
+      });
+    case "cosmos-sdk/PercentageDecisionPolicy":
+      return Any.fromPartial({
+        typeUrl: "/cosmos.group.v1.PercentageDecisionPolicy",
+        value: PercentageDecisionPolicy.encode(PercentageDecisionPolicy.fromPartial(PercentageDecisionPolicy.fromAmino(content.value))).finish()
+      });
+    default:
+      return Any.fromAmino(content);
+  }
+};
+export const DecisionPolicy_ToAmino = (content: Any) => {
+  switch (content.typeUrl) {
+    case "/cosmos.group.v1.ThresholdDecisionPolicy":
+      return {
+        type: "cosmos-sdk/ThresholdDecisionPolicy",
+        value: ThresholdDecisionPolicy.toAmino(ThresholdDecisionPolicy.decode(content.value))
+      };
+    case "/cosmos.group.v1.PercentageDecisionPolicy":
+      return {
+        type: "cosmos-sdk/PercentageDecisionPolicy",
+        value: PercentageDecisionPolicy.toAmino(PercentageDecisionPolicy.decode(content.value))
+      };
+    default:
+      return Any.toAmino(content);
   }
 };

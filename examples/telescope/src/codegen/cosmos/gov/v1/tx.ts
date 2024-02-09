@@ -1,6 +1,7 @@
-import { Any, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
 import { VoteOption, WeightedVoteOption, WeightedVoteOptionAmino, WeightedVoteOptionSDKType, voteOptionFromJSON, voteOptionToJSON } from "./gov";
+import { TextProposal, TextProposalProtoMsg, TextProposalSDKType } from "../v1beta1/gov";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 /**
@@ -69,7 +70,7 @@ export interface MsgSubmitProposalResponseSDKType {
  */
 export interface MsgExecLegacyContent {
   /** content is the proposal's content. */
-  content: Any | undefined;
+  content: TextProposal | Any | undefined;
   /** authority must be the gov module address. */
   authority: string;
 }
@@ -77,6 +78,9 @@ export interface MsgExecLegacyContentProtoMsg {
   typeUrl: "/cosmos.gov.v1.MsgExecLegacyContent";
   value: Uint8Array;
 }
+export type MsgExecLegacyContentEncoded = Omit<MsgExecLegacyContent, "content"> & {
+  /** content is the proposal's content. */content?: TextProposalProtoMsg | AnyProtoMsg | undefined;
+};
 /**
  * MsgExecLegacyContent is used to wrap the legacy content field into a message.
  * This ensures backwards compatibility with v1beta1.MsgSubmitProposal.
@@ -96,7 +100,7 @@ export interface MsgExecLegacyContentAminoMsg {
  * This ensures backwards compatibility with v1beta1.MsgSubmitProposal.
  */
 export interface MsgExecLegacyContentSDKType {
-  content: AnySDKType | undefined;
+  content: TextProposalSDKType | AnySDKType | undefined;
   authority: string;
 }
 /** MsgExecLegacyContentResponse defines the Msg/ExecLegacyContent response type. */
@@ -492,7 +496,7 @@ export const MsgExecLegacyContent = {
   aminoType: "cosmos-sdk/v1/MsgExecLegacyContent",
   encode(message: MsgExecLegacyContent, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.content !== undefined) {
-      Any.encode(message.content, writer.uint32(10).fork()).ldelim();
+      Any.encode((message.content as Any), writer.uint32(10).fork()).ldelim();
     }
     if (message.authority !== "") {
       writer.uint32(18).string(message.authority);
@@ -507,7 +511,7 @@ export const MsgExecLegacyContent = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.content = Any.decode(reader, reader.uint32());
+          message.content = (Content_InterfaceDecoder(reader) as Any);
           break;
         case 2:
           message.authority = reader.string();
@@ -551,13 +555,13 @@ export const MsgExecLegacyContent = {
   },
   fromAmino(object: MsgExecLegacyContentAmino): MsgExecLegacyContent {
     return {
-      content: object?.content ? Any.fromAmino(object.content) : undefined,
+      content: object?.content ? Content_FromAmino(object.content) : undefined,
       authority: object.authority
     };
   },
   toAmino(message: MsgExecLegacyContent): MsgExecLegacyContentAmino {
     const obj: any = {};
-    obj.content = message.content ? Any.toAmino(message.content) : undefined;
+    obj.content = message.content ? Content_ToAmino((message.content as Any)) : undefined;
     obj.authority = message.authority;
     return obj;
   },
@@ -1261,5 +1265,37 @@ export const MsgDepositResponse = {
       typeUrl: "/cosmos.gov.v1.MsgDepositResponse",
       value: MsgDepositResponse.encode(message).finish()
     };
+  }
+};
+export const Content_InterfaceDecoder = (input: BinaryReader | Uint8Array): TextProposal | Any => {
+  const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  const data = Any.decode(reader, reader.uint32());
+  switch (data.typeUrl) {
+    case "/cosmos.gov.v1beta1.TextProposal":
+      return TextProposal.decode(data.value);
+    default:
+      return data;
+  }
+};
+export const Content_FromAmino = (content: AnyAmino) => {
+  switch (content.type) {
+    case "cosmos-sdk/v1/TextProposal":
+      return Any.fromPartial({
+        typeUrl: "/cosmos.gov.v1beta1.TextProposal",
+        value: TextProposal.encode(TextProposal.fromPartial(TextProposal.fromAmino(content.value))).finish()
+      });
+    default:
+      return Any.fromAmino(content);
+  }
+};
+export const Content_ToAmino = (content: Any) => {
+  switch (content.typeUrl) {
+    case "/cosmos.gov.v1beta1.TextProposal":
+      return {
+        type: "cosmos-sdk/v1/TextProposal",
+        value: TextProposal.toAmino(TextProposal.decode(content.value))
+      };
+    default:
+      return Any.toAmino(content);
   }
 };
