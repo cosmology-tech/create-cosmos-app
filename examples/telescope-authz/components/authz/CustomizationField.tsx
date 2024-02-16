@@ -4,6 +4,7 @@ import { Box, NumberField, SelectButton, Text } from '@interchain-ui/react';
 import { useValidators } from '@/hooks';
 import { Permission, PermissionId } from '@/configs';
 import { SelectValidatorsModal } from './SelectValidatorsModal';
+import { AccessList } from './GrantModal';
 
 // ==============================================
 
@@ -34,35 +35,26 @@ type DelegateCustomizationProps = {
   value: number | undefined;
   onChange: (value: string) => void;
   chainName: string;
-  allowList: string[];
-  denyList: string[];
-  setAllowList: Dispatch<SetStateAction<string[]>>;
-  setDenyList: Dispatch<SetStateAction<string[]>>;
+  accessList: AccessList;
+  setAccessList: Dispatch<SetStateAction<AccessList>>;
 };
 
 const DelegateCustomization = ({
   value,
   onChange,
   chainName,
-  allowList,
-  denyList,
-  setAllowList,
-  setDenyList,
+  accessList,
+  setAccessList,
 }: DelegateCustomizationProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { data } = useValidators(chainName);
 
-  const allowedValidators = data
-    ? allowList.map((address) => data.find((v) => v.address === address)!.name)
+  const validatorNames = data
+    ? accessList.addresses.map(
+        (address) => data.find((v) => v.address === address)!.name
+      )
     : [];
-
-  const deniedValidators = data
-    ? denyList.map((address) => data.find((v) => v.address === address)!.name)
-    : [];
-
-  const hasAllowedValidators = allowedValidators.length > 0;
-  const hasDeniedValidators = deniedValidators.length > 0;
 
   return (
     <>
@@ -82,35 +74,28 @@ const DelegateCustomization = ({
         onClick={() => setIsOpen(true)}
       />
       <Box
-        display={hasAllowedValidators || hasDeniedValidators ? 'flex' : 'none'}
-        flexDirection="column"
-        gap="$4"
+        display={validatorNames.length > 0 ? 'block' : 'none'}
         mt="$2"
         px="$2"
       >
-        {hasAllowedValidators && (
-          <Text>
-            <Text as="span" fontWeight="$semibold" color="$textSuccess">
-              Allow List:&nbsp;
-            </Text>
-            {allowedValidators.join(', ')}
+        <Text>
+          <Text
+            as="span"
+            fontWeight="$semibold"
+            color={
+              accessList.type === 'allowList' ? '$textSuccess' : '$textDanger'
+            }
+          >
+            {accessList.type === 'allowList' ? 'Allow List' : 'Deny List'}
+            :&nbsp;
           </Text>
-        )}
-        {hasDeniedValidators && (
-          <Text>
-            <Text as="span" fontWeight="$semibold" color="$textDanger">
-              Deny List:&nbsp;
-            </Text>
-            {deniedValidators.join(', ')}
-          </Text>
-        )}
+          {validatorNames.join(', ')}
+        </Text>
       </Box>
       <SelectValidatorsModal
         chainName={chainName}
-        allowList={allowList}
-        denyList={denyList}
-        setAllowList={setAllowList}
-        setDenyList={setDenyList}
+        accessList={accessList}
+        setAccessList={setAccessList}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       />

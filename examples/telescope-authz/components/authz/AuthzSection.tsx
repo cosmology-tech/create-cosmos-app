@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { ChainName } from 'cosmos-kit';
+import { useChain } from '@cosmos-kit/react';
 import { Box, Button, Tabs, Text } from '@interchain-ui/react';
 
+import { Grants } from './Grants';
 import { GrantModal } from './GrantModal';
-import { GrantsByMe } from './GrantsByMe';
-import { GrantsToMe } from './GrantsToMe';
-import { useChain } from '@cosmos-kit/react';
 
 export const AuthzSection = ({ chainName }: { chainName: ChainName }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,8 +53,10 @@ export const AuthzSection = ({ chainName }: { chainName: ChainName }) => {
         </Button>
       </Box>
 
-      {activeTab === 0 && <GrantsToMe grants={[]} />}
-      {activeTab === 1 && <GrantsByMe chainName={chainName} />}
+      <Grants
+        chainName={chainName}
+        role={activeTab === 0 ? 'grantee' : 'granter'}
+      />
 
       <GrantModal
         isOpen={isOpen}

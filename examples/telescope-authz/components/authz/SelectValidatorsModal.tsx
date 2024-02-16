@@ -1,10 +1,13 @@
-import { Dispatch, SetStateAction, useMemo } from 'react';
+import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import {
   BasicModal,
   Box,
   Button,
+  GovernanceRadio,
+  GovernanceRadioGroup,
   GridColumn,
   Spinner,
+  Stack,
   Text,
   ValidatorList,
   ValidatorNameCell,
@@ -12,39 +15,27 @@ import {
 
 import { useValidators } from '@/hooks';
 import { ExtendedValidator as Validator } from '@/utils';
+import { AccessList } from './GrantModal';
 
 type SelectValidatorsModalProps = {
   isOpen: boolean;
   onClose: () => void;
   chainName: string;
-  allowList: string[];
-  denyList: string[];
-  setAllowList: Dispatch<SetStateAction<string[]>>;
-  setDenyList: Dispatch<SetStateAction<string[]>>;
+  accessList: AccessList;
+  setAccessList: Dispatch<SetStateAction<AccessList>>;
 };
+
+type ListType = 'allowList' | 'denyList';
 
 export const SelectValidatorsModal = ({
   isOpen,
   onClose,
   chainName,
-  allowList,
-  denyList,
-  setAllowList,
-  setDenyList,
+  accessList,
+  setAccessList,
 }: SelectValidatorsModalProps) => {
   const { data, isLoading } = useValidators(chainName);
-
-  const handleChoiceClick =
-    (validator: Validator, onListChange: typeof setAllowList) => () => {
-      onListChange((prev) => [...prev, validator.address]);
-    };
-
-  const handleCancelClick =
-    (validator: Validator, onListChange: typeof setAllowList) => () => {
-      onListChange((prev) =>
-        prev.filter((address) => address !== validator.address)
-      );
-    };
+  const listType = accessList.type;
 
   const columns: GridColumn[] = useMemo(() => {
     return [
@@ -70,43 +61,38 @@ export const SelectValidatorsModal = ({
             alignItems="center"
             justifyContent="flex-end"
             gap="$5"
-            pr="$4"
+            pr="$6"
           >
-            {allowList.includes(validator.address) ? (
+            {accessList.addresses.includes(validator.address) ? (
               <Button
                 size="sm"
-                intent="success"
-                onClick={handleCancelClick(validator, setAllowList)}
+                intent={listType === 'allowList' ? 'success' : 'danger'}
+                onClick={() => {
+                  setAccessList((prev) => ({
+                    ...prev,
+                    addresses: prev.addresses.filter(
+                      (address) => address !== validator.address
+                    ),
+                  }));
+                }}
                 rightIcon="close"
                 iconSize="$xl"
               >
-                Allowed
-              </Button>
-            ) : denyList.includes(validator.address) ? (
-              <Button
-                size="sm"
-                intent="danger"
-                onClick={handleCancelClick(validator, setDenyList)}
-                rightIcon="close"
-                iconSize="$xl"
-              >
-                Denied
+                {listType === 'allowList' ? 'Allowed' : 'Denied'}
               </Button>
             ) : (
               <>
                 <Button
                   size="sm"
                   intent="text"
-                  onClick={handleChoiceClick(validator, setAllowList)}
+                  onClick={() => {
+                    setAccessList((prev) => ({
+                      ...prev,
+                      addresses: [...prev.addresses, validator.address],
+                    }));
+                  }}
                 >
-                  Allow
-                </Button>
-                <Button
-                  size="sm"
-                  intent="text"
-                  onClick={handleChoiceClick(validator, setDenyList)}
-                >
-                  Deny
+                  {listType === 'allowList' ? 'Allow' : 'Deny'}
                 </Button>
               </>
             )}
@@ -114,7 +100,7 @@ export const SelectValidatorsModal = ({
         ),
       },
     ];
-  }, [chainName, allowList, denyList]);
+  }, [chainName, accessList]);
 
   return (
     <BasicModal title="Select Validators" isOpen={isOpen} onClose={onClose}>
@@ -132,6 +118,31 @@ export const SelectValidatorsModal = ({
           <Spinner size="$6xl" />
         ) : data && data.length > 0 ? (
           <Box width="$full" alignSelf="flex-start">
+            <Box
+              display="flex"
+              justifyContent="center"
+              transform="scale(0.86)"
+              my="$6"
+            >
+              <GovernanceRadioGroup
+                value={listType}
+                defaultValue="allowList"
+                onChange={(selected) => {
+                  setAccessList((prev) => ({
+                    ...prev,
+                    type: selected as ListType,
+                  }));
+                }}
+              >
+                <Stack direction="horizontal" space="$8">
+                  <GovernanceRadio value="allowList">
+                    Allow List
+                  </GovernanceRadio>
+                  <GovernanceRadio value="denyList">Deny List</GovernanceRadio>
+                </Stack>
+              </GovernanceRadioGroup>
+            </Box>
+
             <ValidatorList
               data={data}
               columns={columns}

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import {
@@ -9,12 +10,13 @@ import {
   TextField,
 } from '@interchain-ui/react';
 
-import { getCoin } from '@/configs';
 import {
   getChainLogoByChainName,
   PrettyGrant,
   PrettyPermission,
 } from '@/utils';
+import { getCoin } from '@/configs';
+import { useAuthzContext } from '@/context';
 import { useAuthzTx, useGrants } from '@/hooks';
 
 import styles from '@/styles/custom.module.css';
@@ -38,6 +40,7 @@ export const GrantCard = ({
     useState<PrettyPermission>();
 
   const { refetch } = useGrants(chainName);
+  const { setPermission } = useAuthzContext();
   const { authzTx, createRevokeMsg } = useAuthzTx(chainName);
 
   const { address, permissions } = grant;
@@ -130,24 +133,39 @@ export const GrantCard = ({
         height="$12"
         overflow="hidden"
       >
-        {permissions.map((permission) => (
-          <Button
-            key={permission.name}
-            size="sm"
-            intent="secondary"
-            rightIcon={isGranter ? 'close' : 'arrowRightRounded'}
-            iconSize={isGranter ? '$lg' : '$2xs'}
-            onClick={() => {
-              handleRevoke(permission);
-              setRevokingPermission(permission);
-            }}
-            disabled={
-              isRevoking && revokingPermission?.name === permission.name
-            }
-          >
-            {permission.name}
-          </Button>
-        ))}
+        {permissions.map((permission) =>
+          isGranter ? (
+            <Button
+              key={permission.name}
+              size="sm"
+              intent="secondary"
+              rightIcon="close"
+              iconSize="$lg"
+              onClick={() => {
+                handleRevoke(permission);
+                setRevokingPermission(permission);
+              }}
+              disabled={
+                isRevoking && revokingPermission?.name === permission.name
+              }
+            >
+              {permission.name}
+            </Button>
+          ) : (
+            <Link href="/stake" style={{ textDecoration: 'none' }}>
+              <Button
+                key={permission.name}
+                size="sm"
+                intent="secondary"
+                rightIcon="arrowRightRounded"
+                iconSize="$2xs"
+                onClick={() => setPermission(permission)}
+              >
+                {permission.name}
+              </Button>
+            </Link>
+          )
+        )}
       </Box>
 
       <Button intent="tertiary" onClick={onViewDetails} fluidWidth>

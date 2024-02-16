@@ -19,12 +19,14 @@ import {
   useColorModeValue,
   ThemeProvider,
 } from '@interchain-ui/react';
+import { AuthzProvider } from '@/context';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 2,
       refetchOnWindowFocus: false,
+      staleTime: Infinity,
     },
   },
 });
@@ -71,14 +73,16 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         signerOptions={signerOptions}
       >
         <QueryClientProvider client={queryClient}>
-          <Box
-            className={themeClass}
-            minHeight="100dvh"
-            backgroundColor={useColorModeValue('$white', '$background')}
-          >
-            <Component {...pageProps} />
-            <Toaster position="top-right" closeButton={true} />
-          </Box>
+          <AuthzProvider>
+            <Box
+              className={themeClass}
+              minHeight="100dvh"
+              backgroundColor={useColorModeValue('$white', '$background')}
+            >
+              <Component {...pageProps} />
+              <Toaster position="top-right" closeButton={true} />
+            </Box>
+          </AuthzProvider>
           <ReactQueryDevtools />
         </QueryClientProvider>
       </ChainProvider>
