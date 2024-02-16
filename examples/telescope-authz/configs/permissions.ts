@@ -40,3 +40,10 @@ export const isPermissionCustomizable = (permissionId: string) => {
   const permission = permissions.find((p) => p.id === permissionId);
   return permission?.isCustomizable ?? false;
 };
+
+export const permissionNameToRouteMap: Record<string, string> = {
+  Vote: '/vote',
+  Send: '/send',
+  Delegate: '/stake',
+  WithdrawDelegatorReward: '/claim-rewards',
+};

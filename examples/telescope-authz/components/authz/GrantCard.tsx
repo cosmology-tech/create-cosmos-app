@@ -15,7 +15,7 @@ import {
   PrettyGrant,
   PrettyPermission,
 } from '@/utils';
-import { getCoin } from '@/configs';
+import { getCoin, permissionNameToRouteMap } from '@/configs';
 import { useAuthzContext } from '@/context';
 import { useAuthzTx, useGrants } from '@/hooks';
 
@@ -151,8 +151,11 @@ export const GrantCard = ({
             >
               {permission.name}
             </Button>
-          ) : (
-            <Link href="/stake" style={{ textDecoration: 'none' }}>
+          ) : permissionNameToRouteMap[permission.name] ? (
+            <Link
+              href={permissionNameToRouteMap[permission.name]}
+              style={{ textDecoration: 'none' }}
+            >
               <Button
                 key={permission.name}
                 size="sm"
@@ -164,6 +167,10 @@ export const GrantCard = ({
                 {permission.name}
               </Button>
             </Link>
+          ) : (
+            <Button key={permission.name} size="sm" intent="secondary">
+              {permission.name}
+            </Button>
           )
         )}
       </Box>

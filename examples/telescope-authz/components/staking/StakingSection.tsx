@@ -3,7 +3,6 @@ import { ChainName } from 'cosmos-kit';
 import { Box, Spinner, Text } from '@interchain-ui/react';
 
 import Overview from './Overview';
-import { MyValidators } from './MyValidators';
 import { AllValidators } from './AllValidators';
 import { useStakingData, useValidatorLogos } from '@/hooks';
 
@@ -47,19 +46,6 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
             chainName={chainName}
             prices={data.prices}
           />
-
-          {/* {data.myValidators.length > 0 && (
-            <MyValidators
-              myValidators={data.myValidators}
-              allValidators={data.allValidators}
-              balance={data.balance}
-              updateData={refetch}
-              unbondingDays={data.unbondingDays}
-              chainName={chainName}
-              logos={logos}
-              prices={data.prices}
-            />
-          )} */}
 
           <AllValidators
             balance={data.balance}
