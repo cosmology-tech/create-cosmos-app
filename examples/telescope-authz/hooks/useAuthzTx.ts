@@ -28,7 +28,8 @@ import {
   MsgUndelegate,
 } from '@/src/codegen/cosmos/staking/v1beta1/tx';
 
-const { grant, revoke } = cosmos.authz.v1beta1.MessageComposer.fromPartial;
+const { grant, revoke, exec } =
+  cosmos.authz.v1beta1.MessageComposer.fromPartial;
 
 // ==========================================
 
@@ -123,6 +124,14 @@ export const createRevokeMsg = (permission: PrettyPermission) => {
     granter,
     msgTypeUrl,
   });
+};
+
+// ==========================================
+
+type CreateExecMsgOptions = Parameters<typeof exec>[0];
+
+export const createExecMsg = ({ grantee, msgs }: CreateExecMsgOptions) => {
+  return exec({ grantee, msgs });
 };
 
 // ==========================================
@@ -233,5 +242,5 @@ export const useAuthzTx = (chainName: string) => {
     if (onComplete) onComplete();
   };
 
-  return { authzTx, createGrantMsg, createRevokeMsg };
+  return { authzTx, createGrantMsg, createRevokeMsg, createExecMsg };
 };

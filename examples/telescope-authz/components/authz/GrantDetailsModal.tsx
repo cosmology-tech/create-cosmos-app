@@ -8,17 +8,20 @@ import { PermissionDetailCard } from './PermissionDetailCard';
 type GrantDetailsModalProps = {
   grant: PrettyGrant;
   chainName: string;
+  role: 'granter' | 'grantee';
   isOpen: boolean;
   onClose: () => void;
 };
 
 export const GrantDetailsModal = ({
+  role,
   grant,
   isOpen,
   onClose,
   chainName,
 }: GrantDetailsModalProps) => {
   const { permissions } = grant;
+  const isGranter = role === 'granter';
 
   const [isRevoking, setIsRevoking] = useState(false);
   const [revokingPermission, setRevokingPermission] =
@@ -61,6 +64,7 @@ export const GrantDetailsModal = ({
           {permissions.map((permission) => (
             <PermissionDetailCard
               key={permission.name}
+              role={role}
               onRevoke={() => {
                 handleRevoke([permission]);
                 setRevokingPermission(permission);
@@ -74,17 +78,19 @@ export const GrantDetailsModal = ({
           ))}
         </Box>
 
-        <Button
-          intent="tertiary"
-          fluidWidth
-          onClick={() => {
-            handleRevoke(permissions);
-          }}
-          isLoading={isRevoking && !revokingPermission}
-          disabled={isRevoking && !revokingPermission}
-        >
-          Revoke All
-        </Button>
+        {isGranter && (
+          <Button
+            intent="tertiary"
+            fluidWidth
+            onClick={() => {
+              handleRevoke(permissions);
+            }}
+            isLoading={isRevoking && !revokingPermission}
+            disabled={isRevoking && !revokingPermission}
+          >
+            Revoke All
+          </Button>
+        )}
       </Box>
     </BasicModal>
   );

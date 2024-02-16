@@ -6,7 +6,7 @@ import {
   useColorModeValue,
 } from '@interchain-ui/react';
 import { WalletStatus } from '@cosmos-kit/core';
-import { useChain } from '@cosmos-kit/react';
+import { useChain, useManager } from '@cosmos-kit/react';
 import { chains } from 'chain-registry';
 import { User } from './User';
 import { Chain } from './Chain';
@@ -20,17 +20,20 @@ import {
   ButtonNotExist,
   ButtonRejected,
 } from './Connect';
+import { ChainCard } from './ChainCard';
 
 export const DEFAULT_CHAIN_NAME = 'cosmoshub';
 export const CHAIN_NAME_STORAGE_KEY = 'selected-chain';
 
 export type WalletProps = {
   chainName?: string;
+  isMultiChain?: boolean;
   onChainChange?: (chainName?: string) => void;
 };
 
 export function Wallet({
   chainName = DEFAULT_CHAIN_NAME,
+  isMultiChain = false,
   onChainChange = () => {},
 }: WalletProps) {
   const {
@@ -43,6 +46,7 @@ export function Wallet({
     connect,
     openView,
   } = useChain(chainName);
+  const { getChainLogo } = useManager();
 
   const ConnectButton = {
     [WalletStatus.Connected]: <ButtonConnected onClick={openView} />,
@@ -71,11 +75,18 @@ export function Wallet({
   return (
     <Box py="$16">
       <Box mx="auto" maxWidth="28rem" attributes={{ mb: '$12' }}>
-        <Chain
-          name={chain.chain_name}
-          chains={chains}
-          onChainChange={handleChainChange}
-        />
+        {isMultiChain ? (
+          <Chain
+            name={chain.chain_name}
+            chains={chains}
+            onChainChange={handleChainChange}
+          />
+        ) : (
+          <ChainCard
+            prettyName={chain.pretty_name}
+            icon={getChainLogo(chainName)}
+          />
+        )}
       </Box>
       <Stack
         direction="vertical"

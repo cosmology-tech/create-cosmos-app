@@ -6,25 +6,29 @@ import { PrettyGrant } from '@/utils';
 import { GrantCard } from './GrantCard';
 import { GrantDetailsModal } from './GrantDetailsModal';
 
-type GrantsByMeProps = {
+type GrantsProps = {
+  role: 'granter' | 'grantee';
   chainName: string;
 };
 
-export const GrantsByMe = ({ chainName }: GrantsByMeProps) => {
+export const Grants = ({ chainName, role }: GrantsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [viewingGrant, setViewingGrant] = useState<PrettyGrant>();
   const { data, isLoading } = useGrants(chainName);
+
+  const isGranter = role === 'granter';
+  const grants = isGranter ? data?.granterGrants : data?.granteeGrants;
 
   return (
     <Box flex="1" display="flex" justifyContent="center" alignItems="center">
       {isLoading ? (
         <Spinner size="$6xl" />
-      ) : data && data.granterGrants.length > 0 ? (
+      ) : grants && grants.length > 0 ? (
         <Box width="$full" alignSelf="flex-start">
-          {data.granterGrants.map((grant) => (
+          {grants.map((grant) => (
             <GrantCard
               key={grant.address}
-              role="granter"
+              role={role}
               grant={grant}
               chainName={chainName}
               onViewDetails={() => {
@@ -36,12 +40,15 @@ export const GrantsByMe = ({ chainName }: GrantsByMeProps) => {
         </Box>
       ) : (
         <Text fontSize="$lg" color="$textSecondary" fontWeight="$semibold">
-          You haven't granted any permission yet
+          {isGranter
+            ? "You haven't granted any permission yet"
+            : "You don't have any grants"}
         </Text>
       )}
 
       {viewingGrant && (
         <GrantDetailsModal
+          role={role}
           grant={viewingGrant}
           isOpen={isOpen}
           chainName={chainName}

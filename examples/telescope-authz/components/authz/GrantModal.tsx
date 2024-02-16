@@ -33,6 +33,11 @@ import { CustomizationField } from './CustomizationField';
 
 import styles from '@/styles/custom.module.css';
 
+export type AccessList = {
+  type: 'allowList' | 'denyList';
+  addresses: string[];
+};
+
 type GrantModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -52,8 +57,10 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
   const [delegateLimit, setDelegateLimit] = useState<number | undefined>(
     undefined
   );
-  const [allowList, setAllowList] = useState<string[]>([]);
-  const [denyList, setDenyList] = useState<string[]>([]);
+  const [accessList, setAccessList] = useState<AccessList>({
+    type: 'allowList',
+    addresses: [],
+  });
 
   const [isGranting, setIsGranting] = useState(false);
 
@@ -72,8 +79,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
     setSendLimit(undefined);
     setDelegateLimit(undefined);
     setIsGranting(false);
-    setAllowList([]);
-    setDenyList([]);
+    setAccessList({ type: 'allowList', addresses: [] });
     onClose();
   };
 
@@ -94,14 +100,14 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
 
     const delegateMsg: GrantMsg = {
       grantType: 'delegate',
-      customize: delegateLimit //TODO: add allowList and denyList later
-        ? {
-            authorizationType: AuthorizationType.AUTHORIZATION_TYPE_DELEGATE,
-            maxTokens: coin(shiftDigits(delegateLimit, exponent), denom),
-            allowList: { address: allowList },
-            // denyList: { address: [] },
-          }
-        : undefined,
+      customize:
+        delegateLimit || accessList.addresses.length > 0
+          ? {
+              authorizationType: AuthorizationType.AUTHORIZATION_TYPE_DELEGATE,
+              maxTokens: coin(shiftDigits(delegateLimit, exponent), denom),
+              [accessList.type]: { address: accessList.addresses },
+            }
+          : undefined,
     };
 
     const grantMsg: Record<PermissionId, GrantMsg> = {
@@ -210,10 +216,8 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
               <CustomizationField
                 permissionType={selectedPermission.id}
                 chainName={chainName}
-                allowList={allowList}
-                denyList={denyList}
-                setAllowList={setAllowList}
-                setDenyList={setDenyList}
+                accessList={accessList}
+                setAccessList={setAccessList}
                 value={delegateLimit}
                 onChange={(val) => {
                   if (!val) {
