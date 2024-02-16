@@ -1,6 +1,11 @@
 import { Divider } from '@interchain-ui/react';
 import { useAuthzContext } from '@/context';
-import { Layout, LoginInfoBanner, StakingSection, Wallet } from '@/components';
+import {
+  Layout,
+  Wallet,
+  LoginInfoBanner,
+  ClaimRewardsSection,
+} from '@/components';
 
 export default function SingleChain() {
   const { chainName, permission } = useAuthzContext();
@@ -17,7 +22,7 @@ export default function SingleChain() {
               loginAddress={permission.granter}
             />
           )}
-          <StakingSection chainName={chainName} />
+          <ClaimRewardsSection chainName={chainName} />
         </>
       )}
     </Layout>

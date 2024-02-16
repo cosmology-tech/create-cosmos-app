@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useChain } from '@cosmos-kit/react';
 import { useQuery } from '@tanstack/react-query';
 
@@ -7,6 +7,7 @@ import { prettyGrants } from '@/utils';
 
 export const useGrants = (chainName: string) => {
   const { address, getRpcEndpoint } = useChain(chainName);
+  const prevAddressRef = useRef(address);
 
   const rpcEndpointQuery = useQuery({
     queryKey: ['rpcEndpoint', chainName],
@@ -63,6 +64,13 @@ export const useGrants = (chainName: string) => {
   const refetch = () => {
     queriesToRefetch.forEach((query) => query.refetch());
   };
+
+  useEffect(() => {
+    if (prevAddressRef.current !== address) {
+      refetch();
+      prevAddressRef.current = address;
+    }
+  }, [address]);
 
   const isInitialFetching = Object.values(dataQueries).some(
     ({ isLoading }) => isLoading
