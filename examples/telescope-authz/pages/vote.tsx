@@ -1,8 +1,8 @@
 import { Divider } from '@interchain-ui/react';
 import { useAuthzContext } from '@/context';
-import { Layout, LoginInfoBanner, StakingSection, Wallet } from '@/components';
+import { Layout, Wallet, LoginInfoBanner, Voting } from '@/components';
 
-export default function Stake() {
+export default function Vote() {
   const { chainName, permission } = useAuthzContext();
 
   return (
@@ -17,7 +17,7 @@ export default function Stake() {
               loginAddress={permission.granter}
             />
           )}
-          <StakingSection chainName={chainName} />
+          <Voting chainName={chainName} />
         </>
       )}
     </Layout>

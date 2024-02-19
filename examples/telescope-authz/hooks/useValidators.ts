@@ -1,15 +1,10 @@
 import { useMemo } from 'react';
-import { useChain } from '@cosmos-kit/react';
 import { useQuery } from '@tanstack/react-query';
-import {
-  cosmos,
-  useRpcClient,
-  useRpcEndpoint,
-  createRpcQueryHooks,
-} from 'interchain-query';
+import { cosmos } from 'interchain-query';
 import BigNumber from 'bignumber.js';
 
 import { extendValidators, getLogoUrls, parseValidators } from '@/utils';
+import { useQueryHooks } from './useQueryHooks';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -23,32 +18,11 @@ export const useValidators = (
   chainName: string,
   { fetchLogos = true }: UseValidatorsConfig = {}
 ) => {
-  const { address, getRpcEndpoint } = useChain(chainName);
-
-  const rpcEndpointQuery = useRpcEndpoint({
-    getter: getRpcEndpoint,
-    options: {
-      enabled: !!address,
-      staleTime: Infinity,
-      queryKeyHashFn: (queryKey) => {
-        return JSON.stringify([...queryKey, chainName]);
-      },
-    },
-  });
-
-  const rpcClientQuery = useRpcClient({
-    rpcEndpoint: rpcEndpointQuery.data || '',
-    options: {
-      enabled: !!address && !!rpcEndpointQuery.data,
-      staleTime: Infinity,
-    },
-  });
-
-  const { cosmos: cosmosQuery } = createRpcQueryHooks({
-    rpc: rpcClientQuery.data,
-  });
-
-  const isDataQueryEnabled = !!address && !!rpcClientQuery.data;
+  const {
+    cosmos: cosmosQuery,
+    isReady: isQueryHooksReady,
+    isFetching: isQueryHooksFetching,
+  } = useQueryHooks(chainName);
 
   const validatorsQuery = cosmosQuery.staking.v1beta1.useValidators({
     request: {
@@ -64,7 +38,7 @@ export const useValidators = (
       },
     },
     options: {
-      enabled: isDataQueryEnabled,
+      enabled: isQueryHooksReady,
       select: ({ validators }) => {
         const sorted = validators.sort((a, b) =>
           new BigNumber(b.tokens).minus(a.tokens).toNumber()
@@ -81,13 +55,11 @@ export const useValidators = (
   const validatorLogosQuery = useQuery({
     queryKey: ['validatorLogos', chainName],
     queryFn: () => getLogoUrls(validatorsQuery.data || [], chainName),
-    enabled: isDataQueryEnabled && !!validatorsQuery.data && fetchLogos,
+    enabled: !!validatorsQuery.data && fetchLogos,
     staleTime: Infinity,
   });
 
   const allQueries = {
-    rpcEndpoint: rpcEndpointQuery,
-    rpcClient: rpcClientQuery,
     validators: validatorsQuery,
     validatorLogos: validatorLogosQuery,
   };
@@ -106,7 +78,7 @@ export const useValidators = (
     ({ isRefetching }) => isRefetching
   );
 
-  const isLoading = isInitialFetching || isRefetching;
+  const isLoading = isQueryHooksFetching || isInitialFetching || isRefetching;
 
   type AllQueries = typeof allQueries;
 

@@ -7,7 +7,7 @@ import {
   ClaimRewardsSection,
 } from '@/components';
 
-export default function SingleChain() {
+export default function ClaimRewards() {
   const { chainName, permission } = useAuthzContext();
 
   return (
