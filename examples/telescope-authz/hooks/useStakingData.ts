@@ -1,12 +1,6 @@
 import { useEffect, useMemo } from 'react';
-import { useChain } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
-import {
-  cosmos,
-  useRpcClient,
-  useRpcEndpoint,
-  createRpcQueryHooks,
-} from 'interchain-query';
+import { cosmos } from 'interchain-query';
 
 import { usePrices } from './usePrices';
 import { getCoin, getExponent } from '@/configs';
@@ -21,14 +15,13 @@ import {
   parseValidators,
 } from '@/utils';
 import { useAuthzContext } from '@/context';
+import { useQueryHooks } from './useQueryHooks';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
 };
 
 export const useStakingData = (chainName: string) => {
-  const { getRpcEndpoint } = useChain(chainName);
-
   const { permission } = useAuthzContext();
 
   const address = permission?.granter;
@@ -36,30 +29,11 @@ export const useStakingData = (chainName: string) => {
   const coin = getCoin(chainName);
   const exp = getExponent(chainName);
 
-  const rpcEndpointQuery = useRpcEndpoint({
-    getter: getRpcEndpoint,
-    options: {
-      enabled: !!address,
-      staleTime: Infinity,
-      queryKeyHashFn: (queryKey) => {
-        return JSON.stringify([...queryKey, chainName]);
-      },
-    },
-  });
-
-  const rpcClientQuery = useRpcClient({
-    rpcEndpoint: rpcEndpointQuery.data || '',
-    options: {
-      enabled: !!address && !!rpcEndpointQuery.data,
-      staleTime: Infinity,
-    },
-  });
-
-  const { cosmos: cosmosQuery } = createRpcQueryHooks({
-    rpc: rpcClientQuery.data,
-  });
-
-  const isDataQueryEnabled = !!address && !!rpcClientQuery.data;
+  const {
+    cosmos: cosmosQuery,
+    isReady: isQueryHooksReady,
+    isFetching: isQueryHooksFetching,
+  } = useQueryHooks(chainName);
 
   const balanceQuery = cosmosQuery.bank.v1beta1.useBalance({
     request: {
@@ -67,7 +41,7 @@ export const useStakingData = (chainName: string) => {
       denom: coin.base,
     },
     options: {
-      enabled: isDataQueryEnabled,
+      enabled: isQueryHooksReady && !!address,
       select: ({ balance }) => shiftDigits(balance?.amount || '0', -exp),
     },
   });
@@ -78,7 +52,7 @@ export const useStakingData = (chainName: string) => {
       pagination: undefined,
     },
     options: {
-      enabled: isDataQueryEnabled,
+      enabled: isQueryHooksReady && !!address,
       select: ({ validators }) => parseValidators(validators),
     },
   });
@@ -89,7 +63,7 @@ export const useStakingData = (chainName: string) => {
         delegatorAddress: address || '',
       },
       options: {
-        enabled: isDataQueryEnabled,
+        enabled: isQueryHooksReady && !!address,
         select: (data) => parseRewards(data, coin.base, -exp),
       },
     });
@@ -108,7 +82,7 @@ export const useStakingData = (chainName: string) => {
       },
     },
     options: {
-      enabled: isDataQueryEnabled,
+      enabled: isQueryHooksReady,
       select: ({ validators }) => {
         const sorted = validators.sort((a, b) =>
           new BigNumber(b.tokens).minus(a.tokens).toNumber()
@@ -130,7 +104,7 @@ export const useStakingData = (chainName: string) => {
       },
     },
     options: {
-      enabled: isDataQueryEnabled,
+      enabled: isQueryHooksReady && !!address,
       select: ({ delegationResponses }) =>
         parseDelegations(delegationResponses, -exp),
     },
@@ -138,14 +112,14 @@ export const useStakingData = (chainName: string) => {
 
   const unbondingDaysQuery = cosmosQuery.staking.v1beta1.useParams({
     options: {
-      enabled: isDataQueryEnabled,
+      enabled: isQueryHooksReady,
       select: ({ params }) => parseUnbondingDays(params),
     },
   });
 
   const annualProvisionsQuery = cosmosQuery.mint.v1beta1.useAnnualProvisions({
     options: {
-      enabled: isDataQueryEnabled,
+      enabled: isQueryHooksReady,
       select: parseAnnualProvisions,
       retry: false,
     },
@@ -153,14 +127,14 @@ export const useStakingData = (chainName: string) => {
 
   const poolQuery = cosmosQuery.staking.v1beta1.usePool({
     options: {
-      enabled: isDataQueryEnabled,
+      enabled: isQueryHooksReady,
       select: ({ pool }) => pool,
     },
   });
 
   const communityTaxQuery = cosmosQuery.distribution.v1beta1.useParams({
     options: {
-      enabled: isDataQueryEnabled,
+      enabled: isQueryHooksReady,
       select: ({ params }) => shiftDigits(params?.communityTax || '0', -18),
     },
   });
@@ -209,7 +183,7 @@ export const useStakingData = (chainName: string) => {
     ({ isRefetching }) => isRefetching
   );
 
-  const isLoading = isInitialFetching || isRefetching;
+  const isLoading = isQueryHooksFetching || isInitialFetching || isRefetching;
 
   type AllQueries = typeof allQueries;
 
