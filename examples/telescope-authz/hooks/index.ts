@@ -11,3 +11,4 @@ export * from './useQueryHooks';
 export * from './useRpcQueryClient';
 export * from './useVotingData';
 export * from './useModal';
+export * from './useSendData';
