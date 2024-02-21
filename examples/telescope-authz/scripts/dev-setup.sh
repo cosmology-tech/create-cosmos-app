@@ -13,6 +13,7 @@ function color() {
 # Define a function to install a binary on macOS
 install_macos() {
     case $1 in
+        docker) color red "Please install docker. Follow: https://docs.docker.com/desktop/install/mac-install/" ;;
         kubectl) brew install kubectl ;;
         helm) brew install helm ;;
         yq) brew install yq ;;
@@ -25,10 +26,11 @@ install_linux() {
     color green "Installing $1 at ~/.local/bin, please add it to PATH"
     mkdir -p ~/.local/bin
     case $1 in
+        docker) color red "Please install docker. Follow: https://docs.docker.com/engine/install/ubuntu/" ;;
         kubectl) curl -Lks "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" > ~/.local/bin/kubectl && chmod +x ~/.local/bin/kubectl ;;
         helm) curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash ;;
         yq) curl -Lks "https://github.com/mikefarah/yq/releases/download/v4.33.3/yq_linux_amd64" > ~/.local/bin/yq && chmod +x ~/.local/bin/yq ;;
-        kind) curl -Lks https://kind.sigs.k8s.io/dl/v0.18.0/kind-linux-amd64 > ~/.local/bin/kind && chmod +x ~/.local/bin/kind ;;
+        kind) curl -Lks https://kind.sigs.k8s.io/dl/v0.18.1/kind-linux-amd64 > ~/.local/bin/kind && chmod +x ~/.local/bin/kind ;;
     esac
 }
 
@@ -61,5 +63,7 @@ check_binary kubectl
 check_binary helm
 check_binary yq
 check_binary kind
+check_binary docker
 
 color green "All binaries are installed"
+
