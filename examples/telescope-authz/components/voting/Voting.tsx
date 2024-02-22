@@ -4,6 +4,7 @@ import {
   Proposal as IProposal,
   ProposalStatus,
   TallyResult,
+  TextProposal,
 } from 'interchain-query/cosmos/gov/v1beta1/gov';
 import {
   BasicModal,
@@ -61,7 +62,11 @@ export function Voting({ chainName }: VotingProps) {
     const proposal = data.proposals![index];
     openModal();
     setProposal(proposal);
-    setTitle(`#${proposal.proposalId?.toString()} ${proposal.content?.title}`);
+    setTitle(
+      `#${proposal.proposalId?.toString()} ${
+        (proposal.content as TextProposal)?.title
+      }`
+    );
   }
 
   if (!address) {
@@ -115,7 +120,7 @@ export function Voting({ chainName }: VotingProps) {
               <GovernanceProposalItem
                 id={`# ${proposal.proposalId?.toString()}`}
                 key={proposal.submitTime?.getTime()}
-                title={proposal.content?.title || ''}
+                title={(proposal.content as TextProposal)?.title || ''}
                 status={status(proposal.status)}
                 votes={votes(proposal.finalTallyResult!)}
                 endTime={formatDate(proposal.votingEndTime)!}
