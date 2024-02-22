@@ -25,7 +25,7 @@
     "@emotion/styled": "11.10.6",
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^2.0.13",
-    "@interchain-ui/react": "^1.21.11",
+    "@interchain-ui/react": "^1.21.16",
     "bowser": "^2.11.0",
     "chain-registry": "1.20.0",
     "copy-to-clipboard": "^3.3.2",
