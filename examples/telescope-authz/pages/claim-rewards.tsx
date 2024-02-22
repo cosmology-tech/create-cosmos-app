@@ -6,6 +6,9 @@ import {
   LoginInfoBanner,
   ClaimRewardsSection,
 } from '@/components';
+import { withServerSideRedirect } from '@/utils';
+
+export const getServerSideProps = withServerSideRedirect({ to: '/' });
 
 export default function ClaimRewards() {
   const { chainName, permission } = useAuthzContext();

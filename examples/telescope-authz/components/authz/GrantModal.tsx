@@ -21,7 +21,6 @@ import dayjs from 'dayjs';
 
 import {
   getExponent,
-  isPermissionCustomizable,
   PermissionId,
   PermissionItem,
   permissions,
@@ -30,6 +29,7 @@ import { AuthorizationType } from '@/src/codegen/cosmos/staking/v1beta1/authz';
 import { GrantMsg, useAuthzTx, useGrants } from '@/hooks';
 import { getTokenByChainName, shiftDigits } from '@/utils';
 import { CustomizationField } from './CustomizationField';
+import { AddressInput } from '@/components';
 
 import styles from '@/styles/custom.module.css';
 
@@ -49,6 +49,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   const [granteeAddress, setGranteeAddress] = useState('');
+  const [addressErrorMsg, setAddressErrorMsg] = useState('');
   const [expiryDate, setExpiryDate] = useState<Date | null>(null);
   const [selectedPermission, setSelectedPermission] =
     useState<PermissionItem | null>(null);
@@ -136,9 +137,6 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
     });
   };
 
-  const isCustomizable =
-    selectedPermission && isPermissionCustomizable(selectedPermission.id);
-
   return (
     <BasicModal
       title="Create Grant"
@@ -153,12 +151,13 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
         gap="$9"
         pt="$4"
       >
-        <TextField
-          id="grantee-address"
-          value={granteeAddress}
-          onChange={(e) => setGranteeAddress(e.target.value)}
-          label="Grantee address"
+        <AddressInput
+          label="Grantee Address"
           placeholder="Enter grantee address"
+          chainName={chainName}
+          address={granteeAddress}
+          onAddressChange={setGranteeAddress}
+          onInvalidAddress={setAddressErrorMsg}
         />
 
         <Box>
@@ -237,6 +236,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
             value={expiryDate ? dayjs(expiryDate).format('MM/DD/YYYY') : ''}
             label="Expiry Date"
             placeholder="Select expiry date"
+            autoComplete="off"
           />
           <Box position="absolute" bottom="7px" right="10px">
             <Popover
@@ -252,7 +252,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
                 <Calendar
                   locale="en-US"
                   value={expiryDate}
-                  minDate={new Date()}
+                  minDate={dayjs().add(1, 'day').startOf('day').toDate()}
                   onChange={(val) => {
                     if (Array.isArray(val)) {
                       setExpiryDate(val[1]);
@@ -274,7 +274,13 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
             fluidWidth
             intent="tertiary"
             isLoading={isGranting}
-            disabled={isGranting}
+            disabled={
+              isGranting ||
+              !!addressErrorMsg ||
+              !granteeAddress ||
+              !expiryDate ||
+              !selectedPermission
+            }
             onClick={onGrantClick}
           >
             Grant

@@ -24,7 +24,13 @@ export const Grants = ({ chainName, role }: GrantsProps) => {
       {isLoading ? (
         <Spinner size="$6xl" />
       ) : grants && grants.length > 0 ? (
-        <Box width="$full" alignSelf="flex-start">
+        <Box
+          width="$full"
+          alignSelf="flex-start"
+          display="grid"
+          gridTemplateColumns={{ mobile: '1fr', tablet: '1fr 1fr' }}
+          gap="$10"
+        >
           {grants.map((grant) => (
             <GrantCard
               key={grant.address}

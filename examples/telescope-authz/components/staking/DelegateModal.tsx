@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { StdFee } from '@cosmjs/amino';
-import { useChain } from '@cosmos-kit/react';
 import { ChainName } from 'cosmos-kit';
 import BigNumber from 'bignumber.js';
 import {
@@ -22,24 +20,10 @@ import {
   calcDollarValue,
 } from '@/utils';
 import { getCoin, getExponent } from '@/configs';
-import {
-  Prices,
-  useAuthzTx,
-  UseDisclosureReturn,
-  useToast,
-  useTx,
-} from '@/hooks';
-import { cosmos } from '@/src/codegen';
 import { useAuthzContext } from '@/context';
+import { Prices, useAuthzTx, UseDisclosureReturn, useToast } from '@/hooks';
 import { MsgDelegate } from '@/src/codegen/cosmos/staking/v1beta1/tx';
 import { StakeAuthorization } from '@/src/codegen/cosmos/staking/v1beta1/authz';
-
-const { delegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
-
-export type MaxAmountAndFee = {
-  maxAmount: number;
-  fee: StdFee;
-};
 
 export const DelegateModal = ({
   balance,
@@ -67,17 +51,14 @@ export const DelegateModal = ({
   showDescription?: boolean;
 }) => {
   const { isOpen, onClose } = modalControl;
-  const { address, estimateFee } = useChain(chainName);
 
   const [amount, setAmount] = useState<number | undefined>(0);
   const [isDelegating, setIsDelegating] = useState(false);
-  const [isSimulating, setIsSimulating] = useState(false);
-  const [maxAmountAndFee, setMaxAmountAndFee] = useState<MaxAmountAndFee>();
   const [, forceUpdate] = useState(0);
 
   const coin = getCoin(chainName);
-  const exp = getExponent(chainName);
-  // const { tx } = useTx(chainName);
+  const exponent = getExponent(chainName);
+
   const { authzTx, createExecMsg } = useAuthzTx(chainName);
   const { permission } = useAuthzContext();
   const { toast } = useToast();
@@ -86,68 +67,58 @@ export const DelegateModal = ({
     onClose();
     setAmount(0);
     setIsDelegating(false);
-    setIsSimulating(false);
   };
 
   const onDelegateClick = async () => {
     if (!amount || !permission) return;
 
-    const { grantee, granter, authorization } = permission;
+    const { grantee, granter, authorization, expiration } = permission;
 
-    const stakeAuthz = authorization as StakeAuthorization;
+    const delegateAmount = shiftDigits(amount, exponent);
 
-    const allowList = stakeAuthz.allowList?.address || [];
-    const denyList = stakeAuthz.denyList?.address || [];
+    if (StakeAuthorization.is(authorization)) {
+      const maxAmount = authorization?.maxTokens?.amount;
 
-    // TODO: check generic stake authz
+      if (maxAmount && new BigNumber(delegateAmount).gt(maxAmount)) {
+        toast({
+          type: 'error',
+          title: 'Amount exceeds max tokens',
+        });
+        return;
+      }
 
-    if (
-      !allowList.includes(selectedValidator.address) ||
-      denyList.includes(selectedValidator.address)
-    ) {
-      toast({
-        title: 'Unauthorized Delegation',
-        description:
-          'You are not allowed to delegate to this validator from this account.',
-        type: 'error',
-      });
-      return;
+      const allowList = authorization?.allowList?.address;
+      const denyList = authorization?.denyList?.address;
+
+      if (
+        (allowList && !allowList.includes(selectedValidator.address)) ||
+        (denyList && denyList.includes(selectedValidator.address))
+      ) {
+        toast({
+          type: 'error',
+          title: 'Unauthorized Delegation',
+          description:
+            'You are not allowed to delegate to this validator from this account.',
+        });
+        return;
+      }
     }
 
     setIsDelegating(true);
 
-    // const msg = delegate({
-    //   delegatorAddress: granter,
-    //   validatorAddress: selectedValidator.address,
-    //   amount: {
-    //     amount: shiftDigits(amount, exp),
-    //     denom: coin.base,
-    //   },
-    // });
+    const msg = MsgDelegate.toProtoMsg({
+      delegatorAddress: granter,
+      validatorAddress: selectedValidator.address,
+      amount: {
+        amount: delegateAmount,
+        denom: coin.base,
+      },
+    });
 
-    const isMaxAmountAndFeeExists =
-      maxAmountAndFee &&
-      new BigNumber(amount).isEqualTo(maxAmountAndFee.maxAmount);
-
-    const msg = MsgDelegate.toProtoMsg(
-      MsgDelegate.fromPartial({
-        delegatorAddress: granter,
-        validatorAddress: selectedValidator.address,
-        amount: {
-          amount: shiftDigits(amount, exp),
-          denom: coin.base,
-        },
-      })
-    );
-
-    const msgs = [createExecMsg({ msgs: [msg], grantee })];
-    console.log('msgs', msgs);
-
-    // return;
     authzTx({
-      msgs,
+      msgs: [createExecMsg({ msgs: [msg], grantee })],
+      execExpiration: expiration,
       onSuccess: () => {
-        setMaxAmountAndFee(undefined);
         closeOuterModal && closeOuterModal();
         updateData();
         onModalClose();
@@ -156,52 +127,6 @@ export const DelegateModal = ({
         setIsDelegating(false);
       },
     });
-
-    // await tx([msg], {
-    //   fee: isMaxAmountAndFeeExists ? maxAmountAndFee.fee : null,
-    //   onSuccess: () => {
-    //     setMaxAmountAndFee(undefined);
-    //     closeOuterModal && closeOuterModal();
-    //     updateData();
-    //     onModalClose();
-    //   },
-    // });
-
-    // setIsDelegating(false);
-  };
-
-  const handleMaxClick = async () => {
-    if (!address) return;
-
-    if (Number(balance) === 0) {
-      setAmount(0);
-      return;
-    }
-
-    setIsSimulating(true);
-
-    const msg = delegate({
-      delegatorAddress: address,
-      validatorAddress: selectedValidator.address,
-      amount: {
-        amount: shiftDigits(balance, exp),
-        denom: coin.base,
-      },
-    });
-
-    try {
-      const fee = await estimateFee([msg]);
-      const feeAmount = new BigNumber(fee.amount[0].amount).shiftedBy(-exp);
-      const balanceAfterFee = new BigNumber(balance)
-        .minus(feeAmount)
-        .toNumber();
-      setMaxAmountAndFee({ fee, maxAmount: balanceAfterFee });
-      setAmount(balanceAfterFee);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSimulating(false);
-    }
   };
 
   const headerExtra = (
@@ -254,10 +179,8 @@ export const DelegateModal = ({
                 return;
               }
 
-              const max = maxAmountAndFee?.maxAmount || balance;
-
-              if (new BigNumber(val).gt(max)) {
-                setAmount(Number(max));
+              if (new BigNumber(val).gt(balance)) {
+                setAmount(Number(balance));
                 forceUpdate((n) => n + 1);
                 return;
               }
@@ -325,8 +248,7 @@ export const DelegateModal = ({
               },
               {
                 label: 'Max',
-                onClick: handleMaxClick,
-                isLoading: isSimulating,
+                onClick: () => setAmount(Number(balance)),
               },
             ],
           }}
@@ -334,9 +256,7 @@ export const DelegateModal = ({
             <Button
               intent="tertiary"
               onClick={onDelegateClick}
-              disabled={
-                !isGreaterThanZero(amount) || isDelegating || isSimulating
-              }
+              disabled={!isGreaterThanZero(amount) || isDelegating}
               isLoading={isDelegating}
             >
               Delegate

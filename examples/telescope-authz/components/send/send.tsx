@@ -1,13 +1,6 @@
 import { useState } from 'react';
 import { useChain } from '@cosmos-kit/react';
-import {
-  Box,
-  Button,
-  Spinner,
-  Text,
-  TextField,
-  TokenInput,
-} from '@interchain-ui/react';
+import { Box, Button, Spinner, Text, TokenInput } from '@interchain-ui/react';
 import BigNumber from 'bignumber.js';
 
 import { useAuthzTx, useSendData, useToast } from '@/hooks';
@@ -18,8 +11,9 @@ import {
   shiftDigits,
 } from '@/utils';
 import { useAuthzContext } from '@/context';
-import { SendAuthorization } from '@/src/codegen/cosmos/bank/v1beta1/authz';
+import { AddressInput } from '@/components';
 import { MsgSend } from '@/src/codegen/cosmos/bank/v1beta1/tx';
+import { SendAuthorization } from '@/src/codegen/cosmos/bank/v1beta1/authz';
 
 type SendSectionProps = {
   chainName: string;
@@ -29,6 +23,7 @@ export const SendSection = ({ chainName }: SendSectionProps) => {
   const [recipientAddress, setRecipientAddress] = useState('');
   const [amount, setAmount] = useState<number | undefined>(undefined);
   const [isSending, setIsSending] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const { isWalletConnected } = useChain(chainName);
   const { data, isLoading, refetch } = useSendData(chainName);
@@ -42,7 +37,7 @@ export const SendSection = ({ chainName }: SendSectionProps) => {
   const onSendClick = () => {
     if (!amount || !recipientAddress || !permission) return;
 
-    const { grantee, granter, authorization } = permission;
+    const { grantee, granter, authorization, expiration } = permission;
 
     const sendAmount = shiftDigits(amount, exponent);
 
@@ -72,6 +67,7 @@ export const SendSection = ({ chainName }: SendSectionProps) => {
 
     authzTx({
       msgs: [createExecMsg({ msgs: [msg], grantee })],
+      execExpiration: expiration,
       onSuccess: () => {
         refetch();
         setAmount(undefined);
@@ -111,13 +107,14 @@ export const SendSection = ({ chainName }: SendSectionProps) => {
         Send
       </Text>
 
-      <TextField
-        id="recipient-address"
-        value={recipientAddress}
-        onChange={(e) => setRecipientAddress(e.target.value)}
+      <AddressInput
         label="Recipient Address"
         placeholder="Enter recipient address"
-        attributes={{ mb: '$12' }}
+        chainName={chainName}
+        address={recipientAddress}
+        onAddressChange={setRecipientAddress}
+        onInvalidAddress={setErrorMsg}
+        mb="$12"
       />
 
       <TokenInput
@@ -135,7 +132,7 @@ export const SendSection = ({ chainName }: SendSectionProps) => {
 
       <Button
         intent="tertiary"
-        disabled={!amount || !recipientAddress || isSending}
+        disabled={!amount || !recipientAddress || isSending || !!errorMsg}
         onClick={onSendClick}
         fluidWidth
       >

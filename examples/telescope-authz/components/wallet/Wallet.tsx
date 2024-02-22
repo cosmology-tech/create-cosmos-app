@@ -77,9 +77,9 @@ export function Wallet({
       <Box mx="auto" maxWidth="28rem" attributes={{ mb: '$12' }}>
         {isMultiChain ? (
           <Chain
-            name={chain.chain_name}
-            chains={chains}
-            onChainChange={handleChainChange}
+            chainName={chain.chain_name}
+            chainInfos={chains}
+            onChange={handleChainChange}
           />
         ) : (
           <ChainCard

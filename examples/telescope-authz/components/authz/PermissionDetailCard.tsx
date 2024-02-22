@@ -1,7 +1,10 @@
-import { Box, Button, Skeleton, Text } from '@interchain-ui/react';
+import Link from 'next/link';
+import { Box, Button, Icon, Skeleton, Text } from '@interchain-ui/react';
 
 import { useValidators } from '@/hooks';
+import { permissionNameToRouteMap } from '@/configs';
 import { getAttributePairs, PrettyGrant } from '@/utils';
+import { useAuthzContext } from '@/context';
 
 type PermissionDetailCardProps = {
   role: 'granter' | 'grantee';
@@ -21,6 +24,7 @@ export const PermissionDetailCard = ({
   const { name, expiration, expiry, authorization } = permission;
   const isGranter = role === 'granter';
 
+  const { setPermission } = useAuthzContext();
   const { data, isLoading } = useValidators(chainName, { fetchLogos: false });
   const attributes = getAttributePairs(authorization, data || []);
 
@@ -33,29 +37,47 @@ export const PermissionDetailCard = ({
       width="100%"
       height={{ mobile: 'auto', tablet: '100%' }}
     >
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        gap="$6"
-        mb="$10"
-      >
-        <Text fontWeight="$semibold" fontSize="$md">
-          {name}
-        </Text>
-        {isGranter && (
-          <Button
-            intent="tertiary"
-            size="sm"
-            onClick={onRevoke}
-            disabled={isRevoking}
+      <Box mb="$10">
+        {isGranter ? (
+          <Box display="flex" justifyContent="space-between" gap="$6">
+            <Text fontWeight="$semibold" fontSize="$lg">
+              {name}
+            </Text>
+            <Button
+              intent="tertiary"
+              size="sm"
+              onClick={onRevoke}
+              disabled={isRevoking}
+            >
+              Revoke
+            </Button>
+          </Box>
+        ) : permissionNameToRouteMap[name] ? (
+          <Link
+            href={permissionNameToRouteMap[name]}
+            style={{ textDecoration: 'none' }}
           >
-            Revoke
-          </Button>
+            <Box
+              display="flex"
+              alignItems="center"
+              gap="$4"
+              attributes={{ onClick: () => setPermission(permission) }}
+            >
+              <Text fontWeight="$semibold" fontSize="$lg">
+                {name}
+              </Text>
+              <Icon name="arrowRightRounded" size="$xs" />
+            </Box>
+          </Link>
+        ) : (
+          <Text fontWeight="$semibold" fontSize="$lg">
+            {name}
+          </Text>
         )}
       </Box>
 
       <Box display="flex" flexDirection="column" gap="$7">
+        {expiration && <PermissionAttribute label="Expiry" value={expiry} />}
         {attributes.map((attr) => (
           <PermissionAttribute
             {...attr}
@@ -66,7 +88,6 @@ export const PermissionDetailCard = ({
             }
           />
         ))}
-        {expiration && <PermissionAttribute label="Expiry" value={expiry} />}
       </Box>
     </Box>
   );
@@ -84,14 +105,23 @@ const PermissionAttribute = ({
   isLoading = false,
 }: PermissionAttributeProps) => {
   return (
-    <Box display="flex" alignItems="center" justifyContent="space-between">
-      <Text fontWeight="$normal" fontSize="$sm">
+    <Box display="flex" justifyContent="space-between">
+      <Text
+        fontWeight="$normal"
+        fontSize="$sm"
+        attributes={{ maxWidth: '30%' }}
+      >
         {label}
       </Text>
       {isLoading ? (
         <Skeleton width="$20" height="$9" />
       ) : (
-        <Text fontWeight="$semibold" fontSize="$sm">
+        <Text
+          fontWeight="$semibold"
+          fontSize="$sm"
+          textAlign="right"
+          attributes={{ maxWidth: '65%' }}
+        >
           {value}
         </Text>
       )}
