@@ -1,8 +1,6 @@
 import { assets } from 'chain-registry';
 import { Asset, AssetList, Chain } from '@chain-registry/types';
 
-// TODO: refactor this, create getAssetByChainName and getAssetByDenom as base functions
-
 export const getChainLogoByChainName = (chainName: string): string => {
   const asset = assets.find(({ chain_name }) => chain_name === chainName)
     ?.assets?.[0];

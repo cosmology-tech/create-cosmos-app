@@ -144,18 +144,17 @@ export function Proposal({
 
     setIsVoting(true);
 
-    const { grantee, granter } = permission;
+    const { grantee, granter, expiration } = permission;
 
-    const msg = MsgVote.toProtoMsg(
-      MsgVote.fromPartial({
-        voter: granter,
-        option: VoteTypes.indexOf(voteType),
-        proposalId: proposal.proposalId,
-      })
-    );
+    const msg = MsgVote.toProtoMsg({
+      voter: granter,
+      option: VoteTypes.indexOf(voteType),
+      proposalId: proposal.proposalId,
+    });
 
     authzTx({
       msgs: [createExecMsg({ msgs: [msg], grantee })],
+      execExpiration: expiration,
       onSuccess: () => {
         onVoteSuccess();
       },

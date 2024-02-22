@@ -4,11 +4,7 @@ import { isDeliverTxSuccess, StdFee } from '@cosmjs/stargate';
 import { cosmos, getSigningCosmosClient } from '@/src/codegen';
 import { MsgVote } from '@/src/codegen/cosmos/gov/v1beta1/tx';
 import { MsgWithdrawDelegatorReward } from '@/src/codegen/cosmos/distribution/v1beta1/tx';
-import {
-  MsgExec,
-  MsgGrant,
-  MsgRevoke,
-} from '@/src/codegen/cosmos/authz/v1beta1/tx';
+import { MsgGrant } from '@/src/codegen/cosmos/authz/v1beta1/tx';
 import { EncodeObject } from '@/src/codegen/types';
 import { SendAuthorization } from '@/src/codegen/cosmos/bank/v1beta1/authz';
 import {
@@ -18,7 +14,7 @@ import {
 import { GenericAuthorization } from '@/src/codegen/cosmos/authz/v1beta1/authz';
 
 import { getTokenByChainName, PrettyPermission } from '@/utils';
-import { Permission, PermissionId } from '@/configs';
+import { Permission } from '@/configs';
 import { useToast, type CustomToast } from './useToast';
 import { coin } from '@cosmjs/amino';
 import { MsgSend } from '@/src/codegen/cosmos/bank/v1beta1/tx';
@@ -27,6 +23,7 @@ import {
   MsgBeginRedelegate,
   MsgUndelegate,
 } from '@/src/codegen/cosmos/staking/v1beta1/tx';
+import dayjs from 'dayjs';
 
 const { grant, revoke, exec } =
   cosmos.authz.v1beta1.MessageComposer.fromPartial;
@@ -150,6 +147,7 @@ type AuthzTxOptions = {
   toast?: Partial<CustomToast>;
   onSuccess?: () => void;
   onComplete?: () => void;
+  execExpiration?: Date | undefined;
 };
 
 export const useAuthzTx = (chainName: string) => {
@@ -158,7 +156,23 @@ export const useAuthzTx = (chainName: string) => {
     useChain(chainName);
 
   const authzTx = async (options: AuthzTxOptions) => {
-    const { msgs, fee, onSuccess, onComplete, toast: customToast } = options;
+    const {
+      msgs,
+      fee,
+      onSuccess,
+      onComplete,
+      execExpiration,
+      toast: customToast,
+    } = options;
+
+    if (execExpiration && dayjs().isAfter(execExpiration)) {
+      toast({
+        type: 'error',
+        title: 'Permission Expired',
+      });
+      if (onComplete) onComplete();
+      return;
+    }
 
     if (!address) {
       toast({

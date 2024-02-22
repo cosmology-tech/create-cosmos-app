@@ -1,6 +1,9 @@
 import { Divider } from '@interchain-ui/react';
 import { useAuthzContext } from '@/context';
+import { withServerSideRedirect } from '@/utils';
 import { Layout, Wallet, LoginInfoBanner, SendSection } from '@/components';
+
+export const getServerSideProps = withServerSideRedirect({ to: '/' });
 
 export default function Send() {
   const { chainName, permission } = useAuthzContext();

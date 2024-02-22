@@ -28,8 +28,12 @@ export const LoginInfoBanner = ({
       mx="auto"
     >
       <Icon name="errorWarningLine" size="$xl" />
-      <Text>You are now logged in as</Text>
-      <Text fontWeight="$semibold">{loginAddress}</Text>
+      <Text>
+        You are now logged in as&nbsp;
+        <Text as="span" fontWeight="$semibold">
+          {loginAddress}
+        </Text>
+      </Text>
     </Box>
   );
 };

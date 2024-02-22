@@ -45,19 +45,18 @@ const Overview = ({
 
     setIsClaiming(true);
 
-    const { grantee, granter } = permission;
+    const { grantee, granter, expiration } = permission;
 
     const msgs = rewards.byValidators.map(({ validatorAddress }) =>
-      MsgWithdrawDelegatorReward.toProtoMsg(
-        MsgWithdrawDelegatorReward.fromPartial({
-          delegatorAddress: granter,
-          validatorAddress,
-        })
-      )
+      MsgWithdrawDelegatorReward.toProtoMsg({
+        delegatorAddress: granter,
+        validatorAddress,
+      })
     );
 
     authzTx({
       msgs: [createExecMsg({ msgs, grantee })],
+      execExpiration: expiration,
       onSuccess: () => {
         updateData();
       },

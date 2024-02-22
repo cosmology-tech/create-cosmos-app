@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { Coin } from '@cosmjs/amino';
+import { GetServerSideProps } from 'next';
 
 import {
   GenericAuthorization,
@@ -140,4 +141,19 @@ export const getAttributePairs = (
   }
 
   return pair;
+};
+
+interface RedirectOptions {
+  to: string;
+}
+
+export const withServerSideRedirect = (options: RedirectOptions) => {
+  const getServerSideProps: GetServerSideProps = async (context) => {
+    context.res.writeHead(301, { Location: options.to });
+    context.res.end();
+
+    return { props: {} };
+  };
+
+  return getServerSideProps;
 };

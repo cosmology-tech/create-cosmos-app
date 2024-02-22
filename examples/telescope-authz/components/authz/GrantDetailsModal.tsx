@@ -46,20 +46,17 @@ export const GrantDetailsModal = ({
     });
   };
 
-  const isScrollable = permissions.length > 4;
-
   return (
     <BasicModal title="All Permissions" isOpen={isOpen} onClose={onClose}>
       <Box width={{ mobile: '100%', tablet: '$containerMd' }}>
         <Box
           mt="$7"
-          mb="$12"
+          mb={isGranter ? '$12' : '$2'}
           display="grid"
           gridTemplateColumns={{ mobile: '1fr', tablet: '1fr 1fr' }}
           gap="$10"
-          maxHeight="480px"
+          maxHeight="500px"
           overflowY="auto"
-          pr={isScrollable ? '$4' : '0'}
         >
           {permissions.map((permission) => (
             <PermissionDetailCard

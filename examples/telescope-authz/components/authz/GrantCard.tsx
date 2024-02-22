@@ -9,15 +9,16 @@ import {
   Text,
   TextField,
 } from '@interchain-ui/react';
+import { useChain } from '@cosmos-kit/react';
 
 import {
   getChainLogoByChainName,
   PrettyGrant,
   PrettyPermission,
 } from '@/utils';
-import { getCoin, permissionNameToRouteMap } from '@/configs';
 import { useAuthzContext } from '@/context';
 import { useAuthzTx, useGrants } from '@/hooks';
+import { getCoin, permissionNameToRouteMap } from '@/configs';
 
 import styles from '@/styles/custom.module.css';
 
@@ -39,6 +40,7 @@ export const GrantCard = ({
   const [revokingPermission, setRevokingPermission] =
     useState<PrettyPermission>();
 
+  const { chain } = useChain(chainName);
   const { refetch } = useGrants(chainName);
   const { setPermission } = useAuthzContext();
   const { authzTx, createRevokeMsg } = useAuthzTx(chainName);
@@ -82,7 +84,7 @@ export const GrantCard = ({
       py="$11"
       backgroundColor="$cardBg"
       borderRadius="$lg"
-      width="496px"
+      width="$full"
     >
       <Stack space="$4" attributes={{ alignItems: 'center', mb: '$10' }}>
         <Image
@@ -93,7 +95,7 @@ export const GrantCard = ({
           sizes="100vw"
         />
         <Text fontWeight="$semibold" fontSize="$lg">
-          {token.name}
+          {chain.pretty_name}
         </Text>
       </Stack>
 
@@ -175,7 +177,7 @@ export const GrantCard = ({
         )}
       </Box>
 
-      <Button intent="tertiary" onClick={onViewDetails} fluidWidth>
+      <Button intent="tertiary" onClick={onViewDetails}>
         View Details
       </Button>
     </Box>
