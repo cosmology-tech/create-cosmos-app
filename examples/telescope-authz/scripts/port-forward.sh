@@ -21,12 +21,18 @@ function stop_port_forward() {
 
 # Default values
 CHAIN_RPC_PORT=26657
+CHAIN_COMETMOCK_PORT=22331
+CHAIN_GRPC_PORT=9090
 CHAIN_LCD_PORT=1317
 CHAIN_EXPOSER_PORT=8081
 CHAIN_FAUCET_PORT=8000
+RELAYER_REST_PORT=3000
+RELAYER_EXPOSER_PORT=8081
 EXPLORER_LCD_PORT=8080
 REGISTRY_LCD_PORT=8080
 REGISTRY_GRPC_PORT=9090
+MONITORING_PROMETHEUS_PORT=8080
+MONITORING_GRAFANA_PORT=8080
 
 for i in "$@"; do
   case $i in
@@ -48,23 +54,54 @@ stop_port_forward
 echo "Port forwarding for config ${CONFIGFILE}"
 echo "Port forwarding all chains"
 num_chains=$(yq -r ".chains | length - 1" ${CONFIGFILE})
-if [[ $num_chains -lt 0 ]]; then
+if [[ $num_chains -gt -1 ]]; then
+  for i in $(seq 0 $num_chains); do
+    # derive chain pod name from chain id
+    # https://github.com/cosmology-tech/starship/blob/main/charts/devnet/templates/_helpers.tpl#L56
+    chain=$(yq -r ".chains[$i].name" ${CONFIGFILE} )
+    chain=${chain/_/"-"}
+    localrpc=$(yq -r ".chains[$i].ports.rpc" ${CONFIGFILE} )
+    localgrpc=$(yq -r ".chains[$i].ports.grpc" ${CONFIGFILE} )
+    locallcd=$(yq -r ".chains[$i].ports.rest" ${CONFIGFILE} )
+    localexp=$(yq -r ".chains[$i].ports.exposer" ${CONFIGFILE})
+    localfaucet=$(yq -r ".chains[$i].ports.faucet" ${CONFIGFILE})
+    color yellow "chains: forwarded $chain"
+    if [[ $(yq -r ".chains[$i].cometmock.enabled" $CONFIGFILE) == "true" ]];
+    then
+      [[ "$localrpc" != "null" ]] && color yellow "    cometmock rpc to http://localhost:$localrpc" && kubectl port-forward pods/$chain-cometmock-0 $localrpc:$CHAIN_COMETMOCK_PORT > /dev/null 2>&1 &
+    else
+      [[ "$localrpc" != "null" ]] && color yellow "    rpc to http://localhost:$localrpc" && kubectl port-forward pods/$chain-genesis-0 $localrpc:$CHAIN_RPC_PORT > /dev/null 2>&1 &
+    fi
+    [[ "$localgrpc" != "null" ]] && color yellow "    grpc to http://localhost:$localgrpc" && kubectl port-forward pods/$chain-genesis-0 $localgrpc:$CHAIN_GRPC_PORT > /dev/null 2>&1 &
+    [[ "$locallcd" != "null" ]] && color yellow "    lcd to http://localhost:$locallcd" && kubectl port-forward pods/$chain-genesis-0 $locallcd:$CHAIN_LCD_PORT > /dev/null 2>&1 &
+    [[ "$localexp" != "null" ]] && color yellow "    exposer to http://localhost:$localexp" && kubectl port-forward pods/$chain-genesis-0 $localexp:$CHAIN_EXPOSER_PORT > /dev/null 2>&1 &
+    [[ "$localfaucet" != "null" ]] && color yellow "    faucet to http://localhost:$localfaucet" && kubectl port-forward pods/$chain-genesis-0 $localfaucet:$CHAIN_FAUCET_PORT > /dev/null 2>&1 &
+    sleep 1
+  done
+else
   echo "No chains to port-forward: num: $num_chains"
-  exit 1
 fi
-for i in $(seq 0 $num_chains); do
-  chain=$(yq -r ".chains[$i].name" ${CONFIGFILE} )
-  localrpc=$(yq -r ".chains[$i].ports.rpc" ${CONFIGFILE} )
-  locallcd=$(yq -r ".chains[$i].ports.rest" ${CONFIGFILE} )
-  localexp=$(yq -r ".chains[$i].ports.exposer" ${CONFIGFILE})
-  localfaucet=$(yq -r ".chains[$i].ports.faucet" ${CONFIGFILE})
-  [[ "$localrpc" != "null" ]] && kubectl port-forward pods/$chain-genesis-0 $localrpc:$CHAIN_RPC_PORT > /dev/null 2>&1 &
-  [[ "$locallcd" != "null" ]] && kubectl port-forward pods/$chain-genesis-0 $locallcd:$CHAIN_LCD_PORT > /dev/null 2>&1 &
-  [[ "$localexp" != "null" ]] && kubectl port-forward pods/$chain-genesis-0 $localexp:$CHAIN_EXPOSER_PORT > /dev/null 2>&1 &
-  [[ "$localfaucet" != "null" ]] && kubectl port-forward pods/$chain-genesis-0 $localfaucet:$CHAIN_FAUCET_PORT > /dev/null 2>&1 &
-  sleep 1
-  color yellow "chains: forwarded $chain lcd to http://localhost:$locallcd, rpc to http://localhost:$localrpc, faucet to http://localhost:$localfaucet"
-done
+
+
+echo "Port forward relayers"
+num_relayers=$(yq -r ".relayers | length - 1" ${CONFIGFILE})
+if [[ $num_relayers -gt -1 ]]; then
+  for i in $(seq 0 $num_relayers); do
+    # derive chain pod name from chain id
+    # https://github.com/cosmology-tech/starship/blob/main/charts/devnet/templates/_helpers.tpl#L56
+    relayer=$(yq -r ".relayers[$i].name" ${CONFIGFILE} )
+    relayer=$(yq -r ".relayers[$i].type" ${CONFIGFILE} )-${relayer/_/"-"}
+    localrest=$(yq -r ".relayers[$i].ports.rest" ${CONFIGFILE} )
+    localexposer=$(yq -r ".relayers[$i].ports.exposer" ${CONFIGFILE} )
+    color yellow "relayers: forwarded $relayer"
+    [[ "$localrest" != "null" ]] && color yellow "    rpc to http://localhost:$localrest" && kubectl port-forward pods/$relayer-0 $localrest:$RELAYER_REST_PORT > /dev/null 2>&1 &
+    [[ "$localexposer" != "null" ]] && color yellow "    rpc to http://localhost:$localexposer" && kubectl port-forward pods/$relayer-0 $localexposer:$RELAYER_EXPOSER_PORT > /dev/null 2>&1 &
+    sleep 1
+  done
+else
+  echo "No relayer to port-forward: num: $num_relayers"
+fi
+
 
 echo "Port forward services"
 
@@ -82,3 +119,14 @@ then
   sleep 1
   color green "Open the explorer to get started.... http://localhost:8080"
 fi
+
+if [[ $(yq -r ".monitoring.enabled" $CONFIGFILE) == "true" ]];
+then
+  color yellow "monitoring port forward:"
+  localgrafana=$(yq -r ".monitoring.ports.grafana" ${CONFIGFILE})
+  localprometheus=$(yq -r ".monitoring.ports.prometheus" ${CONFIGFILE})
+  [[ "$localgrafana" != "null" ]] && color yellow "    grafana to http://localhost:$localgrafana" && kubectl port-forward service/grafana $localgrafana:$MONITORING_GRAFANA_PORT > /dev/null 2>&1 &
+  [[ "$localprometheus" != "null" ]] && color yellow "    prometheus to http://localhost:$localprometheus" && kubectl port-forward service/prometheus-service $localprometheus:$MONITORING_PROMETHEUS_PORT > /dev/null 2>&1 &
+  sleep 1
+fi
+

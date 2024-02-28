@@ -11,7 +11,7 @@
     "locks": "npm run locks:remove && npm run locks:create",
     "codegen": "node scripts/codegen.js",
     "e2e": "npm run e2e:test",
-    "e2e:deps": "make setup",
+    "e2e:deps": "make setup-deps",
     "e2e:kind": "make setup-kind",
     "e2e:start": "make install",
     "e2e:port": "make port-forward",

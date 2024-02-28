@@ -2,14 +2,14 @@ HELM_NAME = telescope-starship
 HELM_FILE = configs/starship.yaml
 HELM_REPO = starship
 HELM_CHART = devnet
-HELM_VERSION = v0.1.38
+HELM_VERSION = v0.1.47
 
 ###############################################################################
 ###                              All commands                               ###
 ###############################################################################
 
 .PHONY: setup
-setup: check setup-helm
+setup: check
 
 .PHONY: test
 test:
@@ -25,21 +25,13 @@ clean: stop clean-kind
 ###                              Helm commands                              ###
 ###############################################################################
 
-.PHONY: setup-helm
-setup-helm:
-	helm repo add $(HELM_REPO) https://cosmology-tech.github.io/starship/
-	helm repo update
-	helm search repo $(HELM_REPO)/$(HELM_CHART) --version $(HELM_VERSION)
-
 .PHONY: install
 install:
-	@echo "Installing the helm chart. This is going to take a while....."
-	@echo "You can check the status with \"kubectl get pods\", run in another terminal please"
-	helm install -f $(HELM_FILE) $(HELM_NAME) $(HELM_REPO)/$(HELM_CHART) --version $(HELM_VERSION)
+	bash $(CURDIR)/scripts/install.sh --config $(HELM_FILE) --version $(HELM_VERSION) --name $(HELM_NAME)
 
 .PHONY: debug
 debug:
-	helm install --dry-run --debug -f $(HELM_FILE) $(HELM_NAME) $(HELM_REPO)/$(HELM_CHART)
+	bash $(CURDIR)/scripts/install.sh --config $(HELM_FILE) --version $(HELM_VERSION) --name $(HELM_NAME) --dry-run
 
 .PHONY: delete
 delete:
