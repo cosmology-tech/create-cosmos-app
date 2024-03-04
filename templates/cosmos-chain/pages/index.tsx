@@ -1,9 +1,12 @@
+import NoSSR from "react-no-ssr";
 import { Home, Layout } from "@/components";
 
 export default function Index() {
   return (
     <Layout>
-      <Home />
+      <NoSSR>
+        <Home />
+      </NoSSR>
     </Layout>
   );
 }
