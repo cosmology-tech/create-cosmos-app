@@ -12,13 +12,15 @@ import {
   toast,
   useColorModeValue,
 } from "@interchain-ui/react";
-import { AssetSelect, ChainContext } from "@/components";
+
+import { AssetSelect } from "@/components";
+import { ApplicationContext } from "@/config";
 
 export function Faucet() {
   const [receiver, setReceiver] = useState("");
   const [asset, setAsset] = useState<Asset | null>(null);
   const [assets, setAssets] = useState<Asset[]>([]);
-  const { chainName } = useContext(ChainContext);
+  const { chainName } = useContext(ApplicationContext);
   const { address, openView } = useChain(chainName);
   const { wallet } = useWallet();
   const walletLogo = typeof wallet?.logo === "string"

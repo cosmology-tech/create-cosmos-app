@@ -6,7 +6,7 @@ export function useBalances(chainName: string) {
   const { address } = useChain(chainName);
   const { cosmos, isReady } = useQueryHooks(chainName);
 
-  const balances = cosmos.bank.v1beta1.useAllBalances({
+  const query = cosmos.bank.v1beta1.useAllBalances({
     request: {
       address: address || "",
       pagination: paginate(100n),
@@ -16,5 +16,9 @@ export function useBalances(chainName: string) {
     },
   });
 
-  return balances;
+  const data = query.data?.balances || [];
+  const gamm = data.filter((balance) => balance.denom.startsWith("gamm/"));
+  const nonGamm = data.filter((balance) => !balance.denom.startsWith("gamm/"));
+
+  return { data, gamm, nonGamm, query };
 }

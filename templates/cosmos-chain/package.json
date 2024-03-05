@@ -18,8 +18,8 @@
     "@types/react-dom": "18.0.9"
   },
   "dependencies": {
-    "@chain-registry/assets": "1.29.0",
-    "@chain-registry/types": "0.17.1",
+    "@chain-registry/assets": "1.29.7",
+    "@chain-registry/types": "0.18.1",
     "@cosmjs/cosmwasm-stargate": "0.31.1",
     "@cosmjs/stargate": "0.31.1",
     "@cosmos-kit/react": "2.10.11",
@@ -27,7 +27,8 @@
     "@emotion/styled": "11.10.6",
     "@interchain-ui/react": "^1.22.1",
     "@tanstack/react-query": "4.32.0",
-    "chain-registry": "1.28.0",
+    "bignumber.js": "^9.1.2",
+    "chain-registry": "1.28.6",
     "cosmos-kit": "2.9.2",
     "fast-fuzzy": "1.12.0",
     "framer-motion": "9.0.7",

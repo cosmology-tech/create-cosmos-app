@@ -93,13 +93,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/assets@npm:1.29.0":
-  version: 1.29.0
-  resolution: "@chain-registry/assets@npm:1.29.0"
+"@chain-registry/assets@npm:1.29.7":
+  version: 1.29.7
+  resolution: "@chain-registry/assets@npm:1.29.7"
   dependencies:
     "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.18.0"
-  checksum: 10c0/e456a4f194901899d84f5e712b9b1b131130cf0549c40842ec2518f2d1081fcb02e4bada049ba313b573a165088e84ab3b2581f5122b317ba21fc815173da08b
+    "@chain-registry/types": "npm:^0.18.1"
+  checksum: 10c0/c43ab87a4a5cdf1cc0c3f0fc161fb7c2b94660de6372a782ae091e0b380f488c38f812bc3648b78d32e7c92003452a9eb26a1894f5951d7a5814c0dc55d0cd10
   languageName: node
   linkType: hard
 
@@ -162,21 +162,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:0.17.1, @chain-registry/types@npm:^0.17.1":
-  version: 0.17.1
-  resolution: "@chain-registry/types@npm:0.17.1"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-  checksum: 10c0/00400f2994c838dbf0a4a6aa01af397d72badbeee82e13095e1ae1e5853a9405f802f0e5629f3aab0cfaa7ec9eae78eb0976001d5a24a7f33d138e2b02edb547
-  languageName: node
-  linkType: hard
-
-"@chain-registry/types@npm:^0.18.0, @chain-registry/types@npm:^0.18.1":
+"@chain-registry/types@npm:0.18.1, @chain-registry/types@npm:^0.18.1":
   version: 0.18.1
   resolution: "@chain-registry/types@npm:0.18.1"
   dependencies:
     "@babel/runtime": "npm:^7.21.0"
   checksum: 10c0/2dcadada71a5665cc83f4059335847beb8464957f95f233e4d78add2ead10ade857cf16625067c16896106956487a12f08f53b3ce2a19261d5e7eff39fbb7279
+  languageName: node
+  linkType: hard
+
+"@chain-registry/types@npm:^0.17.1":
+  version: 0.17.1
+  resolution: "@chain-registry/types@npm:0.17.1"
+  dependencies:
+    "@babel/runtime": "npm:^7.21.0"
+  checksum: 10c0/00400f2994c838dbf0a4a6aa01af397d72badbeee82e13095e1ae1e5853a9405f802f0e5629f3aab0cfaa7ec9eae78eb0976001d5a24a7f33d138e2b02edb547
   languageName: node
   linkType: hard
 
@@ -693,8 +693,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/cosmos-chain@workspace:."
   dependencies:
-    "@chain-registry/assets": "npm:1.29.0"
-    "@chain-registry/types": "npm:0.17.1"
+    "@chain-registry/assets": "npm:1.29.7"
+    "@chain-registry/types": "npm:0.18.1"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.1"
     "@cosmjs/stargate": "npm:0.31.1"
     "@cosmos-kit/react": "npm:2.10.11"
@@ -705,7 +705,8 @@ __metadata:
     "@types/node": "npm:18.11.9"
     "@types/react": "npm:18.0.25"
     "@types/react-dom": "npm:18.0.9"
-    chain-registry: "npm:1.28.0"
+    bignumber.js: "npm:^9.1.2"
+    chain-registry: "npm:1.28.6"
     cosmos-kit: "npm:2.9.2"
     eslint: "npm:8.28.0"
     eslint-config-next: "npm:13.0.5"
@@ -5874,13 +5875,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chain-registry@npm:1.28.0":
-  version: 1.28.0
-  resolution: "chain-registry@npm:1.28.0"
+"chain-registry@npm:1.28.6":
+  version: 1.28.6
+  resolution: "chain-registry@npm:1.28.6"
   dependencies:
     "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.18.0"
-  checksum: 10c0/d250a659dd3cf73a09ce1ef314918520f4dfeef0726b88fc63c120a6bcfa9860b425c4ac5b140dc2b1484fafe5d8d785b0b4852450b4ef3ee6e94dc4fed6ee73
+    "@chain-registry/types": "npm:^0.18.1"
+  checksum: 10c0/d10cd4cc9034798cbb5269c1fde899babc22a7c3c7a74a7328f966fa1560d3edfdc75e258921c7eeb2dff136f3fc1e332004f3400211f1c200b332de81a79551
   languageName: node
   linkType: hard
 
