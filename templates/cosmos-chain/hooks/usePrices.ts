@@ -21,6 +21,7 @@ export type CoinGeckoResponse = Record<CoinGeckoId, CoinGeckoPrice>;
 async function fetchPrices(
   coinGeckoIds: CoinGeckoId[],
 ): Promise<CoinGeckoResponse> {
+  console.log(coinGeckoIds);
   const url =
     `https://api.coingecko.com/api/v3/simple/price?ids=${coinGeckoIds.join()}&vs_currencies=usd`;
   return await fetch(url).then((res) => res.json());
@@ -36,13 +37,13 @@ function toPriceHash(prices: CoinGeckoResponse = {}): PriceHash {
 export function usePrices(assets: Asset[] = []) {
   const query = useQuery({
     queryKey: ["prices"],
+    enabled: assets.length > 0,
     queryFn: () =>
       fetchPrices(
         assets.map((asset) => asset.coingecko_id).filter(
           Boolean,
         ) as CoinGeckoId[],
       ),
-    staleTime: Infinity,
   });
 
   return { query, ...toPriceHash(query.data) } as PriceHash & {

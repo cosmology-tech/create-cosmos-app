@@ -6,12 +6,14 @@ import {
   Text,
   useColorModeValue,
 } from "@interchain-ui/react";
+import { useChain } from "@cosmos-kit/react";
 import { ApplicationContext } from "@/config";
 import { useBalances, usePrices } from "@/hooks";
 import { convertChainBalances, formatPrice, getChain, getLogo } from "@/utils";
 
 export function Home() {
   const { chainName } = useContext(ApplicationContext);
+  const { address } = useChain(chainName);
 
   const { nonGamm, query } = useBalances(chainName);
 
@@ -37,13 +39,12 @@ export function Home() {
         Your Assets on {chain?.pretty_name}
       </Text>
 
-      {query.isLoading ? Loading : null}
+      {address && query.isLoading ? Loading : null}
 
       {balances.map((balance, index) => (
-        <Box py="$5">
+        <Box py="$5" key={balance.balance.denom}>
           <AssetListItem
             isOtherChains={false}
-            key={balance.balance.denom}
             name={balance.asset?.name!}
             symbol={balance.asset!.symbol}
             imgSrc={getLogo(balance.asset!)!}
