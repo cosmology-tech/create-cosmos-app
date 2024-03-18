@@ -1,4 +1,5 @@
-import { Box, Button, Link, Text } from "@interchain-ui/react";
+import Link from "next/link";
+import { Box, Button, Text } from "@interchain-ui/react";
 import Connect from "./Connect";
 
 export function Hero() {
@@ -36,7 +37,7 @@ export function Hero() {
           Cosmology develops cutting-edge tools for the interchain ecosystem,
           empowering seamless interactions across the Internet of Blockchains.
         </Text>
-        <Link href="/components" attributes={{ display: "inline-block" }}>
+        <Link href="/components" style={{ display: "inline-block" }}>
           <Button intent="tertiary" attributes={{ mt: "$10" }}>
             View Components
           </Button>

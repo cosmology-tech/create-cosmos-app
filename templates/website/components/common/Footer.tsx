@@ -1,5 +1,6 @@
+import Link from "next/link";
 import Image from "next/image";
-import { Box, Link, Text } from "@interchain-ui/react";
+import { Box, Text } from "@interchain-ui/react";
 
 import logo from "../../images/cosmology-name-logo.svg";
 
