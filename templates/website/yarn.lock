@@ -514,9 +514,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmology/connect-chain@workspace:.":
+"@cosmology/website@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@cosmology/connect-chain@workspace:."
+  resolution: "@cosmology/website@workspace:."
   dependencies:
     "@cosmjs/cosmwasm-stargate": "npm:0.31.1"
     "@cosmjs/stargate": "npm:0.31.1"
