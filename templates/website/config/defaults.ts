@@ -1,0 +1,1 @@
+export const CHAIN_NAME = 'cosmoshub';
