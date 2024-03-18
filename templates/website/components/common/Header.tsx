@@ -1,5 +1,6 @@
+import Link from "next/link";
 import Image from "next/image";
-import { Box, IconButton, Link } from "@interchain-ui/react";
+import { Box, IconButton, Text } from "@interchain-ui/react";
 
 import logo from "../../images/cosmology-name-logo.svg";
 
@@ -25,15 +26,8 @@ export function Header({
         </Link>
       </Box>
       <Box display={{ mobile: "none", desktop: "block" }}>
-        <Link
-          href="/components"
-          color="$purple500"
-          attributes={{
-            fontWeight: "$semibold",
-            textDecoration: "none",
-          }}
-        >
-          Components
+        <Link href="/components">
+          <Text fontWeight="$medium" color="$purple500">Components</Text>
         </Link>
       </Box>
       <Box display={{ mobile: "block", desktop: "none" }}>
