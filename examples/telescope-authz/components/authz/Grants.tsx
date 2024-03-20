@@ -14,16 +14,26 @@ type GrantsProps = {
 export const Grants = ({ chainName, role }: GrantsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [viewingGrant, setViewingGrant] = useState<PrettyGrant>();
-  const { data, isLoading } = useGrants(chainName);
+  const { data, isLoading, isError } = useGrants(chainName);
 
   const isGranter = role === 'granter';
   const grants = isGranter ? data?.granterGrants : data?.granteeGrants;
 
-  return (
-    <Box flex="1" display="flex" justifyContent="center" alignItems="center">
-      {isLoading ? (
-        <Spinner size="$6xl" />
-      ) : grants && grants.length > 0 ? (
+  const renderContent = () => {
+    if (isError) {
+      return (
+        <Text fontSize="$lg" color="$textDanger" fontWeight="$semibold">
+          There was an error fetching grants. Please try again later.
+        </Text>
+      );
+    }
+
+    if (isLoading) {
+      return <Spinner size="$6xl" />;
+    }
+
+    if (grants && grants.length > 0) {
+      return (
         <Box
           width="$full"
           alignSelf="flex-start"
@@ -44,13 +54,21 @@ export const Grants = ({ chainName, role }: GrantsProps) => {
             />
           ))}
         </Box>
-      ) : (
-        <Text fontSize="$lg" color="$textSecondary" fontWeight="$semibold">
-          {isGranter
-            ? "You haven't granted any permission yet"
-            : "You don't have any grants"}
-        </Text>
-      )}
+      );
+    }
+
+    return (
+      <Text fontSize="$lg" color="$textSecondary" fontWeight="$semibold">
+        {isGranter
+          ? "You haven't granted any permission yet"
+          : "You don't have any grants"}
+      </Text>
+    );
+  };
+
+  return (
+    <Box flex="1" display="flex" justifyContent="center" alignItems="center">
+      {renderContent()}
 
       {viewingGrant && (
         <GrantDetailsModal

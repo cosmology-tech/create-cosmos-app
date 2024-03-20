@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { cosmos } from '@/src/codegen';
+import { cosmos } from 'interchain-query';
 import { useQueryHooks } from './useQueryHooks';
 
 const { createRPCQueryClient } = cosmos.ClientFactory;
