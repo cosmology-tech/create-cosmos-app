@@ -6771,6 +6771,28 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@cosmology/website@workspace:templates/website":
+  version: 0.0.0-use.local
+  resolution: "@cosmology/website@workspace:templates/website"
+  dependencies:
+    "@emotion/react": "npm:11.10.6"
+    "@emotion/styled": "npm:11.10.6"
+    "@interchain-ui/react": "npm:^1.21.16"
+    "@types/node": "npm:18.11.9"
+    "@types/react": "npm:18.0.25"
+    "@types/react-dom": "npm:18.0.9"
+    eslint: "npm:8.28.0"
+    eslint-config-next: "npm:13.0.5"
+    framer-motion: "npm:9.0.7"
+    generate-lockfile: "npm:0.0.12"
+    next: "npm:^13"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
+    react-icons: "npm:4.6.0"
+    typescript: "npm:4.9.3"
+  languageName: unknown
+  linkType: soft
+
 "@cosmos-kit/coin98-extension@npm:^2.7.10":
   version: 2.7.10
   resolution: "@cosmos-kit/coin98-extension@npm:2.7.10"
