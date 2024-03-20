@@ -2824,19 +2824,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/client@npm:1.21.1":
-  version: 1.21.1
-  resolution: "@chain-registry/client@npm:1.21.1"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.18.3"
-    "@chain-registry/utils": "npm:^1.19.2"
-    bfs-path: "npm:^1.0.2"
-    cross-fetch: "npm:^3.1.5"
-  checksum: 10c0/5879f4e8fcd0586d0abf2745ddcc27f9f58cf3adeebc8cee0cc0d40bb003470601f5c2b51b2264bd6da506889e4d3bdb0f0c79876b3bee227fcc09a3a7b98783
-  languageName: node
-  linkType: hard
-
 "@chain-registry/client@npm:^1.18.0":
   version: 1.19.0
   resolution: "@chain-registry/client@npm:1.19.0"
@@ -2952,15 +2939,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:^0.18.3":
-  version: 0.18.3
-  resolution: "@chain-registry/types@npm:0.18.3"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-  checksum: 10c0/97fe75f617372d9a4be99170089990cb3b7b60ea219c3f5d61b659649db50692ff3daed65815b30fe10cb020d02d058dc54fcec7da24d33eb646d4b70995957f
-  languageName: node
-  linkType: hard
-
 "@chain-registry/utils@npm:1.13.1":
   version: 1.13.1
   resolution: "@chain-registry/utils@npm:1.13.1"
@@ -3030,18 +3008,6 @@ __metadata:
     bignumber.js: "npm:9.1.1"
     sha.js: "npm:^2.4.11"
   checksum: 10c0/0150d561ad4dd35bd980b4243a95fb0a88d1faa7581bd59f9d4339a202c810d2c894cb276e6bd7e58a22b2917f71ed52614b8f92d28c1866796581caeff64f6a
-  languageName: node
-  linkType: hard
-
-"@chain-registry/utils@npm:^1.19.2":
-  version: 1.19.2
-  resolution: "@chain-registry/utils@npm:1.19.2"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.18.3"
-    bignumber.js: "npm:9.1.1"
-    sha.js: "npm:^2.4.11"
-  checksum: 10c0/93ff803313e6fd502ef928a0126a721866663bbcdb36d392928e342ac75bda35ab2c1dfff24102f6afa52aec8ec4057641387c47ea9c0e0120c21eacb4a8c080
   languageName: node
   linkType: hard
 
@@ -5641,7 +5607,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/connect-chain@workspace:templates/connect-chain"
   dependencies:
-    "@chain-registry/client": "npm:1.21.1"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.1"
     "@cosmjs/stargate": "npm:0.31.1"
     "@cosmos-kit/react": "npm:2.10.9"
