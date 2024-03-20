@@ -66,6 +66,8 @@ export const useGrants = (chainName: string) => {
   const isLoading =
     isRpcQueryClientLoading || isInitialFetching || isRefetching;
 
+  const isError = !rpcQueryClient && !isRpcQueryClientLoading;
+
   type DataQueries = typeof dataQueries;
 
   type QueriesData = {
@@ -88,5 +90,5 @@ export const useGrants = (chainName: string) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
 
-  return { data, isLoading, refetch };
+  return { data, isLoading, isError, refetch };
 };
