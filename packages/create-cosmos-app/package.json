@@ -8,8 +8,8 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "bin": {
-    "create-cosmos-app": "dist/create-cosmos-app.js",
-    "cca": "dist/create-cosmos-app.js"
+    "cca": "dist/create-cosmos-app.js",
+    "create-cosmos-app": "dist/create-cosmos-app.js"
   },
   "directories": {
     "lib": "src",
