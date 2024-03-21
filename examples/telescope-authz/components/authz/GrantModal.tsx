@@ -182,7 +182,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
                     <ListItem
                       key={p.id}
                       isActive={p.id === selectedPermission?.id}
-                      className={styles.containerSm}
+                      className={styles.listItem}
                       attributes={{
                         onClick: () => {
                           setSelectedPermission(p);
