@@ -9,16 +9,7 @@
     "locks:remove": "rm -f yarn.lock",
     "locks:create": "generate-lockfile --lockfile ../../yarn.lock --package package.json --write yarn.lock --force",
     "locks": "npm run locks:remove && npm run locks:create",
-    "codegen": "node scripts/codegen.js",
-    "e2e": "npm run e2e:test",
-    "e2e:deps": "make setup-deps",
-    "e2e:kind": "make setup-kind",
-    "e2e:start": "make install",
-    "e2e:port": "make port-forward",
-    "e2e:test": "jest --verbose --bail",
-    "e2e:debug": "jest --runInBand --verbose --bail",
-    "e2e:stop": "make stop",
-    "e2e:clean": "make stop clean"
+    "codegen": "node scripts/codegen.js"
   },
   "jest": {
     "preset": "ts-jest",
