@@ -70,3 +70,9 @@ jobs:
           cca --template connect-multi-chain --name connect-multi-chain
           cd connect-multi-chain
           yarn build
+
+      - name: website
+        run: | 
+          cca --template website --name website
+          cd website
+          yarn build
