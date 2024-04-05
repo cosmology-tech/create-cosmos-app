@@ -11,6 +11,8 @@ export default function Home() {
 
   return (
     <Layout>
+      {/* Type error: This JSX tag's 'children' prop expects a single child of type 'ReactNode', but multiple children were provided. */}
+      {/* @ts-ignore */}
       <NoSSR>
         <Wallet chainName={chainName} onChainChange={onChainChange} />
         <Voting chainName={chainName} />
