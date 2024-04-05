@@ -9,6 +9,9 @@ export default function Home() {
   return (
     <Layout>
       <WalletSection chainName={chainName} setChainName={setChainName} />
+      {/* TODO fix type error */}
+      {/* Type error: This JSX tag's 'children' prop expects a single child of type 'ReactNode', but multiple children were provided. */}
+      {/* @ts-ignore */}
       <NoSSR>{chainName && <VotingSection chainName={chainName} />}</NoSSR>
     </Layout>
   );

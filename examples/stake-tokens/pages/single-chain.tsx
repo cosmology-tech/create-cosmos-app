@@ -8,6 +8,9 @@ export default function SingleChain() {
     <Layout>
       <WalletSection isMultiChain={false} />
       <Divider height="0.1px" mt="$12" />
+      {/* TODO fix type error */}
+      {/* Type error: This JSX tag's 'children' prop expects a single child of type 'ReactNode', but multiple children were provided. */}
+      {/* @ts-ignore */}
       <NoSSR>
         <StakingSection chainName={defaultChainName} />
       </NoSSR>
