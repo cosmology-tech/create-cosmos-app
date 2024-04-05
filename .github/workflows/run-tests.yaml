@@ -34,3 +34,15 @@ jobs:
           cca --example send-tokens --name send-tokens
           cd send-tokens
           yarn build
+
+      - name: asset-list
+        run: | 
+          cca --example asset-list --name asset-list
+          cd asset-list
+          yarn build
+
+      - name: ibc-transfer
+        run: | 
+          cca --example ibc-transfer --name ibc-transfer
+          cd ibc-transfer
+          yarn build
