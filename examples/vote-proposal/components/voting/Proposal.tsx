@@ -57,7 +57,7 @@ export function Proposal({
   proposal,
   chainName,
   bondedTokens,
-  onVoteSuccess = () => {},
+  onVoteSuccess = () => { },
 }: ProposalProps) {
   const vote = votes?.[proposal.proposalId.toString()];
 
@@ -155,8 +155,8 @@ export function Proposal({
         borderRadius="$lg"
       >
         <Box display="flex" justifyContent="space-between">
-          {timepoints.map((timepoint) => (
-            <Stack direction="vertical" space="$1">
+          {timepoints.map((timepoint, i) => (
+            <Stack key={i} direction="vertical" space="$1">
               <Text
                 color="$textSecondary"
                 fontSize="$sm"
@@ -253,9 +253,8 @@ export function Proposal({
                   px: "$2",
                 }}
               >
-                {`Minimum of staked ${minStakedTokens} ${coin.symbol}(${
-                  quorum * 100
-                }%) need to vote
+                {`Minimum of staked ${minStakedTokens} ${coin.symbol}(${quorum * 100
+                  }%) need to vote
             for this proposal to pass.`}
               </Text>
             </Text>
@@ -269,34 +268,31 @@ export function Proposal({
             voteType="yes"
             title="Yes"
             votePercentage={percent(proposal.finalTallyResult?.yes, total)}
-            description={`${
-              exponentiate(
-                proposal.finalTallyResult?.yes,
-                -exponent,
-              ).toFixed(2)
-            } ${coin.symbol}`}
+            description={`${exponentiate(
+              proposal.finalTallyResult?.yes,
+              -exponent,
+            ).toFixed(2)
+              } ${coin.symbol}`}
           />
           <GovernanceVoteBreakdown
             voteType="abstain"
             title="Abstain"
             votePercentage={percent(proposal.finalTallyResult?.abstain, total)}
-            description={`${
-              exponentiate(
-                proposal.finalTallyResult?.abstain,
-                -exponent,
-              ).toFixed(2)
-            } ${coin.symbol}`}
+            description={`${exponentiate(
+              proposal.finalTallyResult?.abstain,
+              -exponent,
+            ).toFixed(2)
+              } ${coin.symbol}`}
           />
           <GovernanceVoteBreakdown
             voteType="no"
             title="No"
             votePercentage={percent(proposal.finalTallyResult?.no, total)}
-            description={`${
-              exponentiate(
-                proposal.finalTallyResult?.no,
-                -exponent,
-              ).toFixed(2)
-            } ${coin.symbol}`}
+            description={`${exponentiate(
+              proposal.finalTallyResult?.no,
+              -exponent,
+            ).toFixed(2)
+              } ${coin.symbol}`}
           />
           <GovernanceVoteBreakdown
             voteType="noWithVeto"
@@ -305,12 +301,11 @@ export function Proposal({
               proposal.finalTallyResult?.noWithVeto,
               total,
             )}
-            description={`${
-              exponentiate(
-                proposal.finalTallyResult?.noWithVeto,
-                -exponent,
-              ).toFixed(2)
-            } ${coin.symbol}`}
+            description={`${exponentiate(
+              proposal.finalTallyResult?.noWithVeto,
+              -exponent,
+            ).toFixed(2)
+              } ${coin.symbol}`}
           />
         </Box>
         <Box display="flex" flexDirection="column" gap="$12">
