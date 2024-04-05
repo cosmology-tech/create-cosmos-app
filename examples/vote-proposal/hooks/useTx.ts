@@ -1,4 +1,4 @@
-import { cosmos } from 'osmo-query';
+import { cosmos } from 'interchain-query';
 import { useChain } from '@cosmos-kit/react';
 import { DeliverTxResponse, isDeliverTxSuccess, StdFee } from '@cosmjs/stargate';
 
