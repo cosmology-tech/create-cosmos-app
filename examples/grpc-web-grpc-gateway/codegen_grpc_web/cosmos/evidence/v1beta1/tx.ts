@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
@@ -62,7 +63,7 @@ export interface MsgSubmitEvidenceResponseSDKType {
 function createBaseMsgSubmitEvidence(): MsgSubmitEvidence {
   return {
     submitter: "",
-    evidence: undefined
+    evidence: Any.fromPartial({})
   };
 }
 export const MsgSubmitEvidence = {

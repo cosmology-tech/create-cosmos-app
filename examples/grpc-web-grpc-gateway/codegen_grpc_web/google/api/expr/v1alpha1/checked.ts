@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { SourceInfo, SourceInfoAmino, SourceInfoSDKType, Expr, ExprAmino, ExprSDKType, Constant, ConstantAmino, ConstantSDKType } from "./syntax";
 import { Empty, EmptyAmino, EmptySDKType } from "../../../protobuf/empty";
 import { NullValue, NullValueSDKType, nullValueFromJSON, nullValueToJSON } from "../../../protobuf/struct";

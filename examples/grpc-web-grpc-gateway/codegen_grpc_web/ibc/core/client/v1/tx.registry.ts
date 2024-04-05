@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { MsgCreateClient, MsgCreateClientSDKType, MsgUpdateClient, MsgUpdateClientSDKType, MsgUpgradeClient, MsgUpgradeClientSDKType, MsgSubmitMisbehaviour, MsgSubmitMisbehaviourSDKType } from "./tx";

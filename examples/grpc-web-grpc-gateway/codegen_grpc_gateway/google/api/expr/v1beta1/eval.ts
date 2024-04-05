@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Value, ValueAmino, ValueSDKType } from "./value";
 import { Status, StatusAmino, StatusSDKType } from "../../../rpc/status";
 import * as _m0 from "protobufjs/minimal";

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Value, ValueAmino, ValueSDKType } from "./value";
 import { Long, DeepPartial, isSet } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";

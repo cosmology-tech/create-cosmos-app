@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { AccessConfig, AccessConfigAmino, AccessConfigSDKType } from "./types";
 import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { Long, isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";

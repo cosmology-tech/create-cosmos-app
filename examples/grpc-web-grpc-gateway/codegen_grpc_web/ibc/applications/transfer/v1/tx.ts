@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Coin, CoinAmino, CoinSDKType } from "../../../../cosmos/base/v1beta1/coin";
 import { Height, HeightAmino, HeightSDKType } from "../../../core/client/v1/client";
 import { Long, isSet, DeepPartial } from "../../../../helpers";
@@ -97,7 +98,7 @@ function createBaseMsgTransfer(): MsgTransfer {
   return {
     sourcePort: "",
     sourceChannel: "",
-    token: undefined,
+    token: Coin.fromPartial({}),
     sender: "",
     receiver: "",
     timeoutHeight: Height.fromPartial({}),

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Height, HeightAmino, HeightSDKType } from "../../client/v1/client";
 import { Long, isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";
@@ -491,8 +492,8 @@ export const Channel = {
   },
   fromJSON(object: any): Channel {
     return {
-      state: isSet(object.state) ? stateFromJSON(object.state) : 0,
-      ordering: isSet(object.ordering) ? orderFromJSON(object.ordering) : 0,
+      state: isSet(object.state) ? stateFromJSON(object.state) : -1,
+      ordering: isSet(object.ordering) ? orderFromJSON(object.ordering) : -1,
       counterparty: isSet(object.counterparty) ? Counterparty.fromJSON(object.counterparty) : undefined,
       connectionHops: Array.isArray(object?.connectionHops) ? object.connectionHops.map((e: any) => String(e)) : [],
       version: isSet(object.version) ? String(object.version) : ""
@@ -522,8 +523,8 @@ export const Channel = {
   },
   fromSDK(object: ChannelSDKType): Channel {
     return {
-      state: isSet(object.state) ? stateFromJSON(object.state) : 0,
-      ordering: isSet(object.ordering) ? orderFromJSON(object.ordering) : 0,
+      state: isSet(object.state) ? stateFromJSON(object.state) : -1,
+      ordering: isSet(object.ordering) ? orderFromJSON(object.ordering) : -1,
       counterparty: object.counterparty ? Counterparty.fromSDK(object.counterparty) : undefined,
       connectionHops: Array.isArray(object?.connection_hops) ? object.connection_hops.map((e: any) => e) : [],
       version: object?.version
@@ -544,8 +545,8 @@ export const Channel = {
   },
   fromAmino(object: ChannelAmino): Channel {
     return {
-      state: isSet(object.state) ? stateFromJSON(object.state) : 0,
-      ordering: isSet(object.ordering) ? orderFromJSON(object.ordering) : 0,
+      state: isSet(object.state) ? stateFromJSON(object.state) : -1,
+      ordering: isSet(object.ordering) ? orderFromJSON(object.ordering) : -1,
       counterparty: object?.counterparty ? Counterparty.fromAmino(object.counterparty) : undefined,
       connectionHops: Array.isArray(object?.connection_hops) ? object.connection_hops.map((e: any) => e) : [],
       version: object.version
@@ -661,8 +662,8 @@ export const IdentifiedChannel = {
   },
   fromJSON(object: any): IdentifiedChannel {
     return {
-      state: isSet(object.state) ? stateFromJSON(object.state) : 0,
-      ordering: isSet(object.ordering) ? orderFromJSON(object.ordering) : 0,
+      state: isSet(object.state) ? stateFromJSON(object.state) : -1,
+      ordering: isSet(object.ordering) ? orderFromJSON(object.ordering) : -1,
       counterparty: isSet(object.counterparty) ? Counterparty.fromJSON(object.counterparty) : undefined,
       connectionHops: Array.isArray(object?.connectionHops) ? object.connectionHops.map((e: any) => String(e)) : [],
       version: isSet(object.version) ? String(object.version) : "",
@@ -698,8 +699,8 @@ export const IdentifiedChannel = {
   },
   fromSDK(object: IdentifiedChannelSDKType): IdentifiedChannel {
     return {
-      state: isSet(object.state) ? stateFromJSON(object.state) : 0,
-      ordering: isSet(object.ordering) ? orderFromJSON(object.ordering) : 0,
+      state: isSet(object.state) ? stateFromJSON(object.state) : -1,
+      ordering: isSet(object.ordering) ? orderFromJSON(object.ordering) : -1,
       counterparty: object.counterparty ? Counterparty.fromSDK(object.counterparty) : undefined,
       connectionHops: Array.isArray(object?.connection_hops) ? object.connection_hops.map((e: any) => e) : [],
       version: object?.version,
@@ -724,8 +725,8 @@ export const IdentifiedChannel = {
   },
   fromAmino(object: IdentifiedChannelAmino): IdentifiedChannel {
     return {
-      state: isSet(object.state) ? stateFromJSON(object.state) : 0,
-      ordering: isSet(object.ordering) ? orderFromJSON(object.ordering) : 0,
+      state: isSet(object.state) ? stateFromJSON(object.state) : -1,
+      ordering: isSet(object.ordering) ? orderFromJSON(object.ordering) : -1,
       counterparty: object?.counterparty ? Counterparty.fromAmino(object.counterparty) : undefined,
       connectionHops: Array.isArray(object?.connection_hops) ? object.connection_hops.map((e: any) => e) : [],
       version: object.version,

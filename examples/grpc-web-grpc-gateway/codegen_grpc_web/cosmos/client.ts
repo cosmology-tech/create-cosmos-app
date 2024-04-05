@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { GeneratedType, Registry, OfflineSigner } from "@cosmjs/proto-signing";
 import { AminoTypes, SigningStargateClient } from "@cosmjs/stargate";
 import { HttpEndpoint } from "@cosmjs/tendermint-rpc";
@@ -71,7 +72,7 @@ export const getSigningCosmosClient = async ({
     aminoTypes
   } = getSigningCosmosClientOptions();
   const client = await SigningStargateClient.connectWithSigner(rpcEndpoint, signer, {
-    registry,
+    registry: (registry as any),
     aminoTypes
   });
   return client;

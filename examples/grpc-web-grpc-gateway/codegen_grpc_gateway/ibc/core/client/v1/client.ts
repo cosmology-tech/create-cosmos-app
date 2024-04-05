@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
 import { Plan, PlanAmino, PlanSDKType } from "../../../../cosmos/upgrade/v1beta1/upgrade";
 import { Long, isSet, DeepPartial } from "../../../../helpers";
@@ -308,7 +309,7 @@ export interface ParamsSDKType {
 function createBaseIdentifiedClientState(): IdentifiedClientState {
   return {
     clientId: "",
-    clientState: undefined
+    clientState: Any.fromPartial({})
   };
 }
 export const IdentifiedClientState = {
@@ -410,7 +411,7 @@ export const IdentifiedClientState = {
 function createBaseConsensusStateWithHeight(): ConsensusStateWithHeight {
   return {
     height: Height.fromPartial({}),
-    consensusState: undefined
+    consensusState: Any.fromPartial({})
   };
 }
 export const ConsensusStateWithHeight = {
@@ -758,7 +759,7 @@ function createBaseUpgradeProposal(): UpgradeProposal {
     title: "",
     description: "",
     plan: Plan.fromPartial({}),
-    upgradedClientState: undefined
+    upgradedClientState: Any.fromPartial({})
   };
 }
 export const UpgradeProposal = {

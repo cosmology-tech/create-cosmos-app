@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
 import { Period, PeriodAmino, PeriodSDKType } from "./vesting";
 import { Long, isSet, DeepPartial } from "../../../helpers";

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Duration, DurationAmino, DurationSDKType } from "../protobuf/duration";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../protobuf/any";
 import { Status, StatusAmino, StatusSDKType } from "../rpc/status";
@@ -364,7 +365,7 @@ export interface OperationInfoSDKType {
 function createBaseOperation(): Operation {
   return {
     name: "",
-    metadata: undefined,
+    metadata: Any.fromPartial({}),
     done: false,
     error: undefined,
     response: undefined
@@ -974,7 +975,7 @@ export const DeleteOperationRequest = {
 function createBaseWaitOperationRequest(): WaitOperationRequest {
   return {
     name: "",
-    timeout: undefined
+    timeout: Duration.fromPartial({})
   };
 }
 export const WaitOperationRequest = {

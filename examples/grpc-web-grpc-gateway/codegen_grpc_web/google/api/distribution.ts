@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../protobuf/timestamp";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../protobuf/any";
 import { Long, isSet, DeepPartial, toTimestamp, fromTimestamp, fromJsonTimestamp } from "../../helpers";
@@ -1272,7 +1273,7 @@ export const Distribution_BucketOptions_Explicit = {
 function createBaseDistribution_Exemplar(): Distribution_Exemplar {
   return {
     value: 0,
-    timestamp: undefined,
+    timestamp: new Date(),
     attachments: []
   };
 }
@@ -1359,14 +1360,14 @@ export const Distribution_Exemplar = {
   fromAmino(object: Distribution_ExemplarAmino): Distribution_Exemplar {
     return {
       value: object.value,
-      timestamp: object?.timestamp ? Timestamp.fromAmino(object.timestamp) : undefined,
+      timestamp: object.timestamp,
       attachments: Array.isArray(object?.attachments) ? object.attachments.map((e: any) => Any.fromAmino(e)) : []
     };
   },
   toAmino(message: Distribution_Exemplar): Distribution_ExemplarAmino {
     const obj: any = {};
     obj.value = message.value;
-    obj.timestamp = message.timestamp ? Timestamp.toAmino(message.timestamp) : undefined;
+    obj.timestamp = message.timestamp;
     if (message.attachments) {
       obj.attachments = message.attachments.map(e => e ? Any.toAmino(e) : undefined);
     } else {

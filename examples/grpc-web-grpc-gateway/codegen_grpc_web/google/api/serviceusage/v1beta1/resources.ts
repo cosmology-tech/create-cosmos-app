@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Api, ApiAmino, ApiSDKType } from "../../../protobuf/api";
 import { Documentation, DocumentationAmino, DocumentationSDKType } from "../../documentation";
 import { Quota, QuotaAmino, QuotaSDKType } from "../../quota";
@@ -1130,7 +1131,7 @@ export const Service = {
       name: isSet(object.name) ? String(object.name) : "",
       parent: isSet(object.parent) ? String(object.parent) : "",
       config: isSet(object.config) ? ServiceConfig.fromJSON(object.config) : undefined,
-      state: isSet(object.state) ? stateFromJSON(object.state) : 0
+      state: isSet(object.state) ? stateFromJSON(object.state) : -1
     };
   },
   toJSON(message: Service): unknown {
@@ -1154,7 +1155,7 @@ export const Service = {
       name: object?.name,
       parent: object?.parent,
       config: object.config ? ServiceConfig.fromSDK(object.config) : undefined,
-      state: isSet(object.state) ? stateFromJSON(object.state) : 0
+      state: isSet(object.state) ? stateFromJSON(object.state) : -1
     };
   },
   toSDK(message: Service): ServiceSDKType {
@@ -1170,7 +1171,7 @@ export const Service = {
       name: object.name,
       parent: object.parent,
       config: object?.config ? ServiceConfig.fromAmino(object.config) : undefined,
-      state: isSet(object.state) ? stateFromJSON(object.state) : 0
+      state: isSet(object.state) ? stateFromJSON(object.state) : -1
     };
   },
   toAmino(message: Service): ServiceAmino {

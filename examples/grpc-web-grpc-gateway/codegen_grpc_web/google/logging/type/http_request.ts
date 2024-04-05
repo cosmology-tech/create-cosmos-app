@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Duration, DurationAmino, DurationSDKType } from "../../protobuf/duration";
 import { Long, isSet, DeepPartial } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
@@ -201,7 +202,7 @@ function createBaseHttpRequest(): HttpRequest {
     remoteIp: "",
     serverIp: "",
     referer: "",
-    latency: undefined,
+    latency: Duration.fromPartial({}),
     cacheLookup: false,
     cacheHit: false,
     cacheValidatedWithOriginServer: false,

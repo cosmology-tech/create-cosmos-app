@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as _101 from "./api/annotations";
 import * as _102 from "./api/auth";
 import * as _103 from "./api/backend";

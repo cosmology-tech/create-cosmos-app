@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../query/v1beta1/pagination";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
 import { BlockID, BlockIDAmino, BlockIDSDKType } from "../../../../tendermint/types/types";
@@ -813,7 +814,7 @@ export const GetLatestValidatorSetResponse = {
 function createBaseValidator(): Validator {
   return {
     address: "",
-    pubKey: undefined,
+    pubKey: Any.fromPartial({}),
     votingPower: Long.ZERO,
     proposerPriority: Long.ZERO
   };

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../../../cosmos/base/query/v1beta1/pagination";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
 import { Height, HeightAmino, HeightSDKType, IdentifiedClientState, IdentifiedClientStateAmino, IdentifiedClientStateSDKType, ConsensusStateWithHeight, ConsensusStateWithHeightAmino, ConsensusStateWithHeightSDKType, Params, ParamsAmino, ParamsSDKType } from "./client";
@@ -626,7 +627,7 @@ export const QueryClientStateRequest = {
 };
 function createBaseQueryClientStateResponse(): QueryClientStateResponse {
   return {
-    clientState: undefined,
+    clientState: Any.fromPartial({}),
     proof: new Uint8Array(),
     proofHeight: Height.fromPartial({})
   };
@@ -1074,7 +1075,7 @@ export const QueryConsensusStateRequest = {
 };
 function createBaseQueryConsensusStateResponse(): QueryConsensusStateResponse {
   return {
-    consensusState: undefined,
+    consensusState: Any.fromPartial({}),
     proof: new Uint8Array(),
     proofHeight: Height.fromPartial({})
   };
@@ -1810,7 +1811,7 @@ export const QueryUpgradedClientStateRequest = {
 };
 function createBaseQueryUpgradedClientStateResponse(): QueryUpgradedClientStateResponse {
   return {
-    upgradedClientState: undefined
+    upgradedClientState: Any.fromPartial({})
   };
 }
 export const QueryUpgradedClientStateResponse = {
@@ -1968,7 +1969,7 @@ export const QueryUpgradedConsensusStateRequest = {
 };
 function createBaseQueryUpgradedConsensusStateResponse(): QueryUpgradedConsensusStateResponse {
   return {
-    upgradedConsensusState: undefined
+    upgradedConsensusState: Any.fromPartial({})
   };
 }
 export const QueryUpgradedConsensusStateResponse = {

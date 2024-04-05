@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../base/query/v1beta1/pagination";
 import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
 import { Params, ParamsAmino, ParamsSDKType, Metadata, MetadataAmino, MetadataSDKType } from "./bank";
@@ -667,7 +668,7 @@ export const QueryBalanceRequest = {
 };
 function createBaseQueryBalanceResponse(): QueryBalanceResponse {
   return {
-    balance: undefined
+    balance: Coin.fromPartial({})
   };
 }
 export const QueryBalanceResponse = {
@@ -1477,7 +1478,7 @@ export const QuerySupplyOfRequest = {
 };
 function createBaseQuerySupplyOfResponse(): QuerySupplyOfResponse {
   return {
-    amount: undefined
+    amount: Coin.fromPartial({})
   };
 }
 export const QuerySupplyOfResponse = {
@@ -2204,7 +2205,7 @@ export const QueryDenomOwnersRequest = {
 function createBaseDenomOwner(): DenomOwner {
   return {
     address: "",
-    balance: undefined
+    balance: Coin.fromPartial({})
   };
 }
 export const DenomOwner = {

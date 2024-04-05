@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Struct, StructAmino, StructSDKType } from "../../protobuf/struct";
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../../protobuf/timestamp";
 import { Duration, DurationAmino, DurationSDKType } from "../../protobuf/duration";
@@ -1845,7 +1846,7 @@ function createBaseAttributeContext_Request(): AttributeContext_Request {
     host: "",
     scheme: "",
     query: "",
-    time: undefined,
+    time: new Date(),
     size: Long.ZERO,
     protocol: "",
     reason: "",
@@ -2070,7 +2071,7 @@ export const AttributeContext_Request = {
       host: object.host,
       scheme: object.scheme,
       query: object.query,
-      time: object?.time ? Timestamp.fromAmino(object.time) : undefined,
+      time: object.time,
       size: Long.fromString(object.size),
       protocol: object.protocol,
       reason: object.reason,
@@ -2091,7 +2092,7 @@ export const AttributeContext_Request = {
     obj.host = message.host;
     obj.scheme = message.scheme;
     obj.query = message.query;
-    obj.time = message.time ? Timestamp.toAmino(message.time) : undefined;
+    obj.time = message.time;
     obj.size = message.size ? message.size.toString() : undefined;
     obj.protocol = message.protocol;
     obj.reason = message.reason;
@@ -2207,8 +2208,8 @@ function createBaseAttributeContext_Response(): AttributeContext_Response {
     code: Long.ZERO,
     size: Long.ZERO,
     headers: {},
-    time: undefined,
-    backendLatency: undefined
+    time: new Date(),
+    backendLatency: Duration.fromPartial({})
   };
 }
 export const AttributeContext_Response = {
@@ -2348,7 +2349,7 @@ export const AttributeContext_Response = {
         acc[key] = String(value);
         return acc;
       }, {}) : {},
-      time: object?.time ? Timestamp.fromAmino(object.time) : undefined,
+      time: object.time,
       backendLatency: object?.backend_latency ? Duration.fromAmino(object.backend_latency) : undefined
     };
   },
@@ -2362,7 +2363,7 @@ export const AttributeContext_Response = {
         obj.headers[k] = v;
       });
     }
-    obj.time = message.time ? Timestamp.toAmino(message.time) : undefined;
+    obj.time = message.time;
     obj.backend_latency = message.backendLatency ? Duration.toAmino(message.backendLatency) : undefined;
     return obj;
   },
@@ -2567,9 +2568,9 @@ function createBaseAttributeContext_Resource(): AttributeContext_Resource {
     uid: "",
     annotations: {},
     displayName: "",
-    createTime: undefined,
-    updateTime: undefined,
-    deleteTime: undefined,
+    createTime: new Date(),
+    updateTime: new Date(),
+    deleteTime: new Date(),
     etag: "",
     location: ""
   };
@@ -2830,9 +2831,9 @@ export const AttributeContext_Resource = {
         return acc;
       }, {}) : {},
       displayName: object.display_name,
-      createTime: object?.create_time ? Timestamp.fromAmino(object.create_time) : undefined,
-      updateTime: object?.update_time ? Timestamp.fromAmino(object.update_time) : undefined,
-      deleteTime: object?.delete_time ? Timestamp.fromAmino(object.delete_time) : undefined,
+      createTime: object.create_time,
+      updateTime: object.update_time,
+      deleteTime: object.delete_time,
       etag: object.etag,
       location: object.location
     };
@@ -2856,9 +2857,9 @@ export const AttributeContext_Resource = {
       });
     }
     obj.display_name = message.displayName;
-    obj.create_time = message.createTime ? Timestamp.toAmino(message.createTime) : undefined;
-    obj.update_time = message.updateTime ? Timestamp.toAmino(message.updateTime) : undefined;
-    obj.delete_time = message.deleteTime ? Timestamp.toAmino(message.deleteTime) : undefined;
+    obj.create_time = message.createTime;
+    obj.update_time = message.updateTime;
+    obj.delete_time = message.deleteTime;
     obj.etag = message.etag;
     obj.location = message.location;
     return obj;

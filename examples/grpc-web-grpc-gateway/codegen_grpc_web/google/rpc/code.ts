@@ -1,3 +1,4 @@
+//@ts-nocheck
 export const protobufPackage = "google.rpc";
 /**
  * The canonical error codes for gRPC APIs.

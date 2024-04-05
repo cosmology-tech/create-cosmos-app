@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../google/protobuf/timestamp";
 import { Duration, DurationAmino, DurationSDKType } from "../../../google/protobuf/duration";
 import { Long, toTimestamp, fromTimestamp, isSet, fromJsonTimestamp, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
@@ -114,7 +115,7 @@ function createBaseValidatorSigningInfo(): ValidatorSigningInfo {
     address: "",
     startHeight: Long.ZERO,
     indexOffset: Long.ZERO,
-    jailedUntil: undefined,
+    jailedUntil: new Date(),
     tombstoned: false,
     missedBlocksCounter: Long.ZERO
   };
@@ -230,7 +231,7 @@ export const ValidatorSigningInfo = {
       address: object.address,
       startHeight: Long.fromString(object.start_height),
       indexOffset: Long.fromString(object.index_offset),
-      jailedUntil: object?.jailed_until ? Timestamp.fromAmino(object.jailed_until) : undefined,
+      jailedUntil: object.jailed_until,
       tombstoned: object.tombstoned,
       missedBlocksCounter: Long.fromString(object.missed_blocks_counter)
     };
@@ -240,7 +241,7 @@ export const ValidatorSigningInfo = {
     obj.address = message.address;
     obj.start_height = message.startHeight ? message.startHeight.toString() : undefined;
     obj.index_offset = message.indexOffset ? message.indexOffset.toString() : undefined;
-    obj.jailed_until = message.jailedUntil ? Timestamp.toAmino(message.jailedUntil) : undefined;
+    obj.jailed_until = message.jailedUntil;
     obj.tombstoned = message.tombstoned;
     obj.missed_blocks_counter = message.missedBlocksCounter ? message.missedBlocksCounter.toString() : undefined;
     return obj;
@@ -271,7 +272,7 @@ function createBaseParams(): Params {
   return {
     signedBlocksWindow: Long.ZERO,
     minSignedPerWindow: new Uint8Array(),
-    downtimeJailDuration: undefined,
+    downtimeJailDuration: Duration.fromPartial({}),
     slashFractionDoubleSign: new Uint8Array(),
     slashFractionDowntime: new Uint8Array()
   };

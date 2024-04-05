@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../../helpers";
@@ -104,7 +105,7 @@ function createBaseClass(): Class {
     description: "",
     uri: "",
     uriHash: "",
-    data: undefined
+    data: Any.fromPartial({})
   };
 }
 export const Class = {
@@ -274,7 +275,7 @@ function createBaseNFT(): NFT {
     id: "",
     uri: "",
     uriHash: "",
-    data: undefined
+    data: Any.fromPartial({})
   };
 }
 export const NFT = {
