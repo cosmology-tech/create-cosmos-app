@@ -60,6 +60,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
           signerOptions={signerOptions}
         >
           <ApolloProvider client={client}>
+            {/* TODO fix type error */}
+            {/* @ts-ignore */}
             <Component {...pageProps} />
           </ApolloProvider>
         </ChainProvider>
