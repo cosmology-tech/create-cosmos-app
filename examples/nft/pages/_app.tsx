@@ -12,6 +12,7 @@ import { getSigningCosmosClientOptions } from 'stargaze-query';
 import { GasPrice } from '@cosmjs/stargate';
 
 import { Box, ThemeProvider, Toaster, useTheme, useColorModeValue } from '@interchain-ui/react';
+import { Chain } from '@chain-registry/types';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,7 +31,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
     signingStargate: () => {
       return getSigningCosmosClientOptions();
     },
-    signingCosmwasm: (chain) => {
+    // @ts-ignore
+    signingCosmwasm: (chain: Chain) => {
       switch (chain.chain_name) {
         case 'stargaze':
           return {
@@ -63,6 +65,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       >
         <QueryClientProvider client={queryClient}>
           <Box className={themeClass} minHeight="100dvh" backgroundColor={useColorModeValue('$white', '$background')}>
+            {/* @ts-ignore */}
             <Component {...pageProps} />
           </Box>
         </QueryClientProvider>
