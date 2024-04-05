@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   Stat,
   StatLabel,
@@ -11,7 +12,7 @@ import { useChain } from '@cosmos-kit/react';
 import { useState } from 'react';
 import { cosmos } from 'interchain';
 import { getCoin } from '../../config';
-import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
+import type { DelegationDelegatorReward as Reward } from '../../codegen_grpc_gateway/cosmos/distribution/v1beta1/distribution';
 import { TransactionResult } from '../types';
 import { ChainName } from 'cosmos-kit';
 import { useFeeEstimation, useTransactionToast } from '../../hooks';

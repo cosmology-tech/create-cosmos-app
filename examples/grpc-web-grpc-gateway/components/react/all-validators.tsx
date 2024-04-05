@@ -41,7 +41,7 @@ import { StdFee } from '@cosmjs/amino';
 import type {
   Validator,
   DelegationResponse as Delegation,
-} from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
+} from '../../codegen_grpc_gateway/cosmos/staking/v1beta1/staking';
 import { TransactionResult } from '../types';
 import { ChainName } from 'cosmos-kit';
 import BigNumber from 'bignumber.js';
@@ -65,6 +65,7 @@ export const Thumbnail = ({
   return (
     <>
       {identity && thumbnailUrl ? (
+        // @ts-ignore
         <Image
           borderRadius="full"
           boxSize="30px"

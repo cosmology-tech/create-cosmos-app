@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from 'react';
 import { useChain } from '@cosmos-kit/react';
@@ -9,8 +10,8 @@ import Long from 'long';
 import type {
   Validator,
   DelegationResponse as Delegation,
-} from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
-import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
+} from '../../codegen_grpc_gateway//cosmos/staking/v1beta1/staking';
+import type { DelegationDelegatorReward as Reward } from '../../codegen_grpc_gateway//cosmos/distribution/v1beta1/distribution';
 import Stats from './stats';
 import MyValidators from './my-validators';
 import AllValidators from './all-validators';
