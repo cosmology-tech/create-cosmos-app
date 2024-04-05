@@ -59,6 +59,7 @@ export function Voting({ chainName }: VotingProps) {
     const proposal = data.proposals![index];
     openModal();
     setProposal(proposal);
+    // @ts-ignore
     setTitle(`#${proposal.proposalId?.toString()} ${proposal.content?.title}`);
   }
 
@@ -91,6 +92,7 @@ export function Voting({ chainName }: VotingProps) {
           <GovernanceProposalItem
             id={`# ${proposal.proposalId?.toString()}`}
             key={proposal.submitTime?.getTime()}
+            // @ts-ignore
             title={proposal.content?.title || ""}
             status={status(proposal.status)}
             votes={votes(proposal.finalTallyResult!)}
