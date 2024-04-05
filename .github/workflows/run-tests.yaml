@@ -1,0 +1,27 @@
+name: Run Tests
+
+on:
+  push:
+  pull_request:
+    types: [opened, synchronized, reopened]
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+        # TODO: build global from the repo itself
+        # - name: Checkout Repository 🛎️
+        # uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install Dependencies
+        run: npm install -g create-cosmos-app
+
+      - name: check install
+        run: cca --example vote-proposal --name vote-proposal
