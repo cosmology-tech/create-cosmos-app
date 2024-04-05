@@ -106,6 +106,7 @@ export const usePoolsApr = (pools: ExtendedPool[]) => {
           pool,
           prices,
           lockup: duration,
+          // @ts-ignore
           assets: osmosisAssets,
           volume7d: pool.volume7d,
           activeGauges: gauges,

@@ -95,6 +95,7 @@ export const usePoolsData = () => {
       },
     });
 
+  // @ts-ignore
   const poolsQuery: UseQueryResult<Pool[]> = osmosisQuery.gamm.v1beta1.usePools(
     {
       request: {
