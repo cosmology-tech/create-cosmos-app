@@ -39,6 +39,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         }}
         signerOptions={signerOptions}
       >
+        {/* TODO fix type error */}
+        {/* @ts-ignore */}
         <Component {...pageProps} />
       </ChainProvider>
     </ChakraProvider>

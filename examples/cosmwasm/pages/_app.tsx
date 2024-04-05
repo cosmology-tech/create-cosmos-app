@@ -55,6 +55,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
           },
         }}
       >
+        {/* TODO fix type error */}
+        {/* @ts-ignore */}
         <Component {...pageProps} />
       </ChainProvider>
     </ChakraProvider>

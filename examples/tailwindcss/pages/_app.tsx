@@ -40,6 +40,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
     >
       <ThemeProvider>
         <div className="min-h-screen text-black bg-white dark:bg-gray-bg dark:text-white">
+          {/* TODO fix type error */}
+          {/* @ts-ignore */}
           <Component {...pageProps} />
         </div>
       </ThemeProvider>

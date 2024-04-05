@@ -68,6 +68,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       >
         <QueryClientProvider client={queryClient}>
           <Box className={themeClass} minHeight="100dvh" backgroundColor={useColorModeValue('$white', '$background')}>
+            {/* TODO fix type error */}
             {/* @ts-ignore */}
             <Component {...pageProps} />
           </Box>

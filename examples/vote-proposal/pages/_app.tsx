@@ -59,6 +59,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
             minHeight="100dvh"
             backgroundColor={useColorModeValue('$white', '$background')}
           >
+            {/* TODO fix type error */}
             {/* @ts-ignore */}
             <Component {...pageProps} />
           </Box>

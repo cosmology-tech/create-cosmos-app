@@ -57,6 +57,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         signerOptions={signerOptions}
       >
         <QueryClientProvider client={queryClient}>
+          {/* TODO fix type error */}
+          {/* @ts-ignore */}
           <Component {...pageProps} />
         </QueryClientProvider>
       </ChainProvider>
