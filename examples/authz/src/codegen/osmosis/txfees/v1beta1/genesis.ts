@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { FeeToken, FeeTokenAmino, FeeTokenSDKType } from "./feetoken";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
@@ -121,11 +122,11 @@ export const GenesisState = {
   },
   toAmino(message: GenesisState): GenesisStateAmino {
     const obj: any = {};
-    obj.basedenom = message.basedenom;
+    obj.basedenom = message.basedenom === "" ? undefined : message.basedenom;
     if (message.feetokens) {
       obj.feetokens = message.feetokens.map(e => e ? FeeToken.toAmino(e) : undefined);
     } else {
-      obj.feetokens = [];
+      obj.feetokens = message.feetokens;
     }
     return obj;
   },

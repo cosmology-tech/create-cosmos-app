@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Grant, GrantSDKType } from "./authz";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { TelescopeGeneratedType } from "../../../types";

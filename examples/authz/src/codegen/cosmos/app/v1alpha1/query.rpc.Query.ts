@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Config, ConfigSDKType } from "./config";
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";

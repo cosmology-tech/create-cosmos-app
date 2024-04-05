@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { FeeToken, FeeTokenSDKType } from "./feetoken";
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";

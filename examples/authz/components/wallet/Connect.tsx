@@ -1,7 +1,7 @@
 import { MouseEventHandler } from 'react';
 import { Button as UIButton, IconName } from '@interchain-ui/react';
 
-export type ButtonProps =  {
+export type ButtonProps = {
   text?: string;
   icon?: IconName;
   loading?: boolean;
@@ -11,7 +11,7 @@ export type ButtonProps =  {
 
 export type ConnectProps = Pick<ButtonProps, 'text' | 'loading' | 'onClick'>;
 
-function noop() {}
+function noop() { }
 
 export function Button({
   text,
@@ -21,6 +21,7 @@ export function Button({
   onClick = noop
 }: ButtonProps) {
   return (
+    // @ts-ignore
     <UIButton
       onClick={onClick}
       leftIcon={icon}
@@ -38,23 +39,41 @@ export function Button({
   );
 };
 
-export const ButtonConnect = ({ text = 'Connect Wallet', onClick = noop }: ConnectProps) =>
-  <Button text={text} icon="walletFilled" onClick={onClick} />
+export const ButtonConnect = ({ text = 'Connect Wallet', onClick = noop }: ConnectProps) => {
+  // @ts-ignore
+  return <Button text={text} icon="walletFilled" onClick={onClick} />
+}
 
-export const ButtonConnected = ({ text = 'My Wallet', onClick = noop }: ConnectProps) =>
-  <Button text={text} icon="walletFilled" onClick={onClick} />
+export const ButtonConnected = ({ text = 'My Wallet', onClick = noop }: ConnectProps) => {
+  // @ts-ignore
+  return <Button text={text} icon="walletFilled" onClick={onClick} />
+}
 
-export const ButtonDisconnected = ({ text = 'Connect Wallet', onClick = noop }: ConnectProps) =>
-  <Button text={text} icon="walletFilled" onClick={onClick} />
+export const ButtonDisconnected = ({ text = 'Connect Wallet', onClick = noop }: ConnectProps) => {
+  // @ts-ignore
+  return <Button text={text} icon="walletFilled" onClick={onClick} />
+};
 
-export const ButtonConnecting = ({ text = 'Connecting ...', loading = true }: ConnectProps) =>
-  <Button text={text} loading={loading} />
+export const ButtonConnecting = ({ text = 'Connecting ...', loading = true }: ConnectProps) => {
+  // @ts-ignore
+  return <Button text={text} loading={loading} />
+}
 
-export const ButtonRejected = ({ text = 'Reconnect', onClick = noop }: ConnectProps) =>
-  <Button text={text} icon="walletFilled" onClick={onClick} />
+export const ButtonRejected = ({ text = 'Reconnect', onClick = noop }: ConnectProps) => {
+  // @ts-ignore
+  return <Button text={text} icon="walletFilled" onClick={onClick} />
+}
 
-export const ButtonError = ({ text = 'Change Wallet', onClick = noop }: ConnectProps) =>
-  <Button text={text} icon="walletFilled" onClick={onClick} />
+export const ButtonError = ({ text = 'Change Wallet', onClick = noop }: ConnectProps) => {
+  return (
+    // @ts-ignore
+    <Button text={text} icon="walletFilled" onClick={onClick} />
+  );
+}
 
-export const ButtonNotExist = ({ text = 'Install Wallet', onClick = noop }: ConnectProps) =>
-  <Button text={text} icon="walletFilled" onClick={onClick} />
+export const ButtonNotExist = ({ text = 'Install Wallet', onClick = noop }: ConnectProps) => {
+  return (
+    // @ts-ignore
+    <Button text={text} icon="walletFilled" onClick={onClick} />
+  )
+}

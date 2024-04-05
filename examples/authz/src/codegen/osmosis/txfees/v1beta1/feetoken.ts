@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
@@ -131,8 +132,8 @@ export const FeeToken = {
   },
   toAmino(message: FeeToken): FeeTokenAmino {
     const obj: any = {};
-    obj.denom = message.denom;
-    obj.poolID = message.poolID ? message.poolID.toString() : undefined;
+    obj.denom = message.denom === "" ? undefined : message.denom;
+    obj.poolID = message.poolID !== BigInt(0) ? message.poolID.toString() : undefined;
     return obj;
   },
   fromAminoMsg(object: FeeTokenAminoMsg): FeeToken {

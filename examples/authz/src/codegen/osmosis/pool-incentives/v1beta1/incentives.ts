@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Duration, DurationAmino, DurationSDKType } from "../../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
@@ -203,7 +204,7 @@ export const Params = {
   },
   toAmino(message: Params): ParamsAmino {
     const obj: any = {};
-    obj.minted_denom = message.mintedDenom;
+    obj.minted_denom = message.mintedDenom === "" ? undefined : message.mintedDenom;
     return obj;
   },
   fromAminoMsg(object: ParamsAminoMsg): Params {
@@ -313,7 +314,7 @@ export const LockableDurationsInfo = {
     if (message.lockableDurations) {
       obj.lockable_durations = message.lockableDurations.map(e => e ? Duration.toAmino(e) : undefined);
     } else {
-      obj.lockable_durations = [];
+      obj.lockable_durations = message.lockableDurations;
     }
     return obj;
   },
@@ -436,11 +437,11 @@ export const DistrInfo = {
   },
   toAmino(message: DistrInfo): DistrInfoAmino {
     const obj: any = {};
-    obj.total_weight = message.totalWeight;
+    obj.total_weight = message.totalWeight === "" ? undefined : message.totalWeight;
     if (message.records) {
       obj.records = message.records.map(e => e ? DistrRecord.toAmino(e) : undefined);
     } else {
-      obj.records = [];
+      obj.records = message.records;
     }
     return obj;
   },
@@ -559,8 +560,8 @@ export const DistrRecord = {
   },
   toAmino(message: DistrRecord): DistrRecordAmino {
     const obj: any = {};
-    obj.gauge_id = message.gaugeId ? message.gaugeId.toString() : undefined;
-    obj.weight = message.weight;
+    obj.gauge_id = message.gaugeId !== BigInt(0) ? message.gaugeId.toString() : undefined;
+    obj.weight = message.weight === "" ? undefined : message.weight;
     return obj;
   },
   fromAminoMsg(object: DistrRecordAminoMsg): DistrRecord {
@@ -697,8 +698,8 @@ export const PoolToGauge = {
   },
   toAmino(message: PoolToGauge): PoolToGaugeAmino {
     const obj: any = {};
-    obj.pool_id = message.poolId ? message.poolId.toString() : undefined;
-    obj.gauge_id = message.gaugeId ? message.gaugeId.toString() : undefined;
+    obj.pool_id = message.poolId !== BigInt(0) ? message.poolId.toString() : undefined;
+    obj.gauge_id = message.gaugeId !== BigInt(0) ? message.gaugeId.toString() : undefined;
     obj.duration = message.duration ? Duration.toAmino(message.duration) : undefined;
     return obj;
   },
@@ -809,7 +810,7 @@ export const PoolToGauges = {
     if (message.poolToGauge) {
       obj.pool_to_gauge = message.poolToGauge.map(e => e ? PoolToGauge.toAmino(e) : undefined);
     } else {
-      obj.pool_to_gauge = [];
+      obj.pool_to_gauge = message.poolToGauge;
     }
     return obj;
   },

@@ -1,3 +1,6 @@
+// TODO fix type issues
+// @ts-nocheck
+
 import { useChain } from '@cosmos-kit/react';
 import { ChainName } from 'cosmos-kit';
 import { Box, Spinner, Text } from '@interchain-ui/react';

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as _2 from "./app/v1alpha1/config";
 import * as _3 from "./app/v1alpha1/module";
 import * as _4 from "./app/v1alpha1/query";

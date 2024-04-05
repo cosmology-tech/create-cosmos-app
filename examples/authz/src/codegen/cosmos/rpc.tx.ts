@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { getSigningCosmosTxRpc } from "./client";
 import { Rpc } from "../helpers";
 import { HttpEndpoint } from "@cosmjs/tendermint-rpc";

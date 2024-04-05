@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Params, ParamsAmino, ParamsSDKType } from "./params";
 import { DenomAuthorityMetadata, DenomAuthorityMetadataAmino, DenomAuthorityMetadataSDKType } from "./authorityMetadata";
 import { BinaryReader, BinaryWriter } from "../../../binary";
@@ -165,7 +166,7 @@ export const GenesisState = {
     if (message.factoryDenoms) {
       obj.factory_denoms = message.factoryDenoms.map(e => e ? GenesisDenom.toAmino(e) : undefined);
     } else {
-      obj.factory_denoms = [];
+      obj.factory_denoms = message.factoryDenoms;
     }
     return obj;
   },
@@ -284,7 +285,7 @@ export const GenesisDenom = {
   },
   toAmino(message: GenesisDenom): GenesisDenomAmino {
     const obj: any = {};
-    obj.denom = message.denom;
+    obj.denom = message.denom === "" ? undefined : message.denom;
     obj.authority_metadata = message.authorityMetadata ? DenomAuthorityMetadata.toAmino(message.authorityMetadata) : undefined;
     return obj;
   },

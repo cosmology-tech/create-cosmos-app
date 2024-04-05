@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { CompactBitArray, CompactBitArrayAmino, CompactBitArraySDKType } from "../../../crypto/multisig/v1beta1/multisig";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
@@ -328,7 +329,7 @@ export const SignatureDescriptors = {
     if (message.signatures) {
       obj.signatures = message.signatures.map(e => e ? SignatureDescriptor.toAmino(e) : undefined);
     } else {
-      obj.signatures = [];
+      obj.signatures = message.signatures;
     }
     return obj;
   },
@@ -468,7 +469,7 @@ export const SignatureDescriptor = {
     const obj: any = {};
     obj.public_key = message.publicKey ? Any.toAmino(message.publicKey) : undefined;
     obj.data = message.data ? SignatureDescriptor_Data.toAmino(message.data) : undefined;
-    obj.sequence = message.sequence ? message.sequence.toString() : undefined;
+    obj.sequence = message.sequence !== BigInt(0) ? message.sequence.toString() : undefined;
     return obj;
   },
   fromAminoMsg(object: SignatureDescriptorAminoMsg): SignatureDescriptor {
@@ -696,7 +697,7 @@ export const SignatureDescriptor_Data_Single = {
   fromAmino(object: SignatureDescriptor_Data_SingleAmino): SignatureDescriptor_Data_Single {
     const message = createBaseSignatureDescriptor_Data_Single();
     if (object.mode !== undefined && object.mode !== null) {
-      message.mode = signModeFromJSON(object.mode);
+      message.mode = object.mode;
     }
     if (object.signature !== undefined && object.signature !== null) {
       message.signature = bytesFromBase64(object.signature);
@@ -705,7 +706,7 @@ export const SignatureDescriptor_Data_Single = {
   },
   toAmino(message: SignatureDescriptor_Data_Single): SignatureDescriptor_Data_SingleAmino {
     const obj: any = {};
-    obj.mode = signModeToJSON(message.mode);
+    obj.mode = message.mode === 0 ? undefined : message.mode;
     obj.signature = message.signature ? base64FromBytes(message.signature) : undefined;
     return obj;
   },
@@ -834,7 +835,7 @@ export const SignatureDescriptor_Data_Multi = {
     if (message.signatures) {
       obj.signatures = message.signatures.map(e => e ? SignatureDescriptor_Data.toAmino(e) : undefined);
     } else {
-      obj.signatures = [];
+      obj.signatures = message.signatures;
     }
     return obj;
   },

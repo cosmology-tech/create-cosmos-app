@@ -59,6 +59,12 @@ jobs:
           cd nft
           yarn build
 
+      - name: authz
+        run: | 
+          cca --example authz --name authz
+          cd authz
+          yarn build
+
       - name: connect-chain
         run: | 
           cca --template connect-chain --name connect-chain

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
@@ -210,16 +211,16 @@ export const ClaimRecord = {
   },
   toAmino(message: ClaimRecord): ClaimRecordAmino {
     const obj: any = {};
-    obj.address = message.address;
+    obj.address = message.address === "" ? undefined : message.address;
     if (message.initialClaimableAmount) {
       obj.initial_claimable_amount = message.initialClaimableAmount.map(e => e ? Coin.toAmino(e) : undefined);
     } else {
-      obj.initial_claimable_amount = [];
+      obj.initial_claimable_amount = message.initialClaimableAmount;
     }
     if (message.actionCompleted) {
       obj.action_completed = message.actionCompleted.map(e => e);
     } else {
-      obj.action_completed = [];
+      obj.action_completed = message.actionCompleted;
     }
     return obj;
   },

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { ParamChange, ParamChangeSDKType } from "./params";
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";

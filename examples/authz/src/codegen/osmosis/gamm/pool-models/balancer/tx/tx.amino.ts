@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { PoolParams, PoolParamsSDKType, PoolAsset, PoolAssetSDKType } from "../balancerPool";
 import { MsgCreateBalancerPool, MsgCreateBalancerPoolSDKType } from "./tx";
 export const AminoConverter = {

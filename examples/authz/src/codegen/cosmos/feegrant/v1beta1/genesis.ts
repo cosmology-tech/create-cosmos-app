@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Grant, GrantAmino, GrantSDKType } from "./feegrant";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { DeepPartial } from "../../../helpers";
@@ -106,7 +107,7 @@ export const GenesisState = {
     if (message.allowances) {
       obj.allowances = message.allowances.map(e => e ? Grant.toAmino(e) : undefined);
     } else {
-      obj.allowances = [];
+      obj.allowances = message.allowances;
     }
     return obj;
   },

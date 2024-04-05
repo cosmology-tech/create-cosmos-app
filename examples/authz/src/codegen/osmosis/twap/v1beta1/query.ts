@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../google/protobuf/timestamp";
 import { Params, ParamsAmino, ParamsSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../binary";
@@ -258,9 +259,9 @@ export const ArithmeticTwapRequest = {
   },
   toAmino(message: ArithmeticTwapRequest): ArithmeticTwapRequestAmino {
     const obj: any = {};
-    obj.pool_id = message.poolId ? message.poolId.toString() : undefined;
-    obj.base_asset = message.baseAsset;
-    obj.quote_asset = message.quoteAsset;
+    obj.pool_id = message.poolId !== BigInt(0) ? message.poolId.toString() : undefined;
+    obj.base_asset = message.baseAsset === "" ? undefined : message.baseAsset;
+    obj.quote_asset = message.quoteAsset === "" ? undefined : message.quoteAsset;
     obj.start_time = message.startTime ? Timestamp.toAmino(toTimestamp(message.startTime)) : undefined;
     obj.end_time = message.endTime ? Timestamp.toAmino(toTimestamp(message.endTime)) : undefined;
     return obj;
@@ -363,7 +364,7 @@ export const ArithmeticTwapResponse = {
   },
   toAmino(message: ArithmeticTwapResponse): ArithmeticTwapResponseAmino {
     const obj: any = {};
-    obj.arithmetic_twap = message.arithmeticTwap;
+    obj.arithmetic_twap = message.arithmeticTwap === "" ? undefined : message.arithmeticTwap;
     return obj;
   },
   fromAminoMsg(object: ArithmeticTwapResponseAminoMsg): ArithmeticTwapResponse {
@@ -511,9 +512,9 @@ export const ArithmeticTwapToNowRequest = {
   },
   toAmino(message: ArithmeticTwapToNowRequest): ArithmeticTwapToNowRequestAmino {
     const obj: any = {};
-    obj.pool_id = message.poolId ? message.poolId.toString() : undefined;
-    obj.base_asset = message.baseAsset;
-    obj.quote_asset = message.quoteAsset;
+    obj.pool_id = message.poolId !== BigInt(0) ? message.poolId.toString() : undefined;
+    obj.base_asset = message.baseAsset === "" ? undefined : message.baseAsset;
+    obj.quote_asset = message.quoteAsset === "" ? undefined : message.quoteAsset;
     obj.start_time = message.startTime ? Timestamp.toAmino(toTimestamp(message.startTime)) : undefined;
     return obj;
   },
@@ -615,7 +616,7 @@ export const ArithmeticTwapToNowResponse = {
   },
   toAmino(message: ArithmeticTwapToNowResponse): ArithmeticTwapToNowResponseAmino {
     const obj: any = {};
-    obj.arithmetic_twap = message.arithmeticTwap;
+    obj.arithmetic_twap = message.arithmeticTwap === "" ? undefined : message.arithmeticTwap;
     return obj;
   },
   fromAminoMsg(object: ArithmeticTwapToNowResponseAminoMsg): ArithmeticTwapToNowResponse {

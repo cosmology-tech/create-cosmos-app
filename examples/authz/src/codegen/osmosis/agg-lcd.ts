@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Coin, CoinSDKType } from "../cosmos/base/v1beta1/coin";
 import { LCDClient } from "@cosmology/lcd";
 import { setPaginationParams } from "../helpers";

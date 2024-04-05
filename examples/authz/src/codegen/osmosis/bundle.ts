@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as _132 from "./claim/v1beta1/claim";
 import * as _133 from "./claim/v1beta1/genesis";
 import * as _134 from "./claim/v1beta1/params";

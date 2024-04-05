@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Plan, PlanSDKType } from "./upgrade";
 import { TelescopeGeneratedType } from "../../../types";
 import { Registry } from "@cosmjs/proto-signing";

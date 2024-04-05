@@ -148,24 +148,6 @@ cca --name authz-example --example authz
 cca --name grpc-example --example grpc-web-grpc-gateway
 ```
 
-### Osmosis
-
-<p align="center" width="100%">
-    <img height="48" src="https://user-images.githubusercontent.com/545047/184519024-2d34bf20-2440-4837-943f-4915a46409f5.svg" />
-</p>
-
-uses [osmojs](https://github.com/osmosis-labs/osmojs)
-
-```
-cca --name osmo-example --example osmosis
-```
-
-or the cosmwasm example:
-
-```
-cca --name osmowasm-example --example osmosis-cosmwasm
-```
-
 ### Swap Tokens
 
 <p align="center" width="100%">
@@ -200,30 +182,6 @@ cca --name liquidity-example --example provide-liquidity
 cca --name asset-list-example --example asset-list
 ```
 
-### Juno
-
-<p align="center" width="100%">
-    <img height="48" src="https://user-images.githubusercontent.com/545047/184516834-4b8190b0-0721-4778-b4fb-fa19ed3f9279.svg" />
-</p>
-
-uses [juno-network](https://github.com/CosmosContracts/typescript)
-
-```
-cca --name juno-example --example juno
-```
-
-### Stargaze
-
-<p align="center" width="100%">
-    <img height="48" src="https://user-images.githubusercontent.com/545047/184694732-f4a3d397-14fb-415a-9562-a532f510f812.png" />
-</p>
-
-uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
-
-```
-cca --name stargaze-example --example stargaze
-```
-
 ### NFT
 
 <p align="center" width="100%">
@@ -234,22 +192,6 @@ uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
 
 ```
 cca --name nft-example --example nft
-```
-
-### CosmWasm
-
-<p align="center" width="100%">
-    <img height="48" src="https://user-images.githubusercontent.com/545047/197502724-4cb0f898-116c-4c14-89c8-3358e89eab70.svg" />
-</p>
-
-```
-cca --name cosmwasm-example --example cosmwasm
-```
-
-### Tailwind
-
-```
-cca --name tailwind-example --example tailwindcss
 ```
 
 ## Development

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { Params, ParamsAmino, ParamsSDKType } from "./params";
 import { ClaimRecord, ClaimRecordAmino, ClaimRecordSDKType } from "./claim";
@@ -156,7 +157,7 @@ export const GenesisState = {
     if (message.claimRecords) {
       obj.claim_records = message.claimRecords.map(e => e ? ClaimRecord.toAmino(e) : undefined);
     } else {
-      obj.claim_records = [];
+      obj.claim_records = message.claimRecords;
     }
     return obj;
   },

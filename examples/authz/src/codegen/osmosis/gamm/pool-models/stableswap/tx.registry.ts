@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { PoolParams, PoolParamsSDKType } from "./stableswap_pool";
 import { Coin, CoinSDKType } from "../../../../cosmos/base/v1beta1/coin";
 import { TelescopeGeneratedType } from "../../../../types";

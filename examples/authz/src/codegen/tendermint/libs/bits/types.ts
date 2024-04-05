@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
@@ -127,11 +128,11 @@ export const BitArray = {
   },
   toAmino(message: BitArray): BitArrayAmino {
     const obj: any = {};
-    obj.bits = message.bits ? message.bits.toString() : undefined;
+    obj.bits = message.bits !== BigInt(0) ? message.bits.toString() : undefined;
     if (message.elems) {
       obj.elems = message.elems.map(e => e.toString());
     } else {
-      obj.elems = [];
+      obj.elems = message.elems;
     }
     return obj;
   },
