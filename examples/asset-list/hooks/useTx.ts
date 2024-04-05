@@ -66,7 +66,7 @@ export const useTx = (chainName: string) => {
 
       toast.promise(promise, {
         loading: 'Waiting for transaction to be included in the block',
-        success: (data) => {
+        success: (data: any) => {
           if (isDeliverTxSuccess(data)) {
             if (options.onSuccess) options.onSuccess();
             return options.toast?.title || TxStatus.Successful;
@@ -78,7 +78,7 @@ export const useTx = (chainName: string) => {
             };
           }
         },
-        error: (error) => {
+        error: (error: Error) => {
           if (error?.message) {
             console.error(error?.message);
           }

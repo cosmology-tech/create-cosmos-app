@@ -17,6 +17,7 @@ export const getOsmoAssetByDenom = (denom: CoinDenom): OsmosisAsset => {
 export const getDenomForCoinGeckoId = (
   coinGeckoId: CoinGeckoToken
 ): CoinDenom => {
+  // @ts-ignore
   return osmosisAssets.find((asset) => asset.coingecko_id === coinGeckoId).base;
 };
 
@@ -34,6 +35,7 @@ export const symbolToOsmoDenom = (token: CoinSymbol): CoinDenom => {
   const base = asset?.base;
   if (!base) {
     console.log(`cannot find base for token ${token}`);
+    // @ts-ignore
     return null;
   }
   return base;
@@ -42,6 +44,7 @@ export const symbolToOsmoDenom = (token: CoinSymbol): CoinDenom => {
 export const getExponentByDenom = (denom: CoinDenom): Exponent => {
   const asset = getOsmoAssetByDenom(denom);
   const unit = asset.denom_units.find(({ denom }) => denom === asset.display);
+  // @ts-ignore
   return unit.exponent;
 };
 
@@ -50,6 +53,7 @@ export const convertGeckoPricesToDenomPriceHash = (
 ): PriceHash => {
   return Object.keys(prices).reduce((res, geckoId) => {
     const denom = getDenomForCoinGeckoId(geckoId);
+    // @ts-ignore
     res[denom] = prices[geckoId].usd;
     return res;
   }, {});

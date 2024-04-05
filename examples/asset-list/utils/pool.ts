@@ -32,7 +32,7 @@ export const calcPoolLiquidity = (pool: Pool, prices: PriceHash): string => {
 };
 
 export const getPoolByGammName = (pools: Pool[], gammId: string): Pool => {
-  return pools.find(({ totalShares: { denom } }) => denom === gammId);
+  return pools.find(({ totalShares: { denom } }) => denom === gammId) as Pool;
 };
 
 export const convertGammTokenToDollarValue = (
@@ -98,6 +98,7 @@ export const prettyPool = (
 ): PoolPretty => {
   const totalWeight = new BigNumber(pool.totalWeight);
   const tokens = pool.poolAssets.map(({ token, weight }) => {
+    // @ts-ignore
     const asset = assetHashMap?.[token.denom];
     const symbol = asset?.symbol ?? token.denom;
     const ratio = new BigNumber(weight).dividedBy(totalWeight).toString();
@@ -118,8 +119,10 @@ export const prettyPool = (
     images: undefined,
   };
   if (includeDetails) {
+    // @ts-ignore
     value.images = tokens
       .map((t) => {
+        // @ts-ignore
         const imgs = t?.info?.logo_URIs;
         if (imgs) {
           return {
@@ -130,6 +133,7 @@ export const prettyPool = (
       })
       .filter(Boolean);
   }
+  // @ts-ignore
   return {
     ...value,
     ...pool,
@@ -179,6 +183,7 @@ export const getCoinBalance = (
   if (!coinBalance || !coinBalance.amount) {
     // console.log({ coinBalance });
     // throw new Error("not enough " + prettyAsset.symbol);
+    // @ts-ignore
     return { ...coinBalance, displayValue: 0 };
   }
 
@@ -241,6 +246,7 @@ export const calcShareOutAmount = (
 };
 
 export const makePoolPairs = (pools: Pool[]): PrettyPair[] => {
+  // @ts-ignore
   return pools
     .filter(
       (pool) =>
@@ -256,6 +262,9 @@ export const makePoolPairs = (pools: Pool[]): PrettyPair[] => {
       if (!assetAinfo || !assetBinfo) return;
 
       return {
+        // TODO fix the fact this is seemingly using long
+        // TODO or, why do we even have pools here???
+        // @ts-ignore
         poolId: typeof pool.id === 'string' ? pool.id : pool.id.low.toString(),
         poolAddress: pool.address,
         baseName: assetAinfo.display,

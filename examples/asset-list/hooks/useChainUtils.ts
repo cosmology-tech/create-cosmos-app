@@ -21,7 +21,9 @@ export const useChainUtils = (chainName: string) => {
   };
 
   const { nativeAssets, ibcAssets } = useMemo(() => {
+    // @ts-ignore
     const nativeAssets = filterAssets(chainAssets);
+    // @ts-ignore
     const ibcAssets = filterAssets(ibcAssetLists);
 
     return { nativeAssets, ibcAssets };
@@ -89,8 +91,13 @@ export const useChainUtils = (chainName: string) => {
 
   const getPrettyChainName = (ibcDenom: CoinDenom) => {
     const chainName = getChainName(ibcDenom);
-    const chainRecord = getChainRecord(chainName);
-    return chainRecord.chain.pretty_name;
+    try {
+      const chainRecord = getChainRecord(chainName);
+      // @ts-ignore
+      return chainRecord.chain.pretty_name;
+    } catch (e) {
+      return 'CHAIN_INFO_NOT_FOUND'
+    }
   };
 
   const isNativeAsset = ({ denom }: PrettyAsset) => {
