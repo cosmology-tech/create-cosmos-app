@@ -13,6 +13,7 @@ import { FiCopy } from 'react-icons/fi';
 import React, { ReactNode, useEffect, useState } from "react";
 
 import { CopyAddressType } from "../types";
+import { handleChangeColorModeValue } from "./handleChangeColor";
 
 const SIZES = {
   lg: {
@@ -48,16 +49,6 @@ export function stringTruncateFromCenter(str: string, maxLength: number) {
 
   return str.substring(0, left) + midChar + str.substring(right);
 }
-
-export function handleChangeColorModeValue(
-  colorMode: string,
-  light: string,
-  dark: string
-) {
-  if (colorMode === 'light') return light;
-  if (colorMode === 'dark') return dark;
-}
-
 
 export const ConnectedShowAddress = ({
   address,
