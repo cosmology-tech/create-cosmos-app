@@ -1,16 +1,13 @@
 import { useChain } from '@cosmos-kit/react';
-import {
-  useRpcEndpoint,
-  useRpcClient,
-  createRpcQueryHooks,
-} from 'interchain-query';
+import { useRpcEndpoint, useRpcClient, createRpcQueryHooks } from 'osmo-query';
 
 export const useQueryHooks = (chainName: string, extraKey?: string) => {
-  const { getRpcEndpoint } = useChain(chainName);
+  const { address, getRpcEndpoint } = useChain(chainName);
 
   const rpcEndpointQuery = useRpcEndpoint({
     getter: getRpcEndpoint,
     options: {
+      enabled: !!address,
       staleTime: Infinity,
       queryKeyHashFn: (queryKey) => {
         const key = [...queryKey, chainName];
@@ -22,7 +19,7 @@ export const useQueryHooks = (chainName: string, extraKey?: string) => {
   const rpcClientQuery = useRpcClient({
     rpcEndpoint: rpcEndpointQuery.data || '',
     options: {
-      enabled: !!rpcEndpointQuery.data,
+      enabled: !!address && !!rpcEndpointQuery.data,
       staleTime: Infinity,
       queryKeyHashFn: (queryKey) => {
         return JSON.stringify(extraKey ? [...queryKey, extraKey] : queryKey);
@@ -30,12 +27,12 @@ export const useQueryHooks = (chainName: string, extraKey?: string) => {
     },
   });
 
-  const { cosmos: cosmosQuery } = createRpcQueryHooks({
+  const { cosmos: cosmosQuery, osmosis: osmosisQuery } = createRpcQueryHooks({
     rpc: rpcClientQuery.data,
   });
 
-  const isReady = !!rpcClientQuery.data;
+  const isReady = !!address && !!rpcClientQuery.data;
   const isFetching = rpcEndpointQuery.isFetching || rpcClientQuery.isFetching;
 
-  return { cosmosQuery, isReady, isFetching };
+  return { cosmosQuery, osmosisQuery, isReady, isFetching };
 };
