@@ -103,10 +103,10 @@ export const AddLiquidityModal = ({
 
   const currentInputTokens = singleToken
     ? [
-        inputTokens.find(
-          ({ denom }) => denom === getOsmoDenomForSymbol(singleToken)
-        )!,
-      ]
+      inputTokens.find(
+        ({ denom }) => denom === getOsmoDenomForSymbol(singleToken)
+      )!,
+    ]
     : inputTokens;
 
   const hasEmptyAmount = currentInputTokens.some((t) => !t.inputAmount);
@@ -126,10 +126,10 @@ export const AddLiquidityModal = ({
   const btnText = hasEmptyAmount
     ? 'Amount is empty'
     : hasInsufficientAmount
-    ? 'Insufficient amount'
-    : hasZeroAmount
-    ? 'Amount is Zero'
-    : 'Add liquidity';
+      ? 'Insufficient amount'
+      : hasZeroAmount
+        ? 'Amount is Zero'
+        : 'Add liquidity';
 
   const closeModal = () => {
     setInputTokens(
@@ -167,7 +167,9 @@ export const AddLiquidityModal = ({
         coinSymbol,
         inputCoin.amount
       );
+      // @ts-ignore
       const coinsNeeded = convertDollarValueToCoins(inputValue, pool, prices);
+      // @ts-ignore
       const shareOutAmount = calcShareOutAmount(pool, coinsNeeded);
       const joinSwapExternAmountInMsg = joinSwapExternAmountIn({
         poolId: currentPool.id,
@@ -180,6 +182,7 @@ export const AddLiquidityModal = ({
       });
       msgs.push(joinSwapExternAmountInMsg);
     } else {
+      // @ts-ignore
       const shareOutAmount = calcShareOutAmount(pool, allCoins);
       const tokenInMaxs = allCoins.map((c: Coin) => {
         return coin(c.amount, c.denom);
@@ -224,7 +227,9 @@ export const AddLiquidityModal = ({
       size={isMobile ? 'sm' : { sm: 'sm', md: 'xl', lg: '3xl' }}
     >
       <ModalOverlay bg="blackAlpha.800" />
+      {/* @ts-ignore */}
       <ModalContent bg={useColorModeValue('#FFF', '#2C3137')}>
+        {/* @ts-ignore */}
         <ModalHeader>
           <Text fontWeight="600" fontSize="20px" color={statColor}>
             Add liquidity

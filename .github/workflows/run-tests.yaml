@@ -46,3 +46,9 @@ jobs:
           cca --example swap-tokens --name swap-tokens
           cd swap-tokens
           yarn build
+
+      - name: provide-liquidity
+        run: | 
+          cca --example provide-liquidity --name provide-liquidity
+          cd provide-liquidity
+          yarn build
