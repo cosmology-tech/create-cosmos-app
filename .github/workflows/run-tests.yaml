@@ -24,4 +24,7 @@ jobs:
         run: npm install -g create-cosmos-app
 
       - name: check install
-        run: cca --example vote-proposal --name vote-proposal
+        run: | 
+          cca --example vote-proposal --name vote-proposal
+          cd vote-proposal
+          yarn build
