@@ -1,3 +1,4 @@
+// @ts-nocheck
 import '../styles/globals.css';
 import '@interchain-ui/react/styles';
 
@@ -14,6 +15,7 @@ import { defaultTheme } from '../config';
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
+    // @ts-ignore
     signingStargate: () => {
       return getSigningCosmosClientOptions();
     },
