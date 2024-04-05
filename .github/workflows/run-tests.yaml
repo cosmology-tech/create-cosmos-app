@@ -58,3 +58,9 @@ jobs:
           cca --example nft --name nft
           cd nft
           yarn build
+
+      - name: connect-chain
+        run: | 
+          cca --template connect-chain --name connect-chain
+          cd connect-chain
+          yarn build
