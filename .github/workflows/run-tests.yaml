@@ -29,12 +29,6 @@ jobs:
           cd vote-proposal
           yarn build
 
-      - name: send-tokens
-        run: | 
-          cca --example send-tokens --name send-tokens
-          cd send-tokens
-          yarn build
-
       - name: asset-list
         run: | 
           cca --example asset-list --name asset-list
