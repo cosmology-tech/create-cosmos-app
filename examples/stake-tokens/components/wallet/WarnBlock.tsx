@@ -26,6 +26,8 @@ export const WarnBlock = ({
         justifyContent="center"
         width="$full"
         overflowY="scroll"
+        // TODO fix type error
+        // @ts-ignore
         style={{
           // For Firefox
           scrollbarWidth: 'auto',

@@ -23,8 +23,14 @@ jobs:
       - name: Install Dependencies
         run: npm install -g create-cosmos-app
 
-      - name: check install
+      - name: vote-proposal
         run: | 
           cca --example vote-proposal --name vote-proposal
           cd vote-proposal
+          yarn build
+
+      - name: send-tokens
+        run: | 
+          cca --example send-tokens --name send-tokens
+          cd send-tokens
           yarn build

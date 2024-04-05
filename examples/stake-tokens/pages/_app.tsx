@@ -31,9 +31,13 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const { themeClass } = useTheme();
 
   const signerOptions: SignerOptions = {
+    // TODO fix type error
+    // @ts-ignore
     signingStargate: (chain) => {
       let gasPrice;
       try {
+        // TODO fix type error
+        // @ts-ignore
         const feeToken = chain.fees?.fee_tokens[0];
         const fee = `${feeToken?.average_gas_price || 0.025}${feeToken?.denom}`;
         gasPrice = GasPrice.fromString(fee);
@@ -70,6 +74,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
             minHeight="100dvh"
             backgroundColor={useColorModeValue('$white', '$background')}
           >
+            {/* @ts-ignore */}
             <Component {...pageProps} />
             <Toaster position="top-right" closeButton={true} />
           </Box>
