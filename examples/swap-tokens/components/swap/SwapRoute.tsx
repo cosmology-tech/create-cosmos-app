@@ -27,6 +27,7 @@ export function SwapRoute({ from, to, steps = [] }: SwapRouteProps) {
         </Box>
         <Dashes />
         {steps.map((route: SwapRouteStep) => (
+          // @ts-ignore
           <Fragment key={route.poolId}>
             <Box ml="$6" mr="$5" width="$16" height="$12" position="relative">
               <img width="32" height="32" alt={route.base.symbol} src={route.base.logo} />
@@ -34,10 +35,10 @@ export function SwapRoute({ from, to, steps = [] }: SwapRouteProps) {
                 <img width="32" height="32" alt={route.quote.symbol} src={route.quote.logo} />
               </Box>
             </Box>
-              <Text color="$textSecondary" fontWeight="$bold" attributes={{ marginRight: "$5" }}>
-                {route?.swapFee}
-              </Text>
-              <Dashes />
+            <Text color="$textSecondary" fontWeight="$bold" attributes={{ marginRight: "$5" }}>
+              {route?.swapFee}
+            </Text>
+            <Dashes />
           </Fragment>
         ))}
         <Box ml="$6">
@@ -52,13 +53,15 @@ export function Dashes() {
   return (
     <Box
       px="$7"
+      // @ts-ignore
       style={{
         flex: '1',
         height: '1px',
         background: `repeating-linear-gradient(90deg, ${useColorModeValue(
           '#d9d9d9',
           '#718096'
-        )} 0 4px, #0000 0 12px)`}}
+        )} 0 4px, #0000 0 12px)`
+      }}
     />
   )
 }

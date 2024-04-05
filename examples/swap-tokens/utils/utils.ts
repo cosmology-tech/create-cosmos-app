@@ -11,6 +11,6 @@ export function getLogo(from: Asset | Chain) {
 }
 
 export function getChainLogo(name: string) {
-  const chain = chains.find(chain => chain.chain_name === name)
+  const chain: Chain = chains.find(chain => chain.chain_name === name) as Chain;
   return chain ? getLogo(chain) : null;
 }
