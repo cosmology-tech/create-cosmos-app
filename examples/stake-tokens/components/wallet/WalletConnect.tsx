@@ -55,6 +55,8 @@ export const ConnectWalletButton = ({
         gap="$4"
         as="span"
         borderRadius="8px"
+        // TODO fix type error
+        // @ts-ignore
         style={{
           zIndex: '1',
         }}
