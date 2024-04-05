@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
@@ -14,7 +15,7 @@ export interface GenesisStateProtoMsg {
 /** GenesisState defines the raw genesis transaction in JSON. */
 export interface GenesisStateAmino {
   /** gen_txs defines the genesis transactions. */
-  gen_txs?: string[];
+  gen_txs: string[];
 }
 export interface GenesisStateAminoMsg {
   type: "cosmos-sdk/GenesisState";
@@ -107,7 +108,7 @@ export const GenesisState = {
     if (message.genTxs) {
       obj.gen_txs = message.genTxs.map(e => base64FromBytes(e));
     } else {
-      obj.gen_txs = [];
+      obj.gen_txs = message.genTxs;
     }
     return obj;
   },

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
 import { DeliverTxResponse, StdFee, TxRpc } from "../../../../types";
 import { BinaryReader } from "../../../../binary";
@@ -5,13 +6,13 @@ import { MsgCreateClient, MsgCreateClientSDKType, MsgCreateClientResponse, MsgCr
 /** Msg defines the ibc/client Msg service. */
 export interface Msg {
   /** CreateClient defines a rpc handler method for MsgCreateClient. */
-  createClient(signerAddress: string, message: MsgCreateClient, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
+  createClient(signerAddress: string, message: MsgCreateClient, fee: number | StdFee | "auto", memo?: string): Promise<DeliverTxResponse>;
   /** UpdateClient defines a rpc handler method for MsgUpdateClient. */
-  updateClient(signerAddress: string, message: MsgUpdateClient, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
+  updateClient(signerAddress: string, message: MsgUpdateClient, fee: number | StdFee | "auto", memo?: string): Promise<DeliverTxResponse>;
   /** UpgradeClient defines a rpc handler method for MsgUpgradeClient. */
-  upgradeClient(signerAddress: string, message: MsgUpgradeClient, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
+  upgradeClient(signerAddress: string, message: MsgUpgradeClient, fee: number | StdFee | "auto", memo?: string): Promise<DeliverTxResponse>;
   /** SubmitMisbehaviour defines a rpc handler method for MsgSubmitMisbehaviour. */
-  submitMisbehaviour(signerAddress: string, message: MsgSubmitMisbehaviour, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
+  submitMisbehaviour(signerAddress: string, message: MsgSubmitMisbehaviour, fee: number | StdFee | "auto", memo?: string): Promise<DeliverTxResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: TxRpc;

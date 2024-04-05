@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { GlobalDecoderRegistry } from "../../registry";
@@ -162,8 +163,8 @@ export const App = {
   },
   toAmino(message: App): AppAmino {
     const obj: any = {};
-    obj.protocol = message.protocol ? message.protocol.toString() : undefined;
-    obj.software = message.software;
+    obj.protocol = message.protocol !== BigInt(0) ? message.protocol.toString() : undefined;
+    obj.software = message.software === "" ? undefined : message.software;
     return obj;
   },
   fromAminoMsg(object: AppAminoMsg): App {
@@ -275,8 +276,8 @@ export const Consensus = {
   },
   toAmino(message: Consensus): ConsensusAmino {
     const obj: any = {};
-    obj.block = message.block ? message.block.toString() : undefined;
-    obj.app = message.app ? message.app.toString() : undefined;
+    obj.block = message.block !== BigInt(0) ? message.block.toString() : undefined;
+    obj.app = message.app !== BigInt(0) ? message.app.toString() : undefined;
     return obj;
   },
   fromAminoMsg(object: ConsensusAminoMsg): Consensus {

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { TelescopeGeneratedType } from "../../../types";
 import { Registry } from "@cosmjs/proto-signing";
 import { MsgVerifyInvariant, MsgVerifyInvariantSDKType } from "./tx";

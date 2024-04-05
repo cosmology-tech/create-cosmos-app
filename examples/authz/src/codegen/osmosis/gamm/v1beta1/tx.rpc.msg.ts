@@ -1,16 +1,17 @@
+//@ts-nocheck
 import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { DeliverTxResponse, StdFee, TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";
 import { MsgJoinPool, MsgJoinPoolSDKType, MsgJoinPoolResponse, MsgJoinPoolResponseSDKType, MsgExitPool, MsgExitPoolSDKType, MsgExitPoolResponse, MsgExitPoolResponseSDKType, MsgSwapExactAmountIn, MsgSwapExactAmountInSDKType, MsgSwapExactAmountInResponse, MsgSwapExactAmountInResponseSDKType, MsgSwapExactAmountOut, MsgSwapExactAmountOutSDKType, MsgSwapExactAmountOutResponse, MsgSwapExactAmountOutResponseSDKType, MsgJoinSwapExternAmountIn, MsgJoinSwapExternAmountInSDKType, MsgJoinSwapExternAmountInResponse, MsgJoinSwapExternAmountInResponseSDKType, MsgJoinSwapShareAmountOut, MsgJoinSwapShareAmountOutSDKType, MsgJoinSwapShareAmountOutResponse, MsgJoinSwapShareAmountOutResponseSDKType, MsgExitSwapExternAmountOut, MsgExitSwapExternAmountOutSDKType, MsgExitSwapExternAmountOutResponse, MsgExitSwapExternAmountOutResponseSDKType, MsgExitSwapShareAmountIn, MsgExitSwapShareAmountInSDKType, MsgExitSwapShareAmountInResponse, MsgExitSwapShareAmountInResponseSDKType } from "./tx";
 export interface Msg {
-  joinPool(signerAddress: string, message: MsgJoinPool, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
-  exitPool(signerAddress: string, message: MsgExitPool, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
-  swapExactAmountIn(signerAddress: string, message: MsgSwapExactAmountIn, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
-  swapExactAmountOut(signerAddress: string, message: MsgSwapExactAmountOut, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
-  joinSwapExternAmountIn(signerAddress: string, message: MsgJoinSwapExternAmountIn, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
-  joinSwapShareAmountOut(signerAddress: string, message: MsgJoinSwapShareAmountOut, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
-  exitSwapExternAmountOut(signerAddress: string, message: MsgExitSwapExternAmountOut, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
-  exitSwapShareAmountIn(signerAddress: string, message: MsgExitSwapShareAmountIn, fee: number | StdFee | "auto", memo: string): Promise<DeliverTxResponse>;
+  joinPool(signerAddress: string, message: MsgJoinPool, fee: number | StdFee | "auto", memo?: string): Promise<DeliverTxResponse>;
+  exitPool(signerAddress: string, message: MsgExitPool, fee: number | StdFee | "auto", memo?: string): Promise<DeliverTxResponse>;
+  swapExactAmountIn(signerAddress: string, message: MsgSwapExactAmountIn, fee: number | StdFee | "auto", memo?: string): Promise<DeliverTxResponse>;
+  swapExactAmountOut(signerAddress: string, message: MsgSwapExactAmountOut, fee: number | StdFee | "auto", memo?: string): Promise<DeliverTxResponse>;
+  joinSwapExternAmountIn(signerAddress: string, message: MsgJoinSwapExternAmountIn, fee: number | StdFee | "auto", memo?: string): Promise<DeliverTxResponse>;
+  joinSwapShareAmountOut(signerAddress: string, message: MsgJoinSwapShareAmountOut, fee: number | StdFee | "auto", memo?: string): Promise<DeliverTxResponse>;
+  exitSwapExternAmountOut(signerAddress: string, message: MsgExitSwapExternAmountOut, fee: number | StdFee | "auto", memo?: string): Promise<DeliverTxResponse>;
+  exitSwapShareAmountIn(signerAddress: string, message: MsgExitSwapShareAmountIn, fee: number | StdFee | "auto", memo?: string): Promise<DeliverTxResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: TxRpc;

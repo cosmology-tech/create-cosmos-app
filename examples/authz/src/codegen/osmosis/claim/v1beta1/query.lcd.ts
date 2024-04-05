@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Action, ActionSDKType, ClaimRecord, ClaimRecordSDKType } from "./claim";
 import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { Params, ParamsSDKType } from "./params";

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { Pool as Pool1 } from "../pool-models/balancer/balancerPool";
@@ -144,7 +145,7 @@ export const Params = {
     if (message.poolCreationFee) {
       obj.pool_creation_fee = message.poolCreationFee.map(e => e ? Coin.toAmino(e) : undefined);
     } else {
-      obj.pool_creation_fee = [];
+      obj.pool_creation_fee = message.poolCreationFee;
     }
     return obj;
   },
@@ -246,7 +247,7 @@ export const GenesisState = {
   },
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.pools = object.pools?.map(e => (Any.fromPartial(e) as any)) || [];
+    message.pools = object.pools?.map(e => (GlobalDecoderRegistry.fromPartial(e) as any)) || [];
     if (object.nextPoolNumber !== undefined && object.nextPoolNumber !== null) {
       message.nextPoolNumber = BigInt(object.nextPoolNumber.toString());
     }
@@ -289,9 +290,9 @@ export const GenesisState = {
     if (message.pools) {
       obj.pools = message.pools.map(e => e ? GlobalDecoderRegistry.toAminoMsg(e) : undefined);
     } else {
-      obj.pools = [];
+      obj.pools = message.pools;
     }
-    obj.next_pool_number = message.nextPoolNumber ? message.nextPoolNumber.toString() : undefined;
+    obj.next_pool_number = message.nextPoolNumber !== BigInt(0) ? message.nextPoolNumber.toString() : undefined;
     obj.params = message.params ? Params.toAmino(message.params) : undefined;
     return obj;
   },

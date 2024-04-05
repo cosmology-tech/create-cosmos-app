@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Plan, PlanSDKType, ModuleVersion, ModuleVersionSDKType } from "./upgrade";
 import { TxRpc } from "../../../types";
 import { BinaryReader } from "../../../binary";

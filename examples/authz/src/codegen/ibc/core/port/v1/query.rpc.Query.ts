@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Order, OrderSDKType, Counterparty, CounterpartySDKType } from "../../channel/v1/channel";
 import { TxRpc } from "../../../../types";
 import { BinaryReader } from "../../../../binary";

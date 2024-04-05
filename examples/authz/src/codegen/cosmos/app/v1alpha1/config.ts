@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { DeepPartial, isSet } from "../../../helpers";
@@ -187,7 +188,7 @@ export const Config = {
     if (message.modules) {
       obj.modules = message.modules.map(e => e ? ModuleConfig.toAmino(e) : undefined);
     } else {
-      obj.modules = [];
+      obj.modules = message.modules;
     }
     return obj;
   },
@@ -306,7 +307,7 @@ export const ModuleConfig = {
   },
   toAmino(message: ModuleConfig): ModuleConfigAmino {
     const obj: any = {};
-    obj.name = message.name;
+    obj.name = message.name === "" ? undefined : message.name;
     obj.config = message.config ? Any.toAmino(message.config) : undefined;
     return obj;
   },

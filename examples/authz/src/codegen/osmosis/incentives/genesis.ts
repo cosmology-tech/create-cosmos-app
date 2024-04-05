@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Params, ParamsAmino, ParamsSDKType } from "./params";
 import { Gauge, GaugeAmino, GaugeSDKType } from "./gauge";
 import { Duration, DurationAmino, DurationSDKType } from "../../google/protobuf/duration";
@@ -202,14 +203,14 @@ export const GenesisState = {
     if (message.gauges) {
       obj.gauges = message.gauges.map(e => e ? Gauge.toAmino(e) : undefined);
     } else {
-      obj.gauges = [];
+      obj.gauges = message.gauges;
     }
     if (message.lockableDurations) {
       obj.lockable_durations = message.lockableDurations.map(e => e ? Duration.toAmino(e) : undefined);
     } else {
-      obj.lockable_durations = [];
+      obj.lockable_durations = message.lockableDurations;
     }
-    obj.last_gauge_id = message.lastGaugeId ? message.lastGaugeId.toString() : undefined;
+    obj.last_gauge_id = message.lastGaugeId !== BigInt(0) ? message.lastGaugeId.toString() : undefined;
     return obj;
   },
   fromAminoMsg(object: GenesisStateAminoMsg): GenesisState {

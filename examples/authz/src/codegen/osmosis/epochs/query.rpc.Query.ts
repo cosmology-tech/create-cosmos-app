@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { EpochInfo, EpochInfoSDKType } from "./genesis";
 import { TxRpc } from "../../types";
 import { BinaryReader } from "../../binary";

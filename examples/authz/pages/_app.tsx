@@ -1,3 +1,6 @@
+// TODO fix type issues
+// @ts-nocheck
+
 import '@interchain-ui/react/styles';
 import '@interchain-ui/react/globalStyles';
 import 'react-calendar/dist/Calendar.css';

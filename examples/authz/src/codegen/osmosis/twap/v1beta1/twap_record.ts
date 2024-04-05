@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../google/protobuf/timestamp";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
@@ -61,7 +62,7 @@ export interface TwapRecordAmino {
   /** Lexicographically larger denom of the pair */
   asset1_denom?: string;
   /** height this record corresponds to, for debugging purposes */
-  height?: string;
+  height: string;
   /**
    * This field should only exist until we have a global registry in the state
    * machine, mapping prior block heights within {TIME RANGE} to times.
@@ -320,15 +321,15 @@ export const TwapRecord = {
   },
   toAmino(message: TwapRecord): TwapRecordAmino {
     const obj: any = {};
-    obj.pool_id = message.poolId ? message.poolId.toString() : undefined;
-    obj.asset0_denom = message.asset0Denom;
-    obj.asset1_denom = message.asset1Denom;
-    obj.height = message.height ? message.height.toString() : undefined;
+    obj.pool_id = message.poolId !== BigInt(0) ? message.poolId.toString() : undefined;
+    obj.asset0_denom = message.asset0Denom === "" ? undefined : message.asset0Denom;
+    obj.asset1_denom = message.asset1Denom === "" ? undefined : message.asset1Denom;
+    obj.height = message.height ? message.height.toString() : "0";
     obj.time = message.time ? Timestamp.toAmino(toTimestamp(message.time)) : undefined;
-    obj.p0_last_spot_price = message.p0LastSpotPrice;
-    obj.p1_last_spot_price = message.p1LastSpotPrice;
-    obj.p0_arithmetic_twap_accumulator = message.p0ArithmeticTwapAccumulator;
-    obj.p1_arithmetic_twap_accumulator = message.p1ArithmeticTwapAccumulator;
+    obj.p0_last_spot_price = message.p0LastSpotPrice === "" ? undefined : message.p0LastSpotPrice;
+    obj.p1_last_spot_price = message.p1LastSpotPrice === "" ? undefined : message.p1LastSpotPrice;
+    obj.p0_arithmetic_twap_accumulator = message.p0ArithmeticTwapAccumulator === "" ? undefined : message.p0ArithmeticTwapAccumulator;
+    obj.p1_arithmetic_twap_accumulator = message.p1ArithmeticTwapAccumulator === "" ? undefined : message.p1ArithmeticTwapAccumulator;
     obj.last_error_time = message.lastErrorTime ? Timestamp.toAmino(toTimestamp(message.lastErrorTime)) : undefined;
     return obj;
   },

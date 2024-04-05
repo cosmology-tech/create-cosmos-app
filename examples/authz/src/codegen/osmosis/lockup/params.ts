@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { DeepPartial } from "../../helpers";
 import { GlobalDecoderRegistry } from "../../registry";
@@ -102,7 +103,7 @@ export const Params = {
     if (message.forceUnlockAllowedAddresses) {
       obj.force_unlock_allowed_addresses = message.forceUnlockAllowedAddresses.map(e => e);
     } else {
-      obj.force_unlock_allowed_addresses = [];
+      obj.force_unlock_allowed_addresses = message.forceUnlockAllowedAddresses;
     }
     return obj;
   },

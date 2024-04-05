@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { DeepPartial } from "../../../helpers";
@@ -106,7 +107,7 @@ export const Params = {
     if (message.denomCreationFee) {
       obj.denom_creation_fee = message.denomCreationFee.map(e => e ? Coin.toAmino(e) : undefined);
     } else {
-      obj.denom_creation_fee = [];
+      obj.denom_creation_fee = message.denomCreationFee;
     }
     return obj;
   },

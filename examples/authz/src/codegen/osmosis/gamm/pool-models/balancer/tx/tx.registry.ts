@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { PoolParams, PoolParamsSDKType, PoolAsset, PoolAssetSDKType } from "../balancerPool";
 import { TelescopeGeneratedType } from "../../../../../types";
 import { Registry } from "@cosmjs/proto-signing";

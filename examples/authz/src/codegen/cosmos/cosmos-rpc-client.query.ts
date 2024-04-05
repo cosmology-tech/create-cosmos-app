@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Rpc } from "../helpers";
 import { connectComet, HttpEndpoint } from "@cosmjs/tendermint-rpc";
 import { QueryClient } from "@cosmjs/stargate";

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as _183 from "./abci/types";
 import * as _184 from "./crypto/keys";
 import * as _185 from "./crypto/proof";

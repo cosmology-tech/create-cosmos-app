@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Timestamp, TimestampSDKType } from "../../../google/protobuf/timestamp";
 import { Params, ParamsSDKType } from "./genesis";
 import { TxRpc } from "../../../types";

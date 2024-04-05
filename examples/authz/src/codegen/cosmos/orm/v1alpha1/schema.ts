@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
@@ -270,7 +271,7 @@ export const ModuleSchemaDescriptor = {
     if (message.schemaFile) {
       obj.schema_file = message.schemaFile.map(e => e ? ModuleSchemaDescriptor_FileEntry.toAmino(e) : undefined);
     } else {
-      obj.schema_file = [];
+      obj.schema_file = message.schemaFile;
     }
     obj.prefix = message.prefix ? base64FromBytes(message.prefix) : undefined;
     return obj;
@@ -397,15 +398,15 @@ export const ModuleSchemaDescriptor_FileEntry = {
       message.protoFileName = object.proto_file_name;
     }
     if (object.storage_type !== undefined && object.storage_type !== null) {
-      message.storageType = storageTypeFromJSON(object.storage_type);
+      message.storageType = object.storage_type;
     }
     return message;
   },
   toAmino(message: ModuleSchemaDescriptor_FileEntry): ModuleSchemaDescriptor_FileEntryAmino {
     const obj: any = {};
-    obj.id = message.id;
-    obj.proto_file_name = message.protoFileName;
-    obj.storage_type = storageTypeToJSON(message.storageType);
+    obj.id = message.id === 0 ? undefined : message.id;
+    obj.proto_file_name = message.protoFileName === "" ? undefined : message.protoFileName;
+    obj.storage_type = message.storageType === 0 ? undefined : message.storageType;
     return obj;
   },
   fromAminoMsg(object: ModuleSchemaDescriptor_FileEntryAminoMsg): ModuleSchemaDescriptor_FileEntry {

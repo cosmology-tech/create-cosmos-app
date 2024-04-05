@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.protobuf";
@@ -83,7 +84,7 @@ export const protobufPackage = "google.protobuf";
  *     }
  */
 export interface Any {
-  $typeUrl?: "/google.protobuf.Any";
+  $typeUrl?: "/google.protobuf.Any" | string;
   /**
    * A URL/resource name that uniquely identifies the type of the serialized
    * protocol buffer message. This string must contain at least
@@ -322,7 +323,7 @@ export interface AnyAminoMsg {
  *     }
  */
 export interface AnySDKType {
-  $typeUrl?: "/google.protobuf.Any";
+  $typeUrl?: "/google.protobuf.Any" | string;
   type_url: string;
   value: Uint8Array;
 }

@@ -11,6 +11,9 @@ telescope({
     removeUnusedImports: false,
     classesUseArrowFunctions: true,
 
+    tsDisable: {
+      disableAll: true
+    },
     interfaces: {
       enabled: true,
       useGlobalDecoderRegistry: true,

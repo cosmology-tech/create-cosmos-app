@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { GenesisState as GenesisState1 } from "../../client/v1/genesis";
 import { GenesisStateAmino as GenesisState1Amino } from "../../client/v1/genesis";
 import { GenesisStateSDKType as GenesisState1SDKType } from "../../client/v1/genesis";

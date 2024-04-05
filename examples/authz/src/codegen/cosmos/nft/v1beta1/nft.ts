@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
@@ -263,12 +264,12 @@ export const Class = {
   },
   toAmino(message: Class): ClassAmino {
     const obj: any = {};
-    obj.id = message.id;
-    obj.name = message.name;
-    obj.symbol = message.symbol;
-    obj.description = message.description;
-    obj.uri = message.uri;
-    obj.uri_hash = message.uriHash;
+    obj.id = message.id === "" ? undefined : message.id;
+    obj.name = message.name === "" ? undefined : message.name;
+    obj.symbol = message.symbol === "" ? undefined : message.symbol;
+    obj.description = message.description === "" ? undefined : message.description;
+    obj.uri = message.uri === "" ? undefined : message.uri;
+    obj.uri_hash = message.uriHash === "" ? undefined : message.uriHash;
     obj.data = message.data ? Any.toAmino(message.data) : undefined;
     return obj;
   },
@@ -432,10 +433,10 @@ export const NFT = {
   },
   toAmino(message: NFT): NFTAmino {
     const obj: any = {};
-    obj.class_id = message.classId;
-    obj.id = message.id;
-    obj.uri = message.uri;
-    obj.uri_hash = message.uriHash;
+    obj.class_id = message.classId === "" ? undefined : message.classId;
+    obj.id = message.id === "" ? undefined : message.id;
+    obj.uri = message.uri === "" ? undefined : message.uri;
+    obj.uri_hash = message.uriHash === "" ? undefined : message.uriHash;
     obj.data = message.data ? Any.toAmino(message.data) : undefined;
     return obj;
   },

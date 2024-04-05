@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../helpers";
 import { GlobalDecoderRegistry } from "../registry";
@@ -887,7 +888,7 @@ export const ExistenceProof = {
     if (message.path) {
       obj.path = message.path.map(e => e ? InnerOp.toAmino(e) : undefined);
     } else {
-      obj.path = [];
+      obj.path = message.path;
     }
     return obj;
   },
@@ -1301,16 +1302,16 @@ export const LeafOp = {
   fromAmino(object: LeafOpAmino): LeafOp {
     const message = createBaseLeafOp();
     if (object.hash !== undefined && object.hash !== null) {
-      message.hash = hashOpFromJSON(object.hash);
+      message.hash = object.hash;
     }
     if (object.prehash_key !== undefined && object.prehash_key !== null) {
-      message.prehashKey = hashOpFromJSON(object.prehash_key);
+      message.prehashKey = object.prehash_key;
     }
     if (object.prehash_value !== undefined && object.prehash_value !== null) {
-      message.prehashValue = hashOpFromJSON(object.prehash_value);
+      message.prehashValue = object.prehash_value;
     }
     if (object.length !== undefined && object.length !== null) {
-      message.length = lengthOpFromJSON(object.length);
+      message.length = object.length;
     }
     if (object.prefix !== undefined && object.prefix !== null) {
       message.prefix = bytesFromBase64(object.prefix);
@@ -1319,10 +1320,10 @@ export const LeafOp = {
   },
   toAmino(message: LeafOp): LeafOpAmino {
     const obj: any = {};
-    obj.hash = hashOpToJSON(message.hash);
-    obj.prehash_key = hashOpToJSON(message.prehashKey);
-    obj.prehash_value = hashOpToJSON(message.prehashValue);
-    obj.length = lengthOpToJSON(message.length);
+    obj.hash = message.hash === 0 ? undefined : message.hash;
+    obj.prehash_key = message.prehashKey === 0 ? undefined : message.prehashKey;
+    obj.prehash_value = message.prehashValue === 0 ? undefined : message.prehashValue;
+    obj.length = message.length === 0 ? undefined : message.length;
     obj.prefix = message.prefix ? base64FromBytes(message.prefix) : undefined;
     return obj;
   },
@@ -1434,7 +1435,7 @@ export const InnerOp = {
   fromAmino(object: InnerOpAmino): InnerOp {
     const message = createBaseInnerOp();
     if (object.hash !== undefined && object.hash !== null) {
-      message.hash = hashOpFromJSON(object.hash);
+      message.hash = object.hash;
     }
     if (object.prefix !== undefined && object.prefix !== null) {
       message.prefix = bytesFromBase64(object.prefix);
@@ -1446,7 +1447,7 @@ export const InnerOp = {
   },
   toAmino(message: InnerOp): InnerOpAmino {
     const obj: any = {};
-    obj.hash = hashOpToJSON(message.hash);
+    obj.hash = message.hash === 0 ? undefined : message.hash;
     obj.prefix = message.prefix ? base64FromBytes(message.prefix) : undefined;
     obj.suffix = message.suffix ? base64FromBytes(message.suffix) : undefined;
     return obj;
@@ -1592,8 +1593,8 @@ export const ProofSpec = {
     const obj: any = {};
     obj.leaf_spec = message.leafSpec ? LeafOp.toAmino(message.leafSpec) : undefined;
     obj.inner_spec = message.innerSpec ? InnerSpec.toAmino(message.innerSpec) : undefined;
-    obj.max_depth = message.maxDepth;
-    obj.min_depth = message.minDepth;
+    obj.max_depth = message.maxDepth === 0 ? undefined : message.maxDepth;
+    obj.min_depth = message.minDepth === 0 ? undefined : message.minDepth;
     return obj;
   },
   fromAminoMsg(object: ProofSpecAminoMsg): ProofSpec {
@@ -1770,7 +1771,7 @@ export const InnerSpec = {
       message.emptyChild = bytesFromBase64(object.empty_child);
     }
     if (object.hash !== undefined && object.hash !== null) {
-      message.hash = hashOpFromJSON(object.hash);
+      message.hash = object.hash;
     }
     return message;
   },
@@ -1779,13 +1780,13 @@ export const InnerSpec = {
     if (message.childOrder) {
       obj.child_order = message.childOrder.map(e => e);
     } else {
-      obj.child_order = [];
+      obj.child_order = message.childOrder;
     }
-    obj.child_size = message.childSize;
-    obj.min_prefix_length = message.minPrefixLength;
-    obj.max_prefix_length = message.maxPrefixLength;
+    obj.child_size = message.childSize === 0 ? undefined : message.childSize;
+    obj.min_prefix_length = message.minPrefixLength === 0 ? undefined : message.minPrefixLength;
+    obj.max_prefix_length = message.maxPrefixLength === 0 ? undefined : message.maxPrefixLength;
     obj.empty_child = message.emptyChild ? base64FromBytes(message.emptyChild) : undefined;
-    obj.hash = hashOpToJSON(message.hash);
+    obj.hash = message.hash === 0 ? undefined : message.hash;
     return obj;
   },
   fromAminoMsg(object: InnerSpecAminoMsg): InnerSpec {
@@ -1887,7 +1888,7 @@ export const BatchProof = {
     if (message.entries) {
       obj.entries = message.entries.map(e => e ? BatchEntry.toAmino(e) : undefined);
     } else {
-      obj.entries = [];
+      obj.entries = message.entries;
     }
     return obj;
   },
@@ -2124,12 +2125,12 @@ export const CompressedBatchProof = {
     if (message.entries) {
       obj.entries = message.entries.map(e => e ? CompressedBatchEntry.toAmino(e) : undefined);
     } else {
-      obj.entries = [];
+      obj.entries = message.entries;
     }
     if (message.lookupInners) {
       obj.lookup_inners = message.lookupInners.map(e => e ? InnerOp.toAmino(e) : undefined);
     } else {
-      obj.lookup_inners = [];
+      obj.lookup_inners = message.lookupInners;
     }
     return obj;
   },
@@ -2404,7 +2405,7 @@ export const CompressedExistenceProof = {
     if (message.path) {
       obj.path = message.path.map(e => e);
     } else {
-      obj.path = [];
+      obj.path = message.path;
     }
     return obj;
   },
