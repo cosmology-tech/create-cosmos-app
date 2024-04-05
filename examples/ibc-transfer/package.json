@@ -1,5 +1,5 @@
 {
-  "name": "@cosmology/asset-list",
+  "name": "@cosmology/ibc-transfer",
   "version": "0.4.2",
   "private": true,
   "scripts": {

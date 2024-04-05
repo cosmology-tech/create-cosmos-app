@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { AttributeContext, AttributeContextAmino, AttributeContextSDKType } from "../../../rpc/context/attribute_context";
 import { Status, StatusAmino, StatusSDKType } from "../../../rpc/status";
 import * as _m0 from "protobufjs/minimal";

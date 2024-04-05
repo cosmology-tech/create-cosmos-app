@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { ParamChange, ParamChangeSDKType } from "./params";
 import { LCDClient } from "@cosmology/lcd";
 import { QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, QuerySubspacesRequest, QuerySubspacesRequestSDKType, QuerySubspacesResponse, QuerySubspacesResponseSDKType } from "./query";

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Plan, PlanSDKType } from "./upgrade";
 import * as fm from "../../../grpc-gateway";
 import { MsgSoftwareUpgrade, MsgSoftwareUpgradeSDKType, MsgSoftwareUpgradeResponse, MsgSoftwareUpgradeResponseSDKType, MsgCancelUpgrade, MsgCancelUpgradeSDKType, MsgCancelUpgradeResponse, MsgCancelUpgradeResponseSDKType } from "./tx";

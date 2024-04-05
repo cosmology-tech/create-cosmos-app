@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
 import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../../helpers";
@@ -32,7 +33,7 @@ export interface GenesisStateSDKType {
 }
 function createBaseGenesisState(): GenesisState {
   return {
-    constantFee: undefined
+    constantFee: Coin.fromPartial({})
   };
 }
 export const GenesisState = {

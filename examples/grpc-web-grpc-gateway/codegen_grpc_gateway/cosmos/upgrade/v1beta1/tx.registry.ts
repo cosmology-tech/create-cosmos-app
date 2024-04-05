@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Plan, PlanSDKType } from "./upgrade";
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { MsgSoftwareUpgrade, MsgSoftwareUpgradeSDKType, MsgCancelUpgrade, MsgCancelUpgradeSDKType } from "./tx";

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../google/protobuf/timestamp";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { Long, toTimestamp, fromTimestamp, isSet, fromJsonTimestamp, DeepPartial } from "../../../helpers";
@@ -222,10 +223,10 @@ export interface ModuleVersionSDKType {
 function createBasePlan(): Plan {
   return {
     name: "",
-    time: undefined,
+    time: new Date(),
     height: Long.ZERO,
     info: "",
-    upgradedClientState: undefined
+    upgradedClientState: Any.fromPartial({})
   };
 }
 export const Plan = {
@@ -326,7 +327,7 @@ export const Plan = {
   fromAmino(object: PlanAmino): Plan {
     return {
       name: object.name,
-      time: object?.time ? Timestamp.fromAmino(object.time) : undefined,
+      time: object.time,
       height: Long.fromString(object.height),
       info: object.info,
       upgradedClientState: object?.upgraded_client_state ? Any.fromAmino(object.upgraded_client_state) : undefined
@@ -335,7 +336,7 @@ export const Plan = {
   toAmino(message: Plan): PlanAmino {
     const obj: any = {};
     obj.name = message.name;
-    obj.time = message.time ? Timestamp.toAmino(message.time) : undefined;
+    obj.time = message.time;
     obj.height = message.height ? message.height.toString() : undefined;
     obj.info = message.info;
     obj.upgraded_client_state = message.upgradedClientState ? Any.toAmino(message.upgradedClientState) : undefined;

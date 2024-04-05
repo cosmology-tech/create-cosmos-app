@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { AccessConfig, AccessConfigSDKType } from "./types";
 import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { MsgStoreCode, MsgStoreCodeSDKType, MsgInstantiateContract, MsgInstantiateContractSDKType, MsgExecuteContract, MsgExecuteContractSDKType, MsgMigrateContract, MsgMigrateContractSDKType, MsgUpdateAdmin, MsgUpdateAdminSDKType, MsgClearAdmin, MsgClearAdminSDKType } from "./tx";

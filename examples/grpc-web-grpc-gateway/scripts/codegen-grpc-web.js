@@ -11,12 +11,7 @@ telescope({
   classesUseArrowFunctions: false,
 
   tsDisable: {
-    files: [
-      'ibc/core/types/v1/genesis.ts',
-      'google/protobuf/descriptor.ts',
-      'google/protobuf/struct.ts'
-    ],
-    disableAll: false
+    disableAll: true
   },
 
   eslintDisable: {

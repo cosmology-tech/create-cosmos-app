@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../protobuf/timestamp";
 import { MetricValueSet, MetricValueSetAmino, MetricValueSetSDKType } from "./metric_value";
 import { LogEntry, LogEntryAmino, LogEntrySDKType } from "./log_entry";
@@ -347,8 +348,8 @@ function createBaseOperation(): Operation {
     operationId: "",
     operationName: "",
     consumerId: "",
-    startTime: undefined,
-    endTime: undefined,
+    startTime: new Date(),
+    endTime: new Date(),
     labels: {},
     metricValueSets: [],
     logEntries: [],
@@ -456,7 +457,7 @@ export const Operation = {
       }, {}) : {},
       metricValueSets: Array.isArray(object?.metricValueSets) ? object.metricValueSets.map((e: any) => MetricValueSet.fromJSON(e)) : [],
       logEntries: Array.isArray(object?.logEntries) ? object.logEntries.map((e: any) => LogEntry.fromJSON(e)) : [],
-      importance: isSet(object.importance) ? operation_ImportanceFromJSON(object.importance) : 0,
+      importance: isSet(object.importance) ? operation_ImportanceFromJSON(object.importance) : -1,
       extensions: Array.isArray(object?.extensions) ? object.extensions.map((e: any) => Any.fromJSON(e)) : []
     };
   },
@@ -527,7 +528,7 @@ export const Operation = {
       }, {}) : {},
       metricValueSets: Array.isArray(object?.metric_value_sets) ? object.metric_value_sets.map((e: any) => MetricValueSet.fromSDK(e)) : [],
       logEntries: Array.isArray(object?.log_entries) ? object.log_entries.map((e: any) => LogEntry.fromSDK(e)) : [],
-      importance: isSet(object.importance) ? operation_ImportanceFromJSON(object.importance) : 0,
+      importance: isSet(object.importance) ? operation_ImportanceFromJSON(object.importance) : -1,
       extensions: Array.isArray(object?.extensions) ? object.extensions.map((e: any) => Any.fromSDK(e)) : []
     };
   },
@@ -567,8 +568,8 @@ export const Operation = {
       operationId: object.operation_id,
       operationName: object.operation_name,
       consumerId: object.consumer_id,
-      startTime: object?.start_time ? Timestamp.fromAmino(object.start_time) : undefined,
-      endTime: object?.end_time ? Timestamp.fromAmino(object.end_time) : undefined,
+      startTime: object.start_time,
+      endTime: object.end_time,
       labels: isObject(object.labels) ? Object.entries(object.labels).reduce<{
         [key: string]: string;
       }>((acc, [key, value]) => {
@@ -577,7 +578,7 @@ export const Operation = {
       }, {}) : {},
       metricValueSets: Array.isArray(object?.metric_value_sets) ? object.metric_value_sets.map((e: any) => MetricValueSet.fromAmino(e)) : [],
       logEntries: Array.isArray(object?.log_entries) ? object.log_entries.map((e: any) => LogEntry.fromAmino(e)) : [],
-      importance: isSet(object.importance) ? operation_ImportanceFromJSON(object.importance) : 0,
+      importance: isSet(object.importance) ? operation_ImportanceFromJSON(object.importance) : -1,
       extensions: Array.isArray(object?.extensions) ? object.extensions.map((e: any) => Any.fromAmino(e)) : []
     };
   },
@@ -586,8 +587,8 @@ export const Operation = {
     obj.operation_id = message.operationId;
     obj.operation_name = message.operationName;
     obj.consumer_id = message.consumerId;
-    obj.start_time = message.startTime ? Timestamp.toAmino(message.startTime) : undefined;
-    obj.end_time = message.endTime ? Timestamp.toAmino(message.endTime) : undefined;
+    obj.start_time = message.startTime;
+    obj.end_time = message.endTime;
     obj.labels = {};
     if (message.labels) {
       Object.entries(message.labels).forEach(([k, v]) => {

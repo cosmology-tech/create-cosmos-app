@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Status, StatusAmino, StatusSDKType } from "../../../rpc/status";
 import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../../../helpers";
@@ -312,7 +313,7 @@ export const CheckError = {
   },
   fromJSON(object: any): CheckError {
     return {
-      code: isSet(object.code) ? checkError_CodeFromJSON(object.code) : 0,
+      code: isSet(object.code) ? checkError_CodeFromJSON(object.code) : -1,
       subject: isSet(object.subject) ? String(object.subject) : "",
       detail: isSet(object.detail) ? String(object.detail) : "",
       status: isSet(object.status) ? Status.fromJSON(object.status) : undefined
@@ -336,7 +337,7 @@ export const CheckError = {
   },
   fromSDK(object: CheckErrorSDKType): CheckError {
     return {
-      code: isSet(object.code) ? checkError_CodeFromJSON(object.code) : 0,
+      code: isSet(object.code) ? checkError_CodeFromJSON(object.code) : -1,
       subject: object?.subject,
       detail: object?.detail,
       status: object.status ? Status.fromSDK(object.status) : undefined
@@ -352,7 +353,7 @@ export const CheckError = {
   },
   fromAmino(object: CheckErrorAmino): CheckError {
     return {
-      code: isSet(object.code) ? checkError_CodeFromJSON(object.code) : 0,
+      code: isSet(object.code) ? checkError_CodeFromJSON(object.code) : -1,
       subject: object.subject,
       detail: object.detail,
       status: object?.status ? Status.fromAmino(object.status) : undefined

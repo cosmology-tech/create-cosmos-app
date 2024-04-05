@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Config, ConfigSDKType } from "./config";
 import * as fm from "../../../grpc-gateway";
 import { QueryConfigRequest, QueryConfigRequestSDKType, QueryConfigResponse, QueryConfigResponseSDKType } from "./query";

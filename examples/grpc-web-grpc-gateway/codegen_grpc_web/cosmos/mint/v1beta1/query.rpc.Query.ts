@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Params, ParamsSDKType } from "./mint";
 import * as _m0 from "protobufjs/minimal";
 import { grpc } from "@improbable-eng/grpc-web";

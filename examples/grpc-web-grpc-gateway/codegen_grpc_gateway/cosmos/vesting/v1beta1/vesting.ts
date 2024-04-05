@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { BaseAccount, BaseAccountAmino, BaseAccountSDKType } from "../../auth/v1beta1/auth";
 import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
 import { Long, isSet, DeepPartial } from "../../../helpers";

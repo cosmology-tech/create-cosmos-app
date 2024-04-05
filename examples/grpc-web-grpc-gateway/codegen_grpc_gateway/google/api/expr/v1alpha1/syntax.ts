@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { NullValue, NullValueSDKType, nullValueFromJSON, nullValueToJSON } from "../../../protobuf/struct";
 import { Duration, DurationAmino, DurationSDKType } from "../../../protobuf/duration";
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../protobuf/timestamp";
@@ -2131,7 +2132,7 @@ export const Constant = {
       stringValue: object?.string_value,
       bytesValue: object?.bytes_value,
       durationValue: object?.duration_value ? Duration.fromAmino(object.duration_value) : undefined,
-      timestampValue: object?.timestamp_value ? Timestamp.fromAmino(object.timestamp_value) : undefined
+      timestampValue: object?.timestamp_value
     };
   },
   toAmino(message: Constant): ConstantAmino {
@@ -2144,7 +2145,7 @@ export const Constant = {
     obj.string_value = message.stringValue;
     obj.bytes_value = message.bytesValue;
     obj.duration_value = message.durationValue ? Duration.toAmino(message.durationValue) : undefined;
-    obj.timestamp_value = message.timestampValue ? Timestamp.toAmino(message.timestampValue) : undefined;
+    obj.timestamp_value = message.timestampValue;
     return obj;
   },
   fromAminoMsg(object: ConstantAminoMsg): Constant {

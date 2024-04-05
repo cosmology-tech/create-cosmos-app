@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Order, OrderSDKType, Counterparty, CounterpartySDKType } from "../../channel/v1/channel";
 import * as _m0 from "protobufjs/minimal";
 import { grpc } from "@improbable-eng/grpc-web";

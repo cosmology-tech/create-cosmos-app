@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { Long, isSet, DeepPartial } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
@@ -104,7 +105,7 @@ export interface ParamsSDKType {
 function createBaseBaseAccount(): BaseAccount {
   return {
     address: "",
-    pubKey: undefined,
+    pubKey: Any.fromPartial({}),
     accountNumber: Long.UZERO,
     sequence: Long.UZERO
   };

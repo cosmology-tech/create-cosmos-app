@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Config, ConfigAmino, ConfigSDKType } from "./config";
 import * as _m0 from "protobufjs/minimal";
 import { DeepPartial, isSet } from "../../../helpers";

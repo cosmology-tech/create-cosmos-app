@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { MonitoredResource, MonitoredResourceAmino, MonitoredResourceSDKType } from "../../api/monitored_resource";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../protobuf/any";
 import { Struct, StructAmino, StructSDKType } from "../../protobuf/struct";
@@ -635,8 +636,8 @@ function createBaseLogEntry(): LogEntry {
     protoPayload: undefined,
     textPayload: undefined,
     jsonPayload: undefined,
-    timestamp: undefined,
-    receiveTimestamp: undefined,
+    timestamp: new Date(),
+    receiveTimestamp: new Date(),
     severity: 0,
     insertId: "",
     httpRequest: HttpRequest.fromPartial({}),
@@ -785,7 +786,7 @@ export const LogEntry = {
       jsonPayload: isSet(object.jsonPayload) ? Struct.fromJSON(object.jsonPayload) : undefined,
       timestamp: isSet(object.timestamp) ? fromJsonTimestamp(object.timestamp) : undefined,
       receiveTimestamp: isSet(object.receiveTimestamp) ? fromJsonTimestamp(object.receiveTimestamp) : undefined,
-      severity: isSet(object.severity) ? logSeverityFromJSON(object.severity) : 0,
+      severity: isSet(object.severity) ? logSeverityFromJSON(object.severity) : -1,
       insertId: isSet(object.insertId) ? String(object.insertId) : "",
       httpRequest: isSet(object.httpRequest) ? HttpRequest.fromJSON(object.httpRequest) : undefined,
       labels: isObject(object.labels) ? Object.entries(object.labels).reduce<{
@@ -865,7 +866,7 @@ export const LogEntry = {
       jsonPayload: object.json_payload ? Struct.fromSDK(object.json_payload) : undefined,
       timestamp: object.timestamp ? Timestamp.fromSDK(object.timestamp) : undefined,
       receiveTimestamp: object.receive_timestamp ? Timestamp.fromSDK(object.receive_timestamp) : undefined,
-      severity: isSet(object.severity) ? logSeverityFromJSON(object.severity) : 0,
+      severity: isSet(object.severity) ? logSeverityFromJSON(object.severity) : -1,
       insertId: object?.insert_id,
       httpRequest: object.http_request ? HttpRequest.fromSDK(object.http_request) : undefined,
       labels: isObject(object.labels) ? Object.entries(object.labels).reduce<{
@@ -915,9 +916,9 @@ export const LogEntry = {
       protoPayload: object?.proto_payload ? Any.fromAmino(object.proto_payload) : undefined,
       textPayload: object?.text_payload,
       jsonPayload: object?.json_payload ? Struct.fromAmino(object.json_payload) : undefined,
-      timestamp: object?.timestamp ? Timestamp.fromAmino(object.timestamp) : undefined,
-      receiveTimestamp: object?.receive_timestamp ? Timestamp.fromAmino(object.receive_timestamp) : undefined,
-      severity: isSet(object.severity) ? logSeverityFromJSON(object.severity) : 0,
+      timestamp: object.timestamp,
+      receiveTimestamp: object.receive_timestamp,
+      severity: isSet(object.severity) ? logSeverityFromJSON(object.severity) : -1,
       insertId: object.insert_id,
       httpRequest: object?.http_request ? HttpRequest.fromAmino(object.http_request) : undefined,
       labels: isObject(object.labels) ? Object.entries(object.labels).reduce<{
@@ -941,8 +942,8 @@ export const LogEntry = {
     obj.proto_payload = message.protoPayload ? Any.toAmino(message.protoPayload) : undefined;
     obj.text_payload = message.textPayload;
     obj.json_payload = message.jsonPayload ? Struct.toAmino(message.jsonPayload) : undefined;
-    obj.timestamp = message.timestamp ? Timestamp.toAmino(message.timestamp) : undefined;
-    obj.receive_timestamp = message.receiveTimestamp ? Timestamp.toAmino(message.receiveTimestamp) : undefined;
+    obj.timestamp = message.timestamp;
+    obj.receive_timestamp = message.receiveTimestamp;
     obj.severity = message.severity;
     obj.insert_id = message.insertId;
     obj.http_request = message.httpRequest ? HttpRequest.toAmino(message.httpRequest) : undefined;

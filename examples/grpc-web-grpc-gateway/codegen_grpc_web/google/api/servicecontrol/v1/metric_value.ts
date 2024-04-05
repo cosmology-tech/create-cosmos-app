@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../protobuf/timestamp";
 import { Distribution, DistributionAmino, DistributionSDKType } from "./distribution";
 import { Long, isSet, DeepPartial, toTimestamp, fromTimestamp, isObject, fromJsonTimestamp } from "../../../../helpers";
@@ -246,8 +247,8 @@ export const MetricValue_LabelsEntry = {
 function createBaseMetricValue(): MetricValue {
   return {
     labels: {},
-    startTime: undefined,
-    endTime: undefined,
+    startTime: new Date(),
+    endTime: new Date(),
     boolValue: undefined,
     int64Value: undefined,
     doubleValue: undefined,
@@ -423,8 +424,8 @@ export const MetricValue = {
         acc[key] = String(value);
         return acc;
       }, {}) : {},
-      startTime: object?.start_time ? Timestamp.fromAmino(object.start_time) : undefined,
-      endTime: object?.end_time ? Timestamp.fromAmino(object.end_time) : undefined,
+      startTime: object.start_time,
+      endTime: object.end_time,
       boolValue: object?.bool_value,
       int64Value: object?.int64_value ? Long.fromString(object.int64_value) : undefined,
       doubleValue: object?.double_value,
@@ -440,8 +441,8 @@ export const MetricValue = {
         obj.labels[k] = v;
       });
     }
-    obj.start_time = message.startTime ? Timestamp.toAmino(message.startTime) : undefined;
-    obj.end_time = message.endTime ? Timestamp.toAmino(message.endTime) : undefined;
+    obj.start_time = message.startTime;
+    obj.end_time = message.endTime;
     obj.bool_value = message.boolValue;
     obj.int64_value = message.int64Value ? message.int64Value.toString() : undefined;
     obj.double_value = message.doubleValue;

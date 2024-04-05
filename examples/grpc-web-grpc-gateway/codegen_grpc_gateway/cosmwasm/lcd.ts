@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { LCDClient } from "@cosmology/lcd";
 export const createLCDClient = async ({
   restEndpoint

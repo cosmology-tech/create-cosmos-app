@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Header, HeaderAmino, HeaderSDKType, Data, DataAmino, DataSDKType, Commit, CommitAmino, CommitSDKType } from "./types";
 import { EvidenceList, EvidenceListAmino, EvidenceListSDKType } from "./evidence";
 import * as _m0 from "protobufjs/minimal";

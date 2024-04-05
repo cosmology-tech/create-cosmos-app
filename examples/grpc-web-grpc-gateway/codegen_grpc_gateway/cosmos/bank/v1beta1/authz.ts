@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
 import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "../../../helpers";

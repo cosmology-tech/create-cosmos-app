@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../../../cosmos/base/query/v1beta1/pagination";
 import { DenomTrace, DenomTraceSDKType, Params, ParamsSDKType } from "./transfer";
 import * as _m0 from "protobufjs/minimal";

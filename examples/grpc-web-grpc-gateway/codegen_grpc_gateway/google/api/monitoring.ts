@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as _m0 from "protobufjs/minimal";
 import { DeepPartial, isSet } from "../../helpers";
 export const protobufPackage = "google.api";

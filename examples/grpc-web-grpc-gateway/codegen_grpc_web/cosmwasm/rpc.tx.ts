@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { grpc } from "@improbable-eng/grpc-web";
 import { NodeHttpTransport } from "@improbable-eng/grpc-web-node-http-transport";
 export const createRPCMsgClient = async ({

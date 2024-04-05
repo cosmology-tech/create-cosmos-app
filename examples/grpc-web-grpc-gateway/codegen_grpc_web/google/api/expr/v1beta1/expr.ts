@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { SourceInfo, SourceInfoAmino, SourceInfoSDKType } from "./source";
 import { NullValue, NullValueSDKType, nullValueFromJSON, nullValueToJSON } from "../../../protobuf/struct";
 import { Long, isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";

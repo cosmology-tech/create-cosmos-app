@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Distribution_Exemplar } from "../../distribution";
 import { Long, isSet, DeepPartial } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";

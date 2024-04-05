@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { ParamChange, ParamChangeSDKType } from "./params";
 import * as fm from "../../../grpc-gateway";
 import { QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, QuerySubspacesRequest, QuerySubspacesRequestSDKType, QuerySubspacesResponse, QuerySubspacesResponseSDKType } from "./query";

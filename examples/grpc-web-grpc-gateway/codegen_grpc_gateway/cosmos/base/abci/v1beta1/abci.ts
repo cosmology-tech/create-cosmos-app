@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
 import { Event, EventAmino, EventSDKType } from "../../../../tendermint/abci/types";
 import { Long, isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
@@ -484,7 +485,7 @@ function createBaseTxResponse(): TxResponse {
     info: "",
     gasWanted: Long.ZERO,
     gasUsed: Long.ZERO,
-    tx: undefined,
+    tx: Any.fromPartial({}),
     timestamp: "",
     events: []
   };

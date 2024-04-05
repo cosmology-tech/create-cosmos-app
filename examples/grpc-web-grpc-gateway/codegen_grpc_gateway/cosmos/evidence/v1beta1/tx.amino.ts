@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { MsgSubmitEvidence, MsgSubmitEvidenceSDKType } from "./tx";
 export const AminoConverter = {

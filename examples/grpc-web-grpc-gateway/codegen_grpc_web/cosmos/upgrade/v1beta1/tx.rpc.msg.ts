@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Plan, PlanSDKType } from "./upgrade";
 import { UnaryMethodDefinitionish } from "../../../grpc-web";
 import * as _m0 from "protobufjs/minimal";
