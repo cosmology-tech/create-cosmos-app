@@ -59,7 +59,7 @@ export function useTx(chainName: string) {
       if (!client) return new TxResult({ error: new TxError('Invalid stargate client') });
       if (!signed) return new TxResult({ error: new TxError('Invalid transaction') });
 
-      const response = await client.broadcastTx(Uint8Array.from(txRaw.encode(signed).finish()));
+      const response: any = await client.broadcastTx(Uint8Array.from(txRaw.encode(signed).finish()));
       return isDeliverTxSuccess(response)
         ? new TxResult({ response })
         : new TxResult({ response, error: new TxError(response.rawLog) });
