@@ -64,3 +64,9 @@ jobs:
           cca --template connect-chain --name connect-chain
           cd connect-chain
           yarn build
+
+      - name: connect-multi-chain
+        run: | 
+          cca --template connect-multi-chain --name connect-multi-chain
+          cd connect-multi-chain
+          yarn build
