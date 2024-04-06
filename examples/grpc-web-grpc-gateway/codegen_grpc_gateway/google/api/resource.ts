@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
@@ -615,7 +616,7 @@ export const ResourceDescriptor = {
       type: isSet(object.type) ? String(object.type) : "",
       pattern: Array.isArray(object?.pattern) ? object.pattern.map((e: any) => String(e)) : [],
       nameField: isSet(object.nameField) ? String(object.nameField) : "",
-      history: isSet(object.history) ? resourceDescriptor_HistoryFromJSON(object.history) : 0,
+      history: isSet(object.history) ? resourceDescriptor_HistoryFromJSON(object.history) : -1,
       plural: isSet(object.plural) ? String(object.plural) : "",
       singular: isSet(object.singular) ? String(object.singular) : "",
       style: Array.isArray(object?.style) ? object.style.map((e: any) => resourceDescriptor_StyleFromJSON(e)) : []
@@ -656,7 +657,7 @@ export const ResourceDescriptor = {
       type: object?.type,
       pattern: Array.isArray(object?.pattern) ? object.pattern.map((e: any) => e) : [],
       nameField: object?.name_field,
-      history: isSet(object.history) ? resourceDescriptor_HistoryFromJSON(object.history) : 0,
+      history: isSet(object.history) ? resourceDescriptor_HistoryFromJSON(object.history) : -1,
       plural: object?.plural,
       singular: object?.singular,
       style: Array.isArray(object?.style) ? object.style.map((e: any) => resourceDescriptor_StyleFromJSON(e)) : []
@@ -686,7 +687,7 @@ export const ResourceDescriptor = {
       type: object.type,
       pattern: Array.isArray(object?.pattern) ? object.pattern.map((e: any) => e) : [],
       nameField: object.name_field,
-      history: isSet(object.history) ? resourceDescriptor_HistoryFromJSON(object.history) : 0,
+      history: isSet(object.history) ? resourceDescriptor_HistoryFromJSON(object.history) : -1,
       plural: object.plural,
       singular: object.singular,
       style: Array.isArray(object?.style) ? object.style.map((e: any) => resourceDescriptor_StyleFromJSON(e)) : []

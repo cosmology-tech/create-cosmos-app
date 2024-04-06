@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as _m0 from "protobufjs/minimal";
 import { DeepPartial, isSet } from "../../helpers";
 export const protobufPackage = "google.api";
@@ -335,7 +336,7 @@ export const Property = {
   fromJSON(object: any): Property {
     return {
       name: isSet(object.name) ? String(object.name) : "",
-      type: isSet(object.type) ? property_PropertyTypeFromJSON(object.type) : 0,
+      type: isSet(object.type) ? property_PropertyTypeFromJSON(object.type) : -1,
       description: isSet(object.description) ? String(object.description) : ""
     };
   },
@@ -356,7 +357,7 @@ export const Property = {
   fromSDK(object: PropertySDKType): Property {
     return {
       name: object?.name,
-      type: isSet(object.type) ? property_PropertyTypeFromJSON(object.type) : 0,
+      type: isSet(object.type) ? property_PropertyTypeFromJSON(object.type) : -1,
       description: object?.description
     };
   },
@@ -370,7 +371,7 @@ export const Property = {
   fromAmino(object: PropertyAmino): Property {
     return {
       name: object.name,
-      type: isSet(object.type) ? property_PropertyTypeFromJSON(object.type) : 0,
+      type: isSet(object.type) ? property_PropertyTypeFromJSON(object.type) : -1,
       description: object.description
     };
   },

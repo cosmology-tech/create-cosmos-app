@@ -1,17 +1,20 @@
 import '../styles/globals.css';
+import '@interchain-ui/react/globalStyles';
 import '@interchain-ui/react/styles';
 
+import { ThemeProvider, Toaster, useTheme } from '@interchain-ui/react';
 import type { AppProps } from 'next/app';
+import { ChainProvider } from '@cosmos-kit/react';
 
-import { defaultTheme } from '@/config';
-import { ChakraProvider } from '@chakra-ui/react';
+import { aminoTypes, registry } from '../config/defaults';
+
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import { ChainProvider } from '@cosmos-kit/react';
+import { assets, chains } from 'chain-registry';
+import { GasPrice } from '@cosmjs/stargate';
 import { SignerOptions, wallets } from 'cosmos-kit';
-import { chains, assets } from 'chain-registry';
-
+import { Chain } from '@chain-registry/types';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,14 +26,29 @@ const queryClient = new QueryClient({
 });
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
+  const { themeClass } = useTheme();
   const signerOptions: SignerOptions = {
-    // signingStargate: () => {
-    //   return getSigningCosmosClientOptions();
-    // }
+    // @ts-ignore
+    signingStargate: () => {
+      return {
+        aminoTypes,
+        registry,
+      };
+    },
+    // @ts-ignore
+    signingCosmwasm: (chain: Chain) => {
+      switch (chain.chain_name) {
+        case 'osmosis':
+        case 'osmosistestnet':
+          return {
+            gasPrice: GasPrice.fromString('0.0025uosmo'),
+          };
+      }
+    },
   };
 
   return (
-    <ChakraProvider theme={defaultTheme}>
+    <ThemeProvider>
       <ChainProvider
         chains={chains}
         assetLists={assets}
@@ -50,10 +68,16 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         signerOptions={signerOptions}
       >
         <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />
+          <main id="main" className={themeClass}>
+            {/* TODO fix type error */}
+            {/* @ts-ignore */}
+            <Component {...pageProps} />
+          </main>
         </QueryClientProvider>
       </ChainProvider>
-    </ChakraProvider>
+
+      <Toaster position={'top-right'} closeButton={true} />
+    </ThemeProvider>
   );
 }
 

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../../google/protobuf/any";
 import { ConnectionEnd, ConnectionEndAmino, ConnectionEndSDKType } from "../../../core/connection/v1/connection";
 import { Channel, ChannelAmino, ChannelSDKType } from "../../../core/channel/v1/channel";
@@ -779,7 +780,7 @@ export const ClientState = {
 };
 function createBaseConsensusState(): ConsensusState {
   return {
-    publicKey: undefined,
+    publicKey: Any.fromPartial({}),
     diversifier: "",
     timestamp: Long.UZERO
   };
@@ -898,7 +899,7 @@ function createBaseHeader(): Header {
     sequence: Long.UZERO,
     timestamp: Long.UZERO,
     signature: new Uint8Array(),
-    newPublicKey: undefined,
+    newPublicKey: Any.fromPartial({}),
     newDiversifier: ""
   };
 }
@@ -1222,7 +1223,7 @@ export const SignatureAndData = {
   fromJSON(object: any): SignatureAndData {
     return {
       signature: isSet(object.signature) ? bytesFromBase64(object.signature) : new Uint8Array(),
-      dataType: isSet(object.dataType) ? dataTypeFromJSON(object.dataType) : 0,
+      dataType: isSet(object.dataType) ? dataTypeFromJSON(object.dataType) : -1,
       data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(),
       timestamp: isSet(object.timestamp) ? Long.fromValue(object.timestamp) : Long.UZERO
     };
@@ -1246,7 +1247,7 @@ export const SignatureAndData = {
   fromSDK(object: SignatureAndDataSDKType): SignatureAndData {
     return {
       signature: object?.signature,
-      dataType: isSet(object.data_type) ? dataTypeFromJSON(object.data_type) : 0,
+      dataType: isSet(object.data_type) ? dataTypeFromJSON(object.data_type) : -1,
       data: object?.data,
       timestamp: object?.timestamp
     };
@@ -1262,7 +1263,7 @@ export const SignatureAndData = {
   fromAmino(object: SignatureAndDataAmino): SignatureAndData {
     return {
       signature: object.signature,
-      dataType: isSet(object.data_type) ? dataTypeFromJSON(object.data_type) : 0,
+      dataType: isSet(object.data_type) ? dataTypeFromJSON(object.data_type) : -1,
       data: object.data,
       timestamp: Long.fromString(object.timestamp)
     };
@@ -1463,7 +1464,7 @@ export const SignBytes = {
       sequence: isSet(object.sequence) ? Long.fromValue(object.sequence) : Long.UZERO,
       timestamp: isSet(object.timestamp) ? Long.fromValue(object.timestamp) : Long.UZERO,
       diversifier: isSet(object.diversifier) ? String(object.diversifier) : "",
-      dataType: isSet(object.dataType) ? dataTypeFromJSON(object.dataType) : 0,
+      dataType: isSet(object.dataType) ? dataTypeFromJSON(object.dataType) : -1,
       data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array()
     };
   },
@@ -1490,7 +1491,7 @@ export const SignBytes = {
       sequence: object?.sequence,
       timestamp: object?.timestamp,
       diversifier: object?.diversifier,
-      dataType: isSet(object.data_type) ? dataTypeFromJSON(object.data_type) : 0,
+      dataType: isSet(object.data_type) ? dataTypeFromJSON(object.data_type) : -1,
       data: object?.data
     };
   },
@@ -1508,7 +1509,7 @@ export const SignBytes = {
       sequence: Long.fromString(object.sequence),
       timestamp: Long.fromString(object.timestamp),
       diversifier: object.diversifier,
-      dataType: isSet(object.data_type) ? dataTypeFromJSON(object.data_type) : 0,
+      dataType: isSet(object.data_type) ? dataTypeFromJSON(object.data_type) : -1,
       data: object.data
     };
   },
@@ -1545,7 +1546,7 @@ export const SignBytes = {
 };
 function createBaseHeaderData(): HeaderData {
   return {
-    newPubKey: undefined,
+    newPubKey: Any.fromPartial({}),
     newDiversifier: ""
   };
 }
@@ -1648,7 +1649,7 @@ export const HeaderData = {
 function createBaseClientStateData(): ClientStateData {
   return {
     path: new Uint8Array(),
-    clientState: undefined
+    clientState: Any.fromPartial({})
   };
 }
 export const ClientStateData = {
@@ -1750,7 +1751,7 @@ export const ClientStateData = {
 function createBaseConsensusStateData(): ConsensusStateData {
   return {
     path: new Uint8Array(),
-    consensusState: undefined
+    consensusState: Any.fromPartial({})
   };
 }
 export const ConsensusStateData = {

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Vote, VoteAmino, VoteSDKType, LightBlock, LightBlockAmino, LightBlockSDKType } from "./types";
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../../google/protobuf/timestamp";
 import { Validator, ValidatorAmino, ValidatorSDKType } from "./validator";
@@ -206,7 +207,7 @@ function createBaseDuplicateVoteEvidence(): DuplicateVoteEvidence {
     voteB: Vote.fromPartial({}),
     totalVotingPower: Long.ZERO,
     validatorPower: Long.ZERO,
-    timestamp: undefined
+    timestamp: new Date()
   };
 }
 export const DuplicateVoteEvidence = {
@@ -309,7 +310,7 @@ export const DuplicateVoteEvidence = {
       voteB: object?.vote_b ? Vote.fromAmino(object.vote_b) : undefined,
       totalVotingPower: Long.fromString(object.total_voting_power),
       validatorPower: Long.fromString(object.validator_power),
-      timestamp: object?.timestamp ? Timestamp.fromAmino(object.timestamp) : undefined
+      timestamp: object.timestamp
     };
   },
   toAmino(message: DuplicateVoteEvidence): DuplicateVoteEvidenceAmino {
@@ -318,7 +319,7 @@ export const DuplicateVoteEvidence = {
     obj.vote_b = message.voteB ? Vote.toAmino(message.voteB) : undefined;
     obj.total_voting_power = message.totalVotingPower ? message.totalVotingPower.toString() : undefined;
     obj.validator_power = message.validatorPower ? message.validatorPower.toString() : undefined;
-    obj.timestamp = message.timestamp ? Timestamp.toAmino(message.timestamp) : undefined;
+    obj.timestamp = message.timestamp;
     return obj;
   },
   fromAminoMsg(object: DuplicateVoteEvidenceAminoMsg): DuplicateVoteEvidence {
@@ -343,7 +344,7 @@ function createBaseLightClientAttackEvidence(): LightClientAttackEvidence {
     commonHeight: Long.ZERO,
     byzantineValidators: [],
     totalVotingPower: Long.ZERO,
-    timestamp: undefined
+    timestamp: new Date()
   };
 }
 export const LightClientAttackEvidence = {
@@ -454,7 +455,7 @@ export const LightClientAttackEvidence = {
       commonHeight: Long.fromString(object.common_height),
       byzantineValidators: Array.isArray(object?.byzantine_validators) ? object.byzantine_validators.map((e: any) => Validator.fromAmino(e)) : [],
       totalVotingPower: Long.fromString(object.total_voting_power),
-      timestamp: object?.timestamp ? Timestamp.fromAmino(object.timestamp) : undefined
+      timestamp: object.timestamp
     };
   },
   toAmino(message: LightClientAttackEvidence): LightClientAttackEvidenceAmino {
@@ -467,7 +468,7 @@ export const LightClientAttackEvidence = {
       obj.byzantine_validators = [];
     }
     obj.total_voting_power = message.totalVotingPower ? message.totalVotingPower.toString() : undefined;
-    obj.timestamp = message.timestamp ? Timestamp.toAmino(message.timestamp) : undefined;
+    obj.timestamp = message.timestamp;
     return obj;
   },
   fromAminoMsg(object: LightClientAttackEvidenceAminoMsg): LightClientAttackEvidence {

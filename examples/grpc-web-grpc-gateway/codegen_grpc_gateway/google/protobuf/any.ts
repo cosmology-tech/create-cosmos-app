@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as _m0 from "protobufjs/minimal";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.protobuf";
@@ -393,13 +394,13 @@ export const Any = {
   },
   fromAmino(object: AnyAmino): Any {
     return {
-      typeUrl: object.type_url,
+      typeUrl: object.type,
       value: object.value
     };
   },
   toAmino(message: Any): AnyAmino {
     const obj: any = {};
-    obj.type_url = message.typeUrl;
+    obj.type = message.typeUrl;
     obj.value = message.value;
     return obj;
   },

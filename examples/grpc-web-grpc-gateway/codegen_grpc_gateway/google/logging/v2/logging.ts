@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { MonitoredResource, MonitoredResourceAmino, MonitoredResourceSDKType, MonitoredResourceDescriptor, MonitoredResourceDescriptorAmino, MonitoredResourceDescriptorSDKType } from "../../api/monitored_resource";
 import { LogEntry, LogEntryAmino, LogEntrySDKType } from "./log_entry";
 import { Duration, DurationAmino, DurationSDKType } from "../../protobuf/duration";
@@ -2305,7 +2306,7 @@ function createBaseTailLogEntriesRequest(): TailLogEntriesRequest {
   return {
     resourceNames: [],
     filter: "",
-    bufferWindow: undefined
+    bufferWindow: Duration.fromPartial({})
   };
 }
 export const TailLogEntriesRequest = {
@@ -2580,7 +2581,7 @@ export const TailLogEntriesResponse_SuppressionInfo = {
   },
   fromJSON(object: any): TailLogEntriesResponse_SuppressionInfo {
     return {
-      reason: isSet(object.reason) ? tailLogEntriesResponse_SuppressionInfo_ReasonFromJSON(object.reason) : 0,
+      reason: isSet(object.reason) ? tailLogEntriesResponse_SuppressionInfo_ReasonFromJSON(object.reason) : -1,
       suppressedCount: isSet(object.suppressedCount) ? Number(object.suppressedCount) : 0
     };
   },
@@ -2598,7 +2599,7 @@ export const TailLogEntriesResponse_SuppressionInfo = {
   },
   fromSDK(object: TailLogEntriesResponse_SuppressionInfoSDKType): TailLogEntriesResponse_SuppressionInfo {
     return {
-      reason: isSet(object.reason) ? tailLogEntriesResponse_SuppressionInfo_ReasonFromJSON(object.reason) : 0,
+      reason: isSet(object.reason) ? tailLogEntriesResponse_SuppressionInfo_ReasonFromJSON(object.reason) : -1,
       suppressedCount: object?.suppressed_count
     };
   },
@@ -2610,7 +2611,7 @@ export const TailLogEntriesResponse_SuppressionInfo = {
   },
   fromAmino(object: TailLogEntriesResponse_SuppressionInfoAmino): TailLogEntriesResponse_SuppressionInfo {
     return {
-      reason: isSet(object.reason) ? tailLogEntriesResponse_SuppressionInfo_ReasonFromJSON(object.reason) : 0,
+      reason: isSet(object.reason) ? tailLogEntriesResponse_SuppressionInfo_ReasonFromJSON(object.reason) : -1,
       suppressedCount: object.suppressed_count
     };
   },

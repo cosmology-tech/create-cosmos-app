@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { GrantAuthorization, GrantAuthorizationAmino, GrantAuthorizationSDKType } from "./authz";
 import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "../../../helpers";

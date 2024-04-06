@@ -1,0 +1,84 @@
+name: Run Tests
+
+on:
+  push:
+  pull_request:
+    types: [opened, synchronized, reopened]
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+        # TODO: build global from the repo itself
+        # - name: Checkout Repository 🛎️
+        # uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install Dependencies
+        run: npm install -g create-cosmos-app
+
+      - name: vote-proposal
+        run: | 
+          cca --example vote-proposal --name vote-proposal
+          cd vote-proposal
+          yarn build
+
+      - name: asset-list
+        run: | 
+          cca --example asset-list --name asset-list
+          cd asset-list
+          yarn build
+
+      - name: ibc-transfer
+        run: | 
+          cca --example ibc-transfer --name ibc-transfer
+          cd ibc-transfer
+          yarn build
+
+      - name: swap-tokens
+        run: | 
+          cca --example swap-tokens --name swap-tokens
+          cd swap-tokens
+          yarn build
+
+      - name: provide-liquidity
+        run: | 
+          cca --example provide-liquidity --name provide-liquidity
+          cd provide-liquidity
+          yarn build
+
+      - name: nft
+        run: | 
+          cca --example nft --name nft
+          cd nft
+          yarn build
+
+      - name: authz
+        run: | 
+          cca --example authz --name authz
+          cd authz
+          yarn build
+
+      - name: connect-chain
+        run: | 
+          cca --template connect-chain --name connect-chain
+          cd connect-chain
+          yarn build
+
+      - name: connect-multi-chain
+        run: | 
+          cca --template connect-multi-chain --name connect-multi-chain
+          cd connect-multi-chain
+          yarn build
+
+      - name: website
+        run: | 
+          cca --template website --name website
+          cd website
+          yarn build

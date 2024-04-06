@@ -79,7 +79,7 @@ export const useTx = (chainName: string) => {
     if (client && signed) {
       await client
         .broadcastTx(Uint8Array.from(txRaw.encode(signed).finish()))
-        .then((res) => {
+        .then((res: any) => {
           if (isDeliverTxSuccess(res)) {
             if (options.onSuccess) options.onSuccess();
 

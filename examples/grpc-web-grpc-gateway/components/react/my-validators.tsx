@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   Heading,
   Table,
@@ -42,8 +43,8 @@ import { MyValidator, TransactionResult } from '../types';
 import type {
   Validator,
   DelegationResponse as Delegation,
-} from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
-import type { DelegationDelegatorReward as Reward } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
+} from '../../codegen_grpc_gateway/cosmos/staking/v1beta1/staking';
+import type { DelegationDelegatorReward as Reward } from '../../codegen_grpc_gateway/cosmos/distribution/v1beta1/distribution';
 import { ChainName } from 'cosmos-kit';
 import { MaxAmountAndFee, Thumbnail } from './all-validators';
 import {
@@ -371,6 +372,7 @@ const MyValidators = ({
 
   return (
     <>
+      { /* @ts-ignore */ }
       <Heading as="h4" size="md" mt={12} mb={6}>
         My Validators
       </Heading>

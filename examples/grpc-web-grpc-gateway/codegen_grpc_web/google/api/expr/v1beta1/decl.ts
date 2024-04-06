@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Expr, ExprAmino, ExprSDKType } from "./expr";
 import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../../../helpers";

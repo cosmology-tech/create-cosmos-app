@@ -1,7 +1,7 @@
 import { MouseEventHandler } from 'react';
 import { Button as UIButton, IconName } from '@interchain-ui/react';
 
-export type ButtonProps =  {
+export type ButtonProps = {
   text?: string;
   icon?: IconName;
   loading?: boolean;
@@ -11,7 +11,7 @@ export type ButtonProps =  {
 
 export type ConnectProps = Pick<ButtonProps, 'text' | 'loading' | 'onClick'>;
 
-function noop() {}
+function noop() { }
 
 export function Button({
   text,
@@ -38,23 +38,39 @@ export function Button({
   );
 };
 
-Button.Connect = ({ text = 'Connect Wallet', onClick = noop }: ConnectProps) =>
-  <Button text={text} icon="walletFilled" onClick={onClick} />
+const Connect = ({ text = 'Connect Wallet', onClick = noop }) =>
+  <Button text={text} icon="walletFilled" onClick={onClick} />;
+Connect.displayName = 'Connect';
 
-Button.Connected = ({ text = 'My Wallet', onClick = noop }: ConnectProps) =>
-  <Button text={text} icon="walletFilled" onClick={onClick} />
+const Connected = ({ text = 'My Wallet', onClick = noop }) =>
+  <Button text={text} icon="walletFilled" onClick={onClick} />;
+Connected.displayName = 'Connected';
 
-Button.Disconnected = ({ text = 'Connect Wallet', onClick = noop }: ConnectProps) =>
-  <Button text={text} icon="walletFilled" onClick={onClick} />
+const Disconnected = ({ text = 'Connect Wallet', onClick = noop }) =>
+  <Button text={text} icon="walletFilled" onClick={onClick} />;
+Disconnected.displayName = 'Disconnected';
 
-Button.Connecting = ({ text = 'Connecting ...', loading = true }: ConnectProps) =>
-  <Button text={text} loading={loading} />
+const Connecting = ({ text = 'Connecting ...', loading = true }) =>
+  <Button text={text} loading={loading} />;
+Connecting.displayName = 'Connecting';
 
-Button.Rejected = ({ text = 'Reconnect', onClick = noop }: ConnectProps) =>
-  <Button text={text} icon="walletFilled" onClick={onClick} />
+const Rejected = ({ text = 'Reconnect', onClick = noop }) =>
+  <Button text={text} icon="walletFilled" onClick={onClick} />;
+Rejected.displayName = 'Rejected';
 
-Button.Error = ({ text = 'Change Wallet', onClick = noop }: ConnectProps) =>
-  <Button text={text} icon="walletFilled" onClick={onClick} />
+const ErrorComponent = ({ text = 'Change Wallet', onClick = noop }) =>
+  <Button text={text} icon="walletFilled" onClick={onClick} />;
+ErrorComponent.displayName = 'ErrorComponent';
 
-Button.NotExist = ({ text = 'Install Wallet', onClick = noop }: ConnectProps) =>
-  <Button text={text} icon="walletFilled" onClick={onClick} />
+const NotExist = ({ text = 'Install Wallet', onClick = noop }) =>
+  <Button text={text} icon="walletFilled" onClick={onClick} />;
+NotExist.displayName = 'NotExist';
+
+// Assign these to Button as properties if needed
+Button.Connect = Connect;
+Button.Connected = Connected;
+Button.Disconnected = Disconnected;
+Button.Connecting = Connecting;
+Button.Rejected = Rejected;
+Button.Error = ErrorComponent;
+Button.NotExist = NotExist;

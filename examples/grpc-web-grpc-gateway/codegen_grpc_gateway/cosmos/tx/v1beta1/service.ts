@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Tx, TxAmino, TxSDKType } from "./tx";
 import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../base/query/v1beta1/pagination";
 import { TxResponse, TxResponseAmino, TxResponseSDKType, GasInfo, GasInfoAmino, GasInfoSDKType, Result, ResultAmino, ResultSDKType } from "../../base/abci/v1beta1/abci";
@@ -534,7 +535,7 @@ export const GetTxsEventRequest = {
     return {
       events: Array.isArray(object?.events) ? object.events.map((e: any) => String(e)) : [],
       pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
-      orderBy: isSet(object.orderBy) ? orderByFromJSON(object.orderBy) : 0
+      orderBy: isSet(object.orderBy) ? orderByFromJSON(object.orderBy) : -1
     };
   },
   toJSON(message: GetTxsEventRequest): unknown {
@@ -559,7 +560,7 @@ export const GetTxsEventRequest = {
     return {
       events: Array.isArray(object?.events) ? object.events.map((e: any) => e) : [],
       pagination: object.pagination ? PageRequest.fromSDK(object.pagination) : undefined,
-      orderBy: isSet(object.order_by) ? orderByFromJSON(object.order_by) : 0
+      orderBy: isSet(object.order_by) ? orderByFromJSON(object.order_by) : -1
     };
   },
   toSDK(message: GetTxsEventRequest): GetTxsEventRequestSDKType {
@@ -577,7 +578,7 @@ export const GetTxsEventRequest = {
     return {
       events: Array.isArray(object?.events) ? object.events.map((e: any) => e) : [],
       pagination: object?.pagination ? PageRequest.fromAmino(object.pagination) : undefined,
-      orderBy: isSet(object.order_by) ? orderByFromJSON(object.order_by) : 0
+      orderBy: isSet(object.order_by) ? orderByFromJSON(object.order_by) : -1
     };
   },
   toAmino(message: GetTxsEventRequest): GetTxsEventRequestAmino {
@@ -794,7 +795,7 @@ export const BroadcastTxRequest = {
   fromJSON(object: any): BroadcastTxRequest {
     return {
       txBytes: isSet(object.txBytes) ? bytesFromBase64(object.txBytes) : new Uint8Array(),
-      mode: isSet(object.mode) ? broadcastModeFromJSON(object.mode) : 0
+      mode: isSet(object.mode) ? broadcastModeFromJSON(object.mode) : -1
     };
   },
   toJSON(message: BroadcastTxRequest): unknown {
@@ -812,7 +813,7 @@ export const BroadcastTxRequest = {
   fromSDK(object: BroadcastTxRequestSDKType): BroadcastTxRequest {
     return {
       txBytes: object?.tx_bytes,
-      mode: isSet(object.mode) ? broadcastModeFromJSON(object.mode) : 0
+      mode: isSet(object.mode) ? broadcastModeFromJSON(object.mode) : -1
     };
   },
   toSDK(message: BroadcastTxRequest): BroadcastTxRequestSDKType {
@@ -824,7 +825,7 @@ export const BroadcastTxRequest = {
   fromAmino(object: BroadcastTxRequestAmino): BroadcastTxRequest {
     return {
       txBytes: object.tx_bytes,
-      mode: isSet(object.mode) ? broadcastModeFromJSON(object.mode) : 0
+      mode: isSet(object.mode) ? broadcastModeFromJSON(object.mode) : -1
     };
   },
   toAmino(message: BroadcastTxRequest): BroadcastTxRequestAmino {

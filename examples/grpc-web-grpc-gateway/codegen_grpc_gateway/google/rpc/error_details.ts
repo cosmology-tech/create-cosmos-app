@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Duration, DurationAmino, DurationSDKType } from "../protobuf/duration";
 import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial, isObject } from "../../helpers";
@@ -780,7 +781,7 @@ export interface LocalizedMessageSDKType {
 }
 function createBaseRetryInfo(): RetryInfo {
   return {
-    retryDelay: undefined
+    retryDelay: Duration.fromPartial({})
   };
 }
 export const RetryInfo = {

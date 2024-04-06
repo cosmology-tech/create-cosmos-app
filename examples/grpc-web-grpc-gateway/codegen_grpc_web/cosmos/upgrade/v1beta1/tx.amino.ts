@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Plan, PlanSDKType } from "./upgrade";
 import { MsgSoftwareUpgrade, MsgSoftwareUpgradeSDKType, MsgCancelUpgrade, MsgCancelUpgradeSDKType } from "./tx";
 export const AminoConverter = {

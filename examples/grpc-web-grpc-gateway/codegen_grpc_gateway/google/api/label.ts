@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../helpers";
 export const protobufPackage = "google.api";
@@ -122,7 +123,7 @@ export const LabelDescriptor = {
   fromJSON(object: any): LabelDescriptor {
     return {
       key: isSet(object.key) ? String(object.key) : "",
-      valueType: isSet(object.valueType) ? labelDescriptor_ValueTypeFromJSON(object.valueType) : 0,
+      valueType: isSet(object.valueType) ? labelDescriptor_ValueTypeFromJSON(object.valueType) : -1,
       description: isSet(object.description) ? String(object.description) : ""
     };
   },
@@ -143,7 +144,7 @@ export const LabelDescriptor = {
   fromSDK(object: LabelDescriptorSDKType): LabelDescriptor {
     return {
       key: object?.key,
-      valueType: isSet(object.value_type) ? labelDescriptor_ValueTypeFromJSON(object.value_type) : 0,
+      valueType: isSet(object.value_type) ? labelDescriptor_ValueTypeFromJSON(object.value_type) : -1,
       description: object?.description
     };
   },
@@ -157,7 +158,7 @@ export const LabelDescriptor = {
   fromAmino(object: LabelDescriptorAmino): LabelDescriptor {
     return {
       key: object.key,
-      valueType: isSet(object.value_type) ? labelDescriptor_ValueTypeFromJSON(object.value_type) : 0,
+      valueType: isSet(object.value_type) ? labelDescriptor_ValueTypeFromJSON(object.value_type) : -1,
       description: object.description
     };
   },

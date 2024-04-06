@@ -1,5 +1,5 @@
 {
-  "name": "create-cosmos-app",
+  "name": "create-cosmos-app-project",
   "version": "0.0.1",
   "publishConfig": {
     "access": "restricted"
@@ -39,5 +39,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/cosmology-tech/create-cosmos-app"
-  }
+  },
+  "packageManager": "yarn@4.1.0"
 }

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Option, OptionAmino, OptionSDKType, Syntax, SyntaxSDKType, syntaxFromJSON, syntaxToJSON } from "./type";
 import { SourceContext, SourceContextAmino, SourceContextSDKType } from "./source_context";
 import * as _m0 from "protobufjs/minimal";
@@ -539,7 +540,7 @@ export const Api = {
       version: isSet(object.version) ? String(object.version) : "",
       sourceContext: isSet(object.sourceContext) ? SourceContext.fromJSON(object.sourceContext) : undefined,
       mixins: Array.isArray(object?.mixins) ? object.mixins.map((e: any) => Mixin.fromJSON(e)) : [],
-      syntax: isSet(object.syntax) ? syntaxFromJSON(object.syntax) : 0
+      syntax: isSet(object.syntax) ? syntaxFromJSON(object.syntax) : -1
     };
   },
   toJSON(message: Api): unknown {
@@ -584,7 +585,7 @@ export const Api = {
       version: object?.version,
       sourceContext: object.source_context ? SourceContext.fromSDK(object.source_context) : undefined,
       mixins: Array.isArray(object?.mixins) ? object.mixins.map((e: any) => Mixin.fromSDK(e)) : [],
-      syntax: isSet(object.syntax) ? syntaxFromJSON(object.syntax) : 0
+      syntax: isSet(object.syntax) ? syntaxFromJSON(object.syntax) : -1
     };
   },
   toSDK(message: Api): ApiSDKType {
@@ -618,7 +619,7 @@ export const Api = {
       version: object.version,
       sourceContext: object?.source_context ? SourceContext.fromAmino(object.source_context) : undefined,
       mixins: Array.isArray(object?.mixins) ? object.mixins.map((e: any) => Mixin.fromAmino(e)) : [],
-      syntax: isSet(object.syntax) ? syntaxFromJSON(object.syntax) : 0
+      syntax: isSet(object.syntax) ? syntaxFromJSON(object.syntax) : -1
     };
   },
   toAmino(message: Api): ApiAmino {
@@ -740,7 +741,7 @@ export const Method = {
       responseTypeUrl: isSet(object.responseTypeUrl) ? String(object.responseTypeUrl) : "",
       responseStreaming: isSet(object.responseStreaming) ? Boolean(object.responseStreaming) : false,
       options: Array.isArray(object?.options) ? object.options.map((e: any) => Option.fromJSON(e)) : [],
-      syntax: isSet(object.syntax) ? syntaxFromJSON(object.syntax) : 0
+      syntax: isSet(object.syntax) ? syntaxFromJSON(object.syntax) : -1
     };
   },
   toJSON(message: Method): unknown {
@@ -777,7 +778,7 @@ export const Method = {
       responseTypeUrl: object?.response_type_url,
       responseStreaming: object?.response_streaming,
       options: Array.isArray(object?.options) ? object.options.map((e: any) => Option.fromSDK(e)) : [],
-      syntax: isSet(object.syntax) ? syntaxFromJSON(object.syntax) : 0
+      syntax: isSet(object.syntax) ? syntaxFromJSON(object.syntax) : -1
     };
   },
   toSDK(message: Method): MethodSDKType {
@@ -803,7 +804,7 @@ export const Method = {
       responseTypeUrl: object.response_type_url,
       responseStreaming: object.response_streaming,
       options: Array.isArray(object?.options) ? object.options.map((e: any) => Option.fromAmino(e)) : [],
-      syntax: isSet(object.syntax) ? syntaxFromJSON(object.syntax) : 0
+      syntax: isSet(object.syntax) ? syntaxFromJSON(object.syntax) : -1
     };
   },
   toAmino(message: Method): MethodAmino {

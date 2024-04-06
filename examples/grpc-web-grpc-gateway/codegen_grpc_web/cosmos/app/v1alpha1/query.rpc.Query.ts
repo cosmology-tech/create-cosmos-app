@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Config, ConfigSDKType } from "./config";
 import * as _m0 from "protobufjs/minimal";
 import { grpc } from "@improbable-eng/grpc-web";

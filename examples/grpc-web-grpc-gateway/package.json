@@ -10,6 +10,7 @@
     "locks:remove": "rm -f yarn.lock",
     "locks:create": "generate-lockfile --lockfile ../../yarn.lock --package package.json --write yarn.lock --force",
     "locks": "npm run locks:remove && npm run locks:create",
+    "codegen": "npm run codegen:grpc-gateway && npm run codegen:grpc-web",
     "codegen:grpc-web": "rm -rf codegen_grpc_web && node scripts/codegen-grpc-web.js",
     "codegen:grpc-gateway": "rm -rf codegen_grpc_gateway && node scripts/codegen-grpc-gateway.js"
   },
@@ -39,7 +40,7 @@
     "cosmos-kit": "2.8.6",
     "fast-fuzzy": "1.12.0",
     "framer-motion": "9.0.7",
-    "interchain": "1.10.1",
+    "interchain": "^1.10.1",
     "next": "^13",
     "react": "18.2.0",
     "react-dom": "18.2.0",

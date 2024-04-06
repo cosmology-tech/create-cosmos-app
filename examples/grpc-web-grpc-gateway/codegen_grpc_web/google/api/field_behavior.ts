@@ -1,3 +1,4 @@
+//@ts-nocheck
 export const protobufPackage = "google.api";
 /**
  * An indicator of the behavior of a given field (for example, that a field

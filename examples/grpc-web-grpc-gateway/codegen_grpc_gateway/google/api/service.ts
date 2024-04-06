@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Api, ApiAmino, ApiSDKType } from "../protobuf/api";
 import { Type, TypeAmino, TypeSDKType, Enum, EnumAmino, EnumSDKType } from "../protobuf/type";
 import { Documentation, DocumentationAmino, DocumentationSDKType } from "./documentation";

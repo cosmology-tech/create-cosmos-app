@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as fm from "../../../grpc-gateway";
 import { MsgVerifyInvariant, MsgVerifyInvariantSDKType, MsgVerifyInvariantResponse, MsgVerifyInvariantResponseSDKType } from "./tx";
 export class Msg {

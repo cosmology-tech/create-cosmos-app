@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../google/protobuf/timestamp";
 import { Long, toTimestamp, fromTimestamp, isSet, fromJsonTimestamp, DeepPartial } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
@@ -43,7 +44,7 @@ export interface EquivocationSDKType {
 function createBaseEquivocation(): Equivocation {
   return {
     height: Long.ZERO,
-    time: undefined,
+    time: new Date(),
     power: Long.ZERO,
     consensusAddress: ""
   };
@@ -135,7 +136,7 @@ export const Equivocation = {
   fromAmino(object: EquivocationAmino): Equivocation {
     return {
       height: Long.fromString(object.height),
-      time: object?.time ? Timestamp.fromAmino(object.time) : undefined,
+      time: object.time,
       power: Long.fromString(object.power),
       consensusAddress: object.consensus_address
     };
@@ -143,7 +144,7 @@ export const Equivocation = {
   toAmino(message: Equivocation): EquivocationAmino {
     const obj: any = {};
     obj.height = message.height ? message.height.toString() : undefined;
-    obj.time = message.time ? Timestamp.toAmino(message.time) : undefined;
+    obj.time = message.time;
     obj.power = message.power ? message.power.toString() : undefined;
     obj.consensus_address = message.consensusAddress;
     return obj;

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Duration, DurationAmino, DurationSDKType } from "../../../../google/protobuf/duration";
 import { Height, HeightAmino, HeightSDKType } from "../../../core/client/v1/client";
 import { ProofSpec, ProofSpecAmino, ProofSpecSDKType } from "../../../../confio/proofs";
@@ -294,9 +295,9 @@ function createBaseClientState(): ClientState {
   return {
     chainId: "",
     trustLevel: Fraction.fromPartial({}),
-    trustingPeriod: undefined,
-    unbondingPeriod: undefined,
-    maxClockDrift: undefined,
+    trustingPeriod: Duration.fromPartial({}),
+    unbondingPeriod: Duration.fromPartial({}),
+    maxClockDrift: Duration.fromPartial({}),
     frozenHeight: Height.fromPartial({}),
     latestHeight: Height.fromPartial({}),
     proofSpecs: [],
@@ -544,7 +545,7 @@ export const ClientState = {
 };
 function createBaseConsensusState(): ConsensusState {
   return {
-    timestamp: undefined,
+    timestamp: new Date(),
     root: MerkleRoot.fromPartial({}),
     nextValidatorsHash: new Uint8Array()
   };
@@ -624,14 +625,14 @@ export const ConsensusState = {
   },
   fromAmino(object: ConsensusStateAmino): ConsensusState {
     return {
-      timestamp: object?.timestamp ? Timestamp.fromAmino(object.timestamp) : undefined,
+      timestamp: object.timestamp,
       root: object?.root ? MerkleRoot.fromAmino(object.root) : undefined,
       nextValidatorsHash: object.next_validators_hash
     };
   },
   toAmino(message: ConsensusState): ConsensusStateAmino {
     const obj: any = {};
-    obj.timestamp = message.timestamp ? Timestamp.toAmino(message.timestamp) : undefined;
+    obj.timestamp = message.timestamp;
     obj.root = message.root ? MerkleRoot.toAmino(message.root) : undefined;
     obj.next_validators_hash = message.nextValidatorsHash;
     return obj;

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useChain, useManager } from '@cosmos-kit/react';
 import {
   Box,
@@ -64,7 +65,7 @@ export const WalletSection = ({
 
   const chainOptions = useMemo(
     () =>
-      chainRecords.map((chainRecord) => {
+      chainRecords.map((chainRecord: any) => {
         return {
           chainName: chainRecord?.name,
           label: chainRecord?.chain.pretty_name,

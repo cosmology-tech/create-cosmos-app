@@ -27,13 +27,15 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const { themeClass } = useTheme();
 
   const signerOptions: SignerOptions = {
+    // @ts-ignore
     signingStargate: () => {
       return {
         aminoTypes,
         registry,
       };
     },
-    signingCosmwasm: (chain) => {
+    // @ts-ignore
+    signingCosmwasm: (chain: Chain) => {
       switch (chain.chain_name) {
         case 'osmosis':
         case 'osmosistestnet':
@@ -66,6 +68,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       >
         <QueryClientProvider client={queryClient}>
           <Box className={themeClass} minHeight="100dvh" backgroundColor={useColorModeValue('$white', '$background')}>
+            {/* TODO fix type error */}
+            {/* @ts-ignore */}
             <Component {...pageProps} />
           </Box>
         </QueryClientProvider>

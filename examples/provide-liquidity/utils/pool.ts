@@ -72,6 +72,7 @@ export const convertGeckoPricesToDenomPriceHash = (
 };
 
 export const calcPoolLiquidity = (pool: Pool, prices: PriceHash): string => {
+  // @ts-ignore
   return _calcPoolLiquidity(osmosisAssets, pool, prices);
 };
 
@@ -84,6 +85,7 @@ export const convertGammTokenToDollarValue = (
   pool: Pool,
   prices: PriceHash
 ): string => {
+  // @ts-ignore
   return _convertGammTokenToDollarValue(osmosisAssets, coin, pool, prices);
 };
 
@@ -92,6 +94,7 @@ export const convertDollarValueToCoins = (
   pool: Pool,
   prices: PriceHash
 ): CoinValue[] => {
+  // @ts-ignore
   return _convertDollarValueToCoins(osmosisAssets, value, pool, prices);
 };
 
@@ -100,6 +103,7 @@ export const convertDollarValueToShares = (
   pool: Pool,
   prices: PriceHash
 ) => {
+  // @ts-ignore
   return _convertDollarValueToShares(osmosisAssets, value, pool, prices);
 };
 
@@ -107,6 +111,7 @@ export const prettyPool = (
   pool: Pool,
   { includeDetails = false } = {}
 ): PoolPretty => {
+  // @ts-ignore
   return _prettyPool(osmosisAssets, pool, { includeDetails });
 };
 
@@ -146,6 +151,7 @@ export const calcCoinsNeededForValue = (
   poolInfo: PoolPretty,
   value: string | number
 ) => {
+  // @ts-ignore
   return _calcCoinsNeededForValue(osmosisAssets, prices, poolInfo, value);
 };
 
@@ -154,6 +160,7 @@ export const getCoinBalance = (
   balances: Coin[],
   prettyAsset: PoolAssetPretty
 ): CoinBalance => {
+  // @ts-ignore
   return _getCoinBalance(osmosisAssets, prices, balances, prettyAsset);
 };
 
@@ -162,6 +169,7 @@ export const calcMaxCoinsForPool = (
   poolInfo: PoolPretty,
   balances: Coin[]
 ) => {
+  // @ts-ignore
   return _calcMaxCoinsForPool(osmosisAssets, prices, poolInfo, balances);
 };
 

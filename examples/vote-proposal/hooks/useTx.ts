@@ -1,4 +1,4 @@
-import { cosmos } from 'osmo-query';
+import { cosmos } from 'interchain-query';
 import { useChain } from '@cosmos-kit/react';
 import { DeliverTxResponse, isDeliverTxSuccess, StdFee } from '@cosmjs/stargate';
 
@@ -60,9 +60,11 @@ export function useTx(chainName: string) {
       if (!signed) return new TxResult({ error: new TxError('Invalid transaction') });
 
       const response = await client.broadcastTx(Uint8Array.from(txRaw.encode(signed).finish()));
-      return isDeliverTxSuccess(response)
-        ? new TxResult({ response })
-        : new TxResult({ response, error: new TxError(response.rawLog) });
+      // Type error: Argument of type 'import("/Users/redacted/code/cosmology/products/create-cosmos-app/node_modules/@cosmos-kit/core/node_modules/@cosmjs/stargate/build/stargateclient").DeliverTxResponse' is not assignable to parameter of type 'import("/Users/redacted/code/cosmology/products/create-cosmos-app/node_modules/@cosmjs/stargate/build/stargateclient").DeliverTxResponse'.
+      // Types of property 'gasUsed' are incompatible.
+      //   Type 'bigint' is not assignable to type 'number'.
+      // @ts-ignore
+      return isDeliverTxSuccess(response) ? new TxResult({ response }) : new TxResult({ response, error: new TxError(response.rawLog) });
     } catch (e: any) {
       return new TxResult({ error: new TxError(e.message || 'Tx Error') });
     }

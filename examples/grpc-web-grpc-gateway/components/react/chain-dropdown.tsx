@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import {
@@ -30,8 +31,11 @@ import {
 
 const SkeletonOptions = () => {
   return (
+    // @ts-ignore
     <Stack isInline={true} alignItems="center" spacing={3}>
+      {/* @ts-ignore */}
       <SkeletonCircle w={10} h={10} />
+      {/* @ts-ignore */}
       <Skeleton w={40} h={6} />
     </Stack>
   );
@@ -137,7 +141,9 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
     ...props
   }: DropdownIndicatorProps<ChainOption, false, GroupBase<ChainOption>>) => {
     return (
+      // @ts-ignore
       <chakraComponents.DropdownIndicator {...props}>
+        {/* @ts-ignore */}
         <Icon
           as={FiChevronDown}
           w={6}
@@ -150,7 +156,9 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
   const Placeholder = (props: PlaceholderProps<ChainOption>) => {
     if (props.hasValue) {
       return (
+        // @ts-ignore
         <chakraComponents.Placeholder {...props}>
+          {/* @ts-ignore */}
           <Stack
             id={props.getValue()[0].label}
             isInline={true}

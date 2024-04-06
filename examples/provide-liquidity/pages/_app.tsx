@@ -12,6 +12,7 @@ import { SignerOptions, wallets } from 'cosmos-kit';
 import { assets, chains } from 'chain-registry';
 import { GasPrice } from '@cosmjs/stargate';
 import { aminoTypes, registry } from '../config/defaults';
+import { Chain } from '@chain-registry/types';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,13 +25,15 @@ const queryClient = new QueryClient({
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
+    // @ts-ignore
     signingStargate: () => {
       return {
         aminoTypes,
         registry,
       };
     },
-    signingCosmwasm: (chain) => {
+    // @ts-ignore
+    signingCosmwasm: (chain: Chain) => {
       switch (chain.chain_name) {
         case 'osmosis':
         case 'osmosistestnet':
@@ -62,6 +65,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         }}
       >
         <QueryClientProvider client={queryClient}>
+          {/* TODO fix type error */}
+          {/* @ts-ignore */}
           <Component {...pageProps} />
         </QueryClientProvider>
       </ChainProvider>

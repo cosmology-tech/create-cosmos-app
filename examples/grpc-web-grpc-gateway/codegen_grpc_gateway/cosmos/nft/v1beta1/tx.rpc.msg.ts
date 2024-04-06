@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as fm from "../../../grpc-gateway";
 import { MsgSend, MsgSendSDKType, MsgSendResponse, MsgSendResponseSDKType } from "./tx";
 export class Msg {

@@ -1,3 +1,4 @@
+//@ts-nocheck
 export const protobufPackage = "google.api";
 /**
  * Defines the supported values for `google.rpc.ErrorInfo.reason` for the

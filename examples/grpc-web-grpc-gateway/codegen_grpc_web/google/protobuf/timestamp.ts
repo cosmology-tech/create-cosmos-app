@@ -1,4 +1,5 @@
-import { Long, isSet, DeepPartial } from "../../helpers";
+//@ts-nocheck
+import { Long, isSet, DeepPartial, fromJsonTimestamp, fromTimestamp } from "../../helpers";
 import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "google.protobuf";
 /**
@@ -349,16 +350,10 @@ export const Timestamp = {
     return obj;
   },
   fromAmino(object: TimestampAmino): Timestamp {
-    return {
-      seconds: Long.fromString(object.seconds),
-      nanos: object.nanos
-    };
+    return fromJsonTimestamp(object);
   },
   toAmino(message: Timestamp): TimestampAmino {
-    const obj: any = {};
-    obj.seconds = message.seconds ? message.seconds.toString() : undefined;
-    obj.nanos = message.nanos;
-    return obj;
+    return fromTimestamp(message).toString();
   },
   fromAminoMsg(object: TimestampAminoMsg): Timestamp {
     return Timestamp.fromAmino(object.value);

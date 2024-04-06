@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Grant, GrantAmino, GrantSDKType } from "./feegrant";
 import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "../../../helpers";

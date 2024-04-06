@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react';
-import { Box, Stack, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Text, useColorModeValue } from '@interchain-ui/react';
 import { WalletStatus } from 'cosmos-kit';
 
 export const WarnBlock = ({
   wordOfWarning,
-  icon
+  icon,
 }: {
   wordOfWarning?: string;
   icon?: ReactNode;
@@ -12,19 +12,22 @@ export const WarnBlock = ({
   return (
     <Box
       borderRadius="md"
-      p={4}
-      pr={2}
-      bg={useColorModeValue('orange.200', 'orange.300')}
-      color="blackAlpha.900"
+      paddingTop="$4"
+      paddingBottom="$4"
+      paddingLeft="$4"
+      paddingRight="$4"
+      backgroundColor={useColorModeValue('$orange200', '$orange300')}
+      color="$text"
     >
-      <Stack
-        isInline={true}
-        spacing={2}
-        alignItems="start"
+      <Box
+        display="flex"
+        gap="$4"
+        alignItems="flex-start"
         justifyContent="center"
-        w="full"
+        width="$full"
         overflowY="scroll"
-        css={{
+        // @ts-ignore
+        style={{
           // For Firefox
           scrollbarWidth: 'auto',
           scrollbarColor: useColorModeValue(
@@ -38,7 +41,7 @@ export const WarnBlock = ({
               'rgba(220,220,220,0.1)',
               'rgba(60,60,60,0.1)'
             ),
-            borderRadius: '3px'
+            borderRadius: '3px',
           },
           '&::-webkit-scrollbar-thumb': {
             background: useColorModeValue(
@@ -47,22 +50,28 @@ export const WarnBlock = ({
             ),
             borderRadius: '10px',
             border: '3px solid transparent',
-            backgroundClip: 'content-box'
-          }
+            backgroundClip: 'content-box',
+          },
         }}
       >
         <Box position="sticky" top={0}>
           {icon}
         </Box>
-        <Text maxH={40}>{wordOfWarning}</Text>
-      </Stack>
+        <Text
+          attributes={{
+            maxHeight: '40px',
+          }}
+        >
+          {wordOfWarning}
+        </Text>
+      </Box>
     </Box>
   );
 };
 
 export const RejectedWarn = ({
   wordOfWarning,
-  icon
+  icon,
 }: {
   wordOfWarning?: string;
   icon?: ReactNode;
@@ -73,7 +82,7 @@ export const RejectedWarn = ({
 export const ConnectStatusWarn = ({
   walletStatus,
   rejected,
-  error
+  error,
 }: {
   walletStatus: WalletStatus;
   rejected: ReactNode;

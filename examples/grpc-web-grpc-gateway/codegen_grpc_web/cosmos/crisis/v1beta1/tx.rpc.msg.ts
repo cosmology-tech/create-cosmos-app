@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { UnaryMethodDefinitionish } from "../../../grpc-web";
 import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "../../../helpers";

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Duration, DurationAmino, DurationSDKType } from "../../google/protobuf/duration";
 import { Long, isSet, DeepPartial } from "../../helpers";
 import * as _m0 from "protobufjs/minimal";
@@ -475,7 +476,7 @@ export const BlockParams = {
 function createBaseEvidenceParams(): EvidenceParams {
   return {
     maxAgeNumBlocks: Long.ZERO,
-    maxAgeDuration: undefined,
+    maxAgeDuration: Duration.fromPartial({}),
     maxBytes: Long.ZERO
   };
 }
