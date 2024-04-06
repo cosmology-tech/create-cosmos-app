@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/provide-liquidity@1.0.0...@cosmology/provide-liquidity@1.0.1) (2024-04-06)
+
+**Note:** Version bump only for package @cosmology/provide-liquidity
+
+
+
+
+
 # [1.0.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/provide-liquidity@0.3.1...@cosmology/provide-liquidity@1.0.0) (2024-04-06)
 
 

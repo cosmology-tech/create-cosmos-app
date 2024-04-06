@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/asset-list@1.0.0...@cosmology/asset-list@1.0.1) (2024-04-06)
+
+**Note:** Version bump only for package @cosmology/asset-list
+
+
+
+
+
 # [1.0.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/asset-list@0.4.2...@cosmology/asset-list@1.0.0) (2024-04-06)
 
 
