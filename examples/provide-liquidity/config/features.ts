@@ -46,7 +46,7 @@ export const dependencies: FeatureProps[] = [
   {
     title: 'Interchain UI',
     text: 'A simple, modular and accessible React Component Library.',
-    href: 'https://cosmology.zone/explore',
+    href: 'https://cosmology.zone/components',
   },
   {
     title: 'Next.js',
