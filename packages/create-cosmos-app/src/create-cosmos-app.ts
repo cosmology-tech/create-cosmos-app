@@ -3,7 +3,13 @@ import pkg from '../package.json';
 import { cli } from './cli';
 import * as shell from 'shelljs';
 
-var argv = require('minimist')(process.argv.slice(2));
+var argv = require('minimist')(process.argv.slice(2), {
+    alias: {
+        b: 'fromBranch',
+        e: 'example',
+        t: 'template',
+    }
+});
 
 (async () => {
     if (argv._.includes('version')
