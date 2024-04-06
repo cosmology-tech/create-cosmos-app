@@ -8,6 +8,7 @@ var argv = require('minimist')(process.argv.slice(2), {
         b: 'fromBranch',
         e: 'example',
         t: 'template',
+        n: 'name'
     }
 });
 

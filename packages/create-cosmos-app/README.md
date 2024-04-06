@@ -12,14 +12,14 @@
 
 Set up a modern Cosmos app by running one command ⚛️
 
-https://user-images.githubusercontent.com/545047/192061992-f0e1106d-f4b2-4879-ab0a-896f22ee4f49.mp4
-
 - [Overview](#overview)
 - [Education & Resources](#education--resources)
 - [Creating an App](#creating-an-app)
 - [Options](#options)
 - [Examples](#examples)
 - [Development](#development)
+
+https://user-images.githubusercontent.com/545047/192061992-f0e1106d-f4b2-4879-ab0a-896f22ee4f49.mp4
 
 
 ## Overview
@@ -112,22 +112,37 @@ yarn create cosmos-app
 
 ## Options
 
-| Argument         | Description                                     | Default    |
-|------------------|-------------------------------------------------|------------|
-| `--repo`             | Set custom repository for cca templates       | None       |
+| Argument             | Description                                    | Default    |
+|----------------------|------------------------------------------------|------------|
+| `--repo`             | Set custom repository for cca templates        | None       |
 | `--install`          | Automatically install dependencies             | `true`     |
 | `--printCmd`         | Print the command to run after setup           | `true`     |
-| `-e`, `--example`    | Provide an example value                       | None       |
+| `-n`, `--name`       | Provide a project name                         | None       |
+| `-e`, `--example`    | Provide an example name                        | None       |
 | `-t`, `--template`   | Define the template to use                     | None       |
 | `-b`, `--fromBranch` | Specify the branch to use for cloning          | None       |
 
 ## Examples
 
-Explore examples!
+The `create-cosmos-app` tool provides a range of examples to help you understand and test various features and integrations. By executing the examples, you can quickly see how to implement specific functionalities in your Cosmos app.
 
 ```
 cca --example
 ```
+
+If you know the example name, you can do
+
+```
+cca --example <example-name>
+```
+
+Alternatively, you can use the shorthand `-e` flag to achieve the same:
+
+```
+cca -e <example-name>
+```
+
+This command will generate a new project configured with the selected example, allowing you to dive into the code and functionality right away.
 
 ### Stake Tokens
 
