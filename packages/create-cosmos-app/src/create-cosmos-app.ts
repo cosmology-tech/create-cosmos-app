@@ -16,6 +16,6 @@ var argv = require('minimist')(process.argv.slice(2));
     ) {
         shell.exec(`npm install -g create-cosmos-app@latest`);
     } else {
-        await cli(argv);
+        await cli(argv, pkg.version);
     }
 })();
