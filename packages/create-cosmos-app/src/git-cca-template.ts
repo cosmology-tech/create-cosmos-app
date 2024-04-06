@@ -1,22 +1,29 @@
 import * as shell from 'shelljs';
+import semver from 'semver';
 import * as c from 'ansi-colors';
 import { prompt } from './prompt';
-import { join, dirname, basename } from 'path';
+import { join, dirname, basename, sep, relative } from 'path';
 import { sync as mkdirp } from 'mkdirp';
 import { sync as glob } from 'glob';
 import * as fs from 'fs';
 import { cloneRepo, getPackageLicAndAccessInfo, getQuestionsAndAnswers, getTemplateFolder } from './utils';
+import { CCA_URL } from './constants';
+const requiredTools = ['git', 'yarn'];
 
-export const createGitApp = (repo: string) => {
+export const createGitApp = (repo: string, version: string) => {
     return async argv => {
-        if (!shell.which('git')) {
-            shell.echo('Sorry, this script requires git');
-            return shell.exit(1);
+
+        // if --no-install is set, don't touch!
+        if (!argv.hasOwnProperty('install')) argv.install = true;
+
+        // check required tools
+        for (const tool of requiredTools) {
+            if (!shell.which(tool)) {
+                shell.echo(`Sorry, this script requires ${tool}.`);
+                return shell.exit(1);
+            }
         }
-        if (!shell.which('yarn')) {
-            shell.echo('Sorry, this script requires yarn');
-            return shell.exit(1);
-        }
+
         let { name } = await prompt([
             {
                 name: 'name',
@@ -27,12 +34,20 @@ export const createGitApp = (repo: string) => {
         name = name.replace(/\s/g, '-');
 
         const folderName = await getTemplateFolder(argv);
-
         const currentDirectory = process.cwd();
-        const dir = cloneRepo(argv, repo, name);
-
+        const tempDir = cloneRepo(argv, repo, name);
+        const clonedRepoDir = join(tempDir, name);
         // cd into the cloned repo from $dir
         shell.cd(name);
+
+        // warn about upgrades
+        if (repo === CCA_URL) {
+            const rootPkgPath = join(clonedRepoDir, 'packages/create-cosmos-app/package.json');
+            const rootPkg = JSON.parse(fs.readFileSync(rootPkgPath, 'utf-8'));
+            if (semver.gt(rootPkg.version, version)) {
+                console.warn(c.yellow(`⚠️ You are using create-cosmos-app version ${c.red(rootPkg.version)}, but version ${c.green(version)} is available. Run "${c.cyan('cca upgrade')}" or "${c.cyan('npm install -g create-cosmos-app@latest')}" to upgrade.`));
+            }
+        }
 
         // get template 
         const list = shell.ls(`./${folderName}`);
@@ -51,6 +66,7 @@ export const createGitApp = (repo: string) => {
 
         const hasResults = Object.keys(results).length > 0;
 
+        // KEEP THIS CODE FOR BOILERPLATES!
         let license = {};
         let scopedResults = {};
         if (hasResults) {
@@ -75,6 +91,7 @@ export const createGitApp = (repo: string) => {
             // LICENSE
             if (
                 basename(templateFile) === 'LICENSE' &&
+                // @ts-ignore
                 license.__LICENSE__ === 'closed'
             ) {
                 content = `Copyright (c) ${new Date().getFullYear()} __USERFULLNAME__ <__USEREMAIL__> - All Rights Reserved
@@ -92,6 +109,7 @@ export const createGitApp = (repo: string) => {
             // access
             if (hasResults) {
                 if (results.__ACCESS__ === 'public') {
+                    // @ts-ignore
                     if (scopedResults.scoped) {
                         content = content.replace(
                             /__PACKAGE_IDENTIFIER__/g,
@@ -124,24 +142,51 @@ export const createGitApp = (repo: string) => {
         }
 
         shell.cd(currentDirectory);
-        shell.rm('-rf', dir);
+        shell.rm('-rf', tempDir);
         shell.cd(`./${name}`);
 
-        // clean up lock-file business...
-        const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
-        delete pkg.scripts['locks:remove']
-        delete pkg.scripts['locks:create']
-        delete pkg.scripts['locks']
-        delete pkg.devDependencies['generate-lockfile']
-        fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2));
+        const pkgJsons = []
+            .concat(glob(join(currentDirectory, name, '/**/package.json')));
 
-        // now yarn...
-        shell.exec(`yarn`);
+        let pkgJsonFound = true;
+        let closestPkgJson = null;
+        if (pkgJsons.length === 0) {
+            console.log('No package.json file found');
+            pkgJsonFound = false;
+        } else {
+            // Find the shortest path
+            closestPkgJson = pkgJsons.reduce((shortest, current) => {
+                return current.split(sep).length < shortest.split(sep).length ? current : shortest;
+            });
+        }
+
+
+        let rel;
+        if (pkgJsonFound) {
+            // clean up lock-file business...
+            const pkg = JSON.parse(fs.readFileSync(closestPkgJson, 'utf-8'));
+            delete pkg.scripts['locks:remove']
+            delete pkg.scripts['locks:create']
+            delete pkg.scripts['locks']
+            delete pkg.devDependencies['generate-lockfile']
+            fs.writeFileSync(closestPkgJson, JSON.stringify(pkg, null, 2));
+
+            // now yarn...
+            if (argv.install) {
+                shell.cd(dirname(closestPkgJson));
+                shell.exec(`yarn`);
+            }
+
+            rel = relative(currentDirectory, dirname(closestPkgJson));
+        }
         shell.cd(currentDirectory);
 
+
         let cmd = `cd ./${name}`;
-        if (!hasResults) {
-            cmd += ' && yarn dev';
+        if (!hasResults && pkgJsonFound) {
+            // if rel, then set manually
+            cmd = `cd ./${rel}`;
+            cmd += `\nyarn dev`
         }
 
         console.log(`
