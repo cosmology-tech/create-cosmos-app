@@ -46,7 +46,7 @@ export const dependencies: Project[] = [
   {
     name: 'Interchain UI',
     desc: 'A simple, modular and accessible React Component Library.',
-    link: 'https://cosmology.zone/explore',
+    link: 'https://cosmology.zone/components',
   },
   {
     name: 'Next.js',
