@@ -15,8 +15,8 @@ Set up a modern Cosmos app by running one command ⚛️
 - [Overview](#overview)
 - [Education & Resources](#education--resources)
 - [Creating an App](#creating-an-app)
-- [Options](#options)
 - [Examples](#examples)
+- [Options](#options)
 - [Development](#development)
 
 https://user-images.githubusercontent.com/545047/192061992-f0e1106d-f4b2-4879-ab0a-896f22ee4f49.mp4
@@ -109,18 +109,6 @@ npm init cosmos-app
 ```sh
 yarn create cosmos-app
 ```
-
-## Options
-
-| Argument             | Description                                    | Default    |
-|----------------------|------------------------------------------------|------------|
-| `--repo`             | Set custom repository for cca templates        | None       |
-| `--install`          | Automatically install dependencies             | `true`     |
-| `--printCmd`         | Print the command to run after setup           | `true`     |
-| `-n`, `--name`       | Provide a project name                         | None       |
-| `-e`, `--example`    | Provide an example name                        | None       |
-| `-t`, `--template`   | Define the template to use                     | None       |
-| `-b`, `--fromBranch` | Specify the branch to use for cloning          | None       |
 
 ## Examples
 
@@ -240,6 +228,18 @@ Incorporate NFT functionalities into your Stargaze app using [stargazejs](https:
 ```
 cca --name nft-example --example nft
 ```
+
+## Options
+
+| Argument             | Description                                    | Default    |
+|----------------------|------------------------------------------------|------------|
+| `--repo`             | Set custom repository for cca templates        | None       |
+| `--install`          | Automatically install dependencies             | `true`     |
+| `--printCmd`         | Print the command to run after setup           | `true`     |
+| `-n`, `--name`       | Provide a project name                         | None       |
+| `-e`, `--example`    | Provide an example name                        | None       |
+| `-t`, `--template`   | Define the template to use                     | None       |
+| `-b`, `--fromBranch` | Specify the branch to use for cloning          | None       |
 
 ## Development
 
