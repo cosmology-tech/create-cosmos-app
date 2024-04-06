@@ -1,6 +1,6 @@
 {
   "name": "@cosmology/provide-liquidity",
-  "version": "0.3.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",

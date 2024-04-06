@@ -1,6 +1,6 @@
 {
   "name": "@cosmology/connect-chain",
-  "version": "0.16.5",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",

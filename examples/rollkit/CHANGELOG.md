@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.0.0 (2024-04-06)
+
+**Note:** Version bump only for package @cosmology/rollkit
+
+
+
+
+
 ## [0.16.2](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/connect-multi-chain@0.16.1...@cosmology/connect-multi-chain@0.16.2) (2024-01-20)
 
 **Note:** Version bump only for package @cosmology/connect-multi-chain

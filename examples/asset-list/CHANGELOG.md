@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/asset-list@0.4.2...@cosmology/asset-list@1.0.0) (2024-04-06)
+
+
+### Bug Fixes
+
+* custom filtering combobox ([19aab95](https://github.com/cosmology-tech/create-cosmos-app/commit/19aab959006f0190752b5e243ed2fc49d46fc14d))
+* custom filtering stake-tokens ([9cc3d24](https://github.com/cosmology-tech/create-cosmos-app/commit/9cc3d24055cc54358af9dc7d8a56856bd2ef0787))
+* use new combobox in asset-list ([68449d3](https://github.com/cosmology-tech/create-cosmos-app/commit/68449d39411c259f85eec07b7ae42f1a712c21a9))
+* use new combobox in stake-tokens ([3b88cae](https://github.com/cosmology-tech/create-cosmos-app/commit/3b88caeea897b00cb65bcfe39155f3ab0ce58283))
+
+
+
+
+
 ## [0.4.2](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/asset-list@0.4.1...@cosmology/asset-list@0.4.2) (2024-01-20)
 
 **Note:** Version bump only for package @cosmology/asset-list

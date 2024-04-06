@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/connect-chain-with-telescope@1.8.3...@cosmology/connect-chain-with-telescope@2.0.0) (2024-04-06)
+
+
+### Bug Fixes
+
+* custom filtering stake-tokens ([9cc3d24](https://github.com/cosmology-tech/create-cosmos-app/commit/9cc3d24055cc54358af9dc7d8a56856bd2ef0787))
+* use new combobox in asset-list ([68449d3](https://github.com/cosmology-tech/create-cosmos-app/commit/68449d39411c259f85eec07b7ae42f1a712c21a9))
+
+
+
+
+
 ## [1.8.3](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/connect-chain-with-telescope@1.8.2...@cosmology/connect-chain-with-telescope@1.8.3) (2024-01-20)
 
 **Note:** Version bump only for package @cosmology/connect-chain-with-telescope
