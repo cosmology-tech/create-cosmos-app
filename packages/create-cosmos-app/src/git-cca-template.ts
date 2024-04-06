@@ -16,9 +16,9 @@ import { CCA_URL } from './constants';
 
 const requiredTools = ['git', 'yarn'];
 
-const white = (cmd) => c.bold.whiteBright(cmd);
-const motd = (cmd) => {
-    return (`
+const motd = (cmd: string, printCmd: boolean) => {
+    const commandSection = printCmd ? `Now, run this command:\n\n${c.bold.whiteBright(cmd)}` : '';
+    return `
                  |              _   _
      ===         |.===.        '\\-//\`    
     (o o)        {}o o{}        (o o)     
@@ -26,11 +26,10 @@ ooO--(_)--Ooo-ooO--(_)--Ooo-ooO--(_)--Ooo-
 
 ✨ Have fun! Now you can start on your project ⚛️
 
-Now, run this command: 
+${commandSection}
+    `;
+};
 
-${white(cmd)}
-`);
-}
 
 const checkRequiredTools = () => {
     for (const tool of requiredTools) {
@@ -81,6 +80,7 @@ export const createGitApp = (repo: string, version: string) => {
 
         // if --no-install is set, don't touch!
         if (!argv.hasOwnProperty('install')) argv.install = true;
+        if (!argv.hasOwnProperty('printCmd')) argv.printCmd = true;
 
         // check required (git, yarn, etc...)
         if (!checkRequiredTools()) return shell.exit(1);
@@ -211,11 +211,11 @@ export const createGitApp = (repo: string, version: string) => {
             if (!hasResults) {
                 cmd += ' && yarn dev';
             }
-            console.log(motd(cmd));
+            console.log(motd(cmd, argv.printCmd));
 
         } else {
             console.log('No package.json file found');
-            console.log(motd(`cd ${name}`));
+            console.log(motd(`cd ${name}`, argv.printCmd));
         }
 
         // Change back to the original directory
