@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/vote-proposal@0.3.1...@cosmology/vote-proposal@1.0.0) (2024-04-06)
+
+
+### Bug Fixes
+
+* custom filtering stake-tokens ([9cc3d24](https://github.com/cosmology-tech/create-cosmos-app/commit/9cc3d24055cc54358af9dc7d8a56856bd2ef0787))
+* custom filtering vote-proposal ([1fe5476](https://github.com/cosmology-tech/create-cosmos-app/commit/1fe5476387d18a347aca6369336e3b51a25d3ce5))
+* use cosmos-kit in vote-proposal ([6612a0e](https://github.com/cosmology-tech/create-cosmos-app/commit/6612a0e6bbb7440b233ba0f95cca8bb4d3405edd))
+* use new combobox in asset-list ([68449d3](https://github.com/cosmology-tech/create-cosmos-app/commit/68449d39411c259f85eec07b7ae42f1a712c21a9))
+* use new dropdown for connect-multi-chain and vote-proposal ([68dd4c3](https://github.com/cosmology-tech/create-cosmos-app/commit/68dd4c3b03939b14ff46c622e6267b41ac7ddf18))
+
+
+
+
+
 ## [0.2.5](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/vote-proposal@0.2.4...@cosmology/vote-proposal@0.2.5) (2023-09-27)
 
 **Note:** Version bump only for package @cosmology/vote-proposal

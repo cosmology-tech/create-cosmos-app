@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/connect-multi-chain@0.16.2...@cosmology/connect-multi-chain@1.0.0) (2024-04-06)
+
+
+### Bug Fixes
+
+* custom filtering connect-multi-chain ([0c345ce](https://github.com/cosmology-tech/create-cosmos-app/commit/0c345ceef886ebcd28574244aee3fef8f3d9ebb7))
+* custom filtering stake-tokens ([9cc3d24](https://github.com/cosmology-tech/create-cosmos-app/commit/9cc3d24055cc54358af9dc7d8a56856bd2ef0787))
+* use new combobox in asset-list ([68449d3](https://github.com/cosmology-tech/create-cosmos-app/commit/68449d39411c259f85eec07b7ae42f1a712c21a9))
+* use new dropdown for connect-multi-chain and vote-proposal ([68dd4c3](https://github.com/cosmology-tech/create-cosmos-app/commit/68dd4c3b03939b14ff46c622e6267b41ac7ddf18))
+
+
+
+
+
 ## [0.16.2](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/connect-multi-chain@0.16.1...@cosmology/connect-multi-chain@0.16.2) (2024-01-20)
 
 **Note:** Version bump only for package @cosmology/connect-multi-chain
