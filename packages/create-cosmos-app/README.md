@@ -12,25 +12,45 @@
 
 Set up a modern Cosmos app by running one command ⚛️
 
-## Demo
-
 https://user-images.githubusercontent.com/545047/192061992-f0e1106d-f4b2-4879-ab0a-896f22ee4f49.mp4
+
+- [Overview](#overview)
+- [Education & Resources](#education--resources)
+- [Creating an App](#creating-an-app)
+- [Options](#options)
+- [Examples](#examples)
+- [Development](#development)
+
 
 ## Overview
 
-```
-# install
+First, install `create-cosmos-app` globally using npm:
+
+```sh
 npm install -g create-cosmos-app
+```
 
-# run one command
+Then, create your new Cosmos app by running the following command:
+
+```sh
+# you can also use `cca` instead of `create-cosmos-app` for shortcut ;)
 create-cosmos-app
+```
 
+During the setup process, you'll be prompted to enter the name of your app. For example:
+
+```plaintext
 > name: my-app
+```
+
+Once the app is created, move into the app directory and start the development server:
+
+```sh
 cd my-app
 yarn && yarn dev
-
-# now your app is running on localhost:3000!
 ```
+
+Now your app should be running on `http://localhost:3000`!
 
 ### Get Started Immediately
 
@@ -90,6 +110,17 @@ npm init cosmos-app
 yarn create cosmos-app
 ```
 
+## Options
+
+| Argument         | Description                                     | Default    |
+|------------------|-------------------------------------------------|------------|
+| `--repo`             | Set custom repository for cca templates       | None       |
+| `--install`          | Automatically install dependencies             | `true`     |
+| `--printCmd`         | Print the command to run after setup           | `true`     |
+| `-e`, `--example`    | Provide an example value                       | None       |
+| `-t`, `--template`   | Define the template to use                     | None       |
+| `-b`, `--fromBranch` | Specify the branch to use for cloning          | None       |
+
 ## Examples
 
 Explore examples!
@@ -98,24 +129,17 @@ Explore examples!
 cca --example
 ```
 
-### Send Tokens
-
-<p align="center" width="100%">
-    <img height="48" src="https://user-images.githubusercontent.com/545047/186589196-e75c9540-86a7-4a71-8096-207be9a4216f.svg" />
-</p>
-
-```
-cca --name send-example --example --template send-tokens
-```
-
 ### Stake Tokens
 
 <p align="center" width="100%">
     <img height="48" src="https://user-images.githubusercontent.com/545047/186589196-e75c9540-86a7-4a71-8096-207be9a4216f.svg" />
 </p>
 
+Initiate and manage staking operations directly within your application, allowing users to stake tokens securely and efficiently.
+
+
 ```
-cca --name stake-example --example --template stake-tokens
+cca --name stake-example --example stake-tokens
 ```
 
 ### Vote Proposal
@@ -124,18 +148,22 @@ cca --name stake-example --example --template stake-tokens
     <img height="48" src="https://user-images.githubusercontent.com/545047/186589196-e75c9540-86a7-4a71-8096-207be9a4216f.svg" />
 </p>
 
+Facilitate on-chain governance by enabling users to vote on proposals, enhancing community engagement and decision-making.
+
 ```
-cca --name vote-example --example --template vote-proposal
+cca --name vote-example --example vote-proposal
 ```
 
-### IBC Transfer
+### Authz
 
 <p align="center" width="100%">
     <img height="48" src="https://user-images.githubusercontent.com/545047/186589196-e75c9540-86a7-4a71-8096-207be9a4216f.svg" />
 </p>
 
+Leverage the Authz module to grant and manage authorizations, allowing users to perform actions on behalf of others.
+
 ```
-cca --name ibc-example --example --template ibc-transfer
+cca --name authz-example --example authz
 ```
 
 ### grpc-web and grpc-gateway
@@ -144,26 +172,10 @@ cca --name ibc-example --example --template ibc-transfer
     <img height="48" src="https://user-images.githubusercontent.com/545047/186589196-e75c9540-86a7-4a71-8096-207be9a4216f.svg" />
 </p>
 
-```
-cca --name grpc-example --example --template grpc-web-grpc-gateway
-```
-
-### Osmosis
-
-<p align="center" width="100%">
-    <img height="48" src="https://user-images.githubusercontent.com/545047/184519024-2d34bf20-2440-4837-943f-4915a46409f5.svg" />
-</p>
-
-uses [osmojs](https://github.com/osmosis-labs/osmojs)
+Integrate gRPC-web and gRPC-gateway in your app for robust and efficient communication between your Cosmos SDK blockchain and web clients.
 
 ```
-cca --name osmo-example --example --template osmosis
-```
-
-or the cosmwasm example:
-
-```
-cca --name osmowasm-example --example --template osmosis-cosmwasm
+cca --name grpc-example --example grpc-web-grpc-gateway
 ```
 
 ### Swap Tokens
@@ -172,10 +184,10 @@ cca --name osmowasm-example --example --template osmosis-cosmwasm
     <img height="48" src="https://user-images.githubusercontent.com/545047/184519024-2d34bf20-2440-4837-943f-4915a46409f5.svg" />
 </p>
 
-uses [osmojs](https://github.com/osmosis-labs/osmojs) to swap tokens
+Utilize [osmojs](https://github.com/osmosis-labs/osmojs) for streamlined token swapping capabilities within your Osmosis app.
 
 ```
-cca --name swap-example --example --template swap-tokens
+cca --name swap-example --example swap-tokens
 ```
 
 ### Provide Liquidity
@@ -184,10 +196,10 @@ cca --name swap-example --example --template swap-tokens
     <img height="48" src="https://user-images.githubusercontent.com/545047/184519024-2d34bf20-2440-4837-943f-4915a46409f5.svg" />
 </p>
 
-uses [osmojs](https://github.com/osmosis-labs/osmojs) to provide liquidity
+Use [osmojs](https://github.com/osmosis-labs/osmojs) to enable liquidity provision features, enhancing the DeFi experience in your app.
 
 ```
-cca --name liquidity-example --example --template provide-liquidity
+cca --name liquidity-example --example provide-liquidity
 ```
 
 ### Asset List
@@ -196,32 +208,10 @@ cca --name liquidity-example --example --template provide-liquidity
     <img height="48" src="https://user-images.githubusercontent.com/545047/184519024-2d34bf20-2440-4837-943f-4915a46409f5.svg" />
 </p>
 
-```
-cca --name asset-list-example --example --template asset-list
-```
-
-### Juno
-
-<p align="center" width="100%">
-    <img height="48" src="https://user-images.githubusercontent.com/545047/184516834-4b8190b0-0721-4778-b4fb-fa19ed3f9279.svg" />
-</p>
-
-uses [juno-network](https://github.com/CosmosContracts/typescript)
+Create and manage an asset list, offering comprehensive insights into the available assets, and empower your application with Inter-Blockchain Communication (IBC) capabilities for transferring tokens across different chains.
 
 ```
-cca --name juno-example --example --template juno
-```
-
-### Stargaze
-
-<p align="center" width="100%">
-    <img height="48" src="https://user-images.githubusercontent.com/545047/184694732-f4a3d397-14fb-415a-9562-a532f510f812.png" />
-</p>
-
-uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
-
-```
-cca --name stargaze-example --example --template stargaze
+cca --name asset-list-example --example asset-list
 ```
 
 ### NFT
@@ -230,26 +220,10 @@ cca --name stargaze-example --example --template stargaze
     <img height="48" src="https://user-images.githubusercontent.com/545047/184694732-f4a3d397-14fb-415a-9562-a532f510f812.png" />
 </p>
 
-uses [stargazejs](https://github.com/cosmology-tech/stargazejs)
+Incorporate NFT functionalities into your Stargaze app using [stargazejs](https://github.com/cosmology-tech/stargazejs), enabling seamless NFT minting, transfer, and management.
 
 ```
-cca --name nft-example --example --template nft
-```
-
-### CosmWasm
-
-<p align="center" width="100%">
-    <img height="48" src="https://user-images.githubusercontent.com/545047/197502724-4cb0f898-116c-4c14-89c8-3358e89eab70.svg" />
-</p>
-
-```
-cca --name cosmwasm-example --example --template cosmwasm
-```
-
-### Tailwind
-
-```
-cca --name tailwind-example --example --template tailwindcss
+cca --name nft-example --example nft
 ```
 
 ## Development
@@ -274,18 +248,17 @@ yarn locks
 
 Checkout these related projects:
 
-* [@cosmology/telescope](https://github.com/cosmology-tech/telescope) Your Frontend Companion for Building with TypeScript with Cosmos SDK Modules.
-* [@cosmwasm/ts-codegen](https://github.com/CosmWasm/ts-codegen) Convert your CosmWasm smart contracts into dev-friendly TypeScript classes.
-* [chain-registry](https://github.com/cosmology-tech/chain-registry) Everything from token symbols, logos, and IBC denominations for all assets you want to support in your application.
-* [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit) Experience the convenience of connecting with a variety of web3 wallets through a single, streamlined interface.
-* [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) Set up a modern Cosmos app by running one command.
-* [interchain-ui](https://github.com/cosmology-tech/interchain-ui) The Interchain Design System, empowering developers with a flexible, easy-to-use UI kit.
-* [starship](https://github.com/cosmology-tech/starship) Unified Testing and Development for the Interchain.
+- [@cosmology/telescope](https://github.com/cosmology-tech/telescope) Your Frontend Companion for Building with TypeScript with Cosmos SDK Modules.
+- [@cosmwasm/ts-codegen](https://github.com/CosmWasm/ts-codegen) Convert your CosmWasm smart contracts into dev-friendly TypeScript classes.
+- [chain-registry](https://github.com/cosmology-tech/chain-registry) Everything from token symbols, logos, and IBC denominations for all assets you want to support in your application.
+- [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit) Experience the convenience of connecting with a variety of web3 wallets through a single, streamlined interface.
+- [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) Set up a modern Cosmos app by running one command.
+- [interchain-ui](https://github.com/cosmology-tech/interchain-ui) The Interchain Design System, empowering developers with a flexible, easy-to-use UI kit.
+- [starship](https://github.com/cosmology-tech/starship) Unified Testing and Development for the Interchain.
 
 ## Credits
 
 🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.zone/validator)
-
 
 ## Disclaimer
 

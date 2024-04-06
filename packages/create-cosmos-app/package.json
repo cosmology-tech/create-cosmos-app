@@ -23,6 +23,7 @@
     "build:chmod": "chmod +x ./dist/create-cosmos-app.js",
     "build": "npm run build:dist && npm run build:chmod",
     "prepare": "npm run build",
+    "dev": "node ./dist/create-cosmos-app",
     "lint": "eslint .",
     "format": "eslint --fix .",
     "test": "jest",
