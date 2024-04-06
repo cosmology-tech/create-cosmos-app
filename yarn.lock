@@ -1584,12 +1584,12 @@
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
 "@chain-registry/assets@^1.21.0":
-  version "1.34.20"
-  resolved "https://registry.npmjs.org/@chain-registry/assets/-/assets-1.34.20.tgz#907c71e7a2e20cd60b578ff4a29b4ec5ac51a670"
-  integrity sha512-ds0igkI+R1qKwZI+b3nxIV2gdEOVEVvXm1EdnxAnjVo8UKaYVzdaclACDd1gEORaP8rH0Ykg4/xkoWbLJqGTbQ==
+  version "1.34.21"
+  resolved "https://registry.npmjs.org/@chain-registry/assets/-/assets-1.34.21.tgz#a019ac85d0ecdceb7c486c594de7575a8857bd02"
+  integrity sha512-PsAM27fLZ0llZ5pgK1eIKElPueALpxuYSmlAZLC0lvoo5u6UMFOdv+LW1HRGVi7p7IxJszSvuflI5TDiBxsa6A==
   dependencies:
     "@babel/runtime" "^7.21.0"
-    "@chain-registry/types" "^0.18.15"
+    "@chain-registry/types" "^0.18.16"
 
 "@chain-registry/client@1.11.0":
   version "1.11.0"
@@ -1603,13 +1603,13 @@
     cross-fetch "^3.1.5"
 
 "@chain-registry/client@^1.18.0":
-  version "1.21.13"
-  resolved "https://registry.npmjs.org/@chain-registry/client/-/client-1.21.13.tgz#282ee41ac37ffb927ca6cfb680af463f87dc2467"
-  integrity sha512-1G0kjD6wGLAZ7z46ejmrotYrYcF9C0gE1UoUOK7iisF9G/s9KECmMExSvqztO+qCvfW0q2iPPX/erzBTzOHdLg==
+  version "1.21.14"
+  resolved "https://registry.npmjs.org/@chain-registry/client/-/client-1.21.14.tgz#2035b3375c8787ccdc5050557704413bef9dca2d"
+  integrity sha512-RCM2QzCltnUaK2hIslDm9eRdJtXR6Wptz4Y10eKPpX1o2n6V7W1dGOwb3RuSWt0tMwYS9i3T/hdYY+W6dIDOaA==
   dependencies:
     "@babel/runtime" "^7.21.0"
-    "@chain-registry/types" "^0.18.15"
-    "@chain-registry/utils" "^1.19.14"
+    "@chain-registry/types" "^0.18.16"
+    "@chain-registry/utils" "^1.19.15"
     bfs-path "^1.0.2"
     cross-fetch "^3.1.5"
 
@@ -1624,13 +1624,13 @@
     "@cosmostation/extension-client" "0.1.15"
 
 "@chain-registry/cosmostation@^1.26.0":
-  version "1.36.20"
-  resolved "https://registry.npmjs.org/@chain-registry/cosmostation/-/cosmostation-1.36.20.tgz#d76440486c836768e0258856feecf530031255b1"
-  integrity sha512-kjBDOQ7j1SxUD0YlriFpKtkK0Va2u50d4tUyYNs6oYKlBnBkucAwISiCwpmjALVPaxOpxrB3OfADLKElW5qGkA==
+  version "1.36.21"
+  resolved "https://registry.npmjs.org/@chain-registry/cosmostation/-/cosmostation-1.36.21.tgz#131e03e29cd2a9a3e450c3976d9b270ca8f4c96e"
+  integrity sha512-QsTMIlyfmIHkVX3a7CUt4cNr5P7cD6MBwShrPTw1dFqysoSA8gnOj5tdaXGTJjLCDh1swTSeNWjiwF5AttxVSA==
   dependencies:
     "@babel/runtime" "^7.21.0"
-    "@chain-registry/types" "^0.18.15"
-    "@chain-registry/utils" "^1.19.14"
+    "@chain-registry/types" "^0.18.16"
+    "@chain-registry/utils" "^1.19.15"
     "@cosmostation/extension-client" "0.1.15"
 
 "@chain-registry/keplr@1.28.0":
@@ -1661,12 +1661,12 @@
     "@chain-registry/types" "^0.17.0"
 
 "@chain-registry/osmosis@^1.21.0":
-  version "1.34.20"
-  resolved "https://registry.npmjs.org/@chain-registry/osmosis/-/osmosis-1.34.20.tgz#6c055cb8d73f8875725fef8d08aef180f6c94797"
-  integrity sha512-qckH5ilP5JpGKcAbkNwOUIrUvObJfZ8jJzxy4gOPrmVXxRyFD7rQfdk8f86ae27LuI9WK6ZECIOREmYKsQ5TiA==
+  version "1.34.21"
+  resolved "https://registry.npmjs.org/@chain-registry/osmosis/-/osmosis-1.34.21.tgz#fd046bc37833b365c649cc070f82a0b392a33a0d"
+  integrity sha512-DJA2/NXznEPEYLraopQb/4g9PcPqam598RwBlEcTOoGsY52ybXUSvpKyTjqOD9jDG4pKJU7PY8/3WgEspQh84Q==
   dependencies:
     "@babel/runtime" "^7.21.0"
-    "@chain-registry/types" "^0.18.15"
+    "@chain-registry/types" "^0.18.16"
 
 "@chain-registry/types@0.16.0", "@chain-registry/types@^0.16.0":
   version "0.16.0"
@@ -1689,10 +1689,10 @@
   dependencies:
     "@babel/runtime" "^7.21.0"
 
-"@chain-registry/types@^0.18.15":
-  version "0.18.15"
-  resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.18.15.tgz#d0ec9601a7ddf34eb23a29b74e70c5994f44e665"
-  integrity sha512-vrgdMP/ZEyvDiqJEcbpT/8WNhAWjoaScNZcpt/b2WRYCbnbCiJprwKxL0zP9M6zaXBFWz51PsjN7/3Q1KT2oog==
+"@chain-registry/types@^0.18.16":
+  version "0.18.16"
+  resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.18.16.tgz#8a477ee7a6ecd5995c6479f1ad7423afdb6b5096"
+  integrity sha512-PzmYzsu9iwuJ8GEOonZ+SRMusoD032KhR+GW7RjcepmUrBaWrTPEWvo6fwPUwS49qtcx5TFCGFTUXfwORqTDDw==
   dependencies:
     "@babel/runtime" "^7.21.0"
 
@@ -1726,13 +1726,13 @@
     bignumber.js "9.1.1"
     sha.js "^2.4.11"
 
-"@chain-registry/utils@^1.10.0", "@chain-registry/utils@^1.15.0", "@chain-registry/utils@^1.19.14":
-  version "1.19.14"
-  resolved "https://registry.npmjs.org/@chain-registry/utils/-/utils-1.19.14.tgz#9db0bd9c88f8a7dda7c786e7b2f32db2baadf88e"
-  integrity sha512-5K3FhgPg8osyapPip3HPxeLUI8LmywEtWt4J9s4eOIv6HOL2Sw6SBhD6pGj5huV/koUQ6fESKwgMCrWTWkW7bQ==
+"@chain-registry/utils@^1.10.0", "@chain-registry/utils@^1.15.0", "@chain-registry/utils@^1.19.15":
+  version "1.19.15"
+  resolved "https://registry.npmjs.org/@chain-registry/utils/-/utils-1.19.15.tgz#f31e15d9d08a100e4eefbcbef0e008c869be0e69"
+  integrity sha512-JU8J6o5gE/ENkA7FWZ0RtcPc5jN+KvHLYOEctzyqfsMlEiTxjYfszapK8U1EQhguARR/OAl0dcI6VzKlwEeROg==
   dependencies:
     "@babel/runtime" "^7.21.0"
-    "@chain-registry/types" "^0.18.15"
+    "@chain-registry/types" "^0.18.16"
     bignumber.js "9.1.1"
     sha.js "^2.4.11"
 
@@ -9495,9 +9495,9 @@
   integrity sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==
 
 "@types/node@*", "@types/node@>=13.7.0", "@types/node@^20.8.4":
-  version "20.12.4"
-  resolved "https://registry.npmjs.org/@types/node/-/node-20.12.4.tgz#af5921bd75ccdf3a3d8b3fa75bf3d3359268cd11"
-  integrity sha512-E+Fa9z3wSQpzgYQdYmme5X3OTuejnnTx88A6p6vkkJosR3KBz+HpE3kqNm98VE6cfLFcISx7zW7MsJkH6KwbTw==
+  version "20.12.5"
+  resolved "https://registry.npmjs.org/@types/node/-/node-20.12.5.tgz#74c4f31ab17955d0b5808cdc8fd2839526ad00b3"
+  integrity sha512-BD+BjQ9LS/D8ST9p5uqBxghlN+S42iuNxjsUGjeZobe/ciXzk2qb1B6IXc6AnRLS+yFJRpN2IPEHMzwspfDJNw==
   dependencies:
     undici-types "~5.26.4"
 
@@ -11238,12 +11238,12 @@ chain-registry@1.25.4:
     "@chain-registry/types" "^0.17.1"
 
 chain-registry@^1.5.0:
-  version "1.33.20"
-  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.33.20.tgz#1f2604ffa6cb1582ee4004ec3b9603b3ed1badda"
-  integrity sha512-RAWM1H2cDpoAYt2HC4iLJ748+h8OCe4IMYqmnw+vmlfSjeBkhQMOr8YPq2r2JA6UI/V1FGD9qakE329RzkWFmA==
+  version "1.33.21"
+  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.33.21.tgz#d246d27c2dc71c07e00cc19ed5e98cb12944179c"
+  integrity sha512-4iaJviLcEWtLxcT9n45Bz2rExUtLrU6g2Gu2C2RhiUHg2UktocEibEku83ZryfPxtXZMM94gXoExtSPp0AacBg==
   dependencies:
     "@babel/runtime" "^7.21.0"
-    "@chain-registry/types" "^0.18.15"
+    "@chain-registry/types" "^0.18.16"
 
 chakra-react-select@4.4.3:
   version "4.4.3"
@@ -13466,9 +13466,9 @@ fn.name@1.x.x:
   integrity sha512-GRnmB5gPyJpAhTQdSZTSp9uaPSvl09KoYcMQtsB9rQoOmzs9dH6ffeccH+Z+cv6P68Hu5bC6JjRh4Ah/mHSNRw==
 
 focus-lock@^1.3.2:
-  version "1.3.4"
-  resolved "https://registry.npmjs.org/focus-lock/-/focus-lock-1.3.4.tgz#a143aa327224df2e83414f87e8a3328cb5a62156"
-  integrity sha512-Gv0N3mvej3pD+HWkNryrF8sExzEHqhQ6OSFxD4DPxm9n5HGCaHme98ZMBZroNEAJcsdtHxk+skvThGKyUeoEGA==
+  version "1.3.5"
+  resolved "https://registry.npmjs.org/focus-lock/-/focus-lock-1.3.5.tgz#aa644576e5ec47d227b57eb14e1efb2abf33914c"
+  integrity sha512-QFaHbhv9WPUeLYBDe/PAuLKJ4Dd9OPvKs9xZBr3yLXnUrDNaVXKu2baDBXe3naPY30hgHYSsf2JW4jzas2mDEQ==
   dependencies:
     tslib "^2.0.3"
 
