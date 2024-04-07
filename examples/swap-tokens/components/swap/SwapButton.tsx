@@ -1,10 +1,10 @@
-import { Button } from '@interchain-ui/react';
+import { Button, useColorModeValue } from '@interchain-ui/react';
 
 export type SwapButtonProps = {
-  text?: string
-  disabled?: boolean
-  onClick?: () => void
-}
+  text?: string;
+  disabled?: boolean;
+  onClick?: () => void;
+};
 
 export function SwapButton({
   text = 'Swap',
@@ -17,9 +17,11 @@ export function SwapButton({
       intent="tertiary"
       onClick={onClick}
       disabled={disabled}
-      attributes={{ width: "$full" }}
+      attributes={{
+        width: '$full',
+      }}
     >
-    {text}
+      {text}
     </Button>
-  )
+  );
 }

@@ -82,11 +82,11 @@ const Overview = ({
       <Box mb={{ mobile: '$12', tablet: '$14' }}>
         <StakingClaimHeader
           symbol={coin.symbol}
-          rewardsAmount={Number(rewards.total) || 0}
-          stakedAmount={Number(staked) || 0}
+          rewardsAmount={Number(rewards?.total ?? 0) || 0}
+          stakedAmount={Number(staked ?? 0) || 0}
           onClaim={onClaimRewardClick}
           isLoading={isClaiming}
-          isDisabled={!isGreaterThanZero(rewards.total)}
+          isDisabled={!isGreaterThanZero(rewards?.total ?? 0)}
         />
       </Box>
     </>

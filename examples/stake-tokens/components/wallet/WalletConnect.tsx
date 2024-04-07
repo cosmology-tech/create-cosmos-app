@@ -55,17 +55,16 @@ export const ConnectWalletButton = ({
         gap="$4"
         as="span"
         borderRadius="8px"
-        // TODO fix type error
-        // @ts-ignore
-        style={{
-          zIndex: '1',
-        }}
+        zIndex={1}
+        color="$white"
       >
         <Box as="span">
-          <IoWallet />
+          <IoWallet color="inherit" />
         </Box>
 
-        <Box as="span">{buttonText ? buttonText : 'Connect Wallet'}</Box>
+        <Box as="span" color="inherit">
+          {buttonText ? buttonText : 'Connect Wallet'}
+        </Box>
       </Box>
     </Button>
   );

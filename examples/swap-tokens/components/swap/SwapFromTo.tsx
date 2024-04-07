@@ -1,23 +1,43 @@
 import { useState } from 'react';
-import { Box, Stack, IconButton, IconName, useColorModeValue } from '@interchain-ui/react';
+import {
+  Box,
+  Stack,
+  IconButton,
+  IconName,
+  useColorModeValue,
+} from '@interchain-ui/react';
 import { Token, TokenList, SwapTokenInput } from '.';
-import { Swap } from '@/hooks';
+import { SwapDef } from '@/hooks';
 
 export type SwapFromToProps = {
-  from: Token
-  to: Token
-  swap: Swap
-  tokens: TokenList
-  amount?: string
-  onFlip?: () => void
-  onToChange?: (token: Token) => void
-  onFromChange?: (token: Token) => void
-  onAmountChange?: (amount: string) => void
-}
+  from: Token;
+  to: Token;
+  swap: SwapDef;
+  tokens: TokenList;
+  amount?: string;
+  onFlip?: () => void;
+  onToChange?: (token: Token) => void;
+  onFromChange?: (token: Token) => void;
+  onAmountChange?: (amount: string) => void;
+};
 
-export function SwapFromTo({ from, to, swap, tokens, amount = '0', onFlip, onToChange, onFromChange, onAmountChange = () => {} }: SwapFromToProps) {
+export function SwapFromTo({
+  from,
+  to,
+  swap,
+  tokens,
+  amount = '0',
+  onFlip,
+  onToChange,
+  onFromChange,
+  onAmountChange = () => {},
+}: SwapFromToProps) {
   return (
-    <Stack space="$7" direction="vertical" attributes={{ position: 'relative' }}>
+    <Stack
+      space="$7"
+      direction="vertical"
+      attributes={{ position: 'relative' }}
+    >
       <SwapTokenInput
         title="From"
         token={from}
@@ -28,7 +48,9 @@ export function SwapFromTo({ from, to, swap, tokens, amount = '0', onFlip, onToC
         showBalance={true}
         showHalfButton={true}
         showMaxButton={true}
-        onHalfButtonClick={() => onAmountChange(String(Number(from.amount) / 2))}
+        onHalfButtonClick={() =>
+          onAmountChange(String(Number(from.amount) / 2))
+        }
         onMaxButtonClick={() => onAmountChange(String(from.amount))}
         onTokenSelected={onFromChange}
         onAmountChange={onAmountChange}
@@ -42,21 +64,27 @@ export function SwapFromTo({ from, to, swap, tokens, amount = '0', onFlip, onToC
         disabled={true}
         onTokenSelected={onToChange}
       />
-      <Box zIndex="0.5" top="50%" left="50%" position="absolute" transform="translate(-50%, -50%)">
+
+      <Box
+        zIndex="0.5"
+        top="50%"
+        left="50%"
+        position="absolute"
+        transform="translate(-50%, -50%)"
+      >
         <SwapSwitch onClick={onFlip} />
       </Box>
     </Stack>
-  )
+  );
 }
 
 export type SwapSwitchProps = {
-  onClick?: () => void
-}
+  onClick?: () => void;
+};
 
-export function SwapSwitch({
-  onClick = () => {},
-}) {
-  const [icon, setIcon] = useState<IconName>("arrowDownLine")
+export function SwapSwitch({ onClick = () => {} }) {
+  const [icon, setIcon] = useState<IconName>('arrowDownLine');
+
   return (
     <Stack attributes={{ justifyContent: 'center' }}>
       <Box
@@ -66,13 +94,15 @@ export function SwapSwitch({
         display="flex"
         alignItems="center"
         justifyContent="center"
-        borderWidth="3px"
+        borderWidth="2px"
         borderStyle="$solid"
         borderRadius="$full"
-        borderColor={useColorModeValue('$white', '$gray700')}
-        attributes={{ 
+        borderColor={useColorModeValue('$divider', '$gray700')}
+        attributes={{
           transition: 'all 0.15s',
-          transform: `${icon === 'arrowLeftRightLine' ? 'rotate(90deg)' : 'rotate(0)' }`
+          transform: `${
+            icon === 'arrowLeftRightLine' ? 'rotate(90deg)' : 'rotate(0)'
+          }`,
         }}
       >
         <IconButton
@@ -80,10 +110,10 @@ export function SwapSwitch({
           intent="text"
           isRound={true}
           onClick={onClick}
-          onHoverStart={() => setIcon("arrowLeftRightLine")}
-          onHoverEnd={() => setIcon("arrowDownLine")}
+          onHoverStart={() => setIcon('arrowLeftRightLine')}
+          onHoverEnd={() => setIcon('arrowDownLine')}
         />
       </Box>
     </Stack>
-  )
+  );
 }

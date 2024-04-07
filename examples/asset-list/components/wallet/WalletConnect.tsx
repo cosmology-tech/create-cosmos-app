@@ -55,10 +55,7 @@ export const ConnectWalletButton = ({
         gap="$4"
         as="span"
         borderRadius="8px"
-        // @ts-ignore
-        style={{
-          zIndex: '1',
-        }}
+        zIndex={1}
       >
         <Box as="span">
           <IoWallet />
