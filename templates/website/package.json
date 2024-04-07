@@ -20,7 +20,7 @@
   "dependencies": {
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
-    "@interchain-ui/react": "^1.21.16",
+    "@interchain-ui/react": "^1.22.11",
     "framer-motion": "9.0.7",
     "next": "^13",
     "react": "18.2.0",
