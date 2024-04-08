@@ -1,5 +1,11 @@
 import BigNumber from 'bignumber.js';
-import { Box, Divider, Spinner, useColorModeValue } from '@interchain-ui/react';
+import {
+  Box,
+  Text,
+  Divider,
+  Spinner,
+  useColorModeValue,
+} from '@interchain-ui/react';
 import { SwapDef } from '@/hooks';
 import {
   Token,
@@ -58,6 +64,7 @@ export function Swap({
   return (
     <Box
       mx="auto"
+      p="$2"
       maxWidth="500px"
       minHeight="480px"
       overflow="hidden"
@@ -98,13 +105,38 @@ export function Swap({
         alignItems="center"
         justifyContent="center"
         borderRadius="$md"
-        backgroundColor="transparent"
-        display={loading || swapping ? 'flex' : 'none'}
+        zIndex={999}
+        display={loading || swapping ? 'block' : 'none'}
       >
-        <Spinner
-          size="$5xl"
-          color={useColorModeValue('$blackAlpha800', '$whiteAlpha900')}
-        />
+        <div
+          style={{
+            borderRadius: '6px',
+            transform: 'translateY(0)',
+            backgroundColor: useColorModeValue(
+              'rgba(0, 0, 0, 0.5)',
+              'rgba(255, 255, 255, 0.7)'
+            ),
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '400px',
+            width: '100%',
+            opacity: 0.99,
+            pointerEvents: 'none',
+            backdropFilter: 'blur(10px) opacity(0.2)',
+          }}
+        >
+          <Text
+            color="$textInverse"
+            attributes={{
+              paddingRight: '$4',
+            }}
+          >
+            Loading
+          </Text>
+
+          <Spinner size="$5xl" color="$textInverse" />
+        </div>
       </Box>
     </Box>
   );
