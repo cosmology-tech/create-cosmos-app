@@ -4,7 +4,7 @@ const rimraf = require('rimraf').rimrafSync;
 const { AMINO_MAP } = require('./aminos');
 
 const protoDirs = [join(__dirname, '/../proto')];
-const outPath = join(__dirname, '../src/codegen');
+const outPath = join(__dirname, '../codegen');
 rimraf(outPath);
 
 telescope({
