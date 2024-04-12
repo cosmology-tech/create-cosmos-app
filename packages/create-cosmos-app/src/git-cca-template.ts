@@ -189,8 +189,7 @@ export const createGitApp = (repo: string, version: string) => {
 
         if (closestPkgJson === '/a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p') {
             console.log('No package.json file found');
-        }
-        if (closestPkgJson) {
+        } else if (closestPkgJson) {
             // Read and update package.json
             const pkgPath = closestPkgJson;
             const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
