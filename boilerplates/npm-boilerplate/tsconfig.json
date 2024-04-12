@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src/",
     "target": "es2022",
     "module": "commonjs",
     "esModuleInterop": true,
@@ -13,5 +15,5 @@
     "moduleResolution": "node"
   },
   "include": ["src/**/*"],
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules", "**/*.spec.*", "**/*.test.*"]
 }
