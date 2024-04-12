@@ -1,0 +1,42 @@
+[
+  {
+    "name": "__USERFULLNAME__",
+    "message": "Enter author full name",
+    "required": true
+  },
+  {
+    "name": "__USEREMAIL__",
+    "message": "Enter author email",
+    "required": true
+  },
+  {
+    "name": "__MODULENAME__",
+    "message": "Enter the module name",
+    "required": true
+  },
+  {
+    "name": "__MODULEDESC__",
+    "message": "Enter the module description",
+    "required": true
+  },
+  {
+    "name": "__REPONAME__",
+    "message": "Enter the repository name",
+    "required": true
+  },
+  {
+    "name": "__USERNAME__",
+    "message": "Enter your github username",
+    "required": true
+  },
+  {
+    "name": "__ACCESS__",
+    "message": "Module access?",
+    "choices": [
+      "public",
+      "restricted"
+    ],
+    "type": "list",
+    "required": true
+  }
+]
