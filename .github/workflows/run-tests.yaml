@@ -79,6 +79,6 @@ jobs:
 
       - name: website
         run: | 
-          cca --template website --name website
+          cca --boilerplate website --name website
           cd website
           yarn build
