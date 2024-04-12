@@ -69,7 +69,7 @@ async function warnIfOutdated(repo, clonedRepoDir, version) {
     if (repo === CCA_URL) {
         const rootPkgPath = join(clonedRepoDir, 'packages/create-cosmos-app/package.json');
         const rootPkg = JSON.parse(fs.readFileSync(rootPkgPath, 'utf-8'));
-        if (semver.gt(rootPkg.version, version)) {
+        if (semver.lt(rootPkg.version, version)) {
             console.warn(c.yellow(`⚠️ You are using create-cosmos-app version ${c.red(rootPkg.version)}, but version ${c.green(version)} is available. Run "${c.cyan('cca upgrade')}" or "${c.cyan('npm install -g create-cosmos-app@latest')}" to upgrade.`));
         }
     }
@@ -185,9 +185,9 @@ export const createGitApp = (repo: string, version: string) => {
             .concat(glob(join(currentDirectory, name, '**', 'package.json')))
             .reduce((shortest, current) => {
                 return current.split(sep).length < shortest.split(sep).length ? current : shortest;
-            });
+            }, '/a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p'); // long string for kicks
 
-        if (closestPkgJson) {
+        if (closestPkgJson === '/a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p') {
             console.log('No package.json file found');
         }
         if (closestPkgJson) {
