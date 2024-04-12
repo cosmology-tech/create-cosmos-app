@@ -194,8 +194,12 @@ export const createGitApp = (repo: string, version: string) => {
             // Read and update package.json
             const pkgPath = closestPkgJson;
             const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
-            ['locks:remove', 'locks:create', 'locks'].forEach(script => delete pkg.scripts[script]);
-            delete pkg.devDependencies['generate-lockfile'];
+            if (pkg.scripts) {
+                ['locks:remove', 'locks:create', 'locks'].forEach(script => delete pkg.scripts[script]);
+            }
+            if (pkg.devDependencies) {
+                delete pkg.devDependencies['generate-lockfile'];
+            }
             fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
 
             // Change to package directory and run yarn if necessary
