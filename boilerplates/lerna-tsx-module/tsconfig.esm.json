@@ -1,12 +1,9 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "dist/esm",
     "module": "es2022",
     "rootDir": "src/",
-    "declaration": false,
-    "jsx": "react"
-  },
-  "include": ["**/*.ts"],
-  "exclude": ["dist", "node_modules", "**/*.spec.*", "**/*.test.*"]
+    "declaration": false
+  }
 }
