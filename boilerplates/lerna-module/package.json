@@ -1,0 +1,31 @@
+{
+  "name": "__PACKAGE_IDENTIFIER__",
+  "version": "0.0.1",
+  "author": "__USERFULLNAME__ <__USEREMAIL__>",
+  "description": "__MODULEDESC__",
+  "main": "index.js",
+  "module": "esm/index.js",
+  "types": "index.d.ts",
+  "homepage": "https://github.com/__USERNAME__/__REPONAME__",
+  "license": "SEE LICENSE IN LICENSE",
+  "publishConfig": {
+    "access": "__ACCESS__",
+    "directory": "dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/__USERNAME__/__REPONAME__"
+  },
+  "bugs": {
+    "url": "https://github.com/__USERNAME__/__REPONAME__/issues"
+  },
+  "scripts": {
+    "copy": "copyfiles -f ../../LICENSE README.md package.json dist",
+    "prepublishOnly": "npm run copy",
+    "clean": "del dist/**",
+    "build": "npm run clean; tsc; tsc -p tsconfig.esm.json",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "keywords": []
+}
