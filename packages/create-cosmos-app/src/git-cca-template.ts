@@ -181,13 +181,14 @@ export const createGitApp = (repo: string, version: string) => {
         shell.cd(name);
 
 
+        const fakeLongPath = '/a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p';
         const closestPkgJson = []
             .concat(glob(join(currentDirectory, name, '**', 'package.json')))
             .reduce((shortest, current) => {
                 return current.split(sep).length < shortest.split(sep).length ? current : shortest;
-            }, '/a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p'); // long string for kicks
+            }, fakeLongPath); // long string for kicks
 
-        if (closestPkgJson === '/a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p') {
+        if (closestPkgJson === fakeLongPath) {
             console.log('No package.json file found');
         } else if (closestPkgJson) {
             // Read and update package.json
