@@ -7,7 +7,7 @@
     "strict": true,
     "strictNullChecks": false,
     "skipLibCheck": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "declaration": true,
     "resolveJsonModule": true,
     "moduleResolution": "node"
