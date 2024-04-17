@@ -11,6 +11,7 @@ import {
 } from '@chain-registry/utils'
 import { useGeckoPrices } from './useGeckoPrices';
 import BigNumber from "bignumber.js";
+import { PrettyAsset } from "@/components";
 
 import { assets, chains } from '@/utils/local-chain-registry'
 
@@ -67,7 +68,33 @@ export const useAssets = (chainName: string) => {
 
   }, [chainName, allBalances, priceMap])
 
+<<<<<<< HEAD
   const isLoading = [isAllBalanceLoading, isGeckoPricesLading].some(isLoading => isLoading === true)
+=======
+        let displayAmount = '0'
+        if (assetBySymbol) {
+          displayAmount = convertBaseUnitToDisplayUnit(assets, symbol, amount)
+        }
+
+        const prettyChainName = getChainNameByDenom(assets, denom) || ''
+
+        return {
+          ...asset,
+          symbol,
+          logoUrl: asset?.logo_URIs?.png || asset?.logo_URIs?.svg,
+          prettyChainName,
+          displayAmount,
+          dollarValue,
+          amount,
+          denom,
+        };
+      }).sort((a, b) => BigNumber(a.displayAmount).lte(b.displayAmount) ? 1 : -1)
+    }
+    return []
+  }, [topTokens, chainName, allBalances, priceMap])
+
+  const isLoading = [isAllBalanceLoading, isTopTokensLoading, isGeckoPricesLading].some(isLoading => isLoading === true)
+>>>>>>> 2e6b1810 (change to chain registry util function)
 
   return { data, isLoading, refetch: refetchAllBalances }
 }
