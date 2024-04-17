@@ -1,8 +1,9 @@
+import { Asset } from '@chain-registry/types';
 import { AvailableItem } from '@interchain-ui/react';
 
 export type Unpacked<T> = T extends (infer U)[] ? U : T;
 
-export type PrettyAsset = {
+export type PrettyAsset = Asset & {
   logoUrl: string | undefined;
   symbol: string;
   prettyChainName: string;

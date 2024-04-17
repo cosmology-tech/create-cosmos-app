@@ -4,18 +4,19 @@ import { useChain } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
 import { ChainName } from 'cosmos-kit';
 import { SingleChain, SingleChainProps } from '@interchain-ui/react';
-
-import { useDisclosure, useChainUtils, useTotalAssets } from '@/hooks';
+import { useDisclosure, useTotalAssets } from '@/hooks';
 import {
   truncDecimals,
   formatDollarValue,
   prettyAssetToTransferItem,
+  getAssetsByChainName,
+  assets as assetsFromRegistry,
+  isNativeAsset
 } from '@/utils';
-
 import { DropdownTransferModal } from './DropdownTransferModal';
 import { RowTransferModal } from './RowTransferModal';
-
 import { PrettyAsset, Transfer, TransferInfo } from './types';
+import { getChainNameByDenom, getNativeTokenByChainName } from '@chain-registry/utils'
 
 interface AssetsOverviewProps {
   isLoading?: boolean;
@@ -40,14 +41,12 @@ const AssetsOverview = ({
     isLoading: isLoadingTotalAssets,
     refetch,
   } = useTotalAssets(selectedChainName);
-  const { getChainName, getNativeDenom, isNativeAsset } =
-    useChainUtils(selectedChainName);
 
   const modalControl = useDisclosure();
   const rowModalControl = useDisclosure();
 
   const ibcAssets = useMemo(
-    () => assets.filter((asset) => !isNativeAsset(asset)),
+    () => assets.filter((asset) => !isNativeAsset(asset, selectedChainName)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [assets]
   );
@@ -58,63 +57,58 @@ const AssetsOverview = ({
   );
 
   const assetsToShow = useMemo(() => {
-    const returnAssets: SingleChainProps['list'] = assets.map((asset) => ({
-      imgSrc: asset.logoUrl ?? '',
-      symbol: asset.symbol,
-      denom: asset.denom,
-      name: asset.prettyChainName,
-      tokenAmount: truncDecimals(asset.displayAmount, 6),
-      tokenAmountPrice: formatDollarValue(asset.dollarValue, asset.amount),
-      chainName: asset.prettyChainName,
-      showDeposit: !isNativeAsset(asset),
-      showWithdraw: !isNativeAsset(asset) && new BigNumber(asset.amount).gt(0),
-      onDeposit: () => {
-        const sourceChainName = getChainName(asset.denom);
-        const sourceChainNativeDenom = getNativeDenom(sourceChainName);
-        flushSync(() => {
-          setRowTransferInfo({
-            sourceChainName,
-            type: Transfer.Deposit,
-            destChainName: selectedChainName,
-            token: {
-              ...prettyAssetToTransferItem(asset),
-              priceDisplayAmount: 0,
-              available: 0,
-              denom: sourceChainNativeDenom,
-            },
+    const returnAssets: SingleChainProps['list'] = assets.map((asset) => {
+      return {
+        imgSrc: asset.logoUrl ?? '',
+        symbol: asset.symbol,
+        denom: asset.denom,
+        name: asset.prettyChainName,
+        tokenAmount: truncDecimals(asset.displayAmount, 6),
+        tokenAmountPrice: formatDollarValue(asset.dollarValue, asset.amount),
+        chainName: asset.prettyChainName,
+        showDeposit: !isNativeAsset(asset, selectedChainName),
+        showWithdraw: !isNativeAsset(asset, selectedChainName) && new BigNumber(asset.amount).gt(0),
+        onDeposit: () => {
+          const sourceChainName = getChainNameByDenom(getAssetsByChainName(selectedChainName), asset.denom) || '';
+          const sourceChainNativeDenom = getNativeTokenByChainName(assetsFromRegistry, sourceChainName)?.base;
+          flushSync(() => {
+            setRowTransferInfo({
+              sourceChainName,
+              type: Transfer.Deposit,
+              destChainName: selectedChainName,
+              token: {
+                ...prettyAssetToTransferItem(asset),
+                priceDisplayAmount: 0,
+                available: 0,
+                denom: sourceChainNativeDenom,
+              },
+            });
           });
-        });
 
-        rowModalControl.open();
-      },
-      onWithdraw: () => {
-        const destChainName = getChainName(asset.denom);
+          rowModalControl.open();
+        },
+        onWithdraw: () => {
+          const destChainName = getChainNameByDenom(assetsFromRegistry, asset.denom) || '';
 
-        flushSync(() => {
-          setRowTransferInfo({
-            sourceChainName: selectedChainName,
-            type: Transfer.Withdraw,
-            destChainName,
-            token: prettyAssetToTransferItem(asset),
+          flushSync(() => {
+            setRowTransferInfo({
+              sourceChainName: selectedChainName,
+              type: Transfer.Withdraw,
+              destChainName,
+              token: prettyAssetToTransferItem(asset),
+            });
           });
-        });
 
-        rowModalControl.open();
-      },
-    }));
+          rowModalControl.open();
+        },
+      }
+    });
 
     return returnAssets;
-  }, [
-    assets,
-    getChainName,
-    getNativeDenom,
-    isNativeAsset,
-    rowModalControl,
-    selectedChainName,
-  ]);
+  }, [assets, rowModalControl, selectedChainName]);
 
   const onWithdrawAsset = () => {
-    const destChainName = getChainName(ibcAssets[0].denom);
+    const destChainName = getChainNameByDenom(assetsFromRegistry,ibcAssets[0].denom) || '';
     setTransferInfo({
       sourceChainName: selectedChainName,
       type: Transfer.Withdraw,
@@ -125,8 +119,8 @@ const AssetsOverview = ({
   };
 
   const onDepositAsset = () => {
-    const sourceChainName = getChainName(ibcAssets[0].denom);
-    const sourceChainAssetDenom = getNativeDenom(sourceChainName);
+    const sourceChainName = getChainNameByDenom(assetsFromRegistry,ibcAssets[0].denom) || '';
+    const sourceChainAssetDenom = getNativeTokenByChainName(assetsFromRegistry, sourceChainName)?.base;
     setTransferInfo({
       sourceChainName,
       type: Transfer.Deposit,
