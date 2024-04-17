@@ -2,8 +2,9 @@ import React from 'react';
 import { Text, Box } from '@interchain-ui/react';
 import AssetsOverview from './AssetsOverview';
 import { useChain } from '@cosmos-kit/react';
-import { useAssets } from '../../hooks';
 import { ChainName } from 'cosmos-kit';
+import { useAssets, usePrices } from '@/hooks';
+
 
 interface AssetListSectionProps {
   chainName: ChainName;
@@ -12,7 +13,9 @@ interface AssetListSectionProps {
 
 export const AssetListSection = ({ chainName }: AssetListSectionProps) => {
   const { isWalletConnected } = useChain(chainName);
-  const { data, isLoading, refetch } = useAssets(chainName);
+  const { data: assets = [], isLoading, refetch } = useAssets(chainName);
+
+  const { data: prices = {} } = usePrices(chainName);
 
   if (!isWalletConnected) {
     return (
@@ -45,9 +48,9 @@ export const AssetListSection = ({ chainName }: AssetListSectionProps) => {
   return (
     <Box maxWidth="$containerMd" marginX="auto" marginBottom="$17">
       <AssetsOverview
-        isLoading={isLoading || !data}
-        assets={data?.assets ?? []}
-        prices={data?.prices ?? {}}
+        isLoading={isLoading || !assets}
+        assets={assets}
+        prices={prices}
         selectedChainName={chainName}
         refetch={refetch}
       />
