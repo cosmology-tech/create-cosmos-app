@@ -1,0 +1,35 @@
+{
+  "name": "__PACKAGE_IDENTIFIER__",
+  "version": "0.0.1",
+  "author": "__USERFULLNAME__ <__USEREMAIL__>",
+  "description": "__MODULEDESC__",
+  "main": "index.js",
+  "module": "esm/index.js",
+  "types": "index.d.ts",
+  "homepage": "https://github.com/__USERNAME__/__REPONAME__",
+  "license": "SEE LICENSE IN LICENSE",
+  "publishConfig": {
+    "access": "__ACCESS__",
+    "directory": "dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/__USERNAME__/__REPONAME__"
+  },
+  "bugs": {
+    "url": "https://github.com/__USERNAME__/__REPONAME__/issues"
+  },
+  "scripts": {
+    "copy": "copyfiles -f ../../LICENSE README.md package.json dist",
+    "clean": "del dist/**",
+    "prepare": "npm run build",
+    "codegen": "ts-node scripts/codegen.ts",
+    "build": "npm run clean; tsc; tsc -p tsconfig.esm.json; npm run copy",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "@cosmology/telescope": "^1.0.1"
+  },
+  "keywords": []
+}
