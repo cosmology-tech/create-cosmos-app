@@ -1,35 +1,27 @@
-const { join } = require('path');
-const telescope = require('@cosmology/telescope').default;
-const rimraf = require('rimraf').rimrafSync;
-const { AMINO_MAP } = require('./aminos');
+import { TelescopeInput } from '@cosmology/telescope';
+import telescope from '@cosmology/telescope';
+import { join } from 'path';
+import { rimrafSync as rimraf } from 'rimraf';
 
-const protoDirs = [join(__dirname, '/../proto')];
-const outPath = join(__dirname, '../src/codegen');
+import { AMINO_MAP } from './aminos';
+
+const protoDirs: string[] = [join(__dirname, '/../proto')];
+const outPath: string = join(__dirname, '../src');
 rimraf(outPath);
 
-telescope({
+export const options: TelescopeInput = {
   protoDirs,
   outPath,
   options: {
-    tsDisable: {
-      files: [
-        'cosmos/authz/v1beta1/tx.amino.ts',
-        'cosmos/staking/v1beta1/tx.amino.ts'
-      ],
-      patterns: ['**/*amino.ts', '**/*registry.ts']
+    interfaces: {
+      enabled: true,
+      useUnionTypes: true
     },
     prototypes: {
-      includePackageVar: false,
-      removeUnusedImports: true,
-      experimentalGlobalProtoNamespace: true,
-      interfaces: {
-        enabled: true,
-        useUnionTypes: false
-      },
+      enabled: true,
       excluded: {
         packages: [
           'ibc.applications.fee.v1', // issue with parsing protos (LCD routes with nested objects in params)
-
           'cosmos.app.v1alpha1',
           'cosmos.app.v1beta1',
           'cosmos.base.kv.v1beta1',
@@ -40,9 +32,7 @@ telescope({
           'cosmos.crisis.v1beta1',
           'cosmos.evidence.v1beta1',
           'cosmos.genutil.v1beta1',
-
           'cosmos.autocli.v1',
-
           'cosmos.msg.v1',
           'cosmos.nft.v1beta1',
           'cosmos.capability.v1beta1',
@@ -54,44 +44,62 @@ telescope({
           'ibc.core.types.v1'
         ]
       },
-      methods: {
-        fromJSON: false,
-        toJSON: false,
-        encode: true,
-        decode: true,
-        fromPartial: true,
-        toAmino: true,
-        fromAmino: true,
-        fromProto: true,
-        toProto: true
-      },
-      parser: {
-        keepCase: false
-      }
     },
-    typingsFormat: {
-      duration: 'duration',
-      timestamp: 'date',
-      useExact: false,
-      useDeepPartial: false,
-      num64: 'bigint',
-      customTypes: {
-        useCosmosSDKDec: true
-      }
+
+    bundle: {
+      enabled: true
     },
+
+    tsDisable: {
+      files: [],
+      patterns: [],
+      disableAll: true
+    },
+
+    eslintDisable: {
+      files: [],
+      patterns: [],
+      disableAll: false
+    },
+
+    stargateClients: {
+      enabled: true,
+      includeCosmosDefaultTypes: true
+    },
+
     aminoEncoding: {
       enabled: true,
-      exceptions: AMINO_MAP
+      customTypes: {
+        useCosmosSDKDec: false
+      },
+      exceptions: {
+        ...AMINO_MAP
+      },
     },
     lcdClients: {
       enabled: false
     },
     rpcClients: {
-      enabled: true,
-      camelCase: true
+      type: 'tendermint',
+      enabled: true
+    },
+
+    reactQuery: {
+      enabled: false
+    },
+
+    mobx: {
+      enabled: false
+    },
+
+    pinia: {
+      enabled: false
     }
   }
-})
+};
+
+
+telescope(options)
   .then(() => {
     console.log('✨ all done!');
   })
