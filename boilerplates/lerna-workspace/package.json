@@ -16,8 +16,8 @@
   ],
   "scripts": {
     "clean": "lerna run clean",
-    "build": "lerna run build",
-    "symlink": "symlink-workspace",
+    "build": "lerna run build --stream",
+    "symlink": "symlink-workspace --logLevel error",
     "postinstall": "yarn symlink"
   },
   "devDependencies": {
@@ -35,7 +35,7 @@
     "lerna": "^6",
     "prettier": "^3.0.2",
     "strip-ansi": "^6",
-    "symlink-workspace": "^1.0.0",
+    "symlink-workspace": "^1.1.0",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.1.6"
