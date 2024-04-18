@@ -6,7 +6,7 @@
   "main": "index.js",
   "module": "esm/index.js",
   "types": "index.d.ts",
-  "homepage": "https://github.com/__USERNAME__/__REPONAME__",
+  "homepage": "https://github.com/__USERNAME__/__MODULENAME__",
   "license": "SEE LICENSE IN LICENSE",
   "publishConfig": {
     "access": "__ACCESS__",
@@ -14,10 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/__USERNAME__/__REPONAME__"
+    "url": "https://github.com/__USERNAME__/__MODULENAME__"
   },
   "bugs": {
-    "url": "https://github.com/__USERNAME__/__REPONAME__/issues"
+    "url": "https://github.com/__USERNAME__/__MODULENAME__/issues"
   },
   "scripts": {
     "copy": "copyfiles -f ../../LICENSE README.md package.json dist",
