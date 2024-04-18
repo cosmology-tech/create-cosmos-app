@@ -36,6 +36,9 @@ npm install __PACKAGE_IDENTIFIER__
     - [Broadcasting Messages](#broadcasting-messages)
 - [Advanced Usage](#advanced-usage)
 - [Developing](#developing)
+- [Codegen](#codegen)
+- [Publishing](#publishing)
+- [Related](#related)
 - [Credits](#credits)
 
 ## Usage
@@ -266,7 +269,7 @@ yarn build
 
 ### Codegen
 
-Contract schemas live in `./contracts`, and protos in `./proto`. Look inside of `scripts/codegen.js` and configure the settings for bundling your SDK and contracts into `__PACKAGE_IDENTIFIER__`:
+Look inside of `scripts/codegen.ts` and configure the settings for bundling your SDK and contracts into `__PACKAGE_IDENTIFIER__`:
 
 ```
 yarn codegen
@@ -274,12 +277,27 @@ yarn codegen
 
 ### Publishing
 
-Build the types and then publish:
+To publish, use `lerna`:
 
 ```
-yarn build
-yarn publish
+lerna publish
 ```
+
+You can publish patch, minor, or major versions:
+
+```
+lerna publish minor
+```
+
+If you absolutely need to publish manually using npm, ensure to do it this way, and publish from the `dist/` directory for proper tree-shaking module paths:
+
+```
+cd ./packages/<your-telescope-module>
+yarn build
+cd dist
+npm publish
+```
+
 
 ## Related
 
