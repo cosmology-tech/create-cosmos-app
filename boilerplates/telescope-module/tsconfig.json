@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src/",
     "target": "es2022",
     "module": "commonjs",
     "esModuleInterop": true,
@@ -9,11 +7,10 @@
     "strict": true,
     "strictNullChecks": false,
     "skipLibCheck": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "declaration": true,
     "resolveJsonModule": true,
     "moduleResolution": "node"
   },
-  "include": ["src/**/*"],
-  "exclude": ["dist", "node_modules", "**/*.spec.*", "**/*.test.*"]
+  "exclude": ["dist", "node_modules"]
 }

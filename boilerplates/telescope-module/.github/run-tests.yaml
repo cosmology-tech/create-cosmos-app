@@ -25,5 +25,6 @@ jobs:
       - name: Build Project
         run: yarn build
 
-      - name: Run Tests
-        run: yarn test
+      - name: Run Parser Tests
+        run: yarn workspace modulename test
+        working-directory: packages/modulefolder

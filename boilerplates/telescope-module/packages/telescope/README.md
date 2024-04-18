@@ -20,8 +20,8 @@ npm install __MODULENAME__
 
 ## Developing
 
-
 When first cloning the repo:
+
 ```
 yarn
 yarn build
