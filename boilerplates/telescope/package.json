@@ -17,6 +17,7 @@
   "scripts": {
     "clean": "lerna run clean",
     "build": "lerna run build --stream",
+    "test": "lerna run test --stream --scope __PACKAGE_IDENTIFIER__",
     "codegen": "lerna run codegen --stream --scope __PACKAGE_IDENTIFIER__",
     "symlink": "symlink-workspace --logLevel error",
     "postinstall": "yarn symlink"
