@@ -1,4 +1,4 @@
-module.exports.AMINO_MAP = {
+export const AMINO_MAP = {
   // PUT YOUR AMINO names here...
   // Staking
   // '/cosmos.staking.v1beta1.MsgCreateValidator': {
