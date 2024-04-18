@@ -5,6 +5,13 @@
     __MODULEDESC__
 </p>
 
+<p align="center" width="100%">
+  <a href="https://github.com/__USERNAME__/__MODULENAME__/actions/workflows/run-tests.yml">
+    <img height="20" src="https://github.com/__USERNAME__/__MODULENAME__/actions/workflows/run-tests.yml/badge.svg" />
+  </a>
+   <a href="https://github.com/__USERNAME__/__MODULENAME__/blob/main/LICENSE"><img height="20" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+</p>
+
 
 ## install
 
