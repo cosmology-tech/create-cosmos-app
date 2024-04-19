@@ -164,10 +164,21 @@ export const createGitApp = (repo: string, version: string) => {
                 content = content.replace(/__PACKAGE_IDENTIFIER__/g, `${prefix}${results.__MODULENAME__}`);
             }
 
+
             // Construct the file path
             const relativeFilePath = templateFile.split(join(folderName, template) + sep)[1];
-            const targetDirPath = join(currentDirectory, name, dirname(relativeFilePath));
-            const targetFilePath = join(targetDirPath, basename(relativeFilePath));
+
+            // Replace keys in the entire file path
+            const replacedFilePath = Object.keys(results).reduce((filePath, key) => {
+                if (/^__/.test(key)) {
+                    const safeName = results[key].replace(/[^a-zA-Z0-9_-]/g, '_'); // Replacing unsafe characters
+                    return filePath.replace(new RegExp(key, 'g'), safeName);
+                }
+                return filePath;
+            }, relativeFilePath);
+
+            const targetDirPath = join(currentDirectory, name, dirname(replacedFilePath));
+            const targetFilePath = join(targetDirPath, basename(replacedFilePath));
 
             // Ensure the target directory exists before writing the file
             mkdirp(targetDirPath);
