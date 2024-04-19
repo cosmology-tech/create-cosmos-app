@@ -12,4 +12,3 @@ export const isNativeAsset = (targetAsset: Asset, chainName: string) => {
   const nativeAssetList: AssetList[] = getNativeAssetLists(chainName, ibc, assets)
   return !!nativeAssetList.flatMap(al => al.assets).find(a => a.base === targetAsset.base)
 }
-

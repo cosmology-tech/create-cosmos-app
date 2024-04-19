@@ -1,15 +1,20 @@
+import { convertBaseUnitToDollarValue } from '@chain-registry/utils';
+import { getAssetByDenom } from '@chain-registry/utils';
 import { Coin } from '@cosmjs/stargate';
 import { useChain } from '@cosmos-kit/react';
 import { UseQueryResult } from '@tanstack/react-query';
 import BigNumber from 'bignumber.js';
 import { useEffect, useMemo } from 'react';
-import { useChainUtils } from '../useChainUtils';
 import { usePrices } from './usePrices';
+import { assets } from '@/utils';
 import { useQueryHooks } from './useQueryHooks';
+
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
 };
+
+const sum = (items: (string | number | BigNumber)[]): BigNumber => items.reduce((total: BigNumber, cur) => total.plus(cur), new BigNumber(0));
 
 export const getPagination = (limit: bigint) => ({
   limit,
@@ -18,6 +23,7 @@ export const getPagination = (limit: bigint) => ({
   countTotal: true,
   reverse: false,
 });
+
 
 export const useTotalAssets = (chainName: string) => {
   const { address } = useChain(chainName);
@@ -77,8 +83,6 @@ export const useTotalAssets = (chainName: string) => {
     [Key in keyof AllQueries]: NonNullable<AllQueries[Key]['data']>;
   };
 
-  const { calcCoinDollarValue } = useChainUtils(chainName);
-
   const zero = new BigNumber(0);
 
   const data = useMemo(() => {
@@ -91,29 +95,24 @@ export const useTotalAssets = (chainName: string) => {
     const {
       allBalances = [],
       delegations = [],
-      // lockedCoins = [],
-      // pools = [],
       prices = {},
     } = queriesData;
 
-    const stakedTotal = delegations
-      ?.map((coin) => calcCoinDollarValue(prices, coin as Coin))
-      .reduce((total, cur) => total.plus(cur), zero)
-      .toString();
+    const stakedTotal = sum(
+      delegations.map((coin) => {
+        const asset = getAssetByDenom(assets, coin?.denom || '', chainName)
+        return convertBaseUnitToDollarValue(assets, prices, asset?.symbol || '', coin?.amount || '', chainName)
+      })
+    )
 
-    const balancesTotal = allBalances
-      ?.filter(({ denom }) => !denom.startsWith('gamm') && prices[denom])
-      .map((coin) => calcCoinDollarValue(prices, coin))
-      .reduce((total, cur) => total.plus(cur), zero)
-      .toString();
+    const balancesTotal = sum(
+      allBalances.map((coin) => {
+        const asset = getAssetByDenom(assets, coin.denom, chainName)
+        return convertBaseUnitToDollarValue(assets, prices, asset?.symbol || '', coin.amount, chainName)
+      })
+    )
 
-    let bondedTotal;
-    let liquidityTotal;
-
-    const total = [stakedTotal, balancesTotal, bondedTotal, liquidityTotal]
-      .reduce((total, cur) => total.plus(cur || 0), zero)
-      .decimalPlaces(2)
-      .toString();
+    const total = sum([stakedTotal, balancesTotal]).decimalPlaces(2).toString()
 
     return {
       total,
