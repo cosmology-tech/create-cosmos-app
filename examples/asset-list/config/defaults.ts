@@ -9,11 +9,9 @@ import {
   cosmwasmProtoRegistry,
   ibcProtoRegistry,
   ibcAminoConverters,
-  osmosisAminoConverters,
-  osmosisProtoRegistry,
-} from 'osmo-query';
+} from 'interchain-query';
 
-export const defaultChainName = 'osmosis';
+export const defaultChainName = 'cosmoshub';
 export const KeplrWalletName = 'keplr-extension';
 
 export const chainassets: AssetList = assets.find(
@@ -21,21 +19,19 @@ export const chainassets: AssetList = assets.find(
 ) as AssetList;
 
 export const coin: Asset = chainassets.assets.find(
-  (asset) => asset.base === 'uosmo'
+  (asset) => asset.base === 'uatom'
 ) as Asset;
 
 const protoRegistry: ReadonlyArray<[string, GeneratedType]> = [
   ...cosmosProtoRegistry,
   ...cosmwasmProtoRegistry,
   ...ibcProtoRegistry,
-  ...osmosisProtoRegistry,
 ];
 
 const aminoConverters = {
   ...cosmosAminoConverters,
   ...cosmwasmAminoConverters,
   ...ibcAminoConverters,
-  ...osmosisAminoConverters,
 };
 
 export const registry = new Registry(protoRegistry);

@@ -1,8 +1,8 @@
-import { cosmos } from 'osmo-query';
+import { cosmos } from 'interchain-query';
 import { isDeliverTxSuccess, StdFee } from '@cosmjs/stargate';
 import { toast, ToastShape } from '@interchain-ui/react';
 import { useChain } from '@cosmos-kit/react';
-import { TxRaw } from 'osmo-query/dist/codegen/cosmos/tx/v1beta1/tx';
+import { TxRaw } from 'interchain-query/cosmos/tx/v1beta1/tx';
 
 interface Msg {
   typeUrl: string;

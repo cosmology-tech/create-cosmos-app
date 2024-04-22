@@ -1,5 +1,5 @@
-import { assets, chains, ibc } from 'chain-registry'
-import { Asset } from '@chain-registry/types'
+import { assets, chains, ibc } from 'chain-registry/mainnet'
+import { Asset, AssetList } from '@chain-registry/types'
 import { getChainNameByDenom } from '@chain-registry/utils'
 
 export { assets, chains, ibc }

@@ -6,7 +6,7 @@ import { ChainName } from 'cosmos-kit';
 import { coins, StdFee } from '@cosmjs/amino';
 import { useDisclosure, useChainUtils, useBalance, useTx } from '@/hooks';
 import { KeplrWalletName } from '@/config';
-import { ibc } from 'osmo-query';
+import { ibc } from 'interchain-query';
 
 import { PriceHash, TransferInfo, Transfer } from './types';
 

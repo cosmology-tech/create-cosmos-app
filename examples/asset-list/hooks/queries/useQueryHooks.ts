@@ -1,5 +1,5 @@
 import { useChain } from '@cosmos-kit/react';
-import { useRpcEndpoint, useRpcClient, createRpcQueryHooks } from 'osmo-query';
+import { useRpcEndpoint, useRpcClient, createRpcQueryHooks } from 'interchain-query';
 
 export const useQueryHooks = (chainName: string, extraKey?: string) => {
   const { address, getRpcEndpoint } = useChain(chainName);
@@ -27,12 +27,12 @@ export const useQueryHooks = (chainName: string, extraKey?: string) => {
     },
   });
 
-  const { cosmos: cosmosQuery, osmosis: osmosisQuery } = createRpcQueryHooks({
+  const { cosmos: cosmosQuery } = createRpcQueryHooks({
     rpc: rpcClientQuery.data,
   });
 
   const isReady = !!address && !!rpcClientQuery.data;
   const isFetching = rpcEndpointQuery.isFetching || rpcClientQuery.isFetching;
 
-  return { cosmosQuery, osmosisQuery, isReady, isFetching };
+  return { cosmosQuery, isReady, isFetching };
 };

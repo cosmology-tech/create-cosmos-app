@@ -12,19 +12,7 @@ export type PrettyAsset = {
   denom: string;
 };
 
-export type Token = {
-  price: number;
-  denom: string;
-  symbol: string;
-  liquidity: number;
-  volume_24h: number;
-  volume_24h_change: number;
-  name: string;
-  price_24h_change: number;
-  price_7d_change: number;
-  exponent: number;
-  display: string;
-};
+
 
 export type PriceHash = {
   [key: string]: number;

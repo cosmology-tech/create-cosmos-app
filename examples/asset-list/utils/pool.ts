@@ -1,5 +1,3 @@
-import { Pool } from 'osmo-query/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
-import { Coin } from 'osmo-query/dist/codegen/cosmos/base/v1beta1/coin';
 import {
   PriceHash,
   CoinValue,
@@ -19,6 +17,7 @@ import {
   noDecimals,
   getOsmoAssetByDenom,
 } from './base';
+import { Pool } from 'interchain-query/cosmos/staking/v1beta1/staking';
 
 export const calcPoolLiquidity = (pool: Pool, prices: PriceHash): string => {
   return pool.poolAssets

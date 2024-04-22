@@ -1,9 +1,10 @@
+import { SuperfluidAsset } from './../../authz/src/codegen/osmosis/superfluid/superfluid';
+import { Gauge } from './../../authz/src/codegen/osmosis/incentives/gauge';
 import { AssetDenomUnit } from '@chain-registry/types';
-import { Duration } from 'osmo-query/dist/codegen/google/protobuf/duration';
-import { Gauge } from 'osmo-query/dist/codegen/osmosis/incentives/gauge';
-import { SuperfluidAsset } from 'osmo-query/dist/codegen/osmosis/superfluid/superfluid';
-import { Coin } from 'osmo-query/dist/codegen/cosmos/base/v1beta1/coin';
-import { Pool } from 'osmo-query/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
+import { Coin } from 'interchain-query/cosmos/base/v1beta1/coin';
+import { Pool } from 'interchain-query/cosmos/staking/v1beta1/staking';
+import { Duration } from 'interchain-query/google/protobuf/duration';
+
 
 export type CoinDenom = AssetDenomUnit['denom'];
 

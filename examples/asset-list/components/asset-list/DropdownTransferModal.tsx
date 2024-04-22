@@ -6,7 +6,7 @@ import {
 } from '@interchain-ui/react';
 import { useChainWallet, useManager } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
-import { ibc } from 'osmo-query';
+import { ibc } from 'interchain-query';
 import { StdFee, coins } from '@cosmjs/amino';
 import { ChainName } from 'cosmos-kit';
 import { KeplrWalletName } from '@/config';

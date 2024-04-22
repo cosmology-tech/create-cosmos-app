@@ -1,5 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
+
+
+// remove this hook do not fetch any token from api, just use chain registry
 type Token = {
   price: number;
   denom: string;
