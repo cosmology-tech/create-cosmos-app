@@ -67,7 +67,7 @@ const AssetsOverview = ({
       tokenAmountPrice: formatDollarValue(asset.dollarValue, asset.amount),
       chainName: asset.prettyChainName,
       showDeposit: !isNativeAsset(asset),
-      showWithdraw: !isNativeAsset(asset) && new BigNumber(asset.amount).gt(0),
+      showWithdraw: !isNativeAsset(asset),
       onDeposit: () => {
         const sourceChainName = getChainName(asset.denom);
         const sourceChainNativeDenom = getNativeDenom(sourceChainName);
