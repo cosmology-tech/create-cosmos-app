@@ -10,8 +10,7 @@ import { ibc } from 'osmo-query';
 import { StdFee, coins } from '@cosmjs/amino';
 import { ChainName } from 'cosmos-kit';
 import { KeplrWalletName } from '@/config';
-import { useDisclosure, useChainUtils, useTx, useBalance } from '@/hooks';
-import { truncDecimals } from '@/utils';
+import { useDisclosure, useTx, useBalance } from '@/hooks';
 
 import {
   PrettyAsset,
@@ -20,6 +19,8 @@ import {
   Transfer,
   Unpacked,
 } from './types';
+import { convertBaseUnitToDisplayUnitByDenom, convertDisplayUnitToBaseUnit, getChainNameByDenom, getIbcAssetPath, getNativeAssetByChainName } from '@chain-registry/utils';
+import { assets as assetsInRegistry, ibc as IBCs } from '@/utils/local-chain-registry'
 
 const { transfer } = ibc.applications.transfer.v1.MessageComposer.withTypeUrl;
 
@@ -60,16 +61,9 @@ const OverviewTransferWrapper = (
     setInputValue,
   } = props;
 
-  const {
-    convRawToDispAmount,
-    symbolToDenom,
-    getExponentByDenom,
-    getIbcInfo,
-    getChainName,
-    getNativeDenom,
-  } = useChainUtils(selectedChainName);
-
   const { transferInfo, setTransferInfo } = transferInfoState;
+
+  const currentAssetLists = assetsInRegistry.filter(a => a.chain_name === selectedChainName)
 
   const {
     type: transferType,
@@ -105,15 +99,10 @@ const OverviewTransferWrapper = (
     }
 
     return new BigNumber(
-      convRawToDispAmount(transferToken.symbol, balance?.amount || ZERO_AMOUNT)
+      convertBaseUnitToDisplayUnitByDenom(assetsInRegistry, transferToken.denom || '', balance?.amount || ZERO_AMOUNT, selectedChainName)
     ).toNumber();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDeposit, isLoadingBalance, transferToken]);
-
-  const dollarValue = new BigNumber(inputValue)
-    .multipliedBy(prices[symbolToDenom(transferToken.symbol)])
-    .decimalPlaces(2)
-    .toString();
 
   useEffect(() => {
     if (!modalControl.isOpen) return;
@@ -129,17 +118,17 @@ const OverviewTransferWrapper = (
   };
 
   const handleTransferSubmit = async () => {
-    if (!sourceAddress || !destAddress) return;
+    if (!sourceAddress || !destAddress || !transferToken.denom) return;
     setIsLoading(true);
 
-    const transferAmount = new BigNumber(inputValue)
-      .shiftedBy(getExponentByDenom(symbolToDenom(transferToken.symbol)))
-      .toString();
+    const transferAmount = convertDisplayUnitToBaseUnit(assetsInRegistry, transferToken.symbol, inputValue, selectedChainName)
 
-    const { sourcePort, sourceChannel } = getIbcInfo(
-      sourceChainName,
-      destChainName
-    );
+    const ibcPath = getIbcAssetPath(IBCs, selectedChainName, destChainName, assetsInRegistry, transferToken.denom)
+
+    const [{
+      channel_id: sourceChannel,
+      port_id: sourcePort,
+    }] = ibcPath
 
     const fee: StdFee = {
       amount: coins('1000', transferToken.denom ?? ''),
@@ -188,14 +177,12 @@ const OverviewTransferWrapper = (
         return asset.symbol !== transferToken.symbol;
       })
       .map((asset) => ({
-        available: new BigNumber(asset.amount).toNumber(),
+        available: new BigNumber(convertBaseUnitToDisplayUnitByDenom(assetsInRegistry, asset.denom, asset.amount, selectedChainName)).toNumber(),
         symbol: asset.symbol,
         name: asset.prettyChainName,
         denom: asset.denom,
         imgSrc: asset.logoUrl ?? '',
-        priceDisplayAmount: new BigNumber(
-          truncDecimals(asset.dollarValue, 2)
-        ).toNumber(),
+        priceDisplayAmount: prices[asset.denom] || 0
       }));
   }, [assets, isDeposit, transferToken]);
 
@@ -209,12 +196,12 @@ const OverviewTransferWrapper = (
       if (!prev) return;
 
       if (transferType === Transfer.Withdraw) {
-        const destChainName = getChainName(assetOption.denom ?? '');
+        const destChainName = getChainNameByDenom(currentAssetLists, assetOption.denom || '') || ''
         return { ...prev, destChainName, token: assetOption };
       }
 
-      const sourceChainName = getChainName(assetOption.denom ?? '');
-      const sourceChainAssetDenom = getNativeDenom(sourceChainName);
+      const sourceChainName = getChainNameByDenom(currentAssetLists, assetOption.denom || '') || ''
+      const sourceChainAssetDenom = getNativeAssetByChainName(assetsInRegistry, sourceChainName)?.base || ''
       return {
         ...prev,
         sourceChainName,
@@ -271,6 +258,7 @@ export const DropdownTransferModal = (props: OverviewTransferWrapperProps) => {
       isOpen={modalControl.isOpen}
       title="Deposit"
       onClose={() => closeModal()}
+      closeOnClickaway={false}
     >
       {transferInfoState ? (
         <OverviewTransferWrapper

@@ -16,6 +16,8 @@ import { DropdownTransferModal } from './DropdownTransferModal';
 import { RowTransferModal } from './RowTransferModal';
 
 import { PrettyAsset, Transfer, TransferInfo } from './types';
+import { getChainNameByDenom, getNativeAssetByChainName } from '@chain-registry/utils';
+import { assets as assetsInRegistry } from '@/utils/local-chain-registry'
 
 interface AssetsOverviewProps {
   isLoading?: boolean;
@@ -40,7 +42,7 @@ const AssetsOverview = ({
     isLoading: isLoadingTotalAssets,
     refetch,
   } = useTotalAssets(selectedChainName);
-  const { getChainName, getNativeDenom, isNativeAsset } =
+  const { isNativeAsset } =
     useChainUtils(selectedChainName);
 
   const modalControl = useDisclosure();
@@ -57,6 +59,8 @@ const AssetsOverview = ({
     [ibcAssets]
   );
 
+  const currentAssetLists = assetsInRegistry.filter(a => a.chain_name === selectedChainName)
+
   const assetsToShow = useMemo(() => {
     const returnAssets: SingleChainProps['list'] = assets.map((asset) => ({
       imgSrc: asset.logoUrl ?? '',
@@ -69,8 +73,8 @@ const AssetsOverview = ({
       showDeposit: !isNativeAsset(asset),
       showWithdraw: !isNativeAsset(asset),
       onDeposit: () => {
-        const sourceChainName = getChainName(asset.denom);
-        const sourceChainNativeDenom = getNativeDenom(sourceChainName);
+        const sourceChainName = getChainNameByDenom(currentAssetLists, asset.denom) || '';
+        const sourceChainNativeDenom = getNativeAssetByChainName(assetsInRegistry, sourceChainName)?.base || '';
         flushSync(() => {
           setRowTransferInfo({
             sourceChainName,
@@ -88,7 +92,7 @@ const AssetsOverview = ({
         rowModalControl.open();
       },
       onWithdraw: () => {
-        const destChainName = getChainName(asset.denom);
+        const destChainName = getChainNameByDenom(currentAssetLists, asset.denom) || '';
 
         flushSync(() => {
           setRowTransferInfo({
@@ -106,15 +110,13 @@ const AssetsOverview = ({
     return returnAssets;
   }, [
     assets,
-    getChainName,
-    getNativeDenom,
     isNativeAsset,
     rowModalControl,
     selectedChainName,
   ]);
 
   const onWithdrawAsset = () => {
-    const destChainName = getChainName(ibcAssets[0].denom);
+    const destChainName = getChainNameByDenom(currentAssetLists, ibcAssets[0].denom) || '';
     setTransferInfo({
       sourceChainName: selectedChainName,
       type: Transfer.Withdraw,
@@ -125,8 +127,8 @@ const AssetsOverview = ({
   };
 
   const onDepositAsset = () => {
-    const sourceChainName = getChainName(ibcAssets[0].denom);
-    const sourceChainAssetDenom = getNativeDenom(sourceChainName);
+    const sourceChainName = getChainNameByDenom(currentAssetLists, ibcAssets[0].denom) || ''
+    const sourceChainAssetDenom = getNativeAssetByChainName(assetsInRegistry, sourceChainName)?.base || '';
     setTransferInfo({
       sourceChainName,
       type: Transfer.Deposit,
