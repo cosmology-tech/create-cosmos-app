@@ -90,19 +90,19 @@ const OverviewTransferWrapper = (
   const { tx } = useTx(sourceChainName);
 
   const availableAmount = useMemo((): number => {
-    if (!isDeposit) {
-      return transferToken.priceDisplayAmount ?? 0;
-    }
-
     if (isLoadingBalance) {
       return 0;
     }
 
-    return new BigNumber(
-      convertBaseUnitToDisplayUnitByDenom(assetsInRegistry, transferToken.denom || '', balance?.amount || ZERO_AMOUNT, selectedChainName)
-    ).toNumber();
+    if (isDeposit && balance) {
+      return new BigNumber(
+        convertBaseUnitToDisplayUnitByDenom(assetsInRegistry, balance.denom, balance.amount || ZERO_AMOUNT, sourceChainName)
+      ).toNumber();
+    }
+
+    return transferToken.available ?? 0;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDeposit, isLoadingBalance, transferToken]);
+  }, [isDeposit, isLoadingBalance, transferToken, balance]);
 
   useEffect(() => {
     if (!modalControl.isOpen) return;
@@ -200,7 +200,7 @@ const OverviewTransferWrapper = (
         return { ...prev, destChainName, token: assetOption };
       }
 
-      const sourceChainName = getChainNameByDenom(currentAssetLists, assetOption.denom || '') || ''
+      const sourceChainName = getChainNameByDenom(assetsInRegistry, assetOption.denom || '') || ''
       const sourceChainAssetDenom = getNativeAssetByChainName(assetsInRegistry, sourceChainName)?.base || ''
       return {
         ...prev,
