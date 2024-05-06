@@ -4,11 +4,16 @@ import { useChain } from '@cosmos-kit/react';
 import { UseQueryResult } from '@tanstack/react-query';
 import BigNumber from 'bignumber.js';
 import { useEffect, useMemo } from 'react';
-import { useChainUtils } from '../useChainUtils';
 import { useQueryHooks } from './useQueryHooks';
 import { usePrices } from './usePrices';
-import { useTopTokens } from './useTopTokens';
 import { getPagination } from './useTotalAssets';
+import { assets, chains } from '@/utils/local-chain-registry'
+import {
+  getChainNameByDenom,
+  convertBaseUnitToDisplayUnitByDenom,
+  convertBaseUnitToDollarValueByDenom,
+  getChainPrettyName
+} from '@chain-registry/utils';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -34,11 +39,9 @@ export const useAssets = (chainName: string) => {
     });
 
   const pricesQuery = usePrices(chainName);
-  const topTokensQuery = useTopTokens();
 
   const dataQueries = {
     allBalances: allBalancesQuery,
-    topTokens: topTokensQuery,
     prices: pricesQuery,
   };
 
@@ -61,15 +64,6 @@ export const useAssets = (chainName: string) => {
     [Key in keyof AllQueries]: NonNullable<AllQueries[Key]['data']>;
   };
 
-  const {
-    ibcAssets,
-    getAssetByDenom,
-    convRawToDispAmount,
-    calcCoinDollarValue,
-    denomToSymbol,
-    getPrettyChainName,
-  } = useChainUtils(chainName);
-
   const data = useMemo(() => {
     if (isLoading) return;
 
@@ -77,43 +71,29 @@ export const useAssets = (chainName: string) => {
       Object.entries(dataQueries).map(([key, query]) => [key, query.data])
     ) as QueriesData;
 
-    const { allBalances, prices, topTokens } = queriesData;
+    const { allBalances, prices } = queriesData;
 
-    const nativeAndIbcBalances: Coin[] = allBalances.filter(
-      ({ denom }) => !denom.startsWith('gamm') && prices[denom]
-    );
+    const currentAssetList = assets.filter(a => a.chain_name === chainName)
 
-    const emptyBalances: Coin[] = ibcAssets
-      .filter(({ base }) => {
-        const notInBalances = !nativeAndIbcBalances.find(
-          ({ denom }) => denom === base
-        );
-        return notInBalances && prices[base];
-      })
-      .filter((asset) => {
-        const isWithinLimit = ibcAssets.length <= MAX_TOKENS_TO_SHOW;
-        return isWithinLimit || topTokens.includes(asset.symbol);
-      })
-      .map((asset) => ({ denom: asset.base, amount: '0' }));
-
-    const finalAssets = [...nativeAndIbcBalances, ...emptyBalances]
-      .map(({ amount, denom }) => {
-        const asset = getAssetByDenom(denom);
-        const symbol = denomToSymbol(denom);
-        const dollarValue = calcCoinDollarValue(prices, { amount, denom });
+    const finalAssets = currentAssetList.flatMap(a => a.assets)
+      .map(asset => {
+        const { base, symbol, logo_URIs } = asset;
+        const amount = allBalances.find(b => b.denom === base)?.amount || 0
+        const dollarValue = convertBaseUnitToDollarValueByDenom(currentAssetList, prices, base, amount, chainName)
+        const chainNameForAsset = getChainNameByDenom(currentAssetList, base) || ''
         return {
           symbol,
-          logoUrl: asset.logo_URIs?.png || asset.logo_URIs?.svg,
-          prettyChainName: getPrettyChainName(denom),
-          displayAmount: convRawToDispAmount(denom, amount),
+          logoUrl: logo_URIs?.png || logo_URIs?.svg,
+          prettyChainName: getChainPrettyName(chains, chainNameForAsset),
+          displayAmount: convertBaseUnitToDisplayUnitByDenom(currentAssetList, base, amount, chainName),
           dollarValue,
           amount,
-          denom,
+          denom: base,
         };
       })
       .sort((a, b) =>
         new BigNumber(a.dollarValue).lt(b.dollarValue) ? 1 : -1
-      );
+      )
 
     return {
       prices,
