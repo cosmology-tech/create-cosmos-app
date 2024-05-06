@@ -4,12 +4,13 @@ import { useChainWallet, useManager } from '@cosmos-kit/react';
 import BigNumber from 'bignumber.js';
 import { ChainName } from 'cosmos-kit';
 import { coins, StdFee } from '@cosmjs/amino';
-import { useDisclosure, useChainUtils, useBalance, useTx } from '@/hooks';
+import { useDisclosure, useBalance, useTx } from '@/hooks';
 import { KeplrWalletName } from '@/config';
 import { ibc } from 'osmo-query';
 
 import { PriceHash, TransferInfo, Transfer } from './types';
-
+import { assets as assetsInRegistry, ibc as IBCs } from '@/utils/local-chain-registry'
+import { convertBaseUnitToDisplayUnitByDenom, convertDisplayUnitToBaseUnit, getIbcAssetPath } from '@chain-registry/utils';
 const { transfer } = ibc.applications.transfer.v1.MessageComposer.withTypeUrl;
 
 interface IProps {
@@ -39,9 +40,6 @@ const TransferModalBody = (
     inputValue,
     setInputValue,
   } = props;
-
-  const { getIbcInfo, symbolToDenom, getExponentByDenom, convRawToDispAmount } =
-    useChainUtils(selectedChainName);
 
   const {
     type: transferType,
@@ -73,19 +71,17 @@ const TransferModalBody = (
   const { tx } = useTx(sourceChainName);
 
   const availableAmount = useMemo(() => {
-    if (!isDeposit) return transferToken.priceDisplayAmount ?? 0;
     if (isLoading) return 0;
 
-    return new BigNumber(
-      convRawToDispAmount(transferToken.symbol, balance?.amount || '0')
-    ).toNumber();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDeposit, isLoading, transferToken]);
+    if(isDeposit && balance) {
+      return BigNumber(
+        convertBaseUnitToDisplayUnitByDenom(assetsInRegistry, balance.denom, balance.amount, sourceChainName)
+      ).toNumber()
+    }
 
-  const dollarValue = new BigNumber(inputValue)
-    .multipliedBy(prices[symbolToDenom(transferToken.symbol)])
-    .decimalPlaces(2)
-    .toNumber();
+    return transferToken.available || 0
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDeposit, isLoading, transferToken, balance]);
 
   useEffect(() => {
     if (!modalControl.isOpen) return;
@@ -94,54 +90,6 @@ const TransferModalBody = (
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalControl.isOpen]);
-
-  const handleClick = async () => {
-    if (!sourceAddress || !destAddress) return;
-    setIsLoading(true);
-
-    const transferAmount = new BigNumber(inputValue)
-      .shiftedBy(getExponentByDenom(symbolToDenom(transferToken.symbol)))
-      .toString();
-
-    const { sourcePort, sourceChannel } = getIbcInfo(
-      sourceChainName,
-      destChainName
-    );
-
-    const fee: StdFee = {
-      amount: coins('1000', transferToken.denom ?? ''),
-      gas: '250000',
-    };
-
-    const token = {
-      denom: transferToken.denom ?? '',
-      amount: transferAmount,
-    };
-
-    const stamp = Date.now();
-    const timeoutInNanos = (stamp + 1.2e6) * 1e6;
-
-    const msg = transfer({
-      sourcePort,
-      sourceChannel,
-      sender: sourceAddress,
-      receiver: destAddress,
-      token,
-      // @ts-ignore
-      timeoutHeight: undefined,
-      timeoutTimestamp: BigInt(timeoutInNanos),
-    });
-
-    await tx([msg], {
-      fee,
-      onSuccess: () => {
-        updateData();
-        modalControl.close();
-      },
-    });
-
-    setIsLoading(false);
-  };
 
   const sourceChain = useMemo(() => {
     return {
@@ -162,17 +110,17 @@ const TransferModalBody = (
   }, [destChainInfo, destAddress, getChainLogo, destChainName]);
 
   const handleSubmitTransfer = async () => {
-    if (!sourceAddress || !destAddress) return;
+    if (!sourceAddress || !destAddress || !transferToken.denom) return;
     setIsLoading(true);
 
-    const transferAmount = new BigNumber(inputValue)
-      .shiftedBy(getExponentByDenom(symbolToDenom(transferToken.symbol)))
-      .toString();
+    const transferAmount = convertDisplayUnitToBaseUnit(assetsInRegistry, transferToken.symbol, inputValue, selectedChainName)
 
-    const { sourcePort, sourceChannel } = getIbcInfo(
-      sourceChainName,
-      destChainName
-    );
+      const ibcPath = getIbcAssetPath(IBCs, selectedChainName, destChainName, assetsInRegistry, transferToken.denom)
+
+      const [{
+        channel_id: sourceChannel,
+        port_id: sourcePort,
+      }] = ibcPath
 
     const fee: StdFee = {
       amount: coins('1000', transferToken.denom ?? ''),
@@ -226,7 +174,7 @@ const TransferModalBody = (
         isNaN(Number(inputValue))
       }
       available={availableAmount}
-      priceDisplayAmount={dollarValue}
+      priceDisplayAmount={prices[balance?.denom || '']}
       timeEstimateLabel="20 seconds"
       amount={inputValue}
       onChange={(value) => {
