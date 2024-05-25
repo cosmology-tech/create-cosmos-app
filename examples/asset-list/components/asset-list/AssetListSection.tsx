@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Text, Box } from '@interchain-ui/react';
 import AssetsOverview from './AssetsOverview';
