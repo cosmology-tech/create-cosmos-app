@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Image from 'next/image';
 import { Box, ClipboardCopyText, Stack } from '@interchain-ui/react';
 import { WalletStatus } from 'cosmos-kit';

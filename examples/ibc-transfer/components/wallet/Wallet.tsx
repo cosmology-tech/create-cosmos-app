@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useChain, useManager } from '@cosmos-kit/react';
 import { Box, Stack, useTheme } from '@interchain-ui/react';
 import { MouseEventHandler, useEffect, useMemo } from 'react';

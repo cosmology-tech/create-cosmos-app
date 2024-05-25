@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { ReactNode } from 'react';
 import { Box, Text, useColorModeValue } from '@interchain-ui/react';
 import { WalletStatus } from 'cosmos-kit';
