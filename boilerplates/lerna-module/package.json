@@ -24,6 +24,7 @@
     "clean": "rimraf dist/**",
     "prepare": "npm run build",
     "build": "npm run clean; tsc; tsc -p tsconfig.esm.json; npm run copy",
+    "lint": "eslint . --fix",
     "test": "jest",
     "test:watch": "jest --watch"
   },

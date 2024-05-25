@@ -17,6 +17,7 @@
   "scripts": {
     "clean": "lerna run clean",
     "build": "lerna run build --stream",
+    "lint": "lerna run lint --parallel",
     "symlink": "symlink-workspace --logLevel error",
     "postinstall": "yarn symlink"
   },
