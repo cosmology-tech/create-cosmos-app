@@ -38,6 +38,10 @@
       "error",
       "as-needed"
     ],
+    "semi": [
+      "error",
+      "always"
+    ],
     "simple-import-sort/imports": 1,
     "simple-import-sort/exports": 1,
     "unused-imports/no-unused-imports": 1,
