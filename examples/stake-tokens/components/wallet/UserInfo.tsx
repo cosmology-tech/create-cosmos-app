@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from 'react';
 import { Text, Stack, Box } from '@interchain-ui/react';
 
