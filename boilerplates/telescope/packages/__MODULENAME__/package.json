@@ -21,7 +21,7 @@
   },
   "scripts": {
     "copy": "copyfiles -f ../../LICENSE README.md package.json dist",
-    "clean": "del dist/**",
+    "clean": "rimraf dist/**",
     "prepare": "npm run build",
     "codegen": "ts-node scripts/codegen.ts",
     "build": "npm run clean; tsc; tsc -p tsconfig.esm.json; npm run copy",
