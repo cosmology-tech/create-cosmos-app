@@ -466,15 +466,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmology/connect-multi-chain@workspace:.":
+"@cosmology/chain-template@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@cosmology/connect-multi-chain@workspace:."
+  resolution: "@cosmology/chain-template@workspace:."
   dependencies:
     "@chain-registry/types": "npm:0.17.1"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.1"
     "@cosmjs/stargate": "npm:0.31.1"
     "@cosmos-kit/react": "npm:2.10.9"
-    "@interchain-ui/react": "npm:^1.21.16"
+    "@interchain-ui/react": "npm:1.23.13"
     "@types/node": "npm:18.11.9"
     "@types/react": "npm:18.0.25"
     "@types/react-dom": "npm:18.0.9"
@@ -488,8 +488,9 @@ __metadata:
     next: "npm:^13"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
-    react-icons: "npm:4.6.0"
+    react-icons: "npm:5.2.1"
     typescript: "npm:4.9.3"
+    zustand: "npm:4.5.2"
   languageName: unknown
   linkType: soft
 
@@ -1558,9 +1559,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interchain-ui/react@npm:^1.21.16":
-  version: 1.22.11
-  resolution: "@interchain-ui/react@npm:1.22.11"
+"@interchain-ui/react@npm:1.23.13":
+  version: 1.23.13
+  resolution: "@interchain-ui/react@npm:1.23.13"
   dependencies:
     "@floating-ui/core": "npm:^1.6.0"
     "@floating-ui/dom": "npm:^1.5.3"
@@ -1587,7 +1588,7 @@ __metadata:
   peerDependencies:
     react: ^18.x
     react-dom: ^18.x
-  checksum: 10c0/b7494d5d01282f211b1174ab8a9dcb48faf9b7389bfb5b624167542abd9f35786068fe966c3fe96488f72877a95e9c9cdad7859e87379e44dbf1c9b5f3360a02
+  checksum: 10c0/f77f5561c34c31dbee9249f5f2d923e7b3523644809ea9691a1fed02bc04fcffdd9b3ccb899eacb349cb8c6fa2e5292013bce3bb3d7cd8521eb10ac379404975
   languageName: node
   linkType: hard
 
@@ -8870,12 +8871,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-icons@npm:4.6.0":
-  version: 4.6.0
-  resolution: "react-icons@npm:4.6.0"
+"react-icons@npm:5.2.1":
+  version: 5.2.1
+  resolution: "react-icons@npm:5.2.1"
   peerDependencies:
     react: "*"
-  checksum: 10c0/8918b18c7a956d8832cf2a508b023a8893bfb551fdbaa16aecb9b2eb2ad4c783af6abbcb4609106362d7ad9497b0c6143bb4e8426e2df598f2509cfcf87af4ac
+  checksum: 10c0/9d52b975afaf27dab07dcaefd50497ba43cc57076fc26ccac5142965e01c7fd0c503a62ea31c3bb710e0b2959a4620c2fed12c3c86960ad8ceb63de7f0085f3a
   languageName: node
   linkType: hard
 
@@ -10269,7 +10270,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zustand@npm:^4.5.2":
+"zustand@npm:4.5.2, zustand@npm:^4.5.2":
   version: 4.5.2
   resolution: "zustand@npm:4.5.2"
   dependencies:
