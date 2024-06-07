@@ -6,6 +6,10 @@ export function getLogo(from: Asset | Chain) {
 }
 
 export function getChainLogo(name: string) {
-  const chain = chains.find(chain => chain.chain_name === name)
+  const chain = chains.find((chain) => chain.chain_name === name);
   return chain ? getLogo(chain) : null;
 }
+
+export const shortenAddress = (address: string, partLength = 6) => {
+  return `${address.slice(0, partLength)}...${address.slice(-partLength)}`;
+};

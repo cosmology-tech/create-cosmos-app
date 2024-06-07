@@ -1,4 +1,4 @@
-import { Box, BoxProps, Icon, IconName } from '@interchain-ui/react';
+import { Box, BoxProps, Icon, IconName, IconProps } from '@interchain-ui/react';
 
 type Variant = 'primary' | 'outline';
 type ButtonIcon = IconName | JSX.Element;
@@ -10,6 +10,7 @@ type ButtonProps = {
   disabled?: boolean;
   leftIcon?: ButtonIcon;
   rightIcon?: ButtonIcon;
+  iconColor?: IconProps['color'];
 } & BoxProps;
 
 const variantStyles: Record<Variant, BoxProps> = {
@@ -35,8 +36,9 @@ const variantStyles: Record<Variant, BoxProps> = {
 export const Button = ({
   children,
   onClick,
-  variant = 'primary',
+  variant = 'outline',
   disabled = false,
+  iconColor = 'inherit',
   leftIcon,
   rightIcon,
   ...rest
@@ -51,7 +53,7 @@ export const Button = ({
       display="flex"
       alignItems="center"
       justifyContent="center"
-      gap="6px"
+      gap="10px"
       cursor="pointer"
       fontSize="16px"
       fontWeight="500"
@@ -62,7 +64,7 @@ export const Button = ({
       {...rest}
     >
       {typeof leftIcon === 'string' ? (
-        <Icon name={leftIcon} size="$xl" />
+        <Icon name={leftIcon} size="$lg" color={iconColor} />
       ) : (
         leftIcon
       )}
@@ -70,7 +72,7 @@ export const Button = ({
       {children}
 
       {typeof rightIcon === 'string' ? (
-        <Icon name={rightIcon} size="$xl" />
+        <Icon name={rightIcon} size="$lg" color={iconColor} />
       ) : (
         rightIcon
       )}

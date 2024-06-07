@@ -1,12 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { chains } from '@/config';
 
 interface ChainStore {
   selectedChain: string;
 }
 
 const defaultValues: ChainStore = {
-  selectedChain: 'osmosis',
+  selectedChain: chains[0].chain_name,
 };
 
 export const useChainStore = create<ChainStore>()(

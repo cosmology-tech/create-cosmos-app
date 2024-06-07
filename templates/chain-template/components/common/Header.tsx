@@ -1,80 +1,42 @@
-import {
-  Box,
-  Button,
-  Icon,
-  Link,
-  Text,
-  useColorModeValue,
-  useTheme,
-} from "@interchain-ui/react";
-import { dependencies } from "@/config";
+import { Box, useTheme } from '@interchain-ui/react';
+import { useChain } from '@cosmos-kit/react';
 
-const stacks = ["CosmosKit", "Next.js"];
+import { useChainStore } from '@/contexts';
+import { ChainDropdown } from './ChainDropdown';
+import { Button } from './Button';
+import { useCopyToClipboard } from '@/hooks';
+import { shortenAddress } from '@/utils';
 
-const stargazejs = dependencies[0];
-
-export function Header() {
+export const Header = () => {
+  const { selectedChain } = useChainStore();
   const { theme, setTheme } = useTheme();
-
-  const toggleColorMode = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
+  const { address } = useChain(selectedChain);
+  const { isCopied, copyToClipboard } = useCopyToClipboard();
 
   return (
-    <>
-      <Box display="flex" justifyContent="end" mb="$8">
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="flex-end"
+      gap="10px"
+      mb="30px"
+    >
+      {address && (
         <Button
-          intent="secondary"
-          size="sm"
-          attributes={{
-            paddingX: 0,
-          }}
-          onClick={toggleColorMode}
+          rightIcon={isCopied ? 'checkLine' : 'copy'}
+          iconColor={isCopied ? '$textSuccess' : 'inherit'}
+          onClick={() => copyToClipboard(address)}
+          px="10px"
         >
-          <Icon name={useColorModeValue("moonLine", "sunLine")} />
+          {shortenAddress(address)}
         </Button>
-      </Box>
-
-      <Box textAlign="center">
-        <Text
-          as="h1"
-          fontWeight="$extrabold"
-          fontSize={{ mobile: "$6xl", tablet: "$10xl" }}
-          attributes={{
-            marginBottom: "$8",
-          }}
-        >
-          Create Cosmos App
-        </Text>
-        <Text as="h2" fontWeight="$bold">
-          <Text
-            as="span"
-            fontSize={{ mobile: "$3xl", tablet: "$8xl", desktop: "$8xl" }}
-          >
-            Welcome to&nbsp;
-          </Text>
-          <Text
-            as="span"
-            fontSize={{ mobile: "$3xl", tablet: "$8xl", desktop: "$8xl" }}
-            color={useColorModeValue("$primary500", "$primary200")}
-          >
-            {stacks.join(" + ")}
-            {" + "}
-
-            <Link
-              href={stargazejs.name}
-              target="_blank"
-              rel="noreferrer"
-              attributes={{
-                color: useColorModeValue("$primary500", "$primary200"),
-                fontSize: { mobile: "$4xl", tablet: "$8xl", desktop: "$8xl" },
-              }}
-            >
-              {stargazejs.name}
-            </Link>
-          </Text>
-        </Text>
-      </Box>
-    </>
+      )}
+      <ChainDropdown />
+      <Button
+        leftIcon={theme === 'dark' ? 'moonLine' : 'sunLine'}
+        px="10px"
+        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      />
+    </Box>
   );
-}
+};

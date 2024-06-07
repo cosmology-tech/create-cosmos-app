@@ -8,6 +8,7 @@ import { assets, chains } from 'chain-registry';
 import {
   Box,
   ThemeProvider,
+  Toaster,
   useColorModeValue,
   useTheme,
 } from '@interchain-ui/react';
@@ -49,6 +50,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         >
           {/* @ts-ignore */}
           <Component {...pageProps} />
+          <Toaster position="top-right" closeButton={true} />
         </Box>
       </ChainProvider>
     </ThemeProvider>
