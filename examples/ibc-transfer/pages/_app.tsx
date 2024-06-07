@@ -69,8 +69,6 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       >
         <QueryClientProvider client={queryClient}>
           <main id="main" className={themeClass}>
-            {/* TODO fix type error */}
-            {/* @ts-ignore */}
             <Component {...pageProps} />
           </main>
         </QueryClientProvider>

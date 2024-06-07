@@ -42,7 +42,8 @@
     "@cosmjs/tendermint-rpc": "0.32.0",
     "@cosmology/lcd": "^0.12.0",
     "@cosmos-kit/react": "2.10.9",
-    "@interchain-ui/react": "1.21.16",
+    "@interchain-ui/react": "^1.23.16",
+    "@interchain-ui/react-no-ssr": "^0.1.2",
     "@tanstack/react-query": "4.32.0",
     "bignumber.js": "9.1.0",
     "chain-registry": "1.20.0",
@@ -55,8 +56,7 @@
     "react-calendar": "4.8.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
-    "react-markdown": "9.0.1",
-    "react-no-ssr": "1.1.0"
+    "react-markdown": "9.0.1"
   },
   "devDependencies": {
     "@confio/relayer": "0.7.0",
@@ -70,7 +70,6 @@
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
-    "@types/react-no-ssr": "1.1.7",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
     "generate-lockfile": "0.0.12",
@@ -79,6 +78,6 @@
     "node-fetch": "^2.6.9",
     "sinon": "17.0.1",
     "ts-jest": "^29.1.0",
-    "typescript": "4.9.3"
+    "typescript": "^5.1.6"
   }
 }
