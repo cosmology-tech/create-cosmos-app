@@ -27,6 +27,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Clone example
+        run: |
+          cp -r ./examples/${{ matrix.example }}/ ${{ github.workspace }}/examples/${{ matrix.example }}
+          cd ${{ github.workspace }}/examples/${{ matrix.example }}
+          yarn install
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -35,6 +41,7 @@ jobs:
       - name: Set up Yarn
         uses: threeal/setup-yarn-action@v2.0.0
 
-      - name: Build asset-list
-        working-directory: ./examples/${{ matrix.example }}
-        run: yarn install && yarn build
+      - name: Build example project
+        run: |
+          cd ${{ github.workspace }}/examples/${{ matrix.example }}
+          yarn build
