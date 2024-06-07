@@ -13,18 +13,18 @@ jobs:
       matrix:
         include:
           - example:
-            [
-              asset-list,
-              authz,
-              vote-proposal,
-              ibc-transfer,
-              swap-tokens,
-              provide-liquidity,
-              nft,
-            ]
-            template: []
+              [
+                asset-list,
+                authz,
+                vote-proposal,
+                ibc-transfer,
+                swap-tokens,
+                provide-liquidity,
+                nft,
+              ]
+            template: null
 
-          - example: []
+          - example: null
             template: [connect-chain, connect-multi-chain, website]
 
     steps:
