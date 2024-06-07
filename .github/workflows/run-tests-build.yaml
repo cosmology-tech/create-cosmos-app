@@ -11,28 +11,48 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        example:
-          [
-            asset-list,
-            authz,
-            vote-proposal,
-            ibc-transfer,
-            swap-tokens,
-            provide-liquidity,
-            nft,
-            connect-chain,
-            connect-multi-chain,
-          ]
+        include:
+          - example:
+            [
+              asset-list,
+              authz,
+              vote-proposal,
+              ibc-transfer,
+              swap-tokens,
+              provide-liquidity,
+              nft,
+            ]
+            template: []
+
+          - example: []
+            template: [connect-chain, connect-multi-chain, website]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set template_path Environment Variable
+        run: |
+          if [ "${{ toJson(matrix.example) }}" != "[]" ]; then
+            echo "template_path=examples" >> $GITHUB_ENV
+            echo "ci_template_path=ci-examples" >> $GITHUB_ENV
+          elif [ "${{ toJson(matrix.template) }}" != "[]" ]; then
+            echo "template_path=templates/" >> $GITHUB_ENV
+            echo "ci_template_path=ci-templates" >> $GITHUB_ENV
+          else
+            echo "template_path=" >> $GITHUB_ENV  # setting it empty if both are empty arrays
+          fi
+
+      - name: Log
+        run: |
+          echo "Using template_path: $template_path"
+          echo "Using ci_template_path: $ci_template_path"
+
       - name: Clone example
         run: |
-          mkdir -p ${{ github.workspace }}/ci-examples/${{ matrix.example }}
-          cp -r ./examples/${{ matrix.example }}/ ${{ github.workspace }}/ci-examples/${{ matrix.example }}
-          cd ${{ github.workspace }}/ci-examples/${{ matrix.example }}
+          mkdir -p ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
+          cp -r ./${template_path}/${{ matrix.example }}/ ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
+          cd ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -44,6 +64,6 @@ jobs:
 
       - name: Build example project
         run: |
-          cd ${{ github.workspace }}/ci-examples/${{ matrix.example }}
+          cd ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
           yarn install
           yarn build
