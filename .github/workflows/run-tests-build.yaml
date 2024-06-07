@@ -22,9 +22,9 @@ jobs:
                 provide-liquidity,
                 nft,
               ]
-            template: null
+            template: []
 
-          - example: null
+          - example: []
             template: [connect-chain, connect-multi-chain, website]
 
     steps:
@@ -50,9 +50,15 @@ jobs:
 
       - name: Clone example
         run: |
-          mkdir -p ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
-          cp -r ./${template_path}/${{ matrix.example }}/ ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
-          cd ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
+          if [ "${{ toJson(matrix.example) }}" != "[]" ]; then
+            mkdir -p ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
+            cp -r ./${template_path}/${{ matrix.example }}/ ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
+            cd ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
+          elif [ "${{ toJson(matrix.template) }}" != "[]" ]; then
+            mkdir -p ${{ github.workspace }}/$ci_template_path/${{ matrix.template }}
+            cp -r ./${template_path}/${{ matrix.template }}/ ${{ github.workspace }}/$ci_template_path/${{ matrix.template }}
+            cd ${{ github.workspace }}/$ci_template_path/${{ matrix.template }}
+          fi
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
