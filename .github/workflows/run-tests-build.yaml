@@ -11,7 +11,7 @@ jobs:
   find-packages:
     runs-on: ubuntu-latest
     outputs:
-      packages: ${{ steps.set-packages.outputs.packages }}
+      packages: ${{ steps.find-packages.outputs.packages }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -20,9 +20,12 @@ jobs:
         id: find-packages
         run: |
           packages=$(ls -d examples/* | jq -R -s -c 'split("\n") | map(select(length > 0))')
-          echo "packages=$packages" >> $GITHUB_ENV
           echo "::set-output name=packages::$packages"
+          echo "packages=$packages" >> $GITHUB_ENV
         shell: bash
+
+      - name: Debug packages output
+        run: echo ${{ steps.find-packages.outputs.packages }}
 
   build:
     needs: find-packages
