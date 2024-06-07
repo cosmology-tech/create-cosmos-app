@@ -33,7 +33,6 @@ jobs:
           mkdir -p ${{ github.workspace }}/ci-examples/${{ matrix.example }}
           cp -r ./examples/${{ matrix.example }}/ ${{ github.workspace }}/ci-examples/${{ matrix.example }}
           cd ${{ github.workspace }}/ci-examples/${{ matrix.example }}
-          yarn install
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -46,4 +45,5 @@ jobs:
       - name: Build example project
         run: |
           cd ${{ github.workspace }}/ci-examples/${{ matrix.example }}
+          yarn install
           yarn build
