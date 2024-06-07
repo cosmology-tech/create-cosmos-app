@@ -35,16 +35,16 @@ jobs:
           # Store first
           example_json="${{ toJson(matrix.example) }}"
 
-          if [[ "$example_json" == *'"connect-chain"'* ]] || [[ "$example_json" == *'"connect-multi-chain"'* ]] || [[ "$example_json" == *'"website"'* ]]; then
-             echo "template_path=templates" >> $GITHUB_ENV
-             echo "ci_template_path=ci-templates" >> $GITHUB_ENV
-           elif [ "$example_json" != "[]" ]; then
-             echo "template_path=examples" >> $GITHUB_ENV
-             echo "ci_template_path=ci-examples" >> $GITHUB_ENV
-           else
-             echo "template_path=" >> $GITHUB_ENV  # setting it empty if both are empty arrays
-             echo "ci_template_path=" >> $GITHUB_ENV  # setting it empty if both are empty arrays
-           fi
+          if echo "$example_json" | jq -e '.[] | select(. == "connect-chain" or . == "connect-multi-chain" or . == "website")'; then
+            echo "template_path=templates" >> $GITHUB_ENV
+            echo "ci_template_path=ci-templates" >> $GITHUB_ENV
+          elif [ "$example_json" != "[]" ]; then
+            echo "template_path=examples" >> $GITHUB_ENV
+            echo "ci_template_path=ci-examples" >> $GITHUB_ENV
+          else
+            echo "template_path=" >> $GITHUB_ENV  # setting it empty if both are empty arrays
+            echo "ci_template_path=" >> $GITHUB_ENV  # setting it empty if both are empty arrays
+          fi
 
       - name: Log
         run: |
