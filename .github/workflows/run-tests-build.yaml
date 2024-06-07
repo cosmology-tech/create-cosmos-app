@@ -53,7 +53,8 @@ jobs:
 
       - name: Clone example
         run: |
-          echo "Cloning example: ./$template_path/${{ matrix.example }}/" into "{{ github.workspace }}/$ci_template_path/${{ matrix.example }}"
+          echo "Cloning example: ./$template_path/${{ matrix.example }}/" into "${{ github.workspace }}/$ci_template_path/${{ matrix.example }}"
+
           mkdir -p ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
           cp -r ./$template_path/${{ matrix.example }}/ ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
           cd ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
@@ -68,6 +69,8 @@ jobs:
 
       - name: Build example project
         run: |
+          echo "Building example: ${{ matrix.example }} in directory ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}"
           cd ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
+          ls -la
           yarn install
           yarn build
