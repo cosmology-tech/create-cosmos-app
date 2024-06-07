@@ -42,7 +42,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16' # Ensure this matches your Node.js version
+          node-version: '20' # Ensure this matches your Node.js version
 
       - name: Install Yarn
         run: |
