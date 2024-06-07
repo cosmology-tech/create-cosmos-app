@@ -30,8 +30,8 @@ jobs:
 
       - name: Clone example
         run: |
-          cp -r ./examples/${{ matrix.example }}/ ${{ github.workspace }}/examples/${{ matrix.example }}
-          cd ${{ github.workspace }}/examples/${{ matrix.example }}
+          cp -r ./examples/${{ matrix.example }}/ ${{ github.workspace }}/ci-examples/${{ matrix.example }}
+          cd ${{ github.workspace }}/ci-examples/${{ matrix.example }}
           yarn install
 
       - name: Set up Node.js
@@ -44,5 +44,5 @@ jobs:
 
       - name: Build example project
         run: |
-          cd ${{ github.workspace }}/examples/${{ matrix.example }}
+          cd ${{ github.workspace }}/ci-examples/${{ matrix.example }}
           yarn build
