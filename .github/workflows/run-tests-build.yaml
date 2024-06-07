@@ -30,6 +30,7 @@ jobs:
 
       - name: Clone example
         run: |
+          mkdir -p ${{ github.workspace }}/ci-examples/${{ matrix.example }}
           cp -r ./examples/${{ matrix.example }}/ ${{ github.workspace }}/ci-examples/${{ matrix.example }}
           cd ${{ github.workspace }}/ci-examples/${{ matrix.example }}
           yarn install
