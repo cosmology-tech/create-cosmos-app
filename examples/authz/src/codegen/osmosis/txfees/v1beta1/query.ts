@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { FeeToken, FeeTokenAmino, FeeTokenSDKType } from "./feetoken";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
 import { Decimal } from "@cosmjs/math";
@@ -192,7 +193,7 @@ export const QueryFeeTokensRequest = {
     const obj = createBaseQueryFeeTokensRequest();
     return obj;
   },
-  toJSON(_: QueryFeeTokensRequest): unknown {
+  toJSON(_: QueryFeeTokensRequest): JsonSafe<QueryFeeTokensRequest> {
     const obj: any = {};
     return obj;
   },
@@ -284,7 +285,7 @@ export const QueryFeeTokensResponse = {
     if (Array.isArray(object?.feeTokens)) obj.feeTokens = object.feeTokens.map((e: any) => FeeToken.fromJSON(e));
     return obj;
   },
-  toJSON(message: QueryFeeTokensResponse): unknown {
+  toJSON(message: QueryFeeTokensResponse): JsonSafe<QueryFeeTokensResponse> {
     const obj: any = {};
     if (message.feeTokens) {
       obj.feeTokens = message.feeTokens.map(e => e ? FeeToken.toJSON(e) : undefined);
@@ -395,7 +396,7 @@ export const QueryDenomSpotPriceRequest = {
     if (isSet(object.denom)) obj.denom = String(object.denom);
     return obj;
   },
-  toJSON(message: QueryDenomSpotPriceRequest): unknown {
+  toJSON(message: QueryDenomSpotPriceRequest): JsonSafe<QueryDenomSpotPriceRequest> {
     const obj: any = {};
     message.denom !== undefined && (obj.denom = message.denom);
     return obj;
@@ -504,7 +505,7 @@ export const QueryDenomSpotPriceResponse = {
     if (isSet(object.spotPrice)) obj.spotPrice = String(object.spotPrice);
     return obj;
   },
-  toJSON(message: QueryDenomSpotPriceResponse): unknown {
+  toJSON(message: QueryDenomSpotPriceResponse): JsonSafe<QueryDenomSpotPriceResponse> {
     const obj: any = {};
     message.poolID !== undefined && (obj.poolID = (message.poolID || BigInt(0)).toString());
     message.spotPrice !== undefined && (obj.spotPrice = message.spotPrice);
@@ -615,7 +616,7 @@ export const QueryDenomPoolIdRequest = {
     if (isSet(object.denom)) obj.denom = String(object.denom);
     return obj;
   },
-  toJSON(message: QueryDenomPoolIdRequest): unknown {
+  toJSON(message: QueryDenomPoolIdRequest): JsonSafe<QueryDenomPoolIdRequest> {
     const obj: any = {};
     message.denom !== undefined && (obj.denom = message.denom);
     return obj;
@@ -716,7 +717,7 @@ export const QueryDenomPoolIdResponse = {
     if (isSet(object.poolID)) obj.poolID = BigInt(object.poolID.toString());
     return obj;
   },
-  toJSON(message: QueryDenomPoolIdResponse): unknown {
+  toJSON(message: QueryDenomPoolIdResponse): JsonSafe<QueryDenomPoolIdResponse> {
     const obj: any = {};
     message.poolID !== undefined && (obj.poolID = (message.poolID || BigInt(0)).toString());
     return obj;
@@ -810,7 +811,7 @@ export const QueryBaseDenomRequest = {
     const obj = createBaseQueryBaseDenomRequest();
     return obj;
   },
-  toJSON(_: QueryBaseDenomRequest): unknown {
+  toJSON(_: QueryBaseDenomRequest): JsonSafe<QueryBaseDenomRequest> {
     const obj: any = {};
     return obj;
   },
@@ -902,7 +903,7 @@ export const QueryBaseDenomResponse = {
     if (isSet(object.baseDenom)) obj.baseDenom = String(object.baseDenom);
     return obj;
   },
-  toJSON(message: QueryBaseDenomResponse): unknown {
+  toJSON(message: QueryBaseDenomResponse): JsonSafe<QueryBaseDenomResponse> {
     const obj: any = {};
     message.baseDenom !== undefined && (obj.baseDenom = message.baseDenom);
     return obj;

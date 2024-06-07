@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
+import { JsonSafe } from "../../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../../registry";
 export const protobufPackage = "cosmos.crypto.hd.v1";
 /** BIP44Params is used as path field in ledger item in Record. */
@@ -128,7 +129,7 @@ export const BIP44Params = {
     if (isSet(object.addressIndex)) obj.addressIndex = Number(object.addressIndex);
     return obj;
   },
-  toJSON(message: BIP44Params): unknown {
+  toJSON(message: BIP44Params): JsonSafe<BIP44Params> {
     const obj: any = {};
     message.purpose !== undefined && (obj.purpose = Math.round(message.purpose));
     message.coinType !== undefined && (obj.coinType = Math.round(message.coinType));

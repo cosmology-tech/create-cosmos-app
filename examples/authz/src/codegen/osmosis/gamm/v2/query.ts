@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "osmosis.gamm.v2";
 /**
@@ -130,7 +131,7 @@ export const QuerySpotPriceRequest = {
     if (isSet(object.quoteAssetDenom)) obj.quoteAssetDenom = String(object.quoteAssetDenom);
     return obj;
   },
-  toJSON(message: QuerySpotPriceRequest): unknown {
+  toJSON(message: QuerySpotPriceRequest): JsonSafe<QuerySpotPriceRequest> {
     const obj: any = {};
     message.poolId !== undefined && (obj.poolId = (message.poolId || BigInt(0)).toString());
     message.baseAssetDenom !== undefined && (obj.baseAssetDenom = message.baseAssetDenom);
@@ -249,7 +250,7 @@ export const QuerySpotPriceResponse = {
     if (isSet(object.spotPrice)) obj.spotPrice = String(object.spotPrice);
     return obj;
   },
-  toJSON(message: QuerySpotPriceResponse): unknown {
+  toJSON(message: QuerySpotPriceResponse): JsonSafe<QuerySpotPriceResponse> {
     const obj: any = {};
     message.spotPrice !== undefined && (obj.spotPrice = message.spotPrice);
     return obj;

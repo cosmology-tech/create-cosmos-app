@@ -2,6 +2,7 @@
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 import { toUtf8, fromUtf8 } from "@cosmjs/encoding";
 export const protobufPackage = "cosmwasm.wasm.v1";
@@ -422,7 +423,7 @@ export const AccessTypeParam = {
     if (isSet(object.value)) obj.value = accessTypeFromJSON(object.value);
     return obj;
   },
-  toJSON(message: AccessTypeParam): unknown {
+  toJSON(message: AccessTypeParam): JsonSafe<AccessTypeParam> {
     const obj: any = {};
     message.value !== undefined && (obj.value = accessTypeToJSON(message.value));
     return obj;
@@ -531,7 +532,7 @@ export const AccessConfig = {
     if (isSet(object.address)) obj.address = String(object.address);
     return obj;
   },
-  toJSON(message: AccessConfig): unknown {
+  toJSON(message: AccessConfig): JsonSafe<AccessConfig> {
     const obj: any = {};
     message.permission !== undefined && (obj.permission = accessTypeToJSON(message.permission));
     message.address !== undefined && (obj.address = message.address);
@@ -656,7 +657,7 @@ export const Params = {
     if (isSet(object.maxWasmCodeSize)) obj.maxWasmCodeSize = BigInt(object.maxWasmCodeSize.toString());
     return obj;
   },
-  toJSON(message: Params): unknown {
+  toJSON(message: Params): JsonSafe<Params> {
     const obj: any = {};
     message.codeUploadAccess !== undefined && (obj.codeUploadAccess = message.codeUploadAccess ? AccessConfig.toJSON(message.codeUploadAccess) : undefined);
     message.instantiateDefaultPermission !== undefined && (obj.instantiateDefaultPermission = accessTypeToJSON(message.instantiateDefaultPermission));
@@ -793,7 +794,7 @@ export const CodeInfo = {
     if (isSet(object.instantiateConfig)) obj.instantiateConfig = AccessConfig.fromJSON(object.instantiateConfig);
     return obj;
   },
-  toJSON(message: CodeInfo): unknown {
+  toJSON(message: CodeInfo): JsonSafe<CodeInfo> {
     const obj: any = {};
     message.codeHash !== undefined && (obj.codeHash = base64FromBytes(message.codeHash !== undefined ? message.codeHash : new Uint8Array()));
     message.creator !== undefined && (obj.creator = message.creator);
@@ -960,7 +961,7 @@ export const ContractInfo = {
     if (isSet(object.extension)) obj.extension = GlobalDecoderRegistry.fromJSON(object.extension);
     return obj;
   },
-  toJSON(message: ContractInfo): unknown {
+  toJSON(message: ContractInfo): JsonSafe<ContractInfo> {
     const obj: any = {};
     message.codeId !== undefined && (obj.codeId = (message.codeId || BigInt(0)).toString());
     message.creator !== undefined && (obj.creator = message.creator);
@@ -1139,7 +1140,7 @@ export const ContractCodeHistoryEntry = {
     if (isSet(object.msg)) obj.msg = bytesFromBase64(object.msg);
     return obj;
   },
-  toJSON(message: ContractCodeHistoryEntry): unknown {
+  toJSON(message: ContractCodeHistoryEntry): JsonSafe<ContractCodeHistoryEntry> {
     const obj: any = {};
     message.operation !== undefined && (obj.operation = contractCodeHistoryOperationTypeToJSON(message.operation));
     message.codeId !== undefined && (obj.codeId = (message.codeId || BigInt(0)).toString());
@@ -1276,7 +1277,7 @@ export const AbsoluteTxPosition = {
     if (isSet(object.txIndex)) obj.txIndex = BigInt(object.txIndex.toString());
     return obj;
   },
-  toJSON(message: AbsoluteTxPosition): unknown {
+  toJSON(message: AbsoluteTxPosition): JsonSafe<AbsoluteTxPosition> {
     const obj: any = {};
     message.blockHeight !== undefined && (obj.blockHeight = (message.blockHeight || BigInt(0)).toString());
     message.txIndex !== undefined && (obj.txIndex = (message.txIndex || BigInt(0)).toString());
@@ -1397,7 +1398,7 @@ export const Model = {
     if (isSet(object.value)) obj.value = bytesFromBase64(object.value);
     return obj;
   },
-  toJSON(message: Model): unknown {
+  toJSON(message: Model): JsonSafe<Model> {
     const obj: any = {};
     message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
     message.value !== undefined && (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));

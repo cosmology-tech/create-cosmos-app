@@ -2,6 +2,7 @@
 import { Params, ParamsAmino, ParamsSDKType } from "./params";
 import { DenomAuthorityMetadata, DenomAuthorityMetadataAmino, DenomAuthorityMetadataSDKType } from "./authorityMetadata";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "osmosis.tokenfactory.v1beta1";
@@ -193,7 +194,7 @@ export const QueryParamsRequest = {
     const obj = createBaseQueryParamsRequest();
     return obj;
   },
-  toJSON(_: QueryParamsRequest): unknown {
+  toJSON(_: QueryParamsRequest): JsonSafe<QueryParamsRequest> {
     const obj: any = {};
     return obj;
   },
@@ -285,7 +286,7 @@ export const QueryParamsResponse = {
     if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
     return obj;
   },
-  toJSON(message: QueryParamsResponse): unknown {
+  toJSON(message: QueryParamsResponse): JsonSafe<QueryParamsResponse> {
     const obj: any = {};
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
     return obj;
@@ -388,7 +389,7 @@ export const QueryDenomAuthorityMetadataRequest = {
     if (isSet(object.denom)) obj.denom = String(object.denom);
     return obj;
   },
-  toJSON(message: QueryDenomAuthorityMetadataRequest): unknown {
+  toJSON(message: QueryDenomAuthorityMetadataRequest): JsonSafe<QueryDenomAuthorityMetadataRequest> {
     const obj: any = {};
     message.denom !== undefined && (obj.denom = message.denom);
     return obj;
@@ -489,7 +490,7 @@ export const QueryDenomAuthorityMetadataResponse = {
     if (isSet(object.authorityMetadata)) obj.authorityMetadata = DenomAuthorityMetadata.fromJSON(object.authorityMetadata);
     return obj;
   },
-  toJSON(message: QueryDenomAuthorityMetadataResponse): unknown {
+  toJSON(message: QueryDenomAuthorityMetadataResponse): JsonSafe<QueryDenomAuthorityMetadataResponse> {
     const obj: any = {};
     message.authorityMetadata !== undefined && (obj.authorityMetadata = message.authorityMetadata ? DenomAuthorityMetadata.toJSON(message.authorityMetadata) : undefined);
     return obj;
@@ -592,7 +593,7 @@ export const QueryDenomsFromCreatorRequest = {
     if (isSet(object.creator)) obj.creator = String(object.creator);
     return obj;
   },
-  toJSON(message: QueryDenomsFromCreatorRequest): unknown {
+  toJSON(message: QueryDenomsFromCreatorRequest): JsonSafe<QueryDenomsFromCreatorRequest> {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
     return obj;
@@ -693,7 +694,7 @@ export const QueryDenomsFromCreatorResponse = {
     if (Array.isArray(object?.denoms)) obj.denoms = object.denoms.map((e: any) => String(e));
     return obj;
   },
-  toJSON(message: QueryDenomsFromCreatorResponse): unknown {
+  toJSON(message: QueryDenomsFromCreatorResponse): JsonSafe<QueryDenomsFromCreatorResponse> {
     const obj: any = {};
     if (message.denoms) {
       obj.denoms = message.denoms.map(e => e);

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "yarn build:tsc && next build",
+    "build:tsc": "yarn tsc -p tsconfig.json --outDir main --module commonjs",
     "clean": "rimraf ./types && rimraf ./src/codegen",
     "locks:remove": "rm -f yarn.lock",
     "locks:create": "generate-lockfile --lockfile ../../yarn.lock --package package.json --write yarn.lock --force",

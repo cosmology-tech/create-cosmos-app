@@ -2,6 +2,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "osmosis.mint.v1beta1";
 /** Minter represents the minting state. */
@@ -272,7 +273,7 @@ export const Minter = {
     if (isSet(object.epochProvisions)) obj.epochProvisions = String(object.epochProvisions);
     return obj;
   },
-  toJSON(message: Minter): unknown {
+  toJSON(message: Minter): JsonSafe<Minter> {
     const obj: any = {};
     message.epochProvisions !== undefined && (obj.epochProvisions = message.epochProvisions);
     return obj;
@@ -381,7 +382,7 @@ export const WeightedAddress = {
     if (isSet(object.weight)) obj.weight = String(object.weight);
     return obj;
   },
-  toJSON(message: WeightedAddress): unknown {
+  toJSON(message: WeightedAddress): JsonSafe<WeightedAddress> {
     const obj: any = {};
     message.address !== undefined && (obj.address = message.address);
     message.weight !== undefined && (obj.weight = message.weight);
@@ -514,7 +515,7 @@ export const DistributionProportions = {
     if (isSet(object.communityPool)) obj.communityPool = String(object.communityPool);
     return obj;
   },
-  toJSON(message: DistributionProportions): unknown {
+  toJSON(message: DistributionProportions): JsonSafe<DistributionProportions> {
     const obj: any = {};
     message.staking !== undefined && (obj.staking = message.staking);
     message.poolIncentives !== undefined && (obj.poolIncentives = message.poolIncentives);
@@ -695,7 +696,7 @@ export const Params = {
     if (isSet(object.mintingRewardsDistributionStartEpoch)) obj.mintingRewardsDistributionStartEpoch = BigInt(object.mintingRewardsDistributionStartEpoch.toString());
     return obj;
   },
-  toJSON(message: Params): unknown {
+  toJSON(message: Params): JsonSafe<Params> {
     const obj: any = {};
     message.mintDenom !== undefined && (obj.mintDenom = message.mintDenom);
     message.genesisEpochProvisions !== undefined && (obj.genesisEpochProvisions = message.genesisEpochProvisions);
