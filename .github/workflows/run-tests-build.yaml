@@ -17,22 +17,8 @@ jobs:
           node-version: 20
           cache: yarn
 
-      - name: Install Yarn
-        run: corepack enable
-
-      - name: Cache Yarn
-        id: yarn-cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            .yarn/cache
-            .yarn/unplugged
-            .yarn/build-state.yml
-            .yarn/install-state.gz
-            .pnp.*
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+      - name: Setup Yarn
+        uses: threeal/setup-yarn-action@v2.0.0
 
       - name: Install dependencies
         working-directory: ${{ inputs.cwd }}
