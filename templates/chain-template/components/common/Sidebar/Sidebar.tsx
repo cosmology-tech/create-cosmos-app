@@ -22,6 +22,7 @@ export const Sidebar = ({}: SidebarProps) => {
   return (
     <Box
       width="240px"
+      px="30px"
       pt="30px"
       pb="24px"
       display="flex"
