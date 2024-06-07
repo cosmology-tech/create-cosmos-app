@@ -1,4 +1,12 @@
-import { Link, Box, Button, Icon, Text, useTheme, useColorModeValue } from '@interchain-ui/react';
+import {
+  Link,
+  Box,
+  Button,
+  Icon,
+  Text,
+  useTheme,
+  useColorModeValue,
+} from '@interchain-ui/react';
 import { dependencies } from '@/config';
 
 const stacks = ['CosmosKit', 'Next.js'];
@@ -23,7 +31,7 @@ export function Header() {
           }}
           onClick={toggleColorMode}
         >
-          <Icon name={useColorModeValue('moonLine', 'sunLine')}/>
+          <Icon name={useColorModeValue('moonLine', 'sunLine')} />
         </Button>
       </Box>
 
