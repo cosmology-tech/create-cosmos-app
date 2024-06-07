@@ -9,7 +9,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      max-parallel: 2
+      fail-fast: false
       matrix:
         example:
           [
