@@ -1,0 +1,46 @@
+name: Run Tests Build
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        package: ${{ fromJson(needs.packages.outputs.packages) }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' # Ensure this matches your Node.js version
+
+      - name: Install Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@4.0.0 --activate
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build Next.js project
+        working-directory: ${{ matrix.package }}
+        run: yarn build
+
+  packages:
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.packages.outputs.packages }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Find Next.js packages
+        id: packages
+        run: |
+          echo "::set-output name=packages::$(jq -R -s -c 'split("\n") | map(select(length > 0))' < <(ls -d examples/*))"
