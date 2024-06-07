@@ -35,6 +35,8 @@ jobs:
           # Store first
           example_json="${{ toJson(matrix.example) }}"
 
+          echo "example_matrix: $example_json ${{ matrix.example }}"
+
           if echo "$example_json" | jq -e '.[] | select(. == "connect-chain" or . == "connect-multi-chain" or . == "website")'; then
             echo "template_path=templates" >> $GITHUB_ENV
             echo "ci_template_path=ci-templates" >> $GITHUB_ENV
