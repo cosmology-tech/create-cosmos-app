@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Divider } from '@interchain-ui/react';
 import { ChainName } from 'cosmos-kit';
-import NoSSR from 'react-no-ssr';
+import { ReactNoSSR } from '@interchain-ui/react-no-ssr';
 import { Layout, StakingSection, WalletSection } from '@/components';
 
 export default function MultiChain() {
@@ -15,12 +15,9 @@ export default function MultiChain() {
         setChainName={setChainName}
       />
       <Divider height="0.1px" mt="$12" />
-      {/* TODO fix type error */}
-      {/* Type error: This JSX tag's 'children' prop expects a single child of type 'ReactNode', but multiple children were provided. */}
-      {/* @ts-ignore */}
-      <NoSSR>
+      <ReactNoSSR>
         {selectedChainName && <StakingSection chainName={selectedChainName} />}
-      </NoSSR>
+      </ReactNoSSR>
     </Layout>
   );
 }
