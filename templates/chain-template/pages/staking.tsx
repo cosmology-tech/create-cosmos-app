@@ -1,9 +1,9 @@
 import { Text } from '@interchain-ui/react';
 
-export default function Home() {
+export default function Staking() {
   return (
     <>
-      <Text>Home</Text>
+      <Text>Staking</Text>
     </>
   );
 }

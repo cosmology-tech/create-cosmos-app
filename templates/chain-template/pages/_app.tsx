@@ -1,17 +1,13 @@
 import '../styles/globals.css';
+import '@interchain-ui/react/globalStyles';
 import '@interchain-ui/react/styles';
 
 import type { AppProps } from 'next/app';
 import { SignerOptions, wallets } from 'cosmos-kit';
 import { ChainProvider } from '@cosmos-kit/react';
 import { assets, chains } from 'chain-registry';
-import {
-  Box,
-  ThemeProvider,
-  Toaster,
-  useColorModeValue,
-  useTheme,
-} from '@interchain-ui/react';
+import { Box, ThemeProvider, Toaster, useTheme } from '@interchain-ui/react';
+import { Layout } from '@/components';
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const { themeClass } = useTheme();
@@ -43,14 +39,11 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         // @ts-ignore
         signerOptions={signerOptions}
       >
-        <Box
-          className={themeClass}
-          minHeight="100dvh"
-          backgroundColor={useColorModeValue('$white', '$background')}
-        >
-          {/* @ts-ignore */}
-          <Component {...pageProps} />
-          <Toaster position="top-right" closeButton={true} />
+        <Box className={themeClass}>
+          <Layout>
+            <Component {...pageProps} />
+            <Toaster position="top-right" closeButton={true} />
+          </Layout>
         </Box>
       </ChainProvider>
     </ThemeProvider>

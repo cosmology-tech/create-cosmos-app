@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Box } from '@interchain-ui/react';
+import { Box, useColorModeValue } from '@interchain-ui/react';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 
@@ -11,6 +11,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       minHeight="100vh"
       mx="$auto"
       display="flex"
+      backgroundColor={useColorModeValue('$white', '$background')}
     >
       <Head>
         <title>Create Cosmos App</title>
