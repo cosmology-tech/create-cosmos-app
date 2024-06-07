@@ -50,6 +50,7 @@ jobs:
           corepack prepare yarn@4.0.0 --activate
 
       - name: Install dependencies
+        working-directory: ${{ matrix.package }}
         run: yarn install
 
       - name: Build Next.js project
