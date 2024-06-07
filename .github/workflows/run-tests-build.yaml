@@ -34,7 +34,7 @@ jobs:
         run: |
           example_value="${{ matrix.example }}"
 
-          if [[ "$example_value" == "connect-chain" ]] || [[ "$example_id" == "connect-multi-chain" ]] || [[ "$example_value" == "website" ]]; then
+          if [[ "$example_value" == "connect-chain" ]] || [[ "$example_value" == "connect-multi-chain" ]] || [[ "$example_value" == "website" ]]; then
             echo "template_path=templates" >> $GITHUB_ENV
             echo "ci_template_path=dest" >> $GITHUB_ENV
           else
