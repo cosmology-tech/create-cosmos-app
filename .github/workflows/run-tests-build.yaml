@@ -1,4 +1,4 @@
-name: Run Tests Build
+name: Build Next.js Examples
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ jobs:
   packages:
     runs-on: ubuntu-latest
     outputs:
-      packages: ${{ steps.packages.outputs.packages }}
+      packages: ${{ steps.set-packages-output.outputs.packages }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -19,16 +19,15 @@ jobs:
       - name: Find Next.js packages
         id: find-packages
         run: |
-          echo "packages=$(ls -d examples/*)" >> $GITHUB_ENV
+          echo "PACKAGES=$(ls -d examples/* | jq -R -s -c 'split(\"\\n\") | map(select(length > 0))')" >> $GITHUB_ENV
         shell: bash
 
       - name: Set packages output
         id: set-packages-output
         run: |
-          echo "packages=$(printf '%s\n' ${{ env.packages }} | jq -R -s -c 'split("\n") | map(select(length > 0))')" >> $GITHUB_ENV
+          echo ${{ env.PACKAGES }}
+          echo "::set-output name=packages::${{ env.PACKAGES }}"
         shell: bash
-        env:
-          packages: ${{ env.packages }}
 
   build:
     needs: packages
