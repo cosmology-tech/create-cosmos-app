@@ -1,4 +1,5 @@
-name: Build Next.js examples
+name: CI
+
 on:
   pull_request:
     types: [opened, reopened, synchronize]
@@ -14,50 +15,114 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: '20'
+          cache: 'yarn'
 
-      - name: Install Yarn
+      - name: Enable Corepack
         run: corepack enable
 
+      - name: Cache Yarn
+        id: yarn-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .yarn/cache
+            .yarn/unplugged
+            .yarn/build-state.yml
+            .yarn/install-state.gz
+            .pnp.*
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
       - name: Install dependencies
+        run: yarn install
+
+      - name: Cache asset-list Next.js build
+        id: nextjs-cache-asset-list
+        uses: actions/cache@v4
+        with:
+          path: ./examples/asset-list/.next/cache
+          key: ${{ runner.os }}-nextjs-asset-list-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-asset-list-
+
+      - name: Install asset-list dependencies
+        working-directory: ./examples/asset-list
         run: yarn install
 
       - name: Build asset-list
         working-directory: ./examples/asset-list
         run: yarn build
 
+      - name: Cache authz Next.js build
+        id: nextjs-cache-authz
+        uses: actions/cache@v4
+        with:
+          path: ./examples/authz/.next/cache
+          key: ${{ runner.os }}-nextjs-authz-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-authz-
+
+      - name: Install authz dependencies
+        working-directory: ./examples/authz
+        run: yarn install
+
       - name: Build authz
         working-directory: ./examples/authz
         run: yarn build
+
+      - name: Cache vote-proposal Next.js build
+        id: nextjs-cache-vote-proposal
+        uses: actions/cache@v4
+        with:
+          path: ./examples/vote-proposal/.next/cache
+          key: ${{ runner.os }}-nextjs-vote-proposal-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-vote-proposal-
+
+      - name: Install vote-proposal dependencies
+        working-directory: ./examples/vote-proposal
+        run: yarn install
 
       - name: Build vote-proposal
         working-directory: ./examples/vote-proposal
         run: yarn build
 
+      - name: Cache ibc-transfer Next.js build
+        id: nextjs-cache-ibc-transfer
+        uses: actions/cache@v4
+        with:
+          path: ./examples/ibc-transfer/.next/cache
+          key: ${{ runner.os }}-nextjs-ibc-transfer-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-ibc-transfer-
+
+      - name: Install ibc-transfer dependencies
+        working-directory: ./examples/ibc-transfer
+        run: yarn install
+
       - name: Build ibc-transfer
         working-directory: ./examples/ibc-transfer
         run: yarn build
+
+      - name: Cache swap-tokens Next.js build
+        id: nextjs-cache-swap-tokens
+        uses: actions/cache@v4
+        with:
+          path: ./examples/swap-tokens/.next/cache
+          key: ${{ runner.os }}-nextjs-swap-tokens-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-swap-tokens-
+
+      - name: Install swap-tokens dependencies
+        working-directory: ./examples/swap-tokens
+        run: yarn install
 
       - name: Build swap-tokens
         working-directory: ./examples/swap-tokens
         run: yarn build
 
-      - name: Build provide-liquidity
-        working-directory: ./examples/provide-liquidity
-        run: yarn build
-
-      - name: Build nft
-        working-directory: ./examples/nft
-        run: yarn build
-
-      - name: Build connect-chain
-        working-directory: ./examples/connect-chain
-        run: yarn build
-
-      - name: Build connect-multi-chain
-        working-directory: ./examples/connect-multi-chain
-        run: yarn build
-
-      - name: Build website
-        working-directory: ./examples/website
-        run: yarn build
+      - name: Cache provide-liquidity Next.js build
+        id: nextjs-cache-provide-liquidity
+        uses: actions/cache@v
