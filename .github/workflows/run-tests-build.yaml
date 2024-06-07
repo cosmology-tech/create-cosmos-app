@@ -69,8 +69,8 @@ jobs:
 
       - name: Build example project
         run: |
-          echo "Building example: ${{ matrix.example }} in directory ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}"
-          cd ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
+          echo "Building example: ${{ matrix.example }} in directory ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}/${{ matrix.example }}"
+          cd ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}/${{ matrix.example }}
           ls -la
           yarn install
           yarn build
