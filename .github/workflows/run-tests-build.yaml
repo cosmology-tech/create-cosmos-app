@@ -19,10 +19,6 @@ jobs:
       - name: Setup Yarn
         uses: threeal/setup-yarn-action@v2.0.0
 
-      - name: Install dependencies
-        working-directory: ${{ inputs.cwd }}
-        run: yarn install
-
       - name: Build asset-list
         working-directory: ./examples/asset-list
         run: yarn install && yarn build
