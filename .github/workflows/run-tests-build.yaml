@@ -32,20 +32,14 @@ jobs:
 
       - name: Set template_path Environment Variable
         run: |
-          # Store first
-          example_json="${{ toJson(matrix.example) }}"
+          example_value="${{ matrix.example }}"
 
-          echo "example_matrix: $example_json ${{ matrix.example }}"
-
-          if echo "$example_json" | jq -e '.[] | select(. == "connect-chain" or . == "connect-multi-chain" or . == "website")'; then
+          if [[ "$example_value" == "connect-chain" ]] || [[ "$example_id" == "connect-multi-chain" ]] || [[ "$example_value" == "website" ]]; then
             echo "template_path=templates" >> $GITHUB_ENV
             echo "ci_template_path=ci-templates" >> $GITHUB_ENV
-          elif [ "$example_json" != "[]" ]; then
+          else
             echo "template_path=examples" >> $GITHUB_ENV
             echo "ci_template_path=ci-examples" >> $GITHUB_ENV
-          else
-            echo "template_path=" >> $GITHUB_ENV  # setting it empty if both are empty arrays
-            echo "ci_template_path=" >> $GITHUB_ENV  # setting it empty if both are empty arrays
           fi
 
       - name: Log
