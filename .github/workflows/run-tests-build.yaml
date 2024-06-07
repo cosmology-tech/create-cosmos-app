@@ -1,58 +1,65 @@
-name: Build Next.js Examples
+name: Build Next.js examples
 
 on:
   pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
+    types: [opened, reopened, synchronize]
 
 jobs:
-  find-packages:
-    runs-on: ubuntu-latest
-    outputs:
-      packages: ${{ steps.find-packages.outputs.packages }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Find Next.js packages
-        id: find-packages
-        run: |
-          packages=$(ls -d examples/* | jq -R -s -c 'split("\n") | map(select(length > 0))')
-          echo "::set-output name=packages::$packages"
-          echo "packages=$packages" >> $GITHUB_ENV
-        shell: bash
-
-      - name: Debug packages output
-        run: echo ${{ steps.find-packages.outputs.packages }}
-
   build:
-    needs: find-packages
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        package: ${{ fromJson(needs.find-packages.outputs.packages) }}
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '20' # Ensure this matches your Node.js version
+          node-version: 18
+          cache: 'yarn'
 
       - name: Install Yarn
-        run: |
-          corepack enable
-          corepack prepare yarn@4.0.0 --activate
+        run: npm install -g yarn@berry
 
       - name: Install dependencies
-        working-directory: ${{ matrix.package }}
         run: yarn install
 
-      - name: Build Next.js project
-        working-directory: ${{ matrix.package }}
+      - name: Build asset-list
+        working-directory: ./examples/asset-list
+        run: yarn build
+
+      - name: Build authz
+        working-directory: ./examples/authz
+        run: yarn build
+
+      - name: Build vote-proposal
+        working-directory: ./examples/vote-proposal
+        run: yarn build
+
+      - name: Build ibc-transfer
+        working-directory: ./examples/ibc-transfer
+        run: yarn build
+
+      - name: Build swap-tokens
+        working-directory: ./examples/swap-tokens
+        run: yarn build
+
+      - name: Build provide-liquidity
+        working-directory: ./examples/provide-liquidity
+        run: yarn build
+
+      - name: Build nft
+        working-directory: ./examples/nft
+        run: yarn build
+
+      - name: Build connect-chain
+        working-directory: ./examples/connect-chain
+        run: yarn build
+
+      - name: Build connect-multi-chain
+        working-directory: ./examples/connect-multi-chain
+        run: yarn build
+
+      - name: Build website
+        working-directory: ./examples/website
         run: yarn build
