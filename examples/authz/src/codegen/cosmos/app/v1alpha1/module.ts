@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "cosmos.app.v1alpha1";
 /** ModuleDescriptor describes an app module. */
@@ -270,7 +271,7 @@ export const ModuleDescriptor = {
     if (Array.isArray(object?.canMigrateFrom)) obj.canMigrateFrom = object.canMigrateFrom.map((e: any) => MigrateFromInfo.fromJSON(e));
     return obj;
   },
-  toJSON(message: ModuleDescriptor): unknown {
+  toJSON(message: ModuleDescriptor): JsonSafe<ModuleDescriptor> {
     const obj: any = {};
     message.goImport !== undefined && (obj.goImport = message.goImport);
     if (message.usePackage) {
@@ -415,7 +416,7 @@ export const PackageReference = {
     if (isSet(object.revision)) obj.revision = Number(object.revision);
     return obj;
   },
-  toJSON(message: PackageReference): unknown {
+  toJSON(message: PackageReference): JsonSafe<PackageReference> {
     const obj: any = {};
     message.name !== undefined && (obj.name = message.name);
     message.revision !== undefined && (obj.revision = Math.round(message.revision));
@@ -524,7 +525,7 @@ export const MigrateFromInfo = {
     if (isSet(object.module)) obj.module = String(object.module);
     return obj;
   },
-  toJSON(message: MigrateFromInfo): unknown {
+  toJSON(message: MigrateFromInfo): JsonSafe<MigrateFromInfo> {
     const obj: any = {};
     message.module !== undefined && (obj.module = message.module);
     return obj;

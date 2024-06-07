@@ -5,6 +5,7 @@ import { Duration, DurationAmino, DurationSDKType } from "../../../google/protob
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "cosmos.feegrant.v1beta1";
 /**
@@ -247,7 +248,7 @@ export const BasicAllowance = {
     if (isSet(object.expiration)) obj.expiration = new Date(object.expiration);
     return obj;
   },
-  toJSON(message: BasicAllowance): unknown {
+  toJSON(message: BasicAllowance): JsonSafe<BasicAllowance> {
     const obj: any = {};
     if (message.spendLimit) {
       obj.spendLimit = message.spendLimit.map(e => e ? Coin.toJSON(e) : undefined);
@@ -399,7 +400,7 @@ export const PeriodicAllowance = {
     if (isSet(object.periodReset)) obj.periodReset = new Date(object.periodReset);
     return obj;
   },
-  toJSON(message: PeriodicAllowance): unknown {
+  toJSON(message: PeriodicAllowance): JsonSafe<PeriodicAllowance> {
     const obj: any = {};
     message.basic !== undefined && (obj.basic = message.basic ? BasicAllowance.toJSON(message.basic) : undefined);
     message.period !== undefined && (obj.period = message.period ? Duration.toJSON(message.period) : undefined);
@@ -565,7 +566,7 @@ export const AllowedMsgAllowance = {
     if (Array.isArray(object?.allowedMessages)) obj.allowedMessages = object.allowedMessages.map((e: any) => String(e));
     return obj;
   },
-  toJSON(message: AllowedMsgAllowance): unknown {
+  toJSON(message: AllowedMsgAllowance): JsonSafe<AllowedMsgAllowance> {
     const obj: any = {};
     message.allowance !== undefined && (obj.allowance = message.allowance ? GlobalDecoderRegistry.toJSON(message.allowance) : undefined);
     if (message.allowedMessages) {
@@ -702,7 +703,7 @@ export const Grant = {
     if (isSet(object.allowance)) obj.allowance = GlobalDecoderRegistry.fromJSON(object.allowance);
     return obj;
   },
-  toJSON(message: Grant): unknown {
+  toJSON(message: Grant): JsonSafe<Grant> {
     const obj: any = {};
     message.granter !== undefined && (obj.granter = message.granter);
     message.grantee !== undefined && (obj.grantee = message.grantee);

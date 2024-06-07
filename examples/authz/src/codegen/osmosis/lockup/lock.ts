@@ -4,6 +4,7 @@ import { Timestamp, TimestampAmino, TimestampSDKType } from "../../google/protob
 import { Coin, CoinAmino, CoinSDKType } from "../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../helpers";
+import { JsonSafe } from "../../json-safe";
 import { GlobalDecoderRegistry } from "../../registry";
 export const protobufPackage = "osmosis.lockup";
 /**
@@ -348,7 +349,7 @@ export const PeriodLock = {
     if (Array.isArray(object?.coins)) obj.coins = object.coins.map((e: any) => Coin.fromJSON(e));
     return obj;
   },
-  toJSON(message: PeriodLock): unknown {
+  toJSON(message: PeriodLock): JsonSafe<PeriodLock> {
     const obj: any = {};
     message.ID !== undefined && (obj.ID = (message.ID || BigInt(0)).toString());
     message.owner !== undefined && (obj.owner = message.owner);
@@ -519,7 +520,7 @@ export const QueryCondition = {
     if (isSet(object.timestamp)) obj.timestamp = new Date(object.timestamp);
     return obj;
   },
-  toJSON(message: QueryCondition): unknown {
+  toJSON(message: QueryCondition): JsonSafe<QueryCondition> {
     const obj: any = {};
     message.lockQueryType !== undefined && (obj.lockQueryType = lockQueryTypeToJSON(message.lockQueryType));
     message.denom !== undefined && (obj.denom = message.denom);
@@ -670,7 +671,7 @@ export const SyntheticLock = {
     if (isSet(object.duration)) obj.duration = Duration.fromJSON(object.duration);
     return obj;
   },
-  toJSON(message: SyntheticLock): unknown {
+  toJSON(message: SyntheticLock): JsonSafe<SyntheticLock> {
     const obj: any = {};
     message.underlyingLockId !== undefined && (obj.underlyingLockId = (message.underlyingLockId || BigInt(0)).toString());
     message.synthDenom !== undefined && (obj.synthDenom = message.synthDenom);

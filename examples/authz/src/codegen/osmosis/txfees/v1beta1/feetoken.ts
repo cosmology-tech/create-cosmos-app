@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "osmosis.txfees.v1beta1";
 /**
@@ -94,7 +95,7 @@ export const FeeToken = {
     if (isSet(object.poolID)) obj.poolID = BigInt(object.poolID.toString());
     return obj;
   },
-  toJSON(message: FeeToken): unknown {
+  toJSON(message: FeeToken): JsonSafe<FeeToken> {
     const obj: any = {};
     message.denom !== undefined && (obj.denom = message.denom);
     message.poolID !== undefined && (obj.poolID = (message.poolID || BigInt(0)).toString());

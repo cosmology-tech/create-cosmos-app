@@ -2,6 +2,7 @@
 import { SuperfluidAsset, SuperfluidAssetAmino, SuperfluidAssetSDKType } from "../superfluid";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "osmosis.superfluid.v1beta1";
 /**
@@ -180,7 +181,7 @@ export const SetSuperfluidAssetsProposal = {
     if (Array.isArray(object?.assets)) obj.assets = object.assets.map((e: any) => SuperfluidAsset.fromJSON(e));
     return obj;
   },
-  toJSON(message: SetSuperfluidAssetsProposal): unknown {
+  toJSON(message: SetSuperfluidAssetsProposal): JsonSafe<SetSuperfluidAssetsProposal> {
     const obj: any = {};
     message.title !== undefined && (obj.title = message.title);
     message.description !== undefined && (obj.description = message.description);
@@ -324,7 +325,7 @@ export const RemoveSuperfluidAssetsProposal = {
     if (Array.isArray(object?.superfluidAssetDenoms)) obj.superfluidAssetDenoms = object.superfluidAssetDenoms.map((e: any) => String(e));
     return obj;
   },
-  toJSON(message: RemoveSuperfluidAssetsProposal): unknown {
+  toJSON(message: RemoveSuperfluidAssetsProposal): JsonSafe<RemoveSuperfluidAssetsProposal> {
     const obj: any = {};
     message.title !== undefined && (obj.title = message.title);
     message.description !== undefined && (obj.description = message.description);
@@ -485,7 +486,7 @@ export const UpdateUnpoolWhiteListProposal = {
     if (isSet(object.isOverwrite)) obj.isOverwrite = Boolean(object.isOverwrite);
     return obj;
   },
-  toJSON(message: UpdateUnpoolWhiteListProposal): unknown {
+  toJSON(message: UpdateUnpoolWhiteListProposal): JsonSafe<UpdateUnpoolWhiteListProposal> {
     const obj: any = {};
     message.title !== undefined && (obj.title = message.title);
     message.description !== undefined && (obj.description = message.description);

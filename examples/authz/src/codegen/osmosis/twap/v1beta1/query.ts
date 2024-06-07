@@ -3,6 +3,7 @@ import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../google/pro
 import { Params, ParamsAmino, ParamsSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 import { Decimal } from "@cosmjs/math";
 export const protobufPackage = "osmosis.twap.v1beta1";
@@ -200,7 +201,7 @@ export const ArithmeticTwapRequest = {
     if (isSet(object.endTime)) obj.endTime = new Date(object.endTime);
     return obj;
   },
-  toJSON(message: ArithmeticTwapRequest): unknown {
+  toJSON(message: ArithmeticTwapRequest): JsonSafe<ArithmeticTwapRequest> {
     const obj: any = {};
     message.poolId !== undefined && (obj.poolId = (message.poolId || BigInt(0)).toString());
     message.baseAsset !== undefined && (obj.baseAsset = message.baseAsset);
@@ -335,7 +336,7 @@ export const ArithmeticTwapResponse = {
     if (isSet(object.arithmeticTwap)) obj.arithmeticTwap = String(object.arithmeticTwap);
     return obj;
   },
-  toJSON(message: ArithmeticTwapResponse): unknown {
+  toJSON(message: ArithmeticTwapResponse): JsonSafe<ArithmeticTwapResponse> {
     const obj: any = {};
     message.arithmeticTwap !== undefined && (obj.arithmeticTwap = message.arithmeticTwap);
     return obj;
@@ -460,7 +461,7 @@ export const ArithmeticTwapToNowRequest = {
     if (isSet(object.startTime)) obj.startTime = new Date(object.startTime);
     return obj;
   },
-  toJSON(message: ArithmeticTwapToNowRequest): unknown {
+  toJSON(message: ArithmeticTwapToNowRequest): JsonSafe<ArithmeticTwapToNowRequest> {
     const obj: any = {};
     message.poolId !== undefined && (obj.poolId = (message.poolId || BigInt(0)).toString());
     message.baseAsset !== undefined && (obj.baseAsset = message.baseAsset);
@@ -587,7 +588,7 @@ export const ArithmeticTwapToNowResponse = {
     if (isSet(object.arithmeticTwap)) obj.arithmeticTwap = String(object.arithmeticTwap);
     return obj;
   },
-  toJSON(message: ArithmeticTwapToNowResponse): unknown {
+  toJSON(message: ArithmeticTwapToNowResponse): JsonSafe<ArithmeticTwapToNowResponse> {
     const obj: any = {};
     message.arithmeticTwap !== undefined && (obj.arithmeticTwap = message.arithmeticTwap);
     return obj;
@@ -679,7 +680,7 @@ export const ParamsRequest = {
     const obj = createBaseParamsRequest();
     return obj;
   },
-  toJSON(_: ParamsRequest): unknown {
+  toJSON(_: ParamsRequest): JsonSafe<ParamsRequest> {
     const obj: any = {};
     return obj;
   },
@@ -771,7 +772,7 @@ export const ParamsResponse = {
     if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
     return obj;
   },
-  toJSON(message: ParamsResponse): unknown {
+  toJSON(message: ParamsResponse): JsonSafe<ParamsResponse> {
     const obj: any = {};
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
     return obj;
