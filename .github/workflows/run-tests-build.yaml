@@ -9,23 +9,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        include:
-          - example:
-              [
-                asset-list,
-                authz,
-                vote-proposal,
-                ibc-transfer,
-                swap-tokens,
-                provide-liquidity,
-                nft,
-              ]
-            template: []
-
-          - example: []
-            template: [connect-chain, connect-multi-chain, website]
+        example:
+          [
+            asset-list,
+            authz,
+            vote-proposal,
+            ibc-transfer,
+            swap-tokens,
+            provide-liquidity,
+            nft,
+            connect-chain,
+            connect-multi-chain,
+            website,
+          ]
 
     steps:
       - name: Checkout repository
@@ -33,15 +31,23 @@ jobs:
 
       - name: Set template_path Environment Variable
         run: |
-          if [ "${{ toJson(matrix.example) }}" != "[]" ]; then
-            echo "template_path=examples" >> $GITHUB_ENV
-            echo "ci_template_path=ci-examples" >> $GITHUB_ENV
-          elif [ "${{ toJson(matrix.template) }}" != "[]" ]; then
-            echo "template_path=templates/" >> $GITHUB_ENV
-            echo "ci_template_path=ci-templates" >> $GITHUB_ENV
-          else
-            echo "template_path=" >> $GITHUB_ENV  # setting it empty if both are empty arrays
-          fi
+          # Store first
+          example_json="${{ toJson(matrix.example) }}"
+
+          if [[ "$example_json" == *'"connect-chain"'* ]] || [[ "$example_json" == *'"connect-multi-chain"'* ]] || [[ "$example_json" == *'"website"'* ]]; then
+             echo "template_path=templates" >> $GITHUB_ENV
+             echo "ci_template_path=ci-templates" >> $GITHUB_ENV
+           # Check if example_json is not an empty array
+           elif [ "$example_json" != "[]" ]; then
+             echo "template_path=examples" >> $GITHUB_ENV
+             echo "ci_template_path=ci-examples" >> $GITHUB_ENV
+           # Check if matrix.template is not an empty array
+           elif [ "$example_json" != "[]" ]; then
+             echo "template_path=templates/" >> $GITHUB_ENV
+             echo "ci_template_path=ci-templates/" >> $GITHUB_ENV
+           else
+             echo "template_path=" >> $GITHUB_ENV  # setting it empty if both are empty arrays
+           fi
 
       - name: Log
         run: |
@@ -50,15 +56,9 @@ jobs:
 
       - name: Clone example
         run: |
-          if [ "${{ toJson(matrix.example) }}" != "[]" ]; then
-            mkdir -p ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
-            cp -r ./${template_path}/${{ matrix.example }}/ ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
-            cd ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
-          elif [ "${{ toJson(matrix.template) }}" != "[]" ]; then
-            mkdir -p ${{ github.workspace }}/$ci_template_path/${{ matrix.template }}
-            cp -r ./${template_path}/${{ matrix.template }}/ ${{ github.workspace }}/$ci_template_path/${{ matrix.template }}
-            cd ${{ github.workspace }}/$ci_template_path/${{ matrix.template }}
-          fi
+          mkdir -p ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
+          cp -r ./${template_path}/${{ matrix.example }}/ ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
+          cd ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
