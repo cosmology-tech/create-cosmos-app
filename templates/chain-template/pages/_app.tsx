@@ -5,16 +5,42 @@ import type { AppProps } from 'next/app';
 import { SignerOptions, wallets } from 'cosmos-kit';
 import { ChainProvider } from '@cosmos-kit/react';
 import { assets, chains } from 'chain-registry';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Box, ThemeProvider, Toaster, useTheme } from '@interchain-ui/react';
+import { GasPrice } from '@cosmjs/stargate';
+
 import { Layout } from '@/components';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const { themeClass } = useTheme();
 
   const signerOptions: SignerOptions = {
-    // signingStargate: () => {
-    //   return getSigningCosmosClientOptions();
-    // }
+    // TODO fix type error
+    // @ts-ignore
+    signingStargate: (chain) => {
+      let gasPrice;
+      try {
+        // TODO fix type error
+        // @ts-ignore
+        const feeToken = chain.fees?.fee_tokens[0];
+        const fee = `${feeToken?.average_gas_price || 0.025}${feeToken?.denom}`;
+        gasPrice = GasPrice.fromString(fee);
+      } catch (error) {
+        gasPrice = GasPrice.fromString('0.025uosmo');
+      }
+      return { gasPrice };
+    },
   };
 
   return (
@@ -38,12 +64,15 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         // @ts-ignore
         signerOptions={signerOptions}
       >
-        <Box className={themeClass}>
-          <Layout>
-            <Component {...pageProps} />
-            <Toaster position="top-right" closeButton={true} />
-          </Layout>
-        </Box>
+        <QueryClientProvider client={queryClient}>
+          <Box className={themeClass}>
+            <Layout>
+              <Component {...pageProps} />
+              <Toaster position="top-right" closeButton={true} />
+            </Layout>
+          </Box>
+          {/* <ReactQueryDevtools /> */}
+        </QueryClientProvider>
       </ChainProvider>
     </ThemeProvider>
   );

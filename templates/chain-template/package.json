@@ -18,14 +18,17 @@
     "@types/react-dom": "18.0.9"
   },
   "dependencies": {
-    "@chain-registry/types": "0.17.1",
     "@cosmjs/cosmwasm-stargate": "0.31.1",
     "@cosmjs/stargate": "0.31.1",
     "@cosmos-kit/react": "2.10.9",
     "@interchain-ui/react": "1.23.0",
+    "@interchain-ui/react-no-ssr": "0.1.2",
+    "@tanstack/react-query": "4.32.0",
+    "bignumber.js": "9.1.2",
     "chain-registry": "1.62.3",
     "cosmos-kit": "2.8.6",
     "framer-motion": "9.0.7",
+    "interchain-query": "1.10.7",
     "match-sorter": "^6.3.3",
     "next": "^13",
     "react": "18.2.0",
@@ -34,6 +37,8 @@
     "zustand": "4.5.2"
   },
   "devDependencies": {
+    "@chain-registry/types": "0.44.3",
+    "@tanstack/react-query-devtools": "4.32.0",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",

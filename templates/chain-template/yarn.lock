@@ -82,7 +82,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:0.17.1, @chain-registry/types@npm:^0.17.0":
+"@chain-registry/types@npm:0.44.3, @chain-registry/types@npm:^0.44.3":
+  version: 0.44.3
+  resolution: "@chain-registry/types@npm:0.44.3"
+  checksum: 10c0/471e85e934e42ba2704fece7ca0545df5ef98e947a5d10aaefa7872145a21211036740b4b37bb8a33359561b7533c07c22e1608b372efc19be5e2ebd386ac3de
+  languageName: node
+  linkType: hard
+
+"@chain-registry/types@npm:^0.17.0":
   version: 0.17.1
   resolution: "@chain-registry/types@npm:0.17.1"
   dependencies:
@@ -97,13 +104,6 @@ __metadata:
   dependencies:
     "@babel/runtime": "npm:^7.21.0"
   checksum: 10c0/3acc164760c99d495d691cd3d17631e5a8c0350ea3f0a58565aa8db0db3430fe9c197d1605eedb8ac06d2aa281a9d1446dfe6836ef40c99be8356134341d5c04
-  languageName: node
-  linkType: hard
-
-"@chain-registry/types@npm:^0.44.3":
-  version: 0.44.3
-  resolution: "@chain-registry/types@npm:0.44.3"
-  checksum: 10c0/471e85e934e42ba2704fece7ca0545df5ef98e947a5d10aaefa7872145a21211036740b4b37bb8a33359561b7533c07c22e1608b372efc19be5e2ebd386ac3de
   languageName: node
   linkType: hard
 
@@ -126,6 +126,18 @@ __metadata:
     "@noble/hashes": "npm:^1.0.0"
     protobufjs: "npm:^6.8.8"
   checksum: 10c0/2f3f5032cd6a34c9b2fbd64bbf7e1cdec75ca71f348a770f7b5474b5027b12202bfbcd404eca931efddb5901f769af035a87cb8bddbf3f23d7e5d93c9d3d7f6f
+  languageName: node
+  linkType: hard
+
+"@cosmjs/amino@npm:0.32.2":
+  version: 0.32.2
+  resolution: "@cosmjs/amino@npm:0.32.2"
+  dependencies:
+    "@cosmjs/crypto": "npm:^0.32.2"
+    "@cosmjs/encoding": "npm:^0.32.2"
+    "@cosmjs/math": "npm:^0.32.2"
+    "@cosmjs/utils": "npm:^0.32.2"
+  checksum: 10c0/306ec4a08713d0173af134e45d26647f0d456c0cfacf55779c159a7556d9614e763a70518a7b3aaa3c18e9f71ff33f30e5badaed1c50aa26dd37313f68267083
   languageName: node
   linkType: hard
 
@@ -252,7 +264,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/json-rpc@npm:^0.32.3":
+"@cosmjs/json-rpc@npm:^0.32.2, @cosmjs/json-rpc@npm:^0.32.3":
   version: 0.32.3
   resolution: "@cosmjs/json-rpc@npm:0.32.3"
   dependencies:
@@ -335,7 +347,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/socket@npm:^0.32.3":
+"@cosmjs/socket@npm:^0.32.2, @cosmjs/socket@npm:^0.32.3":
   version: 0.32.3
   resolution: "@cosmjs/socket@npm:0.32.3"
   dependencies:
@@ -364,6 +376,24 @@ __metadata:
     protobufjs: "npm:~6.11.3"
     xstream: "npm:^11.14.0"
   checksum: 10c0/4532669efad7630f32df99d3e4f760d870a210e378169c7fa6311b94c722c710990c311f59054621ea50031f507ea5f5fdfc1b20dc77b5452ae59626421a2d4b
+  languageName: node
+  linkType: hard
+
+"@cosmjs/stargate@npm:0.32.2":
+  version: 0.32.2
+  resolution: "@cosmjs/stargate@npm:0.32.2"
+  dependencies:
+    "@confio/ics23": "npm:^0.6.8"
+    "@cosmjs/amino": "npm:^0.32.2"
+    "@cosmjs/encoding": "npm:^0.32.2"
+    "@cosmjs/math": "npm:^0.32.2"
+    "@cosmjs/proto-signing": "npm:^0.32.2"
+    "@cosmjs/stream": "npm:^0.32.2"
+    "@cosmjs/tendermint-rpc": "npm:^0.32.2"
+    "@cosmjs/utils": "npm:^0.32.2"
+    cosmjs-types: "npm:^0.9.0"
+    xstream: "npm:^11.14.0"
+  checksum: 10c0/70cf7e509f0cce9bd28bafa830260cfb4ddd6c3c3e60836aae93276a59c7ae6571971eeb6dd0a9e898295cbde17fba94d7253c3ce0b2f03de875d7b9dd074b12
   languageName: node
   linkType: hard
 
@@ -414,12 +444,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/stream@npm:^0.32.3":
+"@cosmjs/stream@npm:^0.32.2, @cosmjs/stream@npm:^0.32.3":
   version: 0.32.3
   resolution: "@cosmjs/stream@npm:0.32.3"
   dependencies:
     xstream: "npm:^11.14.0"
   checksum: 10c0/963abad76c044265e6961add2a66060134dd610ced9397edcd331669e5aca2a157cc08db658590110233038c38fc5812a9e8d156babbf524eb291200a3708b3a
+  languageName: node
+  linkType: hard
+
+"@cosmjs/tendermint-rpc@npm:0.32.2":
+  version: 0.32.2
+  resolution: "@cosmjs/tendermint-rpc@npm:0.32.2"
+  dependencies:
+    "@cosmjs/crypto": "npm:^0.32.2"
+    "@cosmjs/encoding": "npm:^0.32.2"
+    "@cosmjs/json-rpc": "npm:^0.32.2"
+    "@cosmjs/math": "npm:^0.32.2"
+    "@cosmjs/socket": "npm:^0.32.2"
+    "@cosmjs/stream": "npm:^0.32.2"
+    "@cosmjs/utils": "npm:^0.32.2"
+    axios: "npm:^1.6.0"
+    readonly-date: "npm:^1.0.0"
+    xstream: "npm:^11.14.0"
+  checksum: 10c0/a668d311c7bb088d63316698b99ec0938da61c35a7f423c7b4b06ba27a819787359a34b6b859d9deb03034864edb7e1d196f861f313f66b15db5d57e358cd3ca
   languageName: node
   linkType: hard
 
@@ -441,7 +489,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/tendermint-rpc@npm:^0.32.3":
+"@cosmjs/tendermint-rpc@npm:^0.32.2, @cosmjs/tendermint-rpc@npm:^0.32.3":
   version: 0.32.3
   resolution: "@cosmjs/tendermint-rpc@npm:0.32.3"
   dependencies:
@@ -477,20 +525,25 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/chain-template@workspace:."
   dependencies:
-    "@chain-registry/types": "npm:0.17.1"
+    "@chain-registry/types": "npm:0.44.3"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.1"
     "@cosmjs/stargate": "npm:0.31.1"
     "@cosmos-kit/react": "npm:2.10.9"
     "@interchain-ui/react": "npm:1.23.0"
+    "@interchain-ui/react-no-ssr": "npm:0.1.2"
+    "@tanstack/react-query": "npm:4.32.0"
+    "@tanstack/react-query-devtools": "npm:4.32.0"
     "@types/node": "npm:18.11.9"
     "@types/react": "npm:18.0.25"
     "@types/react-dom": "npm:18.0.9"
+    bignumber.js: "npm:9.1.2"
     chain-registry: "npm:1.62.3"
     cosmos-kit: "npm:2.8.6"
     eslint: "npm:8.28.0"
     eslint-config-next: "npm:13.0.5"
     framer-motion: "npm:9.0.7"
     generate-lockfile: "npm:0.0.12"
+    interchain-query: "npm:1.10.7"
     match-sorter: "npm:^6.3.3"
     next: "npm:^13"
     react: "npm:18.2.0"
@@ -1594,6 +1647,16 @@ __metadata:
   peerDependencies:
     google-protobuf: ^3.14.0
   checksum: 10c0/972f20d97970b3c7239ef8f26866e417e3079faec5a66e86755cc49b1dc3c56ed50a8f04dbb9d23d2f12ffb5719e39500d5e513d0087d576bc0844d2034491c1
+  languageName: node
+  linkType: hard
+
+"@interchain-ui/react-no-ssr@npm:0.1.2":
+  version: 0.1.2
+  resolution: "@interchain-ui/react-no-ssr@npm:0.1.2"
+  peerDependencies:
+    react: ^18.x
+    react-dom: ^18.x
+  checksum: 10c0/1613c455c767de2a3271705d53049e66911b36f01cab340e7d74be49bd8e68fd5db1204072d9c7bca2b850fdfb90d426b374c0cc4561d3806f18a73adb5a1bf1
   languageName: node
   linkType: hard
 
@@ -3927,6 +3990,56 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/match-sorter-utils@npm:^8.7.0":
+  version: 8.15.1
+  resolution: "@tanstack/match-sorter-utils@npm:8.15.1"
+  dependencies:
+    remove-accents: "npm:0.5.0"
+  checksum: 10c0/a947c280093ed0214c3b1c6d9219b1a98cd000815891cb313f2a3e8cc01505a6d3bf358ba8273556804e0580a51e110a43ececabf0eec7386450662d827b0fa9
+  languageName: node
+  linkType: hard
+
+"@tanstack/query-core@npm:4.32.0":
+  version: 4.32.0
+  resolution: "@tanstack/query-core@npm:4.32.0"
+  checksum: 10c0/e897d1d294d79f6d3d522db2d64977e71d99f5f74e22314bd0bbbf6c31df3deac5d19516fc2513be4ad1c545fd031d4355ee0a47dec7211e70e80c9cd5feb25e
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query-devtools@npm:4.32.0":
+  version: 4.32.0
+  resolution: "@tanstack/react-query-devtools@npm:4.32.0"
+  dependencies:
+    "@tanstack/match-sorter-utils": "npm:^8.7.0"
+    superjson: "npm:^1.10.0"
+    use-sync-external-store: "npm:^1.2.0"
+  peerDependencies:
+    "@tanstack/react-query": 4.32.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/c583365058f77b8e1199d938e4da337181b08dedd6316d25e4e65924e414aa4bf8b63072ab7fdc546bef01c4a9529368c6e30483f019999a6f2e87501bfeb8a4
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:4.32.0":
+  version: 4.32.0
+  resolution: "@tanstack/react-query@npm:4.32.0"
+  dependencies:
+    "@tanstack/query-core": "npm:4.32.0"
+    use-sync-external-store: "npm:^1.2.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-native: "*"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 10c0/761f0c48fba41d0296ac76d42d92128d6ca55fca261d819252753fb38988a6c1dc9442344bdccba946a8db243ebcd3f259c61ac1957933493db0605e1a0a0e77
+  languageName: node
+  linkType: hard
+
 "@terra-money/feather.js@npm:^1.0.8":
   version: 1.2.1
   resolution: "@terra-money/feather.js@npm:1.2.1"
@@ -4856,7 +4969,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bignumber.js@npm:^9.1.1, bignumber.js@npm:^9.1.2":
+"bignumber.js@npm:9.1.2, bignumber.js@npm:^9.1.1, bignumber.js@npm:^9.1.2":
   version: 9.1.2
   resolution: "bignumber.js@npm:9.1.2"
   checksum: 10c0/e17786545433f3110b868725c449fa9625366a6e675cd70eb39b60938d6adbd0158cb4b3ad4f306ce817165d37e63f4aa3098ba4110db1d9a3b9f66abfbaf10d
@@ -5305,6 +5418,15 @@ __metadata:
   version: 1.1.0
   resolution: "cookie-es@npm:1.1.0"
   checksum: 10c0/27f1057b05eb42dca539a80cf45b8f9d5bacf35482690d756025447810dcd669e0cd13952a063a43e47a4e6fd7400745defedc97479a4254019f0bdb5c200341
+  languageName: node
+  linkType: hard
+
+"copy-anything@npm:^3.0.2":
+  version: 3.0.5
+  resolution: "copy-anything@npm:3.0.5"
+  dependencies:
+    is-what: "npm:^4.1.8"
+  checksum: 10c0/01eadd500c7e1db71d32d95a3bfaaedcb839ef891c741f6305ab0461398056133de08f2d1bf4c392b364e7bdb7ce498513896e137a7a183ac2516b065c28a4fe
   languageName: node
   linkType: hard
 
@@ -7018,6 +7140,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"interchain-query@npm:1.10.7":
+  version: 1.10.7
+  resolution: "interchain-query@npm:1.10.7"
+  dependencies:
+    "@cosmjs/amino": "npm:0.32.2"
+    "@cosmjs/proto-signing": "npm:0.32.2"
+    "@cosmjs/stargate": "npm:0.32.2"
+    "@cosmjs/tendermint-rpc": "npm:0.32.2"
+  peerDependencies:
+    "@tanstack/react-query": ^4.29.12
+  checksum: 10c0/f5b6f4525a3a59b2d50face8081934db18142e2063ce9d9380a99a6044e297248f408b6600ad12a3af0bb9975d0cd65e700cae2d9a20c14b3dc87339a92d296a
+  languageName: node
+  linkType: hard
+
 "internal-slot@npm:^1.0.7":
   version: 1.0.7
   resolution: "internal-slot@npm:1.0.7"
@@ -7354,6 +7490,13 @@ __metadata:
     call-bind: "npm:^1.0.7"
     get-intrinsic: "npm:^1.2.4"
   checksum: 10c0/8ad6141b6a400e7ce7c7442a13928c676d07b1f315ab77d9912920bf5f4170622f43126f111615788f26c3b1871158a6797c862233124507db0bcc33a9537d1a
+  languageName: node
+  linkType: hard
+
+"is-what@npm:^4.1.8":
+  version: 4.1.16
+  resolution: "is-what@npm:4.1.16"
+  checksum: 10c0/611f1947776826dcf85b57cfb7bd3b3ea6f4b94a9c2f551d4a53f653cf0cb9d1e6518846648256d46ee6c91d114b6d09d2ac8a07306f7430c5900f87466aae5b
   languageName: node
   linkType: hard
 
@@ -9628,6 +9771,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"superjson@npm:^1.10.0":
+  version: 1.13.3
+  resolution: "superjson@npm:1.13.3"
+  dependencies:
+    copy-anything: "npm:^3.0.2"
+  checksum: 10c0/389a0a0c86884dd0558361af5d6d7f37102b71dda9595a665fe8b39d1ba0e57c859e39a9bd79b6f1fde6f4dcceac49a1c205f248d292744b2a340ee52846efdb
+  languageName: node
+  linkType: hard
+
 "supports-color@npm:^7.1.0":
   version: 7.2.0
   resolution: "supports-color@npm:7.2.0"
@@ -10052,6 +10204,15 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: 10c0/ac4814e5592524f242921157e791b022efe36e451fe0d4fd4d204322d5433a4fc300d63b0ade5185f8e0735ded044c70bcf6d2352db0f74d097a238cebd2da02
+  languageName: node
+  linkType: hard
+
+"use-sync-external-store@npm:^1.2.0":
+  version: 1.2.2
+  resolution: "use-sync-external-store@npm:1.2.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/23b1597c10adf15b26ade9e8c318d8cc0abc9ec0ab5fc7ca7338da92e89c2536abd150a5891bf076836c352fdfa104fc7231fb48f806fd9960e0cbe03601abaf
   languageName: node
   linkType: hard
 

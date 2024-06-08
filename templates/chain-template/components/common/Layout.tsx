@@ -2,12 +2,14 @@ import Head from 'next/head';
 import { Box, useColorModeValue } from '@interchain-ui/react';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
+import styles from '@/styles/layout.module.css';
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <Box
       minHeight="100vh"
       backgroundColor={useColorModeValue('$white', '$background')}
+      className={styles.layout}
     >
       <Box maxWidth="1440px" width="$full" mx="$auto" display="flex">
         <Head>

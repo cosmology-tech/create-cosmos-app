@@ -1,9 +1,10 @@
-import { Text } from '@interchain-ui/react';
+import { ReactNoSSR } from '@interchain-ui/react-no-ssr';
+import { StakingSection } from '@/components';
 
 export default function Staking() {
   return (
-    <>
-      <Text>Staking</Text>
-    </>
+    <ReactNoSSR>
+      <StakingSection />
+    </ReactNoSSR>
   );
 }
