@@ -35,67 +35,62 @@ export const useStakingData = (chainName: string) => {
   const rpcEndpointQuery = useRpcEndpoint({
     getter: getRpcEndpoint,
     options: {
-      // enabled: !!address,
+      enabled: !!address,
       staleTime: Infinity,
-      // queryKeyHashFn: (queryKey) => {
-      //   return JSON.stringify([...queryKey, chainName]);
-      // },
-      queryKey: ['useRpcEndpoint', chainName],
+      queryKeyHashFn: (queryKey) => {
+        return JSON.stringify([...queryKey, chainName]);
+      },
     },
   });
 
   const rpcClientQuery = useRpcClient({
     rpcEndpoint: rpcEndpointQuery.data || '',
     options: {
-      enabled: !!rpcEndpointQuery.data,
+      enabled: !!address && !!rpcEndpointQuery.data,
       staleTime: Infinity,
-      queryKey: ['useRpcClient', rpcEndpointQuery.data],
     },
   });
 
-  const { cosmos: queryHooks } = createRpcQueryHooks({
+  const { cosmos: cosmosQuery } = createRpcQueryHooks({
     rpc: rpcClientQuery.data,
   });
 
-  const isQueryEnabled = !!address && !!rpcClientQuery.data;
+  const isDataQueryEnabled = !!address && !!rpcClientQuery.data;
 
-  const balanceQuery = queryHooks.bank.v1beta1.useBalance({
+  const balanceQuery = cosmosQuery.bank.v1beta1.useBalance({
     request: {
       address: address || '',
       denom: coin.base,
     },
     options: {
-      queryKey: ['useBalance', address, coin.base],
+      enabled: isDataQueryEnabled,
       select: ({ balance }) => shiftDigits(balance?.amount || '0', -exp),
-      enabled: isQueryEnabled,
     },
   });
 
-  const myValidatorsQuery = queryHooks.staking.v1beta1.useDelegatorValidators({
+  const myValidatorsQuery = cosmosQuery.staking.v1beta1.useDelegatorValidators({
     request: {
       delegatorAddr: address || '',
       pagination: undefined,
     },
     options: {
-      queryKey: ['useDelegatorValidators', address],
+      enabled: isDataQueryEnabled,
       select: ({ validators }) => parseValidators(validators),
-      enabled: isQueryEnabled,
     },
   });
 
   const rewardsQuery =
-    queryHooks.distribution.v1beta1.useDelegationTotalRewards({
+    cosmosQuery.distribution.v1beta1.useDelegationTotalRewards({
       request: {
         delegatorAddress: address || '',
       },
       options: {
-        queryKey: ['useDelegationTotalRewards', address],
+        enabled: isDataQueryEnabled,
         select: (data) => parseRewards(data, coin.base, -exp),
-        enabled: isQueryEnabled,
       },
     });
 
-  const validatorsQuery = queryHooks.staking.v1beta1.useValidators({
+  const validatorsQuery = cosmosQuery.staking.v1beta1.useValidators({
     request: {
       status: cosmos.staking.v1beta1.bondStatusToJSON(
         cosmos.staking.v1beta1.BondStatus.BOND_STATUS_BONDED
@@ -109,18 +104,17 @@ export const useStakingData = (chainName: string) => {
       },
     },
     options: {
-      queryKey: ['useValidators', chainName],
+      enabled: isDataQueryEnabled,
       select: ({ validators }) => {
         const sorted = validators.sort((a, b) =>
           new BigNumber(b.tokens).minus(a.tokens).toNumber()
         );
         return parseValidators(sorted);
       },
-      enabled: isQueryEnabled,
     },
   });
 
-  const delegationsQuery = queryHooks.staking.v1beta1.useDelegatorDelegations({
+  const delegationsQuery = cosmosQuery.staking.v1beta1.useDelegatorDelegations({
     request: {
       delegatorAddr: address || '',
       pagination: {
@@ -132,43 +126,38 @@ export const useStakingData = (chainName: string) => {
       },
     },
     options: {
-      queryKey: ['useDelegatorDelegations', address],
+      enabled: isDataQueryEnabled,
       select: ({ delegationResponses }) =>
         parseDelegations(delegationResponses, -exp),
-      enabled: isQueryEnabled,
     },
   });
 
-  const unbondingDaysQuery = queryHooks.staking.v1beta1.useParams({
+  const unbondingDaysQuery = cosmosQuery.staking.v1beta1.useParams({
     options: {
-      queryKey: ['staking', 'useParams', chainName],
+      enabled: isDataQueryEnabled,
       select: ({ params }) => parseUnbondingDays(params),
-      enabled: isQueryEnabled,
     },
   });
 
-  const annualProvisionsQuery = queryHooks.mint.v1beta1.useAnnualProvisions({
+  const annualProvisionsQuery = cosmosQuery.mint.v1beta1.useAnnualProvisions({
     options: {
-      queryKey: ['useAnnualProvisions', chainName],
+      enabled: isDataQueryEnabled,
       select: parseAnnualProvisions,
-      enabled: isQueryEnabled,
       retry: false,
     },
   });
 
-  const poolQuery = queryHooks.staking.v1beta1.usePool({
+  const poolQuery = cosmosQuery.staking.v1beta1.usePool({
     options: {
-      queryKey: ['usePool', chainName],
+      enabled: isDataQueryEnabled,
       select: ({ pool }) => pool,
-      enabled: isQueryEnabled,
     },
   });
 
-  const communityTaxQuery = queryHooks.distribution.v1beta1.useParams({
+  const communityTaxQuery = cosmosQuery.distribution.v1beta1.useParams({
     options: {
-      queryKey: ['distribution', 'useParams', chainName],
+      enabled: isDataQueryEnabled,
       select: ({ params }) => shiftDigits(params?.communityTax || '0', -18),
-      enabled: isQueryEnabled,
     },
   });
 
@@ -187,13 +176,13 @@ export const useStakingData = (chainName: string) => {
     prices: pricesQuery,
   };
 
-  // const queriesWithUnchangingKeys = [
-  //   allQueries.unbondingDays,
-  //   allQueries.annualProvisions,
-  //   allQueries.pool,
-  //   allQueries.communityTax,
-  //   allQueries.allValidators,
-  // ];
+  const queriesWithUnchangingKeys = [
+    allQueries.unbondingDays,
+    allQueries.annualProvisions,
+    allQueries.pool,
+    allQueries.communityTax,
+    allQueries.allValidators,
+  ];
 
   const updatableQueriesAfterMutation = [
     allQueries.balance,
@@ -203,10 +192,10 @@ export const useStakingData = (chainName: string) => {
     allQueries.delegations,
   ];
 
-  // useEffect(() => {
-  //   queriesWithUnchangingKeys.forEach((query) => query.remove());
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [chainName]);
+  useEffect(() => {
+    queriesWithUnchangingKeys.forEach((query) => query.remove());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chainName]);
 
   const isInitialFetching = Object.values(allQueries).some(
     ({ isLoading }) => isLoading

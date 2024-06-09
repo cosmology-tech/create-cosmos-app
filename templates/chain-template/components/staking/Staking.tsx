@@ -5,10 +5,12 @@ import { StakingOverview } from './StakingOverview';
 import { MyValidators } from './MyValidators';
 import { AllValidators } from './AllValidators';
 import { useStakingData, useValidatorLogos } from '@/hooks';
-import { useChainStore } from '@/contexts';
 
-export const StakingSection = () => {
-  const { selectedChain: chainName } = useChainStore();
+type StakingProps = {
+  chainName: string;
+};
+
+export const Staking = ({ chainName }: StakingProps) => {
   const { isWalletConnected } = useChain(chainName);
   const { data, isLoading, refetch } = useStakingData(chainName);
   const { data: logos, isLoading: isFetchingLogos } = useValidatorLogos(

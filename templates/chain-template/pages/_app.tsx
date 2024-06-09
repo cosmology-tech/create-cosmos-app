@@ -6,7 +6,7 @@ import { SignerOptions, wallets } from 'cosmos-kit';
 import { ChainProvider } from '@cosmos-kit/react';
 import { assets, chains } from 'chain-registry';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Box, ThemeProvider, Toaster, useTheme } from '@interchain-ui/react';
 import { GasPrice } from '@cosmjs/stargate';
 
@@ -71,7 +71,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
               <Toaster position="top-right" closeButton={true} />
             </Layout>
           </Box>
-          {/* <ReactQueryDevtools /> */}
+          <ReactQueryDevtools />
         </QueryClientProvider>
       </ChainProvider>
     </ThemeProvider>

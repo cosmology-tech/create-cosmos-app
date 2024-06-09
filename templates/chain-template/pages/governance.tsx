@@ -1,9 +1,13 @@
-import { Text } from '@interchain-ui/react';
+import { ReactNoSSR } from '@interchain-ui/react-no-ssr';
+import { Voting } from '@/components';
+import { useChainStore } from '@/contexts';
 
-export default function Governance() {
+export default function GovernancePage() {
+  const { selectedChain } = useChainStore();
+
   return (
-    <>
-      <Text>Governance</Text>
-    </>
+    <ReactNoSSR>
+      <Voting chainName={selectedChain} />
+    </ReactNoSSR>
   );
 }

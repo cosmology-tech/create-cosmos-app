@@ -1,10 +1,13 @@
 import { ReactNoSSR } from '@interchain-ui/react-no-ssr';
-import { StakingSection } from '@/components';
+import { Staking } from '@/components';
+import { useChainStore } from '@/contexts';
 
-export default function Staking() {
+export default function StakingPage() {
+  const { selectedChain } = useChainStore();
+
   return (
     <ReactNoSSR>
-      <StakingSection />
+      <Staking chainName={selectedChain} />
     </ReactNoSSR>
   );
 }

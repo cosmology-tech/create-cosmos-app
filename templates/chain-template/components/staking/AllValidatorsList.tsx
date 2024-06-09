@@ -42,7 +42,11 @@ const AllValidatorsList = ({
         render: (validator: Validator) => (
           <ValidatorNameCell
             validatorName={validator.name}
-            validatorImg={logos[validator.address]}
+            validatorImg={
+              logos && validator.address in logos
+                ? logos[validator.address]
+                : ''
+            }
           />
         ),
       },
