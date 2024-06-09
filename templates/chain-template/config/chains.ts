@@ -5,3 +5,5 @@ import stargaze from 'chain-registry/mainnet/stargaze/chain';
 import akash from 'chain-registry/mainnet/akash/chain';
 
 export const chains = [osmosis, cosmoshub, juno, stargaze, akash];
+
+export const osmosisChainName = osmosis.chain_name;

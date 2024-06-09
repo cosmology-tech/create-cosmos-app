@@ -1,9 +1,13 @@
-import { Text } from '@interchain-ui/react';
+import { ReactNoSSR } from '@interchain-ui/react-no-ssr';
+import { AssetListSection } from '@/components';
+import { useChainStore } from '@/contexts';
 
-export default function AssetList() {
+export default function AssetListPage() {
+  const { selectedChain } = useChainStore();
+
   return (
-    <>
-      <Text>AssetList</Text>
-    </>
+    <ReactNoSSR>
+      <AssetListSection chainName={selectedChain} />
+    </ReactNoSSR>
   );
 }

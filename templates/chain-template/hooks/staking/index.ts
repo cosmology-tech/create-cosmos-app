@@ -1,4 +1,3 @@
-export * from './usePrices';
-export * from './useDisclosure';
 export * from './useStakingData';
+export * from './useAssetsPrices';
 export * from './useValidatorLogos';

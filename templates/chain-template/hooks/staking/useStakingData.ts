@@ -8,7 +8,7 @@ import {
   createRpcQueryHooks,
 } from 'interchain-query';
 
-import { usePrices } from './usePrices';
+import { useAssetsPrices } from './useAssetsPrices';
 import {
   shiftDigits,
   calcTotalDelegation,
@@ -161,7 +161,7 @@ export const useStakingData = (chainName: string) => {
     },
   });
 
-  const pricesQuery = usePrices();
+  const pricesQuery = useAssetsPrices();
 
   const allQueries = {
     balance: balanceQuery,

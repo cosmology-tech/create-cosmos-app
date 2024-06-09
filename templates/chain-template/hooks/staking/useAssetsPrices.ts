@@ -41,11 +41,11 @@ const fetchPrices = async (
     .then((res) => res.json());
 };
 
-export const usePrices = () => {
+export const useAssetsPrices = () => {
   const geckoIds = getGeckoIdsFromAssets(assets);
 
   return useQuery({
-    queryKey: ['prices'],
+    queryKey: ['useAssetsPrices'],
     queryFn: () => fetchPrices(geckoIds),
     select: (data) => formatPrices(data, assets),
     staleTime: Infinity,
