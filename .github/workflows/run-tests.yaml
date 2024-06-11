@@ -11,14 +11,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # TODO: build global from the repo itself
-      # - name: Checkout Repository 🛎️
-      # uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
+
+      - name: Set up Yarn
+        uses: threeal/setup-yarn-action@v2.0.0
 
       - name: Install Dependencies
         run: npm install -g create-cosmos-app
@@ -35,11 +34,11 @@ jobs:
           cd vote-proposal
           yarn build
 
-      # - name: ibc-transfer
-      #   run: |
-      #     cca --example ibc-transfer --name ibc-transfer
-      #     cd ibc-transfer
-      #     yarn build
+      - name: ibc-transfer
+        run: |
+          cca --example ibc-transfer --name ibc-transfer
+          cd ibc-transfer
+          yarn build
 
       - name: swap-tokens
         run: |
