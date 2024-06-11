@@ -23,7 +23,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          yarn config set -H enableImmutableInstalls false
+          echo "YARN_ENABLE_IMMUTABLE_INSTALLS=false" >> $GITHUB_ENV
           npm install -g create-cosmos-app
 
       - name: asset-list
