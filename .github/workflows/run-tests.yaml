@@ -22,7 +22,9 @@ jobs:
           cache: false
 
       - name: Install Dependencies
-        run: npm install -g create-cosmos-app
+        run: |
+          yarn config set -H enableImmutableInstalls false
+          npm install -g create-cosmos-app
 
       - name: asset-list
         run: |
