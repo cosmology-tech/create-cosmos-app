@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "cosmos.authz.v1beta1";
 /** EventGrant is emitted on Msg/Grant */
@@ -128,7 +129,7 @@ export const EventGrant = {
     if (isSet(object.grantee)) obj.grantee = String(object.grantee);
     return obj;
   },
-  toJSON(message: EventGrant): unknown {
+  toJSON(message: EventGrant): JsonSafe<EventGrant> {
     const obj: any = {};
     message.msgTypeUrl !== undefined && (obj.msgTypeUrl = message.msgTypeUrl);
     message.granter !== undefined && (obj.granter = message.granter);
@@ -261,7 +262,7 @@ export const EventRevoke = {
     if (isSet(object.grantee)) obj.grantee = String(object.grantee);
     return obj;
   },
-  toJSON(message: EventRevoke): unknown {
+  toJSON(message: EventRevoke): JsonSafe<EventRevoke> {
     const obj: any = {};
     message.msgTypeUrl !== undefined && (obj.msgTypeUrl = message.msgTypeUrl);
     message.granter !== undefined && (obj.granter = message.granter);

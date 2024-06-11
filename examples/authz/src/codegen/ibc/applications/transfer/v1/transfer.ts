@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
+import { JsonSafe } from "../../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../../registry";
 export const protobufPackage = "ibc.applications.transfer.v1";
 /**
@@ -152,7 +153,7 @@ export const DenomTrace = {
     if (isSet(object.baseDenom)) obj.baseDenom = String(object.baseDenom);
     return obj;
   },
-  toJSON(message: DenomTrace): unknown {
+  toJSON(message: DenomTrace): JsonSafe<DenomTrace> {
     const obj: any = {};
     message.path !== undefined && (obj.path = message.path);
     message.baseDenom !== undefined && (obj.baseDenom = message.baseDenom);
@@ -269,7 +270,7 @@ export const Params = {
     if (isSet(object.receiveEnabled)) obj.receiveEnabled = Boolean(object.receiveEnabled);
     return obj;
   },
-  toJSON(message: Params): unknown {
+  toJSON(message: Params): JsonSafe<Params> {
     const obj: any = {};
     message.sendEnabled !== undefined && (obj.sendEnabled = message.sendEnabled);
     message.receiveEnabled !== undefined && (obj.receiveEnabled = message.receiveEnabled);

@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "cosmos.crypto.secp256k1";
 /**
@@ -106,7 +107,7 @@ export const PubKey = {
     if (isSet(object.key)) obj.key = bytesFromBase64(object.key);
     return obj;
   },
-  toJSON(message: PubKey): unknown {
+  toJSON(message: PubKey): JsonSafe<PubKey> {
     const obj: any = {};
     message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
     return obj;
@@ -207,7 +208,7 @@ export const PrivKey = {
     if (isSet(object.key)) obj.key = bytesFromBase64(object.key);
     return obj;
   },
-  toJSON(message: PrivKey): unknown {
+  toJSON(message: PrivKey): JsonSafe<PrivKey> {
     const obj: any = {};
     message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
     return obj;

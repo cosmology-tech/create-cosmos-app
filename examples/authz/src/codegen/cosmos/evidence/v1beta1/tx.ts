@@ -2,6 +2,7 @@
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "cosmos.evidence.v1beta1";
 /**
@@ -114,7 +115,7 @@ export const MsgSubmitEvidence = {
     if (isSet(object.evidence)) obj.evidence = GlobalDecoderRegistry.fromJSON(object.evidence);
     return obj;
   },
-  toJSON(message: MsgSubmitEvidence): unknown {
+  toJSON(message: MsgSubmitEvidence): JsonSafe<MsgSubmitEvidence> {
     const obj: any = {};
     message.submitter !== undefined && (obj.submitter = message.submitter);
     message.evidence !== undefined && (obj.evidence = message.evidence ? GlobalDecoderRegistry.toJSON(message.evidence) : undefined);
@@ -225,7 +226,7 @@ export const MsgSubmitEvidenceResponse = {
     if (isSet(object.hash)) obj.hash = bytesFromBase64(object.hash);
     return obj;
   },
-  toJSON(message: MsgSubmitEvidenceResponse): unknown {
+  toJSON(message: MsgSubmitEvidenceResponse): JsonSafe<MsgSubmitEvidenceResponse> {
     const obj: any = {};
     message.hash !== undefined && (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
     return obj;

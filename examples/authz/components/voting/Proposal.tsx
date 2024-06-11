@@ -182,7 +182,7 @@ export function Proposal({
       >
         <Box display="flex" justifyContent="space-between">
           {timepoints.map((timepoint) => (
-            <Stack direction="vertical" space="$1">
+            <Stack key={timepoint.label} direction="vertical" space="$1">
               <Text
                 color="$textSecondary"
                 fontSize="$sm"

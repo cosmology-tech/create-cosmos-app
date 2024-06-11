@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "cosmos.base.v1beta1";
 /**
@@ -172,7 +173,7 @@ export const Coin = {
     if (isSet(object.amount)) obj.amount = String(object.amount);
     return obj;
   },
-  toJSON(message: Coin): unknown {
+  toJSON(message: Coin): JsonSafe<Coin> {
     const obj: any = {};
     message.denom !== undefined && (obj.denom = message.denom);
     message.amount !== undefined && (obj.amount = message.amount);
@@ -289,7 +290,7 @@ export const DecCoin = {
     if (isSet(object.amount)) obj.amount = String(object.amount);
     return obj;
   },
-  toJSON(message: DecCoin): unknown {
+  toJSON(message: DecCoin): JsonSafe<DecCoin> {
     const obj: any = {};
     message.denom !== undefined && (obj.denom = message.denom);
     message.amount !== undefined && (obj.amount = message.amount);
@@ -398,7 +399,7 @@ export const IntProto = {
     if (isSet(object.int)) obj.int = String(object.int);
     return obj;
   },
-  toJSON(message: IntProto): unknown {
+  toJSON(message: IntProto): JsonSafe<IntProto> {
     const obj: any = {};
     message.int !== undefined && (obj.int = message.int);
     return obj;
@@ -499,7 +500,7 @@ export const DecProto = {
     if (isSet(object.dec)) obj.dec = String(object.dec);
     return obj;
   },
-  toJSON(message: DecProto): unknown {
+  toJSON(message: DecProto): JsonSafe<DecProto> {
     const obj: any = {};
     message.dec !== undefined && (obj.dec = message.dec);
     return obj;
