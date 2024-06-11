@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { bytesFromBase64, base64FromBytes, DeepPartial, isSet } from "../../../../helpers";
+import { JsonSafe } from "../../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../../registry";
 export const protobufPackage = "cosmos.crypto.multisig.v1beta1";
 /**
@@ -118,7 +119,7 @@ export const MultiSignature = {
     if (Array.isArray(object?.signatures)) obj.signatures = object.signatures.map((e: any) => bytesFromBase64(e));
     return obj;
   },
-  toJSON(message: MultiSignature): unknown {
+  toJSON(message: MultiSignature): JsonSafe<MultiSignature> {
     const obj: any = {};
     if (message.signatures) {
       obj.signatures = message.signatures.map(e => base64FromBytes(e !== undefined ? e : new Uint8Array()));
@@ -237,7 +238,7 @@ export const CompactBitArray = {
     if (isSet(object.elems)) obj.elems = bytesFromBase64(object.elems);
     return obj;
   },
-  toJSON(message: CompactBitArray): unknown {
+  toJSON(message: CompactBitArray): JsonSafe<CompactBitArray> {
     const obj: any = {};
     message.extraBitsStored !== undefined && (obj.extraBitsStored = Math.round(message.extraBitsStored));
     message.elems !== undefined && (obj.elems = base64FromBytes(message.elems !== undefined ? message.elems : new Uint8Array()));

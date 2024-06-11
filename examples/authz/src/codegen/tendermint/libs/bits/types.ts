@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "tendermint.libs.bits";
 export interface BitArray {
@@ -84,7 +85,7 @@ export const BitArray = {
     if (Array.isArray(object?.elems)) obj.elems = object.elems.map((e: any) => BigInt(e.toString()));
     return obj;
   },
-  toJSON(message: BitArray): unknown {
+  toJSON(message: BitArray): JsonSafe<BitArray> {
     const obj: any = {};
     message.bits !== undefined && (obj.bits = (message.bits || BigInt(0)).toString());
     if (message.elems) {

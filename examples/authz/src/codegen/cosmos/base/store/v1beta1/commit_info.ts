@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
+import { JsonSafe } from "../../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../../registry";
 export const protobufPackage = "cosmos.base.store.v1beta1";
 /**
@@ -152,7 +153,7 @@ export const CommitInfo = {
     if (Array.isArray(object?.storeInfos)) obj.storeInfos = object.storeInfos.map((e: any) => StoreInfo.fromJSON(e));
     return obj;
   },
-  toJSON(message: CommitInfo): unknown {
+  toJSON(message: CommitInfo): JsonSafe<CommitInfo> {
     const obj: any = {};
     message.version !== undefined && (obj.version = (message.version || BigInt(0)).toString());
     if (message.storeInfos) {
@@ -281,7 +282,7 @@ export const StoreInfo = {
     if (isSet(object.commitId)) obj.commitId = CommitID.fromJSON(object.commitId);
     return obj;
   },
-  toJSON(message: StoreInfo): unknown {
+  toJSON(message: StoreInfo): JsonSafe<StoreInfo> {
     const obj: any = {};
     message.name !== undefined && (obj.name = message.name);
     message.commitId !== undefined && (obj.commitId = message.commitId ? CommitID.toJSON(message.commitId) : undefined);
@@ -400,7 +401,7 @@ export const CommitID = {
     if (isSet(object.hash)) obj.hash = bytesFromBase64(object.hash);
     return obj;
   },
-  toJSON(message: CommitID): unknown {
+  toJSON(message: CommitID): JsonSafe<CommitID> {
     const obj: any = {};
     message.version !== undefined && (obj.version = (message.version || BigInt(0)).toString());
     message.hash !== undefined && (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));

@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "cosmwasm.wasm.v1";
 /** MsgIBCSend */
@@ -147,7 +148,7 @@ export const MsgIBCSend = {
     if (isSet(object.data)) obj.data = bytesFromBase64(object.data);
     return obj;
   },
-  toJSON(message: MsgIBCSend): unknown {
+  toJSON(message: MsgIBCSend): JsonSafe<MsgIBCSend> {
     const obj: any = {};
     message.channel !== undefined && (obj.channel = message.channel);
     message.timeoutHeight !== undefined && (obj.timeoutHeight = (message.timeoutHeight || BigInt(0)).toString());
@@ -276,7 +277,7 @@ export const MsgIBCCloseChannel = {
     if (isSet(object.channel)) obj.channel = String(object.channel);
     return obj;
   },
-  toJSON(message: MsgIBCCloseChannel): unknown {
+  toJSON(message: MsgIBCCloseChannel): JsonSafe<MsgIBCCloseChannel> {
     const obj: any = {};
     message.channel !== undefined && (obj.channel = message.channel);
     return obj;

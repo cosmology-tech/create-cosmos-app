@@ -1,0 +1,82 @@
+name: Build Next.js examples
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      fail-fast: true
+      matrix:
+        example:
+          [
+            asset-list,
+            authz,
+            vote-proposal,
+            ibc-transfer,
+            swap-tokens,
+            provide-liquidity,
+            nft,
+            connect-chain,
+            connect-multi-chain,
+          ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set template_path Environment Variable
+        run: |
+          example_value="${{ matrix.example }}"
+
+          if [[ "$example_value" == "connect-chain" ]] || [[ "$example_value" == "connect-multi-chain" ]]; then
+            echo "template_path=templates" >> $GITHUB_ENV
+            echo "ci_template_path=dest" >> $GITHUB_ENV
+          else
+            echo "template_path=examples" >> $GITHUB_ENV
+            echo "ci_template_path=dest" >> $GITHUB_ENV
+          fi
+
+      - name: Log
+        run: |
+          echo "Using template_path: $template_path"
+          echo "Using ci_template_path: $ci_template_path"
+
+      - name: Clone example
+        run: |
+          echo "Cloning example: ./$template_path/${{ matrix.example }}/" into "${{ github.workspace }}/$ci_template_path/${{ matrix.example }}"
+
+          mkdir -p ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
+          cp -r ./$template_path/${{ matrix.example }}/ ${{ github.workspace }}/$ci_template_path/
+          cd ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up Yarn
+        uses: threeal/setup-yarn-action@v2.0.0
+
+      - name: Cache NextJS
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/.next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
+
+      - name: Build example project
+        run: |
+          echo "Building example: ${{ matrix.example }} in directory ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}"
+          cd ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
+          ls -la
+          yarn install
+          yarn build

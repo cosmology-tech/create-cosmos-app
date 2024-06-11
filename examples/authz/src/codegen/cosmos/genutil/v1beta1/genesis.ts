@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "cosmos.genutil.v1beta1";
 /** GenesisState defines the raw genesis transaction in JSON. */
@@ -70,7 +71,7 @@ export const GenesisState = {
     if (Array.isArray(object?.genTxs)) obj.genTxs = object.genTxs.map((e: any) => bytesFromBase64(e));
     return obj;
   },
-  toJSON(message: GenesisState): unknown {
+  toJSON(message: GenesisState): JsonSafe<GenesisState> {
     const obj: any = {};
     if (message.genTxs) {
       obj.genTxs = message.genTxs.map(e => base64FromBytes(e !== undefined ? e : new Uint8Array()));

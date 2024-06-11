@@ -56,16 +56,16 @@ export const ConnectWalletButton = ({
         gap="$4"
         as="span"
         borderRadius="8px"
-        // @ts-ignore
-        style={{
-          zIndex: '1',
-        }}
+        zIndex={1}
+        color={useColorModeValue('$textInverse', '$text')}
       >
         <Box as="span">
           <IoWallet />
         </Box>
 
-        <Box as="span">{buttonText ? buttonText : 'Connect Wallet'}</Box>
+        <Box as="span" fontSize="$md" color="inherit">
+          {buttonText ? buttonText : 'Connect Wallet'}
+        </Box>
       </Box>
     </Button>
   );

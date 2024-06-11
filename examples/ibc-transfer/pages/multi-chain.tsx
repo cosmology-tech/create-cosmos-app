@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import NoSSR from 'react-no-ssr';
+import { ReactNoSSR } from '@interchain-ui/react-no-ssr';
 import { ChainName } from 'cosmos-kit';
 import { AssetListSection, Layout, WalletSection } from '@/components';
 
@@ -13,10 +13,9 @@ export default function MultiChain() {
         providedChainName={chainName}
         setChainName={setChainName}
       />
-      {/* TODO fix type error */}
-      {/* Type error: This JSX tag's 'children' prop expects a single child of type 'ReactNode', but multiple children were provided. */}
-      {/* @ts-ignore */}
-      <NoSSR>{chainName && <AssetListSection chainName={chainName} />}</NoSSR>
+      <ReactNoSSR>
+        {chainName && <AssetListSection chainName={chainName} />}
+      </ReactNoSSR>
     </Layout>
   );
 }

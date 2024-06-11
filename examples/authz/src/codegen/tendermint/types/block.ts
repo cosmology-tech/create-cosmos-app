@@ -3,6 +3,7 @@ import { Header, HeaderAmino, HeaderSDKType, Data, DataAmino, DataSDKType, Commi
 import { EvidenceList, EvidenceListAmino, EvidenceListSDKType } from "./evidence";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
+import { JsonSafe } from "../../json-safe";
 import { GlobalDecoderRegistry } from "../../registry";
 export const protobufPackage = "tendermint.types";
 export interface Block {
@@ -99,7 +100,7 @@ export const Block = {
     if (isSet(object.lastCommit)) obj.lastCommit = Commit.fromJSON(object.lastCommit);
     return obj;
   },
-  toJSON(message: Block): unknown {
+  toJSON(message: Block): JsonSafe<Block> {
     const obj: any = {};
     message.header !== undefined && (obj.header = message.header ? Header.toJSON(message.header) : undefined);
     message.data !== undefined && (obj.data = message.data ? Data.toJSON(message.data) : undefined);

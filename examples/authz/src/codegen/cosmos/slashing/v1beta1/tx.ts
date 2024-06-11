@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "cosmos.slashing.v1beta1";
 /** MsgUnjail defines the Msg/Unjail request type */
@@ -82,7 +83,7 @@ export const MsgUnjail = {
     if (isSet(object.validatorAddr)) obj.validatorAddr = String(object.validatorAddr);
     return obj;
   },
-  toJSON(message: MsgUnjail): unknown {
+  toJSON(message: MsgUnjail): JsonSafe<MsgUnjail> {
     const obj: any = {};
     message.validatorAddr !== undefined && (obj.validatorAddr = message.validatorAddr);
     return obj;
@@ -174,7 +175,7 @@ export const MsgUnjailResponse = {
     const obj = createBaseMsgUnjailResponse();
     return obj;
   },
-  toJSON(_: MsgUnjailResponse): unknown {
+  toJSON(_: MsgUnjailResponse): JsonSafe<MsgUnjailResponse> {
     const obj: any = {};
     return obj;
   },

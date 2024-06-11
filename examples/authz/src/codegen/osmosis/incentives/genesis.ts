@@ -4,6 +4,7 @@ import { Gauge, GaugeAmino, GaugeSDKType } from "./gauge";
 import { Duration, DurationAmino, DurationSDKType } from "../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
+import { JsonSafe } from "../../json-safe";
 import { GlobalDecoderRegistry } from "../../registry";
 export const protobufPackage = "osmosis.incentives";
 /**
@@ -133,7 +134,7 @@ export const GenesisState = {
     if (isSet(object.lastGaugeId)) obj.lastGaugeId = BigInt(object.lastGaugeId.toString());
     return obj;
   },
-  toJSON(message: GenesisState): unknown {
+  toJSON(message: GenesisState): JsonSafe<GenesisState> {
     const obj: any = {};
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
     if (message.gauges) {

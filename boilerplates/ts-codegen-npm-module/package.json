@@ -52,7 +52,7 @@
     "publish-scripts": "0.1.0",
     "rimraf": "^5.0.0",
     "ts-jest": "^29.1.0",
-    "typescript": "^5.0.4"
+    "typescript": "^5.1.6"
   },
   "dependencies": {
     "@cosmjs/cosmwasm-stargate": "^0.31.0",

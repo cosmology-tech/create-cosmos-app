@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "osmosis.tokenfactory.v1beta1";
 /**
@@ -82,7 +83,7 @@ export const DenomAuthorityMetadata = {
     if (isSet(object.admin)) obj.admin = String(object.admin);
     return obj;
   },
-  toJSON(message: DenomAuthorityMetadata): unknown {
+  toJSON(message: DenomAuthorityMetadata): JsonSafe<DenomAuthorityMetadata> {
     const obj: any = {};
     message.admin !== undefined && (obj.admin = message.admin);
     return obj;
