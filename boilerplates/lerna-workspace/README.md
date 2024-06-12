@@ -20,11 +20,20 @@ npm install __MODULENAME__
 
 ## Developing
 
-
 When first cloning the repo:
-```
+
+```sh
 yarn
+# build the prod packages, this will navigate from references to their definitions (.d.ts files) between packages.
 yarn build
+```
+
+Or if you want to make your dev process smoother, you can run:
+
+```sh
+yarn
+# build the dev packages, this enables navigation from references to their source code between packages.
+yarn build:dev
 ```
 
 ## Related
