@@ -22,7 +22,7 @@ const variantStyles: Record<Variant, BoxProps> = {
     color: '$textSecondary',
     backgroundColor: {
       hover: '#F3F5FA',
-      base: 'transparent',
+      base: '$white',
     },
   },
   primary: {

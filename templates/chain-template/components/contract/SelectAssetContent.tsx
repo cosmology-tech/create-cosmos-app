@@ -26,7 +26,7 @@ export const SelectAssetContent = ({}: SelectAssetContentProps) => {
         justifyContent="space-between"
         alignItems="flex-end"
         gap="10px"
-        mb="20px"
+        my="20px"
       >
         <Box>
           <Text fontSize="16px" fontWeight="400" attributes={{ mb: '10px' }}>

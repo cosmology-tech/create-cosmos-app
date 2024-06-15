@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Box, Text } from '@interchain-ui/react';
+import { IoMdCode } from 'react-icons/io';
+import { LuFileInput } from 'react-icons/lu';
 
-import { colors } from '@/config';
+import { Button } from '@/components';
+import { JsonEditor } from './JsonEditor';
 import { ContractInfo } from './ContractInfo';
 import { AttachFundsSelect } from './AttachFundsSelect';
-import { Button } from '../common';
-import { IoMdCode } from 'react-icons/io';
-import { GoGear } from 'react-icons/go';
 
 type ExecuteTabProps = {
   show: boolean;
@@ -14,6 +14,7 @@ type ExecuteTabProps = {
 
 export const ExecuteTab = ({ show }: ExecuteTabProps) => {
   const [contractAddress, setContractAddress] = useState('');
+  const [jsonValue, setJsonValue] = useState('');
 
   return (
     <Box display={show ? 'block' : 'none'}>
@@ -32,13 +33,11 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
           <Text fontSize="16px" fontWeight="500" attributes={{ mb: '10px' }}>
             Execute Msg
           </Text>
-          <Box
+          <JsonEditor
+            value={jsonValue}
+            setValue={setJsonValue}
             height="324px"
-            borderWidth="1px"
-            borderStyle="solid"
-            borderColor={colors.black300}
-            borderRadius="4px"
-          ></Box>
+          />
         </Box>
 
         <Box flex="1">
@@ -53,7 +52,7 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
         <Button rightIcon={<IoMdCode size="20px" />} px="10px">
           Code Snippet
         </Button>
-        <Button rightIcon={<GoGear size="20px" />} px="10px">
+        <Button rightIcon={<LuFileInput size="20px" />} px="10px">
           Execute
         </Button>
       </Box>
