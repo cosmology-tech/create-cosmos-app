@@ -52,7 +52,7 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
         <Button rightIcon={<IoMdCode size="20px" />} px="10px">
           Code Snippet
         </Button>
-        <Button rightIcon={<LuFileInput size="20px" />} px="10px">
+        <Button rightIcon={<LuFileInput size="18px" />} px="10px">
           Execute
         </Button>
       </Box>
