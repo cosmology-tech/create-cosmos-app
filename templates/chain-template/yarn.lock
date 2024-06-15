@@ -195,7 +195,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/cosmwasm-stargate@npm:^0.32.2":
+"@cosmjs/cosmwasm-stargate@npm:0.32.3, @cosmjs/cosmwasm-stargate@npm:^0.32.2":
   version: 0.32.3
   resolution: "@cosmjs/cosmwasm-stargate@npm:0.32.3"
   dependencies:
@@ -625,6 +625,7 @@ __metadata:
     "@chain-registry/osmosis": "npm:1.61.3"
     "@chain-registry/types": "npm:0.44.3"
     "@cosmjs/amino": "npm:0.32.3"
+    "@cosmjs/cosmwasm-stargate": "npm:0.32.3"
     "@cosmjs/stargate": "npm:0.31.1"
     "@cosmos-kit/react": "npm:2.10.9"
     "@interchain-ui/react": "npm:1.23.0"

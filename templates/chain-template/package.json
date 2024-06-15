@@ -21,6 +21,7 @@
     "@chain-registry/assets": "1.63.5",
     "@chain-registry/osmosis": "1.61.3",
     "@cosmjs/amino": "0.32.3",
+    "@cosmjs/cosmwasm-stargate": "0.32.3",
     "@cosmjs/stargate": "0.31.1",
     "@cosmos-kit/react": "2.10.9",
     "@interchain-ui/react": "1.23.0",

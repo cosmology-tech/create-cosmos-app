@@ -11,6 +11,7 @@ type ButtonProps = {
   leftIcon?: ButtonIcon;
   rightIcon?: ButtonIcon;
   iconColor?: IconProps['color'];
+  iconSize?: IconProps['size'];
 } & BoxProps;
 
 const variantStyles: Record<Variant, BoxProps> = {
@@ -39,6 +40,7 @@ export const Button = ({
   variant = 'outline',
   disabled = false,
   iconColor = 'inherit',
+  iconSize = '$md',
   leftIcon,
   rightIcon,
   ...rest
@@ -64,7 +66,7 @@ export const Button = ({
       {...rest}
     >
       {typeof leftIcon === 'string' ? (
-        <Icon name={leftIcon} size="$lg" color={iconColor} />
+        <Icon name={leftIcon} size={iconSize} color={iconColor} />
       ) : (
         leftIcon
       )}
@@ -72,7 +74,7 @@ export const Button = ({
       {children}
 
       {typeof rightIcon === 'string' ? (
-        <Icon name={rightIcon} size="$lg" color={iconColor} />
+        <Icon name={rightIcon} size={iconSize} color={iconColor} />
       ) : (
         rightIcon
       )}
