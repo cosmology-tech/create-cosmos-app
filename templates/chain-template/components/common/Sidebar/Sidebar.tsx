@@ -14,7 +14,12 @@ export const Sidebar = ({}: SidebarProps) => {
   const { connect, disconnect, username, isWalletConnected, wallet, openView } =
     useChain(selectedChain);
 
-  const logoSrc = useColorModeValue(
+  const brandLogoSrc = useColorModeValue(
+    '/logos/your-logo.svg',
+    '/logos/your-logo-dark.svg'
+  );
+
+  const poweredByLogoSrc = useColorModeValue(
     '/logos/cosmology.svg',
     '/logos/cosmology-dark.svg'
   );
@@ -37,11 +42,11 @@ export const Sidebar = ({}: SidebarProps) => {
       borderRightStyle="solid"
     >
       <Image
-        src={logoSrc}
+        src={brandLogoSrc}
         alt="cosmology"
         width="0"
         height="0"
-        style={{ width: '180px', height: 'auto', marginBottom: '60px' }}
+        style={{ width: '180px', height: 'auto', marginBottom: '50px' }}
       />
       <NavItems />
       <Box mt="$auto">
@@ -103,7 +108,7 @@ export const Sidebar = ({}: SidebarProps) => {
             Powered by
           </Text>
           <Image
-            src={logoSrc}
+            src={poweredByLogoSrc}
             alt="cosmology"
             width="0"
             height="0"

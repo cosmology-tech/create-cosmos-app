@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Box, Icon, IconName, Stack, Text } from '@interchain-ui/react';
 import { RiHome7Line, RiStackLine } from 'react-icons/ri';
 import { MdOutlineWaterDrop, MdOutlineHowToVote } from 'react-icons/md';
-import { LuAlignHorizontalDistributeCenter, LuFileJson } from 'react-icons/lu';
+import { LuFileJson } from 'react-icons/lu';
 
 type NavIcon = IconName | JSX.Element;
 
@@ -28,11 +28,6 @@ const navItems: NavItem[] = [
     icon: <MdOutlineHowToVote size="20px" />,
     label: 'Governance',
     href: '/governance',
-  },
-  {
-    icon: <LuAlignHorizontalDistributeCenter size="20px" />,
-    label: 'Distribution',
-    href: '/distribution',
   },
   {
     icon: <MdOutlineWaterDrop size="20px" />,
