@@ -9,13 +9,11 @@ import { useContractInfo } from '@/hooks';
 import { shortenAddress, validateContractAddress } from '@/utils';
 
 type ContractInfoProps = {
-  contractAddress: string;
   setContractAddress: (address: string) => void;
   mb?: BoxProps['mb'];
 };
 
 export const ContractInfo = ({
-  contractAddress,
   setContractAddress,
   mb = '$0',
 }: ContractInfoProps) => {
@@ -32,7 +30,7 @@ export const ContractInfo = ({
     remove: removeQueryCache,
     isFetching,
   } = useContractInfo({
-    contractAddress,
+    contractAddress: input,
     enabled: false,
   });
 
@@ -42,18 +40,15 @@ export const ContractInfo = ({
       setInputErr(err);
       return;
     }
+    setInputErr(null);
     setContractAddress(input);
     fetchContractInfo().then(({ isSuccess }) => {
-      if (isSuccess) {
-        setIsEditable(false);
-        setInput(shortenAddress(input, 15));
-      }
+      if (isSuccess) setIsEditable(false);
     });
   };
 
   const handleEdit = () => {
     setIsEditable(true);
-    setInput(contractAddress);
     removeQueryCache();
   };
 
@@ -83,15 +78,14 @@ export const ContractInfo = ({
           <Box width={isEditable ? '$full' : '$auto'}>
             <TextField
               id="contract-address"
-              value={input}
+              value={isEditable ? input : shortenAddress(input, 15)}
               onChange={(e) => {
                 setInput(e.target.value);
                 setInputErr(null);
               }}
               placeholder="Enter contract address"
               intent={inputErr ? 'error' : 'default'}
-              disabled={isFetching}
-              readonly={!isEditable}
+              readonly={!isEditable || isFetching}
               attributes={{ width: isEditable ? 'auto' : '260px' }}
             />
             {inputErr && (

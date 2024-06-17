@@ -22,11 +22,7 @@ export const QueryTab = ({ show }: QueryTabProps) => {
 
   return (
     <Box display={show ? 'block' : 'none'}>
-      <ContractInfo
-        contractAddress={contractAddress}
-        setContractAddress={setContractAddress}
-        mb="30px"
-      />
+      <ContractInfo setContractAddress={setContractAddress} mb="30px" />
 
       <Text fontSize="16px" fontWeight="700" attributes={{ mb: '20px' }}>
         Query Message
