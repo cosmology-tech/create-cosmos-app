@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Box, Text } from '@interchain-ui/react';
 import { IoMdCode } from 'react-icons/io';
 import { LuFileInput } from 'react-icons/lu';
@@ -7,8 +7,12 @@ import { Button } from '@/components';
 import { JsonInput } from './JsonInput';
 import { ContractInfo } from './ContractInfo';
 import { colors } from '@/config';
-import { validateJson } from '@/utils';
+import { countJsonLines, validateJson } from '@/utils';
 import { CopyButton } from './CopyButton';
+import { useQueryContract } from '@/hooks';
+import { JsonEditor } from './JsonEditor';
+
+export const MIN_LINES = 12;
 
 type QueryTabProps = {
   show: boolean;
@@ -18,7 +22,46 @@ export const QueryTab = ({ show }: QueryTabProps) => {
   const [contractAddress, setContractAddress] = useState('');
   const [queryMsg, setQueryMsg] = useState('');
 
+  const {
+    data: queryResult,
+    refetch: queryContract,
+    error: queryContractError,
+    isFetching,
+  } = useQueryContract({
+    contractAddress,
+    queryMsg,
+    enabled: false,
+  });
+
+  const prevResultRef = useRef('');
+
+  const res = useMemo(() => {
+    if (isFetching) {
+      return prevResultRef.current;
+    } else {
+      const newResult = queryResult
+        ? JSON.stringify(queryResult, null, 2)
+        : queryContractError
+        ? (queryContractError as Error)?.message || 'Unknown error'
+        : '';
+
+      prevResultRef.current = newResult;
+
+      return newResult;
+    }
+  }, [isFetching]);
+
+  const isJsonValid = useMemo(() => {
+    return validateJson(res) === null || res.length === 0;
+  }, [res]);
+
+  const lines = useMemo(() => {
+    return Math.max(MIN_LINES, countJsonLines(res));
+  }, [res]);
+
   const isMsgValid = validateJson(queryMsg) === null;
+
+  const isQueryButtonDisabled = !contractAddress || !isMsgValid;
 
   return (
     <Box display={show ? 'block' : 'none'}>
@@ -43,11 +86,14 @@ export const QueryTab = ({ show }: QueryTabProps) => {
           <Box
             borderWidth="1px"
             borderStyle="solid"
-            borderColor={colors.black300}
+            borderColor={isJsonValid ? colors.black300 : colors.red}
             borderRadius="4px"
             height="324px"
+            overflowY="auto"
             p="10px"
-          ></Box>
+          >
+            <JsonEditor value={res} lines={lines} readOnly />
+          </Box>
         </Box>
       </Box>
 
@@ -56,7 +102,13 @@ export const QueryTab = ({ show }: QueryTabProps) => {
         <Button rightIcon={<IoMdCode size="20px" />} px="10px">
           Code Snippet
         </Button>
-        <Button rightIcon={<LuFileInput size="18px" />} px="10px">
+        <Button
+          rightIcon={<LuFileInput size="18px" />}
+          disabled={isQueryButtonDisabled}
+          onClick={queryContract}
+          isLoading={isFetching}
+          px="10px"
+        >
           Query
         </Button>
       </Box>

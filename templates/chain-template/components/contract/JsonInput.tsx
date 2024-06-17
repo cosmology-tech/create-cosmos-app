@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Box,
   BoxProps,
@@ -9,8 +9,8 @@ import {
 } from '@interchain-ui/react';
 
 import { colors } from '@/config';
-import { Button } from '@/components';
-import { prettifyJson, validateJson } from '@/utils';
+import { Button, MIN_LINES } from '@/components';
+import { countJsonLines, prettifyJson, validateJson } from '@/utils';
 import { JsonEditor } from './JsonEditor';
 
 type JsonDisplay = {
@@ -82,6 +82,10 @@ export const JsonInput = ({
   const { icon, text, textColor } = displayJsonState(jsonState);
   const isValidJson = validateJson(value) === null;
 
+  const lines = useMemo(() => {
+    return Math.max(countJsonLines(value), MIN_LINES);
+  }, [value]);
+
   return (
     <>
       <Box
@@ -90,10 +94,11 @@ export const JsonInput = ({
         borderStyle="solid"
         borderColor={colors.black300}
         borderRadius="4px"
+        overflowY="auto"
         p="10px"
         {...rest}
       >
-        <JsonEditor value={value} setValue={handleChange} />
+        <JsonEditor value={value} setValue={handleChange} lines={lines} />
         <Button
           px="6px"
           py="4px"

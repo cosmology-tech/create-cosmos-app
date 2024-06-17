@@ -42,3 +42,5 @@ export const prettifyJson = (text: string) => {
     return text;
   }
 };
+
+export const countJsonLines = (text: string) => text.split(/\n/).length;
