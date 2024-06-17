@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Box, Select, SelectOption, Text } from '@interchain-ui/react';
 import { SelectAssetContent } from './SelectAssetContent';
-import { JsonEditor } from './JsonEditor';
+import { JsonInput } from './JsonInput';
 
 type FundsOptionKey = 'no_funds' | 'select_asset' | 'json_asset_list';
 
@@ -33,7 +33,7 @@ export const AttachFundsSelect = ({}: AttachFundsSelectProps) => {
       label: 'Provide JSON asset list',
       key: 'json_asset_list',
       content: (
-        <JsonEditor
+        <JsonInput
           value={jsonValue}
           setValue={setJsonValue}
           height="275px"

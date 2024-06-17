@@ -4,7 +4,7 @@ import { IoMdCode } from 'react-icons/io';
 import { LuFileInput } from 'react-icons/lu';
 
 import { Button } from '@/components';
-import { JsonEditor } from './JsonEditor';
+import { JsonInput } from './JsonInput';
 import { ContractInfo } from './ContractInfo';
 import { AttachFundsSelect } from './AttachFundsSelect';
 
@@ -33,11 +33,7 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
           <Text fontSize="16px" fontWeight="500" attributes={{ mb: '10px' }}>
             Execute Msg
           </Text>
-          <JsonEditor
-            value={jsonValue}
-            setValue={setJsonValue}
-            height="324px"
-          />
+          <JsonInput value={jsonValue} setValue={setJsonValue} height="324px" />
         </Box>
 
         <Box flex="1">

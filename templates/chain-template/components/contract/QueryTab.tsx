@@ -4,9 +4,11 @@ import { IoMdCode } from 'react-icons/io';
 import { LuFileInput } from 'react-icons/lu';
 
 import { Button } from '@/components';
-import { JsonEditor } from './JsonEditor';
+import { JsonInput } from './JsonInput';
 import { ContractInfo } from './ContractInfo';
 import { colors } from '@/config';
+import { validateJson } from '@/utils';
+import { CopyButton } from './CopyButton';
 
 type QueryTabProps = {
   show: boolean;
@@ -14,7 +16,9 @@ type QueryTabProps = {
 
 export const QueryTab = ({ show }: QueryTabProps) => {
   const [contractAddress, setContractAddress] = useState('');
-  const [jsonValue, setJsonValue] = useState('');
+  const [queryMsg, setQueryMsg] = useState('');
+
+  const isMsgValid = validateJson(queryMsg) === null;
 
   return (
     <Box display={show ? 'block' : 'none'}>
@@ -33,11 +37,7 @@ export const QueryTab = ({ show }: QueryTabProps) => {
           <Text fontSize="16px" fontWeight="500" attributes={{ mb: '10px' }}>
             Query Msg
           </Text>
-          <JsonEditor
-            value={jsonValue}
-            setValue={setJsonValue}
-            height="324px"
-          />
+          <JsonInput value={queryMsg} setValue={setQueryMsg} height="324px" />
         </Box>
 
         <Box flex="1">
@@ -56,9 +56,7 @@ export const QueryTab = ({ show }: QueryTabProps) => {
       </Box>
 
       <Box display="flex" gap="10px" alignItems="center" mb="250px">
-        <Button rightIcon="copy" px="10px">
-          Copy
-        </Button>
+        <CopyButton value={queryMsg} disabled={!queryMsg} />
         <Button rightIcon={<IoMdCode size="20px" />} px="10px">
           Code Snippet
         </Button>

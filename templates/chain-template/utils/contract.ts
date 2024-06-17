@@ -23,3 +23,22 @@ export const validateContractAddress = (
 
   return null;
 };
+
+export const validateJson = (text: string) => {
+  try {
+    if (text.trim().length === 0)
+      throw new SyntaxError(`Can't use empty string`);
+    JSON.parse(text);
+    return null;
+  } catch (error) {
+    return (error as SyntaxError).message;
+  }
+};
+
+export const prettifyJson = (text: string) => {
+  try {
+    return JSON.stringify(JSON.parse(text), null, 2);
+  } catch {
+    return text;
+  }
+};
