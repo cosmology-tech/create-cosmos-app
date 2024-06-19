@@ -63,7 +63,7 @@ export default function Home() {
             as="span"
             color={useColorModeValue('primary.500', 'primary.200')}
           >
-            CosmosKit + Next.js
+            Cosmos Kit + Next.js
           </Text>
         </Heading>
       </Box>

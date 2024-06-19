@@ -2,7 +2,7 @@
 import { Link, Box, Button, Icon, Text, useTheme } from '@interchain-ui/react';
 import { dependencies } from '@/config';
 
-const stacks = ['CosmosKit', 'Next.js'];
+const stacks = ['Cosmos Kit', 'Next.js'];
 
 const osmojs = dependencies[0];
 
