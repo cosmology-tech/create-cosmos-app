@@ -9,7 +9,7 @@ import {
 } from "@interchain-ui/react";
 import { dependencies } from "@/config";
 
-const stacks = ["CosmosKit", "Next.js"];
+const stacks = ["Cosmos Kit", "Next.js"];
 
 const stargazejs = dependencies[0];
 

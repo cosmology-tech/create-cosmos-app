@@ -12,7 +12,7 @@ import {
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
 import { dependencies } from '@/config';
 
-const stacks = ['CosmosKit', 'Next.js'];
+const stacks = ['Cosmos Kit', 'Next.js'];
 
 const osmojs = dependencies[0];
 
