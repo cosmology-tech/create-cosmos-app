@@ -196,7 +196,7 @@ export default function Home() {
               'primary.200'
             )}
           >
-            CosmosKit&nbsp;+&nbsp;Next.js&nbsp;+&nbsp;
+            Cosmos Kit&nbsp;+&nbsp;Next.js&nbsp;+&nbsp;
             <Link href={library.href} target="_blank" rel="noreferrer">
               {library.title}
             </Link>

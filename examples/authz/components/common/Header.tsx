@@ -10,7 +10,7 @@ import {
   useColorModeValue,
 } from '@interchain-ui/react';
 
-const stacks = ['CosmosKit', 'Next.js'];
+const stacks = ['Cosmos Kit', 'Next.js'];
 
 export function Header() {
   const { theme, setTheme } = useTheme();
