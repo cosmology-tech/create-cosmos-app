@@ -18,9 +18,9 @@
     "clear:node_modules": "find . -name 'node_modules' -type d -prune -print | xargs rm -rf"
   },
   "devDependencies": {
-    "@babel/cli": "7.19.3",
-    "@babel/core": "7.20.2",
-    "@babel/eslint-parser": "^7.18.2",
+    "@babel/cli": "7.24.7",
+    "@babel/core": "7.24.7",
+    "@babel/eslint-parser": "^7.24.7",
     "@pyramation/babel-preset-env": "0.2.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^29.3.1",

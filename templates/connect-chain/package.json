@@ -20,11 +20,11 @@
   "dependencies": {
     "@cosmjs/cosmwasm-stargate": "0.31.1",
     "@cosmjs/stargate": "0.31.1",
-    "@cosmos-kit/react": "2.10.9",
+    "@cosmos-kit/react": "2.16.0",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
-    "@interchain-ui/react": "^1.23.16",
-    "@interchain-ui/react-no-ssr": "^0.1.2",
+    "@interchain-ui/react": "1.23.21",
+    "@interchain-ui/react-no-ssr": "^0.1.4",
     "chain-registry": "1.25.4",
     "cosmos-kit": "2.8.6",
     "framer-motion": "9.0.7",
@@ -34,9 +34,9 @@
     "react-icons": "4.6.0"
   },
   "devDependencies": {
-    "@types/node": "18.11.9",
-    "@types/react": "18.0.25",
-    "@types/react-dom": "18.0.9",
+    "@types/node": "18.19.37",
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.0",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
     "generate-lockfile": "0.0.12",
