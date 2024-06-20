@@ -28,7 +28,7 @@
     "@cosmjs/proto-signing": "0.31.1",
     "@cosmjs/stargate": "0.31.1",
     "@cosmology/lcd": "^0.12.0",
-    "@cosmos-kit/react": "2.16.0",
+    "@cosmos-kit/react": "2.10.9",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
     "@interchain-ui/react": "1.23.21",
