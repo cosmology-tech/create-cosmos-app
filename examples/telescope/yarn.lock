@@ -3453,7 +3453,7 @@ __metadata:
     "@cosmjson/wasmswap": "npm:^0.0.9"
     "@cosmology/lcd": "npm:^0.12.0"
     "@cosmology/telescope": "npm:^0.106.0"
-    "@cosmos-kit/react": "npm:2.16.0"
+    "@cosmos-kit/react": "npm:2.10.9"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@interchain-ui/react": "npm:1.23.21"
@@ -3654,7 +3654,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmos-kit/core@npm:^2.13.0":
+"@cosmos-kit/core@npm:^2.13.0, @cosmos-kit/core@npm:^2.8.9":
   version: 2.13.0
   resolution: "@cosmos-kit/core@npm:2.13.0"
   dependencies:
@@ -3918,7 +3918,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmos-kit/react-lite@npm:^2.12.0":
+"@cosmos-kit/react-lite@npm:^2.6.9":
   version: 2.12.0
   resolution: "@cosmos-kit/react-lite@npm:2.12.0"
   dependencies:
@@ -3934,21 +3934,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmos-kit/react@npm:2.16.0":
-  version: 2.16.0
-  resolution: "@cosmos-kit/react@npm:2.16.0"
+"@cosmos-kit/react@npm:2.10.9":
+  version: 2.10.9
+  resolution: "@cosmos-kit/react@npm:2.10.9"
   dependencies:
-    "@chain-registry/types": "npm:^0.45.1"
-    "@cosmos-kit/core": "npm:^2.13.0"
-    "@cosmos-kit/react-lite": "npm:^2.12.0"
+    "@chain-registry/types": "npm:0.17.0"
+    "@cosmos-kit/core": "npm:^2.8.9"
+    "@cosmos-kit/react-lite": "npm:^2.6.9"
     "@react-icons/all-files": "npm:^4.1.0"
   peerDependencies:
-    "@interchain-ui/react": ^1.23.9
-    "@types/react": ">= 17"
-    "@types/react-dom": ">= 17"
+    "@interchain-ui/react": ^1.16.6
     react: ^18
     react-dom: ^18
-  checksum: 10c0/3945275b502f2f7dba0e8bbb80a28be510c2bd8dd1ffeb5aeb1409ce85cdf81b6d8f1163648425f748804c0c095616ae6c4c830d1be6f96b69e6340ebd6c675b
+  checksum: 10c0/e78409eb614a5073f813245d8ca95f2149da430ca28f90b827c2e869d1ed4727cbe9ccbe22387632019d59646b7747f98a050d5f977a8c98e74c5cbf9cfd075d
   languageName: node
   linkType: hard
 

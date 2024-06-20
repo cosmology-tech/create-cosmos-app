@@ -21,7 +21,7 @@
     "@chain-registry/types": "0.17.1",
     "@cosmjs/cosmwasm-stargate": "0.31.1",
     "@cosmjs/stargate": "0.31.1",
-    "@cosmos-kit/react": "2.16.0",
+    "@cosmos-kit/react": "2.10.9",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
     "@interchain-ui/react": "1.23.21",
