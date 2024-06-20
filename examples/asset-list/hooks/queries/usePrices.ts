@@ -1,11 +1,16 @@
 import { Asset } from '@chain-registry/types';
 import { useQuery } from '@tanstack/react-query';
-import { useChainUtils } from '../useChainUtils';
 import { handleError } from './useTopTokens';
+import { assets, asset_lists } from '@/utils/local-chain-registry'
+import { mapCoinGeckoPricesToDenoms } from '@chain-registry/utils'
+import { CoinGeckoUSD } from '@/utils/types';
 
-type CoinGeckoId = string;
-type CoinGeckoUSD = { usd: number };
-type CoinGeckoUSDResponse = Record<CoinGeckoId, CoinGeckoUSD>;
+
+type CoinGeckoUSDResponse = Record<string, CoinGeckoUSD>;
+
+const allAssetLists = [...assets, ...asset_lists]
+
+const allAssets = allAssetLists.flatMap(a => a.assets)
 
 const getAssetsWithGeckoIds = (assets: Asset[]) => {
   return assets.filter((asset) => !!asset?.coingecko_id);
@@ -19,10 +24,7 @@ const formatPrices = (
   prices: CoinGeckoUSDResponse,
   assets: Asset[]
 ): Record<string, number> => {
-  return Object.entries(prices).reduce((priceHash, cur) => {
-    const denom = assets.find((asset) => asset.coingecko_id === cur[0])!.base;
-    return { ...priceHash, [denom]: cur[1].usd };
-  }, {});
+  return mapCoinGeckoPricesToDenoms(allAssetLists, prices)
 };
 
 const fetchPrices = async (
@@ -36,10 +38,8 @@ const fetchPrices = async (
 };
 
 export const usePrices = (chainName: string) => {
-  const { allAssets } = useChainUtils(chainName);
   const assetsWithGeckoIds = getAssetsWithGeckoIds(allAssets);
-  const geckoIds = getGeckoIds(assetsWithGeckoIds);
-
+  const geckoIds = [...new Set(getGeckoIds(assetsWithGeckoIds))];
   return useQuery({
     queryKey: ['prices', chainName],
     queryFn: () => fetchPrices(geckoIds),
