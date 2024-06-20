@@ -40,5 +40,5 @@
     "type": "git",
     "url": "https://github.com/cosmology-tech/create-cosmos-app"
   },
-  "packageManager": "yarn@4.1.0"
+  "packageManager": "yarn@4.3.0"
 }
