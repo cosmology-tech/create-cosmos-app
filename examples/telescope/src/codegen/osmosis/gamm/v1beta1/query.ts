@@ -1,7 +1,13 @@
 import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../../cosmos/base/query/v1beta1/pagination";
 import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { SwapAmountInRoute, SwapAmountInRouteAmino, SwapAmountInRouteSDKType, SwapAmountOutRoute, SwapAmountOutRouteAmino, SwapAmountOutRouteSDKType } from "./tx";
-import { Any, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
+import { Pool as Pool1 } from "../pool-models/balancer/balancerPool";
+import { PoolProtoMsg as Pool1ProtoMsg } from "../pool-models/balancer/balancerPool";
+import { PoolSDKType as Pool1SDKType } from "../pool-models/balancer/balancerPool";
+import { Pool as Pool2 } from "../pool-models/stableswap/stableswap_pool";
+import { PoolProtoMsg as Pool2ProtoMsg } from "../pool-models/stableswap/stableswap_pool";
+import { PoolSDKType as Pool2SDKType } from "../pool-models/stableswap/stableswap_pool";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 /** =============================== Pool */
@@ -25,12 +31,15 @@ export interface QueryPoolRequestSDKType {
   pool_id: bigint;
 }
 export interface QueryPoolResponse {
-  pool: Any | undefined;
+  pool: Pool1 | Pool2 | Any | undefined;
 }
 export interface QueryPoolResponseProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.QueryPoolResponse";
   value: Uint8Array;
 }
+export type QueryPoolResponseEncoded = Omit<QueryPoolResponse, "pool"> & {
+  pool?: Pool1ProtoMsg | Pool2ProtoMsg | AnyProtoMsg | undefined;
+};
 export interface QueryPoolResponseAmino {
   pool?: AnyAmino | undefined;
 }
@@ -39,7 +48,7 @@ export interface QueryPoolResponseAminoMsg {
   value: QueryPoolResponseAmino;
 }
 export interface QueryPoolResponseSDKType {
-  pool: AnySDKType | undefined;
+  pool: Pool1SDKType | Pool2SDKType | AnySDKType | undefined;
 }
 /** =============================== Pools */
 export interface QueryPoolsRequest {
@@ -64,7 +73,7 @@ export interface QueryPoolsRequestSDKType {
   pagination: PageRequestSDKType | undefined;
 }
 export interface QueryPoolsResponse {
-  pools: Any[];
+  pools: (Pool1 | Pool2 | Any)[] | Any[];
   /** pagination defines the pagination in the response. */
   pagination: PageResponse | undefined;
 }
@@ -72,6 +81,9 @@ export interface QueryPoolsResponseProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.QueryPoolsResponse";
   value: Uint8Array;
 }
+export type QueryPoolsResponseEncoded = Omit<QueryPoolsResponse, "pools"> & {
+  pools: (Pool1ProtoMsg | Pool2ProtoMsg | AnyProtoMsg)[];
+};
 export interface QueryPoolsResponseAmino {
   pools: AnyAmino[];
   /** pagination defines the pagination in the response. */
@@ -82,7 +94,7 @@ export interface QueryPoolsResponseAminoMsg {
   value: QueryPoolsResponseAmino;
 }
 export interface QueryPoolsResponseSDKType {
-  pools: AnySDKType[];
+  pools: (Pool1SDKType | Pool2SDKType | AnySDKType)[];
   pagination: PageResponseSDKType | undefined;
 }
 /** =============================== NumPools */
@@ -452,7 +464,7 @@ export interface QueryPoolsWithFilterRequestSDKType {
   pagination: PageRequestSDKType | undefined;
 }
 export interface QueryPoolsWithFilterResponse {
-  pools: Any[];
+  pools: (Pool1 | Pool2 | Any)[] | Any[];
   /** pagination defines the pagination in the response. */
   pagination: PageResponse | undefined;
 }
@@ -460,6 +472,9 @@ export interface QueryPoolsWithFilterResponseProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.QueryPoolsWithFilterResponse";
   value: Uint8Array;
 }
+export type QueryPoolsWithFilterResponseEncoded = Omit<QueryPoolsWithFilterResponse, "pools"> & {
+  pools: (Pool1ProtoMsg | Pool2ProtoMsg | AnyProtoMsg)[];
+};
 export interface QueryPoolsWithFilterResponseAmino {
   pools: AnyAmino[];
   /** pagination defines the pagination in the response. */
@@ -470,7 +485,7 @@ export interface QueryPoolsWithFilterResponseAminoMsg {
   value: QueryPoolsWithFilterResponseAmino;
 }
 export interface QueryPoolsWithFilterResponseSDKType {
-  pools: AnySDKType[];
+  pools: (Pool1SDKType | Pool2SDKType | AnySDKType)[];
   pagination: PageResponseSDKType | undefined;
 }
 /**
@@ -729,7 +744,7 @@ export const QueryPoolResponse = {
   aminoType: "osmosis/gamm/query-pool-response",
   encode(message: QueryPoolResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pool !== undefined) {
-      Any.encode(message.pool, writer.uint32(10).fork()).ldelim();
+      Any.encode((message.pool as Any), writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
@@ -741,7 +756,7 @@ export const QueryPoolResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.pool = Any.decode(reader, reader.uint32());
+          message.pool = (PoolI_InterfaceDecoder(reader) as Any);
           break;
         default:
           reader.skipType(tag & 7);
@@ -777,12 +792,12 @@ export const QueryPoolResponse = {
   },
   fromAmino(object: QueryPoolResponseAmino): QueryPoolResponse {
     return {
-      pool: object?.pool ? Any.fromAmino(object.pool) : undefined
+      pool: object?.pool ? PoolI_FromAmino(object.pool) : undefined
     };
   },
   toAmino(message: QueryPoolResponse): QueryPoolResponseAmino {
     const obj: any = {};
-    obj.pool = message.pool ? Any.toAmino(message.pool) : undefined;
+    obj.pool = message.pool ? PoolI_ToAmino((message.pool as Any)) : undefined;
     return obj;
   },
   fromAminoMsg(object: QueryPoolResponseAminoMsg): QueryPoolResponse {
@@ -906,7 +921,7 @@ export const QueryPoolsResponse = {
   aminoType: "osmosis/gamm/query-pools-response",
   encode(message: QueryPoolsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.pools) {
-      Any.encode(v!, writer.uint32(10).fork()).ldelim();
+      Any.encode((v! as Any), writer.uint32(10).fork()).ldelim();
     }
     if (message.pagination !== undefined) {
       PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
@@ -921,7 +936,7 @@ export const QueryPoolsResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.pools.push(Any.decode(reader, reader.uint32()));
+          message.pools.push((PoolI_InterfaceDecoder(reader) as Any));
           break;
         case 2:
           message.pagination = PageResponse.decode(reader, reader.uint32());
@@ -973,14 +988,14 @@ export const QueryPoolsResponse = {
   },
   fromAmino(object: QueryPoolsResponseAmino): QueryPoolsResponse {
     return {
-      pools: Array.isArray(object?.pools) ? object.pools.map((e: any) => Any.fromAmino(e)) : [],
+      pools: Array.isArray(object?.pools) ? object.pools.map((e: any) => PoolI_FromAmino(e)) : [],
       pagination: object?.pagination ? PageResponse.fromAmino(object.pagination) : undefined
     };
   },
   toAmino(message: QueryPoolsResponse): QueryPoolsResponseAmino {
     const obj: any = {};
     if (message.pools) {
-      obj.pools = message.pools.map(e => e ? Any.toAmino(e) : undefined);
+      obj.pools = message.pools.map(e => e ? PoolI_ToAmino((e as Any)) : undefined);
     } else {
       obj.pools = [];
     }
@@ -2796,7 +2811,7 @@ export const QueryPoolsWithFilterResponse = {
   aminoType: "osmosis/gamm/query-pools-with-filter-response",
   encode(message: QueryPoolsWithFilterResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.pools) {
-      Any.encode(v!, writer.uint32(10).fork()).ldelim();
+      Any.encode((v! as Any), writer.uint32(10).fork()).ldelim();
     }
     if (message.pagination !== undefined) {
       PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
@@ -2811,7 +2826,7 @@ export const QueryPoolsWithFilterResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.pools.push(Any.decode(reader, reader.uint32()));
+          message.pools.push((PoolI_InterfaceDecoder(reader) as Any));
           break;
         case 2:
           message.pagination = PageResponse.decode(reader, reader.uint32());
@@ -2863,14 +2878,14 @@ export const QueryPoolsWithFilterResponse = {
   },
   fromAmino(object: QueryPoolsWithFilterResponseAmino): QueryPoolsWithFilterResponse {
     return {
-      pools: Array.isArray(object?.pools) ? object.pools.map((e: any) => Any.fromAmino(e)) : [],
+      pools: Array.isArray(object?.pools) ? object.pools.map((e: any) => PoolI_FromAmino(e)) : [],
       pagination: object?.pagination ? PageResponse.fromAmino(object.pagination) : undefined
     };
   },
   toAmino(message: QueryPoolsWithFilterResponse): QueryPoolsWithFilterResponseAmino {
     const obj: any = {};
     if (message.pools) {
-      obj.pools = message.pools.map(e => e ? Any.toAmino(e) : undefined);
+      obj.pools = message.pools.map(e => e ? PoolI_ToAmino((e as Any)) : undefined);
     } else {
       obj.pools = [];
     }
@@ -3615,5 +3630,49 @@ export const QueryTotalLiquidityResponse = {
       typeUrl: "/osmosis.gamm.v1beta1.QueryTotalLiquidityResponse",
       value: QueryTotalLiquidityResponse.encode(message).finish()
     };
+  }
+};
+export const PoolI_InterfaceDecoder = (input: BinaryReader | Uint8Array): Pool1 | Pool2 | Any => {
+  const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  const data = Any.decode(reader, reader.uint32());
+  switch (data.typeUrl) {
+    case "/osmosis.gamm.v1beta1.Pool":
+      return Pool1.decode(data.value);
+    case "/osmosis.gamm.poolmodels.stableswap.v1beta1.Pool":
+      return Pool2.decode(data.value);
+    default:
+      return data;
+  }
+};
+export const PoolI_FromAmino = (content: AnyAmino) => {
+  switch (content.type) {
+    case "osmosis/gamm/pool":
+      return Any.fromPartial({
+        typeUrl: "/osmosis.gamm.v1beta1.Pool",
+        value: Pool1.encode(Pool1.fromPartial(Pool1.fromAmino(content.value))).finish()
+      });
+    case "osmosis/gamm/pool":
+      return Any.fromPartial({
+        typeUrl: "/osmosis.gamm.poolmodels.stableswap.v1beta1.Pool",
+        value: Pool2.encode(Pool2.fromPartial(Pool2.fromAmino(content.value))).finish()
+      });
+    default:
+      return Any.fromAmino(content);
+  }
+};
+export const PoolI_ToAmino = (content: Any) => {
+  switch (content.typeUrl) {
+    case "/osmosis.gamm.v1beta1.Pool":
+      return {
+        type: "osmosis/gamm/pool",
+        value: Pool1.toAmino(Pool1.decode(content.value))
+      };
+    case "/osmosis.gamm.poolmodels.stableswap.v1beta1.Pool":
+      return {
+        type: "osmosis/gamm/pool",
+        value: Pool2.toAmino(Pool2.decode(content.value))
+      };
+    default:
+      return Any.toAmino(content);
   }
 };

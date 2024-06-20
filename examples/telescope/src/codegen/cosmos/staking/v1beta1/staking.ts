@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { Header, HeaderAmino, HeaderSDKType } from "../../../tendermint/types/types";
 import { Timestamp } from "../../../google/protobuf/timestamp";
-import { Any, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { Duration, DurationAmino, DurationSDKType } from "../../../google/protobuf/duration";
 import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
@@ -243,6 +243,9 @@ export interface ValidatorProtoMsg {
   typeUrl: "/cosmos.staking.v1beta1.Validator";
   value: Uint8Array;
 }
+export type ValidatorEncoded = Omit<Validator, "consensusPubkey"> & {
+  /** consensus_pubkey is the consensus public key of the validator, as a Protobuf Any. */consensusPubkey?: AnyProtoMsg | undefined;
+};
 /**
  * Validator defines a validator, together with the total amount of the
  * Validator's bond shares and their exchange rate to coins. Slashing results in
@@ -1325,7 +1328,7 @@ export const Validator = {
       writer.uint32(10).string(message.operatorAddress);
     }
     if (message.consensusPubkey !== undefined) {
-      Any.encode(message.consensusPubkey, writer.uint32(18).fork()).ldelim();
+      Any.encode((message.consensusPubkey as Any), writer.uint32(18).fork()).ldelim();
     }
     if (message.jailed === true) {
       writer.uint32(24).bool(message.jailed);
@@ -1367,7 +1370,7 @@ export const Validator = {
           message.operatorAddress = reader.string();
           break;
         case 2:
-          message.consensusPubkey = Any.decode(reader, reader.uint32());
+          message.consensusPubkey = (Cosmos_cryptoPubKey_InterfaceDecoder(reader) as Any);
           break;
         case 3:
           message.jailed = reader.bool();
@@ -1487,7 +1490,7 @@ export const Validator = {
       tokens: object.tokens,
       delegatorShares: object.delegator_shares,
       description: object?.description ? Description.fromAmino(object.description) : undefined,
-      unbondingHeight: isSet(object.unbonding_height) ? BigInt(object.unbonding_height) : 0n,
+      unbondingHeight: BigInt(object.unbonding_height),
       unbondingTime: object.unbonding_time,
       commission: object?.commission ? Commission.fromAmino(object.commission) : undefined,
       minSelfDelegation: object.min_self_delegation
@@ -3271,4 +3274,18 @@ export const Pool = {
       value: Pool.encode(message).finish()
     };
   }
+};
+export const Cosmos_cryptoPubKey_InterfaceDecoder = (input: BinaryReader | Uint8Array): Any => {
+  const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  const data = Any.decode(reader, reader.uint32());
+  switch (data.typeUrl) {
+    default:
+      return data;
+  }
+};
+export const Cosmos_cryptoPubKey_FromAmino = (content: AnyAmino) => {
+  return encodePubkey(content);
+};
+export const Cosmos_cryptoPubKey_ToAmino = (content: Any) => {
+  return decodePubkey(content);
 };

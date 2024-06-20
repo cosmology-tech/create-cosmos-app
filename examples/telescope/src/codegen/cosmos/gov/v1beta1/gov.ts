@@ -1,5 +1,5 @@
 import { Coin, CoinAmino, CoinSDKType } from "../../base/v1beta1/coin";
-import { Any, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Duration, DurationAmino, DurationSDKType } from "../../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
@@ -244,7 +244,7 @@ export interface DepositSDKType {
 /** Proposal defines the core field members of a governance proposal. */
 export interface Proposal {
   proposalId: bigint;
-  content: Any | undefined;
+  content: TextProposal | Any | undefined;
   status: ProposalStatus;
   /**
    * final_tally_result is the final tally result of the proposal. When
@@ -262,6 +262,9 @@ export interface ProposalProtoMsg {
   typeUrl: "/cosmos.gov.v1beta1.Proposal";
   value: Uint8Array;
 }
+export type ProposalEncoded = Omit<Proposal, "content"> & {
+  content?: TextProposalProtoMsg | AnyProtoMsg | undefined;
+};
 /** Proposal defines the core field members of a governance proposal. */
 export interface ProposalAmino {
   proposal_id: string;
@@ -286,7 +289,7 @@ export interface ProposalAminoMsg {
 /** Proposal defines the core field members of a governance proposal. */
 export interface ProposalSDKType {
   proposal_id: bigint;
-  content: AnySDKType | undefined;
+  content: TextProposalSDKType | AnySDKType | undefined;
   status: ProposalStatus;
   final_tally_result: TallyResultSDKType | undefined;
   submit_time: Date | undefined;
@@ -829,7 +832,7 @@ export const Proposal = {
       writer.uint32(8).uint64(message.proposalId);
     }
     if (message.content !== undefined) {
-      Any.encode(message.content, writer.uint32(18).fork()).ldelim();
+      Any.encode((message.content as Any), writer.uint32(18).fork()).ldelim();
     }
     if (message.status !== 0) {
       writer.uint32(24).int32(message.status);
@@ -865,7 +868,7 @@ export const Proposal = {
           message.proposalId = reader.uint64();
           break;
         case 2:
-          message.content = Any.decode(reader, reader.uint32());
+          message.content = (Content_InterfaceDecoder(reader) as Any);
           break;
         case 3:
           message.status = (reader.int32() as any);
@@ -971,7 +974,7 @@ export const Proposal = {
   fromAmino(object: ProposalAmino): Proposal {
     return {
       proposalId: BigInt(object.proposal_id),
-      content: object?.content ? Any.fromAmino(object.content) : undefined,
+      content: object?.content ? Content_FromAmino(object.content) : undefined,
       status: isSet(object.status) ? proposalStatusFromJSON(object.status) : -1,
       finalTallyResult: object?.final_tally_result ? TallyResult.fromAmino(object.final_tally_result) : undefined,
       submitTime: object.submit_time,
@@ -984,7 +987,7 @@ export const Proposal = {
   toAmino(message: Proposal): ProposalAmino {
     const obj: any = {};
     obj.proposal_id = message.proposalId ? message.proposalId.toString() : undefined;
-    obj.content = message.content ? Any.toAmino(message.content) : undefined;
+    obj.content = message.content ? Content_ToAmino((message.content as Any)) : undefined;
     obj.status = message.status;
     obj.final_tally_result = message.finalTallyResult ? TallyResult.toAmino(message.finalTallyResult) : undefined;
     obj.submit_time = message.submitTime;
@@ -1608,5 +1611,37 @@ export const TallyParams = {
       typeUrl: "/cosmos.gov.v1beta1.TallyParams",
       value: TallyParams.encode(message).finish()
     };
+  }
+};
+export const Content_InterfaceDecoder = (input: BinaryReader | Uint8Array): TextProposal | Any => {
+  const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  const data = Any.decode(reader, reader.uint32());
+  switch (data.typeUrl) {
+    case "/cosmos.gov.v1beta1.TextProposal":
+      return TextProposal.decode(data.value);
+    default:
+      return data;
+  }
+};
+export const Content_FromAmino = (content: AnyAmino) => {
+  switch (content.type) {
+    case "cosmos-sdk/TextProposal":
+      return Any.fromPartial({
+        typeUrl: "/cosmos.gov.v1beta1.TextProposal",
+        value: TextProposal.encode(TextProposal.fromPartial(TextProposal.fromAmino(content.value))).finish()
+      });
+    default:
+      return Any.fromAmino(content);
+  }
+};
+export const Content_ToAmino = (content: Any) => {
+  switch (content.typeUrl) {
+    case "/cosmos.gov.v1beta1.TextProposal":
+      return {
+        type: "cosmos-sdk/TextProposal",
+        value: TextProposal.toAmino(TextProposal.decode(content.value))
+      };
+    default:
+      return Any.toAmino(content);
   }
 };
