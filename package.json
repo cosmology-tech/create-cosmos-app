@@ -12,6 +12,7 @@
     "lint": "lerna run lint",
     "format": "lerna run format",
     "test": "lerna run test --stream",
+    "locks:update": "./scripts/update-locks.sh",
     "locks": "lerna run locks --stream",
     "locks:remove": "lerna run locks:remove --stream",
     "update": "yarn upgrade-interactive --latest",
