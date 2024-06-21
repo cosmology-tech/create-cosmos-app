@@ -6705,7 +6705,7 @@ __metadata:
     "@cosmjs/amino": "npm:^0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:^0.32.3"
     "@cosmjs/stargate": "npm:^0.32.3"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@interchain-ui/react": "npm:1.23.22"
@@ -6809,7 +6809,7 @@ __metadata:
     "@cosmjson/wasmswap": "npm:^0.0.9"
     "@cosmology/lcd": "npm:^0.12.0"
     "@cosmology/telescope": "npm:^1.4.1"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@interchain-ui/react": "npm:1.23.22"
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
     "@protobufs/cosmos": "npm:^0.1.0"
@@ -6860,7 +6860,7 @@ __metadata:
     "@cosmjson/wasmswap": "npm:^0.0.9"
     "@cosmology/lcd": "npm:^0.12.0"
     "@cosmology/telescope": "npm:^0.106.0"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@interchain-ui/react": "npm:1.23.22"
@@ -6900,7 +6900,7 @@ __metadata:
   dependencies:
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@interchain-ui/react": "npm:1.23.22"
@@ -6929,7 +6929,7 @@ __metadata:
     "@chain-registry/types": "npm:0.17.1"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@interchain-ui/react": "npm:1.23.22"
@@ -6964,7 +6964,7 @@ __metadata:
     "@cosmology/ast": "npm:^0.89.0"
     "@cosmology/telescope": "npm:^0.102.0"
     "@cosmology/types": "npm:^0.37.0"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@improbable-eng/grpc-web": "npm:0.15.0"
@@ -7002,7 +7002,7 @@ __metadata:
     "@cosmjs/amino": "npm:^0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:^0.32.3"
     "@cosmjs/stargate": "npm:^0.32.3"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@interchain-ui/react": "npm:1.23.22"
@@ -7057,7 +7057,7 @@ __metadata:
     "@chain-registry/types": "npm:0.17.0"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@graphql-codegen/cli": "npm:5.0.0"
@@ -7171,7 +7171,7 @@ __metadata:
     "@cosmjs/amino": "npm:^0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@interchain-ui/react": "npm:1.23.22"
@@ -7206,7 +7206,7 @@ __metadata:
     "@chain-registry/types": "npm:0.17.1"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@interchain-ui/react": "npm:1.23.22"
@@ -7236,7 +7236,7 @@ __metadata:
   dependencies:
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@interchain-ui/react": "npm:1.23.22"
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
     "@tanstack/react-query": "npm:4.32.0"
@@ -7272,7 +7272,7 @@ __metadata:
     "@cosmjs/cosmwasm-stargate": "npm:0.32.3"
     "@cosmjs/stargate": "npm:0.32.3"
     "@cosmology-ui/react": "npm:0.1.8-beta.33"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@interchain-ui/react": "npm:1.23.22"
@@ -7323,7 +7323,7 @@ __metadata:
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
     "@cosmology/telescope": "npm:^0.104.0"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@interchain-ui/react": "npm:1.23.22"
@@ -7575,7 +7575,7 @@ __metadata:
     "@chain-registry/types": "npm:0.17.0"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@interchain-ui/react": "npm:1.23.22"
@@ -7673,7 +7673,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmos-kit/core@npm:^2.13.0, @cosmos-kit/core@npm:^2.8.9":
+"@cosmos-kit/core@npm:^2.13.0":
   version: 2.13.0
   resolution: "@cosmos-kit/core@npm:2.13.0"
   dependencies:
@@ -7984,7 +7984,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmos-kit/react-lite@npm:^2.6.9":
+"@cosmos-kit/react-lite@npm:^2.12.0":
   version: 2.12.0
   resolution: "@cosmos-kit/react-lite@npm:2.12.0"
   dependencies:
@@ -8000,19 +8000,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmos-kit/react@npm:2.10.9":
-  version: 2.10.9
-  resolution: "@cosmos-kit/react@npm:2.10.9"
+"@cosmos-kit/react@npm:2.17.0":
+  version: 2.17.0
+  resolution: "@cosmos-kit/react@npm:2.17.0"
   dependencies:
-    "@chain-registry/types": "npm:0.17.0"
-    "@cosmos-kit/core": "npm:^2.8.9"
-    "@cosmos-kit/react-lite": "npm:^2.6.9"
+    "@chain-registry/types": "npm:^0.45.1"
+    "@cosmos-kit/core": "npm:^2.13.0"
+    "@cosmos-kit/react-lite": "npm:^2.12.0"
     "@react-icons/all-files": "npm:^4.1.0"
   peerDependencies:
-    "@interchain-ui/react": ^1.16.6
+    "@interchain-ui/react": ^1.23.9
+    "@types/react": ">= 17"
+    "@types/react-dom": ">= 17"
     react: ^18
     react-dom: ^18
-  checksum: 10c0/e78409eb614a5073f813245d8ca95f2149da430ca28f90b827c2e869d1ed4727cbe9ccbe22387632019d59646b7747f98a050d5f977a8c98e74c5cbf9cfd075d
+  checksum: 10c0/aa5ab2f2aed555233382b5c8ae59ac382b7f11f247d6cb89713a609867755ebf8b66a6fd590ec9a5599771816ae8275c393b764d6d7375a406d9885c7b9babbd
   languageName: node
   linkType: hard
 

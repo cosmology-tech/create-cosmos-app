@@ -137,15 +137,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:0.17.0":
-  version: 0.17.0
-  resolution: "@chain-registry/types@npm:0.17.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-  checksum: 10c0/e4a32546e350240560b1339a3dcb6426eede1569ba9d17b0d6b5eeacd79fb643f347c21ea7f5ba147185c9ad2e19eea44dff248d8e1bf27e882511398812bfe4
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:0.17.1, @chain-registry/types@npm:^0.17.1":
   version: 0.17.1
   resolution: "@chain-registry/types@npm:0.17.1"
@@ -519,7 +510,7 @@ __metadata:
     "@chain-registry/types": "npm:0.17.1"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@interchain-ui/react": "npm:1.23.22"
@@ -610,7 +601,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmos-kit/core@npm:^2.13.0, @cosmos-kit/core@npm:^2.8.9":
+"@cosmos-kit/core@npm:^2.13.0":
   version: 2.13.0
   resolution: "@cosmos-kit/core@npm:2.13.0"
   dependencies:
@@ -921,7 +912,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmos-kit/react-lite@npm:^2.6.9":
+"@cosmos-kit/react-lite@npm:^2.12.0":
   version: 2.12.0
   resolution: "@cosmos-kit/react-lite@npm:2.12.0"
   dependencies:
@@ -937,19 +928,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmos-kit/react@npm:2.10.9":
-  version: 2.10.9
-  resolution: "@cosmos-kit/react@npm:2.10.9"
+"@cosmos-kit/react@npm:2.17.0":
+  version: 2.17.0
+  resolution: "@cosmos-kit/react@npm:2.17.0"
   dependencies:
-    "@chain-registry/types": "npm:0.17.0"
-    "@cosmos-kit/core": "npm:^2.8.9"
-    "@cosmos-kit/react-lite": "npm:^2.6.9"
+    "@chain-registry/types": "npm:^0.45.1"
+    "@cosmos-kit/core": "npm:^2.13.0"
+    "@cosmos-kit/react-lite": "npm:^2.12.0"
     "@react-icons/all-files": "npm:^4.1.0"
   peerDependencies:
-    "@interchain-ui/react": ^1.16.6
+    "@interchain-ui/react": ^1.23.9
+    "@types/react": ">= 17"
+    "@types/react-dom": ">= 17"
     react: ^18
     react-dom: ^18
-  checksum: 10c0/e78409eb614a5073f813245d8ca95f2149da430ca28f90b827c2e869d1ed4727cbe9ccbe22387632019d59646b7747f98a050d5f977a8c98e74c5cbf9cfd075d
+  checksum: 10c0/aa5ab2f2aed555233382b5c8ae59ac382b7f11f247d6cb89713a609867755ebf8b66a6fd590ec9a5599771816ae8275c393b764d6d7375a406d9885c7b9babbd
   languageName: node
   linkType: hard
 
