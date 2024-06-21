@@ -52,9 +52,9 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.24.7",
-    "@types/node": "18.19.37",
-    "@types/react": "18.2.0",
-    "@types/react-dom": "18.2.0",
+    "@types/node": "20.14.7",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
     "generate-lockfile": "0.0.12",
