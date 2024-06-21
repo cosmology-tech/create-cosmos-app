@@ -16,11 +16,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Set up Yarn
-        uses: threeal/setup-yarn-action@v2.0.0
-        with:
-          cache: false
-
       - name: Install Dependencies
         run: |
           echo "YARN_ENABLE_IMMUTABLE_INSTALLS=false" >> $GITHUB_ENV
