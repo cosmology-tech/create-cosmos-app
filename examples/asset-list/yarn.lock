@@ -749,8 +749,8 @@ __metadata:
     "@cosmos-kit/react": "npm:2.10.9"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
-    "@interchain-ui/react": "npm:1.23.21"
-    "@interchain-ui/react-no-ssr": "npm:^0.1.4"
+    "@interchain-ui/react": "npm:1.23.22"
+    "@interchain-ui/react-no-ssr": "npm:^0.1.6"
     "@tanstack/react-query": "npm:4.32.0"
     "@tanstack/react-query-devtools": "npm:4.32.0"
     "@types/node": "npm:^20.14.6"
@@ -1968,6 +1968,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@floating-ui/utils@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@floating-ui/utils@npm:0.2.2"
+  checksum: 10c0/b2becdcafdf395af1641348da0031ff1eaad2bc60c22e14bd3abad4acfe2c8401e03097173d89a2f646a99b75819a78ef21ebb2572cab0042a56dd654b0065cd
+  languageName: node
+  linkType: hard
+
 "@formatjs/ecma402-abstract@npm:1.18.2":
   version: 1.18.2
   resolution: "@formatjs/ecma402-abstract@npm:1.18.2"
@@ -2060,24 +2067,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interchain-ui/react-no-ssr@npm:^0.1.4":
-  version: 0.1.5
-  resolution: "@interchain-ui/react-no-ssr@npm:0.1.5"
+"@interchain-ui/react-no-ssr@npm:^0.1.6":
+  version: 0.1.6
+  resolution: "@interchain-ui/react-no-ssr@npm:0.1.6"
   peerDependencies:
-    react: ^18.x
-    react-dom: ^18.x
-  checksum: 10c0/79c728090759b4268553f87446e43a51acc58596e68cd24f3e8682b4903f7b20c18e3d42ca3dc1c852ae3c49dadd630a9335382a5d210fc5f002900c4647b495
+    react: ^16.14.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/995e0e8a85056af7d9139f5cf8ac8dc4ea337a53708e09bd089f581db5cb32f2b679016e4f6a8e48c6eb6131d8888206ddbd76316b5312b048f4061d34eabd04
   languageName: node
   linkType: hard
 
-"@interchain-ui/react@npm:1.23.21":
-  version: 1.23.21
-  resolution: "@interchain-ui/react@npm:1.23.21"
+"@interchain-ui/react@npm:1.23.22":
+  version: 1.23.22
+  resolution: "@interchain-ui/react@npm:1.23.22"
   dependencies:
     "@floating-ui/core": "npm:^1.6.2"
     "@floating-ui/dom": "npm:^1.6.5"
     "@floating-ui/react": "npm:^0.26.17"
     "@floating-ui/react-dom": "npm:^2.1.0"
+    "@floating-ui/utils": "npm:^0.2.2"
     "@formkit/auto-animate": "npm:^0.8.2"
     "@react-aria/listbox": "npm:^3.12.1"
     "@react-aria/overlays": "npm:^3.22.1"
@@ -2097,9 +2105,9 @@ __metadata:
     react-stately: "npm:^3.31.1"
     zustand: "npm:^4.5.2"
   peerDependencies:
-    react: ^18.x
-    react-dom: ^18.x
-  checksum: 10c0/fc3df4785ee00693e9308dd3429105469aa7b2fe48f77284096afc925b4485b8735c3a1cbfe22778f887bf095e5752830d34f0f67b55e1083e2fd90e6ae70add
+    react: ^16.14.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/dc075e0525374ca94be6ecf4475912e4744a8923619ca4a957cc121a7d02175d62f5a1f3c56629186a9c3439337b1442fcf7612d2943de9f473e67672930d24b
   languageName: node
   linkType: hard
 
