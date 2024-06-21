@@ -59,9 +59,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Set up Yarn
-        uses: threeal/setup-yarn-action@v2.0.0
-
       - name: Cache NextJS
         uses: actions/cache@v4
         with:
