@@ -15,7 +15,6 @@ jobs:
         example:
           [
             asset-list,
-            authz,
             vote-proposal,
             ibc-transfer,
             swap-tokens,
