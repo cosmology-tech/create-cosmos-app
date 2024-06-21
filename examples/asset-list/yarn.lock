@@ -87,19 +87,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/client@npm:^1.18.0":
-  version: 1.21.13
-  resolution: "@chain-registry/client@npm:1.21.13"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.18.15"
-    "@chain-registry/utils": "npm:^1.19.14"
-    bfs-path: "npm:^1.0.2"
-    cross-fetch: "npm:^3.1.5"
-  checksum: 10c0/1f7607da593d325a6e9f357018c4df99b3d89edcc73d791682c55626749336043dd676d54afda66091631e903ac8b867ba66baa0dd771dba6f11b05d0e53384c
-  languageName: node
-  linkType: hard
-
 "@chain-registry/client@npm:^1.48.1":
   version: 1.48.3
   resolution: "@chain-registry/client@npm:1.48.3"
@@ -168,15 +155,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:0.17.0":
-  version: 0.17.0
-  resolution: "@chain-registry/types@npm:0.17.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-  checksum: 10c0/e4a32546e350240560b1339a3dcb6426eede1569ba9d17b0d6b5eeacd79fb643f347c21ea7f5ba147185c9ad2e19eea44dff248d8e1bf27e882511398812bfe4
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:0.45.1":
   version: 0.45.1
   resolution: "@chain-registry/types@npm:0.45.1"
@@ -222,18 +200,6 @@ __metadata:
   version: 0.45.4
   resolution: "@chain-registry/types@npm:0.45.4"
   checksum: 10c0/1060f43ea5bcf35f919536a497944fb5846db54eb7d174ce920076a7b8e8821d69496f00e3751d5523228764765eb702c0502ae8c0e2fcd7fa63e6d685f6c6a0
-  languageName: node
-  linkType: hard
-
-"@chain-registry/utils@npm:^1.19.14":
-  version: 1.19.14
-  resolution: "@chain-registry/utils@npm:1.19.14"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.18.15"
-    bignumber.js: "npm:9.1.1"
-    sha.js: "npm:^2.4.11"
-  checksum: 10c0/95fd1fa9cd86848df29170b3e1f1560cace88abca8fce807cd61093eb6cba4e9efc57e64d37e07e2b163affca7b24191cfa072ef6a9067fcdc2a5497a5f137e7
   languageName: node
   linkType: hard
 
@@ -305,7 +271,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/amino@npm:^0.32.0, @cosmjs/amino@npm:^0.32.2, @cosmjs/amino@npm:^0.32.3":
+"@cosmjs/amino@npm:^0.32.0, @cosmjs/amino@npm:^0.32.3":
   version: 0.32.3
   resolution: "@cosmjs/amino@npm:0.32.3"
   dependencies:
@@ -317,7 +283,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/cosmwasm-stargate@npm:^0.32.2, @cosmjs/cosmwasm-stargate@npm:^0.32.3":
+"@cosmjs/cosmwasm-stargate@npm:^0.32.3":
   version: 0.32.3
   resolution: "@cosmjs/cosmwasm-stargate@npm:0.32.3"
   dependencies:
@@ -455,7 +421,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/proto-signing@npm:^0.32.0, @cosmjs/proto-signing@npm:^0.32.2, @cosmjs/proto-signing@npm:^0.32.3":
+"@cosmjs/proto-signing@npm:^0.32.0, @cosmjs/proto-signing@npm:^0.32.3":
   version: 0.32.3
   resolution: "@cosmjs/proto-signing@npm:0.32.3"
   dependencies:
@@ -513,7 +479,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/stargate@npm:^0.32.2, @cosmjs/stargate@npm:^0.32.3":
+"@cosmjs/stargate@npm:^0.32.3":
   version: 0.32.3
   resolution: "@cosmjs/stargate@npm:0.32.3"
   dependencies:
@@ -609,7 +575,7 @@ __metadata:
     "@cosmjs/amino": "npm:^0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:^0.32.3"
     "@cosmjs/stargate": "npm:^0.32.3"
-    "@cosmos-kit/react": "npm:2.10.9"
+    "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@interchain-ui/react": "npm:1.23.22"
@@ -734,25 +700,6 @@ __metadata:
     nock: "npm:13.5.4"
     uuid: "npm:^9.0.1"
   checksum: 10c0/fb65b327b89d299e1ad3a55935f254651ef0afc5032f93d51d89c9b63adad7c41e9a687fa32e9778f4dc5ee220001d11985928f01c5bc8ea112cdfc1cfc3e352
-  languageName: node
-  linkType: hard
-
-"@cosmos-kit/core@npm:^2.8.9":
-  version: 2.8.9
-  resolution: "@cosmos-kit/core@npm:2.8.9"
-  dependencies:
-    "@chain-registry/client": "npm:^1.18.0"
-    "@chain-registry/types": "npm:0.17.0"
-    "@cosmjs/amino": "npm:^0.32.2"
-    "@cosmjs/cosmwasm-stargate": "npm:^0.32.2"
-    "@cosmjs/proto-signing": "npm:^0.32.2"
-    "@cosmjs/stargate": "npm:^0.32.2"
-    "@walletconnect/types": "npm:2.11.0"
-    bowser: "npm:2.11.0"
-    cosmjs-types: "npm:^0.9.0"
-    events: "npm:3.3.0"
-    uuid: "npm:^9.0.1"
-  checksum: 10c0/b3e83ee4f4bae391293501131aa38c2d763f5ecc9f5a5c681aefca1c148e63367919205b4f64458b6628e39212cd7b9a6a58f677dca7ed4b5cd87750517eff30
   languageName: node
   linkType: hard
 
@@ -1045,7 +992,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmos-kit/react-lite@npm:^2.6.9":
+"@cosmos-kit/react-lite@npm:^2.12.0":
   version: 2.12.0
   resolution: "@cosmos-kit/react-lite@npm:2.12.0"
   dependencies:
@@ -1061,19 +1008,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmos-kit/react@npm:2.10.9":
-  version: 2.10.9
-  resolution: "@cosmos-kit/react@npm:2.10.9"
+"@cosmos-kit/react@npm:2.17.0":
+  version: 2.17.0
+  resolution: "@cosmos-kit/react@npm:2.17.0"
   dependencies:
-    "@chain-registry/types": "npm:0.17.0"
-    "@cosmos-kit/core": "npm:^2.8.9"
-    "@cosmos-kit/react-lite": "npm:^2.6.9"
+    "@chain-registry/types": "npm:^0.45.1"
+    "@cosmos-kit/core": "npm:^2.13.0"
+    "@cosmos-kit/react-lite": "npm:^2.12.0"
     "@react-icons/all-files": "npm:^4.1.0"
   peerDependencies:
-    "@interchain-ui/react": ^1.16.6
+    "@interchain-ui/react": ^1.23.9
+    "@types/react": ">= 17"
+    "@types/react-dom": ">= 17"
     react: ^18
     react-dom: ^18
-  checksum: 10c0/e78409eb614a5073f813245d8ca95f2149da430ca28f90b827c2e869d1ed4727cbe9ccbe22387632019d59646b7747f98a050d5f977a8c98e74c5cbf9cfd075d
+  checksum: 10c0/aa5ab2f2aed555233382b5c8ae59ac382b7f11f247d6cb89713a609867755ebf8b66a6fd590ec9a5599771816ae8275c393b764d6d7375a406d9885c7b9babbd
   languageName: node
   linkType: hard
 
@@ -5466,13 +5415,6 @@ __metadata:
   version: 1.6.52
   resolution: "big-integer@npm:1.6.52"
   checksum: 10c0/9604224b4c2ab3c43c075d92da15863077a9f59e5d4205f4e7e76acd0cd47e8d469ec5e5dba8d9b32aa233951893b29329ca56ac80c20ce094b4a647a66abae0
-  languageName: node
-  linkType: hard
-
-"bignumber.js@npm:9.1.1":
-  version: 9.1.1
-  resolution: "bignumber.js@npm:9.1.1"
-  checksum: 10c0/950312b15d038ae06028c8a6901fb4efd57fa889ada8c887cebd856e79f2fc9667641bebfb2e2ea4cc694e663fd55c1fe6e62a7e8fe40bbdebdf92269537b802
   languageName: node
   linkType: hard
 

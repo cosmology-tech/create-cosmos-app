@@ -42,7 +42,7 @@
     "@cosmjs/stargate": "0.32.3",
     "@cosmjs/tendermint-rpc": "0.32.3",
     "@cosmology/lcd": "^0.12.0",
-    "@cosmos-kit/react": "2.10.9",
+    "@cosmos-kit/react": "2.17.0",
     "@interchain-ui/react": "1.23.22",
     "@interchain-ui/react-no-ssr": "^0.1.6",
     "@tanstack/react-query": "4.32.0",
