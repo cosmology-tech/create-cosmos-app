@@ -1,17 +1,23 @@
 import BigNumber from 'bignumber.js';
-import { Asset } from '@chain-registry/types';
+import { Asset, AssetList } from '@chain-registry/types';
 import { asset_list, assets } from '@chain-registry/osmosis';
 import {
   getAssetByDenom,
   getDenomByCoinGeckoId,
-  getSymbolByChainDenom,
+  // getSymbolByChainDenom,
+  getSymbolByDenom,
   getExponentByDenom as _getExponentByDenom,
-  convertCoinGeckoPricesToDenomPriceMap,
-  getChainDenomBySymbol,
-  noDecimals as _noDecimals,
-  convertBaseUnitsToDollarValue,
-  convertDollarValueToDenomUnits,
-  convertBaseUnitsToDisplayUnits,
+  // convertCoinGeckoPricesToDenomPriceMap,
+  mapCoinGeckoPricesToDenoms,
+  // getChainDenomBySymbol,
+  getDenomBySymbol,
+  // convertBaseUnitsToDollarValue,
+  convertBaseUnitToDollarValue,
+  // convertDollarValueToDenomUnits,
+  convertDollarValueToBaseUnit,
+  // convertBaseUnitsToDisplayUnits,
+  convertBaseUnitToDisplayUnit,
+  convertBaseUnitToDisplayUnitByDenom,
 } from '@chain-registry/utils';
 import { Pool } from 'osmo-query/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { Coin } from 'osmo-query/dist/codegen/cosmos/base/v1beta1/coin';
@@ -44,31 +50,38 @@ import { Fee } from '@/hooks';
 
 export const osmosisAssets: Asset[] = [
   ...assets.assets,
-  ...asset_list.assets,
+  ...asset_list.assets.filter((item) => item.display != 'usdc'),
 ].filter(({ type_asset }) => type_asset !== 'ics20');
 
+export const osmosisAssetsList: AssetList[] = [
+  {
+    assets: osmosisAssets,
+    chain_name: 'osmosis',
+  },
+];
+// console.log(asset_list, assets, osmosisAssetsList);
 export const getOsmoAssetByDenom = (denom: CoinDenom): Asset => {
-  return getAssetByDenom(osmosisAssets, denom);
+  return getAssetByDenom(osmosisAssetsList, denom) as Asset;
 };
 
 export const getDenomForCoinGeckoId = (
   coinGeckoId: CoinGeckoToken
 ): CoinDenom => {
-  return getDenomByCoinGeckoId(osmosisAssets, coinGeckoId);
+  return getDenomByCoinGeckoId(osmosisAssetsList, coinGeckoId) as CoinDenom;
 };
 
 export const getSymbolForDenom = (denom: CoinDenom): CoinSymbol => {
-  return getSymbolByChainDenom(osmosisAssets, denom);
+  return getSymbolByDenom(osmosisAssetsList, denom) as CoinSymbol;
 };
 
 export const getExponentByDenom = (denom: CoinDenom): Exponent => {
-  return _getExponentByDenom(osmosisAssets, denom);
+  return _getExponentByDenom(osmosisAssetsList, denom) as Exponent;
 };
 
 export const convertGeckoPricesToDenomPriceHash = (
   prices: CoinGeckoUSDResponse
 ): PriceHash => {
-  return convertCoinGeckoPricesToDenomPriceMap(osmosisAssets, prices);
+  return mapCoinGeckoPricesToDenoms(osmosisAssetsList, prices);
 };
 
 export const calcPoolLiquidity = (pool: Pool, prices: PriceHash): string => {
@@ -116,11 +129,11 @@ export const prettyPool = (
 };
 
 export const getOsmoDenomForSymbol = (token: CoinSymbol): CoinDenom => {
-  return getChainDenomBySymbol(osmosisAssets, token);
+  return getDenomBySymbol(osmosisAssetsList, token) as CoinDenom;
 };
 
 export const noDecimals = (num: number | string) => {
-  return _noDecimals(num);
+  return new BigNumber(num).decimalPlaces(0, BigNumber.ROUND_DOWN).toString();
 };
 
 export const baseUnitsToDollarValue = (
@@ -128,7 +141,12 @@ export const baseUnitsToDollarValue = (
   symbol: string,
   amount: string | number
 ) => {
-  return convertBaseUnitsToDollarValue(osmosisAssets, prices, symbol, amount);
+  return convertBaseUnitToDollarValue(
+    osmosisAssetsList,
+    prices,
+    symbol,
+    amount
+  );
 };
 
 export const dollarValueToDenomUnits = (
@@ -136,14 +154,15 @@ export const dollarValueToDenomUnits = (
   symbol: string,
   value: string | number
 ) => {
-  return convertDollarValueToDenomUnits(osmosisAssets, prices, symbol, value);
+  return convertDollarValueToBaseUnit(osmosisAssetsList, prices, symbol, value);
 };
 
 export const baseUnitsToDisplayUnits = (
   symbol: string,
   amount: string | number
 ) => {
-  return convertBaseUnitsToDisplayUnits(osmosisAssets, symbol, amount);
+  console.log(symbol, amount);
+  return convertBaseUnitToDisplayUnit(osmosisAssetsList, symbol, amount);
 };
 
 export const calcCoinsNeededForValue = (
@@ -211,6 +230,8 @@ export const extendPool = ({
   const liquidity = new BigNumber(calcPoolLiquidity(pool, prices))
     .decimalPlaces(0)
     .toNumber();
+
+  // console.log('fees', fees);
 
   const feeData = fees.find((fee) => fee.pool_id === pool.id.toString());
   const volume24H = Math.round(Number(feeData?.volume_24h || 0));

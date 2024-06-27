@@ -98,28 +98,30 @@ export const usePoolsApr = (pools: ExtendedPool[]) => {
       .map(({ data }) => data)
       .filter(Boolean) as Gauge[][];
 
-    const allApr = gaugesArray.map((gauges) => {
-      const poolDenom = gauges[0].distributeTo.denom;
-      const pool = pools.find(({ denom }) => denom === poolDenom)!;
-      const poolApr = durations.map((duration) => {
-        const apr = calcPoolAprs({
-          pool,
-          prices,
-          lockup: duration,
-          // @ts-ignore
-          assets: osmosisAssets,
-          volume7d: pool.volume7d,
-          activeGauges: gauges,
-          swapFee: pool.poolParams.swapFee,
-          aprSuperfluid: superfluidApr,
-          lockupDurations: lockableDurations,
-          superfluidPools: superfluidAssets,
+    const allApr = gaugesArray
+      .filter((subArray) => subArray.length > 0)
+      .map((gauges) => {
+        const poolDenom = gauges[0]?.distributeTo?.denom;
+        const pool = pools.find(({ denom }) => denom === poolDenom)!;
+        const poolApr = durations.map((duration) => {
+          const apr = calcPoolAprs({
+            pool,
+            prices,
+            lockup: duration,
+            // @ts-ignore
+            assets: osmosisAssets,
+            volume7d: pool.volume7d,
+            activeGauges: gauges,
+            swapFee: pool.poolParams.swapFee,
+            aprSuperfluid: superfluidApr,
+            lockupDurations: lockableDurations,
+            superfluidPools: superfluidAssets,
+          });
+          return [duration, apr];
         });
-        return [duration, apr];
-      });
 
-      return [poolDenom, Object.fromEntries(poolApr)];
-    });
+        return [poolDenom, Object.fromEntries(poolApr)];
+      });
 
     return Object.fromEntries(allApr) as PoolsApr;
     // eslint-disable-next-line react-hooks/exhaustive-deps

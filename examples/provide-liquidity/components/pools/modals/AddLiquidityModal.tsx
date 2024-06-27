@@ -103,10 +103,10 @@ export const AddLiquidityModal = ({
 
   const currentInputTokens = singleToken
     ? [
-      inputTokens.find(
-        ({ denom }) => denom === getOsmoDenomForSymbol(singleToken)
-      )!,
-    ]
+        inputTokens.find(
+          ({ denom }) => denom === getOsmoDenomForSymbol(singleToken)
+        )!,
+      ]
     : inputTokens;
 
   const hasEmptyAmount = currentInputTokens.some((t) => !t.inputAmount);
@@ -126,10 +126,10 @@ export const AddLiquidityModal = ({
   const btnText = hasEmptyAmount
     ? 'Amount is empty'
     : hasInsufficientAmount
-      ? 'Insufficient amount'
-      : hasZeroAmount
-        ? 'Amount is Zero'
-        : 'Add liquidity';
+    ? 'Insufficient amount'
+    : hasZeroAmount
+    ? 'Amount is Zero'
+    : 'Add liquidity';
 
   const closeModal = () => {
     setInputTokens(
