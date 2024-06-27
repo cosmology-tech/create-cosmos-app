@@ -20,7 +20,7 @@
   "dependencies": {
     "@chain-registry/osmosis": "1.20.0",
     "@chain-registry/types": "0.16.0",
-    "@chain-registry/utils": "1.13.2",
+    "@chain-registry/utils": "^1.46.8",
     "@cosmjs/amino": "0.32.3",
     "@cosmjs/cosmwasm-stargate": "0.32.3",
     "@cosmjs/stargate": "0.32.3",
@@ -33,7 +33,7 @@
     "@osmonauts/math": "1.7.0",
     "@tanstack/react-query": "4.32.0",
     "bignumber.js": "9.1.1",
-    "chain-registry": "1.20.0",
+    "chain-registry": "^1.63.11",
     "cosmos-kit": "2.18.0",
     "next": "^13",
     "osmo-query": "16.5.1",
