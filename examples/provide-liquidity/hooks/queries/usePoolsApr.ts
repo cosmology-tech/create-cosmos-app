@@ -7,6 +7,7 @@ import { Gauge } from 'osmo-query/dist/codegen/osmosis/incentives/gauge';
 import { defaultChainName } from '@/config';
 import { useQueryHooks } from './useQueryHooks';
 import { useRpcQueryClient } from './useRpcQueryClient';
+
 import { calcPoolAprs, osmosisAssets, ExtendedPool } from '@/utils';
 import { getPagination, usePrices, useSuperfluidApr } from '.';
 

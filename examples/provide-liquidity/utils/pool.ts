@@ -161,7 +161,6 @@ export const baseUnitsToDisplayUnits = (
   symbol: string,
   amount: string | number
 ) => {
-  console.log(symbol, amount);
   return convertBaseUnitToDisplayUnit(osmosisAssetsList, symbol, amount);
 };
 
