@@ -1,0 +1,3 @@
+.layout {
+  padding-left: calc(100vw - 100%); /* prevent scrollbar layout shift */
+}
