@@ -1,6 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
 import { Box, Text } from '@interchain-ui/react';
-import { IoMdCode } from 'react-icons/io';
 import { LuFileInput } from 'react-icons/lu';
 
 import { Button } from '@/components';
@@ -12,7 +11,7 @@ import { CopyButton } from './CopyButton';
 import { useQueryContract } from '@/hooks';
 import { JsonEditor } from './JsonEditor';
 
-export const MIN_LINES = 12;
+export const MIN_LINES = 16;
 
 type QueryTabProps = {
   show: boolean;
@@ -76,7 +75,7 @@ export const QueryTab = ({ show }: QueryTabProps) => {
           <Text fontSize="16px" fontWeight="500" attributes={{ mb: '10px' }}>
             Query Msg
           </Text>
-          <JsonInput value={queryMsg} setValue={setQueryMsg} height="324px" />
+          <JsonInput value={queryMsg} setValue={setQueryMsg} height="342px" />
         </Box>
 
         <Box flex="1">
@@ -88,20 +87,22 @@ export const QueryTab = ({ show }: QueryTabProps) => {
             borderStyle="solid"
             borderColor={isJsonValid ? colors.black300 : colors.red}
             borderRadius="4px"
-            height="324px"
+            height="342px"
             overflowY="auto"
             p="10px"
           >
-            <JsonEditor value={res} lines={lines} readOnly />
+            <JsonEditor
+              value={res}
+              lines={lines}
+              isValid={isJsonValid}
+              readOnly
+            />
           </Box>
         </Box>
       </Box>
 
       <Box display="flex" gap="10px" alignItems="center" mb="250px">
         <CopyButton value={queryMsg} disabled={!queryMsg} />
-        <Button rightIcon={<IoMdCode size="20px" />} px="10px">
-          Code Snippet
-        </Button>
         <Button
           rightIcon={<LuFileInput size="18px" />}
           disabled={isQueryButtonDisabled}

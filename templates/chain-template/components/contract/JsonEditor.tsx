@@ -6,16 +6,18 @@ import 'ace-builds/src-noconflict/theme-textmate';
 
 type JsonEditorProps = {
   value: string;
-  lines?: number;
+  lines: number;
   setValue?: (value: string) => void;
   readOnly?: boolean;
+  isValid?: boolean;
 };
 
 export const JsonEditor = ({
   value,
   setValue,
-  lines = 12,
+  lines,
   readOnly = false,
+  isValid = true,
 }: JsonEditorProps) => {
   return (
     <AceEditor
@@ -33,10 +35,11 @@ export const JsonEditor = ({
         printMargin: false,
       }}
       tabSize={2}
-      wrapEnabled={true}
+      wrapEnabled={readOnly && !isValid}
       showGutter={false}
       minLines={lines}
       maxLines={lines}
+      highlightActiveLine={!readOnly}
       value={value}
       onChange={setValue}
       editorProps={{ $blockScrolling: true }}
