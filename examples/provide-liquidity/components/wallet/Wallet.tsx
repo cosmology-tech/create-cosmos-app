@@ -45,7 +45,7 @@ export const WalletSection = () => {
   } = useChain(defaultChainName);
 
   const { getChainLogo } = useManager();
-  const [osmoBalance, setOsmoBalance] = useState<string>('0');
+  const [osmoBalance, setOsmoBalance] = useState<Coin>();
   const [balanceStaked, setBalanceStaked] = useState<Coin | null>();
   console.log('balanceStaked', balanceStaked);
 
@@ -70,7 +70,7 @@ export const WalletSection = () => {
   const getBalance = async () => {
     const client = await getSigningStargateClient();
     const balance = await client?.getBalance(address as string, 'OSMO');
-    setOsmoBalance(balance.amount);
+    setOsmoBalance(balance);
   };
 
   const getBalanceStaked = async () => {
@@ -139,9 +139,11 @@ export const WalletSection = () => {
     return (
       <HStack w="256px" py={2} fontSize="13px" justify="space-between">
         <Flex gap={1}>
-          <Text fontWeight="semibold">Balance: {osmoBalance} </Text>
+          <Text fontWeight="semibold">
+            Balance: {osmoBalance?.amount || '--'}
+          </Text>
           <Text pt="1px" fontSize="12px" color="blackAlpha.700">
-            OSMO
+            {osmoBalance?.denom}
           </Text>
         </Flex>
         <Flex gap={1}>
