@@ -4,11 +4,14 @@ import {
   Center,
   Grid,
   GridItem,
+  HStack,
   Icon,
   Stack,
+  Text,
+  Flex,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 
 import {
@@ -26,6 +29,7 @@ import { UserInfo } from './UserInfo';
 import { Astronaut } from './Astronaut';
 import { ChainCard } from './ChainCard';
 import { defaultChainName } from '@/config';
+import { Coin } from '@cosmjs/amino';
 
 export const WalletSection = () => {
   const {
@@ -36,10 +40,14 @@ export const WalletSection = () => {
     address,
     message,
     wallet,
+    getSigningStargateClient,
     chain: chainInfo,
   } = useChain(defaultChainName);
 
   const { getChainLogo } = useManager();
+  const [osmoBalance, setOsmoBalance] = useState<Coin>();
+  const [balanceStaked, setBalanceStaked] = useState<Coin | null>();
+  console.log('balanceStaked', balanceStaked);
 
   const chain = {
     chainName: defaultChainName,
@@ -58,6 +66,26 @@ export const WalletSection = () => {
     e.preventDefault();
     openView();
   };
+
+  const getBalance = async () => {
+    const client = await getSigningStargateClient();
+    const balance = await client?.getBalance(address as string, 'OSMO');
+    setOsmoBalance(balance);
+  };
+
+  const getBalanceStaked = async () => {
+    const client = await getSigningStargateClient();
+    const staked = await client?.getBalanceStaked(address as string);
+
+    setBalanceStaked(staked);
+  };
+
+  useEffect(() => {
+    if (address) {
+      getBalance();
+      getBalanceStaked();
+    }
+  }, [address]);
 
   // Components
   const connectWalletButton = (
@@ -107,6 +135,29 @@ export const WalletSection = () => {
     />
   );
 
+  const Balance = () => {
+    return (
+      <HStack w="256px" py={2} fontSize="13px" justify="space-between">
+        <Flex gap={1}>
+          <Text fontWeight="semibold">
+            Balance: {osmoBalance?.amount || '--'}
+          </Text>
+          <Text pt="1px" fontSize="12px" color="blackAlpha.700">
+            {osmoBalance?.denom}
+          </Text>
+        </Flex>
+        <Flex gap={1}>
+          <Text fontWeight="semibold">
+            Staked: {balanceStaked?.amount || '--'}
+          </Text>
+          <Text pt="2px" fontSize="12px" color="blackAlpha.700">
+            {balanceStaked?.denom}
+          </Text>
+        </Flex>
+      </HStack>
+    );
+  };
+
   return (
     <Center py={16}>
       <Grid
@@ -139,6 +190,7 @@ export const WalletSection = () => {
           >
             {userInfo}
             {addressBtn}
+            {address && <Balance />}
             <Box w="full" maxW={{ base: 52, md: 64 }}>
               {connectWalletButton}
             </Box>
