@@ -59,7 +59,9 @@ export const osmosisAssetsList: AssetList[] = [
     chain_name: 'osmosis',
   },
 ];
-// console.log(asset_list, assets, osmosisAssetsList);
+console.log(asset_list, assets, osmosisAssetsList);
+
+// const osmosisAssetsList = [asset_list];
 export const getOsmoAssetByDenom = (denom: CoinDenom): Asset => {
   return getAssetByDenom(osmosisAssetsList, denom) as Asset;
 };
