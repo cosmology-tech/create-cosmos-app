@@ -140,7 +140,7 @@ export const WalletSection = () => {
       <HStack w="256px" py={2} fontSize="13px" justify="space-between">
         <Flex gap={1}>
           <Text fontWeight="semibold">
-            Balance: {osmoBalance?.amount || '--'}
+            Balance: {osmoBalance?.amount ?? '--'}
           </Text>
           <Text pt="1px" fontSize="12px" color="blackAlpha.700">
             {osmoBalance?.denom}
@@ -148,7 +148,7 @@ export const WalletSection = () => {
         </Flex>
         <Flex gap={1}>
           <Text fontWeight="semibold">
-            Staked: {balanceStaked?.amount || '--'}
+            Staked: {balanceStaked?.amount ?? '--'}
           </Text>
           <Text pt="2px" fontSize="12px" color="blackAlpha.700">
             {balanceStaked?.denom}
