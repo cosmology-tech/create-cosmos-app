@@ -1,4 +1,4 @@
-import { toast, Text, ToastType } from '@interchain-ui/react';
+import { toast, Text, ToastType, Spinner } from '@interchain-ui/react';
 
 export type CustomToast = {
   type: ToastType;
@@ -25,6 +25,7 @@ export const useToast = () => {
     return toast.custom(type, <ToastTitle title={title} />, {
       duration,
       description,
+      icon: type === 'loading' ? <Spinner size="$lg" /> : undefined,
     });
   };
 

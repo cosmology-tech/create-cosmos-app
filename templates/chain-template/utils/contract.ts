@@ -1,3 +1,4 @@
+import { Chain } from '@chain-registry/types';
 import { toBech32, fromBech32 } from '@cosmjs/encoding';
 
 export const validateContractAddress = (
@@ -44,3 +45,8 @@ export const prettifyJson = (text: string) => {
 };
 
 export const countJsonLines = (text: string) => text.split(/\n/).length;
+
+export const getExplorerLink = (chain: Chain, txHash: string) => {
+  const txPageLink = chain.explorers?.[0].tx_page ?? '';
+  return `${txPageLink.replace('${txHash}', txHash)}`;
+};
