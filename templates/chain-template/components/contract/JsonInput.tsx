@@ -53,11 +53,13 @@ interface JsonState {
 type JsonInputProps = {
   value: string;
   setValue: (value: string) => void;
+  minLines?: number;
 } & Pick<BoxProps, 'width' | 'height' | 'mt' | 'mb'>;
 
 export const JsonInput = ({
   value = '',
   setValue,
+  minLines = MIN_LINES,
   ...rest
 }: JsonInputProps) => {
   const [jsonState, setJsonState] = useState<JsonState>({ state: 'empty' });
@@ -83,7 +85,7 @@ export const JsonInput = ({
   const isValidJson = validateJson(value) === null;
 
   const lines = useMemo(() => {
-    return Math.max(countJsonLines(value), MIN_LINES);
+    return Math.max(countJsonLines(value), minLines);
   }, [value]);
 
   return (

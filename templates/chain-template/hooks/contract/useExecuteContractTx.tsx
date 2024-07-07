@@ -70,7 +70,12 @@ export const useExecuteContractTx = (chainName: string) => {
       toast({
         title: 'Transaction Failed',
         type: 'error',
-        description: e.message,
+        description: (
+          <Box width="300px" wordBreak="break-all">
+            {e.message}
+          </Box>
+        ),
+        duration: 10000,
       });
     }
   };

@@ -1,77 +1,69 @@
+import { Dispatch, SetStateAction, useMemo } from 'react';
+import { assets } from 'chain-registry';
+
 import {
-  Avatar,
-  Box,
-  NumberField,
-  Select,
-  SelectOption,
-  Stack,
-  Text,
-} from '@interchain-ui/react';
-import osmoAssets from 'chain-registry/testnet/osmosistestnet/assets';
-import { useState } from 'react';
+  defaultSelectedAsset,
+  SelectedAssetWithAmount,
+} from './AttachFundsSelect';
 import { Button } from '@/components';
-import { HiOutlineTrash } from 'react-icons/hi';
+import { SelectAssetItem } from './SelectAssetItem';
+import { useChainStore } from '@/contexts';
 
-const assets = osmoAssets.assets.slice(0, 2);
+type SelectAssetContentProps = {
+  selectedAssetsWithAmount: SelectedAssetWithAmount[];
+  setSelectedAssetsWithAmount: Dispatch<
+    SetStateAction<SelectedAssetWithAmount[]>
+  >;
+};
 
-type SelectAssetContentProps = {};
+export const SelectAssetContent = ({
+  selectedAssetsWithAmount,
+  setSelectedAssetsWithAmount,
+}: SelectAssetContentProps) => {
+  const { selectedChain } = useChainStore();
 
-export const SelectAssetContent = ({}: SelectAssetContentProps) => {
-  const [selectedDenoms, setSelectedDenoms] = useState<string[]>([]);
+  const nativeAssets = useMemo(() => {
+    return (
+      assets
+        .find(({ chain_name }) => chain_name === selectedChain)
+        ?.assets.filter(
+          ({ type_asset, base }) =>
+            type_asset !== 'cw20' &&
+            type_asset !== 'ics20' &&
+            !base.startsWith('factory/')
+        ) || []
+    );
+  }, [selectedChain]);
+
+  const selectedSymbols = selectedAssetsWithAmount
+    .map(({ asset }) => asset?.symbol)
+    .filter(Boolean) as string[];
+
+  const handleAddAssets = () => {
+    setSelectedAssetsWithAmount((prev) => [...prev, defaultSelectedAsset]);
+  };
 
   return (
     <>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="flex-end"
-        gap="10px"
-        my="20px"
-      >
-        <Box>
-          <Text fontSize="16px" fontWeight="400" attributes={{ mb: '10px' }}>
-            Asset
-          </Text>
-          <Select
-            width="140px"
-            onSelectItem={(item) => {
-              if (!item) return;
-              setSelectedDenoms((prev) => [...prev, item.key]);
-            }}
-            placeholder="Select"
-          >
-            {assets.map(({ base, symbol, logo_URIs }) => (
-              <SelectOption key={base} optionKey={base} label={symbol}>
-                <Stack space="10px" attributes={{ alignItems: 'center' }}>
-                  <Avatar
-                    name={symbol}
-                    src={logo_URIs?.svg || logo_URIs?.png}
-                    size="xs"
-                  />
-                  <Text fontSize="16px" fontWeight="500">
-                    {symbol}
-                  </Text>
-                </Stack>
-              </SelectOption>
-            ))}
-          </Select>
-        </Box>
-
-        <Box flex="1">
-          <Text fontSize="16px" fontWeight="400" attributes={{ mb: '10px' }}>
-            Amount
-          </Text>
-          <NumberField placeholder="Enter amount" />
-        </Box>
-
-        <Button
-          px="10px"
-          color="$text"
-          leftIcon={<HiOutlineTrash size="20px" />}
+      {selectedAssetsWithAmount.map((assetWithAmount, index) => (
+        <SelectAssetItem
+          key={assetWithAmount.asset?.symbol || index}
+          itemIndex={index}
+          allAssets={nativeAssets}
+          selectedSymbols={selectedSymbols}
+          disableTrashButton={selectedAssetsWithAmount.length === 1}
+          selectedAssetWithAmount={assetWithAmount}
+          setSelectedAssetsWithAmount={setSelectedAssetsWithAmount}
         />
-      </Box>
+      ))}
 
-      <Button color="$text">Add More Assets</Button>
+      <Button
+        color="$text"
+        onClick={handleAddAssets}
+        disabled={selectedAssetsWithAmount.length === nativeAssets.length}
+      >
+        Add More Assets
+      </Button>
     </>
   );
 };

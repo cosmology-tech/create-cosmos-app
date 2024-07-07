@@ -12,6 +12,7 @@ import { useChainStore } from '@/contexts';
 import { useChain } from '@cosmos-kit/react';
 import { CopyButton } from './CopyButton';
 import { validateJson } from '@/utils';
+import { Coin } from '@cosmjs/amino';
 
 type ExecuteTabProps = {
   show: boolean;
@@ -21,6 +22,8 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
   const [contractAddress, setContractAddress] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [msg, setMsg] = useState('');
+  const [funds, setFunds] = useState<Coin[]>([]);
+  const [isAssetListJsonValid, setIsAssetListJsonValid] = useState(true);
 
   const { selectedChain } = useChainStore();
   const { address, connect } = useChain(selectedChain);
@@ -35,7 +38,7 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
       address,
       contractAddress,
       fee: { amount: [], gas: '200000' },
-      funds: [],
+      funds,
       onTxSucceed: () => setIsLoading(false),
       onTxFailed: () => setIsLoading(false),
     });
@@ -43,7 +46,8 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
 
   const isMsgValid = validateJson(msg) === null;
 
-  const isExecuteButtonDisabled = !contractAddress || !isMsgValid || !address;
+  const isExecuteButtonDisabled =
+    !contractAddress || !isMsgValid || !address || !isAssetListJsonValid;
 
   return (
     <Box display={show ? 'block' : 'none'}>
@@ -97,7 +101,10 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
         </Box>
 
         <Box flex="1">
-          <AttachFundsSelect />
+          <AttachFundsSelect
+            setFunds={setFunds}
+            setIsAssetListJsonValid={setIsAssetListJsonValid}
+          />
         </Box>
       </Box>
 
