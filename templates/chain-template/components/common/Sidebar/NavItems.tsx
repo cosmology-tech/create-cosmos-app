@@ -17,7 +17,7 @@ const navItems: NavItem[] = [
   {
     icon: <RiHome7Line size="20px" />,
     label: 'Home',
-    href: '/',
+    href: '/home',
   },
   {
     icon: <RiStackLine size="20px" />,

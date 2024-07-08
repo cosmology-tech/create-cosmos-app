@@ -1,11 +1,13 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Box, useColorModeValue, Text } from '@interchain-ui/react';
+import { MdOutlineAccountBalanceWallet } from 'react-icons/md';
+import { FiLogOut } from 'react-icons/fi';
+import { useChain } from '@cosmos-kit/react';
+
 import { NavItems } from './NavItems';
 import { Button } from '../Button';
-import { MdOutlineAccountBalanceWallet } from 'react-icons/md';
 import { useChainStore } from '@/contexts';
-import { useChain } from '@cosmos-kit/react';
-import { FiLogOut } from 'react-icons/fi';
 
 type SidebarProps = {};
 
@@ -41,13 +43,15 @@ export const Sidebar = ({}: SidebarProps) => {
       borderRightWidth="1px"
       borderRightStyle="solid"
     >
-      <Image
-        src={brandLogoSrc}
-        alt="cosmology"
-        width="0"
-        height="0"
-        style={{ width: '180px', height: 'auto', marginBottom: '50px' }}
-      />
+      <Link href="/" style={{ marginBottom: '50px' }}>
+        <Image
+          src={brandLogoSrc}
+          alt="cosmology"
+          width="0"
+          height="0"
+          style={{ width: '180px', height: 'auto' }}
+        />
+      </Link>
       <NavItems />
       <Box mt="$auto">
         {isWalletConnected ? (
