@@ -69,7 +69,7 @@ export const WalletSection = () => {
 
   const getBalance = async () => {
     const client = await getSigningStargateClient();
-    const balance = await client?.getBalance(address as string, 'OSMO');
+    const balance = await client?.getBalance(address as string, 'uosmo');
     setOsmoBalance(balance);
   };
 
@@ -142,7 +142,7 @@ export const WalletSection = () => {
           <Text fontWeight="semibold">
             Balance: {osmoBalance?.amount ?? '--'}
           </Text>
-          <Text pt="1px" fontSize="12px" color="blackAlpha.700">
+          <Text pt="1px" fontSize="12px">
             {osmoBalance?.denom}
           </Text>
         </Flex>
@@ -150,7 +150,7 @@ export const WalletSection = () => {
           <Text fontWeight="semibold">
             Staked: {balanceStaked?.amount ?? '--'}
           </Text>
-          <Text pt="2px" fontSize="12px" color="blackAlpha.700">
+          <Text pt="2px" fontSize="12px">
             {balanceStaked?.denom}
           </Text>
         </Flex>
