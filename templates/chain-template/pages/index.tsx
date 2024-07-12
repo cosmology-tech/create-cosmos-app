@@ -40,7 +40,7 @@ export default function Home() {
 
 const HighlightText = ({ children }: { children: string }) => {
   return (
-    <Text as="span" color="#7310FF">
+    <Text as="span" color="$purple600">
       {children}
     </Text>
   );

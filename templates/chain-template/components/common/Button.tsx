@@ -27,29 +27,29 @@ const variantStyles: Record<Variant, BoxProps> = {
   outline: {
     borderWidth: '2px',
     borderStyle: '$solid',
-    borderColor: '#DDE2E9',
+    borderColor: '$blackAlpha300',
     color: '$textSecondary',
     backgroundColor: {
-      hover: '#F3F5FA',
-      base: '$white',
+      hover: '$blackAlpha100',
+      base: 'transparent',
     },
   },
   primary: {
     color: '$white',
     backgroundColor: {
-      hover: '#9D4FFF',
-      base: '#7310FF',
+      hover: '$purple400',
+      base: '$purple600',
     },
   },
 };
 
 const disabledStyles: Record<Variant, BoxProps> = {
   outline: {
-    color: '#DDE2E9',
-    backgroundColor: '$white',
+    color: '$blackAlpha300',
+    backgroundColor: 'transparent',
   },
   primary: {
-    backgroundColor: '#E5D4FB',
+    backgroundColor: '$purple200',
   },
 };
 

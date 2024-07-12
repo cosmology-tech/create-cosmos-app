@@ -11,6 +11,7 @@ import { Box, ThemeProvider, Toaster, useTheme } from '@interchain-ui/react';
 import { GasPrice } from '@cosmjs/stargate';
 
 import { Layout } from '@/components';
+import { darkTheme, lightTheme, CustomTheme } from '@/config';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,7 +24,7 @@ const queryClient = new QueryClient({
 });
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
-  const { themeClass } = useTheme();
+  const { themeClass, theme } = useTheme();
 
   const signerOptions: SignerOptions = {
     // TODO fix type error
@@ -44,7 +45,10 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ThemeProvider>
+    <ThemeProvider
+      themeDefs={[lightTheme, darkTheme]}
+      customTheme={CustomTheme[theme]}
+    >
       <ChainProvider
         chains={chains}
         assetLists={assets}

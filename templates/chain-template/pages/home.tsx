@@ -80,7 +80,7 @@ const ProductItem = ({
         p="20px"
         borderWidth="1px"
         borderStyle="solid"
-        borderColor="#D9E0E9"
+        borderColor="$blackAlpha300"
         borderRadius="4px"
       >
         <Box
@@ -100,7 +100,7 @@ const ProductItem = ({
           >
             {name}
           </Text>
-          <Icon name="arrowRightLine" size="$lg" />
+          <Icon name="arrowRightLine" size="$lg" color="$blackAlpha600" />
         </Box>
         <Text
           color="$textSecondary"

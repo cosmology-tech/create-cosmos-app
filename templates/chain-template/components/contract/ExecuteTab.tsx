@@ -58,16 +58,16 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
           justifyContent="space-between"
           borderWidth="1px"
           borderStyle="solid"
-          borderColor="#7310FF"
-          backgroundColor="#F9F4FF"
+          borderColor="$purple600"
+          backgroundColor="$purple100"
           height="70px"
           px="24px"
           borderRadius="8px"
           mb="20px"
         >
           <Box display="flex" gap="6px" alignItems="center">
-            <Icon name="walletFilled" color="#7310FF" />
-            <Text color="#7310FF" fontSize="16px" fontWeight="500">
+            <Icon name="walletFilled" color="$purple600" />
+            <Text color="$purple600" fontSize="16px" fontWeight="500">
               You need to connect your wallet to perform this action
             </Text>
           </Box>
@@ -77,9 +77,10 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
             alignItems="center"
             cursor="pointer"
             attributes={{ onClick: connect }}
+            color="$purple600"
           >
-            <IoMdLink size="20px" color="#7310FF" />
-            <Text color="#7310FF" fontSize="16px" fontWeight="500">
+            <IoMdLink size="20px" />
+            <Text color="$purple600" fontSize="16px" fontWeight="500">
               Connect Wallet
             </Text>
           </Box>

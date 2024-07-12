@@ -166,7 +166,7 @@ const AssetOption = ({
       cursor={disabled ? 'default' : 'pointer'}
       opacity={disabled ? 0.3 : 1}
       bg={{
-        hover: disabled ? '$white' : '#F6F8FE',
+        hover: disabled ? '$white' : '$blackAlpha100',
         base: '$white',
       }}
       attributes={{ onClick: disabled ? undefined : onClick }}

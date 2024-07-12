@@ -45,7 +45,7 @@ export default function Faucet() {
           />
           <Button
             borderWidth="1px"
-            borderColor="#D9E0E9"
+            borderColor="$blackAlpha300"
             color="$textSecondary"
             fontSize="14px"
           >
@@ -97,7 +97,7 @@ const FaqItem = ({
       width="$full"
       borderWidth="1px"
       borderStyle="solid"
-      borderColor="#D9E0E9"
+      borderColor="$blackAlpha300"
       borderRadius="4px"
     >
       <Text fontSize="18px" fontWeight="600" attributes={{ mb: '10px' }}>

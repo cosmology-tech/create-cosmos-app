@@ -5,7 +5,6 @@ import { LuFileInput } from 'react-icons/lu';
 import { Button } from '@/components';
 import { JsonInput } from './JsonInput';
 import { ContractInfo } from './ContractInfo';
-import { colors } from '@/config';
 import { countJsonLines, validateJson } from '@/utils';
 import { CopyButton } from './CopyButton';
 import { useQueryContract } from '@/hooks';
@@ -85,7 +84,7 @@ export const QueryTab = ({ show }: QueryTabProps) => {
           <Box
             borderWidth="1px"
             borderStyle="solid"
-            borderColor={isJsonValid ? colors.black300 : colors.red}
+            borderColor={isJsonValid ? '$blackAlpha300' : '$red600'}
             borderRadius="4px"
             height="342px"
             overflowY="auto"

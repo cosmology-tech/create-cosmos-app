@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useChain } from '@cosmos-kit/react';
 import { Box, BoxProps, Text, TextField } from '@interchain-ui/react';
 
-import { colors } from '@/config';
 import { Button } from '@/components';
 import { useChainStore } from '@/contexts';
 import { useContractInfo } from '@/hooks';
@@ -63,7 +62,7 @@ export const ContractInfo = ({
     <Box
       borderWidth="1px"
       borderStyle="solid"
-      borderColor={colors.black300}
+      borderColor="$blackAlpha300"
       borderRadius="4px"
       display="flex"
       gap="60px"
@@ -90,7 +89,7 @@ export const ContractInfo = ({
             />
             {inputErr && (
               <Text
-                color="#E65858"
+                color="$red600"
                 fontSize="12px"
                 fontWeight="500"
                 wordBreak="break-all"

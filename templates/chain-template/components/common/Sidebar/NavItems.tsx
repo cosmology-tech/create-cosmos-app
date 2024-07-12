@@ -64,8 +64,8 @@ const NavItem = ({ icon, label, href }: NavItem) => {
         borderRadius="4px"
         color="$text"
         backgroundColor={{
-          hover: '#E5D4FB',
-          base: isActive ? '#E5D4FB' : 'transparent',
+          hover: '$purple200',
+          base: isActive ? '$purple200' : 'transparent',
         }}
       >
         {typeof icon === 'string' ? <Icon name={icon} size="$xl" /> : icon}

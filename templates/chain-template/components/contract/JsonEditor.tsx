@@ -1,8 +1,10 @@
 import AceEditor from 'react-ace';
+import { useTheme } from '@interchain-ui/react';
 
 import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/mode-json';
 import 'ace-builds/src-noconflict/theme-textmate';
+import 'ace-builds/src-noconflict/theme-cloud9_night';
 
 type JsonEditorProps = {
   value: string;
@@ -19,10 +21,12 @@ export const JsonEditor = ({
   readOnly = false,
   isValid = true,
 }: JsonEditorProps) => {
+  const { theme } = useTheme();
+
   return (
     <AceEditor
       mode="json"
-      theme="textmate"
+      theme={theme === 'light' ? 'textmate' : 'cloud9_night'}
       fontSize="14px"
       readOnly={readOnly}
       style={{

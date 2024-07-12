@@ -39,7 +39,7 @@ export const Sidebar = ({}: SidebarProps) => {
       flexDirection="column"
       alignItems="center"
       height="100vh"
-      borderRightColor="#DDE2E9"
+      borderRightColor="$blackAlpha300"
       borderRightWidth="1px"
       borderRightStyle="solid"
     >

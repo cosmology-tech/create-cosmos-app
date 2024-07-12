@@ -8,7 +8,6 @@ import {
   Icon,
 } from '@interchain-ui/react';
 
-import { colors } from '@/config';
 import { Button, MIN_LINES } from '@/components';
 import { countJsonLines, prettifyJson, validateJson } from '@/utils';
 import { JsonEditor } from './JsonEditor';
@@ -94,7 +93,7 @@ export const JsonInput = ({
         position="relative"
         borderWidth="1px"
         borderStyle="solid"
-        borderColor={colors.black300}
+        borderColor="$blackAlpha300"
         borderRadius="4px"
         overflowY="auto"
         p="10px"
