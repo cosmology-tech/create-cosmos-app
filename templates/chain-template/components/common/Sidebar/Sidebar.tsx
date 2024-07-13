@@ -1,32 +1,26 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Box, useColorModeValue, Text } from '@interchain-ui/react';
-import { MdOutlineAccountBalanceWallet } from 'react-icons/md';
-import { FiLogOut } from 'react-icons/fi';
-import { useChain } from '@cosmos-kit/react';
+import { Box, useColorModeValue } from '@interchain-ui/react';
+import { VscClose } from 'react-icons/vsc';
 
-import { NavItems } from './NavItems';
-import { Button } from '../Button';
-import { useChainStore } from '@/contexts';
+import { Drawer } from '@/components';
+import { useDetectBreakpoints } from '@/hooks';
+import { SidebarContent } from './SidebarContent';
 
-type SidebarProps = {};
+type SidebarProps = {
+  isOpen: boolean;
+  onClose: () => void;
+};
 
-export const Sidebar = ({}: SidebarProps) => {
-  const { selectedChain } = useChainStore();
-  const { connect, disconnect, username, isWalletConnected, wallet, openView } =
-    useChain(selectedChain);
+export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
+  const { isDesktop } = useDetectBreakpoints();
 
   const brandLogoSrc = useColorModeValue(
     '/logos/your-logo.svg',
     '/logos/your-logo-dark.svg'
   );
 
-  const poweredByLogoSrc = useColorModeValue(
-    '/logos/cosmology.svg',
-    '/logos/cosmology-dark.svg'
-  );
-
-  return (
+  const desktopSidebar = (
     <Box
       width="240px"
       px="30px"
@@ -52,74 +46,35 @@ export const Sidebar = ({}: SidebarProps) => {
           style={{ width: '180px', height: 'auto' }}
         />
       </Link>
-      <NavItems />
-      <Box mt="$auto">
-        {isWalletConnected ? (
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            gap="10px"
-          >
-            <Button
-              variant="outline"
-              onClick={openView}
-              leftIcon={
-                wallet?.logo ? (
-                  <Image
-                    src={
-                      typeof wallet.logo === 'string'
-                        ? wallet.logo
-                        : wallet.logo.major || wallet.logo.minor
-                    }
-                    alt={wallet.prettyName}
-                    width="0"
-                    height="0"
-                    style={{ width: '20px', height: 'auto' }}
-                  />
-                ) : (
-                  'checkboxCircle'
-                )
-              }
-            >
-              {username ? username : 'Connected'}
-            </Button>
-            <Button
-              leftIcon={<FiLogOut />}
-              variant="outline"
-              px="10px"
-              onClick={disconnect}
-            />
-          </Box>
-        ) : (
-          <Button
-            variant="outline"
-            leftIcon={<MdOutlineAccountBalanceWallet size="20px" />}
-            onClick={connect}
-          >
-            Connect Wallet
-          </Button>
-        )}
-        <Box
-          mt="10px"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          py="10px"
-          gap="10px"
-        >
-          <Text fontSize="12px" fontWeight="500" color="$text">
-            Powered by
-          </Text>
-          <Image
-            src={poweredByLogoSrc}
-            alt="cosmology"
-            width="0"
-            height="0"
-            style={{ width: '100px', height: 'auto' }}
-          />
-        </Box>
-      </Box>
+      <SidebarContent onClose={onClose} />
     </Box>
   );
+
+  const mobileSidebar = (
+    <Drawer isOpen={isOpen} onClose={onClose} direction="right">
+      <Box
+        height="100%"
+        minHeight="650px"
+        overflowY="auto"
+        width="320px"
+        px="20px"
+        py="30px"
+        display="flex"
+        flexDirection="column"
+      >
+        <Box
+          display="flex"
+          justifyContent="flex-end"
+          mb="64px"
+          mr="10px"
+          color="$blackAlpha400"
+        >
+          <VscClose size="26px" cursor="pointer" onClick={onClose} />
+        </Box>
+        <SidebarContent onClose={onClose} />
+      </Box>
+    </Drawer>
+  );
+
+  return isDesktop ? desktopSidebar : mobileSidebar;
 };

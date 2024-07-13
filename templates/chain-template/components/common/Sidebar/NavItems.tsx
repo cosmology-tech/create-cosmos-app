@@ -46,7 +46,12 @@ const navItems: NavItem[] = [
   },
 ];
 
-const NavItem = ({ icon, label, href }: NavItem) => {
+const NavItem = ({
+  icon,
+  label,
+  href,
+  onClick,
+}: NavItem & { onClick?: () => void }) => {
   const router = useRouter();
 
   const isActive = router.pathname === href;
@@ -58,11 +63,11 @@ const NavItem = ({ icon, label, href }: NavItem) => {
         display="flex"
         alignItems="center"
         gap="10px"
-        width="180px"
         height="40px"
         cursor="pointer"
         borderRadius="4px"
         color="$text"
+        attributes={{ onClick }}
         backgroundColor={{
           hover: '$purple200',
           base: isActive ? '$purple200' : 'transparent',
@@ -77,11 +82,17 @@ const NavItem = ({ icon, label, href }: NavItem) => {
   );
 };
 
-export const NavItems = () => {
+export const NavItems = ({ onItemClick }: { onItemClick?: () => void }) => {
   return (
-    <Stack direction="vertical" space="20px">
+    <Stack direction="vertical" space="20px" attributes={{ width: '100%' }}>
       {navItems.map(({ href, icon, label }) => (
-        <NavItem key={label} icon={icon} label={label} href={href} />
+        <NavItem
+          key={label}
+          icon={icon}
+          label={label}
+          href={href}
+          onClick={onItemClick}
+        />
       ))}
     </Stack>
   );
