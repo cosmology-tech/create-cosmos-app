@@ -14,7 +14,7 @@ interface HeaderProps {
 
 export const Header = ({ onOpenSidebar }: HeaderProps) => {
   const { theme, setTheme } = useTheme();
-  const { isDesktop } = useDetectBreakpoints();
+  const { isDesktop, isMobile } = useDetectBreakpoints();
   const brandLogoSrc = useColorModeValue(
     '/logos/your-logo.svg',
     '/logos/your-logo-dark.svg'
@@ -34,7 +34,7 @@ export const Header = ({ onOpenSidebar }: HeaderProps) => {
             alt="cosmology"
             width="0"
             height="0"
-            style={{ width: '180px', height: 'auto' }}
+            style={{ width: isMobile ? '160px' : '180px', height: 'auto' }}
           />
         </Link>
       )}
