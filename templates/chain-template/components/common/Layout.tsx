@@ -3,8 +3,8 @@ import { Box, useColorModeValue } from '@interchain-ui/react';
 
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
-import styles from '@/styles/layout.module.css';
 import { useDisclosure } from '@/hooks';
+import styles from '@/styles/layout.module.css';
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
