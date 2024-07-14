@@ -4,6 +4,7 @@ import { Box, Icon, Tabs, Text } from '@interchain-ui/react';
 
 import styles from '@/styles/utils.module.css';
 import { ProductCategory, products } from '@/config';
+import { useDetectBreakpoints } from '@/hooks';
 
 type Tab = {
   label: string;
@@ -36,6 +37,8 @@ const tabs: Tab[] = [
 export default function SidebarHomePage() {
   const [activeTab, setActiveTab] = useState(0);
 
+  const { isTablet, isMobile } = useDetectBreakpoints();
+
   const filteredProducts = products.filter(
     (product) =>
       tabs[activeTab].category === null ||
@@ -43,13 +46,18 @@ export default function SidebarHomePage() {
   );
 
   return (
-    <Box width="900px" mx="auto">
+    <Box maxWidth="900px" mx="auto">
       <Tabs
         tabs={tabs.map(({ label }) => ({ label, content: undefined }))}
         activeTab={activeTab}
         onActiveTabChange={(tabId) => setActiveTab(tabId)}
       />
-      <Box mt="20px" display="flex" flexWrap="wrap" gap="20px">
+      <Box
+        mt="20px"
+        display="grid"
+        gridTemplateColumns={`repeat(${isMobile ? 1 : isTablet ? 2 : 3}, 1fr)`}
+        gap="20px"
+      >
         {filteredProducts.map(({ name, link, description }) => (
           <ProductItem
             key={name}
@@ -75,7 +83,7 @@ const ProductItem = ({
   return (
     <Link href={link} target="_blank">
       <Box
-        width="286px"
+        width="100%"
         height="138px"
         p="20px"
         borderWidth="1px"

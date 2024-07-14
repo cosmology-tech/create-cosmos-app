@@ -1,8 +1,11 @@
 import Image from 'next/image';
 import { Box, Text } from '@interchain-ui/react';
 import { Button } from '@/components';
+import { useDetectBreakpoints } from '@/hooks';
 
 export default function Home() {
+  const { isMobile } = useDetectBreakpoints();
+
   return (
     <>
       <Text
@@ -22,7 +25,12 @@ export default function Home() {
         Welcome to <HighlightText>Cosmos Kit</HighlightText> +{' '}
         <HighlightText>Next.js</HighlightText>
       </Text>
-      <Button variant="primary" leftIcon="walletFilled" mx="auto" mb="100px">
+      <Button
+        variant="primary"
+        leftIcon="walletFilled"
+        mx="auto"
+        mb={isMobile ? '60px' : '100px'}
+      >
         Connect Wallet
       </Button>
       <Box display="flex" justifyContent="center">
@@ -31,7 +39,11 @@ export default function Home() {
           src="/images/chains.svg"
           width={0}
           height={0}
-          style={{ width: '840px', height: 'auto' }}
+          style={{
+            maxWidth: '840px',
+            width: '100%',
+            height: 'auto',
+          }}
         />
       </Box>
     </>

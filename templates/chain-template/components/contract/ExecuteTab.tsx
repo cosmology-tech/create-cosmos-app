@@ -7,7 +7,7 @@ import { Button } from '@/components';
 import { JsonInput } from './JsonInput';
 import { ContractInfo } from './ContractInfo';
 import { AttachFundsSelect } from './AttachFundsSelect';
-import { useExecuteContractTx } from '@/hooks';
+import { useDetectBreakpoints, useExecuteContractTx } from '@/hooks';
 import { useChainStore } from '@/contexts';
 import { useChain } from '@cosmos-kit/react';
 import { CopyButton } from './CopyButton';
@@ -44,6 +44,8 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
     });
   };
 
+  const { isMobile } = useDetectBreakpoints();
+
   const isMsgValid = validateJson(msg) === null;
 
   const isExecuteButtonDisabled =
@@ -54,19 +56,24 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
       {!address && (
         <Box
           display="flex"
-          alignItems="center"
+          flexDirection={isMobile ? 'column' : 'row'}
           justifyContent="space-between"
+          alignItems="center"
+          gap="20px"
           borderWidth="1px"
           borderStyle="solid"
           borderColor="$purple600"
           backgroundColor="$purple100"
-          height="70px"
-          px="24px"
+          p={isMobile ? '18px' : '24px'}
           borderRadius="8px"
           mb="20px"
         >
           <Box display="flex" gap="6px" alignItems="center">
-            <Icon name="walletFilled" color="$purple600" />
+            <Icon
+              name="walletFilled"
+              color="$purple600"
+              attributes={{ minWidth: '20px' }}
+            />
             <Text color="$purple600" fontSize="16px" fontWeight="500">
               You need to connect your wallet to perform this action
             </Text>
@@ -93,7 +100,13 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
         Execute Message
       </Text>
 
-      <Box display="flex" gap="20px" justifyContent="space-between" mb="20px">
+      <Box
+        display="flex"
+        flexDirection={isMobile ? 'column' : 'row'}
+        gap="20px"
+        justifyContent="space-between"
+        mb="20px"
+      >
         <Box flex="1">
           <Text fontSize="16px" fontWeight="500" attributes={{ mb: '10px' }}>
             Execute Msg
@@ -109,7 +122,7 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
         </Box>
       </Box>
 
-      <Box display="flex" gap="10px" alignItems="center" mb="250px">
+      <Box display="flex" gap="10px" alignItems="center" mb="80px">
         <CopyButton value={msg} disabled={!msg} />
         <Button
           rightIcon={<LuFileInput size="18px" />}

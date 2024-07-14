@@ -4,7 +4,7 @@ import { Box, BoxProps, Text, TextField } from '@interchain-ui/react';
 
 import { Button } from '@/components';
 import { useChainStore } from '@/contexts';
-import { useContractInfo } from '@/hooks';
+import { useContractInfo, useDetectBreakpoints } from '@/hooks';
 import { shortenAddress, validateContractAddress } from '@/utils';
 
 type ContractInfoProps = {
@@ -20,6 +20,7 @@ export const ContractInfo = ({
   const [inputErr, setInputErr] = useState<string | null>(null);
   const [isEditable, setIsEditable] = useState(true);
 
+  const { isMobile } = useDetectBreakpoints();
   const { selectedChain } = useChainStore();
   const { chain } = useChain(selectedChain);
   const {
@@ -65,7 +66,8 @@ export const ContractInfo = ({
       borderColor="$blackAlpha300"
       borderRadius="4px"
       display="flex"
-      gap="60px"
+      flexDirection={isMobile ? 'column' : 'row'}
+      gap={isMobile ? '10px' : '60px'}
       p="20px"
       mb={mb}
     >
@@ -77,7 +79,9 @@ export const ContractInfo = ({
           <Box width={isEditable ? '$full' : '$auto'}>
             <TextField
               id="contract-address"
-              value={isEditable ? input : shortenAddress(input, 15)}
+              value={
+                isEditable ? input : shortenAddress(input, isMobile ? 9 : 15)
+              }
               onChange={(e) => {
                 setInput(e.target.value);
                 setInputErr(null);
@@ -85,7 +89,9 @@ export const ContractInfo = ({
               placeholder="Enter contract address"
               intent={inputErr ? 'error' : 'default'}
               readonly={!isEditable || isFetching}
-              attributes={{ width: isEditable ? 'auto' : '260px' }}
+              attributes={{
+                width: isEditable ? 'auto' : isMobile ? '172px' : '260px',
+              }}
             />
             {inputErr && (
               <Text

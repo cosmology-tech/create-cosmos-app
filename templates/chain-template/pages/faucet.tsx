@@ -24,7 +24,7 @@ export default function Faucet() {
       >
         Get test tokens for building applications
       </Text>
-      <Box width="500px" mx="auto">
+      <Box maxWidth="500px" mx="auto">
         <Text fontSize="16px" fontWeight="700" attributes={{ mb: '10px' }}>
           Address
         </Text>

@@ -7,7 +7,7 @@ import { JsonInput } from './JsonInput';
 import { ContractInfo } from './ContractInfo';
 import { countJsonLines, validateJson } from '@/utils';
 import { CopyButton } from './CopyButton';
-import { useQueryContract } from '@/hooks';
+import { useDetectBreakpoints, useQueryContract } from '@/hooks';
 import { JsonEditor } from './JsonEditor';
 
 export const MIN_LINES = 16;
@@ -61,6 +61,8 @@ export const QueryTab = ({ show }: QueryTabProps) => {
 
   const isQueryButtonDisabled = !contractAddress || !isMsgValid;
 
+  const { isMobile } = useDetectBreakpoints();
+
   return (
     <Box display={show ? 'block' : 'none'}>
       <ContractInfo setContractAddress={setContractAddress} mb="30px" />
@@ -69,7 +71,13 @@ export const QueryTab = ({ show }: QueryTabProps) => {
         Query Message
       </Text>
 
-      <Box display="flex" gap="20px" justifyContent="space-between" mb="20px">
+      <Box
+        display="flex"
+        flexDirection={isMobile ? 'column' : 'row'}
+        gap="20px"
+        justifyContent="space-between"
+        mb="20px"
+      >
         <Box flex="1">
           <Text fontSize="16px" fontWeight="500" attributes={{ mb: '10px' }}>
             Query Msg
@@ -100,7 +108,7 @@ export const QueryTab = ({ show }: QueryTabProps) => {
         </Box>
       </Box>
 
-      <Box display="flex" gap="10px" alignItems="center" mb="250px">
+      <Box display="flex" gap="10px" alignItems="center" mb="80px">
         <CopyButton value={queryMsg} disabled={!queryMsg} />
         <Button
           rightIcon={<LuFileInput size="18px" />}

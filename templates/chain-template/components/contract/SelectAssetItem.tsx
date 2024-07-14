@@ -14,6 +14,7 @@ import {
 
 import { Button } from '@/components';
 import { SelectedAssetWithAmount } from './AttachFundsSelect';
+import { useDetectBreakpoints } from '@/hooks';
 
 type SelectAssetItemProps = {
   itemIndex: number;
@@ -68,6 +69,8 @@ export const SelectAssetItem = ({
     });
   };
 
+  const { isMobile } = useDetectBreakpoints();
+
   return (
     <Box
       display="flex"
@@ -84,7 +87,7 @@ export const SelectAssetItem = ({
           // @ts-ignore
           arrowRef={undefined}
           triggerType="click"
-          placement="bottom"
+          placement={isMobile ? 'bottom-start' : 'bottom'}
           offset={{ mainAxis: 10 }}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
@@ -93,7 +96,7 @@ export const SelectAssetItem = ({
             <SelectButton
               onClick={() => {}}
               placeholder={selectedAssetWithAmount?.asset?.symbol ?? 'Select'}
-              _css={{ width: '140px ' }}
+              _css={{ width: isMobile ? '100px' : '140px' }}
             />
           </PopoverTrigger>
           <PopoverContent showArrow={false}>
