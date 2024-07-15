@@ -108,7 +108,7 @@ export const QueryTab = ({ show }: QueryTabProps) => {
         </Box>
       </Box>
 
-      <Box display="flex" gap="10px" alignItems="center" mb="80px">
+      <Box display="flex" gap="10px" alignItems="center">
         <CopyButton value={queryMsg} disabled={!queryMsg} />
         <Button
           rightIcon={<LuFileInput size="18px" />}

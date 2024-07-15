@@ -122,7 +122,7 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
         </Box>
       </Box>
 
-      <Box display="flex" gap="10px" alignItems="center" mb="80px">
+      <Box display="flex" gap="10px" alignItems="center">
         <CopyButton value={msg} disabled={!msg} />
         <Button
           rightIcon={<LuFileInput size="18px" />}

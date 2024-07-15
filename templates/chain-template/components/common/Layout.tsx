@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { Box, useColorModeValue } from '@interchain-ui/react';
 
 import { Header } from './Header';
+import { Footer } from './Footer';
 import { Sidebar } from './Sidebar';
 import { useDisclosure } from '@/hooks';
 import styles from '@/styles/layout.module.css';
@@ -11,7 +12,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <Box
-      minHeight="100vh"
       backgroundColor={useColorModeValue('$white', '$background')}
       className={styles.layout}
     >
@@ -22,9 +22,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Sidebar isOpen={isOpen} onClose={onClose} />
-        <Box p="30px" width="$full">
+        <Box
+          p="30px"
+          width="$full"
+          minHeight="100vh"
+          display="flex"
+          flexDirection="column"
+        >
           <Header onOpenSidebar={onOpen} />
-          {children}
+          <Box flex="1">{children}</Box>
+          <Footer />
         </Box>
       </Box>
     </Box>

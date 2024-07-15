@@ -81,7 +81,7 @@ export const AddressButton = () => {
                 />
               )}
               <Text
-                color="$gray500"
+                color="$blackAlpha500"
                 fontSize="14px"
                 fontWeight="500"
                 lineHeight="20px"
