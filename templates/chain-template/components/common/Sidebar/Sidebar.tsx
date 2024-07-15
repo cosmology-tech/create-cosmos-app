@@ -16,8 +16,8 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const { isDesktop } = useDetectBreakpoints();
 
   const brandLogoSrc = useColorModeValue(
-    '/logos/your-logo.svg',
-    '/logos/your-logo-dark.svg'
+    '/logos/brand-logo.svg',
+    '/logos/brand-logo-dark.svg'
   );
 
   const desktopSidebar = (
@@ -40,7 +40,7 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       <Link href="/" style={{ marginBottom: '50px' }}>
         <Image
           src={brandLogoSrc}
-          alt="cosmology"
+          alt="your logo"
           width="0"
           height="0"
           style={{ width: '180px', height: 'auto' }}

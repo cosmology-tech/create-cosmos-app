@@ -15,9 +15,15 @@ interface HeaderProps {
 export const Header = ({ onOpenSidebar }: HeaderProps) => {
   const { theme, setTheme } = useTheme();
   const { isDesktop, isMobile } = useDetectBreakpoints();
-  const brandLogoSrc = useColorModeValue(
-    '/logos/your-logo.svg',
-    '/logos/your-logo-dark.svg'
+
+  const brandLogo = useColorModeValue(
+    '/logos/brand-logo.svg',
+    '/logos/brand-logo-dark.svg'
+  );
+
+  const brandLogoSm = useColorModeValue(
+    '/logos/brand-logo-sm.svg',
+    '/logos/brand-logo-sm-dark.svg'
   );
 
   return (
@@ -30,11 +36,11 @@ export const Header = ({ onOpenSidebar }: HeaderProps) => {
       {!isDesktop && (
         <Link href="/">
           <Image
-            src={brandLogoSrc}
-            alt="cosmology"
+            src={isMobile ? brandLogoSm : brandLogo}
+            alt="your logo"
             width="0"
             height="0"
-            style={{ width: isMobile ? '160px' : '180px', height: 'auto' }}
+            style={{ width: isMobile ? '40px' : '180px', height: 'auto' }}
           />
         </Link>
       )}
