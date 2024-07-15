@@ -7,11 +7,14 @@ import { FiLogOut } from 'react-icons/fi';
 import { NavItems } from './NavItems';
 import { Button } from '@/components';
 import { useChainStore } from '@/contexts';
+import { shortenAddress } from '@/utils';
+import { useCopyToClipboard } from '@/hooks';
 
 export const SidebarContent = ({ onClose }: { onClose: () => void }) => {
   const { selectedChain } = useChainStore();
+  const { isCopied, copyToClipboard } = useCopyToClipboard();
 
-  const { connect, disconnect, username, isWalletConnected, wallet, openView } =
+  const { connect, disconnect, address, isWalletConnected, wallet } =
     useChain(selectedChain);
 
   const poweredByLogoSrc = useColorModeValue(
@@ -29,16 +32,13 @@ export const SidebarContent = ({ onClose }: { onClose: () => void }) => {
     >
       <NavItems onItemClick={onClose} />
       <Box mt="$auto">
-        {isWalletConnected ? (
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            gap="10px"
-          >
+        {isWalletConnected && address ? (
+          <Box display="flex" alignItems="center" justifyContent="center">
             <Button
               variant="outline"
-              onClick={openView}
+              px="10px"
+              borderTopRightRadius={0}
+              borderBottomRightRadius={0}
               leftIcon={
                 wallet?.logo ? (
                   <Image
@@ -56,13 +56,20 @@ export const SidebarContent = ({ onClose }: { onClose: () => void }) => {
                   'checkboxCircle'
                 )
               }
+              rightIcon={isCopied ? 'checkLine' : 'copy'}
+              iconColor={isCopied ? '$textSuccess' : 'inherit'}
+              iconSize="$lg"
+              onClick={() => copyToClipboard(address)}
             >
-              {username ? username : 'Connected'}
+              {shortenAddress(address, 4)}&nbsp;
             </Button>
             <Button
               leftIcon={<FiLogOut />}
               variant="outline"
               px="10px"
+              borderLeftWidth={0}
+              borderTopLeftRadius={0}
+              borderBottomLeftRadius={0}
               onClick={disconnect}
             />
           </Box>

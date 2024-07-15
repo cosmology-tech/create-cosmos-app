@@ -25,10 +25,10 @@ type ButtonProps = {
 
 const variantStyles: Record<Variant, BoxProps> = {
   outline: {
-    borderWidth: '2px',
+    borderWidth: '1px',
     borderStyle: '$solid',
-    borderColor: '$blackAlpha300',
-    color: '$textSecondary',
+    borderColor: '$blackAlpha200',
+    color: '$blackAlpha500',
     backgroundColor: {
       hover: '$blackAlpha100',
       base: 'transparent',

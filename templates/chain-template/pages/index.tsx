@@ -1,10 +1,15 @@
 import Image from 'next/image';
 import { Box, Text } from '@interchain-ui/react';
+import { useChain } from '@cosmos-kit/react';
+
 import { Button } from '@/components';
+import { useChainStore } from '@/contexts';
 import { useDetectBreakpoints } from '@/hooks';
 
 export default function Home() {
   const { isMobile } = useDetectBreakpoints();
+  const { selectedChain } = useChainStore();
+  const { connect, isWalletConnected } = useChain(selectedChain);
 
   return (
     <>
@@ -25,15 +30,21 @@ export default function Home() {
         Welcome to <HighlightText>Cosmos Kit</HighlightText> +{' '}
         <HighlightText>Next.js</HighlightText>
       </Text>
-      <Button
-        variant="primary"
-        leftIcon="walletFilled"
-        mx="auto"
-        mb={isMobile ? '60px' : '100px'}
+      {!isWalletConnected && (
+        <Button
+          variant="primary"
+          leftIcon="walletFilled"
+          mx="auto"
+          onClick={connect}
+        >
+          Connect Wallet
+        </Button>
+      )}
+      <Box
+        display="flex"
+        justifyContent="center"
+        mt={isMobile ? '60px' : '100px'}
       >
-        Connect Wallet
-      </Button>
-      <Box display="flex" justifyContent="center">
         <Image
           alt="chains"
           src="/images/chains.svg"
