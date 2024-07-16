@@ -21,18 +21,19 @@
     "@chain-registry/assets": "^1.21.0",
     "@chain-registry/osmosis": "^1.21.0",
     "@chain-registry/types": "^0.16.0",
-    "@cosmjs/amino": "^0.31.3",
-    "@cosmjs/cosmwasm-stargate": "^0.31.3",
-    "@cosmjs/stargate": "^0.31.3",
-    "@cosmos-kit/react": "2.10.9",
+    "@cosmjs/amino": "^0.32.3",
+    "@cosmjs/cosmwasm-stargate": "^0.32.3",
+    "@cosmjs/stargate": "^0.32.3",
+    "@cosmos-kit/react": "2.17.0",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
-    "@interchain-ui/react": "^1.21.16",
+    "@interchain-ui/react": "1.23.22",
+    "@interchain-ui/react-no-ssr": "^0.1.6",
     "@tanstack/react-query": "4.32.0",
     "@uidotdev/usehooks": "2.4.1",
     "bignumber.js": "^9.1.2",
     "chain-registry": "1.20.0",
-    "cosmos-kit": "2.8.6",
+    "cosmos-kit": "2.18.0",
     "fast-fuzzy": "1.12.0",
     "framer-motion": "9.0.7",
     "match-sorter": "^6.3.3",
@@ -40,18 +41,17 @@
     "osmo-query": "16.5.1",
     "react": "^18.2",
     "react-dom": "^18.2",
-    "react-icons": "^4.12.0",
-    "react-no-ssr": "1.1.0"
+    "react-icons": "^4.12.0"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "4.32.0",
-    "@types/node": "^20.8.4",
-    "@types/react": "^18.2.50",
-    "@types/react-dom": "^18.2.18",
-    "@types/react-no-ssr": "^1.1.7",
+    "@types/node": "^20.14.6",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.1.0",
     "generate-lockfile": "0.0.12",
-    "typescript": "^5"
-  }
+    "typescript": "^5.1.6"
+  },
+  "packageManager": "yarn@4.3.0"
 }

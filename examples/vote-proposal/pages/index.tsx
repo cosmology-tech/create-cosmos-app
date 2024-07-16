@@ -1,6 +1,6 @@
-import NoSSR from "react-no-ssr";
-import { useState } from "react";
-import { CHAIN_NAME, Layout, Voting, Wallet } from "@/components";
+import { useState } from 'react';
+import { ReactNoSSR } from '@interchain-ui/react-no-ssr';
+import { CHAIN_NAME, Layout, Voting, Wallet } from '@/components';
 
 export default function Home() {
   const [chainName, setChainName] = useState(CHAIN_NAME);
@@ -11,13 +11,10 @@ export default function Home() {
 
   return (
     <Layout>
-      {/* TODO fix type error */}
-      {/* Type error: This JSX tag's 'children' prop expects a single child of type 'ReactNode', but multiple children were provided. */}
-      {/* @ts-ignore */}
-      <NoSSR>
+      <ReactNoSSR>
         <Wallet chainName={chainName} onChainChange={onChainChange} />
         <Voting chainName={chainName} />
-      </NoSSR>
+      </ReactNoSSR>
     </Layout>
   );
 }

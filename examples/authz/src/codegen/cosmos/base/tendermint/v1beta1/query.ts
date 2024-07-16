@@ -6,6 +6,7 @@ import { Block, BlockAmino, BlockSDKType } from "../../../../tendermint/types/bl
 import { NodeInfo, NodeInfoAmino, NodeInfoSDKType } from "../../../../tendermint/p2p/types";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
+import { JsonSafe } from "../../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../../registry";
 export const protobufPackage = "cosmos.base.tendermint.v1beta1";
 /** GetValidatorSetByHeightRequest is the request type for the Query/GetValidatorSetByHeight RPC method. */
@@ -419,7 +420,7 @@ export const GetValidatorSetByHeightRequest = {
     if (isSet(object.pagination)) obj.pagination = PageRequest.fromJSON(object.pagination);
     return obj;
   },
-  toJSON(message: GetValidatorSetByHeightRequest): unknown {
+  toJSON(message: GetValidatorSetByHeightRequest): JsonSafe<GetValidatorSetByHeightRequest> {
     const obj: any = {};
     message.height !== undefined && (obj.height = (message.height || BigInt(0)).toString());
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
@@ -548,7 +549,7 @@ export const GetValidatorSetByHeightResponse = {
     if (isSet(object.pagination)) obj.pagination = PageResponse.fromJSON(object.pagination);
     return obj;
   },
-  toJSON(message: GetValidatorSetByHeightResponse): unknown {
+  toJSON(message: GetValidatorSetByHeightResponse): JsonSafe<GetValidatorSetByHeightResponse> {
     const obj: any = {};
     message.blockHeight !== undefined && (obj.blockHeight = (message.blockHeight || BigInt(0)).toString());
     if (message.validators) {
@@ -679,7 +680,7 @@ export const GetLatestValidatorSetRequest = {
     if (isSet(object.pagination)) obj.pagination = PageRequest.fromJSON(object.pagination);
     return obj;
   },
-  toJSON(message: GetLatestValidatorSetRequest): unknown {
+  toJSON(message: GetLatestValidatorSetRequest): JsonSafe<GetLatestValidatorSetRequest> {
     const obj: any = {};
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
@@ -798,7 +799,7 @@ export const GetLatestValidatorSetResponse = {
     if (isSet(object.pagination)) obj.pagination = PageResponse.fromJSON(object.pagination);
     return obj;
   },
-  toJSON(message: GetLatestValidatorSetResponse): unknown {
+  toJSON(message: GetLatestValidatorSetResponse): JsonSafe<GetLatestValidatorSetResponse> {
     const obj: any = {};
     message.blockHeight !== undefined && (obj.blockHeight = (message.blockHeight || BigInt(0)).toString());
     if (message.validators) {
@@ -953,7 +954,7 @@ export const Validator = {
     if (isSet(object.proposerPriority)) obj.proposerPriority = BigInt(object.proposerPriority.toString());
     return obj;
   },
-  toJSON(message: Validator): unknown {
+  toJSON(message: Validator): JsonSafe<Validator> {
     const obj: any = {};
     message.address !== undefined && (obj.address = message.address);
     message.pubKey !== undefined && (obj.pubKey = message.pubKey ? Any.toJSON(message.pubKey) : undefined);
@@ -1084,7 +1085,7 @@ export const GetBlockByHeightRequest = {
     if (isSet(object.height)) obj.height = BigInt(object.height.toString());
     return obj;
   },
-  toJSON(message: GetBlockByHeightRequest): unknown {
+  toJSON(message: GetBlockByHeightRequest): JsonSafe<GetBlockByHeightRequest> {
     const obj: any = {};
     message.height !== undefined && (obj.height = (message.height || BigInt(0)).toString());
     return obj;
@@ -1195,7 +1196,7 @@ export const GetBlockByHeightResponse = {
     if (isSet(object.block)) obj.block = Block.fromJSON(object.block);
     return obj;
   },
-  toJSON(message: GetBlockByHeightResponse): unknown {
+  toJSON(message: GetBlockByHeightResponse): JsonSafe<GetBlockByHeightResponse> {
     const obj: any = {};
     message.blockId !== undefined && (obj.blockId = message.blockId ? BlockID.toJSON(message.blockId) : undefined);
     message.block !== undefined && (obj.block = message.block ? Block.toJSON(message.block) : undefined);
@@ -1299,7 +1300,7 @@ export const GetLatestBlockRequest = {
     const obj = createBaseGetLatestBlockRequest();
     return obj;
   },
-  toJSON(_: GetLatestBlockRequest): unknown {
+  toJSON(_: GetLatestBlockRequest): JsonSafe<GetLatestBlockRequest> {
     const obj: any = {};
     return obj;
   },
@@ -1399,7 +1400,7 @@ export const GetLatestBlockResponse = {
     if (isSet(object.block)) obj.block = Block.fromJSON(object.block);
     return obj;
   },
-  toJSON(message: GetLatestBlockResponse): unknown {
+  toJSON(message: GetLatestBlockResponse): JsonSafe<GetLatestBlockResponse> {
     const obj: any = {};
     message.blockId !== undefined && (obj.blockId = message.blockId ? BlockID.toJSON(message.blockId) : undefined);
     message.block !== undefined && (obj.block = message.block ? Block.toJSON(message.block) : undefined);
@@ -1503,7 +1504,7 @@ export const GetSyncingRequest = {
     const obj = createBaseGetSyncingRequest();
     return obj;
   },
-  toJSON(_: GetSyncingRequest): unknown {
+  toJSON(_: GetSyncingRequest): JsonSafe<GetSyncingRequest> {
     const obj: any = {};
     return obj;
   },
@@ -1595,7 +1596,7 @@ export const GetSyncingResponse = {
     if (isSet(object.syncing)) obj.syncing = Boolean(object.syncing);
     return obj;
   },
-  toJSON(message: GetSyncingResponse): unknown {
+  toJSON(message: GetSyncingResponse): JsonSafe<GetSyncingResponse> {
     const obj: any = {};
     message.syncing !== undefined && (obj.syncing = message.syncing);
     return obj;
@@ -1687,7 +1688,7 @@ export const GetNodeInfoRequest = {
     const obj = createBaseGetNodeInfoRequest();
     return obj;
   },
-  toJSON(_: GetNodeInfoRequest): unknown {
+  toJSON(_: GetNodeInfoRequest): JsonSafe<GetNodeInfoRequest> {
     const obj: any = {};
     return obj;
   },
@@ -1787,7 +1788,7 @@ export const GetNodeInfoResponse = {
     if (isSet(object.applicationVersion)) obj.applicationVersion = VersionInfo.fromJSON(object.applicationVersion);
     return obj;
   },
-  toJSON(message: GetNodeInfoResponse): unknown {
+  toJSON(message: GetNodeInfoResponse): JsonSafe<GetNodeInfoResponse> {
     const obj: any = {};
     message.nodeInfo !== undefined && (obj.nodeInfo = message.nodeInfo ? NodeInfo.toJSON(message.nodeInfo) : undefined);
     message.applicationVersion !== undefined && (obj.applicationVersion = message.applicationVersion ? VersionInfo.toJSON(message.applicationVersion) : undefined);
@@ -1956,7 +1957,7 @@ export const VersionInfo = {
     if (isSet(object.cosmosSdkVersion)) obj.cosmosSdkVersion = String(object.cosmosSdkVersion);
     return obj;
   },
-  toJSON(message: VersionInfo): unknown {
+  toJSON(message: VersionInfo): JsonSafe<VersionInfo> {
     const obj: any = {};
     message.name !== undefined && (obj.name = message.name);
     message.appName !== undefined && (obj.appName = message.appName);
@@ -2139,7 +2140,7 @@ export const Module = {
     if (isSet(object.sum)) obj.sum = String(object.sum);
     return obj;
   },
-  toJSON(message: Module): unknown {
+  toJSON(message: Module): JsonSafe<Module> {
     const obj: any = {};
     message.path !== undefined && (obj.path = message.path);
     message.version !== undefined && (obj.version = message.version);

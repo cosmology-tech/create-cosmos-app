@@ -3,6 +3,7 @@ import { Timestamp, TimestampAmino, TimestampSDKType } from "../../../google/pro
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { Decimal } from "@cosmjs/math";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "osmosis.twap.v1beta1";
 /**
@@ -225,7 +226,7 @@ export const TwapRecord = {
     if (isSet(object.lastErrorTime)) obj.lastErrorTime = new Date(object.lastErrorTime);
     return obj;
   },
-  toJSON(message: TwapRecord): unknown {
+  toJSON(message: TwapRecord): JsonSafe<TwapRecord> {
     const obj: any = {};
     message.poolId !== undefined && (obj.poolId = (message.poolId || BigInt(0)).toString());
     message.asset0Denom !== undefined && (obj.asset0Denom = message.asset0Denom);

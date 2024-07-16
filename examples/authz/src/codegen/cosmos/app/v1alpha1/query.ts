@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { Config, ConfigAmino, ConfigSDKType } from "./config";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "cosmos.app.v1alpha1";
@@ -76,7 +77,7 @@ export const QueryConfigRequest = {
     const obj = createBaseQueryConfigRequest();
     return obj;
   },
-  toJSON(_: QueryConfigRequest): unknown {
+  toJSON(_: QueryConfigRequest): JsonSafe<QueryConfigRequest> {
     const obj: any = {};
     return obj;
   },
@@ -168,7 +169,7 @@ export const QueryConfigResponse = {
     if (isSet(object.config)) obj.config = Config.fromJSON(object.config);
     return obj;
   },
-  toJSON(message: QueryConfigResponse): unknown {
+  toJSON(message: QueryConfigResponse): JsonSafe<QueryConfigResponse> {
     const obj: any = {};
     message.config !== undefined && (obj.config = message.config ? Config.toJSON(message.config) : undefined);
     return obj;

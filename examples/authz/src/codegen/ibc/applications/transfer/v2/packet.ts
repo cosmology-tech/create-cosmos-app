@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
+import { JsonSafe } from "../../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../../registry";
 export const protobufPackage = "ibc.applications.transfer.v2";
 /**
@@ -121,7 +122,7 @@ export const FungibleTokenPacketData = {
     if (isSet(object.receiver)) obj.receiver = String(object.receiver);
     return obj;
   },
-  toJSON(message: FungibleTokenPacketData): unknown {
+  toJSON(message: FungibleTokenPacketData): JsonSafe<FungibleTokenPacketData> {
     const obj: any = {};
     message.denom !== undefined && (obj.denom = message.denom);
     message.amount !== undefined && (obj.amount = message.amount);

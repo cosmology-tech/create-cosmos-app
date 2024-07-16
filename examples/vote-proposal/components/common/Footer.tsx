@@ -1,4 +1,12 @@
-import { Box, Link, Text, Icon, Stack, Divider, useColorModeValue } from '@interchain-ui/react';
+import {
+  Box,
+  Link,
+  Text,
+  Icon,
+  Stack,
+  Divider,
+  useColorModeValue,
+} from '@interchain-ui/react';
 import { dependencies, products, Project } from '@/config';
 
 function Product({ name, desc, link }: Project) {
@@ -18,21 +26,27 @@ function Product({ name, desc, link }: Project) {
             hover: useColorModeValue('$purple600', '$purple300'),
           },
           boxShadow: {
-            base:
-              useColorModeValue(
-                '0 2px 5px #ccc',
-                '0 1px 3px #727272, 0 2px 12px -2px #2f2f2f'),
-            hover:
-              useColorModeValue(
-                '0 2px 5px #bca5e9',
-                '0 0 3px rgba(150, 75, 213, 0.8), 0 3px 8px -2px rgba(175, 89, 246, 0.9)')
+            base: useColorModeValue(
+              '0 2px 5px #ccc',
+              '0 1px 3px #727272, 0 2px 12px -2px #2f2f2f'
+            ),
+            hover: useColorModeValue(
+              '0 2px 5px #bca5e9',
+              '0 0 3px rgba(150, 75, 213, 0.8), 0 3px 8px -2px rgba(175, 89, 246, 0.9)'
+            ),
           },
         }}
       >
         <Text as="h2" fontSize="$xl" color="inherit" attributes={{ margin: 0 }}>
           {name}&ensp;&rarr;
         </Text>
-        <Text color="inherit" as="p" fontSize="$md" fontWeight="$normal" attributes={{ marginY: '$1' }}>
+        <Text
+          color="inherit"
+          as="p"
+          fontSize="$md"
+          fontWeight="$normal"
+          attributes={{ marginY: '$1' }}
+        >
           {desc}
         </Text>
       </Stack>
@@ -57,10 +71,10 @@ function Dependency({ name, desc, link }: Project) {
           borderRadius: '$xl',
           boxShadow: {
             base: 'none',
-            hover:
-              useColorModeValue(
-                '0 2px 5px #ccc',
-                '0 1px 3px #727272, 0 2px 12px -2px #2f2f2f'),
+            hover: useColorModeValue(
+              '0 2px 5px #ccc',
+              '0 1px 3px #727272, 0 2px 12px -2px #2f2f2f'
+            ),
           },
         }}
       >
@@ -72,7 +86,12 @@ function Dependency({ name, desc, link }: Project) {
         </Box>
 
         <Stack space="$2" direction="vertical">
-          <Text as="p" fontSize="$lg" fontWeight="$semibold" attributes={{ marginY: '$1' }}>
+          <Text
+            as="p"
+            fontSize="$lg"
+            fontWeight="$semibold"
+            attributes={{ marginY: '$1' }}
+          >
             {name}
           </Text>
           <Text
@@ -82,7 +101,7 @@ function Dependency({ name, desc, link }: Project) {
             attributes={{
               color: useColorModeValue('$blackAlpha700', '$whiteAlpha700'),
               lineHeight: '$short',
-              marginY: '$1'
+              marginY: '$1',
             }}
           >
             {desc}

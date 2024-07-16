@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "yarn tsc -p tsconfig.json --outDir main --module commonjs",
+    "build": "yarn build:tsc && next build",
+    "build:tsc": "yarn tsc -p tsconfig.json --outDir main --module commonjs",
     "clean": "rimraf ./types && rimraf ./src/codegen",
     "locks:remove": "rm -f yarn.lock",
     "locks:create": "generate-lockfile --lockfile ../../yarn.lock --package package.json --write yarn.lock --force",
@@ -35,18 +36,19 @@
   "dependencies": {
     "@chain-registry/client": "1.11.0",
     "@chain-registry/types": "0.17.0",
-    "@cosmjs/amino": "0.32.0",
-    "@cosmjs/cosmwasm-stargate": "0.32.0",
-    "@cosmjs/proto-signing": "0.32.0",
-    "@cosmjs/stargate": "0.32.0",
-    "@cosmjs/tendermint-rpc": "0.32.0",
+    "@cosmjs/amino": "0.32.3",
+    "@cosmjs/cosmwasm-stargate": "0.32.3",
+    "@cosmjs/proto-signing": "0.32.3",
+    "@cosmjs/stargate": "0.32.3",
+    "@cosmjs/tendermint-rpc": "0.32.3",
     "@cosmology/lcd": "^0.12.0",
-    "@cosmos-kit/react": "2.10.9",
-    "@interchain-ui/react": "1.21.16",
+    "@cosmos-kit/react": "2.17.0",
+    "@interchain-ui/react": "1.23.22",
+    "@interchain-ui/react-no-ssr": "^0.1.6",
     "@tanstack/react-query": "4.32.0",
     "bignumber.js": "9.1.0",
     "chain-registry": "1.20.0",
-    "cosmos-kit": "2.8.6",
+    "cosmos-kit": "2.18.0",
     "dayjs": "1.11.10",
     "fast-fuzzy": "^1.12.0",
     "interchain-query": "1.10.1",
@@ -55,8 +57,7 @@
     "react-calendar": "4.8.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
-    "react-markdown": "9.0.1",
-    "react-no-ssr": "1.1.0"
+    "react-markdown": "9.0.1"
   },
   "devDependencies": {
     "@confio/relayer": "0.7.0",
@@ -67,10 +68,9 @@
     "@protobufs/ibc": "^0.1.0",
     "@tanstack/react-query-devtools": "4.32.0",
     "@types/jest": "^29.5.0",
-    "@types/node": "18.11.9",
-    "@types/react": "18.0.25",
-    "@types/react-dom": "18.0.9",
-    "@types/react-no-ssr": "1.1.7",
+    "@types/node": "18.19.37",
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.0",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
     "generate-lockfile": "0.0.12",
@@ -79,6 +79,7 @@
     "node-fetch": "^2.6.9",
     "sinon": "17.0.1",
     "ts-jest": "^29.1.0",
-    "typescript": "4.9.3"
-  }
+    "typescript": "^5.1.6"
+  },
+  "packageManager": "yarn@4.3.0"
 }

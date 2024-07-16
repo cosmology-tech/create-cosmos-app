@@ -7,11 +7,8 @@ import {
   useColorModeValue,
   useTheme,
 } from "@interchain-ui/react";
-import { dependencies } from "@/config";
 
-const stacks = ["CosmosKit", "Next.js"];
-
-const osmojs = dependencies[0];
+const stacks = ["Cosmos Kit", "Next.js", "CosmJS"];
 
 export function Header() {
   const { theme, setTheme } = useTheme();
@@ -59,19 +56,6 @@ export function Header() {
             color={useColorModeValue("$primary500", "$primary200")}
           >
             {stacks.join(" + ")}
-            {" + "}
-
-            <Link
-              href={osmojs.name}
-              target="_blank"
-              rel="noreferrer"
-              attributes={{
-                color: useColorModeValue("$primary500", "$primary200"),
-                fontSize: { mobile: "$4xl", tablet: "$8xl", desktop: "$8xl" },
-              }}
-            >
-              {osmojs.name}
-            </Link>
           </Text>
         </Text>
       </Box>

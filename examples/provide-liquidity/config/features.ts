@@ -6,7 +6,7 @@ interface FeatureProps {
 
 export const products: FeatureProps[] = [
   {
-    title: 'CosmosKit',
+    title: 'Cosmos Kit',
     text: 'A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.',
     href: 'https://github.com/cosmology-tech/cosmos-kit',
   },

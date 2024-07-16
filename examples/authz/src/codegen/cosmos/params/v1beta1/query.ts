@@ -2,6 +2,7 @@
 import { ParamChange, ParamChangeAmino, ParamChangeSDKType } from "./params";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
+import { JsonSafe } from "../../../json-safe";
 import { GlobalDecoderRegistry } from "../../../registry";
 export const protobufPackage = "cosmos.params.v1beta1";
 /** QueryParamsRequest is request type for the Query/Params RPC method. */
@@ -190,7 +191,7 @@ export const QueryParamsRequest = {
     if (isSet(object.key)) obj.key = String(object.key);
     return obj;
   },
-  toJSON(message: QueryParamsRequest): unknown {
+  toJSON(message: QueryParamsRequest): JsonSafe<QueryParamsRequest> {
     const obj: any = {};
     message.subspace !== undefined && (obj.subspace = message.subspace);
     message.key !== undefined && (obj.key = message.key);
@@ -299,7 +300,7 @@ export const QueryParamsResponse = {
     if (isSet(object.param)) obj.param = ParamChange.fromJSON(object.param);
     return obj;
   },
-  toJSON(message: QueryParamsResponse): unknown {
+  toJSON(message: QueryParamsResponse): JsonSafe<QueryParamsResponse> {
     const obj: any = {};
     message.param !== undefined && (obj.param = message.param ? ParamChange.toJSON(message.param) : undefined);
     return obj;
@@ -393,7 +394,7 @@ export const QuerySubspacesRequest = {
     const obj = createBaseQuerySubspacesRequest();
     return obj;
   },
-  toJSON(_: QuerySubspacesRequest): unknown {
+  toJSON(_: QuerySubspacesRequest): JsonSafe<QuerySubspacesRequest> {
     const obj: any = {};
     return obj;
   },
@@ -485,7 +486,7 @@ export const QuerySubspacesResponse = {
     if (Array.isArray(object?.subspaces)) obj.subspaces = object.subspaces.map((e: any) => Subspace.fromJSON(e));
     return obj;
   },
-  toJSON(message: QuerySubspacesResponse): unknown {
+  toJSON(message: QuerySubspacesResponse): JsonSafe<QuerySubspacesResponse> {
     const obj: any = {};
     if (message.subspaces) {
       obj.subspaces = message.subspaces.map(e => e ? Subspace.toJSON(e) : undefined);
@@ -604,7 +605,7 @@ export const Subspace = {
     if (Array.isArray(object?.keys)) obj.keys = object.keys.map((e: any) => String(e));
     return obj;
   },
-  toJSON(message: Subspace): unknown {
+  toJSON(message: Subspace): JsonSafe<Subspace> {
     const obj: any = {};
     message.subspace !== undefined && (obj.subspace = message.subspace);
     if (message.keys) {
