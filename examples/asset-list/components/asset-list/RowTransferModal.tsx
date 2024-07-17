@@ -145,7 +145,6 @@ const TransferModalBody = (
 
   const sourceChain = useMemo(() => {
     return {
-      symbol: sourceChainInfo.chain_name.toUpperCase(),
       name: sourceChainInfo.pretty_name,
       address: sourceAddress ?? '',
       imgSrc: getChainLogo(sourceChainName) ?? '',
@@ -212,7 +211,7 @@ const TransferModalBody = (
   return (
     <AssetWithdrawTokens
       isDropdown={false}
-      fromSymbol={sourceChain.symbol}
+      fromSymbol={transferInfo.token.symbol}
       fromName={sourceChain.name}
       fromAddress={sourceChain.address}
       fromImgSrc={sourceChain.imgSrc}
@@ -246,7 +245,7 @@ const TransferModalBody = (
 };
 
 export const RowTransferModal = (props: IProps) => {
-  const { modalControl } = props;
+  const { modalControl, transferInfo } = props;
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -258,7 +257,7 @@ export const RowTransferModal = (props: IProps) => {
   return (
     <BasicModal
       isOpen={modalControl.isOpen}
-      title="Deposit"
+      title={transferInfo.type}
       onClose={() => closeModal()}
     >
       <TransferModalBody
