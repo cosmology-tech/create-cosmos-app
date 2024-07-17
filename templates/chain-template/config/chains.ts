@@ -4,14 +4,10 @@ import osmosistestnet from 'chain-registry/testnet/osmosistestnet/chain';
 import juno from 'chain-registry/mainnet/juno/chain';
 import stargaze from 'chain-registry/mainnet/stargaze/chain';
 import akash from 'chain-registry/mainnet/akash/chain';
+import {osmosisDevnet, osmosisDevnetAsset} from '@/starship/chains';
+import { assets as allAssets, chains as allChains } from 'chain-registry';
 
-export const chains = [
-  osmosis,
-  cosmoshub,
-  juno,
-  stargaze,
-  akash,
-  osmosistestnet,
-];
+export const chains = [osmosisDevnet];
+export const assets = [osmosisDevnetAsset];
 
-export const osmosisChainName = osmosis.chain_name;
+export const osmosisChainName = osmosisDevnet.chain_name;

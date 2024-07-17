@@ -14,6 +14,7 @@ export const SidebarContent = ({ onClose }: { onClose: () => void }) => {
   const { selectedChain } = useChainStore();
   const { isCopied, copyToClipboard } = useCopyToClipboard();
 
+  console.log("selectedChain: ", selectedChain);
   const { connect, disconnect, address, isWalletConnected, wallet } =
     useChain(selectedChain);
 
