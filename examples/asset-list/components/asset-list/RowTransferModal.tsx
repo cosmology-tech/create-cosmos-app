@@ -73,14 +73,14 @@ const TransferModalBody = (
   const { tx } = useTx(sourceChainName);
 
   const availableAmount = useMemo(() => {
-    if (!isDeposit) return transferToken.priceDisplayAmount ?? 0;
-    if (isLoading) return 0;
+    if (!isDeposit) return transferToken.available ?? 0;
+    if (isLoadingBalance) return 0;
 
     return new BigNumber(
       convRawToDispAmount(transferToken.symbol, balance?.amount || '0')
     ).toNumber();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDeposit, isLoading, transferToken]);
+  }, [isDeposit, isLoading, transferToken.symbol, balance?.amount]);
 
   const dollarValue = new BigNumber(inputValue)
     .multipliedBy(prices[symbolToDenom(transferToken.symbol)])
