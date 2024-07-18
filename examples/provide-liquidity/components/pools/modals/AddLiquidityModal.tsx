@@ -20,14 +20,18 @@ import { LargeButton } from './ModalComponents';
 import {
   osmosisAssetsList,
   prettyPool,
-  baseUnitsToDisplayUnits,
   calcShareOutAmount,
-  getOsmoDenomForSymbol,
-  baseUnitsToDollarValue,
   convertDollarValueToCoins,
   ExtendedPool,
 } from '@/utils';
-import { getSymbolByDenom, getExponentByDenom } from '@chain-registry/utils';
+import { 
+  getSymbolByDenom, 
+  getExponentByDenom, 
+  getDenomBySymbol,
+  convertBaseUnitToDollarValue,
+  convertBaseUnitToDisplayUnit 
+} from '@chain-registry/utils';
+  
 import { CoinSymbol, Exponent } from '@/utils/types';
 import { PriceHash } from '@/utils/types';
 import BigNumber from 'bignumber.js';
@@ -109,7 +113,7 @@ export const AddLiquidityModal = ({
   const currentInputTokens = singleToken
     ? [
         inputTokens.find(
-          ({ denom }) => denom === getOsmoDenomForSymbol(singleToken)
+          ({ denom }) => denom === getDenomBySymbol(osmosisAssetsList, singleToken)
         )!,
       ]
     : inputTokens;
@@ -124,7 +128,7 @@ export const AddLiquidityModal = ({
     const balance = balances.find((b) => b.denom === t.denom)?.amount || 0;
     const symbol = getSymbolByDenom(osmosisAssetsList, t.denom) as CoinSymbol;
     return new BigNumber(t.inputAmount).gt(
-      baseUnitsToDisplayUnits(symbol, balance)
+      convertBaseUnitToDisplayUnit(osmosisAssetsList, symbol, balance)
     );
   });
 
@@ -164,17 +168,14 @@ export const AddLiquidityModal = ({
 
     if (singleToken) {
       const inputCoin = allCoins.find(
-        (coin) => coin.denom === getOsmoDenomForSymbol(singleToken)
+        (coin) => coin.denom === getDenomBySymbol(osmosisAssetsList, singleToken)  
       )!;
       const coinSymbol = getSymbolByDenom(
         osmosisAssetsList,
         inputCoin.denom
       ) as CoinSymbol;
-      const inputValue = baseUnitsToDollarValue(
-        prices,
-        coinSymbol,
-        inputCoin.amount
-      );
+      const inputValue = convertBaseUnitToDollarValue(osmosisAssetsList, prices, coinSymbol, inputCoin.amount);
+      
       // @ts-ignore
       const coinsNeeded = convertDollarValueToCoins(inputValue, pool, prices);
       // @ts-ignore

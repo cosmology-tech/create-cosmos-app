@@ -28,10 +28,9 @@ import {
 import { SlOptionsVertical } from 'react-icons/sl';
 import BigNumber from 'bignumber.js';
 import { truncDecimals } from './modals/PoolDetailModal';
-import { getSymbolByDenom } from '@chain-registry/utils';
+import { getSymbolByDenom, getAssetByDenom } from '@chain-registry/utils';
 import { CoinSymbol } from '@/utils/types';
 import {
-  getOsmoAssetByDenom,
   ExtendedPool,
   osmosisAssetsList,
 } from '../../utils';
@@ -39,7 +38,7 @@ import { PoolsApr } from '@/hooks';
 
 export const getLogoUrlFromDenom = (denom: string | undefined) => {
   if (!denom) return '';
-  const asset = getOsmoAssetByDenom(denom);
+  const asset = getAssetByDenom(osmosisAssetsList, denom);
   return asset?.logo_URIs?.png;
 };
 

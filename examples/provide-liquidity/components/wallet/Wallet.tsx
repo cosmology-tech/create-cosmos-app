@@ -68,16 +68,25 @@ export const WalletSection = () => {
   };
 
   const getBalance = async () => {
-    const client = await getSigningStargateClient();
-    const balance = await client?.getBalance(address as string, 'uosmo');
-    setOsmoBalance(balance);
+    try { 
+      const client = await getSigningStargateClient();
+      const balance = await client?.getBalance(address as string, 'uosmo');
+      setOsmoBalance(balance); 
+    } catch (error) {
+      console.log(error)
+    }
+   
   };
 
   const getBalanceStaked = async () => {
-    const client = await getSigningStargateClient();
-    const staked = await client?.getBalanceStaked(address as string);
-
-    setBalanceStaked(staked);
+    try {
+     const client = await getSigningStargateClient();
+     const staked = await client?.getBalanceStaked(address as string);
+     setBalanceStaked(staked);
+    } catch (error) {
+      console.log(error)
+    }
+  
   };
 
   useEffect(() => {

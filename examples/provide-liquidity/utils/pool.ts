@@ -1,14 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { Asset, AssetList } from '@chain-registry/types';
 import { asset_list, assets } from '@chain-registry/osmosis';
-import {
-  getAssetByDenom,
-  mapCoinGeckoPricesToDenoms,
-  getDenomBySymbol,
-  convertBaseUnitToDollarValue,
-  convertDollarValueToBaseUnit,
-  convertBaseUnitToDisplayUnit,
-} from '@chain-registry/utils';
 import { Pool } from 'osmo-query/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { Coin } from 'osmo-query/dist/codegen/cosmos/base/v1beta1/coin';
 import {
@@ -49,16 +41,6 @@ export const osmosisAssetsList: AssetList[] = [
     chain_name: 'osmosis',
   },
 ];
-
-export const getOsmoAssetByDenom = (denom: CoinDenom): Asset => {
-  return getAssetByDenom(osmosisAssetsList, denom) as Asset;
-};
-
-export const convertGeckoPricesToDenomPriceHash = (
-  prices: CoinGeckoUSDResponse
-): PriceHash => {
-  return mapCoinGeckoPricesToDenoms(osmosisAssetsList, prices);
-};
 
 export const calcPoolLiquidity = (pool: Pool, prices: PriceHash): string => {
   // @ts-ignore
@@ -104,40 +86,8 @@ export const prettyPool = (
   return _prettyPool(osmosisAssets, pool, { includeDetails });
 };
 
-export const getOsmoDenomForSymbol = (token: CoinSymbol): CoinDenom => {
-  return getDenomBySymbol(osmosisAssetsList, token) as CoinDenom;
-};
-
 export const noDecimals = (num: number | string) => {
   return new BigNumber(num).decimalPlaces(0, BigNumber.ROUND_DOWN).toString();
-};
-
-export const baseUnitsToDollarValue = (
-  prices: PriceHash,
-  symbol: string,
-  amount: string | number
-) => {
-  return convertBaseUnitToDollarValue(
-    osmosisAssetsList,
-    prices,
-    symbol,
-    amount
-  );
-};
-
-export const dollarValueToDenomUnits = (
-  prices: PriceHash,
-  symbol: string,
-  value: string | number
-) => {
-  return convertDollarValueToBaseUnit(osmosisAssetsList, prices, symbol, value);
-};
-
-export const baseUnitsToDisplayUnits = (
-  symbol: string,
-  amount: string | number
-) => {
-  return convertBaseUnitToDisplayUnit(osmosisAssetsList, symbol, amount);
 };
 
 export const calcCoinsNeededForValue = (
