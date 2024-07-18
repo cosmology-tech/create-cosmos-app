@@ -80,6 +80,5 @@
     "sinon": "17.0.1",
     "ts-jest": "^29.1.0",
     "typescript": "^5.1.6"
-  },
-  "packageManager": "yarn@4.3.0"
+  }
 }
