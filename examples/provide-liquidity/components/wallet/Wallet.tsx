@@ -47,7 +47,7 @@ export const WalletSection = () => {
   const { getChainLogo } = useManager();
   const [osmoBalance, setOsmoBalance] = useState<Coin>();
   const [balanceStaked, setBalanceStaked] = useState<Coin | null>();
-  console.log('balanceStaked', balanceStaked);
+  // console.log('balanceStaked', balanceStaked);
 
   const chain = {
     chainName: defaultChainName,

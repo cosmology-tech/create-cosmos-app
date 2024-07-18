@@ -18,16 +18,17 @@ import { Coin } from 'osmo-query/dist/codegen/cosmos/base/v1beta1/coin';
 import { defaultChainName } from '@/config';
 import { LargeButton } from './ModalComponents';
 import {
-  getSymbolForDenom,
+  osmosisAssetsList,
   prettyPool,
   baseUnitsToDisplayUnits,
-  getExponentByDenom,
   calcShareOutAmount,
   getOsmoDenomForSymbol,
   baseUnitsToDollarValue,
   convertDollarValueToCoins,
   ExtendedPool,
 } from '@/utils';
+import { getSymbolByDenom, getExponentByDenom } from '@chain-registry/utils';
+import { CoinSymbol, Exponent } from '@/utils/types';
 import { PriceHash } from '@/utils/types';
 import BigNumber from 'bignumber.js';
 import { coin, coins as aminoCoins } from '@cosmjs/amino';
@@ -95,9 +96,13 @@ export const AddLiquidityModal = ({
 
   const { address } = useChain(defaultChainName);
 
-  const poolName = currentPool?.poolAssets.map(({ token }) =>
-    getSymbolForDenom(token!.denom)
-  );
+  const poolName = currentPool?.poolAssets.map(({ token }) => {
+    const symbol = getSymbolByDenom(
+      osmosisAssetsList,
+      token!.denom
+    ) as CoinSymbol;
+    return symbol;
+  });
 
   const pool = prettyPool(currentPool);
 
@@ -117,7 +122,7 @@ export const AddLiquidityModal = ({
 
   const hasInsufficientAmount = currentInputTokens.some((t) => {
     const balance = balances.find((b) => b.denom === t.denom)?.amount || 0;
-    const symbol = getSymbolForDenom(t.denom);
+    const symbol = getSymbolByDenom(osmosisAssetsList, t.denom) as CoinSymbol;
     return new BigNumber(t.inputAmount).gt(
       baseUnitsToDisplayUnits(symbol, balance)
     );
@@ -151,7 +156,7 @@ export const AddLiquidityModal = ({
     const allCoins = inputTokens.map(({ denom, inputAmount }) => ({
       denom,
       amount: new BigNumber(inputAmount)
-        .shiftedBy(getExponentByDenom(denom))
+        .shiftedBy(getExponentByDenom(osmosisAssetsList, denom) as Exponent)
         .toString(),
     }));
 
@@ -161,7 +166,10 @@ export const AddLiquidityModal = ({
       const inputCoin = allCoins.find(
         (coin) => coin.denom === getOsmoDenomForSymbol(singleToken)
       )!;
-      const coinSymbol = getSymbolForDenom(inputCoin.denom);
+      const coinSymbol = getSymbolByDenom(
+        osmosisAssetsList,
+        inputCoin.denom
+      ) as CoinSymbol;
       const inputValue = baseUnitsToDollarValue(
         prices,
         coinSymbol,

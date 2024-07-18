@@ -16,15 +16,17 @@ import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import {
   prettyPool,
   osmosisAssets,
+  osmosisAssetsList,
   baseUnitsToDisplayUnits,
   calcMaxCoinsForPool,
-  getSymbolForDenom,
 } from '@/utils';
 import { getLogoUrlFromDenom } from '../PoolList';
 import { ChainLogo } from '../PoolCard';
 import { PoolPretty, PriceHash } from '@/utils/types';
 import BigNumber from 'bignumber.js';
 import { truncDecimals } from './PoolDetailModal';
+import { getSymbolByDenom } from '@chain-registry/utils';
+import { CoinSymbol } from '@/utils/types';
 
 type PrettyAsset = Pick<
   ReturnType<typeof prettyPool>,
@@ -141,7 +143,12 @@ export const TokenInput = ({
                   const coin = maxCoins.find(
                     ({ denom }) => denom === inputToken.denom
                   )!;
-                  const symbol = getSymbolForDenom(coin.denom);
+
+                  const symbol = getSymbolByDenom(
+                    osmosisAssetsList,
+                    coin.denom
+                  ) as CoinSymbol;
+
                   return {
                     ...inputToken,
                     inputAmount: baseUnitsToDisplayUnits(symbol, coin.amount),

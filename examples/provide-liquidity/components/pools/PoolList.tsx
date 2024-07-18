@@ -28,10 +28,12 @@ import {
 import { SlOptionsVertical } from 'react-icons/sl';
 import BigNumber from 'bignumber.js';
 import { truncDecimals } from './modals/PoolDetailModal';
+import { getSymbolByDenom } from '@chain-registry/utils';
+import { CoinSymbol } from '@/utils/types';
 import {
   getOsmoAssetByDenom,
-  getSymbolForDenom,
   ExtendedPool,
+  osmosisAssetsList,
 } from '../../utils';
 import { PoolsApr } from '@/hooks';
 
@@ -98,7 +100,13 @@ const PoolName = ({
         {pool.poolAssets.length > 2
           ? `${pool.poolAssets.length} Token Pool`
           : pool.poolAssets
-              .map(({ token }) => getSymbolForDenom(token!.denom))
+              .map(({ token }) => {
+                const symbol = getSymbolByDenom(
+                  osmosisAssetsList,
+                  token!.denom
+                ) as CoinSymbol;
+                return symbol;
+              })
               .join('/')}
       </Text>
       <Text fontWeight="400" fontSize="14px" color={poolIdColor}>

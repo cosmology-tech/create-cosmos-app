@@ -3,21 +3,11 @@ import { Asset, AssetList } from '@chain-registry/types';
 import { asset_list, assets } from '@chain-registry/osmosis';
 import {
   getAssetByDenom,
-  getDenomByCoinGeckoId,
-  // getSymbolByChainDenom,
-  getSymbolByDenom,
-  getExponentByDenom as _getExponentByDenom,
-  // convertCoinGeckoPricesToDenomPriceMap,
   mapCoinGeckoPricesToDenoms,
-  // getChainDenomBySymbol,
   getDenomBySymbol,
-  // convertBaseUnitsToDollarValue,
   convertBaseUnitToDollarValue,
-  // convertDollarValueToDenomUnits,
   convertDollarValueToBaseUnit,
-  // convertBaseUnitsToDisplayUnits,
   convertBaseUnitToDisplayUnit,
-  convertBaseUnitToDisplayUnitByDenom,
 } from '@chain-registry/utils';
 import { Pool } from 'osmo-query/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { Coin } from 'osmo-query/dist/codegen/cosmos/base/v1beta1/coin';
@@ -59,25 +49,9 @@ export const osmosisAssetsList: AssetList[] = [
     chain_name: 'osmosis',
   },
 ];
-console.log(asset_list, assets, osmosisAssetsList);
 
-// const osmosisAssetsList = [asset_list];
 export const getOsmoAssetByDenom = (denom: CoinDenom): Asset => {
   return getAssetByDenom(osmosisAssetsList, denom) as Asset;
-};
-
-export const getDenomForCoinGeckoId = (
-  coinGeckoId: CoinGeckoToken
-): CoinDenom => {
-  return getDenomByCoinGeckoId(osmosisAssetsList, coinGeckoId) as CoinDenom;
-};
-
-export const getSymbolForDenom = (denom: CoinDenom): CoinSymbol => {
-  return getSymbolByDenom(osmosisAssetsList, denom) as CoinSymbol;
-};
-
-export const getExponentByDenom = (denom: CoinDenom): Exponent => {
-  return _getExponentByDenom(osmosisAssetsList, denom) as Exponent;
 };
 
 export const convertGeckoPricesToDenomPriceHash = (
