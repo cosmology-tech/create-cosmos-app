@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@chain-registry/types": "0.44.3",
+    "@keplr-wallet/types": "^0.12.111",
     "@starship-ci/cli": "^2.9.0",
     "@tanstack/react-query-devtools": "4.32.0",
     "@types/node": "18.11.9",

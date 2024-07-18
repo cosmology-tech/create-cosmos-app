@@ -1,26 +1,46 @@
 import Image from 'next/image';
-import { useChain } from '@cosmos-kit/react';
+import { useChain, useWalletClient } from '@cosmos-kit/react';
 import { Box, useColorModeValue, Text } from '@interchain-ui/react';
 import { MdOutlineAccountBalanceWallet } from 'react-icons/md';
 import { FiLogOut } from 'react-icons/fi';
+import { Keplr } from '@keplr-wallet/types';
 
 import { NavItems } from './NavItems';
 import { Button } from '@/components';
 import { useChainStore } from '@/contexts';
-import { shortenAddress } from '@/utils';
+import { makeKeplrChainInfo, shortenAddress } from '@/utils';
 import { useCopyToClipboard } from '@/hooks';
 
 export const SidebarContent = ({ onClose }: { onClose: () => void }) => {
   const { selectedChain } = useChainStore();
   const { isCopied, copyToClipboard } = useCopyToClipboard();
 
-  const { connect, disconnect, address, isWalletConnected, wallet } =
-    useChain(selectedChain);
+  const {
+    connect,
+    disconnect,
+    address,
+    isWalletConnected,
+    wallet,
+    chain,
+    assets,
+  } = useChain(selectedChain);
+  const { client: keplrWallet } = useWalletClient('keplr-extension');
 
   const poweredByLogoSrc = useColorModeValue(
     '/logos/cosmology.svg',
     '/logos/cosmology-dark.svg'
   );
+
+  const handleConnect = async () => {
+    const chainInfo = makeKeplrChainInfo(chain, assets!.assets[0]);
+    try {
+      // @ts-ignore
+      await (keplrWallet?.client as Keplr)?.experimentalSuggestChain(chainInfo);
+      connect();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Box
@@ -77,7 +97,7 @@ export const SidebarContent = ({ onClose }: { onClose: () => void }) => {
           <Button
             variant="outline"
             leftIcon={<MdOutlineAccountBalanceWallet size="20px" />}
-            onClick={connect}
+            onClick={handleConnect}
           >
             Connect Wallet
           </Button>
