@@ -249,8 +249,6 @@ export const RowTransferModal = (props: IProps) => {
   const [inputValue, setInputValue] = useState('0.000001');
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log('inputValue-1111', inputValue)
-
   const closeModal = () => {
     modalControl.close();
     setInputValue('0.000002');
