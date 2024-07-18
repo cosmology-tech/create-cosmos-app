@@ -9,7 +9,7 @@ import { useDetectBreakpoints } from '@/hooks';
 export default function Home() {
   const { isMobile } = useDetectBreakpoints();
   const { selectedChain } = useChainStore();
-  const { connect, isWalletConnected } = useChain(selectedChain);
+  const { connect, isWalletConnected, chainWallet} = useChain(selectedChain);
 
   return (
     <>
