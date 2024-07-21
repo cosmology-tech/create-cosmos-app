@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import '@interchain-ui/react/styles';
 
 import type { AppProps } from 'next/app';
-import { SignerOptions, wallets } from 'cosmos-kit';
+import { SignerOptions } from 'cosmos-kit';
 import { ChainProvider } from '@cosmos-kit/react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -10,8 +10,14 @@ import { Box, ThemeProvider, Toaster, useTheme } from '@interchain-ui/react';
 import { GasPrice } from '@cosmjs/stargate';
 
 import { Layout } from '@/components';
-import { darkTheme, lightTheme, CustomTheme } from '@/config';
-import { assets, chains } from '@/config'
+import {
+  darkTheme,
+  lightTheme,
+  CustomTheme,
+  wallets,
+  assets,
+  chains,
+} from '@/config';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -71,9 +77,9 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         endpointOptions={{
           endpoints: {
             osmosis: {
-              rpc: ['http://localhost:26657']
-            }
-          }
+              rpc: ['http://localhost:26657'],
+            },
+          },
         }}
       >
         <QueryClientProvider client={queryClient}>

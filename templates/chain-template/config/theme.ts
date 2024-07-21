@@ -27,6 +27,15 @@ export const lightColors: ThemeDef['vars']['colors'] = {
   red600: '#E65858',
   red400: '#E18080',
   red200: '#F1C4C4',
+  blue100: '#F4FCFF',
+  blue200: '#C6E7FF',
+  blue300: '#AEDEFF',
+  blue400: '#68C7FF',
+  blue500: '#35B4FF',
+  blue600: '#01A1FF',
+  blue700: '#0068A6',
+  blue800: '#194F8F',
+  blue900: '#002D4D',
 };
 
 export const darkColors: ThemeDef['vars']['colors'] = {
@@ -51,6 +60,15 @@ export const darkColors: ThemeDef['vars']['colors'] = {
   red600: '#E65858',
   red400: '#E18080',
   red200: '#F1C4C4',
+  blue100: '#F4FCFF',
+  blue200: '#C6E7FF',
+  blue300: '#AEDEFF',
+  blue400: '#68C7FF',
+  blue500: '#35B4FF',
+  blue600: '#01A1FF',
+  blue700: '#0068A6',
+  blue800: '#194F8F',
+  blue900: '#002D4D',
 };
 
 export const lightTheme: ThemeDef = {

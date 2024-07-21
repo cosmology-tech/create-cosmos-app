@@ -1,5 +1,6 @@
 import { assets } from 'chain-registry';
 import { Asset, AssetList } from '@chain-registry/types';
+import { Wallet } from '@cosmos-kit/core';
 
 export const getChainAssets = (chainName: string) => {
   return assets.find((chain) => chain.chain_name === chainName) as AssetList;
@@ -18,4 +19,12 @@ export const getExponent = (chainName: string) => {
 
 export const shortenAddress = (address: string, partLength = 6) => {
   return `${address.slice(0, partLength)}...${address.slice(-partLength)}`;
+};
+
+export const getWalletLogo = (wallet: Wallet) => {
+  if (!wallet?.logo) return '';
+
+  return typeof wallet.logo === 'string'
+    ? wallet.logo
+    : wallet.logo.major || wallet.logo.minor;
 };
