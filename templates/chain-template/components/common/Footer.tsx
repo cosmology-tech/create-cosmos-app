@@ -24,9 +24,11 @@ export const Footer = () => {
           © {new Date().getFullYear()} Cosmology
         </Text>
         {isMobile ? <TextDivider /> : <SocialLinks />}
-        <Text color="$blackAlpha500" fontSize="12px" fontWeight="500">
-          Terms of Service
-        </Text>
+        <Link href="/disclaimer">
+          <Text color="$blackAlpha500" fontSize="12px" fontWeight="500">
+            Terms of Service
+          </Text>
+        </Link>
       </Box>
     </Box>
   );
