@@ -17,7 +17,7 @@ const navItems: NavItem[] = [
   {
     icon: <RiHome7Line size="20px" />,
     label: 'Home',
-    href: '/home',
+    href: '/',
   },
   {
     icon: <RiStackLine size="20px" />,
@@ -30,6 +30,11 @@ const navItems: NavItem[] = [
     href: '/governance',
   },
   {
+    icon: 'coinsLine',
+    label: 'Asset List',
+    href: '/asset-list',
+  },
+  {
     icon: <MdOutlineWaterDrop size="20px" />,
     label: 'Faucet',
     href: '/faucet',
@@ -40,9 +45,9 @@ const navItems: NavItem[] = [
     href: '/contract',
   },
   {
-    icon: 'coinsLine',
-    label: 'Asset List',
-    href: '/asset-list',
+    icon: 'document',
+    label: 'Documents',
+    href: '/documents',
   },
 ];
 

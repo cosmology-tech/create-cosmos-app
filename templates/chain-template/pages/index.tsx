@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Box, Text } from '@interchain-ui/react';
+import { Box, Text, useColorModeValue } from '@interchain-ui/react';
 import { useChain } from '@cosmos-kit/react';
 
 import { Button } from '@/components';
@@ -9,7 +9,12 @@ import { useDetectBreakpoints } from '@/hooks';
 export default function Home() {
   const { isMobile } = useDetectBreakpoints();
   const { selectedChain } = useChainStore();
-  const { connect, isWalletConnected, chainWallet} = useChain(selectedChain);
+  const { connect, isWalletConnected, openView } = useChain(selectedChain);
+
+  const chainsImageSrc = useColorModeValue(
+    '/images/chains.png',
+    '/images/chains-dark.png'
+  );
 
   return (
     <>
@@ -30,16 +35,14 @@ export default function Home() {
         Welcome to <HighlightText>Cosmos Kit</HighlightText> +{' '}
         <HighlightText>Next.js</HighlightText>
       </Text>
-      {!isWalletConnected && (
-        <Button
-          variant="primary"
-          leftIcon="walletFilled"
-          mx="auto"
-          onClick={connect}
-        >
-          Connect Wallet
-        </Button>
-      )}
+      <Button
+        variant="primary"
+        leftIcon="walletFilled"
+        mx="auto"
+        onClick={isWalletConnected ? openView : connect}
+      >
+        {isWalletConnected ? 'My Wallet' : 'Connect Wallet'}
+      </Button>
       <Box
         display="flex"
         justifyContent="center"
@@ -47,9 +50,9 @@ export default function Home() {
       >
         <Image
           alt="chains"
-          src="/images/chains.svg"
-          width={0}
-          height={0}
+          src={chainsImageSrc}
+          width={840}
+          height={224}
           style={{
             maxWidth: '840px',
             width: '100%',
