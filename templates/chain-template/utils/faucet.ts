@@ -46,3 +46,22 @@ export const makeKeplrChainInfo = (chain: Chain, asset: Asset): ChainInfo => {
     stakeCurrency: currency,
   };
 };
+
+export const creditFromFaucet = async (
+  address: string,
+  denom: string,
+  port: number
+) => {
+  const faucetEndpoint = `http://localhost:${port}/credit`;
+
+  await fetch(faucetEndpoint, {
+    method: 'POST',
+    body: JSON.stringify({
+      address,
+      denom,
+    }),
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+};

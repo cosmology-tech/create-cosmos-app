@@ -106,7 +106,10 @@ export const Button = ({
       {...(disabled && disabledStyles[variant])}
     >
       {isLoading ? (
-        <Spinner size="$xl" color="$textSecondary" />
+        <Spinner
+          size="$xl"
+          color={variant === 'primary' ? '$white' : '$textSecondary'}
+        />
       ) : (
         <>
           {typeof leftIcon === 'string' ? (

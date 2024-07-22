@@ -677,6 +677,7 @@ __metadata:
     eslint-config-next: "npm:13.0.5"
     generate-lockfile: "npm:0.0.12"
     interchain-query: "npm:1.10.1"
+    js-yaml: "npm:^4.1.0"
     next: "npm:^13"
     osmo-query: "npm:16.13.0"
     react: "npm:18.2.0"
