@@ -226,7 +226,7 @@ const TransferModalBody = (
       }
       available={availableAmount}
       priceDisplayAmount={dollarValue}
-      timeEstimateLabel="21 seconds"
+      timeEstimateLabel="20 seconds"
       amount={inputValue}
       onChange={(value) => {
         console.log('onChange value', value);
@@ -246,12 +246,12 @@ const TransferModalBody = (
 
 export const RowTransferModal = (props: IProps) => {
   const { modalControl, transferInfo } = props;
-  const [inputValue, setInputValue] = useState('0.000001');
+  const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const closeModal = () => {
     modalControl.close();
-    setInputValue('0.000002');
+    setInputValue('');
   };
 
   return (
