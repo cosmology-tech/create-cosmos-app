@@ -12,27 +12,35 @@ export const useBalance = (chainName: string, enabled: boolean = true) => {
     'balance'
   );
 
-  const balanceQuery: UseQueryResult<Coin> =
-    cosmosQuery.bank.v1beta1.useBalance({
-      request: {
-        denom: assets!.assets[0]!.base,
-        address: address || '',
-      },
-      options: {
-        enabled: isReady && enabled,
-        select: ({ balance }) => balance,
-      },
-    });
+  let balanceQueries: UseQueryResult<Coin>[] = [];
+
+  for (const asset of assets?.assets || []) {
+    const balanceQuery: UseQueryResult<Coin> =
+      cosmosQuery.bank.v1beta1.useBalance({
+        request: {
+          denom: asset.base,
+          address: address || '',
+        },
+        options: {
+          enabled: isReady && enabled,
+          select: ({ balance }) => balance,
+        },
+      });
+    balanceQueries.push(balanceQuery)
+  }
 
   useEffect(() => {
     return () => {
-      balanceQuery.remove();
+      for (const balanceQuery of balanceQueries) {
+        balanceQuery.remove()
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
-    balance: balanceQuery.data,
-    isLoading: isFetching || balanceQuery.isFetching,
+    balance: balanceQueries[0].data,
+    isLoading: isFetching || !!balanceQueries.find(item => item.isFetching),
+    balances: balanceQueries.map(item => item.data)
   };
 };

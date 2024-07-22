@@ -64,7 +64,7 @@ const TransferModalBody = (
     chain: destChainInfo,
   } = useChainWallet(destChainName, KeplrWalletName);
 
-  const { balance, isLoading: isLoadingBalance } = useBalance(
+  const { balance, isLoading: isLoadingBalance, balances } = useBalance(
     sourceChainName,
     isDeposit
   );
@@ -76,11 +76,17 @@ const TransferModalBody = (
     if (!isDeposit) return transferToken.available ?? 0;
     if (isLoadingBalance) return 0;
 
+    console.log('balances', balances)
+    console.log('transferInfo.token', transferInfo.token)
+    const _balance = balances.find(item => item?.denom === transferInfo.token.denom);
+
     return new BigNumber(
-      convRawToDispAmount(transferToken.symbol, balance?.amount || '0')
+      convRawToDispAmount(transferInfo.token.symbol, _balance?.amount || '0')
     ).toNumber();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDeposit, isLoading, transferToken.symbol, balance?.amount]);
+  }, [isDeposit, isLoading, transferToken.symbol, balance?.amount, transferInfo.token.symbol,
+    isLoadingBalance
+  ]);
 
   const dollarValue = new BigNumber(inputValue)
     .multipliedBy(prices[symbolToDenom(transferToken.symbol)])
