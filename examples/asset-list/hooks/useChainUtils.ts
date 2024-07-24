@@ -111,6 +111,13 @@ export const useChainUtils = (chainName: string) => {
     return denom;
   };
 
+  const getDenomBySymbolAndChain = (chainName: ChainName, symbol: string) => {
+    const chainRecord = getChainRecord(chainName);
+    const denom = chainRecord.assetList?.assets.find((asset) => asset.symbol === symbol)?.base;
+    if (!denom) throw Error('denom not found');
+    return denom;
+  };
+
   const getIbcInfo = (fromChainName: string, toChainName: string) => {
     let flipped = false;
 
@@ -156,5 +163,6 @@ export const useChainUtils = (chainName: string) => {
     getNativeDenom,
     getIbcInfo,
     getExponentByDenom,
+    getDenomBySymbolAndChain
   };
 };
