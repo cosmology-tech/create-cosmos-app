@@ -15,8 +15,8 @@ import {
   lightTheme,
   CustomTheme,
   wallets,
-  assets,
-  chains,
+  staticChains,
+  staticAssets,
 } from '@/config';
 
 const queryClient = new QueryClient({
@@ -56,9 +56,9 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       customTheme={CustomTheme[theme]}
     >
       <ChainProvider
-        chains={chains}
+        chains={staticChains}
         // @ts-ignore
-        assetLists={assets}
+        assetLists={staticAssets}
         wallets={wallets}
         walletConnectOptions={{
           signClient: {

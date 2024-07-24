@@ -1,34 +1,16 @@
 import { useState } from 'react';
-import { GetStaticProps } from 'next';
 import { Box, Text, TextField } from '@interchain-ui/react';
 import { useChain } from '@cosmos-kit/react';
-import fs from 'fs';
-import path from 'path';
-import yaml from 'js-yaml';
 
 import { Button } from '@/components';
 import { useChainStore } from '@/contexts';
-import { StarshipConfig } from '@/starship';
 import { creditFromFaucet } from '@/utils';
 import { useToast } from '@/hooks';
+import config from '@/starship/configs/config.yaml';
+import type { StarshipConfig } from '@/starship';
 
-interface FaucetPageProps {
-  config: StarshipConfig;
-}
-
-export const getStaticProps: GetStaticProps<FaucetPageProps> = async () => {
-  const filePath = path.join(process.cwd(), 'starship/configs/config.yaml');
-  const yamlContent = fs.readFileSync(filePath, 'utf8');
-  const config = yaml.load(yamlContent) as StarshipConfig;
-
-  return {
-    props: {
-      config,
-    },
-  };
-};
-
-export default function Faucet({ config }: FaucetPageProps) {
+// TODO: disable if not in starship env, or not starship chains
+export default function Faucet() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -42,8 +24,9 @@ export default function Faucet({ config }: FaucetPageProps) {
     setIsLoading(true);
 
     const asset = assets.assets[0];
-    const port = config.chains.find((c) => c.id === chain.chain_id)!.ports
-      .faucet;
+    const port = (config as StarshipConfig).chains.find(
+      (c) => c.id === chain.chain_id
+    )!.ports.faucet;
 
     try {
       await creditFromFaucet(address, asset.base, port);

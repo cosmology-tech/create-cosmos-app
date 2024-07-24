@@ -1,18 +1,33 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useChain, useManager } from '@cosmos-kit/react';
 import { Box, Combobox, Skeleton, Stack, Text } from '@interchain-ui/react';
 
-import { chains } from '@/config';
-import { useDetectBreakpoints } from '@/hooks';
+import { useStarshipChains, useDetectBreakpoints } from '@/hooks';
 import { chainStoreActions, useChainStore } from '@/contexts';
+import { staticChains } from '@/config';
 
 export const ChainDropdown = () => {
   const { selectedChain } = useChainStore();
   const { chain } = useChain(selectedChain);
   const [input, setInput] = useState<string>(chain.pretty_name);
-  const { getChainLogo } = useManager();
   const { isMobile } = useDetectBreakpoints();
+  const { data: starshipChains } = useStarshipChains();
+
+  const [isChainsAdded, setIsChainsAdded] = useState(false);
+  const { addChains, getChainLogo } = useManager();
+
+  useEffect(() => {
+    if (starshipChains) {
+      // @ts-ignore
+      addChains(starshipChains.chains, starshipChains.assets);
+      setIsChainsAdded(true);
+    }
+  }, [starshipChains]);
+
+  const chains = isChainsAdded
+    ? staticChains.concat(starshipChains?.chains ?? [])
+    : staticChains;
 
   return (
     <Combobox
@@ -44,19 +59,19 @@ export const ChainDropdown = () => {
         </Box>
       }
       styleProps={{
-        width: isMobile ? '130px' : '210px',
+        width: isMobile ? '130px' : '260px',
       }}
     >
-      {chains.map((chain) => (
-        <Combobox.Item key={chain.chain_name} textValue={chain.pretty_name}>
+      {chains.map((c) => (
+        <Combobox.Item key={c.chain_name} textValue={c.pretty_name}>
           <Stack
             direction="horizontal"
             space={isMobile ? '$3' : '$4'}
             attributes={{ alignItems: 'center' }}
           >
             <Image
-              src={getChainLogo(chain.chain_name) ?? ''}
-              alt={chain.pretty_name}
+              src={getChainLogo(c.chain_name) ?? ''}
+              alt={c.pretty_name}
               width={isMobile ? 18 : 24}
               height={isMobile ? 18 : 24}
               style={{
@@ -64,7 +79,7 @@ export const ChainDropdown = () => {
               }}
             />
             <Text fontSize={isMobile ? '12px' : '16px'} fontWeight="500">
-              {chain.pretty_name}
+              {c.pretty_name}
             </Text>
           </Stack>
         </Combobox.Item>

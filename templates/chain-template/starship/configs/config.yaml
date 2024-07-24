@@ -1,5 +1,5 @@
 name: starship-dev
-version: 0.2.9
+version: 0.2.10
 
 chains:
   - id: test-osmosis-1
