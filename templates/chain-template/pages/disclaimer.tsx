@@ -8,9 +8,9 @@ export default function Disclaimer() {
       <SectionBody>
         The information provided on this website does not constitute investment
         advice, financial advice, trading advice, or any other sort of advice
-        and you should not treat any of the website's content as such. Cosmology
-        does not recommend that any cryptocurrency should be bought, sold, or
-        held by you. Do conduct your own due diligence and consult your
+        and you should not treat any of the website&apos;s content as such.
+        Cosmology does not recommend that any cryptocurrency should be bought,
+        sold, or held by you. Do conduct your own due diligence and consult your
         financial advisor before making any investment decisions.
       </SectionBody>
       <SectionTitle>Accuracy of Information</SectionTitle>
