@@ -1,5 +1,6 @@
 import { Asset, Chain } from '@chain-registry/types';
 import { ChainInfo, Currency } from '@keplr-wallet/types';
+import { fromBech32 } from '@cosmjs/encoding';
 
 export const makeKeplrChainInfo = (chain: Chain, asset: Asset): ChainInfo => {
   const currency: Currency = {
@@ -64,4 +65,18 @@ export const creditFromFaucet = async (
       'Content-type': 'application/json',
     },
   });
+};
+
+export const validateChainAddress = (address: string, bech32Prefix: string) => {
+  if (!address.startsWith(bech32Prefix)) {
+    return `Invalid prefix (expected "${bech32Prefix}")`;
+  }
+
+  try {
+    fromBech32(address);
+  } catch (e) {
+    return 'Invalid address';
+  }
+
+  return null;
 };

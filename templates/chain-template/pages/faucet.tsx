@@ -4,12 +4,11 @@ import { useChain } from '@cosmos-kit/react';
 
 import { Button } from '@/components';
 import { useChainStore } from '@/contexts';
-import { creditFromFaucet } from '@/utils';
-import { useToast } from '@/hooks';
+import { creditFromFaucet, validateChainAddress } from '@/utils';
+import { useStarshipChains, useToast } from '@/hooks';
 import config from '@/starship/configs/config.yaml';
 import type { StarshipConfig } from '@/starship';
 
-// TODO: disable if not in starship env, or not starship chains
 export default function Faucet() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -17,9 +16,42 @@ export default function Faucet() {
   const { selectedChain } = useChainStore();
   const { address, chain, assets } = useChain(selectedChain);
   const { toast } = useToast();
+  const { data: starshipChains } = useStarshipChains();
+
+  const checkIsChainSupported = () => {
+    const isStarshipRunning = !!starshipChains;
+
+    if (!isStarshipRunning) {
+      toast({
+        type: 'error',
+        title: 'Starship is not running',
+        description: 'Faucet is only available in Starship environment',
+      });
+      return false;
+    }
+
+    const isStarshipChain = starshipChains?.chains?.some(
+      (c) => c.chain_id === chain.chain_id
+    );
+
+    if (!isStarshipChain) {
+      toast({
+        type: 'error',
+        title: 'Chain is not supported',
+        description: 'Faucet is only available for Starship chains',
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const inputErrMsg = input
+    ? validateChainAddress(input, chain.bech32_prefix)
+    : null;
 
   const handleGetTokens = async () => {
-    if (!address || !assets) return;
+    if (!assets || !checkIsChainSupported()) return;
 
     setIsLoading(true);
 
@@ -29,7 +61,7 @@ export default function Faucet() {
     )!.ports.faucet;
 
     try {
-      await creditFromFaucet(address, asset.base, port);
+      await creditFromFaucet(input, asset.base, port);
       toast({
         type: 'success',
         title: 'Tokens credited',
@@ -46,7 +78,7 @@ export default function Faucet() {
     }
   };
 
-  const isButtonDisabled = !input || !address;
+  const isButtonDisabled = !input || !!inputErrMsg;
 
   return (
     <>
@@ -71,25 +103,34 @@ export default function Faucet() {
           Address
         </Text>
 
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          gap="10px"
-          mb="24px"
-        >
-          <TextField
-            id="address"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Enter your address"
-            attributes={{ width: '100%' }}
-          />
+        <Box display="flex" justifyContent="space-between" gap="10px" mb="24px">
+          <Box width="$full">
+            <TextField
+              id="address"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Enter your address"
+              intent={inputErrMsg ? 'error' : 'default'}
+              attributes={{ width: '100%' }}
+            />
+            {inputErrMsg && (
+              <Text
+                color="$red600"
+                fontSize="12px"
+                fontWeight="500"
+                wordBreak="break-all"
+                attributes={{ mt: '6px' }}
+              >
+                {inputErrMsg}
+              </Text>
+            )}
+          </Box>
           <Button
             borderWidth="1px"
             borderColor="$blackAlpha300"
             color="$textSecondary"
             fontSize="14px"
+            disabled={!address}
             onClick={() => setInput(address ?? '')}
           >
             Autofill
