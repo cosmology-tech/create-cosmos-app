@@ -19,7 +19,8 @@ export default function Faucet() {
   const { data: starshipChains } = useStarshipChains();
 
   const checkIsChainSupported = () => {
-    const isStarshipRunning = !!starshipChains;
+    const isStarshipRunning =
+      starshipChains?.chains?.length && starshipChains?.assets?.length;
 
     if (!isStarshipRunning) {
       toast({
