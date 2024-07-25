@@ -49,8 +49,14 @@ export const useChainUtils = (chainName: string) => {
     return symbol;
   };
 
-  const symbolToDenom = (symbol: CoinSymbol): CoinDenom => {
-    const asset = allAssets.find((asset) => asset.symbol === symbol);
+  const symbolToDenom = (symbol: CoinSymbol, chainName?: string): CoinDenom => {
+    const asset = allAssets.find((asset) => (
+      asset.symbol === symbol
+      && (
+        !chainName
+        || asset.traces?.[0].counterparty.chain_name.toLowerCase() === chainName.toLowerCase()
+      )
+    ));
     const base = asset?.base;
     if (!base) {
       return symbol;
