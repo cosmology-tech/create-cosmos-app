@@ -15,6 +15,7 @@ import {
   ListItem,
   Stack,
   FieldLabel,
+  useTheme,
 } from '@interchain-ui/react';
 import { coin } from '@cosmjs/amino';
 import { useChain } from '@cosmos-kit/react';
@@ -50,6 +51,7 @@ type GrantModalProps = {
 export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const { theme } = useTheme();
 
   const [granteeAddress, setGranteeAddress] = useState('');
   const [addressErrorMsg, setAddressErrorMsg] = useState('');
@@ -179,8 +181,9 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
                   onClick={() => {}}
                 />
               </PopoverTrigger>
+              <Box></Box>
               <PopoverContent showArrow={false}>
-                <Stack direction="vertical">
+                <Stack direction="vertical" className={styles.listStack}>
                   {permissions.map((p) => (
                     <ListItem
                       key={p.id}
