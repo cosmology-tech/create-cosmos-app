@@ -87,9 +87,9 @@ const TransferModalBody = (
     isLoadingBalance
   ]);
 
-  const dollarValue = new BigNumber(inputValue)
-    .multipliedBy(prices[symbolToDenom(transferToken.symbol)])
-    .decimalPlaces(2)
+  const dollarValue = new BigNumber(1)
+    .multipliedBy(prices[symbolToDenom(transferToken.symbol, transferInfo.sourceChainName)])
+    .decimalPlaces(6)
     .toNumber();
 
   useEffect(() => {
