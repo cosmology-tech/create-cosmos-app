@@ -578,7 +578,7 @@ __metadata:
     "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
-    "@interchain-ui/react": "npm:1.23.26"
+    "@interchain-ui/react": "npm:1.23.28"
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
     "@tanstack/react-query": "npm:4.32.0"
     "@tanstack/react-query-devtools": "npm:4.32.0"
@@ -2026,9 +2026,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interchain-ui/react@npm:1.23.26":
-  version: 1.23.26
-  resolution: "@interchain-ui/react@npm:1.23.26"
+"@interchain-ui/react@npm:1.23.28":
+  version: 1.23.28
+  resolution: "@interchain-ui/react@npm:1.23.28"
   dependencies:
     "@floating-ui/core": "npm:^1.6.4"
     "@floating-ui/dom": "npm:^1.6.7"
@@ -2056,7 +2056,7 @@ __metadata:
   peerDependencies:
     react: ^16.14.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/4d249d08cf539d668ec0f883ef350d3a9ef716020cf4f2a1caf153913f502773729c306f3fce905098bb513cad43333793379c5177da2fc8e88339d82d5f295e
+  checksum: 10c0/3868b923458ed93c60453ce5d4193098d77cb7d637ac4c84a44ac3316a0c58d7ccf63f7b488e4eaaf4579c08b588c79a479a84b83760bae0bac53f90a6ac8eea
   languageName: node
   linkType: hard
 
