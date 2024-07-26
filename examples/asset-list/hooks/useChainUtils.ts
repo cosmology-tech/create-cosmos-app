@@ -91,7 +91,7 @@ export const useChainUtils = (chainName: string) => {
     }
     const asset = ibcAssets.find((asset) => asset.base === ibcDenom);
     const ibcChainName = asset?.traces?.[0].counterparty.chain_name;
-    if (!ibcChainName) throw Error('chainName not found: ' + ibcDenom);
+    if (!ibcChainName) throw Error('chainName not found for ibcDenom: ' + ibcDenom);
     return ibcChainName;
   };
 
