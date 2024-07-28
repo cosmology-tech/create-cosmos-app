@@ -5,6 +5,24 @@ import { LuPlus } from 'react-icons/lu';
 
 import { FileUpload } from './FileUpload';
 import { Button, Radio, RadioGroup } from '../common';
+import { TxInfoItem, TxSuccess } from './TxSuccess';
+
+const infoItems: TxInfoItem[] = [
+  {
+    label: 'Code ID',
+    displayValue: '9867',
+  },
+  {
+    label: 'Tx Hash',
+    displayValue: '6BAB30...9EAEB1',
+    actualValue: '6BAB30F3BAF3CD1AS3',
+  },
+  {
+    label: 'Tx Fee',
+    displayValue: '0.143698 OSMO',
+    allowCopy: false,
+  },
+];
 
 type InstantiatePermission = 'everybody' | 'nobody' | 'any_of_addresses';
 
@@ -13,6 +31,7 @@ type UploadTabProps = {
 };
 
 export const UploadTab = ({ show }: UploadTabProps) => {
+  const [isSuccess, setIsSuccess] = useState(false);
   const [instantiatePermission, setInstantiatePermission] =
     useState<InstantiatePermission>('everybody');
   const [addresses, setAddresses] = useState<{ value: string; id: number }[]>([
@@ -43,6 +62,30 @@ export const UploadTab = ({ show }: UploadTabProps) => {
     newAddresses[index].value = value;
     setAddresses(newAddresses);
   };
+
+  if (isSuccess) {
+    return (
+      <TxSuccess
+        title="Contract uploaded!"
+        description="‘cw20_base.wasm(9867)’ has been uploaded."
+        infoItems={infoItems}
+        footer={
+          <Box width="$full">
+            <Button variant="primary" width="$full" mb="10px">
+              Instantiate
+            </Button>
+            <Button
+              variant="outline"
+              width="$full"
+              onClick={() => setIsSuccess(false)}
+            >
+              Upload New Contract
+            </Button>
+          </Box>
+        }
+      />
+    );
+  }
 
   return (
     <Box
@@ -137,7 +180,9 @@ export const UploadTab = ({ show }: UploadTabProps) => {
         Transaction Fee: --
       </Text>
 
-      <Button variant="primary">Upload</Button>
+      <Button variant="primary" onClick={() => setIsSuccess(true)}>
+        Upload
+      </Button>
     </Box>
   );
 };
