@@ -22,7 +22,7 @@ export default function Home() {
         textAlign="center"
         fontSize="48px"
         fontWeight="500"
-        attributes={{ mt: '220px', mb: '20px' }}
+        attributes={{ mt: '200px', mb: '20px' }}
       >
         Create Cosmos App
       </Text>

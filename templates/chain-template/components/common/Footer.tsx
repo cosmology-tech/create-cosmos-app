@@ -8,7 +8,7 @@ export const Footer = () => {
   const { isMobile } = useDetectBreakpoints();
 
   return (
-    <Box mt="60px">
+    <Box mt="100px">
       {isMobile && (
         <Box display="flex" justifyContent="center" mb="10px">
           <SocialLinks />

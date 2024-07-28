@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box, Tabs } from '@interchain-ui/react';
-import { ExecuteTab, QueryTab } from '@/components';
+import { ExecuteTab, InstantiateTab, QueryTab, UploadTab } from '@/components';
 
 export default function Contract() {
   const [activeTab, setActiveTab] = useState(0);
@@ -9,6 +9,14 @@ export default function Contract() {
     <>
       <Tabs
         tabs={[
+          {
+            label: 'Upload',
+            content: undefined,
+          },
+          {
+            label: 'Instantiate',
+            content: undefined,
+          },
           {
             label: 'Query',
             content: undefined,
@@ -20,11 +28,13 @@ export default function Contract() {
         ]}
         activeTab={activeTab}
         onActiveTabChange={(tabId) => setActiveTab(tabId)}
-        attributes={{ width: '$min' }}
+        attributes={{ width: '800px' }}
       />
       <Box mt="40px">
-        <QueryTab show={activeTab === 0} />
-        <ExecuteTab show={activeTab === 1} />
+        <UploadTab show={activeTab === 0} />
+        <InstantiateTab show={activeTab === 1} />
+        <QueryTab show={activeTab === 2} />
+        <ExecuteTab show={activeTab === 3} />
       </Box>
     </>
   );
