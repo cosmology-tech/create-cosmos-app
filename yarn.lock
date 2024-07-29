@@ -1833,12 +1833,12 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@chain-registry/assets@^1.21.0":
-  version "1.64.37"
-  resolved "https://registry.npmjs.org/@chain-registry/assets/-/assets-1.64.37.tgz#5293bd1521fe8e2f85f1ff6fe39775409bb0222b"
-  integrity sha512-MbSnKT6sOFY3jkSr8uicvODgjxfxtKb5TSMSHs+eqWn8GqFpQBBnRGWfSk+Jk+ywj38TGizuJYxrPhx7kQGK6Q==
+"@chain-registry/assets@1.64.43":
+  version "1.64.43"
+  resolved "https://registry.yarnpkg.com/@chain-registry/assets/-/assets-1.64.43.tgz#339508e6b7e02a0fff2394df8b023625fb5989f0"
+  integrity sha512-20S0vSYlv0c6kxQSj+vWexa0Yd3FbWsmp4P3Tonb1lc4PTFr7riyAx5tAMpT/hzIjEGJlsnxM9LTNZLhAK7yug==
   dependencies:
-    "@chain-registry/types" "^0.45.30"
+    "@chain-registry/types" "^0.45.35"
 
 "@chain-registry/client@1.48.35":
   version "1.48.35"
@@ -1913,6 +1913,13 @@
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@chain-registry/types" "^0.17.0"
+
+"@chain-registry/osmosis@1.62.35":
+  version "1.62.35"
+  resolved "https://registry.yarnpkg.com/@chain-registry/osmosis/-/osmosis-1.62.35.tgz#a5e5d9ea9198845f97c7da038fc122a01f72c034"
+  integrity sha512-t1AawE5INZiF2VTOmWGnlIHq9SOuOYtOfiIL8CgCb1EVJboURzKF1qi+P/yg3c4s+vaTIWH2SdQHAO+1ulNzBA==
+  dependencies:
+    "@chain-registry/types" "^0.45.35"
 
 "@chain-registry/osmosis@^1.21.0":
   version "1.62.30"
