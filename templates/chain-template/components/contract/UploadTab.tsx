@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Divider, Text, TextField } from '@interchain-ui/react';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { LuPlus } from 'react-icons/lu';
 
 import { FileUpload } from './FileUpload';
 import { Button, Radio, RadioGroup } from '../common';
-import { TxInfoItem, TxSuccess } from './TxSuccess';
+import { TxInfoItem, TxSuccessCard } from './TxSuccessCard';
+import { convWasmFileToCodeHash } from '@/utils';
 
 const infoItems: TxInfoItem[] = [
   {
@@ -31,7 +32,7 @@ type UploadTabProps = {
 };
 
 export const UploadTab = ({ show }: UploadTabProps) => {
-  const [file, setFile] = useState<File | null>(null);
+  const [wasmFile, setWasmFile] = useState<File | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const [instantiatePermission, setInstantiatePermission] =
     useState<InstantiatePermission>('everybody');
@@ -41,6 +42,16 @@ export const UploadTab = ({ show }: UploadTabProps) => {
       id: Date.now(),
     },
   ]);
+  const [codeHash, setCodeHash] = useState('');
+
+  useEffect(() => {
+    const getCodeHash = async () => {
+      const hash = await convWasmFileToCodeHash(wasmFile);
+      setCodeHash(hash);
+    };
+
+    getCodeHash();
+  }, [wasmFile]);
 
   const onAddAddress = () => {
     setAddresses([
@@ -66,7 +77,7 @@ export const UploadTab = ({ show }: UploadTabProps) => {
 
   if (isSuccess) {
     return (
-      <TxSuccess
+      <TxSuccessCard
         title="Contract uploaded!"
         description="‘cw20_base.wasm(9867)’ has been uploaded."
         infoItems={infoItems}
@@ -107,11 +118,11 @@ export const UploadTab = ({ show }: UploadTabProps) => {
       </Text>
 
       <Field title="Upload Wasm File">
-        <FileUpload file={file} setFile={setFile} />
+        <FileUpload file={wasmFile} setFile={setWasmFile} />
       </Field>
 
       <Field title="Code Hash">
-        <TextField id="code_hash" value="" />
+        <TextField id="code_hash" value={codeHash} readonly />
       </Field>
 
       <Field title="Code Name (Optional)">

@@ -1,6 +1,7 @@
 import { Asset, Chain } from '@chain-registry/types';
 import { toBech32, fromBech32 } from '@cosmjs/encoding';
 import BigNumber from 'bignumber.js';
+import { Sha256 } from '@cosmjs/crypto';
 
 export const validateContractAddress = (
   address: string,
@@ -61,4 +62,14 @@ export const bytesToKb = (bytes: number) => {
   return BigNumber(bytes)
     .dividedBy(1000)
     .toFixed(bytes >= 1000 ? 0 : 2);
+};
+
+export const convWasmFileToCodeHash = async (wasmFile: File | null) => {
+  if (wasmFile) {
+    const wasmFileBytes = new Sha256(
+      new Uint8Array(await wasmFile.arrayBuffer())
+    ).digest();
+    return Buffer.from(wasmFileBytes).toString('hex');
+  }
+  return '';
 };

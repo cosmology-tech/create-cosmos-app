@@ -1,19 +1,19 @@
 import { Box, Divider, Icon, Text } from '@interchain-ui/react';
 import { useCopyToClipboard } from '@/hooks';
 
-type TxSuccessProps = {
+type TxSuccessCardProps = {
   title: string;
   description: string;
   infoItems: TxInfoItem[];
   footer: React.ReactNode;
 };
 
-export const TxSuccess = ({
+export const TxSuccessCard = ({
   title,
   description,
   infoItems,
   footer,
-}: TxSuccessProps) => {
+}: TxSuccessCardProps) => {
   return (
     <Box
       width="420px"
