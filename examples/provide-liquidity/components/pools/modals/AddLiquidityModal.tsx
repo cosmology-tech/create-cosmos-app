@@ -18,16 +18,21 @@ import { Coin } from 'osmo-query/dist/codegen/cosmos/base/v1beta1/coin';
 import { defaultChainName } from '@/config';
 import { LargeButton } from './ModalComponents';
 import {
-  getSymbolForDenom,
+  osmosisAssetsList,
   prettyPool,
-  baseUnitsToDisplayUnits,
-  getExponentByDenom,
   calcShareOutAmount,
-  getOsmoDenomForSymbol,
-  baseUnitsToDollarValue,
   convertDollarValueToCoins,
   ExtendedPool,
 } from '@/utils';
+import { 
+  getSymbolByDenom, 
+  getExponentByDenom, 
+  getDenomBySymbol,
+  convertBaseUnitToDollarValue,
+  convertBaseUnitToDisplayUnit 
+} from '@chain-registry/utils';
+  
+import { CoinSymbol, Exponent } from '@/utils/types';
 import { PriceHash } from '@/utils/types';
 import BigNumber from 'bignumber.js';
 import { coin, coins as aminoCoins } from '@cosmjs/amino';
@@ -95,16 +100,20 @@ export const AddLiquidityModal = ({
 
   const { address } = useChain(defaultChainName);
 
-  const poolName = currentPool?.poolAssets.map(({ token }) =>
-    getSymbolForDenom(token!.denom)
-  );
+  const poolName = currentPool?.poolAssets.map(({ token }) => {
+    const symbol = getSymbolByDenom(
+      osmosisAssetsList,
+      token!.denom
+    ) as CoinSymbol;
+    return symbol;
+  });
 
   const pool = prettyPool(currentPool);
 
   const currentInputTokens = singleToken
     ? [
         inputTokens.find(
-          ({ denom }) => denom === getOsmoDenomForSymbol(singleToken)
+          ({ denom }) => denom === getDenomBySymbol(osmosisAssetsList, singleToken)
         )!,
       ]
     : inputTokens;
@@ -117,9 +126,9 @@ export const AddLiquidityModal = ({
 
   const hasInsufficientAmount = currentInputTokens.some((t) => {
     const balance = balances.find((b) => b.denom === t.denom)?.amount || 0;
-    const symbol = getSymbolForDenom(t.denom);
+    const symbol = getSymbolByDenom(osmosisAssetsList, t.denom) as CoinSymbol;
     return new BigNumber(t.inputAmount).gt(
-      baseUnitsToDisplayUnits(symbol, balance)
+      convertBaseUnitToDisplayUnit(osmosisAssetsList, symbol, balance)
     );
   });
 
@@ -151,7 +160,7 @@ export const AddLiquidityModal = ({
     const allCoins = inputTokens.map(({ denom, inputAmount }) => ({
       denom,
       amount: new BigNumber(inputAmount)
-        .shiftedBy(getExponentByDenom(denom))
+        .shiftedBy(getExponentByDenom(osmosisAssetsList, denom) as Exponent)
         .toString(),
     }));
 
@@ -159,14 +168,14 @@ export const AddLiquidityModal = ({
 
     if (singleToken) {
       const inputCoin = allCoins.find(
-        (coin) => coin.denom === getOsmoDenomForSymbol(singleToken)
+        (coin) => coin.denom === getDenomBySymbol(osmosisAssetsList, singleToken)  
       )!;
-      const coinSymbol = getSymbolForDenom(inputCoin.denom);
-      const inputValue = baseUnitsToDollarValue(
-        prices,
-        coinSymbol,
-        inputCoin.amount
-      );
+      const coinSymbol = getSymbolByDenom(
+        osmosisAssetsList,
+        inputCoin.denom
+      ) as CoinSymbol;
+      const inputValue = convertBaseUnitToDollarValue(osmosisAssetsList, prices, coinSymbol, inputCoin.amount);
+      
       // @ts-ignore
       const coinsNeeded = convertDollarValueToCoins(inputValue, pool, prices);
       // @ts-ignore

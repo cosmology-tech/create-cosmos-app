@@ -19,13 +19,13 @@
     "@types/react-dom": "^18.0.9"
   },
   "dependencies": {
-    "@chain-registry/osmosis": "1.21.0",
+    "@chain-registry/osmosis": "1.62.35",
     "@chain-registry/types": "0.17.0",
     "@chain-registry/utils": "^1.46.6",
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.5.1",
     "@cosmjs/amino": "^0.32.3",
-    "@cosmjs/cosmwasm-stargate": "0.31.3",
+    "@cosmjs/cosmwasm-stargate": "0.32.3",
     "@cosmjs/stargate": "0.32.3",
     "@cosmos-kit/react": "2.17.0",
     "@emotion/react": "11.10.6",

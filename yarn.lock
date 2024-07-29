@@ -1906,14 +1906,6 @@
     "@babel/runtime" "^7.21.0"
     "@chain-registry/types" "^0.16.0"
 
-"@chain-registry/osmosis@1.21.0":
-  version "1.21.0"
-  resolved "https://registry.npmjs.org/@chain-registry/osmosis/-/osmosis-1.21.0.tgz#d0e42750af192508696c262f3d4ba3da881a4fbf"
-  integrity sha512-lftrfO+HYhW7YovRLblEcWNIRWq32THpfxAJyPa2RoeHLQvNw7vYBc/Z8GQetvKTkY7QclgX/PEKiI2YxvjxaQ==
-  dependencies:
-    "@babel/runtime" "^7.21.0"
-    "@chain-registry/types" "^0.17.0"
-
 "@chain-registry/osmosis@1.62.35":
   version "1.62.35"
   resolved "https://registry.yarnpkg.com/@chain-registry/osmosis/-/osmosis-1.62.35.tgz#a5e5d9ea9198845f97c7da038fc122a01f72c034"
@@ -1942,7 +1934,7 @@
   dependencies:
     "@babel/runtime" "^7.21.0"
 
-"@chain-registry/types@0.17.1", "@chain-registry/types@^0.17.0", "@chain-registry/types@^0.17.1":
+"@chain-registry/types@0.17.1", "@chain-registry/types@^0.17.1":
   version "0.17.1"
   resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.17.1.tgz#0ac7bda6178d3917834578627f232a247fe5def8"
   integrity sha512-O0CgrtJgIlqXvZm1CqDZe/7jZz068O/uuCIoyDXCegFHK03rdHacKcDGwEIUuI0MNUf8YV3jdE4xHQMSAX+79w==

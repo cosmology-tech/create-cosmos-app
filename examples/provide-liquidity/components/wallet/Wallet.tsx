@@ -47,7 +47,7 @@ export const WalletSection = () => {
   const { getChainLogo } = useManager();
   const [osmoBalance, setOsmoBalance] = useState<Coin>();
   const [balanceStaked, setBalanceStaked] = useState<Coin | null>();
-  console.log('balanceStaked', balanceStaked);
+  // console.log('balanceStaked', balanceStaked);
 
   const chain = {
     chainName: defaultChainName,
@@ -68,16 +68,25 @@ export const WalletSection = () => {
   };
 
   const getBalance = async () => {
-    const client = await getSigningStargateClient();
-    const balance = await client?.getBalance(address as string, 'OSMO');
-    setOsmoBalance(balance);
+    try { 
+      const client = await getSigningStargateClient();
+      const balance = await client?.getBalance(address as string, 'uosmo');
+      setOsmoBalance(balance); 
+    } catch (error) {
+      console.log(error)
+    }
+   
   };
 
   const getBalanceStaked = async () => {
-    const client = await getSigningStargateClient();
-    const staked = await client?.getBalanceStaked(address as string);
-
-    setBalanceStaked(staked);
+    try {
+     const client = await getSigningStargateClient();
+     const staked = await client?.getBalanceStaked(address as string);
+     setBalanceStaked(staked);
+    } catch (error) {
+      console.log(error)
+    }
+  
   };
 
   useEffect(() => {
@@ -140,17 +149,17 @@ export const WalletSection = () => {
       <HStack w="256px" py={2} fontSize="13px" justify="space-between">
         <Flex gap={1}>
           <Text fontWeight="semibold">
-            Balance: {osmoBalance?.amount || '--'}
+            Balance: {osmoBalance?.amount ?? '--'}
           </Text>
-          <Text pt="1px" fontSize="12px" color="blackAlpha.700">
+          <Text pt="1px" fontSize="12px">
             {osmoBalance?.denom}
           </Text>
         </Flex>
         <Flex gap={1}>
           <Text fontWeight="semibold">
-            Staked: {balanceStaked?.amount || '--'}
+            Staked: {balanceStaked?.amount ?? '--'}
           </Text>
-          <Text pt="2px" fontSize="12px" color="blackAlpha.700">
+          <Text pt="2px" fontSize="12px">
             {balanceStaked?.denom}
           </Text>
         </Flex>

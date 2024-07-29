@@ -16,15 +16,16 @@ import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import {
   prettyPool,
   osmosisAssets,
-  baseUnitsToDisplayUnits,
+  osmosisAssetsList,
   calcMaxCoinsForPool,
-  getSymbolForDenom,
 } from '@/utils';
 import { getLogoUrlFromDenom } from '../PoolList';
 import { ChainLogo } from '../PoolCard';
 import { PoolPretty, PriceHash } from '@/utils/types';
 import BigNumber from 'bignumber.js';
 import { truncDecimals } from './PoolDetailModal';
+import { getSymbolByDenom,convertBaseUnitToDisplayUnit } from '@chain-registry/utils';
+import { CoinSymbol } from '@/utils/types';
 
 type PrettyAsset = Pick<
   ReturnType<typeof prettyPool>,
@@ -78,7 +79,7 @@ export const TokenInput = ({
   const balance = balances.find((b) => b.denom === token.denom);
 
   const availableBalance = balance
-    ? baseUnitsToDisplayUnits(token.symbol, balance.amount)
+    ?  convertBaseUnitToDisplayUnit(osmosisAssetsList, token.symbol, balance.amount)
     : '0';
 
   const displayAmountToValue = (amount: string) => {
@@ -141,10 +142,15 @@ export const TokenInput = ({
                   const coin = maxCoins.find(
                     ({ denom }) => denom === inputToken.denom
                   )!;
-                  const symbol = getSymbolForDenom(coin.denom);
+
+                  const symbol = getSymbolByDenom(
+                    osmosisAssetsList,
+                    coin.denom
+                  ) as CoinSymbol;
+
                   return {
                     ...inputToken,
-                    inputAmount: baseUnitsToDisplayUnits(symbol, coin.amount),
+                    inputAmount:  convertBaseUnitToDisplayUnit(osmosisAssetsList, symbol, coin.amount) 
                   };
                 })
               );
