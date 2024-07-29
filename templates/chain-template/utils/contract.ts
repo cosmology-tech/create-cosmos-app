@@ -1,5 +1,6 @@
 import { Asset, Chain } from '@chain-registry/types';
 import { toBech32, fromBech32 } from '@cosmjs/encoding';
+import BigNumber from 'bignumber.js';
 
 export const validateContractAddress = (
   address: string,
@@ -54,4 +55,10 @@ export const getExplorerLink = (chain: Chain, txHash: string) => {
 export const getExponentFromAsset = (asset: Asset) => {
   return asset.denom_units.find((unit) => unit.denom === asset.display)
     ?.exponent;
+};
+
+export const bytesToKb = (bytes: number) => {
+  return BigNumber(bytes)
+    .dividedBy(1000)
+    .toFixed(bytes >= 1000 ? 0 : 2);
 };

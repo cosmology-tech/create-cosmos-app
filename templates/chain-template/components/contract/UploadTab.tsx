@@ -31,6 +31,7 @@ type UploadTabProps = {
 };
 
 export const UploadTab = ({ show }: UploadTabProps) => {
+  const [file, setFile] = useState<File | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const [instantiatePermission, setInstantiatePermission] =
     useState<InstantiatePermission>('everybody');
@@ -106,7 +107,7 @@ export const UploadTab = ({ show }: UploadTabProps) => {
       </Text>
 
       <Field title="Upload Wasm File">
-        <FileUpload />
+        <FileUpload file={file} setFile={setFile} />
       </Field>
 
       <Field title="Code Hash">
