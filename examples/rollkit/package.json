@@ -26,7 +26,7 @@
     "@emotion/styled": "11.10.6",
     "@interchain-ui/react": "1.23.22",
     "@interchain-ui/react-no-ssr": "^0.1.6",
-    "chain-registry": "1.25.4",
+    "chain-registry": "^1.63.9",
     "cosmos-kit": "2.18.0",
     "fast-fuzzy": "1.12.0",
     "framer-motion": "9.0.7",

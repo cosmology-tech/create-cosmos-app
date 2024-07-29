@@ -22,7 +22,7 @@
     "@interchain-ui/react-no-ssr": "^0.1.6",
     "@tanstack/react-query": "4.32.0",
     "bignumber.js": "^9.1.1",
-    "chain-registry": "1.24.1",
+    "chain-registry": "^1.63.9",
     "cosmos-kit": "2.18.0",
     "dayjs": "^1.11.7",
     "fast-fuzzy": "1.12.0",
