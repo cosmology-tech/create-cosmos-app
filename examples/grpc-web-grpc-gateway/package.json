@@ -23,7 +23,7 @@
   "dependencies": {
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.5.1",
-    "@cosmjs/cosmwasm-stargate": "0.31.3",
+    "@cosmjs/cosmwasm-stargate": "0.32.3",
     "@cosmjs/stargate": "0.32.3",
     "@cosmology/ast": "^0.89.0",
     "@cosmology/telescope": "^0.102.0",
