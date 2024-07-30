@@ -1,9 +1,23 @@
 import { chains } from 'chain-registry';
-import { Asset } from '@chain-registry/types';
+import { Asset, AssetList } from '@chain-registry/types';
 import { CoinDenom } from '@osmonauts/math/dist/types';
 import { assets, asset_list } from '@chain-registry/osmosis';
 import { CoinGeckoId } from '@/hooks';
 import { defaultChainName } from '@/config';
+
+export function removeDuplicatesByBase(items: Asset[]): Asset[] {
+  const seenBases = new Set<String>();
+  const uniqueItems: Asset[] = [];
+
+  for (const item of items) {
+    if (!seenBases.has(item.base) && item.type_asset !== 'ics20') {
+      seenBases.add(item.base);
+      uniqueItems.push(item);
+    }
+  }
+
+  return uniqueItems;
+}
 
 export type Assets = Asset[] & {
   WithCoinGeckoId: Asset[];
@@ -12,9 +26,17 @@ export type Assets = Asset[] & {
   CoinGeckoIdToAsset: Record<CoinGeckoId, Asset>;
 };
 
-export const OsmosisAssets = [...assets.assets, ...asset_list.assets].filter(
-  ({ type_asset }) => type_asset !== 'ics20'
-) as Assets;
+export const OsmosisAssets = removeDuplicatesByBase([
+  ...assets.assets,
+  ...asset_list.assets,
+] as Asset[]);
+
+export const osmosisAssetsList: AssetList[] = [
+  {
+    assets: OsmosisAssets,
+    chain_name: 'osmosis',
+  },
+];
 
 OsmosisAssets.WithCoinGeckoId = OsmosisAssets.filter(({ coingecko_id }) =>
   Boolean(coingecko_id)

@@ -3,7 +3,9 @@ import { chains } from 'chain-registry';
 import { Asset, Chain } from '@chain-registry/types';
 
 export function integer(number: number | string) {
-  return new BigNumber(number).decimalPlaces(0, BigNumber.ROUND_DOWN).toString();
+  return new BigNumber(number)
+    .decimalPlaces(0, BigNumber.ROUND_DOWN)
+    .toString();
 }
 
 export function getLogo(from: Asset | Chain) {
@@ -11,6 +13,8 @@ export function getLogo(from: Asset | Chain) {
 }
 
 export function getChainLogo(name: string) {
-  const chain: Chain = chains.find(chain => chain.chain_name === name) as Chain;
+  const chain: Chain = chains.find(
+    (chain) => chain.chain_name === name
+  ) as Chain;
   return chain ? getLogo(chain) : null;
 }

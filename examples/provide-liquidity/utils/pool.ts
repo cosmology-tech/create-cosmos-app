@@ -30,9 +30,24 @@ import {
 } from './types';
 import { Fee } from '@/hooks';
 
-export const osmosisAssets: Asset[] = [...assets.assets].filter(
-  ({ type_asset }) => type_asset !== 'ics20'
-);
+export function removeDuplicatesByBase(items: Asset[]): Asset[] {
+  const seenBases = new Set<String>();
+  const uniqueItems: Asset[] = [];
+
+  for (const item of items) {
+    if (!seenBases.has(item.base) && item.type_asset !== 'ics20') {
+      seenBases.add(item.base);
+      uniqueItems.push(item);
+    }
+  }
+
+  return uniqueItems;
+}
+
+export const osmosisAssets = removeDuplicatesByBase([
+  ...assets.assets,
+  ...asset_list.assets,
+] as Asset[]);
 
 export const osmosisAssetsList: AssetList[] = [
   {

@@ -29,7 +29,7 @@ import {
 } from '@osmonauts/math';
 import { Token, Slippages, TokenList, SwapInfoProps } from '@/components/swap';
 import { Pools, usePools, usePrices, useBalances, useTx } from '@/hooks';
-import { defaultChainName, Osmosis } from '@/config';
+import { defaultChainName, Osmosis, osmosisAssetsList } from '@/config';
 import { getLogo, integer } from '@/utils';
 
 export type Swap = {
@@ -273,12 +273,7 @@ export function newCoin(token: Token) {
   return {
     denom: token.denom,
     amount: new BigNumber(token.amount || '0')
-      .shiftedBy(
-        getExponentByDenom(
-          [{ assets: Osmosis.Assets, chain_name: 'osmosis' }],
-          token.denom
-        ) as Exponent
-      )
+      .shiftedBy(getExponentByDenom(osmosisAssetsList, token.denom) as Exponent)
       .toString(),
   };
 }
