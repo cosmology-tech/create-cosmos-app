@@ -1956,20 +1956,15 @@
   resolved "https://registry.yarnpkg.com/@chain-registry/types/-/types-0.45.35.tgz#00906b8ad4e4ad120562362d62c8db1897a4d85c"
   integrity sha512-8Jy67q32g5KAEoljrHGO3+hXyR+9mfJfDBmMZb+KfeYS6j3mJxtqSdFG4VgGocrisPabHgg7GO6Q/m7osPvkyg==
 
+"@chain-registry/types@^0.45.36":
+  version "0.45.36"
+  resolved "https://registry.yarnpkg.com/@chain-registry/types/-/types-0.45.36.tgz#d1bb8bade17cb9475d79278486cd8d31ea0a1a3e"
+  integrity sha512-HEKthtP24qy7hQlpcTNXidACYO6uwMNwZaV0O8Rv0fH226syrgH7nnGWofeooHGPofRFJfAfmpGJailBWuhWAQ==
+
 "@chain-registry/utils@1.13.1":
   version "1.13.1"
   resolved "https://registry.npmjs.org/@chain-registry/utils/-/utils-1.13.1.tgz#bee23868e0bdee0533e26fb99276c190916332fd"
   integrity sha512-BV8XoZGGlfeF3d5p06y4w2uDggAxtWa5g5zEDRgcyi6V+iJUSlPwu5PL7IKB5qJvAq7J1Vgw8x+Jqj1TVxjpvA==
-  dependencies:
-    "@babel/runtime" "^7.21.0"
-    "@chain-registry/types" "^0.16.0"
-    bignumber.js "9.1.1"
-    sha.js "^2.4.11"
-
-"@chain-registry/utils@1.13.2":
-  version "1.13.2"
-  resolved "https://registry.npmjs.org/@chain-registry/utils/-/utils-1.13.2.tgz#bcba8516805112895dac060851aaa2b72f2e6525"
-  integrity sha512-8s+XBdgdFrxwB0OaSvokLbCbtoG0sMscKZF1x0NLRBAJBX14S3PhyIcK3H6sAFe+EZKspErh6kMr8Tq+Ql/now==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@chain-registry/types" "^0.16.0"
@@ -1991,6 +1986,15 @@
   integrity sha512-PU/U91IjQcc1LJM4RR2joJ+OaF+0RsXEsDgEJI1hWLOhvMP4GFGaLoQKO14CqQpKeQVV74TEUh/54m39Mh8QdQ==
   dependencies:
     "@chain-registry/types" "^0.45.35"
+    bignumber.js "9.1.2"
+    sha.js "^2.4.11"
+
+"@chain-registry/utils@^1.46.8":
+  version "1.46.36"
+  resolved "https://registry.yarnpkg.com/@chain-registry/utils/-/utils-1.46.36.tgz#7b4b6325c4fb4ca9dae67f0fb201010547d7903e"
+  integrity sha512-4BASAIVzQ3T04Zb40JfQkJblsVMSzr0JBdFUUgf9YXW6oRnN8OLnwnzM4IgKiC7UY49BwcjA9NBy8vRQaB9gVg==
+  dependencies:
+    "@chain-registry/types" "^0.45.36"
     bignumber.js "9.1.2"
     sha.js "^2.4.11"
 

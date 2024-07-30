@@ -1,6 +1,6 @@
 import { chains } from 'chain-registry';
 import { Asset } from '@chain-registry/types';
-import { CoinDenom } from '@chain-registry/utils';
+import { CoinDenom } from '@osmonauts/math/dist/types';
 import { assets, asset_list } from '@chain-registry/osmosis';
 import { CoinGeckoId } from '@/hooks';
 import { defaultChainName } from '@/config';
@@ -10,24 +10,29 @@ export type Assets = Asset[] & {
   CoinGeckoIds: CoinGeckoId[];
   CoinDenomToAsset: Record<CoinDenom, Asset>;
   CoinGeckoIdToAsset: Record<CoinGeckoId, Asset>;
-}
+};
 
-export const OsmosisAssets = [
-  ...assets.assets,
-  ...asset_list.assets
-].filter(({ type_asset }) => type_asset !== 'ics20') as Assets;
+export const OsmosisAssets = [...assets.assets, ...asset_list.assets].filter(
+  ({ type_asset }) => type_asset !== 'ics20'
+) as Assets;
 
-OsmosisAssets.WithCoinGeckoId = OsmosisAssets
-  .filter(({ coingecko_id }) => Boolean(coingecko_id));
+OsmosisAssets.WithCoinGeckoId = OsmosisAssets.filter(({ coingecko_id }) =>
+  Boolean(coingecko_id)
+);
 
-OsmosisAssets.CoinGeckoIds = OsmosisAssets.WithCoinGeckoId
-  .map(({ coingecko_id }) => coingecko_id) as CoinGeckoId[];
+OsmosisAssets.CoinGeckoIds = OsmosisAssets.WithCoinGeckoId.map(
+  ({ coingecko_id }) => coingecko_id
+) as CoinGeckoId[];
 
-OsmosisAssets.CoinGeckoIdToAsset = OsmosisAssets.WithCoinGeckoId
-  .reduce((cache, asset) => ({ ...cache, [asset.coingecko_id!]: asset }), {})
+OsmosisAssets.CoinGeckoIdToAsset = OsmosisAssets.WithCoinGeckoId.reduce(
+  (cache, asset) => ({ ...cache, [asset.coingecko_id!]: asset }),
+  {}
+);
 
-OsmosisAssets.CoinDenomToAsset = OsmosisAssets
-  .reduce((cache, asset) => ({ ...cache, [asset.base]: asset }), {});
+OsmosisAssets.CoinDenomToAsset = OsmosisAssets.reduce(
+  (cache, asset) => ({ ...cache, [asset.base]: asset }),
+  {}
+);
 
 function getChainByDenom(denom: CoinDenom) {
   let chainName = '';
@@ -39,10 +44,10 @@ function getChainByDenom(denom: CoinDenom) {
   }
   return chainName
     ? chains.find(({ chain_name }) => chain_name === chainName)
-    : null
+    : null;
 }
 
 export const Osmosis = {
   getChainByDenom,
-  Assets: OsmosisAssets
-}
+  Assets: OsmosisAssets,
+};

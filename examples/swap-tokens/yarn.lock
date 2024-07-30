@@ -163,15 +163,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:^0.17.0":
-  version: 0.17.1
-  resolution: "@chain-registry/types@npm:0.17.1"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-  checksum: 10c0/00400f2994c838dbf0a4a6aa01af397d72badbeee82e13095e1ae1e5853a9405f802f0e5629f3aab0cfaa7ec9eae78eb0976001d5a24a7f33d138e2b02edb547
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:^0.18.15":
   version: 0.18.15
   resolution: "@chain-registry/types@npm:0.18.15"
@@ -195,6 +186,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@chain-registry/types@npm:^0.45.8":
+  version: 0.45.8
+  resolution: "@chain-registry/types@npm:0.45.8"
+  checksum: 10c0/ff37142bf800214cdbd3ff64740d94fedd44a272d164a35431554d95b47df31e6d9b038071b32cf20187c15c5f371eb2d8e37b531b24678809ae0576c105fc3b
+  languageName: node
+  linkType: hard
+
 "@chain-registry/utils@npm:1.13.1":
   version: 1.13.1
   resolution: "@chain-registry/utils@npm:1.13.1"
@@ -204,18 +202,6 @@ __metadata:
     bignumber.js: "npm:9.1.1"
     sha.js: "npm:^2.4.11"
   checksum: 10c0/42964b866d2dc9a331d4a051adbae12c38a394d80b3df59d31745f63ae228c446b621f7c4ec775e8e023bfe1eaaa2c6b3dbce7a690b4e731782775387d721ae3
-  languageName: node
-  linkType: hard
-
-"@chain-registry/utils@npm:1.13.2":
-  version: 1.13.2
-  resolution: "@chain-registry/utils@npm:1.13.2"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.16.0"
-    bignumber.js: "npm:9.1.1"
-    sha.js: "npm:^2.4.11"
-  checksum: 10c0/782831ff1eefd0d18e2ca5f627a34cc2a0e9cd4b68b17555fe8a2651808b1277fc0a641f2639da4441dc17f69ace4aa66e0869ea854f894e8e806aa2d2a6aa50
   languageName: node
   linkType: hard
 
@@ -238,6 +224,17 @@ __metadata:
     bignumber.js: "npm:9.1.2"
     sha.js: "npm:^2.4.11"
   checksum: 10c0/0496a5fd521c35d4b7e4cbde4daf6b960d3046f9c152b8fbf48b29701c6838afc1181562eed0c2b6d8ae70dcf8e24fba49e559741a744fc57c06b7b0bf91a2e9
+  languageName: node
+  linkType: hard
+
+"@chain-registry/utils@npm:^1.46.8":
+  version: 1.46.8
+  resolution: "@chain-registry/utils@npm:1.46.8"
+  dependencies:
+    "@chain-registry/types": "npm:^0.45.8"
+    bignumber.js: "npm:9.1.2"
+    sha.js: "npm:^2.4.11"
+  checksum: 10c0/6fc0b5f21102460076b4c03ef9c09e22a746643a24f73d3b205f02dbc114e0056964ce6713ad03d7c158b7e085e7fc16e9a511d30a937c35f953e0739903ece9
   languageName: node
   linkType: hard
 
@@ -2036,7 +2033,7 @@ __metadata:
   dependencies:
     "@chain-registry/osmosis": "npm:1.20.0"
     "@chain-registry/types": "npm:0.16.0"
-    "@chain-registry/utils": "npm:1.13.2"
+    "@chain-registry/utils": "npm:^1.46.8"
     "@cosmjs/amino": "npm:0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:0.32.3"
     "@cosmjs/stargate": "npm:0.32.3"
@@ -2053,7 +2050,7 @@ __metadata:
     "@types/react": "npm:18.2.0"
     "@types/react-dom": "npm:18.2.0"
     bignumber.js: "npm:9.1.1"
-    chain-registry: "npm:1.20.0"
+    chain-registry: "npm:^1.63.11"
     cosmos-kit: "npm:2.18.0"
     eslint: "npm:8.28.0"
     eslint-config-next: "npm:13.0.5"
@@ -7202,16 +7199,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chain-registry@npm:1.20.0":
-  version: 1.20.0
-  resolution: "chain-registry@npm:1.20.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.17.0"
-  checksum: 10c0/f2d4b23bc2b8607fc4de05fa34949eaa183a563afb07f718c039c2be151fa6fbd86e9a3c998dc6ca1b7ab9440bfbc1e1218aff51f0e681f9915788269e95a9da
-  languageName: node
-  linkType: hard
-
 "chain-registry@npm:^1.5.0":
   version: 1.33.20
   resolution: "chain-registry@npm:1.33.20"
@@ -7219,6 +7206,15 @@ __metadata:
     "@babel/runtime": "npm:^7.21.0"
     "@chain-registry/types": "npm:^0.18.15"
   checksum: 10c0/4cab3336c307574babc45207442f05d56549839146beda0895d4dae04ad1f1ca0e5cdc1a14c4492a80cfa1ee5945413e79456b9f2e359d02da58f94ed48f44ce
+  languageName: node
+  linkType: hard
+
+"chain-registry@npm:^1.63.11":
+  version: 1.63.11
+  resolution: "chain-registry@npm:1.63.11"
+  dependencies:
+    "@chain-registry/types": "npm:^0.45.8"
+  checksum: 10c0/76146812c380db735885db1656266f1d5da188d5ddf048bcedee5bef91bf0e7f9937c42af2d31ec40233adb613e9718566e294dd056447780362b11e036bc6f3
   languageName: node
   linkType: hard
 
