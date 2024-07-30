@@ -24,7 +24,7 @@
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.5.1",
     "@cosmjs/amino": "0.32.3",
-    "@cosmjs/cosmwasm-stargate": "0.31.3",
+    "@cosmjs/cosmwasm-stargate": "0.32.3",
     "@cosmjs/proto-signing": "0.32.3",
     "@cosmjs/stargate": "0.32.3",
     "@cosmology/lcd": "^0.12.0",
