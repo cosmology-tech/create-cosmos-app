@@ -4,7 +4,7 @@ import {
   Proposal as IProposal,
   ProposalStatus,
   TallyResult,
-} from "interchain-query/cosmos/gov/v1beta1/gov";
+} from "interchain-query/cosmos/gov/v1/gov";
 import {
   BasicModal,
   Box,
@@ -38,10 +38,10 @@ function status(s: ProposalStatus) {
 
 function votes(result: TallyResult) {
   return {
-    yes: Number(result.yes) || 0,
-    no: Number(result.no) || 0,
-    abstain: Number(result.abstain) || 0,
-    noWithVeto: Number(result.noWithVeto) || 0,
+    yes: Number(result.yesCount) || 0,
+    no: Number(result.noCount) || 0,
+    abstain: Number(result.abstainCount) || 0,
+    noWithVeto: Number(result.noWithVetoCount) || 0,
   };
 }
 
@@ -68,11 +68,11 @@ export function Voting({ chainName }: VotingProps) {
       {data.proposals?.map((proposal, index) => (
         <Box
           my="$8"
-          key={proposal.proposalId?.toString() || index}
+          key={proposal.id?.toString() || index}
           position="relative"
           attributes={{ onClick: () => onClickProposal(index) }}
         >
-          {data.votes[proposal.proposalId.toString()]
+          {data.votes[proposal.id.toString()]
             ? (
               <Box
                 position="absolute"
@@ -90,7 +90,7 @@ export function Voting({ chainName }: VotingProps) {
             )
             : null}
           <GovernanceProposalItem
-            id={`# ${proposal.proposalId?.toString()}`}
+            id={`# ${proposal.id?.toString()}`}
             key={proposal.submitTime?.getTime()}
             // @ts-ignore
             title={proposal.content?.title || ""}
