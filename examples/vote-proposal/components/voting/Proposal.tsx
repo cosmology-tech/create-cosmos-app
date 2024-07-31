@@ -100,7 +100,7 @@ export function Proposal({
   const turnout = total / Number(bondedTokens);
 
   // @ts-ignore
-  const description = proposal?.content?.description || "";
+  const description = proposal.summary || ''
   const renderedDescription = description.length > 200
     ? showMore ? description : `${description.slice(0, 200)}...`
     : description || "";
