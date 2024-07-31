@@ -637,7 +637,7 @@ __metadata:
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
     "@cosmos-kit/react": "npm:2.17.0"
-    "@interchain-ui/react": "npm:^1.23.28"
+    "@interchain-ui/react": "npm:1.23.29"
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
     "@tanstack/react-query": "npm:4.32.0"
     "@tanstack/react-query-devtools": "npm:4.32.0"
@@ -1918,9 +1918,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interchain-ui/react@npm:^1.23.28":
-  version: 1.23.28
-  resolution: "@interchain-ui/react@npm:1.23.28"
+"@interchain-ui/react@npm:1.23.29":
+  version: 1.23.29
+  resolution: "@interchain-ui/react@npm:1.23.29"
   dependencies:
     "@floating-ui/core": "npm:^1.6.4"
     "@floating-ui/dom": "npm:^1.6.7"
@@ -1931,6 +1931,7 @@ __metadata:
     "@react-aria/listbox": "npm:^3.12.1"
     "@react-aria/overlays": "npm:^3.22.1"
     "@react-aria/utils": "npm:^3.24.1"
+    "@tanstack/react-virtual": "npm:^3.8.3"
     "@vanilla-extract/css": "npm:^1.15.3"
     "@vanilla-extract/dynamic": "npm:^2.1.1"
     "@vanilla-extract/recipes": "npm:^0.5.3"
@@ -1948,7 +1949,7 @@ __metadata:
   peerDependencies:
     react: ^16.14.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/3868b923458ed93c60453ce5d4193098d77cb7d637ac4c84a44ac3316a0c58d7ccf63f7b488e4eaaf4579c08b588c79a479a84b83760bae0bac53f90a6ac8eea
+  checksum: 10c0/013d8f56f0db143bc76f7e6f2509aab4ebb249a770e615df77b29748b07e743fff850d6a4599cbacc98ba7c047947e583eeb8e892f5796358243a37eb6d772d2
   languageName: node
   linkType: hard
 
@@ -4270,6 +4271,25 @@ __metadata:
     react-native:
       optional: true
   checksum: 10c0/761f0c48fba41d0296ac76d42d92128d6ca55fca261d819252753fb38988a6c1dc9442344bdccba946a8db243ebcd3f259c61ac1957933493db0605e1a0a0e77
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-virtual@npm:^3.8.3":
+  version: 3.8.4
+  resolution: "@tanstack/react-virtual@npm:3.8.4"
+  dependencies:
+    "@tanstack/virtual-core": "npm:3.8.4"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/2c803a0fd9101c75666b894d455c0c793bc50df4b5039e2bc748c4c50b64ec4ebaf3de990ab711d396ad8cd0582ca1858c7d0132d7f72acb57dfd9721464186e
+  languageName: node
+  linkType: hard
+
+"@tanstack/virtual-core@npm:3.8.4":
+  version: 3.8.4
+  resolution: "@tanstack/virtual-core@npm:3.8.4"
+  checksum: 10c0/32b3d7c7d7c380992730f38efe171eddb4841a3f9bdac198ff6f6e7c00da0e22d2984d57dcb27895f234768accb5625fc04946aa8745c22a136b3f31941d42ac
   languageName: node
   linkType: hard
 
