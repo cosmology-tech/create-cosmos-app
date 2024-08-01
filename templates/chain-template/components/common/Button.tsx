@@ -8,7 +8,7 @@ import {
 } from '@interchain-ui/react';
 import { useState, useRef, useEffect } from 'react';
 
-type Variant = 'primary' | 'outline';
+type Variant = 'primary' | 'outline' | 'text';
 type ButtonIcon = IconName | JSX.Element;
 
 type ButtonProps = {
@@ -34,6 +34,13 @@ const variantStyles: Record<Variant, BoxProps> = {
       base: 'transparent',
     },
   },
+  text: {
+    color: {
+      base: '$blackAlpha500',
+      hover: '$blackAlpha600',
+    },
+    backgroundColor: 'transparent',
+  },
   primary: {
     color: '$white',
     backgroundColor: {
@@ -47,6 +54,9 @@ const disabledStyles: Record<Variant, BoxProps> = {
   outline: {
     color: '$blackAlpha300',
     backgroundColor: 'transparent',
+  },
+  text: {
+    color: '$blackAlpha300',
   },
   primary: {
     backgroundColor: '$purple200',

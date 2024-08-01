@@ -1,7 +1,9 @@
-import { Asset, Chain } from '@chain-registry/types';
+import { Asset, AssetList, Chain } from '@chain-registry/types';
 import { toBech32, fromBech32 } from '@cosmjs/encoding';
 import BigNumber from 'bignumber.js';
 import { Sha256 } from '@cosmjs/crypto';
+import { DeliverTxResponse } from '@cosmjs/cosmwasm-stargate';
+import { Coin, logs, parseCoins } from '@cosmjs/stargate';
 
 export const validateContractAddress = (
   address: string,
@@ -72,4 +74,75 @@ export const convWasmFileToCodeHash = async (wasmFile: File | null) => {
     return Buffer.from(wasmFileBytes).toString('hex');
   }
   return '';
+};
+
+export const findAttr = (
+  events: logs.Log['events'],
+  eventType: string,
+  attrKey: string
+) => {
+  const mimicLog: logs.Log = {
+    msg_index: 0,
+    log: '',
+    events,
+  };
+
+  try {
+    return logs.findAttribute([mimicLog], eventType, attrKey).value;
+  } catch {
+    return undefined;
+  }
+};
+
+export type PrettyTxResult = {
+  codeId: string;
+  codeHash: string;
+  txHash: string;
+  txFee: string;
+  codeDisplayName: string;
+};
+
+export const prettyStoreCodeTxResult = (
+  txResponse: DeliverTxResponse,
+  codeName: string,
+  wasmFileName: string
+): PrettyTxResult => {
+  const events = txResponse.events;
+  const codeId = findAttr(events, 'store_code', 'code_id') ?? '0';
+  const codeHash = findAttr(events, 'store_code', 'code_checksum') ?? '';
+  const txHash = txResponse.transactionHash;
+  const txFee =
+    txResponse.events.find((e) => e.type === 'tx')?.attributes[0].value ?? '';
+  const codeDisplayName = codeName || `${wasmFileName}(${codeId})`;
+
+  return {
+    codeId,
+    codeHash,
+    txHash,
+    txFee,
+    codeDisplayName,
+  };
+};
+
+export const formatTxFee = (txFee: string, assets: AssetList) => {
+  let coins: Coin[] = [];
+
+  try {
+    coins = parseCoins(txFee);
+  } catch (e) {
+    console.error(e);
+  }
+
+  if (coins.length === 0) return '--';
+
+  const denom = coins[0].denom;
+  const amount = coins[0].amount;
+  const asset = assets.assets.find((asset) => asset.base === denom);
+  if (!asset) return '--';
+
+  const exponent = getExponentFromAsset(asset);
+  if (!exponent) return '--';
+
+  const displayAmount = BigNumber(amount).shiftedBy(-exponent).toFixed();
+  return `${displayAmount} ${asset.symbol}`;
 };

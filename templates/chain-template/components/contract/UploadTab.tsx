@@ -5,7 +5,12 @@ import { useChain } from '@cosmos-kit/react';
 import { FileUpload } from './FileUpload';
 import { Button } from '../common';
 import { TxInfoItem, TxSuccessCard } from './TxSuccessCard';
-import { convWasmFileToCodeHash } from '@/utils';
+import {
+  convWasmFileToCodeHash,
+  formatTxFee,
+  PrettyTxResult,
+  shortenAddress,
+} from '@/utils';
 import { useChainStore } from '@/contexts';
 import { InputField } from './InputField';
 import {
@@ -14,39 +19,27 @@ import {
   InstantiatePermissionRadio,
   Permission,
 } from './InstantiatePermissionRadio';
-
-const infoItems: TxInfoItem[] = [
-  {
-    label: 'Code ID',
-    displayValue: '9867',
-  },
-  {
-    label: 'Tx Hash',
-    displayValue: '6BAB30...9EAEB1',
-    actualValue: '6BAB30F3BAF3CD1AS3',
-  },
-  {
-    label: 'Tx Fee',
-    displayValue: '0.143698 OSMO',
-    allowCopy: false,
-  },
-];
+import { useStoreCodeTx } from '@/hooks';
 
 type UploadTabProps = {
   show: boolean;
 };
 
 export const UploadTab = ({ show }: UploadTabProps) => {
-  const [isSuccess, setIsSuccess] = useState(false);
   const [wasmFile, setWasmFile] = useState<File | null>(null);
+  const [codeName, setCodeName] = useState('');
   const [addresses, setAddresses] = useState<Address[]>([{ value: '' }]);
   const [codeHash, setCodeHash] = useState('');
   const [permission, setPermission] = useState<Permission>(
     AccessType.ACCESS_TYPE_EVERYBODY
   );
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [txResult, setTxResult] = useState<PrettyTxResult>();
+
   const { selectedChain } = useChainStore();
-  const { chain } = useChain(selectedChain);
+  const { address, assets } = useChain(selectedChain);
+  const { storeCodeTx } = useStoreCodeTx(selectedChain);
 
   useEffect(() => {
     const getCodeHash = async () => {
@@ -57,11 +50,55 @@ export const UploadTab = ({ show }: UploadTabProps) => {
     getCodeHash();
   }, [wasmFile]);
 
-  if (isSuccess) {
+  const handleUpload = () => {
+    if (!wasmFile) return;
+
+    setIsLoading(true);
+
+    storeCodeTx({
+      wasmFile,
+      permission,
+      codeName,
+      addresses: addresses.map((addr) => addr.value),
+      onTxFailed() {
+        setIsLoading(false);
+      },
+      onTxSucceed(txResult) {
+        setIsLoading(false);
+        setTxResult(txResult);
+      },
+    });
+  };
+
+  const isAddressesValid =
+    permission === AccessType.ACCESS_TYPE_ANY_OF_ADDRESSES
+      ? addresses.every((addr) => addr.isValid)
+      : true;
+
+  const isButtonDisabled = !address || !wasmFile || !isAddressesValid;
+
+  if (txResult) {
+    const infoItems: TxInfoItem[] = [
+      {
+        label: 'Code ID',
+        displayValue: txResult.codeId,
+      },
+      {
+        label: 'Tx Hash',
+        displayValue: shortenAddress(txResult.txHash),
+        actualValue: txResult.txHash,
+      },
+      {
+        label: 'Tx Fee',
+        displayValue: formatTxFee(txResult.txFee, assets!),
+        allowCopy: false,
+      },
+    ];
+
     return (
       <TxSuccessCard
         title="Contract uploaded!"
-        description="‘cw20_base.wasm(9867)’ has been uploaded."
+        description={`"${txResult.codeDisplayName}" has been uploaded.`}
         infoItems={infoItems}
         footer={
           <Box width="$full">
@@ -69,9 +106,9 @@ export const UploadTab = ({ show }: UploadTabProps) => {
               Instantiate
             </Button>
             <Button
-              variant="outline"
+              variant="text"
               width="$full"
-              onClick={() => setIsSuccess(false)}
+              onClick={() => setTxResult(undefined)}
             >
               Upload New Contract
             </Button>
@@ -108,7 +145,11 @@ export const UploadTab = ({ show }: UploadTabProps) => {
       </InputField>
 
       <InputField title="Code Name (Optional)">
-        <TextField id="code_name" value="" />
+        <TextField
+          id="code_name"
+          value={codeName}
+          onChange={(e) => setCodeName(e.target.value)}
+        />
         <InputField.Description>
           A short description of what your code does. This is stored locally on
           your device and can be added or changed later.
@@ -132,11 +173,12 @@ export const UploadTab = ({ show }: UploadTabProps) => {
 
       <Divider opacity="0.4" />
 
-      <Text color="$purple600" fontSize="16px" fontWeight="500">
-        Transaction Fee: --
-      </Text>
-
-      <Button variant="primary" onClick={() => setIsSuccess(true)}>
+      <Button
+        variant="primary"
+        disabled={isButtonDisabled}
+        onClick={handleUpload}
+        isLoading={isLoading}
+      >
         Upload
       </Button>
     </Box>
