@@ -5,13 +5,13 @@ interface ChainStore {
   selectedChain: string;
 }
 
-const defaultValues: ChainStore = {
-  selectedChain: staticChains[0].chain_name,
-};
+export const defaultChain = staticChains[0].chain_name;
 
-export const useChainStore = create<ChainStore>()(() => defaultValues);
+export const useChainStore = create<ChainStore>()(() => ({
+  selectedChain: defaultChain,
+}));
 
-export const chainStoreActions = {
+export const chainStore = {
   setSelectedChain: (chainName: string) => {
     useChainStore.setState({ selectedChain: chainName });
   },

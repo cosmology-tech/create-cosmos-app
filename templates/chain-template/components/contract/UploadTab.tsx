@@ -11,7 +11,7 @@ import {
   PrettyTxResult,
   shortenAddress,
 } from '@/utils';
-import { useChainStore } from '@/contexts';
+import { codeStore, useChainStore } from '@/contexts';
 import { InputField } from './InputField';
 import {
   AccessType,
@@ -51,7 +51,7 @@ export const UploadTab = ({ show }: UploadTabProps) => {
   }, [wasmFile]);
 
   const handleUpload = () => {
-    if (!wasmFile) return;
+    if (!address || !wasmFile) return;
 
     setIsLoading(true);
 
@@ -66,8 +66,17 @@ export const UploadTab = ({ show }: UploadTabProps) => {
       onTxSucceed(txResult) {
         setIsLoading(false);
         setTxResult(txResult);
+        codeStore.updateCodeInfo(Number(txResult.codeId), address, codeName);
       },
     });
+  };
+
+  const resetStates = () => {
+    setWasmFile(null);
+    setCodeName('');
+    setAddresses([{ value: '' }]);
+    setPermission(AccessType.ACCESS_TYPE_EVERYBODY);
+    setTxResult(undefined);
   };
 
   const isAddressesValid =
@@ -105,11 +114,7 @@ export const UploadTab = ({ show }: UploadTabProps) => {
             <Button variant="primary" width="$full" mb="10px">
               Instantiate
             </Button>
-            <Button
-              variant="text"
-              width="$full"
-              onClick={() => setTxResult(undefined)}
-            >
+            <Button variant="text" width="$full" onClick={resetStates}>
               Upload New Contract
             </Button>
           </Box>

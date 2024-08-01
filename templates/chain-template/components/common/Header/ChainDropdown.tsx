@@ -4,7 +4,7 @@ import { useChain, useManager } from '@cosmos-kit/react';
 import { Box, Combobox, Skeleton, Stack, Text } from '@interchain-ui/react';
 
 import { useStarshipChains, useDetectBreakpoints } from '@/hooks';
-import { chainStoreActions, useChainStore } from '@/contexts';
+import { chainStore, useChainStore } from '@/contexts';
 import { staticChains } from '@/config';
 
 export const ChainDropdown = () => {
@@ -38,7 +38,7 @@ export const ChainDropdown = () => {
       onSelectionChange={(key) => {
         const chainName = key as string | null;
         if (chainName) {
-          chainStoreActions.setSelectedChain(chainName);
+          chainStore.setSelectedChain(chainName);
         }
       }}
       inputAddonStart={
