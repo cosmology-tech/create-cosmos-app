@@ -92,7 +92,6 @@ export function Sell() {
         size="$5xl"
         color={useColorModeValue('$blackAlpha800', '$whiteAlpha900')}
       />
-      ;
     </Box>
   );
 

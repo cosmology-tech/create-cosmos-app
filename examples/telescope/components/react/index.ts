@@ -8,6 +8,5 @@ export * from './send-tokens-card';
 export * from './vote';
 export * from './proposal-card';
 export * from './proposal-modal';
-// export * from './choose-chain';
 export * from './liquidity';
 export * from './ChooseChain';

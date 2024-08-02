@@ -47,7 +47,6 @@ export const WalletSection = () => {
   const { getChainLogo } = useManager();
   const [osmoBalance, setOsmoBalance] = useState<Coin>();
   const [balanceStaked, setBalanceStaked] = useState<Coin | null>();
-  // console.log('balanceStaked', balanceStaked);
 
   const chain = {
     chainName: defaultChainName,
@@ -68,25 +67,23 @@ export const WalletSection = () => {
   };
 
   const getBalance = async () => {
-    try { 
+    try {
       const client = await getSigningStargateClient();
       const balance = await client?.getBalance(address as string, 'uosmo');
-      setOsmoBalance(balance); 
+      setOsmoBalance(balance);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-   
   };
 
   const getBalanceStaked = async () => {
     try {
-     const client = await getSigningStargateClient();
-     const staked = await client?.getBalanceStaked(address as string);
-     setBalanceStaked(staked);
+      const client = await getSigningStargateClient();
+      const staked = await client?.getBalanceStaked(address as string);
+      setBalanceStaked(staked);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  
   };
 
   useEffect(() => {
