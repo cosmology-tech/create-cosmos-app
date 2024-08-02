@@ -59,6 +59,7 @@ export const SelectAssetContent = ({
 
       <Button
         color="$text"
+        width="$fit"
         onClick={handleAddAssets}
         disabled={selectedAssetsWithAmount.length === nativeAssets.length}
       >

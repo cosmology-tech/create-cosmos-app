@@ -115,6 +115,9 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
         </Box>
 
         <Box flex="1">
+          <Text fontSize="16px" fontWeight="500" attributes={{ mb: '10px' }}>
+            Attach Funds
+          </Text>
           <AttachFundsSelect
             setFunds={setFunds}
             setIsAssetListJsonValid={setIsAssetListJsonValid}

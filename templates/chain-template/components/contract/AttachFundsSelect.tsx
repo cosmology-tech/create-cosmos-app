@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Coin } from '@cosmjs/amino';
-import { Box, Select, SelectOption, Text } from '@interchain-ui/react';
+import { Box, Select, SelectOption } from '@interchain-ui/react';
 import { Asset } from '@chain-registry/types';
 import BigNumber from 'bignumber.js';
 
@@ -72,7 +72,6 @@ export const AttachFundsSelect = ({
             setValue={setAssetListJson}
             minLines={14}
             height="292px"
-            mt="10px"
           />
         ),
       },
@@ -114,11 +113,11 @@ export const AttachFundsSelect = ({
   const defaultOption = fundsOptionsMap.no_funds;
 
   return (
-    <>
-      <Text fontSize="16px" fontWeight="500" attributes={{ mb: '10px' }}>
-        Attach Funds
-      </Text>
-
+    <Box
+      display="flex"
+      flexDirection="column"
+      gap={selectedOptionKey === 'json_asset_list' ? '10px' : '20px'}
+    >
       <Box width="$full">
         <Select
           defaultSelectedItem={{
@@ -141,6 +140,6 @@ export const AttachFundsSelect = ({
       </Box>
 
       {optionContent}
-    </>
+    </Box>
   );
 };

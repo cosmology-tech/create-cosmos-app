@@ -88,7 +88,7 @@ export const JsonInput = ({
   }, [value]);
 
   return (
-    <>
+    <Box>
       <Box
         position="relative"
         borderWidth="1px"
@@ -123,6 +123,6 @@ export const JsonInput = ({
           </Text>
         </Box>
       )}
-    </>
+    </Box>
   );
 };

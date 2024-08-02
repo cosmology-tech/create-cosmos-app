@@ -77,7 +77,6 @@ export const SelectAssetItem = ({
       justifyContent="space-between"
       alignItems="flex-end"
       gap="10px"
-      my="20px"
     >
       <Box>
         <Text fontSize="16px" fontWeight="400" attributes={{ mb: '10px' }}>
