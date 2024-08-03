@@ -57,9 +57,7 @@ export const FileUpload = ({ file, setFile }: FileUploadProps) => {
         <Button
           leftIcon={<HiOutlineTrash size="18px" />}
           onClick={() => setFile(null)}
-          backgroundColor="transparent"
-          borderWidth="0"
-          color={{ base: '$blackAlpha500', hover: '$blackAlpha600' }}
+          variant="text"
           px="10px"
         >
           Delete
@@ -120,7 +118,7 @@ export const FileUpload = ({ file, setFile }: FileUploadProps) => {
   );
 };
 
-const UploadIcon = () => (
+export const UploadIcon = () => (
   <Box
     display="flex"
     justifyContent="center"

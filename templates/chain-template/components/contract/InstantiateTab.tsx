@@ -4,6 +4,7 @@ import { Button } from '@/components';
 import { JsonInput } from './JsonInput';
 import { InputField } from './InputField';
 import { AttachFundsSelect } from './AttachFundsSelect';
+import { SelectCodeField } from './SelectCodeField';
 
 type InstantiateTabProps = {
   show: boolean;
@@ -27,6 +28,10 @@ export const InstantiateTab = ({ show }: InstantiateTabProps) => {
       >
         Instantiate Contract
       </Text>
+
+      <SelectCodeField />
+
+      <Divider opacity="0.4" />
 
       <InputField title="Label (Required)">
         <TextField id="label" value="" />
