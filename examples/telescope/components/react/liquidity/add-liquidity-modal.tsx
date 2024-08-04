@@ -15,7 +15,7 @@ import {
 import { Pool } from './provide-liquidity';
 import { useChain } from '@cosmos-kit/react';
 import { osmosis } from '../../../src/codegen/osmosis/bundle';
-import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
+import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
 import { chainName } from '../../../config/liquidity/defaults';
 import { LargeButton } from './modal-components';
 import {
@@ -104,10 +104,10 @@ const AddLiquidityModal = ({
 
   const currentInputTokens = singleToken
     ? [
-        inputTokens.find(
-          ({ denom }) => denom === getOsmoDenomForSymbol(singleToken)
-        )!,
-      ]
+      inputTokens.find(
+        ({ denom }) => denom === getOsmoDenomForSymbol(singleToken)
+      )!,
+    ]
     : inputTokens;
 
   const hasEmptyAmount = currentInputTokens.some((t) => !t.inputAmount);
@@ -127,10 +127,10 @@ const AddLiquidityModal = ({
   const btnText = hasEmptyAmount
     ? 'Amount is empty'
     : hasInsufficientAmount
-    ? 'Insufficient amount'
-    : hasZeroAmount
-    ? 'Amount is Zero'
-    : 'Add liquidity';
+      ? 'Insufficient amount'
+      : hasZeroAmount
+        ? 'Amount is Zero'
+        : 'Add liquidity';
 
   const closeModal = () => {
     setInputTokens(
