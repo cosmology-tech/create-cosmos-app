@@ -641,9 +641,9 @@ __metadata:
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
     "@tanstack/react-query": "npm:4.32.0"
     "@tanstack/react-query-devtools": "npm:4.32.0"
-    "@types/node": "npm:18.19.37"
-    "@types/react": "npm:18.2.0"
-    "@types/react-dom": "npm:18.2.0"
+    "@types/node": "npm:^20.14.6"
+    "@types/react": "npm:^18.3.3"
+    "@types/react-dom": "npm:^18.3.0"
     bignumber.js: "npm:9.1.1"
     chain-registry: "npm:1.20.0"
     cosmos-kit: "npm:2.18.0"
@@ -4400,21 +4400,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:18.19.37":
-  version: 18.19.37
-  resolution: "@types/node@npm:18.19.37"
-  dependencies:
-    undici-types: "npm:~5.26.4"
-  checksum: 10c0/9521196347dac47aedbee22d058794f16dff63e17f7925c00f8f513a258ac4c76367b764f5db5931e3ec644863314cb0415f7a541e72ab242025a68429947ed4
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:>=13.7.0":
   version: 20.12.4
   resolution: "@types/node@npm:20.12.4"
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 10c0/9b142fcd839a48c348d6b9acfc753dfa4b3fb1f3e23ed67e8952bee9b2dfdaffdddfbcf0e4701557b88631591a5f9968433910027532ef847759f8682e27ffe7
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.14.6":
+  version: 20.14.13
+  resolution: "@types/node@npm:20.14.13"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 10c0/10bb3ece675308742301c652ab8c6cb88b1ebddebed22316103c58f94fe7eff131edd5f679e487c19077fadb6b5e6b1ad9a60a2cee2869aa1f20452b9761d570
   languageName: node
   linkType: hard
 
@@ -4425,40 +4425,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:18.2.0":
-  version: 18.2.0
-  resolution: "@types/react-dom@npm:18.2.0"
+"@types/react-dom@npm:^18.3.0":
+  version: 18.3.0
+  resolution: "@types/react-dom@npm:18.3.0"
   dependencies:
     "@types/react": "npm:*"
-  checksum: 10c0/f9f7a396c5499a6fb97e31ef9b050cf9ec5f61e6ec4040badb53428f9e73258c95e5b3dd8233541631b0461d623739b3f6348a4130359c92ce0a69d74a5e9176
+  checksum: 10c0/6c90d2ed72c5a0e440d2c75d99287e4b5df3e7b011838cdc03ae5cd518ab52164d86990e73246b9d812eaf02ec351d74e3b4f5bd325bf341e13bf980392fd53b
   languageName: node
   linkType: hard
 
-"@types/react@npm:*":
+"@types/react@npm:*, @types/react@npm:^18.3.3":
   version: 18.3.3
   resolution: "@types/react@npm:18.3.3"
   dependencies:
     "@types/prop-types": "npm:*"
     csstype: "npm:^3.0.2"
   checksum: 10c0/fe455f805c5da13b89964c3d68060cebd43e73ec15001a68b34634604a78140e6fc202f3f61679b9d809dde6d7a7c2cb3ed51e0fd1462557911db09879b55114
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:18.2.0":
-  version: 18.2.0
-  resolution: "@types/react@npm:18.2.0"
-  dependencies:
-    "@types/prop-types": "npm:*"
-    "@types/scheduler": "npm:*"
-    csstype: "npm:^3.0.2"
-  checksum: 10c0/e38f98b7524817459bb1214d39f4cfcb1dd7ffb31992a427b4494f3988aa6195dc349dfb66b299270b399b34568d045bf1cb6230349a6d343e183052ee486eaa
-  languageName: node
-  linkType: hard
-
-"@types/scheduler@npm:*":
-  version: 0.23.0
-  resolution: "@types/scheduler@npm:0.23.0"
-  checksum: 10c0/5cf7f2ba3732b74877559eb20b19f95fcd0a20c17dcb20e75a7ca7c7369cd455aeb2d406b3ff5a38168a9750da3bad78dd20d96d11118468b78f4959b8e56090
   languageName: node
   linkType: hard
 
