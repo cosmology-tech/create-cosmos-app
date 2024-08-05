@@ -175,6 +175,7 @@ export const UploadTab = ({ show, switchTab }: UploadTabProps) => {
           id="code_name"
           value={codeName}
           onChange={(e) => setCodeName(e.target.value)}
+          autoComplete="off"
         />
         <InputField.Description>
           A short description of what your code does. This is stored locally on

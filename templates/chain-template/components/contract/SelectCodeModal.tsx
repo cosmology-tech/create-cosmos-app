@@ -105,7 +105,8 @@ export const SelectCodeModal = ({
               <TextField
                 id="search"
                 value=""
-                placeholder="Search with Code ID or Code name"
+                placeholder="Search with Code ID or Code Name"
+                autoComplete="off"
               />
             </Box>
             <Box flex={1} ref={setElemRef}>

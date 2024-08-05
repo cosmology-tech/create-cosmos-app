@@ -159,6 +159,7 @@ export const InstantiateTab = ({
           id="label"
           value={label}
           onChange={(e) => setLabel(e.target.value)}
+          autoComplete="off"
         />
         <InputField.Description>
           The contract's label help briefly describe the contract and what it
@@ -171,6 +172,7 @@ export const InstantiateTab = ({
           id="admin_address"
           value={adminAddress}
           onChange={(e) => setAdminAddress(e.target.value)}
+          autoComplete="off"
         />
         <InputField.Description>
           The contract's admin will be able to migrate and update future admins.

@@ -111,6 +111,7 @@ export const ContractInfo = ({
               attributes={{
                 width: isEditable ? 'auto' : isMobile ? '172px' : '260px',
               }}
+              autoComplete="off"
             />
             {inputErr && (
               <Text
