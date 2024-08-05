@@ -6,6 +6,8 @@ import { Button, Radio, RadioGroup } from '../common';
 import { UploadIcon } from './FileUpload';
 import { InputField } from './InputField';
 import { PermissionTag } from './PermissionTag';
+import { SelectCodeModal } from './SelectCodeModal';
+import { useDisclosure } from '@/hooks';
 
 type SelectMode = 'select-existing' | 'fill-manually';
 
@@ -14,6 +16,8 @@ type SelectCodeFieldProps = {};
 export const SelectCodeField = ({}: SelectCodeFieldProps) => {
   const [isCodeSelected, setIsCodeSelected] = useState(false);
   const [selectMode, setSelectMode] = useState<SelectMode>('select-existing');
+
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
     <>
@@ -65,11 +69,7 @@ export const SelectCodeField = ({}: SelectCodeFieldProps) => {
               </Text>
             )}
           </Box>
-          <Button
-            onClick={() => setIsCodeSelected((prev) => !prev)}
-            variant="text"
-            px="10px"
-          >
+          <Button onClick={onOpen} variant="text" px="10px">
             {isCodeSelected ? 'Change' : 'Select'} Code
           </Button>
         </Box>
@@ -83,6 +83,15 @@ export const SelectCodeField = ({}: SelectCodeFieldProps) => {
           </InputField.Description>
         </InputField>
       )}
+
+      <SelectCodeModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onSelect={(codeId) => {
+          console.log('Selected Code ID:', codeId);
+          setIsCodeSelected(true);
+        }}
+      />
     </>
   );
 };

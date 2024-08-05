@@ -21,12 +21,13 @@ export const PermissionTag = ({ permission }: PermissionTagProps) => {
 
   return (
     <Box
-      p="2px 6px"
+      p="2px 8px"
       display="flex"
       justifyContent="center"
       alignItems="center"
       borderRadius="10px"
       bg="$purple200"
+      width="$fit"
     >
       <Text color="$purple600" fontSize="12px" fontWeight="500">
         {renderText()}

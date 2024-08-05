@@ -6,18 +6,11 @@ import { SignerOptions } from 'cosmos-kit';
 import { ChainProvider } from '@cosmos-kit/react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Box, ThemeProvider, Toaster, useTheme } from '@interchain-ui/react';
+import { Box, Toaster, useTheme } from '@interchain-ui/react';
 import { GasPrice } from '@cosmjs/stargate';
 
-import { Layout } from '@/components';
-import {
-  darkTheme,
-  lightTheme,
-  CustomTheme,
-  wallets,
-  staticChains,
-  staticAssets,
-} from '@/config';
+import { CustomThemeProvider, Layout } from '@/components';
+import { wallets, staticChains, staticAssets } from '@/config';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,7 +23,7 @@ const queryClient = new QueryClient({
 });
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
-  const { themeClass, theme } = useTheme();
+  const { themeClass } = useTheme();
 
   const signerOptions: SignerOptions = {
     // TODO fix type error
@@ -51,10 +44,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ThemeProvider
-      themeDefs={[lightTheme, darkTheme]}
-      customTheme={CustomTheme[theme]}
-    >
+    <CustomThemeProvider>
       <ChainProvider
         chains={staticChains}
         // @ts-ignore
@@ -93,7 +83,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
           <ReactQueryDevtools />
         </QueryClientProvider>
       </ChainProvider>
-    </ThemeProvider>
+    </CustomThemeProvider>
   );
 }
 
