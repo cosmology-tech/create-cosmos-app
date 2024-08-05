@@ -3372,11 +3372,11 @@ __metadata:
     "@emotion/styled": "npm:11.10.6"
     "@improbable-eng/grpc-web": "npm:0.15.0"
     "@improbable-eng/grpc-web-node-http-transport": "npm:0.15.0"
-    "@interchain-ui/react": "npm:1.23.22"
+    "@interchain-ui/react": "npm:1.23.29"
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
-    "@types/node": "npm:18.19.37"
-    "@types/react": "npm:18.2.0"
-    "@types/react-dom": "npm:18.2.0"
+    "@types/node": "npm:^20.14.6"
+    "@types/react": "npm:^18.3.3"
+    "@types/react-dom": "npm:^18.3.0"
     bignumber.js: "npm:9.1.1"
     chain-registry: "npm:1.20.0"
     chakra-react-select: "npm:4.4.3"
@@ -4768,16 +4768,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/core@npm:^1.6.2":
-  version: 1.6.2
-  resolution: "@floating-ui/core@npm:1.6.2"
+"@floating-ui/core@npm:^1.6.0, @floating-ui/core@npm:^1.6.4":
+  version: 1.6.5
+  resolution: "@floating-ui/core@npm:1.6.5"
   dependencies:
-    "@floating-ui/utils": "npm:^0.2.0"
-  checksum: 10c0/db2621dc682e7f043d6f118d087ae6a6bfdacf40b26ede561760dd53548c16e2e7c59031e013e37283801fa307b55e6de65bf3b316b96a054e4a6a7cb937c59e
+    "@floating-ui/utils": "npm:^0.2.5"
+  checksum: 10c0/41651f6ebed3123809a3992966d9d6b740048fe255e4754df61043ce28b40ba7202cf7ac163873b7f4c5f9969930e9d7cd3691e178739304eed1adc42bb6c628
   languageName: node
   linkType: hard
 
-"@floating-ui/dom@npm:^1.0.0, @floating-ui/dom@npm:^1.6.5":
+"@floating-ui/dom@npm:^1.0.0":
   version: 1.6.5
   resolution: "@floating-ui/dom@npm:1.6.5"
   dependencies:
@@ -4797,29 +4797,39 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react-dom@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@floating-ui/react-dom@npm:2.1.0"
+"@floating-ui/dom@npm:^1.6.7":
+  version: 1.6.8
+  resolution: "@floating-ui/dom@npm:1.6.8"
+  dependencies:
+    "@floating-ui/core": "npm:^1.6.0"
+    "@floating-ui/utils": "npm:^0.2.5"
+  checksum: 10c0/d52e257bbf1f04da7882d847dfe128783966a19e6d6a9e6d09d57d32bdc7255efce7ae15c3be781e349ae3b18c4575e910afde3e73ae57c31763e8a799f19f45
+  languageName: node
+  linkType: hard
+
+"@floating-ui/react-dom@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@floating-ui/react-dom@npm:2.1.1"
   dependencies:
     "@floating-ui/dom": "npm:^1.0.0"
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 10c0/9ee44dfeb27f585fb1e0114cbe37c72ff5d34149900f4f3013f6b0abf8c3365eab13286c360f97fbe0c44bb91a745e7a4c18b82d111990b45a7a7796dc55e461
+  checksum: 10c0/732ab64600c511ceb0563b87bc557aa61789fec4f416a3f092bab89e508fa1d3ee5ade0f42051cc56eb5e4db867b87ab7fd48ce82db9fd4c01d94ffa08f60115
   languageName: node
   linkType: hard
 
-"@floating-ui/react@npm:^0.26.17":
-  version: 0.26.17
-  resolution: "@floating-ui/react@npm:0.26.17"
+"@floating-ui/react@npm:^0.26.19":
+  version: 0.26.20
+  resolution: "@floating-ui/react@npm:0.26.20"
   dependencies:
-    "@floating-ui/react-dom": "npm:^2.1.0"
-    "@floating-ui/utils": "npm:^0.2.0"
+    "@floating-ui/react-dom": "npm:^2.1.1"
+    "@floating-ui/utils": "npm:^0.2.5"
     tabbable: "npm:^6.0.0"
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 10c0/3d3a995aff5e905acd1fc4a3a7c92beba801b1d241f5ee1a05667c98dc1fcb9a0cc6ec82d4330fd84a0fd9b9fafa50f76dee886819659c49371733caa8d48b12
+  checksum: 10c0/2fe96b8123734a9facb560b235bbb9a21849890f7a84a48c4e1d496dde045aafecb4575c3e035413f2d88a8324651c85b018bfbf8d57eb1fb9e469cdd211ca86
   languageName: node
   linkType: hard
 
@@ -4830,10 +4840,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/utils@npm:^0.2.2":
-  version: 0.2.2
-  resolution: "@floating-ui/utils@npm:0.2.2"
-  checksum: 10c0/b2becdcafdf395af1641348da0031ff1eaad2bc60c22e14bd3abad4acfe2c8401e03097173d89a2f646a99b75819a78ef21ebb2572cab0042a56dd654b0065cd
+"@floating-ui/utils@npm:^0.2.4, @floating-ui/utils@npm:^0.2.5":
+  version: 0.2.5
+  resolution: "@floating-ui/utils@npm:0.2.5"
+  checksum: 10c0/9e1c7330433c3a8f226c5a44ed1dcdda13b313c4126ce3281f970d1e471b1c9fd9e1559cc76a0592af25d55a3f81afe1a5778aa7b80e51c9fa01930cd1d5557e
   languageName: node
   linkType: hard
 
@@ -4995,19 +5005,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interchain-ui/react@npm:1.23.22":
-  version: 1.23.22
-  resolution: "@interchain-ui/react@npm:1.23.22"
+"@interchain-ui/react@npm:1.23.29":
+  version: 1.23.29
+  resolution: "@interchain-ui/react@npm:1.23.29"
   dependencies:
-    "@floating-ui/core": "npm:^1.6.2"
-    "@floating-ui/dom": "npm:^1.6.5"
-    "@floating-ui/react": "npm:^0.26.17"
-    "@floating-ui/react-dom": "npm:^2.1.0"
-    "@floating-ui/utils": "npm:^0.2.2"
+    "@floating-ui/core": "npm:^1.6.4"
+    "@floating-ui/dom": "npm:^1.6.7"
+    "@floating-ui/react": "npm:^0.26.19"
+    "@floating-ui/react-dom": "npm:^2.1.1"
+    "@floating-ui/utils": "npm:^0.2.4"
     "@formkit/auto-animate": "npm:^0.8.2"
     "@react-aria/listbox": "npm:^3.12.1"
     "@react-aria/overlays": "npm:^3.22.1"
     "@react-aria/utils": "npm:^3.24.1"
+    "@tanstack/react-virtual": "npm:^3.8.3"
     "@vanilla-extract/css": "npm:^1.15.3"
     "@vanilla-extract/dynamic": "npm:^2.1.1"
     "@vanilla-extract/recipes": "npm:^0.5.3"
@@ -5021,11 +5032,11 @@ __metadata:
     rainbow-sprinkles: "npm:^0.17.2"
     react-aria: "npm:^3.33.1"
     react-stately: "npm:^3.31.1"
-    zustand: "npm:^4.5.2"
+    zustand: "npm:^4.5.4"
   peerDependencies:
     react: ^16.14.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/dc075e0525374ca94be6ecf4475912e4744a8923619ca4a957cc121a7d02175d62f5a1f3c56629186a9c3439337b1442fcf7612d2943de9f473e67672930d24b
+  checksum: 10c0/013d8f56f0db143bc76f7e6f2509aab4ebb249a770e615df77b29748b07e743fff850d6a4599cbacc98ba7c047947e583eeb8e892f5796358243a37eb6d772d2
   languageName: node
   linkType: hard
 
@@ -7529,6 +7540,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/react-virtual@npm:^3.8.3":
+  version: 3.8.4
+  resolution: "@tanstack/react-virtual@npm:3.8.4"
+  dependencies:
+    "@tanstack/virtual-core": "npm:3.8.4"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/2c803a0fd9101c75666b894d455c0c793bc50df4b5039e2bc748c4c50b64ec4ebaf3de990ab711d396ad8cd0582ca1858c7d0132d7f72acb57dfd9721464186e
+  languageName: node
+  linkType: hard
+
+"@tanstack/virtual-core@npm:3.8.4":
+  version: 3.8.4
+  resolution: "@tanstack/virtual-core@npm:3.8.4"
+  checksum: 10c0/32b3d7c7d7c380992730f38efe171eddb4841a3f9bdac198ff6f6e7c00da0e22d2984d57dcb27895f234768accb5625fc04946aa8745c22a136b3f31941d42ac
+  languageName: node
+  linkType: hard
+
 "@terra-money/feather.js@npm:^1.0.8":
   version: 1.2.1
   resolution: "@terra-money/feather.js@npm:1.2.1"
@@ -7719,12 +7749,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:18.19.37":
-  version: 18.19.37
-  resolution: "@types/node@npm:18.19.37"
+"@types/node@npm:^20.14.6":
+  version: 20.14.14
+  resolution: "@types/node@npm:20.14.14"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 10c0/9521196347dac47aedbee22d058794f16dff63e17f7925c00f8f513a258ac4c76367b764f5db5931e3ec644863314cb0415f7a541e72ab242025a68429947ed4
+  checksum: 10c0/4fc8d368df2b6f5497698327b30db68d7d20e32221ce7d057fb15cbd5834685b2fde0440609e4cb2204e5d305b928f008faf41b950a425f3fd55b60cb1b997cf
   languageName: node
   linkType: hard
 
@@ -15926,9 +15956,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zustand@npm:^4.5.2":
-  version: 4.5.2
-  resolution: "zustand@npm:4.5.2"
+"zustand@npm:^4.5.4":
+  version: 4.5.4
+  resolution: "zustand@npm:4.5.4"
   dependencies:
     use-sync-external-store: "npm:1.2.0"
   peerDependencies:
@@ -15942,6 +15972,6 @@ __metadata:
       optional: true
     react:
       optional: true
-  checksum: 10c0/aee26f11facebb39b016e89539f72a72c2c00151208907fc909c3cedd455728240e09e01d98ebd3b63a2a3518a5917eac5de6c853743ca55a1655296d750bb48
+  checksum: 10c0/479af491ffa1f1eb2c38b3ba25dc4e14339e8b35a60033d3f6c165b22f8be8163f7e1370015ded9c6e28548cd25af84a73fb40b5fad0bd7882d16ddd5ed613c6
   languageName: node
   linkType: hard
