@@ -11,9 +11,15 @@ import { useDisclosure } from '@/hooks';
 
 type SelectMode = 'select-existing' | 'fill-manually';
 
-type SelectCodeFieldProps = {};
+type SelectCodeFieldProps = {
+  codeId: string;
+  setCodeId: (codeId: string) => void;
+};
 
-export const SelectCodeField = ({}: SelectCodeFieldProps) => {
+export const SelectCodeField = ({
+  codeId,
+  setCodeId,
+}: SelectCodeFieldProps) => {
   const [isCodeSelected, setIsCodeSelected] = useState(false);
   const [selectMode, setSelectMode] = useState<SelectMode>('select-existing');
 
@@ -77,7 +83,12 @@ export const SelectCodeField = ({}: SelectCodeFieldProps) => {
 
       {selectMode === 'fill-manually' && (
         <InputField title="Code ID">
-          <TextField id="code_id" value="" />
+          <TextField
+            id="code_id"
+            type="number"
+            value={codeId}
+            onChange={(e) => setCodeId(e.target.value)}
+          />
           <InputField.Description>
             Input existing Code ID manually
           </InputField.Description>

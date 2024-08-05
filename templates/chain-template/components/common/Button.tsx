@@ -31,7 +31,7 @@ const variantStyles: Record<Variant, BoxProps> = {
     color: '$blackAlpha500',
     backgroundColor: {
       hover: '$blackAlpha100',
-      base: 'transparent',
+      base: '$background',
     },
   },
   text: {

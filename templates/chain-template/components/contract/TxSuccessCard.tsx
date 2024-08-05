@@ -3,7 +3,7 @@ import { useCopyToClipboard } from '@/hooks';
 
 type TxSuccessCardProps = {
   title: string;
-  description: string;
+  description?: string;
   infoItems: TxInfoItem[];
   footer: React.ReactNode;
 };
@@ -50,9 +50,11 @@ export const TxSuccessCard = ({
         {title}
       </Text>
 
-      <Text color="$blackAlpha500" fontSize="12px" fontWeight="500">
-        {description}
-      </Text>
+      {description && (
+        <Text color="$blackAlpha500" fontSize="12px" fontWeight="500">
+          {description}
+        </Text>
+      )}
 
       <Divider opacity="0.4" />
 
