@@ -75,7 +75,7 @@ export const Button = ({
   rightIcon,
   ...rest
 }: ButtonProps) => {
-  const [buttonWidth, setButtonWidth] = useState<string | number>('auto');
+  const [buttonWidth, setButtonWidth] = useState<number>(0);
   const buttonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -109,7 +109,7 @@ export const Button = ({
       fontWeight="500"
       transition="all 0.15s ease-in-out"
       border="none"
-      width={isLoading ? `${buttonWidth}px` : 'auto'}
+      width={isLoading && buttonWidth ? `${buttonWidth}px` : '$fit'}
       attributes={{ onClick: disabled || isLoading ? undefined : onClick }}
       {...variantStyles[variant]}
       {...rest}

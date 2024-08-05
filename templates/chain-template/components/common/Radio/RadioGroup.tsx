@@ -1,5 +1,5 @@
 import { Box, BoxProps } from '@interchain-ui/react';
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, useEffect } from 'react';
 
 type RadioGroupProps = {
   name: string;
@@ -19,6 +19,10 @@ export const RadioGroup = ({
   space = '10px',
 }: RadioGroupProps) => {
   const [selectedValue, setSelectedValue] = useState<string>(value || '');
+
+  useEffect(() => {
+    setSelectedValue(value || '');
+  }, [value]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;

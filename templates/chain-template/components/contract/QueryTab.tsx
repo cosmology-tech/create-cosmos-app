@@ -14,9 +14,15 @@ export const MIN_LINES = 16;
 
 type QueryTabProps = {
   show: boolean;
+  initialAddress: string;
+  clearInitAddress: () => void;
 };
 
-export const QueryTab = ({ show }: QueryTabProps) => {
+export const QueryTab = ({
+  show,
+  initialAddress,
+  clearInitAddress,
+}: QueryTabProps) => {
   const [contractAddress, setContractAddress] = useState('');
   const [queryMsg, setQueryMsg] = useState('');
 
@@ -65,7 +71,12 @@ export const QueryTab = ({ show }: QueryTabProps) => {
 
   return (
     <Box display={show ? 'block' : 'none'}>
-      <ContractInfo setContractAddress={setContractAddress} mb="30px" />
+      <ContractInfo
+        initialAddress={initialAddress}
+        clearInitAddress={clearInitAddress}
+        setContractAddress={setContractAddress}
+        mb="30px"
+      />
 
       <Text fontSize="16px" fontWeight="700" attributes={{ mb: '20px' }}>
         Query Message

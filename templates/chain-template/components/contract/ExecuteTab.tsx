@@ -16,9 +16,15 @@ import { Coin } from '@cosmjs/amino';
 
 type ExecuteTabProps = {
   show: boolean;
+  initialAddress: string;
+  clearInitAddress: () => void;
 };
 
-export const ExecuteTab = ({ show }: ExecuteTabProps) => {
+export const ExecuteTab = ({
+  show,
+  initialAddress,
+  clearInitAddress,
+}: ExecuteTabProps) => {
   const [contractAddress, setContractAddress] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [msg, setMsg] = useState('');
@@ -94,7 +100,12 @@ export const ExecuteTab = ({ show }: ExecuteTabProps) => {
         </Box>
       )}
 
-      <ContractInfo setContractAddress={setContractAddress} mb="30px" />
+      <ContractInfo
+        initialAddress={initialAddress}
+        clearInitAddress={clearInitAddress}
+        setContractAddress={setContractAddress}
+        mb="30px"
+      />
 
       <Text fontSize="16px" fontWeight="700" attributes={{ mb: '20px' }}>
         Execute Message

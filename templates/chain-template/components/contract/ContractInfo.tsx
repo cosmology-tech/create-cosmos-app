@@ -9,11 +9,16 @@ import { shortenAddress, validateContractAddress } from '@/utils';
 
 type ContractInfoProps = {
   setContractAddress: (address: string) => void;
+  initialAddress: string;
+  clearInitAddress: () => void;
   mb?: BoxProps['mb'];
 };
 
+// TODO: apply initialAddress when there's already an fetched address
 export const ContractInfo = ({
   setContractAddress,
+  initialAddress = '',
+  clearInitAddress,
   mb = '$0',
 }: ContractInfoProps) => {
   const [input, setInput] = useState('');
@@ -34,22 +39,36 @@ export const ContractInfo = ({
     enabled: false,
   });
 
-  const handleSubmit = () => {
-    const err = validateContractAddress(input, chain.bech32_prefix);
+  const handleSubmit = (address: string) => {
+    const err = validateContractAddress(address, chain.bech32_prefix);
     if (err) {
       setInputErr(err);
       return;
     }
     setInputErr(null);
-    setContractAddress(input);
+    setContractAddress(address);
     fetchContractInfo().then(({ isSuccess }) => {
       if (isSuccess) setIsEditable(false);
     });
   };
 
+  useEffect(() => {
+    if (initialAddress) {
+      setInput(initialAddress);
+      setInputErr(null);
+    }
+  }, [initialAddress]);
+
+  useEffect(() => {
+    if (initialAddress && input === initialAddress) {
+      handleSubmit(initialAddress);
+    }
+  }, [initialAddress, input]);
+
   const handleEdit = () => {
     setIsEditable(true);
     removeQueryCache();
+    clearInitAddress();
   };
 
   useEffect(() => {
@@ -108,7 +127,7 @@ export const ContractInfo = ({
           {isEditable ? (
             <Button
               color="$text"
-              onClick={handleSubmit}
+              onClick={() => handleSubmit(input)}
               isLoading={isFetching}
               disabled={!input}
             >

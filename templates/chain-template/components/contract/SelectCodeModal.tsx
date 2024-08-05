@@ -76,7 +76,7 @@ export const SelectCodeModal = ({
           width="760px"
           minHeight="450px"
           px="10px"
-          py="20px"
+          pt="20px"
         >
           <Box display="flex" alignItems="center" mb="10px">
             <Box flex={1} />

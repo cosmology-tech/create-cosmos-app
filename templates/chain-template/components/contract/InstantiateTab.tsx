@@ -9,16 +9,25 @@ import { JsonInput } from './JsonInput';
 import { InputField } from './InputField';
 import { AttachFundsSelect } from './AttachFundsSelect';
 import { SelectCodeField } from './SelectCodeField';
-import { useChainStore } from '@/contexts';
+import { CodeIdInfo, useChainStore } from '@/contexts';
 import { useInstantiateTx } from '@/hooks';
 import { TxInfoItem, TxSuccessCard } from './TxSuccessCard';
 import { formatTxFee, shortenAddress } from '@/utils';
+import { TabLabel } from '@/pages/contract';
 
 type InstantiateTabProps = {
   show: boolean;
+  initCodeInfo: CodeIdInfo | undefined;
+  clearInitCodeInfo: () => void;
+  switchTab: (initialAddress: string, tabId: number) => void;
 };
 
-export const InstantiateTab = ({ show }: InstantiateTabProps) => {
+export const InstantiateTab = ({
+  show,
+  initCodeInfo,
+  clearInitCodeInfo,
+  switchTab,
+}: InstantiateTabProps) => {
   const [codeId, setCodeId] = useState('');
   const [label, setLabel] = useState('');
   const [adminAddress, setAdminAddress] = useState('');
@@ -61,6 +70,7 @@ export const InstantiateTab = ({ show }: InstantiateTabProps) => {
     setInitMsg('');
     setFunds([]);
     setTxResult(undefined);
+    clearInitCodeInfo();
   };
 
   const isButtonDisabled =
@@ -96,11 +106,25 @@ export const InstantiateTab = ({ show }: InstantiateTabProps) => {
         footer={
           <Box width="$full">
             <Box display="flex" gap="10px" mb="10px">
-              <Button width="$full">Query</Button>
-              <Button width="$full">Execute</Button>
+              <Button
+                width="$full"
+                onClick={() => {
+                  switchTab(txResult.contractAddress, TabLabel.Query);
+                }}
+              >
+                Query
+              </Button>
+              <Button
+                width="$full"
+                onClick={() => {
+                  switchTab(txResult.contractAddress, TabLabel.Execute);
+                }}
+              >
+                Execute
+              </Button>
             </Box>
             <Button variant="text" width="$full" onClick={resetStates}>
-              Instantiate new contract
+              Instantiate New Contract
             </Button>
           </Box>
         }
@@ -126,7 +150,7 @@ export const InstantiateTab = ({ show }: InstantiateTabProps) => {
         Instantiate Contract
       </Text>
 
-      <SelectCodeField setCodeId={setCodeId} />
+      <SelectCodeField initCodeInfo={initCodeInfo} setCodeId={setCodeId} />
 
       <Divider opacity="0.4" />
 
@@ -171,6 +195,7 @@ export const InstantiateTab = ({ show }: InstantiateTabProps) => {
         onClick={handleInstantiate}
         disabled={isButtonDisabled}
         isLoading={isLoading}
+        width="$full"
       >
         Instantiate
       </Button>

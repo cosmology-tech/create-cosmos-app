@@ -11,7 +11,7 @@ import {
   PrettyTxResult,
   shortenAddress,
 } from '@/utils';
-import { codeStore, useChainStore } from '@/contexts';
+import { CodeIdInfo, codeStore, useChainStore } from '@/contexts';
 import { InputField } from './InputField';
 import {
   AccessType,
@@ -23,9 +23,10 @@ import { useStoreCodeTx } from '@/hooks';
 
 type UploadTabProps = {
   show: boolean;
+  switchTab: (codeInfo: CodeIdInfo) => void;
 };
 
-export const UploadTab = ({ show }: UploadTabProps) => {
+export const UploadTab = ({ show, switchTab }: UploadTabProps) => {
   const [wasmFile, setWasmFile] = useState<File | null>(null);
   const [codeName, setCodeName] = useState('');
   const [addresses, setAddresses] = useState<Address[]>([{ value: '' }]);
@@ -117,7 +118,21 @@ export const UploadTab = ({ show }: UploadTabProps) => {
         show={show}
         footer={
           <Box width="$full">
-            <Button variant="primary" width="$full" mb="10px">
+            <Button
+              variant="primary"
+              width="$full"
+              mb="10px"
+              onClick={() => {
+                if (address) {
+                  switchTab({
+                    id: Number(txResult.codeId),
+                    uploader: address,
+                    permission,
+                    name: codeName,
+                  });
+                }
+              }}
+            >
               Instantiate
             </Button>
             <Button variant="text" width="$full" onClick={resetStates}>
@@ -189,6 +204,7 @@ export const UploadTab = ({ show }: UploadTabProps) => {
         disabled={isButtonDisabled}
         onClick={handleUpload}
         isLoading={isLoading}
+        width="$full"
       >
         Upload
       </Button>

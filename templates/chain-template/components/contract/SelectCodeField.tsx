@@ -13,9 +13,13 @@ type SelectMode = 'select-existing' | 'fill-manually';
 
 type SelectCodeFieldProps = {
   setCodeId: (codeId: string) => void;
+  initCodeInfo?: CodeIdInfo;
 };
 
-export const SelectCodeField = ({ setCodeId }: SelectCodeFieldProps) => {
+export const SelectCodeField = ({
+  setCodeId,
+  initCodeInfo,
+}: SelectCodeFieldProps) => {
   const [codeInfo, setCodeInfo] = useState<CodeIdInfo>();
   const [manualCodeId, setManualCodeId] = useState('');
   const [selectMode, setSelectMode] = useState<SelectMode>('select-existing');
@@ -29,6 +33,11 @@ export const SelectCodeField = ({ setCodeId }: SelectCodeFieldProps) => {
       setCodeId(manualCodeId);
     }
   }, [selectMode, codeInfo, manualCodeId]);
+
+  useEffect(() => {
+    setCodeInfo(initCodeInfo);
+    setSelectMode('select-existing');
+  }, [initCodeInfo]);
 
   return (
     <>
