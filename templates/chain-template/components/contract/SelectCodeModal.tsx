@@ -10,11 +10,13 @@ import {
   TextField,
   Icon,
 } from '@interchain-ui/react';
-import { AccessType } from 'interchain-query/cosmwasm/wasm/v1/types';
+import { useChain } from '@cosmos-kit/react';
 
 import { useDetectBreakpoints } from '@/hooks';
 import { PermissionTag } from './PermissionTag';
 import { Table, CustomThemeProvider } from '@/components';
+import { CodeIdInfo, codeStore, useChainStore } from '@/contexts';
+import { shortenAddress } from '@/utils';
 
 type PermissionValue = 'all' | 'without-proposal' | 'with-proposal';
 
@@ -41,13 +43,13 @@ const permissionOptions: PermissionOption[] = [
 type SelectCodeModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  onSelect: (codeId: number) => void;
+  onRowSelect: (codeInfo: CodeIdInfo) => void;
 };
 
 export const SelectCodeModal = ({
   isOpen,
   onClose,
-  onSelect,
+  onRowSelect,
 }: SelectCodeModalProps) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { isMobile } = useDetectBreakpoints();
@@ -55,6 +57,9 @@ export const SelectCodeModal = ({
     permissionOptions[0]
   );
   const [elemRef, setElemRef] = useState<HTMLDivElement>();
+
+  const { selectedChain } = useChainStore();
+  const { address } = useChain(selectedChain);
 
   return (
     <BasicModal
@@ -168,18 +173,29 @@ export const SelectCodeModal = ({
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {tableRows.map((row) => (
-                <Table.Row key={row.code}>
-                  <Table.Cell>{row.code}</Table.Cell>
-                  <Table.Cell>{row.codeName}</Table.Cell>
-                  <Table.Cell color="$blackAlpha500" fontWeight="500">
-                    {row.uploader}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <PermissionTag permission={row.permission} />
-                  </Table.Cell>
-                </Table.Row>
-              ))}
+              {codeStore
+                .getAllCodes(address)
+                .map(({ id, permission, uploader, name }) => (
+                  <Table.Row
+                    key={id}
+                    hasHover
+                    attributes={{
+                      onClick: () => {
+                        onRowSelect({ id, permission, uploader, name });
+                        onClose();
+                      },
+                    }}
+                  >
+                    <Table.Cell>{id}</Table.Cell>
+                    <Table.Cell>{name || 'Untitled Name'}</Table.Cell>
+                    <Table.Cell color="$blackAlpha500" fontWeight="500">
+                      {uploader === address ? 'Me' : shortenAddress(uploader)}
+                    </Table.Cell>
+                    <Table.Cell>
+                      <PermissionTag permission={permission} />
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
             </Table.Body>
           </Table>
         </Box>
@@ -187,33 +203,6 @@ export const SelectCodeModal = ({
     </BasicModal>
   );
 };
-
-const tableRows = [
-  {
-    code: '9834',
-    codeName: 'Untitled Name',
-    uploader: 'Me',
-    permission: AccessType.ACCESS_TYPE_EVERYBODY,
-  },
-  {
-    code: '9824',
-    codeName: 'Untitled Name',
-    uploader: 'Me',
-    permission: AccessType.ACCESS_TYPE_NOBODY,
-  },
-  {
-    code: '9814',
-    codeName: 'Untitled Name',
-    uploader: 'Me',
-    permission: AccessType.ACCESS_TYPE_ANY_OF_ADDRESSES,
-  },
-  {
-    code: '9838',
-    codeName: 'My Code',
-    uploader: 'Me',
-    permission: AccessType.ACCESS_TYPE_EVERYBODY,
-  },
-];
 
 const CustomOption = ({
   children,

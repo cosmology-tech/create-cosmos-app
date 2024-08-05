@@ -1,12 +1,14 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { ChainName } from 'cosmos-kit';
+import { AccessType } from 'interchain-query/cosmwasm/wasm/v1/types';
 
 import { defaultChain, useChainStore } from './chain';
 
 export interface CodeIdInfo {
   id: number;
   uploader: string;
+  permission: AccessType;
   name?: string;
 }
 
@@ -41,9 +43,21 @@ export const codeStore = {
     return state.codeInfo[state.currentChain]?.[id];
   },
 
-  updateCodeInfo(id: number, uploader: string, name?: string): void {
+  getAllCodes(uploader: string | undefined): CodeIdInfo[] {
+    if (!uploader) return [];
+    const state = useCodeStore.getState();
+    return Object.values(state.codeInfo[state.currentChain] || {}).filter(
+      (code) => code.uploader === uploader
+    );
+  },
+
+  updateCodeInfo({ id, uploader, permission, name }: CodeIdInfo): void {
     useCodeStore.setState(({ codeInfo, currentChain }) => {
-      const codeIdInfo = codeInfo[currentChain]?.[id] || { id, uploader };
+      const codeIdInfo = codeInfo[currentChain]?.[id] || {
+        id,
+        uploader,
+        permission,
+      };
 
       if (name !== undefined) {
         codeIdInfo.name = name.trim().length ? name.trim() : undefined;

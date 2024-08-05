@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Text, TextField } from '@interchain-ui/react';
-import { AccessType } from 'interchain-query/cosmwasm/wasm/v1/types';
 
 import { Button, Radio, RadioGroup } from '../common';
 import { UploadIcon } from './FileUpload';
@@ -8,22 +7,28 @@ import { InputField } from './InputField';
 import { PermissionTag } from './PermissionTag';
 import { SelectCodeModal } from './SelectCodeModal';
 import { useDisclosure } from '@/hooks';
+import { CodeIdInfo } from '@/contexts';
 
 type SelectMode = 'select-existing' | 'fill-manually';
 
 type SelectCodeFieldProps = {
-  codeId: string;
   setCodeId: (codeId: string) => void;
 };
 
-export const SelectCodeField = ({
-  codeId,
-  setCodeId,
-}: SelectCodeFieldProps) => {
-  const [isCodeSelected, setIsCodeSelected] = useState(false);
+export const SelectCodeField = ({ setCodeId }: SelectCodeFieldProps) => {
+  const [codeInfo, setCodeInfo] = useState<CodeIdInfo>();
+  const [manualCodeId, setManualCodeId] = useState('');
   const [selectMode, setSelectMode] = useState<SelectMode>('select-existing');
 
   const { isOpen, onClose, onOpen } = useDisclosure();
+
+  useEffect(() => {
+    if (selectMode === 'select-existing') {
+      setCodeId(codeInfo?.id.toString() ?? '');
+    } else {
+      setCodeId(manualCodeId);
+    }
+  }, [selectMode, codeInfo, manualCodeId]);
 
   return (
     <>
@@ -49,7 +54,7 @@ export const SelectCodeField = ({
         >
           <Box display="flex" alignItems="center" gap="10px">
             <UploadIcon />
-            {isCodeSelected ? (
+            {codeInfo ? (
               <Box>
                 <Text
                   color="$blackAlpha600"
@@ -57,16 +62,14 @@ export const SelectCodeField = ({
                   fontWeight="500"
                   attributes={{ mb: '2px' }}
                 >
-                  Untitled Name
+                  {codeInfo?.name || 'Untitled Name'}
                 </Text>
                 <Box display="flex" gap="6px" alignItems="center">
                   <Text color="$blackAlpha500" fontSize="12px" fontWeight="500">
-                    Code ID 9834
+                    Code ID {codeInfo.id}
                   </Text>
                   <Dot />
-                  <PermissionTag
-                    permission={AccessType.ACCESS_TYPE_EVERYBODY}
-                  />
+                  <PermissionTag permission={codeInfo.permission} />
                 </Box>
               </Box>
             ) : (
@@ -76,7 +79,7 @@ export const SelectCodeField = ({
             )}
           </Box>
           <Button onClick={onOpen} variant="text" px="10px">
-            {isCodeSelected ? 'Change' : 'Select'} Code
+            {codeInfo ? 'Change' : 'Select'} Code
           </Button>
         </Box>
       )}
@@ -86,8 +89,8 @@ export const SelectCodeField = ({
           <TextField
             id="code_id"
             type="number"
-            value={codeId}
-            onChange={(e) => setCodeId(e.target.value)}
+            value={manualCodeId}
+            onChange={(e) => setManualCodeId(e.target.value)}
           />
           <InputField.Description>
             Input existing Code ID manually
@@ -98,9 +101,8 @@ export const SelectCodeField = ({
       <SelectCodeModal
         isOpen={isOpen}
         onClose={onClose}
-        onSelect={(codeId) => {
-          console.log('Selected Code ID:', codeId);
-          setIsCodeSelected(true);
+        onRowSelect={(codeInfo) => {
+          setCodeInfo(codeInfo);
         }}
       />
     </>

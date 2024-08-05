@@ -66,7 +66,12 @@ export const UploadTab = ({ show }: UploadTabProps) => {
       onTxSucceed(txResult) {
         setIsLoading(false);
         setTxResult(txResult);
-        codeStore.updateCodeInfo(Number(txResult.codeId), address, codeName);
+        codeStore.updateCodeInfo({
+          id: Number(txResult.codeId),
+          uploader: address,
+          permission,
+          name: codeName,
+        });
       },
     });
   };
@@ -109,6 +114,7 @@ export const UploadTab = ({ show }: UploadTabProps) => {
         title="Contract uploaded!"
         description={`"${txResult.codeDisplayName}" has been uploaded.`}
         infoItems={infoItems}
+        show={show}
         footer={
           <Box width="$full">
             <Button variant="primary" width="$full" mb="10px">

@@ -92,6 +92,7 @@ export const InstantiateTab = ({ show }: InstantiateTabProps) => {
       <TxSuccessCard
         title=" Instantiate Complete!"
         infoItems={infoItems}
+        show={show}
         footer={
           <Box width="$full">
             <Box display="flex" gap="10px" mb="10px">
@@ -125,7 +126,7 @@ export const InstantiateTab = ({ show }: InstantiateTabProps) => {
         Instantiate Contract
       </Text>
 
-      <SelectCodeField codeId={codeId} setCodeId={setCodeId} />
+      <SelectCodeField setCodeId={setCodeId} />
 
       <Divider opacity="0.4" />
 

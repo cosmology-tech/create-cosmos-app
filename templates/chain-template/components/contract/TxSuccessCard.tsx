@@ -6,6 +6,7 @@ type TxSuccessCardProps = {
   description?: string;
   infoItems: TxInfoItem[];
   footer: React.ReactNode;
+  show?: boolean;
 };
 
 export const TxSuccessCard = ({
@@ -13,13 +14,14 @@ export const TxSuccessCard = ({
   description,
   infoItems,
   footer,
+  show = true,
 }: TxSuccessCardProps) => {
   return (
     <Box
+      display={show ? 'flex' : 'none'}
       width="420px"
       mx="auto"
       p="20px"
-      display="flex"
       flexDirection="column"
       alignItems="center"
       gap="20px"

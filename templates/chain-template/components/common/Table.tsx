@@ -12,8 +12,22 @@ const TableBody = (props: BoxProps) => {
   return <Box as="tbody" {...props} />;
 };
 
-const TableRow = (props: BoxProps) => {
-  return <Box as="tr" height="38px" {...props} />;
+const TableRow = ({
+  hasHover = false,
+  ...props
+}: BoxProps & { hasHover?: boolean }) => {
+  return (
+    <Box
+      as="tr"
+      height="38px"
+      cursor={hasHover ? 'pointer' : undefined}
+      backgroundColor={{
+        base: '$background',
+        hover: hasHover ? '$blackAlpha100' : '$background',
+      }}
+      {...props}
+    />
+  );
 };
 
 const TableHeaderCell = (props: BoxProps) => {

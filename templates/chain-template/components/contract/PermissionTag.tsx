@@ -15,7 +15,7 @@ export const PermissionTag = ({ permission }: PermissionTagProps) => {
       case AccessType.ACCESS_TYPE_ANY_OF_ADDRESSES:
         return 'AnyOfAddresses';
       default:
-        return 'Unknown';
+        return 'Everybody';
     }
   };
 
