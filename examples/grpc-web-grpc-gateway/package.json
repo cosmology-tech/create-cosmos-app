@@ -33,7 +33,7 @@
     "@emotion/styled": "11.10.6",
     "@improbable-eng/grpc-web": "0.15.0",
     "@improbable-eng/grpc-web-node-http-transport": "0.15.0",
-    "@interchain-ui/react": "1.23.22",
+    "@interchain-ui/react": "1.23.29",
     "@interchain-ui/react-no-ssr": "^0.1.6",
     "bignumber.js": "9.1.1",
     "chain-registry": "1.20.0",
@@ -48,9 +48,9 @@
     "react-icons": "4.6.0"
   },
   "devDependencies": {
-    "@types/node": "18.19.37",
-    "@types/react": "18.2.0",
-    "@types/react-dom": "18.2.0",
+    "@types/node": "^20.14.6",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
     "eslint": "8.56.0",
     "eslint-config-next": "14.1.0",
     "generate-lockfile": "0.0.12",

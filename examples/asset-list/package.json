@@ -27,7 +27,7 @@
     "@cosmos-kit/react": "2.17.0",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
-    "@interchain-ui/react": "1.23.22",
+    "@interchain-ui/react": "1.23.29",
     "@interchain-ui/react-no-ssr": "^0.1.6",
     "@tanstack/react-query": "4.32.0",
     "@uidotdev/usehooks": "2.4.1",
