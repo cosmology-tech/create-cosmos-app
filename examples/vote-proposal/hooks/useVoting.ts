@@ -3,7 +3,7 @@ import { cosmos } from 'interchain-query';
 import { toast } from '@interchain-ui/react';
 import { useChain } from '@cosmos-kit/react';
 import { coins, StdFee } from '@cosmjs/stargate';
-import { Proposal } from "interchain-query/cosmos/gov/v1beta1/gov";
+import { Proposal } from "interchain-query/cosmos/gov/v1/gov";
 import { useTx } from '@/hooks';
 import { getCoin } from '@/utils';
 
@@ -33,7 +33,7 @@ export function useVoting({ chainName, proposal }: useVotingOptions) {
     const msg = MessageComposer.fromPartial.vote({
       option,
       voter: address,
-      proposalId: proposal.proposalId,
+      proposalId: proposal.id,
     });
 
     const fee: StdFee = {

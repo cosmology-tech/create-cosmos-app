@@ -13,7 +13,7 @@ import {
 import {
   Proposal as IProposal,
   ProposalStatus,
-} from "interchain-query/cosmos/gov/v1beta1/gov";
+} from "interchain-query/cosmos/gov/v1/gov";
 import {
   exponentiate,
   formatDate,
@@ -59,7 +59,7 @@ export function Proposal({
   bondedTokens,
   onVoteSuccess = () => { },
 }: ProposalProps) {
-  const vote = votes?.[proposal.proposalId.toString()];
+  const vote = votes?.[proposal.id.toString()];
 
   const [showMore, setShowMore] = useState(false);
   const [voteType, setVoteType] = useState<GovernanceVoteType>();
@@ -100,7 +100,7 @@ export function Proposal({
   const turnout = total / Number(bondedTokens);
 
   // @ts-ignore
-  const description = proposal?.content?.description || "";
+  const description = proposal.summary || ''
   const renderedDescription = description.length > 200
     ? showMore ? description : `${description.slice(0, 200)}...`
     : description || "";
@@ -267,9 +267,9 @@ export function Proposal({
           <GovernanceVoteBreakdown
             voteType="yes"
             title="Yes"
-            votePercentage={percent(proposal.finalTallyResult?.yes, total)}
+            votePercentage={percent(proposal.finalTallyResult?.yesCount, total)}
             description={`${exponentiate(
-              proposal.finalTallyResult?.yes,
+              proposal.finalTallyResult?.yesCount,
               -exponent,
             ).toFixed(2)
               } ${coin.symbol}`}
@@ -277,9 +277,9 @@ export function Proposal({
           <GovernanceVoteBreakdown
             voteType="abstain"
             title="Abstain"
-            votePercentage={percent(proposal.finalTallyResult?.abstain, total)}
+            votePercentage={percent(proposal.finalTallyResult?.abstainCount, total)}
             description={`${exponentiate(
-              proposal.finalTallyResult?.abstain,
+              proposal.finalTallyResult?.abstainCount,
               -exponent,
             ).toFixed(2)
               } ${coin.symbol}`}
@@ -287,9 +287,9 @@ export function Proposal({
           <GovernanceVoteBreakdown
             voteType="no"
             title="No"
-            votePercentage={percent(proposal.finalTallyResult?.no, total)}
+            votePercentage={percent(proposal.finalTallyResult?.noCount, total)}
             description={`${exponentiate(
-              proposal.finalTallyResult?.no,
+              proposal.finalTallyResult?.noCount,
               -exponent,
             ).toFixed(2)
               } ${coin.symbol}`}
@@ -298,11 +298,11 @@ export function Proposal({
             voteType="noWithVeto"
             title="No with veto"
             votePercentage={percent(
-              proposal.finalTallyResult?.noWithVeto,
+              proposal.finalTallyResult?.noWithVetoCount,
               total,
             )}
             description={`${exponentiate(
-              proposal.finalTallyResult?.noWithVeto,
+              proposal.finalTallyResult?.noWithVetoCount,
               -exponent,
             ).toFixed(2)
               } ${coin.symbol}`}
@@ -314,7 +314,7 @@ export function Proposal({
               <GovernanceResultCard
                 resultType="passed"
                 label="Passed"
-                votePercentage={percent(proposal.finalTallyResult?.yes, total)}
+                votePercentage={percent(proposal.finalTallyResult?.yesCount, total)}
               />
             )
             : null}
@@ -324,10 +324,10 @@ export function Proposal({
                 resultType="rejected"
                 label="Rejected"
                 votePercentage={+(percent(
-                  proposal.finalTallyResult?.no,
+                  proposal.finalTallyResult?.noCount,
                   total,
                 ) +
-                  percent(proposal.finalTallyResult?.noWithVeto, total))
+                  percent(proposal.finalTallyResult?.noWithVetoCount, total))
                   .toFixed(2)}
               />
             )
