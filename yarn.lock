@@ -6861,7 +6861,7 @@ __metadata:
     "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
-    "@interchain-ui/react": "npm:1.23.29"
+    "@interchain-ui/react": "npm:1.23.22"
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
     "@tanstack/react-query": "npm:4.32.0"
     "@tanstack/react-query-devtools": "npm:4.32.0"
@@ -10033,41 +10033,6 @@ __metadata:
     react: ^16.14.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
   checksum: 10c0/dc075e0525374ca94be6ecf4475912e4744a8923619ca4a957cc121a7d02175d62f5a1f3c56629186a9c3439337b1442fcf7612d2943de9f473e67672930d24b
-  languageName: node
-  linkType: hard
-
-"@interchain-ui/react@npm:1.23.29, @interchain-ui/react@npm:^1.23.29":
-  version: 1.23.29
-  resolution: "@interchain-ui/react@npm:1.23.29"
-  dependencies:
-    "@floating-ui/core": "npm:^1.6.4"
-    "@floating-ui/dom": "npm:^1.6.7"
-    "@floating-ui/react": "npm:^0.26.19"
-    "@floating-ui/react-dom": "npm:^2.1.1"
-    "@floating-ui/utils": "npm:^0.2.4"
-    "@formkit/auto-animate": "npm:^0.8.2"
-    "@react-aria/listbox": "npm:^3.12.1"
-    "@react-aria/overlays": "npm:^3.22.1"
-    "@react-aria/utils": "npm:^3.24.1"
-    "@tanstack/react-virtual": "npm:^3.8.3"
-    "@vanilla-extract/css": "npm:^1.15.3"
-    "@vanilla-extract/dynamic": "npm:^2.1.1"
-    "@vanilla-extract/recipes": "npm:^0.5.3"
-    animejs: "npm:^3.2.2"
-    bignumber.js: "npm:^9.1.2"
-    client-only: "npm:^0.0.1"
-    clsx: "npm:^2.1.1"
-    copy-to-clipboard: "npm:^3.3.3"
-    immer: "npm:^10.1.1"
-    lodash: "npm:^4.17.21"
-    rainbow-sprinkles: "npm:^0.17.2"
-    react-aria: "npm:^3.33.1"
-    react-stately: "npm:^3.31.1"
-    zustand: "npm:^4.5.4"
-  peerDependencies:
-    react: ^16.14.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/013d8f56f0db143bc76f7e6f2509aab4ebb249a770e615df77b29748b07e743fff850d6a4599cbacc98ba7c047947e583eeb8e892f5796358243a37eb6d772d2
   languageName: node
   linkType: hard
 
