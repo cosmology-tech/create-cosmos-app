@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - eason/bugfixing
   workflow_dispatch:
 
 jobs:
