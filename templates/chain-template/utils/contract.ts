@@ -146,3 +146,7 @@ export const formatTxFee = (txFee: string, assets: AssetList) => {
   const displayAmount = BigNumber(amount).shiftedBy(-exponent).toFixed();
   return `${displayAmount} ${asset.symbol}`;
 };
+
+export const splitCamelCase = (text: string): string => {
+  return text.replace(/([A-Z])/g, ' $1').trim();
+};

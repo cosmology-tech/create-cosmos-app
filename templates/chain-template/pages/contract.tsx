@@ -1,9 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Box, Tabs } from '@interchain-ui/react';
-import { ExecuteTab, InstantiateTab, QueryTab, UploadTab } from '@/components';
+import {
+  ExecuteTab,
+  InstantiateTab,
+  MyContractsTab,
+  QueryTab,
+  UploadTab,
+} from '@/components';
 import { CodeIdInfo } from '@/contexts';
+import { splitCamelCase } from '@/utils';
 
 export enum TabLabel {
+  MyContracts,
   Upload,
   Instantiate,
   Query,
@@ -27,14 +35,15 @@ export default function Contract() {
         tabs={Object.values(TabLabel)
           .filter((v) => typeof v === 'string')
           .map((label) => ({
-            label: label as string,
+            label: splitCamelCase(label as string),
             content: undefined,
           }))}
         activeTab={activeTab}
         onActiveTabChange={(tabId) => setActiveTab(tabId)}
-        attributes={{ width: '800px' }}
+        attributes={{ width: '860px' }}
       />
       <Box mt="40px">
+        <MyContractsTab show={activeTab === TabLabel.MyContracts} />
         <UploadTab
           show={activeTab === TabLabel.Upload}
           switchTab={(codeInfo) => {

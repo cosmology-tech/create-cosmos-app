@@ -10,6 +10,7 @@ import { useState, useRef, useEffect } from 'react';
 
 type Variant = 'primary' | 'outline' | 'text';
 type ButtonIcon = IconName | JSX.Element;
+type Size = 'sm' | 'md';
 
 type ButtonProps = {
   children?: React.ReactNode;
@@ -21,7 +22,23 @@ type ButtonProps = {
   iconColor?: IconProps['color'];
   iconSize?: IconProps['size'];
   isLoading?: boolean;
+  size?: Size;
 } & BoxProps;
+
+const sizeStyles: Record<Size, BoxProps> = {
+  sm: {
+    py: '6px',
+    px: '12px',
+    height: '32px',
+    fontSize: '14px',
+  },
+  md: {
+    py: '10px',
+    px: '20px',
+    height: '40px',
+    fontSize: '16px',
+  },
+};
 
 const variantStyles: Record<Variant, BoxProps> = {
   outline: {
@@ -66,6 +83,7 @@ const disabledStyles: Record<Variant, BoxProps> = {
 export const Button = ({
   children,
   onClick,
+  size = 'md',
   variant = 'outline',
   disabled = false,
   isLoading = false,
@@ -96,21 +114,18 @@ export const Button = ({
     <Box
       as="button"
       ref={buttonRef}
-      py="10px"
-      px="20px"
-      height="40px"
       borderRadius="4px"
       display="flex"
       alignItems="center"
       justifyContent="center"
       gap="6px"
       cursor={disabled || isLoading ? 'not-allowed' : 'pointer'}
-      fontSize="16px"
       fontWeight="500"
       transition="all 0.15s ease-in-out"
       border="none"
       width={isLoading && buttonWidth ? `${buttonWidth}px` : '$fit'}
       attributes={{ onClick: disabled || isLoading ? undefined : onClick }}
+      {...sizeStyles[size]}
       {...variantStyles[variant]}
       {...rest}
       {...(disabled && disabledStyles[variant])}
