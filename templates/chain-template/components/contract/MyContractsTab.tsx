@@ -1,74 +1,95 @@
+import Image from 'next/image';
 import { useState } from 'react';
-import { Box, Icon, Text } from '@interchain-ui/react';
+import { Box, Icon, Spinner, Text } from '@interchain-ui/react';
 
-import { useCopyToClipboard } from '@/hooks';
+import { useCopyToClipboard, useMyContracts } from '@/hooks';
 import { Button, Table } from '../common';
+import { shortenAddress } from '@/utils';
+import { TabLabel } from '@/pages/contract';
 
 type MyContractsTabProps = {
   show: boolean;
+  switchTab: (initialAddress: string, tabId: number) => void;
 };
 
-export const MyContractsTab = ({ show }: MyContractsTabProps) => {
+export const MyContractsTab = ({ show, switchTab }: MyContractsTabProps) => {
+  const { data: myContracts = [], isLoading } = useMyContracts();
+
   return (
     <Box display={show ? 'block' : 'none'} maxWidth="900px" mt="40px" mx="auto">
       <Text color="$blackAlpha600" fontSize="24px" fontWeight="700">
         My contracts
       </Text>
-      <Table>
-        <Table.Header>
-          <Table.Row height="$fit">
-            <Table.HeaderCell width="10%">Contract Address</Table.HeaderCell>
-            <Table.HeaderCell width="20%">Contract Name</Table.HeaderCell>
-            <Table.HeaderCell width="10%">Code ID</Table.HeaderCell>
-            <Table.HeaderCell width="6%" />
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {tableRows.map(({ address, codeId, label }) => (
-            <Table.Row key={address}>
-              <Table.Cell>
-                <CopyText displayValue={address} copyValue={address} />
-              </Table.Cell>
-              <Table.Cell>{label}</Table.Cell>
-              <Table.Cell color="$blackAlpha500" fontWeight="500">
-                {codeId}
-              </Table.Cell>
-              <Table.Cell>
-                <Box display="flex" gap="10px">
-                  <Button size="sm">Query</Button>
-                  <Button size="sm">Execute</Button>
-                </Box>
-              </Table.Cell>
+      {isLoading ? (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="300px"
+        >
+          <Spinner size="$6xl" />
+        </Box>
+      ) : myContracts.length === 0 ? (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          flexDirection="column"
+          height="300px"
+          gap="10px"
+        >
+          <Image alt="empty" src="/images/empty.svg" width="72" height="72" />
+          <Text color="$blackAlpha500" fontSize="16px" fontWeight="500">
+            No contracts found
+          </Text>
+        </Box>
+      ) : (
+        <Table>
+          <Table.Header>
+            <Table.Row height="$fit">
+              <Table.HeaderCell width="15%">Contract Address</Table.HeaderCell>
+              <Table.HeaderCell width="20%">Contract Name</Table.HeaderCell>
+              <Table.HeaderCell width="10%">Code ID</Table.HeaderCell>
+              <Table.HeaderCell width="6%" />
             </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+          </Table.Header>
+          <Table.Body>
+            {myContracts.map(({ address, contractInfo }) => (
+              <Table.Row key={address}>
+                <Table.Cell>
+                  <CopyText
+                    displayValue={shortenAddress(address)}
+                    copyValue={address}
+                  />
+                </Table.Cell>
+                <Table.Cell>{contractInfo?.label}</Table.Cell>
+                <Table.Cell color="$blackAlpha500" fontWeight="500">
+                  {Number(contractInfo?.codeId)}
+                </Table.Cell>
+                <Table.Cell>
+                  <Box display="flex" gap="10px">
+                    <Button
+                      size="sm"
+                      onClick={() => switchTab(address, TabLabel.Query)}
+                    >
+                      Query
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => switchTab(address, TabLabel.Execute)}
+                    >
+                      Execute
+                    </Button>
+                  </Box>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      )}
     </Box>
   );
 };
-
-const tableRows = [
-  {
-    address: 'osmo1v...gk8d4e',
-    label: 'test contract',
-    codeId: 8323,
-  },
-  {
-    address: 'osmo1t...xwfu62',
-    label: 'contract3323',
-    codeId: 6323,
-  },
-  {
-    address: 'osmo1x...72ps2u',
-    label: 'contract11',
-    codeId: 2052,
-  },
-  {
-    address: 'osmo14...f93d7k',
-    label: 'contract39893',
-    codeId: 39893,
-  },
-];
 
 const CopyText = ({
   copyValue,
@@ -84,7 +105,7 @@ const CopyText = ({
     <Box
       display="flex"
       alignItems="center"
-      gap="10px"
+      gap="8px"
       width="$fit"
       cursor="pointer"
       attributes={{

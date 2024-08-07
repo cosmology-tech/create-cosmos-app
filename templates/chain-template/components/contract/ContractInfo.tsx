@@ -14,7 +14,6 @@ type ContractInfoProps = {
   mb?: BoxProps['mb'];
 };
 
-// TODO: apply initialAddress when there's already an fetched address
 export const ContractInfo = ({
   setContractAddress,
   initialAddress = '',
@@ -54,6 +53,7 @@ export const ContractInfo = ({
 
   useEffect(() => {
     if (initialAddress) {
+      setIsEditable(true);
       setInput(initialAddress);
       setInputErr(null);
     }

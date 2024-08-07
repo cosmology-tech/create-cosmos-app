@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Box, Tabs } from '@interchain-ui/react';
+
 import {
   ExecuteTab,
   InstantiateTab,
@@ -19,7 +20,7 @@ export enum TabLabel {
 }
 
 export default function Contract() {
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(TabLabel.MyContracts);
   const [codeInfo, setCodeInfo] = useState<CodeIdInfo>();
   const [initQueryAddress, setInitQueryAddress] = useState('');
   const [initExecuteAddress, setInitExecuteAddress] = useState('');
@@ -28,6 +29,12 @@ export default function Contract() {
     if (activeTab !== TabLabel.Query) setInitQueryAddress('');
     if (activeTab !== TabLabel.Execute) setInitExecuteAddress('');
   }, [activeTab]);
+
+  const switchTabWithAddress = (address: string, tabId: TabLabel) => {
+    setActiveTab(tabId);
+    if (tabId === TabLabel.Query) setInitQueryAddress(address);
+    if (tabId === TabLabel.Execute) setInitExecuteAddress(address);
+  };
 
   return (
     <>
@@ -43,7 +50,10 @@ export default function Contract() {
         attributes={{ width: '860px' }}
       />
       <Box mt="40px">
-        <MyContractsTab show={activeTab === TabLabel.MyContracts} />
+        <MyContractsTab
+          show={activeTab === TabLabel.MyContracts}
+          switchTab={switchTabWithAddress}
+        />
         <UploadTab
           show={activeTab === TabLabel.Upload}
           switchTab={(codeInfo) => {
@@ -55,12 +65,7 @@ export default function Contract() {
           show={activeTab === TabLabel.Instantiate}
           initCodeInfo={codeInfo}
           clearInitCodeInfo={() => setCodeInfo(undefined)}
-          switchTab={(initialAddress, tabId) => {
-            setActiveTab(tabId);
-            if (tabId === TabLabel.Query) setInitQueryAddress(initialAddress);
-            if (tabId === TabLabel.Execute)
-              setInitExecuteAddress(initialAddress);
-          }}
+          switchTab={switchTabWithAddress}
         />
         <QueryTab
           show={activeTab === TabLabel.Query}
