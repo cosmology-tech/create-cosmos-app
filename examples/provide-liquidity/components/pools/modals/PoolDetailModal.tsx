@@ -27,7 +27,7 @@ import {
   convertDollarValueToShares,
   convertDollarValueToCoins,
   convertGammTokenToDollarValue,
-  getSymbolForDenom,
+  osmosisAssetsList,
   ExtendedPool,
 } from '@/utils';
 import { PriceHash } from '@/utils/types';
@@ -39,6 +39,8 @@ import { daysToSeconds } from './BondSharesModal';
 import dayjs from 'dayjs';
 import { coins as aminoCoins } from '@cosmjs/amino';
 import { durations, Durations, PoolApr, useTx } from '@/hooks';
+import { getSymbolByDenom } from '@chain-registry/utils';
+import { CoinSymbol } from '@/utils/types';
 
 export const truncDecimals = (
   val: string | number | undefined,
@@ -90,9 +92,13 @@ export const PoolDetailModal = ({
 
   const poolId = pool?.id;
 
-  const poolName = pool?.poolAssets.map(({ token }) =>
-    getSymbolForDenom(token!.denom)
-  );
+  const poolName = pool?.poolAssets.map(({ token }) => {
+    const symbol = getSymbolByDenom(
+      osmosisAssetsList,
+      token!.denom
+    ) as CoinSymbol;
+    return symbol;
+  });
 
   const swapFee = new BigNumber(pool!.poolParams!.swapFee)
     .shiftedBy(2)

@@ -20,6 +20,7 @@ import {
   Text,
   useColorMode,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
 import {
@@ -49,45 +50,6 @@ const library = {
   href: 'https://github.com/cosmology-tech/telescope',
 };
 
-const sendTokens = (
-  getSigningStargateClient: () => Promise<SigningStargateClient>,
-  setResp: (resp: string) => any,
-  address: string
-) => {
-  return async () => {
-    const stargateClient = await getSigningStargateClient();
-    if (!stargateClient || !address) {
-      console.error('stargateClient undefined or address undefined.');
-      return;
-    }
-
-    const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
-
-    const msg = send({
-      amount: [
-        {
-          denom: coin.base,
-          amount: '1000',
-        },
-      ],
-      toAddress: address,
-      fromAddress: address,
-    });
-
-    const fee: StdFee = {
-      amount: [
-        {
-          denom: coin.base,
-          amount: '2000',
-        },
-      ],
-      gas: '86364',
-    };
-    const response = await stargateClient.signAndBroadcast(address, [msg], fee);
-    setResp(JSON.stringify(response, null, 2));
-  };
-};
-
 // Get the display exponent
 // we can get the exponent from chain registry asset denom_units
 const COIN_DISPLAY_EXPONENT = coin.denom_units.find(
@@ -95,6 +57,7 @@ const COIN_DISPLAY_EXPONENT = coin.denom_units.find(
 )?.exponent as number;
 
 export default function Home() {
+  const toast = useToast();
   const { colorMode, toggleColorMode } = useColorMode();
 
   const { getSigningStargateClient, address, status, getRpcEndpoint } =
@@ -126,6 +89,65 @@ export default function Home() {
   //@ts-ignore
   // const hooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
   const hooks = createRpcQueryHooks({ rpc: rpcClient });
+
+  const sendTokens = (
+    getSigningStargateClient: () => Promise<SigningStargateClient>,
+    setResp: (resp: string) => any,
+    address: string
+  ) => {
+    return async () => {
+      const stargateClient = await getSigningStargateClient();
+      if (!stargateClient || !address) {
+        console.error('stargateClient undefined or address undefined.');
+        return;
+      }
+
+      const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
+
+      const msg = send({
+        amount: [
+          {
+            denom: coin.base,
+            amount: '1000',
+          },
+        ],
+        toAddress: address,
+        fromAddress: address,
+      });
+
+      const fee: StdFee = {
+        amount: [
+          {
+            denom: coin.base,
+            amount: '2000',
+          },
+        ],
+        gas: '86364',
+      };
+      try {
+        const response = await stargateClient.signAndBroadcast(
+          address,
+          [msg],
+          fee
+        );
+        setResp(JSON.stringify(response, null, 2));
+      } catch (error: unknown) {
+        let errorMessage = 'An unknown error occurred';
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        }
+
+        toast({
+          title: 'Send failed',
+          description: errorMessage,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      }
+    };
+  };
 
   const {
     data: balance,

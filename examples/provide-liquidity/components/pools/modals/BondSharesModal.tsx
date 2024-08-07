@@ -17,8 +17,8 @@ import {
 import { LargeButton } from './ModalComponents';
 import {
   convertDollarValueToShares,
-  getSymbolForDenom,
   ExtendedPool,
+  osmosisAssetsList,
 } from '@/utils';
 import { PriceHash } from '@/utils/types';
 import BigNumber from 'bignumber.js';
@@ -27,6 +27,8 @@ import { useChain } from '@cosmos-kit/react';
 import { defaultChainName } from '@/config';
 import { coins as aminoCoins } from '@cosmjs/amino';
 import { Durations, useTx } from '@/hooks';
+import { getSymbolByDenom } from '@chain-registry/utils';
+import { CoinSymbol } from '@/utils/types';
 
 const { lockTokens } = osmosis.lockup.MessageComposer.withTypeUrl;
 
@@ -58,9 +60,13 @@ export const BondSharesModal = ({
   const { address } = useChain(defaultChainName);
   const [isMobile] = useMediaQuery('(max-width: 480px)');
 
-  const poolName = currentPool?.poolAssets.map(({ token }) =>
-    getSymbolForDenom(token!.denom)
-  );
+  const poolName = currentPool?.poolAssets.map(({ token }) => {
+    const symbol = getSymbolByDenom(
+      osmosisAssetsList,
+      token!.denom
+    ) as CoinSymbol;
+    return symbol;
+  });
 
   const unbondedShares = convertDollarValueToShares(
     currentPool?.myLiquidity || 0,

@@ -19,12 +19,12 @@
     "@types/react-dom": "18.0.9"
   },
   "dependencies": {
-    "@chain-registry/osmosis": "^1.21.0",
+    "@chain-registry/osmosis": "1.62.35",
     "@chain-registry/types": "0.17.0",
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.5.1",
     "@cosmjs/amino": "0.32.3",
-    "@cosmjs/cosmwasm-stargate": "0.31.3",
+    "@cosmjs/cosmwasm-stargate": "0.32.3",
     "@cosmjs/proto-signing": "0.32.3",
     "@cosmjs/stargate": "0.32.3",
     "@cosmology/lcd": "^0.12.0",
@@ -35,8 +35,8 @@
     "@interchain-ui/react-no-ssr": "^0.1.6",
     "@tanstack/react-query": "4.32.0",
     "bignumber.js": "9.1.0",
-    "chain-registry": "1.20.0",
-    "chakra-react-select": "^4.7.0",
+    "chain-registry": "^1.63.9",
+    "chakra-react-select": "4.9.1",
     "cosmos-kit": "2.18.0",
     "dayjs": "^1.11.11",
     "fast-fuzzy": "^1.12.0",
@@ -49,6 +49,7 @@
     "react-dom": "^18.2",
     "react-icons": "^4.12.0",
     "react-markdown": "^8.0.7",
+    "match-sorter": "^6.3.3",
     "react-minimal-pie-chart": "^8.4.0"
   },
   "devDependencies": {
@@ -64,6 +65,5 @@
     "eslint-config-next": "13.0.5",
     "generate-lockfile": "0.0.12",
     "typescript": "^5.1.6"
-  },
-  "packageManager": "yarn@4.3.0"
+  }
 }

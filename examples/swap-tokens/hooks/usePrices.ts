@@ -1,6 +1,6 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { PriceHash } from '@chain-registry/utils';
-import { Osmosis } from "@/config";
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { PriceHash } from '@osmonauts/math/dist/types';
+import { Osmosis } from '@/config';
 
 export type CoinGeckoId = string;
 export type CoinGeckoPrice = { usd: number };
@@ -18,26 +18,33 @@ export type CoinGeckoResponse = Record<CoinGeckoId, CoinGeckoPrice>;
 //   }
 // }
 
-async function fetchPrices(coinGeckoIds: CoinGeckoId[]): Promise<CoinGeckoResponse> {
+async function fetchPrices(
+  coinGeckoIds: CoinGeckoId[]
+): Promise<CoinGeckoResponse> {
   const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coinGeckoIds.join()}&vs_currencies=usd`;
   return await fetch(url).then((res) => res.json());
 }
 
 function toPriceHash(prices: CoinGeckoResponse = {}): PriceHash {
-  return Object.entries(prices).reduce((result, [id, price]) => ({
-    ...result,
-    [Osmosis.Assets.CoinGeckoIdToAsset[id]!.base]: price.usd,
-  }), {});
+  return Object.entries(prices).reduce(
+    (result, [id, price]) => ({
+      ...result,
+      [Osmosis.Assets.CoinGeckoIdToAsset[id]!.base]: price.usd,
+    }),
+    {}
+  );
 }
 
 export function usePrices() {
   const query = useQuery({
     queryKey: ['prices'],
     queryFn: () => fetchPrices(Osmosis.Assets.CoinGeckoIds),
-    staleTime: Infinity
+    staleTime: Infinity,
   });
 
-  return { query, ...toPriceHash(query.data) } as PriceHash & { query: UseQueryResult<CoinGeckoResponse> };
+  return { query, ...toPriceHash(query.data) } as PriceHash & {
+    query: UseQueryResult<CoinGeckoResponse>;
+  };
 }
 
 // Waht prices: PriceHash looks like:

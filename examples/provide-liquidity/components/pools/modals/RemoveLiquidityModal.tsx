@@ -21,7 +21,7 @@ import { LargeButton, PoolAssetDisplay } from './ModalComponents';
 import {
   convertDollarValueToCoins,
   convertDollarValueToShares,
-  getSymbolForDenom,
+  osmosisAssetsList,
   noDecimals,
   ExtendedPool,
 } from '@/utils';
@@ -35,6 +35,8 @@ import { defaultChainName } from '@/config';
 import { useChain } from '@cosmos-kit/react';
 import { coin, coins as aminoCoins } from '@cosmjs/amino';
 import { useTx } from '@/hooks';
+import { getSymbolByDenom } from '@chain-registry/utils';
+import { CoinSymbol } from '@/utils/types';
 
 const { exitPool } = osmosis.gamm.v1beta1.MessageComposer.withTypeUrl;
 
@@ -76,9 +78,13 @@ export const RemoveLiquidityModal = ({
     prices
   );
 
-  const poolName = currentPool?.poolAssets.map(({ token }) =>
-    getSymbolForDenom(token!.denom)
-  );
+  const poolName = currentPool?.poolAssets.map(({ token }) => {
+    const symbol = getSymbolByDenom(
+      osmosisAssetsList,
+      token!.denom
+    ) as CoinSymbol;
+    return symbol;
+  });
 
   const closeModal = () => {
     onClose();
