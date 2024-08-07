@@ -181,7 +181,6 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
                   onClick={() => {}}
                 />
               </PopoverTrigger>
-              <Box></Box>
               <PopoverContent showArrow={false}>
                 <Stack direction="vertical" className={styles.listStack}>
                   {permissions.map((p) => (
