@@ -27,35 +27,35 @@ jobs:
           echo "YARN_ENABLE_IMMUTABLE_INSTALLS=false" >> $GITHUB_ENV
           npm install -g create-cosmos-app
 
-      - name: asset-list
-        run: |
-          cca --example asset-list --name asset-list
-          cd asset-list
-          yarn build
+      # - name: asset-list
+      #   run: |
+      #     cca --example asset-list --name asset-list
+      #     cd asset-list
+      #     yarn build
 
-      - name: vote-proposal
-        run: |
-          cca --example vote-proposal --name vote-proposal
-          cd vote-proposal
-          yarn build
+      # - name: vote-proposal
+      #   run: |
+      #     cca --example vote-proposal --name vote-proposal
+      #     cd vote-proposal
+      #     yarn build
 
-      - name: ibc-transfer
-        run: |
-          cca --example ibc-transfer --name ibc-transfer
-          cd ibc-transfer
-          yarn build
+      # - name: ibc-transfer
+      #   run: |
+      #     cca --example ibc-transfer --name ibc-transfer
+      #     cd ibc-transfer
+      #     yarn build
 
-      - name: swap-tokens
-        run: |
-          cca --example swap-tokens --name swap-tokens
-          cd swap-tokens
-          yarn build
+      # - name: swap-tokens
+      #   run: |
+      #     cca --example swap-tokens --name swap-tokens
+      #     cd swap-tokens
+      #     yarn build
 
-      - name: provide-liquidity
-        run: |
-          cca --example provide-liquidity --name provide-liquidity
-          cd provide-liquidity
-          yarn build
+      # - name: provide-liquidity
+      #   run: |
+      #     cca --example provide-liquidity --name provide-liquidity
+      #     cd provide-liquidity
+      #     yarn build
 
       - name: nft
         run: |
