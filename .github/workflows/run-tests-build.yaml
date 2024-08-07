@@ -58,6 +58,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Set up Yarn
         uses: threeal/setup-yarn-action@v2.0.0
 
