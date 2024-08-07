@@ -3,6 +3,7 @@ import { prompt } from './prompt';
 import { join } from 'path';
 import { sync as mkdirp } from 'mkdirp';
 import { tmpdir } from 'os'
+import { sync as globSync } from 'glob';
 import * as fs from 'fs';
 const dargs = require('dargs');
 
@@ -128,5 +129,9 @@ export const getPackageLicAndAccessInfo = async (results) => {
         license,
         scopedResults
     };
+}
+
+export const glob = (input) => {
+    return globSync(input.replace(/\\/g,'/'));
 }
 
