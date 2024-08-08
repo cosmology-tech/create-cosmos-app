@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, Divider, Text, TextField } from '@interchain-ui/react';
 import { useChain } from '@cosmos-kit/react';
+import { AccessType } from 'interchain-query/cosmwasm/wasm/v1/types';
 
 import { FileUpload } from './FileUpload';
 import { Button } from '../common';
@@ -11,19 +12,25 @@ import {
   PrettyTxResult,
   shortenAddress,
 } from '@/utils';
-import { CodeIdInfo, codeStore, useChainStore } from '@/contexts';
+import { codeStore, useChainStore } from '@/contexts';
 import { InputField } from './InputField';
 import {
-  AccessType,
   Address,
   InstantiatePermissionRadio,
   Permission,
 } from './InstantiatePermissionRadio';
 import { useStoreCodeTx } from '@/hooks';
 
+export interface CodeInfo {
+  id: number;
+  name: string;
+  uploader: string;
+  permission: AccessType;
+}
+
 type UploadTabProps = {
   show: boolean;
-  switchTab: (codeInfo: CodeIdInfo) => void;
+  switchTab: (codeInfo: CodeInfo) => void;
 };
 
 export const UploadTab = ({ show, switchTab }: UploadTabProps) => {
@@ -67,12 +74,12 @@ export const UploadTab = ({ show, switchTab }: UploadTabProps) => {
       onTxSucceed(txResult) {
         setIsLoading(false);
         setTxResult(txResult);
-        codeStore.updateCodeInfo({
-          id: Number(txResult.codeId),
-          uploader: address,
-          permission,
-          name: codeName,
-        });
+        if (codeName) {
+          codeStore.updateCodeName({
+            id: Number(txResult.codeId),
+            name: codeName,
+          });
+        }
       },
     });
   };

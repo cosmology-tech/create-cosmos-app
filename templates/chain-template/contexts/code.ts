@@ -1,33 +1,25 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { ChainName } from 'cosmos-kit';
-import { AccessType } from 'interchain-query/cosmwasm/wasm/v1/types';
 
 import { defaultChain, useChainStore } from './chain';
 
-export interface CodeIdInfo {
-  id: number;
-  uploader: string;
-  permission: AccessType;
-  name?: string;
-}
-
 type CodeStore = {
-  codeInfo: Record<ChainName, Record<number, CodeIdInfo>>;
+  codeNames: Record<ChainName, Record<number, string>>;
   currentChain: ChainName;
 };
 
 export const useCodeStore = create<CodeStore>()(
   persist(
     () => ({
-      codeInfo: {},
+      codeNames: {},
       currentChain: defaultChain,
     }),
     {
       name: 'code-store',
       version: 1,
       partialize(state) {
-        return { codeInfo: state.codeInfo };
+        return { codeNames: state.codeNames };
       },
     }
   )
@@ -38,40 +30,21 @@ export const codeStore = {
     useCodeStore.setState({ currentChain: chainName });
   },
 
-  getCodeIdInfo(id: number): CodeIdInfo | undefined {
+  getCodeName(id: number): string | undefined {
     const state = useCodeStore.getState();
-    return state.codeInfo[state.currentChain]?.[id];
+    return state.codeNames[state.currentChain]?.[id];
   },
 
-  getAllCodes(uploader: string | undefined): CodeIdInfo[] {
-    if (!uploader) return [];
+  updateCodeName({ id, name }: { id: number; name: string }): void {
     const state = useCodeStore.getState();
-    return Object.values(state.codeInfo[state.currentChain] || {}).filter(
-      (code) => code.uploader === uploader
-    );
-  },
-
-  updateCodeInfo({ id, uploader, permission, name }: CodeIdInfo): void {
-    useCodeStore.setState(({ codeInfo, currentChain }) => {
-      const codeIdInfo = codeInfo[currentChain]?.[id] || {
-        id,
-        uploader,
-        permission,
-      };
-
-      if (name !== undefined) {
-        codeIdInfo.name = name.trim().length ? name.trim() : undefined;
-      }
-
-      return {
-        codeInfo: {
-          ...codeInfo,
-          [currentChain]: {
-            ...codeInfo[currentChain],
-            [id]: codeIdInfo,
-          },
+    useCodeStore.setState({
+      codeNames: {
+        ...state.codeNames,
+        [state.currentChain]: {
+          ...state.codeNames[state.currentChain],
+          [id]: name,
         },
-      };
+      },
     });
   },
 };

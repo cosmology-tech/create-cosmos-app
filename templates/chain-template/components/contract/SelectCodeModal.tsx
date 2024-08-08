@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   BasicModal,
   Box,
@@ -11,11 +11,12 @@ import {
   Icon,
 } from '@interchain-ui/react';
 import { useChain } from '@cosmos-kit/react';
+import { CodeInfoResponse } from 'interchain-query/cosmwasm/wasm/v1/query';
 
-import { useDetectBreakpoints } from '@/hooks';
+import { useDetectBreakpoints, useStoredCodes } from '@/hooks';
 import { PermissionTag } from './PermissionTag';
 import { Table, CustomThemeProvider } from '@/components';
-import { CodeIdInfo, codeStore, useChainStore } from '@/contexts';
+import { codeStore, useChainStore } from '@/contexts';
 import { shortenAddress } from '@/utils';
 
 type PermissionValue = 'all' | 'without-proposal' | 'with-proposal';
@@ -43,7 +44,7 @@ const permissionOptions: PermissionOption[] = [
 type SelectCodeModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  onRowSelect: (codeInfo: CodeIdInfo) => void;
+  onRowSelect: (codeInfo: CodeInfoResponse) => void;
 };
 
 export const SelectCodeModal = ({
@@ -60,6 +61,12 @@ export const SelectCodeModal = ({
 
   const { selectedChain } = useChainStore();
   const { address } = useChain(selectedChain);
+
+  const { data: storedCodes = [], refetch } = useStoredCodes();
+
+  useEffect(() => {
+    if (isOpen) refetch();
+  }, [isOpen]);
 
   return (
     <BasicModal
@@ -174,29 +181,34 @@ export const SelectCodeModal = ({
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {codeStore
-                .getAllCodes(address)
-                .map(({ id, permission, uploader, name }) => (
-                  <Table.Row
-                    key={id}
-                    hasHover
-                    attributes={{
-                      onClick: () => {
-                        onRowSelect({ id, permission, uploader, name });
-                        onClose();
-                      },
-                    }}
-                  >
-                    <Table.Cell>{id}</Table.Cell>
-                    <Table.Cell>{name || 'Untitled Name'}</Table.Cell>
-                    <Table.Cell color="$blackAlpha500" fontWeight="500">
-                      {uploader === address ? 'Me' : shortenAddress(uploader)}
-                    </Table.Cell>
-                    <Table.Cell>
-                      <PermissionTag permission={permission} />
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
+              {storedCodes.map((code) => (
+                <Table.Row
+                  key={Number(code.codeId)}
+                  hasHover
+                  attributes={{
+                    onClick: () => {
+                      onRowSelect(code);
+                      onClose();
+                    },
+                  }}
+                >
+                  <Table.Cell>{Number(code.codeId)}</Table.Cell>
+                  <Table.Cell>
+                    {codeStore.getCodeName(Number(code.codeId)) ||
+                      'Untitled Name'}
+                  </Table.Cell>
+                  <Table.Cell color="$blackAlpha500" fontWeight="500">
+                    {code.creator === address
+                      ? 'Me'
+                      : shortenAddress(code.creator)}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <PermissionTag
+                      permission={code.instantiatePermission?.permission!}
+                    />
+                  </Table.Cell>
+                </Table.Row>
+              ))}
             </Table.Body>
           </Table>
         </Box>

@@ -7,20 +7,21 @@ import { InputField } from './InputField';
 import { PermissionTag } from './PermissionTag';
 import { SelectCodeModal } from './SelectCodeModal';
 import { useDisclosure } from '@/hooks';
-import { CodeIdInfo } from '@/contexts';
+import { CodeInfo } from './UploadTab';
+import { codeStore } from '@/contexts';
 
 type SelectMode = 'select-existing' | 'fill-manually';
 
 type SelectCodeFieldProps = {
   setCodeId: (codeId: string) => void;
-  initCodeInfo?: CodeIdInfo;
+  initCodeInfo?: CodeInfo;
 };
 
 export const SelectCodeField = ({
   setCodeId,
   initCodeInfo,
 }: SelectCodeFieldProps) => {
-  const [codeInfo, setCodeInfo] = useState<CodeIdInfo>();
+  const [codeInfo, setCodeInfo] = useState<CodeInfo>();
   const [manualCodeId, setManualCodeId] = useState('');
   const [selectMode, setSelectMode] = useState<SelectMode>('select-existing');
 
@@ -71,7 +72,7 @@ export const SelectCodeField = ({
                   fontWeight="500"
                   attributes={{ mb: '2px' }}
                 >
-                  {codeInfo?.name || 'Untitled Name'}
+                  {codeInfo.name}
                 </Text>
                 <Box display="flex" gap="6px" alignItems="center">
                   <Text color="$blackAlpha500" fontSize="12px" fontWeight="500">
@@ -110,8 +111,13 @@ export const SelectCodeField = ({
       <SelectCodeModal
         isOpen={isOpen}
         onClose={onClose}
-        onRowSelect={(codeInfo) => {
-          setCodeInfo(codeInfo);
+        onRowSelect={(code) => {
+          setCodeInfo({
+            id: Number(code.codeId),
+            name: codeStore.getCodeName(Number(code.codeId)) || 'Untitled Name',
+            permission: code.instantiatePermission?.permission!,
+            uploader: code.creator,
+          });
         }}
       />
     </>

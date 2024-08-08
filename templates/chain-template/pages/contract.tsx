@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { Box, Tabs } from '@interchain-ui/react';
 
 import {
+  CodeInfo,
   ExecuteTab,
   InstantiateTab,
   MyContractsTab,
   QueryTab,
   UploadTab,
 } from '@/components';
-import { CodeIdInfo } from '@/contexts';
 import { splitCamelCase } from '@/utils';
 
 export enum TabLabel {
@@ -21,7 +21,7 @@ export enum TabLabel {
 
 export default function Contract() {
   const [activeTab, setActiveTab] = useState(TabLabel.MyContracts);
-  const [codeInfo, setCodeInfo] = useState<CodeIdInfo>();
+  const [codeInfo, setCodeInfo] = useState<CodeInfo>();
   const [initQueryAddress, setInitQueryAddress] = useState('');
   const [initExecuteAddress, setInitExecuteAddress] = useState('');
 

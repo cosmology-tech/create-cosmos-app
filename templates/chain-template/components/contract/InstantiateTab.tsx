@@ -4,12 +4,12 @@ import { useChain } from '@cosmos-kit/react';
 import { Box, Divider, TextField, Text } from '@interchain-ui/react';
 import { InstantiateResult } from '@cosmjs/cosmwasm-stargate';
 
-import { Button } from '@/components';
+import { Button, CodeInfo } from '@/components';
 import { JsonInput } from './JsonInput';
 import { InputField } from './InputField';
 import { AttachFundsSelect } from './AttachFundsSelect';
 import { SelectCodeField } from './SelectCodeField';
-import { CodeIdInfo, useChainStore } from '@/contexts';
+import { useChainStore } from '@/contexts';
 import { useInstantiateTx } from '@/hooks';
 import { TxInfoItem, TxSuccessCard } from './TxSuccessCard';
 import { formatTxFee, shortenAddress } from '@/utils';
@@ -17,7 +17,7 @@ import { TabLabel } from '@/pages/contract';
 
 type InstantiateTabProps = {
   show: boolean;
-  initCodeInfo: CodeIdInfo | undefined;
+  initCodeInfo: CodeInfo | undefined;
   clearInitCodeInfo: () => void;
   switchTab: (initialAddress: string, tabId: number) => void;
 };
