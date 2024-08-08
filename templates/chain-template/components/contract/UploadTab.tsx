@@ -19,7 +19,7 @@ import {
   InstantiatePermissionRadio,
   Permission,
 } from './InstantiatePermissionRadio';
-import { useStoreCodeTx } from '@/hooks';
+import { useStoreCodeTx, useStoredCodes } from '@/hooks';
 
 export interface CodeInfo {
   id: number;
@@ -48,6 +48,7 @@ export const UploadTab = ({ show, switchTab }: UploadTabProps) => {
   const { selectedChain } = useChainStore();
   const { address, assets } = useChain(selectedChain);
   const { storeCodeTx } = useStoreCodeTx(selectedChain);
+  const { refetch: updateStoredCodes } = useStoredCodes();
 
   useEffect(() => {
     const getCodeHash = async () => {
@@ -74,6 +75,7 @@ export const UploadTab = ({ show, switchTab }: UploadTabProps) => {
       onTxSucceed(txResult) {
         setIsLoading(false);
         setTxResult(txResult);
+        updateStoredCodes();
         if (codeName) {
           codeStore.updateCodeName({
             id: Number(txResult.codeId),

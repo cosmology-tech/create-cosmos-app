@@ -1,9 +1,14 @@
 import { Asset, AssetList, Chain } from '@chain-registry/types';
 import { toBech32, fromBech32 } from '@cosmjs/encoding';
-import BigNumber from 'bignumber.js';
 import { Sha256 } from '@cosmjs/crypto';
 import { DeliverTxResponse } from '@cosmjs/cosmwasm-stargate';
 import { Coin, logs, parseCoins } from '@cosmjs/stargate';
+import { CodeInfoResponse } from 'interchain-query/cosmwasm/wasm/v1/query';
+import { AccessType } from 'interchain-query/cosmwasm/wasm/v1/types';
+import BigNumber from 'bignumber.js';
+
+import { codeStore } from '@/contexts';
+import { PermissionValue } from '@/components/contract/StoredCodesFilter';
 
 export const validateContractAddress = (
   address: string,
@@ -149,4 +154,44 @@ export const formatTxFee = (txFee: string, assets: AssetList) => {
 
 export const splitCamelCase = (text: string): string => {
   return text.replace(/([A-Z])/g, ' $1').trim();
+};
+
+const resolvePermission = (
+  address: string,
+  permission: AccessType,
+  permissionAddresses: string[] = []
+): boolean =>
+  permission === AccessType.ACCESS_TYPE_EVERYBODY ||
+  (address ? permissionAddresses.includes(address) : false);
+
+export const filterCodeByPermission = (
+  code: CodeInfoResponse,
+  address: string,
+  filterValue: PermissionValue
+) => {
+  const { permission, addresses } = code.instantiatePermission!;
+
+  const isAllowed = resolvePermission(address, permission, addresses);
+
+  switch (filterValue) {
+    case 'with-proposal':
+      return !isAllowed;
+    case 'without-proposal':
+      return isAllowed;
+    case 'all':
+    default:
+      return true;
+  }
+};
+
+export const filterCodeBySearch = (code: CodeInfoResponse, keyword: string) => {
+  const computedKeyword = keyword.trim();
+  if (!computedKeyword.length) return true;
+
+  const codeName = codeStore.getCodeName(Number(code.codeId));
+
+  return (
+    code.codeId.toString().startsWith(computedKeyword) ||
+    codeName?.toLowerCase().includes(computedKeyword.toLowerCase())
+  );
 };

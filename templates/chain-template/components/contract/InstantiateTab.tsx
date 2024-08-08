@@ -10,7 +10,7 @@ import { InputField } from './InputField';
 import { AttachFundsSelect } from './AttachFundsSelect';
 import { SelectCodeField } from './SelectCodeField';
 import { useChainStore } from '@/contexts';
-import { useInstantiateTx } from '@/hooks';
+import { useInstantiateTx, useMyContracts } from '@/hooks';
 import { TxInfoItem, TxSuccessCard } from './TxSuccessCard';
 import { formatTxFee, shortenAddress } from '@/utils';
 import { TabLabel } from '@/pages/contract';
@@ -40,6 +40,7 @@ export const InstantiateTab = ({
   const { selectedChain } = useChainStore();
   const { address, assets } = useChain(selectedChain);
   const { instantiateTx } = useInstantiateTx(selectedChain);
+  const { refetch: updateMyContracts } = useMyContracts();
 
   const handleInstantiate = () => {
     if (!address) return;
@@ -56,6 +57,7 @@ export const InstantiateTab = ({
       onTxSucceed: (txInfo) => {
         setIsLoading(false);
         setTxResult(txInfo);
+        updateMyContracts();
       },
       onTxFailed: () => {
         setIsLoading(false);
