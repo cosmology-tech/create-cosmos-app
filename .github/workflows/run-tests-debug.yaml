@@ -3,7 +3,7 @@ name: Build Next.js examples
 on:
   push:
     branches:
-      - debug/cicd
+      - phatg/debug-ci
   workflow_dispatch:
 
 jobs:
