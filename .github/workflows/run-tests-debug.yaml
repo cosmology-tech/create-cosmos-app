@@ -83,7 +83,7 @@ jobs:
           echo "Building example: ${{ matrix.example }} in directory ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}"
           cd ${{ github.workspace }}/$ci_template_path/${{ matrix.example }}
           ls -la
-          yarn install
+          yarn install --immutable --immutable-cache --check-cache
           yarn build
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: false
