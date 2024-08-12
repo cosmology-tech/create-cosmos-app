@@ -8,6 +8,7 @@ import {
 
 import { useChainStore } from '@/contexts';
 import { useCwQueryClient } from './useCwQueryClient';
+import { prettyCodeInfo } from '@/utils';
 
 type CwQueryClient = Awaited<
   ReturnType<typeof cosmwasm.ClientFactory.createRPCQueryClient>
@@ -25,7 +26,9 @@ export const useStoredCodes = () => {
     queryFn: async () => {
       if (!client || !address) return [];
       const codes = await fetchCodes(client, PAGES_TO_FETCH);
-      return codes.filter((code) => code.creator === address);
+      return codes
+        .filter((code) => code.creator === address)
+        .map(prettyCodeInfo);
     },
     enabled: !!client && !!address,
   });

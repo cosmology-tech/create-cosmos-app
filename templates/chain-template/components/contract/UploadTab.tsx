@@ -26,6 +26,7 @@ export interface CodeInfo {
   name: string;
   uploader: string;
   permission: AccessType;
+  addresses: string[];
 }
 
 type UploadTabProps = {
@@ -43,7 +44,10 @@ export const UploadTab = ({ show, switchTab }: UploadTabProps) => {
   );
 
   const [isLoading, setIsLoading] = useState(false);
-  const [txResult, setTxResult] = useState<PrettyTxResult>();
+  const [txInfo, setTxInfo] = useState<{
+    txResult: PrettyTxResult;
+    codeInfo: CodeInfo;
+  }>();
 
   const { selectedChain } = useChainStore();
   const { address, assets } = useChain(selectedChain);
@@ -72,9 +76,9 @@ export const UploadTab = ({ show, switchTab }: UploadTabProps) => {
       onTxFailed() {
         setIsLoading(false);
       },
-      onTxSucceed(txResult) {
+      onTxSucceed(txResult, codeInfo) {
         setIsLoading(false);
-        setTxResult(txResult);
+        setTxInfo({ txResult, codeInfo });
         updateStoredCodes();
         if (codeName) {
           codeStore.updateCodeName({
@@ -91,7 +95,7 @@ export const UploadTab = ({ show, switchTab }: UploadTabProps) => {
     setCodeName('');
     setAddresses([{ value: '' }]);
     setPermission(AccessType.ACCESS_TYPE_EVERYBODY);
-    setTxResult(undefined);
+    setTxInfo(undefined);
   };
 
   const isAddressesValid =
@@ -101,7 +105,9 @@ export const UploadTab = ({ show, switchTab }: UploadTabProps) => {
 
   const isButtonDisabled = !address || !wasmFile || !isAddressesValid;
 
-  if (txResult) {
+  if (txInfo) {
+    const { txResult } = txInfo;
+
     const infoItems: TxInfoItem[] = [
       {
         label: 'Code ID',
@@ -131,16 +137,7 @@ export const UploadTab = ({ show, switchTab }: UploadTabProps) => {
               variant="primary"
               width="$full"
               mb="10px"
-              onClick={() => {
-                if (address) {
-                  switchTab({
-                    id: Number(txResult.codeId),
-                    uploader: address,
-                    permission,
-                    name: codeName,
-                  });
-                }
-              }}
+              onClick={() => switchTab(txInfo.codeInfo)}
             >
               Instantiate
             </Button>

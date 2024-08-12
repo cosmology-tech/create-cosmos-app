@@ -9,6 +9,7 @@ import BigNumber from 'bignumber.js';
 
 import { codeStore } from '@/contexts';
 import { PermissionValue } from '@/components/contract/StoredCodesFilter';
+import { CodeInfo } from '@/components';
 
 export const validateContractAddress = (
   address: string,
@@ -156,7 +157,7 @@ export const splitCamelCase = (text: string): string => {
   return text.replace(/([A-Z])/g, ' $1').trim();
 };
 
-const resolvePermission = (
+export const resolvePermission = (
   address: string,
   permission: AccessType,
   permissionAddresses: string[] = []
@@ -165,11 +166,11 @@ const resolvePermission = (
   (address ? permissionAddresses.includes(address) : false);
 
 export const filterCodeByPermission = (
-  code: CodeInfoResponse,
+  codeInfo: CodeInfo,
   address: string,
   filterValue: PermissionValue
 ) => {
-  const { permission, addresses } = code.instantiatePermission!;
+  const { permission, addresses } = codeInfo;
 
   const isAllowed = resolvePermission(address, permission, addresses);
 
@@ -184,14 +185,33 @@ export const filterCodeByPermission = (
   }
 };
 
-export const filterCodeBySearch = (code: CodeInfoResponse, keyword: string) => {
+export const filterCodeBySearch = (codeInfo: CodeInfo, keyword: string) => {
   const computedKeyword = keyword.trim();
   if (!computedKeyword.length) return true;
 
-  const codeName = codeStore.getCodeName(Number(code.codeId));
-
   return (
-    code.codeId.toString().startsWith(computedKeyword) ||
-    codeName?.toLowerCase().includes(computedKeyword.toLowerCase())
+    codeInfo.id.toString().startsWith(computedKeyword) ||
+    codeInfo.name.toLowerCase().includes(computedKeyword.toLowerCase())
   );
 };
+
+export const prettyCodeInfo = (rawCodeInfo: CodeInfoResponse): CodeInfo => {
+  const { codeId, creator, instantiatePermission } = rawCodeInfo;
+
+  return {
+    id: Number(codeId),
+    name: codeStore.getCodeName(Number(codeId)) ?? '',
+    permission: instantiatePermission?.permission!,
+    uploader: creator,
+    addresses: instantiatePermission?.addresses || [],
+  };
+};
+
+export const isPositiveInt = (input: string): boolean => {
+  if (input.startsWith('0x')) return false;
+  const numberValue = Number(input);
+  return Number.isInteger(numberValue) && numberValue > 0;
+};
+
+export const isValidCodeId = (input: string): boolean =>
+  input.length <= 7 && isPositiveInt(input);

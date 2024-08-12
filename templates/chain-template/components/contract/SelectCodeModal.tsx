@@ -1,12 +1,11 @@
 import { useMemo, useState } from 'react';
 import { BasicModal, Box, Text, Icon, Spinner } from '@interchain-ui/react';
 import { useChain } from '@cosmos-kit/react';
-import { CodeInfoResponse } from 'interchain-query/cosmwasm/wasm/v1/query';
 
 import { useStoredCodes } from '@/hooks';
 import { PermissionTag } from './PermissionTag';
-import { Table, CustomThemeProvider } from '@/components';
-import { codeStore, useChainStore } from '@/contexts';
+import { Table, CustomThemeProvider, CodeInfo } from '@/components';
+import { useChainStore } from '@/contexts';
 import {
   filterCodeByPermission,
   filterCodeBySearch,
@@ -18,7 +17,7 @@ import { EmptyState } from './EmptyState';
 type SelectCodeModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  onRowSelect: (codeInfo: CodeInfoResponse) => void;
+  onRowSelect: (codeInfo: CodeInfo) => void;
 };
 
 export const SelectCodeModal = ({
@@ -47,7 +46,11 @@ export const SelectCodeModal = ({
     <BasicModal
       title=""
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={() => {
+        onClose();
+        setSearchValue('');
+        setPermissionValue('all');
+      }}
       renderCloseButton={() => null}
     >
       <CustomThemeProvider>
@@ -113,7 +116,7 @@ export const SelectCodeModal = ({
                   <Table.Body>
                     {filteredCodes.map((code) => (
                       <Table.Row
-                        key={Number(code.codeId)}
+                        key={code.id}
                         hasHover
                         attributes={{
                           onClick: () => {
@@ -122,20 +125,15 @@ export const SelectCodeModal = ({
                           },
                         }}
                       >
-                        <Table.Cell>{Number(code.codeId)}</Table.Cell>
-                        <Table.Cell>
-                          {codeStore.getCodeName(Number(code.codeId)) ||
-                            'Untitled Name'}
-                        </Table.Cell>
+                        <Table.Cell>{code.id}</Table.Cell>
+                        <Table.Cell>{code.name || 'Untitled Name'}</Table.Cell>
                         <Table.Cell color="$blackAlpha500" fontWeight="500">
-                          {code.creator === address
+                          {code.uploader === address
                             ? 'Me'
-                            : shortenAddress(code.creator)}
+                            : shortenAddress(code.uploader)}
                         </Table.Cell>
                         <Table.Cell>
-                          <PermissionTag
-                            permission={code.instantiatePermission?.permission!}
-                          />
+                          <PermissionTag permission={code.permission} />
                         </Table.Cell>
                       </Table.Row>
                     ))}

@@ -12,7 +12,7 @@ import { SelectCodeField } from './SelectCodeField';
 import { useChainStore } from '@/contexts';
 import { useInstantiateTx, useMyContracts } from '@/hooks';
 import { TxInfoItem, TxSuccessCard } from './TxSuccessCard';
-import { formatTxFee, shortenAddress } from '@/utils';
+import { formatTxFee, resolvePermission, shortenAddress } from '@/utils';
 import { TabLabel } from '@/pages/contract';
 
 type InstantiateTabProps = {
@@ -28,7 +28,7 @@ export const InstantiateTab = ({
   clearInitCodeInfo,
   switchTab,
 }: InstantiateTabProps) => {
-  const [codeId, setCodeId] = useState('');
+  const [codeInfo, setCodeInfo] = useState<CodeInfo>();
   const [label, setLabel] = useState('');
   const [adminAddress, setAdminAddress] = useState('');
   const [initMsg, setInitMsg] = useState('');
@@ -43,13 +43,13 @@ export const InstantiateTab = ({
   const { refetch: updateMyContracts } = useMyContracts();
 
   const handleInstantiate = () => {
-    if (!address) return;
+    if (!address || !codeInfo) return;
 
     setIsLoading(true);
 
     instantiateTx({
       address,
-      codeId: Number(codeId),
+      codeId: codeInfo.id,
       initMsg: JSON.parse(initMsg),
       label,
       admin: adminAddress,
@@ -66,7 +66,7 @@ export const InstantiateTab = ({
   };
 
   const resetStates = () => {
-    setCodeId('');
+    setCodeInfo(undefined);
     setLabel('');
     setAdminAddress('');
     setInitMsg('');
@@ -75,8 +75,13 @@ export const InstantiateTab = ({
     clearInitCodeInfo();
   };
 
+  const canInstantiate =
+    !!address &&
+    !!codeInfo &&
+    resolvePermission(address, codeInfo.permission, codeInfo.addresses);
+
   const isButtonDisabled =
-    !codeId || !label || !initMsg || !isAssetListJsonValid || !address;
+    !label || !initMsg || !isAssetListJsonValid || !canInstantiate;
 
   if (txResult) {
     const txFee =
@@ -152,7 +157,7 @@ export const InstantiateTab = ({
         Instantiate Contract
       </Text>
 
-      <SelectCodeField initCodeInfo={initCodeInfo} setCodeId={setCodeId} />
+      <SelectCodeField setCodeInfo={setCodeInfo} initCodeInfo={initCodeInfo} />
 
       <Divider opacity="0.4" />
 

@@ -1,43 +1,39 @@
-import { useEffect, useState } from 'react';
-import { Box, Text, TextField } from '@interchain-ui/react';
+import { useEffect, useMemo, useState } from 'react';
+import { Box, Icon, Spinner, Text, TextField } from '@interchain-ui/react';
+import { useChain } from '@cosmos-kit/react';
 
 import { Button, Radio, RadioGroup } from '../common';
 import { UploadIcon } from './FileUpload';
 import { InputField } from './InputField';
 import { PermissionTag } from './PermissionTag';
 import { SelectCodeModal } from './SelectCodeModal';
-import { useDisclosure } from '@/hooks';
+import { useCodeDetails, useDisclosure } from '@/hooks';
 import { CodeInfo } from './UploadTab';
-import { codeStore } from '@/contexts';
+import { useChainStore } from '@/contexts';
+import { isValidCodeId, resolvePermission } from '@/utils';
 
-type SelectMode = 'select-existing' | 'fill-manually';
+type Method = 'select-existing' | 'fill-manually';
 
 type SelectCodeFieldProps = {
-  setCodeId: (codeId: string) => void;
+  setCodeInfo: (codeInfo: CodeInfo | undefined) => void;
   initCodeInfo?: CodeInfo;
 };
 
 export const SelectCodeField = ({
-  setCodeId,
+  setCodeInfo,
   initCodeInfo,
 }: SelectCodeFieldProps) => {
-  const [codeInfo, setCodeInfo] = useState<CodeInfo>();
-  const [manualCodeId, setManualCodeId] = useState('');
-  const [selectMode, setSelectMode] = useState<SelectMode>('select-existing');
-
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  const [method, setMethod] = useState<Method>('select-existing');
+  const [selectedCode, setSelectedCode] = useState<CodeInfo>();
+  const [fetchedCode, setFetchedCode] = useState<CodeInfo>();
 
   useEffect(() => {
-    if (selectMode === 'select-existing') {
-      setCodeId(codeInfo?.id.toString() ?? '');
-    } else {
-      setCodeId(manualCodeId);
-    }
-  }, [selectMode, codeInfo, manualCodeId]);
+    setCodeInfo(method === 'select-existing' ? selectedCode : fetchedCode);
+  }, [method, selectedCode, fetchedCode]);
 
   useEffect(() => {
-    setCodeInfo(initCodeInfo);
-    setSelectMode('select-existing');
+    setSelectedCode(initCodeInfo);
+    setMethod('select-existing');
   }, [initCodeInfo]);
 
   return (
@@ -46,14 +42,52 @@ export const SelectCodeField = ({
         name="select-code"
         direction="row"
         space="60px"
-        value={selectMode}
-        onChange={(val) => setSelectMode(val as SelectMode)}
+        value={method}
+        onChange={(val) => setMethod(val as Method)}
       >
         <Radio value="select-existing">Select from your code</Radio>
         <Radio value="fill-manually">Fill Code ID manually</Radio>
       </RadioGroup>
 
-      {selectMode === 'select-existing' && (
+      <SelectCode
+        show={method === 'select-existing'}
+        selectedCode={selectedCode}
+        setSelectedCode={setSelectedCode}
+      />
+
+      <FillCodeId
+        show={method === 'fill-manually'}
+        setFetchedCode={setFetchedCode}
+      />
+    </>
+  );
+};
+
+const SelectCode = ({
+  show,
+  selectedCode,
+  setSelectedCode,
+}: {
+  show: boolean;
+  selectedCode: CodeInfo | undefined;
+  setSelectedCode: (codeInfo: CodeInfo) => void;
+}) => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const { selectedChain } = useChainStore();
+  const { address } = useChain(selectedChain);
+
+  const canInstantiate = useMemo(() => {
+    if (!address || !selectedCode) return true;
+    return resolvePermission(
+      address,
+      selectedCode.permission,
+      selectedCode.addresses
+    );
+  }, [address, selectedCode]);
+
+  return (
+    <Box display={show ? 'block' : 'none'}>
+      <Box>
         <Box
           display="flex"
           justifyContent="space-between"
@@ -61,10 +95,13 @@ export const SelectCodeField = ({
           p="10px"
           borderRadius="8px"
           bg="$blackAlpha50"
+          borderWidth={!canInstantiate ? '1px' : 0}
+          borderStyle="solid"
+          borderColor="$red600"
         >
           <Box display="flex" alignItems="center" gap="10px">
             <UploadIcon />
-            {codeInfo ? (
+            {selectedCode ? (
               <Box>
                 <Text
                   color="$blackAlpha600"
@@ -72,14 +109,19 @@ export const SelectCodeField = ({
                   fontWeight="500"
                   attributes={{ mb: '2px' }}
                 >
-                  {codeInfo.name}
+                  {selectedCode.name || 'Untitled Name'}
                 </Text>
                 <Box display="flex" gap="6px" alignItems="center">
                   <Text color="$blackAlpha500" fontSize="12px" fontWeight="500">
-                    Code ID {codeInfo.id}
+                    Code ID {selectedCode.id}
                   </Text>
-                  <Dot />
-                  <PermissionTag permission={codeInfo.permission} />
+                  <Box
+                    width="3px"
+                    height="3px"
+                    borderRadius="50%"
+                    bg="$blackAlpha500"
+                  />
+                  <PermissionTag permission={selectedCode.permission} />
                 </Box>
               </Box>
             ) : (
@@ -89,41 +131,116 @@ export const SelectCodeField = ({
             )}
           </Box>
           <Button onClick={onOpen} variant="text" px="10px">
-            {codeInfo ? 'Change' : 'Select'} Code
+            {selectedCode ? 'Change' : 'Select'} Code
           </Button>
         </Box>
-      )}
-
-      {selectMode === 'fill-manually' && (
-        <InputField title="Code ID">
-          <TextField
-            id="code_id"
-            type="number"
-            value={manualCodeId}
-            onChange={(e) => setManualCodeId(e.target.value)}
-          />
-          <InputField.Description>
-            Input existing Code ID manually
-          </InputField.Description>
-        </InputField>
-      )}
-
+        {!canInstantiate && (
+          <Text
+            color="$red600"
+            fontSize="12px"
+            fontWeight="500"
+            wordBreak="break-all"
+            attributes={{ mt: '6px' }}
+          >
+            This wallet does not have permission to instantiate this code
+          </Text>
+        )}
+      </Box>
       <SelectCodeModal
         isOpen={isOpen}
         onClose={onClose}
-        onRowSelect={(code) => {
-          setCodeInfo({
-            id: Number(code.codeId),
-            name: codeStore.getCodeName(Number(code.codeId)) || 'Untitled Name',
-            permission: code.instantiatePermission?.permission!,
-            uploader: code.creator,
-          });
-        }}
+        onRowSelect={(code) => setSelectedCode(code)}
       />
-    </>
+    </Box>
   );
 };
 
-const Dot = () => (
-  <Box width="3px" height="3px" borderRadius="50%" bg="$blackAlpha500" />
-);
+type Status = {
+  state: 'init' | 'loading' | 'success' | 'error';
+  message?: string;
+};
+
+const FillCodeId = ({
+  show,
+  setFetchedCode,
+}: {
+  show: boolean;
+  setFetchedCode: (codeInfo: CodeInfo | undefined) => void;
+}) => {
+  const [status, setStatus] = useState<Status>({ state: 'init' });
+  const [codeId, setCodeId] = useState('');
+
+  const { selectedChain } = useChainStore();
+  const { address } = useChain(selectedChain);
+  const { refetch } = useCodeDetails(Number(codeId), false);
+
+  useEffect(() => {
+    setStatus({ state: 'init' });
+    setFetchedCode(undefined);
+    if (codeId.length) {
+      if (!isValidCodeId(codeId)) {
+        return setStatus({ state: 'error', message: 'Invalid Code ID' });
+      }
+
+      setStatus({ state: 'loading' });
+
+      const timer = setTimeout(() => {
+        refetch().then(({ data }) => {
+          setFetchedCode(data);
+
+          if (!data) {
+            return setStatus({
+              state: 'error',
+              message: 'This code ID does not exist',
+            });
+          }
+
+          const hasPermission = resolvePermission(
+            address || '',
+            data.permission,
+            data.addresses
+          );
+
+          hasPermission
+            ? setStatus({ state: 'success' })
+            : setStatus({
+                state: 'error',
+                message:
+                  'This wallet does not have permission to instantiate this code',
+              });
+        });
+      }, 500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [codeId, refetch]);
+
+  return (
+    <Box display={show ? 'block' : 'none'}>
+      <InputField title="Code ID">
+        <Box position="relative">
+          <TextField
+            id="code_id"
+            type="number"
+            intent={status.state === 'error' ? 'error' : 'default'}
+            value={codeId}
+            onChange={(e) => setCodeId(e.target.value)}
+          />
+          {codeId.length > 0 && (
+            <Box position="absolute" top="10px" right="10px">
+              {status.state === 'loading' && <Spinner size="$xl" />}
+              {status.state === 'success' && (
+                <Icon name="checkboxCircle" color="$green600" size="$xl" />
+              )}
+            </Box>
+          )}
+        </Box>
+        <InputField.Description
+          intent={status.state === 'error' ? 'error' : 'default'}
+        >
+          {status?.message || 'Input existing Code ID manually'}
+        </InputField.Description>
+      </InputField>
+    </Box>
+  );
+};

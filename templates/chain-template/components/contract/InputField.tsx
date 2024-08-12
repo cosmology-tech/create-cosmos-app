@@ -17,9 +17,19 @@ const InputField = ({
   );
 };
 
-const Description = ({ children }: { children: string }) => {
+const Description = ({
+  children,
+  intent = 'default',
+}: {
+  children: string;
+  intent?: 'error' | 'default';
+}) => {
   return (
-    <Text color="$blackAlpha500" fontSize="12px" fontWeight="500">
+    <Text
+      color={intent === 'error' ? '$red600' : '$blackAlpha500'}
+      fontSize="12px"
+      fontWeight="500"
+    >
       {children}
     </Text>
   );
