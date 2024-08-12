@@ -12,7 +12,12 @@ import { SelectCodeField } from './SelectCodeField';
 import { useChainStore } from '@/contexts';
 import { useInstantiateTx, useMyContracts } from '@/hooks';
 import { TxInfoItem, TxSuccessCard } from './TxSuccessCard';
-import { formatTxFee, resolvePermission, shortenAddress } from '@/utils';
+import {
+  formatTxFee,
+  resolvePermission,
+  shortenAddress,
+  validateChainAddress,
+} from '@/utils';
 import { TabLabel } from '@/pages/contract';
 
 type InstantiateTabProps = {
@@ -38,7 +43,7 @@ export const InstantiateTab = ({
   const [txResult, setTxResult] = useState<InstantiateResult>();
 
   const { selectedChain } = useChainStore();
-  const { address, assets } = useChain(selectedChain);
+  const { address, assets, chain } = useChain(selectedChain);
   const { instantiateTx } = useInstantiateTx(selectedChain);
   const { refetch: updateMyContracts } = useMyContracts();
 
@@ -75,13 +80,20 @@ export const InstantiateTab = ({
     clearInitCodeInfo();
   };
 
+  const adminInputErr =
+    adminAddress && validateChainAddress(adminAddress, chain.bech32_prefix);
+
   const canInstantiate =
     !!address &&
     !!codeInfo &&
     resolvePermission(address, codeInfo.permission, codeInfo.addresses);
 
   const isButtonDisabled =
-    !label || !initMsg || !isAssetListJsonValid || !canInstantiate;
+    !label ||
+    !initMsg ||
+    !isAssetListJsonValid ||
+    !canInstantiate ||
+    !!adminInputErr;
 
   if (txResult) {
     const txFee =
@@ -177,12 +189,14 @@ export const InstantiateTab = ({
       <InputField title="Admin Address (Optional)">
         <TextField
           id="admin_address"
+          intent={adminInputErr ? 'error' : 'default'}
           value={adminAddress}
           onChange={(e) => setAdminAddress(e.target.value)}
           autoComplete="off"
         />
-        <InputField.Description>
-          The contract's admin will be able to migrate and update future admins.
+        <InputField.Description intent={adminInputErr ? 'error' : 'default'}>
+          {adminInputErr ||
+            "The contract's admin will be able to migrate and update future admins."}
         </InputField.Description>
       </InputField>
 
