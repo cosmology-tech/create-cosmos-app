@@ -13,6 +13,7 @@ import {
 } from '@/utils';
 import { PermissionValue, StoredCodesFilter } from './StoredCodesFilter';
 import { EmptyState } from './EmptyState';
+import styles from '@/styles/comp.module.css';
 
 type SelectCodeModalProps = {
   isOpen: boolean;
@@ -52,14 +53,16 @@ export const SelectCodeModal = ({
         setPermissionValue('all');
       }}
       renderCloseButton={() => null}
+      modalContentClassName={styles.modal}
     >
       <CustomThemeProvider>
         <Box
           display="flex"
           flexDirection="column"
           gap="20px"
-          width="760px"
-          px="10px"
+          width="90vw"
+          maxWidth="760px"
+          p="30px"
           pt="20px"
         >
           <Box display="flex" alignItems="center" mb="10px">
@@ -103,8 +106,8 @@ export const SelectCodeModal = ({
             ) : filteredCodes.length === 0 ? (
               <EmptyState text="No matched codes found" />
             ) : (
-              <Box width="$full" alignSelf="start">
-                <Table>
+              <Box width="$full" alignSelf="start" overflowX="auto">
+                <Table minWidth="550px">
                   <Table.Header>
                     <Table.Row height="$fit">
                       <Table.HeaderCell width="10%">Code</Table.HeaderCell>

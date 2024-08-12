@@ -37,8 +37,8 @@ export const MyContractsTab = ({ show, switchTab }: MyContractsTabProps) => {
         ) : myContracts.length === 0 ? (
           <EmptyState text="No contracts found" />
         ) : (
-          <Box width="$full" alignSelf="start">
-            <Table>
+          <Box width="$full" alignSelf="start" overflowX="auto">
+            <Table minWidth="650px">
               <Table.Header>
                 <Table.Row height="$fit">
                   <Table.HeaderCell width="15%">

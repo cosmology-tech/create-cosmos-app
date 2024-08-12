@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Box,
   Popover,
@@ -35,6 +35,8 @@ export const permissionOptions: PermissionOption[] = [
   },
 ];
 
+const FLEX_GAP = 20;
+
 type StoredCodesFilterProps = {
   searchValue: string;
   setSearchValue: (value: string) => void;
@@ -50,16 +52,39 @@ export const StoredCodesFilter = ({
 }: StoredCodesFilterProps) => {
   const [elemRef, setElemRef] = useState<HTMLDivElement>();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [elemWidth, setElemWidth] = useState(0);
 
   const { theme } = useTheme();
   const { isMobile } = useDetectBreakpoints();
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (elemRef) {
+        const width = isMobile
+          ? elemRef.offsetWidth
+          : (elemRef.offsetWidth - FLEX_GAP) / 2;
+        setElemWidth(width);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [elemRef, isMobile]);
 
   const permissionOption = permissionOptions.find(
     (p) => p.value === permissionValue
   )!;
 
   return (
-    <Box display="flex" justifyContent="space-between" gap="20px">
+    <Box
+      ref={setElemRef}
+      display="flex"
+      flexDirection={isMobile ? 'column' : 'row'}
+      justifyContent="space-between"
+      gap={`${FLEX_GAP}px`}
+    >
       <Box flex={1}>
         <Text fontSize="16px" fontWeight="600" attributes={{ mb: '10px' }}>
           Search
@@ -72,7 +97,7 @@ export const StoredCodesFilter = ({
           autoComplete="off"
         />
       </Box>
-      <Box flex={1} ref={setElemRef}>
+      <Box flex={1}>
         <Text fontSize="16px" fontWeight="600" attributes={{ mb: '10px' }}>
           Filter by Instantiate Permission
         </Text>
@@ -89,14 +114,14 @@ export const StoredCodesFilter = ({
             <SelectButton
               onClick={() => {}}
               placeholder={permissionOption.label}
-              _css={{ width: `${elemRef?.offsetWidth}px` }}
+              attributes={{ width: `${elemWidth}px` }}
             />
           </PopoverTrigger>
           <PopoverContent showArrow={false}>
             <Box
               display="flex"
               flexDirection="column"
-              width={`${elemRef?.offsetWidth}px`}
+              width={`${elemWidth}px`}
               py="10px"
               bg="$background"
               borderRadius="4px"

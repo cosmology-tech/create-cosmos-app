@@ -10,6 +10,8 @@ import {
   PopoverTrigger,
   SelectButton,
   Text,
+  useColorModeValue,
+  useTheme,
 } from '@interchain-ui/react';
 
 import { Button } from '@/components';
@@ -69,6 +71,7 @@ export const SelectAssetItem = ({
     });
   };
 
+  const { theme } = useTheme();
   const { isMobile } = useDetectBreakpoints();
 
   return (
@@ -104,9 +107,11 @@ export const SelectAssetItem = ({
               flexDirection="column"
               width="140px"
               py="10px"
-              bg="$white"
+              bg="$background"
               borderRadius="4px"
-              boxShadow="0px 4px 20px 0px rgba(0, 0, 0, 0.1)"
+              boxShadow={`0px 4px 20px 0px rgba(${
+                theme === 'light' ? '0,0,0' : '128,128,128'
+              }, 0.1)`}
               maxHeight="220px"
               overflowY="auto"
             >
@@ -158,6 +163,7 @@ const AssetOption = ({
   disabled: boolean;
   onClick: () => void;
 }) => {
+  const hoverBg = useColorModeValue('$blackAlpha100', '$whiteAlpha100');
   return (
     <Box
       display="flex"
@@ -168,8 +174,8 @@ const AssetOption = ({
       cursor={disabled ? 'default' : 'pointer'}
       opacity={disabled ? 0.3 : 1}
       bg={{
-        hover: disabled ? '$white' : '$blackAlpha100',
-        base: '$white',
+        hover: disabled ? '$background' : hoverBg,
+        base: '$background',
       }}
       attributes={{ onClick: disabled ? undefined : onClick }}
     >

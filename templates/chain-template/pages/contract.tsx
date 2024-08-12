@@ -10,6 +10,7 @@ import {
   UploadTab,
 } from '@/components';
 import { splitCamelCase } from '@/utils';
+import styles from '@/styles/comp.module.css';
 
 export enum TabLabel {
   MyContracts,
@@ -47,7 +48,7 @@ export default function Contract() {
           }))}
         activeTab={activeTab}
         onActiveTabChange={(tabId) => setActiveTab(tabId)}
-        attributes={{ width: '860px' }}
+        className={styles.tabs}
       />
       <Box mt="40px">
         <MyContractsTab
