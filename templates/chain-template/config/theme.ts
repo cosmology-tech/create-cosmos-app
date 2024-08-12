@@ -50,7 +50,7 @@ export const darkColors: ThemeDef['vars']['colors'] = {
   blackAlpha300: '#46424D',
   blackAlpha200: '#443F4B',
   blackAlpha100: '#29262F',
-  blackAlpha50: '#FBFBFB',
+  blackAlpha50: '#1D2328',
   white: '#FFFFFF',
   background: '#232A31',
   green600: '#38A169',

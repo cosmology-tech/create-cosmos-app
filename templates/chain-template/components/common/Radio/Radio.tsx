@@ -1,4 +1,4 @@
-import { Box } from '@interchain-ui/react';
+import { Box, useTheme } from '@interchain-ui/react';
 import styles from './Radio.module.css';
 
 type RadioProps = {
@@ -16,6 +16,8 @@ export const Radio = ({
   name,
   onChange,
 }: RadioProps) => {
+  const { theme } = useTheme();
+
   return (
     <Box
       as="label"
@@ -34,7 +36,9 @@ export const Radio = ({
         value={value}
         checked={checked}
         onChange={onChange}
-        className={styles.radio}
+        className={`${styles.radio} ${
+          theme === 'dark' ? styles.radioDark : ''
+        }`}
       />
       {children}
     </Box>

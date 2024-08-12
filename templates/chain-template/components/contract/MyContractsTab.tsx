@@ -33,7 +33,7 @@ export const MyContractsTab = ({ show, switchTab }: MyContractsTabProps) => {
         {!address ? (
           <EmptyState text="Connect wallet to see your previously instantiated contracts." />
         ) : isLoading ? (
-          <Spinner size="$6xl" />
+          <Spinner size="$6xl" color="$blackAlpha600" />
         ) : myContracts.length === 0 ? (
           <EmptyState text="No contracts found" />
         ) : (

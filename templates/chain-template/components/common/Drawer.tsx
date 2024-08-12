@@ -75,7 +75,7 @@ export const Drawer = ({
         left={direction === 'right' ? 'auto' : '0'}
         right={direction === 'left' ? 'auto' : '0'}
         ref={contentRef}
-        bg="white"
+        bg="$background"
         overflowY="auto"
         overflowX="hidden"
         transform={getTransform()}

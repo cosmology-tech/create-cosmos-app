@@ -228,7 +228,9 @@ const FillCodeId = ({
           />
           {codeId.length > 0 && (
             <Box position="absolute" top="10px" right="10px">
-              {status.state === 'loading' && <Spinner size="$xl" />}
+              {status.state === 'loading' && (
+                <Spinner size="$xl" color="$blackAlpha600" />
+              )}
               {status.state === 'success' && (
                 <Icon name="checkboxCircle" color="$green600" size="$xl" />
               )}

@@ -97,7 +97,7 @@ export const SelectCodeModal = ({
             {!address ? (
               <EmptyState text="Connect wallet to see your previously stored codes." />
             ) : isLoading ? (
-              <Spinner size="$6xl" />
+              <Spinner size="$6xl" color="$blackAlpha600" />
             ) : storedCodes.length === 0 ? (
               <EmptyState text="No codes found" />
             ) : filteredCodes.length === 0 ? (

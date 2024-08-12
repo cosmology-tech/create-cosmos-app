@@ -7,6 +7,8 @@ import {
   SelectButton,
   Text,
   TextField,
+  useColorModeValue,
+  useTheme,
 } from '@interchain-ui/react';
 
 import { useDetectBreakpoints } from '@/hooks';
@@ -49,6 +51,7 @@ export const StoredCodesFilter = ({
   const [elemRef, setElemRef] = useState<HTMLDivElement>();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
+  const { theme } = useTheme();
   const { isMobile } = useDetectBreakpoints();
 
   const permissionOption = permissionOptions.find(
@@ -95,9 +98,11 @@ export const StoredCodesFilter = ({
               flexDirection="column"
               width={`${elemRef?.offsetWidth}px`}
               py="10px"
-              bg="$white"
+              bg="$background"
               borderRadius="4px"
-              boxShadow="0px 4px 20px 0px rgba(0, 0, 0, 0.1)"
+              boxShadow={`0px 4px 20px 0px rgba(${
+                theme === 'light' ? '0,0,0' : '128,128,128'
+              }, 0.1)`}
               maxHeight="220px"
               overflowY="auto"
             >
@@ -136,8 +141,8 @@ const CustomOption = ({
       px="20px"
       cursor="pointer"
       bg={{
-        hover: '$blackAlpha100',
-        base: '$white',
+        hover: useColorModeValue('$blackAlpha100', '$whiteAlpha100'),
+        base: '$background',
       }}
       attributes={{ onClick }}
     >

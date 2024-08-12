@@ -26,3 +26,15 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.radioDark {
+  border: 1px solid #343c44;
+}
+
+.radioDark:checked {
+  border: 1px solid #ab6fff;
+}
+
+.radioDark:checked::before {
+  background: #ab6fff;
+}

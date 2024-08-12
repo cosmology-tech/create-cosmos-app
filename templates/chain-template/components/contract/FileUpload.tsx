@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Box, Text } from '@interchain-ui/react';
+import { Box, Text, useColorModeValue } from '@interchain-ui/react';
 import { HiOutlineTrash, HiOutlineUpload } from 'react-icons/hi';
 import { useDropzone } from 'react-dropzone';
 
@@ -27,6 +27,8 @@ export const FileUpload = ({ file, setFile }: FileUploadProps) => {
     accept: { 'application/octet-stream': ['.wasm'] },
     maxSize: MAX_FILE_SIZE,
   });
+
+  const textColor = useColorModeValue('$purple600', '$purple400');
 
   if (file) {
     return (
@@ -92,7 +94,7 @@ export const FileUpload = ({ file, setFile }: FileUploadProps) => {
           >
             <Text
               as="span"
-              color="$purple600"
+              color={textColor}
               fontSize="16px"
               fontWeight="600"
               attributes={{
@@ -127,7 +129,7 @@ export const UploadIcon = () => (
     height="40px"
     borderRadius="$full"
     bg="$purple100"
-    color="$purple600"
+    color={useColorModeValue('$purple600', '$purple400')}
   >
     <HiOutlineUpload size="20px" />
   </Box>

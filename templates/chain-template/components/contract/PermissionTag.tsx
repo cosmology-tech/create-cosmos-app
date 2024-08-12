@@ -1,4 +1,4 @@
-import { Box, Text } from '@interchain-ui/react';
+import { Box, Text, useColorModeValue } from '@interchain-ui/react';
 import { AccessType } from 'interchain-query/cosmwasm/wasm/v1/types';
 
 type PermissionTagProps = {
@@ -29,7 +29,11 @@ export const PermissionTag = ({ permission }: PermissionTagProps) => {
       bg="$purple200"
       width="$fit"
     >
-      <Text color="$purple600" fontSize="12px" fontWeight="500">
+      <Text
+        color={useColorModeValue('$purple600', '$purple300')}
+        fontSize="12px"
+        fontWeight="500"
+      >
         {renderText()}
       </Text>
     </Box>
