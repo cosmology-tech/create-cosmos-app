@@ -11,8 +11,10 @@ import {
 import { getLogoUrlFromDenom } from './PoolList';
 import BigNumber from 'bignumber.js';
 import { truncDecimals } from './modals/PoolDetailModal';
-import { getSymbolForDenom, ExtendedPool } from '@/utils';
+import { ExtendedPool, osmosisAssetsList } from '@/utils';
 import { PoolApr } from '@/hooks';
+import { getSymbolByDenom } from '@chain-registry/utils';
+import { CoinSymbol } from '@/utils/types';
 
 const formatNumber = (number: number | string) => {
   const formatter = Intl.NumberFormat('en', {
@@ -104,7 +106,13 @@ const PoolCard = ({
         <Box fontSize="14px">
           <Text fontWeight="600" color={poolNameColor}>
             {pool.poolAssets
-              .map(({ token }) => getSymbolForDenom(token!.denom))
+              .map(({ token }) => {
+                const symbol = getSymbolByDenom(
+                  osmosisAssetsList,
+                  token!.denom
+                ) as CoinSymbol;
+                return symbol;
+              })
               .join('/')}
           </Text>
           <Text fontWeight="400" color={poolIdColor}>

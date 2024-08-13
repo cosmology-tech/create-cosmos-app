@@ -7,10 +7,7 @@
   width: 640px;
 }
 
-.listItem {
-  background-color: #eef2f8;
-}
-
-.listItem:hover {
-  background-color: #dde4ed;
+.listStack {
+  border: solid 1px #d1d6dd;
+  border-radius: 5px;
 }

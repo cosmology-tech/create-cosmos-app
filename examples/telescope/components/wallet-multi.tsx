@@ -11,6 +11,26 @@ import { WalletCardSection } from './card';
 import { ChainName } from 'cosmos-kit';
 import React from 'react';
 
+type Option = {
+  label: string;
+  value: string;
+};
+
+export interface ChainInfo {
+  chainName: string;
+  chainRoute?: string;
+  label: string;
+  value: string;
+  icon?: string;
+  disabled?: boolean;
+}
+
+export interface ChooseChainProps {
+  chainName?: string;
+  chainInfos: ChainInfo[];
+  onChange: (selectedItem: Option | null) => void;
+}
+
 export const WalletSectionMulti = ({
   chainName,
   setChainName,
@@ -37,12 +57,12 @@ export const WalletSectionMulti = ({
     setChainName(window.localStorage.getItem('selected-chain') || 'osmosis');
   }, [setChainName]);
 
-  const onChainChange: handleSelectChainDropdown = async (
-    selectedValue: ChainOption | null
-  ) => {
-    setChainName(selectedValue?.chainName);
-    if (selectedValue?.chainName) {
-      window?.localStorage.setItem('selected-chain', selectedValue?.chainName);
+  const onChainChange: ChooseChainProps['onChange'] = async (selectedValue) => {
+    if (!selectedValue) return;
+
+    if (selectedValue?.value) {
+      setChainName?.(selectedValue?.value);
+      window?.localStorage.setItem('selected-chain', selectedValue?.value);
     } else {
       window?.localStorage.removeItem('selected-chain');
     }

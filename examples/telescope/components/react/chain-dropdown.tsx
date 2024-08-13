@@ -10,7 +10,8 @@ import {
   useBreakpointValue,
   SystemStyleObject,
   SkeletonCircle,
-  Skeleton
+  Skeleton,
+  Input,
 } from '@chakra-ui/react';
 import { Searcher } from 'fast-fuzzy';
 import { FiChevronDown } from 'react-icons/fi';
@@ -20,12 +21,13 @@ import {
   chakraComponents,
   GroupBase,
   DropdownIndicatorProps,
-  PlaceholderProps
+  PlaceholderProps,
+  InputProps,
 } from 'chakra-react-select';
 import {
   ChainOption,
   ChangeChainDropdownType,
-  ChangeChainMenuType
+  ChangeChainMenuType,
 } from '../types';
 
 const SkeletonOptions = () => {
@@ -42,7 +44,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
   const customStyles = {
     control: (provided: SystemStyleObject) => ({
       ...provided,
-      height: 12
+      height: 12,
     }),
     menu: (provided: SystemStyleObject) => ({
       ...provided,
@@ -51,7 +53,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
       mb: 0,
       bg: useColorModeValue('white', 'gray.900'),
       boxShadow: useColorModeValue('0 1px 5px #e3e3e3', '0 0px 4px #4b4b4b'),
-      borderRadius: '0.3rem'
+      borderRadius: '0.3rem',
     }),
     menuList: (provided: SystemStyleObject) => ({
       ...provided,
@@ -73,7 +75,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
           'rgba(220,220,220,0.1)',
           'rgba(60,60,60,0.1)'
         ),
-        borderRadius: '3px'
+        borderRadius: '3px',
       },
       '&::-webkit-scrollbar-thumb': {
         background: useColorModeValue(
@@ -82,18 +84,18 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
         ),
         borderRadius: '10px',
         border: '3px solid transparent',
-        backgroundClip: 'content-box'
-      }
+        backgroundClip: 'content-box',
+      },
     }),
     clearIndicator: (provided: SystemStyleObject) => ({
       ...provided,
       borderRadius: 'full',
-      color: useColorModeValue('blackAlpha.600', 'whiteAlpha.600')
+      color: useColorModeValue('blackAlpha.600', 'whiteAlpha.600'),
     }),
     dropdownIndicator: (provided: SystemStyleObject) => ({
       ...provided,
       bg: 'transparent',
-      pl: 1.5
+      pl: 1.5,
     }),
     option: (
       provided: SystemStyleObject,
@@ -110,25 +112,25 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
               ? 'primary.200'
               : 'primary.100'
             : state.isFocused
-              ? 'blackAlpha.200'
-              : 'transparent',
+            ? 'blackAlpha.200'
+            : 'transparent',
           state.isSelected
             ? state.isFocused
               ? 'primary.600'
               : 'primary.500'
             : state.isFocused
-              ? 'whiteAlpha.200'
-              : 'transparent'
+            ? 'whiteAlpha.200'
+            : 'transparent'
         ),
         _notFirst: {
-          mt: 2
+          mt: 2,
         },
         _active: {
-          bg: 'primary.50'
+          bg: 'primary.50',
         },
-        _disabled: { bg: 'transparent', _hover: { bg: 'transparent' } }
+        _disabled: { bg: 'transparent', _hover: { bg: 'transparent' } },
       };
-    }
+    },
   };
   const IndicatorSeparator = () => {
     return null;
@@ -191,6 +193,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
     }
     return <chakraComponents.Placeholder {...props} />;
   };
+
   const CustomOption = ({
     children,
     ...props
@@ -249,7 +252,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
       defaultOptions={data}
       loadOptions={(inputValue, callback) => {
         const searcher = new Searcher(data, {
-          keySelector: (obj) => obj.label
+          keySelector: (obj) => obj.label,
         });
         callback(searcher.search(inputValue));
       }}
@@ -258,7 +261,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
         DropdownIndicator,
         IndicatorSeparator,
         Placeholder,
-        Option: CustomOption
+        Option: CustomOption,
       }}
     />
   );
@@ -267,7 +270,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
 export const ChangeChainDropdown = ({
   data,
   selectedItem,
-  onChange
+  onChange,
 }: ChangeChainDropdownType) => {
   return (
     <Box w="full" position="relative" zIndex={150}>
