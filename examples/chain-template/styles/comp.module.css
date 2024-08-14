@@ -1,0 +1,11 @@
+.tabs {
+  width: 100%;
+}
+
+.tabs ul {
+  max-width: 860px;
+}
+
+.modal div[data-modal-part='children'] {
+  padding: 0;
+}
