@@ -7,10 +7,11 @@ import { ChainProvider } from '@cosmos-kit/react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Box, Toaster, useTheme } from '@interchain-ui/react';
+import { chains, assets } from 'chain-registry';
 import { GasPrice } from '@cosmjs/stargate';
 
 import { CustomThemeProvider, Layout } from '@/components';
-import { wallets, staticChains, staticAssets } from '@/config';
+import { wallets } from '@/config';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -46,9 +47,9 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   return (
     <CustomThemeProvider>
       <ChainProvider
-        chains={staticChains}
+        chains={chains}
         // @ts-ignore
-        assetLists={staticAssets}
+        assetLists={assets}
         wallets={wallets}
         walletConnectOptions={{
           signClient: {

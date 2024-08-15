@@ -40,8 +40,12 @@ const AssetsOverview = ({
     isLoading: isLoadingTotalAssets,
     refetch,
   } = useTotalAssets(selectedChainName);
-  const { getChainName, getNativeDenom, isNativeAsset } =
-    useChainUtils(selectedChainName);
+  const {
+    getChainName,
+    getNativeDenom,
+    isNativeAsset,
+    getDenomBySymbolAndChain,
+  } = useChainUtils(selectedChainName);
 
   const modalControl = useDisclosure();
   const rowModalControl = useDisclosure();
@@ -70,7 +74,7 @@ const AssetsOverview = ({
       showWithdraw: !isNativeAsset(asset),
       onDeposit: () => {
         const sourceChainName = getChainName(asset.denom);
-        const sourceChainNativeDenom = getNativeDenom(sourceChainName);
+        const denom = getDenomBySymbolAndChain(sourceChainName, asset.symbol);
         flushSync(() => {
           setRowTransferInfo({
             sourceChainName,
@@ -80,7 +84,7 @@ const AssetsOverview = ({
               ...prettyAssetToTransferItem(asset),
               priceDisplayAmount: 0,
               available: 0,
-              denom: sourceChainNativeDenom,
+              denom,
             },
           });
         });
@@ -145,7 +149,7 @@ const AssetsOverview = ({
     <>
       <SingleChain
         isLoading={isLoading || isLoadingTotalAssets}
-        title="Your Assets"
+        title="Your assets"
         listTitle={`On ${chain.pretty_name}`}
         showDeposit={ibcAssets.length > 0}
         showWithdraw={hasBalance}

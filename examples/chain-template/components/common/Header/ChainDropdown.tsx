@@ -5,7 +5,7 @@ import { Box, Combobox, Skeleton, Stack, Text } from '@interchain-ui/react';
 
 import { useStarshipChains, useDetectBreakpoints } from '@/hooks';
 import { chainStore, useChainStore } from '@/contexts';
-import { staticChains } from '@/config';
+import { chainOptions } from '@/config';
 
 export const ChainDropdown = () => {
   const { selectedChain } = useChainStore();
@@ -26,8 +26,8 @@ export const ChainDropdown = () => {
   }, [starshipChains]);
 
   const chains = isChainsAdded
-    ? staticChains.concat(starshipChains?.chains ?? [])
-    : staticChains;
+    ? chainOptions.concat(starshipChains?.chains ?? [])
+    : chainOptions;
 
   return (
     <Combobox
