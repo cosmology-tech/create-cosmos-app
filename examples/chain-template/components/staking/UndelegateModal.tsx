@@ -20,6 +20,7 @@ import {
   getExponent,
   isGreaterThanZero,
   shiftDigits,
+  toBaseAmount,
   type ExtendedValidator as Validator,
 } from '@/utils';
 
@@ -69,7 +70,7 @@ export const UndelegateModal = ({
       delegatorAddress: address,
       validatorAddress: selectedValidator.address,
       amount: {
-        amount: shiftDigits(amount, exp),
+        amount: toBaseAmount(amount, exp),
         denom: coin.base,
       },
     });
@@ -134,19 +135,10 @@ export const UndelegateModal = ({
               ? calcDollarValue(coin.base, amount, prices)
               : undefined,
             value: amount,
-            onValueInput: (val) => {
-              if (!val) {
-                setAmount(undefined);
-                return;
-              }
-
-              if (new BigNumber(val).gt(maxAmount)) {
-                setAmount(Number(maxAmount));
-                forceUpdate((n) => n + 1);
-                return;
-              }
-
-              setAmount(Number(val));
+            minValue: 0,
+            maxValue: Number(maxAmount),
+            onValueChange: (val) => {
+              setAmount(val);
             },
             partials: [
               {
