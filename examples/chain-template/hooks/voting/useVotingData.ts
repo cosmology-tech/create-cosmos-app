@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useChain } from '@cosmos-kit/react';
 import { useQueries } from '@tanstack/react-query';
-import { ProposalStatus } from 'interchain-query/cosmos/gov/v1beta1/gov';
+import { Proposal, ProposalStatus } from 'interchain-query/cosmos/gov/v1beta1/gov';
+import { Proposal as ProposalV1 } from 'interchain-query/cosmos/gov/v1/gov';
 import { useQueryHooks, useRpcQueryClient } from '.';
-import { paginate, parseQuorum, processProposals } from '@/utils';
+import { getTitle, paginate, parseQuorum } from '@/utils';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -13,13 +14,35 @@ export interface Votes {
   [key: string]: number;
 }
 
+export function processProposals(proposals: ProposalV1[]) {
+  const sorted = proposals.sort(
+    (a, b) => Number(b.id) - Number(a.id)
+  );
+
+  proposals.forEach((proposal) => {
+    // @ts-ignore
+    if (!proposal.content?.title && proposal.content?.value) {
+      // @ts-ignore
+      proposal.content.title = getTitle(proposal.content?.value);
+    }
+  });
+
+  return sorted.filter(
+    ({ status }) => status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD
+  ).concat(sorted.filter(
+    ({ status }) => status !== ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD
+  ));
+};
+
 export function useVotingData(chainName: string) {
   const [isLoading, setIsLoading] = useState(false);
   const { address } = useChain(chainName);
   const { rpcQueryClient } = useRpcQueryClient(chainName);
   const { cosmos, isReady, isFetching } = useQueryHooks(chainName);
 
-  const proposalsQuery = cosmos.gov.v1beta1.useProposals({
+  // cosmos.gov.v1.useProposals
+
+  const proposalsQuery = cosmos.gov.v1.useProposals({
     request: {
       voter: '',
       depositor: '',
@@ -41,16 +64,16 @@ export function useVotingData(chainName: string) {
     },
   });
 
-  const quorumQuery = cosmos.gov.v1beta1.useParams({
+  const quorumQuery = cosmos.gov.v1.useParams({
     request: { paramsType: 'tallying' },
     options: {
       enabled: isReady,
       staleTime: Infinity,
-      select: ({ tallyParams }) => parseQuorum(tallyParams?.quorum),
+      select: ({ tallyParams }) => parseQuorum(tallyParams?.quorum as any),
     },
   });
 
-  const votedProposalsQuery = cosmos.gov.v1beta1.useProposals({
+  const votedProposalsQuery = cosmos.gov.v1.useProposals({
     request: {
       voter: address || '/', // use '/' to differentiate from proposalsQuery
       depositor: '',
@@ -65,17 +88,14 @@ export function useVotingData(chainName: string) {
   });
 
   const votesQueries = useQueries({
-    queries: (votedProposalsQuery.data || []).map(({ proposalId }) => ({
-      queryKey: ['voteQuery', proposalId, address],
+    queries: (votedProposalsQuery.data || []).map(({ id }) => ({
+      queryKey: ['voteQuery', id, address],
       queryFn: () =>
-        rpcQueryClient?.cosmos.gov.v1beta1.vote({
-          proposalId,
+        rpcQueryClient?.cosmos.gov.v1.vote({
+          proposalId: id,
           voter: address || '',
         }),
-      enabled:
-        Boolean(rpcQueryClient) &&
-        Boolean(address) &&
-        Boolean(votedProposalsQuery.data),
+      enabled: Boolean(rpcQueryClient) && Boolean(address) && Boolean(votedProposalsQuery.data),
       keepPreviousData: true,
     })),
   });
