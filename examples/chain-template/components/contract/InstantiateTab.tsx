@@ -181,8 +181,8 @@ export const InstantiateTab = ({
           autoComplete="off"
         />
         <InputField.Description>
-          The contract's label help briefly describe the contract and what it
-          does.
+          The contract&apos;s label help briefly describe the contract and what
+          it does.
         </InputField.Description>
       </InputField>
 

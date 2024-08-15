@@ -11,13 +11,12 @@ import {
   Button,
 } from '@interchain-ui/react';
 
+import { getCoin, getExponent } from '@/utils';
 import { Prices, UseDisclosureReturn, useTx } from '@/hooks';
 import {
   calcDollarValue,
   formatValidatorMetaInfo,
   getAssetLogoUrl,
-  getCoin,
-  getExponent,
   isGreaterThanZero,
   shiftDigits,
   toBaseAmount,
@@ -140,6 +139,20 @@ export const UndelegateModal = ({
             onValueChange: (val) => {
               setAmount(val);
             },
+            // onValueInput: (val) => {
+            //   if (!val) {
+            //     setAmount(undefined);
+            //     return;
+            //   }
+
+            //   if (new BigNumber(val).gt(maxAmount)) {
+            //     setAmount(Number(maxAmount));
+            //     forceUpdate((n) => n + 1);
+            //     return;
+            //   }
+
+            //   setAmount(Number(val));
+            // },
             partials: [
               {
                 label: '1/2',

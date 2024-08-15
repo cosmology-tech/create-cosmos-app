@@ -25,7 +25,7 @@
     "@cosmjs/cosmwasm-stargate": "0.32.3",
     "@cosmjs/stargate": "0.31.1",
     "@cosmos-kit/react": "2.18.0",
-    "@interchain-ui/react": "1.23.0",
+    "@interchain-ui/react": "1.23.29",
     "@interchain-ui/react-no-ssr": "0.1.2",
     "@tanstack/react-query": "4.32.0",
     "ace-builds": "1.35.0",

@@ -8,19 +8,19 @@ import { useChain } from '@cosmos-kit/react';
 import { ChainName } from 'cosmos-kit';
 import { cosmos } from 'interchain-query';
 
+import { getCoin } from '@/utils';
 import { Prices, useTx } from '@/hooks';
 import {
   sum,
   calcDollarValue,
   isGreaterThanZero,
   type ParsedRewards as Rewards,
-  getCoin,
 } from '@/utils';
 
 const { withdrawDelegatorReward } =
   cosmos.distribution.v1beta1.MessageComposer.fromPartial;
 
-export const StakingOverview = ({
+const Overview = ({
   balance,
   rewards,
   staked,
@@ -82,13 +82,15 @@ export const StakingOverview = ({
       <Box mb={{ mobile: '$12', tablet: '$14' }}>
         <StakingClaimHeader
           symbol={coin.symbol}
-          rewardsAmount={Number(rewards?.total) || 0}
+          rewardsAmount={Number(rewards.total) || 0}
           stakedAmount={Number(staked) || 0}
           onClaim={onClaimRewardClick}
           isLoading={isClaiming}
-          isDisabled={!isGreaterThanZero(rewards?.total)}
+          isDisabled={!isGreaterThanZero(rewards.total)}
         />
       </Box>
     </>
   );
 };
+
+export default Overview;

@@ -79,16 +79,16 @@ export const useAssets = (chainName: string) => {
 
     const { allBalances, prices, topTokens } = queriesData;
 
-    const nativeAndIbcBalances: Coin[] = allBalances.filter(
-      ({ denom }) => !denom.startsWith('gamm') && prices?.[denom]
+    const nativeAndIbcBalances: Coin[] = allBalances?.filter(
+      ({ denom }) => !denom.startsWith('gamm') && prices[denom]
     );
 
     const emptyBalances: Coin[] = ibcAssets
       .filter(({ base }) => {
-        const notInBalances = !nativeAndIbcBalances.find(
+        const notInBalances = !nativeAndIbcBalances?.find(
           ({ denom }) => denom === base
         );
-        return notInBalances && prices?.[base];
+        return notInBalances && prices[base];
       })
       .filter((asset) => {
         const isWithinLimit = ibcAssets.length <= MAX_TOKENS_TO_SHOW;
@@ -96,7 +96,7 @@ export const useAssets = (chainName: string) => {
       })
       .map((asset) => ({ denom: asset.base, amount: '0' }));
 
-    const finalAssets = [...nativeAndIbcBalances, ...emptyBalances]
+    const finalAssets = [...(nativeAndIbcBalances ?? []), ...emptyBalances]
       .map(({ amount, denom }) => {
         const asset = getAssetByDenom(denom);
         const symbol = denomToSymbol(denom);

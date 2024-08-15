@@ -101,9 +101,8 @@ export const StoredCodesFilter = ({
         <Text fontSize="16px" fontWeight="600" attributes={{ mb: '10px' }}>
           Filter by Instantiate Permission
         </Text>
+        {/* @ts-ignore */}
         <Popover
-          // @ts-ignore
-          arrowRef={undefined}
           triggerType="click"
           placement={isMobile ? 'bottom-start' : 'bottom'}
           offset={{ mainAxis: 10 }}

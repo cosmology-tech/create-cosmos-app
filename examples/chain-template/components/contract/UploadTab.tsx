@@ -185,7 +185,7 @@ export const UploadTab = ({ show, switchTab }: UploadTabProps) => {
         />
         <InputField.Description>
           A short description of what your code does. This is stored locally on
-          your device and can be added or changed later.
+          your device.
         </InputField.Description>
       </InputField>
 

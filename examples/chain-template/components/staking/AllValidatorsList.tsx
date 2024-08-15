@@ -1,11 +1,8 @@
 import React, { Dispatch, SetStateAction, useMemo } from 'react';
 import { ChainName } from 'cosmos-kit';
 
-import {
-  getCoin,
-  shiftDigits,
-  type ExtendedValidator as Validator,
-} from '@/utils';
+import { getCoin } from '@/utils';
+import { shiftDigits, type ExtendedValidator as Validator } from '@/utils';
 import {
   Text,
   Button,
@@ -42,7 +39,7 @@ const AllValidatorsList = ({
         render: (validator: Validator) => (
           <ValidatorNameCell
             validatorName={validator.name}
-            validatorImg={logos?.[validator.address] || ''}
+            validatorImg={logos[validator.address]}
           />
         ),
       },

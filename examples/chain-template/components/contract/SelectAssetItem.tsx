@@ -85,9 +85,8 @@ export const SelectAssetItem = ({
         <Text fontSize="16px" fontWeight="400" attributes={{ mb: '10px' }}>
           Asset
         </Text>
+        {/* @ts-ignore */}
         <Popover
-          // @ts-ignore
-          arrowRef={undefined}
           triggerType="click"
           placement={isMobile ? 'bottom-start' : 'bottom'}
           offset={{ mainAxis: 10 }}

@@ -24,6 +24,7 @@ import {
   getExponent,
   toBaseAmount,
 } from '@/utils';
+import { getCoin, getExponent } from '@/utils';
 import { Prices, UseDisclosureReturn, useTx } from '@/hooks';
 
 const { delegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
@@ -65,7 +66,6 @@ export const DelegateModal = ({
   const [isDelegating, setIsDelegating] = useState(false);
   const [isSimulating, setIsSimulating] = useState(false);
   const [maxAmountAndFee, setMaxAmountAndFee] = useState<MaxAmountAndFee>();
-  const [, forceUpdate] = useState(0);
 
   const coin = getCoin(chainName);
   const exp = getExponent(chainName);
@@ -197,41 +197,52 @@ export const DelegateModal = ({
               : undefined,
             minValue: 0,
             maxValue: maxAmountAndFee?.maxAmount ?? Number(balance),
+            minValue: 0,
+            maxValue: maxAmountAndFee?.maxAmount ?? Number(balance),
             value: amount,
             onValueChange: (val) => {
               setAmount(val);
-            },
-            partials: [
-              {
-                label: '1/2',
+              onValueChange: (val) => {
+                setAmount(val);
+              },
+                partials: [
+        {
+          label: '1/2',
                 onClick: () => {
-                  setAmount(new BigNumber(balance).dividedBy(2).toNumber());
+                  const newAmount = new BigNumber(balance)
+        .dividedBy(2)
+        .toNumber();
+        setAmount(newAmount);
                 },
               },
-              {
-                label: '1/3',
+        {
+          label: '1/3',
                 onClick: () => {
-                  setAmount(new BigNumber(balance).dividedBy(3).toNumber());
+                  const newAmount = new BigNumber(balance)
+        .dividedBy(3)
+        .toNumber();
+
+        setAmount(newAmount);
                 },
               },
-              {
-                label: 'Max',
+        {
+          label: 'Max',
                 onClick: () => setAmount(Number(balance)),
               },
-            ],
+        ],
           }}
-          footer={
-            <Button
-              intent="tertiary"
-              onClick={onDelegateClick}
-              disabled={
-                !isGreaterThanZero(amount) || isDelegating || isSimulating
-              }
-              isLoading={isDelegating}
-            >
-              Delegate
-            </Button>
-          }
+        footer={
+          <Button
+            intent="tertiary"
+            onClick={onDelegateClick}
+            disabled={
+              !isGreaterThanZero(amount) || isDelegating || isSimulating
+            }
+            isLoading={isDelegating}
+          >
+            Delegate
+          </Button>
+        }
         />
       </Box>
     </BasicModal>

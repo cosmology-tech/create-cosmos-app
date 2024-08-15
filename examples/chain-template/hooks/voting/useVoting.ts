@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { cosmos } from 'interchain-query';
+import { toast } from '@interchain-ui/react';
 import { useChain } from '@cosmos-kit/react';
 import { coins, StdFee } from '@cosmjs/stargate';
-import { Proposal } from 'interchain-query/cosmos/gov/v1beta1/gov';
-import { useTx } from '@/hooks';
+import { Proposal } from 'interchain-query/cosmos/gov/v1/gov';
 import { getCoin } from '@/utils';
+import { useVotingTx } from './useVotingTx';
 
 const MessageComposer = cosmos.gov.v1beta1.MessageComposer;
 
@@ -20,7 +21,7 @@ export type onVoteOptions = {
 };
 
 export function useVoting({ chainName, proposal }: useVotingOptions) {
-  const { tx } = useTx(chainName);
+  const { tx } = useVotingTx(chainName);
   const { address } = useChain(chainName);
   const [isVoting, setIsVoting] = useState(false);
 
@@ -33,12 +34,10 @@ export function useVoting({ chainName, proposal }: useVotingOptions) {
   }: onVoteOptions) {
     if (!address || !option) return;
 
-    setIsVoting(true);
-
     const msg = MessageComposer.fromPartial.vote({
       option,
       voter: address,
-      proposalId: proposal.proposalId,
+      proposalId: proposal.id,
     });
 
     const fee: StdFee = {
@@ -46,12 +45,24 @@ export function useVoting({ chainName, proposal }: useVotingOptions) {
       gas: '100000',
     };
 
-    await tx([msg], {
-      fee,
-      onSuccess: success,
-    });
-
-    setIsVoting(false);
+    try {
+      setIsVoting(true);
+      const res = await tx([msg], { fee });
+      if (res.error) {
+        error();
+        console.error(res.error);
+        toast.error(res.errorMsg);
+      } else {
+        success();
+        toast.success('Vote successful');
+      }
+    } catch (e) {
+      error();
+      console.error(e);
+      toast.error('Vote failed');
+    } finally {
+      setIsVoting(false);
+    }
   }
 
   return { isVoting, onVote };
