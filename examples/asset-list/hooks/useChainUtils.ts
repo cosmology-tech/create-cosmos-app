@@ -49,8 +49,14 @@ export const useChainUtils = (chainName: string) => {
     return symbol;
   };
 
-  const symbolToDenom = (symbol: CoinSymbol): CoinDenom => {
-    const asset = allAssets.find((asset) => asset.symbol === symbol);
+  const symbolToDenom = (symbol: CoinSymbol, chainName?: string): CoinDenom => {
+    const asset = allAssets.find((asset) => (
+      asset.symbol === symbol
+      && (
+        !chainName
+        || asset.traces?.[0].counterparty.chain_name.toLowerCase() === chainName.toLowerCase()
+      )
+    ));
     const base = asset?.base;
     if (!base) {
       return symbol;
@@ -85,7 +91,7 @@ export const useChainUtils = (chainName: string) => {
     }
     const asset = ibcAssets.find((asset) => asset.base === ibcDenom);
     const ibcChainName = asset?.traces?.[0].counterparty.chain_name;
-    if (!ibcChainName) throw Error('chainName not found: ' + ibcDenom);
+    if (!ibcChainName) throw Error('chainName not found for ibcDenom: ' + ibcDenom);
     return ibcChainName;
   };
 
@@ -107,6 +113,13 @@ export const useChainUtils = (chainName: string) => {
   const getNativeDenom = (chainName: ChainName) => {
     const chainRecord = getChainRecord(chainName);
     const denom = chainRecord.assetList?.assets[0].base;
+    if (!denom) throw Error('denom not found');
+    return denom;
+  };
+
+  const getDenomBySymbolAndChain = (chainName: ChainName, symbol: string) => {
+    const chainRecord = getChainRecord(chainName);
+    const denom = chainRecord.assetList?.assets.find((asset) => asset.symbol === symbol)?.base;
     if (!denom) throw Error('denom not found');
     return denom;
   };
@@ -156,5 +169,6 @@ export const useChainUtils = (chainName: string) => {
     getNativeDenom,
     getIbcInfo,
     getExponentByDenom,
+    getDenomBySymbolAndChain
   };
 };

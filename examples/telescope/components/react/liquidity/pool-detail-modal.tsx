@@ -16,7 +16,7 @@ import {
 import { Pool } from './provide-liquidity';
 import { getLogoUrlFromDenom } from './pool-list';
 import { ChainLogo } from './pool-card';
-import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
+import { Coin } from 'osmojs/dist/codegen/cosmos/base/v1beta1/coin';
 import {
   NormalButton,
   PoolAssetDisplay,

@@ -16,6 +16,7 @@ import {
   useTheme,
   useColorModeValue,
   ThemeProvider,
+  OverlaysManager,
 } from '@interchain-ui/react';
 
 const queryClient = new QueryClient({
@@ -82,6 +83,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
           {/* <ReactQueryDevtools /> */}
         </QueryClientProvider>
       </ChainProvider>
+      <OverlaysManager />
     </ThemeProvider>
   );
 }

@@ -66,25 +66,30 @@ const TransferModalBody = (
 
   const { balance, isLoading: isLoadingBalance } = useBalance(
     sourceChainName,
-    isDeposit
+    isDeposit,
+    transferInfo.token.symbol
   );
 
   const { getChainLogo } = useManager();
   const { tx } = useTx(sourceChainName);
 
   const availableAmount = useMemo(() => {
-    if (!isDeposit) return transferToken.priceDisplayAmount ?? 0;
-    if (isLoading) return 0;
+    if (!isDeposit) return transferToken.available ?? 0;
+    if (isLoadingBalance) return 0;
+
+    console.log('transferInfo.token', transferInfo.token)
 
     return new BigNumber(
-      convRawToDispAmount(transferToken.symbol, balance?.amount || '0')
+      convRawToDispAmount(transferInfo.token.symbol, balance?.amount || '0')
     ).toNumber();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDeposit, isLoading, transferToken]);
+  }, [isDeposit, isLoading, transferToken.symbol, balance?.amount, transferInfo.token.symbol,
+    isLoadingBalance
+  ]);
 
-  const dollarValue = new BigNumber(inputValue)
-    .multipliedBy(prices[symbolToDenom(transferToken.symbol)])
-    .decimalPlaces(2)
+  const dollarValue = new BigNumber(1)
+    .multipliedBy(prices[symbolToDenom(transferToken.symbol, transferInfo.sourceChainName)])
+    .decimalPlaces(6)
     .toNumber();
 
   useEffect(() => {
@@ -145,7 +150,6 @@ const TransferModalBody = (
 
   const sourceChain = useMemo(() => {
     return {
-      symbol: sourceChainInfo.chain_name.toUpperCase(),
       name: sourceChainInfo.pretty_name,
       address: sourceAddress ?? '',
       imgSrc: getChainLogo(sourceChainName) ?? '',
@@ -212,7 +216,7 @@ const TransferModalBody = (
   return (
     <AssetWithdrawTokens
       isDropdown={false}
-      fromSymbol={sourceChain.symbol}
+      fromSymbol={transferInfo.token.symbol}
       fromName={sourceChain.name}
       fromAddress={sourceChain.address}
       fromImgSrc={sourceChain.imgSrc}
@@ -246,7 +250,7 @@ const TransferModalBody = (
 };
 
 export const RowTransferModal = (props: IProps) => {
-  const { modalControl } = props;
+  const { modalControl, transferInfo } = props;
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -258,7 +262,7 @@ export const RowTransferModal = (props: IProps) => {
   return (
     <BasicModal
       isOpen={modalControl.isOpen}
-      title="Deposit"
+      title={transferInfo.type}
       onClose={() => closeModal()}
     >
       <TransferModalBody

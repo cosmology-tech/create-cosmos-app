@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import '@interchain-ui/react/globalStyles';
 import '@interchain-ui/react/styles';
 
-import { ThemeProvider, Toaster, useTheme } from '@interchain-ui/react';
+import { OverlaysManager, ThemeProvider, Toaster, useTheme } from '@interchain-ui/react';
 import type { AppProps } from 'next/app';
 import { ChainProvider } from '@cosmos-kit/react';
 
@@ -75,6 +75,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       </ChainProvider>
 
       <Toaster position={'top-right'} closeButton={true} />
+      <OverlaysManager />
     </ThemeProvider>
   );
 }
