@@ -22,6 +22,7 @@ import {
   calcDollarValue,
   getCoin,
   getExponent,
+  toBaseAmount,
 } from '@/utils';
 import { Prices, UseDisclosureReturn, useTx } from '@/hooks';
 
@@ -86,7 +87,7 @@ export const DelegateModal = ({
       delegatorAddress: address,
       validatorAddress: selectedValidator.address,
       amount: {
-        amount: shiftDigits(amount, exp),
+        amount: toBaseAmount(amount, exp), // shiftDigits(amount, exp),
         denom: coin.base,
       },
     });
@@ -194,22 +195,11 @@ export const DelegateModal = ({
             notionalValue: amount
               ? calcDollarValue(coin.base, amount, prices)
               : undefined,
+            minValue: 0,
+            maxValue: maxAmountAndFee?.maxAmount ?? Number(balance),
             value: amount,
-            onValueInput: (val) => {
-              if (!val) {
-                setAmount(undefined);
-                return;
-              }
-
-              const max = maxAmountAndFee?.maxAmount || balance;
-
-              if (new BigNumber(val).gt(max)) {
-                setAmount(Number(max));
-                forceUpdate((n) => n + 1);
-                return;
-              }
-
-              setAmount(Number(val));
+            onValueChange: (val) => {
+              setAmount(val);
             },
             partials: [
               {
@@ -226,8 +216,7 @@ export const DelegateModal = ({
               },
               {
                 label: 'Max',
-                onClick: handleMaxClick,
-                isLoading: isSimulating,
+                onClick: () => setAmount(Number(balance)),
               },
             ],
           }}
