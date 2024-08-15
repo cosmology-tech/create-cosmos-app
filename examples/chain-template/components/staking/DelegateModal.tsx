@@ -24,7 +24,6 @@ import {
   getExponent,
   toBaseAmount,
 } from '@/utils';
-import { getCoin, getExponent } from '@/utils';
 import { Prices, UseDisclosureReturn, useTx } from '@/hooks';
 
 const { delegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
@@ -197,52 +196,48 @@ export const DelegateModal = ({
               : undefined,
             minValue: 0,
             maxValue: maxAmountAndFee?.maxAmount ?? Number(balance),
-            minValue: 0,
-            maxValue: maxAmountAndFee?.maxAmount ?? Number(balance),
             value: amount,
             onValueChange: (val) => {
               setAmount(val);
-              onValueChange: (val) => {
-                setAmount(val);
-              },
-                partials: [
-        {
-          label: '1/2',
+            },
+            partials: [
+              {
+                label: '1/2',
                 onClick: () => {
                   const newAmount = new BigNumber(balance)
-        .dividedBy(2)
-        .toNumber();
-        setAmount(newAmount);
+                    .dividedBy(2)
+                    .toNumber();
+                  setAmount(newAmount);
                 },
               },
-        {
-          label: '1/3',
+              {
+                label: '1/3',
                 onClick: () => {
                   const newAmount = new BigNumber(balance)
-        .dividedBy(3)
-        .toNumber();
+                    .dividedBy(3)
+                    .toNumber();
 
-        setAmount(newAmount);
+                  setAmount(newAmount);
                 },
               },
-        {
-          label: 'Max',
+              {
+                label: 'Max',
                 onClick: () => setAmount(Number(balance)),
               },
-        ],
+            ],
           }}
-        footer={
-          <Button
-            intent="tertiary"
-            onClick={onDelegateClick}
-            disabled={
-              !isGreaterThanZero(amount) || isDelegating || isSimulating
-            }
-            isLoading={isDelegating}
-          >
-            Delegate
-          </Button>
-        }
+          footer={
+            <Button
+              intent="tertiary"
+              onClick={onDelegateClick}
+              disabled={
+                !isGreaterThanZero(amount) || isDelegating || isSimulating
+              }
+              isLoading={isDelegating}
+            >
+              Delegate
+            </Button>
+          }
         />
       </Box>
     </BasicModal>
