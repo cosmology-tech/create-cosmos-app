@@ -1,7 +1,7 @@
+import { getCoin } from '@/utils';
 import { ChainName } from 'cosmos-kit';
 import {
   formatValidatorMetaInfo,
-  getCoin,
   type ExtendedValidator as Validator,
 } from '@/utils';
 import {

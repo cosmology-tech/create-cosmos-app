@@ -7,8 +7,8 @@ import {
   ValidatorTokenAmountCell,
 } from '@interchain-ui/react';
 import { ChainName } from 'cosmos-kit';
-
-import { getCoin, type ExtendedValidator as Validator } from '@/utils';
+import { getCoin } from '@/utils';
+import { type ExtendedValidator as Validator } from '@/utils';
 
 const MyValidatorsList = ({
   myValidators,
@@ -38,7 +38,7 @@ const MyValidatorsList = ({
           render: (validator: Validator) => (
             <ValidatorNameCell
               validatorName={validator.name}
-              validatorImg={logos?.[validator.address] || ''}
+              validatorImg={logos[validator.address]}
             />
           ),
         },

@@ -15,12 +15,11 @@ import BigNumber from 'bignumber.js';
 import {
   calcDollarValue,
   getAssetLogoUrl,
-  getCoin,
-  getExponent,
   isGreaterThanZero,
   shiftDigits,
   type ExtendedValidator as Validator,
 } from '@/utils';
+import { getCoin, getExponent } from '@/utils';
 import { Prices, UseDisclosureReturn, useTx } from '@/hooks';
 
 const { beginRedelegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
@@ -115,24 +114,29 @@ export const RedelegateModal = ({
             tokenName: coin.symbol,
             tokenIconUrl: getAssetLogoUrl(coin),
           }}
+          minValue={0}
+          maxValue={Number(maxAmount)}
           value={amount}
           notionalValue={
             amount ? calcDollarValue(coin.base, amount, prices) : undefined
           }
-          onValueInput={(val) => {
-            if (!val) {
-              setAmount(undefined);
-              return;
-            }
-
-            if (new BigNumber(val).gt(maxAmount)) {
-              setAmount(Number(maxAmount));
-              forceUpdate((n) => n + 1);
-              return;
-            }
-
-            setAmount(Number(val));
+          onValueChange={(val) => {
+            setAmount(val);
           }}
+          // onValueInput={(val) => {
+          //   if (!val) {
+          //     setAmount(undefined);
+          //     return;
+          //   }
+
+          //   if (new BigNumber(val).gt(maxAmount)) {
+          //     setAmount(Number(maxAmount));
+          //     forceUpdate((n) => n + 1);
+          //     return;
+          //   }
+
+          //   setAmount(Number(val));
+          // }}
           partials={[
             {
               label: '1/2',

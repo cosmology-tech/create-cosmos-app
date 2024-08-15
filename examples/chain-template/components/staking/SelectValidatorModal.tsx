@@ -11,12 +11,9 @@ import {
   Box,
 } from '@interchain-ui/react';
 
+import { getCoin } from '@/utils';
 import { UseDisclosureReturn } from '@/hooks';
-import {
-  getCoin,
-  shiftDigits,
-  type ExtendedValidator as Validator,
-} from '@/utils';
+import { shiftDigits, type ExtendedValidator as Validator } from '@/utils';
 
 export const SelectValidatorModal = ({
   allValidators,

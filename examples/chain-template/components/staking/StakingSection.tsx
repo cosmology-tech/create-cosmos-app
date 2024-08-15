@@ -1,16 +1,13 @@
 import { useChain } from '@cosmos-kit/react';
+import { ChainName } from 'cosmos-kit';
 import { Box, Spinner, Text } from '@interchain-ui/react';
 
-import { StakingOverview } from './StakingOverview';
+import Overview from './Overview';
 import { MyValidators } from './MyValidators';
 import { AllValidators } from './AllValidators';
 import { useStakingData, useValidatorLogos } from '@/hooks';
 
-type StakingProps = {
-  chainName: string;
-};
-
-export const Staking = ({ chainName }: StakingProps) => {
+export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
   const { isWalletConnected } = useChain(chainName);
   const { data, isLoading, refetch } = useStakingData(chainName);
   const { data: logos, isLoading: isFetchingLogos } = useValidatorLogos(
@@ -19,7 +16,7 @@ export const Staking = ({ chainName }: StakingProps) => {
   );
 
   return (
-    <Box mb="$16">
+    <Box my="$16">
       {!isWalletConnected ? (
         <Box
           height="$28"
@@ -38,11 +35,11 @@ export const Staking = ({ chainName }: StakingProps) => {
           justifyContent="center"
           alignItems="center"
         >
-          <Spinner size="$7xl" color="$text" />
+          <Spinner size="$7xl" />
         </Box>
       ) : (
         <>
-          <StakingOverview
+          <Overview
             balance={data.balance}
             rewards={data.rewards}
             staked={data.totalDelegated}
