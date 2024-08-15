@@ -36,3 +36,13 @@ export const calcDollarValue = (
     .decimalPlaces(2)
     .toNumber();
 };
+
+export const toBaseAmount = (
+  num: string | number,
+  places: number
+) => {
+  return new BigNumber(num)
+    .shiftedBy(places)
+    .integerValue(BigNumber.ROUND_DOWN)
+    .toString();
+};
