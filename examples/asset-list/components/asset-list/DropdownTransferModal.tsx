@@ -188,7 +188,7 @@ const OverviewTransferWrapper = (
         return asset.symbol !== transferToken.symbol;
       })
       .map((asset) => ({
-        available: new BigNumber(asset.amount).toNumber(),
+        available: new BigNumber(asset.displayAmount).toNumber(),
         symbol: asset.symbol,
         name: asset.prettyChainName,
         denom: asset.denom,

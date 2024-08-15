@@ -38,7 +38,7 @@
 // standalone and requires a support library to be linked with it.  This
 // support library is itself covered by the above license.
 
-/* eslint-disable prefer-const,@typescript-eslint/restrict-plus-operands */
+
 
 /**
  * Read a 64 bit varint as two JS numbers.
@@ -454,18 +454,18 @@ export function int64Length(lo: number, hi: number) {
           ? 1
           : 2
         : part0 < 2097152
-        ? 3
-        : 4
+          ? 3
+          : 4
       : part1 < 16384
-      ? part1 < 128
-        ? 5
-        : 6
-      : part1 < 2097152
-      ? 7
-      : 8
+        ? part1 < 128
+          ? 5
+          : 6
+        : part1 < 2097152
+          ? 7
+          : 8
     : part2 < 128
-    ? 9
-    : 10;
+      ? 9
+      : 10;
 }
 
 export function writeFixed32(
