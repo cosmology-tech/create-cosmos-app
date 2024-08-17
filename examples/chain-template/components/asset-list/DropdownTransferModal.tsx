@@ -269,7 +269,7 @@ export const DropdownTransferModal = (props: OverviewTransferWrapperProps) => {
   return (
     <BasicModal
       isOpen={modalControl.isOpen}
-      title="Deposit"
+      title={transferInfoState.transferInfo.type}
       onClose={() => closeModal()}
     >
       {transferInfoState ? (
