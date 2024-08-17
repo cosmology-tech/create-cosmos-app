@@ -184,9 +184,9 @@ const OverviewTransferWrapper = (
         }
         return new BigNumber(asset.amount).gt(0);
       })
-      .filter((asset) => {
-        return asset.symbol !== transferToken.symbol;
-      })
+      // .filter((asset) => {
+      //   return asset.symbol !== transferToken.symbol;
+      // })
       .map((asset) => ({
         available: new BigNumber(asset.displayAmount).toNumber(),
         symbol: asset.symbol,
@@ -198,6 +198,7 @@ const OverviewTransferWrapper = (
         ).toNumber(),
       }));
   }, [assets, isDeposit, transferToken]);
+  console.log('assetOptions', assetOptions);
 
   const handleOnChange = (
     assetOption: Unpacked<OverviewTransferProps['dropdownList']>,
