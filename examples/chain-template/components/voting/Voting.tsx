@@ -60,7 +60,7 @@ export function Voting({ chainName }: VotingProps) {
     openModal();
     setProposal(proposal);
     // @ts-ignore
-    setTitle(`#${proposal.proposalId?.toString()} ${proposal.content?.title}`);
+    setTitle(`#${proposal.id?.toString()} ${proposal?.title}`);
   }
 
   const content = (
