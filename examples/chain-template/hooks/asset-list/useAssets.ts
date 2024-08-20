@@ -94,8 +94,13 @@ export const useAssets = (chainName: string) => {
         const isWithinLimit = ibcAssets.length <= MAX_TOKENS_TO_SHOW;
         return isWithinLimit || topTokens.includes(asset.symbol);
       })
-      .map((asset) => ({ denom: asset.base, amount: '0' }));
-
+      .map((asset) => ({ denom: asset.base, amount: '0' }))
+      .reduce((acc: { denom: string, amount: string }[], current) => {
+        if (!acc.some(balance => balance.denom === current.denom)) {
+          acc.push(current);
+        }
+        return acc;
+      }, []);
     const finalAssets = [...(nativeAndIbcBalances ?? []), ...emptyBalances]
       .map(({ amount, denom }) => {
         const asset = getAssetByDenom(denom);

@@ -123,20 +123,6 @@ export const RedelegateModal = ({
           onValueChange={(val) => {
             setAmount(val);
           }}
-          // onValueInput={(val) => {
-          //   if (!val) {
-          //     setAmount(undefined);
-          //     return;
-          //   }
-
-          //   if (new BigNumber(val).gt(maxAmount)) {
-          //     setAmount(Number(maxAmount));
-          //     forceUpdate((n) => n + 1);
-          //     return;
-          //   }
-
-          //   setAmount(Number(val));
-          // }}
           partials={[
             {
               label: '1/2',

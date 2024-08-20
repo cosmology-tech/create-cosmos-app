@@ -20,8 +20,10 @@ import {
   isGreaterThanZero,
   shiftDigits,
   calcDollarValue,
+  getCoin,
+  getExponent,
+  toBaseAmount,
 } from '@/utils';
-import { getCoin, getExponent } from '@/utils';
 import { Prices, UseDisclosureReturn, useTx } from '@/hooks';
 
 const { delegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
@@ -84,7 +86,7 @@ export const DelegateModal = ({
       delegatorAddress: address,
       validatorAddress: selectedValidator.address,
       amount: {
-        amount: shiftDigits(amount, exp),
+        amount: toBaseAmount(amount, exp), // shiftDigits(amount, exp),
         denom: coin.base,
       },
     });
@@ -220,8 +222,7 @@ export const DelegateModal = ({
               },
               {
                 label: 'Max',
-                onClick: handleMaxClick,
-                isLoading: isSimulating,
+                onClick: () => setAmount(Number(balance)),
               },
             ],
           }}

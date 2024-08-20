@@ -56,7 +56,7 @@ export function Proposal({
   proposal,
   chainName,
   bondedTokens,
-  onVoteSuccess = () => {},
+  onVoteSuccess = () => { },
 }: ProposalProps) {
   const vote = votes?.[proposal.id.toString()];
 
@@ -92,9 +92,9 @@ export function Proposal({
 
   const total = proposal.finalTallyResult
     ? Object.values(proposal.finalTallyResult).reduce(
-        (sum, val) => sum + Number(val),
-        0
-      )
+      (sum, val) => sum + Number(val),
+      0
+    )
     : 0;
 
   const turnout = total / Number(bondedTokens);
@@ -248,9 +248,8 @@ export function Proposal({
                 px: '$2',
               }}
             >
-              {`Minimum of staked ${minStakedTokens} ${coin.symbol}(${
-                quorum * 100
-              }%) need to vote
+              {`Minimum of staked ${minStakedTokens} ${coin.symbol}(${quorum * 100
+                }%) need to vote
             for this proposal to pass.`}
             </Text>
           </Text>
@@ -347,6 +346,12 @@ export function Proposal({
         </Text>
 
         <Text fontSize="$sm" fontWeight="$normal" color="$textSecondary">
+          <div style={{ maxHeight: '128px', overflowY: 'scroll' }}>
+            <Markdown>{description}</Markdown>
+          </div>
+        </Text>
+
+        {/* <Text fontSize="$sm" fontWeight="$normal" color="$textSecondary">
           {showMore ? <Markdown>{description}</Markdown> : renderedDescription}
         </Text>
 
@@ -354,7 +359,7 @@ export function Proposal({
           <Button intent="secondary" variant="ghost" onClick={toggleShowMore}>
             {showMore ? 'Show less' : 'Show more'}
           </Button>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

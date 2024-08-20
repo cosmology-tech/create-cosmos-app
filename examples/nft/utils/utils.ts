@@ -97,7 +97,7 @@ export function getLogo(from: Asset | Chain) {
 
 export function getChainLogo(name: string) {
   const chain = chains.find(chain => chain.chain_name === name)
-  return chain ? getLogo(chain) : null;
+  return chain ? getLogo(chain as any) : null;
 }
 
 export function getStargazeProfileLink(address: string | undefined) {

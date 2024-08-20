@@ -19,6 +19,7 @@ import {
   getAssetLogoUrl,
   isGreaterThanZero,
   shiftDigits,
+  toBaseAmount,
   type ExtendedValidator as Validator,
 } from '@/utils';
 
@@ -68,7 +69,7 @@ export const UndelegateModal = ({
       delegatorAddress: address,
       validatorAddress: selectedValidator.address,
       amount: {
-        amount: shiftDigits(amount, exp),
+        amount: toBaseAmount(amount, exp),
         denom: coin.base,
       },
     });

@@ -60,7 +60,7 @@ export function Voting({ chainName }: VotingProps) {
     openModal();
     setProposal(proposal);
     // @ts-ignore
-    setTitle(`#${proposal.proposalId?.toString()} ${proposal.content?.title}`);
+    setTitle(`#${proposal.id?.toString()} ${proposal?.title}`);
   }
 
   const content = (
@@ -93,7 +93,7 @@ export function Voting({ chainName }: VotingProps) {
             id={`# ${proposal.id?.toString()}`}
             key={proposal.submitTime?.getTime()}
             // @ts-ignore
-            title={proposal.content?.title || ""}
+            title={proposal.content?.title || proposal.title || ''}
             status={status(proposal.status)}
             votes={votes(proposal.finalTallyResult!)}
             endTime={formatDate(proposal.votingEndTime)!}
