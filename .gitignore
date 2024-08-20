@@ -8,3 +8,5 @@ coverage
 packages/**/build
 packages/**/main
 packages/**/module
+
+.idea/
