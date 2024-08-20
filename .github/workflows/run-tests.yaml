@@ -60,6 +60,8 @@ jobs:
         run: |
           cca --example nft --name nft
           cd nft
+          touch yarn.lock
+          yarn install
           yarn build
 
       - name: authz
