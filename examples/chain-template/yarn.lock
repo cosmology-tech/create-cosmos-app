@@ -813,7 +813,7 @@ __metadata:
     "@cosmjs/cosmwasm-stargate": "npm:0.32.3"
     "@cosmjs/stargate": "npm:0.31.1"
     "@cosmos-kit/react": "npm:2.18.0"
-    "@interchain-ui/react": "npm:1.23.29"
+    "@interchain-ui/react": "npm:1.23.31"
     "@interchain-ui/react-no-ssr": "npm:0.1.2"
     "@keplr-wallet/types": "npm:^0.12.111"
     "@starship-ci/cli": "npm:^2.9.0"
@@ -2098,9 +2098,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interchain-ui/react@npm:1.23.29":
-  version: 1.23.29
-  resolution: "@interchain-ui/react@npm:1.23.29"
+"@interchain-ui/react@npm:1.23.31":
+  version: 1.23.31
+  resolution: "@interchain-ui/react@npm:1.23.31"
   dependencies:
     "@floating-ui/core": "npm:^1.6.4"
     "@floating-ui/dom": "npm:^1.6.7"
@@ -2129,7 +2129,7 @@ __metadata:
   peerDependencies:
     react: ^16.14.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/013d8f56f0db143bc76f7e6f2509aab4ebb249a770e615df77b29748b07e743fff850d6a4599cbacc98ba7c047947e583eeb8e892f5796358243a37eb6d772d2
+  checksum: 10c0/b8ec3c81035651de08958aeb1497e423e02643f2b1e3fc1fc80b09396f017b2769e94de3b1f6cb44ef9852d8fa8ac890d82e86c23291a029961332000cccc2de
   languageName: node
   linkType: hard
 
