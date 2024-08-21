@@ -12,7 +12,7 @@ export function getChainLogo(chain: Chain) {
 
 export function formatDate(date?: Date) {
   if (!date) return null;
-  return dayjs(date).format('YYYY-MM-DD hh:mm:ss');
+  return dayjs(date).format('YYYY-MM-DD HH:mm:ss');
 }
 
 export function paginate(limit: bigint, reverse: boolean = false) {
@@ -28,10 +28,10 @@ export function paginate(limit: bigint, reverse: boolean = false) {
 export function percent(num: number | string = 0, total: number, decimals = 2) {
   return total
     ? new BigNumber(num)
-        .dividedBy(total)
-        .multipliedBy(100)
-        .decimalPlaces(decimals)
-        .toNumber()
+      .dividedBy(total)
+      .multipliedBy(100)
+      .decimalPlaces(decimals)
+      .toNumber()
     : 0;
 }
 
