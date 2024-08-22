@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useChain } from "@cosmos-kit/react";
 import {
   Proposal as IProposal,
@@ -16,6 +16,7 @@ import {
 import { useModal, useVotingData } from "@/hooks";
 import { Proposal } from "@/components";
 import { formatDate } from "@/utils";
+import { chains } from 'chain-registry'
 
 function status(s: ProposalStatus) {
   switch (s) {
@@ -38,10 +39,10 @@ function status(s: ProposalStatus) {
 
 function votes(result: TallyResult) {
   return {
-    yes: Number(result.yesCount) || 0,
-    no: Number(result.noCount) || 0,
-    abstain: Number(result.abstainCount) || 0,
-    noWithVeto: Number(result.noWithVetoCount) || 0,
+    yes: Number(result?.yesCount) || 0,
+    no: Number(result?.noCount) || 0,
+    abstain: Number(result?.abstainCount) || 0,
+    noWithVeto: Number(result?.noWithVetoCount) || 0,
   };
 }
 
@@ -54,6 +55,39 @@ export function Voting({ chainName }: VotingProps) {
   const [proposal, setProposal] = useState<IProposal>();
   const { data, isLoading, refetch } = useVotingData(chainName);
   const { modal, open: openModal, close: closeModal, setTitle } = useModal("");
+  const [tallies, setTallies] = useState<{ [key: string]: TallyResult }>({});
+
+  const chain = chains.find((c) => c.chain_name === chainName);
+
+  useEffect(() => {
+    if (!data.proposals || data.proposals.length === 0) return
+    data.proposals.forEach((proposal) => {
+      if (proposal.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD) {
+        (async () => {
+          for (const { address } of chain?.apis?.rest || []) {
+            const api = `${address}/cosmos/gov/v1/proposals/${Number(proposal.id)}/tally`
+            try {
+              const tally = (await (await fetch(api)).json()).tally
+              if (!tally) {
+                continue
+              }
+              setTallies(prev => {
+                return {
+                  ...prev, [proposal.id.toString()]: {
+                    yesCount: tally.yes_count,
+                    noCount: tally.no_count,
+                    abstainCount: tally.abstain_count,
+                    noWithVetoCount: tally.no_with_veto_count,
+                  }
+                }
+              })
+              break
+            } catch (e) { }
+          }
+        })()
+      }
+    });
+  }, [data.proposals?.length, chainName])
 
   function onClickProposal(index: number) {
     const proposal = data.proposals![index];
@@ -65,8 +99,12 @@ export function Voting({ chainName }: VotingProps) {
 
   const content = (
     <Box mt="$12">
-      {data.proposals?.map((proposal, index) => (
-        <Box
+      {data.proposals?.map((proposal, index) => {
+        let tally = proposal.finalTallyResult
+        if (proposal.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD) {
+          tally = tallies[proposal.id.toString()]
+        }
+        return (<Box
           my="$8"
           key={proposal.id?.toString() || index}
           position="relative"
@@ -95,11 +133,11 @@ export function Voting({ chainName }: VotingProps) {
             // @ts-ignore
             title={proposal.content?.title || proposal.title || ''}
             status={status(proposal.status)}
-            votes={votes(proposal.finalTallyResult!)}
+            votes={votes(tally!)}
             endTime={formatDate(proposal.votingEndTime)!}
           />
-        </Box>
-      ))}
+        </Box>)
+      })}
     </Box>
   );
 
