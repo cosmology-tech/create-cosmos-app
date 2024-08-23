@@ -16,7 +16,7 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
   );
 
   return (
-    <Box my="$16">
+    <Box my="$16" maxWidth="$containerLg" mx="auto">
       {!isWalletConnected ? (
         <Box
           height="$28"
@@ -25,7 +25,7 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
           alignItems="center"
         >
           <Text fontWeight="$semibold" fontSize="$xl">
-            Please connect the wallet
+            Please connect your wallet
           </Text>
         </Box>
       ) : isLoading || isFetchingLogos || !data ? (

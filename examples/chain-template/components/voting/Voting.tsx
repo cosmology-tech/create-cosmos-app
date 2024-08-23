@@ -4,7 +4,7 @@ import {
   Proposal as IProposal,
   ProposalStatus,
   TallyResult,
-} from "interchain-query/cosmos/gov/v1/gov";
+} from 'interchain-query/cosmos/gov/v1/gov';
 import {
   BasicModal,
   Box,
@@ -21,19 +21,19 @@ import { chains } from 'chain-registry'
 function status(s: ProposalStatus) {
   switch (s) {
     case ProposalStatus.PROPOSAL_STATUS_UNSPECIFIED:
-      return "pending";
+      return 'pending';
     case ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD:
-      return "pending";
+      return 'pending';
     case ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD:
-      return "pending";
+      return 'pending';
     case ProposalStatus.PROPOSAL_STATUS_PASSED:
-      return "passed";
+      return 'passed';
     case ProposalStatus.PROPOSAL_STATUS_REJECTED:
-      return "rejected";
+      return 'rejected';
     case ProposalStatus.PROPOSAL_STATUS_FAILED:
-      return "rejected";
+      return 'rejected';
     default:
-      return "pending";
+      return 'pending';
   }
 }
 
@@ -110,23 +110,21 @@ export function Voting({ chainName }: VotingProps) {
           position="relative"
           attributes={{ onClick: () => onClickProposal(index) }}
         >
-          {data.votes[proposal.id.toString()]
-            ? (
-              <Box
-                position="absolute"
-                px="$4"
-                py="$2"
-                top="$4"
-                right="$6"
-                borderRadius="$md"
-                backgroundColor="$green400"
-              >
-                <Text color="$white" fontSize="$xs" fontWeight="$bold">
-                  Voted
-                </Text>
-              </Box>
-            )
-            : null}
+          {data.votes[proposal.id.toString()] ? (
+            <Box
+              position="absolute"
+              px="$4"
+              py="$2"
+              top="$4"
+              right="$6"
+              borderRadius="$md"
+              backgroundColor="$green400"
+            >
+              <Text color="$white" fontSize="$xs" fontWeight="$bold">
+                Voted
+              </Text>
+            </Box>
+          ) : null}
           <GovernanceProposalItem
             id={`# ${proposal.id?.toString()}`}
             key={proposal.submitTime?.getTime()}
@@ -154,18 +152,20 @@ export function Voting({ chainName }: VotingProps) {
       p="$8"
       borderRadius="$md"
       justifyContent="center"
-      display={isLoading ? "flex" : "none"}
+      display={isLoading ? 'flex' : 'none'}
     >
       <Spinner
         size="$5xl"
-        color={useColorModeValue("$blackAlpha800", "$whiteAlpha900")}
+        color={useColorModeValue('$blackAlpha800', '$whiteAlpha900')}
       />
     </Box>
   );
 
   return (
-    <Box mb="$20" position="relative">
-      <Text fontWeight="600" fontSize="$2xl">Proposals</Text>
+    <Box mb="$20" position="relative" maxWidth="$containerLg" mx="auto">
+      <Text fontWeight="600" fontSize="$2xl">
+        Proposals
+      </Text>
 
       {address ? Loading : null}
 
@@ -174,7 +174,9 @@ export function Voting({ chainName }: VotingProps) {
       <BasicModal
         title={
           <Box maxWidth="40rem">
-            <Text fontSize="$xl" fontWeight="$bold">{modal.title}</Text>
+            <Text fontSize="$xl" fontWeight="$bold">
+              {modal.title}
+            </Text>
           </Box>
         }
         isOpen={modal.open}

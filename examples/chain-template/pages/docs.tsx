@@ -34,7 +34,7 @@ const tabs: Tab[] = [
   },
 ];
 
-export default function SidebarHomePage() {
+export default function DocsPage() {
   const [activeTab, setActiveTab] = useState(0);
 
   const { isTablet, isMobile } = useDetectBreakpoints();

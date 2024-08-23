@@ -46,8 +46,8 @@ const navItems: NavItem[] = [
   },
   {
     icon: 'document',
-    label: 'Documents',
-    href: '/documents',
+    label: 'Docs',
+    href: '/docs',
   },
 ];
 

@@ -33,7 +33,7 @@ export const useTx = (chainName: string) => {
       toast({
         type: 'error',
         title: 'Wallet not connected',
-        description: 'Please connect the wallet',
+        description: 'Please connect your wallet',
       });
       return;
     }
