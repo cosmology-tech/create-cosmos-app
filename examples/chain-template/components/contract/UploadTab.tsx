@@ -168,7 +168,7 @@ export const UploadTab = ({ show, switchTab }: UploadTabProps) => {
         Upload Contract
       </Text>
 
-      <InputField title="Upload Wasm File">
+      <InputField title="Select Wasm File">
         <FileUpload file={wasmFile} setFile={setWasmFile} />
       </InputField>
 
@@ -184,17 +184,16 @@ export const UploadTab = ({ show, switchTab }: UploadTabProps) => {
           autoComplete="off"
         />
         <InputField.Description>
-          A short description of what your code does. This is stored locally on
-          your device.
+          Brief description of contract functionality. Saved locally on your
+          device.
         </InputField.Description>
       </InputField>
 
       <Divider opacity="0.4" />
 
-      <InputField title="Instantiate Permission">
+      <InputField title="Contract Access Control">
         <InputField.Description>
-          Specify who has the authority to instantiate the contract using this
-          code
+          Choose who can create new instances of this contract
         </InputField.Description>
         <InstantiatePermissionRadio
           addresses={addresses}
