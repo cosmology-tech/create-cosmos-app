@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useChain } from '@cosmos-kit/react';
 import { useQueries } from '@tanstack/react-query';
-import { Proposal, ProposalStatus } from 'interchain-query/cosmos/gov/v1beta1/gov';
+import { ProposalStatus } from 'interchain-query/cosmos/gov/v1beta1/gov';
 import { Proposal as ProposalV1 } from 'interchain-query/cosmos/gov/v1/gov';
 import { useQueryHooks, useRpcQueryClient } from '.';
 import { getTitle, paginate, parseQuorum } from '@/utils';
+import { chains } from 'chain-registry'
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -39,8 +40,7 @@ export function useVotingData(chainName: string) {
   const { address } = useChain(chainName);
   const { rpcQueryClient } = useRpcQueryClient(chainName);
   const { cosmos, isReady, isFetching } = useQueryHooks(chainName);
-
-  // cosmos.gov.v1.useProposals
+  const chain = chains.find((c) => c.chain_name === chainName);
 
   const proposalsQuery = cosmos.gov.v1.useProposals({
     request: {
@@ -146,9 +146,36 @@ export function useVotingData(chainName: string) {
   const singleQueriesData = useMemo(() => {
     if (isStaticQueriesFetching || !isReady) return;
 
-    return Object.fromEntries(
+    const singleQueriesData = Object.fromEntries(
       Object.entries(singleQueries).map(([key, query]) => [key, query.data])
     ) as SingleQueriesData;
+
+    singleQueriesData?.proposals.forEach((proposal) => {
+      if (proposal.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD) {
+        (async () => {
+          for (const { address } of chain?.apis?.rest || []) {
+            const api = `${address}/cosmos/gov/v1/proposals/${Number(proposal.id)}/tally`
+            try {
+              const tally = (await (await fetch(api)).json()).tally
+              if (!tally) {
+                continue
+              }
+              proposal.finalTallyResult = {
+                yesCount: tally.yes_count,
+                noCount: tally.no_count,
+                abstainCount: tally.abstain_count,
+                noWithVetoCount: tally.no_with_veto_count,
+              }
+              break
+            } catch (e) {
+              console.error('error fetch tally', api)
+            }
+          }
+        })()
+      }
+    })
+
+    return singleQueriesData
   }, [isStaticQueriesFetching, isReady]);
 
   const votes = useMemo(() => {
