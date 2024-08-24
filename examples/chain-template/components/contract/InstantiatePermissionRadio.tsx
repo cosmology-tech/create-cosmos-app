@@ -83,13 +83,13 @@ export const InstantiatePermissionRadio = ({
         }}
       >
         <Radio value={AccessType.ACCESS_TYPE_EVERYBODY.toString()}>
-          Anyone can instantiate (Everybody)
+          Open to everyone
         </Radio>
         <Radio value={AccessType.ACCESS_TYPE_NOBODY.toString()}>
-          Instantiate through governance only (Nobody)
+          Governance approval only
         </Radio>
         <Radio value={AccessType.ACCESS_TYPE_ANY_OF_ADDRESSES.toString()}>
-          Only a set of addresses can instantiate (AnyOfAddresses)
+          Specified addresses only
         </Radio>
       </RadioGroup>
 

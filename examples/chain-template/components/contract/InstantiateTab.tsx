@@ -173,7 +173,7 @@ export const InstantiateTab = ({
 
       <Divider opacity="0.4" />
 
-      <InputField title="Label (Required)">
+      <InputField title="Contract Name (Required)">
         <TextField
           id="label"
           value={label}
@@ -181,8 +181,8 @@ export const InstantiateTab = ({
           autoComplete="off"
         />
         <InputField.Description>
-          The contract&apos;s label help briefly describe the contract and what
-          it does.
+          Provide a short description of the contract&apos;s purpose and
+          functionality.
         </InputField.Description>
       </InputField>
 
@@ -196,11 +196,11 @@ export const InstantiateTab = ({
         />
         <InputField.Description intent={adminInputErr ? 'error' : 'default'}>
           {adminInputErr ||
-            "The contract's admin will be able to migrate and update future admins."}
+            'The contract admin can transfer ownership and perform future upgrades.'}
         </InputField.Description>
       </InputField>
 
-      <InputField title="Instantiate  Message">
+      <InputField title="Instantiate Message">
         <JsonInput value={initMsg} setValue={setInitMsg} height="342px" />
       </InputField>
 

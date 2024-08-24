@@ -45,8 +45,8 @@ export const SelectCodeField = ({
         value={method}
         onChange={(val) => setMethod(val as Method)}
       >
-        <Radio value="select-existing">Select from your code</Radio>
-        <Radio value="fill-manually">Fill Code ID manually</Radio>
+        <Radio value="select-existing">Choose from uploaded codes</Radio>
+        <Radio value="fill-manually">Enter Code ID manually</Radio>
       </RadioGroup>
 
       <SelectCode
@@ -126,12 +126,12 @@ const SelectCode = ({
               </Box>
             ) : (
               <Text color="$blackAlpha600" fontSize="16px" fontWeight="500">
-                Please Select Code
+                Choose Code
               </Text>
             )}
           </Box>
           <Button onClick={onOpen} variant="text" px="10px">
-            {selectedCode ? 'Change' : 'Select'} Code
+            {selectedCode ? 'Change Code' : 'Browse'}
           </Button>
         </Box>
         {!canInstantiate && (
@@ -240,7 +240,7 @@ const FillCodeId = ({
         <InputField.Description
           intent={status.state === 'error' ? 'error' : 'default'}
         >
-          {status?.message || 'Input existing Code ID manually'}
+          {status?.message || 'Enter the ID of an existing Code'}
         </InputField.Description>
       </InputField>
     </Box>
