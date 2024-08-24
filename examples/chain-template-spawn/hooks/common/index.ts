@@ -6,3 +6,4 @@ export * from './useOutsideClick';
 export * from './useMediaQuery';
 export * from './useDetectBreakpoints';
 export * from './useStarshipChains';
+export * from './useSpawnChains';

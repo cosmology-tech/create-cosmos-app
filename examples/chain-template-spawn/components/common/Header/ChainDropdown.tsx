@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useChain, useManager } from '@cosmos-kit/react';
 import { Box, Combobox, Skeleton, Stack, Text } from '@interchain-ui/react';
 
-import { useStarshipChains, useDetectBreakpoints } from '@/hooks';
+import { useDetectBreakpoints, useSpawnChains } from '@/hooks';
 import { chainStore, useChainStore } from '@/contexts';
 import { chainOptions } from '@/config';
 
@@ -12,21 +12,20 @@ export const ChainDropdown = () => {
   const { chain } = useChain(selectedChain);
   const [input, setInput] = useState<string>(chain.pretty_name);
   const { isMobile } = useDetectBreakpoints();
-  const { data: starshipChains } = useStarshipChains();
+  const { data: spawnChains } = useSpawnChains();
 
   const [isChainsAdded, setIsChainsAdded] = useState(false);
   const { addChains, getChainLogo } = useManager();
 
   useEffect(() => {
-    if (starshipChains) {
-      // @ts-ignore
-      addChains(starshipChains.chains, starshipChains.assets);
+    if (spawnChains && !isChainsAdded) {
+      addChains(spawnChains.chains, spawnChains.assets);
       setIsChainsAdded(true);
     }
-  }, [starshipChains]);
+  }, [spawnChains, isChainsAdded]);
 
   const chains = isChainsAdded
-    ? chainOptions.concat(starshipChains?.chains ?? [])
+    ? chainOptions.concat(spawnChains?.chains ?? [])
     : chainOptions;
 
   return (
