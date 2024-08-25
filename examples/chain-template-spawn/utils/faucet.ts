@@ -1,6 +1,7 @@
 import { Asset, Chain } from '@chain-registry/types';
 import { ChainInfo, Currency } from '@keplr-wallet/types';
 import { fromBech32 } from '@cosmjs/encoding';
+import { SPAWN_API_BASE_URL } from '@/config';
 
 export const makeKeplrChainInfo = (chain: Chain, asset: Asset): ChainInfo => {
   const currency: Currency = {
@@ -48,23 +49,23 @@ export const makeKeplrChainInfo = (chain: Chain, asset: Asset): ChainInfo => {
   };
 };
 
-export const creditFromFaucet = async (
+export const requestTokens = async (
+  chainId: string,
   address: string,
-  denom: string,
-  port: number
+  amount: string = '1000000000'
 ) => {
-  const faucetEndpoint = `http://localhost:${port}/credit`;
-
-  await fetch(faucetEndpoint, {
+  const response = await fetch(SPAWN_API_BASE_URL, {
     method: 'POST',
     body: JSON.stringify({
-      address,
-      denom,
+      chain_id: chainId,
+      action: 'faucet',
+      cmd: `amount=${amount};address=${address}`,
     }),
-    headers: {
-      'Content-type': 'application/json',
-    },
   });
+
+  const data = await response.json();
+
+  return data;
 };
 
 export const validateChainAddress = (address: string, bech32Prefix: string) => {

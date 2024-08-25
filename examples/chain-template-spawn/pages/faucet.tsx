@@ -4,42 +4,40 @@ import { useChain } from '@cosmos-kit/react';
 
 import { Button } from '@/components';
 import { useChainStore } from '@/contexts';
-import { creditFromFaucet, validateChainAddress } from '@/utils';
-import { useStarshipChains, useToast } from '@/hooks';
-import config from '@/starship/configs/config.yaml';
-import type { StarshipConfig } from '@/starship';
+import { requestTokens, validateChainAddress } from '@/utils';
+import { useSpawnChains, useToast } from '@/hooks';
 
 export default function Faucet() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const { selectedChain } = useChainStore();
-  const { address, chain, assets } = useChain(selectedChain);
+  const { address, chain } = useChain(selectedChain);
   const { toast } = useToast();
-  const { data: starshipChains } = useStarshipChains();
+  const { data: spawnChains } = useSpawnChains();
 
   const checkIsChainSupported = () => {
-    const isStarshipRunning =
-      starshipChains?.chains?.length && starshipChains?.assets?.length;
+    const isSpawnRunning =
+      spawnChains?.chains?.length && spawnChains?.assets?.length;
 
-    if (!isStarshipRunning) {
+    if (!isSpawnRunning) {
       toast({
         type: 'error',
-        title: 'Starship is not running',
-        description: 'Faucet is only available in Starship environment',
+        title: 'Spawn is not running',
+        description: 'Faucet is only available in Spawn environment',
       });
       return false;
     }
 
-    const isStarshipChain = starshipChains?.chains?.some(
+    const isSpawnChain = spawnChains?.chains?.some(
       (c) => c.chain_id === chain.chain_id
     );
 
-    if (!isStarshipChain) {
+    if (!isSpawnChain) {
       toast({
         type: 'error',
         title: 'Chain is not supported',
-        description: 'Faucet is only available for Starship chains',
+        description: 'Faucet is only available for Spawn chains',
       });
       return false;
     }
@@ -52,17 +50,16 @@ export default function Faucet() {
     : null;
 
   const handleGetTokens = async () => {
-    if (!assets || !checkIsChainSupported()) return;
+    if (!address || !checkIsChainSupported()) return;
 
     setIsLoading(true);
 
-    const asset = assets.assets[0];
-    const port = (config as StarshipConfig).chains.find(
-      (c) => c.id === chain.chain_id
-    )!.ports.faucet;
-
     try {
-      await creditFromFaucet(input, asset.base, port);
+      const res = await requestTokens(chain.chain_id, address);
+      if (res.error) {
+        throw new Error(res.error);
+      }
+
       toast({
         type: 'success',
         title: 'Tokens credited',
@@ -79,7 +76,7 @@ export default function Faucet() {
     }
   };
 
-  const isButtonDisabled = !input || !!inputErrMsg;
+  const isButtonDisabled = !input || !!inputErrMsg || !address;
 
   return (
     <>

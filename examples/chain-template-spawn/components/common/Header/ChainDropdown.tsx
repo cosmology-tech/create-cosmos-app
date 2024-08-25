@@ -12,17 +12,27 @@ export const ChainDropdown = () => {
   const { chain } = useChain(selectedChain);
   const [input, setInput] = useState<string>(chain.pretty_name);
   const { isMobile } = useDetectBreakpoints();
-  const { data: spawnChains } = useSpawnChains();
+  const { data: spawnChains, refetch } = useSpawnChains();
 
   const [isChainsAdded, setIsChainsAdded] = useState(false);
   const { addChains, getChainLogo } = useManager();
 
   useEffect(() => {
-    if (spawnChains && !isChainsAdded) {
+    if (
+      spawnChains?.chains?.length &&
+      spawnChains?.assets?.length &&
+      !isChainsAdded
+    ) {
       addChains(spawnChains.chains, spawnChains.assets);
       setIsChainsAdded(true);
     }
   }, [spawnChains, isChainsAdded]);
+
+  const onOpenChange = (isOpen: boolean) => {
+    if (isOpen && !isChainsAdded) {
+      refetch();
+    }
+  };
 
   const chains = isChainsAdded
     ? chainOptions.concat(spawnChains?.chains ?? [])
@@ -33,6 +43,7 @@ export const ChainDropdown = () => {
       onInputChange={(input) => {
         setInput(input);
       }}
+      onOpenChange={onOpenChange}
       selectedKey={selectedChain}
       onSelectionChange={(key) => {
         const chainName = key as string | null;
