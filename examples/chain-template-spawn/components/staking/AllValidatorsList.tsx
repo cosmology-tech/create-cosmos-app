@@ -1,8 +1,5 @@
 import React, { Dispatch, SetStateAction, useMemo } from 'react';
 import { ChainName } from 'cosmos-kit';
-
-import { getCoin } from '@/utils';
-import { shiftDigits, type ExtendedValidator as Validator } from '@/utils';
 import {
   Text,
   Button,
@@ -11,6 +8,13 @@ import {
   ValidatorTokenAmountCell,
   GridColumn,
 } from '@interchain-ui/react';
+import { useChain } from '@cosmos-kit/react';
+
+import {
+  shiftDigits,
+  getNativeAsset,
+  type ExtendedValidator as Validator,
+} from '@/utils';
 
 const AllValidatorsList = ({
   validators,
@@ -27,7 +31,8 @@ const AllValidatorsList = ({
     [key: string]: string;
   };
 }) => {
-  const coin = getCoin(chainName);
+  const { assets } = useChain(chainName);
+  const coin = getNativeAsset(assets!);
 
   const columns = useMemo(() => {
     const _columns: GridColumn[] = [

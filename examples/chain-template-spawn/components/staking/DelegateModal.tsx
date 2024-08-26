@@ -20,8 +20,8 @@ import {
   isGreaterThanZero,
   shiftDigits,
   calcDollarValue,
-  getCoin,
-  getExponent,
+  getNativeAsset,
+  getExponentFromAsset,
   toBaseAmount,
 } from '@/utils';
 import { Prices, UseDisclosureReturn, useTx } from '@/hooks';
@@ -59,15 +59,15 @@ export const DelegateModal = ({
   showDescription?: boolean;
 }) => {
   const { isOpen, onClose } = modalControl;
-  const { address, estimateFee } = useChain(chainName);
+  const { address, estimateFee, assets } = useChain(chainName);
 
   const [amount, setAmount] = useState<number | undefined>(0);
   const [isDelegating, setIsDelegating] = useState(false);
   const [isSimulating, setIsSimulating] = useState(false);
   const [maxAmountAndFee, setMaxAmountAndFee] = useState<MaxAmountAndFee>();
 
-  const coin = getCoin(chainName);
-  const exp = getExponent(chainName);
+  const coin = getNativeAsset(assets!);
+  const exp = getExponentFromAsset(coin);
   const { tx } = useTx(chainName);
 
   const onModalClose = () => {
@@ -197,8 +197,8 @@ export const DelegateModal = ({
             minValue: 0,
             maxValue: maxAmountAndFee?.maxAmount ?? Number(balance),
             value: amount,
-            onValueChange: (val) => {
-              setAmount(val);
+            onValueInput: (val) => {
+              setAmount(Number(val));
             },
             partials: [
               {
@@ -222,7 +222,8 @@ export const DelegateModal = ({
               },
               {
                 label: 'Max',
-                onClick: () => setAmount(Number(balance)),
+                onClick: handleMaxClick,
+                isLoading: isSimulating,
               },
             ],
           }}

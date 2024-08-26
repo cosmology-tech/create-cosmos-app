@@ -2,6 +2,8 @@ import { Asset } from '@chain-registry/types';
 import { useQuery } from '@tanstack/react-query';
 import { useChainUtils } from './useChainUtils';
 import { handleError } from './useTopTokens';
+import { useSpawnChains } from '../common';
+import { DEFAULT_SPAWN_TOKEN_PRICE } from '@/config';
 
 type CoinGeckoId = string;
 type CoinGeckoUSD = { usd: number };
@@ -36,12 +38,28 @@ const fetchPrices = async (
 };
 
 export const useChainAssetsPrices = (chainName: string) => {
-  const { allAssets } = useChainUtils(chainName);
+  const { allAssets, isSpawnChain } = useChainUtils(chainName);
+  const { data: spawnData } = useSpawnChains();
+  const { assets: spawnAssets } = spawnData ?? {};
+
+  const queryKey = ['useChainAssetsPrices', chainName];
+
+  if (isSpawnChain) {
+    return useQuery({
+      queryKey,
+      queryFn: () => {
+        const nativeAsset = spawnAssets?.[0].assets[0]!;
+        return { [nativeAsset.base]: DEFAULT_SPAWN_TOKEN_PRICE };
+      },
+      staleTime: Infinity,
+    });
+  }
+
   const assetsWithGeckoIds = getAssetsWithGeckoIds(allAssets);
   const geckoIds = getGeckoIds(assetsWithGeckoIds);
 
   return useQuery({
-    queryKey: ['useChainAssetsPrices', chainName],
+    queryKey,
     queryFn: () => fetchPrices(geckoIds),
     select: (data) => formatPrices(data, assetsWithGeckoIds),
     staleTime: Infinity,

@@ -11,7 +11,7 @@ import {
   Button,
 } from '@interchain-ui/react';
 
-import { getCoin, getExponent } from '@/utils';
+import { getNativeAsset, getExponentFromAsset } from '@/utils';
 import { Prices, UseDisclosureReturn, useTx } from '@/hooks';
 import {
   calcDollarValue,
@@ -46,13 +46,11 @@ export const UndelegateModal = ({
 }) => {
   const [amount, setAmount] = useState<number | undefined>(0);
   const [isUndelegating, setIsUndelegating] = useState(false);
-  const [, forceUpdate] = useState(0);
-
-  const { address } = useChain(chainName);
+  const { address, assets } = useChain(chainName);
   const { tx } = useTx(chainName);
 
-  const coin = getCoin(chainName);
-  const exp = getExponent(chainName);
+  const coin = getNativeAsset(assets!);
+  const exp = getExponentFromAsset(coin);
 
   const closeUndelegateModal = () => {
     setAmount(0);

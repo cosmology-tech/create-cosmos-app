@@ -7,8 +7,9 @@ import {
   ValidatorTokenAmountCell,
 } from '@interchain-ui/react';
 import { ChainName } from 'cosmos-kit';
-import { getCoin } from '@/utils';
+import { getNativeAsset } from '@/utils';
 import { type ExtendedValidator as Validator } from '@/utils';
+import { useChain } from '@cosmos-kit/react';
 
 const MyValidatorsList = ({
   myValidators,
@@ -25,7 +26,8 @@ const MyValidatorsList = ({
     [key: string]: string;
   };
 }) => {
-  const coin = getCoin(chainName);
+  const { assets } = useChain(chainName);
+  const coin = getNativeAsset(assets!);
 
   return (
     <ValidatorList

@@ -6,6 +6,7 @@ import { Box, Combobox, Skeleton, Stack, Text } from '@interchain-ui/react';
 import { useDetectBreakpoints, useSpawnChains } from '@/hooks';
 import { chainStore, useChainStore } from '@/contexts';
 import { chainOptions } from '@/config';
+import { getSignerOptions } from '@/utils';
 
 export const ChainDropdown = () => {
   const { selectedChain } = useChainStore();
@@ -23,7 +24,7 @@ export const ChainDropdown = () => {
       spawnChains?.assets?.length &&
       !isChainsAdded
     ) {
-      addChains(spawnChains.chains, spawnChains.assets);
+      addChains(spawnChains.chains, spawnChains.assets, getSignerOptions());
       setIsChainsAdded(true);
     }
   }, [spawnChains, isChainsAdded]);

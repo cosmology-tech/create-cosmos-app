@@ -8,7 +8,7 @@ import { useChain } from '@cosmos-kit/react';
 import { ChainName } from 'cosmos-kit';
 import { cosmos } from 'interchain-query';
 
-import { getCoin } from '@/utils';
+import { getNativeAsset } from '@/utils';
 import { Prices, useTx } from '@/hooks';
 import {
   sum,
@@ -36,11 +36,11 @@ const Overview = ({
   prices: Prices;
 }) => {
   const [isClaiming, setIsClaiming] = useState(false);
-  const { address } = useChain(chainName);
+  const { address, assets } = useChain(chainName);
   const { tx } = useTx(chainName);
 
   const totalAmount = sum(balance, staked, rewards?.total ?? 0);
-  const coin = getCoin(chainName);
+  const coin = getNativeAsset(assets!);
 
   const onClaimRewardClick = async () => {
     setIsClaiming(true);

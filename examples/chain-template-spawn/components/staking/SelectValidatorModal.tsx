@@ -11,9 +11,10 @@ import {
   Box,
 } from '@interchain-ui/react';
 
-import { getCoin } from '@/utils';
+import { getNativeAsset } from '@/utils';
 import { UseDisclosureReturn } from '@/hooks';
 import { shiftDigits, type ExtendedValidator as Validator } from '@/utils';
+import { useChain } from '@cosmos-kit/react';
 
 export const SelectValidatorModal = ({
   allValidators,
@@ -30,7 +31,8 @@ export const SelectValidatorModal = ({
     [key: string]: string;
   };
 }) => {
-  const coin = getCoin(chainName);
+  const { assets } = useChain(chainName);
+  const coin = getNativeAsset(assets!);
 
   const columns = useMemo(() => {
     const hasApr = !!allValidators[0]?.apr;

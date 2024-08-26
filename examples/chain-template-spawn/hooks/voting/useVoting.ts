@@ -4,7 +4,7 @@ import { toast } from '@interchain-ui/react';
 import { useChain } from '@cosmos-kit/react';
 import { coins, StdFee } from '@cosmjs/stargate';
 import { Proposal } from 'interchain-query/cosmos/gov/v1/gov';
-import { getCoin } from '@/utils';
+import { getNativeAsset } from '@/utils';
 import { useVotingTx } from './useVotingTx';
 
 const MessageComposer = cosmos.gov.v1beta1.MessageComposer;
@@ -22,10 +22,10 @@ export type onVoteOptions = {
 
 export function useVoting({ chainName, proposal }: useVotingOptions) {
   const { tx } = useVotingTx(chainName);
-  const { address } = useChain(chainName);
+  const { address, assets } = useChain(chainName);
   const [isVoting, setIsVoting] = useState(false);
 
-  const coin = getCoin(chainName);
+  const coin = getNativeAsset(assets!);
 
   async function onVote({
     option,

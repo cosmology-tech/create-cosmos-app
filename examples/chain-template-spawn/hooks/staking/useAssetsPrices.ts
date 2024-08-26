@@ -1,6 +1,9 @@
 import { assets } from 'chain-registry';
 import { useQuery } from '@tanstack/react-query';
 import { AssetList } from '@chain-registry/types';
+import { useSpawnChains } from '../common';
+import { useChainStore } from '@/contexts';
+import { DEFAULT_SPAWN_TOKEN_PRICE } from '@/config';
 
 type CoinGeckoId = string;
 type CoinGeckoUSD = { usd: number };
@@ -42,6 +45,26 @@ const fetchPrices = async (
 };
 
 export const useAssetsPrices = () => {
+  const { selectedChain } = useChainStore();
+  const { data: spawnData } = useSpawnChains();
+  const { chains: spawnChains = [], assets: spawnAssets = [] } =
+    spawnData ?? {};
+
+  const isSpawnChain = spawnChains.some(
+    (chain) => chain.chain_name === selectedChain
+  );
+
+  if (isSpawnChain) {
+    return useQuery({
+      queryKey: ['useAssetsPrices', selectedChain],
+      queryFn: () => {
+        const nativeAsset = spawnAssets?.[0].assets[0]!;
+        return { [nativeAsset.base]: DEFAULT_SPAWN_TOKEN_PRICE };
+      },
+      staleTime: Infinity,
+    });
+  }
+
   const geckoIds = getGeckoIdsFromAssets(assets);
 
   return useQuery({

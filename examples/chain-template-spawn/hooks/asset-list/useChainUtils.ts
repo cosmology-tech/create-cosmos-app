@@ -8,9 +8,17 @@ import BigNumber from 'bignumber.js';
 import { Coin } from '@cosmjs/amino';
 import { PrettyAsset } from '@/components';
 import { ChainName } from 'cosmos-kit';
+import { useSpawnChains } from '../common';
 
 export const useChainUtils = (chainName: string) => {
   const { getChainRecord } = useManager();
+  const { data: spawnData } = useSpawnChains();
+  const { chains: spawnChains = [], assets: spawnAssets = [] } =
+    spawnData ?? {};
+
+  const isSpawnChain = spawnChains.some(
+    (chain) => chain.chain_name === chainName
+  );
 
   const filterAssets = (assetList: AssetList[]): Asset[] => {
     return (
@@ -22,7 +30,10 @@ export const useChainUtils = (chainName: string) => {
 
   const { nativeAssets, ibcAssets } = useMemo(() => {
     // @ts-ignore
-    const nativeAssets = filterAssets(chainAssets);
+    const nativeAssets = filterAssets([
+      ...chainAssets,
+      ...(isSpawnChain ? spawnAssets : []),
+    ]);
     // @ts-ignore
     const ibcAssets = filterAssets(ibcAssetLists);
 
@@ -67,7 +78,7 @@ export const useChainUtils = (chainName: string) => {
   const getExponentByDenom = (denom: CoinDenom): Exponent => {
     const asset = getAssetByDenom(denom);
     const unit = asset.denom_units.find(({ denom }) => denom === asset.display);
-    return unit?.exponent || 0;
+    return unit?.exponent || 6;
   };
 
   const convRawToDispAmount = (symbol: string, amount: string | number) => {
@@ -157,6 +168,7 @@ export const useChainUtils = (chainName: string) => {
   };
 
   return {
+    isSpawnChain,
     allAssets,
     nativeAssets,
     ibcAssets,

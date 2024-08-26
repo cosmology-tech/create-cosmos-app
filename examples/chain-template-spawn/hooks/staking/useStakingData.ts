@@ -18,8 +18,8 @@ import {
   parseRewards,
   parseUnbondingDays,
   parseValidators,
-  getCoin,
-  getExponent,
+  getNativeAsset,
+  getExponentFromAsset,
 } from '@/utils';
 
 (BigInt.prototype as any).toJSON = function () {
@@ -27,10 +27,10 @@ import {
 };
 
 export const useStakingData = (chainName: string) => {
-  const { address, getRpcEndpoint } = useChain(chainName);
+  const { address, getRpcEndpoint, assets } = useChain(chainName);
 
-  const coin = getCoin(chainName);
-  const exp = getExponent(chainName);
+  const coin = getNativeAsset(assets!);
+  const exp = getExponentFromAsset(coin);
 
   const rpcEndpointQuery = useRpcEndpoint({
     getter: getRpcEndpoint,

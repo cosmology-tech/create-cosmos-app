@@ -20,7 +20,7 @@ import {
   toBaseAmount,
   type ExtendedValidator as Validator,
 } from '@/utils';
-import { getCoin, getExponent } from '@/utils';
+import { getNativeAsset, getExponentFromAsset } from '@/utils';
 import { Prices, UseDisclosureReturn, useTx } from '@/hooks';
 
 const { beginRedelegate } = cosmos.staking.v1beta1.MessageComposer.fromPartial;
@@ -40,14 +40,13 @@ export const RedelegateModal = ({
   modalControl: UseDisclosureReturn;
   prices: Prices;
 }) => {
-  const { address } = useChain(chainName);
+  const { address, assets } = useChain(chainName);
 
   const [amount, setAmount] = useState<number | undefined>(0);
   const [isRedelegating, setIsRedelegating] = useState(false);
-  const [, forceUpdate] = useState(0);
 
-  const coin = getCoin(chainName);
-  const exp = getExponent(chainName);
+  const coin = getNativeAsset(assets!);
+  const exp = getExponentFromAsset(coin);
 
   const { tx } = useTx(chainName);
 
