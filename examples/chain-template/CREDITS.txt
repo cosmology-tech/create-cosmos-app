@@ -1,0 +1,4 @@
+CREDITS
+-------
+The CosmWasm dashboard of this project was inspired by the design of https://github.com/alleslabs/celatone-frontend
+No code from the original project was used in this project.
