@@ -1,4 +1,4 @@
-import { useChain } from '@cosmos-kit/react';
+import { useChainWallet, useAccount } from '@interchain-kit/react';
 import {
   Box,
   Center,
@@ -7,7 +7,6 @@ import {
   Icon,
   Stack,
   useColorModeValue,
-  Text,
 } from '@chakra-ui/react';
 import { MouseEventHandler } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
@@ -28,70 +27,86 @@ import {
   ChainCard,
 } from '../components';
 import { chainName } from '../config';
+import { useWalletManager, useWalletModal } from '@interchain-kit/react'
+import { WalletStatus } from 'cosmos-kit';
 
 export const WalletSection = () => {
-  const {
-    connect,
-    openView,
-    status,
-    username,
-    address,
-    message,
-    wallet,
-    chain: chainInfo,
-    logoUrl,
-  } = useChain(chainName);
+  const walletManager = useWalletManager()
+  const chainIds = walletManager.chains.map(c => c.chainId)
+  // const { open, close, modalIsOpen } = useWalletModal()
+  const wallet = walletManager.wallets.find(item => item.option?.name === 'keplr-extension')
+
+  const account = useAccount(chainName, wallet?.option?.name as string)
+  const username = account?.username
+
+  const { address } = useChainWallet(chainName, wallet?.option?.name as string)
 
   const chain = {
     chainName,
-    label: chainInfo.pretty_name,
+    label: wallet?.option?.prettyName,
     value: chainName,
-    icon: logoUrl,
+    // icon: // logoUrl,
   };
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
+    console.log('onClickConnect', wallet?.option?.name)
+    // return
     e.preventDefault();
-    await connect();
+    // await connect();
+    walletManager.connect(wallet?.option?.name as string, () => {
+      console.log('onApprove')
+    }, (uri: string) => {
+      console.log({ uri })
+    })
   };
 
-  const onClickOpenView: MouseEventHandler = (e) => {
-    e.preventDefault();
-    openView();
-  };
+  const onDisconnect: MouseEventHandler = async (e) => {
+    console.log('onDisconnect', chainIds)
+    wallet?.disconnect(chainIds)
+  }
+
+  // const onClickOpenView: MouseEventHandler = (e) => {
+  //   e.preventDefault();
+  //   openView();
+  // };
 
   // Components
   const connectWalletButton = (
     <WalletConnectComponent
-      walletStatus={status}
+      walletStatus={!!address?.length ? WalletStatus.Connected : WalletStatus.Disconnected}
       disconnect={
         <Disconnected buttonText="Connect Wallet" onClick={onClickConnect} />
       }
       connecting={<Connecting />}
-      connected={
-        <Connected buttonText={'My Wallet'} onClick={onClickOpenView} />
-      }
-      rejected={<Rejected buttonText="Reconnect" onClick={onClickConnect} />}
-      error={<Error buttonText="Change Wallet" onClick={onClickOpenView} />}
-      notExist={
-        <NotExist buttonText="Install Wallet" onClick={onClickOpenView} />
-      }
+      connected={<>
+        <Connected buttonText={'Disconnect'} onClick={onDisconnect} />
+      </>}
+      rejected={<>
+        <Rejected buttonText="Reconnect" onClick={onClickConnect} />
+      </>}
+      error={<>
+        {/* <Error buttonText="Change Wallet" onClick={onClickOpenView} /> */}
+      </>}
+      notExist={<>
+        {/* <NotExist buttonText="Install Wallet" onClick={onClickOpenView} /> */}
+      </>}
     />
   );
 
   const connectWalletWarn = (
     <ConnectStatusWarn
-      walletStatus={status}
+      walletStatus={!!address?.length ? WalletStatus.Connected : WalletStatus.Disconnected}
       rejected={
         <RejectedWarn
           icon={<Icon as={FiAlertTriangle} mt={1} />}
-          wordOfWarning={`${wallet?.prettyName}: ${message}`}
+          wordOfWarning={`${wallet?.option?.prettyName}`}
         />
       }
       error={
         <RejectedWarn
           icon={<Icon as={FiAlertTriangle} mt={1} />}
-          wordOfWarning={`${wallet?.prettyName}: ${message}`}
+          wordOfWarning={`${wallet?.option?.prettyName}`}
         />
       }
     />
@@ -102,7 +117,7 @@ export const WalletSection = () => {
   );
   const addressBtn = (
     <CopyAddressBtn
-      walletStatus={status}
+      walletStatus={address ? WalletStatus.Connected : WalletStatus.Disconnected}
       connected={<ConnectedShowAddress address={address} isLoading={false} />}
     />
   );
@@ -120,7 +135,7 @@ export const WalletSection = () => {
         <GridItem marginBottom={'20px'}>
           <ChainCard
             prettyName={chain?.label || chainName}
-            icon={chain?.icon}
+          // icon={chain?.icon}
           />
         </GridItem>
         <GridItem px={6}>
