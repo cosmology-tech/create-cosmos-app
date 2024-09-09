@@ -4,7 +4,7 @@ import * as c from 'ansi-colors';
 import { prompt } from './prompt';
 import { join, dirname, basename, sep, relative } from 'path';
 import { sync as mkdirp } from 'mkdirp';
-import { sync as glob } from 'glob';
+import { glob } from './utils';
 import * as fs from 'fs';
 import {
     cloneRepo,
@@ -166,7 +166,7 @@ export const createGitApp = (repo: string, version: string) => {
 
 
             // Construct the file path
-            const relativeFilePath = templateFile.split(join(folderName, template) + sep)[1];
+            const relativeFilePath = templateFile.split((join(folderName, template) + '/').replace(/\\/g,'/'))[1];
 
             // Replace keys in the entire file path
             const replacedFilePath = Object.keys(results).reduce((filePath, key) => {
@@ -196,7 +196,7 @@ export const createGitApp = (repo: string, version: string) => {
         const closestPkgJson = []
             .concat(glob(join(currentDirectory, name, '**', 'package.json')))
             .reduce((shortest, current) => {
-                return current.split(sep).length < shortest.split(sep).length ? current : shortest;
+                return current.split('/').length < shortest.split('/').length ? current : shortest;
             }, fakeLongPath); // long string for kicks
 
         if (closestPkgJson === fakeLongPath) {
