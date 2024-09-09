@@ -1,8 +1,5 @@
 import { useState } from 'react';
 import Head from 'next/head';
-// import { useChain } from '@cosmos-kit/react';
-import { StdFee } from '@cosmjs/amino';
-import { SigningStargateClient } from '@cosmjs/stargate';
 import BigNumber from 'bignumber.js';
 
 import {
@@ -30,8 +27,6 @@ import {
   products,
 } from '../config';
 
-// import { WalletStatus } from 'cosmos-kit';
-// import { WalletStatus } from '@interchain-kit/keplr-extension';
 import {
   Dependency,
   handleChangeColorModeValue,
@@ -44,34 +39,45 @@ import { cosmos, createRpcQueryHooks } from '../src/codegen';
 import { useRpcClient } from '../src/codegen';
 import { useChainWallet, useWalletManager, useChain } from '@interchain-kit/react'
 import { } from '@interchain-kit/keplr-extension'
-import { CosmWasmSigningClient } from 'interchainjs/cosmwasm-stargate';
+// import { CosmWasmSigningClient } from 'interchainjs/cosmwasm-stargate';
 
 const library = {
-  title: 'Telescope',
-  text: 'telescope',
-  href: 'https://github.com/cosmology-tech/telescope',
+  title: 'InterchainJS',
+  text: 'interchainjs',
+  href: 'https://github.com/cosmology-tech/interchainjs',
 };
 
 const sendTokens = (
-  getSigningStargateClient: CosmWasmSigningClient,
+  // getSigningStargateClient: CosmWasmSigningClient,
   setResp: (resp: string) => any,
   address: string
 ) => {
+  console.log('chainName', chainName)
+  const { signingStargateClient, signingCosmWasmClient, signingClient } = useChain(chainName)
   return async () => {
-    const stargateClient = getSigningStargateClient
-    if (!stargateClient || !address) {
+    // const stargateClient = getSigningStargateClient
+    if (
+      // !stargateClient || 
+      !address
+    ) {
       console.error('stargateClient undefined or address undefined.');
       return;
     }
     const fee = {
       amount: [{
         denom: coin.base,
-        amount: '2000',
+        amount: '25000',
       }],
       gas: "1000000",
     };
-    const signingClient = getSigningStargateClient
-    const response = await signingClient.helpers.send(
+    // const signingClient = getSigningStargateClient
+    // const response = await signingClient.helpers.send(
+    //   address,
+    //   { fromAddress: address, toAddress: address, amount: [{ denom: coin.base, amount: '1' }] },
+    //   fee,
+    //   'using interchainjs'
+    // )
+    const response = await signingCosmWasmClient.helpers.send(
       address,
       { fromAddress: address, toAddress: address, amount: [{ denom: coin.base, amount: '1' }] },
       fee,
@@ -93,6 +99,7 @@ export default function Home() {
   // const { getSigningStargateClient, address, status, getRpcEndpoint } =
   //   useChain(chainName);
   const walletManager = useWalletManager()
+  console.log('walletManager.chains', walletManager.chains)
   const keplrExtension = walletManager.wallets.find(w => w.option?.name === 'keplr-extension')
   const { signingCosmWasmClient: getSigningStargateClient, address } = useChainWallet(chainName, keplrExtension?.option?.name as string)
 
@@ -210,7 +217,7 @@ export default function Home() {
           response={resp}
           sendTokensButtonText="Send Tokens"
           handleClickSendTokens={sendTokens(
-            getSigningStargateClient as CosmWasmSigningClient,
+            // getSigningStargateClient as CosmWasmSigningClient,
             setResp as () => any,
             address as string
           )}
