@@ -40,7 +40,7 @@ export const useStoreCodeTx = (chainName: string) => {
     });
 
     const wasmCode = await wasmFile.arrayBuffer();
-    const wasmByteCode = await gzip(new Uint8Array(wasmCode));
+    const wasmByteCode = new Uint8Array(await gzip(new Uint8Array(wasmCode)));
 
     const message = storeCode({
       sender: address,
