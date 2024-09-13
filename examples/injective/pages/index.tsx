@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import BigNumber from 'bignumber.js';
+import { Msgs } from '@interchainjs/cosmos-types/cosmos';
 
 import {
   Box,
@@ -39,7 +40,9 @@ import { cosmos, createRpcQueryHooks } from '../src/codegen';
 import { useRpcClient } from '../src/codegen';
 import { useChainWallet, useWalletManager, useChain } from '@interchain-kit/react'
 import { } from '@interchain-kit/keplr-extension'
-// import { CosmWasmSigningClient } from 'interchainjs/cosmwasm-stargate';
+import { InjSigningClient } from '@interchainjs/injective/signing-client';
+
+const rpcEndpoint = 'https://sentry.tm.injective.network'
 
 const library = {
   title: 'InterchainJS',
@@ -48,16 +51,13 @@ const library = {
 };
 
 const sendTokens = (
-  // getSigningStargateClient: CosmWasmSigningClient,
   setResp: (resp: string) => any,
   address: string
 ) => {
   console.log('chainName', chainName)
-  const { signingCosmWasmClient, signingClient } = useChain(chainName)
+  const { signingClient } = useChain(chainName)
   return async () => {
-    // const stargateClient = getSigningStargateClient
     if (
-      // !stargateClient || 
       !address
     ) {
       console.error('stargateClient undefined or address undefined.');
@@ -70,28 +70,33 @@ const sendTokens = (
       }],
       gas: "1000000",
     };
-    // const signingClient = getSigningStargateClient
-    // const response = await signingClient.helpers.send(
-    //   address,
-    //   { fromAddress: address, toAddress: address, amount: [{ denom: coin.base, amount: '1' }] },
-    //   fee,
-    //   'using interchainjs'
-    // )
+
+    const addressOfflineSigner = (await signingClient.offlineSigner.getAccounts())[0]
+    console.log('addressOfflineSigner', addressOfflineSigner)
+    console.log('signingClient.offlineSigner', signingClient.offlineSigner)
+
+    const injSigningClient = await InjSigningClient.connectWithSigner(
+      rpcEndpoint, // injective
+      signingClient.offlineSigner,
+      {
+        broadcast: {
+          checkTx: true,
+          deliverTx: true,
+          useLegacyBroadcastTxCommit: true,
+        },
+        preferredSignType: 'direct',
+        registry: Msgs.map((g) => [g.typeUrl, g])
+      }
+    )
     const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl
     const msgs = [send({
       fromAddress: address,
       toAddress: address,
       amount: [{ denom: coin.base, amount: '1' }]
     })]
-    const response = await signingClient.signAndBroadcast(
+    const response = await injSigningClient.signAndBroadcast(
       address, msgs, fee, 'using interchainjs'
     )
-    // const response = await signingCosmWasmClient.helpers.send(
-    //   address,
-    //   { fromAddress: address, toAddress: address, amount: [{ denom: coin.base, amount: '1' }] },
-    //   fee,
-    //   'using interchainjs'
-    // )
     setResp(JSON.stringify(response, null, 2));
   };
 };
@@ -104,24 +109,12 @@ const COIN_DISPLAY_EXPONENT = coin.denom_units.find(
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
-
-  // const { getSigningStargateClient, address, status, getRpcEndpoint } =
-  //   useChain(chainName);
   const walletManager = useWalletManager()
   console.log('walletManager.chains', walletManager.chains)
   const keplrExtension = walletManager.wallets.find(w => w.option?.name === 'keplr-extension')
   const { signingCosmWasmClient: getSigningStargateClient, address } = useChainWallet(chainName, keplrExtension?.option?.name as string)
 
   const [resp, setResp] = useState('');
-
-  // const {
-  //   data: rpcEndpoint
-  // } = useRpcEndpoint({
-  //   //@ts-ignore
-  //   getter: getRpcEndpoint
-  // });
-
-  const rpcEndpoint = 'https://sentry.tm.injective.network' // 'https://rpc.cosmos.directory/cosmoshub';
 
   const { data: rpcClient } = useRpcClient({
     rpcEndpoint,
@@ -136,7 +129,6 @@ export default function Home() {
   });
 
   //@ts-ignore
-  // const hooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
   const hooks = createRpcQueryHooks({ rpc: rpcClient });
 
   const {

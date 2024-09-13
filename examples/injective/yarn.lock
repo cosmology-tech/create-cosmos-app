@@ -3827,6 +3827,8 @@ __metadata:
     "@interchain-kit/react": "npm:0.0.1-beta.12"
     "@interchain-ui/react": "npm:^1.23.29"
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
+    "@interchainjs/cosmos-types": "npm:0.0.1-beta.9"
+    "@interchainjs/injective": "npm:0.0.1-beta.12"
     "@protobufs/cosmos": "npm:^0.1.0"
     "@protobufs/cosmwasm": "npm:^0.1.1"
     "@protobufs/ibc": "npm:^0.1.0"
@@ -5538,7 +5540,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interchainjs/cosmos-types@npm:^0.0.1-beta.7, @interchainjs/cosmos-types@npm:^0.0.1-beta.9":
+"@interchainjs/cosmos-types@npm:0.0.1-beta.9, @interchainjs/cosmos-types@npm:^0.0.1-beta.7, @interchainjs/cosmos-types@npm:^0.0.1-beta.9":
   version: 0.0.1-beta.9
   resolution: "@interchainjs/cosmos-types@npm:0.0.1-beta.9"
   dependencies:
@@ -5580,7 +5582,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interchainjs/injective@npm:^0.0.1-beta.12":
+"@interchainjs/injective@npm:0.0.1-beta.12, @interchainjs/injective@npm:^0.0.1-beta.12":
   version: 0.0.1-beta.12
   resolution: "@interchainjs/injective@npm:0.0.1-beta.12"
   dependencies:
