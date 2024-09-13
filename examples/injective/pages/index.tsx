@@ -94,10 +94,14 @@ const sendTokens = (
       toAddress: address,
       amount: [{ denom: coin.base, amount: '1' }]
     })]
-    const response = await injSigningClient.signAndBroadcast(
-      address, msgs, fee, 'using interchainjs'
-    )
-    setResp(JSON.stringify(response, null, 2));
+    try {
+      const response = await injSigningClient.signAndBroadcast(
+        address, msgs, fee, 'using interchainjs'
+      )
+      setResp(JSON.stringify(response, null, 2));
+    } catch (error) {
+      console.error('error injSigningClient.signAndBroadcast', error)
+    }
   };
 };
 
