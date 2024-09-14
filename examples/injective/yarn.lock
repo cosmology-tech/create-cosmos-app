@@ -3846,7 +3846,7 @@ __metadata:
     fast-fuzzy: "npm:^1.12.0"
     framer-motion: "npm:9.0.7"
     generate-lockfile: "npm:0.0.12"
-    interchainjs: "npm:0.0.1-beta.13"
+    interchainjs: "npm:0.0.1-beta.14"
     mobx: "npm:^6.7.0"
     mobx-react: "npm:^7.6.0"
     next: "npm:^13"
@@ -12685,9 +12685,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"interchainjs@npm:0.0.1-beta.13":
-  version: 0.0.1-beta.13
-  resolution: "interchainjs@npm:0.0.1-beta.13"
+"interchainjs@npm:0.0.1-beta.14":
+  version: 0.0.1-beta.14
+  resolution: "interchainjs@npm:0.0.1-beta.14"
   dependencies:
     "@interchainjs/cosmos": "npm:^0.0.1-beta.12"
     "@interchainjs/cosmos-types": "npm:^0.0.1-beta.9"
@@ -12695,7 +12695,7 @@ __metadata:
     "@interchainjs/utils": "npm:^0.0.1-beta.9"
     "@noble/hashes": "npm:^1.3.1"
     decimal.js: "npm:^10.4.3"
-  checksum: 10c0/ac80b089e1a12ec05058b5d869e493d72c617c101419c04e4be1b9837ba3d2194da18b5889371dbaeab1a439da01bfed489e58ae732dfc3592e4fb79ca5c7fee
+  checksum: 10c0/6ee92160ebf81978f31b506bdbbd9aa5787c945570da3b812b204104ebe005aca0316f26da8acd356cc3508355f6fc33cc2f66fbb17fc49eec4a4b7c6688bf2e
   languageName: node
   linkType: hard
 
