@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import BigNumber from 'bignumber.js';
-import { Msgs } from '@interchainjs/cosmos-types/cosmos';
+import { MsgSend } from '@interchainjs/cosmos-types/cosmos/bank/v1beta1/tx';
 
 import {
   Box,
@@ -40,7 +40,7 @@ import { cosmos, createRpcQueryHooks } from '../src/codegen';
 import { useRpcClient } from '../src/codegen';
 import { useChainWallet, useWalletManager, useChain } from '@interchain-kit/react'
 import { } from '@interchain-kit/keplr-extension'
-import { InjSigningClient } from '@interchainjs/injective/signing-client';
+import { toEncoders, toConverters } from '@interchainjs/cosmos/utils';
 
 const rpcEndpoint = 'https://sentry.tm.injective.network'
 
@@ -56,6 +56,8 @@ const sendTokens = (
 ) => {
   console.log('chainName', chainName)
   const { signingClient } = useChain(chainName)
+  signingClient?.addEncoders(toEncoders(MsgSend));
+  signingClient?.addConverters(toConverters(MsgSend));
   return async () => {
     if (
       !address
@@ -66,28 +68,10 @@ const sendTokens = (
     const fee = {
       amount: [{
         denom: coin.base,
-        amount: '25000',
+        amount: '2500',
       }],
-      gas: "1000000",
+      gas: "100000",
     };
-
-    const addressOfflineSigner = (await signingClient.offlineSigner.getAccounts())[0]
-    console.log('addressOfflineSigner', addressOfflineSigner)
-    console.log('signingClient.offlineSigner', signingClient.offlineSigner)
-
-    const injSigningClient = await InjSigningClient.connectWithSigner(
-      rpcEndpoint, // injective
-      signingClient.offlineSigner,
-      {
-        broadcast: {
-          checkTx: true,
-          deliverTx: true,
-          useLegacyBroadcastTxCommit: true,
-        },
-        preferredSignType: 'direct',
-        registry: Msgs.map((g) => [g.typeUrl, g])
-      }
-    )
     const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl
     const msgs = [send({
       fromAddress: address,
@@ -95,7 +79,7 @@ const sendTokens = (
       amount: [{ denom: coin.base, amount: '1' }]
     })]
     try {
-      const response = await injSigningClient.signAndBroadcast(
+      const response = await signingClient.signAndBroadcast(
         address, msgs, fee, 'using interchainjs'
       )
       setResp(JSON.stringify(response, null, 2));
