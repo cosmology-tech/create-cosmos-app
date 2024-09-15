@@ -6,6 +6,7 @@ import { Box, Combobox, Skeleton, Stack, Text } from '@interchain-ui/react';
 import { useStarshipChains, useDetectBreakpoints } from '@/hooks';
 import { chainStore, useChainStore } from '@/contexts';
 import { chainOptions } from '@/config';
+import { getSignerOptions } from '@/utils';
 
 export const ChainDropdown = () => {
   const { selectedChain } = useChainStore();
@@ -18,12 +19,19 @@ export const ChainDropdown = () => {
   const { addChains, getChainLogo } = useManager();
 
   useEffect(() => {
-    if (starshipChains) {
-      // @ts-ignore
-      addChains(starshipChains.chains, starshipChains.assets);
+    if (
+      starshipChains?.chains.length &&
+      starshipChains?.assets.length &&
+      !isChainsAdded
+    ) {
+      addChains(
+        starshipChains.chains,
+        starshipChains.assets,
+        getSignerOptions(),
+      );
       setIsChainsAdded(true);
     }
-  }, [starshipChains]);
+  }, [starshipChains, isChainsAdded]);
 
   const chains = isChainsAdded
     ? chainOptions.concat(starshipChains?.chains ?? [])

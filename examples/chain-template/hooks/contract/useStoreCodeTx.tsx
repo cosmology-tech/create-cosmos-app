@@ -6,7 +6,7 @@ import { StdFee } from '@cosmjs/amino';
 import { Box } from '@interchain-ui/react';
 
 import { useToast } from '../common';
-import { CodeInfo, prettyStoreCodeTxResult, PrettyTxResult } from '@/utils';
+import { prettyStoreCodeTxResult } from '@/utils';
 
 const { storeCode } = cosmwasm.wasm.v1.MessageComposer.fromPartial;
 
@@ -14,8 +14,7 @@ type StoreCodeTxParams = {
   wasmFile: File;
   permission: AccessType;
   addresses: string[];
-  codeName: string;
-  onTxSucceed?: (txResult: PrettyTxResult, codeInfo: CodeInfo) => void;
+  onTxSucceed?: (codeId: string) => void;
   onTxFailed?: () => void;
 };
 
@@ -27,7 +26,6 @@ export const useStoreCodeTx = (chainName: string) => {
     wasmFile,
     permission,
     addresses,
-    codeName,
     onTxSucceed = () => {},
     onTxFailed = () => {},
   }: StoreCodeTxParams) => {
@@ -56,14 +54,7 @@ export const useStoreCodeTx = (chainName: string) => {
     try {
       const client = await getSigningCosmWasmClient();
       const result = await client.signAndBroadcast(address, [message], fee);
-      const txResult = prettyStoreCodeTxResult(result, codeName, wasmFile.name);
-      onTxSucceed(txResult, {
-        id: Number(txResult.codeId),
-        name: codeName,
-        uploader: address,
-        permission,
-        addresses,
-      });
+      onTxSucceed(prettyStoreCodeTxResult(result).codeId);
       toast.close(toastId);
       toast({
         title: 'Contract uploaded successfully',

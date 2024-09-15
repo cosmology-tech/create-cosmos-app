@@ -4,6 +4,7 @@ import { Box } from '@interchain-ui/react';
 import { Button } from '../common';
 import { PopoverSelect } from './PopoverSelect';
 import { MyContractsTable } from './MyContractsTable';
+import { CreateFromUpload } from './CreateFromUpload';
 
 const ContentViews = {
   MY_CONTRACTS: 'my_contracts',
@@ -29,7 +30,7 @@ export const MyContractsTab = ({ show, switchTab }: MyContractsTabProps) => {
   );
 
   return (
-    <Box display={show ? 'block' : 'none'} maxWidth="900px" mt="40px" mx="auto">
+    <Box display={show ? 'block' : 'none'}>
       <MyContractsTable
         title="My contracts"
         show={contentView === ContentViews.MY_CONTRACTS}
@@ -43,7 +44,9 @@ export const MyContractsTab = ({ show, switchTab }: MyContractsTabProps) => {
         }
       />
       {contentView === ContentViews.CREATE_FROM_UPLOAD && (
-        <Box>Create from Upload</Box>
+        <CreateFromUpload
+          onBack={() => setContentView(ContentViews.MY_CONTRACTS)}
+        />
       )}
       {contentView === ContentViews.CREATE_FROM_CODE_ID && (
         <Box>Create from Code ID</Box>

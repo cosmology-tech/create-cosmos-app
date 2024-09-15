@@ -103,13 +103,10 @@ export type PrettyTxResult = {
   codeHash: string;
   txHash: string;
   txFee: string;
-  codeDisplayName: string;
 };
 
 export const prettyStoreCodeTxResult = (
   txResponse: DeliverTxResponse,
-  codeName: string,
-  wasmFileName: string,
 ): PrettyTxResult => {
   const events = txResponse.events;
   const codeId = findAttr(events, 'store_code', 'code_id') ?? '0';
@@ -117,14 +114,12 @@ export const prettyStoreCodeTxResult = (
   const txHash = txResponse.transactionHash;
   const txFee =
     txResponse.events.find((e) => e.type === 'tx')?.attributes[0].value ?? '';
-  const codeDisplayName = codeName || `${wasmFileName}(${codeId})`;
 
   return {
     codeId,
     codeHash,
     txHash,
     txFee,
-    codeDisplayName,
   };
 };
 

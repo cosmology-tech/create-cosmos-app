@@ -27,7 +27,7 @@ export const MyContractsTable = ({
   const { data: myContracts = [], isLoading } = useMyContracts();
 
   return (
-    <Box display={show ? 'block' : 'none'} maxWidth="900px" mt="40px" mx="auto">
+    <Box display={show ? 'block' : 'none'} maxWidth="900px" mx="auto">
       <Text color="$blackAlpha600" fontSize="24px" fontWeight="700">
         {title}
       </Text>
@@ -41,7 +41,7 @@ export const MyContractsTable = ({
         minHeight="300px"
       >
         {!address ? (
-          <EmptyState text="Connect wallet to see your previously instantiated contracts." />
+          <EmptyState text="Connect wallet to see your contracts." />
         ) : isLoading ? (
           <Spinner size="$6xl" color="$blackAlpha600" />
         ) : myContracts.length === 0 ? (
@@ -73,7 +73,7 @@ export const MyContractsTable = ({
                       {Number(contractInfo?.codeId)}
                     </Table.Cell>
                     <Table.Cell>
-                      <Box display="flex" gap="10px">
+                      <Box display="flex" justifyContent="end" gap="10px">
                         <Button
                           size="sm"
                           onClick={() => switchTab(address, TabLabel.Query)}

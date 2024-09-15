@@ -11,30 +11,14 @@
 }
 
 .radio:checked {
-  border: 1px solid #7310ff;
-}
-
-.radio:checked::before {
-  content: '';
-  display: block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #7310ff;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  border-color: #7310ff;
+  border-width: 4px;
 }
 
 .radioDark {
-  border: 1px solid #343c44;
+  border-color: #323a42;
 }
 
 .radioDark:checked {
-  border: 1px solid #ab6fff;
-}
-
-.radioDark:checked::before {
-  background: #ab6fff;
+  border-color: #ab6fff;
 }
