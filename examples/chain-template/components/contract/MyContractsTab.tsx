@@ -5,6 +5,7 @@ import { Button } from '../common';
 import { PopoverSelect } from './PopoverSelect';
 import { MyContractsTable } from './MyContractsTable';
 import { CreateFromUpload } from './CreateFromUpload';
+import { CreateFromCodeId } from './CreateFromCodeId';
 
 const ContentViews = {
   MY_CONTRACTS: 'my_contracts',
@@ -49,7 +50,9 @@ export const MyContractsTab = ({ show, switchTab }: MyContractsTabProps) => {
         />
       )}
       {contentView === ContentViews.CREATE_FROM_CODE_ID && (
-        <Box>Create from Code ID</Box>
+        <CreateFromCodeId
+          onBack={() => setContentView(ContentViews.MY_CONTRACTS)}
+        />
       )}
     </Box>
   );

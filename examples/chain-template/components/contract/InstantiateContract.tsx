@@ -23,8 +23,8 @@ import { TxInfoItem, TxSuccessCard } from './TxSuccessCard';
 import { TabLabel } from '@/pages/contract';
 
 type InstantiateContractProps = {
-  show: boolean;
-  switchTab: (initialAddress: string, tabId: number) => void;
+  show?: boolean;
+  switchTab?: (initialAddress: string, tabId: number) => void;
   onSuccess?: () => void;
   defaultCodeId?: string;
   onCreateNewContract?: () => void;
@@ -32,7 +32,7 @@ type InstantiateContractProps = {
 };
 
 export const InstantiateContract = ({
-  show,
+  show = true,
   onSuccess,
   switchTab,
   defaultCodeId,
@@ -80,6 +80,7 @@ export const InstantiateContract = ({
   };
 
   const resetStates = () => {
+    setCodeId('');
     setCodeInfo(undefined);
     setLabel('');
     setAdminAddress('');
@@ -138,7 +139,7 @@ export const InstantiateContract = ({
                 width="$full"
                 variant="primary"
                 onClick={() => {
-                  switchTab(txResult.contractAddress, TabLabel.Query);
+                  switchTab?.(txResult.contractAddress, TabLabel.Query);
                 }}
               >
                 Query
@@ -147,7 +148,7 @@ export const InstantiateContract = ({
                 width="$full"
                 variant="primary"
                 onClick={() => {
-                  switchTab(txResult.contractAddress, TabLabel.Execute);
+                  switchTab?.(txResult.contractAddress, TabLabel.Execute);
                 }}
               >
                 Execute
