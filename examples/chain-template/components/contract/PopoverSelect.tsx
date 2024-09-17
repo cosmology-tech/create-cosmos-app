@@ -20,12 +20,14 @@ type PopoverSelectProps = {
   trigger: React.ReactNode;
   options: Option[];
   onOptionClick: (value: string) => void;
+  popoverWidth?: string;
 };
 
 export const PopoverSelect = ({
   trigger,
   options,
   onOptionClick,
+  popoverWidth = '100%',
 }: PopoverSelectProps) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
@@ -45,8 +47,8 @@ export const PopoverSelect = ({
         <Box
           display="flex"
           flexDirection="column"
-          // width={`${elemWidth}px`}
-          py="10px"
+          width={popoverWidth}
+          p="10px"
           bg="$background"
           borderRadius="4px"
           boxShadow={`0px 4px 20px 0px rgba(${
@@ -85,10 +87,11 @@ const CustomOption = ({
       gap="10px"
       alignItems="center"
       minHeight="40px"
-      px="20px"
+      px="10px"
       cursor="pointer"
+      borderRadius="4px"
       bg={{
-        hover: useColorModeValue('$blackAlpha100', '$whiteAlpha100'),
+        hover: useColorModeValue('$gray100', '$whiteAlpha100'),
         base: '$background',
       }}
       attributes={{ onClick }}

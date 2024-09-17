@@ -15,7 +15,7 @@ const ContentViews = {
 
 type ContentView = (typeof ContentViews)[keyof typeof ContentViews];
 
-const createContractOptions = [
+const contractCreationOptions = [
   { label: 'From Upload', value: ContentViews.CREATE_FROM_UPLOAD },
   { label: 'From Code ID', value: ContentViews.CREATE_FROM_CODE_ID },
 ];
@@ -38,9 +38,10 @@ export const MyContractsTab = ({ show, switchTab }: MyContractsTabProps) => {
         switchTab={switchTab}
         createContractTrigger={
           <PopoverSelect
-            trigger={<Button variant="primary">Create New Contract</Button>}
-            options={createContractOptions}
+            trigger={<Button variant="primary">Create Contract</Button>}
+            options={contractCreationOptions}
             onOptionClick={(value) => setContentView(value as ContentView)}
+            popoverWidth="152px"
           />
         }
       />
