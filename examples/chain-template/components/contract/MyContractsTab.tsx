@@ -33,7 +33,7 @@ export const MyContractsTab = ({ show, switchTab }: MyContractsTabProps) => {
   return (
     <Box display={show ? 'block' : 'none'}>
       <MyContractsTable
-        title="My contracts"
+        title="My Contracts"
         show={contentView === ContentViews.MY_CONTRACTS}
         switchTab={switchTab}
         createContractTrigger={
