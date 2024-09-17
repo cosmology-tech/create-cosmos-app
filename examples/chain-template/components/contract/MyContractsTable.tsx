@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useChain } from '@cosmos-kit/react';
-import { Box, Icon, Spinner, Text } from '@interchain-ui/react';
+import { Box, Icon, Spinner, Text, TextField } from '@interchain-ui/react';
 
 import { useCopyToClipboard, useMyContracts } from '@/hooks';
 import { Button, Table } from '../common';
@@ -8,6 +8,7 @@ import { shortenAddress } from '@/utils';
 import { TabLabel } from '@/pages/contract';
 import { EmptyState } from './EmptyState';
 import { useChainStore } from '@/contexts';
+import styles from '@/styles/comp.module.css';
 
 type MyContractsTableProps = {
   show: boolean;
@@ -22,16 +23,54 @@ export const MyContractsTable = ({
   title,
   createContractTrigger,
 }: MyContractsTableProps) => {
+  const [searchValue, setSearchValue] = useState('');
+
   const { selectedChain } = useChainStore();
   const { address } = useChain(selectedChain);
   const { data: myContracts = [], isLoading } = useMyContracts();
+
+  const filteredContracts = useMemo(() => {
+    return myContracts.filter(({ address, contractInfo }) =>
+      [address, contractInfo?.label, contractInfo?.codeId.toString()].some(
+        (value) =>
+          value && value.toLowerCase().includes(searchValue.toLowerCase()),
+      ),
+    );
+  }, [myContracts, searchValue]);
 
   return (
     <Box display={show ? 'block' : 'none'} maxWidth="900px" mx="auto">
       <Text color="$blackAlpha600" fontSize="24px" fontWeight="700">
         {title}
       </Text>
-      <Box display="flex" justifyContent="end" mt="30px" mb="10px">
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mt="30px"
+        mb="10px"
+      >
+        <Box position="relative" width="220px">
+          <Icon
+            name="magnifier"
+            color="$blackAlpha500"
+            attributes={{
+              position: 'absolute',
+              left: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: '$10',
+            }}
+          />
+          <TextField
+            id="search"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            placeholder="Search"
+            autoComplete="off"
+            inputClassName={styles['input-pl']}
+          />
+        </Box>
         {createContractTrigger}
       </Box>
       <Box
@@ -46,6 +85,8 @@ export const MyContractsTable = ({
           <Spinner size="$6xl" color="$blackAlpha600" />
         ) : myContracts.length === 0 ? (
           <EmptyState text="No contracts found" />
+        ) : filteredContracts.length === 0 ? (
+          <EmptyState text="No matched contracts found" />
         ) : (
           <Box width="$full" alignSelf="start" overflowX="auto">
             <Table minWidth="650px">
@@ -60,7 +101,7 @@ export const MyContractsTable = ({
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {myContracts.map(({ address, contractInfo }) => (
+                {filteredContracts.map(({ address, contractInfo }) => (
                   <Table.Row key={address}>
                     <Table.Cell>
                       <CopyText

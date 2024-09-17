@@ -9,3 +9,7 @@
 .modal div[data-modal-part='children'] {
   padding: 0;
 }
+
+.input-pl {
+  padding-left: 36px;
+}
