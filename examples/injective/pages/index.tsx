@@ -70,7 +70,7 @@ const sendTokens = (
         denom: coin.base,
         amount: '2500',
       }],
-      gas: "100000",
+      gas: "1000000",
     };
     const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl
     const msgs = [send({
