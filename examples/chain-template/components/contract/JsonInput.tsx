@@ -12,8 +12,6 @@ import { Button } from '@/components';
 import { countJsonLines, prettifyJson, validateJson } from '@/utils';
 import { JsonEditor } from './JsonEditor';
 
-export const MIN_LINES = 16;
-
 type JsonDisplay = {
   icon?: React.ReactNode;
   text?: string;
@@ -60,7 +58,7 @@ type JsonInputProps = {
 export const JsonInput = ({
   value = '',
   setValue,
-  minLines = MIN_LINES,
+  minLines = 16,
   ...rest
 }: JsonInputProps) => {
   const [jsonState, setJsonState] = useState<JsonState>({ state: 'empty' });
