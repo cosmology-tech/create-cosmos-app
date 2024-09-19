@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react';
+import { useChain } from '@cosmos-kit/react';
 import {
   Box,
   Combobox,
@@ -6,13 +8,12 @@ import {
   Text,
   TextProps,
 } from '@interchain-ui/react';
+
 import { InputField } from './InputField';
 import { useContractInfo, useMyContracts } from '@/hooks';
 import { shortenAddress, validateContractAddress } from '@/utils';
-import { useEffect, useState } from 'react';
 import { InputStatus } from './CodeIdField';
 import { useChainStore } from '@/contexts';
-import { useChain } from '@cosmos-kit/react';
 
 type StatusDisplay = {
   icon?: React.ReactNode;
@@ -47,18 +48,18 @@ const displayStatus = (status: InputStatus) => {
 };
 
 type ContractAddressFieldProps = {
-  width?: string;
   initialAddress?: string;
   setContractAddress?: (address: string) => void;
 };
 
 export const ContractAddressField = ({
-  width = '560px',
   initialAddress,
   setContractAddress,
 }: ContractAddressFieldProps) => {
   const [input, setInput] = useState('');
   const [status, setStatus] = useState<InputStatus>({ state: 'init' });
+  const [fieldWidth, setFieldWidth] = useState('560px');
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const { selectedChain } = useChainStore();
   const { chain } = useChain(selectedChain);
@@ -67,6 +68,26 @@ export const ContractAddressField = ({
     enabled: false,
   });
   const { data: myContracts = [] } = useMyContracts();
+
+  // TODO: fix width not correct on first render on small screen
+  useEffect(() => {
+    const updateWidth = () => {
+      const newWidth = containerRef.current?.clientWidth;
+      if (newWidth) {
+        setFieldWidth(`${newWidth}px`);
+      }
+    };
+
+    updateWidth();
+    const timeoutId = setTimeout(updateWidth, 0);
+
+    window.addEventListener('resize', updateWidth);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', updateWidth);
+    };
+  }, []);
 
   useEffect(() => {
     if (initialAddress) {
@@ -108,41 +129,43 @@ export const ContractAddressField = ({
   const { icon, text, textColor } = displayStatus(status);
 
   return (
-    <InputField title="Contract Address">
-      <Combobox
-        openOnFocus
-        allowsCustomValue
-        inputValue={input}
-        onInputChange={(input) => {
-          setInput(input);
-        }}
-        onSelectionChange={(value) => {
-          if (value) setInput(value as string);
-        }}
-        styleProps={{ width }}
-      >
-        {myContracts.map(({ address, contractInfo }) => (
-          <Combobox.Item key={address} textValue={address}>
-            <Box transform="translateY(2px)">
-              <Text>
-                {`${shortenAddress(address, 18)} (`}
-                <Text as="span" fontWeight="600">
-                  {`${contractInfo?.label || 'Unnamed'}`}
+    <Box width="100%" ref={containerRef}>
+      <InputField title="Contract Address">
+        <Combobox
+          openOnFocus
+          allowsCustomValue
+          inputValue={input}
+          onInputChange={(input) => {
+            setInput(input);
+          }}
+          onSelectionChange={(value) => {
+            if (value) setInput(value as string);
+          }}
+          styleProps={{ width: fieldWidth }}
+        >
+          {myContracts.map(({ address, contractInfo }) => (
+            <Combobox.Item key={address} textValue={address}>
+              <Box transform="translateY(2px)">
+                <Text>
+                  {`${shortenAddress(address, 18)} (`}
+                  <Text as="span" fontWeight="600">
+                    {`${contractInfo?.label || 'Unnamed'}`}
+                  </Text>
+                  {')'}
                 </Text>
-                {')'}
-              </Text>
-            </Box>
-          </Combobox.Item>
-        ))}
-      </Combobox>
-      {status.state !== 'init' && (
-        <Box display="flex" alignItems="center" gap="6px">
-          {icon}
-          <Text color={textColor} fontSize="12px">
-            {text}
-          </Text>
-        </Box>
-      )}
-    </InputField>
+              </Box>
+            </Combobox.Item>
+          ))}
+        </Combobox>
+        {status.state !== 'init' && (
+          <Box display="flex" alignItems="center" gap="6px">
+            {icon}
+            <Text color={textColor} fontSize="12px">
+              {text}
+            </Text>
+          </Box>
+        )}
+      </InputField>
+    </Box>
   );
 };

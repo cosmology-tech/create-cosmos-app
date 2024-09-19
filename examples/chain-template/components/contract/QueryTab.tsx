@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Box, Text } from '@interchain-ui/react';
 
 import { ContractAddressField } from './ContractAddressField';
@@ -24,29 +24,7 @@ export const QueryTab = ({
   clearInitAddress,
 }: QueryTabProps) => {
   const [contractAddress, setContractAddress] = useState('');
-  const [fieldWidth, setFieldWidth] = useState('560px');
   const [queryMsg, setQueryMsg] = useState('');
-
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const updateWidth = () => {
-      const newWidth = containerRef.current?.clientWidth;
-      if (newWidth) {
-        setFieldWidth(`${newWidth}px`);
-      }
-    };
-
-    updateWidth();
-    const timeoutId = setTimeout(updateWidth, 0);
-
-    window.addEventListener('resize', updateWidth);
-
-    return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('resize', updateWidth);
-    };
-  }, [show]);
 
   const {
     data: queryResult,
@@ -96,7 +74,6 @@ export const QueryTab = ({
       mx="auto"
       flexDirection="column"
       gap="20px"
-      ref={containerRef}
     >
       <Text
         fontSize="24px"
@@ -107,7 +84,6 @@ export const QueryTab = ({
         Query Contract
       </Text>
       <ContractAddressField
-        width={fieldWidth}
         initialAddress={initialAddress}
         setContractAddress={setContractAddress}
       />
