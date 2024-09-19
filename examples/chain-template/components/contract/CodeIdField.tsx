@@ -7,7 +7,7 @@ import { useCodeDetails } from '@/hooks';
 import { useChainStore } from '@/contexts';
 import { CodeInfo, isValidCodeId, resolvePermission } from '@/utils';
 
-type Status = {
+export type InputStatus = {
   state: 'init' | 'loading' | 'success' | 'error';
   message?: string;
 };
@@ -25,7 +25,7 @@ export const CodeIdField = ({
   readonly?: boolean;
   defaultCodeId?: string;
 }) => {
-  const [status, setStatus] = useState<Status>({ state: 'init' });
+  const [status, setStatus] = useState<InputStatus>({ state: 'init' });
 
   const { selectedChain } = useChainStore();
   const { address } = useChain(selectedChain);
