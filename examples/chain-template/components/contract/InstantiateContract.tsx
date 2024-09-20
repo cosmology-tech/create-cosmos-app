@@ -1,5 +1,11 @@
 import { useState } from 'react';
-import { Box, Divider, Text, TextField } from '@interchain-ui/react';
+import {
+  Box,
+  Divider,
+  Text,
+  TextField,
+  TextFieldAddon,
+} from '@interchain-ui/react';
 import { Coin } from '@cosmjs/stargate';
 import { IoChevronDown } from 'react-icons/io5';
 import { useChain } from '@cosmos-kit/react';
@@ -20,6 +26,7 @@ import { Button } from '../common';
 import { useInstantiateTx, useMyContracts } from '@/hooks';
 import { TxInfoItem, TxSuccessCard } from './TxSuccessCard';
 import { TabLabel } from '@/pages/contract';
+import styles from '@/styles/comp.module.css';
 
 type InstantiateContractProps = {
   show?: boolean;
@@ -236,6 +243,28 @@ export const InstantiateContract = ({
             value={adminAddress}
             onChange={(e) => setAdminAddress(e.target.value)}
             autoComplete="off"
+            inputClassName={styles['input-pr']}
+            endAddon={
+              <TextFieldAddon position="end">
+                <Box
+                  height="$full"
+                  display="flex"
+                  alignItems="center"
+                  borderLeftWidth="1px"
+                  borderLeftStyle="solid"
+                  borderLeftColor="$inputBorder"
+                >
+                  <Button
+                    size="sm"
+                    variant="text"
+                    disabled={!address}
+                    onClick={() => setAdminAddress(address ?? '')}
+                  >
+                    Autofill
+                  </Button>
+                </Box>
+              </TextFieldAddon>
+            }
           />
           <InputField.Description intent={adminInputErr ? 'error' : 'default'}>
             {adminInputErr ||

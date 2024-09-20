@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Text, TextField } from '@interchain-ui/react';
+import { Box, Text, TextField, TextFieldAddon } from '@interchain-ui/react';
 import { useChain } from '@cosmos-kit/react';
 
 import { Button } from '@/components';
@@ -8,6 +8,7 @@ import { creditFromFaucet, validateChainAddress } from '@/utils';
 import { useStarshipChains, useToast } from '@/hooks';
 import config from '@/starship/configs/config.yaml';
 import type { StarshipConfig } from '@/starship';
+import styles from '@/styles/comp.module.css';
 
 export default function Faucet() {
   const [input, setInput] = useState('');
@@ -32,7 +33,7 @@ export default function Faucet() {
     }
 
     const isStarshipChain = starshipChains?.chains?.some(
-      (c) => c.chain_id === chain.chain_id
+      (c) => c.chain_id === chain.chain_id,
     );
 
     if (!isStarshipChain) {
@@ -58,7 +59,7 @@ export default function Faucet() {
 
     const asset = assets.assets[0];
     const port = (config as StarshipConfig).chains.find(
-      (c) => c.id === chain.chain_id
+      (c) => c.id === chain.chain_id,
     )!.ports.faucet;
 
     try {
@@ -104,38 +105,48 @@ export default function Faucet() {
           Address
         </Text>
 
-        <Box display="flex" justifyContent="space-between" gap="10px" mb="24px">
-          <Box width="$full">
-            <TextField
-              id="address"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Enter your address"
-              intent={inputErrMsg ? 'error' : 'default'}
-              attributes={{ width: '100%' }}
-            />
-            {inputErrMsg && (
-              <Text
-                color="$red600"
-                fontSize="12px"
-                fontWeight="500"
-                wordBreak="break-all"
-                attributes={{ mt: '6px' }}
-              >
-                {inputErrMsg}
-              </Text>
-            )}
-          </Box>
-          <Button
-            borderWidth="1px"
-            borderColor="$blackAlpha300"
-            color="$textSecondary"
-            fontSize="14px"
-            disabled={!address}
-            onClick={() => setInput(address ?? '')}
-          >
-            Autofill
-          </Button>
+        <Box mb="24px">
+          <TextField
+            id="address"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Enter your address"
+            intent={inputErrMsg ? 'error' : 'default'}
+            autoComplete="off"
+            inputClassName={styles['input-pr']}
+            endAddon={
+              <TextFieldAddon position="end">
+                <Box
+                  height="$full"
+                  display="flex"
+                  alignItems="center"
+                  borderLeftWidth="1px"
+                  borderLeftStyle="solid"
+                  borderLeftColor="$inputBorder"
+                >
+                  <Button
+                    size="sm"
+                    variant="text"
+                    disabled={!address}
+                    onClick={() => setInput(address ?? '')}
+                  >
+                    Autofill
+                  </Button>
+                </Box>
+              </TextFieldAddon>
+            }
+          />
+          {inputErrMsg && (
+            <Text
+              color="$red600"
+              fontSize="12px"
+              fontWeight="500"
+              wordBreak="break-all"
+              attributes={{ mt: '6px' }}
+            >
+              {inputErrMsg}
+            </Text>
+          )}
         </Box>
 
         <Button
