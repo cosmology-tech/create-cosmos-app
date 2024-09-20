@@ -4,6 +4,7 @@
 
 .tabs ul {
   max-width: 600px;
+  margin: 0 auto;
 }
 
 .input-pl {

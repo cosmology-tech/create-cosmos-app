@@ -12,11 +12,11 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
   const { data, isLoading, refetch } = useStakingData(chainName);
   const { data: logos, isLoading: isFetchingLogos } = useValidatorLogos(
     chainName,
-    data?.allValidators || []
+    data?.allValidators || [],
   );
 
   return (
-    <Box my="$16" maxWidth="$containerLg" mx="auto">
+    <Box my="$16" maxWidth="$containerMd" mx="auto">
       {!isWalletConnected ? (
         <Box
           height="$28"

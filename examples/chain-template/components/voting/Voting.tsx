@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useChain } from "@cosmos-kit/react";
+import { useEffect, useState } from 'react';
+import { useChain } from '@cosmos-kit/react';
 import {
   Proposal as IProposal,
   ProposalStatus,
@@ -12,11 +12,11 @@ import {
   Spinner,
   Text,
   useColorModeValue,
-} from "@interchain-ui/react";
-import { useModal, useVotingData } from "@/hooks";
-import { Proposal } from "@/components";
-import { formatDate } from "@/utils";
-import { chains } from 'chain-registry'
+} from '@interchain-ui/react';
+import { useModal, useVotingData } from '@/hooks';
+import { Proposal } from '@/components';
+import { formatDate } from '@/utils';
+import { chains } from 'chain-registry';
 
 function status(s: ProposalStatus) {
   switch (s) {
@@ -54,40 +54,41 @@ export function Voting({ chainName }: VotingProps) {
   const { address } = useChain(chainName);
   const [proposal, setProposal] = useState<IProposal>();
   const { data, isLoading, refetch } = useVotingData(chainName);
-  const { modal, open: openModal, close: closeModal, setTitle } = useModal("");
+  const { modal, open: openModal, close: closeModal, setTitle } = useModal('');
   const [tallies, setTallies] = useState<{ [key: string]: TallyResult }>({});
 
   const chain = chains.find((c) => c.chain_name === chainName);
 
   useEffect(() => {
-    if (!data.proposals || data.proposals.length === 0) return
+    if (!data.proposals || data.proposals.length === 0) return;
     data.proposals.forEach((proposal) => {
       if (proposal.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD) {
         (async () => {
           for (const { address } of chain?.apis?.rest || []) {
-            const api = `${address}/cosmos/gov/v1/proposals/${Number(proposal.id)}/tally`
+            const api = `${address}/cosmos/gov/v1/proposals/${Number(proposal.id)}/tally`;
             try {
-              const tally = (await (await fetch(api)).json()).tally
+              const tally = (await (await fetch(api)).json()).tally;
               if (!tally) {
-                continue
+                continue;
               }
-              setTallies(prev => {
+              setTallies((prev) => {
                 return {
-                  ...prev, [proposal.id.toString()]: {
+                  ...prev,
+                  [proposal.id.toString()]: {
                     yesCount: tally.yes_count,
                     noCount: tally.no_count,
                     abstainCount: tally.abstain_count,
                     noWithVetoCount: tally.no_with_veto_count,
-                  }
-                }
-              })
-              break
-            } catch (e) { }
+                  },
+                };
+              });
+              break;
+            } catch (e) {}
           }
-        })()
+        })();
       }
     });
-  }, [data.proposals?.length, chainName])
+  }, [data.proposals?.length, chainName]);
 
   function onClickProposal(index: number) {
     const proposal = data.proposals![index];
@@ -100,41 +101,43 @@ export function Voting({ chainName }: VotingProps) {
   const content = (
     <Box mt="$12">
       {data.proposals?.map((proposal, index) => {
-        let tally = proposal.finalTallyResult
+        let tally = proposal.finalTallyResult;
         if (proposal.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD) {
-          tally = tallies[proposal.id.toString()]
+          tally = tallies[proposal.id.toString()];
         }
-        return (<Box
-          my="$8"
-          key={proposal.id?.toString() || index}
-          position="relative"
-          attributes={{ onClick: () => onClickProposal(index) }}
-        >
-          {data.votes[proposal.id.toString()] ? (
-            <Box
-              position="absolute"
-              px="$4"
-              py="$2"
-              top="$4"
-              right="$6"
-              borderRadius="$md"
-              backgroundColor="$green400"
-            >
-              <Text color="$white" fontSize="$xs" fontWeight="$bold">
-                Voted
-              </Text>
-            </Box>
-          ) : null}
-          <GovernanceProposalItem
-            id={`# ${proposal.id?.toString()}`}
-            key={proposal.submitTime?.getTime()}
-            // @ts-ignore
-            title={proposal.content?.title || proposal.title || ''}
-            status={status(proposal.status)}
-            votes={votes(tally!)}
-            endTime={formatDate(proposal.votingEndTime)!}
-          />
-        </Box>)
+        return (
+          <Box
+            my="$8"
+            key={proposal.id?.toString() || index}
+            position="relative"
+            attributes={{ onClick: () => onClickProposal(index) }}
+          >
+            {data.votes[proposal.id.toString()] ? (
+              <Box
+                position="absolute"
+                px="$4"
+                py="$2"
+                top="$4"
+                right="$6"
+                borderRadius="$md"
+                backgroundColor="$green400"
+              >
+                <Text color="$white" fontSize="$xs" fontWeight="$bold">
+                  Voted
+                </Text>
+              </Box>
+            ) : null}
+            <GovernanceProposalItem
+              id={`# ${proposal.id?.toString()}`}
+              key={proposal.submitTime?.getTime()}
+              // @ts-ignore
+              title={proposal.content?.title || proposal.title || ''}
+              status={status(proposal.status)}
+              votes={votes(tally!)}
+              endTime={formatDate(proposal.votingEndTime)!}
+            />
+          </Box>
+        );
       })}
     </Box>
   );
@@ -162,7 +165,7 @@ export function Voting({ chainName }: VotingProps) {
   );
 
   return (
-    <Box mb="$20" position="relative" maxWidth="$containerLg" mx="auto">
+    <Box mb="$20" position="relative" maxWidth="$containerMd" mx="auto">
       <Text fontWeight="600" fontSize="$2xl">
         Proposals
       </Text>
