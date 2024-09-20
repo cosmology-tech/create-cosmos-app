@@ -1,13 +1,10 @@
-import { Asset, AssetList, Chain } from '@chain-registry/types';
+import { Asset, Chain } from '@chain-registry/types';
 import { toBech32, fromBech32 } from '@cosmjs/encoding';
-import { Sha256 } from '@cosmjs/crypto';
 import { DeliverTxResponse } from '@cosmjs/cosmwasm-stargate';
-import { Coin, logs, parseCoins } from '@cosmjs/stargate';
+import { logs } from '@cosmjs/stargate';
 import { CodeInfoResponse } from 'interchain-query/cosmwasm/wasm/v1/query';
 import { AccessType } from 'interchain-query/cosmwasm/wasm/v1/types';
 import BigNumber from 'bignumber.js';
-
-import { codeStore } from '@/contexts';
 
 export const validateContractAddress = (
   address: string,
@@ -70,16 +67,6 @@ export const bytesToKb = (bytes: number) => {
     .toFixed(bytes >= 1000 ? 0 : 2);
 };
 
-export const convWasmFileToCodeHash = async (wasmFile: File | null) => {
-  if (wasmFile) {
-    const wasmFileBytes = new Sha256(
-      new Uint8Array(await wasmFile.arrayBuffer()),
-    ).digest();
-    return Buffer.from(wasmFileBytes).toString('hex');
-  }
-  return '';
-};
-
 export const findAttr = (
   events: logs.Log['events'],
   eventType: string,
@@ -123,29 +110,6 @@ export const prettyStoreCodeTxResult = (
   };
 };
 
-export const formatTxFee = (txFee: string, assets: AssetList) => {
-  let coins: Coin[] = [];
-
-  try {
-    coins = parseCoins(txFee);
-  } catch (e) {
-    console.error(e);
-  }
-
-  if (coins.length === 0) return '--';
-
-  const denom = coins[0].denom;
-  const amount = coins[0].amount;
-  const asset = assets.assets.find((asset) => asset.base === denom);
-  if (!asset) return '--';
-
-  const exponent = getExponentFromAsset(asset);
-  if (!exponent) return '--';
-
-  const displayAmount = BigNumber(amount).shiftedBy(-exponent).toFixed();
-  return `${displayAmount} ${asset.symbol}`;
-};
-
 export const splitCamelCase = (text: string): string => {
   return text.replace(/([A-Z])/g, ' $1').trim();
 };
@@ -160,50 +124,16 @@ export const resolvePermission = (
 
 export interface CodeInfo {
   id: number;
-  name: string;
   uploader: string;
   permission: AccessType;
   addresses: string[];
 }
-
-export type PermissionValue = 'all' | 'without-proposal' | 'with-proposal';
-
-export const filterCodeByPermission = (
-  codeInfo: CodeInfo,
-  address: string,
-  filterValue: PermissionValue,
-) => {
-  const { permission, addresses } = codeInfo;
-
-  const isAllowed = resolvePermission(address, permission, addresses);
-
-  switch (filterValue) {
-    case 'with-proposal':
-      return !isAllowed;
-    case 'without-proposal':
-      return isAllowed;
-    case 'all':
-    default:
-      return true;
-  }
-};
-
-export const filterCodeBySearch = (codeInfo: CodeInfo, keyword: string) => {
-  const computedKeyword = keyword.trim();
-  if (!computedKeyword.length) return true;
-
-  return (
-    codeInfo.id.toString().startsWith(computedKeyword) ||
-    codeInfo.name.toLowerCase().includes(computedKeyword.toLowerCase())
-  );
-};
 
 export const prettyCodeInfo = (rawCodeInfo: CodeInfoResponse): CodeInfo => {
   const { codeId, creator, instantiatePermission } = rawCodeInfo;
 
   return {
     id: Number(codeId),
-    name: codeStore.getCodeName(Number(codeId)) ?? '',
     permission: instantiatePermission?.permission!,
     uploader: creator,
     addresses: instantiatePermission?.addresses || [],

@@ -36,7 +36,7 @@
     "interchain-query": "1.10.1",
     "next": "^13",
     "node-gzip": "^1.1.2",
-    "osmo-query": "16.13.0",
+    "osmo-query": "16.5.1",
     "react": "18.2.0",
     "react-ace": "11.0.1",
     "react-dom": "18.2.0",
