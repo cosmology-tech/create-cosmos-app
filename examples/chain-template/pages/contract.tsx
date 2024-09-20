@@ -48,16 +48,10 @@ export default function Contract() {
         <QueryTab
           show={activeTab === TabLabel.Query}
           initialAddress={initQueryAddress}
-          clearInitAddress={() => {
-            if (initQueryAddress) setInitQueryAddress('');
-          }}
         />
         <ExecuteTab
           show={activeTab === TabLabel.Execute}
           initialAddress={initExecuteAddress}
-          clearInitAddress={() => {
-            if (initExecuteAddress) setInitExecuteAddress('');
-          }}
         />
       </Box>
     </>

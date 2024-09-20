@@ -15,14 +15,9 @@ const OUTPUT_LINES = 12;
 type QueryTabProps = {
   show: boolean;
   initialAddress: string;
-  clearInitAddress: () => void;
 };
 
-export const QueryTab = ({
-  show,
-  initialAddress,
-  clearInitAddress,
-}: QueryTabProps) => {
+export const QueryTab = ({ show, initialAddress }: QueryTabProps) => {
   const [contractAddress, setContractAddress] = useState('');
   const [queryMsg, setQueryMsg] = useState('');
 

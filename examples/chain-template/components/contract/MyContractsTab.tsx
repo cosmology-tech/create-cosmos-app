@@ -47,11 +47,13 @@ export const MyContractsTab = ({ show, switchTab }: MyContractsTabProps) => {
       />
       {contentView === ContentViews.CREATE_FROM_UPLOAD && (
         <CreateFromUpload
+          switchTab={switchTab}
           onBack={() => setContentView(ContentViews.MY_CONTRACTS)}
         />
       )}
       {contentView === ContentViews.CREATE_FROM_CODE_ID && (
         <CreateFromCodeId
+          switchTab={switchTab}
           onBack={() => setContentView(ContentViews.MY_CONTRACTS)}
         />
       )}

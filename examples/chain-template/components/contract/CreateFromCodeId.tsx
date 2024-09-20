@@ -5,9 +5,13 @@ import { InstantiateContract } from './InstantiateContract';
 
 type CreateFromCodeIdProps = {
   onBack: () => void;
+  switchTab: (initialAddress: string, tabId: number) => void;
 };
 
-export const CreateFromCodeId = ({ onBack }: CreateFromCodeIdProps) => {
+export const CreateFromCodeId = ({
+  onBack,
+  switchTab,
+}: CreateFromCodeIdProps) => {
   return (
     <Box position="relative">
       <Box
@@ -20,7 +24,7 @@ export const CreateFromCodeId = ({ onBack }: CreateFromCodeIdProps) => {
       >
         <BackButton onClick={onBack} />
       </Box>
-      <InstantiateContract onViewMyContracts={onBack} />
+      <InstantiateContract switchTab={switchTab} onViewMyContracts={onBack} />
     </Box>
   );
 };

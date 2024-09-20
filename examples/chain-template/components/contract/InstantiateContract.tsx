@@ -8,7 +8,6 @@ import { InstantiateResult } from '@cosmjs/cosmwasm-stargate';
 import { CodeIdField } from './CodeIdField';
 import {
   CodeInfo,
-  formatTxFee,
   resolvePermission,
   shortenAddress,
   validateChainAddress,
@@ -51,7 +50,7 @@ export const InstantiateContract = ({
   const [txResult, setTxResult] = useState<InstantiateResult>();
 
   const { selectedChain } = useChainStore();
-  const { address, assets, chain } = useChain(selectedChain);
+  const { address, chain } = useChain(selectedChain);
   const { instantiateTx } = useInstantiateTx(selectedChain);
   const { refetch: updateMyContracts } = useMyContracts();
 
@@ -105,9 +104,6 @@ export const InstantiateContract = ({
     !!adminInputErr;
 
   if (txResult) {
-    const txFee =
-      txResult.events.find((e) => e.type === 'tx')?.attributes[0].value ?? '';
-
     const infoItems: TxInfoItem[] = [
       {
         label: 'Tx Hash',
@@ -119,19 +115,14 @@ export const InstantiateContract = ({
         displayValue: shortenAddress(txResult.contractAddress),
         actualValue: txResult.contractAddress,
       },
-      {
-        label: 'Tx Fee',
-        displayValue: formatTxFee(txFee, assets!),
-        allowCopy: false,
-      },
     ];
 
     return (
       <TxSuccessCard
-        title="Instantiate Complete!"
-        infoItems={infoItems}
         show={show}
-        description={`Contract "${label}" has been successfully instantiated.`}
+        title="Contract Instantiated"
+        description={`"${label}" has been successfully created.`}
+        infoItems={infoItems}
         footer={
           <Box width="$full" display="flex" flexDirection="column" gap="10px">
             <Box display="flex" gap="10px">

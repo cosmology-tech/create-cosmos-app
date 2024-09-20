@@ -17,14 +17,9 @@ const INPUT_LINES = 12;
 type ExecuteTabProps = {
   show: boolean;
   initialAddress: string;
-  clearInitAddress: () => void;
 };
 
-export const ExecuteTab = ({
-  show,
-  initialAddress,
-  clearInitAddress,
-}: ExecuteTabProps) => {
+export const ExecuteTab = ({ show, initialAddress }: ExecuteTabProps) => {
   const [contractAddress, setContractAddress] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [executeMsg, setExecuteMsg] = useState('');

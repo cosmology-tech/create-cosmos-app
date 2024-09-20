@@ -8,6 +8,7 @@ import { InstantiateContract } from './InstantiateContract';
 
 type CreateFromUploadProps = {
   onBack: () => void;
+  switchTab: (initialAddress: string, tabId: number) => void;
 };
 
 enum Step {
@@ -17,7 +18,10 @@ enum Step {
 
 const steps = [Step.Upload, Step.Instantiate];
 
-export const CreateFromUpload = ({ onBack }: CreateFromUploadProps) => {
+export const CreateFromUpload = ({
+  onBack,
+  switchTab,
+}: CreateFromUploadProps) => {
   const [activeStepName, setActiveStepName] = useState<Step>(Step.Upload);
   const [completed, setCompleted] = useState(false);
   const [codeId, setCodeId] = useState<string>();
@@ -57,7 +61,7 @@ export const CreateFromUpload = ({ onBack }: CreateFromUploadProps) => {
       <InstantiateContract
         show={activeStepName === Step.Instantiate}
         defaultCodeId={codeId}
-        switchTab={() => {}}
+        switchTab={switchTab}
         onSuccess={nextStep}
         onCreateNewContract={() => {
           setCompleted(false);
