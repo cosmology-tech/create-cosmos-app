@@ -6,6 +6,7 @@ export const CustomTheme: Record<ThemeVariant, string> = {
 };
 
 export const lightColors: ThemeDef['vars']['colors'] = {
+  purple900: '#322F3C',
   purple600: '#7310FF',
   purple400: '#AB6FFF',
   purple200: '#E5D4FB',
@@ -42,6 +43,7 @@ export const lightColors: ThemeDef['vars']['colors'] = {
 };
 
 export const darkColors: ThemeDef['vars']['colors'] = {
+  purple900: '#322F3C',
   purple600: '#9042FE',
   purple400: '#AB6FFF',
   purple200: '#4D198F',

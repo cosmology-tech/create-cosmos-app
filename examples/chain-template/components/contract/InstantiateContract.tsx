@@ -114,6 +114,8 @@ export const InstantiateContract = ({
     !canInstantiate ||
     !!adminInputErr;
 
+  const { isMobile } = useDetectBreakpoints();
+
   if (txResult) {
     const infoItems: TxInfoItem[] = [
       {
@@ -173,8 +175,6 @@ export const InstantiateContract = ({
       />
     );
   }
-
-  const { isMobile } = useDetectBreakpoints();
 
   return (
     <Box

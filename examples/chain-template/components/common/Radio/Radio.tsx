@@ -19,7 +19,10 @@ export const Radio = ({
   onChange,
 }: RadioProps) => {
   const { theme } = useTheme();
-  const color = checked ? '$purple600' : '$blackAlpha600';
+
+  const checkedColor = theme === 'light' ? '$purple600' : '$purple400';
+  const textColor = checked ? checkedColor : '$blackAlpha600';
+  const borderColor = checked ? checkedColor : '$blackAlpha200';
 
   return (
     <Box
@@ -37,7 +40,7 @@ export const Radio = ({
       borderRadius="4px"
       borderWidth="1px"
       borderStyle="solid"
-      borderColor={checked ? '$purple600' : '$blackAlpha200'}
+      borderColor={borderColor}
       padding="10px"
     >
       <input
@@ -55,14 +58,14 @@ export const Radio = ({
           right: '6px',
         }}
       />
-      <Box color={color}>
+      <Box color={textColor}>
         {typeof icon === 'string' ? (
-          <Icon name={icon as IconName} color={color} size="$lg" />
+          <Icon name={icon as IconName} color={textColor} size="$lg" />
         ) : (
           icon
         )}
       </Box>
-      <Text color={color} fontSize="14px" fontWeight="500">
+      <Text color={textColor} fontSize="14px" fontWeight="500">
         {children}
       </Text>
     </Box>

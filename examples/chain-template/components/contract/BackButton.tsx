@@ -10,6 +10,7 @@ export const BackButton = ({ onClick }: { onClick: () => void }) => {
       attributes={{ onClick }}
     >
       <Icon
+        color="$text"
         name="arrowRightLine"
         attributes={{ transform: 'rotate(180deg)' }}
       />

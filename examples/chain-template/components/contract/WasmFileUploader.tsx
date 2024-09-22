@@ -1,6 +1,12 @@
 import Image from 'next/image';
 import { useCallback, useMemo } from 'react';
-import { Box, Text } from '@interchain-ui/react';
+import {
+  Box,
+  Text,
+  useTheme,
+  useColorModeValue,
+  ThemeVariant,
+} from '@interchain-ui/react';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { useDropzone } from 'react-dropzone';
 
@@ -8,16 +14,16 @@ import { bytesToKb } from '@/utils';
 
 const MAX_FILE_SIZE = 800_000;
 
-const defaultFileInfo = {
+const getDefaultFileInfo = (theme: ThemeVariant) => ({
   image: {
-    src: '/images/upload.svg',
+    src: theme === 'light' ? '/images/upload.svg' : '/images/upload-dark.svg',
     alt: 'upload',
     width: 80,
     height: 48,
   },
   title: 'Upload or drag .wasm file here',
   description: `Max file size: ${bytesToKb(MAX_FILE_SIZE)}KB`,
-};
+});
 
 type WasmFileUploaderProps = {
   file: File | null;
@@ -25,6 +31,8 @@ type WasmFileUploaderProps = {
 };
 
 export const WasmFileUploader = ({ file, setFile }: WasmFileUploaderProps) => {
+  const { theme } = useTheme();
+
   const onDrop = useCallback(
     (files: File[]) => {
       setFile(files[0]);
@@ -33,11 +41,14 @@ export const WasmFileUploader = ({ file, setFile }: WasmFileUploaderProps) => {
   );
 
   const fileInfo = useMemo(() => {
-    if (!file) return defaultFileInfo;
+    if (!file) return getDefaultFileInfo(theme);
 
     return {
       image: {
-        src: '/images/contract-file.svg',
+        src:
+          theme === 'light'
+            ? '/images/contract-file.svg'
+            : '/images/contract-file-dark.svg',
         alt: 'contract-file',
         width: 40,
         height: 54,
@@ -45,7 +56,7 @@ export const WasmFileUploader = ({ file, setFile }: WasmFileUploaderProps) => {
       title: file.name,
       description: `File size: ${bytesToKb(file.size)}KB`,
     };
-  }, [file]);
+  }, [file, theme]);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -63,8 +74,8 @@ export const WasmFileUploader = ({ file, setFile }: WasmFileUploaderProps) => {
         borderRadius="8px"
         borderWidth="1px"
         borderStyle={file ? 'none' : 'dashed'}
-        borderColor="$purple600"
-        bg="$purple50"
+        borderColor={useColorModeValue('$purple600', '$purple400')}
+        bg={useColorModeValue('$purple50', '$purple900')}
         cursor={file ? 'auto' : 'pointer'}
         height="206px"
         position="relative"
