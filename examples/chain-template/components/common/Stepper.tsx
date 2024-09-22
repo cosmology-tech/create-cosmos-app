@@ -19,6 +19,31 @@ type StepperProps = {
   direction?: 'row' | 'column';
 };
 
+const getSeparatorStyles = (direction: 'row' | 'column', status: Status) => {
+  const isColumn = direction === 'column';
+  const isDone = status === Status.DONE;
+
+  const commonStyles = {
+    backgroundColor: isDone ? '$purple400' : '$blackAlpha300',
+  };
+
+  const directionStyles = isColumn
+    ? {
+        width: `${STEP_SEPARATOR_WIDTH}px`,
+        height: '30px',
+        ml: `${STEP_SEPARATOR_OFFSET}px`,
+        my: '4px',
+      }
+    : {
+        width: '30px',
+        height: `${STEP_SEPARATOR_WIDTH}px`,
+        mt: `${STEP_SEPARATOR_OFFSET}px`,
+        mx: '4px',
+      };
+
+  return { ...commonStyles, ...directionStyles };
+};
+
 export const Stepper: React.FC<StepperProps> = ({
   steps,
   activeStep,
@@ -35,7 +60,7 @@ export const Stepper: React.FC<StepperProps> = ({
               : Status.TODO;
 
         return (
-          <Box key={index} display="flex" flexDirection="column">
+          <Box key={index} display="flex" flexDirection={direction}>
             <Box display="flex" alignItems="center" gap="10px">
               <Box
                 width={`${STEP_INDICATOR_SIZE}px`}
@@ -66,15 +91,7 @@ export const Stepper: React.FC<StepperProps> = ({
               </Text>
             </Box>
             {index < steps.length - 1 && (
-              <Box
-                width={`${STEP_SEPARATOR_WIDTH}px`}
-                height="30px"
-                backgroundColor={
-                  status === Status.DONE ? '$purple400' : '$blackAlpha300'
-                }
-                ml={`${STEP_SEPARATOR_OFFSET}px`}
-                my="4px"
-              />
+              <Box {...getSeparatorStyles(direction, status)} />
             )}
           </Box>
         );

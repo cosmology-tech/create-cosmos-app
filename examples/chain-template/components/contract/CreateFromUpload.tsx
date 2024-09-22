@@ -5,6 +5,7 @@ import { UploadContract } from './UploadContract';
 import { BackButton } from './BackButton';
 import { Stepper } from '../common';
 import { InstantiateContract } from './InstantiateContract';
+import { useDetectBreakpoints } from '@/hooks';
 
 type CreateFromUploadProps = {
   onBack: () => void;
@@ -35,40 +36,48 @@ export const CreateFromUpload = ({
     }
   };
 
+  const { isTablet } = useDetectBreakpoints();
+
   return (
     <Box position="relative">
       <Box
-        position="absolute"
+        position={isTablet ? 'relative' : 'absolute'}
         top="0"
         left="0"
         display="flex"
         flexDirection="column"
+        alignItems="center"
         gap="40px"
       >
-        <BackButton onClick={onBack} />
+        <Box alignSelf="flex-start">
+          <BackButton onClick={onBack} />
+        </Box>
         <Stepper
           steps={steps}
           activeStep={completed ? steps.length : steps.indexOf(activeStepName)}
+          direction={isTablet ? 'row' : 'column'}
         />
       </Box>
-      <UploadContract
-        show={activeStepName === Step.Upload}
-        onSuccess={(codeId) => {
-          setCodeId(codeId);
-          nextStep();
-        }}
-      />
-      <InstantiateContract
-        show={activeStepName === Step.Instantiate}
-        defaultCodeId={codeId}
-        switchTab={switchTab}
-        onSuccess={nextStep}
-        onCreateNewContract={() => {
-          setCompleted(false);
-          setActiveStepName(Step.Upload);
-        }}
-        onViewMyContracts={onBack}
-      />
+      <Box mt={isTablet ? '40px' : '0'}>
+        <UploadContract
+          show={activeStepName === Step.Upload}
+          onSuccess={(codeId) => {
+            setCodeId(codeId);
+            nextStep();
+          }}
+        />
+        <InstantiateContract
+          show={activeStepName === Step.Instantiate}
+          defaultCodeId={codeId}
+          switchTab={switchTab}
+          onSuccess={nextStep}
+          onCreateNewContract={() => {
+            setCompleted(false);
+            setActiveStepName(Step.Upload);
+          }}
+          onViewMyContracts={onBack}
+        />
+      </Box>
     </Box>
   );
 };

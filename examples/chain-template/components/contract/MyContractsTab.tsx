@@ -31,7 +31,7 @@ export const MyContractsTab = ({ show, switchTab }: MyContractsTabProps) => {
   );
 
   return (
-    <Box display={show ? 'block' : 'none'}>
+    <Box display={show ? 'block' : 'none'} maxWidth="980px" mx="auto">
       <MyContractsTable
         title="My Contracts"
         show={contentView === ContentViews.MY_CONTRACTS}

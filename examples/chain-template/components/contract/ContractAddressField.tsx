@@ -10,7 +10,7 @@ import {
 } from '@interchain-ui/react';
 
 import { InputField } from './InputField';
-import { useContractInfo, useMyContracts } from '@/hooks';
+import { useContractInfo, useDetectBreakpoints, useMyContracts } from '@/hooks';
 import { shortenAddress, validateContractAddress } from '@/utils';
 import { InputStatus } from './CodeIdField';
 import { useChainStore } from '@/contexts';
@@ -69,7 +69,6 @@ export const ContractAddressField = ({
   });
   const { data: myContracts = [] } = useMyContracts();
 
-  // TODO: fix width not correct on first render on small screen
   useEffect(() => {
     const updateWidth = () => {
       const newWidth = containerRef.current?.clientWidth;
@@ -79,13 +78,17 @@ export const ContractAddressField = ({
     };
 
     updateWidth();
-    const timeoutId = setTimeout(updateWidth, 0);
 
-    window.addEventListener('resize', updateWidth);
+    const resizeObserver = new ResizeObserver(updateWidth);
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
 
     return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('resize', updateWidth);
+      if (containerRef.current) {
+        resizeObserver.unobserve(containerRef.current);
+      }
+      resizeObserver.disconnect();
     };
   }, []);
 
@@ -128,6 +131,8 @@ export const ContractAddressField = ({
 
   const { icon, text, textColor } = displayStatus(status);
 
+  const { isMobile } = useDetectBreakpoints();
+
   return (
     <Box width="100%" ref={containerRef}>
       <InputField title="Contract Address">
@@ -147,7 +152,7 @@ export const ContractAddressField = ({
             <Combobox.Item key={address} textValue={address}>
               <Box transform="translateY(2px)">
                 <Text>
-                  {`${shortenAddress(address, 18)} (`}
+                  {`${shortenAddress(address, isMobile ? 8 : 18)} (`}
                   <Text as="span" fontWeight="600">
                     {`${contractInfo?.label || 'Unnamed'}`}
                   </Text>

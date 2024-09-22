@@ -4,6 +4,7 @@
 
 .tabs ul {
   max-width: 600px;
+  min-width: auto;
   margin: 0 auto;
 }
 

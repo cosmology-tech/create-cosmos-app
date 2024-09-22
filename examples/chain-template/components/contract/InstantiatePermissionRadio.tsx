@@ -28,6 +28,7 @@ type Props = {
   permission: Permission;
   setAddresses: (addresses: Address[]) => void;
   setPermission: (permission: Permission) => void;
+  direction?: 'row' | 'column';
 };
 
 export const InstantiatePermissionRadio = ({
@@ -35,6 +36,7 @@ export const InstantiatePermissionRadio = ({
   permission,
   setAddresses,
   setPermission,
+  direction = 'row',
 }: Props) => {
   const { selectedChain } = useChainStore();
   const { chain } = useChain(selectedChain);
@@ -79,7 +81,7 @@ export const InstantiatePermissionRadio = ({
   return (
     <>
       <RadioGroup
-        direction="row"
+        direction={direction}
         name="instantiate_permission"
         value={permission.toString()}
         onChange={(val) => {

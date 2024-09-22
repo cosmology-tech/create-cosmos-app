@@ -9,7 +9,7 @@ import { JsonInput } from './JsonInput';
 import { AttachFundsRadio } from './AttachFundsRadio';
 import { Button } from '../common';
 import { useChainStore } from '@/contexts';
-import { useExecuteContractTx } from '@/hooks';
+import { useDetectBreakpoints, useExecuteContractTx } from '@/hooks';
 import { validateJson } from '@/utils';
 
 const INPUT_LINES = 12;
@@ -61,6 +61,8 @@ export const ExecuteTab = ({ show, initialAddress }: ExecuteTabProps) => {
     return !contractAddress || !isMsgValid || !isAssetListJsonValid;
   }, [address, contractAddress, isMsgValid, isAssetListJsonValid]);
 
+  const { isMobile } = useDetectBreakpoints();
+
   return (
     <Box
       display={show ? 'flex' : 'none'}
@@ -93,6 +95,7 @@ export const ExecuteTab = ({ show, initialAddress }: ExecuteTabProps) => {
         <AttachFundsRadio
           setFunds={setFunds}
           setIsAssetListJsonValid={setIsAssetListJsonValid}
+          direction={isMobile ? 'column' : 'row'}
         />
       </InputField>
       <Button

@@ -2,7 +2,11 @@ import { useMemo, useState } from 'react';
 import { useChain } from '@cosmos-kit/react';
 import { Box, Icon, Spinner, Text, TextField } from '@interchain-ui/react';
 
-import { useCopyToClipboard, useMyContracts } from '@/hooks';
+import {
+  useCopyToClipboard,
+  useDetectBreakpoints,
+  useMyContracts,
+} from '@/hooks';
 import { Button, Table } from '../common';
 import { shortenAddress } from '@/utils';
 import { TabLabel } from '@/pages/contract';
@@ -38,19 +42,23 @@ export const MyContractsTable = ({
     );
   }, [myContracts, searchValue]);
 
+  const { isSmMobile } = useDetectBreakpoints();
+
   return (
-    <Box display={show ? 'block' : 'none'} maxWidth="900px" mx="auto">
+    <Box display={show ? 'block' : 'none'} maxWidth="860px" mx="auto">
       <Text color="$blackAlpha600" fontSize="24px" fontWeight="700">
         {title}
       </Text>
       <Box
         display="flex"
+        flexDirection={isSmMobile ? 'column-reverse' : 'row'}
         justifyContent="space-between"
         alignItems="center"
+        gap="14px"
         mt="30px"
         mb="10px"
       >
-        <Box position="relative" width="220px">
+        <Box position="relative" width={isSmMobile ? '100%' : '220px'}>
           <Icon
             name="magnifier"
             color="$blackAlpha500"

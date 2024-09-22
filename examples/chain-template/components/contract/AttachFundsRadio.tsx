@@ -38,11 +38,13 @@ type FundsOption = {
 type AttachFundsRadioProps = {
   setFunds: (funds: Coin[]) => void;
   setIsAssetListJsonValid: (isValid: boolean) => void;
+  direction?: 'row' | 'column';
 };
 
 export const AttachFundsRadio = ({
   setFunds,
   setIsAssetListJsonValid,
+  direction = 'row',
 }: AttachFundsRadioProps) => {
   const [selectedOptionKey, setSelectedOptionKey] =
     useState<FundsOptionKey>('no_funds');
@@ -126,7 +128,7 @@ export const AttachFundsRadio = ({
       gap={selectedOptionKey === 'json_asset_list' ? '10px' : '20px'}
     >
       <RadioGroup
-        direction="row"
+        direction={direction}
         name="attach_funds"
         value={selectedOptionKey}
         onChange={(val) => {

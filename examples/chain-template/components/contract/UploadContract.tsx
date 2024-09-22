@@ -12,7 +12,7 @@ import {
 } from './InstantiatePermissionRadio';
 import { Button } from '../common';
 import { useChainStore } from '@/contexts';
-import { useStoreCodeTx } from '@/hooks';
+import { useDetectBreakpoints, useStoreCodeTx } from '@/hooks';
 
 type UploadContractProps = {
   show: boolean;
@@ -64,6 +64,8 @@ export const UploadContract = ({ show, onSuccess }: UploadContractProps) => {
 
   const isButtonDisabled = !address || !wasmFile || !isAddressesValid;
 
+  const { isMobile } = useDetectBreakpoints();
+
   return (
     <Box
       display={show ? 'flex' : 'none'}
@@ -85,6 +87,7 @@ export const UploadContract = ({ show, onSuccess }: UploadContractProps) => {
       </InputField>
       <InputField title="Instantiate Permission" required>
         <InstantiatePermissionRadio
+          direction={isMobile ? 'column' : 'row'}
           addresses={addresses}
           permission={permission}
           setAddresses={setAddresses}

@@ -23,7 +23,11 @@ import { JsonInput } from './JsonInput';
 import { useChainStore } from '@/contexts';
 import { AttachFundsRadio } from './AttachFundsRadio';
 import { Button } from '../common';
-import { useInstantiateTx, useMyContracts } from '@/hooks';
+import {
+  useDetectBreakpoints,
+  useInstantiateTx,
+  useMyContracts,
+} from '@/hooks';
 import { TxInfoItem, TxSuccessCard } from './TxSuccessCard';
 import { TabLabel } from '@/pages/contract';
 import styles from '@/styles/comp.module.css';
@@ -170,6 +174,8 @@ export const InstantiateContract = ({
     );
   }
 
+  const { isMobile } = useDetectBreakpoints();
+
   return (
     <Box
       display={show ? 'flex' : 'none'}
@@ -276,6 +282,7 @@ export const InstantiateContract = ({
           <AttachFundsRadio
             setFunds={setFunds}
             setIsAssetListJsonValid={setIsAssetListJsonValid}
+            direction={isMobile ? 'column' : 'row'}
           />
         </InputField>
       </Box>
