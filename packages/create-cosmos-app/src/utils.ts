@@ -3,7 +3,10 @@ import { prompt } from './prompt';
 import { join } from 'path';
 import { sync as mkdirp } from 'mkdirp';
 import { tmpdir } from 'os'
+import { sync as globSync } from 'glob';
 import * as fs from 'fs';
+
+const posixPath = require('path').posix;
 const dargs = require('dargs');
 
 
@@ -130,3 +133,21 @@ export const getPackageLicAndAccessInfo = async (results) => {
     };
 }
 
+/**
+ * Replace all \\ to / for windows support purpose
+ * @param input
+ * @param options
+ * @returns
+ */
+export const crossGlob = (input: string, options?: object) => {
+    return globSync(toPosixPath(input), options);
+}
+
+/**
+ * Unify all the path to posixPath for windows support purpose
+ * @param mixedPath
+ * @returns
+ */
+export const toPosixPath = (mixedPath): string => {
+    return mixedPath.replace(/\\/g, posixPath.sep);
+}
