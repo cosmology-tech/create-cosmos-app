@@ -107,7 +107,9 @@ export function Voting({ chainName }: VotingProps) {
       alignItems="center"
       justifyContent="center"
     >
-      <Text fontSize="$lg">No proposals found</Text>
+      <Text fontSize="$md" color="$textSecondary" fontWeight="500">
+        No proposals found
+      </Text>
     </Box>
   );
 

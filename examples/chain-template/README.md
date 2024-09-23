@@ -12,31 +12,39 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-## Learn More 
+## How to connect to Starship chains
+
+1. Follow the official guide to set up Starship: https://docs.cosmology.zone/starship/get-started/step-1
+2. Run `yarn starship start` and wait until Starship is up and running
+3. Open a new terminal and run `yarn dev`
+4. Open http://localhost:3000, select "Osmosis Devnet" or "Cosmos Hub Devnet" from the chain dropdown in the top right corner then click "Connect Wallet" in the left sidebar to connect to the chain
+5. Go to "Faucet" to get some test tokens and enjoy!
+
+## Learn More
 
 ### Chain Registry
 
 The npm package for the Official Cosmos chain registry. Get chain and token data for you application.
 
-* https://github.com/cosmology-tech/chain-registry
+- https://github.com/cosmology-tech/chain-registry
 
 ### Cosmology Videos
 
 Checkout more videos for how to use various frontend tooling in the Cosmos!
 
-* https://cosmology.zone/learn
+- https://cosmology.zone/learn
 
 ### Cosmos Kit
 
 A wallet connector for the Cosmos ⚛️
 
-* https://github.com/cosmology-tech/cosmos-kit
+- https://github.com/cosmology-tech/cosmos-kit
 
 ### Telescope
 
 A "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs. Telescope is used to generate libraries for Cosmos blockchains. Simply point to your protobuffer files and create developer-friendly Typescript libraries for teams to build on your blockchain.
 
-* https://github.com/cosmology-tech/telescope
+- https://github.com/cosmology-tech/telescope
 
 🎥 [Checkout the Telescope video playlist](https://www.youtube.com/watch?v=n82MsLe82mk&list=PL-lMkVv7GZwyQaK6bp6kMdOS5mzosxytC) to learn how to use `telescope`!
 
@@ -44,10 +52,9 @@ A "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protob
 
 The quickest and easiest way to interact with CosmWasm Contracts. @cosmwasm/ts-codegen converts your CosmWasm smart contracts into dev-friendly TypeScript classes so you can focus on shipping code.
 
-* https://github.com/CosmWasm/ts-codegen
+- https://github.com/CosmWasm/ts-codegen
 
 🎥 [Checkout the CosmWasm/ts-codegen video playlist](https://www.youtube.com/watch?v=D_A5V2PfNLA&list=PL-lMkVv7GZwz1KO3jANwr5W4MoziruXwK) to learn how to use `ts-codegen`!
-
 
 ## Learn More about Next.js
 
@@ -68,18 +75,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 Checkout these related projects:
 
-* [@cosmology/telescope](https://github.com/cosmology-tech/telescope) Your Frontend Companion for Building with TypeScript with Cosmos SDK Modules.
-* [@cosmwasm/ts-codegen](https://github.com/CosmWasm/ts-codegen) Convert your CosmWasm smart contracts into dev-friendly TypeScript classes.
-* [chain-registry](https://github.com/cosmology-tech/chain-registry) Everything from token symbols, logos, and IBC denominations for all assets you want to support in your application.
-* [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit) Experience the convenience of connecting with a variety of web3 wallets through a single, streamlined interface.
-* [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) Set up a modern Cosmos app by running one command.
-* [interchain-ui](https://github.com/cosmology-tech/interchain-ui) The Interchain Design System, empowering developers with a flexible, easy-to-use UI kit.
-* [starship](https://github.com/cosmology-tech/starship) Unified Testing and Development for the Interchain.
+- [@cosmology/telescope](https://github.com/cosmology-tech/telescope) Your Frontend Companion for Building with TypeScript with Cosmos SDK Modules.
+- [@cosmwasm/ts-codegen](https://github.com/CosmWasm/ts-codegen) Convert your CosmWasm smart contracts into dev-friendly TypeScript classes.
+- [chain-registry](https://github.com/cosmology-tech/chain-registry) Everything from token symbols, logos, and IBC denominations for all assets you want to support in your application.
+- [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit) Experience the convenience of connecting with a variety of web3 wallets through a single, streamlined interface.
+- [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) Set up a modern Cosmos app by running one command.
+- [interchain-ui](https://github.com/cosmology-tech/interchain-ui) The Interchain Design System, empowering developers with a flexible, easy-to-use UI kit.
+- [starship](https://github.com/cosmology-tech/starship) Unified Testing and Development for the Interchain.
 
 ## Credits
 
 🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.zone/validator)
-
 
 ## Disclaimer
 

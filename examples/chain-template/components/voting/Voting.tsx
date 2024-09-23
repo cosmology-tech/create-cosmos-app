@@ -98,52 +98,74 @@ export function Voting({ chainName }: VotingProps) {
     setTitle(`#${proposal.id?.toString()} ${proposal?.title}`);
   }
 
+  const empty = (
+    <Box
+      height="$24"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Text fontSize="$md" color="$textSecondary" fontWeight="500">
+        No proposals found
+      </Text>
+    </Box>
+  );
+
   const content = (
     <Box mt="$12">
-      {data.proposals?.map((proposal, index) => {
-        let tally = proposal.finalTallyResult;
-        if (proposal.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD) {
-          tally = tallies[proposal.id.toString()];
-        }
-        return (
-          <Box
-            my="$8"
-            key={proposal.id?.toString() || index}
-            position="relative"
-            attributes={{ onClick: () => onClickProposal(index) }}
-          >
-            {data.votes[proposal.id.toString()] ? (
+      {data.proposals?.length === 0
+        ? empty
+        : data.proposals?.map((proposal, index) => {
+            let tally = proposal.finalTallyResult;
+            if (
+              proposal.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD
+            ) {
+              tally = tallies[proposal.id.toString()];
+            }
+            return (
               <Box
-                position="absolute"
-                px="$4"
-                py="$2"
-                top="$4"
-                right="$6"
-                borderRadius="$md"
-                backgroundColor="$green400"
+                my="$8"
+                key={proposal.id?.toString() || index}
+                position="relative"
+                attributes={{ onClick: () => onClickProposal(index) }}
               >
-                <Text color="$white" fontSize="$xs" fontWeight="$bold">
-                  Voted
-                </Text>
+                {data.votes[proposal.id.toString()] ? (
+                  <Box
+                    position="absolute"
+                    px="$4"
+                    py="$2"
+                    top="$4"
+                    right="$6"
+                    borderRadius="$md"
+                    backgroundColor="$green400"
+                  >
+                    <Text color="$white" fontSize="$xs" fontWeight="$bold">
+                      Voted
+                    </Text>
+                  </Box>
+                ) : null}
+                <GovernanceProposalItem
+                  id={`# ${proposal.id?.toString()}`}
+                  key={proposal.submitTime?.getTime()}
+                  // @ts-ignore
+                  title={proposal.content?.title || proposal.title || ''}
+                  status={status(proposal.status)}
+                  votes={votes(tally!)}
+                  endTime={formatDate(proposal.votingEndTime)!}
+                />
               </Box>
-            ) : null}
-            <GovernanceProposalItem
-              id={`# ${proposal.id?.toString()}`}
-              key={proposal.submitTime?.getTime()}
-              // @ts-ignore
-              title={proposal.content?.title || proposal.title || ''}
-              status={status(proposal.status)}
-              votes={votes(tally!)}
-              endTime={formatDate(proposal.votingEndTime)!}
-            />
-          </Box>
-        );
-      })}
+            );
+          })}
     </Box>
   );
 
   const connect = (
-    <Box mt="$8" display="flex" alignItems="center" justifyContent="center">
+    <Box
+      height="$24"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
       <Text fontSize="$lg">
         Please connect to your wallet to see the proposals.
       </Text>

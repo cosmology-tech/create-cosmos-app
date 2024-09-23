@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useChain } from '@cosmos-kit/react';
 import { ChainName } from 'cosmos-kit';
 import { Box, Spinner, Text } from '@interchain-ui/react';
@@ -14,6 +15,10 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
     chainName,
     data?.allValidators || [],
   );
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <Box my="$16" maxWidth="$containerMd" mx="auto">
