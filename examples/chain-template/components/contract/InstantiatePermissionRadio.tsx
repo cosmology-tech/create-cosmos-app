@@ -147,7 +147,7 @@ export const InstantiatePermissionRadio = ({
             px="10px"
             onClick={onAddAddress}
           >
-            Add More Address
+            New Address
           </Button>
         </InputField>
       )}

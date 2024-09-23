@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useMemo } from 'react';
 import { assets } from 'chain-registry';
+import { LuPlus } from 'react-icons/lu';
 
 import {
   defaultSelectedAsset,
@@ -58,12 +59,13 @@ export const SelectAssetContent = ({
       ))}
 
       <Button
-        color="$text"
+        leftIcon={<LuPlus size="20px" />}
         width="$fit"
+        px="10px"
         onClick={handleAddAssets}
         disabled={selectedAssetsWithAmount.length === nativeAssets.length}
       >
-        Add More Assets
+        New Asset
       </Button>
     </>
   );
