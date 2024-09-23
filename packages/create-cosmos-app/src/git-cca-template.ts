@@ -4,7 +4,7 @@ import * as c from 'ansi-colors';
 import { prompt } from './prompt';
 import { join, dirname, basename, sep, relative } from 'path';
 import { sync as mkdirp } from 'mkdirp';
-import { sync as glob } from 'glob';
+import { crossGlob as glob, toPosixPath } from './utils';
 import * as fs from 'fs';
 import {
     cloneRepo,
@@ -14,14 +14,15 @@ import {
 } from './utils';
 import { CCA_URL } from './constants';
 
+const posixPath = require('path').posix;
 const requiredTools = ['git', 'yarn'];
 
 const motd = (cmd: string, printCmd: boolean) => {
     const commandSection = printCmd ? `Now, run this command:\n\n${c.bold.whiteBright(cmd)}` : '';
     return `
                  |              _   _
-     ===         |.===.        '\\-//\`    
-    (o o)        {}o o{}        (o o)     
+     ===         |.===.        '\\-//\`
+    (o o)        {}o o{}        (o o)
 ooO--(_)--Ooo-ooO--(_)--Ooo-ooO--(_)--Ooo-
 
 ✨ Have fun! Now you can start on your project ⚛️
@@ -93,7 +94,7 @@ export const createGitApp = (repo: string, version: string) => {
         // check version
         await warnIfOutdated(repo, clonedRepoDir, version);
 
-        // get template 
+        // get template
         const list = shell.ls(`./${folderName}`);
         const { template } = await prompt([
             {
@@ -166,7 +167,7 @@ export const createGitApp = (repo: string, version: string) => {
 
 
             // Construct the file path
-            const relativeFilePath = templateFile.split(join(folderName, template) + sep)[1];
+            const relativeFilePath = templateFile.split(toPosixPath(join(folderName, template) + '/'))[1];
 
             // Replace keys in the entire file path
             const replacedFilePath = Object.keys(results).reduce((filePath, key) => {
@@ -196,7 +197,7 @@ export const createGitApp = (repo: string, version: string) => {
         const closestPkgJson = []
             .concat(glob(join(currentDirectory, name, '**', 'package.json')))
             .reduce((shortest, current) => {
-                return current.split(sep).length < shortest.split(sep).length ? current : shortest;
+                return current.split(posixPath.sep).length < shortest.split(posixPath.sep).length ? current : shortest;
             }, fakeLongPath); // long string for kicks
 
         if (closestPkgJson === fakeLongPath) {
