@@ -14,10 +14,15 @@ const OUTPUT_LINES = 12;
 
 type QueryTabProps = {
   show: boolean;
-  initialAddress: string;
+  addressValue: string;
+  onAddressInput: (input: string) => void;
 };
 
-export const QueryTab = ({ show, initialAddress }: QueryTabProps) => {
+export const QueryTab = ({
+  show,
+  addressValue,
+  onAddressInput,
+}: QueryTabProps) => {
   const [contractAddress, setContractAddress] = useState('');
   const [queryMsg, setQueryMsg] = useState('');
 
@@ -79,8 +84,9 @@ export const QueryTab = ({ show, initialAddress }: QueryTabProps) => {
         Query Contract
       </Text>
       <ContractAddressField
-        initialAddress={initialAddress}
-        setContractAddress={setContractAddress}
+        addressValue={addressValue}
+        onAddressInput={onAddressInput}
+        onValidAddressChange={setContractAddress}
       />
       <InputField title="Query Message">
         <JsonInput

@@ -22,7 +22,7 @@ const contractCreationOptions = [
 
 type MyContractsTabProps = {
   show: boolean;
-  switchTab: (initialAddress: string, tabId: number) => void;
+  switchTab: (addressValue: string, tabId: number) => void;
 };
 
 export const MyContractsTab = ({ show, switchTab }: MyContractsTabProps) => {

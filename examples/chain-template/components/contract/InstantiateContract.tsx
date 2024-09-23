@@ -34,7 +34,7 @@ import styles from '@/styles/comp.module.css';
 
 type InstantiateContractProps = {
   show?: boolean;
-  switchTab?: (initialAddress: string, tabId: number) => void;
+  switchTab?: (addressValue: string, tabId: number) => void;
   onSuccess?: () => void;
   defaultCodeId?: string;
   onCreateNewContract?: () => void;

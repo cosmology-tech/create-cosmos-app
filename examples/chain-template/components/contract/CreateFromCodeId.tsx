@@ -6,7 +6,7 @@ import { useDetectBreakpoints } from '@/hooks';
 
 type CreateFromCodeIdProps = {
   onBack: () => void;
-  switchTab: (initialAddress: string, tabId: number) => void;
+  switchTab: (addressValue: string, tabId: number) => void;
 };
 
 export const CreateFromCodeId = ({

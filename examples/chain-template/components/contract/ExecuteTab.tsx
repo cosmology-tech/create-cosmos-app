@@ -16,10 +16,15 @@ const INPUT_LINES = 12;
 
 type ExecuteTabProps = {
   show: boolean;
-  initialAddress: string;
+  addressValue: string;
+  onAddressInput: (input: string) => void;
 };
 
-export const ExecuteTab = ({ show, initialAddress }: ExecuteTabProps) => {
+export const ExecuteTab = ({
+  show,
+  addressValue,
+  onAddressInput,
+}: ExecuteTabProps) => {
   const [contractAddress, setContractAddress] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [executeMsg, setExecuteMsg] = useState('');
@@ -80,8 +85,9 @@ export const ExecuteTab = ({ show, initialAddress }: ExecuteTabProps) => {
         Execute Contract
       </Text>
       <ContractAddressField
-        initialAddress={initialAddress}
-        setContractAddress={setContractAddress}
+        addressValue={addressValue}
+        onAddressInput={onAddressInput}
+        onValidAddressChange={setContractAddress}
       />
       <InputField title="Execute Message">
         <JsonInput

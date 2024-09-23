@@ -148,3 +148,17 @@ export const isPositiveInt = (input: string): boolean => {
 
 export const isValidCodeId = (input: string): boolean =>
   input.length <= 7 && isPositiveInt(input);
+
+export const toKebabCase = (str: string): string => {
+  return str
+    .split(/(?=[A-Z])/)
+    .join('-')
+    .toLowerCase();
+};
+
+export const toPascalCase = (str: string): string => {
+  return str
+    .split('-')
+    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+    .join('');
+};

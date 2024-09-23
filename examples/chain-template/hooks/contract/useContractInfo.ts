@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useCosmWasmClient } from './useCosmWasmClient';
+import { useChainStore } from '@/contexts';
+import { useChain } from '@cosmos-kit/react';
 
 export const useContractInfo = ({
   contractAddress,
@@ -8,14 +10,16 @@ export const useContractInfo = ({
   contractAddress: string;
   enabled?: boolean;
 }) => {
-  const { data: client } = useCosmWasmClient();
+  const { data: cwClient } = useCosmWasmClient();
+  const { selectedChain } = useChainStore();
+  const { getCosmWasmClient } = useChain(selectedChain);
 
   return useQuery({
     queryKey: ['useContractInfo', contractAddress],
     queryFn: async () => {
-      if (!client) return null;
+      const client = cwClient ?? (await getCosmWasmClient());
       return client.getContract(contractAddress);
     },
-    enabled: !!client && !!contractAddress && enabled,
+    enabled: !!contractAddress && enabled,
   });
 };

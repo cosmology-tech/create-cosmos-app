@@ -48,18 +48,21 @@ const displayStatus = (status: InputStatus) => {
 };
 
 type ContractAddressFieldProps = {
-  initialAddress?: string;
-  setContractAddress?: (address: string) => void;
+  addressValue?: string;
+  onAddressInput?: (input: string) => void;
+  onValidAddressChange?: (address: string) => void;
 };
 
 export const ContractAddressField = ({
-  initialAddress,
-  setContractAddress,
+  addressValue,
+  onAddressInput,
+  onValidAddressChange,
 }: ContractAddressFieldProps) => {
   const [input, setInput] = useState('');
   const [status, setStatus] = useState<InputStatus>({ state: 'init' });
   const [fieldWidth, setFieldWidth] = useState('560px');
   const containerRef = useRef<HTMLDivElement>(null);
+  const prevInputRef = useRef<string>('');
 
   const { selectedChain } = useChainStore();
   const { chain } = useChain(selectedChain);
@@ -93,14 +96,18 @@ export const ContractAddressField = ({
   }, []);
 
   useEffect(() => {
-    if (initialAddress) {
-      setInput(initialAddress);
-    }
-  }, [initialAddress]);
+    if (!addressValue || prevInputRef.current === addressValue) return;
+    setInput(addressValue);
+    onAddressInput?.(addressValue);
+  }, [addressValue]);
 
   useEffect(() => {
+    if (prevInputRef.current === input) return;
+
+    prevInputRef.current = input;
+
     setStatus({ state: 'init' });
-    setContractAddress?.('');
+    onValidAddressChange?.('');
 
     if (input.length) {
       const error = validateContractAddress(input, chain.bech32_prefix);
@@ -121,7 +128,7 @@ export const ContractAddressField = ({
           }
 
           setStatus({ state: 'success' });
-          setContractAddress?.(input);
+          onValidAddressChange?.(input);
         });
       }, 500);
 
@@ -142,9 +149,13 @@ export const ContractAddressField = ({
           inputValue={input}
           onInputChange={(input) => {
             setInput(input);
+            onAddressInput?.(input);
           }}
           onSelectionChange={(value) => {
-            if (value) setInput(value as string);
+            if (value) {
+              setInput(value as string);
+              onAddressInput?.(value as string);
+            }
           }}
           styleProps={{ width: fieldWidth }}
         >

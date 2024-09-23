@@ -9,7 +9,7 @@ import { useDetectBreakpoints } from '@/hooks';
 
 type CreateFromUploadProps = {
   onBack: () => void;
-  switchTab: (initialAddress: string, tabId: number) => void;
+  switchTab: (addressValue: string, tabId: number) => void;
 };
 
 enum Step {
