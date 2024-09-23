@@ -56,11 +56,6 @@ export const getExplorerLink = (chain: Chain, txHash: string) => {
   return `${txPageLink.replace('${txHash}', txHash)}`;
 };
 
-export const getExponentFromAsset = (asset: Asset) => {
-  return asset.denom_units.find((unit) => unit.denom === asset.display)
-    ?.exponent;
-};
-
 export const bytesToKb = (bytes: number) => {
   return BigNumber(bytes)
     .dividedBy(1000)
