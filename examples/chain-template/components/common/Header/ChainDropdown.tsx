@@ -13,7 +13,7 @@ export const ChainDropdown = () => {
   const { chain } = useChain(selectedChain);
   const [input, setInput] = useState<string>(chain.pretty_name);
   const { isMobile } = useDetectBreakpoints();
-  const { data: starshipChains } = useStarshipChains();
+  const { data: starshipChains, refetch } = useStarshipChains();
 
   const [isChainsAdded, setIsChainsAdded] = useState(false);
   const { addChains, getChainLogo } = useManager();
@@ -33,6 +33,12 @@ export const ChainDropdown = () => {
     }
   }, [starshipChains, isChainsAdded]);
 
+  const onOpenChange = (isOpen: boolean) => {
+    if (isOpen && !isChainsAdded) {
+      refetch();
+    }
+  };
+
   const chains = isChainsAdded
     ? chainOptions.concat(starshipChains?.chains ?? [])
     : chainOptions;
@@ -42,6 +48,7 @@ export const ChainDropdown = () => {
       onInputChange={(input) => {
         setInput(input);
       }}
+      onOpenChange={onOpenChange}
       selectedKey={selectedChain}
       onSelectionChange={(key) => {
         const chainName = key as string | null;
