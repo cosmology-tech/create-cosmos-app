@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import BigNumber from 'bignumber.js';
 import { MsgSend } from '@interchainjs/cosmos-types/cosmos/bank/v1beta1/tx';
@@ -41,6 +41,8 @@ import { useRpcClient } from '../src/codegen';
 import { useChainWallet, useWalletManager, useChain } from '@interchain-kit/react'
 import { } from '@interchain-kit/keplr-extension'
 import { toEncoders, toConverters } from '@interchainjs/cosmos/utils';
+import { keplrWallet } from '@interchain-kit/keplr-extension'
+import { WalletState } from '@interChain-kit/core'
 
 const rpcEndpoint = 'https://sentry.tm.injective.network'
 
@@ -100,7 +102,12 @@ export default function Home() {
   const walletManager = useWalletManager()
   console.log('walletManager.chains', walletManager.chains)
   const keplrExtension = walletManager.wallets.find(w => w.option?.name === 'keplr-extension')
-  const { signingCosmWasmClient: getSigningStargateClient, address } = useChainWallet(chainName, keplrExtension?.option?.name as string)
+  let { wallet } = useChain(chainName)
+  console.log('wallet?.walletState', wallet?.walletState)
+  if (!wallet) {
+    wallet = keplrWallet
+  }
+  const { signingCosmWasmClient: getSigningStargateClient, address } = useChainWallet(chainName, wallet?.option?.name as string)
 
   const [resp, setResp] = useState('');
 
@@ -115,6 +122,10 @@ export default function Home() {
     rpcEndpoint,
     rpcClient,
   });
+
+  useEffect(() => {
+    console.log('wallet?.walletState', wallet?.walletState)
+  }, [wallet?.walletState])
 
   //@ts-ignore
   const hooks = createRpcQueryHooks({ rpc: rpcClient });
@@ -154,6 +165,7 @@ export default function Home() {
   );
 
   return (
+    // @ts-ignore
     <Container maxW="5xl" py={10}>
       <Head>
         <title>InterchainJS - Create Cosmos App</title>
@@ -200,7 +212,7 @@ export default function Home() {
 
       <Center mb={16}>
         <SendTokensCard
-          isConnectWallet={!!address}
+          isConnectWallet={wallet?.walletState === 'Connected'}
           balance={isBalanceLoaded ? balance.toNumber() : 0}
           isFetchingBalance={isFetchingBalance}
           response={resp}

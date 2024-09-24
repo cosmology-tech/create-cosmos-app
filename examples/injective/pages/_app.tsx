@@ -8,8 +8,25 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { assetLists, chains } from '@chain-registry/v2';
 import { ChainProvider } from '@interchain-kit/react'
 import { keplrWallet } from '@interchain-kit/keplr-extension'
+import { leapWallet } from '@interchain-kit/leap-extension'
+// @ts-ignore
+import { WCWallet } from '@interchain-kit/core'
 
 import { defaultTheme, chainName } from '../config';
+
+
+
+const walletConnect = new WCWallet(
+  // {
+  //   name: 'string;1',
+  //   mode: 'wallet-connect',
+  //   prettyName: 'string;2',
+  //   walletconnect: {
+  //     name: 'string;3',
+  //     projectId: 'string;4',
+  //   }
+  // }
+)
 
 const queryClient = new QueryClient();
 
@@ -18,7 +35,7 @@ const _chains = chains.filter(c => chainNames.includes(c.chainName))
 const _assetLists = assetLists.filter(a => chainNames.includes(a.chainName))
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
-  const wallets = [keplrWallet]
+  const wallets = [keplrWallet, leapWallet, walletConnect]
 
   return (
     <>
@@ -27,6 +44,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
           <ChainProvider
             chains={_chains}
             assetLists={_assetLists}
+            // @ts-ignore
             wallets={wallets}
             signerOptions={{}}
             endpointOptions={{

@@ -1,4 +1,4 @@
-import { useChainWallet, useAccount } from '@interchain-kit/react';
+import { useChainWallet, useAccount, useChain } from '@interchain-kit/react';
 import {
   Box,
   Center,
@@ -29,12 +29,18 @@ import {
 import { chainName } from '../config';
 import { useWalletManager, useWalletModal } from '@interchain-kit/react'
 import { WalletStatus } from 'cosmos-kit';
+import { keplrWallet } from '@interchain-kit/keplr-extension'
 
 export const WalletSection = () => {
   const walletManager = useWalletManager()
   const chainIds = walletManager.chains.map(c => c.chainId)
   // const { open, close, modalIsOpen } = useWalletModal()
-  const wallet = walletManager.wallets.find(item => item.option?.name === 'keplr-extension')
+  // const wallet = walletManager.wallets.find(item => item.option?.name === 'keplr-extension')
+
+  let { wallet } = useChain(chainName)
+  if (!wallet) {
+    wallet = keplrWallet
+  }
 
   const account = useAccount(chainName, wallet?.option?.name as string)
   const username = account?.username
@@ -54,7 +60,7 @@ export const WalletSection = () => {
     // return
     e.preventDefault();
     // await connect();
-    walletManager.connect(wallet?.option?.name as string, () => {
+    walletManager?.connect(wallet?.option?.name as string, () => {
       console.log('onApprove')
     }, (uri: string) => {
       console.log({ uri })
@@ -123,7 +129,9 @@ export const WalletSection = () => {
   );
 
   return (
+    // @ts-ignore
     <Center py={16}>
+      {/* @ts-ignore */}
       <Grid
         w="full"
         maxW="sm"
