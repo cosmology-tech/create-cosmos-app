@@ -69,7 +69,11 @@ export const WalletSection = () => {
 
   const onDisconnect: MouseEventHandler = async (e) => {
     console.log('onDisconnect', chainIds)
-    wallet?.disconnect(chainIds)
+    wallet?.disconnect(chainIds).then(() => {
+      console.log('disconnect success', wallet.walletState)
+    }).catch((err) => {
+      console.log('disconnect error', err)
+    })
   }
 
   // const onClickOpenView: MouseEventHandler = (e) => {

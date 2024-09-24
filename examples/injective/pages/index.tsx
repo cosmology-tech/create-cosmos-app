@@ -123,9 +123,9 @@ export default function Home() {
     rpcClient,
   });
 
-  useEffect(() => {
-    console.log('wallet?.walletState', wallet?.walletState)
-  }, [wallet?.walletState])
+  // useEffect(() => {
+  //   console.log('wallet?.walletState', wallet?.walletState)
+  // }, [wallet?.walletState])
 
   //@ts-ignore
   const hooks = createRpcQueryHooks({ rpc: rpcClient });
