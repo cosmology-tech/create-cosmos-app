@@ -1,0 +1,24 @@
+.radio {
+  margin: 0;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #dce2e9;
+  border-radius: 50%;
+  position: relative;
+  outline: none;
+  cursor: pointer;
+}
+
+.radio:checked {
+  border-color: #7310ff;
+  border-width: 4px;
+}
+
+.radioDark {
+  border-color: #6d7987;
+}
+
+.radioDark:checked {
+  border-color: #ab6fff;
+}
