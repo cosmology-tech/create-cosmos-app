@@ -39,7 +39,6 @@ import { SendTokensCard } from '../components/react/send-tokens-card';
 import { cosmos, createRpcQueryHooks } from '../src/codegen';
 import { useRpcClient } from '../src/codegen';
 import { useChainWallet, useWalletManager, useChain } from '@interchain-kit/react'
-import { } from '@interchain-kit/keplr-extension'
 import { toEncoders, toConverters } from '@interchainjs/cosmos/utils';
 import { keplrWallet } from '@interchain-kit/keplr-extension'
 import { WalletState } from '@interChain-kit/core'

@@ -34,7 +34,7 @@ import { keplrWallet } from '@interchain-kit/keplr-extension'
 export const WalletSection = () => {
   const walletManager = useWalletManager()
   const chainIds = walletManager.chains.map(c => c.chainId)
-  // const { open, close, modalIsOpen } = useWalletModal()
+  const { open, close, modalIsOpen } = useWalletModal()
   // const wallet = walletManager.wallets.find(item => item.option?.name === 'keplr-extension')
 
   let { wallet } = useChain(chainName)
@@ -60,11 +60,7 @@ export const WalletSection = () => {
     // return
     e.preventDefault();
     // await connect();
-    walletManager?.connect(wallet?.option?.name as string, () => {
-      console.log('onApprove')
-    }, (uri: string) => {
-      console.log({ uri })
-    })
+    walletManager?.connect(wallet?.option?.name as string)
   };
 
   const onDisconnect: MouseEventHandler = async (e) => {
