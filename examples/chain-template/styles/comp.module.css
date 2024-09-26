@@ -1,0 +1,17 @@
+.tabs {
+  width: 100%;
+}
+
+.tabs ul {
+  max-width: 600px;
+  min-width: auto;
+  margin: 0 auto;
+}
+
+.input-pl {
+  padding-left: 36px;
+}
+
+.input-pr {
+  padding-right: 66px;
+}
