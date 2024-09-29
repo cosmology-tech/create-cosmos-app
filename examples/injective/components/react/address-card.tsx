@@ -7,7 +7,8 @@ import {
   useColorMode,
   Image
 } from "@chakra-ui/react";
-import { WalletStatus } from 'cosmos-kit';
+// import { WalletStatus } from 'cosmos-kit';
+import { WalletState as WalletStatus } from '@interChain-kit/core'
 import { FaCheckCircle } from 'react-icons/fa';
 import { FiCopy } from 'react-icons/fi';
 import React, { ReactNode, useEffect, useState } from "react";
@@ -90,6 +91,7 @@ export const ConnectedShowAddress = ({
   }, [address]);
 
   return (
+    // @ts-ignore
     <Button
       title={address}
       variant="unstyled"

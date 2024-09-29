@@ -28,7 +28,8 @@ import {
 } from '../components';
 import { chainName } from '../config';
 import { useWalletManager, useWalletModal } from '@interchain-kit/react'
-import { WalletStatus } from 'cosmos-kit';
+import { WalletState } from '@interChain-kit/core'
+// import { WalletStatus } from 'cosmos-kit';
 import { keplrWallet } from '@interchain-kit/keplr-extension'
 
 export const WalletSection = () => {
@@ -37,10 +38,19 @@ export const WalletSection = () => {
   const { open, close, modalIsOpen } = useWalletModal()
   // const wallet = walletManager.wallets.find(item => item.option?.name === 'keplr-extension')
 
-  let { wallet } = useChain(chainName)
+  let {
+    connect,
+    openView,
+    status,
+    message,
+    wallet,
+    chain: chainInfo,
+    logoUrl, // no logo on interchain-kit
+  } = useChain(chainName);
   if (!wallet) {
     wallet = keplrWallet
   }
+  console.log('status from useChain', status)
 
   const account = useAccount(chainName, wallet?.option?.name as string)
   const username = account?.username
@@ -51,11 +61,12 @@ export const WalletSection = () => {
     chainName,
     label: wallet?.option?.prettyName,
     value: chainName,
-    // icon: // logoUrl,
+    icon: logoUrl,
   };
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
+    openView()
     console.log('onClickConnect', wallet?.option?.name)
     // return
     e.preventDefault();
@@ -65,44 +76,42 @@ export const WalletSection = () => {
 
   const onDisconnect: MouseEventHandler = async (e) => {
     console.log('onDisconnect', chainIds)
-    wallet?.disconnect(chainIds).then(() => {
+    walletManager.disconnect(wallet.option?.name!).then(() => {
       console.log('disconnect success', wallet.walletState)
-    }).catch((err) => {
-      console.log('disconnect error', err)
     })
   }
 
-  // const onClickOpenView: MouseEventHandler = (e) => {
-  //   e.preventDefault();
-  //   openView();
-  // };
+  const onClickOpenView: MouseEventHandler = (e) => {
+    e.preventDefault();
+    openView();
+  };
 
   // Components
   const connectWalletButton = (
     <WalletConnectComponent
-      walletStatus={!!address?.length ? WalletStatus.Connected : WalletStatus.Disconnected}
+      walletStatus={status}
       disconnect={
-        <Disconnected buttonText="Connect Wallet" onClick={onClickConnect} />
+        <Disconnected buttonText="Connect Wallet" onClick={onClickOpenView} />
       }
       connecting={<Connecting />}
       connected={<>
-        <Connected buttonText={'Disconnect'} onClick={onDisconnect} />
+        <Connected buttonText={'Disconnect'} onClick={onClickOpenView} />
       </>}
       rejected={<>
-        <Rejected buttonText="Reconnect" onClick={onClickConnect} />
+        <Rejected buttonText="Reconnect" onClick={onClickOpenView} />
       </>}
       error={<>
-        {/* <Error buttonText="Change Wallet" onClick={onClickOpenView} /> */}
+        <Error buttonText="Change Wallet" onClick={onClickOpenView} />
       </>}
       notExist={<>
-        {/* <NotExist buttonText="Install Wallet" onClick={onClickOpenView} /> */}
+        <NotExist buttonText="Install Wallet" onClick={onClickOpenView} />
       </>}
     />
   );
 
   const connectWalletWarn = (
     <ConnectStatusWarn
-      walletStatus={!!address?.length ? WalletStatus.Connected : WalletStatus.Disconnected}
+      walletStatus={status}
       rejected={
         <RejectedWarn
           icon={<Icon as={FiAlertTriangle} mt={1} />}
@@ -123,7 +132,7 @@ export const WalletSection = () => {
   );
   const addressBtn = (
     <CopyAddressBtn
-      walletStatus={address ? WalletStatus.Connected : WalletStatus.Disconnected}
+      walletStatus={address ? WalletState.Connected : WalletState.Disconnected}
       connected={<ConnectedShowAddress address={address} isLoading={false} />}
     />
   );
@@ -142,8 +151,8 @@ export const WalletSection = () => {
       >
         <GridItem marginBottom={'20px'}>
           <ChainCard
-            prettyName={chain?.label || chainName}
-          // icon={chain?.icon}
+            prettyName={chainName}
+            icon={chain?.icon}
           />
         </GridItem>
         <GridItem px={6}>

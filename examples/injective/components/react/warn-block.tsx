@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Box, Stack, Text, useColorModeValue } from '@chakra-ui/react';
-import { WalletStatus } from 'cosmos-kit';
+// import { WalletStatus } from 'cosmos-kit';
+import { WalletState as WalletStatus } from '@interChain-kit/core'
 
 export const WarnBlock = ({
   wordOfWarning,
@@ -80,10 +81,10 @@ export const ConnectStatusWarn = ({
   error: ReactNode;
 }) => {
   switch (walletStatus) {
-    case WalletStatus.Rejected:
-      return <>{rejected}</>;
-    case WalletStatus.Error:
-      return <>{error}</>;
+    // case WalletStatus.Rejected:
+    //   return <>{rejected}</>;
+    // case WalletStatus.Error:
+    //   return <>{error}</>;
     default:
       return <></>;
   }

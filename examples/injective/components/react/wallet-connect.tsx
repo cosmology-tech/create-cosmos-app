@@ -3,7 +3,8 @@ import { Button, Icon, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import { IoWallet } from 'react-icons/io5';
 import { ConnectWalletType } from '../types';
 import { FiAlertTriangle } from 'react-icons/fi';
-import { WalletStatus } from 'cosmos-kit';
+// import { WalletStatus } from 'cosmos-kit';
+import { WalletState as WalletStatus } from '@interChain-kit/core'
 
 export const ConnectWalletButton = ({
   buttonText,
@@ -13,6 +14,7 @@ export const ConnectWalletButton = ({
   onClickConnectBtn
 }: ConnectWalletType) => {
   return (
+    // @ts-ignore
     <Button
       w="full"
       minW="fit-content"
@@ -189,12 +191,6 @@ export const WalletConnectComponent = ({
       return <>{connecting}</>;
     case WalletStatus.Connected:
       return <>{connected}</>;
-    case WalletStatus.Rejected:
-      return <>{rejected}</>;
-    case WalletStatus.Error:
-      return <>{error}</>;
-    case WalletStatus.NotExist:
-      return <>{notExist}</>;
     default:
       return <>{disconnect}</>;
   }
