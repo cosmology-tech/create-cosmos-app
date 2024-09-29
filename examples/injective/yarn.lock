@@ -3822,10 +3822,10 @@ __metadata:
     "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
-    "@interchain-kit/core": "npm:0.0.1-beta.20"
-    "@interchain-kit/keplr-extension": "npm:0.0.1-beta.20"
-    "@interchain-kit/leap-extension": "npm:0.0.1-beta.20"
-    "@interchain-kit/react": "npm:0.0.1-beta.20"
+    "@interchain-kit/core": "npm:0.0.1-beta.23"
+    "@interchain-kit/keplr-extension": "npm:0.0.1-beta.23"
+    "@interchain-kit/leap-extension": "npm:0.0.1-beta.23"
+    "@interchain-kit/react": "npm:0.0.1-beta.23"
     "@interchain-ui/react": "npm:^1.24.0"
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
     "@interchainjs/cosmos-types": "npm:0.0.1-beta.9"
@@ -5470,9 +5470,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interchain-kit/core@npm:0.0.1-beta.20":
-  version: 0.0.1-beta.20
-  resolution: "@interchain-kit/core@npm:0.0.1-beta.20"
+"@interchain-kit/core@npm:0.0.1-beta.23":
+  version: 0.0.1-beta.23
+  resolution: "@interchain-kit/core@npm:0.0.1-beta.23"
   dependencies:
     "@chain-registry/v2": "npm:^1.65.20"
     "@chain-registry/v2-types": "npm:^0.49.6"
@@ -5491,35 +5491,35 @@ __metadata:
     buffer: "npm:^6.0.3"
     interchainjs: "npm:0.0.1-beta.14"
     long: "npm:^5.2.3"
-  checksum: 10c0/e068f8cc501b289499d5b7e55710bd44064c2389e04b49e8573f213bf53a60141ffd538375aa5196e9510939862af9461732c41d828ac3b2fa807422d041b7af
+  checksum: 10c0/2cb5a5364b7dba430217988e6bc9830e145ab3f48ddf4d6beb76225930da1a6a6403d7ce67135e85cdf4f156e9e5458c57fdda61f9edace1ccbd243ae90417b5
   languageName: node
   linkType: hard
 
-"@interchain-kit/keplr-extension@npm:0.0.1-beta.20":
-  version: 0.0.1-beta.20
-  resolution: "@interchain-kit/keplr-extension@npm:0.0.1-beta.20"
+"@interchain-kit/keplr-extension@npm:0.0.1-beta.23":
+  version: 0.0.1-beta.23
+  resolution: "@interchain-kit/keplr-extension@npm:0.0.1-beta.23"
   dependencies:
-    "@interchain-kit/core": "npm:0.0.1-beta.20"
+    "@interchain-kit/core": "npm:0.0.1-beta.23"
     "@keplr-wallet/provider-extension": "npm:^0.12.102"
-  checksum: 10c0/f8bd11131754c8deb262df7c188e01831169f644832c12c07952a198ba9f2b18b87ff8c1e3127c51a23eaf9b00d8dc466dd0f58cd1270a54357d42c8936ad86a
+  checksum: 10c0/d432b9dbb850bdd436fbcb26b834eb7db4809b47992b52dc35094ab2493c88fa0b83f432dd46c0520064d0925786c058947f2b5caf06c883f22b15fa2759e1b2
   languageName: node
   linkType: hard
 
-"@interchain-kit/leap-extension@npm:0.0.1-beta.20":
-  version: 0.0.1-beta.20
-  resolution: "@interchain-kit/leap-extension@npm:0.0.1-beta.20"
+"@interchain-kit/leap-extension@npm:0.0.1-beta.23":
+  version: 0.0.1-beta.23
+  resolution: "@interchain-kit/leap-extension@npm:0.0.1-beta.23"
   dependencies:
-    "@interchain-kit/core": "npm:0.0.1-beta.20"
-  checksum: 10c0/10f251990d63abee30d37383c96eb2b18fa973077e64f5b898963790213797dc9fd1fe39c44b101468e12466425bbfeae571efe9f003e3d986c3149658fd973c
+    "@interchain-kit/core": "npm:0.0.1-beta.23"
+  checksum: 10c0/fd23b06123e1e95753c8b13d59bf370dc5b06368608b57d2acba791018f25c5f1341b7f629a47823b2453812b29aa4feb2891956dfa9b3b92244d1d7aec61496
   languageName: node
   linkType: hard
 
-"@interchain-kit/react@npm:0.0.1-beta.20":
-  version: 0.0.1-beta.20
-  resolution: "@interchain-kit/react@npm:0.0.1-beta.20"
+"@interchain-kit/react@npm:0.0.1-beta.23":
+  version: 0.0.1-beta.23
+  resolution: "@interchain-kit/react@npm:0.0.1-beta.23"
   dependencies:
     "@chain-registry/v2-types": "npm:^0.49.6"
-    "@interchain-kit/core": "npm:0.0.1-beta.20"
+    "@interchain-kit/core": "npm:0.0.1-beta.23"
     "@interchain-ui/react": "npm:1.24.0"
     "@interchainjs/cosmos-types": "npm:0.0.1-beta.9"
     "@interchainjs/injective": "npm:0.0.1-beta.13"
@@ -5528,7 +5528,7 @@ __metadata:
     interchainjs: "npm:0.0.1-beta.14"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
-  checksum: 10c0/5ee420a1a7d40ccc7e25c9ea3eb85916a7edcb579fc998d0b6be8bd242473a33bb7a9d08d29764e20c9a6fb8a297138d47d4eb10e204dadc428781c5011e498d
+  checksum: 10c0/cad31588c95b3b6d1c6eaf392aa6a672d73ec26792e0930f5822b01983d6f2e0a86b849f1902c021c50853ae3ab3220c98985448e350224bc63e78e29e8315af
   languageName: node
   linkType: hard
 
