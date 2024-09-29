@@ -109,6 +109,7 @@ export const WalletSection = () => {
 
   return (
     <Center py={16}>
+      {/* @ts-ignore */}
       <Grid
         w="full"
         maxW="sm"
