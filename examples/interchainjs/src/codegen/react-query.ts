@@ -6,15 +6,20 @@
 
 import { getRpcClient } from './extern'
 import {
+  QueryClient,
     useQuery,
+    useQueryClient,
     UseQueryOptions,
 } from '@tanstack/react-query';
 
 import { HttpEndpoint, ProtobufRpcClient } from '@cosmjs/stargate';
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
 
+export const RPC_CLIENT_QUERY_KEY = 'rpcClient';
+
 export interface ReactQueryParams<TResponse, TData = TResponse> {
     options?: UseQueryOptions<TResponse, Error, TData>;
+    rpcEndpoint?: string | HttpEndpoint;
 }
 
 export interface UseRpcClientQuery<TData> extends ReactQueryParams<ProtobufRpcClient, TData> {
@@ -34,12 +39,33 @@ export const useRpcEndpoint = <TData = string | HttpEndpoint>({
     }, options);
 };
 
+export const useDefaultRpcClient = <TData = ProtobufRpcClient>({
+  rpcEndpoint,
+  options,
+}: UseRpcClientQuery<TData>) => {
+  const queryClient = useQueryClient();
+  return useQuery<ProtobufRpcClient, Error, TData>([RPC_CLIENT_QUERY_KEY, rpcEndpoint], async () => {
+      const client = await getRpcClient(rpcEndpoint);
+      if(!client) {
+          throw new Error('Failed to connect to rpc client');
+      }
+
+      queryClient.setQueryData([RPC_CLIENT_QUERY_KEY], client);
+
+      return client;
+  }, options);
+};
+
 export const useRpcClient = <TData = ProtobufRpcClient>({
     rpcEndpoint,
     options,
 }: UseRpcClientQuery<TData>) => {
-    return useQuery<ProtobufRpcClient, Error, TData>(['rpcClient', rpcEndpoint], async () => {
-        return await getRpcClient(rpcEndpoint);
+    return useQuery<ProtobufRpcClient, Error, TData>([RPC_CLIENT_QUERY_KEY, rpcEndpoint], async () => {
+      const client = await getRpcClient(rpcEndpoint);
+      if(!client) {
+          throw new Error('Failed to connect to rpc client');
+      }
+      return client;
     }, options);
 };
 

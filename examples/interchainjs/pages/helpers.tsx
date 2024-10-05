@@ -35,7 +35,11 @@ import {
 } from '../components';
 import { SendTokensCard } from '../components/react/send-tokens-card';
 
-import { cosmos, createRpcQueryHooks } from '../src/codegen';
+import {
+  cosmos,
+  createRpcQueryHooks,
+  useDefaultRpcClient,
+} from '../src/codegen';
 import { useRpcClient } from '../src/codegen';
 import {
   useChainWallet,
@@ -48,6 +52,7 @@ import { toEncoders, toConverters } from '@interchainjs/cosmos/utils';
 import { SigningClient } from 'interchainjs/signing-client';
 import { MsgSend } from '../src/codegen/cosmos/bank/v1beta1/tx';
 import { DeliverTxResponse, StdFee } from '@interchainjs/cosmos-types/types';
+import { useBalance } from '../src/codegen/cosmos/bank/v1beta1/query.rpc.funcs';
 
 const library = {
   title: 'InterchainJS',
@@ -215,7 +220,7 @@ export default function Home() {
 
   const rpcEndpoint = 'https://rpc.cosmos.directory/cosmoshub';
 
-  const { data: rpcClient } = useRpcClient({
+  const { data: rpcClient } = useDefaultRpcClient({
     rpcEndpoint,
     options: {
       enabled: !!rpcEndpoint,
@@ -229,14 +234,14 @@ export default function Home() {
 
   //@ts-ignore
   // const hooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
-  const hooks = createRpcQueryHooks({ rpc: rpcClient });
+  // const hooks = createRpcQueryHooks({ rpc: rpcClient });
 
   const {
     data: balance,
     isSuccess: isBalanceLoaded,
     isLoading: isFetchingBalance,
     refetch: refetchBalance,
-  } = hooks.useBalance({
+  } = useBalance<BigNumber>({
     request: {
       address: address || '',
       denom: chainassets?.assets[0].base as string,
