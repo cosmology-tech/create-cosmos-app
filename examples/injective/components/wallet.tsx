@@ -45,7 +45,7 @@ export const WalletSection = () => {
     message,
     wallet,
     chain: chainInfo,
-    logoUrl, // no logo on interchain-kit
+    logoUrl,
   } = useChain(chainName);
   if (!wallet) {
     wallet = keplrWallet
@@ -95,7 +95,7 @@ export const WalletSection = () => {
       }
       connecting={<Connecting />}
       connected={<>
-        <Connected buttonText={'Disconnect'} onClick={onClickOpenView} />
+        <Connected buttonText={'My Wallet'} onClick={onClickOpenView} />
       </>}
       rejected={<>
         <Rejected buttonText="Reconnect" onClick={onClickOpenView} />
