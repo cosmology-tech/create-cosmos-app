@@ -68,7 +68,7 @@ export const useDefaultRpcClient = <TData = ProtobufRpcClient>({
           throw new Error('Failed to connect to rpc client');
       }
 
-      queryClient.setQueryData([DEFAULT_RPC_CLIENT_QUERY_KEY], client);
+      queryClient.setQueryData([key], client);
 
       return client;
   }, options);
@@ -128,10 +128,12 @@ export function buildUseQuery<TReq, TRes>(opts: UseQueryBuilderOptions<TReq, TRe
   return <TData = TRes>({
     request,
     options,
-    rpcEndpoint
+    rpcEndpoint,
+    rpcClientQueryKey
   }: UseQueryParams<TReq, TRes, TData>) => {
     const queryClient = useQueryClient();
-    const queryKey = rpcEndpoint ? [DEFAULT_RPC_CLIENT_QUERY_KEY, rpcEndpoint] : [DEFAULT_RPC_CLIENT_QUERY_KEY];
+    const key = rpcClientQueryKey || DEFAULT_RPC_CLIENT_QUERY_KEY;
+    const queryKey = rpcEndpoint ? [key, rpcEndpoint] : [key];
     const rpc = queryClient.getQueryData<Rpc>(queryKey);
     const queryFn = opts.builderQueryFn(()=>{
       return rpc;
