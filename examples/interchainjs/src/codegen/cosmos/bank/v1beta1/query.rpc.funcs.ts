@@ -13,17 +13,19 @@ export interface QueryBuilderOptions<TReq, TRes> {
   resDecoderFn: (input: BinaryReader | Uint8Array, length?: number) => TRes
   service: string,
   method: string,
-  getRpcInstance: () => Rpc
+  getRpcInstance: () => Rpc | undefined
 }
 
 export interface UseQueryBuilderOptions<TReq, TRes> {
-  builderQueryFn: (getRpcInstance: () => Rpc) => (request: TReq) => Promise<TRes>,
+  builderQueryFn: (getRpcInstance: () => Rpc | undefined) => (request: TReq) => Promise<TRes>,
   queryKeyPrefix: string
 }
 
 export function buildQuery<TReq, TRes>(opts: QueryBuilderOptions<TReq, TRes>) {
     return async (request: TReq) => {
       const rpc = opts.getRpcInstance();
+
+      if (!rpc) throw new Error("Query Rpc is not initialized");
 
       const data = opts.reqEncoderFn(request).finish();
       const response = await rpc.request(opts.service, opts.method, data);
@@ -40,7 +42,6 @@ export function buildUseQuery<TReq, TRes>(opts: UseQueryBuilderOptions<TReq, TRe
     const queryClient = useQueryClient();
     const queryKey = rpcEndpoint ? [RPC_CLIENT_QUERY_KEY, rpcEndpoint] : [RPC_CLIENT_QUERY_KEY];
     const rpc = queryClient.getQueryData<Rpc>(queryKey);
-    if (!rpc) throw new Error("Query Rpc is not initialized");
     const queryFn = opts.builderQueryFn(()=>{
       return rpc;
     });
@@ -57,7 +58,7 @@ export interface UseQueryParams<TReq, TRes, TData = TRes> extends ReactQueryPara
 export type UseBalanceQuery = UseQueryParams<QueryBalanceRequest, QueryBalanceResponse>;
 export type UseAllBalancesQuery = UseQueryParams<QueryAllBalancesRequest, QueryAllBalancesResponse>;
 
-export const createGetBalance = (getRpcInstance: () => Rpc) => buildQuery<QueryBalanceRequest, QueryBalanceResponse>({
+export const createGetBalance = (getRpcInstance: () => Rpc | undefined) => buildQuery<QueryBalanceRequest, QueryBalanceResponse>({
   reqEncoderFn: QueryBalanceRequest.encode,
   resDecoderFn: QueryBalanceResponse.decode,
   service: "cosmos.bank.v1beta1.Query",
@@ -65,7 +66,7 @@ export const createGetBalance = (getRpcInstance: () => Rpc) => buildQuery<QueryB
   getRpcInstance
 });
 
-export const createGetAllBalances = (getRpcInstance: () => Rpc) => buildQuery<QueryAllBalancesRequest, QueryAllBalancesResponse>({
+export const createGetAllBalances = (getRpcInstance: () => Rpc | undefined) => buildQuery<QueryAllBalancesRequest, QueryAllBalancesResponse>({
   reqEncoderFn: QueryAllBalancesRequest.encode,
   resDecoderFn: QueryAllBalancesResponse.decode,
   service: "cosmos.bank.v1beta1.Query",

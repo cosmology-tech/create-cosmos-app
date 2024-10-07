@@ -53,6 +53,11 @@ import { SigningClient } from 'interchainjs/signing-client';
 import { MsgSend } from '../src/codegen/cosmos/bank/v1beta1/tx';
 import { DeliverTxResponse, StdFee } from '@interchainjs/cosmos-types/types';
 import { useBalance } from '../src/codegen/cosmos/bank/v1beta1/query.rpc.funcs';
+import {
+  SIGNING_CLIENT_QUERY_KEY,
+  useSend,
+} from '../src/codegen/cosmos/bank/v1beta1/tx.rpc.func';
+import { useQueryClient } from '@tanstack/react-query';
 
 const library = {
   title: 'InterchainJS',
@@ -70,126 +75,6 @@ class HelperOptions {
   chainName?: string;
 }
 
-// generated react hook helper function for sending tokens
-const useSend = (options: HelperOptions) => {
-  // getting signingClient from chainName
-  const { signingClient } = useChain(options.chainName ?? '');
-  let client = options.signingClient ?? signingClient;
-
-  if (!client) {
-    return null;
-  }
-
-  // register all related encoders and converters
-  // at this case, we only need MsgSend
-  signingClient?.addEncoders(toEncoders(MsgSend));
-  signingClient?.addConverters(toConverters(MsgSend));
-
-  // return the actual send function
-  return async (
-    signerAddress: string,
-    message: MsgSend,
-    fee: StdFee | 'auto' = 'auto',
-    memo: string = ''
-  ): Promise<DeliverTxResponse> => {
-    const data = [
-      {
-        typeUrl: MsgSend.typeUrl,
-        value: message,
-      },
-    ];
-    return signingClient.signAndBroadcast!(signerAddress, data, fee, memo);
-  };
-};
-
-const useSendTokensDemo = (setResp: (resp: string) => any, address: string) => {
-  const send = useSend({ chainName });
-
-  if (!send) {
-    console.error('send is not ready.');
-    return null;
-  }
-
-  return async () => {
-    if (!address) {
-      console.error('stargateClient undefined or address undefined.');
-      return;
-    }
-    const fee = {
-      amount: [
-        {
-          denom: coin.base,
-          amount: '2500',
-        },
-      ],
-      gas: '1000000',
-    };
-
-    try {
-      const response = await send(
-        address,
-        {
-          fromAddress: address,
-          toAddress: address,
-          amount: [{ denom: coin.base, amount: '1' }],
-        },
-        fee,
-        'using interchainjs'
-      );
-      setResp(JSON.stringify(response, null, 2));
-    } catch (error) {
-      console.error('error injSigningClient.signAndBroadcast', error);
-    }
-  };
-};
-
-const sendTokens = (
-  // getSigningStargateClient: CosmWasmSigningClient,
-  setResp: (resp: string) => any,
-  address: string
-) => {
-  console.log('chainName', chainName);
-  const { signingStargateClient, signingCosmWasmClient, signingClient } =
-    useChain(chainName);
-  return async () => {
-    // const stargateClient = getSigningStargateClient
-    if (
-      // !stargateClient ||
-      !address
-    ) {
-      console.error('stargateClient undefined or address undefined.');
-      return;
-    }
-    const fee = {
-      amount: [
-        {
-          denom: coin.base,
-          amount: '25000',
-        },
-      ],
-      gas: '1000000',
-    };
-    // const signingClient = getSigningStargateClient
-    // const response = await signingClient.helpers.send(
-    //   address,
-    //   { fromAddress: address, toAddress: address, amount: [{ denom: coin.base, amount: '1' }] },
-    //   fee,
-    //   'using interchainjs'
-    // )
-    const response = await signingCosmWasmClient.helpers.send(
-      address,
-      {
-        fromAddress: address,
-        toAddress: address,
-        amount: [{ denom: coin.base, amount: '1' }],
-      },
-      fee,
-      'using interchainjs'
-    );
-    setResp(JSON.stringify(response, null, 2));
-  };
-};
-
 // Get the display exponent
 // we can get the exponent from chain registry asset denom_units
 const COIN_DISPLAY_EXPONENT = coin.denom_units.find(
@@ -206,8 +91,14 @@ export default function Home() {
   const keplrExtension = walletManager.wallets.find(
     (w) => w.option?.name === 'keplr-extension'
   );
-  const { signingCosmWasmClient: getSigningStargateClient, address } =
-    useChainWallet(chainName, keplrExtension?.option?.name as string);
+  const { signingClient, address } = useChainWallet(
+    chainName,
+    keplrExtension?.option?.name as string
+  );
+
+  const queryClient = useQueryClient();
+
+  queryClient.setQueryData([SIGNING_CLIENT_QUERY_KEY], signingClient);
 
   const [resp, setResp] = useState('');
 
@@ -235,6 +126,14 @@ export default function Home() {
   //@ts-ignore
   // const hooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
   // const hooks = createRpcQueryHooks({ rpc: rpcClient });
+
+  const sendMutation = useSend({
+    options: {
+      onSuccess: (data) => {
+        setResp(JSON.stringify(data, null, 2));
+      },
+    },
+  });
 
   const {
     data: balance,
@@ -322,11 +221,26 @@ export default function Home() {
           isFetchingBalance={isFetchingBalance}
           response={resp}
           sendTokensButtonText="Send Tokens"
-          handleClickSendTokens={useSendTokensDemo(
-            // getSigningStargateClient as CosmWasmSigningClient,
-            setResp as () => any,
-            address as string
-          )}
+          handleClickSendTokens={() => {
+            sendMutation.mutate({
+              signerAddress: address,
+              message: {
+                fromAddress: address,
+                toAddress: address,
+                amount: [{ denom: coin.base, amount: '1' }],
+              },
+              fee: {
+                amount: [
+                  {
+                    denom: coin.base,
+                    amount: '25000',
+                  },
+                ],
+                gas: '1000000',
+              },
+              memo: 'using interchainjs',
+            });
+          }}
           handleClickGetBalance={refetchBalance}
         />
       </Center>
