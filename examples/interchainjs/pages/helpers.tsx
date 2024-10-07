@@ -35,13 +35,7 @@ import {
 } from '../components';
 import { SendTokensCard } from '../components/react/send-tokens-card';
 
-import {
-  cosmos,
-  createRpcQueryHooks,
-  DEFAULT_SIGNING_CLIENT_QUERY_KEY,
-  useDefaultRpcClient,
-} from '../src/codegen';
-import { useRpcClient } from '../src/codegen';
+import { DEFAULT_SIGNING_CLIENT_QUERY_KEY, useRpcClient } from '../src/codegen';
 import {
   useChainWallet,
   useWalletManager,
@@ -109,7 +103,7 @@ export default function Home() {
 
   const rpcEndpoint = 'https://rpc.cosmos.directory/cosmoshub';
 
-  const { data: rpcClient } = useDefaultRpcClient({
+  const { data: rpcClient } = useRpcClient({
     rpcEndpoint,
     options: {
       enabled: !!rpcEndpoint,

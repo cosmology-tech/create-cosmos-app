@@ -51,34 +51,12 @@ export const useRpcEndpoint = <TData = string | HttpEndpoint>({
     }, options);
 };
 
-export const useDefaultRpcClient = <TData = ProtobufRpcClient>({
-  rpcEndpoint,
-  options,
-  rpcClientQueryKey
-}: UseRpcClientQuery<TData>) => {
-  const queryClient = useQueryClient();
-  const key = rpcClientQueryKey || DEFAULT_RPC_CLIENT_QUERY_KEY;
-  return useQuery<ProtobufRpcClient, Error, TData>([key, rpcEndpoint], async () => {
-      if(!rpcEndpoint) {
-          throw new Error('rpcEndpoint is required');
-      }
-
-      const client = await getRpcClient(rpcEndpoint);
-      if(!client) {
-          throw new Error('Failed to connect to rpc client');
-      }
-
-      queryClient.setQueryData([key], client);
-
-      return client;
-  }, options);
-};
-
 export const useRpcClient = <TData = ProtobufRpcClient>({
     rpcEndpoint,
     options,
     rpcClientQueryKey
 }: UseRpcClientQuery<TData>) => {
+    const queryClient = useQueryClient();
     const key = rpcClientQueryKey || DEFAULT_RPC_CLIENT_QUERY_KEY;
     return useQuery<ProtobufRpcClient, Error, TData>([key, rpcEndpoint], async () => {
       if(!rpcEndpoint) {
@@ -89,6 +67,9 @@ export const useRpcClient = <TData = ProtobufRpcClient>({
       if(!client) {
           throw new Error('Failed to connect to rpc client');
       }
+
+      queryClient.setQueryData([key], client);
+
       return client;
     }, options);
 };
