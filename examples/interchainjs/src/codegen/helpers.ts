@@ -4,6 +4,10 @@
 * and run the transpile command or yarn proto command to regenerate this bundle.
 */
 
+import { BinaryReader, BinaryWriter } from "./binary";
+import { StdFee, DeliverTxResponse } from '@interchainjs/cosmos-types/types';
+import { AminoConverter, Encoder, Message } from '@interchainjs/cosmos/types/signer';
+
 
 declare var self: any | undefined;
 declare var window: any | undefined;
@@ -254,4 +258,81 @@ export function fromJsonTimestamp(o: any): Timestamp {
 
 function numberToLong(number: number) {
   return BigInt(number);
+}
+
+export interface QueryBuilderOptions<TReq, TRes> {
+  reqEncoderFn: (request: TReq, writer?: BinaryWriter) => BinaryWriter
+  resDecoderFn: (input: BinaryReader | Uint8Array, length?: number) => TRes
+  service: string,
+  method: string,
+  getRpcInstance: () => Rpc | undefined
+}
+
+export function buildQuery<TReq, TRes>(opts: QueryBuilderOptions<TReq, TRes>) {
+    return async (request: TReq) => {
+      const rpc = opts.getRpcInstance();
+
+      if (!rpc) throw new Error("Query Rpc is not initialized");
+
+      const data = opts.reqEncoderFn(request).finish();
+      const response = await rpc.request(opts.service, opts.method, data);
+      return opts.resDecoderFn(new BinaryReader(response));
+    };
+}
+
+export interface ITxArgs<TMsg> {
+  signerAddress: string;
+  message: TMsg;
+  fee: StdFee | 'auto';
+  memo: string;
+}
+
+export interface ISigningClient {
+  /**
+   * register converters
+   */
+  addConverters: (converters: AminoConverter[]) => void;
+  /**
+   * register encoders
+   */
+  addEncoders: (encoders: Encoder[]) => void;
+
+  signAndBroadcast: (
+    signerAddress: string,
+    message: Message[],
+    fee: StdFee | 'auto',
+    memo: string
+  ) => Promise<DeliverTxResponse>;
+}
+
+export interface TxBuilderOptions {
+  getSigningClient: () => ISigningClient | undefined,
+  typeUrl: string,
+  encoders?: Encoder[],
+  converters?: AminoConverter[],
+}
+
+export function buildTx<TMsg>(opts: TxBuilderOptions) {
+  return async (
+    signerAddress: string,
+    message: TMsg,
+    fee: StdFee | 'auto',
+    memo: string
+  ): Promise<DeliverTxResponse> => {
+    const client = opts.getSigningClient();
+
+    if (!client) throw new Error("SigningClient is not initialized");
+
+    //register all related encoders and converters
+    client.addEncoders(opts.encoders ?? []);
+    client.addConverters(opts.converters ?? []);
+
+    const data = [
+      {
+        typeUrl: opts.typeUrl,
+        value: message,
+      },
+    ];
+    return client.signAndBroadcast!(signerAddress, data, fee, memo);
+  };
 }

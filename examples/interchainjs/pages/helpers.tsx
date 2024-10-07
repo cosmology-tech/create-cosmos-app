@@ -38,6 +38,7 @@ import { SendTokensCard } from '../components/react/send-tokens-card';
 import {
   cosmos,
   createRpcQueryHooks,
+  DEFAULT_SIGNING_CLIENT_QUERY_KEY,
   useDefaultRpcClient,
 } from '../src/codegen';
 import { useRpcClient } from '../src/codegen';
@@ -53,10 +54,7 @@ import { SigningClient } from 'interchainjs/signing-client';
 import { MsgSend } from '../src/codegen/cosmos/bank/v1beta1/tx';
 import { DeliverTxResponse, StdFee } from '@interchainjs/cosmos-types/types';
 import { useBalance } from '../src/codegen/cosmos/bank/v1beta1/query.rpc.funcs';
-import {
-  SIGNING_CLIENT_QUERY_KEY,
-  useSend,
-} from '../src/codegen/cosmos/bank/v1beta1/tx.rpc.func';
+import { useSend } from '../src/codegen/cosmos/bank/v1beta1/tx.rpc.func';
 import { useQueryClient } from '@tanstack/react-query';
 
 const library = {
@@ -98,7 +96,7 @@ export default function Home() {
 
   const queryClient = useQueryClient();
 
-  queryClient.setQueryData([SIGNING_CLIENT_QUERY_KEY], signingClient);
+  queryClient.setQueryData([DEFAULT_SIGNING_CLIENT_QUERY_KEY], signingClient);
 
   const [resp, setResp] = useState('');
 
