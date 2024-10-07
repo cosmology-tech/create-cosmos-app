@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import BigNumber from 'bignumber.js';
 import { MsgSend } from '@interchainjs/cosmos-types/cosmos/bank/v1beta1/tx';
@@ -98,15 +98,11 @@ const COIN_DISPLAY_EXPONENT = coin.denom_units.find(
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const walletManager = useWalletManager()
-  console.log('walletManager.chains', walletManager.chains)
-  const keplrExtension = walletManager.wallets.find(w => w.option?.name === 'keplr-extension')
   let { wallet } = useChain(chainName)
-  console.log('wallet?.walletState', wallet?.walletState)
   if (!wallet) {
     wallet = keplrWallet
   }
-  const { signingCosmWasmClient: getSigningStargateClient, address } = useChainWallet(chainName, wallet?.option?.name as string)
+  const { address } = useChainWallet(chainName, wallet?.option?.name as string)
 
   const [resp, setResp] = useState('');
 
@@ -121,10 +117,6 @@ export default function Home() {
     rpcEndpoint,
     rpcClient,
   });
-
-  // useEffect(() => {
-  //   console.log('wallet?.walletState', wallet?.walletState)
-  // }, [wallet?.walletState])
 
   //@ts-ignore
   const hooks = createRpcQueryHooks({ rpc: rpcClient });
@@ -211,7 +203,7 @@ export default function Home() {
 
       <Center mb={16}>
         <SendTokensCard
-          isConnectWallet={wallet?.walletState === 'Connected'}
+          isConnectWallet={wallet?.walletState === WalletState.Connected}
           balance={isBalanceLoaded ? balance.toNumber() : 0}
           isFetchingBalance={isFetchingBalance}
           response={resp}
