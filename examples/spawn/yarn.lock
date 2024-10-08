@@ -818,9 +818,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmology/chain-template-spawn@workspace:.":
+"@cosmology/spawn@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@cosmology/chain-template-spawn@workspace:."
+  resolution: "@cosmology/spawn@workspace:."
   dependencies:
     "@chain-registry/assets": "npm:1.63.5"
     "@chain-registry/osmosis": "npm:1.61.3"
