@@ -119,7 +119,7 @@ export default function Home() {
   // const hooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
   // const hooks = createRpcQueryHooks({ rpc: rpcClient });
 
-  const sendMutation = useSend({
+  const { mutate: send, isSuccess: isSendSuccess } = useSend({
     options: {
       onSuccess: (data) => {
         setResp(JSON.stringify(data, null, 2));
@@ -214,7 +214,7 @@ export default function Home() {
           response={resp}
           sendTokensButtonText="Send Tokens"
           handleClickSendTokens={() => {
-            sendMutation.mutate({
+            send({
               signerAddress: address,
               message: {
                 fromAddress: address,

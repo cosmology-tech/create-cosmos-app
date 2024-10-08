@@ -17,6 +17,7 @@ import {
     MutationOptions,
     useMutation,
     UseMutationOptions,
+    QueryKey,
 } from '@tanstack/react-query';
 
 import { StdFee, DeliverTxResponse } from '@interchainjs/cosmos-types/types';
@@ -25,6 +26,7 @@ import { HttpEndpoint, ProtobufRpcClient } from '@cosmjs/stargate';
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
 
 export const DEFAULT_RPC_CLIENT_QUERY_KEY = 'rpcClient';
+export const DEFAULT_RPC_ENDPOINT_QUERY_KEY = 'rpcEndPoint';
 export const DEFAULT_SIGNING_CLIENT_QUERY_KEY = 'signingClient';
 
 export interface ReactQueryParams<TResponse, TData = TResponse> {
@@ -38,14 +40,15 @@ export interface UseRpcClientQuery<TData> extends ReactQueryParams<ProtobufRpcCl
 
 export interface UseRpcEndpointQuery<TData> extends ReactQueryParams<string | HttpEndpoint, TData> {
     getter: () => Promise<string | HttpEndpoint>;
+    rpcEndPointKey?: string;
 }
 
 export const useRpcEndpoint = <TData = string | HttpEndpoint>({
     getter,
     options,
-    rpcClientQueryKey
+    rpcEndPointKey
 }: UseRpcEndpointQuery<TData>) => {
-    const key = rpcClientQueryKey || DEFAULT_RPC_CLIENT_QUERY_KEY;
+    const key = rpcEndPointKey || DEFAULT_RPC_ENDPOINT_QUERY_KEY;
     return useQuery<string | HttpEndpoint, Error, TData>([key, getter], async () => {
         return await getter();
     }, options);
@@ -101,7 +104,7 @@ export const useTendermintClient = ({
 
 export interface UseQueryBuilderOptions<TReq, TRes> {
   builderQueryFn: (getRpcInstance: () => Rpc | undefined) => (request: TReq) => Promise<TRes>,
-  queryKeyPrefix: string
+  queryKeyPrefix: string,
 }
 
 
@@ -110,7 +113,8 @@ export function buildUseQuery<TReq, TRes>(opts: UseQueryBuilderOptions<TReq, TRe
     request,
     options,
     rpcEndpoint,
-    rpcClientQueryKey
+    rpcClientQueryKey,
+    customizedQueryKey,
   }: UseQueryParams<TReq, TRes, TData>) => {
     const queryClient = useQueryClient();
     const key = rpcClientQueryKey || DEFAULT_RPC_CLIENT_QUERY_KEY;
@@ -119,12 +123,13 @@ export function buildUseQuery<TReq, TRes>(opts: UseQueryBuilderOptions<TReq, TRe
     const queryFn = opts.builderQueryFn(()=>{
       return rpc;
     });
-    return useQuery<TRes, Error, TData>([opts.queryKeyPrefix, request], () => queryFn(request), options);
+    return useQuery<TRes, Error, TData>(customizedQueryKey || [opts.queryKeyPrefix, request], () => queryFn(request), options);
   };
 }
 
 export interface UseQueryParams<TReq, TRes, TData = TRes> extends ReactQueryParams<TRes, TData> {
   request: TReq;
+  customizedQueryKey?: QueryKey
 }
 
 export interface ReactMutationParams<TData, TError, TVariables, TContext = unknown> {
