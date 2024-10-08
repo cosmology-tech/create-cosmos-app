@@ -6,12 +6,7 @@ import { join, dirname, basename, sep, relative } from 'path';
 import { sync as mkdirp } from 'mkdirp';
 import { crossGlob as glob, toPosixPath } from './utils';
 import * as fs from 'fs';
-import {
-    cloneRepo,
-    getPackageLicAndAccessInfo,
-    getQuestionsAndAnswers,
-    getTemplateFolder
-} from './utils';
+import { cloneRepo, getPackageLicAndAccessInfo, getQuestionsAndAnswers, getTemplateFolder } from './utils';
 import { CCA_URL } from './constants';
 
 const posixPath = require('path').posix;
@@ -31,7 +26,6 @@ ${commandSection}
     `;
 };
 
-
 const checkRequiredTools = () => {
     for (const tool of requiredTools) {
         if (!shell.which(tool)) {
@@ -40,21 +34,21 @@ const checkRequiredTools = () => {
         }
     }
     return true;
-}
-
+};
 
 async function getAppName(argv) {
     let { name } = await prompt(
-        [{
-            name: 'name',
-            message: 'Enter your new app name',
-            required: true,
-        }],
+        [
+            {
+                name: 'name',
+                message: 'Enter your new app name',
+                required: true,
+            },
+        ],
         argv
     );
     return name.replace(/\s/g, '-');
 }
-
 
 async function setupAppDirectory(repo, argv, name) {
     const folderName = await getTemplateFolder(argv);
@@ -65,20 +59,26 @@ async function setupAppDirectory(repo, argv, name) {
     return { folderName, currentDirectory, tempDir };
 }
 
-
 async function warnIfOutdated(repo, clonedRepoDir, version) {
     if (repo === CCA_URL) {
         const rootPkgPath = join(clonedRepoDir, 'packages/create-cosmos-app/package.json');
         const rootPkg = JSON.parse(fs.readFileSync(rootPkgPath, 'utf-8'));
         if (semver.lt(rootPkg.version, version)) {
-            console.warn(c.yellow(`⚠️ You are using create-cosmos-app version ${c.red(rootPkg.version)}, but version ${c.green(version)} is available. Run "${c.cyan('cca upgrade')}" or "${c.cyan('npm install -g create-cosmos-app@latest')}" to upgrade.`));
+            console.warn(
+                c.yellow(
+                    `⚠️ You are using create-cosmos-app version ${c.red(rootPkg.version)}, but version ${c.green(
+                        version
+                    )} is available. Run "${c.cyan('cca upgrade')}" or "${c.cyan(
+                        'npm install -g create-cosmos-app@latest'
+                    )}" to upgrade.`
+                )
+            );
         }
     }
 }
 
 export const createGitApp = (repo: string, version: string) => {
-    return async argv => {
-
+    return async (argv) => {
         // if --no-install is set, don't touch!
         if (!argv.hasOwnProperty('install')) argv.install = true;
         if (!argv.hasOwnProperty('printCmd')) argv.printCmd = true;
@@ -96,15 +96,18 @@ export const createGitApp = (repo: string, version: string) => {
 
         // get template
         const list = shell.ls(`./${folderName}`);
-        const { template } = await prompt([
-            {
-                type: 'list',
-                name: 'template',
-                message: 'which template',
-                required: true,
-                choices: list
-            }
-        ], argv);
+        const { template } = await prompt(
+            [
+                {
+                    type: 'list',
+                    name: 'template',
+                    message: 'which template',
+                    required: true,
+                    choices: list,
+                },
+            ],
+            argv
+        );
         argv.template = template;
 
         const results = await getQuestionsAndAnswers(argv, name, folderName);
@@ -115,11 +118,8 @@ export const createGitApp = (repo: string, version: string) => {
         let license = {};
         let scopedResults: any = {};
         if (hasResults) {
-            ({
-                license,
-                scopedResults
-            } = await getPackageLicAndAccessInfo(results));
-            const path = join(folderName, argv.template, '.questions.json')
+            ({ license, scopedResults } = await getPackageLicAndAccessInfo(results));
+            const path = join(folderName, argv.template, '.questions.json');
             shell.rm('-rf', path);
         }
 
@@ -131,40 +131,46 @@ export const createGitApp = (repo: string, version: string) => {
             const templateFile = files[i];
             if (fs.lstatSync(templateFile).isDirectory()) continue;
 
-            let content = fs.readFileSync(templateFile).toString();
+            const isImage = /\.(png|jpe?g|gif|svg|webp|ico)$/i.test(templateFile);
 
-            // LICENSE
-            if (
-                basename(templateFile) === 'LICENSE' &&
-                // @ts-ignore
-                license.__LICENSE__ === 'closed'
-            ) {
-                content = `Copyright (c) ${new Date().getFullYear()} __USERFULLNAME__ <__USEREMAIL__> - All Rights Reserved
+            let content;
+            if (isImage) {
+                content = fs.readFileSync(templateFile);
+            } else {
+                content = fs.readFileSync(templateFile).toString();
+
+                // LICENSE
+                if (
+                    basename(templateFile) === 'LICENSE' &&
+                    // @ts-ignore
+                    license.__LICENSE__ === 'closed'
+                ) {
+                    content = `Copyright (c) ${new Date().getFullYear()} __USERFULLNAME__ <__USEREMAIL__> - All Rights Reserved
     Unauthorized copying via any medium is strictly prohibited
     Proprietary and confidential`;
-            }
-
-            // swap out content from results!
-            Object.keys(results).forEach(key => {
-                if (/^__/.test(key)) {
-                    content = content.replace(new RegExp(key, 'g'), results[key]);
-                }
-            });
-
-            // access
-            if (hasResults) {
-                // Determine the prefix based on the conditions
-                let prefix = '';
-                if (results.__ACCESS__ === 'public') {
-                    prefix = scopedResults.scoped ? `@${results.__USERNAME__}/` : '';
-                } else {
-                    prefix = `@${results.__USERNAME__}/`;
                 }
 
-                // Replace __PACKAGE_IDENTIFIER__ with the determined prefix and module name
-                content = content.replace(/__PACKAGE_IDENTIFIER__/g, `${prefix}${results.__MODULENAME__}`);
-            }
+                // swap out content from results!
+                Object.keys(results).forEach((key) => {
+                    if (/^__/.test(key)) {
+                        content = content.replace(new RegExp(key, 'g'), results[key]);
+                    }
+                });
 
+                // access
+                if (hasResults) {
+                    // Determine the prefix based on the conditions
+                    let prefix = '';
+                    if (results.__ACCESS__ === 'public') {
+                        prefix = scopedResults.scoped ? `@${results.__USERNAME__}/` : '';
+                    } else {
+                        prefix = `@${results.__USERNAME__}/`;
+                    }
+
+                    // Replace __PACKAGE_IDENTIFIER__ with the determined prefix and module name
+                    content = content.replace(/__PACKAGE_IDENTIFIER__/g, `${prefix}${results.__MODULENAME__}`);
+                }
+            }
 
             // Construct the file path
             const relativeFilePath = templateFile.split(toPosixPath(join(folderName, template) + '/'))[1];
@@ -184,14 +190,12 @@ export const createGitApp = (repo: string, version: string) => {
             // Ensure the target directory exists before writing the file
             mkdirp(targetDirPath);
             fs.writeFileSync(targetFilePath, content);
-
         }
 
         // Clean up and change directory
         shell.cd(currentDirectory);
         shell.rm('-rf', tempDir);
         shell.cd(name);
-
 
         const fakeLongPath = '/a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p';
         const closestPkgJson = []
@@ -207,7 +211,7 @@ export const createGitApp = (repo: string, version: string) => {
             const pkgPath = closestPkgJson;
             const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
             if (pkg.scripts) {
-                ['locks:remove', 'locks:create', 'locks'].forEach(script => delete pkg.scripts[script]);
+                ['locks:remove', 'locks:create', 'locks'].forEach((script) => delete pkg.scripts[script]);
             }
             if (pkg.devDependencies) {
                 delete pkg.devDependencies['generate-lockfile'];
@@ -228,7 +232,6 @@ export const createGitApp = (repo: string, version: string) => {
                 cmd += ' && yarn dev';
             }
             console.log(motd(cmd, argv.printCmd));
-
         } else {
             console.log('No package.json file found');
             console.log(motd(`cd ${name}`, argv.printCmd));
@@ -236,6 +239,5 @@ export const createGitApp = (repo: string, version: string) => {
 
         // Change back to the original directory
         shell.cd(currentDirectory);
-
     };
 };
