@@ -25,19 +25,21 @@
     "prepare": "npm run build",
     "codegen": "ts-node scripts/codegen.ts",
     "build": "npm run clean; tsc; tsc -p tsconfig.esm.json; npm run copy",
+    "build:dev": "npm run clean; npm run codegen; tsc --declarationMap; tsc -p tsconfig.esm.json; npm run copy",
     "lint": "eslint . --fix",
     "test": "jest",
     "test:watch": "jest --watch"
   },
   "devDependencies": {
-    "@cosmology/telescope": "^1.0.1"
+    "@cosmology/telescope": "^1.10.0"
   },
   "dependencies": {
     "@cosmjs/encoding": "0.32.3",
     "@cosmjs/math": "0.32.3",
     "@cosmjs/amino": "0.32.3",
     "@cosmjs/proto-signing": "0.32.3",
-    "@cosmjs/stargate": "0.32.3"
+    "@cosmjs/stargate": "0.32.3",
+    "@cosmology/lcd": "^0.14.0"
   },
   "keywords": []
 }
