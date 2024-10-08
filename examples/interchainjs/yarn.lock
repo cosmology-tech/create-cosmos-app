@@ -3915,9 +3915,9 @@ __metadata:
     "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
-    "@interchain-kit/core": "npm:0.0.1-beta.8"
-    "@interchain-kit/keplr-extension": "npm:0.0.1-beta.8"
-    "@interchain-kit/react": "npm:0.0.1-beta.8"
+    "@interchain-kit/core": "npm:0.0.1-beta.21"
+    "@interchain-kit/keplr-extension": "npm:0.0.1-beta.21"
+    "@interchain-kit/react": "npm:0.0.1-beta.21"
     "@interchain-ui/react": "npm:^1.23.29"
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
     "@protobufs/cosmos": "npm:^0.1.0"
@@ -3937,7 +3937,7 @@ __metadata:
     fast-fuzzy: "npm:^1.12.0"
     framer-motion: "npm:9.0.7"
     generate-lockfile: "npm:0.0.12"
-    interchainjs: "npm:0.0.1-beta.12"
+    interchainjs: "npm:0.0.1-beta.14"
     mobx: "npm:^6.7.0"
     mobx-react: "npm:^7.6.0"
     next: "npm:^13"
@@ -5351,6 +5351,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@floating-ui/core@npm:^1.6.7":
+  version: 1.6.8
+  resolution: "@floating-ui/core@npm:1.6.8"
+  dependencies:
+    "@floating-ui/utils": "npm:^0.2.8"
+  checksum: 10c0/d6985462aeccae7b55a2d3f40571551c8c42bf820ae0a477fc40ef462e33edc4f3f5b7f11b100de77c9b58ecb581670c5c3f46d0af82b5e30aa185c735257eb9
+  languageName: node
+  linkType: hard
+
 "@floating-ui/dom@npm:^1.0.0, @floating-ui/dom@npm:^1.0.1, @floating-ui/dom@npm:^1.6.7":
   version: 1.6.10
   resolution: "@floating-ui/dom@npm:1.6.10"
@@ -5358,6 +5367,16 @@ __metadata:
     "@floating-ui/core": "npm:^1.6.0"
     "@floating-ui/utils": "npm:^0.2.7"
   checksum: 10c0/ed7d7b400e00b2f31f1b8f11863af2cb95d0d3cd84635186ca31b41d8d9fe7fe12c85e4985617d7df7ed365abad48b327d0bae35934842007b4e1052d9780576
+  languageName: node
+  linkType: hard
+
+"@floating-ui/dom@npm:^1.6.10":
+  version: 1.6.11
+  resolution: "@floating-ui/dom@npm:1.6.11"
+  dependencies:
+    "@floating-ui/core": "npm:^1.6.0"
+    "@floating-ui/utils": "npm:^0.2.8"
+  checksum: 10c0/02ef34a75a515543c772880338eea7b66724997bd5ec7cd58d26b50325709d46d480a306b84e7d5509d734434411a4bcf23af5680c2e461e6e6a8bf45d751df8
   languageName: node
   linkType: hard
 
@@ -5370,6 +5389,18 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: 10c0/732ab64600c511ceb0563b87bc557aa61789fec4f416a3f092bab89e508fa1d3ee5ade0f42051cc56eb5e4db867b87ab7fd48ce82db9fd4c01d94ffa08f60115
+  languageName: node
+  linkType: hard
+
+"@floating-ui/react-dom@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "@floating-ui/react-dom@npm:2.1.2"
+  dependencies:
+    "@floating-ui/dom": "npm:^1.0.0"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10c0/e855131c74e68cab505f7f44f92cd4e2efab1c125796db3116c54c0859323adae4bf697bf292ee83ac77b9335a41ad67852193d7aeace90aa2e1c4a640cafa60
   languageName: node
   linkType: hard
 
@@ -5387,10 +5418,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@floating-ui/react@npm:^0.26.23":
+  version: 0.26.24
+  resolution: "@floating-ui/react@npm:0.26.24"
+  dependencies:
+    "@floating-ui/react-dom": "npm:^2.1.2"
+    "@floating-ui/utils": "npm:^0.2.8"
+    tabbable: "npm:^6.0.0"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10c0/c5c3ac265802087673a69b0e08b3bea1ee02de9da4cdbc40bb1c9e06823be72628a82f1655b40d56a4383715b4ab3b6deddff4e69146f513970ee592e1dd8f92
+  languageName: node
+  linkType: hard
+
 "@floating-ui/utils@npm:^0.2.4, @floating-ui/utils@npm:^0.2.7":
   version: 0.2.7
   resolution: "@floating-ui/utils@npm:0.2.7"
   checksum: 10c0/0559ea5df2dc82219bad26e3509e9d2b70f6987e552dc8ddf7d7f5923cfeb7c44bf884567125b1f9cdb122a4c7e6e7ddbc666740bc30b0e4091ccbca63c6fb1c
+  languageName: node
+  linkType: hard
+
+"@floating-ui/utils@npm:^0.2.8":
+  version: 0.2.8
+  resolution: "@floating-ui/utils@npm:0.2.8"
+  checksum: 10c0/a8cee5f17406c900e1c3ef63e3ca89b35e7a2ed645418459a73627b93b7377477fc888081011c6cd177cac45ec2b92a6cab018c14ea140519465498dddd2d3f9
   languageName: node
   linkType: hard
 
@@ -5522,9 +5574,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interchain-kit/core@npm:0.0.1-beta.8":
-  version: 0.0.1-beta.8
-  resolution: "@interchain-kit/core@npm:0.0.1-beta.8"
+"@interchain-kit/core@npm:0.0.1-beta.21":
+  version: 0.0.1-beta.21
+  resolution: "@interchain-kit/core@npm:0.0.1-beta.21"
   dependencies:
     "@chain-registry/v2": "npm:^1.65.20"
     "@chain-registry/v2-types": "npm:^0.49.6"
@@ -5532,42 +5584,46 @@ __metadata:
     "@cosmjs/cosmwasm-stargate": "npm:^0.32.4"
     "@cosmjs/proto-signing": "npm:^0.32.3"
     "@cosmjs/stargate": "npm:^0.32.4"
-    "@interchainjs/cosmos-types": "npm:^0.0.1-beta.7"
+    "@interchainjs/cosmos-types": "npm:0.0.1-beta.9"
+    "@interchainjs/injective": "npm:0.0.1-beta.13"
     "@ledgerhq/hw-app-cosmos": "npm:^6.30.0"
     "@ledgerhq/hw-transport": "npm:^6.31.0"
     "@ledgerhq/hw-transport-webhid": "npm:^6.29.0"
     "@ledgerhq/hw-transport-webusb": "npm:^6.29.0"
-    "@walletconnect/sign-client": "npm:^2.13.3"
-    "@walletconnect/types": "npm:^2.13.3"
+    "@walletconnect/sign-client": "npm:^2.16.1"
+    "@walletconnect/types": "npm:2.13.3"
     buffer: "npm:^6.0.3"
-    interchainjs: "npm:^0.0.1-beta.12"
+    interchainjs: "npm:0.0.1-beta.14"
     long: "npm:^5.2.3"
-  checksum: 10c0/429619dde43cd5aa9d27efdf59080bc185ac5c0b3c1afb976f498f25caa9213377e85e476862757cc2eb23b958d29bd90cb42db880071af01b1addbbfec6e0b5
+  checksum: 10c0/a35c64f1ff827d29075f3bff6e0b5f4dc25029b5d4031608874ac1b13d0c540d1c690e2d7f0e71dd342efea34c66c46622e81ae9e60a3d96b6726c71329431ba
   languageName: node
   linkType: hard
 
-"@interchain-kit/keplr-extension@npm:0.0.1-beta.8":
-  version: 0.0.1-beta.8
-  resolution: "@interchain-kit/keplr-extension@npm:0.0.1-beta.8"
+"@interchain-kit/keplr-extension@npm:0.0.1-beta.21":
+  version: 0.0.1-beta.21
+  resolution: "@interchain-kit/keplr-extension@npm:0.0.1-beta.21"
   dependencies:
-    "@interchain-kit/core": "npm:0.0.1-beta.8"
+    "@interchain-kit/core": "npm:0.0.1-beta.21"
     "@keplr-wallet/provider-extension": "npm:^0.12.102"
-  checksum: 10c0/9c5b848789835a3854bc109d3fcf2bef219710bfbea2050fcba6541d257e77ca225942b807a84299f23bc0b02fdbf8e08d2656f404cb2129964300c0f23aff2d
+  checksum: 10c0/12cadd0fe9529d31cbbca9005d82bbbfb5251c526e543f85d0dc4087c3984f571270312cbebe40d0e1b8ec8e68b76fc99a936053468692683fc27b70c7be58f0
   languageName: node
   linkType: hard
 
-"@interchain-kit/react@npm:0.0.1-beta.8":
-  version: 0.0.1-beta.8
-  resolution: "@interchain-kit/react@npm:0.0.1-beta.8"
+"@interchain-kit/react@npm:0.0.1-beta.21":
+  version: 0.0.1-beta.21
+  resolution: "@interchain-kit/react@npm:0.0.1-beta.21"
   dependencies:
     "@chain-registry/v2-types": "npm:^0.49.6"
-    "@interchain-kit/core": "npm:0.0.1-beta.8"
-    "@interchain-ui/react": "npm:^1.23.31"
+    "@interchain-kit/core": "npm:0.0.1-beta.21"
+    "@interchain-ui/react": "npm:1.24.0"
+    "@interchainjs/cosmos-types": "npm:0.0.1-beta.9"
+    "@interchainjs/injective": "npm:0.0.1-beta.13"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
+    interchainjs: "npm:0.0.1-beta.14"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
-  checksum: 10c0/0f05471a7595786dcc1e57e37192ddd376401718324b97deb9198398f0fa25a5b2fb21665bfe0272bf00f1d95d6faaae072ae5da882a8b6482064599bb3bf390
+  checksum: 10c0/bc32f890ac0b47d67929baa254b21ed4276e1ee89d414619d0ae7e4534ec111b8f0c2612ea712eb76afa8351b0d586c35ad51903920144e3498e097c19b41bd6
   languageName: node
   linkType: hard
 
@@ -5581,7 +5637,42 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interchain-ui/react@npm:^1.23.29, @interchain-ui/react@npm:^1.23.31":
+"@interchain-ui/react@npm:1.24.0":
+  version: 1.24.0
+  resolution: "@interchain-ui/react@npm:1.24.0"
+  dependencies:
+    "@floating-ui/core": "npm:^1.6.7"
+    "@floating-ui/dom": "npm:^1.6.10"
+    "@floating-ui/react": "npm:^0.26.23"
+    "@floating-ui/react-dom": "npm:^2.1.1"
+    "@floating-ui/utils": "npm:^0.2.7"
+    "@formkit/auto-animate": "npm:^0.8.2"
+    "@react-aria/listbox": "npm:^3.13.3"
+    "@react-aria/overlays": "npm:^3.23.2"
+    "@react-aria/utils": "npm:^3.25.2"
+    "@tanstack/react-virtual": "npm:^3.10.5"
+    "@vanilla-extract/css": "npm:^1.15.5"
+    "@vanilla-extract/dynamic": "npm:^2.1.2"
+    "@vanilla-extract/recipes": "npm:^0.5.5"
+    animejs: "npm:^3.2.2"
+    bignumber.js: "npm:^9.1.2"
+    client-only: "npm:^0.0.1"
+    clsx: "npm:^2.1.1"
+    copy-to-clipboard: "npm:^3.3.3"
+    immer: "npm:^10.1.1"
+    lodash: "npm:^4.17.21"
+    rainbow-sprinkles: "npm:^0.17.2"
+    react-aria: "npm:^3.34.3"
+    react-stately: "npm:^3.32.2"
+    zustand: "npm:^4.5.5"
+  peerDependencies:
+    react: ^16.14.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/48bbf30adce982d116b19557ad4393b8d92798741b8e11715f6386b064edc2d635892bdfbe628a77e329030f297eb0c155b80628d7506bdffe0190a0e49934b5
+  languageName: node
+  linkType: hard
+
+"@interchain-ui/react@npm:^1.23.29":
   version: 1.23.31
   resolution: "@interchain-ui/react@npm:1.23.31"
   dependencies:
@@ -5616,91 +5707,92 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interchainjs/auth@npm:^0.0.1-beta.9":
-  version: 0.0.1-beta.9
-  resolution: "@interchainjs/auth@npm:0.0.1-beta.9"
+"@interchainjs/auth@npm:^0.0.1-beta.10":
+  version: 0.0.1-beta.10
+  resolution: "@interchainjs/auth@npm:0.0.1-beta.10"
   dependencies:
-    "@interchainjs/types": "npm:^0.0.1-beta.8"
-    "@interchainjs/utils": "npm:^0.0.1-beta.8"
+    "@interchainjs/types": "npm:^0.0.1-beta.9"
+    "@interchainjs/utils": "npm:^0.0.1-beta.9"
     "@noble/curves": "npm:^1.1.0"
     "@noble/hashes": "npm:^1.3.1"
     ethers: "npm:^6.5.1"
-  checksum: 10c0/6e7ffa9e24ef533a832db5a601fbeb2c7859df99542fdde9aa21b711122c592c56c9102147b1a7227d10a9ea77b0c87076c2196dde754ae42d0579c72e082ec5
+  checksum: 10c0/3db20461137c99f134c573c21c89aa03d279b1df69fb03e70116c2a48e8ed971eda4e10921b1a04ca40e9a1f62f06f83e85cca147ef3cf96192f5d918fa475fc
   languageName: node
   linkType: hard
 
-"@interchainjs/cosmos-types@npm:^0.0.1-beta.7":
-  version: 0.0.1-beta.7
-  resolution: "@interchainjs/cosmos-types@npm:0.0.1-beta.7"
+"@interchainjs/cosmos-types@npm:0.0.1-beta.9, @interchainjs/cosmos-types@npm:^0.0.1-beta.9":
+  version: 0.0.1-beta.9
+  resolution: "@interchainjs/cosmos-types@npm:0.0.1-beta.9"
   dependencies:
-    "@interchainjs/types": "npm:^0.0.1-beta.7"
-    "@interchainjs/utils": "npm:^0.0.1-beta.7"
-  checksum: 10c0/5e0e86a543f8fe91e6a0d331762f6e773c8cbb66c47d9aa49190d3ee4ad70ac4d0c92dfe2902a0f2c2b4e84d952c67d60fd04c59340d5bd7e1f52691f3d203ed
+    "@interchainjs/types": "npm:^0.0.1-beta.9"
+    "@interchainjs/utils": "npm:^0.0.1-beta.9"
+  checksum: 10c0/9518b762531b50dfdfe5875bd3dde242d14caa3bde9e8e826eaf66fc0b26f5d76a88db8f4e68bf15029dc2f4a6e29115130fa4604c39a6853c7f0d363b1f76b2
   languageName: node
   linkType: hard
 
-"@interchainjs/cosmos-types@npm:^0.0.1-beta.8":
-  version: 0.0.1-beta.8
-  resolution: "@interchainjs/cosmos-types@npm:0.0.1-beta.8"
-  dependencies:
-    "@interchainjs/types": "npm:^0.0.1-beta.8"
-    "@interchainjs/utils": "npm:^0.0.1-beta.8"
-  checksum: 10c0/fe5178fe18e9bf05e082361a3983e02cc17ab48a9aa3b0ec0da6920e28ea6e24df49b3d4999892056133062e7ed6b7f1394a8671cde1f2462d184d5a29aab1cb
-  languageName: node
-  linkType: hard
-
-"@interchainjs/cosmos@npm:^0.0.1-beta.11":
-  version: 0.0.1-beta.11
-  resolution: "@interchainjs/cosmos@npm:0.0.1-beta.11"
+"@interchainjs/cosmos@npm:^0.0.1-beta.12":
+  version: 0.0.1-beta.12
+  resolution: "@interchainjs/cosmos@npm:0.0.1-beta.12"
   dependencies:
     "@chain-registry/v2": "npm:^1.65.6"
     "@chain-registry/v2-types": "npm:^0.49.6"
-    "@interchainjs/auth": "npm:^0.0.1-beta.9"
-    "@interchainjs/cosmos-types": "npm:^0.0.1-beta.8"
-    "@interchainjs/types": "npm:^0.0.1-beta.8"
-    "@interchainjs/utils": "npm:^0.0.1-beta.8"
+    "@interchainjs/auth": "npm:^0.0.1-beta.10"
+    "@interchainjs/cosmos-types": "npm:^0.0.1-beta.9"
+    "@interchainjs/types": "npm:^0.0.1-beta.9"
+    "@interchainjs/utils": "npm:^0.0.1-beta.9"
     "@noble/curves": "npm:^1.1.0"
     "@noble/hashes": "npm:^1.3.1"
     decimal.js: "npm:^10.4.3"
-  checksum: 10c0/f428ba9834cb511a78840f5767a4a6db21c158aa441f4b94c4ad086c4d1a1fc31849880ea986767102e8063624cde895d13d85288509491594cd35b410ba6f6b
+  checksum: 10c0/637ba01d224c4be80662ef0bda4a2a0846b0c0437a7b67e93373078d74a66691720b79329900e01dde22698f2ac3ebbe01ab45df11515cc157b474a5faa6895c
   languageName: node
   linkType: hard
 
-"@interchainjs/types@npm:^0.0.1-beta.7":
-  version: 0.0.1-beta.7
-  resolution: "@interchainjs/types@npm:0.0.1-beta.7"
+"@interchainjs/ethereum@npm:^0.0.1-beta.9":
+  version: 0.0.1-beta.9
+  resolution: "@interchainjs/ethereum@npm:0.0.1-beta.9"
+  dependencies:
+    "@ethersproject/bignumber": "npm:^5.7.0"
+    "@ethersproject/bytes": "npm:^5.7.0"
+    "@ethersproject/hash": "npm:^5.7.0"
+    "@ethersproject/transactions": "npm:^5.7.0"
+    "@interchainjs/types": "npm:^0.0.1-beta.9"
+    "@interchainjs/utils": "npm:^0.0.1-beta.9"
+    "@noble/hashes": "npm:^1.3.1"
+  checksum: 10c0/f588c864be4cd92478c89d8da5269f8852b6f048e1b008d0c8b6c127b2acac29c9a027f59b18055866f60816644bb6d3894e508a4417e3cdabdaadf73696174b
+  languageName: node
+  linkType: hard
+
+"@interchainjs/injective@npm:0.0.1-beta.13":
+  version: 0.0.1-beta.13
+  resolution: "@interchainjs/injective@npm:0.0.1-beta.13"
+  dependencies:
+    "@interchainjs/cosmos": "npm:^0.0.1-beta.12"
+    "@interchainjs/cosmos-types": "npm:^0.0.1-beta.9"
+    "@interchainjs/ethereum": "npm:^0.0.1-beta.9"
+    "@interchainjs/types": "npm:^0.0.1-beta.9"
+    "@interchainjs/utils": "npm:^0.0.1-beta.9"
+    decimal.js: "npm:^10.4.3"
+    interchainjs: "npm:^0.0.1-beta.14"
+  checksum: 10c0/3e72ca54c7aa5b819f53f01f1fca98614e83c0fd295175c4d5d7cb12a34fcef27e7f667bc43c2f08c603516f5db603df6f57fce2e56059c73ffc3ed911c03619
+  languageName: node
+  linkType: hard
+
+"@interchainjs/types@npm:^0.0.1-beta.9":
+  version: 0.0.1-beta.9
+  resolution: "@interchainjs/types@npm:0.0.1-beta.9"
   dependencies:
     decimal.js: "npm:^10.4.3"
-  checksum: 10c0/002a9e4e29851c74426acfb2c50542960db708ee1e5e8785d144b5fc6bd2fd4ab074875e852c80bc010544dbe0a8eab1d0b1d26a0779d7de67e3af93e60c3912
+  checksum: 10c0/1d2e0499eeff09ae7368bb4a9fe839458f8390aa37d003b4104a5772d049a6a0555514eac44b949466140f5fdcdec4c38a49287f0b9aa111e6e1f4c40e83dda8
   languageName: node
   linkType: hard
 
-"@interchainjs/types@npm:^0.0.1-beta.8":
-  version: 0.0.1-beta.8
-  resolution: "@interchainjs/types@npm:0.0.1-beta.8"
+"@interchainjs/utils@npm:^0.0.1-beta.9":
+  version: 0.0.1-beta.9
+  resolution: "@interchainjs/utils@npm:0.0.1-beta.9"
   dependencies:
-    decimal.js: "npm:^10.4.3"
-  checksum: 10c0/116bd83ba1792e97d665e02985405e4e1dfe991338d4bf1609f94948dee12517352c1c26e83bc8d45403a84767f690a46a9c9c118601897924eb5e6b37c051e3
-  languageName: node
-  linkType: hard
-
-"@interchainjs/utils@npm:^0.0.1-beta.7":
-  version: 0.0.1-beta.7
-  resolution: "@interchainjs/utils@npm:0.0.1-beta.7"
-  dependencies:
-    "@interchainjs/types": "npm:^0.0.1-beta.7"
+    "@interchainjs/types": "npm:^0.0.1-beta.9"
     bech32: "npm:^2.0.0"
-  checksum: 10c0/6dad74396a0e725394b62af45509831860a90131f87748fbd7f1fae9fbf2380f2bdfc91436e0d64c0d1407a5f745267ea9ddee4cf8943d7a8a262d5f492bdca8
-  languageName: node
-  linkType: hard
-
-"@interchainjs/utils@npm:^0.0.1-beta.8":
-  version: 0.0.1-beta.8
-  resolution: "@interchainjs/utils@npm:0.0.1-beta.8"
-  dependencies:
-    "@interchainjs/types": "npm:^0.0.1-beta.8"
-    bech32: "npm:^2.0.0"
-  checksum: 10c0/62916ca321388238c26d1f88b9af2fab7c39b768840a76fe43d7be8e20ae473df400c9f5fd6d22f6f322bca1c21a02e2305b94954d7dc2cd2a7992ef54884a03
+  checksum: 10c0/0438bbb9c87af951c362c7d72a43c344edac4971a709b1dc75045ccaa39db2303faff8bae35952b09a52ebc84315589039bf2a6fbc7f4c2813cd057e37c61de6
   languageName: node
   linkType: hard
 
@@ -8490,6 +8582,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/react-virtual@npm:^3.10.5":
+  version: 3.10.8
+  resolution: "@tanstack/react-virtual@npm:3.10.8"
+  dependencies:
+    "@tanstack/virtual-core": "npm:3.10.8"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/b7aec88ef48f604d3e7245b9996ba42f06e6ee2c1a45146cb96814cb3873a4c888bf86d26d10284c847a5ed97e16dc9430c380387abc1231c2e43c00f6ebadff
+  languageName: node
+  linkType: hard
+
 "@tanstack/react-virtual@npm:^3.8.3":
   version: 3.10.5
   resolution: "@tanstack/react-virtual@npm:3.10.5"
@@ -8506,6 +8610,13 @@ __metadata:
   version: 3.10.5
   resolution: "@tanstack/virtual-core@npm:3.10.5"
   checksum: 10c0/844d0a30923636b8fd454688eaf4714375d6fa252baaf5494ec5fd6786183cae6267861b54ca693284c1ab935e2cc142d8f3684e89316dfe0472c5b8c3bf71c8
+  languageName: node
+  linkType: hard
+
+"@tanstack/virtual-core@npm:3.10.8":
+  version: 3.10.8
+  resolution: "@tanstack/virtual-core@npm:3.10.8"
+  checksum: 10c0/ddb97cd03d84b343b38a2c14d85e33c788f4af622fccc0fdf997caf4e83e47e8f67b099b854c7dc4337d7662f647625ab3247cd8aa1bc9d4dda701bda83245f6
   languageName: node
   linkType: hard
 
@@ -8914,7 +9025,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vanilla-extract/css@npm:^1.15.3":
+"@vanilla-extract/css@npm:^1.15.3, @vanilla-extract/css@npm:^1.15.5":
   version: 1.15.5
   resolution: "@vanilla-extract/css@npm:1.15.5"
   dependencies:
@@ -8934,7 +9045,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vanilla-extract/dynamic@npm:^2.1.1":
+"@vanilla-extract/dynamic@npm:^2.1.1, @vanilla-extract/dynamic@npm:^2.1.2":
   version: 2.1.2
   resolution: "@vanilla-extract/dynamic@npm:2.1.2"
   dependencies:
@@ -8950,7 +9061,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vanilla-extract/recipes@npm:^0.5.3":
+"@vanilla-extract/recipes@npm:^0.5.3, @vanilla-extract/recipes@npm:^0.5.5":
   version: 0.5.5
   resolution: "@vanilla-extract/recipes@npm:0.5.5"
   peerDependencies:
@@ -8980,6 +9091,30 @@ __metadata:
     lodash.isequal: "npm:4.5.0"
     uint8arrays: "npm:3.1.0"
   checksum: 10c0/3c831303bffcc360bb7d2f6e71b9928e73039e34e582e8da3f03dbc67e7876cf3ff89491ec9bad7ae31c3c3706ea6e44d2cd1be501349e882739a5184e917797
+  languageName: node
+  linkType: hard
+
+"@walletconnect/core@npm:2.16.2":
+  version: 2.16.2
+  resolution: "@walletconnect/core@npm:2.16.2"
+  dependencies:
+    "@walletconnect/heartbeat": "npm:1.2.2"
+    "@walletconnect/jsonrpc-provider": "npm:1.0.14"
+    "@walletconnect/jsonrpc-types": "npm:1.0.4"
+    "@walletconnect/jsonrpc-utils": "npm:1.0.8"
+    "@walletconnect/jsonrpc-ws-connection": "npm:1.0.14"
+    "@walletconnect/keyvaluestorage": "npm:1.1.1"
+    "@walletconnect/logger": "npm:2.1.2"
+    "@walletconnect/relay-api": "npm:1.0.11"
+    "@walletconnect/relay-auth": "npm:1.0.4"
+    "@walletconnect/safe-json": "npm:1.0.2"
+    "@walletconnect/time": "npm:1.0.2"
+    "@walletconnect/types": "npm:2.16.2"
+    "@walletconnect/utils": "npm:2.16.2"
+    events: "npm:3.3.0"
+    lodash.isequal: "npm:4.5.0"
+    uint8arrays: "npm:3.1.0"
+  checksum: 10c0/182c42f72154224954f1c85db00342a1e84578641bb3ba00b63675fd18d16eb6395d61c4d32954f95d9906a22cf444dd85073926d3229d266d7056d35facda5b
   languageName: node
   linkType: hard
 
@@ -9136,7 +9271,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/sign-client@npm:^2.13.3, @walletconnect/sign-client@npm:^2.9.0":
+"@walletconnect/sign-client@npm:^2.16.1":
+  version: 2.16.2
+  resolution: "@walletconnect/sign-client@npm:2.16.2"
+  dependencies:
+    "@walletconnect/core": "npm:2.16.2"
+    "@walletconnect/events": "npm:1.0.1"
+    "@walletconnect/heartbeat": "npm:1.2.2"
+    "@walletconnect/jsonrpc-utils": "npm:1.0.8"
+    "@walletconnect/logger": "npm:2.1.2"
+    "@walletconnect/time": "npm:1.0.2"
+    "@walletconnect/types": "npm:2.16.2"
+    "@walletconnect/utils": "npm:2.16.2"
+    events: "npm:3.3.0"
+  checksum: 10c0/cb1d2345ec38ed2f1e69c5d329ee665b7577ae9c9ae298787b1d79ec979a1be23615f24ac7a8695ff759c9a540441b027f1b094a3c74fda48ddd1d6f11cf5e51
+  languageName: node
+  linkType: hard
+
+"@walletconnect/sign-client@npm:^2.9.0":
   version: 2.15.1
   resolution: "@walletconnect/sign-client@npm:2.15.1"
   dependencies:
@@ -9176,7 +9328,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/types@npm:2.15.1, @walletconnect/types@npm:^2.13.3":
+"@walletconnect/types@npm:2.13.3":
+  version: 2.13.3
+  resolution: "@walletconnect/types@npm:2.13.3"
+  dependencies:
+    "@walletconnect/events": "npm:1.0.1"
+    "@walletconnect/heartbeat": "npm:1.2.2"
+    "@walletconnect/jsonrpc-types": "npm:1.0.4"
+    "@walletconnect/keyvaluestorage": "npm:1.1.1"
+    "@walletconnect/logger": "npm:2.1.2"
+    events: "npm:3.3.0"
+  checksum: 10c0/b12e92e39fa2fd9dbdfbef62265c7f5e5aa1d824b6db68ea5ce4fa9ed56c9fcdf6d93fbc6ffeb57169cff4082d475899739377b91f2b13f5209c8ccb66c47d6e
+  languageName: node
+  linkType: hard
+
+"@walletconnect/types@npm:2.15.1":
   version: 2.15.1
   resolution: "@walletconnect/types@npm:2.15.1"
   dependencies:
@@ -9187,6 +9353,20 @@ __metadata:
     "@walletconnect/logger": "npm:2.1.2"
     events: "npm:3.3.0"
   checksum: 10c0/0666874a4acd9326f2554542936a88f6df50ca958440254ab605dca81d57cdaf839b05cac983ad194f4ed44734d07d564f4277156556cadac07302e8dd86aa4d
+  languageName: node
+  linkType: hard
+
+"@walletconnect/types@npm:2.16.2":
+  version: 2.16.2
+  resolution: "@walletconnect/types@npm:2.16.2"
+  dependencies:
+    "@walletconnect/events": "npm:1.0.1"
+    "@walletconnect/heartbeat": "npm:1.2.2"
+    "@walletconnect/jsonrpc-types": "npm:1.0.4"
+    "@walletconnect/keyvaluestorage": "npm:1.1.1"
+    "@walletconnect/logger": "npm:2.1.2"
+    events: "npm:3.3.0"
+  checksum: 10c0/82b9ed7d569a048fd61787fbe07d1f465e376d6e5a706ff03c28c50573fb05d4511da1fa62978a4416bf2e81b67e24043c7284609c66dc450332a19f6094722f
   languageName: node
   linkType: hard
 
@@ -9209,6 +9389,30 @@ __metadata:
     query-string: "npm:7.1.3"
     uint8arrays: "npm:3.1.0"
   checksum: 10c0/bde087f530f91502ba26c9553abd464234adb5738c7e10cfbdd275699d630a81601b5928abeeb77abe29e88238a4067a1bd1c5159f04b49178452066c82d99ae
+  languageName: node
+  linkType: hard
+
+"@walletconnect/utils@npm:2.16.2":
+  version: 2.16.2
+  resolution: "@walletconnect/utils@npm:2.16.2"
+  dependencies:
+    "@stablelib/chacha20poly1305": "npm:1.0.1"
+    "@stablelib/hkdf": "npm:1.0.1"
+    "@stablelib/random": "npm:1.0.2"
+    "@stablelib/sha256": "npm:1.0.1"
+    "@stablelib/x25519": "npm:1.0.3"
+    "@walletconnect/relay-api": "npm:1.0.11"
+    "@walletconnect/relay-auth": "npm:1.0.4"
+    "@walletconnect/safe-json": "npm:1.0.2"
+    "@walletconnect/time": "npm:1.0.2"
+    "@walletconnect/types": "npm:2.16.2"
+    "@walletconnect/window-getters": "npm:1.0.1"
+    "@walletconnect/window-metadata": "npm:1.0.1"
+    detect-browser: "npm:5.3.0"
+    elliptic: "npm:^6.5.7"
+    query-string: "npm:7.1.3"
+    uint8arrays: "npm:3.1.0"
+  checksum: 10c0/d26a5d9d99ab4cc78930929da61b2b40cd39b3e70b237a380a57dc66585751d2f09b3e69e1ca53d927122bd2b609d69a282f686860cc2f937b75d2fafad86e6b
   languageName: node
   linkType: hard
 
@@ -11075,7 +11279,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"elliptic@npm:^6.4.0, elliptic@npm:^6.5.3, elliptic@npm:^6.5.4, elliptic@npm:^6.5.5":
+"elliptic@npm:^6.4.0, elliptic@npm:^6.5.3, elliptic@npm:^6.5.4, elliptic@npm:^6.5.5, elliptic@npm:^6.5.7":
   version: 6.5.7
   resolution: "elliptic@npm:6.5.7"
   dependencies:
@@ -12792,21 +12996,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"interchainjs@npm:0.0.1-beta.12":
-  version: 0.0.1-beta.12
-  resolution: "interchainjs@npm:0.0.1-beta.12"
+"interchainjs@npm:0.0.1-beta.14":
+  version: 0.0.1-beta.14
+  resolution: "interchainjs@npm:0.0.1-beta.14"
   dependencies:
-    "@interchainjs/cosmos": "npm:^0.0.1-beta.11"
-    "@interchainjs/cosmos-types": "npm:^0.0.1-beta.8"
-    "@interchainjs/types": "npm:^0.0.1-beta.8"
-    "@interchainjs/utils": "npm:^0.0.1-beta.8"
+    "@interchainjs/cosmos": "npm:^0.0.1-beta.12"
+    "@interchainjs/cosmos-types": "npm:^0.0.1-beta.9"
+    "@interchainjs/types": "npm:^0.0.1-beta.9"
+    "@interchainjs/utils": "npm:^0.0.1-beta.9"
     "@noble/hashes": "npm:^1.3.1"
     decimal.js: "npm:^10.4.3"
-  checksum: 10c0/d2aa8969c9ebe445147546e3b4103988f4d2c3fe764dc8b313c2a0c446c3b792630e2dd643e8b866104b4e4866bcb66e85487e12c439041d62a2e597a342e0e5
+  checksum: 10c0/6ee92160ebf81978f31b506bdbbd9aa5787c945570da3b812b204104ebe005aca0316f26da8acd356cc3508355f6fc33cc2f66fbb17fc49eec4a4b7c6688bf2e
   languageName: node
   linkType: hard
 
-"interchainjs@npm:^0.0.1-beta.12":
+"interchainjs@npm:^0.0.1-beta.14":
   version: 0.0.1
   resolution: "interchainjs@npm:0.0.1"
   dependencies:
@@ -15427,7 +15631,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-aria@npm:^3.33.1":
+"react-aria@npm:^3.33.1, react-aria@npm:^3.34.3":
   version: 3.34.3
   resolution: "react-aria@npm:3.34.3"
   dependencies:
@@ -15650,7 +15854,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-stately@npm:^3.31.1":
+"react-stately@npm:^3.31.1, react-stately@npm:^3.32.2":
   version: 3.32.2
   resolution: "react-stately@npm:3.32.2"
   dependencies:
@@ -17753,7 +17957,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zustand@npm:^4.5.4":
+"zustand@npm:^4.5.4, zustand@npm:^4.5.5":
   version: 4.5.5
   resolution: "zustand@npm:4.5.5"
   dependencies:
