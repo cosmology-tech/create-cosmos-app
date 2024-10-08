@@ -131,40 +131,46 @@ export const createGitApp = (repo: string, version: string) => {
             const templateFile = files[i];
             if (fs.lstatSync(templateFile).isDirectory()) continue;
 
-            let content = fs.readFileSync(templateFile).toString();
+            const isImage = /\.(png|jpe?g|gif|svg|webp|ico)$/i.test(templateFile);
 
-            // LICENSE
-            if (
-                basename(templateFile) === 'LICENSE' &&
-                // @ts-ignore
-                license.__LICENSE__ === 'closed'
-            ) {
-                content = `Copyright (c) ${new Date().getFullYear()} __USERFULLNAME__ <__USEREMAIL__> - All Rights Reserved
+            let content;
+            if (isImage) {
+                content = fs.readFileSync(templateFile);
+            } else {
+                content = fs.readFileSync(templateFile).toString();
+
+                // LICENSE
+                if (
+                    basename(templateFile) === 'LICENSE' &&
+                    // @ts-ignore
+                    license.__LICENSE__ === 'closed'
+                ) {
+                    content = `Copyright (c) ${new Date().getFullYear()} __USERFULLNAME__ <__USEREMAIL__> - All Rights Reserved
     Unauthorized copying via any medium is strictly prohibited
     Proprietary and confidential`;
-            }
-
-            // swap out content from results!
-            Object.keys(results).forEach(key => {
-                if (/^__/.test(key)) {
-                    content = content.replace(new RegExp(key, 'g'), results[key]);
-                }
-            });
-
-            // access
-            if (hasResults) {
-                // Determine the prefix based on the conditions
-                let prefix = '';
-                if (results.__ACCESS__ === 'public') {
-                    prefix = scopedResults.scoped ? `@${results.__USERNAME__}/` : '';
-                } else {
-                    prefix = `@${results.__USERNAME__}/`;
                 }
 
-                // Replace __PACKAGE_IDENTIFIER__ with the determined prefix and module name
-                content = content.replace(/__PACKAGE_IDENTIFIER__/g, `${prefix}${results.__MODULENAME__}`);
-            }
+                // swap out content from results!
+                Object.keys(results).forEach((key) => {
+                    if (/^__/.test(key)) {
+                        content = content.replace(new RegExp(key, 'g'), results[key]);
+                    }
+                });
 
+                // access
+                if (hasResults) {
+                    // Determine the prefix based on the conditions
+                    let prefix = '';
+                    if (results.__ACCESS__ === 'public') {
+                        prefix = scopedResults.scoped ? `@${results.__USERNAME__}/` : '';
+                    } else {
+                        prefix = `@${results.__USERNAME__}/`;
+                    }
+
+                    // Replace __PACKAGE_IDENTIFIER__ with the determined prefix and module name
+                    content = content.replace(/__PACKAGE_IDENTIFIER__/g, `${prefix}${results.__MODULENAME__}`);
+                }
+            }
 
             // Construct the file path
             const relativeFilePath = templateFile.split(toPosixPath(join(folderName, template) + '/'))[1];
