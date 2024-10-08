@@ -48,7 +48,11 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
             wallets={wallets}
             signerOptions={{}}
             endpointOptions={{
-              endpoints: {}
+              endpoints: {
+                'injective-1': {
+                  rpc: ['https://sentry.tm.injective.network'],
+                }
+              }
             }}
           >
             {/* @ts-ignore */}
