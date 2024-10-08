@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.1.0 (2024-10-08)
+
+
+### Bug Fixes
+
+* commission and apr calculations ([f031d2b](https://github.com/cosmology-tech/create-cosmos-app/commit/f031d2b232dcaffe0a43f95e5174738e401baddb))
+* custom filtering stake-tokens ([1bec4cc](https://github.com/cosmology-tech/create-cosmos-app/commit/1bec4ccf9676c8c00ba6e8a8c3ff3c7e5e7a0bd7))
+* deps ([b2aa70b](https://github.com/cosmology-tech/create-cosmos-app/commit/b2aa70ba9ef34fd96954c033220ff160d2c8ece7))
+* gas price ([5f164a2](https://github.com/cosmology-tech/create-cosmos-app/commit/5f164a294a6e49b968391416f9ffea2e907e8ea5))
+* input clamp behavior ([51d14bd](https://github.com/cosmology-tech/create-cosmos-app/commit/51d14bdf86d64d9279705df86dcfd0e503706c3d))
+* old ci job yarn4 issues ([#182](https://github.com/cosmology-tech/create-cosmos-app/issues/182)) ([2bb19f7](https://github.com/cosmology-tech/create-cosmos-app/commit/2bb19f75fcc6ffaa4bcb63ecf071009d2f9d7e76))
+* **stake-tokens:** fix max buttons issue ([f94a0e3](https://github.com/cosmology-tech/create-cosmos-app/commit/f94a0e354baa0c0119a3d83a7b1cae52eb0879b8))
+* try locks update script ([000aa5f](https://github.com/cosmology-tech/create-cosmos-app/commit/000aa5fc73faa0182a23f50a6402e8b2351a587c))
+* upgrade deps and fix multi chain dropdown ([eecbcaa](https://github.com/cosmology-tech/create-cosmos-app/commit/eecbcaad5e7729f00f9121250c04eb40d201ed80))
+* upgrade interchain ui version and fix z index issue ([e3b6096](https://github.com/cosmology-tech/create-cosmos-app/commit/e3b6096c5a245e101a49e6e00de9d8d3700a7bef))
+* use new combobox in asset-list ([04fe837](https://github.com/cosmology-tech/create-cosmos-app/commit/04fe837277538d23e9760e8f34542f3378ab63f7))
+* use new combobox in stake-tokens ([d118c9e](https://github.com/cosmology-tech/create-cosmos-app/commit/d118c9e043a6f11bab63fa032eff02f4c234fb05))
+
+
+
+
+
 # [1.0.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/stake-tokens@0.3.2...@cosmology/stake-tokens@1.0.0) (2024-04-06)
 
 

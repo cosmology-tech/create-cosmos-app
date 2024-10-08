@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.1.0 (2024-10-08)
+
+
+### Bug Fixes
+
+* custom filtering connect-multi-chain ([583239b](https://github.com/cosmology-tech/create-cosmos-app/commit/583239b40b7c0b590450beb04782da969d2bb5d3))
+* custom filtering stake-tokens ([1bec4cc](https://github.com/cosmology-tech/create-cosmos-app/commit/1bec4ccf9676c8c00ba6e8a8c3ff3c7e5e7a0bd7))
+* deps ([b2aa70b](https://github.com/cosmology-tech/create-cosmos-app/commit/b2aa70ba9ef34fd96954c033220ff160d2c8ece7))
+* old ci job yarn4 issues ([#182](https://github.com/cosmology-tech/create-cosmos-app/issues/182)) ([2bb19f7](https://github.com/cosmology-tech/create-cosmos-app/commit/2bb19f75fcc6ffaa4bcb63ecf071009d2f9d7e76))
+* try locks update script ([000aa5f](https://github.com/cosmology-tech/create-cosmos-app/commit/000aa5fc73faa0182a23f50a6402e8b2351a587c))
+* ts lint error in JSX ([106d22d](https://github.com/cosmology-tech/create-cosmos-app/commit/106d22d85bd579d685052181ffde02d5410528ea))
+* upgrade deps and fix multi chain dropdown ([eecbcaa](https://github.com/cosmology-tech/create-cosmos-app/commit/eecbcaad5e7729f00f9121250c04eb40d201ed80))
+* use new combobox in asset-list ([04fe837](https://github.com/cosmology-tech/create-cosmos-app/commit/04fe837277538d23e9760e8f34542f3378ab63f7))
+* use new dropdown for connect-multi-chain and vote-proposal ([99b0fc2](https://github.com/cosmology-tech/create-cosmos-app/commit/99b0fc29ec10ee91db23d6820b87a5802f59def4))
+
+
+
+
+
 # [1.0.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/connect-multi-chain@0.16.2...@cosmology/connect-multi-chain@1.0.0) (2024-04-06)
 
 

@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.1.0 (2024-10-08)
+
+
+### Bug Fixes
+
+* contract tab width ([7c859c0](https://github.com/cosmology-tech/create-cosmos-app/commit/7c859c0a94b7d42c772b33da56442668b5b8afd7))
+* create contract popover style ([b2db706](https://github.com/cosmology-tech/create-cosmos-app/commit/b2db7060ef59d258182e0323589db85a74aea1ad))
+* **style:** decrease max width ([62a25f8](https://github.com/cosmology-tech/create-cosmos-app/commit/62a25f8a3245542ec3e69907aee790afa3b61b73))
+
+
+### Features
+
+* add contract address input field ([029d260](https://github.com/cosmology-tech/create-cosmos-app/commit/029d26056994664331d5bf69753885bf98616d2c))
+* add create new contract button ([ef87061](https://github.com/cosmology-tech/create-cosmos-app/commit/ef8706144b607e1da1fae070a6d2dc43992fc21a))
+* add dark theme styles ([56bd0cb](https://github.com/cosmology-tech/create-cosmos-app/commit/56bd0cb246cf154436a55e8c79cdb52b8ab3908b))
+* add execute contract UI ([d158fa4](https://github.com/cosmology-tech/create-cosmos-app/commit/d158fa496d63a34125a5719ab1c1e5a502496d26))
+* add instantiate contract UI ([3be345b](https://github.com/cosmology-tech/create-cosmos-app/commit/3be345b2704949a616757efa37e3438ac0f2d54c))
+* add mobile styles ([40df1d9](https://github.com/cosmology-tech/create-cosmos-app/commit/40df1d961bc394ca614a727c716ec911a4c4d9f7))
+* add My Contracts, Query and Execute tabs ([c904729](https://github.com/cosmology-tech/create-cosmos-app/commit/c904729b681fc896046ec9767cdf19f49fcf6b67))
+* add query contract UI ([a543199](https://github.com/cosmology-tech/create-cosmos-app/commit/a5431990bb62f2a0ec0ff192526820e6d91e086d))
+* add Stepper component ([f86cf5f](https://github.com/cosmology-tech/create-cosmos-app/commit/f86cf5f4837a68a47a54ea1ea7a4ac4aa6bac7f5))
+* add tab and contract address to URL params ([c6f0af8](https://github.com/cosmology-tech/create-cosmos-app/commit/c6f0af88b1086d464112fb7725442425c4386ff8))
+* add upload contract UI ([43867de](https://github.com/cosmology-tech/create-cosmos-app/commit/43867deebcf8aa6ba60bd5400de75299f9b864b0))
+* autofill admin address ([8088abc](https://github.com/cosmology-tech/create-cosmos-app/commit/8088abc93cbfd794cf7eb38ddb1cc8c156b10f72))
+* create contract from code ID ([0d02e31](https://github.com/cosmology-tech/create-cosmos-app/commit/0d02e31a46c50c2572d4de53401abd05db1f6555))
+* initial commit for new chain-template ([e420c63](https://github.com/cosmology-tech/create-cosmos-app/commit/e420c639cd8fba249e70e44b151cde750aec7e75))
+* search my contracts ([336edd3](https://github.com/cosmology-tech/create-cosmos-app/commit/336edd30cf791c6538fbc2de26aacbe201471ba2))
+* switch tabs after instantiate ([1964562](https://github.com/cosmology-tech/create-cosmos-app/commit/196456255052728d3f3c39a4f2ba409146fb57bb))
+* upload to instantiate contract flow ([4f2c118](https://github.com/cosmology-tech/create-cosmos-app/commit/4f2c1186605c1ed9a239abfccdc75e2de39b2346))
+
+
+
+
+
 # [1.0.0](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/connect-multi-chain@0.16.2...@cosmology/connect-multi-chain@1.0.0) (2024-04-06)
 
 

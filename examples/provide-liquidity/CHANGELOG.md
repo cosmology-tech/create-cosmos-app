@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.1.0 (2024-10-08)
+
+
+### Bug Fixes
+
+* button and icon styles ([f69e475](https://github.com/cosmology-tech/create-cosmos-app/commit/f69e475fef19d592f814f32937ec0fd7decafb2d))
+* custom filtering stake-tokens ([1bec4cc](https://github.com/cosmology-tech/create-cosmos-app/commit/1bec4ccf9676c8c00ba6e8a8c3ff3c7e5e7a0bd7))
+* deps ([b2aa70b](https://github.com/cosmology-tech/create-cosmos-app/commit/b2aa70ba9ef34fd96954c033220ff160d2c8ece7))
+* improve error displaying ([23892c3](https://github.com/cosmology-tech/create-cosmos-app/commit/23892c3caac8a0d9ca10f0e4cb548cea775c9fe4))
+* **provide-liquidity:** multiple issues ([2a945c1](https://github.com/cosmology-tech/create-cosmos-app/commit/2a945c142670fd9708a6333e40ecac038437ebd5))
+* try locks update script ([000aa5f](https://github.com/cosmology-tech/create-cosmos-app/commit/000aa5fc73faa0182a23f50a6402e8b2351a587c))
+* upgrade deps and fix multi chain dropdown ([eecbcaa](https://github.com/cosmology-tech/create-cosmos-app/commit/eecbcaad5e7729f00f9121250c04eb40d201ed80))
+* use new combobox in asset-list ([04fe837](https://github.com/cosmology-tech/create-cosmos-app/commit/04fe837277538d23e9760e8f34542f3378ab63f7))
+
+
+
+
+
 ## [1.0.1](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/provide-liquidity@1.0.0...@cosmology/provide-liquidity@1.0.1) (2024-04-06)
 
 **Note:** Version bump only for package @cosmology/provide-liquidity

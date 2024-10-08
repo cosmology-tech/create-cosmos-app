@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@0.0.6...create-cosmos-app@2.4.0) (2024-10-08)
+
+
+### Bug Fixes
+
+* correctly handle images ([f14a9ba](https://github.com/cosmology-tech/create-cosmos-app/commit/f14a9bafa264cf8085f5f5b0701a42c789a2c945))
+
+
+
+
+
 ## [2.3.3](https://github.com/cosmology-tech/create-cosmos-app/compare/create-cosmos-app@2.3.2...create-cosmos-app@2.3.3) (2024-04-19)
 
 **Note:** Version bump only for package create-cosmos-app

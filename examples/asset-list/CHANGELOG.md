@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.1.0 (2024-10-08)
+
+
+### Bug Fixes
+
+* add back lockfile ([cfe77a4](https://github.com/cosmology-tech/create-cosmos-app/commit/cfe77a49fdf82954a90251275c8c54d12e5849b8))
+* add missing deps ([1b36caf](https://github.com/cosmology-tech/create-cosmos-app/commit/1b36caf31c2a979c91ca71d631e0fa2bcf6b2bc5))
+* **asset-list:** show withdraw btn regardless of balance ([ae89a9f](https://github.com/cosmology-tech/create-cosmos-app/commit/ae89a9ff28a4e181a44a068855f52b488d199901))
+* custom filtering combobox ([04fd1a9](https://github.com/cosmology-tech/create-cosmos-app/commit/04fd1a9f46a7c21b237aacf071504cc3eb0caad6))
+* custom filtering stake-tokens ([1bec4cc](https://github.com/cosmology-tech/create-cosmos-app/commit/1bec4ccf9676c8c00ba6e8a8c3ff3c7e5e7a0bd7))
+* deps ([b2aa70b](https://github.com/cosmology-tech/create-cosmos-app/commit/b2aa70ba9ef34fd96954c033220ff160d2c8ece7))
+* old ci job yarn4 issues ([#182](https://github.com/cosmology-tech/create-cosmos-app/issues/182)) ([2bb19f7](https://github.com/cosmology-tech/create-cosmos-app/commit/2bb19f75fcc6ffaa4bcb63ecf071009d2f9d7e76))
+* pool data error ([13b9cbd](https://github.com/cosmology-tech/create-cosmos-app/commit/13b9cbd57e2fece5cf31c10040b232fe392e3489))
+* try locks update script ([000aa5f](https://github.com/cosmology-tech/create-cosmos-app/commit/000aa5fc73faa0182a23f50a6402e8b2351a587c))
+* upgrade deps and fix multi chain dropdown ([eecbcaa](https://github.com/cosmology-tech/create-cosmos-app/commit/eecbcaad5e7729f00f9121250c04eb40d201ed80))
+* upgrade interchain ui version and fix z index issue ([e3b6096](https://github.com/cosmology-tech/create-cosmos-app/commit/e3b6096c5a245e101a49e6e00de9d8d3700a7bef))
+* use new combobox in asset-list ([04fe837](https://github.com/cosmology-tech/create-cosmos-app/commit/04fe837277538d23e9760e8f34542f3378ab63f7))
+* use new combobox in stake-tokens ([d118c9e](https://github.com/cosmology-tech/create-cosmos-app/commit/d118c9e043a6f11bab63fa032eff02f4c234fb05))
+
+
+### Features
+
+* add dark mode ([d40b372](https://github.com/cosmology-tech/create-cosmos-app/commit/d40b3723ce1d41fb0ab1c85f90a5bae88c5158e7))
+* add multi-chain page ([300ad15](https://github.com/cosmology-tech/create-cosmos-app/commit/300ad15f52db23a7baf6b94c3f906fae59dbe3d7))
+* assets list deposit and withdraw ([07cd231](https://github.com/cosmology-tech/create-cosmos-app/commit/07cd231d647b5cc6117e6cd80ad43aa017206290))
+* display total on osmosis ([f0275eb](https://github.com/cosmology-tech/create-cosmos-app/commit/f0275eba4657e3c2f11eaa41bb6eca92679a1aee))
+* dropdown deposit and withdraw ([ddc155c](https://github.com/cosmology-tech/create-cosmos-app/commit/ddc155c5a757f9fa45d7c639e35741dd34a25363))
+* finish the style ([114052c](https://github.com/cosmology-tech/create-cosmos-app/commit/114052cf7457a560dc908248b0c5d6b712f25f33))
+* new asset-list example with interchain ui ([de30ead](https://github.com/cosmology-tech/create-cosmos-app/commit/de30ead101a4fe3ebf8dbc7d8118a23accfbc82a))
+
+
+
+
+
 ## [1.0.1](https://github.com/cosmology-tech/create-cosmos-app/compare/@cosmology/asset-list@1.0.0...@cosmology/asset-list@1.0.1) (2024-04-06)
 
 **Note:** Version bump only for package @cosmology/asset-list

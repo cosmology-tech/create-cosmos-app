@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.1.0 (2024-10-08)
+
+
+### Bug Fixes
+
+* deps ([b2aa70b](https://github.com/cosmology-tech/create-cosmos-app/commit/b2aa70ba9ef34fd96954c033220ff160d2c8ece7))
+* try locks update script ([000aa5f](https://github.com/cosmology-tech/create-cosmos-app/commit/000aa5fc73faa0182a23f50a6402e8b2351a587c))
+* upgrade deps and fix multi chain dropdown ([eecbcaa](https://github.com/cosmology-tech/create-cosmos-app/commit/eecbcaad5e7729f00f9121250c04eb40d201ed80))
+
+
+
+
+
 # 1.0.0 (2024-04-06)
 
 **Note:** Version bump only for package @cosmology/rollkit
