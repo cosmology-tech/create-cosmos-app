@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useChain } from '@cosmos-kit/react';
 import { ChainName } from 'cosmos-kit';
 import { Box, Spinner, Text } from '@interchain-ui/react';
@@ -13,12 +12,8 @@ export const StakingSection = ({ chainName }: { chainName: ChainName }) => {
   const { data, isLoading, refetch } = useStakingData(chainName);
   const { data: logos, isLoading: isFetchingLogos } = useValidatorLogos(
     chainName,
-    data?.allValidators || [],
+    data?.allValidators || []
   );
-
-  useEffect(() => {
-    refetch();
-  }, []);
 
   return (
     <Box my="$16" maxWidth="$containerMd" mx="auto">

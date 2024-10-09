@@ -22,7 +22,10 @@ export const toNumber = (val: string, decimals: number = 6) => {
 
 export const sum = (...args: string[]) => {
   return args
-    .reduce((prev, cur) => prev.plus(cur), new BigNumber(0))
+    .reduce(
+      (prev, cur) => prev.plus(new BigNumber(cur).isNaN() ? 0 : cur),
+      new BigNumber(0)
+    )
     .toString();
 };
 
@@ -37,10 +40,7 @@ export const calcDollarValue = (
     .toNumber();
 };
 
-export const toBaseAmount = (
-  num: string | number,
-  places: number
-) => {
+export const toBaseAmount = (num: string | number, places: number) => {
   return new BigNumber(num)
     .shiftedBy(places)
     .integerValue(BigNumber.ROUND_DOWN)
