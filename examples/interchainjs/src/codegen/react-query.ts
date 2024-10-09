@@ -6,10 +6,12 @@
 
 import { getRpcClient } from './extern'
 import {
-  ITxArgs,
   Rpc,
-  ISigningClient
 } from './helpers'
+import {
+  ITxArgs,
+  ISigningClient
+} from './helper-func-types'
 import {
     useQuery,
     useQueryClient,

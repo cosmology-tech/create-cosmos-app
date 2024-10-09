@@ -1,4 +1,4 @@
-import { buildTx, ISigningClient } from "../../../helpers";
+import { buildTx, ISigningClient } from "../../../helper-func-types";
 import { MsgSend, MsgMultiSend } from "./tx";
 import { toConverters, toEncoders } from "@interchainjs/cosmos/utils";
 import { buildUseMutation } from "../../../react-query";
