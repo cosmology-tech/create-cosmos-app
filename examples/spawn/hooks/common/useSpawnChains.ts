@@ -13,13 +13,12 @@ export const useSpawnChains = () => {
           fetcher<AssetList>(SPAWN_ASSETS_URL),
         ]);
 
-        return {
-          chains: spawnChain ? [spawnChain] : [],
-          assets: spawnAssets ? [spawnAssets] : [],
-        };
+        return spawnChain && spawnAssets
+          ? { chains: [spawnChain], assets: [spawnAssets] }
+          : null;
       } catch (error) {
         console.error(error);
-        return undefined;
+        return null;
       }
     },
     staleTime: Infinity,

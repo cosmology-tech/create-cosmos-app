@@ -13,21 +13,23 @@ export const ChainDropdown = () => {
   const { chain } = useChain(selectedChain);
   const [input, setInput] = useState<string>(chain.pretty_name);
   const { isMobile } = useDetectBreakpoints();
-  const { data: spawnChains, refetch } = useSpawnChains();
+  const { data: spawnData, refetch, isLoading } = useSpawnChains();
 
   const [isChainsAdded, setIsChainsAdded] = useState(false);
   const { addChains, getChainLogo } = useManager();
 
   useEffect(() => {
-    if (
-      spawnChains?.chains?.length &&
-      spawnChains?.assets?.length &&
-      !isChainsAdded
-    ) {
-      addChains(spawnChains.chains, spawnChains.assets, getSignerOptions());
+    if (spawnData && !isChainsAdded) {
+      addChains(spawnData.chains, spawnData.assets, getSignerOptions());
       setIsChainsAdded(true);
     }
-  }, [spawnChains, isChainsAdded]);
+  }, [spawnData, isChainsAdded]);
+
+  useEffect(() => {
+    if (spawnData && !isLoading) {
+      chainStore.setSelectedChain(spawnData.chains[0].chain_name);
+    }
+  }, [isLoading]);
 
   const onOpenChange = (isOpen: boolean) => {
     if (isOpen && !isChainsAdded) {
@@ -36,8 +38,12 @@ export const ChainDropdown = () => {
   };
 
   const chains = isChainsAdded
-    ? chainOptions.concat(spawnChains?.chains ?? [])
+    ? chainOptions.concat(spawnData?.chains ?? [])
     : chainOptions;
+
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <Combobox
