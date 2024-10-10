@@ -14,6 +14,7 @@ import { InstantiateResult } from '@cosmjs/cosmwasm-stargate';
 import { CodeIdField } from './CodeIdField';
 import {
   CodeInfo,
+  formatTxFee,
   resolvePermission,
   shortenAddress,
   validateChainAddress,
@@ -28,7 +29,7 @@ import {
   useInstantiateTx,
   useMyContracts,
 } from '@/hooks';
-import { TxInfoItem, TxSuccessCard } from './TxSuccessCard';
+import { TxInfoItem, TxSuccessDisplay } from './TxSuccessDisplay';
 import { TabLabel } from '@/pages/contract';
 import styles from '@/styles/comp.module.css';
 
@@ -61,7 +62,7 @@ export const InstantiateContract = ({
   const [txResult, setTxResult] = useState<InstantiateResult>();
 
   const { selectedChain } = useChainStore();
-  const { address, chain } = useChain(selectedChain);
+  const { address, chain, assets } = useChain(selectedChain);
   const { instantiateTx } = useInstantiateTx(selectedChain);
   const { refetch: updateMyContracts } = useMyContracts();
 
@@ -117,47 +118,58 @@ export const InstantiateContract = ({
   const { isMobile } = useDetectBreakpoints();
 
   if (txResult) {
+    const txFee =
+      txResult.events.find((e) => e.type === 'tx')?.attributes[0].value ?? '';
+
     const infoItems: TxInfoItem[] = [
       {
         label: 'Tx Hash',
-        displayValue: shortenAddress(txResult.transactionHash),
-        actualValue: txResult.transactionHash,
+        value: shortenAddress(txResult.transactionHash),
+        copyValue: txResult.transactionHash,
+        showCopy: true,
       },
       {
         label: 'Contract Address',
-        displayValue: shortenAddress(txResult.contractAddress),
-        actualValue: txResult.contractAddress,
+        value: shortenAddress(txResult.contractAddress),
+        copyValue: txResult.contractAddress,
+        showCopy: true,
+      },
+      {
+        label: 'Tx Fee',
+        value: formatTxFee(txFee, assets!),
       },
     ];
 
     return (
-      <TxSuccessCard
+      <TxSuccessDisplay
         show={show}
-        title="Contract Instantiated"
-        description={`"${label}" has been successfully created.`}
         infoItems={infoItems}
+        txResult={txResult}
         footer={
-          <Box width="$full" display="flex" flexDirection="column" gap="10px">
-            <Box display="flex" gap="10px">
-              <Button
-                width="$full"
-                variant="primary"
-                onClick={() => {
-                  switchTab?.(txResult.contractAddress, TabLabel.Query);
-                }}
-              >
-                Query
-              </Button>
-              <Button
-                width="$full"
-                variant="primary"
-                onClick={() => {
-                  switchTab?.(txResult.contractAddress, TabLabel.Execute);
-                }}
-              >
-                Execute
-              </Button>
-            </Box>
+          <Box
+            width="$full"
+            display="grid"
+            gridTemplateColumns="repeat(2, 1fr)"
+            gap="10px"
+          >
+            <Button
+              width="$full"
+              variant="primary"
+              onClick={() => {
+                switchTab?.(txResult.contractAddress, TabLabel.Query);
+              }}
+            >
+              Query
+            </Button>
+            <Button
+              width="$full"
+              variant="primary"
+              onClick={() => {
+                switchTab?.(txResult.contractAddress, TabLabel.Execute);
+              }}
+            >
+              Execute
+            </Button>
             <Button
               width="$full"
               onClick={() => {

@@ -65,6 +65,7 @@ export const useStakingData = (chainName: string) => {
     options: {
       enabled: isDataQueryEnabled,
       select: ({ balance }) => shiftDigits(balance?.amount || '0', -exp),
+      refetchOnMount: 'always',
     },
   });
 

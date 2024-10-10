@@ -818,6 +818,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmology/lcd@npm:^0.12.0":
+  version: 0.12.0
+  resolution: "@cosmology/lcd@npm:0.12.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.21.0"
+    axios: "npm:0.27.2"
+  checksum: 10c0/28fbc26cd4c7cf693ae5be7aab637d1f5420f407dbc7a588d67bf5e5bb5e8f0b58e1c428993ca54dbe1dbac8c9dbd9d2713dffad76dfbc727d7bb77b5fb9b041
+  languageName: node
+  linkType: hard
+
 "@cosmology/spawn@workspace:.":
   version: 0.0.0-use.local
   resolution: "@cosmology/spawn@workspace:."
@@ -860,16 +870,6 @@ __metadata:
     zustand: "npm:4.5.2"
   languageName: unknown
   linkType: soft
-
-"@cosmology/lcd@npm:^0.12.0":
-  version: 0.12.0
-  resolution: "@cosmology/lcd@npm:0.12.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    axios: "npm:0.27.2"
-  checksum: 10c0/28fbc26cd4c7cf693ae5be7aab637d1f5420f407dbc7a588d67bf5e5bb5e8f0b58e1c428993ca54dbe1dbac8c9dbd9d2713dffad76dfbc727d7bb77b5fb9b041
-  languageName: node
-  linkType: hard
 
 "@cosmos-kit/cdcwallet-extension@npm:^2.13.2":
   version: 2.13.2

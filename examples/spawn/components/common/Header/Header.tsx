@@ -5,7 +5,7 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 
 import { ChainDropdown } from './ChainDropdown';
 import { Button } from '../Button';
-import { useDetectBreakpoints } from '@/hooks';
+import { useDetectBreakpoints, useSpawnChains } from '@/hooks';
 import { AddressButton } from './AddressButton';
 
 interface HeaderProps {
@@ -15,6 +15,7 @@ interface HeaderProps {
 export const Header = ({ onOpenSidebar }: HeaderProps) => {
   const { theme, setTheme } = useTheme();
   const { isDesktop, isMobile } = useDetectBreakpoints();
+  const { isLoading } = useSpawnChains();
 
   const brandLogo = useColorModeValue(
     '/logos/brand-logo.svg',
@@ -45,7 +46,7 @@ export const Header = ({ onOpenSidebar }: HeaderProps) => {
         </Link>
       )}
       <Box display="flex" alignItems="center" gap="10px">
-        <AddressButton />
+        {!isLoading && <AddressButton />}
         <ChainDropdown />
         <Button
           leftIcon={theme === 'dark' ? 'moonLine' : 'sunLine'}

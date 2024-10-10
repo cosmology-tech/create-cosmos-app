@@ -15,13 +15,10 @@ export default function Faucet() {
   const { selectedChain } = useChainStore();
   const { address, chain } = useChain(selectedChain);
   const { toast } = useToast();
-  const { data: spawnChains } = useSpawnChains();
+  const { data: spawnData } = useSpawnChains();
 
   const checkIsChainSupported = () => {
-    const isSpawnRunning =
-      spawnChains?.chains?.length && spawnChains?.assets?.length;
-
-    if (!isSpawnRunning) {
+    if (!spawnData) {
       toast({
         type: 'error',
         title: 'Spawn is not running',
@@ -30,8 +27,8 @@ export default function Faucet() {
       return false;
     }
 
-    const isSpawnChain = spawnChains?.chains?.some(
-      (c) => c.chain_id === chain.chain_id,
+    const isSpawnChain = spawnData?.chains?.some(
+      (c) => c.chain_id === chain.chain_id
     );
 
     if (!isSpawnChain) {

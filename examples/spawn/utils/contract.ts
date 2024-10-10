@@ -1,14 +1,15 @@
-import { Asset, Chain } from '@chain-registry/types';
+import { AssetList, Chain } from '@chain-registry/types';
 import { toBech32, fromBech32 } from '@cosmjs/encoding';
 import { DeliverTxResponse } from '@cosmjs/cosmwasm-stargate';
-import { logs } from '@cosmjs/stargate';
+import { Coin, logs, parseCoins } from '@cosmjs/stargate';
 import { CodeInfoResponse } from 'interchain-query/cosmwasm/wasm/v1/query';
 import { AccessType } from 'interchain-query/cosmwasm/wasm/v1/types';
 import BigNumber from 'bignumber.js';
+import { getExponentFromAsset } from './common';
 
 export const validateContractAddress = (
   address: string,
-  bech32Prefix: string,
+  bech32Prefix: string
 ) => {
   if (!bech32Prefix)
     return 'Cannot retrieve bech32 prefix of the current network.';
@@ -65,7 +66,7 @@ export const bytesToKb = (bytes: number) => {
 export const findAttr = (
   events: logs.Log['events'],
   eventType: string,
-  attrKey: string,
+  attrKey: string
 ) => {
   const mimicLog: logs.Log = {
     msg_index: 0,
@@ -88,7 +89,7 @@ export type PrettyTxResult = {
 };
 
 export const prettyStoreCodeTxResult = (
-  txResponse: DeliverTxResponse,
+  txResponse: DeliverTxResponse
 ): PrettyTxResult => {
   const events = txResponse.events;
   const codeId = findAttr(events, 'store_code', 'code_id') ?? '0';
@@ -105,6 +106,29 @@ export const prettyStoreCodeTxResult = (
   };
 };
 
+export const formatTxFee = (txFee: string, assets: AssetList) => {
+  let coins: Coin[] = [];
+
+  try {
+    coins = parseCoins(txFee);
+  } catch (e) {
+    console.error(e);
+  }
+
+  if (coins.length === 0) return '--';
+
+  const denom = coins[0].denom;
+  const amount = coins[0].amount;
+  const asset = assets.assets.find((asset) => asset.base === denom);
+  if (!asset) return '--';
+
+  const exponent = getExponentFromAsset(asset);
+  if (!exponent) return '--';
+
+  const displayAmount = BigNumber(amount).shiftedBy(-exponent).toFixed();
+  return `${displayAmount} ${asset.symbol}`;
+};
+
 export const splitCamelCase = (text: string): string => {
   return text.replace(/([A-Z])/g, ' $1').trim();
 };
@@ -112,7 +136,7 @@ export const splitCamelCase = (text: string): string => {
 export const resolvePermission = (
   address: string,
   permission: AccessType,
-  permissionAddresses: string[] = [],
+  permissionAddresses: string[] = []
 ): boolean =>
   permission === AccessType.ACCESS_TYPE_EVERYBODY ||
   (address ? permissionAddresses.includes(address) : false);
