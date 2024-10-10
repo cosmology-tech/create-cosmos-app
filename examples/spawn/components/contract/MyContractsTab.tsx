@@ -13,7 +13,7 @@ const ContentViews = {
   CREATE_FROM_CODE_ID: 'create_from_code_id',
 } as const;
 
-type ContentView = (typeof ContentViews)[keyof typeof ContentViews];
+type ContentView = typeof ContentViews[keyof typeof ContentViews];
 
 const contractCreationOptions = [
   { label: 'From Upload', value: ContentViews.CREATE_FROM_UPLOAD },
@@ -27,11 +27,11 @@ type MyContractsTabProps = {
 
 export const MyContractsTab = ({ show, switchTab }: MyContractsTabProps) => {
   const [contentView, setContentView] = useState<ContentView>(
-    ContentViews.MY_CONTRACTS,
+    ContentViews.MY_CONTRACTS
   );
 
   return (
-    <Box display={show ? 'block' : 'none'} maxWidth="980px" mx="auto">
+    <Box display={show ? 'block' : 'none'} mx="auto">
       <MyContractsTable
         title="My Contracts"
         show={contentView === ContentViews.MY_CONTRACTS}
