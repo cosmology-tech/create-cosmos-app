@@ -72,9 +72,9 @@ const Overview = ({
             ''
           }
           symbol={coin.symbol}
-          totalAmount={Number(totalAmount) || 0}
+          totalAmount={Number(totalAmount || 0)}
           totalPrice={calcDollarValue(coin.base, totalAmount, prices)}
-          available={Number(balance) || 0}
+          available={Number(balance || 0)}
           availablePrice={calcDollarValue(coin.base, balance, prices)}
         />
       </Box>
@@ -82,11 +82,11 @@ const Overview = ({
       <Box mb={{ mobile: '$12', tablet: '$14' }}>
         <StakingClaimHeader
           symbol={coin.symbol}
-          rewardsAmount={Number(rewards.total) || 0}
-          stakedAmount={Number(staked) || 0}
+          rewardsAmount={Number(rewards?.total || 0)}
+          stakedAmount={Number(staked || 0)}
           onClaim={onClaimRewardClick}
           isLoading={isClaiming}
-          isDisabled={!isGreaterThanZero(rewards.total)}
+          isDisabled={!isGreaterThanZero(rewards?.total || 0)}
         />
       </Box>
     </>

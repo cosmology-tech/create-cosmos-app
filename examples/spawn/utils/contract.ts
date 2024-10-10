@@ -1,4 +1,4 @@
-import { Asset, AssetList, Chain } from '@chain-registry/types';
+import { AssetList, Chain } from '@chain-registry/types';
 import { toBech32, fromBech32 } from '@cosmjs/encoding';
 import { DeliverTxResponse } from '@cosmjs/cosmwasm-stargate';
 import { Coin, logs, parseCoins } from '@cosmjs/stargate';
