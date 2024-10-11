@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { Box, Text } from '@interchain-ui/react';
-import { useChain } from '@cosmos-kit/react';
 import { Coin } from '@cosmjs/amino';
 
 import { ContractAddressField } from './ContractAddressField';
@@ -9,7 +8,11 @@ import { JsonInput } from './JsonInput';
 import { AttachFundsRadio } from './AttachFundsRadio';
 import { Button } from '../common';
 import { useChainStore } from '@/contexts';
-import { useDetectBreakpoints, useExecuteContractTx } from '@/hooks';
+import {
+  useConnectChain,
+  useDetectBreakpoints,
+  useExecuteContractTx,
+} from '@/hooks';
 import { validateJson } from '@/utils';
 
 const INPUT_LINES = 12;
@@ -32,7 +35,7 @@ export const ExecuteTab = ({
   const [isAssetListJsonValid, setIsAssetListJsonValid] = useState(true);
 
   const { selectedChain } = useChainStore();
-  const { address, connect } = useChain(selectedChain);
+  const { address, connect } = useConnectChain(selectedChain);
   const { executeTx } = useExecuteContractTx(selectedChain);
 
   const handleExecuteMsg = () => {
