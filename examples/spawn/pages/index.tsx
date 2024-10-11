@@ -1,15 +1,15 @@
 import Image from 'next/image';
 import { Box, Text, useColorModeValue } from '@interchain-ui/react';
-import { useChain } from '@cosmos-kit/react';
 
 import { Button } from '@/components';
 import { useChainStore } from '@/contexts';
-import { useDetectBreakpoints } from '@/hooks';
+import { useConnectChain, useDetectBreakpoints } from '@/hooks';
 
 export default function Home() {
   const { isMobile } = useDetectBreakpoints();
   const { selectedChain } = useChainStore();
-  const { connect, isWalletConnected, openView } = useChain(selectedChain);
+  const { connect, isWalletConnected, openView } =
+    useConnectChain(selectedChain);
 
   const chainsImageSrc = useColorModeValue(
     '/images/chains.png',
