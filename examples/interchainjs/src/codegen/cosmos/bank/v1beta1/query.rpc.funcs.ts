@@ -5,9 +5,7 @@ import { QueryBalanceRequest, QueryBalanceResponse, QueryAllBalancesRequest, Que
 
 // generated helper functions
 
-export type UseBalanceQuery = UseQueryParams<QueryBalanceRequest, QueryBalanceResponse>;
-export type UseAllBalancesQuery = UseQueryParams<QueryAllBalancesRequest, QueryAllBalancesResponse>;
-
+// creators
 export const createGetBalance = (getRpcInstance: () => Rpc | undefined) => buildQuery<QueryBalanceRequest, QueryBalanceResponse>({
   reqEncoderFn: QueryBalanceRequest.encode,
   resDecoderFn: QueryBalanceResponse.decode,
@@ -24,6 +22,7 @@ export const createGetAllBalances = (getRpcInstance: () => Rpc | undefined) => b
   getRpcInstance
 });
 
+// hooks
 export const useBalance = buildUseQuery<QueryBalanceRequest, QueryBalanceResponse>({
   builderQueryFn: createGetBalance,
   queryKeyPrefix: 'balanceQuery'

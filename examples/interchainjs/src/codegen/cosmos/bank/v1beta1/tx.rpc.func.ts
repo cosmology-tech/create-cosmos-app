@@ -5,6 +5,7 @@ import { buildUseMutation } from "../../../react-query";
 
 // generated helper functions
 
+// creators
 export const createSend = (getSigningClient: () => ISigningClient | undefined) => buildTx<MsgSend>({
   getSigningClient,
   typeUrl: MsgSend.typeUrl,
@@ -19,6 +20,7 @@ export const createMultiSend = (getSigningClient: () => ISigningClient | undefin
   converters: toConverters(MsgMultiSend),
 });
 
+// hooks
 export const useSend = buildUseMutation<MsgSend, Error>({
   builderMutationFn: createSend,
 });

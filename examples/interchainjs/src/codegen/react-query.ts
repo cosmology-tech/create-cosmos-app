@@ -10,7 +10,9 @@ import {
 } from './helpers'
 import {
   ITxArgs,
-  ISigningClient
+  ISigningClient,
+  StdFee,
+  DeliverTxResponse
 } from './helper-func-types'
 import {
     useQuery,
@@ -21,8 +23,6 @@ import {
     UseMutationOptions,
     QueryKey,
 } from '@tanstack/react-query';
-
-import { StdFee, DeliverTxResponse } from '@interchainjs/cosmos-types/types';
 
 import { HttpEndpoint, ProtobufRpcClient } from '@cosmjs/stargate';
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
