@@ -12,7 +12,6 @@ import {
   useColorModeValue,
 } from '@interchain-ui/react';
 import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
-import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import {
   prettyPool,
   osmosisAssets,

@@ -11,7 +11,6 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@interchain-ui/react';
-import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { Pool as OsmosisPool } from '../../../src/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
 import BigNumber from 'bignumber.js';
