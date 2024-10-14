@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Box, Stack, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Stack, Text, useColorModeValue } from '@interchain-ui/react';
 import { WalletStatus } from 'cosmos-kit';
 
 export const WarnBlock = ({

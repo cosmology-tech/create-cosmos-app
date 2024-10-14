@@ -8,7 +8,7 @@ import {
   Stack,
   useColorModeValue,
   Text,
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 import { MouseEventHandler } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import {

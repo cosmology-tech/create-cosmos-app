@@ -7,7 +7,7 @@ import {
   useMediaQuery,
   Box,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 import { useChain, useManager } from '@cosmos-kit/react';
 import { EpochInfo } from 'osmojs/types/codegen/osmosis/epochs/genesis';
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';

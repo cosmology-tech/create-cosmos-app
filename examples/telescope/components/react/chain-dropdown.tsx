@@ -11,7 +11,7 @@ import {
   SystemStyleObject,
   SkeletonCircle,
   Skeleton
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 import { Searcher } from 'fast-fuzzy';
 import { FiChevronDown } from 'react-icons/fi';
 import {

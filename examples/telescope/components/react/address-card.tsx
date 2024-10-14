@@ -6,7 +6,7 @@ import {
   useClipboard,
   useColorMode,
   Image
-} from "@chakra-ui/react";
+} from "@interchain-ui/react";
 import { WalletStatus } from 'cosmos-kit';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FiCopy } from 'react-icons/fi';

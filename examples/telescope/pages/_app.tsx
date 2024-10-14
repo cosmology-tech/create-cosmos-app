@@ -1,8 +1,9 @@
 import '../styles/globals.css';
 import '@interchain-ui/react/styles';
+import '@interchain-ui/react/globalStyles';
 
 import type { AppProps } from 'next/app';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ThemeProvider } from '@interchain-ui/react';
 
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -12,8 +13,6 @@ import { ChainProvider } from '@cosmos-kit/react';
 import { chains, assets } from 'chain-registry';
 import { getSigningCosmosClientOptions } from '../src/codegen';
 import { GasPrice } from '@cosmjs/stargate';
-
-import { defaultTheme } from '../config';
 
 const queryClient = new QueryClient();
 
@@ -41,7 +40,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ChakraProvider theme={defaultTheme}>
+    <ThemeProvider>
+      {/* @ts-ignore */}
       <QueryClientProvider client={queryClient}>
         <ChainProvider
           chains={chains}
@@ -67,7 +67,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         </ChainProvider>
         {/* <ReactQueryDevtools initialIsOpen={false}/> */}
       </QueryClientProvider>
-    </ChakraProvider>
+    </ThemeProvider>
   );
 }
 

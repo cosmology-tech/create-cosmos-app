@@ -5,7 +5,7 @@ import {
   Icon,
   Stack,
   useColorModeValue,
-} from "@chakra-ui/react";
+} from "@interchain-ui/react";
 import { MouseEventHandler, useEffect } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
 import {

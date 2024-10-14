@@ -1,4 +1,4 @@
-import { useToast, Text, Box } from '@chakra-ui/react';
+import { useToast, Text, Box } from '@interchain-ui/react';
 import { TransactionResult } from './types';
 
 export const useTransactionToast = () => {
@@ -11,9 +11,8 @@ export const useTransactionToast = () => {
 
   const showToast = (code: number, res?: any) => {
     toast({
-      title: `Transaction ${
-        code === TransactionResult.Success ? 'successful' : 'failed'
-      }`,
+      title: `Transaction ${code === TransactionResult.Success ? 'successful' : 'failed'
+        }`,
       status: code === TransactionResult.Success ? 'success' : 'error',
       duration: code === TransactionResult.Success ? 5000 : 20000,
       isClosable: true,

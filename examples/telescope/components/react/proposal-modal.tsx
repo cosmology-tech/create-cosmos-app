@@ -45,7 +45,7 @@ import {
   useToast,
   useColorMode,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 import {
   Proposal,
   ProposalStatus,
@@ -563,9 +563,8 @@ export const ProposalModal = ({
                       my={2}
                       fontWeight="semibold"
                     >
-                      {`Minimum of staked ${minStakedTokens} ${coin.symbol}(${
-                        quorum * 100
-                      }%) need to vote
+                      {`Minimum of staked ${minStakedTokens} ${coin.symbol}(${quorum * 100
+                        }%) need to vote
                     for this proposal to pass.`}
                     </Text>
                   )}

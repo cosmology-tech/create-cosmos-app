@@ -24,7 +24,7 @@ import {
   Skeleton,
   useMediaQuery,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { Pool } from './provide-liquidity';
 import BigNumber from 'bignumber.js';
@@ -91,8 +91,8 @@ const PoolName = ({ isMyPools, pool }: { isMyPools: boolean; pool: Pool }) => {
         {pool.poolAssets.length > 2
           ? `${pool.poolAssets.length} Token Pool`
           : pool.poolAssets
-              .map(({ token }) => getSymbolForDenom(token!.denom))
-              .join('/')}
+            .map(({ token }) => getSymbolForDenom(token!.denom))
+            .join('/')}
       </Text>
       <Text fontWeight="400" fontSize="14px" color={poolIdColor}>
         Pool #{pool.id.toString()}

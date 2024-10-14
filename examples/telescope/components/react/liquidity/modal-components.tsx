@@ -7,7 +7,7 @@ import {
   useMediaQuery,
   useRadio,
   UseRadioProps,
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 import BigNumber from 'bignumber.js';
 import { ChainLogo } from './pool-card';
 import { truncDecimals } from './pool-detail-modal';

@@ -16,7 +16,7 @@ import {
   Center,
   useMediaQuery,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 import { Pool } from './provide-liquidity';
 import { LargeButton, PoolAssetDisplay } from './modal-components';
 import { useTransactionToast } from './hooks';

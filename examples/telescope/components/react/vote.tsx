@@ -9,7 +9,7 @@ import {
   useDisclosure,
   Text,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 import { ProposalCard } from './proposal-card';
 import { ProposalModal } from './proposal-modal';
 import { useChain } from '@cosmos-kit/react';

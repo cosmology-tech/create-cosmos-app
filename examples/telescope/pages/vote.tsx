@@ -13,7 +13,7 @@ import {
   Icon,
   useColorMode,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
 import {
   Product,

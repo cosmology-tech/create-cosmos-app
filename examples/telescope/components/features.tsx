@@ -7,7 +7,7 @@ import {
   Stack,
   Text,
   useColorModeValue
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 import { FeatureProps } from './types';
 
 export const Product = ({ title, text, href }: FeatureProps) => {

@@ -13,7 +13,7 @@ import {
   NumberInputField,
   useMediaQuery,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 import { Pool } from './provide-liquidity';
 import { LargeButton } from './modal-components';
 import { useTransactionToast } from './hooks';
@@ -82,8 +82,8 @@ const BondSharesModal = ({
   const btnText = isAmountEmpty
     ? 'Amount is empty'
     : isAmountInsufficient
-    ? 'Insufficient amount'
-    : 'Bond';
+      ? 'Insufficient amount'
+      : 'Bond';
 
   const closeModal = () => {
     onClose();

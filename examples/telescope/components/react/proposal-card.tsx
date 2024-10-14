@@ -14,7 +14,7 @@ import {
   Text,
   useColorMode,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 import { Proposal } from '../../src/codegen/cosmos/gov/v1beta1/gov';
 
 const ProposalStatus = cosmos.gov.v1beta1.ProposalStatus;
@@ -135,7 +135,7 @@ export const ProposalCard = ({
             <Flex alignItems="center" fontSize="sm">
               <Text color={useColorModeValue('gray.600', 'gray.400')}>
                 {proposal.status ===
-                ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD
+                  ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD
                   ? 'Deposit'
                   : 'Voting'}
                 &nbsp;end time: &nbsp;

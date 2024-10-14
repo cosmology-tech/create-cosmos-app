@@ -11,7 +11,7 @@ import {
   Center,
   useMediaQuery,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 import { Pool } from './provide-liquidity';
 import { useChain } from '@cosmos-kit/react';
 import { osmosis } from '../../../src/codegen/osmosis/bundle';

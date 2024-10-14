@@ -7,7 +7,7 @@ import {
   Stack,
   Text,
   useColorMode,
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 
 import { handleChangeColorModeValue } from './handleChangeColor';
 

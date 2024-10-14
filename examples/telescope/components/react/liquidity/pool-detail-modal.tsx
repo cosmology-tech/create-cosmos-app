@@ -12,7 +12,7 @@ import {
   Heading,
   useMediaQuery,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from '@interchain-ui/react';
 import { Pool } from './provide-liquidity';
 import { getLogoUrlFromDenom } from './pool-list';
 import { ChainLogo } from './pool-card';
