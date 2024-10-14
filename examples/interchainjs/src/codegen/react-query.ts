@@ -12,7 +12,8 @@ import {
   ITxArgs,
   ISigningClient,
   StdFee,
-  DeliverTxResponse
+  DeliverTxResponse,
+  SigningClientResolver
 } from './helper-func-types'
 import {
     useQuery,
@@ -142,7 +143,7 @@ export interface ReactMutationParams<TData, TError, TVariables, TContext = unkno
 
 
 export interface UseMutationBuilderOptions<TMsg> {
-  builderMutationFn: (getSigningClientInstance: () => ISigningClient | undefined) => (
+  builderMutationFn: (getSigningClientInstance: SigningClientResolver) => (
     signerAddress: string,
     message: TMsg,
     fee: StdFee | 'auto',

@@ -47,7 +47,7 @@ export interface ISigningClient {
 }
 
 export interface TxBuilderOptions {
-  getSigningClient: () => ISigningClient | undefined,
+  getSigningClient: SigningClientResolver,
   typeUrl: string,
   encoders?: Encoder[],
   converters?: AminoConverter[],
@@ -159,3 +159,5 @@ export interface AminoConverter {
   fromAmino: (data: any) => any;
   toAmino: (data: any) => any;
 }
+
+export type SigningClientResolver = () => ISigningClient | undefined;

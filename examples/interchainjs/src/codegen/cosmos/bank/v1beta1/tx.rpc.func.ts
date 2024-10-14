@@ -1,4 +1,4 @@
-import { buildTx, ISigningClient } from "../../../helper-func-types";
+import { buildTx, ISigningClient, SigningClientResolver } from "../../../helper-func-types";
 import { MsgSend, MsgMultiSend } from "./tx";
 import { toConverters, toEncoders } from "@interchainjs/cosmos/utils";
 import { buildUseMutation } from "../../../react-query";
@@ -6,14 +6,14 @@ import { buildUseMutation } from "../../../react-query";
 // generated helper functions
 
 // creators
-export const createSend = (getSigningClient: () => ISigningClient | undefined) => buildTx<MsgSend>({
+export const createSend = (getSigningClient: SigningClientResolver) => buildTx<MsgSend>({
   getSigningClient,
   typeUrl: MsgSend.typeUrl,
   encoders: toEncoders(MsgSend),
   converters: toConverters(MsgSend),
 });
 
-export const createMultiSend = (getSigningClient: () => ISigningClient | undefined) => buildTx<MsgMultiSend>({
+export const createMultiSend = (getSigningClient: SigningClientResolver) => buildTx<MsgMultiSend>({
   getSigningClient,
   typeUrl: MsgMultiSend.typeUrl,
   encoders: toEncoders(MsgMultiSend),
