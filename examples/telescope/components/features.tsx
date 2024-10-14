@@ -1,7 +1,5 @@
-import { LinkIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Heading,
   Icon,
   Link,
   Stack,
@@ -12,27 +10,23 @@ import { FeatureProps } from './types';
 
 export const Product = ({ title, text, href }: FeatureProps) => {
   return (
-    <Link href={href} target="_blank" _hover={{ textDecoration: 'none' }}>
+    <Link href={href} target="_blank">
       <Stack
-        h="full"
-        minH={36}
-        p={5}
-        spacing={2.5}
-        justifyContent="center"
-        borderRadius={5}
-        boxShadow={useColorModeValue(
-          '0 2px 5px #ccc',
-          '0 1px 3px #727272, 0 2px 12px -2px #2f2f2f'
-        )}
-        _hover={{
-          color: useColorModeValue('purple.600', 'purple.300'),
+        attributes={{
+          height: 'full',
+          minHeight: 36,
+          padding: 5,
+          justifyContent: 'center',
+          borderRadius: 5,
           boxShadow: useColorModeValue(
-            '0 2px 5px #bca5e9',
-            '0 0 3px rgba(150, 75, 213, 0.8), 0 3px 8px -2px rgba(175, 89, 246, 0.9)'
-          )
+            '0 2px 5px #ccc',
+            '0 1px 3px #727272, 0 2px 12px -2px #2f2f2f'
+          ),
+
         }}
+        space={2.5}
       >
-        <Heading fontSize="xl">{title}&ensp;&rarr;</Heading>
+        <Text as='h1' fontSize="xl">{title}&ensp;&rarr;</Text>
         <Text>{text}</Text>
       </Stack>
     </Link>
@@ -41,28 +35,27 @@ export const Product = ({ title, text, href }: FeatureProps) => {
 
 export const Dependency = ({ title, text, href }: FeatureProps) => {
   return (
-    <Link href={href} target="_blank" _hover={{ textDecoration: 'none' }}>
+    <Link href={href} target="_blank">
       <Stack
-        isInline={true}
+        direction='horizontal'
         key={title}
-        spacing={3}
-        h="full"
-        p={4}
-        justifyContent="center"
-        borderRadius="md"
-        border="1px solid"
-        borderColor={useColorModeValue('blackAlpha.200', 'whiteAlpha.100')}
-        _hover={{
-          boxShadow: useColorModeValue(
-            '0 2px 5px #ccc',
-            '0 1px 3px #727272, 0 2px 12px -2px #2f2f2f'
-          )
+        space={3}
+        attributes={{
+          height: 'full',
+          padding: 4,
+          justifyContent: 'center',
+          borderRadius: 'md',
+          border: '1px solid',
+          borderColor: useColorModeValue('blackAlpha.200', 'whiteAlpha.100'),
         }}
       >
-        <Box color={useColorModeValue('primary.500', 'primary.200')}>
-          <Icon as={LinkIcon} />
+        {/* @ts-ignore */}
+        <Box
+          color={useColorModeValue('primary.500', 'primary.200')}
+        >
+          <Icon name='link' />
         </Box>
-        <Stack spacing={1}>
+        <Stack space={1}>
           <Text fontSize="lg" fontWeight="semibold">
             {title}
           </Text>

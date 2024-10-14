@@ -3,13 +3,10 @@ import {
   Box,
   Button,
   Center,
-  Heading,
   Stack,
   Text,
-  useColorMode,
+  useTheme
 } from '@interchain-ui/react';
-
-import { handleChangeColorModeValue } from './handleChangeColor';
 
 export const SendTokensCard = ({
   balance,
@@ -30,79 +27,65 @@ export const SendTokensCard = ({
   getBalanceButtonText?: string;
   handleClickGetBalance: () => void;
 }) => {
-  const { colorMode } = useColorMode();
+  // const { colorMode } = useColorMode();
+  const { theme } = useTheme();
   if (!isConnectWallet) {
     return (
+      // @ts-ignore
       <Box boxShadow="0 0 2px #ccc, 0 0 5px -1px #ccc" borderRadius="lg" p={5}>
-        <Heading
+        <Text
           as="h3"
-          textAlign="center"
-          fontSize={{ base: 'xl', md: '2xl' }}
-          fontWeight="extrabold"
-          color="primary.400"
-          m={30}
+          attributes={{
+            margin: 30,
+            textAlign: 'center',
+            fontSize: { mobile: 'xl', mdMobile: '2xl' },
+            fontWeight: 'extrabold',
+            color: 'primary.400',
+          }}
         >
           Please Connect Your Wallet!
-        </Heading>
+        </Text>
       </Box>
     );
   }
   return (
     <Stack
-      boxShadow={handleChangeColorModeValue(
-        colorMode,
-        '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
-        '0 0 2px #212121, 0 0 6px -2px #8a8a8a'
-      )}
-      borderRadius="lg"
-      w="full"
-      maxW="md"
-      p={6}
-      pt={10}
-      spacing={6}
+      space={6}
+      attributes={{
+        borderRadius: 'lg',
+        width: 'full',
+        maxWidth: 'md',
+        padding: 6,
+        paddingTop: 10,
+        boxShadow: theme === 'light' ? '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3' : '0 0 2px #212121, 0 0 6px -2px #8a8a8a',
+      }}
     >
       <Stack
-        isInline={true}
-        justifyContent="space-between"
-        alignItems="center"
-        bg={handleChangeColorModeValue(
-          colorMode,
-          'blackAlpha.50',
-          'blackAlpha.300'
-        )}
-        borderRadius="md"
-        border="1px solid"
-        borderColor={handleChangeColorModeValue(
-          colorMode,
-          'gray.300',
-          'gray.600'
-        )}
-        p={4}
+        direction="horizontal"
+        attributes={{
+          borderRadius: 'md',
+          border: '1px solid',
+          padding: 4,
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          borderColor: theme === 'light' ? '$blackAlpha200' : '$whiteAlpha200',
+        }}
       >
         <Text>
           Balance:&ensp;
           <Text
             as="span"
-            color={handleChangeColorModeValue(
-              colorMode,
-              'primary.500',
-              'primary.200'
-            )}
             fontWeight="semibold"
             fontSize="xl"
+            color={theme === 'light' ? '$blackAlpha800' : '$whiteAlpha800'}
           >
             {balance}
           </Text>
         </Text>
         <Button
           size="sm"
-          bg={handleChangeColorModeValue(
-            colorMode,
-            'whiteAlpha.900',
-            'blackAlpha.500'
-          )}
           isLoading={isFetchingBalance}
-          variant="outline"
+          variant="outlined"
           onClick={handleClickGetBalance}
         >
           {getBalanceButtonText || 'Fetch Balance'}
@@ -110,8 +93,7 @@ export const SendTokensCard = ({
       </Stack>
       <Center>
         <Button
-          variant="outline"
-          colorScheme="primary"
+          variant="outlined"
           onClick={handleClickSendTokens}
         >
           {sendTokensButtonText || 'Send Tokens (to self)'}
@@ -120,42 +102,27 @@ export const SendTokensCard = ({
       {response && (
         <Stack>
           <Text fontWeight="medium">Result</Text>
+          {/* @ts-ignore */}
           <Box
             border="1px solid"
-            borderColor={handleChangeColorModeValue(
-              colorMode,
-              'gray.300',
-              'gray.600'
-            )}
+            borderColor={theme === 'light' ? '$blackAlpha200' : '$whiteAlpha200'}
             bg="rgba(0, 0, 0, 0.01)"
             borderRadius="md"
             opacity={0.8}
             overflowX="scroll"
             p={4}
-            css={{
+            attributes={{
               // For Firefox
               scrollbarWidth: 'auto',
-              scrollbarColor: handleChangeColorModeValue(
-                colorMode,
-                'rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.2)',
-                'rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.1)'
-              ),
+              scrollbarColor: theme === 'light' ? 'rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.1)',
               // For Chrome and other browsers except Firefox
               '&::-webkit-scrollbar': {
                 height: '8px',
-                background: handleChangeColorModeValue(
-                  colorMode,
-                  'rgba(220, 220, 220, 0.01)',
-                  'rgba(0, 0, 0, 0.01)'
-                ),
+                background: theme === 'light' ? 'rgba(220, 220, 220, 0.01)' : 'rgba(0, 0, 0, 0.01)',
                 borderRadius: '6px',
               },
               '&::-webkit-scrollbar-thumb': {
-                background: handleChangeColorModeValue(
-                  colorMode,
-                  'rgba(0, 0, 0, 0.1)',
-                  'rgba(255, 255, 255, 0.1)'
-                ),
+                background: theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)',
                 borderRadius: '6px',
                 border: '2px solid transparent',
                 backgroundClip: 'content-box',
