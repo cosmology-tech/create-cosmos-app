@@ -1,41 +1,33 @@
 import React, { MouseEventHandler, ReactNode } from 'react';
 import { Button, Icon, Stack, Text, useColorModeValue } from '@interchain-ui/react';
-import { IoWallet } from 'react-icons/io5';
 import { ConnectWalletType } from '../types';
-import { FiAlertTriangle } from 'react-icons/fi';
 import { WalletStatus } from 'cosmos-kit';
 
 export const ConnectWalletButton = ({
   buttonText,
   isLoading,
   isDisabled,
-  icon,
   onClickConnectBtn
 }: ConnectWalletType) => {
   return (
     <Button
-      w="full"
-      minW="fit-content"
+      fluidWidth
+      attributes={{
+        minWidth: 'fit-content',
+        backgroundImage: 'linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)',
+        color: 'white',
+        opacity: 1,
+        transition: 'all .5s ease-in-out',
+      }}
       size="lg"
       isLoading={isLoading}
-      isDisabled={isDisabled}
-      bgImage="linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)"
-      color="white"
-      opacity={1}
-      transition="all .5s ease-in-out"
-      _hover={{
-        bgImage:
-          'linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)',
-        opacity: 0.75
-      }}
-      _active={{
-        bgImage:
-          'linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)',
-        opacity: 0.9
-      }}
+      disabled={isDisabled}
       onClick={onClickConnectBtn}
     >
-      <Icon as={icon ? icon : IoWallet} mr={2} />
+      <Icon
+        name='walletFilled'
+        attributes={{ marginRight: 2 }}
+      />
       {buttonText ? buttonText : 'Connect Wallet'}
     </Button>
   );
@@ -49,7 +41,9 @@ export const Disconnected = ({
   onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
-    <ConnectWalletButton buttonText={buttonText} onClickConnectBtn={onClick} />
+    // @ts-ignore
+    <ConnectWalletButton
+      buttonText={buttonText} onClickConnectBtn={onClick} />
   );
 };
 
@@ -61,12 +55,16 @@ export const Connected = ({
   onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
-    <ConnectWalletButton buttonText={buttonText} onClickConnectBtn={onClick} />
+    // @ts-ignore
+    <ConnectWalletButton
+      buttonText={buttonText} onClickConnectBtn={onClick} />
   );
 };
 
 export const Connecting = () => {
-  return <ConnectWalletButton isLoading={true} />;
+  // @ts-ignore
+  return <ConnectWalletButton
+    isLoading={true} />;
 };
 
 export const Rejected = ({
@@ -82,6 +80,7 @@ export const Rejected = ({
 
   return (
     <Stack>
+      {/* @ts-ignore */}
       <ConnectWalletButton
         buttonText={buttonText}
         isDisabled={false}
@@ -89,14 +88,16 @@ export const Rejected = ({
       />
       {wordOfWarning && (
         <Stack
-          isInline={true}
-          borderRadius="md"
-          bg={bg}
-          color="blackAlpha.900"
-          p={4}
-          spacing={1}
+          direction='horizontal'
+          space={1}
+          attributes={{
+            borderRadius: 'md',
+            backgroundColor: bg,
+            color: 'blackAlpha.900',
+            padding: 4,
+          }}
         >
-          <Icon as={FiAlertTriangle} mt={1} />
+          <Icon name='errorWarningFill' attributes={{ marginTop: 1 }} />
           <Text>
             <Text fontWeight="semibold" as="span">
               Warning:&ensp;
@@ -122,6 +123,7 @@ export const Error = ({
 
   return (
     <Stack>
+      {/* @ts-ignore */}
       <ConnectWalletButton
         buttonText={buttonText}
         isDisabled={false}
@@ -129,14 +131,16 @@ export const Error = ({
       />
       {wordOfWarning && (
         <Stack
-          isInline={true}
-          borderRadius="md"
-          bg={bg}
-          color="blackAlpha.900"
-          p={4}
-          spacing={1}
+          direction='horizontal'
+          space={1}
+          attributes={{
+            borderRadius: 'md',
+            backgroundColor: bg,
+            color: 'blackAlpha.900',
+            padding: 4,
+          }}
         >
-          <Icon as={FiAlertTriangle} mt={1} />
+          <Icon name='errorWarningFill' attributes={{ marginTop: 1 }} />
           <Text>
             <Text fontWeight="semibold" as="span">
               Warning:&ensp;
@@ -157,6 +161,7 @@ export const NotExist = ({
   onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
+    // @ts-ignore
     <ConnectWalletButton
       buttonText={buttonText}
       isDisabled={false}
