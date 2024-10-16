@@ -1,16 +1,12 @@
 import {
   Box,
   Button,
-  Icon,
-  Text,
-  useClipboard,
-  useColorMode,
-  Image
+  ClipboardCopyText,
+  useTheme
 } from "@interchain-ui/react";
 import { WalletStatus } from 'cosmos-kit';
-import { FaCheckCircle } from 'react-icons/fa';
-import { FiCopy } from 'react-icons/fi';
 import React, { ReactNode, useEffect, useState } from "react";
+import Image from "next/image";
 
 import { CopyAddressType } from "../types";
 
@@ -58,7 +54,6 @@ export function handleChangeColorModeValue(
   if (colorMode === 'dark') return dark;
 }
 
-
 export const ConnectedShowAddress = ({
   address,
   walletIcon,
@@ -67,9 +62,8 @@ export const ConnectedShowAddress = ({
   size = 'md',
   maxDisplayLength,
 }: CopyAddressType) => {
-  const { hasCopied, onCopy } = useClipboard(address ? address : '');
+  const { theme } = useTheme();
   const [displayAddress, setDisplayAddress] = useState('');
-  const { colorMode } = useColorMode();
   const defaultMaxLength = {
     lg: 14,
     md: 16,
@@ -91,94 +85,48 @@ export const ConnectedShowAddress = ({
 
   return (
     <Button
-      title={address}
       variant="unstyled"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      borderRadius={isRound ? 'full' : 'lg'}
-      border="1px solid"
-      borderColor={handleChangeColorModeValue(
-        colorMode,
-        'gray.200',
-        'whiteAlpha.300'
-      )}
-      w="full"
-      h={SIZES[size as keyof typeof SIZES].height}
-      minH="fit-content"
-      pl={2}
-      pr={2}
-      color={handleChangeColorModeValue(
-        colorMode,
-        'gray.700',
-        'whiteAlpha.600'
-      )}
-      transition="all .3s ease-in-out"
-      isDisabled={!address && true}
+      attributes={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: isRound ? 'full' : 'lg',
+        border: '1px solid',
+        borderColor: theme === 'light' ? 'gray.200' : 'whiteAlpha.300',
+        width: 'full',
+        height: SIZES[size as keyof typeof SIZES].height,
+        minHeight: 'fit-content',
+        paddingLeft: 2,
+        paddingRight: 2,
+        color: theme === 'light' ? 'gray.700' : 'whiteAlpha.600',
+        transition: 'all .3s ease-in-out',
+      }}
+      disabled={!address && true}
       isLoading={isLoading}
-      _hover={{
-        bg: 'rgba(142, 142, 142, 0.05)',
-      }}
-      _focus={{
-        outline: 'none',
-      }}
-      _disabled={{
-        opacity: 0.6,
-        cursor: 'not-allowed',
-        borderColor: 'rgba(142, 142, 142, 0.1)',
-        _hover: {
-          bg: 'transparent',
-        },
-        _active: {
-          outline: 'none',
-        },
-        _focus: {
-          outline: 'none',
-        },
-      }}
-      onClick={onCopy}
     >
       {address && walletIcon && (
+        // @ts-ignore
         <Box
           borderRadius="full"
-          w="full"
-          h="full"
-          minW={SIZES[size as keyof typeof SIZES].walletImageSize}
-          minH={SIZES[size as keyof typeof SIZES].walletImageSize}
-          maxW={SIZES[size as keyof typeof SIZES].walletImageSize}
-          maxH={SIZES[size as keyof typeof SIZES].walletImageSize}
+          attributes={{
+            width: 'full',
+            height: 'full',
+            minWidth: SIZES[size as keyof typeof SIZES].walletImageSize,
+            minHeight: SIZES[size as keyof typeof SIZES].walletImageSize,
+            maxWidth: SIZES[size as keyof typeof SIZES].walletImageSize,
+            maxHeight: SIZES[size as keyof typeof SIZES].walletImageSize,
+            marginRight: 2,
+            opacity: 0.85,
+          }}
           mr={2}
           opacity={0.85}
         >
+          {/* @ts-ignore */}
           <Image alt={displayAddress} src={walletIcon} />
         </Box>
       )}
-      <Text
-        fontSize={SIZES[size as keyof typeof SIZES].fontSize}
-        fontWeight="normal"
-        letterSpacing="0.4px"
-        opacity={0.75}
-      >
-        {displayAddress}
-      </Text>
-      {address && (
-        <Icon
-          as={hasCopied ? FaCheckCircle : FiCopy}
-          w={SIZES[size as keyof typeof SIZES].icon}
-          h={SIZES[size as keyof typeof SIZES].icon}
-          ml={2}
-          opacity={0.9}
-          color={
-            hasCopied
-              ? 'green.400'
-              : handleChangeColorModeValue(
-                colorMode,
-                'gray.500',
-                'whiteAlpha.400'
-              )
-          }
-        />
-      )}
+
+      {address && <ClipboardCopyText text={address} truncate="middle" />}
     </Button>
   );
 };
