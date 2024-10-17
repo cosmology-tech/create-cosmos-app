@@ -7,23 +7,31 @@ export const ConnectedUserInfo = ({
   icon
 }: ConnectedUserCardType) => {
   return (
-    <Stack spacing={1} alignItems="center">
+    <Stack
+      space={1}
+      attributes={{
+        alignItems: 'center',
+      }}
+    >
       {username && (
         <>
+          {/* @ts-ignore */}
           <Box
             display={icon ? 'block' : 'none'}
-            minW={20}
-            maxW={20}
-            w={20}
-            minH={20}
-            maxH={20}
-            h={20}
-            borderRadius="full"
-            overflow="hidden"
+            attributes={{
+              minWidth: 20,
+              maxWidth: 20,
+              width: 20,
+              minHeight: 20,
+              maxHeight: 20,
+              height: 20,
+              borderRadius: 'full',
+              overflow: 'hidden',
+            }}
           >
             {icon}
           </Box>
-          <Text fontSize={{ md: 'xl' }} fontWeight="semibold">
+          <Text fontSize={{ mobile: 'md', tablet: 'xl' }} fontWeight="semibold">
             {username}
           </Text>
         </>

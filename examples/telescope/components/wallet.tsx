@@ -2,15 +2,11 @@ import { useChain } from '@cosmos-kit/react';
 import {
   Box,
   Center,
-  Grid,
-  GridItem,
   Icon,
   Stack,
   useColorModeValue,
-  Text,
 } from '@interchain-ui/react';
 import { MouseEventHandler } from 'react';
-import { FiAlertTriangle } from 'react-icons/fi';
 import {
   Astronaut,
   Error,
@@ -62,35 +58,45 @@ export const WalletSection = () => {
 
   // Components
   const connectWalletButton = (
+    // @ts-ignore
     <WalletConnectComponent
       walletStatus={status}
       disconnect={
+        // @ts-ignore
         <Disconnected buttonText="Connect Wallet" onClick={onClickConnect} />
       }
+      // @ts-ignore
       connecting={<Connecting />}
       connected={
+        // @ts-ignore
         <Connected buttonText={'My Wallet'} onClick={onClickOpenView} />
       }
+      // @ts-ignore
       rejected={<Rejected buttonText="Reconnect" onClick={onClickConnect} />}
+      // @ts-ignore
       error={<Error buttonText="Change Wallet" onClick={onClickOpenView} />}
       notExist={
+        // @ts-ignore
         <NotExist buttonText="Install Wallet" onClick={onClickOpenView} />
       }
     />
   );
 
   const connectWalletWarn = (
+    // @ts-ignore
     <ConnectStatusWarn
       walletStatus={status}
       rejected={
+        // @ts-ignore
         <RejectedWarn
-          icon={<Icon as={FiAlertTriangle} mt={1} />}
+          icon={<Icon name='errorWarningFill' attributes={{ marginTop: 1 }} />}
           wordOfWarning={`${wallet?.prettyName}: ${message}`}
         />
       }
       error={
+        // @ts-ignore
         <RejectedWarn
-          icon={<Icon as={FiAlertTriangle} mt={1} />}
+          icon={<Icon name='errorWarningFill' attributes={{ marginTop: 1 }} />}
           wordOfWarning={`${wallet?.prettyName}: ${message}`}
         />
       }
@@ -98,55 +104,80 @@ export const WalletSection = () => {
   );
 
   const userInfo = username && (
+    // @ts-ignore
     <ConnectedUserInfo username={username} icon={<Astronaut />} />
   );
   const addressBtn = (
+    // @ts-ignore
     <CopyAddressBtn
       walletStatus={status}
+      // @ts-ignore
       connected={<ConnectedShowAddress address={address} isLoading={false} />}
     />
   );
 
   return (
-    <Center py={16}>
+    <Center
+      attributes={{
+        paddingY: 16,
+      }}
+    >
       {/* @ts-ignore */}
-      <Grid
-        w="full"
-        maxW="sm"
-        templateColumns="1fr"
+      <Box
+        gridTemplateColumns="1fr"
         rowGap={4}
-        alignItems="center"
-        justifyContent="center"
+        attributes={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: 'full',
+          maxWidth: 'sm',
+        }}
       >
-        <GridItem marginBottom={'20px'}>
+        {/* @ts-ignore */}
+        <Box marginBottom={'20px'}>
+          {/* @ts-ignore */}
           <ChainCard
             prettyName={chain?.label || chainName}
             icon={chain?.icon}
           />
-        </GridItem>
-        <GridItem px={6}>
+        </Box>
+        {/* @ts-ignore */}
+        <Box
+          px={6}
+        >
           <Stack
-            justifyContent="center"
-            alignItems="center"
-            borderRadius="lg"
-            bg={useColorModeValue('white', 'blackAlpha.400')}
-            boxShadow={useColorModeValue(
-              '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
-              '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
-            )}
-            spacing={4}
-            px={4}
-            py={{ base: 6, md: 12 }}
+            space={4}
+            attributes={{
+              borderRadius: 'lg',
+              bg: useColorModeValue('white', 'blackAlpha.400'),
+              boxShadow: useColorModeValue(
+                '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
+                '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
+              ),
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingX: 4,
+              paddingY: { mobile: 6, mdMobile: 12 },
+            }}
           >
             {userInfo}
             {addressBtn}
-            <Box w="full" maxW={{ base: 52, md: 64 }}>
+            {/* @ts-ignore */}
+            <Box
+              width='full'
+              maxWidth={{ mobile: 52, mdMobile: 64 }}
+            >
               {connectWalletButton}
             </Box>
-            {connectWalletWarn && <GridItem>{connectWalletWarn}</GridItem>}
+            {connectWalletWarn &&
+              // @ts-ignore
+              <Box>
+                {connectWalletWarn}
+              </Box>
+            }
           </Stack>
-        </GridItem>
-      </Grid>
+        </Box>
+      </Box>
     </Center>
   );
 };
