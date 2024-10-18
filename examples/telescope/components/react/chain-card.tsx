@@ -1,5 +1,4 @@
 import { Box, Stack, useColorModeValue, Text } from '@interchain-ui/react';
-import Image from 'next/image';
 import { ChainCardProps } from '../types';
 
 export const ChainCard = (props: ChainCardProps) => {
@@ -32,9 +31,11 @@ export const ChainCard = (props: ChainCardProps) => {
         }}
       >
         {/* @ts-ignore */}
-        <Image
+        <img
           alt=""
           src={props.icon || 'https://dummyimage.com/150/9e9e9e/ffffff&text=☒'}
+          width={10}
+          height={10}
         />
       </Box>
       <Text fontSize="xl" fontWeight="semibold"

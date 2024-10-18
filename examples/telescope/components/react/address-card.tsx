@@ -6,7 +6,6 @@ import {
 } from "@interchain-ui/react";
 import { WalletStatus } from 'cosmos-kit';
 import React, { ReactNode, useEffect, useState } from "react";
-import Image from "next/image";
 
 import { CopyAddressType } from "../types";
 
@@ -122,7 +121,8 @@ export const ConnectedShowAddress = ({
           opacity={0.85}
         >
           {/* @ts-ignore */}
-          <Image alt={displayAddress} src={walletIcon} />
+          <img
+            alt={displayAddress} src={walletIcon} width={10} height={10} />
         </Box>
       )}
 
