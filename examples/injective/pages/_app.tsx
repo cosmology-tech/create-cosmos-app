@@ -2,65 +2,81 @@ import '../styles/globals.css';
 import '@interchain-ui/react/styles';
 
 import type { AppProps } from 'next/app';
-import { ChakraProvider } from '@chakra-ui/react';
 
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { assetLists, chains } from '@chain-registry/v2';
-import { ChainProvider } from '@interchain-kit/react'
-import { keplrWallet } from '@interchain-kit/keplr-extension'
-import { leapWallet } from '@interchain-kit/leap-extension'
-// @ts-ignore
-import { WCWallet } from '@interchain-kit/core'
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import { defaultTheme, chainName } from '../config';
+import { SignerOptions, wallets } from 'cosmos-kit';
+import { ChainProvider } from '@cosmos-kit/react';
+import { assets, chains } from 'chain-registry';
+import { aminoTypes, registry } from '../config/defaults';
+import { GasPrice } from '@cosmjs/stargate';
 
+import { Box, ThemeProvider, Toaster, useTheme, useColorModeValue } from '@interchain-ui/react';
 
-
-const walletConnect = new WCWallet(
-  // {
-  //   name: 'string;1',
-  //   mode: 'wallet-connect',
-  //   prettyName: 'string;2',
-  //   walletconnect: {
-  //     name: 'string;3',
-  //     projectId: 'string;4',
-  //   }
-  // }
-)
-
-const queryClient = new QueryClient();
-
-const chainNames = [chainName]
-const _chains = chains.filter(c => chainNames.includes(c.chainName))
-const _assetLists = assetLists.filter(a => chainNames.includes(a.chainName))
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      refetchOnWindowFocus: false,
+    }
+  }
+});
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
-  const wallets = [keplrWallet, leapWallet, walletConnect]
+  const { themeClass } = useTheme();
+
+  const signerOptions: SignerOptions = {
+    // @ts-ignore
+    signingStargate: () => {
+      return {
+        aminoTypes,
+        registry,
+      };
+    },
+    // @ts-ignore
+    signingCosmwasm: (chain: Chain) => {
+      switch (chain.chain_name) {
+        case 'osmosis':
+        case 'osmosistestnet':
+          return {
+            gasPrice: GasPrice.fromString('0.0025uosmo'),
+          };
+      }
+    },
+  };
 
   return (
-    <>
-      <ChakraProvider theme={defaultTheme}>
+    <ThemeProvider>
+      <ChainProvider
+        chains={chains}
+        assetLists={assets}
+        wallets={wallets}
+        walletConnectOptions={{
+          signClient: {
+            projectId: 'a8510432ebb71e6948cfd6cde54b70f7',
+            relayUrl: 'wss://relay.walletconnect.org',
+            metadata: {
+              name: 'Cosmos Kit dApp',
+              description: 'Cosmos Kit dApp built by Create Cosmos App',
+              url: 'https://docs.cosmology.zone/cosmos-kit/',
+              icons: [],
+            },
+          },
+        }}
+        signerOptions={signerOptions}
+      >
         <QueryClientProvider client={queryClient}>
-          <ChainProvider
-            chains={_chains}
-            assetLists={_assetLists}
-            // @ts-ignore
-            wallets={wallets}
-            signerOptions={{}}
-            endpointOptions={{
-              endpoints: {
-                'injective-1': {
-                  rpc: ['https://sentry.tm.injective.network'],
-                }
-              }
-            }}
-          >
+          <Box className={themeClass} minHeight="100dvh" backgroundColor={useColorModeValue('$white', '$background')}>
+            {/* TODO fix type error */}
             {/* @ts-ignore */}
             <Component {...pageProps} />
-          </ChainProvider>
+          </Box>
         </QueryClientProvider>
-      </ChakraProvider>
-    </>
+      </ChainProvider>
+
+      <Toaster position={'top-right'} closeButton={true} />
+    </ThemeProvider>
   );
 }
 
