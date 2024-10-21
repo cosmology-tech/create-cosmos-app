@@ -13,7 +13,7 @@ import {
   osmosisProtoRegistry,
 } from 'osmo-query';
 
-export const defaultChainName = 'injective'
+export const defaultChainName = 'cosmoshub'
 
 export const chainassets = assets.find(
   (chain) => chain.chain_name === defaultChainName
