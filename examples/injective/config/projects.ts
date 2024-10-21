@@ -6,9 +6,9 @@ export type Project = {
 
 export const products: Project[] = [
   {
-    name: 'Cosmos Kit',
+    name: 'Interchain Kit',
     desc: 'A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.',
-    link: 'https://github.com/cosmology-tech/cosmos-kit',
+    link: 'https://github.com/cosmology-tech/interchain-kit',
   },
   {
     name: 'Telescope',
@@ -40,7 +40,7 @@ export const products: Project[] = [
 export const dependencies: Project[] = [
   {
     name: 'Interchain JS',
-    desc: '',
+    desc: 'A single, universal signing interface for any network. Birthed from the interchain ecosystem for builders. Create adapters for any web3 network.',
     link: 'https://github.com/cosmology-tech/interchainjs',
   },
   {
