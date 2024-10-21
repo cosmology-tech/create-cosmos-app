@@ -1,8 +1,9 @@
 import { Box, Text } from '@interchain-ui/react';
-import { useSwap } from "@/hooks";
+import { useChain } from "@cosmos-kit/react";
+import { defaultChainName } from "@/config";
 
 export function Main() {
-  const { isWalletConnected } = useSwap();
+  const { isWalletConnected } = useChain(defaultChainName);
 
   return (
     isWalletConnected ?
