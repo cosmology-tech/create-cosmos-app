@@ -1,6 +1,6 @@
 import { Box, Stack, ClipboardCopyText, useColorModeValue } from '@interchain-ui/react';
-import { WalletStatus } from 'cosmos-kit';
-import { useChain } from '@cosmos-kit/react';
+import { WalletState } from '@interchain-kit/core'
+import { useChain } from '@interchain-kit/react';
 import { getChainLogo } from '@/utils';
 import { defaultChainName } from "@/config";
 import { User } from './User';
@@ -12,18 +12,16 @@ export function Wallet() {
   const { chain, status, wallet, username, address, message, connect, openView } = useChain(defaultChainName);
 
   const ConnectButton = {
-    [WalletStatus.Connected]: <Button.Connected onClick={openView} />,
-    [WalletStatus.Connecting]: <Button.Connecting />,
-    [WalletStatus.Disconnected]: <Button.Disconnected onClick={connect} />,
-    [WalletStatus.Error]: <Button.Error onClick={openView} />,
-    [WalletStatus.Rejected]: <Button.Rejected onClick={connect} />,
-    [WalletStatus.NotExist]: <Button.NotExist onClick={openView} />
+    [WalletState.Connected]: <Button.Connected onClick={openView} />,
+    [WalletState.Connecting]: <Button.Connecting />,
+    [WalletState.Disconnected]: <Button.Disconnected onClick={connect} />,
+    [WalletState.Reject]: <Button.Rejected onClick={connect} />
   }[status] || <Button.Connect onClick={connect} />;
 
   return (
     <Box py="$16">
       <Stack attributes={{ mb: '$12', justifyContent: 'center' }}>
-        <Chain name={chain.pretty_name} logo={getChainLogo(chain.chain_name)!} />
+        <Chain name={chain.prettyName || 'prettyName unknown'} logo={getChainLogo(chain.chainName)!} />
       </Stack>
       <Stack
         direction="vertical"
@@ -55,8 +53,8 @@ export function Wallet() {
           {ConnectButton}
         </Box>
 
-        {message && [WalletStatus.Error, WalletStatus.Rejected].includes(status)
-          ? <Warning text={`${wallet?.prettyName}: ${message}`} />
+        {message && [WalletState.Reject].includes(status)
+          ? <Warning text={`${wallet?.option?.prettyName}: ${message}`} />
           : null}
       </Stack>
     </Box>
