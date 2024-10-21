@@ -1515,16 +1515,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/osmosis@npm:1.20.0":
-  version: 1.20.0
-  resolution: "@chain-registry/osmosis@npm:1.20.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.16.0"
-  checksum: 10c0/b527f75cfc3463fc03a2c9f4d976d6d818e3e5f1155860a00a173b89de2232b69e5ade9a9232484b72d58830ddd00da6fcec0c959796a3862c81cb9d56d52489
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:0.16.0, @chain-registry/types@npm:^0.16.0":
   version: 0.16.0
   resolution: "@chain-registry/types@npm:0.16.0"
@@ -3518,7 +3508,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/interchain-kit@workspace:."
   dependencies:
-    "@chain-registry/osmosis": "npm:1.20.0"
     "@chain-registry/types": "npm:0.16.0"
     "@chain-registry/utils": "npm:1.13.2"
     "@cosmjs/amino": "npm:0.32.3"
