@@ -1,12 +1,13 @@
 import { Box, Text } from '@interchain-ui/react';
-import { useChain } from "@cosmos-kit/react";
+import { useChain } from "@interchain-kit/react";
 import { defaultChainName } from "@/config";
+import { WalletState } from '@interchain-kit/core'
 
 export function Main() {
-  const { isWalletConnected } = useChain(defaultChainName);
+  const { status } = useChain(defaultChainName);
 
   return (
-    isWalletConnected ?
+    status === WalletState.Connected ?
       <Text>Sending Token Section</Text> :
       <Box textAlign="center">
         <Text color="$gray600" fontSize="$xl" attributes={{ my: '$20' }}>
