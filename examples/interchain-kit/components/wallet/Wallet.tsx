@@ -14,9 +14,9 @@ export function Wallet() {
   const ConnectButton = {
     [WalletState.Connected]: <Button.Connected onClick={openView} />,
     [WalletState.Connecting]: <Button.Connecting />,
-    [WalletState.Disconnected]: <Button.Disconnected onClick={connect} />,
-    [WalletState.Reject]: <Button.Rejected onClick={connect} />
-  }[status] || <Button.Connect onClick={connect} />;
+    [WalletState.Disconnected]: <Button.Disconnected onClick={openView} />,
+    [WalletState.Reject]: <Button.Rejected onClick={openView} />
+  }[status] || <Button.Connect onClick={openView} />;
 
   return (
     <Box py="$16">
