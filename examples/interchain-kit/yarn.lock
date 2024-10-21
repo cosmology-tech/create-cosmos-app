@@ -3881,6 +3881,7 @@ __metadata:
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
     "@interchain-kit/core": "npm:0.0.1-beta.30"
+    "@interchain-kit/keplr-extension": "npm:0.0.1-beta.30"
     "@interchain-kit/react": "npm:0.0.1-beta.30"
     "@interchain-ui/react": "npm:^1.23.29"
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
@@ -5465,6 +5466,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@interchain-kit/keplr-extension@npm:0.0.1-beta.30":
+  version: 0.0.1-beta.30
+  resolution: "@interchain-kit/keplr-extension@npm:0.0.1-beta.30"
+  dependencies:
+    "@interchain-kit/core": "npm:0.0.1-beta.30"
+    "@keplr-wallet/provider-extension": "npm:^0.12.102"
+  checksum: 10c0/ab7973f1880acdb68d60aa199cde4b27bb2f59b5b48da2e7374e4e2bf4ef72f53d8e867aea7bf8d75c488c066841f9146b891b1b12cd81d93e8b8c68aa0cda8d
+  languageName: node
+  linkType: hard
+
 "@interchain-kit/react@npm:0.0.1-beta.30":
   version: 0.0.1-beta.30
   resolution: "@interchain-kit/react@npm:0.0.1-beta.30"
@@ -5857,6 +5868,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@keplr-wallet/provider-extension@npm:^0.12.102":
+  version: 0.12.141
+  resolution: "@keplr-wallet/provider-extension@npm:0.12.141"
+  dependencies:
+    "@keplr-wallet/types": "npm:0.12.141"
+    deepmerge: "npm:^4.2.2"
+    long: "npm:^4.0.0"
+  peerDependencies:
+    starknet: ^6
+  checksum: 10c0/b5071e76a7a7f99d1d77c0c9ff8f3873358016d5e98b6791784a605d23e7a164100d834976f882b4cca54d7538216e8b0b34cf00a0617171fcf280406d8d4923
+  languageName: node
+  linkType: hard
+
 "@keplr-wallet/provider-extension@npm:^0.12.95":
   version: 0.12.104
   resolution: "@keplr-wallet/provider-extension@npm:0.12.104"
@@ -5901,6 +5925,17 @@ __metadata:
   dependencies:
     long: "npm:^4.0.0"
   checksum: 10c0/4b8718f8e756109e6b4aeee4f7e08e0dbdef73f00ef7dbb46cdf578ceeda1d0f5f9bc2f5a2ba8376d38aa4496fc63cd2eeec858f949df20ed6075d5bfc658a0a
+  languageName: node
+  linkType: hard
+
+"@keplr-wallet/types@npm:0.12.141":
+  version: 0.12.141
+  resolution: "@keplr-wallet/types@npm:0.12.141"
+  dependencies:
+    long: "npm:^4.0.0"
+  peerDependencies:
+    starknet: ^6
+  checksum: 10c0/31647f14c4f96b57d74cdb80ab3e6187a4086ca97fca7d82139c5448e380919c8a9cc97724c06b6bd14252cab7f8b8bdf3ab546f9156dc8b52deaacf22c49320
   languageName: node
   linkType: hard
 
