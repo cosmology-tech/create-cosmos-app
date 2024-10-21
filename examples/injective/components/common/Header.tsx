@@ -1,9 +1,9 @@
 import { Link, Box, Button, Icon, Text, useTheme, useColorModeValue } from '@interchain-ui/react';
 import { dependencies } from '@/config';
 
-const stacks = ['Cosmos Kit', 'Next.js'];
+const stacks = ['Interchain Kit', 'Next.js'];
 
-const osmojs = dependencies[0];
+const dependency = dependencies[0];
 
 export function Header() {
   const { theme, setTheme } = useTheme();
@@ -54,7 +54,7 @@ export function Header() {
             {' + '}
 
             <Link
-              href={osmojs.name}
+              href={dependency.link}
               target="_blank"
               rel="noreferrer"
               attributes={{
@@ -62,7 +62,7 @@ export function Header() {
                 fontSize: { mobile: '$4xl', tablet: '$8xl', desktop: '$8xl' },
               }}
             >
-              {osmojs.name}
+              {dependency.name}
             </Link>
           </Text>
         </Text>

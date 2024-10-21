@@ -39,9 +39,9 @@ export const products: Project[] = [
 
 export const dependencies: Project[] = [
   {
-    name: 'OsmoJS',
-    desc: 'OsmosJS makes it easy to compose and broadcast Osmosis and Cosmos messages',
-    link: 'https://github.com/osmosis-labs/osmojs',
+    name: 'Interchain JS',
+    desc: '',
+    link: 'https://github.com/cosmology-tech/interchainjs',
   },
   {
     name: 'Interchain UI',
