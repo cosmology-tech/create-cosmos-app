@@ -3882,6 +3882,7 @@ __metadata:
     "@emotion/styled": "npm:11.10.6"
     "@interchain-kit/core": "npm:0.0.1-beta.30"
     "@interchain-kit/keplr-extension": "npm:0.0.1-beta.30"
+    "@interchain-kit/leap-extension": "npm:0.0.1-beta.30"
     "@interchain-kit/react": "npm:0.0.1-beta.30"
     "@interchain-ui/react": "npm:^1.23.29"
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
@@ -5474,6 +5475,15 @@ __metadata:
     "@interchain-kit/core": "npm:0.0.1-beta.30"
     "@keplr-wallet/provider-extension": "npm:^0.12.102"
   checksum: 10c0/ab7973f1880acdb68d60aa199cde4b27bb2f59b5b48da2e7374e4e2bf4ef72f53d8e867aea7bf8d75c488c066841f9146b891b1b12cd81d93e8b8c68aa0cda8d
+  languageName: node
+  linkType: hard
+
+"@interchain-kit/leap-extension@npm:0.0.1-beta.30":
+  version: 0.0.1-beta.30
+  resolution: "@interchain-kit/leap-extension@npm:0.0.1-beta.30"
+  dependencies:
+    "@interchain-kit/core": "npm:0.0.1-beta.30"
+  checksum: 10c0/4bddef5af8d5c95d284242e971f8eaa1ed938e946c50dd7478da321caca53b84ae947670103f7a06d8345538d3facba6e60fb8a8dd42814863daed0e45613afb
   languageName: node
   linkType: hard
 

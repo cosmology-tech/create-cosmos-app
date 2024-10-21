@@ -30,6 +30,7 @@
     "@emotion/styled": "11.10.6",
     "@interchain-kit/core": "0.0.1-beta.30",
     "@interchain-kit/keplr-extension": "0.0.1-beta.30",
+    "@interchain-kit/leap-extension": "0.0.1-beta.30",
     "@interchain-kit/react": "0.0.1-beta.30",
     "@interchain-ui/react": "^1.23.29",
     "@interchain-ui/react-no-ssr": "^0.1.6",

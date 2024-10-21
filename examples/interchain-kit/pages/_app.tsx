@@ -7,6 +7,7 @@ import { ChainProvider } from '@interchain-kit/react';
 import { defaultChainName } from '../config/defaults';
 import { assetLists, chains } from '@chain-registry/v2';
 import { keplrWallet } from '@interchain-kit/keplr-extension';
+import { leapWallet } from '@interchain-kit/leap-extension';
 import { Box, ThemeProvider, Toaster, useTheme, useColorModeValue } from '@interchain-ui/react';
 
 const queryClient = new QueryClient({
@@ -26,7 +27,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={chains.filter(chain => chain.chainName === defaultChainName)}
         assetLists={assetLists.filter(assetList => assetList.chainName === defaultChainName)}
-        wallets={[keplrWallet]}
+        wallets={[keplrWallet, leapWallet]}
         signerOptions={{}}
         endpointOptions={{
           endpoints: {
