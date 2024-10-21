@@ -28,6 +28,8 @@
     "@cosmos-kit/react": "2.17.0",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
+    "@interchain-kit/core": "0.0.1-beta.30",
+    "@interchain-kit/react": "0.0.1-beta.30",
     "@interchain-ui/react": "^1.23.29",
     "@interchain-ui/react-no-ssr": "^0.1.6",
     "@osmonauts/math": "1.7.0",
