@@ -3897,6 +3897,7 @@ __metadata:
     eslint: "npm:8.28.0"
     eslint-config-next: "npm:13.0.5"
     generate-lockfile: "npm:0.0.12"
+    interchainjs: "npm:0.0.1-beta.16"
     next: "npm:^13"
     osmo-query: "npm:16.5.1"
     react: "npm:18.2.0"
@@ -14074,6 +14075,20 @@ __metadata:
     "@noble/hashes": "npm:^1.3.1"
     decimal.js: "npm:^10.4.3"
   checksum: 10c0/6ee92160ebf81978f31b506bdbbd9aa5787c945570da3b812b204104ebe005aca0316f26da8acd356cc3508355f6fc33cc2f66fbb17fc49eec4a4b7c6688bf2e
+  languageName: node
+  linkType: hard
+
+"interchainjs@npm:0.0.1-beta.16":
+  version: 0.0.1-beta.16
+  resolution: "interchainjs@npm:0.0.1-beta.16"
+  dependencies:
+    "@interchainjs/cosmos": "npm:^0.0.1-beta.14"
+    "@interchainjs/cosmos-types": "npm:^0.0.1-beta.11"
+    "@interchainjs/types": "npm:^0.0.1-beta.11"
+    "@interchainjs/utils": "npm:^0.0.1-beta.11"
+    "@noble/hashes": "npm:^1.3.1"
+    decimal.js: "npm:^10.4.3"
+  checksum: 10c0/3398fcb19557a327dc98bf3f22ed416bf2468e7cf91858c217d28fee1ab021bc699e1cd45058ff8c26bc157b492d837933eee10c755720782b86892bc610cea5
   languageName: node
   linkType: hard
 
