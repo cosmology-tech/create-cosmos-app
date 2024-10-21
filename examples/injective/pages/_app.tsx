@@ -4,7 +4,6 @@ import '@interchain-ui/react/styles';
 import type { AppProps } from 'next/app';
 
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { SignerOptions, wallets } from 'cosmos-kit';
 import { ChainProvider } from '@cosmos-kit/react';
@@ -57,9 +56,9 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
             projectId: 'a8510432ebb71e6948cfd6cde54b70f7',
             relayUrl: 'wss://relay.walletconnect.org',
             metadata: {
-              name: 'Cosmos Kit dApp',
-              description: 'Cosmos Kit dApp built by Create Cosmos App',
-              url: 'https://docs.cosmology.zone/cosmos-kit/',
+              name: 'Interchain Kit dApp',
+              description: 'Interchain Kit dApp built by Create Cosmos App',
+              url: 'https://github.com/cosmology-tech/interchain-kit',
               icons: [],
             },
           },
