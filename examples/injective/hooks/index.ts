@@ -1,5 +1,4 @@
 export * from './useTx';
-export * from './useSwap';
 export * from './usePools';
 export * from './usePrices';
 export * from './useBalances';
