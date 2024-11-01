@@ -1705,15 +1705,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:^0.17.0":
-  version: 0.17.1
-  resolution: "@chain-registry/types@npm:0.17.1"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-  checksum: 10c0/00400f2994c838dbf0a4a6aa01af397d72badbeee82e13095e1ae1e5853a9405f802f0e5629f3aab0cfaa7ec9eae78eb0976001d5a24a7f33d138e2b02edb547
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:^0.45.1, @chain-registry/types@npm:^0.45.3":
   version: 0.45.3
   resolution: "@chain-registry/types@npm:0.45.3"
@@ -1725,6 +1716,13 @@ __metadata:
   version: 0.45.4
   resolution: "@chain-registry/types@npm:0.45.4"
   checksum: 10c0/1060f43ea5bcf35f919536a497944fb5846db54eb7d174ce920076a7b8e8821d69496f00e3751d5523228764765eb702c0502ae8c0e2fcd7fa63e6d685f6c6a0
+  languageName: node
+  linkType: hard
+
+"@chain-registry/types@npm:^0.50.3":
+  version: 0.50.3
+  resolution: "@chain-registry/types@npm:0.50.3"
+  checksum: 10c0/0013e5258754d7787c1db696eb965326bf21280e9dff1f91cda6d32b2c763d7519f459948eadf92d98a0ac0a6197b881d8f5d0c5c6e2b8e81b3f81ce6403abf0
   languageName: node
   linkType: hard
 
@@ -3378,7 +3376,7 @@ __metadata:
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
     bignumber.js: "npm:9.1.1"
-    chain-registry: "npm:1.20.0"
+    chain-registry: "npm:^1.69.18"
     chakra-react-select: "npm:4.4.3"
     cosmos-kit: "npm:2.18.0"
     eslint: "npm:8.56.0"
@@ -9142,13 +9140,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chain-registry@npm:1.20.0":
-  version: 1.20.0
-  resolution: "chain-registry@npm:1.20.0"
+"chain-registry@npm:^1.69.18":
+  version: 1.69.18
+  resolution: "chain-registry@npm:1.69.18"
   dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.17.0"
-  checksum: 10c0/f2d4b23bc2b8607fc4de05fa34949eaa183a563afb07f718c039c2be151fa6fbd86e9a3c998dc6ca1b7ab9440bfbc1e1218aff51f0e681f9915788269e95a9da
+    "@chain-registry/types": "npm:^0.50.3"
+  checksum: 10c0/a38bf3ba7035deaa7c83b02bc68566ba28a509591f6d38f826d5587af2c4e587b7d9efd098cedf837cd2594c86e7c6f4fd397e05fa0f53d2410d395020613181
   languageName: node
   linkType: hard
 

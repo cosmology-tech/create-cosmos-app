@@ -7480,7 +7480,7 @@ __metadata:
     "@types/node": "npm:18.19.37"
     "@types/react": "npm:18.2.0"
     "@types/react-dom": "npm:18.2.0"
-    chain-registry: "npm:1.69.18"
+    chain-registry: "npm:^1.69.18"
     cosmos-kit: "npm:2.18.0"
     eslint: "npm:8.28.0"
     eslint-config-next: "npm:13.0.5"
@@ -19814,21 +19814,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chain-registry@npm:1.69.18, chain-registry@npm:^1.69.18":
-  version: 1.69.18
-  resolution: "chain-registry@npm:1.69.18"
-  dependencies:
-    "@chain-registry/types": "npm:^0.50.3"
-  checksum: 10c0/a38bf3ba7035deaa7c83b02bc68566ba28a509591f6d38f826d5587af2c4e587b7d9efd098cedf837cd2594c86e7c6f4fd397e05fa0f53d2410d395020613181
-  languageName: node
-  linkType: hard
-
 "chain-registry@npm:^1.5.0":
   version: 1.63.89
   resolution: "chain-registry@npm:1.63.89"
   dependencies:
     "@chain-registry/types": "npm:^0.45.72"
   checksum: 10c0/1f2e9ceab70ab426d3b94851ab9598a0915ed0c0525dd6c3df39ac7b31e523dd41779926bd67a176bcacd8e2f7af287a9e0a7ec042b1cb78a0caaedc78eb2587
+  languageName: node
+  linkType: hard
+
+"chain-registry@npm:^1.69.18":
+  version: 1.69.18
+  resolution: "chain-registry@npm:1.69.18"
+  dependencies:
+    "@chain-registry/types": "npm:^0.50.3"
+  checksum: 10c0/a38bf3ba7035deaa7c83b02bc68566ba28a509591f6d38f826d5587af2c4e587b7d9efd098cedf837cd2594c86e7c6f4fd397e05fa0f53d2410d395020613181
   languageName: node
   linkType: hard
 
