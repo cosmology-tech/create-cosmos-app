@@ -12,7 +12,7 @@
     "locks": "npm run locks:remove && npm run locks:create"
   },
   "dependencies": {
-    "@chain-registry/types": "0.17.0",
+    "@chain-registry/types": "^0.17.0",
     "@cosmjs/cosmwasm-stargate": "0.31.3",
     "@cosmjs/stargate": "0.32.3",
     "@cosmos-kit/react": "2.17.0",
@@ -22,7 +22,7 @@
     "@interchain-ui/react-no-ssr": "^0.1.6",
     "@tanstack/react-query": "4.32.0",
     "bignumber.js": "^9.1.1",
-    "chain-registry": "1.24.1",
+    "chain-registry": "^1.24.1",
     "cosmos-kit": "2.18.0",
     "dayjs": "^1.11.7",
     "fast-fuzzy": "1.12.0",

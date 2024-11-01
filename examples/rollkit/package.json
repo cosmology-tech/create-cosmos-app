@@ -18,7 +18,7 @@
     "@types/react-dom": "18.0.9"
   },
   "dependencies": {
-    "@chain-registry/types": "0.17.1",
+    "@chain-registry/types": "^0.17.1",
     "@cosmjs/cosmwasm-stargate": "0.31.3",
     "@cosmjs/stargate": "0.32.3",
     "@cosmos-kit/react": "2.17.0",
@@ -26,7 +26,7 @@
     "@emotion/styled": "11.10.6",
     "@interchain-ui/react": "^1.23.29",
     "@interchain-ui/react-no-ssr": "^0.1.6",
-    "chain-registry": "1.25.4",
+    "chain-registry": "^1.25.4",
     "cosmos-kit": "2.18.0",
     "fast-fuzzy": "1.12.0",
     "framer-motion": "9.0.7",
