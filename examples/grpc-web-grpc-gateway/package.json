@@ -36,7 +36,7 @@
     "@interchain-ui/react": "1.23.29",
     "@interchain-ui/react-no-ssr": "^0.1.6",
     "bignumber.js": "9.1.1",
-    "chain-registry": "^1.20.0",
+    "chain-registry": "^1.69.18",
     "chakra-react-select": "4.4.3",
     "cosmos-kit": "2.18.0",
     "fast-fuzzy": "1.12.0",
