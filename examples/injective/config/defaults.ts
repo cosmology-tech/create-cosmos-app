@@ -1,14 +1,14 @@
-import { assets } from 'chain-registry';
-import { AssetList, Asset } from '@chain-registry/types';
+import { assetLists, chains } from "@chain-registry/v2";
 
-export const chainName = 'injective' // 'cosmoshub';
+/**
+ * mainnet: 'injective'
+ * testnet: 'injectivetestnet'
+ * mainnet rpc: 'https://sentry.tm.injective.network'
+ * testnet rpc: 'https://testnet.sentry.tm.injective.network'
+ */
+export const defaultChainName = 'injective'
+export const defaultRpcEndpoint = 'https://sentry.tm.injective.network'
 
-// console.log('assets', assets)
+export const defaultChain = chains.find((chain) => chain.chainName === defaultChainName)
 
-export const chainassets: AssetList = assets.find(
-    (chain) => chain.chain_name === chainName
-) as AssetList;
-
-export const coin: Asset = chainassets.assets.find(
-    (asset) => asset.base === 'inj' // 'uatom'
-) as Asset;
+export const defaultAssetList = assetLists.find((assetList) => assetList.chainName === defaultChainName)
