@@ -1895,21 +1895,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/osmosis@npm:^1.21.0":
-  version: 1.62.70
-  resolution: "@chain-registry/osmosis@npm:1.62.70"
-  dependencies:
-    "@chain-registry/types": "npm:^0.45.70"
-  checksum: 10c0/e2ad0753fc146fa78d479453e40923bead9be769826a02e791c704542a50a20d4a566e744ad27dee9c0b4659df142433100aebf4e737d38028d63c82d2829a33
-  languageName: node
-  linkType: hard
-
-"@chain-registry/types@npm:0.17.0":
-  version: 0.17.0
-  resolution: "@chain-registry/types@npm:0.17.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-  checksum: 10c0/e4a32546e350240560b1339a3dcb6426eede1569ba9d17b0d6b5eeacd79fb643f347c21ea7f5ba147185c9ad2e19eea44dff248d8e1bf27e882511398812bfe4
+"@chain-registry/types@npm:0.44.3":
+  version: 0.44.3
+  resolution: "@chain-registry/types@npm:0.44.3"
+  checksum: 10c0/471e85e934e42ba2704fece7ca0545df5ef98e947a5d10aaefa7872145a21211036740b4b37bb8a33359561b7533c07c22e1608b372efc19be5e2ebd386ac3de
   languageName: node
   linkType: hard
 
@@ -3804,12 +3793,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmology/connect-chain-with-telescope@workspace:.":
+"@cosmology/injective@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@cosmology/connect-chain-with-telescope@workspace:."
+  resolution: "@cosmology/injective@workspace:."
   dependencies:
-    "@chain-registry/osmosis": "npm:^1.21.0"
-    "@chain-registry/types": "npm:0.17.0"
+    "@chain-registry/types": "npm:0.44.3"
     "@chakra-ui/icons": "npm:2.0.12"
     "@chakra-ui/react": "npm:2.5.1"
     "@cosmjs/amino": "npm:0.32.3"
