@@ -79,6 +79,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@chain-registry/assets@npm:^1.70.25":
+  version: 1.70.25
+  resolution: "@chain-registry/assets@npm:1.70.25"
+  dependencies:
+    "@chain-registry/types": "npm:^0.50.7"
+  checksum: 10c0/ebbb52e1795cf538be0b49d1636cad9f5b9589e1c7ac0d05de01d3e736ca045dbb7d1293673840b2e4886b032f859ec735a6433bc3f1fc09b9638343fbb2e37c
+  languageName: node
+  linkType: hard
+
 "@chain-registry/client@npm:^1.48.1":
   version: 1.48.3
   resolution: "@chain-registry/client@npm:1.48.3"
@@ -189,6 +198,13 @@ __metadata:
   version: 0.45.4
   resolution: "@chain-registry/types@npm:0.45.4"
   checksum: 10c0/1060f43ea5bcf35f919536a497944fb5846db54eb7d174ce920076a7b8e8821d69496f00e3751d5523228764765eb702c0502ae8c0e2fcd7fa63e6d685f6c6a0
+  languageName: node
+  linkType: hard
+
+"@chain-registry/types@npm:^0.50.7":
+  version: 0.50.7
+  resolution: "@chain-registry/types@npm:0.50.7"
+  checksum: 10c0/814f5096efa4b2a9b3c1ad60b0582d86602afa4b193f4cb004db5c80aa24b68567a61ca70ca289399b14761161a4b1530c8808e86471672e0920e1bc042b917f
   languageName: node
   linkType: hard
 
@@ -2031,6 +2047,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/swap-tokens@workspace:."
   dependencies:
+    "@chain-registry/assets": "npm:^1.70.25"
     "@chain-registry/types": "npm:0.44.3"
     "@chain-registry/utils": "npm:1.13.2"
     "@cosmjs/amino": "npm:0.32.3"
