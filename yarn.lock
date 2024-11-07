@@ -3562,44 +3562,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/osmosis@npm:1.20.0":
-  version: 1.20.0
-  resolution: "@chain-registry/osmosis@npm:1.20.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.16.0"
-  checksum: 10c0/b527f75cfc3463fc03a2c9f4d976d6d818e3e5f1155860a00a173b89de2232b69e5ade9a9232484b72d58830ddd00da6fcec0c959796a3862c81cb9d56d52489
-  languageName: node
-  linkType: hard
-
-"@chain-registry/osmosis@npm:1.21.0":
-  version: 1.21.0
-  resolution: "@chain-registry/osmosis@npm:1.21.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.17.0"
-  checksum: 10c0/cf7f9dc100055b54dd7870c852cc8897fab4abbc1276acc35d1cef8cd9d1a75691de4e81b882dd356aac8b917f2bd2e267e5db2370785d036a22d98a3096da54
-  languageName: node
-  linkType: hard
-
-"@chain-registry/osmosis@npm:1.61.3":
-  version: 1.61.3
-  resolution: "@chain-registry/osmosis@npm:1.61.3"
-  dependencies:
-    "@chain-registry/types": "npm:^0.44.3"
-  checksum: 10c0/e69033c32dfa46d126d2377103e4527f88f572fad0b185645cd08910557b393956a0c7d73ec8f9b62217ce6f311fff749b20869092f90f084b43fb041825da97
-  languageName: node
-  linkType: hard
-
-"@chain-registry/osmosis@npm:^1.21.0":
-  version: 1.62.72
-  resolution: "@chain-registry/osmosis@npm:1.62.72"
-  dependencies:
-    "@chain-registry/types": "npm:^0.45.72"
-  checksum: 10c0/45fe756af60cc0929b69213cd6a1e4dedd1cb930057069d28c040ff0943595a0569daba20d70d2bb7debd1ba755dde0c0c74b73b6c5ddb423cd230b7401253ff
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:0.16.0, @chain-registry/types@npm:^0.16.0":
   version: 0.16.0
   resolution: "@chain-registry/types@npm:0.16.0"
@@ -3734,12 +3696,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@chain-registry/v2-types@npm:^0.53.6":
+  version: 0.53.6
+  resolution: "@chain-registry/v2-types@npm:0.53.6"
+  checksum: 10c0/2faab88bffde88e03122aac16b7d890ff32614db0ddd0146a7b9986b780e7f2798cb1121ab73cacec4b0e54736d6413c1bb941792076a63675ca553d41e9890a
+  languageName: node
+  linkType: hard
+
 "@chain-registry/v2@npm:^1.65.20, @chain-registry/v2@npm:^1.65.6":
   version: 1.66.9
   resolution: "@chain-registry/v2@npm:1.66.9"
   dependencies:
     "@chain-registry/v2-types": "npm:^0.50.9"
   checksum: 10c0/fa2020b9f3685ae2859e8a2157bf0f16842c7cb93b345a88695216354d9f7bc0efb9f96269a802ed7d2d404add583d4781272f15057cb3dba01c9ae439933b64
+  languageName: node
+  linkType: hard
+
+"@chain-registry/v2@npm:^1.71.7":
+  version: 1.71.24
+  resolution: "@chain-registry/v2@npm:1.71.24"
+  dependencies:
+    "@chain-registry/v2-types": "npm:^0.53.6"
+  checksum: 10c0/ea295eb16f480e8a08afe96d7f3f9ff50fc113943dd0c9036fb753994e2584ef8e66b64660f91556c0d1a531dfb8eb80637397bbf44750d31297f8a6cdfc2d35
   languageName: node
   linkType: hard
 
@@ -7264,8 +7242,7 @@ __metadata:
   resolution: "@cosmology/asset-list@workspace:examples/asset-list"
   dependencies:
     "@chain-registry/assets": "npm:^1.21.0"
-    "@chain-registry/osmosis": "npm:^1.21.0"
-    "@chain-registry/types": "npm:^0.16.0"
+    "@chain-registry/types": "npm:0.44.3"
     "@cosmjs/amino": "npm:^0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:^0.32.3"
     "@cosmjs/stargate": "npm:^0.32.3"
@@ -7344,6 +7321,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmology/ast@npm:^1.8.10":
+  version: 1.8.10
+  resolution: "@cosmology/ast@npm:1.8.10"
+  dependencies:
+    "@babel/types": "npm:7.23.6"
+    "@cosmology/types": "npm:^1.10.3"
+    "@cosmology/utils": "npm:^1.8.7"
+    case: "npm:1.6.3"
+    dotty: "npm:0.1.2"
+  checksum: 10c0/6bb1566934aef4049081b6f1799d00ccfe07120e6a4c18a751641a5554f657bf2e8b41cf1f6194bb1fe4eb1ff1adaa652428e3784a68c249f64e95abb4070f56
+  languageName: node
+  linkType: hard
+
 "@cosmology/ast@npm:^1.8.2":
   version: 1.8.2
   resolution: "@cosmology/ast@npm:1.8.2"
@@ -7409,12 +7399,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@cosmology/chain-template@workspace:examples/chain-template":
+"@cosmology/chain-template@workspace:templates/chain-template":
   version: 0.0.0-use.local
-  resolution: "@cosmology/chain-template@workspace:examples/chain-template"
+  resolution: "@cosmology/chain-template@workspace:templates/chain-template"
   dependencies:
     "@chain-registry/assets": "npm:1.63.5"
-    "@chain-registry/osmosis": "npm:1.61.3"
     "@chain-registry/types": "npm:0.44.3"
     "@cosmjs/amino": "npm:0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:0.32.3"
@@ -7459,8 +7448,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/connect-chain-with-telescope@workspace:examples/telescope"
   dependencies:
-    "@chain-registry/osmosis": "npm:^1.21.0"
-    "@chain-registry/types": "npm:0.17.0"
+    "@chain-registry/types": "npm:0.44.3"
     "@chakra-ui/icons": "npm:2.0.12"
     "@chakra-ui/react": "npm:2.5.1"
     "@cosmjs/amino": "npm:0.32.3"
@@ -7608,8 +7596,7 @@ __metadata:
   resolution: "@cosmology/ibc-transfer@workspace:examples/ibc-transfer"
   dependencies:
     "@chain-registry/assets": "npm:^1.21.0"
-    "@chain-registry/osmosis": "npm:^1.21.0"
-    "@chain-registry/types": "npm:^0.16.0"
+    "@chain-registry/types": "npm:0.44.3"
     "@cosmjs/amino": "npm:^0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:^0.32.3"
     "@cosmjs/stargate": "npm:^0.32.3"
@@ -7646,17 +7633,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/injective@workspace:examples/injective"
   dependencies:
-    "@chain-registry/osmosis": "npm:^1.21.0"
-    "@chain-registry/types": "npm:0.17.0"
+    "@chain-registry/types": "npm:0.16.0"
+    "@chain-registry/utils": "npm:1.13.2"
+    "@chain-registry/v2": "npm:^1.71.7"
     "@chakra-ui/icons": "npm:2.0.12"
     "@chakra-ui/react": "npm:2.5.1"
     "@cosmjs/amino": "npm:0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/proto-signing": "npm:0.32.3"
     "@cosmjs/stargate": "npm:0.32.3"
-    "@cosmjson/wasmswap": "npm:^0.0.9"
     "@cosmology/lcd": "npm:^0.12.0"
-    "@cosmology/telescope": "npm:^0.106.0"
+    "@cosmology/telescope": "npm:^1.10.3"
     "@cosmos-kit/react": "npm:2.17.0"
     "@emotion/react": "npm:11.10.6"
     "@emotion/styled": "npm:11.10.6"
@@ -7664,37 +7651,27 @@ __metadata:
     "@interchain-kit/keplr-extension": "npm:0.0.1-beta.23"
     "@interchain-kit/leap-extension": "npm:0.0.1-beta.23"
     "@interchain-kit/react": "npm:0.0.1-beta.23"
-    "@interchain-ui/react": "npm:^1.24.0"
+    "@interchain-ui/react": "npm:^1.23.29"
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
     "@interchainjs/cosmos-types": "npm:0.0.1-beta.9"
     "@interchainjs/injective": "npm:0.0.1-beta.12"
-    "@protobufs/cosmos": "npm:^0.1.0"
-    "@protobufs/cosmwasm": "npm:^0.1.1"
-    "@protobufs/ibc": "npm:^0.1.0"
-    "@tanstack/react-query": "npm:4.32.0"
+    "@tanstack/react-query": "npm:4.29.1"
+    "@tanstack/react-query-devtools": "npm:4.29.1"
     "@types/node": "npm:^20.14.6"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
-    bignumber.js: "npm:9.1.0"
+    bignumber.js: "npm:9.1.1"
     chain-registry: "npm:1.20.0"
-    chakra-react-select: "npm:^4.7.0"
-    cosmos-kit: "npm:2.18.0"
-    dayjs: "npm:^1.11.11"
+    decimal.js: "npm:^10.4.3"
     eslint: "npm:8.28.0"
     eslint-config-next: "npm:13.0.5"
-    fast-fuzzy: "npm:^1.12.0"
-    framer-motion: "npm:9.0.7"
     generate-lockfile: "npm:0.0.12"
     interchainjs: "npm:0.0.1-beta.14"
-    mobx: "npm:^6.7.0"
-    mobx-react: "npm:^7.6.0"
+    mobx: "npm:^6.13.5"
     next: "npm:^13"
-    osmojs: "npm:^16.5.1"
-    react: "npm:^18.2"
-    react-dom: "npm:^18.2"
-    react-icons: "npm:^4.12.0"
-    react-markdown: "npm:^8.0.7"
-    react-minimal-pie-chart: "npm:^8.4.0"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
+    react-icons: "npm:4.6.0"
     typescript: "npm:^5.1.6"
   languageName: unknown
   linkType: soft
@@ -7804,6 +7781,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmology/proto-parser@npm:^1.8.7":
+  version: 1.8.7
+  resolution: "@cosmology/proto-parser@npm:1.8.7"
+  dependencies:
+    "@cosmology/protobufjs": "npm:7.3.2"
+    "@cosmology/types": "npm:^1.10.3"
+    "@cosmology/utils": "npm:^1.8.7"
+    dotty: "npm:0.1.2"
+    fast-json-patch: "npm:3.1.1"
+    glob: "npm:8.0.3"
+    minimatch: "npm:5.1.0"
+    mkdirp: "npm:3.0.0"
+  checksum: 10c0/24c4f0d825162dc64fcf673f30ec0452c26be5359ff0774876b0263d6d8a45fa47abc14333f23351400073df6acb298a5c94f34adae107dd4cdeef1a179de53d
+  languageName: node
+  linkType: hard
+
 "@cosmology/protobufjs@npm:6.11.6":
   version: 6.11.6
   resolution: "@cosmology/protobufjs@npm:6.11.6"
@@ -7853,7 +7846,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/provide-liquidity@workspace:examples/provide-liquidity"
   dependencies:
-    "@chain-registry/osmosis": "npm:1.21.0"
     "@chain-registry/types": "npm:0.17.0"
     "@chain-registry/utils": "npm:1.14.0"
     "@chakra-ui/icons": "npm:2.0.12"
@@ -7925,7 +7917,6 @@ __metadata:
   resolution: "@cosmology/spawn@workspace:examples/spawn"
   dependencies:
     "@chain-registry/assets": "npm:1.63.5"
-    "@chain-registry/osmosis": "npm:1.61.3"
     "@chain-registry/types": "npm:0.44.3"
     "@cosmjs/amino": "npm:0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:0.32.3"
@@ -7998,8 +7989,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/swap-tokens@workspace:examples/swap-tokens"
   dependencies:
-    "@chain-registry/osmosis": "npm:1.20.0"
-    "@chain-registry/types": "npm:0.16.0"
+    "@chain-registry/types": "npm:0.44.3"
     "@chain-registry/utils": "npm:1.13.2"
     "@cosmjs/amino": "npm:0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:0.32.3"
@@ -8208,6 +8198,40 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmology/telescope@npm:^1.10.3":
+  version: 1.10.8
+  resolution: "@cosmology/telescope@npm:1.10.8"
+  dependencies:
+    "@babel/generator": "npm:^7.23.6"
+    "@babel/parser": "npm:^7.23.6"
+    "@babel/traverse": "npm:7.23.6"
+    "@babel/types": "npm:7.23.6"
+    "@cosmology/ast": "npm:^1.8.10"
+    "@cosmology/proto-parser": "npm:^1.8.7"
+    "@cosmology/types": "npm:^1.10.3"
+    "@cosmology/utils": "npm:^1.8.7"
+    "@cosmwasm/ts-codegen": "npm:0.35.7"
+    "@types/parse-package-name": "npm:0.1.0"
+    case: "npm:1.6.3"
+    dargs: "npm:7.0.0"
+    deepmerge: "npm:4.3.1"
+    dotty: "npm:0.1.2"
+    fuzzy: "npm:0.1.3"
+    glob: "npm:8.0.3"
+    inquirerer: "npm:0.1.3"
+    long: "npm:^5.2.1"
+    minimatch: "npm:5.1.0"
+    minimist: "npm:1.2.8"
+    mkdirp: "npm:3.0.0"
+    parse-package-name: "npm:1.0.0"
+    rimraf: "npm:5.0.0"
+    yaml: "npm:^2.3.4"
+  bin:
+    telescope: main/telescope.js
+  checksum: 10c0/ca46390d5c255428855ce395ff265df1868918222d9a655c4bdefa72a4a8accfc23c7daa2f569a1e5a02ce0ce1988d46eb3d519aac24df145c05c5e63df3b208
+  languageName: node
+  linkType: hard
+
 "@cosmology/telescope@npm:^1.4.1":
   version: 1.8.4
   resolution: "@cosmology/telescope@npm:1.8.4"
@@ -8263,6 +8287,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmology/types@npm:^1.10.3":
+  version: 1.10.3
+  resolution: "@cosmology/types@npm:1.10.3"
+  dependencies:
+    case: "npm:1.6.3"
+    fast-json-patch: "npm:3.1.1"
+  checksum: 10c0/dfd3f74fa317f23a41e4d8461881419ba3fff4db2e33f7cc2041c36ff1cd507e6ce13cc31e6ad90391fdcfdc64befe0b090a154aaff0d20ec240b55afeb263d8
+  languageName: node
+  linkType: hard
+
 "@cosmology/types@npm:^1.8.2":
   version: 1.8.2
   resolution: "@cosmology/types@npm:1.8.2"
@@ -8300,6 +8334,16 @@ __metadata:
     "@cosmology/types": "npm:^1.8.2"
     dotty: "npm:0.1.2"
   checksum: 10c0/759518858e5d488497744190fca2c97ff1639ac6ff6f203e76761d76919c1b51486e2b8e7400a1a0aa84cdf013626cc55235341adf1dbafa4622b74375b4de61
+  languageName: node
+  linkType: hard
+
+"@cosmology/utils@npm:^1.8.7":
+  version: 1.8.7
+  resolution: "@cosmology/utils@npm:1.8.7"
+  dependencies:
+    "@cosmology/types": "npm:^1.10.3"
+    dotty: "npm:0.1.2"
+  checksum: 10c0/2d07ad7515c2ef40342ba9b645f3f87c379c0308ebc3748471d681febecc3973766f83bd5d56d96d3733a640d074f86b876b18407cb58822d505f0207a477d20
   languageName: node
   linkType: hard
 
@@ -10858,42 +10902,6 @@ __metadata:
     react: ^16.14.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
   checksum: 10c0/48bbf30adce982d116b19557ad4393b8d92798741b8e11715f6386b064edc2d635892bdfbe628a77e329030f297eb0c155b80628d7506bdffe0190a0e49934b5
-  languageName: node
-  linkType: hard
-
-"@interchain-ui/react@npm:^1.24.0":
-  version: 1.25.2
-  resolution: "@interchain-ui/react@npm:1.25.2"
-  dependencies:
-    "@floating-ui/core": "npm:^1.6.7"
-    "@floating-ui/dom": "npm:^1.6.10"
-    "@floating-ui/react": "npm:^0.26.23"
-    "@floating-ui/react-dom": "npm:^2.1.1"
-    "@floating-ui/utils": "npm:^0.2.7"
-    "@formkit/auto-animate": "npm:^0.8.2"
-    "@react-aria/listbox": "npm:^3.13.3"
-    "@react-aria/overlays": "npm:^3.23.2"
-    "@react-aria/utils": "npm:^3.25.2"
-    "@tanstack/react-virtual": "npm:^3.10.5"
-    "@vanilla-extract/css": "npm:^1.15.5"
-    "@vanilla-extract/css-utils": "npm:^0.1.4"
-    "@vanilla-extract/dynamic": "npm:^2.1.2"
-    "@vanilla-extract/recipes": "npm:^0.5.5"
-    animejs: "npm:^3.2.2"
-    bignumber.js: "npm:^9.1.2"
-    client-only: "npm:^0.0.1"
-    clsx: "npm:^2.1.1"
-    copy-to-clipboard: "npm:^3.3.3"
-    immer: "npm:^10.1.1"
-    lodash: "npm:^4.17.21"
-    rainbow-sprinkles: "npm:^0.17.2"
-    react-aria: "npm:^3.34.3"
-    react-stately: "npm:^3.32.2"
-    zustand: "npm:^4.5.5"
-  peerDependencies:
-    react: ^16.14.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/e90fd27112fcfe7bfd88a0ab9e45d4735c2695a0e22e24211f4a9c64b7b370f72ef6d30ad6c26f9e9d1e978521652c0d48c874a83a09eedf5d17fbd4998948b2
   languageName: node
   linkType: hard
 
@@ -16855,10 +16863,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:4.29.1":
+  version: 4.29.1
+  resolution: "@tanstack/query-core@npm:4.29.1"
+  checksum: 10c0/38fb775e370e7cd43fa4084620d855a08cb02e52adc8c3dd9eaea92ca4aa6ba3ae3a0ab627162e2f4a974f629478b660dc6f1a77723e7aaaf7408ab7c1840847
+  languageName: node
+  linkType: hard
+
 "@tanstack/query-core@npm:4.32.0":
   version: 4.32.0
   resolution: "@tanstack/query-core@npm:4.32.0"
   checksum: 10c0/e897d1d294d79f6d3d522db2d64977e71d99f5f74e22314bd0bbbf6c31df3deac5d19516fc2513be4ad1c545fd031d4355ee0a47dec7211e70e80c9cd5feb25e
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query-devtools@npm:4.29.1":
+  version: 4.29.1
+  resolution: "@tanstack/react-query-devtools@npm:4.29.1"
+  dependencies:
+    "@tanstack/match-sorter-utils": "npm:^8.7.0"
+    superjson: "npm:^1.10.0"
+    use-sync-external-store: "npm:^1.2.0"
+  peerDependencies:
+    "@tanstack/react-query": 4.29.1
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/74878444bc3705fa2d7055e35a6b54b2dc36694d85e9cf32e713e99d791ba4e2aba6ffb307130fa38a939ebd2aa80e1f11cb61c4e46be30d197a59c0af7ff120
   languageName: node
   linkType: hard
 
@@ -16874,6 +16904,25 @@ __metadata:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: 10c0/c583365058f77b8e1199d938e4da337181b08dedd6316d25e4e65924e414aa4bf8b63072ab7fdc546bef01c4a9529368c6e30483f019999a6f2e87501bfeb8a4
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:4.29.1":
+  version: 4.29.1
+  resolution: "@tanstack/react-query@npm:4.29.1"
+  dependencies:
+    "@tanstack/query-core": "npm:4.29.1"
+    use-sync-external-store: "npm:^1.2.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-native: "*"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 10c0/a267bb4e5192ef3518aa0313c8f9a92bb0ea902caeb5598e2ea0d542d7253a99f438dcbb1a58eb40e3ad54ca52a06b024188dc1864e1d153ad1a6a4f54d088ba
   languageName: node
   linkType: hard
 
@@ -17786,13 +17835,6 @@ __metadata:
   version: 1.2.0
   resolution: "@ungap/structured-clone@npm:1.2.0"
   checksum: 10c0/8209c937cb39119f44eb63cf90c0b73e7c754209a6411c707be08e50e29ee81356dca1a848a405c8bdeebfe2f5e4f831ad310ae1689eeef65e7445c090c6657d
-  languageName: node
-  linkType: hard
-
-"@vanilla-extract/css-utils@npm:^0.1.4":
-  version: 0.1.4
-  resolution: "@vanilla-extract/css-utils@npm:0.1.4"
-  checksum: 10c0/b822770927fa201cdd0363d25734f213ba57b9f03d97557729fdcc39a5898d122b91e694f2baf0711f65254964ecdb1e26341889f53596fb4b4c23a8a80e8a22
   languageName: node
   linkType: hard
 
@@ -28025,6 +28067,13 @@ __metadata:
   version: 6.13.2
   resolution: "mobx@npm:6.13.2"
   checksum: 10c0/144b408e452e7e4b43a57f0d9b589f614c2549f6440a769ceb90bb4434e7d45915872dee8b8c50775a4b0aa600c89406b4b589f992352cfa58fe3bce68a84711
+  languageName: node
+  linkType: hard
+
+"mobx@npm:^6.13.5":
+  version: 6.13.5
+  resolution: "mobx@npm:6.13.5"
+  checksum: 10c0/43691c836363aa1f13c44e43c86ab89fc8f4b83ef408bc6c68d799260e74b4ff08ebba2ef16bda447c6b7bca3558768e15927c0b21ffbb10e99b610783f28859
   languageName: node
   linkType: hard
 
