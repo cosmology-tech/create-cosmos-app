@@ -12,16 +12,25 @@ import { QueryDelegatorDelegationsRequest } from '../src/codegen/cosmos/staking/
 import { PriceHash } from '../utils/liquidity/types';
 import { SuperfluidDelegationsByDelegatorRequest } from '../src/codegen/osmosis/superfluid/query';
 import { ActiveGaugesPerDenomRequest } from '../src/codegen/osmosis/incentives/query';
-import {
-  assets as nativeAssets,
-  asset_list as osmosisIbcAssets,
-} from '@chain-registry/osmosis';
+import { asset_lists } from "@chain-registry/assets"
+import { assets } from "chain-registry"
+import { Asset as OsmosisAsset } from "@chain-registry/types";
 
 type Client = Awaited<
   ReturnType<typeof osmosis.ClientFactory.createRPCQueryClient>
 >;
 
-const osmosisAssets = [...nativeAssets.assets, ...osmosisIbcAssets.assets];
+let osmosisAssets: OsmosisAsset[] = []
+
+const chainInfo = asset_lists.find(({ chain_name }) => chain_name === 'osmosis')
+if (Array.isArray(chainInfo?.assets)) {
+  osmosisAssets = [...chainInfo?.assets]
+}
+
+let chainInfo2 = assets.find(({ chain_name }) => chain_name === 'osmosis')
+if (Array.isArray(chainInfo2?.assets)) {
+  osmosisAssets = [...osmosisAssets, ...chainInfo2.assets]
+}
 
 const removeUnsupportedPools = ({ poolAssets }: Pool, prices: PriceHash) => {
   return poolAssets.every(

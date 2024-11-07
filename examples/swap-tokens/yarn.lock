@@ -137,22 +137,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/osmosis@npm:1.20.0":
-  version: 1.20.0
-  resolution: "@chain-registry/osmosis@npm:1.20.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.16.0"
-  checksum: 10c0/b527f75cfc3463fc03a2c9f4d976d6d818e3e5f1155860a00a173b89de2232b69e5ade9a9232484b72d58830ddd00da6fcec0c959796a3862c81cb9d56d52489
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:0.16.0, @chain-registry/types@npm:^0.16.0":
   version: 0.16.0
   resolution: "@chain-registry/types@npm:0.16.0"
   dependencies:
     "@babel/runtime": "npm:^7.21.0"
   checksum: 10c0/6101d2ce519d9982d4d40bd47dd2056d60db48d87823aa6e17d45a954b0e0ca755cfc0d1c90d9e815de8f4ab1c62d55267205c4fd8b4cbd9f4a7df1752f3b4bc
+  languageName: node
+  linkType: hard
+
+"@chain-registry/types@npm:0.44.3":
+  version: 0.44.3
+  resolution: "@chain-registry/types@npm:0.44.3"
+  checksum: 10c0/471e85e934e42ba2704fece7ca0545df5ef98e947a5d10aaefa7872145a21211036740b4b37bb8a33359561b7533c07c22e1608b372efc19be5e2ebd386ac3de
   languageName: node
   linkType: hard
 
@@ -2034,8 +2031,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/swap-tokens@workspace:."
   dependencies:
-    "@chain-registry/osmosis": "npm:1.20.0"
-    "@chain-registry/types": "npm:0.16.0"
+    "@chain-registry/types": "npm:0.44.3"
     "@chain-registry/utils": "npm:1.13.2"
     "@cosmjs/amino": "npm:0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:0.32.3"

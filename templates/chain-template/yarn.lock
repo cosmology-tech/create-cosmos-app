@@ -103,15 +103,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/osmosis@npm:1.61.3":
-  version: 1.61.3
-  resolution: "@chain-registry/osmosis@npm:1.61.3"
-  dependencies:
-    "@chain-registry/types": "npm:^0.44.3"
-  checksum: 10c0/e69033c32dfa46d126d2377103e4527f88f572fad0b185645cd08910557b393956a0c7d73ec8f9b62217ce6f311fff749b20869092f90f084b43fb041825da97
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:0.44.3, @chain-registry/types@npm:^0.44.3":
   version: 0.44.3
   resolution: "@chain-registry/types@npm:0.44.3"
@@ -854,7 +845,6 @@ __metadata:
   resolution: "@cosmology/chain-template@workspace:."
   dependencies:
     "@chain-registry/assets": "npm:1.63.5"
-    "@chain-registry/osmosis": "npm:1.61.3"
     "@chain-registry/types": "npm:0.44.3"
     "@cosmjs/amino": "npm:0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:0.32.3"

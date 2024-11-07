@@ -1,4 +1,5 @@
-import { asset_list, assets } from '@chain-registry/osmosis';
+import { asset_lists } from "@chain-registry/assets"
+import { assets } from "chain-registry"
 import { Asset as OsmosisAsset } from '@chain-registry/types';
 import { Pool } from '../../src/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { Coin } from 'osmojs/types/codegen/cosmos/base/v1beta1/coin';
@@ -16,10 +17,19 @@ import {
 } from './types';
 import BigNumber from 'bignumber.js';
 
-export const osmosisAssets: OsmosisAsset[] = [
-  ...assets.assets,
-  ...asset_list.assets,
-];
+let osmoAssets: OsmosisAsset[] = []
+// assets from @chain-registry/assets
+const chainInfo = asset_lists.find(({ chain_name }) => chain_name === 'osmosis')
+if (Array.isArray(chainInfo?.assets)) {
+  osmoAssets = [...chainInfo?.assets]
+}
+// assets from chain-registry
+let chainInfo2 = assets.find(({ chain_name }) => chain_name === 'osmosis')
+if (Array.isArray(chainInfo2?.assets)) {
+  osmoAssets = [...osmoAssets, ...chainInfo2.assets]
+}
+
+export const osmosisAssets: OsmosisAsset[] = osmoAssets
 
 export const getOsmoAssetByDenom = (denom: CoinDenom): OsmosisAsset => {
   return osmosisAssets.find((asset) => asset.base === denom) as OsmosisAsset;

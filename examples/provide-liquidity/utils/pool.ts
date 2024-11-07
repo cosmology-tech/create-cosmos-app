@@ -1,6 +1,8 @@
 import BigNumber from 'bignumber.js';
 import { Asset } from '@chain-registry/types';
-import { asset_list, assets } from '@chain-registry/osmosis';
+import { asset_lists } from "@chain-registry/assets"
+import { assets } from "chain-registry"
+
 import {
   getAssetByDenom,
   getDenomByCoinGeckoId,
@@ -42,9 +44,20 @@ import {
 } from './types';
 import { Fee } from '@/hooks';
 
+let tempAssets: any[] = []
+// assets from @chain-registry/assets
+const chainInfo = asset_lists.find(({ chain_name }) => chain_name === 'osmosis')
+if (Array.isArray(chainInfo?.assets)) {
+  tempAssets = [...chainInfo?.assets]
+}
+// assets from chain-registry
+let chainInfo2 = assets.find(({ chain_name }) => chain_name === 'osmosis')
+if (Array.isArray(chainInfo2?.assets)) {
+  tempAssets = [...tempAssets, ...chainInfo2.assets]
+}
+
 export const osmosisAssets: Asset[] = [
-  ...assets.assets,
-  ...asset_list.assets,
+  ...tempAssets
 ].filter(({ type_asset }) => type_asset !== 'ics20');
 
 export const getOsmoAssetByDenom = (denom: CoinDenom): Asset => {

@@ -137,16 +137,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/osmosis@npm:1.21.0":
-  version: 1.21.0
-  resolution: "@chain-registry/osmosis@npm:1.21.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.17.0"
-  checksum: 10c0/cf7f9dc100055b54dd7870c852cc8897fab4abbc1276acc35d1cef8cd9d1a75691de4e81b882dd356aac8b917f2bd2e267e5db2370785d036a22d98a3096da54
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:0.16.0, @chain-registry/types@npm:^0.16.0":
   version: 0.16.0
   resolution: "@chain-registry/types@npm:0.16.0"
@@ -2019,7 +2009,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/provide-liquidity@workspace:."
   dependencies:
-    "@chain-registry/osmosis": "npm:1.21.0"
     "@chain-registry/types": "npm:0.17.0"
     "@chain-registry/utils": "npm:1.14.0"
     "@chakra-ui/icons": "npm:2.0.12"
