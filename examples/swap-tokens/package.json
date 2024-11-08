@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@chain-registry/assets": "^1.70.25",
-    "@chain-registry/types": "0.44.3",
+    "@chain-registry/types": "^0.50.7",
     "@chain-registry/utils": "1.13.2",
     "@cosmjs/amino": "0.32.3",
     "@cosmjs/cosmwasm-stargate": "0.32.3",
@@ -33,7 +33,7 @@
     "@osmonauts/math": "1.7.0",
     "@tanstack/react-query": "4.32.0",
     "bignumber.js": "9.1.1",
-    "chain-registry": "1.20.0",
+    "chain-registry": "^1.69.26",
     "cosmos-kit": "2.18.0",
     "next": "^13",
     "osmo-query": "16.5.1",

@@ -155,26 +155,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:0.44.3":
-  version: 0.44.3
-  resolution: "@chain-registry/types@npm:0.44.3"
-  checksum: 10c0/471e85e934e42ba2704fece7ca0545df5ef98e947a5d10aaefa7872145a21211036740b4b37bb8a33359561b7533c07c22e1608b372efc19be5e2ebd386ac3de
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:0.45.1":
   version: 0.45.1
   resolution: "@chain-registry/types@npm:0.45.1"
   checksum: 10c0/d2008c36e2b9d5b4dfbeae2e4038b956789cf7a70bff85d936fdb76a34a16609952b8b233bd09c3e93eeb9ccde26a5492230d1f3e450b2a7a7b8474df76835a5
-  languageName: node
-  linkType: hard
-
-"@chain-registry/types@npm:^0.17.0":
-  version: 0.17.1
-  resolution: "@chain-registry/types@npm:0.17.1"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-  checksum: 10c0/00400f2994c838dbf0a4a6aa01af397d72badbeee82e13095e1ae1e5853a9405f802f0e5629f3aab0cfaa7ec9eae78eb0976001d5a24a7f33d138e2b02edb547
   languageName: node
   linkType: hard
 
@@ -205,6 +189,13 @@ __metadata:
   version: 0.50.7
   resolution: "@chain-registry/types@npm:0.50.7"
   checksum: 10c0/814f5096efa4b2a9b3c1ad60b0582d86602afa4b193f4cb004db5c80aa24b68567a61ca70ca289399b14761161a4b1530c8808e86471672e0920e1bc042b917f
+  languageName: node
+  linkType: hard
+
+"@chain-registry/types@npm:^0.50.8":
+  version: 0.50.8
+  resolution: "@chain-registry/types@npm:0.50.8"
+  checksum: 10c0/105e34152428e68a109bd7917ff91d672b90d7d58625fbc617d178233c746f3e6bd1ea9817d0acdefb9b74916917f510d7eaecdaa7ab42399a81e45e68bef653
   languageName: node
   linkType: hard
 
@@ -2048,7 +2039,7 @@ __metadata:
   resolution: "@cosmology/swap-tokens@workspace:."
   dependencies:
     "@chain-registry/assets": "npm:^1.70.25"
-    "@chain-registry/types": "npm:0.44.3"
+    "@chain-registry/types": "npm:^0.50.7"
     "@chain-registry/utils": "npm:1.13.2"
     "@cosmjs/amino": "npm:0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:0.32.3"
@@ -2066,7 +2057,7 @@ __metadata:
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
     bignumber.js: "npm:9.1.1"
-    chain-registry: "npm:1.20.0"
+    chain-registry: "npm:^1.69.26"
     cosmos-kit: "npm:2.18.0"
     eslint: "npm:8.28.0"
     eslint-config-next: "npm:13.0.5"
@@ -7245,16 +7236,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chain-registry@npm:1.20.0":
-  version: 1.20.0
-  resolution: "chain-registry@npm:1.20.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.17.0"
-  checksum: 10c0/f2d4b23bc2b8607fc4de05fa34949eaa183a563afb07f718c039c2be151fa6fbd86e9a3c998dc6ca1b7ab9440bfbc1e1218aff51f0e681f9915788269e95a9da
-  languageName: node
-  linkType: hard
-
 "chain-registry@npm:^1.5.0":
   version: 1.33.20
   resolution: "chain-registry@npm:1.33.20"
@@ -7262,6 +7243,15 @@ __metadata:
     "@babel/runtime": "npm:^7.21.0"
     "@chain-registry/types": "npm:^0.18.15"
   checksum: 10c0/4cab3336c307574babc45207442f05d56549839146beda0895d4dae04ad1f1ca0e5cdc1a14c4492a80cfa1ee5945413e79456b9f2e359d02da58f94ed48f44ce
+  languageName: node
+  linkType: hard
+
+"chain-registry@npm:^1.69.26":
+  version: 1.69.26
+  resolution: "chain-registry@npm:1.69.26"
+  dependencies:
+    "@chain-registry/types": "npm:^0.50.8"
+  checksum: 10c0/ac7245a258fd9f1a5b4a0a2008d06bebcb67b03d04a3833f69954cd8e3bddacabfa96633b14127804f944d1f7b660b89228cc03c48a6b203c12d2f17c9c1d3d8
   languageName: node
   linkType: hard
 
