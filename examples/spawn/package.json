@@ -18,7 +18,8 @@
     "@types/react-dom": "18.0.9"
   },
   "dependencies": {
-    "@chain-registry/assets": "^1.70.26",
+    "@chain-registry/assets": "1.63.5",
+    "@chain-registry/osmosis": "1.61.3",
     "@cosmjs/amino": "0.32.3",
     "@cosmjs/cosmwasm-stargate": "0.32.3",
     "@cosmjs/stargate": "0.31.1",

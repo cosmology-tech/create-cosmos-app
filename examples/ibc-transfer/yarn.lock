@@ -79,12 +79,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/assets@npm:^1.70.26":
-  version: 1.70.26
-  resolution: "@chain-registry/assets@npm:1.70.26"
+"@chain-registry/assets@npm:^1.21.0":
+  version: 1.34.20
+  resolution: "@chain-registry/assets@npm:1.34.20"
   dependencies:
-    "@chain-registry/types": "npm:^0.50.8"
-  checksum: 10c0/8bc07486d45d4616511b40b8654b04602ce3d6cfe64cc7fc1c188a323c1374224b032bc5d109016d7654486f4abf7dc51232db60f7aeb123650bd36b34dfa9cd
+    "@babel/runtime": "npm:^7.21.0"
+    "@chain-registry/types": "npm:^0.18.15"
+  checksum: 10c0/f43eb1ca77f5b3ab17459ca9d61fec8d22d7ff9071704d5706dcd741088f251dc810af91c74dc7a97f8c9ddf08edfc90487e9eb09c0966f61716872a91df59fe
   languageName: node
   linkType: hard
 
@@ -146,13 +147,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:0.44.3":
-  version: 0.44.3
-  resolution: "@chain-registry/types@npm:0.44.3"
-  checksum: 10c0/471e85e934e42ba2704fece7ca0545df5ef98e947a5d10aaefa7872145a21211036740b4b37bb8a33359561b7533c07c22e1608b372efc19be5e2ebd386ac3de
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:0.45.1":
   version: 0.45.1
   resolution: "@chain-registry/types@npm:0.45.1"
@@ -169,6 +163,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@chain-registry/types@npm:^0.18.15":
+  version: 0.18.15
+  resolution: "@chain-registry/types@npm:0.18.15"
+  dependencies:
+    "@babel/runtime": "npm:^7.21.0"
+  checksum: 10c0/3acc164760c99d495d691cd3d17631e5a8c0350ea3f0a58565aa8db0db3430fe9c197d1605eedb8ac06d2aa281a9d1446dfe6836ef40c99be8356134341d5c04
+  languageName: node
+  linkType: hard
+
 "@chain-registry/types@npm:^0.45.1, @chain-registry/types@npm:^0.45.3":
   version: 0.45.3
   resolution: "@chain-registry/types@npm:0.45.3"
@@ -180,13 +183,6 @@ __metadata:
   version: 0.45.4
   resolution: "@chain-registry/types@npm:0.45.4"
   checksum: 10c0/1060f43ea5bcf35f919536a497944fb5846db54eb7d174ce920076a7b8e8821d69496f00e3751d5523228764765eb702c0502ae8c0e2fcd7fa63e6d685f6c6a0
-  languageName: node
-  linkType: hard
-
-"@chain-registry/types@npm:^0.50.8":
-  version: 0.50.8
-  resolution: "@chain-registry/types@npm:0.50.8"
-  checksum: 10c0/105e34152428e68a109bd7917ff91d672b90d7d58625fbc617d178233c746f3e6bd1ea9817d0acdefb9b74916917f510d7eaecdaa7ab42399a81e45e68bef653
   languageName: node
   linkType: hard
 
@@ -556,8 +552,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/ibc-transfer@workspace:."
   dependencies:
-    "@chain-registry/assets": "npm:^1.70.26"
-    "@chain-registry/types": "npm:0.44.3"
+    "@chain-registry/assets": "npm:^1.21.0"
+    "@chain-registry/types": "npm:^0.18.15"
     "@cosmjs/amino": "npm:^0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:^0.32.3"
     "@cosmjs/stargate": "npm:^0.32.3"
