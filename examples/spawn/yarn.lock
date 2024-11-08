@@ -32,12 +32,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/assets@npm:1.63.5":
-  version: 1.63.5
-  resolution: "@chain-registry/assets@npm:1.63.5"
+"@chain-registry/assets@npm:^1.70.26":
+  version: 1.70.26
+  resolution: "@chain-registry/assets@npm:1.70.26"
   dependencies:
-    "@chain-registry/types": "npm:^0.44.3"
-  checksum: 10c0/52211bb383829a245f738e9a7f388fb768ae35ad34a299dce6b4506ee02d069eaee103f62794b786efc4fc258c6b9b26fd88d21a5c8a2d75612343737b9f10f2
+    "@chain-registry/types": "npm:^0.50.8"
+  checksum: 10c0/8bc07486d45d4616511b40b8654b04602ce3d6cfe64cc7fc1c188a323c1374224b032bc5d109016d7654486f4abf7dc51232db60f7aeb123650bd36b34dfa9cd
   languageName: node
   linkType: hard
 
@@ -117,6 +117,13 @@ __metadata:
   version: 0.45.31
   resolution: "@chain-registry/types@npm:0.45.31"
   checksum: 10c0/dcbca6b8fbfbabed00eacf0f15e1863f38493a86d8135987bb591c65f7145fc17403e9b52d8ca1ed2124922964d7336103e03675b48eaa5345950f44f32aaf54
+  languageName: node
+  linkType: hard
+
+"@chain-registry/types@npm:^0.50.8":
+  version: 0.50.8
+  resolution: "@chain-registry/types@npm:0.50.8"
+  checksum: 10c0/105e34152428e68a109bd7917ff91d672b90d7d58625fbc617d178233c746f3e6bd1ea9817d0acdefb9b74916917f510d7eaecdaa7ab42399a81e45e68bef653
   languageName: node
   linkType: hard
 
@@ -823,7 +830,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/spawn@workspace:."
   dependencies:
-    "@chain-registry/assets": "npm:1.63.5"
+    "@chain-registry/assets": "npm:^1.70.26"
     "@chain-registry/types": "npm:0.44.3"
     "@cosmjs/amino": "npm:0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:0.32.3"

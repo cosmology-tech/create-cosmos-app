@@ -1607,6 +1607,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@chain-registry/assets@npm:^1.70.26":
+  version: 1.70.26
+  resolution: "@chain-registry/assets@npm:1.70.26"
+  dependencies:
+    "@chain-registry/types": "npm:^0.50.8"
+  checksum: 10c0/8bc07486d45d4616511b40b8654b04602ce3d6cfe64cc7fc1c188a323c1374224b032bc5d109016d7654486f4abf7dc51232db60f7aeb123650bd36b34dfa9cd
+  languageName: node
+  linkType: hard
+
 "@chain-registry/client@npm:^1.48.1":
   version: 1.48.59
   resolution: "@chain-registry/client@npm:1.48.59"
@@ -1692,6 +1701,13 @@ __metadata:
   version: 0.45.59
   resolution: "@chain-registry/types@npm:0.45.59"
   checksum: 10c0/952b580cb8efeff87a3ae00d7caf2be2c4f2f8cbb19f4a523d49007e734152cfa0019183d8dd3b4636e3f82a0ebe18c5c627df2712a2b5d11f0869ba8be72ec8
+  languageName: node
+  linkType: hard
+
+"@chain-registry/types@npm:^0.50.8":
+  version: 0.50.8
+  resolution: "@chain-registry/types@npm:0.50.8"
+  checksum: 10c0/105e34152428e68a109bd7917ff91d672b90d7d58625fbc617d178233c746f3e6bd1ea9817d0acdefb9b74916917f510d7eaecdaa7ab42399a81e45e68bef653
   languageName: node
   linkType: hard
 
@@ -3322,6 +3338,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/connect-chain-with-telescope@workspace:."
   dependencies:
+    "@chain-registry/assets": "npm:^1.70.26"
     "@chain-registry/types": "npm:0.44.3"
     "@chakra-ui/icons": "npm:2.0.12"
     "@chakra-ui/react": "npm:2.5.1"
