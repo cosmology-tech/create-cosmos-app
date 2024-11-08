@@ -34,7 +34,6 @@
     "@types/react-dom": "18.0.9"
   },
   "dependencies": {
-    "@chain-registry/assets": "^1.70.26",
     "@chain-registry/client": "1.11.0",
     "@chain-registry/types": "0.17.0",
     "@cosmjs/amino": "0.32.4",
