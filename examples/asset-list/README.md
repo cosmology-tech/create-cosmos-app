@@ -4,6 +4,7 @@ This is a Cosmos App project bootstrapped with [`create-cosmos-app`](https://git
 
 First, install the packages and run the development server:
 
+
 ```bash
 yarn && yarn dev
 ```
