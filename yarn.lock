@@ -6089,7 +6089,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/stake-tokens@workspace:examples/stake-tokens"
   dependencies:
-    "@chain-registry/assets": "npm:^1.70.26"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
     "@cosmos-kit/react": "npm:2.17.0"
@@ -6173,7 +6172,6 @@ __metadata:
     "@babel/preset-env": "npm:7.24.7"
     "@babel/preset-typescript": "npm:^7.24.7"
     "@babel/runtime": "npm:^7.24.7"
-    "@chain-registry/assets": "npm:^1.70.26"
     "@chain-registry/types": "npm:0.17.0"
     "@chakra-ui/icons": "npm:2.0.12"
     "@chakra-ui/react": "npm:2.5.1"
@@ -6333,8 +6331,8 @@ __metadata:
   linkType: hard
 
 "@cosmology/telescope@npm:^1.10.3, @cosmology/telescope@npm:^1.4.1":
-  version: 1.10.8
-  resolution: "@cosmology/telescope@npm:1.10.8"
+  version: 1.10.9
+  resolution: "@cosmology/telescope@npm:1.10.9"
   dependencies:
     "@babel/generator": "npm:^7.23.6"
     "@babel/parser": "npm:^7.23.6"
@@ -6362,7 +6360,7 @@ __metadata:
     yaml: "npm:^2.3.4"
   bin:
     telescope: main/telescope.js
-  checksum: 10c0/ca46390d5c255428855ce395ff265df1868918222d9a655c4bdefa72a4a8accfc23c7daa2f569a1e5a02ce0ce1988d46eb3d519aac24df145c05c5e63df3b208
+  checksum: 10c0/e9288f0be1c4c701974eee915b3c821f84024d8e728ef5b9825a2c04de23ab17f6a9190cc3d6ee87cc449f0229d9a646beab640e39ff6b63cce881fd740296f5
   languageName: node
   linkType: hard
 
@@ -6431,7 +6429,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/vote-proposal@workspace:examples/vote-proposal"
   dependencies:
-    "@chain-registry/assets": "npm:^1.70.26"
     "@chain-registry/types": "npm:0.17.0"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
