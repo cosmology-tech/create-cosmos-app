@@ -7,12 +7,12 @@ let osmoAssets: OsmosisAsset[] = [];
 const chainInfo = asset_lists.find(
   ({ chain_name }) => chain_name === 'osmosis'
 );
-if (Array.isArray(chainInfo?.assets)) {
-  osmoAssets = [...chainInfo?.assets];
+if (chainInfo && Array.isArray(chainInfo.assets)) {
+  osmoAssets = [...chainInfo.assets];
 }
 
 let chainInfo2 = assets.find(({ chain_name }) => chain_name === 'osmosis');
-if (Array.isArray(chainInfo2?.assets)) {
+if (chainInfo2 && Array.isArray(chainInfo2.assets)) {
   osmoAssets = [...osmoAssets, ...chainInfo2.assets];
 }
 

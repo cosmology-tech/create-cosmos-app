@@ -147,13 +147,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:0.44.3":
-  version: 0.44.3
-  resolution: "@chain-registry/types@npm:0.44.3"
-  checksum: 10c0/471e85e934e42ba2704fece7ca0545df5ef98e947a5d10aaefa7872145a21211036740b4b37bb8a33359561b7533c07c22e1608b372efc19be5e2ebd386ac3de
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:0.45.1":
   version: 0.45.1
   resolution: "@chain-registry/types@npm:0.45.1"
@@ -560,7 +553,7 @@ __metadata:
   resolution: "@cosmology/ibc-transfer@workspace:."
   dependencies:
     "@chain-registry/assets": "npm:^1.21.0"
-    "@chain-registry/types": "npm:0.44.3"
+    "@chain-registry/types": "npm:^0.18.15"
     "@cosmjs/amino": "npm:^0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:^0.32.3"
     "@cosmjs/stargate": "npm:^0.32.3"

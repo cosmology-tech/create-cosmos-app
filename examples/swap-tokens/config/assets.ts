@@ -43,10 +43,10 @@ OsmosisAssets.CoinDenomToAsset = OsmosisAssets
 
 function getChainByDenom(denom: CoinDenom) {
   let chainName = '';
-  if (assets.assets.find(({ base }) => base === denom)) {
+  if (chainInfo2?.assets.find(({ base }) => base === denom)) {
     chainName = defaultChainName;
   } else {
-    const asset = asset_list.assets.find(({ base }) => base === denom);
+    const asset = chainInfo?.assets.find(({ base }) => base === denom);
     chainName = asset?.traces?.[0].counterparty.chain_name || '';
   }
   return chainName
