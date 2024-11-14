@@ -18,7 +18,6 @@
     "@types/react-dom": "18.0.9"
   },
   "dependencies": {
-    "@chain-registry/assets": "^1.70.26",
     "@chain-registry/types": "0.16.0",
     "@chain-registry/utils": "1.13.2",
     "@chain-registry/v2": "^1.71.7",

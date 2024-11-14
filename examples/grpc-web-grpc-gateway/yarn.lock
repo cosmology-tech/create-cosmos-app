@@ -1640,15 +1640,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/assets@npm:^1.70.26":
-  version: 1.70.26
-  resolution: "@chain-registry/assets@npm:1.70.26"
-  dependencies:
-    "@chain-registry/types": "npm:^0.50.8"
-  checksum: 10c0/8bc07486d45d4616511b40b8654b04602ce3d6cfe64cc7fc1c188a323c1374224b032bc5d109016d7654486f4abf7dc51232db60f7aeb123650bd36b34dfa9cd
-  languageName: node
-  linkType: hard
-
 "@chain-registry/client@npm:^1.48.1":
   version: 1.48.3
   resolution: "@chain-registry/client@npm:1.48.3"
@@ -1734,13 +1725,6 @@ __metadata:
   version: 0.45.4
   resolution: "@chain-registry/types@npm:0.45.4"
   checksum: 10c0/1060f43ea5bcf35f919536a497944fb5846db54eb7d174ce920076a7b8e8821d69496f00e3751d5523228764765eb702c0502ae8c0e2fcd7fa63e6d685f6c6a0
-  languageName: node
-  linkType: hard
-
-"@chain-registry/types@npm:^0.50.8":
-  version: 0.50.8
-  resolution: "@chain-registry/types@npm:0.50.8"
-  checksum: 10c0/105e34152428e68a109bd7917ff91d672b90d7d58625fbc617d178233c746f3e6bd1ea9817d0acdefb9b74916917f510d7eaecdaa7ab42399a81e45e68bef653
   languageName: node
   linkType: hard
 
@@ -3376,7 +3360,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/grpc-web-grpc-gateway@workspace:."
   dependencies:
-    "@chain-registry/assets": "npm:^1.70.26"
     "@chakra-ui/icons": "npm:2.0.12"
     "@chakra-ui/react": "npm:2.5.1"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"

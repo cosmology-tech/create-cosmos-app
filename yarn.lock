@@ -2652,6 +2652,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@chain-registry/assets@npm:1.20.0":
+  version: 1.20.0
+  resolution: "@chain-registry/assets@npm:1.20.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.21.0"
+    "@chain-registry/types": "npm:^0.16.0"
+  checksum: 10c0/86a2ef3c4884428c5ea3816cf124ea68526326a04e4c6143730ba7c623fc35d9e37190cfbcfa9f2818273b7ebf3d42e1752e2691f308f855a5327551cfeea716
+  languageName: node
+  linkType: hard
+
 "@chain-registry/assets@npm:1.63.5":
   version: 1.63.5
   resolution: "@chain-registry/assets@npm:1.63.5"
@@ -2661,7 +2671,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/assets@npm:^1.21.0, @chain-registry/assets@npm:^1.70.25, @chain-registry/assets@npm:^1.70.26":
+"@chain-registry/assets@npm:^1.21.0, @chain-registry/assets@npm:^1.70.26":
   version: 1.70.32
   resolution: "@chain-registry/assets@npm:1.70.32"
   dependencies:
@@ -2742,15 +2752,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/osmosis@npm:1.61.3":
-  version: 1.61.3
-  resolution: "@chain-registry/osmosis@npm:1.61.3"
-  dependencies:
-    "@chain-registry/types": "npm:^0.44.3"
-  checksum: 10c0/e69033c32dfa46d126d2377103e4527f88f572fad0b185645cd08910557b393956a0c7d73ec8f9b62217ce6f311fff749b20869092f90f084b43fb041825da97
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:0.16.0, @chain-registry/types@npm:^0.16.0":
   version: 0.16.0
   resolution: "@chain-registry/types@npm:0.16.0"
@@ -2822,7 +2823,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:^0.50.13, @chain-registry/types@npm:^0.50.7":
+"@chain-registry/types@npm:^0.50.13":
   version: 0.50.13
   resolution: "@chain-registry/types@npm:0.50.13"
   checksum: 10c0/71d0c30ed00b3359eeb0fc7f0358ce1e11a0dad0c230fb6ef6042afd07aeecbdb606a6139b66385de69a34737d647cb62d643c3050459f555a572c98e062e0c4
@@ -5701,7 +5702,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/grpc-web-grpc-gateway@workspace:examples/grpc-web-grpc-gateway"
   dependencies:
-    "@chain-registry/assets": "npm:^1.70.26"
     "@chakra-ui/icons": "npm:2.0.12"
     "@chakra-ui/react": "npm:2.5.1"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
@@ -5779,7 +5779,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/injective@workspace:examples/injective"
   dependencies:
-    "@chain-registry/assets": "npm:^1.70.26"
     "@chain-registry/types": "npm:0.16.0"
     "@chain-registry/utils": "npm:1.13.2"
     "@chain-registry/v2": "npm:^1.71.7"
@@ -5846,7 +5845,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/nft@workspace:examples/nft"
   dependencies:
-    "@chain-registry/assets": "npm:^1.70.26"
     "@chain-registry/types": "npm:^0.16.0"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
@@ -6018,7 +6016,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/rollkit@workspace:examples/rollkit"
   dependencies:
-    "@chain-registry/assets": "npm:^1.70.26"
     "@chain-registry/types": "npm:0.17.1"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
@@ -6051,7 +6048,6 @@ __metadata:
   resolution: "@cosmology/spawn@workspace:examples/spawn"
   dependencies:
     "@chain-registry/assets": "npm:1.63.5"
-    "@chain-registry/osmosis": "npm:1.61.3"
     "@chain-registry/types": "npm:0.44.3"
     "@cosmjs/amino": "npm:0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:0.32.3"
@@ -6125,8 +6121,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/swap-tokens@workspace:examples/swap-tokens"
   dependencies:
-    "@chain-registry/assets": "npm:^1.70.25"
-    "@chain-registry/types": "npm:^0.50.7"
+    "@chain-registry/assets": "npm:1.20.0"
+    "@chain-registry/types": "npm:0.16.0"
     "@chain-registry/utils": "npm:1.13.2"
     "@cosmjs/amino": "npm:0.32.3"
     "@cosmjs/cosmwasm-stargate": "npm:0.32.3"
@@ -6144,7 +6140,7 @@ __metadata:
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
     bignumber.js: "npm:9.1.1"
-    chain-registry: "npm:^1.69.26"
+    chain-registry: "npm:1.19.0"
     cosmos-kit: "npm:2.18.0"
     eslint: "npm:8.28.0"
     eslint-config-next: "npm:13.0.5"
@@ -16463,6 +16459,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chain-registry@npm:1.19.0":
+  version: 1.19.0
+  resolution: "chain-registry@npm:1.19.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.21.0"
+    "@chain-registry/types": "npm:^0.16.0"
+  checksum: 10c0/2620ce4fcaba60607e2b5116be40b10decb53b34c6b13ee95b3f8ea48a13f5de6da5283320fbe800fe1ae3e10412e682b3ef80c77957c5a8e8485e4f50534a5f
+  languageName: node
+  linkType: hard
+
 "chain-registry@npm:1.20.0":
   version: 1.20.0
   resolution: "chain-registry@npm:1.20.0"
@@ -16502,7 +16508,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chain-registry@npm:^1.5.0, chain-registry@npm:^1.69.26":
+"chain-registry@npm:^1.5.0":
   version: 1.69.32
   resolution: "chain-registry@npm:1.69.32"
   dependencies:

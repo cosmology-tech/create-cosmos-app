@@ -27,7 +27,6 @@
     "@babel/plugin-transform-runtime": "7.24.7",
     "@babel/preset-env": "7.24.7",
     "@babel/preset-typescript": "^7.24.7",
-    "@chain-registry/assets": "^1.70.26",
     "@chain-registry/types": "0.17.0",
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.5.1",

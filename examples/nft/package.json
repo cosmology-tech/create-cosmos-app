@@ -13,7 +13,6 @@
     "watch:codegen": "npx graphql-code-generator --config ./config/codegen.ts --watch"
   },
   "dependencies": {
-    "@chain-registry/assets": "^1.70.26",
     "@chain-registry/types": "^0.16.0",
     "@cosmjs/cosmwasm-stargate": "0.31.3",
     "@cosmjs/stargate": "0.32.3",

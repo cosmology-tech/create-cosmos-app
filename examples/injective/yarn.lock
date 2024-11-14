@@ -1574,15 +1574,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/assets@npm:^1.70.26":
-  version: 1.70.26
-  resolution: "@chain-registry/assets@npm:1.70.26"
-  dependencies:
-    "@chain-registry/types": "npm:^0.50.8"
-  checksum: 10c0/8bc07486d45d4616511b40b8654b04602ce3d6cfe64cc7fc1c188a323c1374224b032bc5d109016d7654486f4abf7dc51232db60f7aeb123650bd36b34dfa9cd
-  languageName: node
-  linkType: hard
-
 "@chain-registry/client@npm:^1.49.11":
   version: 1.53.6
   resolution: "@chain-registry/client@npm:1.53.6"
@@ -1643,13 +1634,6 @@ __metadata:
   version: 0.50.6
   resolution: "@chain-registry/types@npm:0.50.6"
   checksum: 10c0/d6321adc1029d21d7ed73b2428a86d8d58e202d5364bddc42eb35cacadf5400d8bc94ad80cd137f298ac0d8d6b79e1ebc8e6b0dd0d693f8e95d45b1e7151fe96
-  languageName: node
-  linkType: hard
-
-"@chain-registry/types@npm:^0.50.8":
-  version: 0.50.8
-  resolution: "@chain-registry/types@npm:0.50.8"
-  checksum: 10c0/105e34152428e68a109bd7917ff91d672b90d7d58625fbc617d178233c746f3e6bd1ea9817d0acdefb9b74916917f510d7eaecdaa7ab42399a81e45e68bef653
   languageName: node
   linkType: hard
 
@@ -3292,7 +3276,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/injective@workspace:."
   dependencies:
-    "@chain-registry/assets": "npm:^1.70.26"
     "@chain-registry/types": "npm:0.16.0"
     "@chain-registry/utils": "npm:1.13.2"
     "@chain-registry/v2": "npm:^1.71.7"
