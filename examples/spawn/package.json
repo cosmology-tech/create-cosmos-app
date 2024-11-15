@@ -18,7 +18,7 @@
     "@types/react-dom": "18.0.9"
   },
   "dependencies": {
-    "@chain-registry/assets": "1.63.5",
+    "@chain-registry/assets": "1.70.32",
     "@cosmjs/amino": "0.32.3",
     "@cosmjs/cosmwasm-stargate": "0.32.3",
     "@cosmjs/stargate": "0.31.1",
@@ -28,7 +28,7 @@
     "@tanstack/react-query": "4.32.0",
     "ace-builds": "1.35.0",
     "bignumber.js": "9.1.2",
-    "chain-registry": "1.62.3",
+    "chain-registry": "^1.69.32",
     "cosmos-kit": "2.18.4",
     "dayjs": "1.11.11",
     "interchain-query": "1.10.1",
@@ -44,7 +44,7 @@
     "zustand": "4.5.2"
   },
   "devDependencies": {
-    "@chain-registry/types": "0.44.3",
+    "@chain-registry/types": "^0.50.13",
     "@keplr-wallet/types": "^0.12.111",
     "@tanstack/react-query-devtools": "4.32.0",
     "@types/node": "18.11.9",

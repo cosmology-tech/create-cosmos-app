@@ -19,8 +19,8 @@
     "@types/react-dom": "18.0.9"
   },
   "dependencies": {
-    "@chain-registry/assets": "^1.70.26",
-    "@chain-registry/types": "0.44.3",
+    "@chain-registry/assets": "^1.70.32",
+    "@chain-registry/types": "^0.50.13",
     "@chakra-ui/icons": "2.0.12",
     "@chakra-ui/react": "2.5.1",
     "@cosmjs/amino": "0.32.3",
@@ -35,7 +35,7 @@
     "@interchain-ui/react-no-ssr": "^0.1.6",
     "@tanstack/react-query": "4.32.0",
     "bignumber.js": "9.1.0",
-    "chain-registry": "1.20.0",
+    "chain-registry": "^1.69.32",
     "chakra-react-select": "^4.7.0",
     "cosmos-kit": "2.18.0",
     "dayjs": "^1.11.11",
