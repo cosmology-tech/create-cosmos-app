@@ -5,7 +5,7 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.23.8":
+"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.23.8":
   version: 7.24.4
   resolution: "@babel/runtime@npm:7.24.4"
   dependencies:
@@ -88,15 +88,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:^0.17.0":
-  version: 0.17.1
-  resolution: "@chain-registry/types@npm:0.17.1"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-  checksum: 10c0/00400f2994c838dbf0a4a6aa01af397d72badbeee82e13095e1ae1e5853a9405f802f0e5629f3aab0cfaa7ec9eae78eb0976001d5a24a7f33d138e2b02edb547
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:^0.45.1, @chain-registry/types@npm:^0.45.3":
   version: 0.45.3
   resolution: "@chain-registry/types@npm:0.45.3"
@@ -108,6 +99,13 @@ __metadata:
   version: 0.45.4
   resolution: "@chain-registry/types@npm:0.45.4"
   checksum: 10c0/1060f43ea5bcf35f919536a497944fb5846db54eb7d174ce920076a7b8e8821d69496f00e3751d5523228764765eb702c0502ae8c0e2fcd7fa63e6d685f6c6a0
+  languageName: node
+  linkType: hard
+
+"@chain-registry/types@npm:^0.50.14":
+  version: 0.50.14
+  resolution: "@chain-registry/types@npm:0.50.14"
+  checksum: 10c0/8801a9f9570128f05b410d412897f857a98a59ec088ab038510fb07b2e3b77f481f1d27bfed540dcdaf96af534ae93453a349712bde795de6dd683e2619d9f75
   languageName: node
   linkType: hard
 
@@ -645,7 +643,7 @@ __metadata:
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
     bignumber.js: "npm:9.1.1"
-    chain-registry: "npm:1.20.0"
+    chain-registry: "npm:^1.69.32"
     cosmos-kit: "npm:2.18.0"
     eslint: "npm:8.56.0"
     eslint-config-next: "npm:14.1.0"
@@ -5531,13 +5529,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chain-registry@npm:1.20.0":
-  version: 1.20.0
-  resolution: "chain-registry@npm:1.20.0"
+"chain-registry@npm:^1.69.32":
+  version: 1.69.33
+  resolution: "chain-registry@npm:1.69.33"
   dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.17.0"
-  checksum: 10c0/f2d4b23bc2b8607fc4de05fa34949eaa183a563afb07f718c039c2be151fa6fbd86e9a3c998dc6ca1b7ab9440bfbc1e1218aff51f0e681f9915788269e95a9da
+    "@chain-registry/types": "npm:^0.50.14"
+  checksum: 10c0/96ed7b5a12c627aad124c499ac06f7009d248ba79c77b01f9901b43fc8312a72794b2dd0450459d6c875988d0933ac8755c3ff0c71153222b09bc5d9055646a5
   languageName: node
   linkType: hard
 
