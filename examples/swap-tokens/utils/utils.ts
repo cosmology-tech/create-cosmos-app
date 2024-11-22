@@ -31,7 +31,7 @@ export function removeDuplicateAssetSymbols(assets: Asset[]) {
   })
   const duplicatesArr = Array.from(duplicates)
   if (duplicatesArr.length > 0) {
-    console.error(`duplicates found: ${duplicatesArr.join(', ')}`)
+    console.error(`duplicate symbols found: ${duplicatesArr.join(', ')}`)
   }
   return resAssets
 }
