@@ -18,7 +18,7 @@
     "@types/react-dom": "^18.0.9"
   },
   "dependencies": {
-    "@chain-registry/types": "^0.50.13",
+    "@chain-registry/types": "^0.50.18",
     "@cosmjs/cosmwasm-stargate": "0.31.3",
     "@cosmjs/stargate": "0.32.3",
     "@cosmos-kit/react": "2.17.0",
