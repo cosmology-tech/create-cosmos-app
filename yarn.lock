@@ -17381,7 +17381,6 @@ __metadata:
     "@babel/cli": "npm:7.24.7"
     "@babel/core": "npm:7.24.7"
     "@babel/eslint-parser": "npm:^7.24.7"
-    "@chain-registry/types": "npm:^0.50.18"
     "@pyramation/babel-preset-env": "npm:0.2.0"
     babel-core: "npm:7.0.0-bridge.0"
     babel-jest: "npm:^29.3.1"
