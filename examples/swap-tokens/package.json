@@ -30,7 +30,7 @@
     "@emotion/styled": "11.10.6",
     "@interchain-ui/react": "^1.23.29",
     "@interchain-ui/react-no-ssr": "^0.1.6",
-    "@osmonauts/math": "1.7.0",
+    "@osmonauts/math": "^1.18.0",
     "@tanstack/react-query": "4.32.0",
     "bignumber.js": "9.1.1",
     "chain-registry": "^1.69.32",
