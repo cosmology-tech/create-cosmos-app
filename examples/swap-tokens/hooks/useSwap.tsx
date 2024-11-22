@@ -7,15 +7,21 @@ import { useChain } from "@cosmos-kit/react";
 import { Text } from '@interchain-ui/react';
 import { toast } from '@interchain-ui/react';
 import { Asset } from "@chain-registry/types";
-import { getExponentByDenom } from "@chain-registry/utils";
-import { CoinDenom, PrettyPair } from "@osmonauts/math/dist/types";
+import { CoinDenom, PrettyPair } from "@osmonauts/math/types";
 import { SwapAmountInRoute } from "osmo-query/dist/codegen/osmosis/poolmanager/v1beta1/swap_route";
-import { convertBaseUnitsToDisplayUnits, convertBaseUnitsToDollarValue, PriceHash } from "@chain-registry/utils";
+import { convertBaseUnitToDisplayUnit, convertBaseUnitToDollarValue, DenomPriceMap, getExponentByDenom } from "@chain-registry/utils";
 import { makePoolPairs, getRoutesForTrade, calcPriceImpactGivenIn, calcPriceImpactGivenOut, calcAmountWithSlippage } from "@osmonauts/math";
 import { Token, Slippages, TokenList, SwapInfoProps } from "@/components/swap";
 import { Pools, usePools, usePrices, useBalances, useTx } from "@/hooks";
 import { defaultChainName, Osmosis } from "@/config";
-import { getLogo, integer } from "@/utils";
+import { assets } from 'chain-registry';
+import { getLogo, integer, removeDuplicateAssetSymbols } from "@/utils";
+
+let osmosisAssets = assets.filter(a => a.chain_name === 'osmosis')
+osmosisAssets.forEach(osmosisAsset => {
+  // Fix Ambiguity Error: 2 items found key:symbol value:FURY chainName:undefined.
+  osmosisAsset.assets = removeDuplicateAssetSymbols(osmosisAsset.assets)
+})
 
 export type Swap = {
   to: Token
@@ -45,7 +51,7 @@ export function useSwap() {
   const prices = usePrices();
   const pools = usePools(prices);
 
-  const pairs = makePoolPairs(Osmosis.Assets, pools.freefloat.priced, prices);  // see pairs data structure at file bottom
+  const pairs = makePoolPairs(osmosisAssets, pools.freefloat.priced, prices);  // see pairs data structure at file bottom
   const denoms = denomsInPairs(pairs);
   const tokens = newTokens(denoms, prices, balances.hash, from, to);
 
@@ -126,7 +132,7 @@ export function newSwap(
   from: Token,
   to: Token,
   amount = '0',
-  prices: PriceHash = {},
+  prices: DenomPriceMap = {},
   slippage = Slippages[0]
 ) {
   const swap: Swap = {
@@ -153,7 +159,7 @@ export function newSwap(
 
 export function newTokens(
   denoms: CoinDenom[] = [],
-  prices: PriceHash = {},
+  prices: DenomPriceMap = {},
   balances: Record<CoinDenom, Coin> = {},
   from?: Token,
   to?: Token
@@ -162,7 +168,7 @@ export function newTokens(
     const asset = Osmosis.Assets.CoinDenomToAsset[denom];
     const logo = getLogo(asset);
     const balance = balances[asset.base];
-    const value = balance ? convertBaseUnitsToDollarValue(Osmosis.Assets, prices, asset.symbol, balance.amount) : '0';
+    const value = balance ? convertBaseUnitToDollarValue(osmosisAssets, prices, asset.symbol, balance.amount) : '0';
     return {
       logo,
       asset,
@@ -171,7 +177,7 @@ export function newTokens(
       price: prices[asset.base],
       chain: Osmosis.getChainByDenom(denom),
       symbol: asset.symbol,
-      amount: balance ? convertBaseUnitsToDisplayUnits(Osmosis.Assets, asset.symbol, balance.amount) : '0',
+      amount: balance ? convertBaseUnitToDisplayUnit(osmosisAssets, asset.symbol, balance.amount) : '0',
       $value: balance ? `\$${new BigNumber(value).decimalPlaces(2).toString()}` : '$0',
       balance: balances[asset.base],
     } as Token
@@ -187,7 +193,7 @@ export function newCoin(token: Token) {
   return {
     denom: token.denom,
     amount: new BigNumber(token.amount || '0')
-      .shiftedBy(getExponentByDenom(Osmosis.Assets, token.denom)).toString()
+      .shiftedBy(getExponentByDenom(osmosisAssets, token.denom) || 0).toString()
   }
 }
 
@@ -197,7 +203,7 @@ export function newRoutes(swap: Swap, pairs: PrettyPair[]) {
     sell: newCoin(swap.from),
     buy: newCoin(swap.to),
   }
-  return getRoutesForTrade(Osmosis.Assets, { trade, pairs });
+  return getRoutesForTrade(osmosisAssets, { trade, pairs });
 }
 
 export function denomsInPairs(pairs: PrettyPair[]) {
@@ -267,8 +273,8 @@ export function newSwapInfo(
     },
     expectedOutput: new BigNumber(swap.to.amount!).decimalPlaces(6).toString(),
     minimumReceived: new BigNumber(
-      convertBaseUnitsToDisplayUnits(
-        Osmosis.Assets, swap.to.symbol, calcAmountWithSlippage(to.amount, swap.slippage)
+      convertBaseUnitToDisplayUnit(
+        osmosisAssets, swap.to.symbol, calcAmountWithSlippage(to.amount, swap.slippage)
       )).decimalPlaces(6).toString(),
     display: {} as SwapInfoProps
   }

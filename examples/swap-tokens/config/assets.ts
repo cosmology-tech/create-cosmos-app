@@ -1,6 +1,6 @@
 import { chains } from 'chain-registry';
 import { Asset } from '@chain-registry/types';
-import { CoinDenom } from '@chain-registry/utils';
+import { Denom } from '@chain-registry/utils';
 import { CoinGeckoId } from '@/hooks';
 import { defaultChainName } from '@/config';
 import { asset_lists } from "@chain-registry/assets"
@@ -9,7 +9,7 @@ import { assets } from "chain-registry"
 export type Assets = Asset[] & {
   WithCoinGeckoId: Asset[];
   CoinGeckoIds: CoinGeckoId[];
-  CoinDenomToAsset: Record<CoinDenom, Asset>;
+  CoinDenomToAsset: Record<Denom, Asset>;
   CoinGeckoIdToAsset: Record<CoinGeckoId, Asset>;
 }
 
@@ -41,7 +41,7 @@ OsmosisAssets.CoinGeckoIdToAsset = OsmosisAssets.WithCoinGeckoId
 OsmosisAssets.CoinDenomToAsset = OsmosisAssets
   .reduce((cache, asset) => ({ ...cache, [asset.base]: asset }), {});
 
-function getChainByDenom(denom: CoinDenom) {
+function getChainByDenom(denom: Denom) {
   let chainName = '';
   if (chainInfo2?.assets.find(({ base }) => base === denom)) {
     chainName = defaultChainName;

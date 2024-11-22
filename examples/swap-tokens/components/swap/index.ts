@@ -1,6 +1,6 @@
 import { Coin } from '@cosmjs/stargate';
 import { Asset, Chain } from '@chain-registry/types';
-import { CoinDenom } from '@osmonauts/math/dist/types';
+import { CoinDenom } from '@osmonauts/math/types';
 
 export * from './Swap';
 export * from './SwapInfo';

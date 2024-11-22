@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Chains } from "@chain-registry/types";
+import { Chain } from "@chain-registry/types";
 import { matchSorter } from "match-sorter";
 import {
   Avatar,
@@ -13,7 +13,7 @@ import {
 } from "@interchain-ui/react";
 
 export type ChainSelectProps = {
-  chains: Chains;
+  chains: Chain[];
   chainName?: string;
   onChange?: (chainName?: string) => void;
 };
@@ -21,7 +21,7 @@ export type ChainSelectProps = {
 export function ChainSelect({
   chainName,
   chains = [],
-  onChange = () => {},
+  onChange = () => { },
 }: ChainSelectProps) {
   const { themeClass } = useTheme();
   const [value, setValue] = useState<string>();
@@ -31,7 +31,7 @@ export function ChainSelect({
     () =>
       chains.reduce(
         (cache, chain) => (cache[chain.chain_name] = chain, cache),
-        {} as Record<string, Chains[number]>,
+        {} as Record<string, Chain[][number]>,
       ),
     [chains],
   );
@@ -57,7 +57,7 @@ export function ChainSelect({
 
       if (chain) {
         setValue(chain.chain_name);
-        setInput(chain.pretty_name);
+        setInput(chain.pretty_name || '');
       }
     }
   }, [chains, chainName]);
@@ -122,7 +122,7 @@ export function ChainSelect({
             <Combobox.Item key={option.value} textValue={option.label}>
               <ChainOption
                 logo={option.logo ?? ""}
-                label={option.label}
+                label={option.label ?? ""}
               />
             </Combobox.Item>
           ))}

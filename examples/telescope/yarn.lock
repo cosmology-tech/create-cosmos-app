@@ -1607,12 +1607,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/assets@npm:^1.70.26":
-  version: 1.70.26
-  resolution: "@chain-registry/assets@npm:1.70.26"
+"@chain-registry/assets@npm:^1.70.32":
+  version: 1.70.33
+  resolution: "@chain-registry/assets@npm:1.70.33"
   dependencies:
-    "@chain-registry/types": "npm:^0.50.8"
-  checksum: 10c0/8bc07486d45d4616511b40b8654b04602ce3d6cfe64cc7fc1c188a323c1374224b032bc5d109016d7654486f4abf7dc51232db60f7aeb123650bd36b34dfa9cd
+    "@chain-registry/types": "npm:^0.50.14"
+  checksum: 10c0/29a4a5bce8040526071be1f7a69449ca9486ad70b69f80c953ca644c5528ac7b7462164807ff49f075bab6ef4e13b10bd0c5b67146a9fa4073e5b75dd15390ca
   languageName: node
   linkType: hard
 
@@ -1674,26 +1674,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:0.44.3":
-  version: 0.44.3
-  resolution: "@chain-registry/types@npm:0.44.3"
-  checksum: 10c0/471e85e934e42ba2704fece7ca0545df5ef98e947a5d10aaefa7872145a21211036740b4b37bb8a33359561b7533c07c22e1608b372efc19be5e2ebd386ac3de
-  languageName: node
-  linkType: hard
-
 "@chain-registry/types@npm:0.45.1":
   version: 0.45.1
   resolution: "@chain-registry/types@npm:0.45.1"
   checksum: 10c0/d2008c36e2b9d5b4dfbeae2e4038b956789cf7a70bff85d936fdb76a34a16609952b8b233bd09c3e93eeb9ccde26a5492230d1f3e450b2a7a7b8474df76835a5
-  languageName: node
-  linkType: hard
-
-"@chain-registry/types@npm:^0.17.0":
-  version: 0.17.1
-  resolution: "@chain-registry/types@npm:0.17.1"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-  checksum: 10c0/00400f2994c838dbf0a4a6aa01af397d72badbeee82e13095e1ae1e5853a9405f802f0e5629f3aab0cfaa7ec9eae78eb0976001d5a24a7f33d138e2b02edb547
   languageName: node
   linkType: hard
 
@@ -1704,10 +1688,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:^0.50.8":
-  version: 0.50.8
-  resolution: "@chain-registry/types@npm:0.50.8"
-  checksum: 10c0/105e34152428e68a109bd7917ff91d672b90d7d58625fbc617d178233c746f3e6bd1ea9817d0acdefb9b74916917f510d7eaecdaa7ab42399a81e45e68bef653
+"@chain-registry/types@npm:^0.50.13, @chain-registry/types@npm:^0.50.14":
+  version: 0.50.14
+  resolution: "@chain-registry/types@npm:0.50.14"
+  checksum: 10c0/8801a9f9570128f05b410d412897f857a98a59ec088ab038510fb07b2e3b77f481f1d27bfed540dcdaf96af534ae93453a349712bde795de6dd683e2619d9f75
   languageName: node
   linkType: hard
 
@@ -3338,8 +3322,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/connect-chain-with-telescope@workspace:."
   dependencies:
-    "@chain-registry/assets": "npm:^1.70.26"
-    "@chain-registry/types": "npm:0.44.3"
+    "@chain-registry/assets": "npm:^1.70.32"
+    "@chain-registry/types": "npm:^0.50.13"
     "@chakra-ui/icons": "npm:2.0.12"
     "@chakra-ui/react": "npm:2.5.1"
     "@cosmjs/amino": "npm:0.32.3"
@@ -3362,7 +3346,7 @@ __metadata:
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
     bignumber.js: "npm:9.1.0"
-    chain-registry: "npm:1.20.0"
+    chain-registry: "npm:^1.69.32"
     chakra-react-select: "npm:^4.7.0"
     cosmos-kit: "npm:2.18.0"
     dayjs: "npm:^1.11.11"
@@ -9222,13 +9206,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chain-registry@npm:1.20.0":
-  version: 1.20.0
-  resolution: "chain-registry@npm:1.20.0"
+"chain-registry@npm:^1.69.32":
+  version: 1.69.33
+  resolution: "chain-registry@npm:1.69.33"
   dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@chain-registry/types": "npm:^0.17.0"
-  checksum: 10c0/f2d4b23bc2b8607fc4de05fa34949eaa183a563afb07f718c039c2be151fa6fbd86e9a3c998dc6ca1b7ab9440bfbc1e1218aff51f0e681f9915788269e95a9da
+    "@chain-registry/types": "npm:^0.50.14"
+  checksum: 10c0/96ed7b5a12c627aad124c499ac06f7009d248ba79c77b01f9901b43fc8312a72794b2dd0450459d6c875988d0933ac8755c3ff0c71153222b09bc5d9055646a5
   languageName: node
   linkType: hard
 

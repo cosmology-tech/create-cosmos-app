@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { PriceHash } from '@chain-registry/utils';
+import { DenomPriceMap } from '@chain-registry/utils';
 import { Osmosis } from "@/config";
 
 export type CoinGeckoId = string;
@@ -23,7 +23,7 @@ async function fetchPrices(coinGeckoIds: CoinGeckoId[]): Promise<CoinGeckoRespon
   return await fetch(url).then((res) => res.json());
 }
 
-function toPriceHash(prices: CoinGeckoResponse = {}): PriceHash {
+function toPriceHash(prices: CoinGeckoResponse = {}): DenomPriceMap {
   return Object.entries(prices).reduce((result, [id, price]) => ({
     ...result,
     [Osmosis.Assets.CoinGeckoIdToAsset[id]!.base]: price.usd,
@@ -37,7 +37,7 @@ export function usePrices() {
     staleTime: Infinity
   });
 
-  return { query, ...toPriceHash(query.data) } as PriceHash & { query: UseQueryResult<CoinGeckoResponse> };
+  return { query, ...toPriceHash(query.data) } as DenomPriceMap & { query: UseQueryResult<CoinGeckoResponse> };
 }
 
 // Waht prices: PriceHash looks like:
