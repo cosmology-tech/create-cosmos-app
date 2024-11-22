@@ -7,7 +7,7 @@ import { useChain } from "@cosmos-kit/react";
 import { Text } from '@interchain-ui/react';
 import { toast } from '@interchain-ui/react';
 import { Asset } from "@chain-registry/types";
-import { CoinDenom, PrettyPair } from "@osmonauts/math/dist/types";
+import { CoinDenom, PrettyPair } from "@osmonauts/math/types";
 import { SwapAmountInRoute } from "osmo-query/dist/codegen/osmosis/poolmanager/v1beta1/swap_route";
 import { convertBaseUnitToDisplayUnit, convertBaseUnitToDollarValue, DenomPriceMap, getExponentByDenom } from "@chain-registry/utils";
 import { makePoolPairs, getRoutesForTrade, calcPriceImpactGivenIn, calcPriceImpactGivenOut, calcAmountWithSlippage } from "@osmonauts/math";

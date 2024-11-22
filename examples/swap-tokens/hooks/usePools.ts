@@ -1,5 +1,5 @@
 import { UseQueryResult } from '@tanstack/react-query';
-import { PriceHash } from '@osmonauts/math/dist/types';
+import { PriceHash } from '@osmonauts/math/types';
 // import { Pool } from 'osmo-query/dist/codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { Pool } from 'osmojs/osmosis/gamm/v1beta1/balancerPool'
 import { defaultChainName, Osmosis } from "@/config";
