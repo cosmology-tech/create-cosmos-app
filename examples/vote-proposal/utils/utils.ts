@@ -5,7 +5,7 @@ import { assets } from 'chain-registry';
 import { AssetList, Asset } from '@chain-registry/types';
 
 export function getChainLogo(chain: Chain) {
-  return chain.logo_URIs?.svg || chain.logo_URIs?.png || chain.logo_URIs?.jpeg;
+  return chain.logo_URIs?.svg || chain.logo_URIs?.png;
 }
 
 export function formatDate(date?: Date) {

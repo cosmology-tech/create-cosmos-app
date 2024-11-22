@@ -8,7 +8,7 @@ import {
 import { getChainAssets } from './chain';
 
 export function getChainLogo(chain: Chain) {
-  return chain.logo_URIs?.svg || chain.logo_URIs?.png || chain.logo_URIs?.jpeg;
+  return chain.logo_URIs?.svg || chain.logo_URIs?.png;
 }
 
 export function formatDate(date?: Date) {
@@ -29,10 +29,10 @@ export function paginate(limit: bigint, reverse: boolean = false) {
 export function percent(num: number | string = 0, total: number, decimals = 2) {
   return total
     ? new BigNumber(num)
-        .dividedBy(total)
-        .multipliedBy(100)
-        .decimalPlaces(decimals)
-        .toNumber()
+      .dividedBy(total)
+      .multipliedBy(100)
+      .decimalPlaces(decimals)
+      .toNumber()
     : 0;
 }
 
