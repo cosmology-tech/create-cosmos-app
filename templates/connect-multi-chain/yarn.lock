@@ -151,10 +151,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chain-registry/types@npm:^0.50.13, @chain-registry/types@npm:^0.50.14":
+"@chain-registry/types@npm:^0.50.14":
   version: 0.50.14
   resolution: "@chain-registry/types@npm:0.50.14"
   checksum: 10c0/8801a9f9570128f05b410d412897f857a98a59ec088ab038510fb07b2e3b77f481f1d27bfed540dcdaf96af534ae93453a349712bde795de6dd683e2619d9f75
+  languageName: node
+  linkType: hard
+
+"@chain-registry/types@npm:^0.50.18":
+  version: 0.50.18
+  resolution: "@chain-registry/types@npm:0.50.18"
+  checksum: 10c0/a7b5ca5b42fbf80a98e802372fe64602c1ac3cef8b3cb20ba8e444cd2613a07ab3b26d5049eb00fbcb578836050a859c78f722c8a414ae1525043860fa0709e0
   languageName: node
   linkType: hard
 
@@ -505,7 +512,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmology/connect-multi-chain@workspace:."
   dependencies:
-    "@chain-registry/types": "npm:^0.50.13"
+    "@chain-registry/types": "npm:^0.50.18"
     "@cosmjs/cosmwasm-stargate": "npm:0.31.3"
     "@cosmjs/stargate": "npm:0.32.3"
     "@cosmos-kit/react": "npm:2.17.0"
