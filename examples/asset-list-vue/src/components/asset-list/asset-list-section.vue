@@ -11,6 +11,16 @@ import BigNumber from 'bignumber.js';
 import AssetsOverview from './assets-overview.vue';
 import { Box, Text } from '@interchain-ui/vue';
 
+export type PrettyAsset = {
+  logoUrl: string | undefined;
+  symbol: string;
+  prettyChainName: string;
+  displayAmount: string;
+  dollarValue: string;
+  amount: string;
+  denom: string;
+};
+
 const chainName = ref('osmosis')
 const { rpcEndpoint, address, status } = useChain(chainName)
 const allBalance = ref<any>([])
@@ -35,7 +45,7 @@ const prices = usePrices(chainName)
 const nativeAndIbcBalances = computed<Coin[]>(() => {
   return allBalance.value?.filter(
     ({ denom }: any) => !denom.startsWith('gamm') && prices.value[denom]
-  );
+  ) || [];
 })
 
 const getChainName = (ibcDenom: CoinDenom) => {
@@ -59,24 +69,25 @@ const getPrettyChainName = (ibcDenom: CoinDenom) => {
   }
 };
 
-const finalAssets = computed(() => {
-  const res = nativeAndIbcBalances.value.map(({ amount, denom }) => {
+const finalAssets = computed<PrettyAsset[]>(() => {
+  const res = nativeAndIbcBalances.value
+  .map(({ amount, denom }) => {
     const asset = getAssetByDenom(denom, allAssets)
     const symbol = denomToSymbol(denom, allAssets);
     const dollarValue = calcCoinDollarValue(prices.value, { amount, denom }, allAssets);
-      return {
-        symbol,
-        logoUrl: asset.logo_URIs?.png || asset.logo_URIs?.svg,
-        prettyChainName: getPrettyChainName(denom),
-        displayAmount: convRawToDispAmount(denom, amount, chainName.value,allAssets),
-        dollarValue,
-        amount,
-        denom,
-      };
-    })
-    .sort((a, b) =>
-      new BigNumber(a.dollarValue).lt(b.dollarValue) ? 1 : -1
-    );
+    return {
+      symbol,
+      logoUrl: asset.logo_URIs?.png || asset.logo_URIs?.svg || '',
+      prettyChainName: getPrettyChainName(denom) || '',
+      displayAmount: convRawToDispAmount(denom, amount, chainName.value,allAssets),
+      dollarValue,
+      amount,
+      denom,
+    };
+  })
+  .sort((a, b) =>
+    new BigNumber(a.dollarValue).lt(b.dollarValue) ? 1 : -1
+  );
   return res;
 })
 
@@ -117,7 +128,6 @@ console.log('finalAssets', finalAssets)
       :assets="finalAssets"
       :prices="prices"
       :selectedChainName="chainName"
-      refetch={refetch}
     />
   </Box>
 </template>
