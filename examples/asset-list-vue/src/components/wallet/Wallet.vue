@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { Stack, Box } from '@interchain-ui/vue';
-import ChainCard from './ChainCard.vue'
+import ChainCard from './chain-card.vue'
 import { defineProps, ref, computed } from 'vue'
 import { useChain } from '@interchain-kit/vue'
 import { WalletState } from '@interchain-kit/core'
 import { defaultChainName } from '@/config/defaults';
-import UserInfo from './UserInfo.vue'
+import UserInfo from './user-info.vue'
 import ConnectWalletButton from './wallet-connect/ConnectWalletButton.vue';
-import CopyAddressBtn from './CopyAddressBtn.vue';
+import CopyAddressBtn from './copy-address-btn.vue';
 
 defineProps({
   prettyName: String,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Layout from '@/components/common/Layout.vue'
-import WalletSection from '@/components/wallet/Wallet.vue'
-import AssetListSection from '@/components/asset-list/AssetListSection.vue';
+import Layout from '@/components/common/layout.vue'
+import WalletSection from '@/components/wallet/wallet.vue'
+import AssetListSection from '@/components/asset-list/asset-list-section.vue';
 
 </script>
 

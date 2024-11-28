@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Box, Container, useTheme } from '@interchain-ui/vue';
-import Header from './Header.vue';
+import { Box, Container } from '@interchain-ui/vue';
+import Header from './header.vue';
 </script>
 
 <template>

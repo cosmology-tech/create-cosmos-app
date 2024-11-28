@@ -1,5 +1,5 @@
 
-import { Asset } from '@chain-registry/types';
+import { Asset, AssetList } from '@chain-registry/types';
 import { DenomUnit } from '@chain-registry/types';
 import { Coin } from 'osmojs/cosmos/base/v1beta1/coin';
 import BigNumber from 'bignumber.js';
@@ -41,13 +41,33 @@ export const calcCoinDollarValue = (prices: PriceHash, coin: Coin, assetList: As
     .toString();
 };
 
-export const getPrettyChainName = (ibcDenom: CoinDenom) => {
-  const chainName = getChainName(ibcDenom);
-  try {
-    const chainRecord = getChainRecord(chainName);
-    // @ts-ignore
-    return chainRecord.chain.pretty_name;
-  } catch (e) {
-    return 'CHAIN_INFO_NOT_FOUND'
+export const symbolToDenom = (symbol: CoinSymbol, chainName: string, assetList: Asset[]): CoinDenom => {
+  const asset = assetList.find((asset) => (
+    asset.symbol === symbol
+    && (
+      !chainName
+      || asset.traces?.[0].counterparty.chain_name.toLowerCase() === chainName.toLowerCase()
+    )
+  ));
+  const base = asset?.base;
+  if (!base) {
+    return symbol;
   }
+  return base;
 };
+
+export const convRawToDispAmount = (symbol: string, amount: string | number, chainName: string, assetList: Asset[]) => {
+  const denom = symbolToDenom(symbol, chainName, assetList);
+  return new BigNumber(amount)
+    .shiftedBy(-getExponentByDenom(denom, assetList))
+    .toString();
+};
+
+export const filterAssets = (assetList: AssetList[], chainName: string): Asset[] => {
+  return (
+    assetList
+      .find(({ chain_name }) => chain_name === chainName)
+      ?.assets?.filter(({ type_asset }) => type_asset !== 'ics20') || []
+  );
+};
+

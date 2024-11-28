@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
 import { Box, Text, Stack } from '@interchain-ui/vue';
-import Astronaut from './Astronaut.vue';
+import Astronaut from './astronaut.vue';
 const props = defineProps({
   username: String,
 })
