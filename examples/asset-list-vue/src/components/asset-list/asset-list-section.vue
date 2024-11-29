@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { useChain, useWalletManager } from '@interchain-kit/vue'
+import { useChain } from '@interchain-kit/vue'
 import { WalletState } from '@interchain-kit/core'
 import { ref, computed, watch } from 'vue'
 import { usePrices } from '../../composables/usePrices';
 import { osmosis } from 'osmojs'
-import { getAssetByDenom, denomToSymbol, calcCoinDollarValue, CoinDenom, convRawToDispAmount } from '../../utils/chain';
+import {  } from '../../utils/chain';
 import { useAssets } from '../../composables/useAssets';
 import { Coin } from 'osmojs/cosmos/base/v1beta1/coin';
 import BigNumber from 'bignumber.js';
 import AssetsOverview from './assets-overview.vue';
 import { Box, Text } from '@interchain-ui/vue';
+import { useChainUtils } from '../../composables/useChainUtils';
 
 export type PrettyAsset = {
   logoUrl: string | undefined;
@@ -23,8 +24,11 @@ export type PrettyAsset = {
 
 const chainName = ref('osmosis')
 const { rpcEndpoint, address, status } = useChain(chainName)
+const { 
+  getAssetByDenom, denomToSymbol, calcCoinDollarValue,
+  getPrettyChainName, convRawToDispAmount
+} = useChainUtils(chainName);
 const allBalance = ref<any>([])
-const walletManager = useWalletManager()
 
 const requestBalances = async (rpcEndpoint: string) => {
   const { createRPCQueryClient } = osmosis.ClientFactory;
@@ -39,7 +43,6 @@ watch(rpcEndpoint, endpoint => {
   }
 })
 
-const { allAssets, nativeAssets, ibcAssets } = useAssets(chainName)
 const prices = usePrices(chainName)
 
 const nativeAndIbcBalances = computed<Coin[]>(() => {
@@ -48,38 +51,17 @@ const nativeAndIbcBalances = computed<Coin[]>(() => {
   ) || [];
 })
 
-const getChainName = (ibcDenom: CoinDenom) => {
-  const nativeAsset = nativeAssets.find((asset) => asset.base === ibcDenom)
-  if (nativeAsset) {
-    return chainName.value
-  }
-  const asset = ibcAssets.find((asset) => asset.base === ibcDenom);
-  const ibcChainName = asset?.traces?.[0].counterparty.chain_name;
-  if (!ibcChainName) throw Error('chainName not found for ibcDenom: ' + ibcDenom);
-  return ibcChainName;
-};
-
-const getPrettyChainName = (ibcDenom: CoinDenom) => {
-  const chainName = getChainName(ibcDenom);
-  try {
-    const chainRecord = walletManager.getChainByName(chainName)
-    return chainRecord?.prettyName;
-  } catch (e) {
-    return 'CHAIN_INFO_NOT_FOUND'
-  }
-};
-
 const finalAssets = computed<PrettyAsset[]>(() => {
   const res = nativeAndIbcBalances.value
   .map(({ amount, denom }) => {
-    const asset = getAssetByDenom(denom, allAssets)
-    const symbol = denomToSymbol(denom, allAssets);
-    const dollarValue = calcCoinDollarValue(prices.value, { amount, denom }, allAssets);
+    const asset = getAssetByDenom(denom)
+    const symbol = denomToSymbol(denom);
+    const dollarValue = calcCoinDollarValue(prices.value, { amount, denom });
     return {
       symbol,
       logoUrl: asset.logo_URIs?.png || asset.logo_URIs?.svg || '',
       prettyChainName: getPrettyChainName(denom) || '',
-      displayAmount: convRawToDispAmount(denom, amount, chainName.value,allAssets),
+      displayAmount: convRawToDispAmount(denom, amount, chainName.value),
       dollarValue,
       amount,
       denom,

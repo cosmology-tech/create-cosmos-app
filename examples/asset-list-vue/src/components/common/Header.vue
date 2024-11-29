@@ -25,7 +25,7 @@ const osmojs = dependencies[0];
       </Text>
       <Text as="span" :fontSize="{ mobile: '$4xl', tablet: '$8xl', desktop: '$8xl' }" color="$primary500">
         {{ stacks.join(' + ') }} {{ ' + ' }}
-        <Link href={osmojs.name} target="_blank" rel="noreferrer" :attributes="{
+        <Link :href="osmojs.name" target="_blank" rel="noreferrer" :attributes="{
           fontSize: { mobile: '$4xl', tablet: '$8xl', desktop: '$8xl' },
         }">
         {{ osmojs.name }}

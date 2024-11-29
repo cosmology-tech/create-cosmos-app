@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Box, Container } from '@interchain-ui/vue';
-import Header from './header.vue';
+import HeaderComp from './header.vue';
 </script>
 
 <template>
@@ -15,13 +15,13 @@ import Header from './header.vue';
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header />
+      <HeaderComp />
 
       <div id="body">
         <slot></slot>
       </div>
 
-      <Footer />
+      <!-- <Footer /> -->
     </Container>
   </Box>
 </template>

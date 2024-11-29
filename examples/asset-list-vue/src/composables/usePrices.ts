@@ -1,6 +1,7 @@
 import { Ref, ref, watch, computed } from 'vue'
 import { Asset } from '@chain-registry/types';
 import { useAssets } from './useAssets';
+import { PriceHash } from './useChainUtils'
 
 type CoinGeckoId = string;
 type CoinGeckoUSD = { usd: number };
@@ -41,7 +42,7 @@ const formatPrices = (
 
 export const usePrices = (chainName: Ref<string>) => {
   const { allAssets } = useAssets(chainName)
-  const prices = ref()
+  const prices = ref<PriceHash>({})
   const geckoIds = computed(() => {
     const assetsWithGeckoIds = getAssetsWithGeckoIds(allAssets);
     return getGeckoIds(assetsWithGeckoIds);

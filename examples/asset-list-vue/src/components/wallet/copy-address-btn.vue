@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Stack, ClipboardCopyText } from '@interchain-ui/vue'
+import { Stack, ClipboardCopyText, Box } from '@interchain-ui/vue'
 import { defineProps } from 'vue'
 
 const props = defineProps({

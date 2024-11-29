@@ -2,6 +2,23 @@
 import { Box, Stack, Text, Button } from '@interchain-ui/vue'
 import { defineProps } from 'vue'
 
+defineProps<{
+  title: string,
+  singleChainHeader: any,
+}>();
+
+const emit = defineEmits<{
+  (event: 'onDeposit'): void;
+  (event: 'onWithdraw'): void;
+}>();
+
+const handleWithdraw = () => {
+  emit('onWithdraw')
+}
+
+const handleDeposit = () => {
+  emit('onDeposit')
+}
 
 </script>
 
@@ -17,7 +34,7 @@ import { defineProps } from 'vue'
         marginBottom: '$10',
       }"
     >
-      title
+      {{ title }}
     </Text>
       <Box
         display="flex"
@@ -33,7 +50,7 @@ import { defineProps } from 'vue'
         borderRadius="$lg"
       >
         <Stack direction="vertical">
-          <Text>This is label</Text>
+          <Text>{{ singleChainHeader?.label }}</Text>
           <Stack
             :attributes="{
               alignItems: 'baseline'
@@ -41,7 +58,7 @@ import { defineProps } from 'vue'
           >
             <Text fontWeight="$semibold">$</Text>
             <Text fontSize="$4xl" fontWeight="$semibold">
-              single chain header value
+              {{ singleChainHeader?.value }}
             </Text>
           </Stack>
         </Stack>
@@ -59,6 +76,45 @@ import { defineProps } from 'vue'
             desktop: '$12',
           }"
         >
+          <Box
+            :flex="{
+              mobile: '1',
+              tablet: '0 0 auto',
+            }"
+            :width="{
+              mobile: 'auto',
+              tablet: '$25',
+              desktop: '$25',
+            }"
+          >
+            <Button
+              variant="outlined"
+              intent="secondary"
+              fluidWidth
+              @click="handleWithdraw"
+            >
+              Withdraw
+            </Button>
+          </Box>
+          <Box
+            :flex="{
+              mobile: '1',
+              tablet: '0 0 auto',
+            }"
+            :width="{
+              mobile: 'auto',
+              tablet: '$25',
+              desktop: '$25',
+            }"
+          >
+            <Button
+              intent="tertiary"
+              fluidWidth
+              @click="handleDeposit"
+            >
+              Deposit
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Box>

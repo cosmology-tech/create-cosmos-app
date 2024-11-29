@@ -3,10 +3,8 @@ import { Ref, computed } from 'vue'
 import { useBalances, useDelegations, useLockedCoins, usePools } from './useOsmosQueries'
 import { usePrices } from './usePrices'
 import BigNumber from 'bignumber.js';
-import { useAssets } from './useAssets';
-import { calcCoinDollarValue } from '../utils/chain';
-import { Pool } from "osmojs/osmosis/gamm/v1beta1/balancerPool";
-import { convertGammTokenToDollarValue } from '../utils/pool';
+import { usePoolUtils } from '../utils/pool';
+import { useChainUtils } from './useChainUtils';
 
 export const useTotalAssets = (chainName: Ref<string>) => {
   const { rpcEndpoint, address } = useChain(chainName)
@@ -19,12 +17,14 @@ export const useTotalAssets = (chainName: Ref<string>) => {
   // @ts-ignore
   const pools = usePools(rpcEndpoint, address)
   const prices = usePrices(chainName)
-  const { allAssets } = useAssets(chainName)
   const zero = new BigNumber(0);
+
+  const { calcCoinDollarValue } = useChainUtils(chainName)
+  const { convertGammTokenToDollarValue } = usePoolUtils(chainName)
 
   const stakedTotal = computed(() => {
     if (delegations.value) {
-      return delegations.value?.map((coin) => calcCoinDollarValue(prices.value, coin, allAssets))
+      return delegations.value?.map((coin) => calcCoinDollarValue(prices.value, coin))
         .reduce((total, cur) => total.plus(cur), zero)
         .toString();
     }
@@ -34,7 +34,7 @@ export const useTotalAssets = (chainName: Ref<string>) => {
   const balancesTotal = computed(() => {
     if (allBalances.value) {
       return allBalances.value?.filter(({ denom }) => !denom.startsWith('gamm') && prices.value[denom])
-        .map((coin) => calcCoinDollarValue(prices.value, coin, allAssets))
+        .map((coin) => calcCoinDollarValue(prices.value, coin))
         .reduce((total, cur) => total.plus(cur), zero)
         .toString();
     }
@@ -77,7 +77,7 @@ export const useTotalAssets = (chainName: Ref<string>) => {
       // @ts-ignore
       const poolData = poolsMap.value?.[coin.denom];
       if (!poolData) return '0';
-      return convertGammTokenToDollarValue(coin, poolData, prices.value, allAssets);
+      return convertGammTokenToDollarValue(coin, poolData, prices.value);
     })
       .reduce((total, cur) => total.plus(cur), zero)
       .toString();
@@ -89,7 +89,7 @@ export const useTotalAssets = (chainName: Ref<string>) => {
         // @ts-ignore
         const poolData = poolsMap.value[coin.denom];
         if (!poolData) return '0';
-        return convertGammTokenToDollarValue(coin, poolData, prices.value, allAssets);
+        return convertGammTokenToDollarValue(coin, poolData, prices.value);
       })
       .reduce((total, cur) => total.plus(cur), zero)
       .toString();

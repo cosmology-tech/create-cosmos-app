@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { Stack, Button } from '@interchain-ui/vue'
 import Layout from '@/components/common/Layout.vue'
 </script>
