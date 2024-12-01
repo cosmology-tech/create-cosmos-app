@@ -9,12 +9,14 @@ import { IProps } from './row-transfer-modal.vue';
 import AssetWithdrawTokens from './asset-withdraw-tokens.vue';
 import { coins, StdFee } from '@cosmjs/amino';
 import { ibc, cosmos } from 'osmojs';
+import { toEncoders, toConverters } from '@interchainjs/cosmos/utils';
+import { MsgSend } from '@interchainjs/cosmos-types/cosmos/bank/v1beta1/tx';
 // import { createSend } from "interchainjs/cosmos/bank/v1beta1/tx.rpc.func";
-import { createTransfer } from 'interchainjs/ibc/applications/transfer/v1/tx.rpc.func'
+// import { createTransfer } from 'interchainjs/ibc/applications/transfer/v1/tx.rpc.func'
 
-// const {
-//     transfer
-// } = ibc.applications.transfer.v1.MessageComposer.withTypeUrl
+const {
+    transfer
+} = ibc.applications.transfer.v1.MessageComposer.withTypeUrl
 
 interface IBodyProps extends IProps {
   inputValue: string
@@ -105,47 +107,46 @@ const handleSubmitTransfer = async() => {
   }
   console.log('fee>>', fee)
   console.log('sourceSigningClient.value', sourceSigningClient.value)
-  const transferTx = createTransfer(sourceSigningClient.value);
-  console.log(`{
-        sourcePort,
-        sourceChannel,
-        sender: sourceAddress.value,
-        receiver: destAddress.value,
-        token,
-        // @ts-ignore
-        timeoutHeight: undefined,
-        timeoutTimestamp: BigInt(timeoutInNanos),
-      }`, {
-        sourcePort,
-        sourceChannel,
-        sender: sourceAddress.value,
-        receiver: destAddress.value,
-        token,
-        // @ts-ignore
-        timeoutHeight: undefined,
-        timeoutTimestamp: BigInt(timeoutInNanos),
-      })
-  try {
-    const tx = await transferTx(
-      sourceAddress.value,
-      {
-        sourcePort,
-        sourceChannel,
-        sender: sourceAddress.value,
-        receiver: destAddress.value,
-        token,
-        // @ts-ignore
-        timeoutHeight: undefined,
-        timeoutTimestamp: BigInt(timeoutInNanos),
-      },
-      fee,
-      "memo test"
-    );
-    console.log('tx>>', tx);
-  } catch (error) {
-    console.error(error);
-  }
-
+  // const transferTx = createTransfer(sourceSigningClient.value);
+  // console.log(`{
+  //       sourcePort,
+  //       sourceChannel,
+  //       sender: sourceAddress.value,
+  //       receiver: destAddress.value,
+  //       token,
+  //       // @ts-ignore
+  //       timeoutHeight: undefined,
+  //       timeoutTimestamp: BigInt(timeoutInNanos),
+  //     }`, {
+  //       sourcePort,
+  //       sourceChannel,
+  //       sender: sourceAddress.value,
+  //       receiver: destAddress.value,
+  //       token,
+  //       // @ts-ignore
+  //       timeoutHeight: undefined,
+  //       timeoutTimestamp: BigInt(timeoutInNanos),
+  //     })
+  // try {
+  //   const tx = await transferTx(
+  //     sourceAddress.value,
+  //     {
+  //       sourcePort,
+  //       sourceChannel,
+  //       sender: sourceAddress.value,
+  //       receiver: destAddress.value,
+  //       token,
+  //       // @ts-ignore
+  //       timeoutHeight: undefined,
+  //       timeoutTimestamp: BigInt(timeoutInNanos),
+  //     },
+  //     fee,
+  //     "memo test"
+  //   );
+  //   console.log('tx>>', tx);
+  // } catch (error) {
+  //   console.error(error);
+  // }
   // await tx([msg], {
   //   fee,
   //   onSuccess: () => {
@@ -153,9 +154,25 @@ const handleSubmitTransfer = async() => {
   //     modalControl.close();
   //   },
   // });
-
   // setIsLoading(false);
-  
+  sourceSigningClient.value.addEncoders(toEncoders(ibc.applications.transfer.v1.MsgTransfer))
+  sourceSigningClient.value.addConverters(toConverters(ibc.applications.transfer.v1.MsgTransfer))
+  let res = await sourceSigningClient.value.signAndBroadcast(
+    sourceAddress.value,
+    [transfer({
+      sourcePort,
+        sourceChannel,
+        sender: sourceAddress.value,
+        receiver: destAddress.value,
+        token,
+        // @ts-ignore
+        timeoutHeight: undefined,
+        timeoutTimestamp: BigInt(timeoutInNanos),
+    })],
+    // @ts-ignore
+    fee
+  )
+  console.log('res>>', res)
 }
 
 </script>
