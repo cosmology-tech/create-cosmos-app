@@ -10,7 +10,7 @@ import AssetWithdrawTokens from './asset-withdraw-tokens.vue';
 import { coins, StdFee } from '@cosmjs/amino';
 import { ibc, cosmos } from 'osmojs';
 import { toEncoders, toConverters } from '@interchainjs/cosmos/utils';
-import { MsgSend } from '@interchainjs/cosmos-types/cosmos/bank/v1beta1/tx';
+import { SigningStargateClient } from '@cosmjs/stargate'
 // import { createSend } from "interchainjs/cosmos/bank/v1beta1/tx.rpc.func";
 // import { createTransfer } from 'interchainjs/ibc/applications/transfer/v1/tx.rpc.func'
 
@@ -79,6 +79,25 @@ const destChain = computed(() => {
   };
 })
 
+const connectKeplr = async(chainId:string) => {
+    // @ts-ignore
+    if (!window.keplr) {
+        throw new Error("Keplr wallet not installed. Please install it from https://keplr.app/");
+    }
+
+    // @ts-ignore
+    await window.keplr.enable(chainId);
+
+    // @ts-ignore
+    const offlineSigner = window.getOfflineSigner(chainId);
+
+    // @ts-ignore
+    const accounts = await offlineSigner.getAccounts();
+    console.log("Connected account:", accounts[0].address);
+
+    return { offlineSigner, accounts };
+}
+
 const handleSubmitTransfer = async() => {
   if (!sourceAddress.value || !destAddress.value) return;
   const transferAmount = new BigNumber(props.inputValue)
@@ -107,26 +126,31 @@ const handleSubmitTransfer = async() => {
   }
   console.log('fee>>', fee)
   console.log('sourceSigningClient.value', sourceSigningClient.value)
+
+  const { offlineSigner, accounts } = await connectKeplr('cosmoshub-4');
+  // @ts-ignore
+  let client = await SigningStargateClient.connectWithSigner('https://rpc.lavenderfive.com/cosmoshub', offlineSigner)
+  console.log('client>>', client)
   // const transferTx = createTransfer(sourceSigningClient.value);
-  // console.log(`{
-  //       sourcePort,
-  //       sourceChannel,
-  //       sender: sourceAddress.value,
-  //       receiver: destAddress.value,
-  //       token,
-  //       // @ts-ignore
-  //       timeoutHeight: undefined,
-  //       timeoutTimestamp: BigInt(timeoutInNanos),
-  //     }`, {
-  //       sourcePort,
-  //       sourceChannel,
-  //       sender: sourceAddress.value,
-  //       receiver: destAddress.value,
-  //       token,
-  //       // @ts-ignore
-  //       timeoutHeight: undefined,
-  //       timeoutTimestamp: BigInt(timeoutInNanos),
-  //     })
+  console.log(`{
+        sourcePort,
+        sourceChannel,
+        sender: sourceAddress.value,
+        receiver: destAddress.value,
+        token,
+        // @ts-ignore
+        timeoutHeight: undefined,
+        timeoutTimestamp: BigInt(timeoutInNanos),
+      }`, {
+        sourcePort,
+        sourceChannel,
+        sender: sourceAddress.value,
+        receiver: destAddress.value,
+        token,
+        // @ts-ignore
+        timeoutHeight: undefined,
+        timeoutTimestamp: BigInt(timeoutInNanos),
+      })
   // try {
   //   const tx = await transferTx(
   //     sourceAddress.value,
@@ -155,9 +179,7 @@ const handleSubmitTransfer = async() => {
   //   },
   // });
   // setIsLoading(false);
-  sourceSigningClient.value.addEncoders(toEncoders(ibc.applications.transfer.v1.MsgTransfer))
-  sourceSigningClient.value.addConverters(toConverters(ibc.applications.transfer.v1.MsgTransfer))
-  let res = await sourceSigningClient.value.signAndBroadcast(
+  let res = await client.signAndBroadcast(
     sourceAddress.value,
     [transfer({
       sourcePort,
