@@ -3,13 +3,20 @@ import { Modal } from '@interchain-ui/vue'
 import { defineProps, ref, computed } from 'vue'
 import { TransferInfo } from './assets-overview.vue';
 import { useDisclosure } from '../../composables/useDisclosure';
+import TransferModalBody from './transfer-modal-body.vue';
+import { PriceHash } from '../../utils/types';
 
-const props = defineProps<{
-  transferInfo: TransferInfo,
-  modalControl: ReturnType<typeof useDisclosure>
-}>()
+export interface IProps {
+  prices: PriceHash;
+  transferInfo: TransferInfo;
+  modalControl: ReturnType<typeof useDisclosure>;
+  updateData: () => void;
+  selectedChainName: string;
+}
 
-const inputValue = ref('')
+const props = defineProps<IProps>()
+
+const inputValue = ref('0.018')
 const isOpen = computed(() => {
   return props.modalControl.isOpen.value
 })
@@ -27,18 +34,14 @@ const closeModal = () => {
     :isOpen="isOpen"
     @close="closeModal"
   >
-   {{ JSON.stringify(transferInfo) }} 
-   <TransferModalBody />
-    <!-- <TransferModalBody
-      inputValue={inputValue}
-      setInputValue={setInputValue}
-      isLoading={isLoading}
-      setIsLoading={setIsLoading}
-      modalControl={{
-        ...modalControl,
-        close: closeModal,
-      }}
-    /> -->
+    <TransferModalBody
+      :prices="prices"
+      :transferInfo="transferInfo"
+      :modalControl="modalControl"
+      :updateData="updateData"
+      :selectedChainName="selectedChainName"
+      :input-value="inputValue"
+    />
   </Modal>
 </template>
 

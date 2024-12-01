@@ -1,18 +1,26 @@
 <script setup lang="ts">
-import { Box, Stack, Text, Button } from '@interchain-ui/vue';
 import { useChain } from '@interchain-kit/vue';
 import { defineProps, computed, ref } from 'vue';
-import { TransferInfo } from './assets-overview.vue';
-import { PriceHash, Transfer } from '../../utils/types';
+import { Transfer } from '../../utils/types';
 import { useBalance } from '../../composables/useBalance';
 import BigNumber from 'bignumber.js'
 import { useChainUtils } from '../../composables/useChainUtils';
+import { IProps } from './row-transfer-modal.vue';
+import AssetWithdrawTokens from './asset-withdraw-tokens.vue';
+import { coins, StdFee } from '@cosmjs/amino';
+import { ibc, cosmos } from 'osmojs';
+// import { createSend } from "interchainjs/cosmos/bank/v1beta1/tx.rpc.func";
+import { createTransfer } from 'interchainjs/ibc/applications/transfer/v1/tx.rpc.func'
 
-const props = defineProps<{
-  prices: PriceHash,
-  transferInfo: TransferInfo,
-  selectedChainName: string,
-}>()
+// const {
+//     transfer
+// } = ibc.applications.transfer.v1.MessageComposer.withTypeUrl
+
+interface IBodyProps extends IProps {
+  inputValue: string
+} 
+
+const props = defineProps<IBodyProps>()
 const transferType = computed(() => {
   return props.transferInfo.type
 })
@@ -28,10 +36,10 @@ const sourceChainName = computed(() => {
 const isDeposit = computed(() => {
   return transferType.value === Transfer.Deposit
 })
-const { address: sourceAddress, connect: connectSourceChain, chain: sourceChainInfo } = useChain(sourceChainName)
-const { address: destAddress, connect: connectDesChain, chain: destChainInfo } = useChain(destChainName)
+const { address: sourceAddress, connect: connectSourceChain, chain: sourceChainInfo, signingClient: sourceSigningClient } = useChain(sourceChainName)
+const { address: destAddress, connect: connectDesChain, chain: destChainInfo, signingClient: destSigningClient } = useChain(destChainName)
 const selectedChainName = ref(props.selectedChainName)
-const { convRawToDispAmount, symbolToDenom, getChainLogo } = useChainUtils(selectedChainName)
+const { convRawToDispAmount, symbolToDenom, getChainLogo, getExponentByDenom, getIbcInfo } = useChainUtils(selectedChainName)
 
 const { balance } = useBalance(sourceChainName, transferToken.value.symbol)
 
@@ -70,13 +78,96 @@ const destChain = computed(() => {
 })
 
 const handleSubmitTransfer = async() => {
+  if (!sourceAddress.value || !destAddress.value) return;
+  const transferAmount = new BigNumber(props.inputValue)
+    .shiftedBy(getExponentByDenom(symbolToDenom(transferToken.value.symbol)))
+    .toString();
+    const { sourcePort, sourceChannel } = getIbcInfo(
+    sourceChainName.value,
+    destChainName.value
+  );
+
+  const fee: StdFee = {
+    amount: coins('1000', transferToken.value.denom ?? ''),
+    gas: '250000',
+  };
+
+  const token = {
+    denom: transferToken.value.denom ?? '',
+    amount: transferAmount,
+  };
+
+  const stamp = Date.now();
+  const timeoutInNanos = (stamp + 1.2e6) * 1e6;
+
+  if (!sourceSigningClient.value) {
+    return
+  }
+  console.log('fee>>', fee)
+  console.log('sourceSigningClient.value', sourceSigningClient.value)
+  const transferTx = createTransfer(sourceSigningClient.value);
+  console.log(`{
+        sourcePort,
+        sourceChannel,
+        sender: sourceAddress.value,
+        receiver: destAddress.value,
+        token,
+        // @ts-ignore
+        timeoutHeight: undefined,
+        timeoutTimestamp: BigInt(timeoutInNanos),
+      }`, {
+        sourcePort,
+        sourceChannel,
+        sender: sourceAddress.value,
+        receiver: destAddress.value,
+        token,
+        // @ts-ignore
+        timeoutHeight: undefined,
+        timeoutTimestamp: BigInt(timeoutInNanos),
+      })
+  try {
+    const tx = await transferTx(
+      sourceAddress.value,
+      {
+        sourcePort,
+        sourceChannel,
+        sender: sourceAddress.value,
+        receiver: destAddress.value,
+        token,
+        // @ts-ignore
+        timeoutHeight: undefined,
+        timeoutTimestamp: BigInt(timeoutInNanos),
+      },
+      fee,
+      "memo test"
+    );
+    console.log('tx>>', tx);
+  } catch (error) {
+    console.error(error);
+  }
+
+  // await tx([msg], {
+  //   fee,
+  //   onSuccess: () => {
+  //     updateData();
+  //     modalControl.close();
+  //   },
+  // });
+
+  // setIsLoading(false);
   
 }
 
 </script>
 
 <template>
-  <div>transfer modal body</div>
+  <AssetWithdrawTokens 
+    :fromImgSrc="sourceChain.imgSrc"
+    :fromAddress="sourceChain.address"
+    :toImgSrc="destChain.imgSrc"
+    :toAddress="destChain.address"
+    @onTransfer="handleSubmitTransfer"
+  />
 </template>
 
 <style scoped></style>

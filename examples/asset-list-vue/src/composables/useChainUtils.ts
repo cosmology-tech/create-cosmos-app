@@ -2,7 +2,8 @@
 import { Ref } from 'vue'
 import { useWalletManager } from '@interchain-kit/vue'
 import { useAssets } from './useAssets'
-import { Asset, AssetList } from '@chain-registry/types';
+import { Asset } from '@chain-registry/types';
+import { ibc } from 'chain-registry'
 import { Coin } from 'osmojs/cosmos/base/v1beta1/coin';
 import BigNumber from 'bignumber.js'
 import { CoinDenom, CoinSymbol, Exponent, PriceHash } from '../utils/types';
@@ -33,15 +34,10 @@ export const useChainUtils = (chainName: Ref<string>) => {
     }
   };
 
-  const getDenomBySymbol = (symbol: string) => {
-    const asset1 = nativeAssets.find(asset => asset.symbol === symbol)
-    if (asset1) {
-      return asset1.base
-    }
-    const asset2 = ibcAssets.find(asset => asset.symbol === symbol)
-    if (asset2) {
-      return asset2.base
-    }
+  const getDenomByChainName = (chainName: string) => {
+    const chainRecord = wm.getChainByName(chainName)
+    const denom = chainRecord.staking?.stakingTokens[0].denom as string;
+    return denom
   }
 
   const getAssetByDenom = (denom: CoinDenom): Asset => {
@@ -98,16 +94,46 @@ export const useChainUtils = (chainName: Ref<string>) => {
     return logoURIs
   }
 
+  const getIbcInfo = (fromChainName: string, toChainName: string) => {
+    let flipped = false;
+
+    let ibcInfo = ibc.find(
+      (i) =>
+        i.chain_1.chain_name === fromChainName &&
+        i.chain_2.chain_name === toChainName
+    );
+
+    if (!ibcInfo) {
+      ibcInfo = ibc.find(
+        (i) =>
+          i.chain_1.chain_name === toChainName &&
+          i.chain_2.chain_name === fromChainName
+      );
+      flipped = true;
+    }
+
+    if (!ibcInfo) {
+      throw new Error('cannot find IBC info');
+    }
+
+    const key = flipped ? 'chain_2' : 'chain_1';
+    const sourcePort = ibcInfo.channels[0][key].port_id;
+    const sourceChannel = ibcInfo.channels[0][key].channel_id;
+
+    return { sourcePort, sourceChannel };
+  };
+
   return {
     getChainName,
     getPrettyChainName,
-    getDenomBySymbol,
+    getDenomByChainName,
     convRawToDispAmount,
     denomToSymbol,
     calcCoinDollarValue,
     getExponentByDenom,
     getAssetByDenom,
     symbolToDenom,
-    getChainLogo
+    getChainLogo,
+    getIbcInfo
   }
 }

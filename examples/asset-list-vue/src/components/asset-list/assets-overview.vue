@@ -10,6 +10,7 @@ import RowTransferModal from './row-transfer-modal.vue';
 import BigNumber from 'bignumber.js';
 import { useDisclosure } from '../../composables/useDisclosure';
 import { CoinDenom, PriceHash, Transfer } from '../../utils/types';
+import { useChainUtils } from '../../composables/useChainUtils';
 
 export type TransferValues = typeof Transfer[keyof typeof Transfer];
 
@@ -29,6 +30,7 @@ const props = defineProps<{
 const chainName = ref(props.selectedChainName)
 const data = useTotalAssets(chainName)
 const { nativeAssets, ibcAssets: ibcAsts } = useAssets(chainName)
+const { getDenomByChainName } = useChainUtils(chainName)
 const dropdownTransferInfo = ref<TransferInfo>()
 const rowTransferInfo = ref<TransferInfo>()
 // modalControls
@@ -64,9 +66,8 @@ const assetsToShow = computed(() => {
       showDeposit: !isNativeAsset(asset),
       showWithdraw: !isNativeAsset(asset),
       onDeposit: () => {
-        console.log('onDeposit..', asset)
         const sourceChainName = getChainName(asset.denom);
-        const denom = asset.denom
+        const denom = getDenomByChainName(sourceChainName)
         rowTransferInfo.value = {
           sourceChainName,
           type: Transfer.Deposit,
@@ -136,6 +137,8 @@ const setTransferInfo = (info: TransferInfo) => {
 const hasBalance = computed(() => {
   return ibcAssets.value.some((asset) => new BigNumber(asset.amount).gt(0))
 })
+
+const updateData = () => {}
 </script>
 
 <template>
@@ -162,13 +165,17 @@ const hasBalance = computed(() => {
       setTransferInfo
     }"
     :modalControl="modalControl"
-    @updateData=""
+    @update-data=""
     :selectedChainName="selectedChainName"
   />
   <RowTransferModal
     v-if="rowTransferInfo"
     :modalControl="rowModalControl"
     :transferInfo="rowTransferInfo"
+    :modal-control="rowModalControl"
+    :update-data="updateData"
+    :selected-chain-name="selectedChainName"
+    :prices="prices"
   />
 </template>
 
