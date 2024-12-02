@@ -17185,6 +17185,7 @@ __metadata:
     "@chain-registry/v2": "npm:^1.71.44"
     "@chain-registry/v2-types": "npm:^0.53.20"
     "@cosmjs/amino": "npm:^0.32.4"
+    "@cosmjs/stargate": "npm:^0.32.4"
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
     "@interchain-kit/core": "npm:^0.0.1-beta.39"
     "@interchain-kit/keplr-extension": "npm:^0.0.1-beta.39"

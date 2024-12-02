@@ -138,7 +138,10 @@ const hasBalance = computed(() => {
   return ibcAssets.value.some((asset) => new BigNumber(asset.amount).gt(0))
 })
 
-const updateData = () => {}
+const updateData = () => {
+  console.log('updateData>>')
+  data.refetch()
+}
 </script>
 
 <template>
@@ -173,7 +176,7 @@ const updateData = () => {}
     :modalControl="rowModalControl"
     :transferInfo="rowTransferInfo"
     :modal-control="rowModalControl"
-    :update-data="updateData"
+    @update-data="updateData"
     :selected-chain-name="selectedChainName"
     :prices="prices"
   />

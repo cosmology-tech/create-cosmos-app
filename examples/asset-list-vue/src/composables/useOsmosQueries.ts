@@ -31,7 +31,13 @@ export const useBalances = (rpcEndpoint: Ref<string>, address: Ref<string>) => {
     }
   })
   _requestBalances(rpcEndpoint.value, address.value)
-  return allBalances
+  const refetch = () => {
+    _requestBalances(rpcEndpoint.value, address.value)
+  }
+  return {
+    refetch,
+    allBalances
+  }
 }
 
 export const useDelegations = (rpcEndpoint: Ref<string>, address: Ref<string>) => {
@@ -54,7 +60,13 @@ export const useDelegations = (rpcEndpoint: Ref<string>, address: Ref<string>) =
     }
   })
   _requestDelegations(rpcEndpoint.value, address.value)
-  return delegations
+  const refetch = () => {
+    _requestDelegations(rpcEndpoint.value, address.value)
+  }
+  return {
+    refetch,
+    delegations
+  }
 }
 
 export const useLockedCoins = (rpcEndpoint: Ref<string>, address: Ref<string>) => {
@@ -76,7 +88,13 @@ export const useLockedCoins = (rpcEndpoint: Ref<string>, address: Ref<string>) =
     }
   })
   _requestLockedCoins(rpcEndpoint.value, address.value)
-  return lockedCoins
+  const refetch = () => {
+    _requestLockedCoins(rpcEndpoint.value, address.value)
+  }
+  return {
+    refetch,
+    lockedCoins
+  }
 }
 
 export const usePools = (rpcEndpoint: Ref<string>, address: Ref<string>) => {
@@ -101,6 +119,11 @@ export const usePools = (rpcEndpoint: Ref<string>, address: Ref<string>) => {
     }
   })
   _requestLockedCoins(rpcEndpoint.value, address.value)
-
-  return pools
+  const refetch = () => {
+    _requestLockedCoins(rpcEndpoint.value, address.value)
+  }
+  return {
+    refetch,
+    pools
+  }
 }

@@ -8,14 +8,10 @@ import { useChainUtils } from './useChainUtils';
 
 export const useTotalAssets = (chainName: Ref<string>) => {
   const { rpcEndpoint, address } = useChain(chainName)
-  // @ts-ignore
-  const allBalances = useBalances(rpcEndpoint, address)
-  // @ts-ignore
-  const delegations = useDelegations(rpcEndpoint, address)
-  // @ts-ignore
-  const lockedCoins = useLockedCoins(rpcEndpoint, address)
-  // @ts-ignore
-  const pools = usePools(rpcEndpoint, address)
+  const { allBalances, refetch: refetchBalances } = useBalances(rpcEndpoint as Ref<string>, address)
+  const { delegations, refetch: refetchDelegations } = useDelegations(rpcEndpoint as Ref<string>, address)
+  const { lockedCoins, refetch: refetchLockedCoins } = useLockedCoins(rpcEndpoint as Ref<string>, address)
+  const { pools, refetch: refetchPools } = usePools(rpcEndpoint as Ref<string>, address)
   const prices = usePrices(chainName)
   const zero = new BigNumber(0);
 
@@ -102,10 +98,18 @@ export const useTotalAssets = (chainName: Ref<string>) => {
       .toString();
   })
 
+  const refetch = () => {
+    refetchBalances()
+    refetchDelegations()
+    refetchLockedCoins()
+    refetchPools()
+  }
+
   return {
     total,
     prices,
-    allBalances
+    allBalances,
+    refetch
   }
 }
 

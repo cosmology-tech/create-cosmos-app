@@ -10,11 +10,13 @@ export interface IProps {
   prices: PriceHash;
   transferInfo: TransferInfo;
   modalControl: ReturnType<typeof useDisclosure>;
-  updateData: () => void;
   selectedChainName: string;
 }
 
 const props = defineProps<IProps>()
+const emits = defineEmits<{
+  (event: 'updateData'): void
+}>()
 
 const inputValue = ref('0.018')
 const isOpen = computed(() => {
@@ -24,6 +26,10 @@ const isOpen = computed(() => {
 const closeModal = () => {
   props.modalControl.close()
   inputValue.value = ''
+}
+
+const updateData = () => {
+  emits('updateData')
 }
 
 </script>
@@ -38,7 +44,7 @@ const closeModal = () => {
       :prices="prices"
       :transferInfo="transferInfo"
       :modalControl="modalControl"
-      :updateData="updateData"
+      @updateData="updateData"
       :selectedChainName="selectedChainName"
       :input-value="inputValue"
     />

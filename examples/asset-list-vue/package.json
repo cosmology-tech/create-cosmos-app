@@ -12,6 +12,7 @@
     "@chain-registry/v2": "^1.71.44",
     "@chain-registry/v2-types": "^0.53.20",
     "@cosmjs/amino": "^0.32.4",
+    "@cosmjs/stargate": "^0.32.4",
     "@interchain-kit/core": "^0.0.1-beta.39",
     "@interchain-kit/keplr-extension": "^0.0.1-beta.39",
     "@interchain-kit/leap-extension": "^0.0.1-beta.39",
