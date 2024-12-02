@@ -9,8 +9,9 @@ import DropdownTransferModal from './dropdown-transfer-modal.vue'
 import RowTransferModal from './row-transfer-modal.vue';
 import BigNumber from 'bignumber.js';
 import { useDisclosure } from '../../composables/useDisclosure';
-import { CoinDenom, PriceHash, Transfer } from '../../utils/types';
+import { CoinDenom, Transfer } from '../../utils/types';
 import { useChainUtils } from '../../composables/useChainUtils';
+import { Coin } from 'osmojs/cosmos/base/v1beta1/coin';
 
 export type TransferValues = typeof Transfer[keyof typeof Transfer];
 
@@ -21,22 +22,21 @@ export type TransferInfo = {
   token: AvailableItem;
 };
 const props = defineProps<{
-  isLoading: Boolean,
-  assets: Array<PrettyAsset>,
-  prices: PriceHash,
   selectedChainName: string,
 }>()
 
 const chainName = ref(props.selectedChainName)
-const data = useTotalAssets(chainName)
+const { allBalances, total, refetch, prices } = useTotalAssets(chainName)
 const { nativeAssets, ibcAssets: ibcAsts } = useAssets(chainName)
-const { getDenomByChainName } = useChainUtils(chainName)
+const { 
+  getAssetByDenom, denomToSymbol, calcCoinDollarValue,
+  getPrettyChainName, convRawToDispAmount, getDenomByChainName
+} = useChainUtils(chainName);
 const dropdownTransferInfo = ref<TransferInfo>()
 const rowTransferInfo = ref<TransferInfo>()
 // modalControls
 const modalControl = useDisclosure();
 const rowModalControl = useDisclosure();
-console.log('data>>', data)
 
 const isNativeAsset = ({ denom }: PrettyAsset) => {
   return !!nativeAssets.find((asset) => asset.base === denom);
@@ -53,8 +53,36 @@ const getChainName = (ibcDenom: CoinDenom) => {
   return ibcChainName;
 };
 
+const nativeAndIbcBalances = computed<Coin[]>(() => {
+  return allBalances.value?.filter(
+    ({ denom }: any) => !denom.startsWith('gamm') && prices.value[denom]
+  ) || [];
+})
+
+const finalAssets = computed<PrettyAsset[]>(() => {
+  const res = nativeAndIbcBalances.value
+  .map(({ amount, denom }) => {
+    const asset = getAssetByDenom(denom)
+    const symbol = denomToSymbol(denom);
+    const dollarValue = calcCoinDollarValue(prices.value, { amount, denom });
+    return {
+      symbol,
+      logoUrl: asset.logo_URIs?.png || asset.logo_URIs?.svg || '',
+      prettyChainName: getPrettyChainName(denom) || '',
+      displayAmount: convRawToDispAmount(denom, amount, chainName.value),
+      dollarValue,
+      amount,
+      denom,
+    };
+  })
+  .sort((a, b) =>
+    new BigNumber(a.dollarValue).lt(b.dollarValue) ? 1 : -1
+  );
+  return res;
+})
+
 const assetsToShow = computed(() => {
-  const returnAssets = props.assets?.map((asset) => {
+  const returnAssets = finalAssets.value?.map((asset) => {
     return {
       imgSrc: asset.logoUrl ?? '',
       symbol: asset.symbol,
@@ -100,7 +128,7 @@ const assetsToShow = computed(() => {
 })
 
 const ibcAssets = computed(() => {
-  return props.assets?.filter((asset) => !isNativeAsset(asset)) || []
+  return finalAssets.value?.filter((asset) => !isNativeAsset(asset)) || []
 })
 
 const onWithdrawAsset = () => {
@@ -137,11 +165,6 @@ const setTransferInfo = (info: TransferInfo) => {
 const hasBalance = computed(() => {
   return ibcAssets.value.some((asset) => new BigNumber(asset.amount).gt(0))
 })
-
-const updateData = () => {
-  console.log('updateData>>')
-  data.refetch()
-}
 </script>
 
 <template>
@@ -155,7 +178,7 @@ const updateData = () => {
     @onWithdraw="onWithdrawAsset"
     :singleChainHeader="{
       label: `Total on ${chainName}`,
-      value: data.total,
+      value: total,
     }"
     :list="assetsToShow"
   />
@@ -176,7 +199,7 @@ const updateData = () => {
     :modalControl="rowModalControl"
     :transferInfo="rowTransferInfo"
     :modal-control="rowModalControl"
-    @update-data="updateData"
+    @update-data="refetch"
     :selected-chain-name="selectedChainName"
     :prices="prices"
   />
