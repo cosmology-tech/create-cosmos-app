@@ -55,11 +55,14 @@ const getChainName = (ibcDenom: CoinDenom) => {
 
 const nativeAndIbcBalances = computed<Coin[]>(() => {
   return allBalances.value?.filter(
-    ({ denom }: any) => !denom.startsWith('gamm') && prices.value[denom]
+    ({ denom }: any) => !denom.startsWith('gamm') && prices.value?.[denom]
   ) || [];
 })
 
 const finalAssets = computed<PrettyAsset[]>(() => {
+  if (!prices.value) {
+    return []
+  }
   const res = nativeAndIbcBalances.value
   .map(({ amount, denom }) => {
     const asset = getAssetByDenom(denom)
@@ -201,7 +204,7 @@ const hasBalance = computed(() => {
     :modal-control="rowModalControl"
     @update-data="refetch"
     :selected-chain-name="selectedChainName"
-    :prices="prices"
+    :prices="prices || {}"
   />
 </template>
 

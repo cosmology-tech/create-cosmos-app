@@ -1,12 +1,12 @@
-import { computed, Ref, ref, watch } from 'vue'
+import { computed, Ref, watch } from 'vue'
 import { useChain } from '@interchain-kit/vue'
 import { osmosis } from 'osmojs'
 import { useAssets } from './useAssets'
+import { useQuery } from '@tanstack/vue-query'
 
 export const useBalance = (chainName: Ref<string>, displayDenom?: string) => {
   const { address, rpcEndpoint } = useChain(chainName)
   const { allAssets } = useAssets(chainName)
-  const balance = ref()
 
   const denom = computed(() => {
     let res = allAssets[0].base
@@ -24,11 +24,11 @@ export const useBalance = (chainName: Ref<string>, displayDenom?: string) => {
     }
     const { createRPCQueryClient } = osmosis.ClientFactory;
     const client = await createRPCQueryClient({ rpcEndpoint });
-    let { balance: blc } = await client.cosmos.bank.v1beta1.balance({
+    let { balance } = await client.cosmos.bank.v1beta1.balance({
       denom: denom,
       address: address
     })
-    balance.value = blc
+    return balance
   }
 
   watch([denom, address, rpcEndpoint], ([dn, addr, rpc]) => {
@@ -39,7 +39,20 @@ export const useBalance = (chainName: Ref<string>, displayDenom?: string) => {
     })
   })
 
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['balance', denom, address, rpcEndpoint],
+    queryFn: () => {
+      return _request({
+        rpcEndpoint: rpcEndpoint.value as string,
+        denom: denom.value,
+        address: address.value
+      })
+    }
+  })
+
   return {
-    balance
+    balance: data,
+    isLoading,
+    error
   }
 }

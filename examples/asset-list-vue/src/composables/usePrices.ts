@@ -1,19 +1,12 @@
-import { Ref, ref, watch, computed } from 'vue'
+import { Ref, ref, computed } from 'vue'
 import { Asset } from '@chain-registry/types';
 import { useAssets } from './useAssets';
-import { PriceHash } from './useChainUtils'
+import { useQuery } from '@tanstack/vue-query';
+import { PriceHash } from '../utils/types';
 
 type CoinGeckoId = string;
 type CoinGeckoUSD = { usd: number };
 type CoinGeckoUSDResponse = Record<CoinGeckoId, CoinGeckoUSD>;
-
-const getAssetsWithGeckoIds = (assets: Asset[]) => {
-  return assets.filter((asset) => !!asset?.coingecko_id);
-};
-
-const getGeckoIds = (assets: Asset[]) => {
-  return assets.map((asset) => asset.coingecko_id) as string[];
-};
 
 export const handleError = (resp: Response) => {
   if (!resp.ok) throw Error(resp.statusText);
@@ -42,22 +35,25 @@ const formatPrices = (
 
 export const usePrices = (chainName: Ref<string>) => {
   const { allAssets } = useAssets(chainName)
-  const prices = ref<PriceHash>({})
-  const geckoIds = computed(() => {
-    const assetsWithGeckoIds = getAssetsWithGeckoIds(allAssets);
-    return getGeckoIds(assetsWithGeckoIds);
+  const assetsWithGeckoIds = computed(() => {
+    return allAssets.filter((asset) => !!asset?.coingecko_id);
   })
 
-  const _fetchPrices = async (ids: any) => {
-    if (ids?.length > 0) {
-      const res = await fetchPrices(ids)
-      let pcs = formatPrices(res, allAssets);
-      prices.value = pcs
-    }
+  const geckoIds = computed(() => {
+    return assetsWithGeckoIds?.value.map(asset => asset.coingecko_id) as string[]
+  })
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['prices', geckoIds],
+    queryFn: () => {
+      return fetchPrices(geckoIds.value)
+    },
+    select: (data) => formatPrices(data, assetsWithGeckoIds.value)
+  })
+
+  return {
+    prices: data,
+    isLoading,
+    error
   }
-
-  watch(geckoIds, _fetchPrices)
-  _fetchPrices(geckoIds.value)
-
-  return prices
 }

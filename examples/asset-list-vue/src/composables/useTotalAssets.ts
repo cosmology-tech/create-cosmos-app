@@ -8,18 +8,18 @@ import { useChainUtils } from './useChainUtils';
 
 export const useTotalAssets = (chainName: Ref<string>) => {
   const { rpcEndpoint, address } = useChain(chainName)
-  const { allBalances, refetch: refetchBalances } = useBalances(rpcEndpoint as Ref<string>, address)
+  const { balances: allBalances, refetch: refetchBalances } = useBalances(rpcEndpoint as Ref<string>, address)
   const { delegations, refetch: refetchDelegations } = useDelegations(rpcEndpoint as Ref<string>, address)
   const { lockedCoins, refetch: refetchLockedCoins } = useLockedCoins(rpcEndpoint as Ref<string>, address)
   const { pools, refetch: refetchPools } = usePools(rpcEndpoint as Ref<string>, address)
-  const prices = usePrices(chainName)
+  const { prices } = usePrices(chainName)
   const zero = new BigNumber(0);
 
   const { calcCoinDollarValue } = useChainUtils(chainName)
   const { convertGammTokenToDollarValue } = usePoolUtils(chainName)
 
   const stakedTotal = computed(() => {
-    if (delegations.value) {
+    if (delegations.value && prices.value) {
       return delegations.value?.map((coin) => calcCoinDollarValue(prices.value, coin))
         .reduce((total, cur) => total.plus(cur), zero)
         .toString();
@@ -28,7 +28,7 @@ export const useTotalAssets = (chainName: Ref<string>) => {
   })
 
   const balancesTotal = computed(() => {
-    if (allBalances.value) {
+    if (allBalances.value && prices.value) {
       return allBalances.value?.filter(({ denom }) => !denom.startsWith('gamm') && prices.value[denom])
         .map((coin) => calcCoinDollarValue(prices.value, coin))
         .reduce((total, cur) => total.plus(cur), zero)
@@ -62,17 +62,17 @@ export const useTotalAssets = (chainName: Ref<string>) => {
         // @ts-ignore
         return poolAssets.every(({ token }) => {
           const isGammToken = token.denom.startsWith('gamm/pool');
-          return !isGammToken && prices.value[token.denom];
+          return !isGammToken && prices.value?.[token.denom];
         });
       })
       .reduce((prev, cur) => ({ ...prev, [cur.totalShares.denom]: cur }), {});
   })
 
   const bondedTotal = computed(() => {
-    return lockedCoins.value.map((coin) => {
+    return lockedCoins.value?.map((coin) => {
       // @ts-ignore
       const poolData = poolsMap.value?.[coin.denom];
-      if (!poolData) return '0';
+      if (!poolData || !prices.value) return '0';
       return convertGammTokenToDollarValue(coin, poolData, prices.value);
     })
       .reduce((total, cur) => total.plus(cur), zero)
@@ -84,7 +84,7 @@ export const useTotalAssets = (chainName: Ref<string>) => {
       .map((coin) => {
         // @ts-ignore
         const poolData = poolsMap.value[coin.denom];
-        if (!poolData) return '0';
+        if (!poolData || !prices.value) return '0';
         return convertGammTokenToDollarValue(coin, poolData, prices.value);
       })
       .reduce((total, cur) => total.plus(cur), zero)

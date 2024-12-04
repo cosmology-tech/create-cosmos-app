@@ -2,12 +2,22 @@ import { createApp } from 'vue'
 import router from './router'
 import './style.css'
 import "@interchain-ui/vue/style.css";
+import { VueQueryPlugin, QueryClient } from '@tanstack/vue-query';
 // import "@interchain-ui/vue/globalStyles";
 // import '@interchain-ui/react/globalStyles';
 // import '@interchain-ui/react/styles';
 import App from './App.vue'
 
-const app = createApp(App);
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
+const app = createApp(App);
+app.use(VueQueryPlugin, { queryClient });
 app.use(router)
 app.mount('#app');

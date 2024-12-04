@@ -2,6 +2,7 @@ import { osmosis } from 'osmojs'
 import { ref, Ref, watch, computed } from 'vue'
 import { Coin } from 'osmojs/cosmos/base/v1beta1/coin';
 import { Pool } from "osmojs/osmosis/gamm/v1beta1/balancerPool";
+import { useQuery } from '@tanstack/vue-query'
 
 const getPagination = (limit: bigint) => ({
   limit,
@@ -12,7 +13,6 @@ const getPagination = (limit: bigint) => ({
 });
 
 export const useBalances = (rpcEndpoint: Ref<string>, address: Ref<string>) => {
-  const allBalances = ref<Coin[]>([])
   const _requestBalances = async (rpcEndpoint: string, address: string) => {
     if (!rpcEndpoint || !address) {
       return
@@ -23,25 +23,28 @@ export const useBalances = (rpcEndpoint: Ref<string>, address: Ref<string>) => {
       address,
       pagination: getPagination(100n),
     });
-    allBalances.value = balances
+    return balances
   }
-  watch([rpcEndpoint, address], ([rpc, addr]) => {
-    if (rpc && addr) {
-      _requestBalances(rpc, addr)
-    }
+
+  const enabled = computed(() => {
+    return !!rpcEndpoint.value && !!address.value
   })
-  _requestBalances(rpcEndpoint.value, address.value)
-  const refetch = () => {
-    _requestBalances(rpcEndpoint.value, address.value)
-  }
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ['balances', rpcEndpoint, address],
+    queryFn: () => {
+      return _requestBalances(rpcEndpoint.value, address.value)
+    },
+    enabled
+  })
   return {
     refetch,
-    allBalances
+    balances: data,
+    isLoading,
+    error
   }
 }
 
 export const useDelegations = (rpcEndpoint: Ref<string>, address: Ref<string>) => {
-  const delegations = ref<Coin[]>([])
   const _requestDelegations = async (rpcEndpoint: string, address: string) => {
     if (!rpcEndpoint || !address) {
       return
@@ -52,25 +55,30 @@ export const useDelegations = (rpcEndpoint: Ref<string>, address: Ref<string>) =
       delegatorAddr: address,
       pagination: getPagination(100n),
     })
-    delegations.value = delegationResponses.map(({ balance }) => balance) || []
+    return delegationResponses.map(({ balance }) => balance) || []
   }
-  watch([rpcEndpoint, address], ([rpc, addr]) => {
-    if (rpc && addr) {
-      _requestDelegations(rpc, addr)
-    }
+
+  const enabled = computed(() => {
+    return !!rpcEndpoint.value && !!address.value
   })
-  _requestDelegations(rpcEndpoint.value, address.value)
-  const refetch = () => {
-    _requestDelegations(rpcEndpoint.value, address.value)
-  }
+
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ['delegations', rpcEndpoint, address],
+    queryFn: () => {
+      return _requestDelegations(rpcEndpoint.value, address.value)
+    },
+    enabled
+  })
+
   return {
     refetch,
-    delegations
+    delegations: data,
+    isLoading,
+    error
   }
 }
 
 export const useLockedCoins = (rpcEndpoint: Ref<string>, address: Ref<string>) => {
-  const lockedCoins = ref<Coin[]>([])
   const _requestLockedCoins = async (rpcEndpoint: string, address: string) => {
     if (!rpcEndpoint || !address) {
       return
@@ -80,50 +88,58 @@ export const useLockedCoins = (rpcEndpoint: Ref<string>, address: Ref<string>) =
     const { coins } = await client.osmosis.lockup.accountLockedCoins({
       owner: address
     })
-    lockedCoins.value = coins
+    return coins
   }
-  watch([rpcEndpoint, address], ([rpc, addr]) => {
-    if (rpc && addr) {
-      _requestLockedCoins(rpc, addr)
-    }
+
+  const enabled = computed(() => {
+    return !!rpcEndpoint.value && !!address.value
   })
-  _requestLockedCoins(rpcEndpoint.value, address.value)
-  const refetch = () => {
-    _requestLockedCoins(rpcEndpoint.value, address.value)
-  }
+
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ['lockedCoins', rpcEndpoint, address],
+    queryFn: () => {
+      return _requestLockedCoins(rpcEndpoint.value, address.value)
+    },
+    enabled
+  })
   return {
     refetch,
-    lockedCoins
+    lockedCoins: data,
+    isLoading,
+    error
   }
 }
 
 export const usePools = (rpcEndpoint: Ref<string>, address: Ref<string>) => {
-  const pools = ref<Pool[]>([])
-  const _requestLockedCoins = async (rpcEndpoint: string, address: string) => {
+  const _requestPools = async (rpcEndpoint: string, address: string) => {
     if (!rpcEndpoint || !address) {
       return
     }
     const { createRPCQueryClient } = osmosis.ClientFactory;
     const client = await createRPCQueryClient({ rpcEndpoint });
-    const { pools: pls } = await client.osmosis.gamm.v1beta1.pools({
+    const { pools } = await client.osmosis.gamm.v1beta1.pools({
       pagination: getPagination(5000n),
     })
-    if (pools) {
-      // @ts-ignore
-      pools.value = pls
-    }
+    return pools as Pool[]
   }
-  watch([rpcEndpoint, address], ([rpc, addr]) => {
-    if (rpc && addr) {
-      _requestLockedCoins(rpc, addr)
-    }
+
+  const enabled = computed(() => {
+    return !!rpcEndpoint.value && !!address.value
   })
-  _requestLockedCoins(rpcEndpoint.value, address.value)
-  const refetch = () => {
-    _requestLockedCoins(rpcEndpoint.value, address.value)
-  }
+
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ['pools', rpcEndpoint, address],
+    queryFn: () => {
+      return _requestPools(rpcEndpoint.value, address.value)
+    },
+    enabled
+  })
+  _requestPools(rpcEndpoint.value, address.value)
+
   return {
     refetch,
-    pools
+    pools: data,
+    isLoading,
+    error
   }
 }

@@ -18,6 +18,7 @@
     "@interchain-kit/leap-extension": "^0.0.1-beta.39",
     "@interchain-kit/vue": "^0.0.1-beta.38",
     "@interchain-ui/vue": "^1.4.1",
+    "@tanstack/vue-query": "^5.62.2",
     "interchainjs": "0.0.1-beta.36",
     "osmojs": "^16.15.0",
     "vue": "^3.5.13",

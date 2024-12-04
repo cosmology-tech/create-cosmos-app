@@ -77,7 +77,6 @@ const TransferModalBody = (
     if (!isDeposit) return transferToken.available ?? 0;
     if (isLoadingBalance) return 0;
 
-    console.log('transferInfo.token', transferInfo.token)
 
     return new BigNumber(
       convRawToDispAmount(transferInfo.token.symbol, balance?.amount || '0')
