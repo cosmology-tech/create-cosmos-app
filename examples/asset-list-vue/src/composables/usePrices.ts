@@ -1,8 +1,7 @@
-import { Ref, ref, computed } from 'vue'
+import { Ref, computed } from 'vue'
 import { Asset } from '@chain-registry/types';
 import { useAssets } from './useAssets';
 import { useQuery } from '@tanstack/vue-query';
-import { PriceHash } from '../utils/types';
 
 type CoinGeckoId = string;
 type CoinGeckoUSD = { usd: number };

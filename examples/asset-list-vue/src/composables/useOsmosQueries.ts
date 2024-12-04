@@ -1,6 +1,5 @@
 import { osmosis } from 'osmojs'
-import { ref, Ref, watch, computed } from 'vue'
-import { Coin } from 'osmojs/cosmos/base/v1beta1/coin';
+import { Ref, computed } from 'vue'
 import { Pool } from "osmojs/osmosis/gamm/v1beta1/balancerPool";
 import { useQuery } from '@tanstack/vue-query'
 
@@ -29,6 +28,7 @@ export const useBalances = (rpcEndpoint: Ref<string>, address: Ref<string>) => {
   const enabled = computed(() => {
     return !!rpcEndpoint.value && !!address.value
   })
+
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['balances', rpcEndpoint, address],
     queryFn: () => {
