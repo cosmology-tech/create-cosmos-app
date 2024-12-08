@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useChain } from '@interchain-kit/vue'
-import { useRpcClient, createRpcQueryHooks, useTendermintClient } from '../outputosmojs'
+import { useRpcClient, createRpcQueryHooks, useTendermintClient, } from '../outputosmojs'
 
-const chainName = ref('osmosis')
-const { address } = useChain(chainName)
+const chainName = ref('cosmoshub')
+const { address, rpcEndpoint } = useChain(chainName)
 
-const rpcEndpoint = ref('https://rpc.cosmos.directory/cosmoshub');
-
-// create tendermintClient
-const { client } = useTendermintClient({
+// create tendermintClient by rpcEnpoint
+const { client: tendermintCleint } = useTendermintClient({
   rpcEndpoint
 })
-console.log('[tendermint client]', client)
+console.log('[tendermint client]', tendermintCleint)
+// watch(tendermintCleint, async client => {
+//   let abicInfo = await client?.abciInfo()
+//   console.log('[query abicInfo using tendermintCleint]', abicInfo)
+// })
 
 // create rpcClient by rpcEnpoint
 const { data: rpcClient } = useRpcClient({
@@ -21,29 +23,21 @@ const { data: rpcClient } = useRpcClient({
     enabled: computed(() => !!rpcEndpoint.value),
   },
 });
+console.log('[rpcClient]', rpcClient)
+
 const hooks = createRpcQueryHooks({ rpc: rpcClient });
 
+const changeChainName = () => {
+  chainName.value = 'osmosis'
+}
 const {data, error} = hooks.cosmos.bank.v1beta1.useAllBalances({
   request: {
     address: address || '',
     // denom: chainassets?.assets[0].base as string,
   },
-  // options: {
-  //   enabled: !!address && !!rpcClient,
-  //   // transform the returned balance into a BigNumber
-  //   select: ({ balance }) =>
-  //     new BigNumber(balance?.amount ?? 0).multipliedBy(
-  //       10 ** -COIN_DISPLAY_EXPONENT
-  //     ),
-  // },
 })
-
 console.log('data.>', data)
 console.log('error>', error)
-
-const changeChainName = () => {
-  chainName.value = 'cosmoshub'
-}
 
 </script>
 
