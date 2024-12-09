@@ -3,11 +3,16 @@ import { Provider, ProviderSDKType } from "./audit";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.audit.v1beta2";
 /** QueryProvidersResponse is response type for the Query/Providers RPC method */
 export interface QueryProvidersResponse {
   providers: Provider[];
   pagination?: PageResponse;
+}
+export interface ReactiveQueryProvidersResponse {
+  providers: ComputedRef<Provider[]>;
+  pagination?: ComputedRef<PageResponse>;
 }
 export interface QueryProvidersResponseProtoMsg {
   typeUrl: "/akash.audit.v1beta2.QueryProvidersResponse";
@@ -23,6 +28,10 @@ export interface QueryProviderRequest {
   auditor: string;
   owner: string;
 }
+export interface ReactiveQueryProviderRequest {
+  auditor: ComputedRef<string>;
+  owner: ComputedRef<string>;
+}
 export interface QueryProviderRequestProtoMsg {
   typeUrl: "/akash.audit.v1beta2.QueryProviderRequest";
   value: Uint8Array;
@@ -36,6 +45,9 @@ export interface QueryProviderRequestSDKType {
 export interface QueryAllProvidersAttributesRequest {
   pagination?: PageRequest;
 }
+export interface ReactiveQueryAllProvidersAttributesRequest {
+  pagination?: ComputedRef<PageRequest>;
+}
 export interface QueryAllProvidersAttributesRequestProtoMsg {
   typeUrl: "/akash.audit.v1beta2.QueryAllProvidersAttributesRequest";
   value: Uint8Array;
@@ -48,6 +60,10 @@ export interface QueryAllProvidersAttributesRequestSDKType {
 export interface QueryProviderAttributesRequest {
   owner: string;
   pagination?: PageRequest;
+}
+export interface ReactiveQueryProviderAttributesRequest {
+  owner: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryProviderAttributesRequestProtoMsg {
   typeUrl: "/akash.audit.v1beta2.QueryProviderAttributesRequest";
@@ -63,6 +79,10 @@ export interface QueryProviderAuditorRequest {
   auditor: string;
   owner: string;
 }
+export interface ReactiveQueryProviderAuditorRequest {
+  auditor: ComputedRef<string>;
+  owner: ComputedRef<string>;
+}
 export interface QueryProviderAuditorRequestProtoMsg {
   typeUrl: "/akash.audit.v1beta2.QueryProviderAuditorRequest";
   value: Uint8Array;
@@ -76,6 +96,10 @@ export interface QueryProviderAuditorRequestSDKType {
 export interface QueryAuditorAttributesRequest {
   auditor: string;
   pagination?: PageRequest;
+}
+export interface ReactiveQueryAuditorAttributesRequest {
+  auditor: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryAuditorAttributesRequestProtoMsg {
   typeUrl: "/akash.audit.v1beta2.QueryAuditorAttributesRequest";

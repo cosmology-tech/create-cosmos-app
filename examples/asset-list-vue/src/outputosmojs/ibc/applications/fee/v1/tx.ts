@@ -2,6 +2,7 @@ import { Fee, FeeSDKType, PacketFee, PacketFeeSDKType } from "./fee";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.fee.v1";
 /** MsgRegisterPayee defines the request type for the RegisterPayee rpc */
 export interface MsgRegisterPayee {
@@ -13,6 +14,12 @@ export interface MsgRegisterPayee {
   relayer: string;
   /** the payee address */
   payee: string;
+}
+export interface ReactiveMsgRegisterPayee {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  relayer: ComputedRef<string>;
+  payee: ComputedRef<string>;
 }
 export interface MsgRegisterPayeeProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.MsgRegisterPayee";
@@ -27,6 +34,7 @@ export interface MsgRegisterPayeeSDKType {
 }
 /** MsgRegisterPayeeResponse defines the response type for the RegisterPayee rpc */
 export interface MsgRegisterPayeeResponse {}
+export interface ReactiveMsgRegisterPayeeResponse {}
 export interface MsgRegisterPayeeResponseProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.MsgRegisterPayeeResponse";
   value: Uint8Array;
@@ -44,6 +52,12 @@ export interface MsgRegisterCounterpartyPayee {
   /** the counterparty payee address */
   counterpartyPayee: string;
 }
+export interface ReactiveMsgRegisterCounterpartyPayee {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  relayer: ComputedRef<string>;
+  counterpartyPayee: ComputedRef<string>;
+}
 export interface MsgRegisterCounterpartyPayeeProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.MsgRegisterCounterpartyPayee";
   value: Uint8Array;
@@ -57,6 +71,7 @@ export interface MsgRegisterCounterpartyPayeeSDKType {
 }
 /** MsgRegisterCounterpartyPayeeResponse defines the response type for the RegisterCounterpartyPayee rpc */
 export interface MsgRegisterCounterpartyPayeeResponse {}
+export interface ReactiveMsgRegisterCounterpartyPayeeResponse {}
 export interface MsgRegisterCounterpartyPayeeResponseProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.MsgRegisterCounterpartyPayeeResponse";
   value: Uint8Array;
@@ -80,6 +95,13 @@ export interface MsgPayPacketFee {
   /** optional list of relayers permitted to the receive packet fees */
   relayers: string[];
 }
+export interface ReactiveMsgPayPacketFee {
+  fee: ComputedRef<Fee>;
+  sourcePortId: ComputedRef<string>;
+  sourceChannelId: ComputedRef<string>;
+  signer: ComputedRef<string>;
+  relayers: ComputedRef<string[]>;
+}
 export interface MsgPayPacketFeeProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.MsgPayPacketFee";
   value: Uint8Array;
@@ -98,6 +120,7 @@ export interface MsgPayPacketFeeSDKType {
 }
 /** MsgPayPacketFeeResponse defines the response type for the PayPacketFee rpc */
 export interface MsgPayPacketFeeResponse {}
+export interface ReactiveMsgPayPacketFeeResponse {}
 export interface MsgPayPacketFeeResponseProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.MsgPayPacketFeeResponse";
   value: Uint8Array;
@@ -112,6 +135,9 @@ export interface MsgPayPacketFeeAsync {
   /** the packet fee associated with a particular IBC packet */
   packetFee: PacketFee;
 }
+export interface ReactiveMsgPayPacketFeeAsync {
+  packetFee: ComputedRef<PacketFee>;
+}
 export interface MsgPayPacketFeeAsyncProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.MsgPayPacketFeeAsync";
   value: Uint8Array;
@@ -125,6 +151,7 @@ export interface MsgPayPacketFeeAsyncSDKType {
 }
 /** MsgPayPacketFeeAsyncResponse defines the response type for the PayPacketFeeAsync rpc */
 export interface MsgPayPacketFeeAsyncResponse {}
+export interface ReactiveMsgPayPacketFeeAsyncResponse {}
 export interface MsgPayPacketFeeAsyncResponseProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.MsgPayPacketFeeAsyncResponse";
   value: Uint8Array;

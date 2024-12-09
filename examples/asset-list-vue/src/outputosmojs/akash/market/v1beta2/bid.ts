@@ -3,6 +3,7 @@ import { DecCoin, DecCoinSDKType, Coin, CoinSDKType } from "../../../cosmos/base
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.market.v1beta2";
 /** State is an enum which refers to state of bid */
 export enum Bid_State {
@@ -66,6 +67,12 @@ export interface MsgCreateBid {
   price: DecCoin;
   deposit: Coin;
 }
+export interface ReactiveMsgCreateBid {
+  order: ComputedRef<OrderID>;
+  provider: ComputedRef<string>;
+  price: ComputedRef<DecCoin>;
+  deposit: ComputedRef<Coin>;
+}
 export interface MsgCreateBidProtoMsg {
   typeUrl: "/akash.market.v1beta2.MsgCreateBid";
   value: Uint8Array;
@@ -79,6 +86,7 @@ export interface MsgCreateBidSDKType {
 }
 /** MsgCreateBidResponse defines the Msg/CreateBid response type. */
 export interface MsgCreateBidResponse {}
+export interface ReactiveMsgCreateBidResponse {}
 export interface MsgCreateBidResponseProtoMsg {
   typeUrl: "/akash.market.v1beta2.MsgCreateBidResponse";
   value: Uint8Array;
@@ -88,6 +96,9 @@ export interface MsgCreateBidResponseSDKType {}
 /** MsgCloseBid defines an SDK message for closing bid */
 export interface MsgCloseBid {
   bidId: BidID;
+}
+export interface ReactiveMsgCloseBid {
+  bidId: ComputedRef<BidID>;
 }
 export interface MsgCloseBidProtoMsg {
   typeUrl: "/akash.market.v1beta2.MsgCloseBid";
@@ -99,6 +110,7 @@ export interface MsgCloseBidSDKType {
 }
 /** MsgCloseBidResponse defines the Msg/CloseBid response type. */
 export interface MsgCloseBidResponse {}
+export interface ReactiveMsgCloseBidResponse {}
 export interface MsgCloseBidResponseProtoMsg {
   typeUrl: "/akash.market.v1beta2.MsgCloseBidResponse";
   value: Uint8Array;
@@ -115,6 +127,13 @@ export interface BidID {
   gseq: number;
   oseq: number;
   provider: string;
+}
+export interface ReactiveBidID {
+  owner: ComputedRef<string>;
+  dseq: ComputedRef<bigint>;
+  gseq: ComputedRef<number>;
+  oseq: ComputedRef<number>;
+  provider: ComputedRef<string>;
 }
 export interface BidIDProtoMsg {
   typeUrl: "/akash.market.v1beta2.BidID";
@@ -138,6 +157,12 @@ export interface Bid {
   price: DecCoin;
   createdAt: bigint;
 }
+export interface ReactiveBid {
+  bidId: ComputedRef<BidID>;
+  state: ComputedRef<Bid_State>;
+  price: ComputedRef<DecCoin>;
+  createdAt: ComputedRef<bigint>;
+}
 export interface BidProtoMsg {
   typeUrl: "/akash.market.v1beta2.Bid";
   value: Uint8Array;
@@ -157,6 +182,14 @@ export interface BidFilters {
   oseq: number;
   provider: string;
   state: string;
+}
+export interface ReactiveBidFilters {
+  owner: ComputedRef<string>;
+  dseq: ComputedRef<bigint>;
+  gseq: ComputedRef<number>;
+  oseq: ComputedRef<number>;
+  provider: ComputedRef<string>;
+  state: ComputedRef<string>;
 }
 export interface BidFiltersProtoMsg {
   typeUrl: "/akash.market.v1beta2.BidFilters";

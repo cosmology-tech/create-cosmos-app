@@ -2,6 +2,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.inflation.v1beta2";
 /** Params defines the parameters for the x/deployment package */
 export interface Params {
@@ -17,6 +18,11 @@ export interface Params {
    * It is a decimal value in the range [0.0, 1.0].
    */
   variance: string;
+}
+export interface ReactiveParams {
+  inflationDecayFactor: ComputedRef<string>;
+  initialInflation: ComputedRef<string>;
+  variance: ComputedRef<string>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/akash.inflation.v1beta2.Params";

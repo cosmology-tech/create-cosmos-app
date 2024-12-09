@@ -3,6 +3,7 @@ import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.bank.v1beta1";
 /** GenesisState defines the bank module's genesis state. */
 export interface GenesisState {
@@ -17,6 +18,12 @@ export interface GenesisState {
   supply: Coin[];
   /** denom_metadata defines the metadata of the differents coins. */
   denomMetadata: Metadata[];
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  balances: ComputedRef<Balance[]>;
+  supply: ComputedRef<Coin[]>;
+  denomMetadata: ComputedRef<Metadata[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/cosmos.bank.v1beta1.GenesisState";
@@ -38,6 +45,10 @@ export interface Balance {
   address: string;
   /** coins defines the different coins this balance holds. */
   coins: Coin[];
+}
+export interface ReactiveBalance {
+  address: ComputedRef<string>;
+  coins: ComputedRef<Coin[]>;
 }
 export interface BalanceProtoMsg {
   typeUrl: "/cosmos.bank.v1beta1.Balance";

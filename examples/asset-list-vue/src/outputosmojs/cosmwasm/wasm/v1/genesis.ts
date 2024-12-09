@@ -3,6 +3,7 @@ import { Params, ParamsSDKType, CodeInfo, CodeInfoSDKType, ContractInfo, Contrac
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmwasm.wasm.v1";
 /** GenesisState - genesis state of x/wasm */
 export interface GenesisState {
@@ -11,6 +12,13 @@ export interface GenesisState {
   contracts: Contract[];
   sequences: Sequence[];
   genMsgs: GenesisState_GenMsgs[];
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  codes: ComputedRef<Code[]>;
+  contracts: ComputedRef<Contract[]>;
+  sequences: ComputedRef<Sequence[]>;
+  genMsgs: ComputedRef<GenesisState_GenMsgs[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.GenesisState";
@@ -33,6 +41,11 @@ export interface GenesisState_GenMsgs {
   instantiateContract?: MsgInstantiateContract;
   executeContract?: MsgExecuteContract;
 }
+export interface ReactiveGenesisState_GenMsgs {
+  storeCode?: ComputedRef<MsgStoreCode>;
+  instantiateContract?: ComputedRef<MsgInstantiateContract>;
+  executeContract?: ComputedRef<MsgExecuteContract>;
+}
 export interface GenesisState_GenMsgsProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.GenMsgs";
   value: Uint8Array;
@@ -54,6 +67,12 @@ export interface Code {
   /** Pinned to wasmvm cache */
   pinned: boolean;
 }
+export interface ReactiveCode {
+  codeId: ComputedRef<bigint>;
+  codeInfo: ComputedRef<CodeInfo>;
+  codeBytes: ComputedRef<Uint8Array>;
+  pinned: ComputedRef<boolean>;
+}
 export interface CodeProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.Code";
   value: Uint8Array;
@@ -71,6 +90,11 @@ export interface Contract {
   contractInfo: ContractInfo;
   contractState: Model[];
 }
+export interface ReactiveContract {
+  contractAddress: ComputedRef<string>;
+  contractInfo: ComputedRef<ContractInfo>;
+  contractState: ComputedRef<Model[]>;
+}
 export interface ContractProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.Contract";
   value: Uint8Array;
@@ -85,6 +109,10 @@ export interface ContractSDKType {
 export interface Sequence {
   idKey: Uint8Array;
   value: bigint;
+}
+export interface ReactiveSequence {
+  idKey: ComputedRef<Uint8Array>;
+  value: ComputedRef<bigint>;
 }
 export interface SequenceProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.Sequence";

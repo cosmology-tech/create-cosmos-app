@@ -2,11 +2,15 @@ import { ValidatorPreference, ValidatorPreferenceSDKType } from "./state";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.valsetpref.v1beta1";
 /** Request type for UserValidatorPreferences. */
 export interface UserValidatorPreferencesRequest {
   /** user account address */
   address: string;
+}
+export interface ReactiveUserValidatorPreferencesRequest {
+  address: ComputedRef<string>;
 }
 export interface UserValidatorPreferencesRequestProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.UserValidatorPreferencesRequest";
@@ -19,6 +23,9 @@ export interface UserValidatorPreferencesRequestSDKType {
 /** Response type the QueryUserValidatorPreferences query request */
 export interface UserValidatorPreferencesResponse {
   preferences: ValidatorPreference[];
+}
+export interface ReactiveUserValidatorPreferencesResponse {
+  preferences: ComputedRef<ValidatorPreference[]>;
 }
 export interface UserValidatorPreferencesResponseProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.UserValidatorPreferencesResponse";

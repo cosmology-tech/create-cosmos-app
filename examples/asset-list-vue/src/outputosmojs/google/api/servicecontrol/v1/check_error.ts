@@ -2,6 +2,7 @@ import { Status, StatusSDKType } from "../../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /** Error codes for Check responses. */
 export enum CheckError_Code {
@@ -215,6 +216,12 @@ export interface CheckError {
    * error.
    */
   status?: Status;
+}
+export interface ReactiveCheckError {
+  code: ComputedRef<CheckError_Code>;
+  subject: ComputedRef<string>;
+  detail: ComputedRef<string>;
+  status?: ComputedRef<Status>;
 }
 export interface CheckErrorProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.CheckError";

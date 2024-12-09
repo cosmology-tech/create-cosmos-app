@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * `Context` defines which contexts an API requests.
@@ -47,6 +48,9 @@ export interface Context {
    * **NOTE:** All service configuration rules follow "last one wins" order.
    */
   rules: ContextRule[];
+}
+export interface ReactiveContext {
+  rules: ComputedRef<ContextRule[]>;
 }
 export interface ContextProtoMsg {
   typeUrl: "/google.api.Context";
@@ -118,6 +122,13 @@ export interface ContextRule {
    * side channel from backend to client.
    */
   allowedResponseExtensions: string[];
+}
+export interface ReactiveContextRule {
+  selector: ComputedRef<string>;
+  requested: ComputedRef<string[]>;
+  provided: ComputedRef<string[]>;
+  allowedRequestExtensions: ComputedRef<string[]>;
+  allowedResponseExtensions: ComputedRef<string[]>;
 }
 export interface ContextRuleProtoMsg {
   typeUrl: "/google.api.ContextRule";

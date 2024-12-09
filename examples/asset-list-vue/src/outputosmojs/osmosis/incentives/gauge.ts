@@ -5,6 +5,7 @@ import { Duration, DurationSDKType } from "../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.incentives";
 /**
  * Gauge is an object that stores and distributes yields to recipients who
@@ -47,6 +48,16 @@ export interface Gauge {
   /** distributed_coins are coins that have been distributed already */
   distributedCoins: Coin[];
 }
+export interface ReactiveGauge {
+  id: ComputedRef<bigint>;
+  isPerpetual: ComputedRef<boolean>;
+  distributeTo: ComputedRef<QueryCondition>;
+  coins: ComputedRef<Coin[]>;
+  startTime: ComputedRef<Date>;
+  numEpochsPaidOver: ComputedRef<bigint>;
+  filledEpochs: ComputedRef<bigint>;
+  distributedCoins: ComputedRef<Coin[]>;
+}
 export interface GaugeProtoMsg {
   typeUrl: "/osmosis.incentives.Gauge";
   value: Uint8Array;
@@ -69,6 +80,9 @@ export interface GaugeSDKType {
 export interface LockableDurationsInfo {
   /** List of incentivised durations that gauges will pay out to */
   lockableDurations: Duration[];
+}
+export interface ReactiveLockableDurationsInfo {
+  lockableDurations: ComputedRef<Duration[]>;
 }
 export interface LockableDurationsInfoProtoMsg {
   typeUrl: "/osmosis.incentives.LockableDurationsInfo";

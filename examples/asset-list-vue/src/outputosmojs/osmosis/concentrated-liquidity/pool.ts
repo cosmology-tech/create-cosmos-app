@@ -3,6 +3,7 @@ import { BinaryReader, BinaryWriter } from "../../binary";
 import { Decimal } from "@cosmjs/math";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity.v1beta1";
 export interface Pool {
   /** pool's address holding all liquidity tokens. */
@@ -29,6 +30,20 @@ export interface Pool {
    * active tick changed
    */
   lastLiquidityUpdate: Date;
+}
+export interface ReactivePool {
+  address: ComputedRef<string>;
+  incentivesAddress: ComputedRef<string>;
+  id: ComputedRef<bigint>;
+  currentTickLiquidity: ComputedRef<string>;
+  token0: ComputedRef<string>;
+  token1: ComputedRef<string>;
+  currentSqrtPrice: ComputedRef<string>;
+  currentTick: ComputedRef<string>;
+  tickSpacing: ComputedRef<bigint>;
+  exponentAtPriceOne: ComputedRef<string>;
+  swapFee: ComputedRef<string>;
+  lastLiquidityUpdate: ComputedRef<Date>;
 }
 export interface PoolProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.Pool";

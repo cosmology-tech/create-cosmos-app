@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /** Value types that can be used as label values. */
 export enum LabelDescriptor_ValueType {
@@ -51,6 +52,11 @@ export interface LabelDescriptor {
   valueType: LabelDescriptor_ValueType;
   /** A human-readable description for the label. */
   description: string;
+}
+export interface ReactiveLabelDescriptor {
+  key: ComputedRef<string>;
+  valueType: ComputedRef<LabelDescriptor_ValueType>;
+  description: ComputedRef<string>;
 }
 export interface LabelDescriptorProtoMsg {
   typeUrl: "/google.api.LabelDescriptor";

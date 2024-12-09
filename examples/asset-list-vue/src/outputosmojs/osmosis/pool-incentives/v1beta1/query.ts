@@ -4,9 +4,13 @@ import { Gauge, GaugeSDKType } from "../../incentives/gauge";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.poolincentives.v1beta1";
 export interface QueryGaugeIdsRequest {
   poolId: bigint;
+}
+export interface ReactiveQueryGaugeIdsRequest {
+  poolId: ComputedRef<bigint>;
 }
 export interface QueryGaugeIdsRequestProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.QueryGaugeIdsRequest";
@@ -17,6 +21,9 @@ export interface QueryGaugeIdsRequestSDKType {
 }
 export interface QueryGaugeIdsResponse {
   gaugeIdsWithDuration: QueryGaugeIdsResponse_GaugeIdWithDuration[];
+}
+export interface ReactiveQueryGaugeIdsResponse {
+  gaugeIdsWithDuration: ComputedRef<QueryGaugeIdsResponse_GaugeIdWithDuration[]>;
 }
 export interface QueryGaugeIdsResponseProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.QueryGaugeIdsResponse";
@@ -30,6 +37,11 @@ export interface QueryGaugeIdsResponse_GaugeIdWithDuration {
   duration: Duration;
   gaugeIncentivePercentage: string;
 }
+export interface ReactiveQueryGaugeIdsResponse_GaugeIdWithDuration {
+  gaugeId: ComputedRef<bigint>;
+  duration: ComputedRef<Duration>;
+  gaugeIncentivePercentage: ComputedRef<string>;
+}
 export interface QueryGaugeIdsResponse_GaugeIdWithDurationProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.GaugeIdWithDuration";
   value: Uint8Array;
@@ -40,6 +52,7 @@ export interface QueryGaugeIdsResponse_GaugeIdWithDurationSDKType {
   gauge_incentive_percentage: string;
 }
 export interface QueryDistrInfoRequest {}
+export interface ReactiveQueryDistrInfoRequest {}
 export interface QueryDistrInfoRequestProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.QueryDistrInfoRequest";
   value: Uint8Array;
@@ -47,6 +60,9 @@ export interface QueryDistrInfoRequestProtoMsg {
 export interface QueryDistrInfoRequestSDKType {}
 export interface QueryDistrInfoResponse {
   distrInfo: DistrInfo;
+}
+export interface ReactiveQueryDistrInfoResponse {
+  distrInfo: ComputedRef<DistrInfo>;
 }
 export interface QueryDistrInfoResponseProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.QueryDistrInfoResponse";
@@ -56,6 +72,7 @@ export interface QueryDistrInfoResponseSDKType {
   distr_info: DistrInfoSDKType;
 }
 export interface QueryParamsRequest {}
+export interface ReactiveQueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.QueryParamsRequest";
   value: Uint8Array;
@@ -63,6 +80,9 @@ export interface QueryParamsRequestProtoMsg {
 export interface QueryParamsRequestSDKType {}
 export interface QueryParamsResponse {
   params: Params;
+}
+export interface ReactiveQueryParamsResponse {
+  params: ComputedRef<Params>;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.QueryParamsResponse";
@@ -72,6 +92,7 @@ export interface QueryParamsResponseSDKType {
   params: ParamsSDKType;
 }
 export interface QueryLockableDurationsRequest {}
+export interface ReactiveQueryLockableDurationsRequest {}
 export interface QueryLockableDurationsRequestProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.QueryLockableDurationsRequest";
   value: Uint8Array;
@@ -79,6 +100,9 @@ export interface QueryLockableDurationsRequestProtoMsg {
 export interface QueryLockableDurationsRequestSDKType {}
 export interface QueryLockableDurationsResponse {
   lockableDurations: Duration[];
+}
+export interface ReactiveQueryLockableDurationsResponse {
+  lockableDurations: ComputedRef<Duration[]>;
 }
 export interface QueryLockableDurationsResponseProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.QueryLockableDurationsResponse";
@@ -88,6 +112,7 @@ export interface QueryLockableDurationsResponseSDKType {
   lockable_durations: DurationSDKType[];
 }
 export interface QueryIncentivizedPoolsRequest {}
+export interface ReactiveQueryIncentivizedPoolsRequest {}
 export interface QueryIncentivizedPoolsRequestProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.QueryIncentivizedPoolsRequest";
   value: Uint8Array;
@@ -97,6 +122,11 @@ export interface IncentivizedPool {
   poolId: bigint;
   lockableDuration: Duration;
   gaugeId: bigint;
+}
+export interface ReactiveIncentivizedPool {
+  poolId: ComputedRef<bigint>;
+  lockableDuration: ComputedRef<Duration>;
+  gaugeId: ComputedRef<bigint>;
 }
 export interface IncentivizedPoolProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.IncentivizedPool";
@@ -110,6 +140,9 @@ export interface IncentivizedPoolSDKType {
 export interface QueryIncentivizedPoolsResponse {
   incentivizedPools: IncentivizedPool[];
 }
+export interface ReactiveQueryIncentivizedPoolsResponse {
+  incentivizedPools: ComputedRef<IncentivizedPool[]>;
+}
 export interface QueryIncentivizedPoolsResponseProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.QueryIncentivizedPoolsResponse";
   value: Uint8Array;
@@ -118,6 +151,7 @@ export interface QueryIncentivizedPoolsResponseSDKType {
   incentivized_pools: IncentivizedPoolSDKType[];
 }
 export interface QueryExternalIncentiveGaugesRequest {}
+export interface ReactiveQueryExternalIncentiveGaugesRequest {}
 export interface QueryExternalIncentiveGaugesRequestProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.QueryExternalIncentiveGaugesRequest";
   value: Uint8Array;
@@ -125,6 +159,9 @@ export interface QueryExternalIncentiveGaugesRequestProtoMsg {
 export interface QueryExternalIncentiveGaugesRequestSDKType {}
 export interface QueryExternalIncentiveGaugesResponse {
   data: Gauge[];
+}
+export interface ReactiveQueryExternalIncentiveGaugesResponse {
+  data: ComputedRef<Gauge[]>;
 }
 export interface QueryExternalIncentiveGaugesResponseProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.QueryExternalIncentiveGaugesResponse";

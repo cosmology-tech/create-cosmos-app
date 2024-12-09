@@ -3,6 +3,7 @@ import { Timestamp, TimestampSDKType } from "../../../google/protobuf/timestamp"
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.authz.v1beta1";
 /**
  * GenericAuthorization gives the grantee unrestricted permissions to execute
@@ -11,6 +12,9 @@ export const protobufPackage = "cosmos.authz.v1beta1";
 export interface GenericAuthorization {
   /** Msg, identified by it's type URL, to grant unrestricted permissions to execute */
   msg: string;
+}
+export interface ReactiveGenericAuthorization {
+  msg: ComputedRef<string>;
 }
 export interface GenericAuthorizationProtoMsg {
   typeUrl: "/cosmos.authz.v1beta1.GenericAuthorization";
@@ -36,6 +40,10 @@ export interface Grant {
    */
   expiration?: Date;
 }
+export interface ReactiveGrant {
+  authorization?: ComputedRef<Any>;
+  expiration?: ComputedRef<Date>;
+}
 export interface GrantProtoMsg {
   typeUrl: "/cosmos.authz.v1beta1.Grant";
   value: Uint8Array;
@@ -58,6 +66,12 @@ export interface GrantAuthorization {
   authorization?: Any;
   expiration?: Date;
 }
+export interface ReactiveGrantAuthorization {
+  granter: ComputedRef<string>;
+  grantee: ComputedRef<string>;
+  authorization?: ComputedRef<Any>;
+  expiration?: ComputedRef<Date>;
+}
 export interface GrantAuthorizationProtoMsg {
   typeUrl: "/cosmos.authz.v1beta1.GrantAuthorization";
   value: Uint8Array;
@@ -76,6 +90,9 @@ export interface GrantAuthorizationSDKType {
 export interface GrantQueueItem {
   /** msg_type_urls contains the list of TypeURL of a sdk.Msg. */
   msgTypeUrls: string[];
+}
+export interface ReactiveGrantQueueItem {
+  msgTypeUrls: ComputedRef<string[]>;
 }
 export interface GrantQueueItemProtoMsg {
   typeUrl: "/cosmos.authz.v1beta1.GrantQueueItem";

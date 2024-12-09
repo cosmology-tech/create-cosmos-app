@@ -6,10 +6,15 @@ import { Struct, StructSDKType } from "../../../protobuf/struct";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp, isObject } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicecontrol.v1";
 export interface LogEntry_LabelsEntry {
   key: string;
   value: string;
+}
+export interface ReactiveLogEntry_LabelsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface LogEntry_LabelsEntryProtoMsg {
   typeUrl: string;
@@ -84,6 +89,22 @@ export interface LogEntry {
    */
   sourceLocation?: LogEntrySourceLocation;
 }
+export interface ReactiveLogEntry {
+  name: ComputedRef<string>;
+  timestamp?: ComputedRef<Date>;
+  severity: ComputedRef<LogSeverity>;
+  httpRequest?: ComputedRef<HttpRequest>;
+  trace: ComputedRef<string>;
+  insertId: ComputedRef<string>;
+  labels: ComputedRef<{
+    [key: string]: string;
+  }>;
+  protoPayload?: ComputedRef<Any>;
+  textPayload?: ComputedRef<string>;
+  structPayload?: ComputedRef<Struct>;
+  operation?: ComputedRef<LogEntryOperation>;
+  sourceLocation?: ComputedRef<LogEntrySourceLocation>;
+}
 export interface LogEntryProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.LogEntry";
   value: Uint8Array;
@@ -126,6 +147,12 @@ export interface LogEntryOperation {
   /** Optional. Set this to True if this is the last log entry in the operation. */
   last: boolean;
 }
+export interface ReactiveLogEntryOperation {
+  id: ComputedRef<string>;
+  producer: ComputedRef<string>;
+  first: ComputedRef<boolean>;
+  last: ComputedRef<boolean>;
+}
 export interface LogEntryOperationProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.LogEntryOperation";
   value: Uint8Array;
@@ -164,6 +191,11 @@ export interface LogEntrySourceLocation {
    * (Python).
    */
   function: string;
+}
+export interface ReactiveLogEntrySourceLocation {
+  file: ComputedRef<string>;
+  line: ComputedRef<bigint>;
+  function: ComputedRef<string>;
 }
 export interface LogEntrySourceLocationProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.LogEntrySourceLocation";

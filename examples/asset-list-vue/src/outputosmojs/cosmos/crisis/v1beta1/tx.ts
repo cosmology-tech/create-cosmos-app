@@ -1,12 +1,18 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.crisis.v1beta1";
 /** MsgVerifyInvariant represents a message to verify a particular invariance. */
 export interface MsgVerifyInvariant {
   sender: string;
   invariantModuleName: string;
   invariantRoute: string;
+}
+export interface ReactiveMsgVerifyInvariant {
+  sender: ComputedRef<string>;
+  invariantModuleName: ComputedRef<string>;
+  invariantRoute: ComputedRef<string>;
 }
 export interface MsgVerifyInvariantProtoMsg {
   typeUrl: "/cosmos.crisis.v1beta1.MsgVerifyInvariant";
@@ -20,6 +26,7 @@ export interface MsgVerifyInvariantSDKType {
 }
 /** MsgVerifyInvariantResponse defines the Msg/VerifyInvariant response type. */
 export interface MsgVerifyInvariantResponse {}
+export interface ReactiveMsgVerifyInvariantResponse {}
 export interface MsgVerifyInvariantResponseProtoMsg {
   typeUrl: "/cosmos.crisis.v1beta1.MsgVerifyInvariantResponse";
   value: Uint8Array;

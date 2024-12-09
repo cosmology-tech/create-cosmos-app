@@ -3,11 +3,16 @@ import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } fr
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.cert.v1beta2";
 /** CertificateResponse contains a single X509 certificate and its serial number */
 export interface CertificateResponse {
   certificate: Certificate;
   serial: string;
+}
+export interface ReactiveCertificateResponse {
+  certificate: ComputedRef<Certificate>;
+  serial: ComputedRef<string>;
 }
 export interface CertificateResponseProtoMsg {
   typeUrl: "/akash.cert.v1beta2.CertificateResponse";
@@ -23,6 +28,10 @@ export interface QueryCertificatesRequest {
   filter: CertificateFilter;
   pagination?: PageRequest;
 }
+export interface ReactiveQueryCertificatesRequest {
+  filter: ComputedRef<CertificateFilter>;
+  pagination?: ComputedRef<PageRequest>;
+}
 export interface QueryCertificatesRequestProtoMsg {
   typeUrl: "/akash.cert.v1beta2.QueryCertificatesRequest";
   value: Uint8Array;
@@ -36,6 +45,10 @@ export interface QueryCertificatesRequestSDKType {
 export interface QueryCertificatesResponse {
   certificates: CertificateResponse[];
   pagination?: PageResponse;
+}
+export interface ReactiveQueryCertificatesResponse {
+  certificates: ComputedRef<CertificateResponse[]>;
+  pagination?: ComputedRef<PageResponse>;
 }
 export interface QueryCertificatesResponseProtoMsg {
   typeUrl: "/akash.cert.v1beta2.QueryCertificatesResponse";

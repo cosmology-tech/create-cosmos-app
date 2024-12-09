@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet, isObject } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * Quota configuration helps to achieve fairness and budgeting in service
@@ -61,6 +62,10 @@ export interface Quota {
    * or more metrics.
    */
   metricRules: MetricRule[];
+}
+export interface ReactiveQuota {
+  limits: ComputedRef<QuotaLimit[]>;
+  metricRules: ComputedRef<MetricRule[]>;
 }
 export interface QuotaProtoMsg {
   typeUrl: "/google.api.Quota";
@@ -125,6 +130,10 @@ export interface MetricRule_MetricCostsEntry {
   key: string;
   value: bigint;
 }
+export interface ReactiveMetricRule_MetricCostsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<bigint>;
+}
 export interface MetricRule_MetricCostsEntryProtoMsg {
   typeUrl: string;
   value: Uint8Array;
@@ -156,6 +165,12 @@ export interface MetricRule {
     [key: string]: bigint;
   };
 }
+export interface ReactiveMetricRule {
+  selector: ComputedRef<string>;
+  metricCosts: ComputedRef<{
+    [key: string]: bigint;
+  }>;
+}
 export interface MetricRuleProtoMsg {
   typeUrl: "/google.api.MetricRule";
   value: Uint8Array;
@@ -173,6 +188,10 @@ export interface MetricRuleSDKType {
 export interface QuotaLimit_ValuesEntry {
   key: string;
   value: bigint;
+}
+export interface ReactiveQuotaLimit_ValuesEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<bigint>;
 }
 export interface QuotaLimit_ValuesEntryProtoMsg {
   typeUrl: string;
@@ -278,6 +297,20 @@ export interface QuotaLimit {
    * display name generated from the configuration.
    */
   displayName: string;
+}
+export interface ReactiveQuotaLimit {
+  name: ComputedRef<string>;
+  description: ComputedRef<string>;
+  defaultLimit: ComputedRef<bigint>;
+  maxLimit: ComputedRef<bigint>;
+  freeTier: ComputedRef<bigint>;
+  duration: ComputedRef<string>;
+  metric: ComputedRef<string>;
+  unit: ComputedRef<string>;
+  values: ComputedRef<{
+    [key: string]: bigint;
+  }>;
+  displayName: ComputedRef<string>;
 }
 export interface QuotaLimitProtoMsg {
   typeUrl: "/google.api.QuotaLimit";

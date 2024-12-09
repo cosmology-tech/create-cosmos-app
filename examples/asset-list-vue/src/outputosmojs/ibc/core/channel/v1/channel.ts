@@ -2,6 +2,7 @@ import { Height, HeightSDKType } from "../../client/v1/client";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.channel.v1";
 /**
  * State defines if a channel is in one of the following states:
@@ -131,6 +132,13 @@ export interface Channel {
   /** opaque channel version, which is agreed upon during the handshake */
   version: string;
 }
+export interface ReactiveChannel {
+  state: ComputedRef<State>;
+  ordering: ComputedRef<Order>;
+  counterparty: ComputedRef<Counterparty>;
+  connectionHops: ComputedRef<string[]>;
+  version: ComputedRef<string>;
+}
 export interface ChannelProtoMsg {
   typeUrl: "/ibc.core.channel.v1.Channel";
   value: Uint8Array;
@@ -170,6 +178,15 @@ export interface IdentifiedChannel {
   /** channel identifier */
   channelId: string;
 }
+export interface ReactiveIdentifiedChannel {
+  state: ComputedRef<State>;
+  ordering: ComputedRef<Order>;
+  counterparty: ComputedRef<Counterparty>;
+  connectionHops: ComputedRef<string[]>;
+  version: ComputedRef<string>;
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+}
 export interface IdentifiedChannelProtoMsg {
   typeUrl: "/ibc.core.channel.v1.IdentifiedChannel";
   value: Uint8Array;
@@ -193,6 +210,10 @@ export interface Counterparty {
   portId: string;
   /** channel end on the counterparty chain */
   channelId: string;
+}
+export interface ReactiveCounterparty {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
 }
 export interface CounterpartyProtoMsg {
   typeUrl: "/ibc.core.channel.v1.Counterparty";
@@ -226,6 +247,16 @@ export interface Packet {
   /** block timestamp (in nanoseconds) after which the packet times out */
   timeoutTimestamp: bigint;
 }
+export interface ReactivePacket {
+  sequence: ComputedRef<bigint>;
+  sourcePort: ComputedRef<string>;
+  sourceChannel: ComputedRef<string>;
+  destinationPort: ComputedRef<string>;
+  destinationChannel: ComputedRef<string>;
+  data: ComputedRef<Uint8Array>;
+  timeoutHeight: ComputedRef<Height>;
+  timeoutTimestamp: ComputedRef<bigint>;
+}
 export interface PacketProtoMsg {
   typeUrl: "/ibc.core.channel.v1.Packet";
   value: Uint8Array;
@@ -257,6 +288,12 @@ export interface PacketState {
   /** embedded data that represents packet state. */
   data: Uint8Array;
 }
+export interface ReactivePacketState {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  sequence: ComputedRef<bigint>;
+  data: ComputedRef<Uint8Array>;
+}
 export interface PacketStateProtoMsg {
   typeUrl: "/ibc.core.channel.v1.PacketState";
   value: Uint8Array;
@@ -285,6 +322,10 @@ export interface PacketStateSDKType {
 export interface Acknowledgement {
   result?: Uint8Array;
   error?: string;
+}
+export interface ReactiveAcknowledgement {
+  result?: ComputedRef<Uint8Array>;
+  error?: ComputedRef<string>;
 }
 export interface AcknowledgementProtoMsg {
   typeUrl: "/ibc.core.channel.v1.Acknowledgement";

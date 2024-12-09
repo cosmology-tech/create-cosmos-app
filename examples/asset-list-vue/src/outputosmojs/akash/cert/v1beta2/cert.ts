@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.cert.v1beta2";
 /** State is an enum which refers to state of deployment */
 export enum Certificate_State {
@@ -48,6 +49,10 @@ export interface CertificateID {
   owner: string;
   serial: string;
 }
+export interface ReactiveCertificateID {
+  owner: ComputedRef<string>;
+  serial: ComputedRef<string>;
+}
 export interface CertificateIDProtoMsg {
   typeUrl: "/akash.cert.v1beta2.CertificateID";
   value: Uint8Array;
@@ -62,6 +67,11 @@ export interface Certificate {
   state: Certificate_State;
   cert: Uint8Array;
   pubkey: Uint8Array;
+}
+export interface ReactiveCertificate {
+  state: ComputedRef<Certificate_State>;
+  cert: ComputedRef<Uint8Array>;
+  pubkey: ComputedRef<Uint8Array>;
 }
 export interface CertificateProtoMsg {
   typeUrl: "/akash.cert.v1beta2.Certificate";
@@ -79,6 +89,11 @@ export interface CertificateFilter {
   serial: string;
   state: string;
 }
+export interface ReactiveCertificateFilter {
+  owner: ComputedRef<string>;
+  serial: ComputedRef<string>;
+  state: ComputedRef<string>;
+}
 export interface CertificateFilterProtoMsg {
   typeUrl: "/akash.cert.v1beta2.CertificateFilter";
   value: Uint8Array;
@@ -95,6 +110,11 @@ export interface MsgCreateCertificate {
   cert: Uint8Array;
   pubkey: Uint8Array;
 }
+export interface ReactiveMsgCreateCertificate {
+  owner: ComputedRef<string>;
+  cert: ComputedRef<Uint8Array>;
+  pubkey: ComputedRef<Uint8Array>;
+}
 export interface MsgCreateCertificateProtoMsg {
   typeUrl: "/akash.cert.v1beta2.MsgCreateCertificate";
   value: Uint8Array;
@@ -107,6 +127,7 @@ export interface MsgCreateCertificateSDKType {
 }
 /** MsgCreateCertificateResponse defines the Msg/CreateCertificate response type. */
 export interface MsgCreateCertificateResponse {}
+export interface ReactiveMsgCreateCertificateResponse {}
 export interface MsgCreateCertificateResponseProtoMsg {
   typeUrl: "/akash.cert.v1beta2.MsgCreateCertificateResponse";
   value: Uint8Array;
@@ -116,6 +137,9 @@ export interface MsgCreateCertificateResponseSDKType {}
 /** MsgRevokeCertificate defines an SDK message for revoking certificate */
 export interface MsgRevokeCertificate {
   id: CertificateID;
+}
+export interface ReactiveMsgRevokeCertificate {
+  id: ComputedRef<CertificateID>;
 }
 export interface MsgRevokeCertificateProtoMsg {
   typeUrl: "/akash.cert.v1beta2.MsgRevokeCertificate";
@@ -127,6 +151,7 @@ export interface MsgRevokeCertificateSDKType {
 }
 /** MsgRevokeCertificateResponse defines the Msg/RevokeCertificate response type. */
 export interface MsgRevokeCertificateResponse {}
+export interface ReactiveMsgRevokeCertificateResponse {}
 export interface MsgRevokeCertificateResponseProtoMsg {
   typeUrl: "/akash.cert.v1beta2.MsgRevokeCertificateResponse";
   value: Uint8Array;

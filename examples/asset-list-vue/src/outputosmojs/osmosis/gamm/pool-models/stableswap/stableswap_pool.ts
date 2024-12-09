@@ -3,6 +3,7 @@ import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.gamm.poolmodels.stableswap.v1beta1";
 /**
  * PoolParams defined the parameters that will be managed by the pool
@@ -13,6 +14,10 @@ export const protobufPackage = "osmosis.gamm.poolmodels.stableswap.v1beta1";
 export interface PoolParams {
   swapFee: string;
   exitFee: string;
+}
+export interface ReactivePoolParams {
+  swapFee: ComputedRef<string>;
+  exitFee: ComputedRef<string>;
 }
 export interface PoolParamsProtoMsg {
   typeUrl: "/osmosis.gamm.poolmodels.stableswap.v1beta1.PoolParams";
@@ -52,6 +57,16 @@ export interface Pool {
   scalingFactors: bigint[];
   /** scaling_factor_controller is the address can adjust pool scaling factors */
   scalingFactorController: string;
+}
+export interface ReactivePool {
+  address: ComputedRef<string>;
+  id: ComputedRef<bigint>;
+  poolParams: ComputedRef<PoolParams>;
+  futurePoolGovernor: ComputedRef<string>;
+  totalShares: ComputedRef<Coin>;
+  poolLiquidity: ComputedRef<Coin[]>;
+  scalingFactors: ComputedRef<bigint[]>;
+  scalingFactorController: ComputedRef<string>;
 }
 export interface PoolProtoMsg {
   typeUrl: "/osmosis.gamm.poolmodels.stableswap.v1beta1.Pool";

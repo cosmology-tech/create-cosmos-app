@@ -1,11 +1,16 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "tendermint.crypto";
 /** PublicKey defines the keys available for use with Tendermint Validators */
 export interface PublicKey {
   ed25519?: Uint8Array;
   secp256k1?: Uint8Array;
+}
+export interface ReactivePublicKey {
+  ed25519?: ComputedRef<Uint8Array>;
+  secp256k1?: ComputedRef<Uint8Array>;
 }
 export interface PublicKeyProtoMsg {
   typeUrl: "/tendermint.crypto.PublicKey";

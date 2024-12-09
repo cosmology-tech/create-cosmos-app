@@ -3,6 +3,7 @@ import { Timestamp, TimestampSDKType } from "../../protobuf/timestamp";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.logging.v2";
 /** Deprecated. This is unused. */
 export enum LogSink_VersionFormat {
@@ -229,6 +230,17 @@ export interface LogBucket {
    */
   cmekSettings?: CmekSettings;
 }
+export interface ReactiveLogBucket {
+  name: ComputedRef<string>;
+  description: ComputedRef<string>;
+  createTime?: ComputedRef<Date>;
+  updateTime?: ComputedRef<Date>;
+  retentionDays: ComputedRef<number>;
+  locked: ComputedRef<boolean>;
+  lifecycleState: ComputedRef<LifecycleState>;
+  restrictedFields: ComputedRef<string[]>;
+  cmekSettings?: ComputedRef<CmekSettings>;
+}
 export interface LogBucketProtoMsg {
   typeUrl: "/google.logging.v2.LogBucket";
   value: Uint8Array;
@@ -278,6 +290,13 @@ export interface LogView {
    *                                AND LOG_ID("stdout")
    */
   filter: string;
+}
+export interface ReactiveLogView {
+  name: ComputedRef<string>;
+  description: ComputedRef<string>;
+  createTime?: ComputedRef<Date>;
+  updateTime?: ComputedRef<Date>;
+  filter: ComputedRef<string>;
 }
 export interface LogViewProtoMsg {
   typeUrl: "/google.logging.v2.LogView";
@@ -409,6 +428,20 @@ export interface LogSink {
    */
   updateTime?: Date;
 }
+export interface ReactiveLogSink {
+  name: ComputedRef<string>;
+  destination: ComputedRef<string>;
+  filter: ComputedRef<string>;
+  description: ComputedRef<string>;
+  disabled: ComputedRef<boolean>;
+  exclusions: ComputedRef<LogExclusion[]>;
+  outputVersionFormat: ComputedRef<LogSink_VersionFormat>;
+  writerIdentity: ComputedRef<string>;
+  includeChildren: ComputedRef<boolean>;
+  bigqueryOptions?: ComputedRef<BigQueryOptions>;
+  createTime?: ComputedRef<Date>;
+  updateTime?: ComputedRef<Date>;
+}
 export interface LogSinkProtoMsg {
   typeUrl: "/google.logging.v2.LogSink";
   value: Uint8Array;
@@ -459,6 +492,10 @@ export interface BigQueryOptions {
    */
   usesTimestampColumnPartitioning: boolean;
 }
+export interface ReactiveBigQueryOptions {
+  usePartitionedTables: ComputedRef<boolean>;
+  usesTimestampColumnPartitioning: ComputedRef<boolean>;
+}
 export interface BigQueryOptionsProtoMsg {
   typeUrl: "/google.logging.v2.BigQueryOptions";
   value: Uint8Array;
@@ -497,6 +534,11 @@ export interface ListBucketsRequest {
    */
   pageSize: number;
 }
+export interface ReactiveListBucketsRequest {
+  parent: ComputedRef<string>;
+  pageToken: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+}
 export interface ListBucketsRequestProtoMsg {
   typeUrl: "/google.logging.v2.ListBucketsRequest";
   value: Uint8Array;
@@ -517,6 +559,10 @@ export interface ListBucketsResponse {
    * method again using the value of `nextPageToken` as `pageToken`.
    */
   nextPageToken: string;
+}
+export interface ReactiveListBucketsResponse {
+  buckets: ComputedRef<LogBucket[]>;
+  nextPageToken: ComputedRef<string>;
 }
 export interface ListBucketsResponseProtoMsg {
   typeUrl: "/google.logging.v2.ListBucketsResponse";
@@ -551,6 +597,11 @@ export interface CreateBucketRequest {
    * ignored.
    */
   bucket?: LogBucket;
+}
+export interface ReactiveCreateBucketRequest {
+  parent: ComputedRef<string>;
+  bucketId: ComputedRef<string>;
+  bucket?: ComputedRef<LogBucket>;
 }
 export interface CreateBucketRequestProtoMsg {
   typeUrl: "/google.logging.v2.CreateBucketRequest";
@@ -591,6 +642,11 @@ export interface UpdateBucketRequest {
    */
   updateMask?: FieldMask;
 }
+export interface ReactiveUpdateBucketRequest {
+  name: ComputedRef<string>;
+  bucket?: ComputedRef<LogBucket>;
+  updateMask?: ComputedRef<FieldMask>;
+}
 export interface UpdateBucketRequestProtoMsg {
   typeUrl: "/google.logging.v2.UpdateBucketRequest";
   value: Uint8Array;
@@ -617,6 +673,9 @@ export interface GetBucketRequest {
    */
   name: string;
 }
+export interface ReactiveGetBucketRequest {
+  name: ComputedRef<string>;
+}
 export interface GetBucketRequestProtoMsg {
   typeUrl: "/google.logging.v2.GetBucketRequest";
   value: Uint8Array;
@@ -641,6 +700,9 @@ export interface DeleteBucketRequest {
    */
   name: string;
 }
+export interface ReactiveDeleteBucketRequest {
+  name: ComputedRef<string>;
+}
 export interface DeleteBucketRequestProtoMsg {
   typeUrl: "/google.logging.v2.DeleteBucketRequest";
   value: Uint8Array;
@@ -664,6 +726,9 @@ export interface UndeleteBucketRequest {
    *   `"projects/my-project/locations/global/buckets/my-bucket"`
    */
   name: string;
+}
+export interface ReactiveUndeleteBucketRequest {
+  name: ComputedRef<string>;
 }
 export interface UndeleteBucketRequestProtoMsg {
   typeUrl: "/google.logging.v2.UndeleteBucketRequest";
@@ -696,6 +761,11 @@ export interface ListViewsRequest {
    */
   pageSize: number;
 }
+export interface ReactiveListViewsRequest {
+  parent: ComputedRef<string>;
+  pageToken: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+}
 export interface ListViewsRequestProtoMsg {
   typeUrl: "/google.logging.v2.ListViewsRequest";
   value: Uint8Array;
@@ -716,6 +786,10 @@ export interface ListViewsResponse {
    * method again using the value of `nextPageToken` as `pageToken`.
    */
   nextPageToken: string;
+}
+export interface ReactiveListViewsResponse {
+  views: ComputedRef<LogView[]>;
+  nextPageToken: ComputedRef<string>;
 }
 export interface ListViewsResponseProtoMsg {
   typeUrl: "/google.logging.v2.ListViewsResponse";
@@ -742,6 +816,11 @@ export interface CreateViewRequest {
   viewId: string;
   /** Required. The new view. */
   view?: LogView;
+}
+export interface ReactiveCreateViewRequest {
+  parent: ComputedRef<string>;
+  viewId: ComputedRef<string>;
+  view?: ComputedRef<LogView>;
 }
 export interface CreateViewRequestProtoMsg {
   typeUrl: "/google.logging.v2.CreateViewRequest";
@@ -779,6 +858,11 @@ export interface UpdateViewRequest {
    */
   updateMask?: FieldMask;
 }
+export interface ReactiveUpdateViewRequest {
+  name: ComputedRef<string>;
+  view?: ComputedRef<LogView>;
+  updateMask?: ComputedRef<FieldMask>;
+}
 export interface UpdateViewRequestProtoMsg {
   typeUrl: "/google.logging.v2.UpdateViewRequest";
   value: Uint8Array;
@@ -802,6 +886,9 @@ export interface GetViewRequest {
    */
   name: string;
 }
+export interface ReactiveGetViewRequest {
+  name: ComputedRef<string>;
+}
 export interface GetViewRequestProtoMsg {
   typeUrl: "/google.logging.v2.GetViewRequest";
   value: Uint8Array;
@@ -822,6 +909,9 @@ export interface DeleteViewRequest {
    *    `"projects/my-project/locations/global/buckets/my-bucket/views/my-view"`
    */
   name: string;
+}
+export interface ReactiveDeleteViewRequest {
+  name: ComputedRef<string>;
 }
 export interface DeleteViewRequestProtoMsg {
   typeUrl: "/google.logging.v2.DeleteViewRequest";
@@ -856,6 +946,11 @@ export interface ListSinksRequest {
    */
   pageSize: number;
 }
+export interface ReactiveListSinksRequest {
+  parent: ComputedRef<string>;
+  pageToken: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+}
 export interface ListSinksRequestProtoMsg {
   typeUrl: "/google.logging.v2.ListSinksRequest";
   value: Uint8Array;
@@ -876,6 +971,10 @@ export interface ListSinksResponse {
    * method again using the value of `nextPageToken` as `pageToken`.
    */
   nextPageToken: string;
+}
+export interface ReactiveListSinksResponse {
+  sinks: ComputedRef<LogSink[]>;
+  nextPageToken: ComputedRef<string>;
 }
 export interface ListSinksResponseProtoMsg {
   typeUrl: "/google.logging.v2.ListSinksResponse";
@@ -901,6 +1000,9 @@ export interface GetSinkRequest {
    *   `"projects/my-project/sinks/my-sink"`
    */
   sinkName: string;
+}
+export interface ReactiveGetSinkRequest {
+  sinkName: ComputedRef<string>;
 }
 export interface GetSinkRequestProtoMsg {
   typeUrl: "/google.logging.v2.GetSinkRequest";
@@ -945,6 +1047,11 @@ export interface CreateSinkRequest {
    * more information, see `writer_identity` in [LogSink][google.logging.v2.LogSink].
    */
   uniqueWriterIdentity: boolean;
+}
+export interface ReactiveCreateSinkRequest {
+  parent: ComputedRef<string>;
+  sink?: ComputedRef<LogSink>;
+  uniqueWriterIdentity: ComputedRef<boolean>;
 }
 export interface CreateSinkRequestProtoMsg {
   typeUrl: "/google.logging.v2.CreateSinkRequest";
@@ -1011,6 +1118,12 @@ export interface UpdateSinkRequest {
    */
   updateMask?: FieldMask;
 }
+export interface ReactiveUpdateSinkRequest {
+  sinkName: ComputedRef<string>;
+  sink?: ComputedRef<LogSink>;
+  uniqueWriterIdentity: ComputedRef<boolean>;
+  updateMask?: ComputedRef<FieldMask>;
+}
 export interface UpdateSinkRequestProtoMsg {
   typeUrl: "/google.logging.v2.UpdateSinkRequest";
   value: Uint8Array;
@@ -1038,6 +1151,9 @@ export interface DeleteSinkRequest {
    *   `"projects/my-project/sinks/my-sink"`
    */
   sinkName: string;
+}
+export interface ReactiveDeleteSinkRequest {
+  sinkName: ComputedRef<string>;
 }
 export interface DeleteSinkRequestProtoMsg {
   typeUrl: "/google.logging.v2.DeleteSinkRequest";
@@ -1097,6 +1213,14 @@ export interface LogExclusion {
    */
   updateTime?: Date;
 }
+export interface ReactiveLogExclusion {
+  name: ComputedRef<string>;
+  description: ComputedRef<string>;
+  filter: ComputedRef<string>;
+  disabled: ComputedRef<boolean>;
+  createTime?: ComputedRef<Date>;
+  updateTime?: ComputedRef<Date>;
+}
 export interface LogExclusionProtoMsg {
   typeUrl: "/google.logging.v2.LogExclusion";
   value: Uint8Array;
@@ -1141,6 +1265,11 @@ export interface ListExclusionsRequest {
    */
   pageSize: number;
 }
+export interface ReactiveListExclusionsRequest {
+  parent: ComputedRef<string>;
+  pageToken: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+}
 export interface ListExclusionsRequestProtoMsg {
   typeUrl: "/google.logging.v2.ListExclusionsRequest";
   value: Uint8Array;
@@ -1161,6 +1290,10 @@ export interface ListExclusionsResponse {
    * method again using the value of `nextPageToken` as `pageToken`.
    */
   nextPageToken: string;
+}
+export interface ReactiveListExclusionsResponse {
+  exclusions: ComputedRef<LogExclusion[]>;
+  nextPageToken: ComputedRef<string>;
 }
 export interface ListExclusionsResponseProtoMsg {
   typeUrl: "/google.logging.v2.ListExclusionsResponse";
@@ -1186,6 +1319,9 @@ export interface GetExclusionRequest {
    *   `"projects/my-project/exclusions/my-exclusion"`
    */
   name: string;
+}
+export interface ReactiveGetExclusionRequest {
+  name: ComputedRef<string>;
 }
 export interface GetExclusionRequestProtoMsg {
   typeUrl: "/google.logging.v2.GetExclusionRequest";
@@ -1216,6 +1352,10 @@ export interface CreateExclusionRequest {
    * that is not already used in the parent resource.
    */
   exclusion?: LogExclusion;
+}
+export interface ReactiveCreateExclusionRequest {
+  parent: ComputedRef<string>;
+  exclusion?: ComputedRef<LogExclusion>;
 }
 export interface CreateExclusionRequestProtoMsg {
   typeUrl: "/google.logging.v2.CreateExclusionRequest";
@@ -1257,6 +1397,11 @@ export interface UpdateExclusionRequest {
    */
   updateMask?: FieldMask;
 }
+export interface ReactiveUpdateExclusionRequest {
+  name: ComputedRef<string>;
+  exclusion?: ComputedRef<LogExclusion>;
+  updateMask?: ComputedRef<FieldMask>;
+}
 export interface UpdateExclusionRequestProtoMsg {
   typeUrl: "/google.logging.v2.UpdateExclusionRequest";
   value: Uint8Array;
@@ -1282,6 +1427,9 @@ export interface DeleteExclusionRequest {
    *   `"projects/my-project/exclusions/my-exclusion"`
    */
   name: string;
+}
+export interface ReactiveDeleteExclusionRequest {
+  name: ComputedRef<string>;
 }
 export interface DeleteExclusionRequestProtoMsg {
   typeUrl: "/google.logging.v2.DeleteExclusionRequest";
@@ -1318,6 +1466,9 @@ export interface GetCmekSettingsRequest {
    * organization.
    */
   name: string;
+}
+export interface ReactiveGetCmekSettingsRequest {
+  name: ComputedRef<string>;
 }
 export interface GetCmekSettingsRequestProtoMsg {
   typeUrl: "/google.logging.v2.GetCmekSettingsRequest";
@@ -1378,6 +1529,11 @@ export interface UpdateCmekSettingsRequest {
    * For example: `"updateMask=kmsKeyName"`
    */
   updateMask?: FieldMask;
+}
+export interface ReactiveUpdateCmekSettingsRequest {
+  name: ComputedRef<string>;
+  cmekSettings?: ComputedRef<CmekSettings>;
+  updateMask?: ComputedRef<FieldMask>;
 }
 export interface UpdateCmekSettingsRequestProtoMsg {
   typeUrl: "/google.logging.v2.UpdateCmekSettingsRequest";
@@ -1458,6 +1614,11 @@ export interface CmekSettings {
    */
   serviceAccountId: string;
 }
+export interface ReactiveCmekSettings {
+  name: ComputedRef<string>;
+  kmsKeyName: ComputedRef<string>;
+  serviceAccountId: ComputedRef<string>;
+}
 export interface CmekSettingsProtoMsg {
   typeUrl: "/google.logging.v2.CmekSettings";
   value: Uint8Array;
@@ -1506,6 +1667,9 @@ export interface GetSettingsRequest {
    * applies to all projects and folders in the Google Cloud organization.
    */
   name: string;
+}
+export interface ReactiveGetSettingsRequest {
+  name: ComputedRef<string>;
 }
 export interface GetSettingsRequestProtoMsg {
   typeUrl: "/google.logging.v2.GetSettingsRequest";
@@ -1563,6 +1727,11 @@ export interface UpdateSettingsRequest {
    * For example: `"updateMask=kmsKeyName"`
    */
   updateMask?: FieldMask;
+}
+export interface ReactiveUpdateSettingsRequest {
+  name: ComputedRef<string>;
+  settings?: ComputedRef<Settings>;
+  updateMask?: ComputedRef<FieldMask>;
 }
 export interface UpdateSettingsRequestProtoMsg {
   typeUrl: "/google.logging.v2.UpdateSettingsRequest";
@@ -1647,6 +1816,13 @@ export interface Settings {
    */
   disableDefaultSink: boolean;
 }
+export interface ReactiveSettings {
+  name: ComputedRef<string>;
+  kmsKeyName: ComputedRef<string>;
+  kmsServiceAccountId: ComputedRef<string>;
+  storageLocation: ComputedRef<string>;
+  disableDefaultSink: ComputedRef<boolean>;
+}
 export interface SettingsProtoMsg {
   typeUrl: "/google.logging.v2.Settings";
   value: Uint8Array;
@@ -1679,6 +1855,11 @@ export interface CopyLogEntriesRequest {
   filter: string;
   /** Required. Destination to which to copy log entries. */
   destination: string;
+}
+export interface ReactiveCopyLogEntriesRequest {
+  name: ComputedRef<string>;
+  filter: ComputedRef<string>;
+  destination: ComputedRef<string>;
 }
 export interface CopyLogEntriesRequestProtoMsg {
   typeUrl: "/google.logging.v2.CopyLogEntriesRequest";
@@ -1715,6 +1896,15 @@ export interface CopyLogEntriesMetadata {
    */
   writerIdentity: string;
 }
+export interface ReactiveCopyLogEntriesMetadata {
+  startTime?: ComputedRef<Date>;
+  endTime?: ComputedRef<Date>;
+  state: ComputedRef<OperationState>;
+  cancellationRequested: ComputedRef<boolean>;
+  request?: ComputedRef<CopyLogEntriesRequest>;
+  progress: ComputedRef<number>;
+  writerIdentity: ComputedRef<string>;
+}
 export interface CopyLogEntriesMetadataProtoMsg {
   typeUrl: "/google.logging.v2.CopyLogEntriesMetadata";
   value: Uint8Array;
@@ -1733,6 +1923,9 @@ export interface CopyLogEntriesMetadataSDKType {
 export interface CopyLogEntriesResponse {
   /** Number of log entries copied. */
   logEntriesCopiedCount: bigint;
+}
+export interface ReactiveCopyLogEntriesResponse {
+  logEntriesCopiedCount: ComputedRef<bigint>;
 }
 export interface CopyLogEntriesResponseProtoMsg {
   typeUrl: "/google.logging.v2.CopyLogEntriesResponse";

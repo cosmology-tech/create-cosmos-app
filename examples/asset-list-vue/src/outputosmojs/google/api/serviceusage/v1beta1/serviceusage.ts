@@ -3,6 +3,7 @@ import { FieldMask, FieldMaskSDKType } from "../../../protobuf/field_mask";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.serviceusage.v1beta1";
 /** Enum for service identity state. */
 export enum GetServiceIdentityResponse_IdentityState {
@@ -58,6 +59,9 @@ export interface EnableServiceRequest {
    */
   name: string;
 }
+export interface ReactiveEnableServiceRequest {
+  name: ComputedRef<string>;
+}
 export interface EnableServiceRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.EnableServiceRequest";
   value: Uint8Array;
@@ -79,6 +83,9 @@ export interface DisableServiceRequest {
    */
   name: string;
 }
+export interface ReactiveDisableServiceRequest {
+  name: ComputedRef<string>;
+}
 export interface DisableServiceRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.DisableServiceRequest";
   value: Uint8Array;
@@ -97,6 +104,9 @@ export interface GetServiceRequest {
    * where `123` is the project number (not project ID).
    */
   name: string;
+}
+export interface ReactiveGetServiceRequest {
+  name: ComputedRef<string>;
 }
 export interface GetServiceRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.GetServiceRequest";
@@ -133,6 +143,12 @@ export interface ListServicesRequest {
    */
   filter: string;
 }
+export interface ReactiveListServicesRequest {
+  parent: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+  pageToken: ComputedRef<string>;
+  filter: ComputedRef<string>;
+}
 export interface ListServicesRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ListServicesRequest";
   value: Uint8Array;
@@ -153,6 +169,10 @@ export interface ListServicesResponse {
    * query.
    */
   nextPageToken: string;
+}
+export interface ReactiveListServicesResponse {
+  services: ComputedRef<Service[]>;
+  nextPageToken: ComputedRef<string>;
 }
 export interface ListServicesResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ListServicesResponse";
@@ -193,6 +213,10 @@ export interface BatchEnableServicesRequest {
    */
   serviceIds: string[];
 }
+export interface ReactiveBatchEnableServicesRequest {
+  parent: ComputedRef<string>;
+  serviceIds: ComputedRef<string[]>;
+}
 export interface BatchEnableServicesRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.BatchEnableServicesRequest";
   value: Uint8Array;
@@ -223,6 +247,12 @@ export interface ListConsumerQuotaMetricsRequest {
   /** Specifies the level of detail for quota information in the response. */
   view: QuotaView;
 }
+export interface ReactiveListConsumerQuotaMetricsRequest {
+  parent: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+  pageToken: ComputedRef<string>;
+  view: ComputedRef<QuotaView>;
+}
 export interface ListConsumerQuotaMetricsRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerQuotaMetricsRequest";
   value: Uint8Array;
@@ -243,6 +273,10 @@ export interface ListConsumerQuotaMetricsResponse {
    * call.
    */
   nextPageToken: string;
+}
+export interface ReactiveListConsumerQuotaMetricsResponse {
+  metrics: ComputedRef<ConsumerQuotaMetric[]>;
+  nextPageToken: ComputedRef<string>;
 }
 export interface ListConsumerQuotaMetricsResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerQuotaMetricsResponse";
@@ -265,6 +299,10 @@ export interface GetConsumerQuotaMetricRequest {
   /** Specifies the level of detail for quota information in the response. */
   view: QuotaView;
 }
+export interface ReactiveGetConsumerQuotaMetricRequest {
+  name: ComputedRef<string>;
+  view: ComputedRef<QuotaView>;
+}
 export interface GetConsumerQuotaMetricRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.GetConsumerQuotaMetricRequest";
   value: Uint8Array;
@@ -285,6 +323,10 @@ export interface GetConsumerQuotaLimitRequest {
   name: string;
   /** Specifies the level of detail for quota information in the response. */
   view: QuotaView;
+}
+export interface ReactiveGetConsumerQuotaLimitRequest {
+  name: ComputedRef<string>;
+  view: ComputedRef<QuotaView>;
 }
 export interface GetConsumerQuotaLimitRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.GetConsumerQuotaLimitRequest";
@@ -320,6 +362,12 @@ export interface CreateAdminOverrideRequest {
    * still enforced. The 'force' and 'force_only' fields cannot both be set.
    */
   forceOnly: QuotaSafetyCheck[];
+}
+export interface ReactiveCreateAdminOverrideRequest {
+  parent: ComputedRef<string>;
+  override?: ComputedRef<QuotaOverride>;
+  force: ComputedRef<boolean>;
+  forceOnly: ComputedRef<QuotaSafetyCheck[]>;
 }
 export interface CreateAdminOverrideRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.CreateAdminOverrideRequest";
@@ -365,6 +413,13 @@ export interface UpdateAdminOverrideRequest {
    */
   forceOnly: QuotaSafetyCheck[];
 }
+export interface ReactiveUpdateAdminOverrideRequest {
+  name: ComputedRef<string>;
+  override?: ComputedRef<QuotaOverride>;
+  force: ComputedRef<boolean>;
+  updateMask?: ComputedRef<FieldMask>;
+  forceOnly: ComputedRef<QuotaSafetyCheck[]>;
+}
 export interface UpdateAdminOverrideRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.UpdateAdminOverrideRequest";
   value: Uint8Array;
@@ -400,6 +455,11 @@ export interface DeleteAdminOverrideRequest {
    */
   forceOnly: QuotaSafetyCheck[];
 }
+export interface ReactiveDeleteAdminOverrideRequest {
+  name: ComputedRef<string>;
+  force: ComputedRef<boolean>;
+  forceOnly: ComputedRef<QuotaSafetyCheck[]>;
+}
 export interface DeleteAdminOverrideRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.DeleteAdminOverrideRequest";
   value: Uint8Array;
@@ -428,6 +488,11 @@ export interface ListAdminOverridesRequest {
    */
   pageToken: string;
 }
+export interface ReactiveListAdminOverridesRequest {
+  parent: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+  pageToken: ComputedRef<string>;
+}
 export interface ListAdminOverridesRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ListAdminOverridesRequest";
   value: Uint8Array;
@@ -448,6 +513,10 @@ export interface ListAdminOverridesResponse {
    */
   nextPageToken: string;
 }
+export interface ReactiveListAdminOverridesResponse {
+  overrides: ComputedRef<QuotaOverride[]>;
+  nextPageToken: ComputedRef<string>;
+}
 export interface ListAdminOverridesResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ListAdminOverridesResponse";
   value: Uint8Array;
@@ -461,6 +530,9 @@ export interface ListAdminOverridesResponseSDKType {
 export interface BatchCreateAdminOverridesResponse {
   /** The overrides that were created. */
   overrides: QuotaOverride[];
+}
+export interface ReactiveBatchCreateAdminOverridesResponse {
+  overrides: ComputedRef<QuotaOverride[]>;
 }
 export interface BatchCreateAdminOverridesResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.BatchCreateAdminOverridesResponse";
@@ -495,6 +567,12 @@ export interface ImportAdminOverridesRequest {
    */
   forceOnly: QuotaSafetyCheck[];
 }
+export interface ReactiveImportAdminOverridesRequest {
+  parent: ComputedRef<string>;
+  inlineSource?: ComputedRef<OverrideInlineSource>;
+  force: ComputedRef<boolean>;
+  forceOnly: ComputedRef<QuotaSafetyCheck[]>;
+}
 export interface ImportAdminOverridesRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminOverridesRequest";
   value: Uint8Array;
@@ -511,6 +589,9 @@ export interface ImportAdminOverridesResponse {
   /** The overrides that were created from the imported data. */
   overrides: QuotaOverride[];
 }
+export interface ReactiveImportAdminOverridesResponse {
+  overrides: ComputedRef<QuotaOverride[]>;
+}
 export interface ImportAdminOverridesResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminOverridesResponse";
   value: Uint8Array;
@@ -525,6 +606,7 @@ export interface ImportAdminOverridesResponseSDKType {
  * of LRO returned by ImportAdminOverrides.
  */
 export interface ImportAdminOverridesMetadata {}
+export interface ReactiveImportAdminOverridesMetadata {}
 export interface ImportAdminOverridesMetadataProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminOverridesMetadata";
   value: Uint8Array;
@@ -560,6 +642,12 @@ export interface CreateConsumerOverrideRequest {
    * still enforced. The 'force' and 'force_only' fields cannot both be set.
    */
   forceOnly: QuotaSafetyCheck[];
+}
+export interface ReactiveCreateConsumerOverrideRequest {
+  parent: ComputedRef<string>;
+  override?: ComputedRef<QuotaOverride>;
+  force: ComputedRef<boolean>;
+  forceOnly: ComputedRef<QuotaSafetyCheck[]>;
 }
 export interface CreateConsumerOverrideRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.CreateConsumerOverrideRequest";
@@ -605,6 +693,13 @@ export interface UpdateConsumerOverrideRequest {
    */
   forceOnly: QuotaSafetyCheck[];
 }
+export interface ReactiveUpdateConsumerOverrideRequest {
+  name: ComputedRef<string>;
+  override?: ComputedRef<QuotaOverride>;
+  force: ComputedRef<boolean>;
+  updateMask?: ComputedRef<FieldMask>;
+  forceOnly: ComputedRef<QuotaSafetyCheck[]>;
+}
 export interface UpdateConsumerOverrideRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.UpdateConsumerOverrideRequest";
   value: Uint8Array;
@@ -640,6 +735,11 @@ export interface DeleteConsumerOverrideRequest {
    */
   forceOnly: QuotaSafetyCheck[];
 }
+export interface ReactiveDeleteConsumerOverrideRequest {
+  name: ComputedRef<string>;
+  force: ComputedRef<boolean>;
+  forceOnly: ComputedRef<QuotaSafetyCheck[]>;
+}
 export interface DeleteConsumerOverrideRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.DeleteConsumerOverrideRequest";
   value: Uint8Array;
@@ -668,6 +768,11 @@ export interface ListConsumerOverridesRequest {
    */
   pageToken: string;
 }
+export interface ReactiveListConsumerOverridesRequest {
+  parent: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+  pageToken: ComputedRef<string>;
+}
 export interface ListConsumerOverridesRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerOverridesRequest";
   value: Uint8Array;
@@ -688,6 +793,10 @@ export interface ListConsumerOverridesResponse {
    */
   nextPageToken: string;
 }
+export interface ReactiveListConsumerOverridesResponse {
+  overrides: ComputedRef<QuotaOverride[]>;
+  nextPageToken: ComputedRef<string>;
+}
 export interface ListConsumerOverridesResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ListConsumerOverridesResponse";
   value: Uint8Array;
@@ -701,6 +810,9 @@ export interface ListConsumerOverridesResponseSDKType {
 export interface BatchCreateConsumerOverridesResponse {
   /** The overrides that were created. */
   overrides: QuotaOverride[];
+}
+export interface ReactiveBatchCreateConsumerOverridesResponse {
+  overrides: ComputedRef<QuotaOverride[]>;
 }
 export interface BatchCreateConsumerOverridesResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.BatchCreateConsumerOverridesResponse";
@@ -735,6 +847,12 @@ export interface ImportConsumerOverridesRequest {
    */
   forceOnly: QuotaSafetyCheck[];
 }
+export interface ReactiveImportConsumerOverridesRequest {
+  parent: ComputedRef<string>;
+  inlineSource?: ComputedRef<OverrideInlineSource>;
+  force: ComputedRef<boolean>;
+  forceOnly: ComputedRef<QuotaSafetyCheck[]>;
+}
 export interface ImportConsumerOverridesRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesRequest";
   value: Uint8Array;
@@ -751,6 +869,9 @@ export interface ImportConsumerOverridesResponse {
   /** The overrides that were created from the imported data. */
   overrides: QuotaOverride[];
 }
+export interface ReactiveImportConsumerOverridesResponse {
+  overrides: ComputedRef<QuotaOverride[]>;
+}
 export interface ImportConsumerOverridesResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesResponse";
   value: Uint8Array;
@@ -765,6 +886,7 @@ export interface ImportConsumerOverridesResponseSDKType {
  * of LRO returned by ImportConsumerOverrides.
  */
 export interface ImportConsumerOverridesMetadata {}
+export interface ReactiveImportConsumerOverridesMetadata {}
 export interface ImportConsumerOverridesMetadataProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportConsumerOverridesMetadata";
   value: Uint8Array;
@@ -780,6 +902,9 @@ export interface ImportAdminQuotaPoliciesResponse {
   /** The policies that were created from the imported data. */
   policies: AdminQuotaPolicy[];
 }
+export interface ReactiveImportAdminQuotaPoliciesResponse {
+  policies: ComputedRef<AdminQuotaPolicy[]>;
+}
 export interface ImportAdminQuotaPoliciesResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminQuotaPoliciesResponse";
   value: Uint8Array;
@@ -794,6 +919,7 @@ export interface ImportAdminQuotaPoliciesResponseSDKType {
  * of LRO returned by ImportAdminQuotaPolicies.
  */
 export interface ImportAdminQuotaPoliciesMetadata {}
+export interface ReactiveImportAdminQuotaPoliciesMetadata {}
 export interface ImportAdminQuotaPoliciesMetadataProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ImportAdminQuotaPoliciesMetadata";
   value: Uint8Array;
@@ -810,6 +936,7 @@ export interface ImportAdminQuotaPoliciesMetadataSDKType {}
  * of LRO returned by CreateAdminQuotaPolicy.
  */
 export interface CreateAdminQuotaPolicyMetadata {}
+export interface ReactiveCreateAdminQuotaPolicyMetadata {}
 export interface CreateAdminQuotaPolicyMetadataProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.CreateAdminQuotaPolicyMetadata";
   value: Uint8Array;
@@ -826,6 +953,7 @@ export interface CreateAdminQuotaPolicyMetadataSDKType {}
  * of LRO returned by UpdateAdminQuotaPolicy.
  */
 export interface UpdateAdminQuotaPolicyMetadata {}
+export interface ReactiveUpdateAdminQuotaPolicyMetadata {}
 export interface UpdateAdminQuotaPolicyMetadataProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.UpdateAdminQuotaPolicyMetadata";
   value: Uint8Array;
@@ -842,6 +970,7 @@ export interface UpdateAdminQuotaPolicyMetadataSDKType {}
  * of LRO returned by DeleteAdminQuotaPolicy.
  */
 export interface DeleteAdminQuotaPolicyMetadata {}
+export interface ReactiveDeleteAdminQuotaPolicyMetadata {}
 export interface DeleteAdminQuotaPolicyMetadataProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.DeleteAdminQuotaPolicyMetadata";
   value: Uint8Array;
@@ -865,6 +994,9 @@ export interface GenerateServiceIdentityRequest {
    */
   parent: string;
 }
+export interface ReactiveGenerateServiceIdentityRequest {
+  parent: ComputedRef<string>;
+}
 export interface GenerateServiceIdentityRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.GenerateServiceIdentityRequest";
   value: Uint8Array;
@@ -884,6 +1016,10 @@ export interface GetServiceIdentityResponse {
   /** Service identity state. */
   state: GetServiceIdentityResponse_IdentityState;
 }
+export interface ReactiveGetServiceIdentityResponse {
+  identity?: ComputedRef<ServiceIdentity>;
+  state: ComputedRef<GetServiceIdentityResponse_IdentityState>;
+}
 export interface GetServiceIdentityResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.GetServiceIdentityResponse";
   value: Uint8Array;
@@ -895,6 +1031,7 @@ export interface GetServiceIdentityResponseSDKType {
 }
 /** Metadata for the `GetServiceIdentity` method. */
 export interface GetServiceIdentityMetadata {}
+export interface ReactiveGetServiceIdentityMetadata {}
 export interface GetServiceIdentityMetadataProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.GetServiceIdentityMetadata";
   value: Uint8Array;

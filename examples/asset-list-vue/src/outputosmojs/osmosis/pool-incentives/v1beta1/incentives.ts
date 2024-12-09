@@ -2,6 +2,7 @@ import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.poolincentives.v1beta1";
 export interface Params {
   /**
@@ -12,6 +13,9 @@ export interface Params {
    */
   mintedDenom: string;
 }
+export interface ReactiveParams {
+  mintedDenom: ComputedRef<string>;
+}
 export interface ParamsProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.Params";
   value: Uint8Array;
@@ -21,6 +25,9 @@ export interface ParamsSDKType {
 }
 export interface LockableDurationsInfo {
   lockableDurations: Duration[];
+}
+export interface ReactiveLockableDurationsInfo {
+  lockableDurations: ComputedRef<Duration[]>;
 }
 export interface LockableDurationsInfoProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.LockableDurationsInfo";
@@ -33,6 +40,10 @@ export interface DistrInfo {
   totalWeight: string;
   records: DistrRecord[];
 }
+export interface ReactiveDistrInfo {
+  totalWeight: ComputedRef<string>;
+  records: ComputedRef<DistrRecord[]>;
+}
 export interface DistrInfoProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.DistrInfo";
   value: Uint8Array;
@@ -44,6 +55,10 @@ export interface DistrInfoSDKType {
 export interface DistrRecord {
   gaugeId: bigint;
   weight: string;
+}
+export interface ReactiveDistrRecord {
+  gaugeId: ComputedRef<bigint>;
+  weight: ComputedRef<string>;
 }
 export interface DistrRecordProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.DistrRecord";
@@ -58,6 +73,11 @@ export interface PoolToGauge {
   gaugeId: bigint;
   duration: Duration;
 }
+export interface ReactivePoolToGauge {
+  poolId: ComputedRef<bigint>;
+  gaugeId: ComputedRef<bigint>;
+  duration: ComputedRef<Duration>;
+}
 export interface PoolToGaugeProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.PoolToGauge";
   value: Uint8Array;
@@ -69,6 +89,9 @@ export interface PoolToGaugeSDKType {
 }
 export interface PoolToGauges {
   poolToGauge: PoolToGauge[];
+}
+export interface ReactivePoolToGauges {
+  poolToGauge: ComputedRef<PoolToGauge[]>;
 }
 export interface PoolToGaugesProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.PoolToGauges";

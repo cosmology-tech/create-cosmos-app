@@ -2,6 +2,7 @@ import { BinaryReader, BinaryWriter } from "../../binary";
 import { Decimal } from "@cosmjs/math";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity";
 export interface Params {
   /**
@@ -12,6 +13,10 @@ export interface Params {
    */
   authorizedTickSpacing: bigint[];
   authorizedSwapFees: string[];
+}
+export interface ReactiveParams {
+  authorizedTickSpacing: ComputedRef<bigint[]>;
+  authorizedSwapFees: ComputedRef<string[]>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.Params";

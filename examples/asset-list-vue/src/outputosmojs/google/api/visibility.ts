@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * `Visibility` defines restrictions for the visibility of service
@@ -33,6 +34,9 @@ export interface Visibility {
    * **NOTE:** All service configuration rules follow "last one wins" order.
    */
   rules: VisibilityRule[];
+}
+export interface ReactiveVisibility {
+  rules: ComputedRef<VisibilityRule[]>;
 }
 export interface VisibilityProtoMsg {
   typeUrl: "/google.api.Visibility";
@@ -94,6 +98,10 @@ export interface VisibilityRule {
    * this method and only had access to it through INTERNAL.
    */
   restriction: string;
+}
+export interface ReactiveVisibilityRule {
+  selector: ComputedRef<string>;
+  restriction: ComputedRef<string>;
 }
 export interface VisibilityRuleProtoMsg {
   typeUrl: "/google.api.VisibilityRule";

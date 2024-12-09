@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.poolmanager.v1beta1";
 /** PoolType is an enumeration of all supported pool types. */
 export enum PoolType {
@@ -69,6 +70,10 @@ export interface ModuleRoute {
   /** pool_type specifies the type of the pool */
   poolType: PoolType;
   poolId?: bigint;
+}
+export interface ReactiveModuleRoute {
+  poolType: ComputedRef<PoolType>;
+  poolId?: ComputedRef<bigint>;
 }
 export interface ModuleRouteProtoMsg {
   typeUrl: "/osmosis.poolmanager.v1beta1.ModuleRoute";

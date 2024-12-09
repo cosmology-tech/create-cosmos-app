@@ -3,12 +3,19 @@ import { BinaryReader, BinaryWriter } from "../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity.v1beta1";
 export interface TickInfo {
   liquidityGross: string;
   liquidityNet: string;
   feeGrowthOutside: DecCoin[];
   uptimeTrackers: UptimeTracker[];
+}
+export interface ReactiveTickInfo {
+  liquidityGross: ComputedRef<string>;
+  liquidityNet: ComputedRef<string>;
+  feeGrowthOutside: ComputedRef<DecCoin[]>;
+  uptimeTrackers: ComputedRef<UptimeTracker[]>;
 }
 export interface TickInfoProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.TickInfo";
@@ -22,6 +29,9 @@ export interface TickInfoSDKType {
 }
 export interface UptimeTracker {
   uptimeGrowthOutside: DecCoin[];
+}
+export interface ReactiveUptimeTracker {
+  uptimeGrowthOutside: ComputedRef<DecCoin[]>;
 }
 export interface UptimeTrackerProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.UptimeTracker";

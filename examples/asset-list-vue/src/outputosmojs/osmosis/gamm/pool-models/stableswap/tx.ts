@@ -3,6 +3,7 @@ import { Coin, CoinSDKType } from "../../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.gamm.poolmodels.stableswap.v1beta1";
 /** ===================== MsgCreatePool */
 export interface MsgCreateStableswapPool {
@@ -12,6 +13,14 @@ export interface MsgCreateStableswapPool {
   scalingFactors: bigint[];
   futurePoolGovernor: string;
   scalingFactorController: string;
+}
+export interface ReactiveMsgCreateStableswapPool {
+  sender: ComputedRef<string>;
+  poolParams?: ComputedRef<PoolParams>;
+  initialPoolLiquidity: ComputedRef<Coin[]>;
+  scalingFactors: ComputedRef<bigint[]>;
+  futurePoolGovernor: ComputedRef<string>;
+  scalingFactorController: ComputedRef<string>;
 }
 export interface MsgCreateStableswapPoolProtoMsg {
   typeUrl: "/osmosis.gamm.poolmodels.stableswap.v1beta1.MsgCreateStableswapPool";
@@ -30,6 +39,9 @@ export interface MsgCreateStableswapPoolSDKType {
 export interface MsgCreateStableswapPoolResponse {
   poolId: bigint;
 }
+export interface ReactiveMsgCreateStableswapPoolResponse {
+  poolId: ComputedRef<bigint>;
+}
 export interface MsgCreateStableswapPoolResponseProtoMsg {
   typeUrl: "/osmosis.gamm.poolmodels.stableswap.v1beta1.MsgCreateStableswapPoolResponse";
   value: Uint8Array;
@@ -47,6 +59,11 @@ export interface MsgStableSwapAdjustScalingFactors {
   poolId: bigint;
   scalingFactors: bigint[];
 }
+export interface ReactiveMsgStableSwapAdjustScalingFactors {
+  sender: ComputedRef<string>;
+  poolId: ComputedRef<bigint>;
+  scalingFactors: ComputedRef<bigint[]>;
+}
 export interface MsgStableSwapAdjustScalingFactorsProtoMsg {
   typeUrl: "/osmosis.gamm.poolmodels.stableswap.v1beta1.MsgStableSwapAdjustScalingFactors";
   value: Uint8Array;
@@ -61,6 +78,7 @@ export interface MsgStableSwapAdjustScalingFactorsSDKType {
   scaling_factors: bigint[];
 }
 export interface MsgStableSwapAdjustScalingFactorsResponse {}
+export interface ReactiveMsgStableSwapAdjustScalingFactorsResponse {}
 export interface MsgStableSwapAdjustScalingFactorsResponseProtoMsg {
   typeUrl: "/osmosis.gamm.poolmodels.stableswap.v1beta1.MsgStableSwapAdjustScalingFactorsResponse";
   value: Uint8Array;

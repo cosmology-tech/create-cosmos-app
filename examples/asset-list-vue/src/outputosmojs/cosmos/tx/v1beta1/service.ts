@@ -6,6 +6,7 @@ import { Block, BlockSDKType } from "../../../tendermint/types/block";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.tx.v1beta1";
 /** OrderBy defines the sorting order */
 export enum OrderBy {
@@ -116,6 +117,11 @@ export interface GetTxsEventRequest {
   pagination?: PageRequest;
   orderBy: OrderBy;
 }
+export interface ReactiveGetTxsEventRequest {
+  events: ComputedRef<string[]>;
+  pagination?: ComputedRef<PageRequest>;
+  orderBy: ComputedRef<OrderBy>;
+}
 export interface GetTxsEventRequestProtoMsg {
   typeUrl: "/cosmos.tx.v1beta1.GetTxsEventRequest";
   value: Uint8Array;
@@ -141,6 +147,11 @@ export interface GetTxsEventResponse {
   /** pagination defines a pagination for the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveGetTxsEventResponse {
+  txs: ComputedRef<Tx[]>;
+  txResponses: ComputedRef<TxResponse[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface GetTxsEventResponseProtoMsg {
   typeUrl: "/cosmos.tx.v1beta1.GetTxsEventResponse";
   value: Uint8Array;
@@ -163,6 +174,10 @@ export interface BroadcastTxRequest {
   txBytes: Uint8Array;
   mode: BroadcastMode;
 }
+export interface ReactiveBroadcastTxRequest {
+  txBytes: ComputedRef<Uint8Array>;
+  mode: ComputedRef<BroadcastMode>;
+}
 export interface BroadcastTxRequestProtoMsg {
   typeUrl: "/cosmos.tx.v1beta1.BroadcastTxRequest";
   value: Uint8Array;
@@ -182,6 +197,9 @@ export interface BroadcastTxRequestSDKType {
 export interface BroadcastTxResponse {
   /** tx_response is the queried TxResponses. */
   txResponse?: TxResponse;
+}
+export interface ReactiveBroadcastTxResponse {
+  txResponse?: ComputedRef<TxResponse>;
 }
 export interface BroadcastTxResponseProtoMsg {
   typeUrl: "/cosmos.tx.v1beta1.BroadcastTxResponse";
@@ -212,6 +230,10 @@ export interface SimulateRequest {
    */
   txBytes: Uint8Array;
 }
+export interface ReactiveSimulateRequest {
+  tx?: ComputedRef<Tx>;
+  txBytes: ComputedRef<Uint8Array>;
+}
 export interface SimulateRequestProtoMsg {
   typeUrl: "/cosmos.tx.v1beta1.SimulateRequest";
   value: Uint8Array;
@@ -235,6 +257,10 @@ export interface SimulateResponse {
   /** result is the result of the simulation. */
   result?: Result;
 }
+export interface ReactiveSimulateResponse {
+  gasInfo?: ComputedRef<GasInfo>;
+  result?: ComputedRef<Result>;
+}
 export interface SimulateResponseProtoMsg {
   typeUrl: "/cosmos.tx.v1beta1.SimulateResponse";
   value: Uint8Array;
@@ -255,6 +281,9 @@ export interface GetTxRequest {
   /** hash is the tx hash to query, encoded as a hex string. */
   hash: string;
 }
+export interface ReactiveGetTxRequest {
+  hash: ComputedRef<string>;
+}
 export interface GetTxRequestProtoMsg {
   typeUrl: "/cosmos.tx.v1beta1.GetTxRequest";
   value: Uint8Array;
@@ -272,6 +301,10 @@ export interface GetTxResponse {
   tx?: Tx;
   /** tx_response is the queried TxResponses. */
   txResponse?: TxResponse;
+}
+export interface ReactiveGetTxResponse {
+  tx?: ComputedRef<Tx>;
+  txResponse?: ComputedRef<TxResponse>;
 }
 export interface GetTxResponseProtoMsg {
   typeUrl: "/cosmos.tx.v1beta1.GetTxResponse";
@@ -293,6 +326,10 @@ export interface GetBlockWithTxsRequest {
   height: bigint;
   /** pagination defines a pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveGetBlockWithTxsRequest {
+  height: ComputedRef<bigint>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface GetBlockWithTxsRequestProtoMsg {
   typeUrl: "/cosmos.tx.v1beta1.GetBlockWithTxsRequest";
@@ -320,6 +357,12 @@ export interface GetBlockWithTxsResponse {
   block?: Block;
   /** pagination defines a pagination for the response. */
   pagination?: PageResponse;
+}
+export interface ReactiveGetBlockWithTxsResponse {
+  txs: ComputedRef<Tx[]>;
+  blockId?: ComputedRef<BlockID>;
+  block?: ComputedRef<Block>;
+  pagination?: ComputedRef<PageResponse>;
 }
 export interface GetBlockWithTxsResponseProtoMsg {
   typeUrl: "/cosmos.tx.v1beta1.GetBlockWithTxsResponse";

@@ -2,9 +2,11 @@ import { Params, ParamsSDKType } from "./host";
 import { BinaryReader, BinaryWriter } from "../../../../../binary";
 import { JsonSafe } from "../../../../../json-safe";
 import { DeepPartial, isSet } from "../../../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.interchain_accounts.host.v1";
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
+export interface ReactiveQueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.host.v1.QueryParamsRequest";
   value: Uint8Array;
@@ -15,6 +17,9 @@ export interface QueryParamsRequestSDKType {}
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
   params?: Params;
+}
+export interface ReactiveQueryParamsResponse {
+  params?: ComputedRef<Params>;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.host.v1.QueryParamsResponse";

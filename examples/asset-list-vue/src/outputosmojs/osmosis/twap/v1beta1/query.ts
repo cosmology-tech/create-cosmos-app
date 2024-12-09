@@ -4,6 +4,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
 import { Decimal } from "@cosmjs/math";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.twap.v1beta1";
 export interface ArithmeticTwapRequest {
   poolId: bigint;
@@ -11,6 +12,13 @@ export interface ArithmeticTwapRequest {
   quoteAsset: string;
   startTime: Date;
   endTime?: Date;
+}
+export interface ReactiveArithmeticTwapRequest {
+  poolId: ComputedRef<bigint>;
+  baseAsset: ComputedRef<string>;
+  quoteAsset: ComputedRef<string>;
+  startTime: ComputedRef<Date>;
+  endTime?: ComputedRef<Date>;
 }
 export interface ArithmeticTwapRequestProtoMsg {
   typeUrl: "/osmosis.twap.v1beta1.ArithmeticTwapRequest";
@@ -26,6 +34,9 @@ export interface ArithmeticTwapRequestSDKType {
 export interface ArithmeticTwapResponse {
   arithmeticTwap: string;
 }
+export interface ReactiveArithmeticTwapResponse {
+  arithmeticTwap: ComputedRef<string>;
+}
 export interface ArithmeticTwapResponseProtoMsg {
   typeUrl: "/osmosis.twap.v1beta1.ArithmeticTwapResponse";
   value: Uint8Array;
@@ -38,6 +49,12 @@ export interface ArithmeticTwapToNowRequest {
   baseAsset: string;
   quoteAsset: string;
   startTime: Date;
+}
+export interface ReactiveArithmeticTwapToNowRequest {
+  poolId: ComputedRef<bigint>;
+  baseAsset: ComputedRef<string>;
+  quoteAsset: ComputedRef<string>;
+  startTime: ComputedRef<Date>;
 }
 export interface ArithmeticTwapToNowRequestProtoMsg {
   typeUrl: "/osmosis.twap.v1beta1.ArithmeticTwapToNowRequest";
@@ -52,6 +69,9 @@ export interface ArithmeticTwapToNowRequestSDKType {
 export interface ArithmeticTwapToNowResponse {
   arithmeticTwap: string;
 }
+export interface ReactiveArithmeticTwapToNowResponse {
+  arithmeticTwap: ComputedRef<string>;
+}
 export interface ArithmeticTwapToNowResponseProtoMsg {
   typeUrl: "/osmosis.twap.v1beta1.ArithmeticTwapToNowResponse";
   value: Uint8Array;
@@ -60,6 +80,7 @@ export interface ArithmeticTwapToNowResponseSDKType {
   arithmetic_twap: string;
 }
 export interface ParamsRequest {}
+export interface ReactiveParamsRequest {}
 export interface ParamsRequestProtoMsg {
   typeUrl: "/osmosis.twap.v1beta1.ParamsRequest";
   value: Uint8Array;
@@ -67,6 +88,9 @@ export interface ParamsRequestProtoMsg {
 export interface ParamsRequestSDKType {}
 export interface ParamsResponse {
   params: Params;
+}
+export interface ReactiveParamsResponse {
+  params: ComputedRef<Params>;
 }
 export interface ParamsResponseProtoMsg {
   typeUrl: "/osmosis.twap.v1beta1.ParamsResponse";

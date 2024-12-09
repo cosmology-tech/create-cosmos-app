@@ -2,11 +2,16 @@ import { Params, ParamsSDKType } from "./controller";
 import { BinaryReader, BinaryWriter } from "../../../../../binary";
 import { isSet, DeepPartial } from "../../../../../helpers";
 import { JsonSafe } from "../../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.interchain_accounts.controller.v1";
 /** QueryInterchainAccountRequest is the request type for the Query/InterchainAccount RPC method. */
 export interface QueryInterchainAccountRequest {
   owner: string;
   connectionId: string;
+}
+export interface ReactiveQueryInterchainAccountRequest {
+  owner: ComputedRef<string>;
+  connectionId: ComputedRef<string>;
 }
 export interface QueryInterchainAccountRequestProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.controller.v1.QueryInterchainAccountRequest";
@@ -21,6 +26,9 @@ export interface QueryInterchainAccountRequestSDKType {
 export interface QueryInterchainAccountResponse {
   address: string;
 }
+export interface ReactiveQueryInterchainAccountResponse {
+  address: ComputedRef<string>;
+}
 export interface QueryInterchainAccountResponseProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.controller.v1.QueryInterchainAccountResponse";
   value: Uint8Array;
@@ -31,6 +39,7 @@ export interface QueryInterchainAccountResponseSDKType {
 }
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
+export interface ReactiveQueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.controller.v1.QueryParamsRequest";
   value: Uint8Array;
@@ -41,6 +50,9 @@ export interface QueryParamsRequestSDKType {}
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
   params?: Params;
+}
+export interface ReactiveQueryParamsResponse {
+  params?: ComputedRef<Params>;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.controller.v1.QueryParamsResponse";

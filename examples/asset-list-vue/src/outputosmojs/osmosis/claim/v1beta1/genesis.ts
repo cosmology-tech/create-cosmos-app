@@ -4,6 +4,7 @@ import { ClaimRecord, ClaimRecordSDKType } from "./claim";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.claim.v1beta1";
 /** GenesisState defines the claim module's genesis state. */
 export interface GenesisState {
@@ -13,6 +14,11 @@ export interface GenesisState {
   params: Params;
   /** list of claim records, one for every airdrop recipient */
   claimRecords: ClaimRecord[];
+}
+export interface ReactiveGenesisState {
+  moduleAccountBalance: ComputedRef<Coin>;
+  params: ComputedRef<Params>;
+  claimRecords: ComputedRef<ClaimRecord[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.claim.v1beta1.GenesisState";

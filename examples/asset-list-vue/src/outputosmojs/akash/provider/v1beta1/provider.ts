@@ -2,11 +2,16 @@ import { Attribute, AttributeSDKType } from "../../base/v1beta1/attribute";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.provider.v1beta1";
 /** ProviderInfo */
 export interface ProviderInfo {
   email: string;
   website: string;
+}
+export interface ReactiveProviderInfo {
+  email: ComputedRef<string>;
+  website: ComputedRef<string>;
 }
 export interface ProviderInfoProtoMsg {
   typeUrl: "/akash.provider.v1beta1.ProviderInfo";
@@ -24,6 +29,12 @@ export interface MsgCreateProvider {
   attributes: Attribute[];
   info: ProviderInfo;
 }
+export interface ReactiveMsgCreateProvider {
+  owner: ComputedRef<string>;
+  hostUri: ComputedRef<string>;
+  attributes: ComputedRef<Attribute[]>;
+  info: ComputedRef<ProviderInfo>;
+}
 export interface MsgCreateProviderProtoMsg {
   typeUrl: "/akash.provider.v1beta1.MsgCreateProvider";
   value: Uint8Array;
@@ -37,6 +48,7 @@ export interface MsgCreateProviderSDKType {
 }
 /** MsgCreateProviderResponse defines the Msg/CreateProvider response type. */
 export interface MsgCreateProviderResponse {}
+export interface ReactiveMsgCreateProviderResponse {}
 export interface MsgCreateProviderResponseProtoMsg {
   typeUrl: "/akash.provider.v1beta1.MsgCreateProviderResponse";
   value: Uint8Array;
@@ -49,6 +61,12 @@ export interface MsgUpdateProvider {
   hostUri: string;
   attributes: Attribute[];
   info: ProviderInfo;
+}
+export interface ReactiveMsgUpdateProvider {
+  owner: ComputedRef<string>;
+  hostUri: ComputedRef<string>;
+  attributes: ComputedRef<Attribute[]>;
+  info: ComputedRef<ProviderInfo>;
 }
 export interface MsgUpdateProviderProtoMsg {
   typeUrl: "/akash.provider.v1beta1.MsgUpdateProvider";
@@ -63,6 +81,7 @@ export interface MsgUpdateProviderSDKType {
 }
 /** MsgUpdateProviderResponse defines the Msg/UpdateProvider response type. */
 export interface MsgUpdateProviderResponse {}
+export interface ReactiveMsgUpdateProviderResponse {}
 export interface MsgUpdateProviderResponseProtoMsg {
   typeUrl: "/akash.provider.v1beta1.MsgUpdateProviderResponse";
   value: Uint8Array;
@@ -72,6 +91,9 @@ export interface MsgUpdateProviderResponseSDKType {}
 /** MsgDeleteProvider defines an SDK message for deleting a provider */
 export interface MsgDeleteProvider {
   owner: string;
+}
+export interface ReactiveMsgDeleteProvider {
+  owner: ComputedRef<string>;
 }
 export interface MsgDeleteProviderProtoMsg {
   typeUrl: "/akash.provider.v1beta1.MsgDeleteProvider";
@@ -83,6 +105,7 @@ export interface MsgDeleteProviderSDKType {
 }
 /** MsgDeleteProviderResponse defines the Msg/DeleteProvider response type. */
 export interface MsgDeleteProviderResponse {}
+export interface ReactiveMsgDeleteProviderResponse {}
 export interface MsgDeleteProviderResponseProtoMsg {
   typeUrl: "/akash.provider.v1beta1.MsgDeleteProviderResponse";
   value: Uint8Array;
@@ -95,6 +118,12 @@ export interface Provider {
   hostUri: string;
   attributes: Attribute[];
   info: ProviderInfo;
+}
+export interface ReactiveProvider {
+  owner: ComputedRef<string>;
+  hostUri: ComputedRef<string>;
+  attributes: ComputedRef<Attribute[]>;
+  info: ComputedRef<ProviderInfo>;
 }
 export interface ProviderProtoMsg {
   typeUrl: "/akash.provider.v1beta1.Provider";

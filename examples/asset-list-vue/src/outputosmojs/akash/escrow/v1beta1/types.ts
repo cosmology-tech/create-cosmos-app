@@ -2,6 +2,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.escrow.v1beta1";
 /** State stores state for an escrow account */
 export enum Account_State {
@@ -104,6 +105,10 @@ export interface AccountID {
   scope: string;
   xid: string;
 }
+export interface ReactiveAccountID {
+  scope: ComputedRef<string>;
+  xid: ComputedRef<string>;
+}
 export interface AccountIDProtoMsg {
   typeUrl: "/akash.escrow.v1beta1.AccountID";
   value: Uint8Array;
@@ -128,6 +133,14 @@ export interface Account {
   /** block height at which this account was last settled */
   settledAt: bigint;
 }
+export interface ReactiveAccount {
+  id: ComputedRef<AccountID>;
+  owner: ComputedRef<string>;
+  state: ComputedRef<Account_State>;
+  balance: ComputedRef<Coin>;
+  transferred: ComputedRef<Coin>;
+  settledAt: ComputedRef<bigint>;
+}
 export interface AccountProtoMsg {
   typeUrl: "/akash.escrow.v1beta1.Account";
   value: Uint8Array;
@@ -150,6 +163,15 @@ export interface Payment {
   rate: Coin;
   balance: Coin;
   withdrawn: Coin;
+}
+export interface ReactivePayment {
+  accountId: ComputedRef<AccountID>;
+  paymentId: ComputedRef<string>;
+  owner: ComputedRef<string>;
+  state: ComputedRef<Payment_State>;
+  rate: ComputedRef<Coin>;
+  balance: ComputedRef<Coin>;
+  withdrawn: ComputedRef<Coin>;
 }
 export interface PaymentProtoMsg {
   typeUrl: "/akash.escrow.v1beta1.Payment";

@@ -2,12 +2,18 @@ import { Attribute, AttributeSDKType } from "../../base/v1beta2/attribute";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.audit.v1beta2";
 /** Provider stores owner auditor and attributes details */
 export interface Provider {
   owner: string;
   auditor: string;
   attributes: Attribute[];
+}
+export interface ReactiveProvider {
+  owner: ComputedRef<string>;
+  auditor: ComputedRef<string>;
+  attributes: ComputedRef<Attribute[]>;
 }
 export interface ProviderProtoMsg {
   typeUrl: "/akash.audit.v1beta2.Provider";
@@ -25,6 +31,11 @@ export interface AuditedAttributes {
   auditor: string;
   attributes: Attribute[];
 }
+export interface ReactiveAuditedAttributes {
+  owner: ComputedRef<string>;
+  auditor: ComputedRef<string>;
+  attributes: ComputedRef<Attribute[]>;
+}
 export interface AuditedAttributesProtoMsg {
   typeUrl: "/akash.audit.v1beta2.AuditedAttributes";
   value: Uint8Array;
@@ -39,6 +50,9 @@ export interface AuditedAttributesSDKType {
 export interface AttributesResponse {
   attributes: AuditedAttributes[];
 }
+export interface ReactiveAttributesResponse {
+  attributes: ComputedRef<AuditedAttributes[]>;
+}
 export interface AttributesResponseProtoMsg {
   typeUrl: "/akash.audit.v1beta2.AttributesResponse";
   value: Uint8Array;
@@ -51,6 +65,10 @@ export interface AttributesResponseSDKType {
 export interface AttributesFilters {
   auditors: string[];
   owners: string[];
+}
+export interface ReactiveAttributesFilters {
+  auditors: ComputedRef<string[]>;
+  owners: ComputedRef<string[]>;
 }
 export interface AttributesFiltersProtoMsg {
   typeUrl: "/akash.audit.v1beta2.AttributesFilters";
@@ -67,6 +85,11 @@ export interface MsgSignProviderAttributes {
   auditor: string;
   attributes: Attribute[];
 }
+export interface ReactiveMsgSignProviderAttributes {
+  owner: ComputedRef<string>;
+  auditor: ComputedRef<string>;
+  attributes: ComputedRef<Attribute[]>;
+}
 export interface MsgSignProviderAttributesProtoMsg {
   typeUrl: "/akash.audit.v1beta2.MsgSignProviderAttributes";
   value: Uint8Array;
@@ -79,6 +102,7 @@ export interface MsgSignProviderAttributesSDKType {
 }
 /** MsgSignProviderAttributesResponse defines the Msg/CreateProvider response type. */
 export interface MsgSignProviderAttributesResponse {}
+export interface ReactiveMsgSignProviderAttributesResponse {}
 export interface MsgSignProviderAttributesResponseProtoMsg {
   typeUrl: "/akash.audit.v1beta2.MsgSignProviderAttributesResponse";
   value: Uint8Array;
@@ -90,6 +114,11 @@ export interface MsgDeleteProviderAttributes {
   owner: string;
   auditor: string;
   keys: string[];
+}
+export interface ReactiveMsgDeleteProviderAttributes {
+  owner: ComputedRef<string>;
+  auditor: ComputedRef<string>;
+  keys: ComputedRef<string[]>;
 }
 export interface MsgDeleteProviderAttributesProtoMsg {
   typeUrl: "/akash.audit.v1beta2.MsgDeleteProviderAttributes";
@@ -103,6 +132,7 @@ export interface MsgDeleteProviderAttributesSDKType {
 }
 /** MsgDeleteProviderAttributesResponse defines the Msg/ProviderAttributes response type. */
 export interface MsgDeleteProviderAttributesResponse {}
+export interface ReactiveMsgDeleteProviderAttributesResponse {}
 export interface MsgDeleteProviderAttributesResponseProtoMsg {
   typeUrl: "/akash.audit.v1beta2.MsgDeleteProviderAttributesResponse";
   value: Uint8Array;

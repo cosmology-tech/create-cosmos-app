@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.crypto.hd.v1";
 /** BIP44Params is used as path field in ledger item in Record. */
 export interface BIP44Params {
@@ -17,6 +18,13 @@ export interface BIP44Params {
   change: boolean;
   /** address_index is used as child index in BIP32 derivation */
   addressIndex: number;
+}
+export interface ReactiveBIP44Params {
+  purpose: ComputedRef<number>;
+  coinType: ComputedRef<number>;
+  account: ComputedRef<number>;
+  change: ComputedRef<boolean>;
+  addressIndex: ComputedRef<number>;
 }
 export interface BIP44ParamsProtoMsg {
   typeUrl: "/cosmos.crypto.hd.v1.BIP44Params";

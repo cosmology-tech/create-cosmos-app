@@ -5,6 +5,7 @@ import { Status, StatusSDKType } from "../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, isObject } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.logging.v2";
 /** An indicator of why entries were omitted. */
 export enum TailLogEntriesResponse_SuppressionInfo_Reason {
@@ -74,6 +75,9 @@ export interface DeleteLogRequest {
    */
   logName: string;
 }
+export interface ReactiveDeleteLogRequest {
+  logName: ComputedRef<string>;
+}
 export interface DeleteLogRequestProtoMsg {
   typeUrl: "/google.logging.v2.DeleteLogRequest";
   value: Uint8Array;
@@ -85,6 +89,10 @@ export interface DeleteLogRequestSDKType {
 export interface WriteLogEntriesRequest_LabelsEntry {
   key: string;
   value: string;
+}
+export interface ReactiveWriteLogEntriesRequest_LabelsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface WriteLogEntriesRequest_LabelsEntryProtoMsg {
   typeUrl: string;
@@ -178,6 +186,16 @@ export interface WriteLogEntriesRequest {
    */
   dryRun: boolean;
 }
+export interface ReactiveWriteLogEntriesRequest {
+  logName: ComputedRef<string>;
+  resource?: ComputedRef<MonitoredResource>;
+  labels: ComputedRef<{
+    [key: string]: string;
+  }>;
+  entries: ComputedRef<LogEntry[]>;
+  partialSuccess: ComputedRef<boolean>;
+  dryRun: ComputedRef<boolean>;
+}
 export interface WriteLogEntriesRequestProtoMsg {
   typeUrl: "/google.logging.v2.WriteLogEntriesRequest";
   value: Uint8Array;
@@ -195,6 +213,7 @@ export interface WriteLogEntriesRequestSDKType {
 }
 /** Result returned from WriteLogEntries. */
 export interface WriteLogEntriesResponse {}
+export interface ReactiveWriteLogEntriesResponse {}
 export interface WriteLogEntriesResponseProtoMsg {
   typeUrl: "/google.logging.v2.WriteLogEntriesResponse";
   value: Uint8Array;
@@ -204,6 +223,10 @@ export interface WriteLogEntriesResponseSDKType {}
 export interface WriteLogEntriesPartialErrors_LogEntryErrorsEntry {
   key: number;
   value?: Status;
+}
+export interface ReactiveWriteLogEntriesPartialErrors_LogEntryErrorsEntry {
+  key: ComputedRef<number>;
+  value?: ComputedRef<Status>;
 }
 export interface WriteLogEntriesPartialErrors_LogEntryErrorsEntryProtoMsg {
   typeUrl: string;
@@ -226,6 +249,11 @@ export interface WriteLogEntriesPartialErrors {
   logEntryErrors: {
     [key: number]: Status;
   };
+}
+export interface ReactiveWriteLogEntriesPartialErrors {
+  logEntryErrors: ComputedRef<{
+    [key: number]: Status;
+  }>;
 }
 export interface WriteLogEntriesPartialErrorsProtoMsg {
   typeUrl: "/google.logging.v2.WriteLogEntriesPartialErrors";
@@ -292,6 +320,13 @@ export interface ListLogEntriesRequest {
    */
   pageToken: string;
 }
+export interface ReactiveListLogEntriesRequest {
+  resourceNames: ComputedRef<string[]>;
+  filter: ComputedRef<string>;
+  orderBy: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+  pageToken: ComputedRef<string>;
+}
 export interface ListLogEntriesRequestProtoMsg {
   typeUrl: "/google.logging.v2.ListLogEntriesRequest";
   value: Uint8Array;
@@ -326,6 +361,10 @@ export interface ListLogEntriesResponse {
    */
   nextPageToken: string;
 }
+export interface ReactiveListLogEntriesResponse {
+  entries: ComputedRef<LogEntry[]>;
+  nextPageToken: ComputedRef<string>;
+}
 export interface ListLogEntriesResponseProtoMsg {
   typeUrl: "/google.logging.v2.ListLogEntriesResponse";
   value: Uint8Array;
@@ -351,6 +390,10 @@ export interface ListMonitoredResourceDescriptorsRequest {
    */
   pageToken: string;
 }
+export interface ReactiveListMonitoredResourceDescriptorsRequest {
+  pageSize: ComputedRef<number>;
+  pageToken: ComputedRef<string>;
+}
 export interface ListMonitoredResourceDescriptorsRequestProtoMsg {
   typeUrl: "/google.logging.v2.ListMonitoredResourceDescriptorsRequest";
   value: Uint8Array;
@@ -370,6 +413,10 @@ export interface ListMonitoredResourceDescriptorsResponse {
    * method again using the value of `nextPageToken` as `pageToken`.
    */
   nextPageToken: string;
+}
+export interface ReactiveListMonitoredResourceDescriptorsResponse {
+  resourceDescriptors: ComputedRef<MonitoredResourceDescriptor[]>;
+  nextPageToken: ComputedRef<string>;
 }
 export interface ListMonitoredResourceDescriptorsResponseProtoMsg {
   typeUrl: "/google.logging.v2.ListMonitoredResourceDescriptorsResponse";
@@ -421,6 +468,12 @@ export interface ListLogsRequest {
    */
   resourceNames: string[];
 }
+export interface ReactiveListLogsRequest {
+  parent: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+  pageToken: ComputedRef<string>;
+  resourceNames: ComputedRef<string[]>;
+}
 export interface ListLogsRequestProtoMsg {
   typeUrl: "/google.logging.v2.ListLogsRequest";
   value: Uint8Array;
@@ -446,6 +499,10 @@ export interface ListLogsResponse {
    * method again using the value of `nextPageToken` as `pageToken`.
    */
   nextPageToken: string;
+}
+export interface ReactiveListLogsResponse {
+  logNames: ComputedRef<string[]>;
+  nextPageToken: ComputedRef<string>;
 }
 export interface ListLogsResponseProtoMsg {
   typeUrl: "/google.logging.v2.ListLogsResponse";
@@ -492,6 +549,11 @@ export interface TailLogEntriesRequest {
    */
   bufferWindow?: Duration;
 }
+export interface ReactiveTailLogEntriesRequest {
+  resourceNames: ComputedRef<string[]>;
+  filter: ComputedRef<string>;
+  bufferWindow?: ComputedRef<Duration>;
+}
 export interface TailLogEntriesRequestProtoMsg {
   typeUrl: "/google.logging.v2.TailLogEntriesRequest";
   value: Uint8Array;
@@ -519,6 +581,10 @@ export interface TailLogEntriesResponse {
    */
   suppressionInfo: TailLogEntriesResponse_SuppressionInfo[];
 }
+export interface ReactiveTailLogEntriesResponse {
+  entries: ComputedRef<LogEntry[]>;
+  suppressionInfo: ComputedRef<TailLogEntriesResponse_SuppressionInfo[]>;
+}
 export interface TailLogEntriesResponseProtoMsg {
   typeUrl: "/google.logging.v2.TailLogEntriesResponse";
   value: Uint8Array;
@@ -534,6 +600,10 @@ export interface TailLogEntriesResponse_SuppressionInfo {
   reason: TailLogEntriesResponse_SuppressionInfo_Reason;
   /** A lower bound on the count of entries omitted due to `reason`. */
   suppressedCount: number;
+}
+export interface ReactiveTailLogEntriesResponse_SuppressionInfo {
+  reason: ComputedRef<TailLogEntriesResponse_SuppressionInfo_Reason>;
+  suppressedCount: ComputedRef<number>;
 }
 export interface TailLogEntriesResponse_SuppressionInfoProtoMsg {
   typeUrl: "/google.logging.v2.SuppressionInfo";

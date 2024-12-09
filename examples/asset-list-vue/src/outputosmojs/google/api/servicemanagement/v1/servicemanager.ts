@@ -4,6 +4,7 @@ import { Any, AnySDKType } from "../../../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicemanagement.v1";
 export enum GetServiceConfigRequest_ConfigView {
   /** BASIC - Server response includes all fields except SourceInfo. */
@@ -67,6 +68,12 @@ export interface ListServicesRequest {
   /** @deprecated */
   consumerId: string;
 }
+export interface ReactiveListServicesRequest {
+  producerProjectId: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+  pageToken: ComputedRef<string>;
+  consumerId: ComputedRef<string>;
+}
 export interface ListServicesRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.ListServicesRequest";
   value: Uint8Array;
@@ -86,6 +93,10 @@ export interface ListServicesResponse {
   /** Token that can be passed to `ListServices` to resume a paginated query. */
   nextPageToken: string;
 }
+export interface ReactiveListServicesResponse {
+  services: ComputedRef<ManagedService[]>;
+  nextPageToken: ComputedRef<string>;
+}
 export interface ListServicesResponseProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.ListServicesResponse";
   value: Uint8Array;
@@ -103,6 +114,9 @@ export interface GetServiceRequest {
    */
   serviceName: string;
 }
+export interface ReactiveGetServiceRequest {
+  serviceName: ComputedRef<string>;
+}
 export interface GetServiceRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.GetServiceRequest";
   value: Uint8Array;
@@ -115,6 +129,9 @@ export interface GetServiceRequestSDKType {
 export interface CreateServiceRequest {
   /** Required. Initial values for the service resource. */
   service?: ManagedService;
+}
+export interface ReactiveCreateServiceRequest {
+  service?: ComputedRef<ManagedService>;
 }
 export interface CreateServiceRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.CreateServiceRequest";
@@ -132,6 +149,9 @@ export interface DeleteServiceRequest {
    */
   serviceName: string;
 }
+export interface ReactiveDeleteServiceRequest {
+  serviceName: ComputedRef<string>;
+}
 export interface DeleteServiceRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.DeleteServiceRequest";
   value: Uint8Array;
@@ -148,6 +168,9 @@ export interface UndeleteServiceRequest {
    */
   serviceName: string;
 }
+export interface ReactiveUndeleteServiceRequest {
+  serviceName: ComputedRef<string>;
+}
 export interface UndeleteServiceRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.UndeleteServiceRequest";
   value: Uint8Array;
@@ -160,6 +183,9 @@ export interface UndeleteServiceRequestSDKType {
 export interface UndeleteServiceResponse {
   /** Revived service resource. */
   service?: ManagedService;
+}
+export interface ReactiveUndeleteServiceResponse {
+  service?: ComputedRef<ManagedService>;
 }
 export interface UndeleteServiceResponseProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.UndeleteServiceResponse";
@@ -189,6 +215,11 @@ export interface GetServiceConfigRequest {
    */
   view: GetServiceConfigRequest_ConfigView;
 }
+export interface ReactiveGetServiceConfigRequest {
+  serviceName: ComputedRef<string>;
+  configId: ComputedRef<string>;
+  view: ComputedRef<GetServiceConfigRequest_ConfigView>;
+}
 export interface GetServiceConfigRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.GetServiceConfigRequest";
   value: Uint8Array;
@@ -214,6 +245,11 @@ export interface ListServiceConfigsRequest {
    */
   pageSize: number;
 }
+export interface ReactiveListServiceConfigsRequest {
+  serviceName: ComputedRef<string>;
+  pageToken: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+}
 export interface ListServiceConfigsRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.ListServiceConfigsRequest";
   value: Uint8Array;
@@ -230,6 +266,10 @@ export interface ListServiceConfigsResponse {
   serviceConfigs: Service[];
   /** The token of the next page of results. */
   nextPageToken: string;
+}
+export interface ReactiveListServiceConfigsResponse {
+  serviceConfigs: ComputedRef<Service[]>;
+  nextPageToken: ComputedRef<string>;
 }
 export interface ListServiceConfigsResponseProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.ListServiceConfigsResponse";
@@ -249,6 +289,10 @@ export interface CreateServiceConfigRequest {
   serviceName: string;
   /** Required. The service configuration resource. */
   serviceConfig?: Service;
+}
+export interface ReactiveCreateServiceConfigRequest {
+  serviceName: ComputedRef<string>;
+  serviceConfig?: ComputedRef<Service>;
 }
 export interface CreateServiceConfigRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.CreateServiceConfigRequest";
@@ -275,6 +319,11 @@ export interface SubmitConfigSourceRequest {
    */
   validateOnly: boolean;
 }
+export interface ReactiveSubmitConfigSourceRequest {
+  serviceName: ComputedRef<string>;
+  configSource?: ComputedRef<ConfigSource>;
+  validateOnly: ComputedRef<boolean>;
+}
 export interface SubmitConfigSourceRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.SubmitConfigSourceRequest";
   value: Uint8Array;
@@ -289,6 +338,9 @@ export interface SubmitConfigSourceRequestSDKType {
 export interface SubmitConfigSourceResponse {
   /** The generated service configuration. */
   serviceConfig?: Service;
+}
+export interface ReactiveSubmitConfigSourceResponse {
+  serviceConfig?: ComputedRef<Service>;
 }
 export interface SubmitConfigSourceResponseProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.SubmitConfigSourceResponse";
@@ -307,6 +359,10 @@ export interface CreateServiceRolloutRequest {
   serviceName: string;
   /** Required. The rollout resource. The `service_name` field is output only. */
   rollout?: Rollout;
+}
+export interface ReactiveCreateServiceRolloutRequest {
+  serviceName: ComputedRef<string>;
+  rollout?: ComputedRef<Rollout>;
 }
 export interface CreateServiceRolloutRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.CreateServiceRolloutRequest";
@@ -343,6 +399,12 @@ export interface ListServiceRolloutsRequest {
    */
   filter: string;
 }
+export interface ReactiveListServiceRolloutsRequest {
+  serviceName: ComputedRef<string>;
+  pageToken: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+  filter: ComputedRef<string>;
+}
 export interface ListServiceRolloutsRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.ListServiceRolloutsRequest";
   value: Uint8Array;
@@ -360,6 +422,10 @@ export interface ListServiceRolloutsResponse {
   rollouts: Rollout[];
   /** The token of the next page of results. */
   nextPageToken: string;
+}
+export interface ReactiveListServiceRolloutsResponse {
+  rollouts: ComputedRef<Rollout[]>;
+  nextPageToken: ComputedRef<string>;
 }
 export interface ListServiceRolloutsResponseProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.ListServiceRolloutsResponse";
@@ -379,6 +445,10 @@ export interface GetServiceRolloutRequest {
   serviceName: string;
   /** Required. The id of the rollout resource. */
   rolloutId: string;
+}
+export interface ReactiveGetServiceRolloutRequest {
+  serviceName: ComputedRef<string>;
+  rolloutId: ComputedRef<string>;
 }
 export interface GetServiceRolloutRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.GetServiceRolloutRequest";
@@ -408,6 +478,10 @@ export interface GenerateConfigReportRequest {
    */
   oldConfig?: Any;
 }
+export interface ReactiveGenerateConfigReportRequest {
+  newConfig?: ComputedRef<Any>;
+  oldConfig?: ComputedRef<Any>;
+}
 export interface GenerateConfigReportRequestProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.GenerateConfigReportRequest";
   value: Uint8Array;
@@ -434,6 +508,12 @@ export interface GenerateConfigReportResponse {
    * belongs to.
    */
   diagnostics: Diagnostic[];
+}
+export interface ReactiveGenerateConfigReportResponse {
+  serviceName: ComputedRef<string>;
+  id: ComputedRef<string>;
+  changeReports: ComputedRef<ChangeReport[]>;
+  diagnostics: ComputedRef<Diagnostic[]>;
 }
 export interface GenerateConfigReportResponseProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.GenerateConfigReportResponse";

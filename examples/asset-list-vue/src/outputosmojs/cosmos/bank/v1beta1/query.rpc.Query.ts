@@ -5,10 +5,9 @@ import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
 import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
 import { VueQueryParams } from "../../../vue-query";
-import { QueryAllBalancesRequest, QueryBalanceRequest, QueryBalanceRequestSDKType, QueryBalanceResponse, QueryBalanceResponseSDKType, QueryAllBalancesRequestSDKType, QueryAllBalancesResponse, QueryAllBalancesResponseSDKType, QuerySpendableBalancesRequest, QuerySpendableBalancesRequestSDKType, QuerySpendableBalancesResponse, QuerySpendableBalancesResponseSDKType, QueryTotalSupplyRequest, QueryTotalSupplyRequestSDKType, QueryTotalSupplyResponse, QueryTotalSupplyResponseSDKType, QuerySupplyOfRequest, QuerySupplyOfRequestSDKType, QuerySupplyOfResponse, QuerySupplyOfResponseSDKType, QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, QueryDenomMetadataRequest, QueryDenomMetadataRequestSDKType, QueryDenomMetadataResponse, QueryDenomMetadataResponseSDKType, QueryDenomsMetadataRequest, QueryDenomsMetadataRequestSDKType, QueryDenomsMetadataResponse, QueryDenomsMetadataResponseSDKType, QueryDenomOwnersRequest, QueryDenomOwnersRequestSDKType, QueryDenomOwnersResponse, QueryDenomOwnersResponseSDKType } from "./query";
-import { QueryAllBalancesRequest as QueryAllBalancesReq } from './query-vue'
+import { ComputedRef, computed, Ref } from "vue";
 import { useQuery } from "@tanstack/vue-query";
-import { Ref, computed, ComputedRef, reactive, Reactive } from 'vue'
+import { QueryBalanceRequest, QueryBalanceRequestSDKType, QueryBalanceResponse, QueryBalanceResponseSDKType, QueryAllBalancesRequest, QueryAllBalancesRequestSDKType, QueryAllBalancesResponse, QueryAllBalancesResponseSDKType, QuerySpendableBalancesRequest, QuerySpendableBalancesRequestSDKType, QuerySpendableBalancesResponse, QuerySpendableBalancesResponseSDKType, QueryTotalSupplyRequest, QueryTotalSupplyRequestSDKType, QueryTotalSupplyResponse, QueryTotalSupplyResponseSDKType, QuerySupplyOfRequest, QuerySupplyOfRequestSDKType, QuerySupplyOfResponse, QuerySupplyOfResponseSDKType, QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, QueryDenomMetadataRequest, QueryDenomMetadataRequestSDKType, QueryDenomMetadataResponse, QueryDenomMetadataResponseSDKType, QueryDenomsMetadataRequest, QueryDenomsMetadataRequestSDKType, QueryDenomsMetadataResponse, QueryDenomsMetadataResponseSDKType, QueryDenomOwnersRequest, QueryDenomOwnersRequestSDKType, QueryDenomOwnersResponse, QueryDenomOwnersResponseSDKType, ReactiveQueryBalanceRequest, ReactiveQueryAllBalancesRequest, ReactiveQuerySpendableBalancesRequest, ReactiveQueryTotalSupplyRequest, ReactiveQuerySupplyOfRequest, ReactiveQueryParamsRequest, ReactiveQueryDenomMetadataRequest, ReactiveQueryDenomsMetadataRequest, ReactiveQueryDenomOwnersRequest } from "./query";
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Balance queries the balance of a single coin for a single account. */
@@ -136,63 +135,294 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     }
   };
 };
-export interface UseAllBalancesQuery<TData> extends VueQueryParams<QueryAllBalancesResponse, TData> {
-  request: QueryAllBalancesReq;
+export interface UseBalanceQuery<TData> extends VueQueryParams<QueryBalanceResponse, TData> {
+  request: ReactiveQueryBalanceRequest;
 }
-// const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
-// const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
-//   if (!rpc) return;
-//   if (_queryClients.has(rpc)) {
-//     return _queryClients.get(rpc);
-//   }
-//   const queryService = new QueryClientImpl(rpc);
-//   _queryClients.set(rpc, queryService);
-//   return queryService;
-// };
-
-export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
-  const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
+export interface UseAllBalancesQuery<TData> extends VueQueryParams<QueryAllBalancesResponse, TData> {
+  request: ReactiveQueryAllBalancesRequest;
+}
+export interface UseSpendableBalancesQuery<TData> extends VueQueryParams<QuerySpendableBalancesResponse, TData> {
+  request: ReactiveQuerySpendableBalancesRequest;
+}
+export interface UseTotalSupplyQuery<TData> extends VueQueryParams<QueryTotalSupplyResponse, TData> {
+  request?: ReactiveQueryTotalSupplyRequest;
+}
+export interface UseSupplyOfQuery<TData> extends VueQueryParams<QuerySupplyOfResponse, TData> {
+  request: ReactiveQuerySupplyOfRequest;
+}
+export interface UseParamsQuery<TData> extends VueQueryParams<QueryParamsResponse, TData> {
+  request?: ReactiveQueryParamsRequest;
+}
+export interface UseDenomMetadataQuery<TData> extends VueQueryParams<QueryDenomMetadataResponse, TData> {
+  request: ReactiveQueryDenomMetadataRequest;
+}
+export interface UseDenomsMetadataQuery<TData> extends VueQueryParams<QueryDenomsMetadataResponse, TData> {
+  request?: ReactiveQueryDenomsMetadataRequest;
+}
+export interface UseDenomOwnersQuery<TData> extends VueQueryParams<QueryDenomOwnersResponse, TData> {
+  request: ReactiveQueryDenomOwnersRequest;
+}
+const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+  const _queryClients = new WeakMap();
   return computed(() => {
     if (rpc.value) {
       if (_queryClients.has(rpc.value)) {
-        return _queryClients.get(rpc.value)
+        return _queryClients.get(rpc.value);
       }
-      const queryService = new QueryClientImpl(rpc.value)
-      _queryClients.set(rpc.value, queryService)
-      return queryService
+      const queryService = new QueryClientImpl(rpc.value);
+      _queryClients.set(rpc.value, queryService);
+      return queryService;
     }
-  })
-}
-
-
+  });
+};
 export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => {
-  const queryService = useQueryService(rpc)
+  const queryService = useQueryService(rpc);
+  const useBalance = <TData = QueryBalanceResponse,>({
+    request,
+    options
+  }: UseBalanceQuery<TData>) => {
+    const queryKey = ["balanceQuery", queryService];
+    if (request) {
+      Object.values(request).forEach(val => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryBalanceResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.balance(params);
+      },
+      ...options
+    });
+  };
   const useAllBalances = <TData = QueryAllBalancesResponse,>({
     request,
     options
   }: UseAllBalancesQuery<TData>) => {
-    const queryKey = ['allBalancesQuery', queryService]
-    Object.values(request).forEach(val => {
-      queryKey.push(val)
-    });
+    const queryKey = ["allBalancesQuery", queryService];
+    if (request) {
+      Object.values(request).forEach(val => {
+        queryKey.push(val);
+      });
+    }
     return useQuery<QueryAllBalancesResponse, Error, TData>({
       queryKey,
       queryFn: () => {
         if (!queryService.value) throw new Error("Query Service not initialized");
-        let params = ({} as any)
-        Object.entries(request).forEach(([key, val]) => {
-          params[key] = val.value;
-        });
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
         return queryService.value.allBalances(params);
       },
       ...options
-    })
-    // return useQuery<QueryAllBalancesResponse, Error, TData>(["allBalancesQuery", request], () => {
-    //   if (!queryService) throw new Error("Query Service not initialized");
-    //   return queryService.allBalances(request);
-    // }, options);
+    });
+  };
+  const useSpendableBalances = <TData = QuerySpendableBalancesResponse,>({
+    request,
+    options
+  }: UseSpendableBalancesQuery<TData>) => {
+    const queryKey = ["spendableBalancesQuery", queryService];
+    if (request) {
+      Object.values(request).forEach(val => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QuerySpendableBalancesResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.spendableBalances(params);
+      },
+      ...options
+    });
+  };
+  const useTotalSupply = <TData = QueryTotalSupplyResponse,>({
+    request,
+    options
+  }: UseTotalSupplyQuery<TData>) => {
+    const queryKey = ["totalSupplyQuery", queryService];
+    if (request) {
+      Object.values(request).forEach(val => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryTotalSupplyResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.totalSupply(params);
+      },
+      ...options
+    });
+  };
+  const useSupplyOf = <TData = QuerySupplyOfResponse,>({
+    request,
+    options
+  }: UseSupplyOfQuery<TData>) => {
+    const queryKey = ["supplyOfQuery", queryService];
+    if (request) {
+      Object.values(request).forEach(val => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QuerySupplyOfResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.supplyOf(params);
+      },
+      ...options
+    });
+  };
+  const useParams = <TData = QueryParamsResponse,>({
+    request,
+    options
+  }: UseParamsQuery<TData>) => {
+    const queryKey = ["paramsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach(val => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryParamsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.params(params);
+      },
+      ...options
+    });
+  };
+  const useDenomMetadata = <TData = QueryDenomMetadataResponse,>({
+    request,
+    options
+  }: UseDenomMetadataQuery<TData>) => {
+    const queryKey = ["denomMetadataQuery", queryService];
+    if (request) {
+      Object.values(request).forEach(val => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryDenomMetadataResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.denomMetadata(params);
+      },
+      ...options
+    });
+  };
+  const useDenomsMetadata = <TData = QueryDenomsMetadataResponse,>({
+    request,
+    options
+  }: UseDenomsMetadataQuery<TData>) => {
+    const queryKey = ["denomsMetadataQuery", queryService];
+    if (request) {
+      Object.values(request).forEach(val => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryDenomsMetadataResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.denomsMetadata(params);
+      },
+      ...options
+    });
+  };
+  const useDenomOwners = <TData = QueryDenomOwnersResponse,>({
+    request,
+    options
+  }: UseDenomOwnersQuery<TData>) => {
+    const queryKey = ["denomOwnersQuery", queryService];
+    if (request) {
+      Object.values(request).forEach(val => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryDenomOwnersResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.denomOwners(params);
+      },
+      ...options
+    });
   };
   return {
+    /** Balance queries the balance of a single coin for a single account. */useBalance,
     /** AllBalances queries the balance of all coins for a single account. */useAllBalances,
+    /**
+     * SpendableBalances queries the spenable balance of all coins for a single
+     * account.
+     */
+    useSpendableBalances,
+    /** TotalSupply queries the total supply of all coins. */useTotalSupply,
+    /** SupplyOf queries the supply of a single coin. */useSupplyOf,
+    /** Params queries the parameters of x/bank module. */useParams,
+    /** DenomsMetadata queries the client metadata of a given coin denomination. */useDenomMetadata,
+    /**
+     * DenomsMetadata queries the client metadata for all registered coin
+     * denominations.
+     */
+    useDenomsMetadata,
+    /**
+     * DenomOwners queries for all account addresses that own a particular token
+     * denomination.
+     */
+    useDenomOwners
   };
-}
+};

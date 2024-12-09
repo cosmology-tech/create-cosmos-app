@@ -3,10 +3,15 @@ import { Timestamp, TimestampSDKType } from "../../../google/protobuf/timestamp"
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.downtimedetector.v1beta1";
 export interface GenesisDowntimeEntry {
   duration: Downtime;
   lastDowntime: Date;
+}
+export interface ReactiveGenesisDowntimeEntry {
+  duration: ComputedRef<Downtime>;
+  lastDowntime: ComputedRef<Date>;
 }
 export interface GenesisDowntimeEntryProtoMsg {
   typeUrl: "/osmosis.downtimedetector.v1beta1.GenesisDowntimeEntry";
@@ -20,6 +25,10 @@ export interface GenesisDowntimeEntrySDKType {
 export interface GenesisState {
   downtimes: GenesisDowntimeEntry[];
   lastBlockTime: Date;
+}
+export interface ReactiveGenesisState {
+  downtimes: ComputedRef<GenesisDowntimeEntry[]>;
+  lastBlockTime: ComputedRef<Date>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.downtimedetector.v1beta1.GenesisState";

@@ -3,6 +3,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.poolmanager.v1beta1";
 /** ===================== MsgSwapExactAmountIn */
 export interface MsgSwapExactAmountIn {
@@ -10,6 +11,12 @@ export interface MsgSwapExactAmountIn {
   routes: SwapAmountInRoute[];
   tokenIn: Coin;
   tokenOutMinAmount: string;
+}
+export interface ReactiveMsgSwapExactAmountIn {
+  sender: ComputedRef<string>;
+  routes: ComputedRef<SwapAmountInRoute[]>;
+  tokenIn: ComputedRef<Coin>;
+  tokenOutMinAmount: ComputedRef<string>;
 }
 export interface MsgSwapExactAmountInProtoMsg {
   typeUrl: "/osmosis.poolmanager.v1beta1.MsgSwapExactAmountIn";
@@ -25,6 +32,9 @@ export interface MsgSwapExactAmountInSDKType {
 export interface MsgSwapExactAmountInResponse {
   tokenOutAmount: string;
 }
+export interface ReactiveMsgSwapExactAmountInResponse {
+  tokenOutAmount: ComputedRef<string>;
+}
 export interface MsgSwapExactAmountInResponseProtoMsg {
   typeUrl: "/osmosis.poolmanager.v1beta1.MsgSwapExactAmountInResponse";
   value: Uint8Array;
@@ -39,6 +49,12 @@ export interface MsgSwapExactAmountOut {
   tokenInMaxAmount: string;
   tokenOut: Coin;
 }
+export interface ReactiveMsgSwapExactAmountOut {
+  sender: ComputedRef<string>;
+  routes: ComputedRef<SwapAmountOutRoute[]>;
+  tokenInMaxAmount: ComputedRef<string>;
+  tokenOut: ComputedRef<Coin>;
+}
 export interface MsgSwapExactAmountOutProtoMsg {
   typeUrl: "/osmosis.poolmanager.v1beta1.MsgSwapExactAmountOut";
   value: Uint8Array;
@@ -52,6 +68,9 @@ export interface MsgSwapExactAmountOutSDKType {
 }
 export interface MsgSwapExactAmountOutResponse {
   tokenInAmount: string;
+}
+export interface ReactiveMsgSwapExactAmountOutResponse {
+  tokenInAmount: ComputedRef<string>;
 }
 export interface MsgSwapExactAmountOutResponseProtoMsg {
   typeUrl: "/osmosis.poolmanager.v1beta1.MsgSwapExactAmountOutResponse";

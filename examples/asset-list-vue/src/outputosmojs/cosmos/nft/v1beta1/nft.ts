@@ -2,6 +2,7 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.nft.v1beta1";
 /** Class defines the class of the nft type. */
 export interface Class {
@@ -19,6 +20,15 @@ export interface Class {
   uriHash: string;
   /** data is the app specific metadata of the NFT class. Optional */
   data?: Any;
+}
+export interface ReactiveClass {
+  id: ComputedRef<string>;
+  name: ComputedRef<string>;
+  symbol: ComputedRef<string>;
+  description: ComputedRef<string>;
+  uri: ComputedRef<string>;
+  uriHash: ComputedRef<string>;
+  data?: ComputedRef<Any>;
 }
 export interface ClassProtoMsg {
   typeUrl: "/cosmos.nft.v1beta1.Class";
@@ -46,6 +56,13 @@ export interface NFT {
   uriHash: string;
   /** data is an app specific data of the NFT. Optional */
   data?: Any;
+}
+export interface ReactiveNFT {
+  classId: ComputedRef<string>;
+  id: ComputedRef<string>;
+  uri: ComputedRef<string>;
+  uriHash: ComputedRef<string>;
+  data?: ComputedRef<Any>;
 }
 export interface NFTProtoMsg {
   typeUrl: "/cosmos.nft.v1beta1.NFT";

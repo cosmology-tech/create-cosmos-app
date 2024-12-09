@@ -2,6 +2,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.gamm.v1beta1";
 /**
  * ===================== MsgJoinPool
@@ -12,6 +13,12 @@ export interface MsgJoinPool {
   poolId: bigint;
   shareOutAmount: string;
   tokenInMaxs: Coin[];
+}
+export interface ReactiveMsgJoinPool {
+  sender: ComputedRef<string>;
+  poolId: ComputedRef<bigint>;
+  shareOutAmount: ComputedRef<string>;
+  tokenInMaxs: ComputedRef<Coin[]>;
 }
 export interface MsgJoinPoolProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgJoinPool";
@@ -31,6 +38,10 @@ export interface MsgJoinPoolResponse {
   shareOutAmount: string;
   tokenIn: Coin[];
 }
+export interface ReactiveMsgJoinPoolResponse {
+  shareOutAmount: ComputedRef<string>;
+  tokenIn: ComputedRef<Coin[]>;
+}
 export interface MsgJoinPoolResponseProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgJoinPoolResponse";
   value: Uint8Array;
@@ -46,6 +57,12 @@ export interface MsgExitPool {
   shareInAmount: string;
   tokenOutMins: Coin[];
 }
+export interface ReactiveMsgExitPool {
+  sender: ComputedRef<string>;
+  poolId: ComputedRef<bigint>;
+  shareInAmount: ComputedRef<string>;
+  tokenOutMins: ComputedRef<Coin[]>;
+}
 export interface MsgExitPoolProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgExitPool";
   value: Uint8Array;
@@ -60,6 +77,9 @@ export interface MsgExitPoolSDKType {
 export interface MsgExitPoolResponse {
   tokenOut: Coin[];
 }
+export interface ReactiveMsgExitPoolResponse {
+  tokenOut: ComputedRef<Coin[]>;
+}
 export interface MsgExitPoolResponseProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgExitPoolResponse";
   value: Uint8Array;
@@ -71,6 +91,10 @@ export interface MsgExitPoolResponseSDKType {
 export interface SwapAmountInRoute {
   poolId: bigint;
   tokenOutDenom: string;
+}
+export interface ReactiveSwapAmountInRoute {
+  poolId: ComputedRef<bigint>;
+  tokenOutDenom: ComputedRef<string>;
 }
 export interface SwapAmountInRouteProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.SwapAmountInRoute";
@@ -87,6 +111,12 @@ export interface MsgSwapExactAmountIn {
   tokenIn: Coin;
   tokenOutMinAmount: string;
 }
+export interface ReactiveMsgSwapExactAmountIn {
+  sender: ComputedRef<string>;
+  routes: ComputedRef<SwapAmountInRoute[]>;
+  tokenIn: ComputedRef<Coin>;
+  tokenOutMinAmount: ComputedRef<string>;
+}
 export interface MsgSwapExactAmountInProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgSwapExactAmountIn";
   value: Uint8Array;
@@ -100,6 +130,9 @@ export interface MsgSwapExactAmountInSDKType {
 export interface MsgSwapExactAmountInResponse {
   tokenOutAmount: string;
 }
+export interface ReactiveMsgSwapExactAmountInResponse {
+  tokenOutAmount: ComputedRef<string>;
+}
 export interface MsgSwapExactAmountInResponseProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgSwapExactAmountInResponse";
   value: Uint8Array;
@@ -111,6 +144,10 @@ export interface MsgSwapExactAmountInResponseSDKType {
 export interface SwapAmountOutRoute {
   poolId: bigint;
   tokenInDenom: string;
+}
+export interface ReactiveSwapAmountOutRoute {
+  poolId: ComputedRef<bigint>;
+  tokenInDenom: ComputedRef<string>;
 }
 export interface SwapAmountOutRouteProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.SwapAmountOutRoute";
@@ -127,6 +164,12 @@ export interface MsgSwapExactAmountOut {
   tokenInMaxAmount: string;
   tokenOut: Coin;
 }
+export interface ReactiveMsgSwapExactAmountOut {
+  sender: ComputedRef<string>;
+  routes: ComputedRef<SwapAmountOutRoute[]>;
+  tokenInMaxAmount: ComputedRef<string>;
+  tokenOut: ComputedRef<Coin>;
+}
 export interface MsgSwapExactAmountOutProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgSwapExactAmountOut";
   value: Uint8Array;
@@ -139,6 +182,9 @@ export interface MsgSwapExactAmountOutSDKType {
 }
 export interface MsgSwapExactAmountOutResponse {
   tokenInAmount: string;
+}
+export interface ReactiveMsgSwapExactAmountOutResponse {
+  tokenInAmount: ComputedRef<string>;
 }
 export interface MsgSwapExactAmountOutResponseProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgSwapExactAmountOutResponse";
@@ -157,6 +203,12 @@ export interface MsgJoinSwapExternAmountIn {
   tokenIn: Coin;
   shareOutMinAmount: string;
 }
+export interface ReactiveMsgJoinSwapExternAmountIn {
+  sender: ComputedRef<string>;
+  poolId: ComputedRef<bigint>;
+  tokenIn: ComputedRef<Coin>;
+  shareOutMinAmount: ComputedRef<string>;
+}
 export interface MsgJoinSwapExternAmountInProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgJoinSwapExternAmountIn";
   value: Uint8Array;
@@ -174,6 +226,9 @@ export interface MsgJoinSwapExternAmountInSDKType {
 export interface MsgJoinSwapExternAmountInResponse {
   shareOutAmount: string;
 }
+export interface ReactiveMsgJoinSwapExternAmountInResponse {
+  shareOutAmount: ComputedRef<string>;
+}
 export interface MsgJoinSwapExternAmountInResponseProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgJoinSwapExternAmountInResponse";
   value: Uint8Array;
@@ -188,6 +243,13 @@ export interface MsgJoinSwapShareAmountOut {
   tokenInDenom: string;
   shareOutAmount: string;
   tokenInMaxAmount: string;
+}
+export interface ReactiveMsgJoinSwapShareAmountOut {
+  sender: ComputedRef<string>;
+  poolId: ComputedRef<bigint>;
+  tokenInDenom: ComputedRef<string>;
+  shareOutAmount: ComputedRef<string>;
+  tokenInMaxAmount: ComputedRef<string>;
 }
 export interface MsgJoinSwapShareAmountOutProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgJoinSwapShareAmountOut";
@@ -204,6 +266,9 @@ export interface MsgJoinSwapShareAmountOutSDKType {
 export interface MsgJoinSwapShareAmountOutResponse {
   tokenInAmount: string;
 }
+export interface ReactiveMsgJoinSwapShareAmountOutResponse {
+  tokenInAmount: ComputedRef<string>;
+}
 export interface MsgJoinSwapShareAmountOutResponseProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse";
   value: Uint8Array;
@@ -218,6 +283,13 @@ export interface MsgExitSwapShareAmountIn {
   tokenOutDenom: string;
   shareInAmount: string;
   tokenOutMinAmount: string;
+}
+export interface ReactiveMsgExitSwapShareAmountIn {
+  sender: ComputedRef<string>;
+  poolId: ComputedRef<bigint>;
+  tokenOutDenom: ComputedRef<string>;
+  shareInAmount: ComputedRef<string>;
+  tokenOutMinAmount: ComputedRef<string>;
 }
 export interface MsgExitSwapShareAmountInProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgExitSwapShareAmountIn";
@@ -234,6 +306,9 @@ export interface MsgExitSwapShareAmountInSDKType {
 export interface MsgExitSwapShareAmountInResponse {
   tokenOutAmount: string;
 }
+export interface ReactiveMsgExitSwapShareAmountInResponse {
+  tokenOutAmount: ComputedRef<string>;
+}
 export interface MsgExitSwapShareAmountInResponseProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgExitSwapShareAmountInResponse";
   value: Uint8Array;
@@ -248,6 +323,12 @@ export interface MsgExitSwapExternAmountOut {
   tokenOut: Coin;
   shareInMaxAmount: string;
 }
+export interface ReactiveMsgExitSwapExternAmountOut {
+  sender: ComputedRef<string>;
+  poolId: ComputedRef<bigint>;
+  tokenOut: ComputedRef<Coin>;
+  shareInMaxAmount: ComputedRef<string>;
+}
 export interface MsgExitSwapExternAmountOutProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgExitSwapExternAmountOut";
   value: Uint8Array;
@@ -261,6 +342,9 @@ export interface MsgExitSwapExternAmountOutSDKType {
 }
 export interface MsgExitSwapExternAmountOutResponse {
   shareInAmount: string;
+}
+export interface ReactiveMsgExitSwapExternAmountOutResponse {
+  shareInAmount: ComputedRef<string>;
 }
 export interface MsgExitSwapExternAmountOutResponseProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.MsgExitSwapExternAmountOutResponse";

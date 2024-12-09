@@ -2,7 +2,7 @@ import { Params, ParamsSDKType } from "./controller";
 import { Rpc } from "../../../../../helpers";
 import { BinaryReader } from "../../../../../binary";
 import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
-import { QueryInterchainAccountRequest, QueryInterchainAccountRequestSDKType, QueryInterchainAccountResponse, QueryInterchainAccountResponseSDKType, QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType } from "./query";
+import { QueryInterchainAccountRequest, QueryInterchainAccountRequestSDKType, QueryInterchainAccountResponse, QueryInterchainAccountResponseSDKType, QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, ReactiveQueryInterchainAccountRequest, ReactiveQueryParamsRequest } from "./query";
 /** Query provides defines the gRPC querier service. */
 export interface Query {
   /** InterchainAccount returns the interchain account address for a given owner address on a given connection */

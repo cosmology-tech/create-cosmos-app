@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * Classifies set of possible modifications to an object in the service
@@ -101,6 +102,13 @@ export interface ConfigChange {
    */
   advices: Advice[];
 }
+export interface ReactiveConfigChange {
+  element: ComputedRef<string>;
+  oldValue: ComputedRef<string>;
+  newValue: ComputedRef<string>;
+  changeType: ComputedRef<ChangeType>;
+  advices: ComputedRef<Advice[]>;
+}
 export interface ConfigChangeProtoMsg {
   typeUrl: "/google.api.ConfigChange";
   value: Uint8Array;
@@ -130,6 +138,9 @@ export interface Advice {
    * be taken to mitigate any implied risks.
    */
   description: string;
+}
+export interface ReactiveAdvice {
+  description: ComputedRef<string>;
 }
 export interface AdviceProtoMsg {
   typeUrl: "/google.api.Advice";

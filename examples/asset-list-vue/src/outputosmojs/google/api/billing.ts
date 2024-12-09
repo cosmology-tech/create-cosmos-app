@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * Billing related configuration of the service.
@@ -44,6 +45,9 @@ export interface Billing {
    * one consumer destination.
    */
   consumerDestinations: Billing_BillingDestination[];
+}
+export interface ReactiveBilling {
+  consumerDestinations: ComputedRef<Billing_BillingDestination[]>;
 }
 export interface BillingProtoMsg {
   typeUrl: "/google.api.Billing";
@@ -101,6 +105,10 @@ export interface Billing_BillingDestination {
    * Each name must be defined in [Service.metrics][google.api.Service.metrics] section.
    */
   metrics: string[];
+}
+export interface ReactiveBilling_BillingDestination {
+  monitoredResource: ComputedRef<string>;
+  metrics: ComputedRef<string[]>;
 }
 export interface Billing_BillingDestinationProtoMsg {
   typeUrl: "/google.api.BillingDestination";

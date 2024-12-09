@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * `Documentation` provides the information for describing a service.
@@ -99,6 +100,14 @@ export interface Documentation {
    */
   overview: string;
 }
+export interface ReactiveDocumentation {
+  summary: ComputedRef<string>;
+  pages: ComputedRef<Page[]>;
+  rules: ComputedRef<DocumentationRule[]>;
+  documentationRootUrl: ComputedRef<string>;
+  serviceRootUrl: ComputedRef<string>;
+  overview: ComputedRef<string>;
+}
 export interface DocumentationProtoMsg {
   typeUrl: "/google.api.Documentation";
   value: Uint8Array;
@@ -187,6 +196,11 @@ export interface DocumentationRule {
    */
   deprecationDescription: string;
 }
+export interface ReactiveDocumentationRule {
+  selector: ComputedRef<string>;
+  description: ComputedRef<string>;
+  deprecationDescription: ComputedRef<string>;
+}
 export interface DocumentationRuleProtoMsg {
   typeUrl: "/google.api.DocumentationRule";
   value: Uint8Array;
@@ -229,6 +243,11 @@ export interface Page {
    * honored in the generated docset.
    */
   subpages: Page[];
+}
+export interface ReactivePage {
+  name: ComputedRef<string>;
+  content: ComputedRef<string>;
+  subpages: ComputedRef<Page[]>;
 }
 export interface PageProtoMsg {
   typeUrl: "/google.api.Page";

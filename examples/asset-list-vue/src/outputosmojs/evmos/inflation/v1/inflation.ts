@@ -2,6 +2,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.inflation.v1";
 /**
  * InflationDistribution defines the distribution in which inflation is
@@ -28,6 +29,11 @@ export interface InflationDistribution {
    * be allocated to the community pool
    */
   communityPool: string;
+}
+export interface ReactiveInflationDistribution {
+  stakingRewards: ComputedRef<string>;
+  usageIncentives: ComputedRef<string>;
+  communityPool: ComputedRef<string>;
 }
 export interface InflationDistributionProtoMsg {
   typeUrl: "/evmos.inflation.v1.InflationDistribution";
@@ -65,6 +71,13 @@ export interface ExponentialCalculation {
   bondingTarget: string;
   /** max variance */
   maxVariance: string;
+}
+export interface ReactiveExponentialCalculation {
+  a: ComputedRef<string>;
+  r: ComputedRef<string>;
+  c: ComputedRef<string>;
+  bondingTarget: ComputedRef<string>;
+  maxVariance: ComputedRef<string>;
 }
 export interface ExponentialCalculationProtoMsg {
   typeUrl: "/evmos.inflation.v1.ExponentialCalculation";

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.protorev.v1beta1";
 /** Params defines the parameters for the module. */
 export interface Params {
@@ -8,6 +9,10 @@ export interface Params {
   enabled: boolean;
   /** The admin account (settings manager) of the protorev module. */
   admin: string;
+}
+export interface ReactiveParams {
+  enabled: ComputedRef<boolean>;
+  admin: ComputedRef<string>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.Params";

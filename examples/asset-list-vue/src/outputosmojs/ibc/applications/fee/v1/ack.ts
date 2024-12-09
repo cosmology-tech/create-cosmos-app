@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.fee.v1";
 /** IncentivizedAcknowledgement is the acknowledgement format to be used by applications wrapped in the fee middleware */
 export interface IncentivizedAcknowledgement {
@@ -10,6 +11,11 @@ export interface IncentivizedAcknowledgement {
   forwardRelayerAddress: string;
   /** success flag of the base application callback */
   underlyingAppSuccess: boolean;
+}
+export interface ReactiveIncentivizedAcknowledgement {
+  appAcknowledgement: ComputedRef<Uint8Array>;
+  forwardRelayerAddress: ComputedRef<string>;
+  underlyingAppSuccess: ComputedRef<boolean>;
 }
 export interface IncentivizedAcknowledgementProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.IncentivizedAcknowledgement";

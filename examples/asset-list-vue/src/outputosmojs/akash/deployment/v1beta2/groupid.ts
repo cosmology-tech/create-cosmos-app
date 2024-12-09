@@ -1,12 +1,18 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta2";
 /** GroupID stores owner, deployment sequence number and group sequence number */
 export interface GroupID {
   owner: string;
   dseq: bigint;
   gseq: number;
+}
+export interface ReactiveGroupID {
+  owner: ComputedRef<string>;
+  dseq: ComputedRef<bigint>;
+  gseq: ComputedRef<number>;
 }
 export interface GroupIDProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.GroupID";

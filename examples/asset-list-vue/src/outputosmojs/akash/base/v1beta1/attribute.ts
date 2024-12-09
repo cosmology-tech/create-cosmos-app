@@ -1,11 +1,16 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.base.v1beta1";
 /** Attribute represents key value pair */
 export interface Attribute {
   key: string;
   value: string;
+}
+export interface ReactiveAttribute {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface AttributeProtoMsg {
   typeUrl: "/akash.base.v1beta1.Attribute";
@@ -28,6 +33,10 @@ export interface SignedBy {
   /** any_of at least of of the keys from the list must have signed attributes */
   anyOf: string[];
 }
+export interface ReactiveSignedBy {
+  allOf: ComputedRef<string[]>;
+  anyOf: ComputedRef<string[]>;
+}
 export interface SignedByProtoMsg {
   typeUrl: "/akash.base.v1beta1.SignedBy";
   value: Uint8Array;
@@ -48,6 +57,10 @@ export interface PlacementRequirements {
   signedBy: SignedBy;
   /** Attribute list of attributes tenant expects from the provider */
   attributes: Attribute[];
+}
+export interface ReactivePlacementRequirements {
+  signedBy: ComputedRef<SignedBy>;
+  attributes: ComputedRef<Attribute[]>;
 }
 export interface PlacementRequirementsProtoMsg {
   typeUrl: "/akash.base.v1beta1.PlacementRequirements";

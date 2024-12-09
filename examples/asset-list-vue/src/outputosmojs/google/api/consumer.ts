@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /** Supported data type of the property values */
 export enum Property_PropertyType {
@@ -79,6 +80,9 @@ export interface ProjectProperties {
   /** List of per consumer project-specific properties. */
   properties: Property[];
 }
+export interface ReactiveProjectProperties {
+  properties: ComputedRef<Property[]>;
+}
 export interface ProjectPropertiesProtoMsg {
   typeUrl: "/google.api.ProjectProperties";
   value: Uint8Array;
@@ -123,6 +127,11 @@ export interface Property {
   type: Property_PropertyType;
   /** The description of the property */
   description: string;
+}
+export interface ReactiveProperty {
+  name: ComputedRef<string>;
+  type: ComputedRef<Property_PropertyType>;
+  description: ComputedRef<string>;
 }
 export interface PropertyProtoMsg {
   typeUrl: "/google.api.Property";

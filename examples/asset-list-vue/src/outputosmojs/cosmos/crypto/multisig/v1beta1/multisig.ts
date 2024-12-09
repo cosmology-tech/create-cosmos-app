@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { bytesFromBase64, base64FromBytes, DeepPartial, isSet } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.crypto.multisig.v1beta1";
 /**
  * MultiSignature wraps the signatures from a multisig.LegacyAminoPubKey.
@@ -9,6 +10,9 @@ export const protobufPackage = "cosmos.crypto.multisig.v1beta1";
  */
 export interface MultiSignature {
   signatures: Uint8Array[];
+}
+export interface ReactiveMultiSignature {
+  signatures: ComputedRef<Uint8Array[]>;
 }
 export interface MultiSignatureProtoMsg {
   typeUrl: "/cosmos.crypto.multisig.v1beta1.MultiSignature";
@@ -31,6 +35,10 @@ export interface MultiSignatureSDKType {
 export interface CompactBitArray {
   extraBitsStored: number;
   elems: Uint8Array;
+}
+export interface ReactiveCompactBitArray {
+  extraBitsStored: ComputedRef<number>;
+  elems: ComputedRef<Uint8Array>;
 }
 export interface CompactBitArrayProtoMsg {
   typeUrl: "/cosmos.crypto.multisig.v1beta1.CompactBitArray";

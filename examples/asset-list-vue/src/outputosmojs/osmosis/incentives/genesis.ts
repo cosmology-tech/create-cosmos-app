@@ -4,6 +4,7 @@ import { Duration, DurationSDKType } from "../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.incentives";
 /**
  * GenesisState defines the incentives module's various parameters when first
@@ -24,6 +25,12 @@ export interface GenesisState {
    * the next gauge after genesis
    */
   lastGaugeId: bigint;
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  gauges: ComputedRef<Gauge[]>;
+  lockableDurations: ComputedRef<Duration[]>;
+  lastGaugeId: ComputedRef<bigint>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.incentives.GenesisState";

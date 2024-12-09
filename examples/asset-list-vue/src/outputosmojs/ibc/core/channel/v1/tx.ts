@@ -3,6 +3,7 @@ import { Height, HeightSDKType } from "../../client/v1/client";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.channel.v1";
 /**
  * MsgChannelOpenInit defines an sdk.Msg to initialize a channel handshake. It
@@ -12,6 +13,11 @@ export interface MsgChannelOpenInit {
   portId: string;
   channel: Channel;
   signer: string;
+}
+export interface ReactiveMsgChannelOpenInit {
+  portId: ComputedRef<string>;
+  channel: ComputedRef<Channel>;
+  signer: ComputedRef<string>;
 }
 export interface MsgChannelOpenInitProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenInit";
@@ -28,6 +34,7 @@ export interface MsgChannelOpenInitSDKType {
 }
 /** MsgChannelOpenInitResponse defines the Msg/ChannelOpenInit response type. */
 export interface MsgChannelOpenInitResponse {}
+export interface ReactiveMsgChannelOpenInitResponse {}
 export interface MsgChannelOpenInitResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenInitResponse";
   value: Uint8Array;
@@ -51,6 +58,15 @@ export interface MsgChannelOpenTry {
   proofHeight: Height;
   signer: string;
 }
+export interface ReactiveMsgChannelOpenTry {
+  portId: ComputedRef<string>;
+  previousChannelId: ComputedRef<string>;
+  channel: ComputedRef<Channel>;
+  counterpartyVersion: ComputedRef<string>;
+  proofInit: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+  signer: ComputedRef<string>;
+}
 export interface MsgChannelOpenTryProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenTry";
   value: Uint8Array;
@@ -70,6 +86,7 @@ export interface MsgChannelOpenTrySDKType {
 }
 /** MsgChannelOpenTryResponse defines the Msg/ChannelOpenTry response type. */
 export interface MsgChannelOpenTryResponse {}
+export interface ReactiveMsgChannelOpenTryResponse {}
 export interface MsgChannelOpenTryResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenTryResponse";
   value: Uint8Array;
@@ -88,6 +105,15 @@ export interface MsgChannelOpenAck {
   proofTry: Uint8Array;
   proofHeight: Height;
   signer: string;
+}
+export interface ReactiveMsgChannelOpenAck {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  counterpartyChannelId: ComputedRef<string>;
+  counterpartyVersion: ComputedRef<string>;
+  proofTry: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+  signer: ComputedRef<string>;
 }
 export interface MsgChannelOpenAckProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenAck";
@@ -108,6 +134,7 @@ export interface MsgChannelOpenAckSDKType {
 }
 /** MsgChannelOpenAckResponse defines the Msg/ChannelOpenAck response type. */
 export interface MsgChannelOpenAckResponse {}
+export interface ReactiveMsgChannelOpenAckResponse {}
 export interface MsgChannelOpenAckResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenAckResponse";
   value: Uint8Array;
@@ -124,6 +151,13 @@ export interface MsgChannelOpenConfirm {
   proofAck: Uint8Array;
   proofHeight: Height;
   signer: string;
+}
+export interface ReactiveMsgChannelOpenConfirm {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  proofAck: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+  signer: ComputedRef<string>;
 }
 export interface MsgChannelOpenConfirmProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenConfirm";
@@ -145,6 +179,7 @@ export interface MsgChannelOpenConfirmSDKType {
  * type.
  */
 export interface MsgChannelOpenConfirmResponse {}
+export interface ReactiveMsgChannelOpenConfirmResponse {}
 export interface MsgChannelOpenConfirmResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgChannelOpenConfirmResponse";
   value: Uint8Array;
@@ -163,6 +198,11 @@ export interface MsgChannelCloseInit {
   channelId: string;
   signer: string;
 }
+export interface ReactiveMsgChannelCloseInit {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  signer: ComputedRef<string>;
+}
 export interface MsgChannelCloseInitProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgChannelCloseInit";
   value: Uint8Array;
@@ -178,6 +218,7 @@ export interface MsgChannelCloseInitSDKType {
 }
 /** MsgChannelCloseInitResponse defines the Msg/ChannelCloseInit response type. */
 export interface MsgChannelCloseInitResponse {}
+export interface ReactiveMsgChannelCloseInitResponse {}
 export interface MsgChannelCloseInitResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgChannelCloseInitResponse";
   value: Uint8Array;
@@ -194,6 +235,13 @@ export interface MsgChannelCloseConfirm {
   proofInit: Uint8Array;
   proofHeight: Height;
   signer: string;
+}
+export interface ReactiveMsgChannelCloseConfirm {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  proofInit: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+  signer: ComputedRef<string>;
 }
 export interface MsgChannelCloseConfirmProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgChannelCloseConfirm";
@@ -215,6 +263,7 @@ export interface MsgChannelCloseConfirmSDKType {
  * type.
  */
 export interface MsgChannelCloseConfirmResponse {}
+export interface ReactiveMsgChannelCloseConfirmResponse {}
 export interface MsgChannelCloseConfirmResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgChannelCloseConfirmResponse";
   value: Uint8Array;
@@ -231,6 +280,12 @@ export interface MsgRecvPacket {
   proofHeight: Height;
   signer: string;
 }
+export interface ReactiveMsgRecvPacket {
+  packet: ComputedRef<Packet>;
+  proofCommitment: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+  signer: ComputedRef<string>;
+}
 export interface MsgRecvPacketProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgRecvPacket";
   value: Uint8Array;
@@ -244,6 +299,7 @@ export interface MsgRecvPacketSDKType {
 }
 /** MsgRecvPacketResponse defines the Msg/RecvPacket response type. */
 export interface MsgRecvPacketResponse {}
+export interface ReactiveMsgRecvPacketResponse {}
 export interface MsgRecvPacketResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgRecvPacketResponse";
   value: Uint8Array;
@@ -257,6 +313,13 @@ export interface MsgTimeout {
   proofHeight: Height;
   nextSequenceRecv: bigint;
   signer: string;
+}
+export interface ReactiveMsgTimeout {
+  packet: ComputedRef<Packet>;
+  proofUnreceived: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+  nextSequenceRecv: ComputedRef<bigint>;
+  signer: ComputedRef<string>;
 }
 export interface MsgTimeoutProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgTimeout";
@@ -272,6 +335,7 @@ export interface MsgTimeoutSDKType {
 }
 /** MsgTimeoutResponse defines the Msg/Timeout response type. */
 export interface MsgTimeoutResponse {}
+export interface ReactiveMsgTimeoutResponse {}
 export interface MsgTimeoutResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgTimeoutResponse";
   value: Uint8Array;
@@ -286,6 +350,14 @@ export interface MsgTimeoutOnClose {
   proofHeight: Height;
   nextSequenceRecv: bigint;
   signer: string;
+}
+export interface ReactiveMsgTimeoutOnClose {
+  packet: ComputedRef<Packet>;
+  proofUnreceived: ComputedRef<Uint8Array>;
+  proofClose: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+  nextSequenceRecv: ComputedRef<bigint>;
+  signer: ComputedRef<string>;
 }
 export interface MsgTimeoutOnCloseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgTimeoutOnClose";
@@ -302,6 +374,7 @@ export interface MsgTimeoutOnCloseSDKType {
 }
 /** MsgTimeoutOnCloseResponse defines the Msg/TimeoutOnClose response type. */
 export interface MsgTimeoutOnCloseResponse {}
+export interface ReactiveMsgTimeoutOnCloseResponse {}
 export interface MsgTimeoutOnCloseResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgTimeoutOnCloseResponse";
   value: Uint8Array;
@@ -315,6 +388,13 @@ export interface MsgAcknowledgement {
   proofAcked: Uint8Array;
   proofHeight: Height;
   signer: string;
+}
+export interface ReactiveMsgAcknowledgement {
+  packet: ComputedRef<Packet>;
+  acknowledgement: ComputedRef<Uint8Array>;
+  proofAcked: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+  signer: ComputedRef<string>;
 }
 export interface MsgAcknowledgementProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgAcknowledgement";
@@ -330,6 +410,7 @@ export interface MsgAcknowledgementSDKType {
 }
 /** MsgAcknowledgementResponse defines the Msg/Acknowledgement response type. */
 export interface MsgAcknowledgementResponse {}
+export interface ReactiveMsgAcknowledgementResponse {}
 export interface MsgAcknowledgementResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.MsgAcknowledgementResponse";
   value: Uint8Array;

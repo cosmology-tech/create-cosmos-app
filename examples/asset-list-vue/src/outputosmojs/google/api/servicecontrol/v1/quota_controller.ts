@@ -3,6 +3,7 @@ import { Status, StatusSDKType } from "../../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, isObject } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /** Supported quota modes. */
 export enum QuotaOperation_QuotaMode {
@@ -190,6 +191,11 @@ export interface AllocateQuotaRequest {
    */
   serviceConfigId: string;
 }
+export interface ReactiveAllocateQuotaRequest {
+  serviceName: ComputedRef<string>;
+  allocateOperation?: ComputedRef<QuotaOperation>;
+  serviceConfigId: ComputedRef<string>;
+}
 export interface AllocateQuotaRequestProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.AllocateQuotaRequest";
   value: Uint8Array;
@@ -203,6 +209,10 @@ export interface AllocateQuotaRequestSDKType {
 export interface QuotaOperation_LabelsEntry {
   key: string;
   value: string;
+}
+export interface ReactiveQuotaOperation_LabelsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface QuotaOperation_LabelsEntryProtoMsg {
   typeUrl: string;
@@ -271,6 +281,16 @@ export interface QuotaOperation {
   /** Quota mode for this operation. */
   quotaMode: QuotaOperation_QuotaMode;
 }
+export interface ReactiveQuotaOperation {
+  operationId: ComputedRef<string>;
+  methodName: ComputedRef<string>;
+  consumerId: ComputedRef<string>;
+  labels: ComputedRef<{
+    [key: string]: string;
+  }>;
+  quotaMetrics: ComputedRef<MetricValueSet[]>;
+  quotaMode: ComputedRef<QuotaOperation_QuotaMode>;
+}
 export interface QuotaOperationProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.QuotaOperation";
   value: Uint8Array;
@@ -311,6 +331,12 @@ export interface AllocateQuotaResponse {
   /** ID of the actual config used to process the request. */
   serviceConfigId: string;
 }
+export interface ReactiveAllocateQuotaResponse {
+  operationId: ComputedRef<string>;
+  allocateErrors: ComputedRef<QuotaError[]>;
+  quotaMetrics: ComputedRef<MetricValueSet[]>;
+  serviceConfigId: ComputedRef<string>;
+}
 export interface AllocateQuotaResponseProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.AllocateQuotaResponse";
   value: Uint8Array;
@@ -339,6 +365,12 @@ export interface QuotaError {
    * If available, `status.code` will be non zero.
    */
   status?: Status;
+}
+export interface ReactiveQuotaError {
+  code: ComputedRef<QuotaError_Code>;
+  subject: ComputedRef<string>;
+  description: ComputedRef<string>;
+  status?: ComputedRef<Status>;
 }
 export interface QuotaErrorProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.QuotaError";

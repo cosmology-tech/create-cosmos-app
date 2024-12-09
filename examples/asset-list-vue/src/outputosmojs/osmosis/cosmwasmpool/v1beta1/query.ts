@@ -2,9 +2,11 @@ import { Params, ParamsSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.cosmwasmpool.v1beta1";
 /** =============================== Params */
 export interface ParamsRequest {}
+export interface ReactiveParamsRequest {}
 export interface ParamsRequestProtoMsg {
   typeUrl: "/osmosis.cosmwasmpool.v1beta1.ParamsRequest";
   value: Uint8Array;
@@ -13,6 +15,9 @@ export interface ParamsRequestProtoMsg {
 export interface ParamsRequestSDKType {}
 export interface ParamsResponse {
   params: Params;
+}
+export interface ReactiveParamsResponse {
+  params: ComputedRef<Params>;
 }
 export interface ParamsResponseProtoMsg {
   typeUrl: "/osmosis.cosmwasmpool.v1beta1.ParamsResponse";

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../../binary";
 import { isSet, DeepPartial } from "../../../../../helpers";
 import { JsonSafe } from "../../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.interchain_accounts.host.v1";
 /**
  * Params defines the set of on-chain interchain accounts parameters.
@@ -11,6 +12,10 @@ export interface Params {
   hostEnabled: boolean;
   /** allow_messages defines a list of sdk message typeURLs allowed to be executed on a host chain. */
   allowMessages: string[];
+}
+export interface ReactiveParams {
+  hostEnabled: ComputedRef<boolean>;
+  allowMessages: ComputedRef<string[]>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.host.v1.Params";

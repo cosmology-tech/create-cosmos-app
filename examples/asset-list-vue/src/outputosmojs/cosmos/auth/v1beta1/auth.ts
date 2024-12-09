@@ -2,6 +2,7 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.auth.v1beta1";
 /**
  * BaseAccount defines a base account type. It contains all the necessary fields
@@ -13,6 +14,12 @@ export interface BaseAccount {
   pubKey?: Any;
   accountNumber: bigint;
   sequence: bigint;
+}
+export interface ReactiveBaseAccount {
+  address: ComputedRef<string>;
+  pubKey?: ComputedRef<Any>;
+  accountNumber: ComputedRef<bigint>;
+  sequence: ComputedRef<bigint>;
 }
 export interface BaseAccountProtoMsg {
   typeUrl: "/cosmos.auth.v1beta1.BaseAccount";
@@ -35,6 +42,11 @@ export interface ModuleAccount {
   name: string;
   permissions: string[];
 }
+export interface ReactiveModuleAccount {
+  baseAccount?: ComputedRef<BaseAccount>;
+  name: ComputedRef<string>;
+  permissions: ComputedRef<string[]>;
+}
 export interface ModuleAccountProtoMsg {
   typeUrl: "/cosmos.auth.v1beta1.ModuleAccount";
   value: Uint8Array;
@@ -52,6 +64,13 @@ export interface Params {
   txSizeCostPerByte: bigint;
   sigVerifyCostEd25519: bigint;
   sigVerifyCostSecp256k1: bigint;
+}
+export interface ReactiveParams {
+  maxMemoCharacters: ComputedRef<bigint>;
+  txSigLimit: ComputedRef<bigint>;
+  txSizeCostPerByte: ComputedRef<bigint>;
+  sigVerifyCostEd25519: ComputedRef<bigint>;
+  sigVerifyCostSecp256k1: ComputedRef<bigint>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/cosmos.auth.v1beta1.Params";

@@ -3,6 +3,7 @@ import { NullValue, NullValueSDKType, nullValueFromJSON, nullValueToJSON } from 
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.expr.v1beta1";
 /** An expression together with source information as returned by the parser. */
 export interface ParsedExpr {
@@ -12,6 +13,11 @@ export interface ParsedExpr {
   sourceInfo?: SourceInfo;
   /** The syntax version of the source, e.g. `cel1`. */
   syntaxVersion: string;
+}
+export interface ReactiveParsedExpr {
+  expr?: ComputedRef<Expr>;
+  sourceInfo?: ComputedRef<SourceInfo>;
+  syntaxVersion: ComputedRef<string>;
 }
 export interface ParsedExprProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.ParsedExpr";
@@ -62,6 +68,16 @@ export interface Expr {
   /** A comprehension expression. */
   comprehensionExpr?: Expr_Comprehension;
 }
+export interface ReactiveExpr {
+  id: ComputedRef<number>;
+  literalExpr?: ComputedRef<Literal>;
+  identExpr?: ComputedRef<Expr_Ident>;
+  selectExpr?: ComputedRef<Expr_Select>;
+  callExpr?: ComputedRef<Expr_Call>;
+  listExpr?: ComputedRef<Expr_CreateList>;
+  structExpr?: ComputedRef<Expr_CreateStruct>;
+  comprehensionExpr?: ComputedRef<Expr_Comprehension>;
+}
 export interface ExprProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.Expr";
   value: Uint8Array;
@@ -103,6 +119,9 @@ export interface Expr_Ident {
    */
   name: string;
 }
+export interface ReactiveExpr_Ident {
+  name: ComputedRef<string>;
+}
 export interface Expr_IdentProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.Ident";
   value: Uint8Array;
@@ -134,6 +153,11 @@ export interface Expr_Select {
    */
   testOnly: boolean;
 }
+export interface ReactiveExpr_Select {
+  operand?: ComputedRef<Expr>;
+  field: ComputedRef<string>;
+  testOnly: ComputedRef<boolean>;
+}
 export interface Expr_SelectProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.Select";
   value: Uint8Array;
@@ -160,6 +184,11 @@ export interface Expr_Call {
   /** The arguments. */
   args: Expr[];
 }
+export interface ReactiveExpr_Call {
+  target?: ComputedRef<Expr>;
+  function: ComputedRef<string>;
+  args: ComputedRef<Expr[]>;
+}
 export interface Expr_CallProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.Call";
   value: Uint8Array;
@@ -183,6 +212,9 @@ export interface Expr_CallSDKType {
 export interface Expr_CreateList {
   /** The elements part of the list. */
   elements: Expr[];
+}
+export interface ReactiveExpr_CreateList {
+  elements: ComputedRef<Expr[]>;
 }
 export interface Expr_CreateListProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.CreateList";
@@ -213,6 +245,10 @@ export interface Expr_CreateStruct {
   /** The entries in the creation expression. */
   entries: Expr_CreateStruct_Entry[];
 }
+export interface ReactiveExpr_CreateStruct {
+  type: ComputedRef<string>;
+  entries: ComputedRef<Expr_CreateStruct_Entry[]>;
+}
 export interface Expr_CreateStructProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.CreateStruct";
   value: Uint8Array;
@@ -242,6 +278,12 @@ export interface Expr_CreateStruct_Entry {
   mapKey?: Expr;
   /** Required. The value assigned to the key. */
   value?: Expr;
+}
+export interface ReactiveExpr_CreateStruct_Entry {
+  id: ComputedRef<number>;
+  fieldKey?: ComputedRef<string>;
+  mapKey?: ComputedRef<Expr>;
+  value?: ComputedRef<Expr>;
 }
 export interface Expr_CreateStruct_EntryProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.Entry";
@@ -310,6 +352,15 @@ export interface Expr_Comprehension {
    * Computes the result.
    */
   result?: Expr;
+}
+export interface ReactiveExpr_Comprehension {
+  iterVar: ComputedRef<string>;
+  iterRange?: ComputedRef<Expr>;
+  accuVar: ComputedRef<string>;
+  accuInit?: ComputedRef<Expr>;
+  loopCondition?: ComputedRef<Expr>;
+  loopStep?: ComputedRef<Expr>;
+  result?: ComputedRef<Expr>;
 }
 export interface Expr_ComprehensionProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.Comprehension";
@@ -380,6 +431,15 @@ export interface Literal {
   stringValue?: string;
   /** bytes value. */
   bytesValue?: Uint8Array;
+}
+export interface ReactiveLiteral {
+  nullValue?: ComputedRef<NullValue>;
+  boolValue?: ComputedRef<boolean>;
+  int64Value?: ComputedRef<bigint>;
+  uint64Value?: ComputedRef<bigint>;
+  doubleValue?: ComputedRef<number>;
+  stringValue?: ComputedRef<string>;
+  bytesValue?: ComputedRef<Uint8Array>;
 }
 export interface LiteralProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.Literal";

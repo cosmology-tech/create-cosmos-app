@@ -3,6 +3,7 @@ import { Any, AnySDKType } from "../../../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.expr.v1alpha1";
 /**
  * Represents a CEL value.
@@ -36,6 +37,20 @@ export interface Value {
   /** Type value. */
   typeValue?: string;
 }
+export interface ReactiveValue {
+  nullValue?: ComputedRef<NullValue>;
+  boolValue?: ComputedRef<boolean>;
+  int64Value?: ComputedRef<bigint>;
+  uint64Value?: ComputedRef<bigint>;
+  doubleValue?: ComputedRef<number>;
+  stringValue?: ComputedRef<string>;
+  bytesValue?: ComputedRef<Uint8Array>;
+  enumValue?: ComputedRef<EnumValue>;
+  objectValue?: ComputedRef<Any>;
+  mapValue?: ComputedRef<MapValue>;
+  listValue?: ComputedRef<ListValue>;
+  typeValue?: ComputedRef<string>;
+}
 export interface ValueProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Value";
   value: Uint8Array;
@@ -67,6 +82,10 @@ export interface EnumValue {
   /** The value of the enum. */
   value: number;
 }
+export interface ReactiveEnumValue {
+  type: ComputedRef<string>;
+  value: ComputedRef<number>;
+}
 export interface EnumValueProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.EnumValue";
   value: Uint8Array;
@@ -85,6 +104,9 @@ export interface EnumValueSDKType {
 export interface ListValue {
   /** The ordered values in the list. */
   values: Value[];
+}
+export interface ReactiveListValue {
+  values: ComputedRef<Value[]>;
 }
 export interface ListValueProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.ListValue";
@@ -114,6 +136,9 @@ export interface MapValue {
    */
   entries: MapValue_Entry[];
 }
+export interface ReactiveMapValue {
+  entries: ComputedRef<MapValue_Entry[]>;
+}
 export interface MapValueProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.MapValue";
   value: Uint8Array;
@@ -138,6 +163,10 @@ export interface MapValue_Entry {
   key?: Value;
   /** The value. */
   value?: Value;
+}
+export interface ReactiveMapValue_Entry {
+  key?: ComputedRef<Value>;
+  value?: ComputedRef<Value>;
 }
 export interface MapValue_EntryProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Entry";

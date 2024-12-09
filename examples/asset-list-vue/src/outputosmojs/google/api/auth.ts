@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * `Authentication` defines the authentication configuration for API methods
@@ -31,6 +32,10 @@ export interface Authentication {
   rules: AuthenticationRule[];
   /** Defines a set of authentication providers that a service supports. */
   providers: AuthProvider[];
+}
+export interface ReactiveAuthentication {
+  rules: ComputedRef<AuthenticationRule[]>;
+  providers: ComputedRef<AuthProvider[]>;
 }
 export interface AuthenticationProtoMsg {
   typeUrl: "/google.api.Authentication";
@@ -88,6 +93,12 @@ export interface AuthenticationRule {
   /** Requirements for additional authentication providers. */
   requirements: AuthRequirement[];
 }
+export interface ReactiveAuthenticationRule {
+  selector: ComputedRef<string>;
+  oauth?: ComputedRef<OAuthRequirements>;
+  allowWithoutCredential: ComputedRef<boolean>;
+  requirements: ComputedRef<AuthRequirement[]>;
+}
 export interface AuthenticationRuleProtoMsg {
   typeUrl: "/google.api.AuthenticationRule";
   value: Uint8Array;
@@ -126,6 +137,11 @@ export interface JwtLocation {
    * value_prefix="Bearer " with a space at the end.
    */
   valuePrefix: string;
+}
+export interface ReactiveJwtLocation {
+  header?: ComputedRef<string>;
+  query?: ComputedRef<string>;
+  valuePrefix: ComputedRef<string>;
 }
 export interface JwtLocationProtoMsg {
   typeUrl: "/google.api.JwtLocation";
@@ -220,6 +236,14 @@ export interface AuthProvider {
    */
   jwtLocations: JwtLocation[];
 }
+export interface ReactiveAuthProvider {
+  id: ComputedRef<string>;
+  issuer: ComputedRef<string>;
+  jwksUri: ComputedRef<string>;
+  audiences: ComputedRef<string>;
+  authorizationUrl: ComputedRef<string>;
+  jwtLocations: ComputedRef<JwtLocation[]>;
+}
 export interface AuthProviderProtoMsg {
   typeUrl: "/google.api.AuthProvider";
   value: Uint8Array;
@@ -268,6 +292,9 @@ export interface OAuthRequirements {
    *                        https://www.googleapis.com/auth/calendar.read
    */
   canonicalScopes: string;
+}
+export interface ReactiveOAuthRequirements {
+  canonicalScopes: ComputedRef<string>;
 }
 export interface OAuthRequirementsProtoMsg {
   typeUrl: "/google.api.OAuthRequirements";
@@ -329,6 +356,10 @@ export interface AuthRequirement {
    *                bookstore_web.apps.googleusercontent.com
    */
   audiences: string;
+}
+export interface ReactiveAuthRequirement {
+  providerId: ComputedRef<string>;
+  audiences: ComputedRef<string>;
 }
 export interface AuthRequirementProtoMsg {
   typeUrl: "/google.api.AuthRequirement";

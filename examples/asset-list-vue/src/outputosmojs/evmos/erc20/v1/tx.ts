@@ -2,6 +2,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.erc20.v1";
 /** MsgConvertCoin defines a Msg to convert a native Cosmos coin to a ERC20 token */
 export interface MsgConvertCoin {
@@ -15,6 +16,11 @@ export interface MsgConvertCoin {
   /** cosmos bech32 address from the owner of the given Cosmos coins */
   sender: string;
 }
+export interface ReactiveMsgConvertCoin {
+  coin: ComputedRef<Coin>;
+  receiver: ComputedRef<string>;
+  sender: ComputedRef<string>;
+}
 export interface MsgConvertCoinProtoMsg {
   typeUrl: "/evmos.erc20.v1.MsgConvertCoin";
   value: Uint8Array;
@@ -27,6 +33,7 @@ export interface MsgConvertCoinSDKType {
 }
 /** MsgConvertCoinResponse returns no fields */
 export interface MsgConvertCoinResponse {}
+export interface ReactiveMsgConvertCoinResponse {}
 export interface MsgConvertCoinResponseProtoMsg {
   typeUrl: "/evmos.erc20.v1.MsgConvertCoinResponse";
   value: Uint8Array;
@@ -47,6 +54,12 @@ export interface MsgConvertERC20 {
   /** sender hex address from the owner of the given ERC20 tokens */
   sender: string;
 }
+export interface ReactiveMsgConvertERC20 {
+  contractAddress: ComputedRef<string>;
+  amount: ComputedRef<string>;
+  receiver: ComputedRef<string>;
+  sender: ComputedRef<string>;
+}
 export interface MsgConvertERC20ProtoMsg {
   typeUrl: "/evmos.erc20.v1.MsgConvertERC20";
   value: Uint8Array;
@@ -63,6 +76,7 @@ export interface MsgConvertERC20SDKType {
 }
 /** MsgConvertERC20Response returns no fields */
 export interface MsgConvertERC20Response {}
+export interface ReactiveMsgConvertERC20Response {}
 export interface MsgConvertERC20ResponseProtoMsg {
   typeUrl: "/evmos.erc20.v1.MsgConvertERC20Response";
   value: Uint8Array;

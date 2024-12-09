@@ -4,6 +4,7 @@ import { Params, ParamsSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.erc20.v1";
 /**
  * QueryTokenPairsRequest is the request type for the Query/TokenPairs RPC
@@ -12,6 +13,9 @@ export const protobufPackage = "evmos.erc20.v1";
 export interface QueryTokenPairsRequest {
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryTokenPairsRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryTokenPairsRequestProtoMsg {
   typeUrl: "/evmos.erc20.v1.QueryTokenPairsRequest";
@@ -33,6 +37,10 @@ export interface QueryTokenPairsResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryTokenPairsResponse {
+  tokenPairs: ComputedRef<TokenPair[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryTokenPairsResponseProtoMsg {
   typeUrl: "/evmos.erc20.v1.QueryTokenPairsResponse";
   value: Uint8Array;
@@ -53,6 +61,9 @@ export interface QueryTokenPairRequest {
    */
   token: string;
 }
+export interface ReactiveQueryTokenPairRequest {
+  token: ComputedRef<string>;
+}
 export interface QueryTokenPairRequestProtoMsg {
   typeUrl: "/evmos.erc20.v1.QueryTokenPairRequest";
   value: Uint8Array;
@@ -68,6 +79,9 @@ export interface QueryTokenPairRequestSDKType {
 export interface QueryTokenPairResponse {
   tokenPair: TokenPair;
 }
+export interface ReactiveQueryTokenPairResponse {
+  tokenPair: ComputedRef<TokenPair>;
+}
 export interface QueryTokenPairResponseProtoMsg {
   typeUrl: "/evmos.erc20.v1.QueryTokenPairResponse";
   value: Uint8Array;
@@ -81,6 +95,7 @@ export interface QueryTokenPairResponseSDKType {
 }
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
+export interface ReactiveQueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
   typeUrl: "/evmos.erc20.v1.QueryParamsRequest";
   value: Uint8Array;
@@ -93,6 +108,9 @@ export interface QueryParamsRequestSDKType {}
  */
 export interface QueryParamsResponse {
   params: Params;
+}
+export interface ReactiveQueryParamsResponse {
+  params: ComputedRef<Params>;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/evmos.erc20.v1.QueryParamsResponse";

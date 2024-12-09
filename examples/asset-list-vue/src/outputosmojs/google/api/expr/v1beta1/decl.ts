@@ -2,6 +2,7 @@ import { Expr, ExprSDKType } from "./expr";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.expr.v1beta1";
 /** A declaration. */
 export interface Decl {
@@ -15,6 +16,13 @@ export interface Decl {
   ident?: IdentDecl;
   /** A function declaration. */
   function?: FunctionDecl;
+}
+export interface ReactiveDecl {
+  id: ComputedRef<number>;
+  name: ComputedRef<string>;
+  doc: ComputedRef<string>;
+  ident?: ComputedRef<IdentDecl>;
+  function?: ComputedRef<FunctionDecl>;
 }
 export interface DeclProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.Decl";
@@ -45,6 +53,11 @@ export interface DeclType {
    */
   typeParams: DeclType[];
 }
+export interface ReactiveDeclType {
+  id: ComputedRef<number>;
+  type: ComputedRef<string>;
+  typeParams: ComputedRef<DeclType[]>;
+}
 export interface DeclTypeProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.DeclType";
   value: Uint8Array;
@@ -67,6 +80,10 @@ export interface IdentDecl {
   /** Optional value of the identifier. */
   value?: Expr;
 }
+export interface ReactiveIdentDecl {
+  type?: ComputedRef<DeclType>;
+  value?: ComputedRef<Expr>;
+}
 export interface IdentDeclProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.IdentDecl";
   value: Uint8Array;
@@ -84,6 +101,11 @@ export interface FunctionDecl {
   returnType?: DeclType;
   /** If the first argument of the function is the receiver. */
   receiverFunction: boolean;
+}
+export interface ReactiveFunctionDecl {
+  args: ComputedRef<IdentDecl[]>;
+  returnType?: ComputedRef<DeclType>;
+  receiverFunction: ComputedRef<boolean>;
 }
 export interface FunctionDeclProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.FunctionDecl";

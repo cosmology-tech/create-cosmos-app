@@ -2,6 +2,7 @@ import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.lightclients.solomachine.v3";
 /**
  * ClientState defines a solo machine client that tracks the current consensus
@@ -13,6 +14,11 @@ export interface ClientState {
   /** frozen sequence of the solo machine */
   isFrozen: boolean;
   consensusState?: ConsensusState;
+}
+export interface ReactiveClientState {
+  sequence: ComputedRef<bigint>;
+  isFrozen: ComputedRef<boolean>;
+  consensusState?: ComputedRef<ConsensusState>;
 }
 export interface ClientStateProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v3.ClientState";
@@ -43,6 +49,11 @@ export interface ConsensusState {
   diversifier: string;
   timestamp: bigint;
 }
+export interface ReactiveConsensusState {
+  publicKey?: ComputedRef<Any>;
+  diversifier: ComputedRef<string>;
+  timestamp: ComputedRef<bigint>;
+}
 export interface ConsensusStateProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v3.ConsensusState";
   value: Uint8Array;
@@ -64,6 +75,12 @@ export interface Header {
   newPublicKey?: Any;
   newDiversifier: string;
 }
+export interface ReactiveHeader {
+  timestamp: ComputedRef<bigint>;
+  signature: ComputedRef<Uint8Array>;
+  newPublicKey?: ComputedRef<Any>;
+  newDiversifier: ComputedRef<string>;
+}
 export interface HeaderProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v3.Header";
   value: Uint8Array;
@@ -83,6 +100,11 @@ export interface Misbehaviour {
   sequence: bigint;
   signatureOne?: SignatureAndData;
   signatureTwo?: SignatureAndData;
+}
+export interface ReactiveMisbehaviour {
+  sequence: ComputedRef<bigint>;
+  signatureOne?: ComputedRef<SignatureAndData>;
+  signatureTwo?: ComputedRef<SignatureAndData>;
 }
 export interface MisbehaviourProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v3.Misbehaviour";
@@ -107,6 +129,12 @@ export interface SignatureAndData {
   data: Uint8Array;
   timestamp: bigint;
 }
+export interface ReactiveSignatureAndData {
+  signature: ComputedRef<Uint8Array>;
+  path: ComputedRef<Uint8Array>;
+  data: ComputedRef<Uint8Array>;
+  timestamp: ComputedRef<bigint>;
+}
 export interface SignatureAndDataProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v3.SignatureAndData";
   value: Uint8Array;
@@ -128,6 +156,10 @@ export interface SignatureAndDataSDKType {
 export interface TimestampedSignatureData {
   signatureData: Uint8Array;
   timestamp: bigint;
+}
+export interface ReactiveTimestampedSignatureData {
+  signatureData: ComputedRef<Uint8Array>;
+  timestamp: ComputedRef<bigint>;
 }
 export interface TimestampedSignatureDataProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v3.TimestampedSignatureData";
@@ -154,6 +186,13 @@ export interface SignBytes {
   /** the marshaled data bytes */
   data: Uint8Array;
 }
+export interface ReactiveSignBytes {
+  sequence: ComputedRef<bigint>;
+  timestamp: ComputedRef<bigint>;
+  diversifier: ComputedRef<string>;
+  path: ComputedRef<Uint8Array>;
+  data: ComputedRef<Uint8Array>;
+}
 export interface SignBytesProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v3.SignBytes";
   value: Uint8Array;
@@ -172,6 +211,10 @@ export interface HeaderData {
   newPubKey?: Any;
   /** header diversifier */
   newDiversifier: string;
+}
+export interface ReactiveHeaderData {
+  newPubKey?: ComputedRef<Any>;
+  newDiversifier: ComputedRef<string>;
 }
 export interface HeaderDataProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v3.HeaderData";

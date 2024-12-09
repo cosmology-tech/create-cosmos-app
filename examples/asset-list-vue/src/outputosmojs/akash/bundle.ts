@@ -87,10 +87,9 @@ import * as _398 from "./deployment/v1beta2/service.rpc.msg";
 import * as _399 from "./market/v1beta2/service.rpc.msg";
 import * as _400 from "./provider/v1beta1/provider.rpc.msg";
 import * as _401 from "./provider/v1beta2/provider.rpc.msg";
-import * as _402 from "./cert/v1beta2/query.pinia.store";
-import * as _624 from "./lcd";
-import * as _625 from "./rpc.query";
-import * as _626 from "./rpc.tx";
+import * as _620 from "./lcd";
+import * as _621 from "./rpc.query";
+import * as _622 from "./rpc.tx";
 export namespace akash {
   export namespace audit {
     export const v1beta1 = {
@@ -134,8 +133,7 @@ export namespace akash {
       ..._375,
       ..._381,
       ..._389,
-      ..._397,
-      ..._402
+      ..._397
     };
   }
   export namespace deployment {
@@ -225,8 +223,8 @@ export namespace akash {
     };
   }
   export const ClientFactory = {
-    ..._624,
-    ..._625,
-    ..._626
+    ..._620,
+    ..._621,
+    ..._622
   };
 }

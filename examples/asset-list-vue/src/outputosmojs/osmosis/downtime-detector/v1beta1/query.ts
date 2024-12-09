@@ -3,6 +3,7 @@ import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.downtimedetector.v1beta1";
 /**
  * Query for has it been at least $RECOVERY_DURATION units of time,
@@ -11,6 +12,10 @@ export const protobufPackage = "osmosis.downtimedetector.v1beta1";
 export interface RecoveredSinceDowntimeOfLengthRequest {
   downtime: Downtime;
   recovery: Duration;
+}
+export interface ReactiveRecoveredSinceDowntimeOfLengthRequest {
+  downtime: ComputedRef<Downtime>;
+  recovery: ComputedRef<Duration>;
 }
 export interface RecoveredSinceDowntimeOfLengthRequestProtoMsg {
   typeUrl: "/osmosis.downtimedetector.v1beta1.RecoveredSinceDowntimeOfLengthRequest";
@@ -26,6 +31,9 @@ export interface RecoveredSinceDowntimeOfLengthRequestSDKType {
 }
 export interface RecoveredSinceDowntimeOfLengthResponse {
   succesfullyRecovered: boolean;
+}
+export interface ReactiveRecoveredSinceDowntimeOfLengthResponse {
+  succesfullyRecovered: ComputedRef<boolean>;
 }
 export interface RecoveredSinceDowntimeOfLengthResponseProtoMsg {
   typeUrl: "/osmosis.downtimedetector.v1beta1.RecoveredSinceDowntimeOfLengthResponse";

@@ -2,6 +2,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.mint.v1beta1";
 /** Minter represents the minting state. */
 export interface Minter {
@@ -9,6 +10,10 @@ export interface Minter {
   inflation: string;
   /** current annual expected provisions */
   annualProvisions: string;
+}
+export interface ReactiveMinter {
+  inflation: ComputedRef<string>;
+  annualProvisions: ComputedRef<string>;
 }
 export interface MinterProtoMsg {
   typeUrl: "/cosmos.mint.v1beta1.Minter";
@@ -33,6 +38,14 @@ export interface Params {
   goalBonded: string;
   /** expected blocks per year */
   blocksPerYear: bigint;
+}
+export interface ReactiveParams {
+  mintDenom: ComputedRef<string>;
+  inflationRateChange: ComputedRef<string>;
+  inflationMax: ComputedRef<string>;
+  inflationMin: ComputedRef<string>;
+  goalBonded: ComputedRef<string>;
+  blocksPerYear: ComputedRef<bigint>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/cosmos.mint.v1beta1.Params";

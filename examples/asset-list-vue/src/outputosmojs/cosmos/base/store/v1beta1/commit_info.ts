@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.base.store.v1beta1";
 /**
  * CommitInfo defines commit information used by the multi-store when committing
@@ -9,6 +10,10 @@ export const protobufPackage = "cosmos.base.store.v1beta1";
 export interface CommitInfo {
   version: bigint;
   storeInfos: StoreInfo[];
+}
+export interface ReactiveCommitInfo {
+  version: ComputedRef<bigint>;
+  storeInfos: ComputedRef<StoreInfo[]>;
 }
 export interface CommitInfoProtoMsg {
   typeUrl: "/cosmos.base.store.v1beta1.CommitInfo";
@@ -30,6 +35,10 @@ export interface StoreInfo {
   name: string;
   commitId: CommitID;
 }
+export interface ReactiveStoreInfo {
+  name: ComputedRef<string>;
+  commitId: ComputedRef<CommitID>;
+}
 export interface StoreInfoProtoMsg {
   typeUrl: "/cosmos.base.store.v1beta1.StoreInfo";
   value: Uint8Array;
@@ -49,6 +58,10 @@ export interface StoreInfoSDKType {
 export interface CommitID {
   version: bigint;
   hash: Uint8Array;
+}
+export interface ReactiveCommitID {
+  version: ComputedRef<bigint>;
+  hash: ComputedRef<Uint8Array>;
 }
 export interface CommitIDProtoMsg {
   typeUrl: "/cosmos.base.store.v1beta1.CommitID";

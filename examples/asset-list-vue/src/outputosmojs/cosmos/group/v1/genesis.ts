@@ -2,6 +2,7 @@ import { GroupInfo, GroupInfoSDKType, GroupMember, GroupMemberSDKType, GroupPoli
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.group.v1";
 /** GenesisState defines the group module's genesis state. */
 export interface GenesisState {
@@ -30,6 +31,16 @@ export interface GenesisState {
   proposals: Proposal[];
   /** votes is the list of votes. */
   votes: Vote[];
+}
+export interface ReactiveGenesisState {
+  groupSeq: ComputedRef<bigint>;
+  groups: ComputedRef<GroupInfo[]>;
+  groupMembers: ComputedRef<GroupMember[]>;
+  groupPolicySeq: ComputedRef<bigint>;
+  groupPolicies: ComputedRef<GroupPolicyInfo[]>;
+  proposalSeq: ComputedRef<bigint>;
+  proposals: ComputedRef<Proposal[]>;
+  votes: ComputedRef<Vote[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/cosmos.group.v1.GenesisState";

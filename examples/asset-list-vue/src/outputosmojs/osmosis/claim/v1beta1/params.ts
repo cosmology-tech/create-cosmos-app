@@ -3,6 +3,7 @@ import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.claim.v1beta1";
 /** Params defines the claim module's parameters. */
 export interface Params {
@@ -11,6 +12,12 @@ export interface Params {
   durationOfDecay: Duration;
   /** denom of claimable asset */
   claimDenom: string;
+}
+export interface ReactiveParams {
+  airdropStartTime: ComputedRef<Date>;
+  durationUntilDecay: ComputedRef<Duration>;
+  durationOfDecay: ComputedRef<Duration>;
+  claimDenom: ComputedRef<string>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/osmosis.claim.v1beta1.Params";

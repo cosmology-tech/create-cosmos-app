@@ -2,6 +2,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity.v1beta1";
 /** ===================== MsgCreateConcentratedPool */
 export interface MsgCreateConcentratedPool {
@@ -11,6 +12,14 @@ export interface MsgCreateConcentratedPool {
   tickSpacing: bigint;
   exponentAtPriceOne: string;
   swapFee: string;
+}
+export interface ReactiveMsgCreateConcentratedPool {
+  sender: ComputedRef<string>;
+  denom0: ComputedRef<string>;
+  denom1: ComputedRef<string>;
+  tickSpacing: ComputedRef<bigint>;
+  exponentAtPriceOne: ComputedRef<string>;
+  swapFee: ComputedRef<string>;
 }
 export interface MsgCreateConcentratedPoolProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgCreateConcentratedPool";
@@ -28,6 +37,9 @@ export interface MsgCreateConcentratedPoolSDKType {
 /** Returns a unique poolID to identify the pool with. */
 export interface MsgCreateConcentratedPoolResponse {
   poolId: bigint;
+}
+export interface ReactiveMsgCreateConcentratedPoolResponse {
+  poolId: ComputedRef<bigint>;
 }
 export interface MsgCreateConcentratedPoolResponseProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgCreateConcentratedPoolResponse";

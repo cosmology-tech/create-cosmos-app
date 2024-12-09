@@ -4,6 +4,7 @@ import { Status, StatusSDKType } from "../../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /**
  * The type of the consumer as defined in
@@ -89,6 +90,11 @@ export interface CheckRequest {
    */
   serviceConfigId: string;
 }
+export interface ReactiveCheckRequest {
+  serviceName: ComputedRef<string>;
+  operation?: ComputedRef<Operation>;
+  serviceConfigId: ComputedRef<string>;
+}
 export interface CheckRequestProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.CheckRequest";
   value: Uint8Array;
@@ -122,6 +128,13 @@ export interface CheckResponse {
   /** Feedback data returned from the server during processing a Check request. */
   checkInfo?: CheckResponse_CheckInfo;
 }
+export interface ReactiveCheckResponse {
+  operationId: ComputedRef<string>;
+  checkErrors: ComputedRef<CheckError[]>;
+  serviceConfigId: ComputedRef<string>;
+  serviceRolloutId: ComputedRef<string>;
+  checkInfo?: ComputedRef<CheckResponse_CheckInfo>;
+}
 export interface CheckResponseProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.CheckResponse";
   value: Uint8Array;
@@ -144,6 +157,10 @@ export interface CheckResponse_CheckInfo {
   unusedArguments: string[];
   /** Consumer info of this check. */
   consumerInfo?: CheckResponse_ConsumerInfo;
+}
+export interface ReactiveCheckResponse_CheckInfo {
+  unusedArguments: ComputedRef<string[]>;
+  consumerInfo?: ComputedRef<CheckResponse_ConsumerInfo>;
 }
 export interface CheckResponse_CheckInfoProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.CheckInfo";
@@ -175,6 +192,11 @@ export interface CheckResponse_ConsumerInfo {
    * consumer number is found.
    */
   consumerNumber: bigint;
+}
+export interface ReactiveCheckResponse_ConsumerInfo {
+  projectNumber: ComputedRef<bigint>;
+  type: ComputedRef<CheckResponse_ConsumerInfo_ConsumerType>;
+  consumerNumber: ComputedRef<bigint>;
 }
 export interface CheckResponse_ConsumerInfoProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.ConsumerInfo";
@@ -220,6 +242,11 @@ export interface ReportRequest {
    */
   serviceConfigId: string;
 }
+export interface ReactiveReportRequest {
+  serviceName: ComputedRef<string>;
+  operations: ComputedRef<Operation[]>;
+  serviceConfigId: ComputedRef<string>;
+}
 export interface ReportRequestProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.ReportRequest";
   value: Uint8Array;
@@ -254,6 +281,11 @@ export interface ReportResponse {
   /** The current service rollout id used to process the request. */
   serviceRolloutId: string;
 }
+export interface ReactiveReportResponse {
+  reportErrors: ComputedRef<ReportResponse_ReportError[]>;
+  serviceConfigId: ComputedRef<string>;
+  serviceRolloutId: ComputedRef<string>;
+}
 export interface ReportResponseProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.ReportResponse";
   value: Uint8Array;
@@ -280,6 +312,10 @@ export interface ReportResponse_ReportError {
    * [Operation][google.api.servicecontrol.v1.Operation].
    */
   status?: Status;
+}
+export interface ReactiveReportResponse_ReportError {
+  operationId: ComputedRef<string>;
+  status?: ComputedRef<Status>;
 }
 export interface ReportResponse_ReportErrorProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.ReportError";

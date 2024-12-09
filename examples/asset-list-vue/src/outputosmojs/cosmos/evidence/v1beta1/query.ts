@@ -3,11 +3,15 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.evidence.v1beta1";
 /** QueryEvidenceRequest is the request type for the Query/Evidence RPC method. */
 export interface QueryEvidenceRequest {
   /** evidence_hash defines the hash of the requested evidence. */
   evidenceHash: Uint8Array;
+}
+export interface ReactiveQueryEvidenceRequest {
+  evidenceHash: ComputedRef<Uint8Array>;
 }
 export interface QueryEvidenceRequestProtoMsg {
   typeUrl: "/cosmos.evidence.v1beta1.QueryEvidenceRequest";
@@ -21,6 +25,9 @@ export interface QueryEvidenceRequestSDKType {
 export interface QueryEvidenceResponse {
   /** evidence returns the requested evidence. */
   evidence?: Any;
+}
+export interface ReactiveQueryEvidenceResponse {
+  evidence?: ComputedRef<Any>;
 }
 export interface QueryEvidenceResponseProtoMsg {
   typeUrl: "/cosmos.evidence.v1beta1.QueryEvidenceResponse";
@@ -37,6 +44,9 @@ export interface QueryEvidenceResponseSDKType {
 export interface QueryAllEvidenceRequest {
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryAllEvidenceRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryAllEvidenceRequestProtoMsg {
   typeUrl: "/cosmos.evidence.v1beta1.QueryAllEvidenceRequest";
@@ -58,6 +68,10 @@ export interface QueryAllEvidenceResponse {
   evidence: Any[];
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
+}
+export interface ReactiveQueryAllEvidenceResponse {
+  evidence: ComputedRef<Any[]>;
+  pagination?: ComputedRef<PageResponse>;
 }
 export interface QueryAllEvidenceResponseProtoMsg {
   typeUrl: "/cosmos.evidence.v1beta1.QueryAllEvidenceResponse";

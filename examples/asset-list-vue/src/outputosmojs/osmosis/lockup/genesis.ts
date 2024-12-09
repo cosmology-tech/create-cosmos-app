@@ -2,12 +2,18 @@ import { PeriodLock, PeriodLockSDKType, SyntheticLock, SyntheticLockSDKType } fr
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.lockup";
 /** GenesisState defines the lockup module's genesis state. */
 export interface GenesisState {
   lastLockId: bigint;
   locks: PeriodLock[];
   syntheticLocks: SyntheticLock[];
+}
+export interface ReactiveGenesisState {
+  lastLockId: ComputedRef<bigint>;
+  locks: ComputedRef<PeriodLock[]>;
+  syntheticLocks: ComputedRef<SyntheticLock[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.lockup.GenesisState";

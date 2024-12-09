@@ -2,6 +2,7 @@ import { IdentifiedConnection, IdentifiedConnectionSDKType, ConnectionPaths, Con
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.connection.v1";
 /** GenesisState defines the ibc connection submodule's genesis state. */
 export interface GenesisState {
@@ -10,6 +11,12 @@ export interface GenesisState {
   /** the sequence for the next generated connection identifier */
   nextConnectionSequence: bigint;
   params: Params;
+}
+export interface ReactiveGenesisState {
+  connections: ComputedRef<IdentifiedConnection[]>;
+  clientConnectionPaths: ComputedRef<ConnectionPaths[]>;
+  nextConnectionSequence: ComputedRef<bigint>;
+  params: ComputedRef<Params>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/ibc.core.connection.v1.GenesisState";

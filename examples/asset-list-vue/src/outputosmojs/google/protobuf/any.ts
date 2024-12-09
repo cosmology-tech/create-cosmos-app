@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf";
 /**
  * `Any` contains an arbitrary serialized protocol buffer message along with a
@@ -117,6 +118,11 @@ export interface Any {
   typeUrl: string;
   /** Must be a valid serialized protocol buffer of the above specified type. */
   value: Uint8Array;
+}
+export interface ReactiveAny {
+  $typeUrl?: ComputedRef<"/google.protobuf.Any" | string>;
+  typeUrl: ComputedRef<string>;
+  value: ComputedRef<Uint8Array>;
 }
 export interface AnyProtoMsg {
   typeUrl: "/google.protobuf.Any";

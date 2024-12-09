@@ -3,6 +3,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { Decimal } from "@cosmjs/math";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.twap.v1beta1";
 /**
  * A TWAP record should be indexed in state by pool_id, (asset pair), timestamp
@@ -40,6 +41,18 @@ export interface TwapRecord {
    * TWAP, due to an unforeseen underlying error.
    */
   lastErrorTime: Date;
+}
+export interface ReactiveTwapRecord {
+  poolId: ComputedRef<bigint>;
+  asset0Denom: ComputedRef<string>;
+  asset1Denom: ComputedRef<string>;
+  height: ComputedRef<bigint>;
+  time: ComputedRef<Date>;
+  p0LastSpotPrice: ComputedRef<string>;
+  p1LastSpotPrice: ComputedRef<string>;
+  p0ArithmeticTwapAccumulator: ComputedRef<string>;
+  p1ArithmeticTwapAccumulator: ComputedRef<string>;
+  lastErrorTime: ComputedRef<Date>;
 }
 export interface TwapRecordProtoMsg {
   typeUrl: "/osmosis.twap.v1beta1.TwapRecord";

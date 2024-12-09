@@ -2,6 +2,7 @@ import { DecCoin, DecCoinSDKType, Coin, CoinSDKType } from "../../../cosmos/base
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.escrow.v1beta2";
 /** State stores state for an escrow account */
 export enum Account_State {
@@ -104,6 +105,10 @@ export interface AccountID {
   scope: string;
   xid: string;
 }
+export interface ReactiveAccountID {
+  scope: ComputedRef<string>;
+  xid: ComputedRef<string>;
+}
 export interface AccountIDProtoMsg {
   typeUrl: "/akash.escrow.v1beta2.AccountID";
   value: Uint8Array;
@@ -139,6 +144,16 @@ export interface Account {
    */
   funds: DecCoin;
 }
+export interface ReactiveAccount {
+  id: ComputedRef<AccountID>;
+  owner: ComputedRef<string>;
+  state: ComputedRef<Account_State>;
+  balance: ComputedRef<DecCoin>;
+  transferred: ComputedRef<DecCoin>;
+  settledAt: ComputedRef<bigint>;
+  depositor: ComputedRef<string>;
+  funds: ComputedRef<DecCoin>;
+}
 export interface AccountProtoMsg {
   typeUrl: "/akash.escrow.v1beta2.Account";
   value: Uint8Array;
@@ -163,6 +178,15 @@ export interface FractionalPayment {
   rate: DecCoin;
   balance: DecCoin;
   withdrawn: Coin;
+}
+export interface ReactiveFractionalPayment {
+  accountId: ComputedRef<AccountID>;
+  paymentId: ComputedRef<string>;
+  owner: ComputedRef<string>;
+  state: ComputedRef<FractionalPayment_State>;
+  rate: ComputedRef<DecCoin>;
+  balance: ComputedRef<DecCoin>;
+  withdrawn: ComputedRef<Coin>;
 }
 export interface FractionalPaymentProtoMsg {
   typeUrl: "/akash.escrow.v1beta2.FractionalPayment";

@@ -4,6 +4,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.protorev.v1beta1";
 /** GenesisState defines the protorev module's genesis state. */
 export interface GenesisState {
@@ -41,6 +42,19 @@ export interface GenesisState {
   maxPoolPointsPerTx: bigint;
   /** The number of pool points that have been consumed in the current block. */
   pointCountForBlock: bigint;
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  tokenPairArbRoutes: ComputedRef<TokenPairArbRoutes[]>;
+  baseDenoms: ComputedRef<BaseDenom[]>;
+  poolWeights: ComputedRef<PoolWeights>;
+  daysSinceModuleGenesis: ComputedRef<bigint>;
+  developerFees: ComputedRef<Coin[]>;
+  latestBlockHeight: ComputedRef<bigint>;
+  developerAddress: ComputedRef<string>;
+  maxPoolPointsPerBlock: ComputedRef<bigint>;
+  maxPoolPointsPerTx: ComputedRef<bigint>;
+  pointCountForBlock: ComputedRef<bigint>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.GenesisState";

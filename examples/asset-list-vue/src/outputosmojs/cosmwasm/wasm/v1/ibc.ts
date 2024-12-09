@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmwasm.wasm.v1";
 /** MsgIBCSend */
 export interface MsgIBCSend {
@@ -22,6 +23,12 @@ export interface MsgIBCSend {
    */
   data: Uint8Array;
 }
+export interface ReactiveMsgIBCSend {
+  channel: ComputedRef<string>;
+  timeoutHeight: ComputedRef<bigint>;
+  timeoutTimestamp: ComputedRef<bigint>;
+  data: ComputedRef<Uint8Array>;
+}
 export interface MsgIBCSendProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MsgIBCSend";
   value: Uint8Array;
@@ -36,6 +43,9 @@ export interface MsgIBCSendSDKType {
 /** MsgIBCCloseChannel port and channel need to be owned by the contract */
 export interface MsgIBCCloseChannel {
   channel: string;
+}
+export interface ReactiveMsgIBCCloseChannel {
+  channel: ComputedRef<string>;
 }
 export interface MsgIBCCloseChannelProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MsgIBCCloseChannel";

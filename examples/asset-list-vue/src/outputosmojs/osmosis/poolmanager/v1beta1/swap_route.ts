@@ -1,10 +1,15 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.poolmanager.v1beta1";
 export interface SwapAmountInRoute {
   poolId: bigint;
   tokenOutDenom: string;
+}
+export interface ReactiveSwapAmountInRoute {
+  poolId: ComputedRef<bigint>;
+  tokenOutDenom: ComputedRef<string>;
 }
 export interface SwapAmountInRouteProtoMsg {
   typeUrl: "/osmosis.poolmanager.v1beta1.SwapAmountInRoute";
@@ -17,6 +22,10 @@ export interface SwapAmountInRouteSDKType {
 export interface SwapAmountOutRoute {
   poolId: bigint;
   tokenInDenom: string;
+}
+export interface ReactiveSwapAmountOutRoute {
+  poolId: ComputedRef<bigint>;
+  tokenInDenom: ComputedRef<string>;
 }
 export interface SwapAmountOutRouteProtoMsg {
   typeUrl: "/osmosis.poolmanager.v1beta1.SwapAmountOutRoute";

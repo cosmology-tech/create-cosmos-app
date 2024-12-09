@@ -3,6 +3,7 @@ import { Period, PeriodSDKType } from "../../../cosmos/vesting/v1beta1/vesting";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.vesting.v1";
 /** MsgCreateClawbackVestingAccount defines a message that enables creating a ClawbackVestingAccount. */
 export interface MsgCreateClawbackVestingAccount {
@@ -28,6 +29,14 @@ export interface MsgCreateClawbackVestingAccount {
    */
   merge: boolean;
 }
+export interface ReactiveMsgCreateClawbackVestingAccount {
+  fromAddress: ComputedRef<string>;
+  toAddress: ComputedRef<string>;
+  startTime: ComputedRef<Date>;
+  lockupPeriods: ComputedRef<Period[]>;
+  vestingPeriods: ComputedRef<Period[]>;
+  merge: ComputedRef<boolean>;
+}
 export interface MsgCreateClawbackVestingAccountProtoMsg {
   typeUrl: "/evmos.vesting.v1.MsgCreateClawbackVestingAccount";
   value: Uint8Array;
@@ -46,6 +55,7 @@ export interface MsgCreateClawbackVestingAccountSDKType {
  * MsgCreateClawbackVestingAccount response type.
  */
 export interface MsgCreateClawbackVestingAccountResponse {}
+export interface ReactiveMsgCreateClawbackVestingAccountResponse {}
 export interface MsgCreateClawbackVestingAccountResponseProtoMsg {
   typeUrl: "/evmos.vesting.v1.MsgCreateClawbackVestingAccountResponse";
   value: Uint8Array;
@@ -71,6 +81,11 @@ export interface MsgClawback {
    */
   destAddress: string;
 }
+export interface ReactiveMsgClawback {
+  funderAddress: ComputedRef<string>;
+  accountAddress: ComputedRef<string>;
+  destAddress: ComputedRef<string>;
+}
 export interface MsgClawbackProtoMsg {
   typeUrl: "/evmos.vesting.v1.MsgClawback";
   value: Uint8Array;
@@ -86,6 +101,7 @@ export interface MsgClawbackSDKType {
 }
 /** MsgClawbackResponse defines the MsgClawback response type. */
 export interface MsgClawbackResponse {}
+export interface ReactiveMsgClawbackResponse {}
 export interface MsgClawbackResponseProtoMsg {
   typeUrl: "/evmos.vesting.v1.MsgClawbackResponse";
   value: Uint8Array;

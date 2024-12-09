@@ -2,11 +2,15 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.evidence.v1beta1";
 /** GenesisState defines the evidence module's genesis state. */
 export interface GenesisState {
   /** evidence defines all the evidence at genesis. */
   evidence: Any[];
+}
+export interface ReactiveGenesisState {
+  evidence: ComputedRef<Any[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/cosmos.evidence.v1beta1.GenesisState";

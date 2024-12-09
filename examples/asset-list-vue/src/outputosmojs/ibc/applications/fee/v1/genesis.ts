@@ -2,6 +2,7 @@ import { IdentifiedPacketFees, IdentifiedPacketFeesSDKType } from "./fee";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { JsonSafe } from "../../../../json-safe";
 import { DeepPartial, isSet } from "../../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.fee.v1";
 /** GenesisState defines the ICS29 fee middleware genesis state */
 export interface GenesisState {
@@ -15,6 +16,13 @@ export interface GenesisState {
   registeredCounterpartyPayees: RegisteredCounterpartyPayee[];
   /** list of forward relayer addresses */
   forwardRelayers: ForwardRelayerAddress[];
+}
+export interface ReactiveGenesisState {
+  identifiedFees: ComputedRef<IdentifiedPacketFees[]>;
+  feeEnabledChannels: ComputedRef<FeeEnabledChannel[]>;
+  registeredPayees: ComputedRef<RegisteredPayee[]>;
+  registeredCounterpartyPayees: ComputedRef<RegisteredCounterpartyPayee[]>;
+  forwardRelayers: ComputedRef<ForwardRelayerAddress[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.GenesisState";
@@ -35,6 +43,10 @@ export interface FeeEnabledChannel {
   /** unique channel identifier */
   channelId: string;
 }
+export interface ReactiveFeeEnabledChannel {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+}
 export interface FeeEnabledChannelProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.FeeEnabledChannel";
   value: Uint8Array;
@@ -52,6 +64,11 @@ export interface RegisteredPayee {
   relayer: string;
   /** the payee address */
   payee: string;
+}
+export interface ReactiveRegisteredPayee {
+  channelId: ComputedRef<string>;
+  relayer: ComputedRef<string>;
+  payee: ComputedRef<string>;
 }
 export interface RegisteredPayeeProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.RegisteredPayee";
@@ -75,6 +92,11 @@ export interface RegisteredCounterpartyPayee {
   /** the counterparty payee address */
   counterpartyPayee: string;
 }
+export interface ReactiveRegisteredCounterpartyPayee {
+  channelId: ComputedRef<string>;
+  relayer: ComputedRef<string>;
+  counterpartyPayee: ComputedRef<string>;
+}
 export interface RegisteredCounterpartyPayeeProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.RegisteredCounterpartyPayee";
   value: Uint8Array;
@@ -92,6 +114,9 @@ export interface RegisteredCounterpartyPayeeSDKType {
 export interface ForwardRelayerAddress {
   /** the forward relayer address */
   address: string;
+}
+export interface ReactiveForwardRelayerAddress {
+  address: ComputedRef<string>;
 }
 export interface ForwardRelayerAddressProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.ForwardRelayerAddress";

@@ -6,11 +6,16 @@ import { Account, AccountSDKType, FractionalPayment, FractionalPaymentSDKType } 
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.market.v1beta2";
 /** QueryOrdersRequest is request type for the Query/Orders RPC method */
 export interface QueryOrdersRequest {
   filters: OrderFilters;
   pagination?: PageRequest;
+}
+export interface ReactiveQueryOrdersRequest {
+  filters: ComputedRef<OrderFilters>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryOrdersRequestProtoMsg {
   typeUrl: "/akash.market.v1beta2.QueryOrdersRequest";
@@ -26,6 +31,10 @@ export interface QueryOrdersResponse {
   orders: Order[];
   pagination?: PageResponse;
 }
+export interface ReactiveQueryOrdersResponse {
+  orders: ComputedRef<Order[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryOrdersResponseProtoMsg {
   typeUrl: "/akash.market.v1beta2.QueryOrdersResponse";
   value: Uint8Array;
@@ -39,6 +48,9 @@ export interface QueryOrdersResponseSDKType {
 export interface QueryOrderRequest {
   id: OrderID;
 }
+export interface ReactiveQueryOrderRequest {
+  id: ComputedRef<OrderID>;
+}
 export interface QueryOrderRequestProtoMsg {
   typeUrl: "/akash.market.v1beta2.QueryOrderRequest";
   value: Uint8Array;
@@ -50,6 +62,9 @@ export interface QueryOrderRequestSDKType {
 /** QueryOrderResponse is response type for the Query/Order RPC method */
 export interface QueryOrderResponse {
   order: Order;
+}
+export interface ReactiveQueryOrderResponse {
+  order: ComputedRef<Order>;
 }
 export interface QueryOrderResponseProtoMsg {
   typeUrl: "/akash.market.v1beta2.QueryOrderResponse";
@@ -63,6 +78,10 @@ export interface QueryOrderResponseSDKType {
 export interface QueryBidsRequest {
   filters: BidFilters;
   pagination?: PageRequest;
+}
+export interface ReactiveQueryBidsRequest {
+  filters: ComputedRef<BidFilters>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryBidsRequestProtoMsg {
   typeUrl: "/akash.market.v1beta2.QueryBidsRequest";
@@ -78,6 +97,10 @@ export interface QueryBidsResponse {
   bids: QueryBidResponse[];
   pagination?: PageResponse;
 }
+export interface ReactiveQueryBidsResponse {
+  bids: ComputedRef<QueryBidResponse[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryBidsResponseProtoMsg {
   typeUrl: "/akash.market.v1beta2.QueryBidsResponse";
   value: Uint8Array;
@@ -91,6 +114,9 @@ export interface QueryBidsResponseSDKType {
 export interface QueryBidRequest {
   id: BidID;
 }
+export interface ReactiveQueryBidRequest {
+  id: ComputedRef<BidID>;
+}
 export interface QueryBidRequestProtoMsg {
   typeUrl: "/akash.market.v1beta2.QueryBidRequest";
   value: Uint8Array;
@@ -103,6 +129,10 @@ export interface QueryBidRequestSDKType {
 export interface QueryBidResponse {
   bid: Bid;
   escrowAccount: Account;
+}
+export interface ReactiveQueryBidResponse {
+  bid: ComputedRef<Bid>;
+  escrowAccount: ComputedRef<Account>;
 }
 export interface QueryBidResponseProtoMsg {
   typeUrl: "/akash.market.v1beta2.QueryBidResponse";
@@ -118,6 +148,10 @@ export interface QueryLeasesRequest {
   filters: LeaseFilters;
   pagination?: PageRequest;
 }
+export interface ReactiveQueryLeasesRequest {
+  filters: ComputedRef<LeaseFilters>;
+  pagination?: ComputedRef<PageRequest>;
+}
 export interface QueryLeasesRequestProtoMsg {
   typeUrl: "/akash.market.v1beta2.QueryLeasesRequest";
   value: Uint8Array;
@@ -132,6 +166,10 @@ export interface QueryLeasesResponse {
   leases: QueryLeaseResponse[];
   pagination?: PageResponse;
 }
+export interface ReactiveQueryLeasesResponse {
+  leases: ComputedRef<QueryLeaseResponse[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryLeasesResponseProtoMsg {
   typeUrl: "/akash.market.v1beta2.QueryLeasesResponse";
   value: Uint8Array;
@@ -145,6 +183,9 @@ export interface QueryLeasesResponseSDKType {
 export interface QueryLeaseRequest {
   id: LeaseID;
 }
+export interface ReactiveQueryLeaseRequest {
+  id: ComputedRef<LeaseID>;
+}
 export interface QueryLeaseRequestProtoMsg {
   typeUrl: "/akash.market.v1beta2.QueryLeaseRequest";
   value: Uint8Array;
@@ -157,6 +198,10 @@ export interface QueryLeaseRequestSDKType {
 export interface QueryLeaseResponse {
   lease: Lease;
   escrowPayment: FractionalPayment;
+}
+export interface ReactiveQueryLeaseResponse {
+  lease: ComputedRef<Lease>;
+  escrowPayment: ComputedRef<FractionalPayment>;
 }
 export interface QueryLeaseResponseProtoMsg {
   typeUrl: "/akash.market.v1beta2.QueryLeaseResponse";

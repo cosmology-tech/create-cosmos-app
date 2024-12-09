@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "tendermint.version";
 /**
  * App includes the protocol and software version for the application.
@@ -10,6 +11,10 @@ export const protobufPackage = "tendermint.version";
 export interface App {
   protocol: bigint;
   software: string;
+}
+export interface ReactiveApp {
+  protocol: ComputedRef<bigint>;
+  software: ComputedRef<string>;
 }
 export interface AppProtoMsg {
   typeUrl: "/tendermint.version.App";
@@ -32,6 +37,10 @@ export interface AppSDKType {
 export interface Consensus {
   block: bigint;
   app: bigint;
+}
+export interface ReactiveConsensus {
+  block: ComputedRef<bigint>;
+  app: ComputedRef<bigint>;
 }
 export interface ConsensusProtoMsg {
   typeUrl: "/tendermint.version.Consensus";

@@ -1,10 +1,15 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "tendermint.libs.bits";
 export interface BitArray {
   bits: bigint;
   elems: bigint[];
+}
+export interface ReactiveBitArray {
+  bits: ComputedRef<bigint>;
+  elems: ComputedRef<bigint[]>;
 }
 export interface BitArrayProtoMsg {
   typeUrl: "/tendermint.libs.bits.BitArray";

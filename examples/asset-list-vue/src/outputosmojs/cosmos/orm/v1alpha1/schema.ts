@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.orm.v1alpha1";
 /** StorageType */
 export enum StorageType {
@@ -95,6 +96,10 @@ export interface ModuleSchemaDescriptor {
    */
   prefix: Uint8Array;
 }
+export interface ReactiveModuleSchemaDescriptor {
+  schemaFile: ComputedRef<ModuleSchemaDescriptor_FileEntry[]>;
+  prefix: ComputedRef<Uint8Array>;
+}
 export interface ModuleSchemaDescriptorProtoMsg {
   typeUrl: "/cosmos.orm.v1alpha1.ModuleSchemaDescriptor";
   value: Uint8Array;
@@ -123,6 +128,11 @@ export interface ModuleSchemaDescriptor_FileEntry {
    * of the app will be used.
    */
   storageType: StorageType;
+}
+export interface ReactiveModuleSchemaDescriptor_FileEntry {
+  id: ComputedRef<number>;
+  protoFileName: ComputedRef<string>;
+  storageType: ComputedRef<StorageType>;
 }
 export interface ModuleSchemaDescriptor_FileEntryProtoMsg {
   typeUrl: "/cosmos.orm.v1alpha1.FileEntry";

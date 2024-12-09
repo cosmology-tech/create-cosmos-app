@@ -1,10 +1,14 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.slashing.v1beta1";
 /** MsgUnjail defines the Msg/Unjail request type */
 export interface MsgUnjail {
   validatorAddr: string;
+}
+export interface ReactiveMsgUnjail {
+  validatorAddr: ComputedRef<string>;
 }
 export interface MsgUnjailProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.MsgUnjail";
@@ -16,6 +20,7 @@ export interface MsgUnjailSDKType {
 }
 /** MsgUnjailResponse defines the Msg/Unjail response type */
 export interface MsgUnjailResponse {}
+export interface ReactiveMsgUnjailResponse {}
 export interface MsgUnjailResponseProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.MsgUnjailResponse";
   value: Uint8Array;

@@ -3,12 +3,18 @@ import { Input, InputSDKType, Output, OutputSDKType } from "./bank";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.bank.v1beta1";
 /** MsgSend represents a message to send coins from one account to another. */
 export interface MsgSend {
   fromAddress: string;
   toAddress: string;
   amount: Coin[];
+}
+export interface ReactiveMsgSend {
+  fromAddress: ComputedRef<string>;
+  toAddress: ComputedRef<string>;
+  amount: ComputedRef<Coin[]>;
 }
 export interface MsgSendProtoMsg {
   typeUrl: "/cosmos.bank.v1beta1.MsgSend";
@@ -22,6 +28,7 @@ export interface MsgSendSDKType {
 }
 /** MsgSendResponse defines the Msg/Send response type. */
 export interface MsgSendResponse {}
+export interface ReactiveMsgSendResponse {}
 export interface MsgSendResponseProtoMsg {
   typeUrl: "/cosmos.bank.v1beta1.MsgSendResponse";
   value: Uint8Array;
@@ -32,6 +39,10 @@ export interface MsgSendResponseSDKType {}
 export interface MsgMultiSend {
   inputs: Input[];
   outputs: Output[];
+}
+export interface ReactiveMsgMultiSend {
+  inputs: ComputedRef<Input[]>;
+  outputs: ComputedRef<Output[]>;
 }
 export interface MsgMultiSendProtoMsg {
   typeUrl: "/cosmos.bank.v1beta1.MsgMultiSend";
@@ -44,6 +55,7 @@ export interface MsgMultiSendSDKType {
 }
 /** MsgMultiSendResponse defines the Msg/MultiSend response type. */
 export interface MsgMultiSendResponse {}
+export interface ReactiveMsgMultiSendResponse {}
 export interface MsgMultiSendResponseProtoMsg {
   typeUrl: "/cosmos.bank.v1beta1.MsgMultiSendResponse";
   value: Uint8Array;

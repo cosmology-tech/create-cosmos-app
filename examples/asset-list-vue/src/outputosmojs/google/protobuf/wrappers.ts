@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf";
 /**
  * Wrapper message for `double`.
@@ -10,6 +11,9 @@ export const protobufPackage = "google.protobuf";
 export interface DoubleValue {
   /** The double value. */
   value: number;
+}
+export interface ReactiveDoubleValue {
+  value: ComputedRef<number>;
 }
 export interface DoubleValueProtoMsg {
   typeUrl: "/google.protobuf.DoubleValue";
@@ -32,6 +36,9 @@ export interface FloatValue {
   /** The float value. */
   value: number;
 }
+export interface ReactiveFloatValue {
+  value: ComputedRef<number>;
+}
 export interface FloatValueProtoMsg {
   typeUrl: "/google.protobuf.FloatValue";
   value: Uint8Array;
@@ -52,6 +59,9 @@ export interface FloatValueSDKType {
 export interface Int64Value {
   /** The int64 value. */
   value: bigint;
+}
+export interface ReactiveInt64Value {
+  value: ComputedRef<bigint>;
 }
 export interface Int64ValueProtoMsg {
   typeUrl: "/google.protobuf.Int64Value";
@@ -74,6 +84,9 @@ export interface UInt64Value {
   /** The uint64 value. */
   value: bigint;
 }
+export interface ReactiveUInt64Value {
+  value: ComputedRef<bigint>;
+}
 export interface UInt64ValueProtoMsg {
   typeUrl: "/google.protobuf.UInt64Value";
   value: Uint8Array;
@@ -94,6 +107,9 @@ export interface UInt64ValueSDKType {
 export interface Int32Value {
   /** The int32 value. */
   value: number;
+}
+export interface ReactiveInt32Value {
+  value: ComputedRef<number>;
 }
 export interface Int32ValueProtoMsg {
   typeUrl: "/google.protobuf.Int32Value";
@@ -116,6 +132,9 @@ export interface UInt32Value {
   /** The uint32 value. */
   value: number;
 }
+export interface ReactiveUInt32Value {
+  value: ComputedRef<number>;
+}
 export interface UInt32ValueProtoMsg {
   typeUrl: "/google.protobuf.UInt32Value";
   value: Uint8Array;
@@ -136,6 +155,9 @@ export interface UInt32ValueSDKType {
 export interface BoolValue {
   /** The bool value. */
   value: boolean;
+}
+export interface ReactiveBoolValue {
+  value: ComputedRef<boolean>;
 }
 export interface BoolValueProtoMsg {
   typeUrl: "/google.protobuf.BoolValue";
@@ -158,6 +180,9 @@ export interface StringValue {
   /** The string value. */
   value: string;
 }
+export interface ReactiveStringValue {
+  value: ComputedRef<string>;
+}
 export interface StringValueProtoMsg {
   typeUrl: "/google.protobuf.StringValue";
   value: Uint8Array;
@@ -178,6 +203,9 @@ export interface StringValueSDKType {
 export interface BytesValue {
   /** The bytes value. */
   value: Uint8Array;
+}
+export interface ReactiveBytesValue {
+  value: ComputedRef<Uint8Array>;
 }
 export interface BytesValueProtoMsg {
   typeUrl: "/google.protobuf.BytesValue";

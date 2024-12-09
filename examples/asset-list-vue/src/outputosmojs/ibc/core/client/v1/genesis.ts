@@ -2,6 +2,7 @@ import { IdentifiedClientState, IdentifiedClientStateSDKType, ClientConsensusSta
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.client.v1";
 /** GenesisState defines the ibc client submodule's genesis state. */
 export interface GenesisState {
@@ -16,6 +17,14 @@ export interface GenesisState {
   createLocalhost: boolean;
   /** the sequence for the next generated client identifier */
   nextClientSequence: bigint;
+}
+export interface ReactiveGenesisState {
+  clients: ComputedRef<IdentifiedClientState[]>;
+  clientsConsensus: ComputedRef<ClientConsensusStates[]>;
+  clientsMetadata: ComputedRef<IdentifiedGenesisMetadata[]>;
+  params: ComputedRef<Params>;
+  createLocalhost: ComputedRef<boolean>;
+  nextClientSequence: ComputedRef<bigint>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/ibc.core.client.v1.GenesisState";
@@ -40,6 +49,10 @@ export interface GenesisMetadata {
   /** metadata value */
   value: Uint8Array;
 }
+export interface ReactiveGenesisMetadata {
+  key: ComputedRef<Uint8Array>;
+  value: ComputedRef<Uint8Array>;
+}
 export interface GenesisMetadataProtoMsg {
   typeUrl: "/ibc.core.client.v1.GenesisMetadata";
   value: Uint8Array;
@@ -59,6 +72,10 @@ export interface GenesisMetadataSDKType {
 export interface IdentifiedGenesisMetadata {
   clientId: string;
   clientMetadata: GenesisMetadata[];
+}
+export interface ReactiveIdentifiedGenesisMetadata {
+  clientId: ComputedRef<string>;
+  clientMetadata: ComputedRef<GenesisMetadata[]>;
 }
 export interface IdentifiedGenesisMetadataProtoMsg {
   typeUrl: "/ibc.core.client.v1.IdentifiedGenesisMetadata";

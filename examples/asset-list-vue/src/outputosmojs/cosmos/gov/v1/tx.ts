@@ -4,6 +4,7 @@ import { VoteOption, VoteOptionSDKType, WeightedVoteOption, WeightedVoteOptionSD
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.gov.v1";
 /**
  * MsgSubmitProposal defines an sdk.Msg type that supports submitting arbitrary
@@ -15,6 +16,12 @@ export interface MsgSubmitProposal {
   proposer: string;
   /** metadata is any arbitrary metadata attached to the proposal. */
   metadata: string;
+}
+export interface ReactiveMsgSubmitProposal {
+  messages: ComputedRef<Any[]>;
+  initialDeposit: ComputedRef<Coin[]>;
+  proposer: ComputedRef<string>;
+  metadata: ComputedRef<string>;
 }
 export interface MsgSubmitProposalProtoMsg {
   typeUrl: "/cosmos.gov.v1.MsgSubmitProposal";
@@ -34,6 +41,9 @@ export interface MsgSubmitProposalSDKType {
 export interface MsgSubmitProposalResponse {
   proposalId: bigint;
 }
+export interface ReactiveMsgSubmitProposalResponse {
+  proposalId: ComputedRef<bigint>;
+}
 export interface MsgSubmitProposalResponseProtoMsg {
   typeUrl: "/cosmos.gov.v1.MsgSubmitProposalResponse";
   value: Uint8Array;
@@ -52,6 +62,10 @@ export interface MsgExecLegacyContent {
   /** authority must be the gov module address. */
   authority: string;
 }
+export interface ReactiveMsgExecLegacyContent {
+  content?: ComputedRef<Any>;
+  authority: ComputedRef<string>;
+}
 export interface MsgExecLegacyContentProtoMsg {
   typeUrl: "/cosmos.gov.v1.MsgExecLegacyContent";
   value: Uint8Array;
@@ -66,6 +80,7 @@ export interface MsgExecLegacyContentSDKType {
 }
 /** MsgExecLegacyContentResponse defines the Msg/ExecLegacyContent response type. */
 export interface MsgExecLegacyContentResponse {}
+export interface ReactiveMsgExecLegacyContentResponse {}
 export interface MsgExecLegacyContentResponseProtoMsg {
   typeUrl: "/cosmos.gov.v1.MsgExecLegacyContentResponse";
   value: Uint8Array;
@@ -78,6 +93,12 @@ export interface MsgVote {
   voter: string;
   option: VoteOption;
   metadata: string;
+}
+export interface ReactiveMsgVote {
+  proposalId: ComputedRef<bigint>;
+  voter: ComputedRef<string>;
+  option: ComputedRef<VoteOption>;
+  metadata: ComputedRef<string>;
 }
 export interface MsgVoteProtoMsg {
   typeUrl: "/cosmos.gov.v1.MsgVote";
@@ -92,6 +113,7 @@ export interface MsgVoteSDKType {
 }
 /** MsgVoteResponse defines the Msg/Vote response type. */
 export interface MsgVoteResponse {}
+export interface ReactiveMsgVoteResponse {}
 export interface MsgVoteResponseProtoMsg {
   typeUrl: "/cosmos.gov.v1.MsgVoteResponse";
   value: Uint8Array;
@@ -104,6 +126,12 @@ export interface MsgVoteWeighted {
   voter: string;
   options: WeightedVoteOption[];
   metadata: string;
+}
+export interface ReactiveMsgVoteWeighted {
+  proposalId: ComputedRef<bigint>;
+  voter: ComputedRef<string>;
+  options: ComputedRef<WeightedVoteOption[]>;
+  metadata: ComputedRef<string>;
 }
 export interface MsgVoteWeightedProtoMsg {
   typeUrl: "/cosmos.gov.v1.MsgVoteWeighted";
@@ -118,6 +146,7 @@ export interface MsgVoteWeightedSDKType {
 }
 /** MsgVoteWeightedResponse defines the Msg/VoteWeighted response type. */
 export interface MsgVoteWeightedResponse {}
+export interface ReactiveMsgVoteWeightedResponse {}
 export interface MsgVoteWeightedResponseProtoMsg {
   typeUrl: "/cosmos.gov.v1.MsgVoteWeightedResponse";
   value: Uint8Array;
@@ -129,6 +158,11 @@ export interface MsgDeposit {
   proposalId: bigint;
   depositor: string;
   amount: Coin[];
+}
+export interface ReactiveMsgDeposit {
+  proposalId: ComputedRef<bigint>;
+  depositor: ComputedRef<string>;
+  amount: ComputedRef<Coin[]>;
 }
 export interface MsgDepositProtoMsg {
   typeUrl: "/cosmos.gov.v1.MsgDeposit";
@@ -142,6 +176,7 @@ export interface MsgDepositSDKType {
 }
 /** MsgDepositResponse defines the Msg/Deposit response type. */
 export interface MsgDepositResponse {}
+export interface ReactiveMsgDepositResponse {}
 export interface MsgDepositResponseProtoMsg {
   typeUrl: "/cosmos.gov.v1.MsgDepositResponse";
   value: Uint8Array;

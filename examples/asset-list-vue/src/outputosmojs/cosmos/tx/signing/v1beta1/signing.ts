@@ -3,6 +3,7 @@ import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { JsonSafe } from "../../../../json-safe";
 import { DeepPartial, isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.tx.signing.v1beta1";
 /**
  * SignMode represents a signing mode with its own security guarantees.
@@ -93,6 +94,9 @@ export interface SignatureDescriptors {
   /** signatures are the signature descriptors */
   signatures: SignatureDescriptor[];
 }
+export interface ReactiveSignatureDescriptors {
+  signatures: ComputedRef<SignatureDescriptor[]>;
+}
 export interface SignatureDescriptorsProtoMsg {
   typeUrl: "/cosmos.tx.signing.v1beta1.SignatureDescriptors";
   value: Uint8Array;
@@ -118,6 +122,11 @@ export interface SignatureDescriptor {
    */
   sequence: bigint;
 }
+export interface ReactiveSignatureDescriptor {
+  publicKey?: ComputedRef<Any>;
+  data?: ComputedRef<SignatureDescriptor_Data>;
+  sequence: ComputedRef<bigint>;
+}
 export interface SignatureDescriptorProtoMsg {
   typeUrl: "/cosmos.tx.signing.v1beta1.SignatureDescriptor";
   value: Uint8Array;
@@ -140,6 +149,10 @@ export interface SignatureDescriptor_Data {
   /** multi represents a multisig signer */
   multi?: SignatureDescriptor_Data_Multi;
 }
+export interface ReactiveSignatureDescriptor_Data {
+  single?: ComputedRef<SignatureDescriptor_Data_Single>;
+  multi?: ComputedRef<SignatureDescriptor_Data_Multi>;
+}
 export interface SignatureDescriptor_DataProtoMsg {
   typeUrl: "/cosmos.tx.signing.v1beta1.Data";
   value: Uint8Array;
@@ -156,6 +169,10 @@ export interface SignatureDescriptor_Data_Single {
   /** signature is the raw signature bytes */
   signature: Uint8Array;
 }
+export interface ReactiveSignatureDescriptor_Data_Single {
+  mode: ComputedRef<SignMode>;
+  signature: ComputedRef<Uint8Array>;
+}
 export interface SignatureDescriptor_Data_SingleProtoMsg {
   typeUrl: "/cosmos.tx.signing.v1beta1.Single";
   value: Uint8Array;
@@ -171,6 +188,10 @@ export interface SignatureDescriptor_Data_Multi {
   bitarray?: CompactBitArray;
   /** signatures is the signatures of the multi-signature */
   signatures: SignatureDescriptor_Data[];
+}
+export interface ReactiveSignatureDescriptor_Data_Multi {
+  bitarray?: ComputedRef<CompactBitArray>;
+  signatures: ComputedRef<SignatureDescriptor_Data[]>;
 }
 export interface SignatureDescriptor_Data_MultiProtoMsg {
   typeUrl: "/cosmos.tx.signing.v1beta1.Multi";

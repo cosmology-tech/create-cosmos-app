@@ -4,6 +4,7 @@ import { Timestamp, TimestampSDKType } from "../../../protobuf/timestamp";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp, bytesFromBase64, base64FromBytes, isObject } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.expr.v1alpha1";
 /** An expression together with source information as returned by the parser. */
 export interface ParsedExpr {
@@ -11,6 +12,10 @@ export interface ParsedExpr {
   expr?: Expr;
   /** The source info derived from input that generated the parsed `expr`. */
   sourceInfo?: SourceInfo;
+}
+export interface ReactiveParsedExpr {
+  expr?: ComputedRef<Expr>;
+  sourceInfo?: ComputedRef<SourceInfo>;
 }
 export interface ParsedExprProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.ParsedExpr";
@@ -60,6 +65,16 @@ export interface Expr {
   /** A comprehension expression. */
   comprehensionExpr?: Expr_Comprehension;
 }
+export interface ReactiveExpr {
+  id: ComputedRef<bigint>;
+  constExpr?: ComputedRef<Constant>;
+  identExpr?: ComputedRef<Expr_Ident>;
+  selectExpr?: ComputedRef<Expr_Select>;
+  callExpr?: ComputedRef<Expr_Call>;
+  listExpr?: ComputedRef<Expr_CreateList>;
+  structExpr?: ComputedRef<Expr_CreateStruct>;
+  comprehensionExpr?: ComputedRef<Expr_Comprehension>;
+}
 export interface ExprProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Expr";
   value: Uint8Array;
@@ -101,6 +116,9 @@ export interface Expr_Ident {
    */
   name: string;
 }
+export interface ReactiveExpr_Ident {
+  name: ComputedRef<string>;
+}
 export interface Expr_IdentProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Ident";
   value: Uint8Array;
@@ -132,6 +150,11 @@ export interface Expr_Select {
    */
   testOnly: boolean;
 }
+export interface ReactiveExpr_Select {
+  operand?: ComputedRef<Expr>;
+  field: ComputedRef<string>;
+  testOnly: ComputedRef<boolean>;
+}
 export interface Expr_SelectProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Select";
   value: Uint8Array;
@@ -158,6 +181,11 @@ export interface Expr_Call {
   /** The arguments. */
   args: Expr[];
 }
+export interface ReactiveExpr_Call {
+  target?: ComputedRef<Expr>;
+  function: ComputedRef<string>;
+  args: ComputedRef<Expr[]>;
+}
 export interface Expr_CallProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Call";
   value: Uint8Array;
@@ -181,6 +209,9 @@ export interface Expr_CallSDKType {
 export interface Expr_CreateList {
   /** The elements part of the list. */
   elements: Expr[];
+}
+export interface ReactiveExpr_CreateList {
+  elements: ComputedRef<Expr[]>;
 }
 export interface Expr_CreateListProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.CreateList";
@@ -211,6 +242,10 @@ export interface Expr_CreateStruct {
   /** The entries in the creation expression. */
   entries: Expr_CreateStruct_Entry[];
 }
+export interface ReactiveExpr_CreateStruct {
+  messageName: ComputedRef<string>;
+  entries: ComputedRef<Expr_CreateStruct_Entry[]>;
+}
 export interface Expr_CreateStructProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.CreateStruct";
   value: Uint8Array;
@@ -240,6 +275,12 @@ export interface Expr_CreateStruct_Entry {
   mapKey?: Expr;
   /** Required. The value assigned to the key. */
   value?: Expr;
+}
+export interface ReactiveExpr_CreateStruct_Entry {
+  id: ComputedRef<bigint>;
+  fieldKey?: ComputedRef<string>;
+  mapKey?: ComputedRef<Expr>;
+  value?: ComputedRef<Expr>;
 }
 export interface Expr_CreateStruct_EntryProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Entry";
@@ -308,6 +349,15 @@ export interface Expr_Comprehension {
    * Computes the result.
    */
   result?: Expr;
+}
+export interface ReactiveExpr_Comprehension {
+  iterVar: ComputedRef<string>;
+  iterRange?: ComputedRef<Expr>;
+  accuVar: ComputedRef<string>;
+  accuInit?: ComputedRef<Expr>;
+  loopCondition?: ComputedRef<Expr>;
+  loopStep?: ComputedRef<Expr>;
+  result?: ComputedRef<Expr>;
 }
 export interface Expr_ComprehensionProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Comprehension";
@@ -395,6 +445,17 @@ export interface Constant {
   /** @deprecated */
   timestampValue?: Date;
 }
+export interface ReactiveConstant {
+  nullValue?: ComputedRef<NullValue>;
+  boolValue?: ComputedRef<boolean>;
+  int64Value?: ComputedRef<bigint>;
+  uint64Value?: ComputedRef<bigint>;
+  doubleValue?: ComputedRef<number>;
+  stringValue?: ComputedRef<string>;
+  bytesValue?: ComputedRef<Uint8Array>;
+  durationValue?: ComputedRef<Duration>;
+  timestampValue?: ComputedRef<Date>;
+}
 export interface ConstantProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Constant";
   value: Uint8Array;
@@ -431,6 +492,10 @@ export interface SourceInfo_PositionsEntry {
   key: bigint;
   value: number;
 }
+export interface ReactiveSourceInfo_PositionsEntry {
+  key: ComputedRef<bigint>;
+  value: ComputedRef<number>;
+}
 export interface SourceInfo_PositionsEntryProtoMsg {
   typeUrl: string;
   value: Uint8Array;
@@ -442,6 +507,10 @@ export interface SourceInfo_PositionsEntrySDKType {
 export interface SourceInfo_MacroCallsEntry {
   key: bigint;
   value?: Expr;
+}
+export interface ReactiveSourceInfo_MacroCallsEntry {
+  key: ComputedRef<bigint>;
+  value?: ComputedRef<Expr>;
 }
 export interface SourceInfo_MacroCallsEntryProtoMsg {
   typeUrl: string;
@@ -493,6 +562,17 @@ export interface SourceInfo {
     [key: bigint]: Expr;
   };
 }
+export interface ReactiveSourceInfo {
+  syntaxVersion: ComputedRef<string>;
+  location: ComputedRef<string>;
+  lineOffsets: ComputedRef<number[]>;
+  positions: ComputedRef<{
+    [key: bigint]: number;
+  }>;
+  macroCalls: ComputedRef<{
+    [key: bigint]: Expr;
+  }>;
+}
 export interface SourceInfoProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.SourceInfo";
   value: Uint8Array;
@@ -525,6 +605,12 @@ export interface SourcePosition {
    * where the issue occurs.  Only meaningful if line is nonzero.
    */
   column: number;
+}
+export interface ReactiveSourcePosition {
+  location: ComputedRef<string>;
+  offset: ComputedRef<number>;
+  line: ComputedRef<number>;
+  column: ComputedRef<number>;
 }
 export interface SourcePositionProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.SourcePosition";

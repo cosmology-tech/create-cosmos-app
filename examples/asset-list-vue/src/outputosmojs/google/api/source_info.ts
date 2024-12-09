@@ -2,11 +2,15 @@ import { Any, AnySDKType } from "../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /** Source information used to create a Service Config */
 export interface SourceInfo {
   /** All files used during config generation. */
   sourceFiles: Any[];
+}
+export interface ReactiveSourceInfo {
+  sourceFiles: ComputedRef<Any[]>;
 }
 export interface SourceInfoProtoMsg {
   typeUrl: "/google.api.SourceInfo";

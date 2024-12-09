@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { useChain } from '@interchain-kit/vue'
-import { useRpcClient, createRpcQueryHooks, useTendermintClient, } from '../outputosmojs'
+import { useRpcClient, useTendermintClient, } from '../outputosmojs'
+import { createRpcQueryHooks } from '../outputosmojs/cosmos/bank/v1beta1/query.rpc.Query.ts'
 
 const chainName = ref('cosmoshub')
 const { address, rpcEndpoint } = useChain(chainName)
 
 // create tendermintClient by rpcEnpoint
-const { client: tendermintCleint } = useTendermintClient({
+const { client: tendermintClient } = useTendermintClient({
   rpcEndpoint
 })
-console.log('[tendermint client]', tendermintCleint)
-// watch(tendermintCleint, async client => {
+console.log('[tendermint client]', tendermintClient)
+// watch(tendermintClient, async client => {
 //   let abicInfo = await client?.abciInfo()
-//   console.log('[query abicInfo using tendermintCleint]', abicInfo)
+//   console.log('[query abicInfo using tendermintClient]', abicInfo)
 // })
 
 // create rpcClient by rpcEnpoint
@@ -25,16 +26,20 @@ const { data: rpcClient } = useRpcClient({
 });
 console.log('[rpcClient]', rpcClient)
 
-const hooks = createRpcQueryHooks({ rpc: rpcClient });
+const hooks = createRpcQueryHooks(rpcClient);
 
-const changeChainName = () => {
-  chainName.value = 'osmosis'
-}
-const {data, error} = hooks.cosmos.bank.v1beta1.useAllBalances({
+const { data, error, isLoading} = hooks.useAllBalances({
   request: {
     address: address || '',
     // denom: chainassets?.assets[0].base as string,
   },
+})
+
+const balance = computed(() => {
+  if (isLoading.value) {
+    return {}
+  }
+  return data.value?.balances?.[0]
 })
 console.log('data.>', data)
 console.log('error>', error)
@@ -43,8 +48,15 @@ console.log('error>', error)
 
 <template>
 <div>
-  <div>fetching rpcClient:</div>
-  <button @click="changeChainName">changeChainName</button>
+  <div>chain: {{ chainName }}</div> 
+  <div>balance: {{ balance?.denom }} {{ balance?.amount }}</div>
+  <div>error: {{ error }}</div>
+  <select v-model="chainName" className="h-9 px-3 mr-4 border rounded-md shadow-sm">
+    <option value="juno">Juno</option>
+    <option value="osmosis">Osmosis</option>
+    <option value="stargaze">Stargaze</option>
+    <option value="cosmoshub">Cosmos Hub</option>
+  </select>
 </div>
 </template>
 

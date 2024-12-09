@@ -2,12 +2,18 @@ import { InterchainAccountPacketData, InterchainAccountPacketDataSDKType } from 
 import { BinaryReader, BinaryWriter } from "../../../../../binary";
 import { isSet, DeepPartial } from "../../../../../helpers";
 import { JsonSafe } from "../../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.interchain_accounts.controller.v1";
 /** MsgRegisterInterchainAccount defines the payload for Msg/RegisterAccount */
 export interface MsgRegisterInterchainAccount {
   owner: string;
   connectionId: string;
   version: string;
+}
+export interface ReactiveMsgRegisterInterchainAccount {
+  owner: ComputedRef<string>;
+  connectionId: ComputedRef<string>;
+  version: ComputedRef<string>;
 }
 export interface MsgRegisterInterchainAccountProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.controller.v1.MsgRegisterInterchainAccount";
@@ -23,6 +29,10 @@ export interface MsgRegisterInterchainAccountSDKType {
 export interface MsgRegisterInterchainAccountResponse {
   channelId: string;
   portId: string;
+}
+export interface ReactiveMsgRegisterInterchainAccountResponse {
+  channelId: ComputedRef<string>;
+  portId: ComputedRef<string>;
 }
 export interface MsgRegisterInterchainAccountResponseProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.controller.v1.MsgRegisterInterchainAccountResponse";
@@ -44,6 +54,12 @@ export interface MsgSendTx {
    */
   relativeTimeout: bigint;
 }
+export interface ReactiveMsgSendTx {
+  owner: ComputedRef<string>;
+  connectionId: ComputedRef<string>;
+  packetData: ComputedRef<InterchainAccountPacketData>;
+  relativeTimeout: ComputedRef<bigint>;
+}
 export interface MsgSendTxProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.controller.v1.MsgSendTx";
   value: Uint8Array;
@@ -58,6 +74,9 @@ export interface MsgSendTxSDKType {
 /** MsgSendTxResponse defines the response for MsgSendTx */
 export interface MsgSendTxResponse {
   sequence: bigint;
+}
+export interface ReactiveMsgSendTxResponse {
+  sequence: ComputedRef<bigint>;
 }
 export interface MsgSendTxResponseProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.controller.v1.MsgSendTxResponse";

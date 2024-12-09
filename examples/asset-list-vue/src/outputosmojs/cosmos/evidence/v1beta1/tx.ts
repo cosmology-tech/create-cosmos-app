@@ -2,6 +2,7 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.evidence.v1beta1";
 /**
  * MsgSubmitEvidence represents a message that supports submitting arbitrary
@@ -10,6 +11,10 @@ export const protobufPackage = "cosmos.evidence.v1beta1";
 export interface MsgSubmitEvidence {
   submitter: string;
   evidence?: Any;
+}
+export interface ReactiveMsgSubmitEvidence {
+  submitter: ComputedRef<string>;
+  evidence?: ComputedRef<Any>;
 }
 export interface MsgSubmitEvidenceProtoMsg {
   typeUrl: "/cosmos.evidence.v1beta1.MsgSubmitEvidence";
@@ -27,6 +32,9 @@ export interface MsgSubmitEvidenceSDKType {
 export interface MsgSubmitEvidenceResponse {
   /** hash defines the hash of the evidence. */
   hash: Uint8Array;
+}
+export interface ReactiveMsgSubmitEvidenceResponse {
+  hash: ComputedRef<Uint8Array>;
 }
 export interface MsgSubmitEvidenceResponseProtoMsg {
   typeUrl: "/cosmos.evidence.v1beta1.MsgSubmitEvidenceResponse";

@@ -1,9 +1,13 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.lockup";
 export interface Params {
   forceUnlockAllowedAddresses: string[];
+}
+export interface ReactiveParams {
+  forceUnlockAllowedAddresses: ComputedRef<string[]>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/osmosis.lockup.Params";

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../../binary";
 import { isSet, DeepPartial } from "../../../../../helpers";
 import { JsonSafe } from "../../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.interchain_accounts.controller.v1";
 /**
  * Params defines the set of on-chain interchain accounts parameters.
@@ -9,6 +10,9 @@ export const protobufPackage = "ibc.applications.interchain_accounts.controller.
 export interface Params {
   /** controller_enabled enables or disables the controller submodule. */
   controllerEnabled: boolean;
+}
+export interface ReactiveParams {
+  controllerEnabled: ComputedRef<boolean>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.controller.v1.Params";

@@ -2,6 +2,7 @@ import { Distribution_Exemplar, Distribution_ExemplarSDKType } from "../../distr
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /**
  * Distribution represents a frequency distribution of double-valued sample
@@ -55,6 +56,18 @@ export interface Distribution {
   /** Example points. Must be in increasing order of `value` field. */
   exemplars: Distribution_Exemplar[];
 }
+export interface ReactiveDistribution {
+  count: ComputedRef<bigint>;
+  mean: ComputedRef<number>;
+  minimum: ComputedRef<number>;
+  maximum: ComputedRef<number>;
+  sumOfSquaredDeviation: ComputedRef<number>;
+  bucketCounts: ComputedRef<bigint[]>;
+  linearBuckets?: ComputedRef<Distribution_LinearBuckets>;
+  exponentialBuckets?: ComputedRef<Distribution_ExponentialBuckets>;
+  explicitBuckets?: ComputedRef<Distribution_ExplicitBuckets>;
+  exemplars: ComputedRef<Distribution_Exemplar[]>;
+}
 export interface DistributionProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.Distribution";
   value: Uint8Array;
@@ -103,6 +116,11 @@ export interface Distribution_LinearBuckets {
    */
   offset: number;
 }
+export interface ReactiveDistribution_LinearBuckets {
+  numFiniteBuckets: ComputedRef<number>;
+  width: ComputedRef<number>;
+  offset: ComputedRef<number>;
+}
 export interface Distribution_LinearBucketsProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.LinearBuckets";
   value: Uint8Array;
@@ -136,6 +154,11 @@ export interface Distribution_ExponentialBuckets {
    */
   scale: number;
 }
+export interface ReactiveDistribution_ExponentialBuckets {
+  numFiniteBuckets: ComputedRef<number>;
+  growthFactor: ComputedRef<number>;
+  scale: ComputedRef<number>;
+}
 export interface Distribution_ExponentialBucketsProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.ExponentialBuckets";
   value: Uint8Array;
@@ -166,6 +189,9 @@ export interface Distribution_ExplicitBuckets {
    *  i == bound_size() (overflow)    bound[i-1]     +inf
    */
   bounds: number[];
+}
+export interface ReactiveDistribution_ExplicitBuckets {
+  bounds: ComputedRef<number[]>;
 }
 export interface Distribution_ExplicitBucketsProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.ExplicitBuckets";

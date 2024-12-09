@@ -2,6 +2,7 @@ import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.interchain_accounts.v1";
 /**
  * Type defines a classification of message issued from a controller chain to its associated interchain accounts
@@ -46,6 +47,11 @@ export interface InterchainAccountPacketData {
   data: Uint8Array;
   memo: string;
 }
+export interface ReactiveInterchainAccountPacketData {
+  type: ComputedRef<Type>;
+  data: ComputedRef<Uint8Array>;
+  memo: ComputedRef<string>;
+}
 export interface InterchainAccountPacketDataProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.v1.InterchainAccountPacketData";
   value: Uint8Array;
@@ -59,6 +65,9 @@ export interface InterchainAccountPacketDataSDKType {
 /** CosmosTx contains a list of sdk.Msg's. It should be used when sending transactions to an SDK host chain. */
 export interface CosmosTx {
   messages: Any[];
+}
+export interface ReactiveCosmosTx {
+  messages: ComputedRef<Any[]>;
 }
 export interface CosmosTxProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.v1.CosmosTx";

@@ -6,8 +6,10 @@ import { Params, ParamsSDKType } from "./params";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet, toTimestamp, fromTimestamp } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.lockup";
 export interface ModuleBalanceRequest {}
+export interface ReactiveModuleBalanceRequest {}
 export interface ModuleBalanceRequestProtoMsg {
   typeUrl: "/osmosis.lockup.ModuleBalanceRequest";
   value: Uint8Array;
@@ -15,6 +17,9 @@ export interface ModuleBalanceRequestProtoMsg {
 export interface ModuleBalanceRequestSDKType {}
 export interface ModuleBalanceResponse {
   coins: Coin[];
+}
+export interface ReactiveModuleBalanceResponse {
+  coins: ComputedRef<Coin[]>;
 }
 export interface ModuleBalanceResponseProtoMsg {
   typeUrl: "/osmosis.lockup.ModuleBalanceResponse";
@@ -24,6 +29,7 @@ export interface ModuleBalanceResponseSDKType {
   coins: CoinSDKType[];
 }
 export interface ModuleLockedAmountRequest {}
+export interface ReactiveModuleLockedAmountRequest {}
 export interface ModuleLockedAmountRequestProtoMsg {
   typeUrl: "/osmosis.lockup.ModuleLockedAmountRequest";
   value: Uint8Array;
@@ -31,6 +37,9 @@ export interface ModuleLockedAmountRequestProtoMsg {
 export interface ModuleLockedAmountRequestSDKType {}
 export interface ModuleLockedAmountResponse {
   coins: Coin[];
+}
+export interface ReactiveModuleLockedAmountResponse {
+  coins: ComputedRef<Coin[]>;
 }
 export interface ModuleLockedAmountResponseProtoMsg {
   typeUrl: "/osmosis.lockup.ModuleLockedAmountResponse";
@@ -42,6 +51,9 @@ export interface ModuleLockedAmountResponseSDKType {
 export interface AccountUnlockableCoinsRequest {
   owner: string;
 }
+export interface ReactiveAccountUnlockableCoinsRequest {
+  owner: ComputedRef<string>;
+}
 export interface AccountUnlockableCoinsRequestProtoMsg {
   typeUrl: "/osmosis.lockup.AccountUnlockableCoinsRequest";
   value: Uint8Array;
@@ -51,6 +63,9 @@ export interface AccountUnlockableCoinsRequestSDKType {
 }
 export interface AccountUnlockableCoinsResponse {
   coins: Coin[];
+}
+export interface ReactiveAccountUnlockableCoinsResponse {
+  coins: ComputedRef<Coin[]>;
 }
 export interface AccountUnlockableCoinsResponseProtoMsg {
   typeUrl: "/osmosis.lockup.AccountUnlockableCoinsResponse";
@@ -62,6 +77,9 @@ export interface AccountUnlockableCoinsResponseSDKType {
 export interface AccountUnlockingCoinsRequest {
   owner: string;
 }
+export interface ReactiveAccountUnlockingCoinsRequest {
+  owner: ComputedRef<string>;
+}
 export interface AccountUnlockingCoinsRequestProtoMsg {
   typeUrl: "/osmosis.lockup.AccountUnlockingCoinsRequest";
   value: Uint8Array;
@@ -71,6 +89,9 @@ export interface AccountUnlockingCoinsRequestSDKType {
 }
 export interface AccountUnlockingCoinsResponse {
   coins: Coin[];
+}
+export interface ReactiveAccountUnlockingCoinsResponse {
+  coins: ComputedRef<Coin[]>;
 }
 export interface AccountUnlockingCoinsResponseProtoMsg {
   typeUrl: "/osmosis.lockup.AccountUnlockingCoinsResponse";
@@ -82,6 +103,9 @@ export interface AccountUnlockingCoinsResponseSDKType {
 export interface AccountLockedCoinsRequest {
   owner: string;
 }
+export interface ReactiveAccountLockedCoinsRequest {
+  owner: ComputedRef<string>;
+}
 export interface AccountLockedCoinsRequestProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedCoinsRequest";
   value: Uint8Array;
@@ -91,6 +115,9 @@ export interface AccountLockedCoinsRequestSDKType {
 }
 export interface AccountLockedCoinsResponse {
   coins: Coin[];
+}
+export interface ReactiveAccountLockedCoinsResponse {
+  coins: ComputedRef<Coin[]>;
 }
 export interface AccountLockedCoinsResponseProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedCoinsResponse";
@@ -103,6 +130,10 @@ export interface AccountLockedPastTimeRequest {
   owner: string;
   timestamp: Date;
 }
+export interface ReactiveAccountLockedPastTimeRequest {
+  owner: ComputedRef<string>;
+  timestamp: ComputedRef<Date>;
+}
 export interface AccountLockedPastTimeRequestProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedPastTimeRequest";
   value: Uint8Array;
@@ -113,6 +144,9 @@ export interface AccountLockedPastTimeRequestSDKType {
 }
 export interface AccountLockedPastTimeResponse {
   locks: PeriodLock[];
+}
+export interface ReactiveAccountLockedPastTimeResponse {
+  locks: ComputedRef<PeriodLock[]>;
 }
 export interface AccountLockedPastTimeResponseProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedPastTimeResponse";
@@ -125,6 +159,10 @@ export interface AccountLockedPastTimeNotUnlockingOnlyRequest {
   owner: string;
   timestamp: Date;
 }
+export interface ReactiveAccountLockedPastTimeNotUnlockingOnlyRequest {
+  owner: ComputedRef<string>;
+  timestamp: ComputedRef<Date>;
+}
 export interface AccountLockedPastTimeNotUnlockingOnlyRequestProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedPastTimeNotUnlockingOnlyRequest";
   value: Uint8Array;
@@ -135,6 +173,9 @@ export interface AccountLockedPastTimeNotUnlockingOnlyRequestSDKType {
 }
 export interface AccountLockedPastTimeNotUnlockingOnlyResponse {
   locks: PeriodLock[];
+}
+export interface ReactiveAccountLockedPastTimeNotUnlockingOnlyResponse {
+  locks: ComputedRef<PeriodLock[]>;
 }
 export interface AccountLockedPastTimeNotUnlockingOnlyResponseProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedPastTimeNotUnlockingOnlyResponse";
@@ -147,6 +188,10 @@ export interface AccountUnlockedBeforeTimeRequest {
   owner: string;
   timestamp: Date;
 }
+export interface ReactiveAccountUnlockedBeforeTimeRequest {
+  owner: ComputedRef<string>;
+  timestamp: ComputedRef<Date>;
+}
 export interface AccountUnlockedBeforeTimeRequestProtoMsg {
   typeUrl: "/osmosis.lockup.AccountUnlockedBeforeTimeRequest";
   value: Uint8Array;
@@ -157,6 +202,9 @@ export interface AccountUnlockedBeforeTimeRequestSDKType {
 }
 export interface AccountUnlockedBeforeTimeResponse {
   locks: PeriodLock[];
+}
+export interface ReactiveAccountUnlockedBeforeTimeResponse {
+  locks: ComputedRef<PeriodLock[]>;
 }
 export interface AccountUnlockedBeforeTimeResponseProtoMsg {
   typeUrl: "/osmosis.lockup.AccountUnlockedBeforeTimeResponse";
@@ -170,6 +218,11 @@ export interface AccountLockedPastTimeDenomRequest {
   timestamp: Date;
   denom: string;
 }
+export interface ReactiveAccountLockedPastTimeDenomRequest {
+  owner: ComputedRef<string>;
+  timestamp: ComputedRef<Date>;
+  denom: ComputedRef<string>;
+}
 export interface AccountLockedPastTimeDenomRequestProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedPastTimeDenomRequest";
   value: Uint8Array;
@@ -182,6 +235,9 @@ export interface AccountLockedPastTimeDenomRequestSDKType {
 export interface AccountLockedPastTimeDenomResponse {
   locks: PeriodLock[];
 }
+export interface ReactiveAccountLockedPastTimeDenomResponse {
+  locks: ComputedRef<PeriodLock[]>;
+}
 export interface AccountLockedPastTimeDenomResponseProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedPastTimeDenomResponse";
   value: Uint8Array;
@@ -192,6 +248,10 @@ export interface AccountLockedPastTimeDenomResponseSDKType {
 export interface LockedDenomRequest {
   denom: string;
   duration: Duration;
+}
+export interface ReactiveLockedDenomRequest {
+  denom: ComputedRef<string>;
+  duration: ComputedRef<Duration>;
 }
 export interface LockedDenomRequestProtoMsg {
   typeUrl: "/osmosis.lockup.LockedDenomRequest";
@@ -204,6 +264,9 @@ export interface LockedDenomRequestSDKType {
 export interface LockedDenomResponse {
   amount: string;
 }
+export interface ReactiveLockedDenomResponse {
+  amount: ComputedRef<string>;
+}
 export interface LockedDenomResponseProtoMsg {
   typeUrl: "/osmosis.lockup.LockedDenomResponse";
   value: Uint8Array;
@@ -213,6 +276,9 @@ export interface LockedDenomResponseSDKType {
 }
 export interface LockedRequest {
   lockId: bigint;
+}
+export interface ReactiveLockedRequest {
+  lockId: ComputedRef<bigint>;
 }
 export interface LockedRequestProtoMsg {
   typeUrl: "/osmosis.lockup.LockedRequest";
@@ -224,6 +290,9 @@ export interface LockedRequestSDKType {
 export interface LockedResponse {
   lock?: PeriodLock;
 }
+export interface ReactiveLockedResponse {
+  lock?: ComputedRef<PeriodLock>;
+}
 export interface LockedResponseProtoMsg {
   typeUrl: "/osmosis.lockup.LockedResponse";
   value: Uint8Array;
@@ -234,6 +303,9 @@ export interface LockedResponseSDKType {
 export interface SyntheticLockupsByLockupIDRequest {
   lockId: bigint;
 }
+export interface ReactiveSyntheticLockupsByLockupIDRequest {
+  lockId: ComputedRef<bigint>;
+}
 export interface SyntheticLockupsByLockupIDRequestProtoMsg {
   typeUrl: "/osmosis.lockup.SyntheticLockupsByLockupIDRequest";
   value: Uint8Array;
@@ -243,6 +315,9 @@ export interface SyntheticLockupsByLockupIDRequestSDKType {
 }
 export interface SyntheticLockupsByLockupIDResponse {
   syntheticLocks: SyntheticLock[];
+}
+export interface ReactiveSyntheticLockupsByLockupIDResponse {
+  syntheticLocks: ComputedRef<SyntheticLock[]>;
 }
 export interface SyntheticLockupsByLockupIDResponseProtoMsg {
   typeUrl: "/osmosis.lockup.SyntheticLockupsByLockupIDResponse";
@@ -255,6 +330,10 @@ export interface AccountLockedLongerDurationRequest {
   owner: string;
   duration: Duration;
 }
+export interface ReactiveAccountLockedLongerDurationRequest {
+  owner: ComputedRef<string>;
+  duration: ComputedRef<Duration>;
+}
 export interface AccountLockedLongerDurationRequestProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedLongerDurationRequest";
   value: Uint8Array;
@@ -265,6 +344,9 @@ export interface AccountLockedLongerDurationRequestSDKType {
 }
 export interface AccountLockedLongerDurationResponse {
   locks: PeriodLock[];
+}
+export interface ReactiveAccountLockedLongerDurationResponse {
+  locks: ComputedRef<PeriodLock[]>;
 }
 export interface AccountLockedLongerDurationResponseProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedLongerDurationResponse";
@@ -277,6 +359,10 @@ export interface AccountLockedDurationRequest {
   owner: string;
   duration: Duration;
 }
+export interface ReactiveAccountLockedDurationRequest {
+  owner: ComputedRef<string>;
+  duration: ComputedRef<Duration>;
+}
 export interface AccountLockedDurationRequestProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedDurationRequest";
   value: Uint8Array;
@@ -287,6 +373,9 @@ export interface AccountLockedDurationRequestSDKType {
 }
 export interface AccountLockedDurationResponse {
   locks: PeriodLock[];
+}
+export interface ReactiveAccountLockedDurationResponse {
+  locks: ComputedRef<PeriodLock[]>;
 }
 export interface AccountLockedDurationResponseProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedDurationResponse";
@@ -299,6 +388,10 @@ export interface AccountLockedLongerDurationNotUnlockingOnlyRequest {
   owner: string;
   duration: Duration;
 }
+export interface ReactiveAccountLockedLongerDurationNotUnlockingOnlyRequest {
+  owner: ComputedRef<string>;
+  duration: ComputedRef<Duration>;
+}
 export interface AccountLockedLongerDurationNotUnlockingOnlyRequestProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedLongerDurationNotUnlockingOnlyRequest";
   value: Uint8Array;
@@ -309,6 +402,9 @@ export interface AccountLockedLongerDurationNotUnlockingOnlyRequestSDKType {
 }
 export interface AccountLockedLongerDurationNotUnlockingOnlyResponse {
   locks: PeriodLock[];
+}
+export interface ReactiveAccountLockedLongerDurationNotUnlockingOnlyResponse {
+  locks: ComputedRef<PeriodLock[]>;
 }
 export interface AccountLockedLongerDurationNotUnlockingOnlyResponseProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedLongerDurationNotUnlockingOnlyResponse";
@@ -322,6 +418,11 @@ export interface AccountLockedLongerDurationDenomRequest {
   duration: Duration;
   denom: string;
 }
+export interface ReactiveAccountLockedLongerDurationDenomRequest {
+  owner: ComputedRef<string>;
+  duration: ComputedRef<Duration>;
+  denom: ComputedRef<string>;
+}
 export interface AccountLockedLongerDurationDenomRequestProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedLongerDurationDenomRequest";
   value: Uint8Array;
@@ -334,6 +435,9 @@ export interface AccountLockedLongerDurationDenomRequestSDKType {
 export interface AccountLockedLongerDurationDenomResponse {
   locks: PeriodLock[];
 }
+export interface ReactiveAccountLockedLongerDurationDenomResponse {
+  locks: ComputedRef<PeriodLock[]>;
+}
 export interface AccountLockedLongerDurationDenomResponseProtoMsg {
   typeUrl: "/osmosis.lockup.AccountLockedLongerDurationDenomResponse";
   value: Uint8Array;
@@ -342,6 +446,7 @@ export interface AccountLockedLongerDurationDenomResponseSDKType {
   locks: PeriodLockSDKType[];
 }
 export interface QueryParamsRequest {}
+export interface ReactiveQueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
   typeUrl: "/osmosis.lockup.QueryParamsRequest";
   value: Uint8Array;
@@ -349,6 +454,9 @@ export interface QueryParamsRequestProtoMsg {
 export interface QueryParamsRequestSDKType {}
 export interface QueryParamsResponse {
   params: Params;
+}
+export interface ReactiveQueryParamsResponse {
+  params: ComputedRef<Params>;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/osmosis.lockup.QueryParamsResponse";

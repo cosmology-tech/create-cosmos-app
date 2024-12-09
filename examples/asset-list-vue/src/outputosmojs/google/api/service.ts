@@ -21,6 +21,7 @@ import { UInt32Value, UInt32ValueSDKType } from "../protobuf/wrappers";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * `Service` is the root object of Google service configuration schema. It
@@ -143,6 +144,33 @@ export interface Service {
    */
   /** @deprecated */
   configVersion?: UInt32Value;
+}
+export interface ReactiveService {
+  name: ComputedRef<string>;
+  title: ComputedRef<string>;
+  producerProjectId: ComputedRef<string>;
+  id: ComputedRef<string>;
+  apis: ComputedRef<Api[]>;
+  types: ComputedRef<Type[]>;
+  enums: ComputedRef<Enum[]>;
+  documentation?: ComputedRef<Documentation>;
+  backend?: ComputedRef<Backend>;
+  http?: ComputedRef<Http>;
+  quota?: ComputedRef<Quota>;
+  authentication?: ComputedRef<Authentication>;
+  context?: ComputedRef<Context>;
+  usage?: ComputedRef<Usage>;
+  endpoints: ComputedRef<Endpoint[]>;
+  control?: ComputedRef<Control>;
+  logs: ComputedRef<LogDescriptor[]>;
+  metrics: ComputedRef<MetricDescriptor[]>;
+  monitoredResources: ComputedRef<MonitoredResourceDescriptor[]>;
+  billing?: ComputedRef<Billing>;
+  logging?: ComputedRef<Logging>;
+  monitoring?: ComputedRef<Monitoring>;
+  systemParameters?: ComputedRef<SystemParameters>;
+  sourceInfo?: ComputedRef<SourceInfo>;
+  configVersion?: ComputedRef<UInt32Value>;
 }
 export interface ServiceProtoMsg {
   typeUrl: "/google.api.Service";

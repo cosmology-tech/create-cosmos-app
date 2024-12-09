@@ -3,6 +3,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
 import { Decimal } from "@cosmjs/math";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.incentives.v1";
 /** GenesisState defines the module's genesis state. */
 export interface GenesisState {
@@ -12,6 +13,11 @@ export interface GenesisState {
   incentives: Incentive[];
   /** active Gasmeters */
   gasMeters: GasMeter[];
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  incentives: ComputedRef<Incentive[]>;
+  gasMeters: ComputedRef<GasMeter[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/evmos.incentives.v1.GenesisState";
@@ -33,6 +39,12 @@ export interface Params {
   incentivesEpochIdentifier: string;
   /** scaling factor for capping rewards */
   rewardScaler: string;
+}
+export interface ReactiveParams {
+  enableIncentives: ComputedRef<boolean>;
+  allocationLimit: ComputedRef<string>;
+  incentivesEpochIdentifier: ComputedRef<string>;
+  rewardScaler: ComputedRef<string>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/evmos.incentives.v1.Params";

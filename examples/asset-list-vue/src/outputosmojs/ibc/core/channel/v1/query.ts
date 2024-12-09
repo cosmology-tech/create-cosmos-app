@@ -5,6 +5,7 @@ import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.channel.v1";
 /** QueryChannelRequest is the request type for the Query/Channel RPC method */
 export interface QueryChannelRequest {
@@ -12,6 +13,10 @@ export interface QueryChannelRequest {
   portId: string;
   /** channel unique identifier */
   channelId: string;
+}
+export interface ReactiveQueryChannelRequest {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
 }
 export interface QueryChannelRequestProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryChannelRequest";
@@ -35,6 +40,11 @@ export interface QueryChannelResponse {
   /** height at which the proof was retrieved */
   proofHeight: Height;
 }
+export interface ReactiveQueryChannelResponse {
+  channel?: ComputedRef<Channel>;
+  proof: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+}
 export interface QueryChannelResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryChannelResponse";
   value: Uint8Array;
@@ -54,6 +64,9 @@ export interface QueryChannelsRequest {
   /** pagination request */
   pagination?: PageRequest;
 }
+export interface ReactiveQueryChannelsRequest {
+  pagination?: ComputedRef<PageRequest>;
+}
 export interface QueryChannelsRequestProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryChannelsRequest";
   value: Uint8Array;
@@ -70,6 +83,11 @@ export interface QueryChannelsResponse {
   pagination?: PageResponse;
   /** query block height */
   height: Height;
+}
+export interface ReactiveQueryChannelsResponse {
+  channels: ComputedRef<IdentifiedChannel[]>;
+  pagination?: ComputedRef<PageResponse>;
+  height: ComputedRef<Height>;
 }
 export interface QueryChannelsResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryChannelsResponse";
@@ -90,6 +108,10 @@ export interface QueryConnectionChannelsRequest {
   connection: string;
   /** pagination request */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryConnectionChannelsRequest {
+  connection: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryConnectionChannelsRequestProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryConnectionChannelsRequest";
@@ -115,6 +137,11 @@ export interface QueryConnectionChannelsResponse {
   /** query block height */
   height: Height;
 }
+export interface ReactiveQueryConnectionChannelsResponse {
+  channels: ComputedRef<IdentifiedChannel[]>;
+  pagination?: ComputedRef<PageResponse>;
+  height: ComputedRef<Height>;
+}
 export interface QueryConnectionChannelsResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryConnectionChannelsResponse";
   value: Uint8Array;
@@ -137,6 +164,10 @@ export interface QueryChannelClientStateRequest {
   portId: string;
   /** channel unique identifier */
   channelId: string;
+}
+export interface ReactiveQueryChannelClientStateRequest {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
 }
 export interface QueryChannelClientStateRequestProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryChannelClientStateRequest";
@@ -161,6 +192,11 @@ export interface QueryChannelClientStateResponse {
   proof: Uint8Array;
   /** height at which the proof was retrieved */
   proofHeight: Height;
+}
+export interface ReactiveQueryChannelClientStateResponse {
+  identifiedClientState?: ComputedRef<IdentifiedClientState>;
+  proof: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
 }
 export interface QueryChannelClientStateResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryChannelClientStateResponse";
@@ -188,6 +224,12 @@ export interface QueryChannelConsensusStateRequest {
   revisionNumber: bigint;
   /** revision height of the consensus state */
   revisionHeight: bigint;
+}
+export interface ReactiveQueryChannelConsensusStateRequest {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  revisionNumber: ComputedRef<bigint>;
+  revisionHeight: ComputedRef<bigint>;
 }
 export interface QueryChannelConsensusStateRequestProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryChannelConsensusStateRequest";
@@ -217,6 +259,12 @@ export interface QueryChannelConsensusStateResponse {
   /** height at which the proof was retrieved */
   proofHeight: Height;
 }
+export interface ReactiveQueryChannelConsensusStateResponse {
+  consensusState?: ComputedRef<Any>;
+  clientId: ComputedRef<string>;
+  proof: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+}
 export interface QueryChannelConsensusStateResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryChannelConsensusStateResponse";
   value: Uint8Array;
@@ -242,6 +290,11 @@ export interface QueryPacketCommitmentRequest {
   channelId: string;
   /** packet sequence */
   sequence: bigint;
+}
+export interface ReactiveQueryPacketCommitmentRequest {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  sequence: ComputedRef<bigint>;
 }
 export interface QueryPacketCommitmentRequestProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryPacketCommitmentRequest";
@@ -269,6 +322,11 @@ export interface QueryPacketCommitmentResponse {
   /** height at which the proof was retrieved */
   proofHeight: Height;
 }
+export interface ReactiveQueryPacketCommitmentResponse {
+  commitment: ComputedRef<Uint8Array>;
+  proof: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+}
 export interface QueryPacketCommitmentResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryPacketCommitmentResponse";
   value: Uint8Array;
@@ -295,6 +353,11 @@ export interface QueryPacketCommitmentsRequest {
   /** pagination request */
   pagination?: PageRequest;
 }
+export interface ReactiveQueryPacketCommitmentsRequest {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
+}
 export interface QueryPacketCommitmentsRequestProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryPacketCommitmentsRequest";
   value: Uint8Array;
@@ -318,6 +381,11 @@ export interface QueryPacketCommitmentsResponse {
   pagination?: PageResponse;
   /** query block height */
   height: Height;
+}
+export interface ReactiveQueryPacketCommitmentsResponse {
+  commitments: ComputedRef<PacketState[]>;
+  pagination?: ComputedRef<PageResponse>;
+  height: ComputedRef<Height>;
 }
 export interface QueryPacketCommitmentsResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryPacketCommitmentsResponse";
@@ -343,6 +411,11 @@ export interface QueryPacketReceiptRequest {
   channelId: string;
   /** packet sequence */
   sequence: bigint;
+}
+export interface ReactiveQueryPacketReceiptRequest {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  sequence: ComputedRef<bigint>;
 }
 export interface QueryPacketReceiptRequestProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryPacketReceiptRequest";
@@ -370,6 +443,11 @@ export interface QueryPacketReceiptResponse {
   /** height at which the proof was retrieved */
   proofHeight: Height;
 }
+export interface ReactiveQueryPacketReceiptResponse {
+  received: ComputedRef<boolean>;
+  proof: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+}
 export interface QueryPacketReceiptResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryPacketReceiptResponse";
   value: Uint8Array;
@@ -396,6 +474,11 @@ export interface QueryPacketAcknowledgementRequest {
   /** packet sequence */
   sequence: bigint;
 }
+export interface ReactiveQueryPacketAcknowledgementRequest {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  sequence: ComputedRef<bigint>;
+}
 export interface QueryPacketAcknowledgementRequestProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryPacketAcknowledgementRequest";
   value: Uint8Array;
@@ -421,6 +504,11 @@ export interface QueryPacketAcknowledgementResponse {
   proof: Uint8Array;
   /** height at which the proof was retrieved */
   proofHeight: Height;
+}
+export interface ReactiveQueryPacketAcknowledgementResponse {
+  acknowledgement: ComputedRef<Uint8Array>;
+  proof: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
 }
 export interface QueryPacketAcknowledgementResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryPacketAcknowledgementResponse";
@@ -450,6 +538,12 @@ export interface QueryPacketAcknowledgementsRequest {
   /** list of packet sequences */
   packetCommitmentSequences: bigint[];
 }
+export interface ReactiveQueryPacketAcknowledgementsRequest {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
+  packetCommitmentSequences: ComputedRef<bigint[]>;
+}
 export interface QueryPacketAcknowledgementsRequestProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryPacketAcknowledgementsRequest";
   value: Uint8Array;
@@ -474,6 +568,11 @@ export interface QueryPacketAcknowledgementsResponse {
   pagination?: PageResponse;
   /** query block height */
   height: Height;
+}
+export interface ReactiveQueryPacketAcknowledgementsResponse {
+  acknowledgements: ComputedRef<PacketState[]>;
+  pagination?: ComputedRef<PageResponse>;
+  height: ComputedRef<Height>;
 }
 export interface QueryPacketAcknowledgementsResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryPacketAcknowledgementsResponse";
@@ -500,6 +599,11 @@ export interface QueryUnreceivedPacketsRequest {
   /** list of packet sequences */
   packetCommitmentSequences: bigint[];
 }
+export interface ReactiveQueryUnreceivedPacketsRequest {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  packetCommitmentSequences: ComputedRef<bigint[]>;
+}
 export interface QueryUnreceivedPacketsRequestProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryUnreceivedPacketsRequest";
   value: Uint8Array;
@@ -522,6 +626,10 @@ export interface QueryUnreceivedPacketsResponse {
   sequences: bigint[];
   /** query block height */
   height: Height;
+}
+export interface ReactiveQueryUnreceivedPacketsResponse {
+  sequences: ComputedRef<bigint[]>;
+  height: ComputedRef<Height>;
 }
 export interface QueryUnreceivedPacketsResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryUnreceivedPacketsResponse";
@@ -547,6 +655,11 @@ export interface QueryUnreceivedAcksRequest {
   /** list of acknowledgement sequences */
   packetAckSequences: bigint[];
 }
+export interface ReactiveQueryUnreceivedAcksRequest {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  packetAckSequences: ComputedRef<bigint[]>;
+}
 export interface QueryUnreceivedAcksRequestProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryUnreceivedAcksRequest";
   value: Uint8Array;
@@ -570,6 +683,10 @@ export interface QueryUnreceivedAcksResponse {
   /** query block height */
   height: Height;
 }
+export interface ReactiveQueryUnreceivedAcksResponse {
+  sequences: ComputedRef<bigint[]>;
+  height: ComputedRef<Height>;
+}
 export interface QueryUnreceivedAcksResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryUnreceivedAcksResponse";
   value: Uint8Array;
@@ -591,6 +708,10 @@ export interface QueryNextSequenceReceiveRequest {
   portId: string;
   /** channel unique identifier */
   channelId: string;
+}
+export interface ReactiveQueryNextSequenceReceiveRequest {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
 }
 export interface QueryNextSequenceReceiveRequestProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryNextSequenceReceiveRequest";
@@ -615,6 +736,11 @@ export interface QueryNextSequenceReceiveResponse {
   proof: Uint8Array;
   /** height at which the proof was retrieved */
   proofHeight: Height;
+}
+export interface ReactiveQueryNextSequenceReceiveResponse {
+  nextSequenceReceive: ComputedRef<bigint>;
+  proof: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
 }
 export interface QueryNextSequenceReceiveResponseProtoMsg {
   typeUrl: "/ibc.core.channel.v1.QueryNextSequenceReceiveResponse";

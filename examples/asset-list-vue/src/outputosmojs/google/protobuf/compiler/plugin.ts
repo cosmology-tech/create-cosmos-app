@@ -2,6 +2,7 @@ import { FileDescriptorProto, FileDescriptorProtoSDKType } from "../descriptor";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf.compiler";
 /** The version number of protocol compiler. */
 export interface Version {
@@ -13,6 +14,12 @@ export interface Version {
    * be empty for mainline stable releases.
    */
   suffix: string;
+}
+export interface ReactiveVersion {
+  major: ComputedRef<number>;
+  minor: ComputedRef<number>;
+  patch: ComputedRef<number>;
+  suffix: ComputedRef<string>;
 }
 export interface VersionProtoMsg {
   typeUrl: "/google.protobuf.compiler.Version";
@@ -55,6 +62,12 @@ export interface CodeGeneratorRequest {
   /** The version number of protocol compiler. */
   compilerVersion?: Version;
 }
+export interface ReactiveCodeGeneratorRequest {
+  fileToGenerate: ComputedRef<string[]>;
+  parameter: ComputedRef<string>;
+  protoFile: ComputedRef<FileDescriptorProto[]>;
+  compilerVersion?: ComputedRef<Version>;
+}
 export interface CodeGeneratorRequestProtoMsg {
   typeUrl: "/google.protobuf.compiler.CodeGeneratorRequest";
   value: Uint8Array;
@@ -80,6 +93,10 @@ export interface CodeGeneratorResponse {
    */
   error: string;
   file: CodeGeneratorResponse_File[];
+}
+export interface ReactiveCodeGeneratorResponse {
+  error: ComputedRef<string>;
+  file: ComputedRef<CodeGeneratorResponse_File[]>;
 }
 export interface CodeGeneratorResponseProtoMsg {
   typeUrl: "/google.protobuf.compiler.CodeGeneratorResponse";
@@ -148,6 +165,11 @@ export interface CodeGeneratorResponse_File {
   insertionPoint: string;
   /** The file contents. */
   content: string;
+}
+export interface ReactiveCodeGeneratorResponse_File {
+  name: ComputedRef<string>;
+  insertionPoint: ComputedRef<string>;
+  content: ComputedRef<string>;
 }
 export interface CodeGeneratorResponse_FileProtoMsg {
   typeUrl: "/google.protobuf.compiler.File";

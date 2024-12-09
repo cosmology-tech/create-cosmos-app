@@ -3,11 +3,15 @@ import { GroupInfo, GroupInfoSDKType, GroupPolicyInfo, GroupPolicyInfoSDKType, G
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.group.v1";
 /** QueryGroupInfoRequest is the Query/GroupInfo request type. */
 export interface QueryGroupInfoRequest {
   /** group_id is the unique ID of the group. */
   groupId: bigint;
+}
+export interface ReactiveQueryGroupInfoRequest {
+  groupId: ComputedRef<bigint>;
 }
 export interface QueryGroupInfoRequestProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryGroupInfoRequest";
@@ -22,6 +26,9 @@ export interface QueryGroupInfoResponse {
   /** info is the GroupInfo for the group. */
   info?: GroupInfo;
 }
+export interface ReactiveQueryGroupInfoResponse {
+  info?: ComputedRef<GroupInfo>;
+}
 export interface QueryGroupInfoResponseProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryGroupInfoResponse";
   value: Uint8Array;
@@ -35,6 +42,9 @@ export interface QueryGroupPolicyInfoRequest {
   /** address is the account address of the group policy. */
   address: string;
 }
+export interface ReactiveQueryGroupPolicyInfoRequest {
+  address: ComputedRef<string>;
+}
 export interface QueryGroupPolicyInfoRequestProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryGroupPolicyInfoRequest";
   value: Uint8Array;
@@ -47,6 +57,9 @@ export interface QueryGroupPolicyInfoRequestSDKType {
 export interface QueryGroupPolicyInfoResponse {
   /** info is the GroupPolicyInfo for the group policy. */
   info?: GroupPolicyInfo;
+}
+export interface ReactiveQueryGroupPolicyInfoResponse {
+  info?: ComputedRef<GroupPolicyInfo>;
 }
 export interface QueryGroupPolicyInfoResponseProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryGroupPolicyInfoResponse";
@@ -62,6 +75,10 @@ export interface QueryGroupMembersRequest {
   groupId: bigint;
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryGroupMembersRequest {
+  groupId: ComputedRef<bigint>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryGroupMembersRequestProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryGroupMembersRequest";
@@ -79,6 +96,10 @@ export interface QueryGroupMembersResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryGroupMembersResponse {
+  members: ComputedRef<GroupMember[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryGroupMembersResponseProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryGroupMembersResponse";
   value: Uint8Array;
@@ -94,6 +115,10 @@ export interface QueryGroupsByAdminRequest {
   admin: string;
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryGroupsByAdminRequest {
+  admin: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryGroupsByAdminRequestProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryGroupsByAdminRequest";
@@ -111,6 +136,10 @@ export interface QueryGroupsByAdminResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryGroupsByAdminResponse {
+  groups: ComputedRef<GroupInfo[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryGroupsByAdminResponseProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryGroupsByAdminResponse";
   value: Uint8Array;
@@ -126,6 +155,10 @@ export interface QueryGroupPoliciesByGroupRequest {
   groupId: bigint;
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryGroupPoliciesByGroupRequest {
+  groupId: ComputedRef<bigint>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryGroupPoliciesByGroupRequestProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryGroupPoliciesByGroupRequest";
@@ -143,6 +176,10 @@ export interface QueryGroupPoliciesByGroupResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryGroupPoliciesByGroupResponse {
+  groupPolicies: ComputedRef<GroupPolicyInfo[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryGroupPoliciesByGroupResponseProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryGroupPoliciesByGroupResponse";
   value: Uint8Array;
@@ -158,6 +195,10 @@ export interface QueryGroupPoliciesByAdminRequest {
   admin: string;
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryGroupPoliciesByAdminRequest {
+  admin: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryGroupPoliciesByAdminRequestProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryGroupPoliciesByAdminRequest";
@@ -175,6 +216,10 @@ export interface QueryGroupPoliciesByAdminResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryGroupPoliciesByAdminResponse {
+  groupPolicies: ComputedRef<GroupPolicyInfo[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryGroupPoliciesByAdminResponseProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryGroupPoliciesByAdminResponse";
   value: Uint8Array;
@@ -189,6 +234,9 @@ export interface QueryProposalRequest {
   /** proposal_id is the unique ID of a proposal. */
   proposalId: bigint;
 }
+export interface ReactiveQueryProposalRequest {
+  proposalId: ComputedRef<bigint>;
+}
 export interface QueryProposalRequestProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryProposalRequest";
   value: Uint8Array;
@@ -201,6 +249,9 @@ export interface QueryProposalRequestSDKType {
 export interface QueryProposalResponse {
   /** proposal is the proposal info. */
   proposal?: Proposal;
+}
+export interface ReactiveQueryProposalResponse {
+  proposal?: ComputedRef<Proposal>;
 }
 export interface QueryProposalResponseProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryProposalResponse";
@@ -216,6 +267,10 @@ export interface QueryProposalsByGroupPolicyRequest {
   address: string;
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryProposalsByGroupPolicyRequest {
+  address: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryProposalsByGroupPolicyRequestProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryProposalsByGroupPolicyRequest";
@@ -233,6 +288,10 @@ export interface QueryProposalsByGroupPolicyResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryProposalsByGroupPolicyResponse {
+  proposals: ComputedRef<Proposal[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryProposalsByGroupPolicyResponseProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryProposalsByGroupPolicyResponse";
   value: Uint8Array;
@@ -249,6 +308,10 @@ export interface QueryVoteByProposalVoterRequest {
   /** voter is a proposal voter account address. */
   voter: string;
 }
+export interface ReactiveQueryVoteByProposalVoterRequest {
+  proposalId: ComputedRef<bigint>;
+  voter: ComputedRef<string>;
+}
 export interface QueryVoteByProposalVoterRequestProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryVoteByProposalVoterRequest";
   value: Uint8Array;
@@ -262,6 +325,9 @@ export interface QueryVoteByProposalVoterRequestSDKType {
 export interface QueryVoteByProposalVoterResponse {
   /** vote is the vote with given proposal_id and voter. */
   vote?: Vote;
+}
+export interface ReactiveQueryVoteByProposalVoterResponse {
+  vote?: ComputedRef<Vote>;
 }
 export interface QueryVoteByProposalVoterResponseProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryVoteByProposalVoterResponse";
@@ -277,6 +343,10 @@ export interface QueryVotesByProposalRequest {
   proposalId: bigint;
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryVotesByProposalRequest {
+  proposalId: ComputedRef<bigint>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryVotesByProposalRequestProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryVotesByProposalRequest";
@@ -294,6 +364,10 @@ export interface QueryVotesByProposalResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryVotesByProposalResponse {
+  votes: ComputedRef<Vote[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryVotesByProposalResponseProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryVotesByProposalResponse";
   value: Uint8Array;
@@ -309,6 +383,10 @@ export interface QueryVotesByVoterRequest {
   voter: string;
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryVotesByVoterRequest {
+  voter: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryVotesByVoterRequestProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryVotesByVoterRequest";
@@ -326,6 +404,10 @@ export interface QueryVotesByVoterResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryVotesByVoterResponse {
+  votes: ComputedRef<Vote[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryVotesByVoterResponseProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryVotesByVoterResponse";
   value: Uint8Array;
@@ -341,6 +423,10 @@ export interface QueryGroupsByMemberRequest {
   address: string;
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryGroupsByMemberRequest {
+  address: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryGroupsByMemberRequestProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryGroupsByMemberRequest";
@@ -358,6 +444,10 @@ export interface QueryGroupsByMemberResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryGroupsByMemberResponse {
+  groups: ComputedRef<GroupInfo[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryGroupsByMemberResponseProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryGroupsByMemberResponse";
   value: Uint8Array;
@@ -372,6 +462,9 @@ export interface QueryTallyResultRequest {
   /** proposal_id is the unique id of a proposal. */
   proposalId: bigint;
 }
+export interface ReactiveQueryTallyResultRequest {
+  proposalId: ComputedRef<bigint>;
+}
 export interface QueryTallyResultRequestProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryTallyResultRequest";
   value: Uint8Array;
@@ -384,6 +477,9 @@ export interface QueryTallyResultRequestSDKType {
 export interface QueryTallyResultResponse {
   /** tally defines the requested tally. */
   tally: TallyResult;
+}
+export interface ReactiveQueryTallyResultResponse {
+  tally: ComputedRef<TallyResult>;
 }
 export interface QueryTallyResultResponseProtoMsg {
   typeUrl: "/cosmos.group.v1.QueryTallyResultResponse";

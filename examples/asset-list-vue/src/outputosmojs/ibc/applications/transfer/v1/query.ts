@@ -3,6 +3,7 @@ import { DenomTrace, DenomTraceSDKType, Params, ParamsSDKType } from "./transfer
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.transfer.v1";
 /**
  * QueryDenomTraceRequest is the request type for the Query/DenomTrace RPC
@@ -11,6 +12,9 @@ export const protobufPackage = "ibc.applications.transfer.v1";
 export interface QueryDenomTraceRequest {
   /** hash (in hex format) of the denomination trace information. */
   hash: string;
+}
+export interface ReactiveQueryDenomTraceRequest {
+  hash: ComputedRef<string>;
 }
 export interface QueryDenomTraceRequestProtoMsg {
   typeUrl: "/ibc.applications.transfer.v1.QueryDenomTraceRequest";
@@ -31,6 +35,9 @@ export interface QueryDenomTraceResponse {
   /** denom_trace returns the requested denomination trace information. */
   denomTrace?: DenomTrace;
 }
+export interface ReactiveQueryDenomTraceResponse {
+  denomTrace?: ComputedRef<DenomTrace>;
+}
 export interface QueryDenomTraceResponseProtoMsg {
   typeUrl: "/ibc.applications.transfer.v1.QueryDenomTraceResponse";
   value: Uint8Array;
@@ -49,6 +56,9 @@ export interface QueryDenomTraceResponseSDKType {
 export interface QueryDenomTracesRequest {
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryDenomTracesRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryDenomTracesRequestProtoMsg {
   typeUrl: "/ibc.applications.transfer.v1.QueryDenomTracesRequest";
@@ -71,6 +81,10 @@ export interface QueryDenomTracesResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryDenomTracesResponse {
+  denomTraces: ComputedRef<DenomTrace[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryDenomTracesResponseProtoMsg {
   typeUrl: "/ibc.applications.transfer.v1.QueryDenomTracesResponse";
   value: Uint8Array;
@@ -85,6 +99,7 @@ export interface QueryDenomTracesResponseSDKType {
 }
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
+export interface ReactiveQueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
   typeUrl: "/ibc.applications.transfer.v1.QueryParamsRequest";
   value: Uint8Array;
@@ -95,6 +110,9 @@ export interface QueryParamsRequestSDKType {}
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
   params?: Params;
+}
+export interface ReactiveQueryParamsResponse {
+  params?: ComputedRef<Params>;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/ibc.applications.transfer.v1.QueryParamsResponse";

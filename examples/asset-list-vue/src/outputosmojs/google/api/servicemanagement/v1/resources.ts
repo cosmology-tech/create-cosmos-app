@@ -3,6 +3,7 @@ import { ConfigChange, ConfigChangeSDKType } from "../../config_change";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp, bytesFromBase64, base64FromBytes, isObject } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicemanagement.v1";
 /** Code describes the status of the operation (or one of its steps). */
 export enum OperationMetadata_Status {
@@ -266,6 +267,10 @@ export interface ManagedService {
   /** ID of the project that produces and owns this service. */
   producerProjectId: string;
 }
+export interface ReactiveManagedService {
+  serviceName: ComputedRef<string>;
+  producerProjectId: ComputedRef<string>;
+}
 export interface ManagedServiceProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.ManagedService";
   value: Uint8Array;
@@ -292,6 +297,12 @@ export interface OperationMetadata {
   /** The start time of the operation. */
   startTime?: Date;
 }
+export interface ReactiveOperationMetadata {
+  resourceNames: ComputedRef<string[]>;
+  steps: ComputedRef<OperationMetadata_Step[]>;
+  progressPercentage: ComputedRef<number>;
+  startTime?: ComputedRef<Date>;
+}
 export interface OperationMetadataProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.OperationMetadata";
   value: Uint8Array;
@@ -310,6 +321,10 @@ export interface OperationMetadata_Step {
   /** The status code. */
   status: OperationMetadata_Status;
 }
+export interface ReactiveOperationMetadata_Step {
+  description: ComputedRef<string>;
+  status: ComputedRef<OperationMetadata_Status>;
+}
 export interface OperationMetadata_StepProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.Step";
   value: Uint8Array;
@@ -327,6 +342,11 @@ export interface Diagnostic {
   kind: Diagnostic_Kind;
   /** Message describing the error or warning. */
   message: string;
+}
+export interface ReactiveDiagnostic {
+  location: ComputedRef<string>;
+  kind: ComputedRef<Diagnostic_Kind>;
+  message: ComputedRef<string>;
 }
 export interface DiagnosticProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.Diagnostic";
@@ -355,6 +375,10 @@ export interface ConfigSource {
    */
   files: ConfigFile[];
 }
+export interface ReactiveConfigSource {
+  id: ComputedRef<string>;
+  files: ComputedRef<ConfigFile[]>;
+}
 export interface ConfigSourceProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.ConfigSource";
   value: Uint8Array;
@@ -376,6 +400,11 @@ export interface ConfigFile {
   /** The type of configuration file this represents. */
   fileType: ConfigFile_FileType;
 }
+export interface ReactiveConfigFile {
+  filePath: ComputedRef<string>;
+  fileContents: ComputedRef<Uint8Array>;
+  fileType: ComputedRef<ConfigFile_FileType>;
+}
 export interface ConfigFileProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.ConfigFile";
   value: Uint8Array;
@@ -393,6 +422,9 @@ export interface ConfigRef {
    * format: "services/{service name}/configs/{config id}".
    */
   name: string;
+}
+export interface ReactiveConfigRef {
+  name: ComputedRef<string>;
 }
 export interface ConfigRefProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.ConfigRef";
@@ -417,6 +449,9 @@ export interface ChangeReport {
    * Example: visibility.rules[selector='LibraryService.CreateBook'].restriction
    */
   configChanges: ConfigChange[];
+}
+export interface ReactiveChangeReport {
+  configChanges: ComputedRef<ConfigChange[]>;
 }
 export interface ChangeReportProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.ChangeReport";
@@ -471,6 +506,15 @@ export interface Rollout {
   /** The name of the service associated with this Rollout. */
   serviceName: string;
 }
+export interface ReactiveRollout {
+  rolloutId: ComputedRef<string>;
+  createTime?: ComputedRef<Date>;
+  createdBy: ComputedRef<string>;
+  status: ComputedRef<Rollout_RolloutStatus>;
+  trafficPercentStrategy?: ComputedRef<Rollout_TrafficPercentStrategy>;
+  deleteServiceStrategy?: ComputedRef<Rollout_DeleteServiceStrategy>;
+  serviceName: ComputedRef<string>;
+}
 export interface RolloutProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.Rollout";
   value: Uint8Array;
@@ -492,6 +536,10 @@ export interface RolloutSDKType {
 export interface Rollout_TrafficPercentStrategy_PercentagesEntry {
   key: string;
   value: number;
+}
+export interface ReactiveRollout_TrafficPercentStrategy_PercentagesEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<number>;
 }
 export interface Rollout_TrafficPercentStrategy_PercentagesEntryProtoMsg {
   typeUrl: string;
@@ -543,6 +591,11 @@ export interface Rollout_TrafficPercentStrategy {
     [key: string]: number;
   };
 }
+export interface ReactiveRollout_TrafficPercentStrategy {
+  percentages: ComputedRef<{
+    [key: string]: number;
+  }>;
+}
 export interface Rollout_TrafficPercentStrategyProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.TrafficPercentStrategy";
   value: Uint8Array;
@@ -589,6 +642,7 @@ export interface Rollout_TrafficPercentStrategySDKType {
  * used by the system generated rollout to delete a service.
  */
 export interface Rollout_DeleteServiceStrategy {}
+export interface ReactiveRollout_DeleteServiceStrategy {}
 export interface Rollout_DeleteServiceStrategyProtoMsg {
   typeUrl: "/google.api.servicemanagement.v1.DeleteServiceStrategy";
   value: Uint8Array;

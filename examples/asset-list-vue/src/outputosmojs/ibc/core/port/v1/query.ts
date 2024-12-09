@@ -2,6 +2,7 @@ import { Order, OrderSDKType, Counterparty, CounterpartySDKType, orderFromJSON, 
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.port.v1";
 /** QueryAppVersionRequest is the request type for the Query/AppVersion RPC method */
 export interface QueryAppVersionRequest {
@@ -15,6 +16,13 @@ export interface QueryAppVersionRequest {
   counterparty?: Counterparty;
   /** proposed version */
   proposedVersion: string;
+}
+export interface ReactiveQueryAppVersionRequest {
+  portId: ComputedRef<string>;
+  connectionId: ComputedRef<string>;
+  ordering: ComputedRef<Order>;
+  counterparty?: ComputedRef<Counterparty>;
+  proposedVersion: ComputedRef<string>;
 }
 export interface QueryAppVersionRequestProtoMsg {
   typeUrl: "/ibc.core.port.v1.QueryAppVersionRequest";
@@ -34,6 +42,10 @@ export interface QueryAppVersionResponse {
   portId: string;
   /** supported app version */
   version: string;
+}
+export interface ReactiveQueryAppVersionResponse {
+  portId: ComputedRef<string>;
+  version: ComputedRef<string>;
 }
 export interface QueryAppVersionResponseProtoMsg {
   typeUrl: "/ibc.core.port.v1.QueryAppVersionResponse";

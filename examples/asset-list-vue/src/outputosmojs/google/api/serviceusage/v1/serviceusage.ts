@@ -2,6 +2,7 @@ import { Service, ServiceSDKType } from "./resources";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.serviceusage.v1";
 /**
  * Enum to determine if service usage should be checked when disabling a
@@ -68,6 +69,9 @@ export interface EnableServiceRequest {
    */
   name: string;
 }
+export interface ReactiveEnableServiceRequest {
+  name: ComputedRef<string>;
+}
 export interface EnableServiceRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.EnableServiceRequest";
   value: Uint8Array;
@@ -84,6 +88,9 @@ export interface EnableServiceRequestSDKType {
 export interface EnableServiceResponse {
   /** The new state of the service after enabling. */
   service?: Service;
+}
+export interface ReactiveEnableServiceResponse {
+  service?: ComputedRef<Service>;
 }
 export interface EnableServiceResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.EnableServiceResponse";
@@ -120,6 +127,11 @@ export interface DisableServiceRequest {
   /** Defines the behavior for checking service usage when disabling a service. */
   checkIfServiceHasUsage: DisableServiceRequest_CheckIfServiceHasUsage;
 }
+export interface ReactiveDisableServiceRequest {
+  name: ComputedRef<string>;
+  disableDependentServices: ComputedRef<boolean>;
+  checkIfServiceHasUsage: ComputedRef<DisableServiceRequest_CheckIfServiceHasUsage>;
+}
 export interface DisableServiceRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.DisableServiceRequest";
   value: Uint8Array;
@@ -138,6 +150,9 @@ export interface DisableServiceRequestSDKType {
 export interface DisableServiceResponse {
   /** The new state of the service after disabling. */
   service?: Service;
+}
+export interface ReactiveDisableServiceResponse {
+  service?: ComputedRef<Service>;
 }
 export interface DisableServiceResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.DisableServiceResponse";
@@ -161,6 +176,9 @@ export interface GetServiceRequest {
    * project number.
    */
   name: string;
+}
+export interface ReactiveGetServiceRequest {
+  name: ComputedRef<string>;
 }
 export interface GetServiceRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.GetServiceRequest";
@@ -196,6 +214,12 @@ export interface ListServicesRequest {
    */
   filter: string;
 }
+export interface ReactiveListServicesRequest {
+  parent: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+  pageToken: ComputedRef<string>;
+  filter: ComputedRef<string>;
+}
 export interface ListServicesRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.ListServicesRequest";
   value: Uint8Array;
@@ -216,6 +240,10 @@ export interface ListServicesResponse {
    * query.
    */
   nextPageToken: string;
+}
+export interface ReactiveListServicesResponse {
+  services: ComputedRef<Service[]>;
+  nextPageToken: ComputedRef<string>;
 }
 export interface ListServicesResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.ListServicesResponse";
@@ -252,6 +280,10 @@ export interface BatchEnableServicesRequest {
    */
   serviceIds: string[];
 }
+export interface ReactiveBatchEnableServicesRequest {
+  parent: ComputedRef<string>;
+  serviceIds: ComputedRef<string[]>;
+}
 export interface BatchEnableServicesRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.BatchEnableServicesRequest";
   value: Uint8Array;
@@ -275,6 +307,10 @@ export interface BatchEnableServicesResponse {
    */
   failures: BatchEnableServicesResponse_EnableFailure[];
 }
+export interface ReactiveBatchEnableServicesResponse {
+  services: ComputedRef<Service[]>;
+  failures: ComputedRef<BatchEnableServicesResponse_EnableFailure[]>;
+}
 export interface BatchEnableServicesResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.BatchEnableServicesResponse";
   value: Uint8Array;
@@ -294,6 +330,10 @@ export interface BatchEnableServicesResponse_EnableFailure {
   serviceId: string;
   /** An error message describing why the service could not be enabled. */
   errorMessage: string;
+}
+export interface ReactiveBatchEnableServicesResponse_EnableFailure {
+  serviceId: ComputedRef<string>;
+  errorMessage: ComputedRef<string>;
 }
 export interface BatchEnableServicesResponse_EnableFailureProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.EnableFailure";
@@ -324,6 +364,10 @@ export interface BatchGetServicesRequest {
    */
   names: string[];
 }
+export interface ReactiveBatchGetServicesRequest {
+  parent: ComputedRef<string>;
+  names: ComputedRef<string[]>;
+}
 export interface BatchGetServicesRequestProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.BatchGetServicesRequest";
   value: Uint8Array;
@@ -337,6 +381,9 @@ export interface BatchGetServicesRequestSDKType {
 export interface BatchGetServicesResponse {
   /** The requested Service states. */
   services: Service[];
+}
+export interface ReactiveBatchGetServicesResponse {
+  services: ComputedRef<Service[]>;
 }
 export interface BatchGetServicesResponseProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.BatchGetServicesResponse";

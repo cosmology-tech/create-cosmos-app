@@ -3,6 +3,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
 import { toUtf8, fromUtf8 } from "@cosmjs/encoding";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmwasm.wasm.v1";
 /** AccessType permission types */
 export enum AccessType {
@@ -104,6 +105,9 @@ export function contractCodeHistoryOperationTypeToJSON(object: ContractCodeHisto
 export interface AccessTypeParam {
   value: AccessType;
 }
+export interface ReactiveAccessTypeParam {
+  value: ComputedRef<AccessType>;
+}
 export interface AccessTypeParamProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.AccessTypeParam";
   value: Uint8Array;
@@ -116,6 +120,10 @@ export interface AccessTypeParamSDKType {
 export interface AccessConfig {
   permission: AccessType;
   address: string;
+}
+export interface ReactiveAccessConfig {
+  permission: ComputedRef<AccessType>;
+  address: ComputedRef<string>;
 }
 export interface AccessConfigProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.AccessConfig";
@@ -131,6 +139,11 @@ export interface Params {
   codeUploadAccess: AccessConfig;
   instantiateDefaultPermission: AccessType;
   maxWasmCodeSize: bigint;
+}
+export interface ReactiveParams {
+  codeUploadAccess: ComputedRef<AccessConfig>;
+  instantiateDefaultPermission: ComputedRef<AccessType>;
+  maxWasmCodeSize: ComputedRef<bigint>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.Params";
@@ -150,6 +163,11 @@ export interface CodeInfo {
   creator: string;
   /** InstantiateConfig access control to apply on contract creation, optional */
   instantiateConfig: AccessConfig;
+}
+export interface ReactiveCodeInfo {
+  codeHash: ComputedRef<Uint8Array>;
+  creator: ComputedRef<string>;
+  instantiateConfig: ComputedRef<AccessConfig>;
 }
 export interface CodeInfoProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.CodeInfo";
@@ -184,6 +202,15 @@ export interface ContractInfo {
    */
   extension?: Any;
 }
+export interface ReactiveContractInfo {
+  codeId: ComputedRef<bigint>;
+  creator: ComputedRef<string>;
+  admin: ComputedRef<string>;
+  label: ComputedRef<string>;
+  created?: ComputedRef<AbsoluteTxPosition>;
+  ibcPortId: ComputedRef<string>;
+  extension?: ComputedRef<Any>;
+}
 export interface ContractInfoProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.ContractInfo";
   value: Uint8Array;
@@ -206,6 +233,12 @@ export interface ContractCodeHistoryEntry {
   /** Updated Tx position when the operation was executed. */
   updated?: AbsoluteTxPosition;
   msg: Uint8Array;
+}
+export interface ReactiveContractCodeHistoryEntry {
+  operation: ComputedRef<ContractCodeHistoryOperationType>;
+  codeId: ComputedRef<bigint>;
+  updated?: ComputedRef<AbsoluteTxPosition>;
+  msg: ComputedRef<Uint8Array>;
 }
 export interface ContractCodeHistoryEntryProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.ContractCodeHistoryEntry";
@@ -231,6 +264,10 @@ export interface AbsoluteTxPosition {
    */
   txIndex: bigint;
 }
+export interface ReactiveAbsoluteTxPosition {
+  blockHeight: ComputedRef<bigint>;
+  txIndex: ComputedRef<bigint>;
+}
 export interface AbsoluteTxPositionProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.AbsoluteTxPosition";
   value: Uint8Array;
@@ -249,6 +286,10 @@ export interface Model {
   key: Uint8Array;
   /** base64-encode raw value */
   value: Uint8Array;
+}
+export interface ReactiveModel {
+  key: ComputedRef<Uint8Array>;
+  value: ComputedRef<Uint8Array>;
 }
 export interface ModelProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.Model";

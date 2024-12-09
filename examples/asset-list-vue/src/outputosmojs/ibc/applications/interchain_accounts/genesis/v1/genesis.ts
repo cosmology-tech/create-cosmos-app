@@ -5,11 +5,16 @@ import { ParamsSDKType as Params2SDKType } from "../../host/v1/host";
 import { BinaryReader, BinaryWriter } from "../../../../../binary";
 import { isSet, DeepPartial } from "../../../../../helpers";
 import { JsonSafe } from "../../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.interchain_accounts.genesis.v1";
 /** GenesisState defines the interchain accounts genesis state */
 export interface GenesisState {
   controllerGenesisState: ControllerGenesisState;
   hostGenesisState: HostGenesisState;
+}
+export interface ReactiveGenesisState {
+  controllerGenesisState: ComputedRef<ControllerGenesisState>;
+  hostGenesisState: ComputedRef<HostGenesisState>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.genesis.v1.GenesisState";
@@ -26,6 +31,12 @@ export interface ControllerGenesisState {
   interchainAccounts: RegisteredInterchainAccount[];
   ports: string[];
   params: Params1;
+}
+export interface ReactiveControllerGenesisState {
+  activeChannels: ComputedRef<ActiveChannel[]>;
+  interchainAccounts: ComputedRef<RegisteredInterchainAccount[]>;
+  ports: ComputedRef<string[]>;
+  params: ComputedRef<Params1>;
 }
 export interface ControllerGenesisStateProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.genesis.v1.ControllerGenesisState";
@@ -44,6 +55,12 @@ export interface HostGenesisState {
   interchainAccounts: RegisteredInterchainAccount[];
   port: string;
   params: Params2;
+}
+export interface ReactiveHostGenesisState {
+  activeChannels: ComputedRef<ActiveChannel[]>;
+  interchainAccounts: ComputedRef<RegisteredInterchainAccount[]>;
+  port: ComputedRef<string>;
+  params: ComputedRef<Params2>;
 }
 export interface HostGenesisStateProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.genesis.v1.HostGenesisState";
@@ -66,6 +83,12 @@ export interface ActiveChannel {
   channelId: string;
   isMiddlewareEnabled: boolean;
 }
+export interface ReactiveActiveChannel {
+  connectionId: ComputedRef<string>;
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  isMiddlewareEnabled: ComputedRef<boolean>;
+}
 export interface ActiveChannelProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.genesis.v1.ActiveChannel";
   value: Uint8Array;
@@ -85,6 +108,11 @@ export interface RegisteredInterchainAccount {
   connectionId: string;
   portId: string;
   accountAddress: string;
+}
+export interface ReactiveRegisteredInterchainAccount {
+  connectionId: ComputedRef<string>;
+  portId: ComputedRef<string>;
+  accountAddress: ComputedRef<string>;
 }
 export interface RegisteredInterchainAccountProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.genesis.v1.RegisteredInterchainAccount";

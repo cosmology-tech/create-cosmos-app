@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * Path Translation specifies how to combine the backend address with the
@@ -103,6 +104,9 @@ export interface Backend {
    */
   rules: BackendRule[];
 }
+export interface ReactiveBackend {
+  rules: ComputedRef<BackendRule[]>;
+}
 export interface BackendProtoMsg {
   typeUrl: "/google.api.Backend";
   value: Uint8Array;
@@ -195,6 +199,17 @@ export interface BackendRule {
    * for more details on the supported values.
    */
   protocol: string;
+}
+export interface ReactiveBackendRule {
+  selector: ComputedRef<string>;
+  address: ComputedRef<string>;
+  deadline: ComputedRef<number>;
+  minDeadline: ComputedRef<number>;
+  operationDeadline: ComputedRef<number>;
+  pathTranslation: ComputedRef<BackendRule_PathTranslation>;
+  jwtAudience?: ComputedRef<string>;
+  disableAuth?: ComputedRef<boolean>;
+  protocol: ComputedRef<string>;
 }
 export interface BackendRuleProtoMsg {
   typeUrl: "/google.api.BackendRule";

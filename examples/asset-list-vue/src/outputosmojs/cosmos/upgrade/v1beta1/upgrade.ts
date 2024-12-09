@@ -3,6 +3,7 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.upgrade.v1beta1";
 /** Plan specifies information about a planned upgrade and when it should occur. */
 export interface Plan {
@@ -41,6 +42,13 @@ export interface Plan {
   /** @deprecated */
   upgradedClientState?: Any;
 }
+export interface ReactivePlan {
+  name: ComputedRef<string>;
+  time: ComputedRef<Date>;
+  height: ComputedRef<bigint>;
+  info: ComputedRef<string>;
+  upgradedClientState?: ComputedRef<Any>;
+}
 export interface PlanProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.Plan";
   value: Uint8Array;
@@ -66,6 +74,11 @@ export interface SoftwareUpgradeProposal {
   title: string;
   description: string;
   plan: Plan;
+}
+export interface ReactiveSoftwareUpgradeProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  plan: ComputedRef<Plan>;
 }
 export interface SoftwareUpgradeProposalProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal";
@@ -94,6 +107,10 @@ export interface CancelSoftwareUpgradeProposal {
   title: string;
   description: string;
 }
+export interface ReactiveCancelSoftwareUpgradeProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+}
 export interface CancelSoftwareUpgradeProposalProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.CancelSoftwareUpgradeProposal";
   value: Uint8Array;
@@ -119,6 +136,10 @@ export interface ModuleVersion {
   name: string;
   /** consensus version of the app module */
   version: bigint;
+}
+export interface ReactiveModuleVersion {
+  name: ComputedRef<string>;
+  version: ComputedRef<bigint>;
 }
 export interface ModuleVersionProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.ModuleVersion";

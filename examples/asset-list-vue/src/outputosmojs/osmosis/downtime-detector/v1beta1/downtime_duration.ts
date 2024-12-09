@@ -1,3 +1,4 @@
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.downtimedetector.v1beta1";
 export enum Downtime {
   DURATION_30S = 0,

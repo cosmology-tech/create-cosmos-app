@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.fee.v1";
 /**
  * Metadata defines the ICS29 channel specific metadata encoded into the channel version bytestring
@@ -11,6 +12,10 @@ export interface Metadata {
   feeVersion: string;
   /** app_version defines the underlying application version, which may or may not be a JSON encoded bytestring */
   appVersion: string;
+}
+export interface ReactiveMetadata {
+  feeVersion: ComputedRef<string>;
+  appVersion: ComputedRef<string>;
 }
 export interface MetadataProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.Metadata";

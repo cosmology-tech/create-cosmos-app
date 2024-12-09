@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, fromJsonTimestamp, fromTimestamp } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf";
 /**
  * A Timestamp represents a point in time independent of any time zone or local
@@ -100,6 +101,10 @@ export interface Timestamp {
    * inclusive.
    */
   nanos: number;
+}
+export interface ReactiveTimestamp {
+  seconds: ComputedRef<bigint>;
+  nanos: ComputedRef<number>;
 }
 export interface TimestampProtoMsg {
   typeUrl: "/google.protobuf.Timestamp";

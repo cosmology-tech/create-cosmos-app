@@ -3,6 +3,7 @@ import { Metadata, MetadataSDKType } from "../../../cosmos/bank/v1beta1/bank";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.tokenfactory.v1beta1";
 /**
  * MsgCreateDenom defines the message structure for the CreateDenom gRPC service
@@ -19,6 +20,10 @@ export interface MsgCreateDenom {
   sender: string;
   /** subdenom can be up to 44 "alphanumeric" characters long. */
   subdenom: string;
+}
+export interface ReactiveMsgCreateDenom {
+  sender: ComputedRef<string>;
+  subdenom: ComputedRef<string>;
 }
 export interface MsgCreateDenomProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.MsgCreateDenom";
@@ -46,6 +51,9 @@ export interface MsgCreateDenomSDKType {
 export interface MsgCreateDenomResponse {
   newTokenDenom: string;
 }
+export interface ReactiveMsgCreateDenomResponse {
+  newTokenDenom: ComputedRef<string>;
+}
 export interface MsgCreateDenomResponseProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.MsgCreateDenomResponse";
   value: Uint8Array;
@@ -65,6 +73,10 @@ export interface MsgMint {
   sender: string;
   amount: Coin;
 }
+export interface ReactiveMsgMint {
+  sender: ComputedRef<string>;
+  amount: ComputedRef<Coin>;
+}
 export interface MsgMintProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.MsgMint";
   value: Uint8Array;
@@ -78,6 +90,7 @@ export interface MsgMintSDKType {
   amount: CoinSDKType;
 }
 export interface MsgMintResponse {}
+export interface ReactiveMsgMintResponse {}
 export interface MsgMintResponseProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.MsgMintResponse";
   value: Uint8Array;
@@ -90,6 +103,10 @@ export interface MsgMintResponseSDKType {}
 export interface MsgBurn {
   sender: string;
   amount: Coin;
+}
+export interface ReactiveMsgBurn {
+  sender: ComputedRef<string>;
+  amount: ComputedRef<Coin>;
 }
 export interface MsgBurnProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.MsgBurn";
@@ -104,6 +121,7 @@ export interface MsgBurnSDKType {
   amount: CoinSDKType;
 }
 export interface MsgBurnResponse {}
+export interface ReactiveMsgBurnResponse {}
 export interface MsgBurnResponseProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.MsgBurnResponse";
   value: Uint8Array;
@@ -117,6 +135,11 @@ export interface MsgChangeAdmin {
   sender: string;
   denom: string;
   newAdmin: string;
+}
+export interface ReactiveMsgChangeAdmin {
+  sender: ComputedRef<string>;
+  denom: ComputedRef<string>;
+  newAdmin: ComputedRef<string>;
 }
 export interface MsgChangeAdminProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.MsgChangeAdmin";
@@ -136,6 +159,7 @@ export interface MsgChangeAdminSDKType {
  * MsgChangeAdmin message.
  */
 export interface MsgChangeAdminResponse {}
+export interface ReactiveMsgChangeAdminResponse {}
 export interface MsgChangeAdminResponseProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.MsgChangeAdminResponse";
   value: Uint8Array;
@@ -152,6 +176,10 @@ export interface MsgChangeAdminResponseSDKType {}
 export interface MsgSetDenomMetadata {
   sender: string;
   metadata: Metadata;
+}
+export interface ReactiveMsgSetDenomMetadata {
+  sender: ComputedRef<string>;
+  metadata: ComputedRef<Metadata>;
 }
 export interface MsgSetDenomMetadataProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.MsgSetDenomMetadata";
@@ -170,6 +198,7 @@ export interface MsgSetDenomMetadataSDKType {
  * MsgSetDenomMetadata message.
  */
 export interface MsgSetDenomMetadataResponse {}
+export interface ReactiveMsgSetDenomMetadataResponse {}
 export interface MsgSetDenomMetadataResponseProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.MsgSetDenomMetadataResponse";
   value: Uint8Array;

@@ -4,12 +4,18 @@ import { Params, ParamsSDKType } from "./params";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.market.v1beta2";
 /** GenesisState defines the basic genesis state used by market module */
 export interface GenesisState {
   orders: Order[];
   leases: Lease[];
   params: Params;
+}
+export interface ReactiveGenesisState {
+  orders: ComputedRef<Order[]>;
+  leases: ComputedRef<Lease[]>;
+  params: ComputedRef<Params>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/akash.market.v1beta2.GenesisState";

@@ -4,6 +4,7 @@ import { Height, HeightSDKType } from "../../client/v1/client";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.connection.v1";
 /**
  * MsgConnectionOpenInit defines the msg sent by an account on Chain A to
@@ -15,6 +16,13 @@ export interface MsgConnectionOpenInit {
   version?: Version;
   delayPeriod: bigint;
   signer: string;
+}
+export interface ReactiveMsgConnectionOpenInit {
+  clientId: ComputedRef<string>;
+  counterparty: ComputedRef<Counterparty>;
+  version?: ComputedRef<Version>;
+  delayPeriod: ComputedRef<bigint>;
+  signer: ComputedRef<string>;
 }
 export interface MsgConnectionOpenInitProtoMsg {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenInit";
@@ -36,6 +44,7 @@ export interface MsgConnectionOpenInitSDKType {
  * type.
  */
 export interface MsgConnectionOpenInitResponse {}
+export interface ReactiveMsgConnectionOpenInitResponse {}
 export interface MsgConnectionOpenInitResponseProtoMsg {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenInitResponse";
   value: Uint8Array;
@@ -73,6 +82,20 @@ export interface MsgConnectionOpenTry {
   consensusHeight: Height;
   signer: string;
 }
+export interface ReactiveMsgConnectionOpenTry {
+  clientId: ComputedRef<string>;
+  previousConnectionId: ComputedRef<string>;
+  clientState?: ComputedRef<Any>;
+  counterparty: ComputedRef<Counterparty>;
+  delayPeriod: ComputedRef<bigint>;
+  counterpartyVersions: ComputedRef<Version[]>;
+  proofHeight: ComputedRef<Height>;
+  proofInit: ComputedRef<Uint8Array>;
+  proofClient: ComputedRef<Uint8Array>;
+  proofConsensus: ComputedRef<Uint8Array>;
+  consensusHeight: ComputedRef<Height>;
+  signer: ComputedRef<string>;
+}
 export interface MsgConnectionOpenTryProtoMsg {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenTry";
   value: Uint8Array;
@@ -97,6 +120,7 @@ export interface MsgConnectionOpenTrySDKType {
 }
 /** MsgConnectionOpenTryResponse defines the Msg/ConnectionOpenTry response type. */
 export interface MsgConnectionOpenTryResponse {}
+export interface ReactiveMsgConnectionOpenTryResponse {}
 export interface MsgConnectionOpenTryResponseProtoMsg {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenTryResponse";
   value: Uint8Array;
@@ -125,6 +149,18 @@ export interface MsgConnectionOpenAck {
   consensusHeight: Height;
   signer: string;
 }
+export interface ReactiveMsgConnectionOpenAck {
+  connectionId: ComputedRef<string>;
+  counterpartyConnectionId: ComputedRef<string>;
+  version?: ComputedRef<Version>;
+  clientState?: ComputedRef<Any>;
+  proofHeight: ComputedRef<Height>;
+  proofTry: ComputedRef<Uint8Array>;
+  proofClient: ComputedRef<Uint8Array>;
+  proofConsensus: ComputedRef<Uint8Array>;
+  consensusHeight: ComputedRef<Height>;
+  signer: ComputedRef<string>;
+}
 export interface MsgConnectionOpenAckProtoMsg {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenAck";
   value: Uint8Array;
@@ -147,6 +183,7 @@ export interface MsgConnectionOpenAckSDKType {
 }
 /** MsgConnectionOpenAckResponse defines the Msg/ConnectionOpenAck response type. */
 export interface MsgConnectionOpenAckResponse {}
+export interface ReactiveMsgConnectionOpenAckResponse {}
 export interface MsgConnectionOpenAckResponseProtoMsg {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenAckResponse";
   value: Uint8Array;
@@ -163,6 +200,12 @@ export interface MsgConnectionOpenConfirm {
   proofAck: Uint8Array;
   proofHeight: Height;
   signer: string;
+}
+export interface ReactiveMsgConnectionOpenConfirm {
+  connectionId: ComputedRef<string>;
+  proofAck: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+  signer: ComputedRef<string>;
 }
 export interface MsgConnectionOpenConfirmProtoMsg {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenConfirm";
@@ -183,6 +226,7 @@ export interface MsgConnectionOpenConfirmSDKType {
  * response type.
  */
 export interface MsgConnectionOpenConfirmResponse {}
+export interface ReactiveMsgConnectionOpenConfirmResponse {}
 export interface MsgConnectionOpenConfirmResponseProtoMsg {
   typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenConfirmResponse";
   value: Uint8Array;

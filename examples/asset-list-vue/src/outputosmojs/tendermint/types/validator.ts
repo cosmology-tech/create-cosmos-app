@@ -2,11 +2,17 @@ import { PublicKey, PublicKeySDKType } from "../crypto/keys";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "tendermint.types";
 export interface ValidatorSet {
   validators: Validator[];
   proposer?: Validator;
   totalVotingPower: bigint;
+}
+export interface ReactiveValidatorSet {
+  validators: ComputedRef<Validator[]>;
+  proposer?: ComputedRef<Validator>;
+  totalVotingPower: ComputedRef<bigint>;
 }
 export interface ValidatorSetProtoMsg {
   typeUrl: "/tendermint.types.ValidatorSet";
@@ -23,6 +29,12 @@ export interface Validator {
   votingPower: bigint;
   proposerPriority: bigint;
 }
+export interface ReactiveValidator {
+  address: ComputedRef<Uint8Array>;
+  pubKey: ComputedRef<PublicKey>;
+  votingPower: ComputedRef<bigint>;
+  proposerPriority: ComputedRef<bigint>;
+}
 export interface ValidatorProtoMsg {
   typeUrl: "/tendermint.types.Validator";
   value: Uint8Array;
@@ -36,6 +48,10 @@ export interface ValidatorSDKType {
 export interface SimpleValidator {
   pubKey?: PublicKey;
   votingPower: bigint;
+}
+export interface ReactiveSimpleValidator {
+  pubKey?: ComputedRef<PublicKey>;
+  votingPower: ComputedRef<bigint>;
 }
 export interface SimpleValidatorProtoMsg {
   typeUrl: "/tendermint.types.SimpleValidator";

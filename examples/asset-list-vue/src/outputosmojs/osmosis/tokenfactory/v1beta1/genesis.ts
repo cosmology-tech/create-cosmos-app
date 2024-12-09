@@ -3,12 +3,17 @@ import { DenomAuthorityMetadata, DenomAuthorityMetadataSDKType } from "./authori
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.tokenfactory.v1beta1";
 /** GenesisState defines the tokenfactory module's genesis state. */
 export interface GenesisState {
   /** params defines the paramaters of the module. */
   params: Params;
   factoryDenoms: GenesisDenom[];
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  factoryDenoms: ComputedRef<GenesisDenom[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.GenesisState";
@@ -27,6 +32,10 @@ export interface GenesisStateSDKType {
 export interface GenesisDenom {
   denom: string;
   authorityMetadata: DenomAuthorityMetadata;
+}
+export interface ReactiveGenesisDenom {
+  denom: ComputedRef<string>;
+  authorityMetadata: ComputedRef<DenomAuthorityMetadata>;
 }
 export interface GenesisDenomProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.GenesisDenom";

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.transfer.v1";
 /**
  * DenomTrace contains the base denomination for ICS20 fungible tokens and the
@@ -14,6 +15,10 @@ export interface DenomTrace {
   path: string;
   /** base denomination of the relayed fungible token. */
   baseDenom: string;
+}
+export interface ReactiveDenomTrace {
+  path: ComputedRef<string>;
+  baseDenom: ComputedRef<string>;
 }
 export interface DenomTraceProtoMsg {
   typeUrl: "/ibc.applications.transfer.v1.DenomTrace";
@@ -44,6 +49,10 @@ export interface Params {
    * chain.
    */
   receiveEnabled: boolean;
+}
+export interface ReactiveParams {
+  sendEnabled: ComputedRef<boolean>;
+  receiveEnabled: ComputedRef<boolean>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/ibc.applications.transfer.v1.Params";

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.gamm.v1beta1";
 /**
  * ReplaceMigrationRecordsProposal is a gov Content type for updating the
@@ -12,6 +13,10 @@ export const protobufPackage = "osmosis.gamm.v1beta1";
 export interface ReplaceMigrationRecordsProposal {
   title: string;
   description: string;
+}
+export interface ReactiveReplaceMigrationRecordsProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
 }
 export interface ReplaceMigrationRecordsProposalProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.ReplaceMigrationRecordsProposal";
@@ -41,6 +46,10 @@ export interface ReplaceMigrationRecordsProposalSDKType {
 export interface UpdateMigrationRecordsProposal {
   title: string;
   description: string;
+}
+export interface ReactiveUpdateMigrationRecordsProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
 }
 export interface UpdateMigrationRecordsProposalProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.UpdateMigrationRecordsProposal";

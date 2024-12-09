@@ -4,6 +4,7 @@ import { Timestamp, TimestampSDKType } from "../../protobuf/timestamp";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp, isObject } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.logging.v2";
 /** Logging API version. */
 export enum LogMetric_ApiVersion {
@@ -42,6 +43,10 @@ export function logMetric_ApiVersionToJSON(object: LogMetric_ApiVersion): string
 export interface LogMetric_LabelExtractorsEntry {
   key: string;
   value: string;
+}
+export interface ReactiveLogMetric_LabelExtractorsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface LogMetric_LabelExtractorsEntryProtoMsg {
   typeUrl: string;
@@ -187,6 +192,21 @@ export interface LogMetric {
   /** @deprecated */
   version: LogMetric_ApiVersion;
 }
+export interface ReactiveLogMetric {
+  name: ComputedRef<string>;
+  description: ComputedRef<string>;
+  filter: ComputedRef<string>;
+  disabled: ComputedRef<boolean>;
+  metricDescriptor?: ComputedRef<MetricDescriptor>;
+  valueExtractor: ComputedRef<string>;
+  labelExtractors: ComputedRef<{
+    [key: string]: string;
+  }>;
+  bucketOptions?: ComputedRef<Distribution_BucketOptions>;
+  createTime?: ComputedRef<Date>;
+  updateTime?: ComputedRef<Date>;
+  version: ComputedRef<LogMetric_ApiVersion>;
+}
 export interface LogMetricProtoMsg {
   typeUrl: "/google.logging.v2.LogMetric";
   value: Uint8Array;
@@ -238,6 +258,11 @@ export interface ListLogMetricsRequest {
    */
   pageSize: number;
 }
+export interface ReactiveListLogMetricsRequest {
+  parent: ComputedRef<string>;
+  pageToken: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+}
 export interface ListLogMetricsRequestProtoMsg {
   typeUrl: "/google.logging.v2.ListLogMetricsRequest";
   value: Uint8Array;
@@ -259,6 +284,10 @@ export interface ListLogMetricsResponse {
    */
   nextPageToken: string;
 }
+export interface ReactiveListLogMetricsResponse {
+  metrics: ComputedRef<LogMetric[]>;
+  nextPageToken: ComputedRef<string>;
+}
 export interface ListLogMetricsResponseProtoMsg {
   typeUrl: "/google.logging.v2.ListLogMetricsResponse";
   value: Uint8Array;
@@ -276,6 +305,9 @@ export interface GetLogMetricRequest {
    *     "projects/[PROJECT_ID]/metrics/[METRIC_ID]"
    */
   metricName: string;
+}
+export interface ReactiveGetLogMetricRequest {
+  metricName: ComputedRef<string>;
 }
 export interface GetLogMetricRequestProtoMsg {
   typeUrl: "/google.logging.v2.GetLogMetricRequest";
@@ -301,6 +333,10 @@ export interface CreateLogMetricRequest {
    */
   metric?: LogMetric;
 }
+export interface ReactiveCreateLogMetricRequest {
+  parent: ComputedRef<string>;
+  metric?: ComputedRef<LogMetric>;
+}
 export interface CreateLogMetricRequestProtoMsg {
   typeUrl: "/google.logging.v2.CreateLogMetricRequest";
   value: Uint8Array;
@@ -325,6 +361,10 @@ export interface UpdateLogMetricRequest {
   /** Required. The updated metric. */
   metric?: LogMetric;
 }
+export interface ReactiveUpdateLogMetricRequest {
+  metricName: ComputedRef<string>;
+  metric?: ComputedRef<LogMetric>;
+}
 export interface UpdateLogMetricRequestProtoMsg {
   typeUrl: "/google.logging.v2.UpdateLogMetricRequest";
   value: Uint8Array;
@@ -342,6 +382,9 @@ export interface DeleteLogMetricRequest {
    *     "projects/[PROJECT_ID]/metrics/[METRIC_ID]"
    */
   metricName: string;
+}
+export interface ReactiveDeleteLogMetricRequest {
+  metricName: ComputedRef<string>;
 }
 export interface DeleteLogMetricRequestProtoMsg {
   typeUrl: "/google.logging.v2.DeleteLogMetricRequest";

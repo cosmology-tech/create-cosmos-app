@@ -4,6 +4,7 @@ import { Channel, ChannelSDKType } from "../../../core/channel/v1/channel";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.lightclients.solomachine.v1";
 /**
  * DataType defines the type of solo machine proof being created. This is done
@@ -114,6 +115,12 @@ export interface ClientState {
    */
   allowUpdateAfterProposal: boolean;
 }
+export interface ReactiveClientState {
+  sequence: ComputedRef<bigint>;
+  frozenSequence: ComputedRef<bigint>;
+  consensusState?: ComputedRef<ConsensusState>;
+  allowUpdateAfterProposal: ComputedRef<boolean>;
+}
 export interface ClientStateProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.ClientState";
   value: Uint8Array;
@@ -144,6 +151,11 @@ export interface ConsensusState {
   diversifier: string;
   timestamp: bigint;
 }
+export interface ReactiveConsensusState {
+  publicKey?: ComputedRef<Any>;
+  diversifier: ComputedRef<string>;
+  timestamp: ComputedRef<bigint>;
+}
 export interface ConsensusStateProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.ConsensusState";
   value: Uint8Array;
@@ -167,6 +179,13 @@ export interface Header {
   newPublicKey?: Any;
   newDiversifier: string;
 }
+export interface ReactiveHeader {
+  sequence: ComputedRef<bigint>;
+  timestamp: ComputedRef<bigint>;
+  signature: ComputedRef<Uint8Array>;
+  newPublicKey?: ComputedRef<Any>;
+  newDiversifier: ComputedRef<string>;
+}
 export interface HeaderProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.Header";
   value: Uint8Array;
@@ -188,6 +207,12 @@ export interface Misbehaviour {
   sequence: bigint;
   signatureOne?: SignatureAndData;
   signatureTwo?: SignatureAndData;
+}
+export interface ReactiveMisbehaviour {
+  clientId: ComputedRef<string>;
+  sequence: ComputedRef<bigint>;
+  signatureOne?: ComputedRef<SignatureAndData>;
+  signatureTwo?: ComputedRef<SignatureAndData>;
 }
 export interface MisbehaviourProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.Misbehaviour";
@@ -213,6 +238,12 @@ export interface SignatureAndData {
   data: Uint8Array;
   timestamp: bigint;
 }
+export interface ReactiveSignatureAndData {
+  signature: ComputedRef<Uint8Array>;
+  dataType: ComputedRef<DataType>;
+  data: ComputedRef<Uint8Array>;
+  timestamp: ComputedRef<bigint>;
+}
 export interface SignatureAndDataProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.SignatureAndData";
   value: Uint8Array;
@@ -234,6 +265,10 @@ export interface SignatureAndDataSDKType {
 export interface TimestampedSignatureData {
   signatureData: Uint8Array;
   timestamp: bigint;
+}
+export interface ReactiveTimestampedSignatureData {
+  signatureData: ComputedRef<Uint8Array>;
+  timestamp: ComputedRef<bigint>;
 }
 export interface TimestampedSignatureDataProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.TimestampedSignatureData";
@@ -257,6 +292,13 @@ export interface SignBytes {
   /** marshaled data */
   data: Uint8Array;
 }
+export interface ReactiveSignBytes {
+  sequence: ComputedRef<bigint>;
+  timestamp: ComputedRef<bigint>;
+  diversifier: ComputedRef<string>;
+  dataType: ComputedRef<DataType>;
+  data: ComputedRef<Uint8Array>;
+}
 export interface SignBytesProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.SignBytes";
   value: Uint8Array;
@@ -276,6 +318,10 @@ export interface HeaderData {
   /** header diversifier */
   newDiversifier: string;
 }
+export interface ReactiveHeaderData {
+  newPubKey?: ComputedRef<Any>;
+  newDiversifier: ComputedRef<string>;
+}
 export interface HeaderDataProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.HeaderData";
   value: Uint8Array;
@@ -289,6 +335,10 @@ export interface HeaderDataSDKType {
 export interface ClientStateData {
   path: Uint8Array;
   clientState?: Any;
+}
+export interface ReactiveClientStateData {
+  path: ComputedRef<Uint8Array>;
+  clientState?: ComputedRef<Any>;
 }
 export interface ClientStateDataProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.ClientStateData";
@@ -306,6 +356,10 @@ export interface ClientStateDataSDKType {
 export interface ConsensusStateData {
   path: Uint8Array;
   consensusState?: Any;
+}
+export interface ReactiveConsensusStateData {
+  path: ComputedRef<Uint8Array>;
+  consensusState?: ComputedRef<Any>;
 }
 export interface ConsensusStateDataProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.ConsensusStateData";
@@ -327,6 +381,10 @@ export interface ConnectionStateData {
   path: Uint8Array;
   connection?: ConnectionEnd;
 }
+export interface ReactiveConnectionStateData {
+  path: ComputedRef<Uint8Array>;
+  connection?: ComputedRef<ConnectionEnd>;
+}
 export interface ConnectionStateDataProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.ConnectionStateData";
   value: Uint8Array;
@@ -346,6 +404,10 @@ export interface ConnectionStateDataSDKType {
 export interface ChannelStateData {
   path: Uint8Array;
   channel?: Channel;
+}
+export interface ReactiveChannelStateData {
+  path: ComputedRef<Uint8Array>;
+  channel?: ComputedRef<Channel>;
 }
 export interface ChannelStateDataProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.ChannelStateData";
@@ -367,6 +429,10 @@ export interface PacketCommitmentData {
   path: Uint8Array;
   commitment: Uint8Array;
 }
+export interface ReactivePacketCommitmentData {
+  path: ComputedRef<Uint8Array>;
+  commitment: ComputedRef<Uint8Array>;
+}
 export interface PacketCommitmentDataProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.PacketCommitmentData";
   value: Uint8Array;
@@ -387,6 +453,10 @@ export interface PacketAcknowledgementData {
   path: Uint8Array;
   acknowledgement: Uint8Array;
 }
+export interface ReactivePacketAcknowledgementData {
+  path: ComputedRef<Uint8Array>;
+  acknowledgement: ComputedRef<Uint8Array>;
+}
 export interface PacketAcknowledgementDataProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.PacketAcknowledgementData";
   value: Uint8Array;
@@ -406,6 +476,9 @@ export interface PacketAcknowledgementDataSDKType {
 export interface PacketReceiptAbsenceData {
   path: Uint8Array;
 }
+export interface ReactivePacketReceiptAbsenceData {
+  path: ComputedRef<Uint8Array>;
+}
 export interface PacketReceiptAbsenceDataProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.PacketReceiptAbsenceData";
   value: Uint8Array;
@@ -424,6 +497,10 @@ export interface PacketReceiptAbsenceDataSDKType {
 export interface NextSequenceRecvData {
   path: Uint8Array;
   nextSeqRecv: bigint;
+}
+export interface ReactiveNextSequenceRecvData {
+  path: ComputedRef<Uint8Array>;
+  nextSeqRecv: ComputedRef<bigint>;
 }
 export interface NextSequenceRecvDataProtoMsg {
   typeUrl: "/ibc.lightclients.solomachine.v1.NextSequenceRecvData";

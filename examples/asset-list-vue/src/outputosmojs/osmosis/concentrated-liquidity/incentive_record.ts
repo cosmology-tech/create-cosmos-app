@@ -4,6 +4,7 @@ import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
 import { Decimal } from "@cosmjs/math";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity.v1beta1";
 /**
  * IncentiveRecord is the high-level struct we use to deal with an independent
@@ -33,6 +34,13 @@ export interface IncentiveRecord {
    */
   minUptime: Duration;
 }
+export interface ReactiveIncentiveRecord {
+  poolId: ComputedRef<bigint>;
+  incentiveDenom: ComputedRef<string>;
+  incentiveCreatorAddr: ComputedRef<string>;
+  incentiveRecordBody: ComputedRef<IncentiveRecordBody>;
+  minUptime: ComputedRef<Duration>;
+}
 export interface IncentiveRecordProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.IncentiveRecord";
   value: Uint8Array;
@@ -61,6 +69,11 @@ export interface IncentiveRecordBody {
   emissionRate: string;
   /** start_time is the time when the incentive starts distributing */
   startTime: Date;
+}
+export interface ReactiveIncentiveRecordBody {
+  remainingAmount: ComputedRef<string>;
+  emissionRate: ComputedRef<string>;
+  startTime: ComputedRef<Date>;
 }
 export interface IncentiveRecordBodyProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.IncentiveRecordBody";

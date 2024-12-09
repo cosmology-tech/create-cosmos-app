@@ -2,10 +2,14 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.tokenfactory.v1beta1";
 /** Params defines the parameters for the tokenfactory module. */
 export interface Params {
   denomCreationFee: Coin[];
+}
+export interface ReactiveParams {
+  denomCreationFee: ComputedRef<Coin[]>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.Params";

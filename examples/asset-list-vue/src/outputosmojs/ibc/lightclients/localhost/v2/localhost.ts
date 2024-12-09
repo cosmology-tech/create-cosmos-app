@@ -2,11 +2,15 @@ import { Height, HeightSDKType } from "../../../core/client/v1/client";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.lightclients.localhost.v2";
 /** ClientState defines the 09-localhost client state */
 export interface ClientState {
   /** the latest block height */
   latestHeight: Height;
+}
+export interface ReactiveClientState {
+  latestHeight: ComputedRef<Height>;
 }
 export interface ClientStateProtoMsg {
   typeUrl: "/ibc.lightclients.localhost.v2.ClientState";

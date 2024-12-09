@@ -3,6 +3,7 @@ import { Account, AccountSDKType, FractionalPayment, FractionalPaymentSDKType } 
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.escrow.v1beta2";
 /** QueryAccountRequest is request type for the Query/Account RPC method */
 export interface QueryAccountsRequest {
@@ -11,6 +12,13 @@ export interface QueryAccountsRequest {
   owner: string;
   state: string;
   pagination?: PageRequest;
+}
+export interface ReactiveQueryAccountsRequest {
+  scope: ComputedRef<string>;
+  xid: ComputedRef<string>;
+  owner: ComputedRef<string>;
+  state: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryAccountsRequestProtoMsg {
   typeUrl: "/akash.escrow.v1beta2.QueryAccountsRequest";
@@ -28,6 +36,10 @@ export interface QueryAccountsRequestSDKType {
 export interface QueryAccountsResponse {
   accounts: Account[];
   pagination?: PageResponse;
+}
+export interface ReactiveQueryAccountsResponse {
+  accounts: ComputedRef<Account[]>;
+  pagination?: ComputedRef<PageResponse>;
 }
 export interface QueryAccountsResponseProtoMsg {
   typeUrl: "/akash.escrow.v1beta2.QueryAccountsResponse";
@@ -47,6 +59,14 @@ export interface QueryPaymentsRequest {
   state: string;
   pagination?: PageRequest;
 }
+export interface ReactiveQueryPaymentsRequest {
+  scope: ComputedRef<string>;
+  xid: ComputedRef<string>;
+  id: ComputedRef<string>;
+  owner: ComputedRef<string>;
+  state: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
+}
 export interface QueryPaymentsRequestProtoMsg {
   typeUrl: "/akash.escrow.v1beta2.QueryPaymentsRequest";
   value: Uint8Array;
@@ -64,6 +84,10 @@ export interface QueryPaymentsRequestSDKType {
 export interface QueryPaymentsResponse {
   payments: FractionalPayment[];
   pagination?: PageResponse;
+}
+export interface ReactiveQueryPaymentsResponse {
+  payments: ComputedRef<FractionalPayment[]>;
+  pagination?: ComputedRef<PageResponse>;
 }
 export interface QueryPaymentsResponseProtoMsg {
   typeUrl: "/akash.escrow.v1beta2.QueryPaymentsResponse";

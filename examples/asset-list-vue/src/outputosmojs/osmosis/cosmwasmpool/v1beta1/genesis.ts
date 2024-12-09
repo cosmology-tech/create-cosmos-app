@@ -1,9 +1,11 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.cosmwasmpool.v1beta1";
 /** Params holds parameters for the cosmwasmpool module */
 export interface Params {}
+export interface ReactiveParams {}
 export interface ParamsProtoMsg {
   typeUrl: "/osmosis.cosmwasmpool.v1beta1.Params";
   value: Uint8Array;
@@ -14,6 +16,9 @@ export interface ParamsSDKType {}
 export interface GenesisState {
   /** params is the container of cosmwasmpool parameters. */
   params: Params;
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.cosmwasmpool.v1beta1.GenesisState";

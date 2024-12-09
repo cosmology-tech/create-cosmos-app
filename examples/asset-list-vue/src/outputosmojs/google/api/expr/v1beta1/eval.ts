@@ -3,6 +3,7 @@ import { Status, StatusSDKType } from "../../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { JsonSafe } from "../../../../json-safe";
 import { DeepPartial, isSet } from "../../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.expr.v1beta1";
 /**
  * The state of an evaluation.
@@ -19,6 +20,10 @@ export interface EvalState {
    * May be sparse.
    */
   results: EvalState_Result[];
+}
+export interface ReactiveEvalState {
+  values: ComputedRef<ExprValue[]>;
+  results: ComputedRef<EvalState_Result[]>;
 }
 export interface EvalStateProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.EvalState";
@@ -39,6 +44,10 @@ export interface EvalState_Result {
   expr?: IdRef;
   /** The index in `values` of the resulting value. */
   value: number;
+}
+export interface ReactiveEvalState_Result {
+  expr?: ComputedRef<IdRef>;
+  value: ComputedRef<number>;
 }
 export interface EvalState_ResultProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.Result";
@@ -100,6 +109,11 @@ export interface ExprValue {
    */
   unknown?: UnknownSet;
 }
+export interface ReactiveExprValue {
+  value?: ComputedRef<Value>;
+  error?: ComputedRef<ErrorSet>;
+  unknown?: ComputedRef<UnknownSet>;
+}
 export interface ExprValueProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.ExprValue";
   value: Uint8Array;
@@ -118,6 +132,9 @@ export interface ExprValueSDKType {
 export interface ErrorSet {
   /** The errors in the set. */
   errors: Status[];
+}
+export interface ReactiveErrorSet {
+  errors: ComputedRef<Status[]>;
 }
 export interface ErrorSetProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.ErrorSet";
@@ -140,6 +157,9 @@ export interface UnknownSet {
   /** The ids of the expressions with unknown values. */
   exprs: IdRef[];
 }
+export interface ReactiveUnknownSet {
+  exprs: ComputedRef<IdRef[]>;
+}
 export interface UnknownSetProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.UnknownSet";
   value: Uint8Array;
@@ -156,6 +176,9 @@ export interface UnknownSetSDKType {
 export interface IdRef {
   /** The expression id. */
   id: number;
+}
+export interface ReactiveIdRef {
+  id: ComputedRef<number>;
 }
 export interface IdRefProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.IdRef";

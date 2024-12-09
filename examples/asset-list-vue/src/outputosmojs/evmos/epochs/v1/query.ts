@@ -3,9 +3,13 @@ import { EpochInfo, EpochInfoSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.epochs.v1";
 export interface QueryEpochsInfoRequest {
   pagination?: PageRequest;
+}
+export interface ReactiveQueryEpochsInfoRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryEpochsInfoRequestProtoMsg {
   typeUrl: "/evmos.epochs.v1.QueryEpochsInfoRequest";
@@ -18,6 +22,10 @@ export interface QueryEpochsInfoResponse {
   epochs: EpochInfo[];
   pagination?: PageResponse;
 }
+export interface ReactiveQueryEpochsInfoResponse {
+  epochs: ComputedRef<EpochInfo[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryEpochsInfoResponseProtoMsg {
   typeUrl: "/evmos.epochs.v1.QueryEpochsInfoResponse";
   value: Uint8Array;
@@ -29,6 +37,9 @@ export interface QueryEpochsInfoResponseSDKType {
 export interface QueryCurrentEpochRequest {
   identifier: string;
 }
+export interface ReactiveQueryCurrentEpochRequest {
+  identifier: ComputedRef<string>;
+}
 export interface QueryCurrentEpochRequestProtoMsg {
   typeUrl: "/evmos.epochs.v1.QueryCurrentEpochRequest";
   value: Uint8Array;
@@ -38,6 +49,9 @@ export interface QueryCurrentEpochRequestSDKType {
 }
 export interface QueryCurrentEpochResponse {
   currentEpoch: bigint;
+}
+export interface ReactiveQueryCurrentEpochResponse {
+  currentEpoch: ComputedRef<bigint>;
 }
 export interface QueryCurrentEpochResponseProtoMsg {
   typeUrl: "/evmos.epochs.v1.QueryCurrentEpochResponse";

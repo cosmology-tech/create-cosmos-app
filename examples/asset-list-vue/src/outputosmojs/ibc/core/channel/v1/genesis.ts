@@ -2,6 +2,7 @@ import { IdentifiedChannel, IdentifiedChannelSDKType, PacketState, PacketStateSD
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.channel.v1";
 /** GenesisState defines the ibc channel submodule's genesis state. */
 export interface GenesisState {
@@ -14,6 +15,16 @@ export interface GenesisState {
   ackSequences: PacketSequence[];
   /** the sequence for the next generated channel identifier */
   nextChannelSequence: bigint;
+}
+export interface ReactiveGenesisState {
+  channels: ComputedRef<IdentifiedChannel[]>;
+  acknowledgements: ComputedRef<PacketState[]>;
+  commitments: ComputedRef<PacketState[]>;
+  receipts: ComputedRef<PacketState[]>;
+  sendSequences: ComputedRef<PacketSequence[]>;
+  recvSequences: ComputedRef<PacketSequence[]>;
+  ackSequences: ComputedRef<PacketSequence[]>;
+  nextChannelSequence: ComputedRef<bigint>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/ibc.core.channel.v1.GenesisState";
@@ -38,6 +49,11 @@ export interface PacketSequence {
   portId: string;
   channelId: string;
   sequence: bigint;
+}
+export interface ReactivePacketSequence {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  sequence: ComputedRef<bigint>;
 }
 export interface PacketSequenceProtoMsg {
   typeUrl: "/ibc.core.channel.v1.PacketSequence";

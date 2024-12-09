@@ -2,6 +2,7 @@ import { CommitmentProof, CommitmentProofSDKType } from "../../../../confio/proo
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.commitment.v1";
 /**
  * MerkleRoot defines a merkle root hash.
@@ -9,6 +10,9 @@ export const protobufPackage = "ibc.core.commitment.v1";
  */
 export interface MerkleRoot {
   hash: Uint8Array;
+}
+export interface ReactiveMerkleRoot {
+  hash: ComputedRef<Uint8Array>;
 }
 export interface MerkleRootProtoMsg {
   typeUrl: "/ibc.core.commitment.v1.MerkleRoot";
@@ -29,6 +33,9 @@ export interface MerkleRootSDKType {
 export interface MerklePrefix {
   keyPrefix: Uint8Array;
 }
+export interface ReactiveMerklePrefix {
+  keyPrefix: ComputedRef<Uint8Array>;
+}
 export interface MerklePrefixProtoMsg {
   typeUrl: "/ibc.core.commitment.v1.MerklePrefix";
   value: Uint8Array;
@@ -48,6 +55,9 @@ export interface MerklePrefixSDKType {
  */
 export interface MerklePath {
   keyPath: string[];
+}
+export interface ReactiveMerklePath {
+  keyPath: ComputedRef<string[]>;
 }
 export interface MerklePathProtoMsg {
   typeUrl: "/ibc.core.commitment.v1.MerklePath";
@@ -70,6 +80,9 @@ export interface MerklePathSDKType {
  */
 export interface MerkleProof {
   proofs: CommitmentProof[];
+}
+export interface ReactiveMerkleProof {
+  proofs: ComputedRef<CommitmentProof[]>;
 }
 export interface MerkleProofProtoMsg {
   typeUrl: "/ibc.core.commitment.v1.MerkleProof";

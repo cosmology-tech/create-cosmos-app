@@ -5,6 +5,7 @@ import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
 import { Decimal } from "@cosmjs/math";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.gamm.v1beta1";
 /**
  * Parameters for changing the weights in a balancer pool smoothly from
@@ -44,6 +45,12 @@ export interface SmoothWeightChangeParams {
    */
   targetPoolWeights: PoolAsset[];
 }
+export interface ReactiveSmoothWeightChangeParams {
+  startTime: ComputedRef<Date>;
+  duration: ComputedRef<Duration>;
+  initialPoolWeights: ComputedRef<PoolAsset[]>;
+  targetPoolWeights: ComputedRef<PoolAsset[]>;
+}
 export interface SmoothWeightChangeParamsProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.SmoothWeightChangeParams";
   value: Uint8Array;
@@ -78,6 +85,11 @@ export interface PoolParams {
   exitFee: string;
   smoothWeightChangeParams?: SmoothWeightChangeParams;
 }
+export interface ReactivePoolParams {
+  swapFee: ComputedRef<string>;
+  exitFee: ComputedRef<string>;
+  smoothWeightChangeParams?: ComputedRef<SmoothWeightChangeParams>;
+}
 export interface PoolParamsProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.PoolParams";
   value: Uint8Array;
@@ -107,6 +119,10 @@ export interface PoolAsset {
   token: Coin;
   /** Weight that is not normalized. This weight must be less than 2^50 */
   weight: string;
+}
+export interface ReactivePoolAsset {
+  token: ComputedRef<Coin>;
+  weight: ComputedRef<string>;
 }
 export interface PoolAssetProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.PoolAsset";
@@ -147,6 +163,15 @@ export interface Pool {
   poolAssets: PoolAsset[];
   /** sum of all non-normalized pool weights */
   totalWeight: string;
+}
+export interface ReactivePool {
+  address: ComputedRef<string>;
+  id: ComputedRef<bigint>;
+  poolParams: ComputedRef<PoolParams>;
+  futurePoolGovernor: ComputedRef<string>;
+  totalShares: ComputedRef<Coin>;
+  poolAssets: ComputedRef<PoolAsset[]>;
+  totalWeight: ComputedRef<string>;
 }
 export interface PoolProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.Pool";

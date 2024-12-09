@@ -4,6 +4,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
 import { fromBase64, toBase64, toUtf8, fromUtf8 } from "@cosmjs/encoding";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmwasm.wasm.v1";
 /** StoreCodeProposal gov proposal content type to submit WASM code to the system */
 export interface StoreCodeProposal {
@@ -17,6 +18,13 @@ export interface StoreCodeProposal {
   wasmByteCode: Uint8Array;
   /** InstantiatePermission to apply on contract creation, optional */
   instantiatePermission?: AccessConfig;
+}
+export interface ReactiveStoreCodeProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  runAs: ComputedRef<string>;
+  wasmByteCode: ComputedRef<Uint8Array>;
+  instantiatePermission?: ComputedRef<AccessConfig>;
 }
 export interface StoreCodeProposalProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.StoreCodeProposal";
@@ -52,6 +60,16 @@ export interface InstantiateContractProposal {
   /** Funds coins that are transferred to the contract on instantiation */
   funds: Coin[];
 }
+export interface ReactiveInstantiateContractProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  runAs: ComputedRef<string>;
+  admin: ComputedRef<string>;
+  codeId: ComputedRef<bigint>;
+  label: ComputedRef<string>;
+  msg: ComputedRef<Uint8Array>;
+  funds: ComputedRef<Coin[]>;
+}
 export interface InstantiateContractProposalProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.InstantiateContractProposal";
   value: Uint8Array;
@@ -83,6 +101,13 @@ export interface MigrateContractProposal {
   /** Msg json encoded message to be passed to the contract on migration */
   msg: Uint8Array;
 }
+export interface ReactiveMigrateContractProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  contract: ComputedRef<string>;
+  codeId: ComputedRef<bigint>;
+  msg: ComputedRef<Uint8Array>;
+}
 export interface MigrateContractProposalProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MigrateContractProposal";
   value: Uint8Array;
@@ -105,6 +130,12 @@ export interface SudoContractProposal {
   contract: string;
   /** Msg json encoded message to be passed to the contract as sudo */
   msg: Uint8Array;
+}
+export interface ReactiveSudoContractProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  contract: ComputedRef<string>;
+  msg: ComputedRef<Uint8Array>;
 }
 export interface SudoContractProposalProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.SudoContractProposal";
@@ -135,6 +166,14 @@ export interface ExecuteContractProposal {
   /** Funds coins that are transferred to the contract on instantiation */
   funds: Coin[];
 }
+export interface ReactiveExecuteContractProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  runAs: ComputedRef<string>;
+  contract: ComputedRef<string>;
+  msg: ComputedRef<Uint8Array>;
+  funds: ComputedRef<Coin[]>;
+}
 export interface ExecuteContractProposalProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.ExecuteContractProposal";
   value: Uint8Array;
@@ -162,6 +201,12 @@ export interface UpdateAdminProposal {
   /** Contract is the address of the smart contract */
   contract: string;
 }
+export interface ReactiveUpdateAdminProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  newAdmin: ComputedRef<string>;
+  contract: ComputedRef<string>;
+}
 export interface UpdateAdminProposalProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.UpdateAdminProposal";
   value: Uint8Array;
@@ -184,6 +229,11 @@ export interface ClearAdminProposal {
   description: string;
   /** Contract is the address of the smart contract */
   contract: string;
+}
+export interface ReactiveClearAdminProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  contract: ComputedRef<string>;
 }
 export interface ClearAdminProposalProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.ClearAdminProposal";
@@ -210,6 +260,11 @@ export interface PinCodesProposal {
   /** CodeIDs references the new WASM codes */
   codeIds: bigint[];
 }
+export interface ReactivePinCodesProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  codeIds: ComputedRef<bigint[]>;
+}
 export interface PinCodesProposalProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.PinCodesProposal";
   value: Uint8Array;
@@ -234,6 +289,11 @@ export interface UnpinCodesProposal {
   description: string;
   /** CodeIDs references the WASM codes */
   codeIds: bigint[];
+}
+export interface ReactiveUnpinCodesProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  codeIds: ComputedRef<bigint[]>;
 }
 export interface UnpinCodesProposalProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.UnpinCodesProposal";

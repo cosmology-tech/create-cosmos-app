@@ -7,6 +7,7 @@ import { isSet, DeepPartial, toTimestamp, fromTimestamp } from "../../../helpers
 import { JsonSafe } from "../../../json-safe";
 import { encodePubkey, decodePubkey } from "@cosmjs/proto-signing";
 import { Decimal } from "@cosmjs/math";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.staking.v1beta1";
 /** MsgCreateValidator defines a SDK message for creating a new validator. */
 export interface MsgCreateValidator {
@@ -17,6 +18,15 @@ export interface MsgCreateValidator {
   validatorAddress: string;
   pubkey?: Any;
   value: Coin;
+}
+export interface ReactiveMsgCreateValidator {
+  description: ComputedRef<Description>;
+  commission: ComputedRef<CommissionRates>;
+  minSelfDelegation: ComputedRef<string>;
+  delegatorAddress: ComputedRef<string>;
+  validatorAddress: ComputedRef<string>;
+  pubkey?: ComputedRef<Any>;
+  value: ComputedRef<Coin>;
 }
 export interface MsgCreateValidatorProtoMsg {
   typeUrl: "/cosmos.staking.v1beta1.MsgCreateValidator";
@@ -34,6 +44,7 @@ export interface MsgCreateValidatorSDKType {
 }
 /** MsgCreateValidatorResponse defines the Msg/CreateValidator response type. */
 export interface MsgCreateValidatorResponse {}
+export interface ReactiveMsgCreateValidatorResponse {}
 export interface MsgCreateValidatorResponseProtoMsg {
   typeUrl: "/cosmos.staking.v1beta1.MsgCreateValidatorResponse";
   value: Uint8Array;
@@ -53,6 +64,12 @@ export interface MsgEditValidator {
   commissionRate: string;
   minSelfDelegation: string;
 }
+export interface ReactiveMsgEditValidator {
+  description: ComputedRef<Description>;
+  validatorAddress: ComputedRef<string>;
+  commissionRate: ComputedRef<string>;
+  minSelfDelegation: ComputedRef<string>;
+}
 export interface MsgEditValidatorProtoMsg {
   typeUrl: "/cosmos.staking.v1beta1.MsgEditValidator";
   value: Uint8Array;
@@ -66,6 +83,7 @@ export interface MsgEditValidatorSDKType {
 }
 /** MsgEditValidatorResponse defines the Msg/EditValidator response type. */
 export interface MsgEditValidatorResponse {}
+export interface ReactiveMsgEditValidatorResponse {}
 export interface MsgEditValidatorResponseProtoMsg {
   typeUrl: "/cosmos.staking.v1beta1.MsgEditValidatorResponse";
   value: Uint8Array;
@@ -80,6 +98,11 @@ export interface MsgDelegate {
   delegatorAddress: string;
   validatorAddress: string;
   amount: Coin;
+}
+export interface ReactiveMsgDelegate {
+  delegatorAddress: ComputedRef<string>;
+  validatorAddress: ComputedRef<string>;
+  amount: ComputedRef<Coin>;
 }
 export interface MsgDelegateProtoMsg {
   typeUrl: "/cosmos.staking.v1beta1.MsgDelegate";
@@ -96,6 +119,7 @@ export interface MsgDelegateSDKType {
 }
 /** MsgDelegateResponse defines the Msg/Delegate response type. */
 export interface MsgDelegateResponse {}
+export interface ReactiveMsgDelegateResponse {}
 export interface MsgDelegateResponseProtoMsg {
   typeUrl: "/cosmos.staking.v1beta1.MsgDelegateResponse";
   value: Uint8Array;
@@ -111,6 +135,12 @@ export interface MsgBeginRedelegate {
   validatorSrcAddress: string;
   validatorDstAddress: string;
   amount: Coin;
+}
+export interface ReactiveMsgBeginRedelegate {
+  delegatorAddress: ComputedRef<string>;
+  validatorSrcAddress: ComputedRef<string>;
+  validatorDstAddress: ComputedRef<string>;
+  amount: ComputedRef<Coin>;
 }
 export interface MsgBeginRedelegateProtoMsg {
   typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate";
@@ -130,6 +160,9 @@ export interface MsgBeginRedelegateSDKType {
 export interface MsgBeginRedelegateResponse {
   completionTime: Date;
 }
+export interface ReactiveMsgBeginRedelegateResponse {
+  completionTime: ComputedRef<Date>;
+}
 export interface MsgBeginRedelegateResponseProtoMsg {
   typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegateResponse";
   value: Uint8Array;
@@ -147,6 +180,11 @@ export interface MsgUndelegate {
   validatorAddress: string;
   amount: Coin;
 }
+export interface ReactiveMsgUndelegate {
+  delegatorAddress: ComputedRef<string>;
+  validatorAddress: ComputedRef<string>;
+  amount: ComputedRef<Coin>;
+}
 export interface MsgUndelegateProtoMsg {
   typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate";
   value: Uint8Array;
@@ -163,6 +201,9 @@ export interface MsgUndelegateSDKType {
 /** MsgUndelegateResponse defines the Msg/Undelegate response type. */
 export interface MsgUndelegateResponse {
   completionTime: Date;
+}
+export interface ReactiveMsgUndelegateResponse {
+  completionTime: ComputedRef<Date>;
 }
 export interface MsgUndelegateResponseProtoMsg {
   typeUrl: "/cosmos.staking.v1beta1.MsgUndelegateResponse";

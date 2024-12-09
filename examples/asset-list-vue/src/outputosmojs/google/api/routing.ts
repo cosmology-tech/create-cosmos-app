@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * Specifies the routing information that should be sent along with the request
@@ -373,6 +374,9 @@ export interface RoutingRule {
    * See the examples for more details.
    */
   routingParameters: RoutingParameter[];
+}
+export interface ReactiveRoutingRule {
+  routingParameters: ComputedRef<RoutingParameter[]>;
 }
 export interface RoutingRuleProtoMsg {
   typeUrl: "/google.api.RoutingRule";
@@ -803,6 +807,10 @@ export interface RoutingParameter {
    * See Example 1 for more details.
    */
   pathTemplate: string;
+}
+export interface ReactiveRoutingParameter {
+  field: ComputedRef<string>;
+  pathTemplate: ComputedRef<string>;
 }
 export interface RoutingParameterProtoMsg {
   typeUrl: "/google.api.RoutingParameter";

@@ -2,11 +2,15 @@ import { Params, ParamsSDKType } from "./params";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.ibcratelimit.v1beta1";
 /** GenesisState defines the ibc-rate-limit module's genesis state. */
 export interface GenesisState {
   /** params are all the parameters of the module */
   params: Params;
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.ibcratelimit.v1beta1.GenesisState";

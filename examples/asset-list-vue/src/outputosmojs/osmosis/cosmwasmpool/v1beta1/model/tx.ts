@@ -1,12 +1,18 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.cosmwasmpool.v1beta1";
 /** ===================== MsgCreateCosmwasmPool */
 export interface MsgCreateCosmWasmPool {
   codeId: bigint;
   instantiateMsg: Uint8Array;
   sender: string;
+}
+export interface ReactiveMsgCreateCosmWasmPool {
+  codeId: ComputedRef<bigint>;
+  instantiateMsg: ComputedRef<Uint8Array>;
+  sender: ComputedRef<string>;
 }
 export interface MsgCreateCosmWasmPoolProtoMsg {
   typeUrl: "/osmosis.cosmwasmpool.v1beta1.MsgCreateCosmWasmPool";
@@ -21,6 +27,9 @@ export interface MsgCreateCosmWasmPoolSDKType {
 /** Returns a unique poolID to identify the pool with. */
 export interface MsgCreateCosmWasmPoolResponse {
   poolId: bigint;
+}
+export interface ReactiveMsgCreateCosmWasmPoolResponse {
+  poolId: ComputedRef<bigint>;
 }
 export interface MsgCreateCosmWasmPoolResponseProtoMsg {
   typeUrl: "/osmosis.cosmwasmpool.v1beta1.MsgCreateCosmWasmPoolResponse";

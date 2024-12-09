@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * A description of the historical or future-looking state of the
@@ -228,6 +229,15 @@ export interface ResourceDescriptor {
    */
   style: ResourceDescriptor_Style[];
 }
+export interface ReactiveResourceDescriptor {
+  type: ComputedRef<string>;
+  pattern: ComputedRef<string[]>;
+  nameField: ComputedRef<string>;
+  history: ComputedRef<ResourceDescriptor_History>;
+  plural: ComputedRef<string>;
+  singular: ComputedRef<string>;
+  style: ComputedRef<ResourceDescriptor_Style[]>;
+}
 export interface ResourceDescriptorProtoMsg {
   typeUrl: "/google.api.ResourceDescriptor";
   value: Uint8Array;
@@ -332,6 +342,10 @@ export interface ResourceReference {
    *     }
    */
   childType: string;
+}
+export interface ReactiveResourceReference {
+  type: ComputedRef<string>;
+  childType: ComputedRef<string>;
 }
 export interface ResourceReferenceProtoMsg {
   typeUrl: "/google.api.ResourceReference";

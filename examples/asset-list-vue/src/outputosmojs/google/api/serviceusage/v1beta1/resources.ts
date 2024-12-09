@@ -9,6 +9,7 @@ import { Monitoring, MonitoringSDKType } from "../../monitoring";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, isObject } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.serviceusage.v1beta1";
 /** Whether or not a service has been enabled for use by a consumer. */
 export enum State {
@@ -185,6 +186,12 @@ export interface Service {
   /** Whether or not the service has been enabled for use by the consumer. */
   state: State;
 }
+export interface ReactiveService {
+  name: ComputedRef<string>;
+  parent: ComputedRef<string>;
+  config?: ComputedRef<ServiceConfig>;
+  state: ComputedRef<State>;
+}
 export interface ServiceProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.Service";
   value: Uint8Array;
@@ -239,6 +246,18 @@ export interface ServiceConfig {
    */
   monitoring?: Monitoring;
 }
+export interface ReactiveServiceConfig {
+  name: ComputedRef<string>;
+  title: ComputedRef<string>;
+  apis: ComputedRef<Api[]>;
+  documentation?: ComputedRef<Documentation>;
+  quota?: ComputedRef<Quota>;
+  authentication?: ComputedRef<Authentication>;
+  usage?: ComputedRef<Usage>;
+  endpoints: ComputedRef<Endpoint[]>;
+  monitoredResources: ComputedRef<MonitoredResourceDescriptor[]>;
+  monitoring?: ComputedRef<Monitoring>;
+}
 export interface ServiceConfigProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ServiceConfig";
   value: Uint8Array;
@@ -263,6 +282,9 @@ export interface OperationMetadata {
    * associated with.
    */
   resourceNames: string[];
+}
+export interface ReactiveOperationMetadata {
+  resourceNames: ComputedRef<string[]>;
 }
 export interface OperationMetadataProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.OperationMetadata";
@@ -314,6 +336,14 @@ export interface ConsumerQuotaMetric {
   descendantConsumerQuotaLimits: ConsumerQuotaLimit[];
   /** The units in which the metric value is reported. */
   unit: string;
+}
+export interface ReactiveConsumerQuotaMetric {
+  name: ComputedRef<string>;
+  metric: ComputedRef<string>;
+  displayName: ComputedRef<string>;
+  consumerQuotaLimits: ComputedRef<ConsumerQuotaLimit[]>;
+  descendantConsumerQuotaLimits: ComputedRef<ConsumerQuotaLimit[]>;
+  unit: ComputedRef<string>;
 }
 export interface ConsumerQuotaMetricProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ConsumerQuotaMetric";
@@ -367,6 +397,14 @@ export interface ConsumerQuotaLimit {
    */
   quotaBuckets: QuotaBucket[];
 }
+export interface ReactiveConsumerQuotaLimit {
+  name: ComputedRef<string>;
+  metric: ComputedRef<string>;
+  unit: ComputedRef<string>;
+  isPrecise: ComputedRef<boolean>;
+  allowsAdminOverrides: ComputedRef<boolean>;
+  quotaBuckets: ComputedRef<QuotaBucket[]>;
+}
 export interface ConsumerQuotaLimitProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ConsumerQuotaLimit";
   value: Uint8Array;
@@ -383,6 +421,10 @@ export interface ConsumerQuotaLimitSDKType {
 export interface QuotaBucket_DimensionsEntry {
   key: string;
   value: string;
+}
+export interface ReactiveQuotaBucket_DimensionsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface QuotaBucket_DimensionsEntryProtoMsg {
   typeUrl: string;
@@ -427,6 +469,16 @@ export interface QuotaBucket {
     [key: string]: string;
   };
 }
+export interface ReactiveQuotaBucket {
+  effectiveLimit: ComputedRef<bigint>;
+  defaultLimit: ComputedRef<bigint>;
+  producerOverride?: ComputedRef<QuotaOverride>;
+  consumerOverride?: ComputedRef<QuotaOverride>;
+  adminOverride?: ComputedRef<QuotaOverride>;
+  dimensions: ComputedRef<{
+    [key: string]: string;
+  }>;
+}
 export interface QuotaBucketProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.QuotaBucket";
   value: Uint8Array;
@@ -445,6 +497,10 @@ export interface QuotaBucketSDKType {
 export interface QuotaOverride_DimensionsEntry {
   key: string;
   value: string;
+}
+export interface ReactiveQuotaOverride_DimensionsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface QuotaOverride_DimensionsEntryProtoMsg {
   typeUrl: string;
@@ -523,6 +579,16 @@ export interface QuotaOverride {
    */
   adminOverrideAncestor: string;
 }
+export interface ReactiveQuotaOverride {
+  name: ComputedRef<string>;
+  overrideValue: ComputedRef<bigint>;
+  dimensions: ComputedRef<{
+    [key: string]: string;
+  }>;
+  metric: ComputedRef<string>;
+  unit: ComputedRef<string>;
+  adminOverrideAncestor: ComputedRef<string>;
+}
 export interface QuotaOverrideProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.QuotaOverride";
   value: Uint8Array;
@@ -548,6 +614,9 @@ export interface OverrideInlineSource {
    */
   overrides: QuotaOverride[];
 }
+export interface ReactiveOverrideInlineSource {
+  overrides: ComputedRef<QuotaOverride[]>;
+}
 export interface OverrideInlineSourceProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.OverrideInlineSource";
   value: Uint8Array;
@@ -559,6 +628,10 @@ export interface OverrideInlineSourceSDKType {
 export interface AdminQuotaPolicy_DimensionsEntry {
   key: string;
   value: string;
+}
+export interface ReactiveAdminQuotaPolicy_DimensionsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface AdminQuotaPolicy_DimensionsEntryProtoMsg {
   typeUrl: string;
@@ -622,6 +695,16 @@ export interface AdminQuotaPolicy {
    */
   container: string;
 }
+export interface ReactiveAdminQuotaPolicy {
+  name: ComputedRef<string>;
+  policyValue: ComputedRef<bigint>;
+  dimensions: ComputedRef<{
+    [key: string]: string;
+  }>;
+  metric: ComputedRef<string>;
+  unit: ComputedRef<string>;
+  container: ComputedRef<string>;
+}
 export interface AdminQuotaPolicyProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.AdminQuotaPolicy";
   value: Uint8Array;
@@ -652,6 +735,10 @@ export interface ServiceIdentity {
    * https://cloud.google.com/iam/reference/rest/v1/projects.serviceAccounts#ServiceAccount
    */
   uniqueId: string;
+}
+export interface ReactiveServiceIdentity {
+  email: ComputedRef<string>;
+  uniqueId: ComputedRef<string>;
 }
 export interface ServiceIdentityProtoMsg {
   typeUrl: "/google.api.serviceusage.v1beta1.ServiceIdentity";

@@ -2,6 +2,7 @@ import { Coin, CoinSDKType } from "../../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.transfer.v1";
 /** Allocation defines the spend limit for a particular port and channel */
 export interface Allocation {
@@ -13,6 +14,12 @@ export interface Allocation {
   spendLimit: Coin[];
   /** allow list of receivers, an empty allow list permits any receiver address */
   allowList: string[];
+}
+export interface ReactiveAllocation {
+  sourcePort: ComputedRef<string>;
+  sourceChannel: ComputedRef<string>;
+  spendLimit: ComputedRef<Coin[]>;
+  allowList: ComputedRef<string[]>;
 }
 export interface AllocationProtoMsg {
   typeUrl: "/ibc.applications.transfer.v1.Allocation";
@@ -32,6 +39,9 @@ export interface AllocationSDKType {
 export interface TransferAuthorization {
   /** port and channel amounts */
   allocations: Allocation[];
+}
+export interface ReactiveTransferAuthorization {
+  allocations: ComputedRef<Allocation[]>;
 }
 export interface TransferAuthorizationProtoMsg {
   typeUrl: "/ibc.applications.transfer.v1.TransferAuthorization";

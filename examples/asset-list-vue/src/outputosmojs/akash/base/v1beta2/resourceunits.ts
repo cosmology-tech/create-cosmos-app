@@ -3,6 +3,7 @@ import { Endpoint, EndpointSDKType } from "./endpoint";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.base.v1beta2";
 /**
  * ResourceUnits describes all available resources types for deployment/node etc
@@ -13,6 +14,12 @@ export interface ResourceUnits {
   memory?: Memory;
   storage: Storage[];
   endpoints: Endpoint[];
+}
+export interface ReactiveResourceUnits {
+  cpu?: ComputedRef<CPU>;
+  memory?: ComputedRef<Memory>;
+  storage: ComputedRef<Storage[]>;
+  endpoints: ComputedRef<Endpoint[]>;
 }
 export interface ResourceUnitsProtoMsg {
   typeUrl: "/akash.base.v1beta2.ResourceUnits";

@@ -2,6 +2,7 @@ import { Deposit, DepositSDKType, Vote, VoteSDKType, Proposal, ProposalSDKType, 
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.gov.v1beta1";
 /** GenesisState defines the gov module's genesis state. */
 export interface GenesisState {
@@ -19,6 +20,15 @@ export interface GenesisState {
   votingParams: VotingParams;
   /** params defines all the paramaters of related to tally. */
   tallyParams: TallyParams;
+}
+export interface ReactiveGenesisState {
+  startingProposalId: ComputedRef<bigint>;
+  deposits: ComputedRef<Deposit[]>;
+  votes: ComputedRef<Vote[]>;
+  proposals: ComputedRef<Proposal[]>;
+  depositParams: ComputedRef<DepositParams>;
+  votingParams: ComputedRef<VotingParams>;
+  tallyParams: ComputedRef<TallyParams>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/cosmos.gov.v1beta1.GenesisState";

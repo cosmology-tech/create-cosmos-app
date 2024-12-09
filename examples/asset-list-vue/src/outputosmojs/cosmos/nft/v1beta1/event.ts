@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.nft.v1beta1";
 /** EventSend is emitted on Msg/Send */
 export interface EventSend {
@@ -8,6 +9,12 @@ export interface EventSend {
   id: string;
   sender: string;
   receiver: string;
+}
+export interface ReactiveEventSend {
+  classId: ComputedRef<string>;
+  id: ComputedRef<string>;
+  sender: ComputedRef<string>;
+  receiver: ComputedRef<string>;
 }
 export interface EventSendProtoMsg {
   typeUrl: "/cosmos.nft.v1beta1.EventSend";
@@ -26,6 +33,11 @@ export interface EventMint {
   id: string;
   owner: string;
 }
+export interface ReactiveEventMint {
+  classId: ComputedRef<string>;
+  id: ComputedRef<string>;
+  owner: ComputedRef<string>;
+}
 export interface EventMintProtoMsg {
   typeUrl: "/cosmos.nft.v1beta1.EventMint";
   value: Uint8Array;
@@ -41,6 +53,11 @@ export interface EventBurn {
   classId: string;
   id: string;
   owner: string;
+}
+export interface ReactiveEventBurn {
+  classId: ComputedRef<string>;
+  id: ComputedRef<string>;
+  owner: ComputedRef<string>;
 }
 export interface EventBurnProtoMsg {
   typeUrl: "/cosmos.nft.v1beta1.EventBurn";

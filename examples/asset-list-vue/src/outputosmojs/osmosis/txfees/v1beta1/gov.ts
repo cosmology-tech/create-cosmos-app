@@ -2,6 +2,7 @@ import { FeeToken, FeeTokenSDKType } from "./feetoken";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.txfees.v1beta1";
 /**
  * UpdateFeeTokenProposal is a gov Content type for adding a new whitelisted fee
@@ -14,6 +15,11 @@ export interface UpdateFeeTokenProposal {
   title: string;
   description: string;
   feetoken: FeeToken;
+}
+export interface ReactiveUpdateFeeTokenProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  feetoken: ComputedRef<FeeToken>;
 }
 export interface UpdateFeeTokenProposalProtoMsg {
   typeUrl: "/osmosis.txfees.v1beta1.UpdateFeeTokenProposal";

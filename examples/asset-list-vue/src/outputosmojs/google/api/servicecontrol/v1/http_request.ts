@@ -2,6 +2,7 @@ import { Duration, DurationSDKType } from "../../../protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /**
  * A common proto for logging HTTP requests. Only contains semantics
@@ -79,6 +80,23 @@ export interface HttpRequest {
   cacheFillBytes: bigint;
   /** Protocol used for the request. Examples: "HTTP/1.1", "HTTP/2", "websocket" */
   protocol: string;
+}
+export interface ReactiveHttpRequest {
+  requestMethod: ComputedRef<string>;
+  requestUrl: ComputedRef<string>;
+  requestSize: ComputedRef<bigint>;
+  status: ComputedRef<number>;
+  responseSize: ComputedRef<bigint>;
+  userAgent: ComputedRef<string>;
+  remoteIp: ComputedRef<string>;
+  serverIp: ComputedRef<string>;
+  referer: ComputedRef<string>;
+  latency?: ComputedRef<Duration>;
+  cacheLookup: ComputedRef<boolean>;
+  cacheHit: ComputedRef<boolean>;
+  cacheValidatedWithOriginServer: ComputedRef<boolean>;
+  cacheFillBytes: ComputedRef<bigint>;
+  protocol: ComputedRef<string>;
 }
 export interface HttpRequestProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.HttpRequest";

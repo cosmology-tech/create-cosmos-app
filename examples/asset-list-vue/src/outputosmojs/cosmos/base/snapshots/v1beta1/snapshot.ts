@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.base.snapshots.v1beta1";
 /** Snapshot contains Tendermint state sync snapshot info. */
 export interface Snapshot {
@@ -9,6 +10,13 @@ export interface Snapshot {
   chunks: number;
   hash: Uint8Array;
   metadata: Metadata;
+}
+export interface ReactiveSnapshot {
+  height: ComputedRef<bigint>;
+  format: ComputedRef<number>;
+  chunks: ComputedRef<number>;
+  hash: ComputedRef<Uint8Array>;
+  metadata: ComputedRef<Metadata>;
 }
 export interface SnapshotProtoMsg {
   typeUrl: "/cosmos.base.snapshots.v1beta1.Snapshot";
@@ -27,6 +35,9 @@ export interface Metadata {
   /** SHA-256 chunk hashes */
   chunkHashes: Uint8Array[];
 }
+export interface ReactiveMetadata {
+  chunkHashes: ComputedRef<Uint8Array[]>;
+}
 export interface MetadataProtoMsg {
   typeUrl: "/cosmos.base.snapshots.v1beta1.Metadata";
   value: Uint8Array;
@@ -43,6 +54,14 @@ export interface SnapshotItem {
   extensionPayload?: SnapshotExtensionPayload;
   kv?: SnapshotKVItem;
   schema?: SnapshotSchema;
+}
+export interface ReactiveSnapshotItem {
+  store?: ComputedRef<SnapshotStoreItem>;
+  iavl?: ComputedRef<SnapshotIAVLItem>;
+  extension?: ComputedRef<SnapshotExtensionMeta>;
+  extensionPayload?: ComputedRef<SnapshotExtensionPayload>;
+  kv?: ComputedRef<SnapshotKVItem>;
+  schema?: ComputedRef<SnapshotSchema>;
 }
 export interface SnapshotItemProtoMsg {
   typeUrl: "/cosmos.base.snapshots.v1beta1.SnapshotItem";
@@ -61,6 +80,9 @@ export interface SnapshotItemSDKType {
 export interface SnapshotStoreItem {
   name: string;
 }
+export interface ReactiveSnapshotStoreItem {
+  name: ComputedRef<string>;
+}
 export interface SnapshotStoreItemProtoMsg {
   typeUrl: "/cosmos.base.snapshots.v1beta1.SnapshotStoreItem";
   value: Uint8Array;
@@ -78,6 +100,12 @@ export interface SnapshotIAVLItem {
   /** height is depth of the tree. */
   height: number;
 }
+export interface ReactiveSnapshotIAVLItem {
+  key: ComputedRef<Uint8Array>;
+  value: ComputedRef<Uint8Array>;
+  version: ComputedRef<bigint>;
+  height: ComputedRef<number>;
+}
 export interface SnapshotIAVLItemProtoMsg {
   typeUrl: "/cosmos.base.snapshots.v1beta1.SnapshotIAVLItem";
   value: Uint8Array;
@@ -94,6 +122,10 @@ export interface SnapshotExtensionMeta {
   name: string;
   format: number;
 }
+export interface ReactiveSnapshotExtensionMeta {
+  name: ComputedRef<string>;
+  format: ComputedRef<number>;
+}
 export interface SnapshotExtensionMetaProtoMsg {
   typeUrl: "/cosmos.base.snapshots.v1beta1.SnapshotExtensionMeta";
   value: Uint8Array;
@@ -106,6 +138,9 @@ export interface SnapshotExtensionMetaSDKType {
 /** SnapshotExtensionPayload contains payloads of an external snapshotter. */
 export interface SnapshotExtensionPayload {
   payload: Uint8Array;
+}
+export interface ReactiveSnapshotExtensionPayload {
+  payload: ComputedRef<Uint8Array>;
 }
 export interface SnapshotExtensionPayloadProtoMsg {
   typeUrl: "/cosmos.base.snapshots.v1beta1.SnapshotExtensionPayload";
@@ -120,6 +155,10 @@ export interface SnapshotKVItem {
   key: Uint8Array;
   value: Uint8Array;
 }
+export interface ReactiveSnapshotKVItem {
+  key: ComputedRef<Uint8Array>;
+  value: ComputedRef<Uint8Array>;
+}
 export interface SnapshotKVItemProtoMsg {
   typeUrl: "/cosmos.base.snapshots.v1beta1.SnapshotKVItem";
   value: Uint8Array;
@@ -132,6 +171,9 @@ export interface SnapshotKVItemSDKType {
 /** SnapshotSchema is an exported schema of smt store */
 export interface SnapshotSchema {
   keys: Uint8Array[];
+}
+export interface ReactiveSnapshotSchema {
+  keys: ComputedRef<Uint8Array[]>;
 }
 export interface SnapshotSchemaProtoMsg {
   typeUrl: "/cosmos.base.snapshots.v1beta1.SnapshotSchema";

@@ -3,6 +3,7 @@ import { Timestamp, TimestampSDKType } from "../../../google/protobuf/timestamp"
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.incentives.v1";
 /**
  * Incentive defines an instance that organizes distribution conditions for a
@@ -19,6 +20,13 @@ export interface Incentive {
   startTime: Date;
   /** cumulative gas spent by all gasmeters of the incentive during the epoch */
   totalGas: bigint;
+}
+export interface ReactiveIncentive {
+  contract: ComputedRef<string>;
+  allocations: ComputedRef<DecCoin[]>;
+  epochs: ComputedRef<number>;
+  startTime: ComputedRef<Date>;
+  totalGas: ComputedRef<bigint>;
 }
 export interface IncentiveProtoMsg {
   typeUrl: "/evmos.incentives.v1.Incentive";
@@ -44,6 +52,11 @@ export interface GasMeter {
   /** cumulative gas spent during the epoch */
   cumulativeGas: bigint;
 }
+export interface ReactiveGasMeter {
+  contract: ComputedRef<string>;
+  participant: ComputedRef<string>;
+  cumulativeGas: ComputedRef<bigint>;
+}
 export interface GasMeterProtoMsg {
   typeUrl: "/evmos.incentives.v1.GasMeter";
   value: Uint8Array;
@@ -67,6 +80,13 @@ export interface RegisterIncentiveProposal {
   /** number of remaining epochs */
   epochs: number;
 }
+export interface ReactiveRegisterIncentiveProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  contract: ComputedRef<string>;
+  allocations: ComputedRef<DecCoin[]>;
+  epochs: ComputedRef<number>;
+}
 export interface RegisterIncentiveProposalProtoMsg {
   typeUrl: "/evmos.incentives.v1.RegisterIncentiveProposal";
   value: Uint8Array;
@@ -87,6 +107,11 @@ export interface CancelIncentiveProposal {
   description: string;
   /** contract address */
   contract: string;
+}
+export interface ReactiveCancelIncentiveProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  contract: ComputedRef<string>;
 }
 export interface CancelIncentiveProposalProtoMsg {
   typeUrl: "/evmos.incentives.v1.CancelIncentiveProposal";

@@ -3,9 +3,11 @@ import { DenomAuthorityMetadata, DenomAuthorityMetadataSDKType } from "./authori
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.tokenfactory.v1beta1";
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
+export interface ReactiveQueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.QueryParamsRequest";
   value: Uint8Array;
@@ -16,6 +18,9 @@ export interface QueryParamsRequestSDKType {}
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
   params: Params;
+}
+export interface ReactiveQueryParamsResponse {
+  params: ComputedRef<Params>;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.QueryParamsResponse";
@@ -31,6 +36,9 @@ export interface QueryParamsResponseSDKType {
  */
 export interface QueryDenomAuthorityMetadataRequest {
   denom: string;
+}
+export interface ReactiveQueryDenomAuthorityMetadataRequest {
+  denom: ComputedRef<string>;
 }
 export interface QueryDenomAuthorityMetadataRequestProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.QueryDenomAuthorityMetadataRequest";
@@ -50,6 +58,9 @@ export interface QueryDenomAuthorityMetadataRequestSDKType {
 export interface QueryDenomAuthorityMetadataResponse {
   authorityMetadata: DenomAuthorityMetadata;
 }
+export interface ReactiveQueryDenomAuthorityMetadataResponse {
+  authorityMetadata: ComputedRef<DenomAuthorityMetadata>;
+}
 export interface QueryDenomAuthorityMetadataResponseProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.QueryDenomAuthorityMetadataResponse";
   value: Uint8Array;
@@ -68,6 +79,9 @@ export interface QueryDenomAuthorityMetadataResponseSDKType {
 export interface QueryDenomsFromCreatorRequest {
   creator: string;
 }
+export interface ReactiveQueryDenomsFromCreatorRequest {
+  creator: ComputedRef<string>;
+}
 export interface QueryDenomsFromCreatorRequestProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.QueryDenomsFromCreatorRequest";
   value: Uint8Array;
@@ -85,6 +99,9 @@ export interface QueryDenomsFromCreatorRequestSDKType {
  */
 export interface QueryDenomsFromCreatorResponse {
   denoms: string[];
+}
+export interface ReactiveQueryDenomsFromCreatorResponse {
+  denoms: ComputedRef<string[]>;
 }
 export interface QueryDenomsFromCreatorResponseProtoMsg {
   typeUrl: "/osmosis.tokenfactory.v1beta1.QueryDenomsFromCreatorResponse";

@@ -2,6 +2,7 @@ import { Metadata, MetadataSDKType } from "../../../cosmos/bank/v1beta1/bank";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.erc20.v1";
 /** Owner enumerates the ownership of a ERC20 contract. */
 export enum Owner {
@@ -58,6 +59,12 @@ export interface TokenPair {
   /** ERC20 owner address ENUM (0 invalid, 1 ModuleAccount, 2 external address) */
   contractOwner: Owner;
 }
+export interface ReactiveTokenPair {
+  erc20Address: ComputedRef<string>;
+  denom: ComputedRef<string>;
+  enabled: ComputedRef<boolean>;
+  contractOwner: ComputedRef<Owner>;
+}
 export interface TokenPairProtoMsg {
   typeUrl: "/evmos.erc20.v1.TokenPair";
   value: Uint8Array;
@@ -84,6 +91,11 @@ export interface RegisterCoinProposal {
   /** metadata of the native Cosmos coin */
   metadata: Metadata;
 }
+export interface ReactiveRegisterCoinProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  metadata: ComputedRef<Metadata>;
+}
 export interface RegisterCoinProposalProtoMsg {
   typeUrl: "/evmos.erc20.v1.RegisterCoinProposal";
   value: Uint8Array;
@@ -108,6 +120,11 @@ export interface RegisterERC20Proposal {
   description: string;
   /** contract address of ERC20 token */
   erc20address: string;
+}
+export interface ReactiveRegisterERC20Proposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  erc20address: ComputedRef<string>;
 }
 export interface RegisterERC20ProposalProtoMsg {
   typeUrl: "/evmos.erc20.v1.RegisterERC20Proposal";
@@ -136,6 +153,11 @@ export interface ToggleTokenConversionProposal {
    * Cosmos base denomination
    */
   token: string;
+}
+export interface ReactiveToggleTokenConversionProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  token: ComputedRef<string>;
 }
 export interface ToggleTokenConversionProposalProtoMsg {
   typeUrl: "/evmos.erc20.v1.ToggleTokenConversionProposal";

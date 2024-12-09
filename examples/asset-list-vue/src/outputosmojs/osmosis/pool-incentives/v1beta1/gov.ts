@@ -2,6 +2,7 @@ import { DistrRecord, DistrRecordSDKType } from "./incentives";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.poolincentives.v1beta1";
 /**
  * ReplacePoolIncentivesProposal is a gov Content type for updating the pool
@@ -16,6 +17,11 @@ export interface ReplacePoolIncentivesProposal {
   title: string;
   description: string;
   records: DistrRecord[];
+}
+export interface ReactiveReplacePoolIncentivesProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  records: ComputedRef<DistrRecord[]>;
 }
 export interface ReplacePoolIncentivesProposalProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.ReplacePoolIncentivesProposal";
@@ -48,6 +54,11 @@ export interface UpdatePoolIncentivesProposal {
   title: string;
   description: string;
   records: DistrRecord[];
+}
+export interface ReactiveUpdatePoolIncentivesProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  records: ComputedRef<DistrRecord[]>;
 }
 export interface UpdatePoolIncentivesProposalProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.UpdatePoolIncentivesProposal";

@@ -4,6 +4,7 @@ import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.claims.v1";
 /** GenesisState define the claims module's genesis state. */
 export interface GenesisState {
@@ -11,6 +12,10 @@ export interface GenesisState {
   params: Params;
   /** list of claim records with the corresponding airdrop recipient */
   claimsRecords: ClaimsRecordAddress[];
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  claimsRecords: ComputedRef<ClaimsRecordAddress[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/evmos.claims.v1.GenesisState";
@@ -40,6 +45,15 @@ export interface Params {
   authorizedChannels: string[];
   /** list of channel identifiers from EVM compatible chains */
   evmChannels: string[];
+}
+export interface ReactiveParams {
+  enableClaims: ComputedRef<boolean>;
+  airdropStartTime: ComputedRef<Date>;
+  durationUntilDecay: ComputedRef<Duration>;
+  durationOfDecay: ComputedRef<Duration>;
+  claimsDenom: ComputedRef<string>;
+  authorizedChannels: ComputedRef<string[]>;
+  evmChannels: ComputedRef<string[]>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/evmos.claims.v1.Params";

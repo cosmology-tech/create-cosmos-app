@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.base.query.v1beta1";
 /**
  * PageRequest is to be embedded in gRPC request messages for efficient
@@ -43,6 +44,13 @@ export interface PageRequest {
    */
   reverse: boolean;
 }
+export interface ReactivePageRequest {
+  key: ComputedRef<Uint8Array>;
+  offset: ComputedRef<bigint>;
+  limit: ComputedRef<bigint>;
+  countTotal: ComputedRef<boolean>;
+  reverse: ComputedRef<boolean>;
+}
 export interface PageRequestProtoMsg {
   typeUrl: "/cosmos.base.query.v1beta1.PageRequest";
   value: Uint8Array;
@@ -84,6 +92,10 @@ export interface PageResponse {
    * was set, its value is undefined otherwise
    */
   total: bigint;
+}
+export interface ReactivePageResponse {
+  nextKey: ComputedRef<Uint8Array>;
+  total: ComputedRef<bigint>;
 }
 export interface PageResponseProtoMsg {
   typeUrl: "/cosmos.base.query.v1beta1.PageResponse";

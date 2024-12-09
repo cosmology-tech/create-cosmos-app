@@ -4,6 +4,7 @@ import { LabelDescriptor, LabelDescriptorSDKType } from "./label";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, isObject } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * The kind of measurement. It describes how the data is reported.
@@ -303,6 +304,19 @@ export interface MetricDescriptor {
    */
   monitoredResourceTypes: string[];
 }
+export interface ReactiveMetricDescriptor {
+  name: ComputedRef<string>;
+  type: ComputedRef<string>;
+  labels: ComputedRef<LabelDescriptor[]>;
+  metricKind: ComputedRef<MetricDescriptor_MetricKind>;
+  valueType: ComputedRef<MetricDescriptor_ValueType>;
+  unit: ComputedRef<string>;
+  description: ComputedRef<string>;
+  displayName: ComputedRef<string>;
+  metadata?: ComputedRef<MetricDescriptor_MetricDescriptorMetadata>;
+  launchStage: ComputedRef<LaunchStage>;
+  monitoredResourceTypes: ComputedRef<string[]>;
+}
 export interface MetricDescriptorProtoMsg {
   typeUrl: "/google.api.MetricDescriptor";
   value: Uint8Array;
@@ -344,6 +358,11 @@ export interface MetricDescriptor_MetricDescriptorMetadata {
    */
   ingestDelay?: Duration;
 }
+export interface ReactiveMetricDescriptor_MetricDescriptorMetadata {
+  launchStage: ComputedRef<LaunchStage>;
+  samplePeriod?: ComputedRef<Duration>;
+  ingestDelay?: ComputedRef<Duration>;
+}
 export interface MetricDescriptor_MetricDescriptorMetadataProtoMsg {
   typeUrl: "/google.api.MetricDescriptorMetadata";
   value: Uint8Array;
@@ -358,6 +377,10 @@ export interface MetricDescriptor_MetricDescriptorMetadataSDKType {
 export interface Metric_LabelsEntry {
   key: string;
   value: string;
+}
+export interface ReactiveMetric_LabelsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface Metric_LabelsEntryProtoMsg {
   typeUrl: string;
@@ -384,6 +407,12 @@ export interface Metric {
   labels: {
     [key: string]: string;
   };
+}
+export interface ReactiveMetric {
+  type: ComputedRef<string>;
+  labels: ComputedRef<{
+    [key: string]: string;
+  }>;
 }
 export interface MetricProtoMsg {
   typeUrl: "/google.api.Metric";

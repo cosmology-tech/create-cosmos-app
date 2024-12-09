@@ -3,6 +3,7 @@ import { Plan, PlanSDKType } from "../../../../cosmos/upgrade/v1beta1/upgrade";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.client.v1";
 /**
  * IdentifiedClientState defines a client state with an additional client
@@ -13,6 +14,10 @@ export interface IdentifiedClientState {
   clientId: string;
   /** client state */
   clientState?: Any;
+}
+export interface ReactiveIdentifiedClientState {
+  clientId: ComputedRef<string>;
+  clientState?: ComputedRef<Any>;
 }
 export interface IdentifiedClientStateProtoMsg {
   typeUrl: "/ibc.core.client.v1.IdentifiedClientState";
@@ -36,6 +41,10 @@ export interface ConsensusStateWithHeight {
   /** consensus state */
   consensusState?: Any;
 }
+export interface ReactiveConsensusStateWithHeight {
+  height: ComputedRef<Height>;
+  consensusState?: ComputedRef<Any>;
+}
 export interface ConsensusStateWithHeightProtoMsg {
   typeUrl: "/ibc.core.client.v1.ConsensusStateWithHeight";
   value: Uint8Array;
@@ -57,6 +66,10 @@ export interface ClientConsensusStates {
   clientId: string;
   /** consensus states and their heights associated with the client */
   consensusStates: ConsensusStateWithHeight[];
+}
+export interface ReactiveClientConsensusStates {
+  clientId: ComputedRef<string>;
+  consensusStates: ComputedRef<ConsensusStateWithHeight[]>;
 }
 export interface ClientConsensusStatesProtoMsg {
   typeUrl: "/ibc.core.client.v1.ClientConsensusStates";
@@ -88,6 +101,12 @@ export interface ClientUpdateProposal {
    * client
    */
   substituteClientId: string;
+}
+export interface ReactiveClientUpdateProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  subjectClientId: ComputedRef<string>;
+  substituteClientId: ComputedRef<string>;
 }
 export interface ClientUpdateProposalProtoMsg {
   typeUrl: "/ibc.core.client.v1.ClientUpdateProposal";
@@ -123,6 +142,12 @@ export interface UpgradeProposal {
    */
   upgradedClientState?: Any;
 }
+export interface ReactiveUpgradeProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  plan: ComputedRef<Plan>;
+  upgradedClientState?: ComputedRef<Any>;
+}
 export interface UpgradeProposalProtoMsg {
   typeUrl: "/ibc.core.client.v1.UpgradeProposal";
   value: Uint8Array;
@@ -155,6 +180,10 @@ export interface Height {
   /** the height within the given revision */
   revisionHeight: bigint;
 }
+export interface ReactiveHeight {
+  revisionNumber: ComputedRef<bigint>;
+  revisionHeight: ComputedRef<bigint>;
+}
 export interface HeightProtoMsg {
   typeUrl: "/ibc.core.client.v1.Height";
   value: Uint8Array;
@@ -179,6 +208,9 @@ export interface HeightSDKType {
 export interface Params {
   /** allowed_clients defines the list of allowed client state types. */
   allowedClients: string[];
+}
+export interface ReactiveParams {
+  allowedClients: ComputedRef<string[]>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/ibc.core.client.v1.Params";

@@ -3,6 +3,7 @@ import { Period, PeriodSDKType } from "./vesting";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.vesting.v1beta1";
 /**
  * MsgCreateVestingAccount defines a message that enables creating a vesting
@@ -14,6 +15,13 @@ export interface MsgCreateVestingAccount {
   amount: Coin[];
   endTime: bigint;
   delayed: boolean;
+}
+export interface ReactiveMsgCreateVestingAccount {
+  fromAddress: ComputedRef<string>;
+  toAddress: ComputedRef<string>;
+  amount: ComputedRef<Coin[]>;
+  endTime: ComputedRef<bigint>;
+  delayed: ComputedRef<boolean>;
 }
 export interface MsgCreateVestingAccountProtoMsg {
   typeUrl: "/cosmos.vesting.v1beta1.MsgCreateVestingAccount";
@@ -32,6 +40,7 @@ export interface MsgCreateVestingAccountSDKType {
 }
 /** MsgCreateVestingAccountResponse defines the Msg/CreateVestingAccount response type. */
 export interface MsgCreateVestingAccountResponse {}
+export interface ReactiveMsgCreateVestingAccountResponse {}
 export interface MsgCreateVestingAccountResponseProtoMsg {
   typeUrl: "/cosmos.vesting.v1beta1.MsgCreateVestingAccountResponse";
   value: Uint8Array;
@@ -46,6 +55,11 @@ export interface MsgCreatePermanentLockedAccount {
   fromAddress: string;
   toAddress: string;
   amount: Coin[];
+}
+export interface ReactiveMsgCreatePermanentLockedAccount {
+  fromAddress: ComputedRef<string>;
+  toAddress: ComputedRef<string>;
+  amount: ComputedRef<Coin[]>;
 }
 export interface MsgCreatePermanentLockedAccountProtoMsg {
   typeUrl: "/cosmos.vesting.v1beta1.MsgCreatePermanentLockedAccount";
@@ -62,6 +76,7 @@ export interface MsgCreatePermanentLockedAccountSDKType {
 }
 /** MsgCreatePermanentLockedAccountResponse defines the Msg/CreatePermanentLockedAccount response type. */
 export interface MsgCreatePermanentLockedAccountResponse {}
+export interface ReactiveMsgCreatePermanentLockedAccountResponse {}
 export interface MsgCreatePermanentLockedAccountResponseProtoMsg {
   typeUrl: "/cosmos.vesting.v1beta1.MsgCreatePermanentLockedAccountResponse";
   value: Uint8Array;
@@ -77,6 +92,12 @@ export interface MsgCreatePeriodicVestingAccount {
   toAddress: string;
   startTime: bigint;
   vestingPeriods: Period[];
+}
+export interface ReactiveMsgCreatePeriodicVestingAccount {
+  fromAddress: ComputedRef<string>;
+  toAddress: ComputedRef<string>;
+  startTime: ComputedRef<bigint>;
+  vestingPeriods: ComputedRef<Period[]>;
 }
 export interface MsgCreatePeriodicVestingAccountProtoMsg {
   typeUrl: "/cosmos.vesting.v1beta1.MsgCreatePeriodicVestingAccount";
@@ -97,6 +118,7 @@ export interface MsgCreatePeriodicVestingAccountSDKType {
  * response type.
  */
 export interface MsgCreatePeriodicVestingAccountResponse {}
+export interface ReactiveMsgCreatePeriodicVestingAccountResponse {}
 export interface MsgCreatePeriodicVestingAccountResponseProtoMsg {
   typeUrl: "/cosmos.vesting.v1beta1.MsgCreatePeriodicVestingAccountResponse";
   value: Uint8Array;

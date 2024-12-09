@@ -3,10 +3,15 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.accum.v1beta1";
 export interface AccumulatorContent {
   accumValue: DecCoin[];
   totalShares: string;
+}
+export interface ReactiveAccumulatorContent {
+  accumValue: ComputedRef<DecCoin[]>;
+  totalShares: ComputedRef<string>;
 }
 export interface AccumulatorContentProtoMsg {
   typeUrl: "/osmosis.accum.v1beta1.AccumulatorContent";
@@ -17,6 +22,7 @@ export interface AccumulatorContentSDKType {
   total_shares: string;
 }
 export interface Options {}
+export interface ReactiveOptions {}
 export interface OptionsProtoMsg {
   typeUrl: "/osmosis.accum.v1beta1.Options";
   value: Uint8Array;
@@ -27,6 +33,12 @@ export interface Record {
   initAccumValue: DecCoin[];
   unclaimedRewards: DecCoin[];
   options?: Options;
+}
+export interface ReactiveRecord {
+  numShares: ComputedRef<string>;
+  initAccumValue: ComputedRef<DecCoin[]>;
+  unclaimedRewards: ComputedRef<DecCoin[]>;
+  options?: ComputedRef<Options>;
 }
 export interface RecordProtoMsg {
   typeUrl: "/osmosis.accum.v1beta1.Record";

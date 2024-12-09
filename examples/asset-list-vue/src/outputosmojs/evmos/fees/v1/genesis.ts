@@ -3,6 +3,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
 import { Decimal } from "@cosmjs/math";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.fees.v1";
 /** GenesisState defines the module's genesis state. */
 export interface GenesisState {
@@ -10,6 +11,10 @@ export interface GenesisState {
   params: Params;
   /** active registered contracts */
   devFeeInfos: DevFeeInfo[];
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  devFeeInfos: ComputedRef<DevFeeInfo[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/evmos.fees.v1.GenesisState";
@@ -41,6 +46,13 @@ export interface Params {
   addrDerivationCostCreate: bigint;
   /** min_gas_price defines the minimum gas price value for cosmos and eth transactions */
   minGasPrice: string;
+}
+export interface ReactiveParams {
+  enableFees: ComputedRef<boolean>;
+  developerShares: ComputedRef<string>;
+  validatorShares: ComputedRef<string>;
+  addrDerivationCostCreate: ComputedRef<bigint>;
+  minGasPrice: ComputedRef<string>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/evmos.fees.v1.Params";

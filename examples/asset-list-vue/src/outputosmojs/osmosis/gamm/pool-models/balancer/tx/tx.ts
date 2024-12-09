@@ -2,6 +2,7 @@ import { PoolParams, PoolParamsSDKType, PoolAsset, PoolAssetSDKType } from "../b
 import { BinaryReader, BinaryWriter } from "../../../../../binary";
 import { isSet, DeepPartial } from "../../../../../helpers";
 import { JsonSafe } from "../../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.gamm.poolmodels.balancer.v1beta1";
 /** ===================== MsgCreatePool */
 export interface MsgCreateBalancerPool {
@@ -9,6 +10,12 @@ export interface MsgCreateBalancerPool {
   poolParams?: PoolParams;
   poolAssets: PoolAsset[];
   futurePoolGovernor: string;
+}
+export interface ReactiveMsgCreateBalancerPool {
+  sender: ComputedRef<string>;
+  poolParams?: ComputedRef<PoolParams>;
+  poolAssets: ComputedRef<PoolAsset[]>;
+  futurePoolGovernor: ComputedRef<string>;
 }
 export interface MsgCreateBalancerPoolProtoMsg {
   typeUrl: "/osmosis.gamm.poolmodels.balancer.v1beta1.MsgCreateBalancerPool";
@@ -24,6 +31,9 @@ export interface MsgCreateBalancerPoolSDKType {
 /** Returns the poolID */
 export interface MsgCreateBalancerPoolResponse {
   poolId: bigint;
+}
+export interface ReactiveMsgCreateBalancerPoolResponse {
+  poolId: ComputedRef<bigint>;
 }
 export interface MsgCreateBalancerPoolResponseProtoMsg {
   typeUrl: "/osmosis.gamm.poolmodels.balancer.v1beta1.MsgCreateBalancerPoolResponse";

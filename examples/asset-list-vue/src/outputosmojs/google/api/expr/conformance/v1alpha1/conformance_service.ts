@@ -5,6 +5,7 @@ import { Status, StatusSDKType } from "../../../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../../../binary";
 import { isSet, DeepPartial, isObject } from "../../../../../helpers";
 import { JsonSafe } from "../../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.expr.conformance.v1alpha1";
 /** Severities of issues. */
 export enum IssueDetails_Severity {
@@ -68,6 +69,12 @@ export interface ParseRequest {
   /** Prevent macro expansion.  See "Macros" in Language Defiinition. */
   disableMacros: boolean;
 }
+export interface ReactiveParseRequest {
+  celSource: ComputedRef<string>;
+  syntaxVersion: ComputedRef<string>;
+  sourceLocation: ComputedRef<string>;
+  disableMacros: ComputedRef<boolean>;
+}
 export interface ParseRequestProtoMsg {
   typeUrl: "/google.api.expr.conformance.v1alpha1.ParseRequest";
   value: Uint8Array;
@@ -85,6 +92,10 @@ export interface ParseResponse {
   parsedExpr?: ParsedExpr;
   /** Any number of issues with [StatusDetails][] as the details. */
   issues: Status[];
+}
+export interface ReactiveParseResponse {
+  parsedExpr?: ComputedRef<ParsedExpr>;
+  issues: ComputedRef<Status[]>;
 }
 export interface ParseResponseProtoMsg {
   typeUrl: "/google.api.expr.conformance.v1alpha1.ParseResponse";
@@ -117,6 +128,12 @@ export interface CheckRequest {
    */
   noStdEnv: boolean;
 }
+export interface ReactiveCheckRequest {
+  parsedExpr?: ComputedRef<ParsedExpr>;
+  typeEnv: ComputedRef<Decl[]>;
+  container: ComputedRef<string>;
+  noStdEnv: ComputedRef<boolean>;
+}
 export interface CheckRequestProtoMsg {
   typeUrl: "/google.api.expr.conformance.v1alpha1.CheckRequest";
   value: Uint8Array;
@@ -135,6 +152,10 @@ export interface CheckResponse {
   /** Any number of issues with [StatusDetails][] as the details. */
   issues: Status[];
 }
+export interface ReactiveCheckResponse {
+  checkedExpr?: ComputedRef<CheckedExpr>;
+  issues: ComputedRef<Status[]>;
+}
 export interface CheckResponseProtoMsg {
   typeUrl: "/google.api.expr.conformance.v1alpha1.CheckResponse";
   value: Uint8Array;
@@ -147,6 +168,10 @@ export interface CheckResponseSDKType {
 export interface EvalRequest_BindingsEntry {
   key: string;
   value?: ExprValue;
+}
+export interface ReactiveEvalRequest_BindingsEntry {
+  key: ComputedRef<string>;
+  value?: ComputedRef<ExprValue>;
 }
 export interface EvalRequest_BindingsEntryProtoMsg {
   typeUrl: string;
@@ -171,6 +196,14 @@ export interface EvalRequest {
   };
   /** SHOULD be the same container as used in [CheckRequest][google.api.expr.conformance.v1alpha1.CheckRequest], if checked. */
   container: string;
+}
+export interface ReactiveEvalRequest {
+  parsedExpr?: ComputedRef<ParsedExpr>;
+  checkedExpr?: ComputedRef<CheckedExpr>;
+  bindings: ComputedRef<{
+    [key: string]: ExprValue;
+  }>;
+  container: ComputedRef<string>;
 }
 export interface EvalRequestProtoMsg {
   typeUrl: "/google.api.expr.conformance.v1alpha1.EvalRequest";
@@ -197,6 +230,10 @@ export interface EvalResponse {
    */
   issues: Status[];
 }
+export interface ReactiveEvalResponse {
+  result?: ComputedRef<ExprValue>;
+  issues: ComputedRef<Status[]>;
+}
 export interface EvalResponseProtoMsg {
   typeUrl: "/google.api.expr.conformance.v1alpha1.EvalResponse";
   value: Uint8Array;
@@ -218,6 +255,11 @@ export interface IssueDetails {
   position?: SourcePosition;
   /** Expression ID from [Expr][], 0 if unknown. */
   id: bigint;
+}
+export interface ReactiveIssueDetails {
+  severity: ComputedRef<IssueDetails_Severity>;
+  position?: ComputedRef<SourcePosition>;
+  id: ComputedRef<bigint>;
 }
 export interface IssueDetailsProtoMsg {
   typeUrl: "/google.api.expr.conformance.v1alpha1.IssueDetails";

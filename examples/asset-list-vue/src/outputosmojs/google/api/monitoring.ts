@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * Monitoring configuration of the service.
@@ -75,6 +76,10 @@ export interface Monitoring {
    * in the Monitoring configuration.
    */
   consumerDestinations: Monitoring_MonitoringDestination[];
+}
+export interface ReactiveMonitoring {
+  producerDestinations: ComputedRef<Monitoring_MonitoringDestination[]>;
+  consumerDestinations: ComputedRef<Monitoring_MonitoringDestination[]>;
 }
 export interface MonitoringProtoMsg {
   typeUrl: "/google.api.Monitoring";
@@ -153,6 +158,10 @@ export interface Monitoring_MonitoringDestination {
    * Each type must be defined in [Service.metrics][google.api.Service.metrics] section.
    */
   metrics: string[];
+}
+export interface ReactiveMonitoring_MonitoringDestination {
+  monitoredResource: ComputedRef<string>;
+  metrics: ComputedRef<string[]>;
 }
 export interface Monitoring_MonitoringDestinationProtoMsg {
   typeUrl: "/google.api.MonitoringDestination";

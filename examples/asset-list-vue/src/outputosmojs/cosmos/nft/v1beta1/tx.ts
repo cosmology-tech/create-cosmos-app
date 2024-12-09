@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.nft.v1beta1";
 /** MsgSend represents a message to send a nft from one account to another account. */
 export interface MsgSend {
@@ -12,6 +13,12 @@ export interface MsgSend {
   sender: string;
   /** receiver is the receiver address of nft */
   receiver: string;
+}
+export interface ReactiveMsgSend {
+  classId: ComputedRef<string>;
+  id: ComputedRef<string>;
+  sender: ComputedRef<string>;
+  receiver: ComputedRef<string>;
 }
 export interface MsgSendProtoMsg {
   typeUrl: "/cosmos.nft.v1beta1.MsgSend";
@@ -26,6 +33,7 @@ export interface MsgSendSDKType {
 }
 /** MsgSendResponse defines the Msg/Send response type. */
 export interface MsgSendResponse {}
+export interface ReactiveMsgSendResponse {}
 export interface MsgSendResponseProtoMsg {
   typeUrl: "/cosmos.nft.v1beta1.MsgSendResponse";
   value: Uint8Array;

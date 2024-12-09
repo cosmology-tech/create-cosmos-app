@@ -2,6 +2,7 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.app.v1alpha1";
 /**
  * Config represents the configuration for a Cosmos SDK ABCI app.
@@ -15,6 +16,9 @@ export const protobufPackage = "cosmos.app.v1alpha1";
 export interface Config {
   /** modules are the module configurations for the app. */
   modules: ModuleConfig[];
+}
+export interface ReactiveConfig {
+  modules: ComputedRef<ModuleConfig[]>;
 }
 export interface ConfigProtoMsg {
   typeUrl: "/cosmos.app.v1alpha1.Config";
@@ -52,6 +56,10 @@ export interface ModuleConfig {
    * define a ModuleDescriptor using the cosmos.app.v1alpha1.is_module extension.
    */
   config?: Any;
+}
+export interface ReactiveModuleConfig {
+  name: ComputedRef<string>;
+  config?: ComputedRef<Any>;
 }
 export interface ModuleConfigProtoMsg {
   typeUrl: "/cosmos.app.v1alpha1.ModuleConfig";

@@ -2,11 +2,15 @@ import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.recovery.v1";
 /** GenesisState defines the recovery module's genesis state. */
 export interface GenesisState {
   /** params defines all the paramaters of the module. */
   params: Params;
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/evmos.recovery.v1.GenesisState";
@@ -22,6 +26,10 @@ export interface Params {
   enableRecovery: boolean;
   /** duration added to timeout timestamp for balances recovered via IBC packets */
   packetTimeoutDuration: Duration;
+}
+export interface ReactiveParams {
+  enableRecovery: ComputedRef<boolean>;
+  packetTimeoutDuration: ComputedRef<Duration>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/evmos.recovery.v1.Params";

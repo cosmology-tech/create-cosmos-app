@@ -5,6 +5,7 @@ import { Any, AnySDKType } from "../../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.connection.v1";
 /**
  * QueryConnectionRequest is the request type for the Query/Connection RPC
@@ -13,6 +14,9 @@ export const protobufPackage = "ibc.core.connection.v1";
 export interface QueryConnectionRequest {
   /** connection unique identifier */
   connectionId: string;
+}
+export interface ReactiveQueryConnectionRequest {
+  connectionId: ComputedRef<string>;
 }
 export interface QueryConnectionRequestProtoMsg {
   typeUrl: "/ibc.core.connection.v1.QueryConnectionRequest";
@@ -38,6 +42,11 @@ export interface QueryConnectionResponse {
   /** height at which the proof was retrieved */
   proofHeight: Height;
 }
+export interface ReactiveQueryConnectionResponse {
+  connection?: ComputedRef<ConnectionEnd>;
+  proof: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+}
 export interface QueryConnectionResponseProtoMsg {
   typeUrl: "/ibc.core.connection.v1.QueryConnectionResponse";
   value: Uint8Array;
@@ -58,6 +67,9 @@ export interface QueryConnectionResponseSDKType {
  */
 export interface QueryConnectionsRequest {
   pagination?: PageRequest;
+}
+export interface ReactiveQueryConnectionsRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryConnectionsRequestProtoMsg {
   typeUrl: "/ibc.core.connection.v1.QueryConnectionsRequest";
@@ -82,6 +94,11 @@ export interface QueryConnectionsResponse {
   /** query block height */
   height: Height;
 }
+export interface ReactiveQueryConnectionsResponse {
+  connections: ComputedRef<IdentifiedConnection[]>;
+  pagination?: ComputedRef<PageResponse>;
+  height: ComputedRef<Height>;
+}
 export interface QueryConnectionsResponseProtoMsg {
   typeUrl: "/ibc.core.connection.v1.QueryConnectionsResponse";
   value: Uint8Array;
@@ -102,6 +119,9 @@ export interface QueryConnectionsResponseSDKType {
 export interface QueryClientConnectionsRequest {
   /** client identifier associated with a connection */
   clientId: string;
+}
+export interface ReactiveQueryClientConnectionsRequest {
+  clientId: ComputedRef<string>;
 }
 export interface QueryClientConnectionsRequestProtoMsg {
   typeUrl: "/ibc.core.connection.v1.QueryClientConnectionsRequest";
@@ -126,6 +146,11 @@ export interface QueryClientConnectionsResponse {
   /** height at which the proof was generated */
   proofHeight: Height;
 }
+export interface ReactiveQueryClientConnectionsResponse {
+  connectionPaths: ComputedRef<string[]>;
+  proof: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+}
 export interface QueryClientConnectionsResponseProtoMsg {
   typeUrl: "/ibc.core.connection.v1.QueryClientConnectionsResponse";
   value: Uint8Array;
@@ -146,6 +171,9 @@ export interface QueryClientConnectionsResponseSDKType {
 export interface QueryConnectionClientStateRequest {
   /** connection identifier */
   connectionId: string;
+}
+export interface ReactiveQueryConnectionClientStateRequest {
+  connectionId: ComputedRef<string>;
 }
 export interface QueryConnectionClientStateRequestProtoMsg {
   typeUrl: "/ibc.core.connection.v1.QueryConnectionClientStateRequest";
@@ -170,6 +198,11 @@ export interface QueryConnectionClientStateResponse {
   /** height at which the proof was retrieved */
   proofHeight: Height;
 }
+export interface ReactiveQueryConnectionClientStateResponse {
+  identifiedClientState?: ComputedRef<IdentifiedClientState>;
+  proof: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+}
 export interface QueryConnectionClientStateResponseProtoMsg {
   typeUrl: "/ibc.core.connection.v1.QueryConnectionClientStateResponse";
   value: Uint8Array;
@@ -192,6 +225,11 @@ export interface QueryConnectionConsensusStateRequest {
   connectionId: string;
   revisionNumber: bigint;
   revisionHeight: bigint;
+}
+export interface ReactiveQueryConnectionConsensusStateRequest {
+  connectionId: ComputedRef<string>;
+  revisionNumber: ComputedRef<bigint>;
+  revisionHeight: ComputedRef<bigint>;
 }
 export interface QueryConnectionConsensusStateRequestProtoMsg {
   typeUrl: "/ibc.core.connection.v1.QueryConnectionConsensusStateRequest";
@@ -219,6 +257,12 @@ export interface QueryConnectionConsensusStateResponse {
   proof: Uint8Array;
   /** height at which the proof was retrieved */
   proofHeight: Height;
+}
+export interface ReactiveQueryConnectionConsensusStateResponse {
+  consensusState?: ComputedRef<Any>;
+  clientId: ComputedRef<string>;
+  proof: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
 }
 export interface QueryConnectionConsensusStateResponseProtoMsg {
   typeUrl: "/ibc.core.connection.v1.QueryConnectionConsensusStateResponse";

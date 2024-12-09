@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.interchain_accounts.v1";
 /**
  * Metadata defines a set of protocol specific data encoded into the ICS27 channel version bytestring
@@ -22,6 +23,14 @@ export interface Metadata {
   encoding: string;
   /** tx_type defines the type of transactions the interchain account can execute */
   txType: string;
+}
+export interface ReactiveMetadata {
+  version: ComputedRef<string>;
+  controllerConnectionId: ComputedRef<string>;
+  hostConnectionId: ComputedRef<string>;
+  address: ComputedRef<string>;
+  encoding: ComputedRef<string>;
+  txType: ComputedRef<string>;
 }
 export interface MetadataProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.v1.Metadata";

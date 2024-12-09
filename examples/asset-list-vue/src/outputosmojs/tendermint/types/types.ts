@@ -5,6 +5,7 @@ import { ValidatorSet, ValidatorSetSDKType } from "./validator";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial, toTimestamp, fromTimestamp } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "tendermint.types";
 /** BlockIdFlag indicates which BlcokID the signature is for */
 export enum BlockIDFlag {
@@ -101,6 +102,10 @@ export interface PartSetHeader {
   total: number;
   hash: Uint8Array;
 }
+export interface ReactivePartSetHeader {
+  total: ComputedRef<number>;
+  hash: ComputedRef<Uint8Array>;
+}
 export interface PartSetHeaderProtoMsg {
   typeUrl: "/tendermint.types.PartSetHeader";
   value: Uint8Array;
@@ -115,6 +120,11 @@ export interface Part {
   bytes: Uint8Array;
   proof: Proof;
 }
+export interface ReactivePart {
+  index: ComputedRef<number>;
+  bytes: ComputedRef<Uint8Array>;
+  proof: ComputedRef<Proof>;
+}
 export interface PartProtoMsg {
   typeUrl: "/tendermint.types.Part";
   value: Uint8Array;
@@ -128,6 +138,10 @@ export interface PartSDKType {
 export interface BlockID {
   hash: Uint8Array;
   partSetHeader: PartSetHeader;
+}
+export interface ReactiveBlockID {
+  hash: ComputedRef<Uint8Array>;
+  partSetHeader: ComputedRef<PartSetHeader>;
 }
 export interface BlockIDProtoMsg {
   typeUrl: "/tendermint.types.BlockID";
@@ -166,6 +180,22 @@ export interface Header {
   /** original proposer of the block */
   proposerAddress: Uint8Array;
 }
+export interface ReactiveHeader {
+  version: ComputedRef<Consensus>;
+  chainId: ComputedRef<string>;
+  height: ComputedRef<bigint>;
+  time: ComputedRef<Date>;
+  lastBlockId: ComputedRef<BlockID>;
+  lastCommitHash: ComputedRef<Uint8Array>;
+  dataHash: ComputedRef<Uint8Array>;
+  validatorsHash: ComputedRef<Uint8Array>;
+  nextValidatorsHash: ComputedRef<Uint8Array>;
+  consensusHash: ComputedRef<Uint8Array>;
+  appHash: ComputedRef<Uint8Array>;
+  lastResultsHash: ComputedRef<Uint8Array>;
+  evidenceHash: ComputedRef<Uint8Array>;
+  proposerAddress: ComputedRef<Uint8Array>;
+}
 export interface HeaderProtoMsg {
   typeUrl: "/tendermint.types.Header";
   value: Uint8Array;
@@ -196,6 +226,9 @@ export interface Data {
    */
   txs: Uint8Array[];
 }
+export interface ReactiveData {
+  txs: ComputedRef<Uint8Array[]>;
+}
 export interface DataProtoMsg {
   typeUrl: "/tendermint.types.Data";
   value: Uint8Array;
@@ -218,6 +251,16 @@ export interface Vote {
   validatorAddress: Uint8Array;
   validatorIndex: number;
   signature: Uint8Array;
+}
+export interface ReactiveVote {
+  type: ComputedRef<SignedMsgType>;
+  height: ComputedRef<bigint>;
+  round: ComputedRef<number>;
+  blockId: ComputedRef<BlockID>;
+  timestamp: ComputedRef<Date>;
+  validatorAddress: ComputedRef<Uint8Array>;
+  validatorIndex: ComputedRef<number>;
+  signature: ComputedRef<Uint8Array>;
 }
 export interface VoteProtoMsg {
   typeUrl: "/tendermint.types.Vote";
@@ -244,6 +287,12 @@ export interface Commit {
   blockId: BlockID;
   signatures: CommitSig[];
 }
+export interface ReactiveCommit {
+  height: ComputedRef<bigint>;
+  round: ComputedRef<number>;
+  blockId: ComputedRef<BlockID>;
+  signatures: ComputedRef<CommitSig[]>;
+}
 export interface CommitProtoMsg {
   typeUrl: "/tendermint.types.Commit";
   value: Uint8Array;
@@ -261,6 +310,12 @@ export interface CommitSig {
   validatorAddress: Uint8Array;
   timestamp: Date;
   signature: Uint8Array;
+}
+export interface ReactiveCommitSig {
+  blockIdFlag: ComputedRef<BlockIDFlag>;
+  validatorAddress: ComputedRef<Uint8Array>;
+  timestamp: ComputedRef<Date>;
+  signature: ComputedRef<Uint8Array>;
 }
 export interface CommitSigProtoMsg {
   typeUrl: "/tendermint.types.CommitSig";
@@ -282,6 +337,15 @@ export interface Proposal {
   timestamp: Date;
   signature: Uint8Array;
 }
+export interface ReactiveProposal {
+  type: ComputedRef<SignedMsgType>;
+  height: ComputedRef<bigint>;
+  round: ComputedRef<number>;
+  polRound: ComputedRef<number>;
+  blockId: ComputedRef<BlockID>;
+  timestamp: ComputedRef<Date>;
+  signature: ComputedRef<Uint8Array>;
+}
 export interface ProposalProtoMsg {
   typeUrl: "/tendermint.types.Proposal";
   value: Uint8Array;
@@ -299,6 +363,10 @@ export interface SignedHeader {
   header?: Header;
   commit?: Commit;
 }
+export interface ReactiveSignedHeader {
+  header?: ComputedRef<Header>;
+  commit?: ComputedRef<Commit>;
+}
 export interface SignedHeaderProtoMsg {
   typeUrl: "/tendermint.types.SignedHeader";
   value: Uint8Array;
@@ -310,6 +378,10 @@ export interface SignedHeaderSDKType {
 export interface LightBlock {
   signedHeader?: SignedHeader;
   validatorSet?: ValidatorSet;
+}
+export interface ReactiveLightBlock {
+  signedHeader?: ComputedRef<SignedHeader>;
+  validatorSet?: ComputedRef<ValidatorSet>;
 }
 export interface LightBlockProtoMsg {
   typeUrl: "/tendermint.types.LightBlock";
@@ -324,6 +396,12 @@ export interface BlockMeta {
   blockSize: bigint;
   header: Header;
   numTxs: bigint;
+}
+export interface ReactiveBlockMeta {
+  blockId: ComputedRef<BlockID>;
+  blockSize: ComputedRef<bigint>;
+  header: ComputedRef<Header>;
+  numTxs: ComputedRef<bigint>;
 }
 export interface BlockMetaProtoMsg {
   typeUrl: "/tendermint.types.BlockMeta";
@@ -340,6 +418,11 @@ export interface TxProof {
   rootHash: Uint8Array;
   data: Uint8Array;
   proof?: Proof;
+}
+export interface ReactiveTxProof {
+  rootHash: ComputedRef<Uint8Array>;
+  data: ComputedRef<Uint8Array>;
+  proof?: ComputedRef<Proof>;
 }
 export interface TxProofProtoMsg {
   typeUrl: "/tendermint.types.TxProof";

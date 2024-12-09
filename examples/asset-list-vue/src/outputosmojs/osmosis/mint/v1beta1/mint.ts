@@ -2,11 +2,15 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.mint.v1beta1";
 /** Minter represents the minting state. */
 export interface Minter {
   /** epoch_provisions represent rewards for the current epoch. */
   epochProvisions: string;
+}
+export interface ReactiveMinter {
+  epochProvisions: ComputedRef<string>;
 }
 export interface MinterProtoMsg {
   typeUrl: "/osmosis.mint.v1beta1.Minter";
@@ -24,6 +28,10 @@ export interface MinterSDKType {
 export interface WeightedAddress {
   address: string;
   weight: string;
+}
+export interface ReactiveWeightedAddress {
+  address: ComputedRef<string>;
+  weight: ComputedRef<string>;
 }
 export interface WeightedAddressProtoMsg {
   typeUrl: "/osmosis.mint.v1beta1.WeightedAddress";
@@ -64,6 +72,12 @@ export interface DistributionProportions {
    * to be allocated to the community pool.
    */
   communityPool: string;
+}
+export interface ReactiveDistributionProportions {
+  staking: ComputedRef<string>;
+  poolIncentives: ComputedRef<string>;
+  developerRewards: ComputedRef<string>;
+  communityPool: ComputedRef<string>;
 }
 export interface DistributionProportionsProtoMsg {
   typeUrl: "/osmosis.mint.v1beta1.DistributionProportions";
@@ -116,6 +130,16 @@ export interface Params {
    * rewards
    */
   mintingRewardsDistributionStartEpoch: bigint;
+}
+export interface ReactiveParams {
+  mintDenom: ComputedRef<string>;
+  genesisEpochProvisions: ComputedRef<string>;
+  epochIdentifier: ComputedRef<string>;
+  reductionPeriodInEpochs: ComputedRef<bigint>;
+  reductionFactor: ComputedRef<string>;
+  distributionProportions: ComputedRef<DistributionProportions>;
+  weightedDeveloperRewardsReceivers: ComputedRef<WeightedAddress[]>;
+  mintingRewardsDistributionStartEpoch: ComputedRef<bigint>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/osmosis.mint.v1beta1.Params";

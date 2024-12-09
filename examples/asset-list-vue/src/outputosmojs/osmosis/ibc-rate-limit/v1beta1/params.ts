@@ -1,10 +1,14 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.ibcratelimit.v1beta1";
 /** Params defines the parameters for the ibc-rate-limit module. */
 export interface Params {
   contractAddress: string;
+}
+export interface ReactiveParams {
+  contractAddress: ComputedRef<string>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/osmosis.ibcratelimit.v1beta1.Params";

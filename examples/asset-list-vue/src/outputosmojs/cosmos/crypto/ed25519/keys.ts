@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.crypto.ed25519";
 /**
  * PubKey is an ed25519 public key for handling Tendermint keys in SDK.
@@ -11,6 +12,9 @@ export const protobufPackage = "cosmos.crypto.ed25519";
  */
 export interface PubKey {
   key: Uint8Array;
+}
+export interface ReactivePubKey {
+  key: ComputedRef<Uint8Array>;
 }
 export interface PubKeyProtoMsg {
   typeUrl: "/cosmos.crypto.ed25519.PubKey";
@@ -32,6 +36,9 @@ export interface PubKeySDKType {
  */
 export interface PrivKey {
   key: Uint8Array;
+}
+export interface ReactivePrivKey {
+  key: ComputedRef<Uint8Array>;
 }
 export interface PrivKeyProtoMsg {
   typeUrl: "/cosmos.crypto.ed25519.PrivKey";

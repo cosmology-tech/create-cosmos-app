@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf";
 /**
  * A Duration represents a signed, fixed-length span of time represented
@@ -78,6 +79,10 @@ export interface Duration {
    * to +999,999,999 inclusive.
    */
   nanos: number;
+}
+export interface ReactiveDuration {
+  seconds: ComputedRef<bigint>;
+  nanos: ComputedRef<number>;
 }
 export interface DurationProtoMsg {
   typeUrl: "/google.protobuf.Duration";

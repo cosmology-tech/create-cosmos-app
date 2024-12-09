@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, isObject } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf";
 /**
  * `NullValue` is a singleton enumeration to represent the null value for the
@@ -38,6 +39,10 @@ export interface Struct_FieldsEntry {
   key: string;
   value?: Value;
 }
+export interface ReactiveStruct_FieldsEntry {
+  key: ComputedRef<string>;
+  value?: ComputedRef<Value>;
+}
 export interface Struct_FieldsEntryProtoMsg {
   typeUrl: string;
   value: Uint8Array;
@@ -61,6 +66,11 @@ export interface Struct {
   fields: {
     [key: string]: Value;
   };
+}
+export interface ReactiveStruct {
+  fields: ComputedRef<{
+    [key: string]: Value;
+  }>;
 }
 export interface StructProtoMsg {
   typeUrl: "/google.protobuf.Struct";
@@ -103,6 +113,14 @@ export interface Value {
   /** Represents a repeated `Value`. */
   listValue?: ListValue;
 }
+export interface ReactiveValue {
+  nullValue?: ComputedRef<NullValue>;
+  numberValue?: ComputedRef<number>;
+  stringValue?: ComputedRef<string>;
+  boolValue?: ComputedRef<boolean>;
+  structValue?: ComputedRef<Struct>;
+  listValue?: ComputedRef<ListValue>;
+}
 export interface ValueProtoMsg {
   typeUrl: "/google.protobuf.Value";
   value: Uint8Array;
@@ -131,6 +149,9 @@ export interface ValueSDKType {
 export interface ListValue {
   /** Repeated field of dynamically typed values. */
   values: Value[];
+}
+export interface ReactiveListValue {
+  values: ComputedRef<Value[]>;
 }
 export interface ListValueProtoMsg {
   typeUrl: "/google.protobuf.ListValue";

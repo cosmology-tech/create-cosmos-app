@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.crypto.secp256k1";
 /**
  * PubKey defines a secp256k1 public key
@@ -11,6 +12,9 @@ export const protobufPackage = "cosmos.crypto.secp256k1";
  */
 export interface PubKey {
   key: Uint8Array;
+}
+export interface ReactivePubKey {
+  key: ComputedRef<Uint8Array>;
 }
 export interface PubKeyProtoMsg {
   typeUrl: "/cosmos.crypto.secp256k1.PubKey";
@@ -29,6 +33,9 @@ export interface PubKeySDKType {
 /** PrivKey defines a secp256k1 private key. */
 export interface PrivKey {
   key: Uint8Array;
+}
+export interface ReactivePrivKey {
+  key: ComputedRef<Uint8Array>;
 }
 export interface PrivKeyProtoMsg {
   typeUrl: "/cosmos.crypto.secp256k1.PrivKey";

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../binary";
 import { isSet, DeepPartial } from "../helpers";
 import { JsonSafe } from "../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos_proto";
 export enum ScalarType {
   SCALAR_TYPE_UNSPECIFIED = 0,
@@ -57,6 +58,10 @@ export interface InterfaceDescriptor {
    */
   description: string;
 }
+export interface ReactiveInterfaceDescriptor {
+  name: ComputedRef<string>;
+  description: ComputedRef<string>;
+}
 export interface InterfaceDescriptorProtoMsg {
   typeUrl: "/cosmos_proto.InterfaceDescriptor";
   value: Uint8Array;
@@ -99,6 +104,11 @@ export interface ScalarDescriptor {
    * bytes fields are supported for scalars.
    */
   fieldType: ScalarType[];
+}
+export interface ReactiveScalarDescriptor {
+  name: ComputedRef<string>;
+  description: ComputedRef<string>;
+  fieldType: ComputedRef<ScalarType[]>;
 }
 export interface ScalarDescriptorProtoMsg {
   typeUrl: "/cosmos_proto.ScalarDescriptor";

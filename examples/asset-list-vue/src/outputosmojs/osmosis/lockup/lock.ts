@@ -4,6 +4,7 @@ import { Coin, CoinSDKType } from "../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.lockup";
 /**
  * LockQueryType defines the type of the lock query that can
@@ -73,6 +74,13 @@ export interface PeriodLock {
   /** Coins are the tokens locked within the lock, kept in the module account. */
   coins: Coin[];
 }
+export interface ReactivePeriodLock {
+  iD: ComputedRef<bigint>;
+  owner: ComputedRef<string>;
+  duration: ComputedRef<Duration>;
+  endTime: ComputedRef<Date>;
+  coins: ComputedRef<Coin[]>;
+}
 export interface PeriodLockProtoMsg {
   typeUrl: "/osmosis.lockup.PeriodLock";
   value: Uint8Array;
@@ -113,6 +121,12 @@ export interface QueryCondition {
    * Querying locks with timestamp is currently not implemented.
    */
   timestamp: Date;
+}
+export interface ReactiveQueryCondition {
+  lockQueryType: ComputedRef<LockQueryType>;
+  denom: ComputedRef<string>;
+  duration: ComputedRef<Duration>;
+  timestamp: ComputedRef<Date>;
 }
 export interface QueryConditionProtoMsg {
   typeUrl: "/osmosis.lockup.QueryCondition";
@@ -156,6 +170,12 @@ export interface SyntheticLock {
    * at the point of unbonding has started.
    */
   duration: Duration;
+}
+export interface ReactiveSyntheticLock {
+  underlyingLockId: ComputedRef<bigint>;
+  synthDenom: ComputedRef<string>;
+  endTime: ComputedRef<Date>;
+  duration: ComputedRef<Duration>;
 }
 export interface SyntheticLockProtoMsg {
   typeUrl: "/osmosis.lockup.SyntheticLock";

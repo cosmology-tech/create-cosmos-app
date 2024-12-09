@@ -4,11 +4,17 @@ import { PeriodLock, PeriodLockSDKType } from "./lock";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.lockup";
 export interface MsgLockTokens {
   owner: string;
   duration: Duration;
   coins: Coin[];
+}
+export interface ReactiveMsgLockTokens {
+  owner: ComputedRef<string>;
+  duration: ComputedRef<Duration>;
+  coins: ComputedRef<Coin[]>;
 }
 export interface MsgLockTokensProtoMsg {
   typeUrl: "/osmosis.lockup.MsgLockTokens";
@@ -22,6 +28,9 @@ export interface MsgLockTokensSDKType {
 export interface MsgLockTokensResponse {
   iD: bigint;
 }
+export interface ReactiveMsgLockTokensResponse {
+  iD: ComputedRef<bigint>;
+}
 export interface MsgLockTokensResponseProtoMsg {
   typeUrl: "/osmosis.lockup.MsgLockTokensResponse";
   value: Uint8Array;
@@ -32,6 +41,9 @@ export interface MsgLockTokensResponseSDKType {
 export interface MsgBeginUnlockingAll {
   owner: string;
 }
+export interface ReactiveMsgBeginUnlockingAll {
+  owner: ComputedRef<string>;
+}
 export interface MsgBeginUnlockingAllProtoMsg {
   typeUrl: "/osmosis.lockup.MsgBeginUnlockingAll";
   value: Uint8Array;
@@ -41,6 +53,9 @@ export interface MsgBeginUnlockingAllSDKType {
 }
 export interface MsgBeginUnlockingAllResponse {
   unlocks: PeriodLock[];
+}
+export interface ReactiveMsgBeginUnlockingAllResponse {
+  unlocks: ComputedRef<PeriodLock[]>;
 }
 export interface MsgBeginUnlockingAllResponseProtoMsg {
   typeUrl: "/osmosis.lockup.MsgBeginUnlockingAllResponse";
@@ -55,6 +70,11 @@ export interface MsgBeginUnlocking {
   /** Amount of unlocking coins. Unlock all if not set. */
   coins: Coin[];
 }
+export interface ReactiveMsgBeginUnlocking {
+  owner: ComputedRef<string>;
+  iD: ComputedRef<bigint>;
+  coins: ComputedRef<Coin[]>;
+}
 export interface MsgBeginUnlockingProtoMsg {
   typeUrl: "/osmosis.lockup.MsgBeginUnlocking";
   value: Uint8Array;
@@ -66,6 +86,9 @@ export interface MsgBeginUnlockingSDKType {
 }
 export interface MsgBeginUnlockingResponse {
   success: boolean;
+}
+export interface ReactiveMsgBeginUnlockingResponse {
+  success: ComputedRef<boolean>;
 }
 export interface MsgBeginUnlockingResponseProtoMsg {
   typeUrl: "/osmosis.lockup.MsgBeginUnlockingResponse";
@@ -87,6 +110,11 @@ export interface MsgExtendLockup {
    */
   duration: Duration;
 }
+export interface ReactiveMsgExtendLockup {
+  owner: ComputedRef<string>;
+  iD: ComputedRef<bigint>;
+  duration: ComputedRef<Duration>;
+}
 export interface MsgExtendLockupProtoMsg {
   typeUrl: "/osmosis.lockup.MsgExtendLockup";
   value: Uint8Array;
@@ -102,6 +130,9 @@ export interface MsgExtendLockupSDKType {
 }
 export interface MsgExtendLockupResponse {
   success: boolean;
+}
+export interface ReactiveMsgExtendLockupResponse {
+  success: ComputedRef<boolean>;
 }
 export interface MsgExtendLockupResponseProtoMsg {
   typeUrl: "/osmosis.lockup.MsgExtendLockupResponse";
@@ -120,6 +151,11 @@ export interface MsgForceUnlock {
   /** Amount of unlocking coins. Unlock all if not set. */
   coins: Coin[];
 }
+export interface ReactiveMsgForceUnlock {
+  owner: ComputedRef<string>;
+  iD: ComputedRef<bigint>;
+  coins: ComputedRef<Coin[]>;
+}
 export interface MsgForceUnlockProtoMsg {
   typeUrl: "/osmosis.lockup.MsgForceUnlock";
   value: Uint8Array;
@@ -135,6 +171,9 @@ export interface MsgForceUnlockSDKType {
 }
 export interface MsgForceUnlockResponse {
   success: boolean;
+}
+export interface ReactiveMsgForceUnlockResponse {
+  success: ComputedRef<boolean>;
 }
 export interface MsgForceUnlockResponseProtoMsg {
   typeUrl: "/osmosis.lockup.MsgForceUnlockResponse";

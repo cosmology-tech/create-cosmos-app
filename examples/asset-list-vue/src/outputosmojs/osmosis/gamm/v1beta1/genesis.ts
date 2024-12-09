@@ -3,10 +3,14 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.gamm.v1beta1";
 /** Params holds parameters for the incentives module */
 export interface Params {
   poolCreationFee: Coin[];
+}
+export interface ReactiveParams {
+  poolCreationFee: ComputedRef<Coin[]>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.Params";
@@ -22,6 +26,11 @@ export interface GenesisState {
   /** will be renamed to next_pool_id in an upcoming version */
   nextPoolNumber: bigint;
   params: Params;
+}
+export interface ReactiveGenesisState {
+  pools: ComputedRef<Any[]>;
+  nextPoolNumber: ComputedRef<bigint>;
+  params: ComputedRef<Params>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.GenesisState";

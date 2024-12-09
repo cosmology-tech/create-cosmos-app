@@ -4,6 +4,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta2";
 /** MsgCreateDeployment defines an SDK message for creating deployment */
 export interface MsgCreateDeployment {
@@ -13,6 +14,13 @@ export interface MsgCreateDeployment {
   deposit: Coin;
   /** Depositor pays for the deposit */
   depositor: string;
+}
+export interface ReactiveMsgCreateDeployment {
+  id: ComputedRef<DeploymentID>;
+  groups: ComputedRef<GroupSpec[]>;
+  version: ComputedRef<Uint8Array>;
+  deposit: ComputedRef<Coin>;
+  depositor: ComputedRef<string>;
 }
 export interface MsgCreateDeploymentProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.MsgCreateDeployment";
@@ -28,6 +36,7 @@ export interface MsgCreateDeploymentSDKType {
 }
 /** MsgCreateDeploymentResponse defines the Msg/CreateDeployment response type. */
 export interface MsgCreateDeploymentResponse {}
+export interface ReactiveMsgCreateDeploymentResponse {}
 export interface MsgCreateDeploymentResponseProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.MsgCreateDeploymentResponse";
   value: Uint8Array;
@@ -41,6 +50,11 @@ export interface MsgDepositDeployment {
   /** Depositor pays for the deposit */
   depositor: string;
 }
+export interface ReactiveMsgDepositDeployment {
+  id: ComputedRef<DeploymentID>;
+  amount: ComputedRef<Coin>;
+  depositor: ComputedRef<string>;
+}
 export interface MsgDepositDeploymentProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.MsgDepositDeployment";
   value: Uint8Array;
@@ -53,6 +67,7 @@ export interface MsgDepositDeploymentSDKType {
 }
 /** MsgCreateDeploymentResponse defines the Msg/CreateDeployment response type. */
 export interface MsgDepositDeploymentResponse {}
+export interface ReactiveMsgDepositDeploymentResponse {}
 export interface MsgDepositDeploymentResponseProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.MsgDepositDeploymentResponse";
   value: Uint8Array;
@@ -63,6 +78,10 @@ export interface MsgDepositDeploymentResponseSDKType {}
 export interface MsgUpdateDeployment {
   id: DeploymentID;
   version: Uint8Array;
+}
+export interface ReactiveMsgUpdateDeployment {
+  id: ComputedRef<DeploymentID>;
+  version: ComputedRef<Uint8Array>;
 }
 export interface MsgUpdateDeploymentProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.MsgUpdateDeployment";
@@ -75,6 +94,7 @@ export interface MsgUpdateDeploymentSDKType {
 }
 /** MsgUpdateDeploymentResponse defines the Msg/UpdateDeployment response type. */
 export interface MsgUpdateDeploymentResponse {}
+export interface ReactiveMsgUpdateDeploymentResponse {}
 export interface MsgUpdateDeploymentResponseProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.MsgUpdateDeploymentResponse";
   value: Uint8Array;
@@ -84,6 +104,9 @@ export interface MsgUpdateDeploymentResponseSDKType {}
 /** MsgCloseDeployment defines an SDK message for closing deployment */
 export interface MsgCloseDeployment {
   id: DeploymentID;
+}
+export interface ReactiveMsgCloseDeployment {
+  id: ComputedRef<DeploymentID>;
 }
 export interface MsgCloseDeploymentProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.MsgCloseDeployment";
@@ -95,6 +118,7 @@ export interface MsgCloseDeploymentSDKType {
 }
 /** MsgCloseDeploymentResponse defines the Msg/CloseDeployment response type. */
 export interface MsgCloseDeploymentResponse {}
+export interface ReactiveMsgCloseDeploymentResponse {}
 export interface MsgCloseDeploymentResponseProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.MsgCloseDeploymentResponse";
   value: Uint8Array;

@@ -5,12 +5,14 @@ import { ClaimsRecordAddress, ClaimsRecordAddressSDKType, Claim, ClaimSDKType } 
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.claims.v1";
 /**
  * QueryTotalUnclaimedRequest is the request type for the Query/TotalUnclaimed
  * RPC method.
  */
 export interface QueryTotalUnclaimedRequest {}
+export interface ReactiveQueryTotalUnclaimedRequest {}
 export interface QueryTotalUnclaimedRequestProtoMsg {
   typeUrl: "/evmos.claims.v1.QueryTotalUnclaimedRequest";
   value: Uint8Array;
@@ -28,6 +30,9 @@ export interface QueryTotalUnclaimedResponse {
   /** coins defines the unclaimed coins */
   coins: Coin[];
 }
+export interface ReactiveQueryTotalUnclaimedResponse {
+  coins: ComputedRef<Coin[]>;
+}
 export interface QueryTotalUnclaimedResponseProtoMsg {
   typeUrl: "/evmos.claims.v1.QueryTotalUnclaimedResponse";
   value: Uint8Array;
@@ -41,6 +46,7 @@ export interface QueryTotalUnclaimedResponseSDKType {
 }
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
+export interface ReactiveQueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
   typeUrl: "/evmos.claims.v1.QueryParamsRequest";
   value: Uint8Array;
@@ -51,6 +57,9 @@ export interface QueryParamsRequestSDKType {}
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
   params: Params;
+}
+export interface ReactiveQueryParamsResponse {
+  params: ComputedRef<Params>;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/evmos.claims.v1.QueryParamsResponse";
@@ -67,6 +76,9 @@ export interface QueryParamsResponseSDKType {
 export interface QueryClaimsRecordsRequest {
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryClaimsRecordsRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryClaimsRecordsRequestProtoMsg {
   typeUrl: "/evmos.claims.v1.QueryClaimsRecordsRequest";
@@ -89,6 +101,10 @@ export interface QueryClaimsRecordsResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryClaimsRecordsResponse {
+  claims: ComputedRef<ClaimsRecordAddress[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryClaimsRecordsResponseProtoMsg {
   typeUrl: "/evmos.claims.v1.QueryClaimsRecordsResponse";
   value: Uint8Array;
@@ -108,6 +124,9 @@ export interface QueryClaimsRecordsResponseSDKType {
 export interface QueryClaimsRecordRequest {
   /** address defines the user to query claims record for */
   address: string;
+}
+export interface ReactiveQueryClaimsRecordRequest {
+  address: ComputedRef<string>;
 }
 export interface QueryClaimsRecordRequestProtoMsg {
   typeUrl: "/evmos.claims.v1.QueryClaimsRecordRequest";
@@ -129,6 +148,10 @@ export interface QueryClaimsRecordResponse {
   initialClaimableAmount: string;
   /** the claims of the user */
   claims: Claim[];
+}
+export interface ReactiveQueryClaimsRecordResponse {
+  initialClaimableAmount: ComputedRef<string>;
+  claims: ComputedRef<Claim[]>;
 }
 export interface QueryClaimsRecordResponseProtoMsg {
   typeUrl: "/evmos.claims.v1.QueryClaimsRecordResponse";

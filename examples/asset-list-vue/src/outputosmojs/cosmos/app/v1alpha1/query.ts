@@ -2,9 +2,11 @@ import { Config, ConfigSDKType } from "./config";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.app.v1alpha1";
 /** QueryConfigRequest is the Query/Config request type. */
 export interface QueryConfigRequest {}
+export interface ReactiveQueryConfigRequest {}
 export interface QueryConfigRequestProtoMsg {
   typeUrl: "/cosmos.app.v1alpha1.QueryConfigRequest";
   value: Uint8Array;
@@ -15,6 +17,9 @@ export interface QueryConfigRequestSDKType {}
 export interface QueryConfigResponse {
   /** config is the current app config. */
   config?: Config;
+}
+export interface ReactiveQueryConfigResponse {
+  config?: ComputedRef<Config>;
 }
 export interface QueryConfigResponseProtoMsg {
   typeUrl: "/cosmos.app.v1alpha1.QueryConfigResponse";

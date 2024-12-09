@@ -2,10 +2,8 @@ import { ProposalStatus, ProposalStatusSDKType, Proposal, ProposalSDKType, Vote,
 import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../base/query/v1beta1/pagination";
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
-import { QueryStore, MobxResponse } from "../../../mobx";
-import { makeObservable, override } from "mobx";
-import { QueryProposalRequest, QueryProposalRequestSDKType, QueryProposalResponse, QueryProposalResponseSDKType, QueryProposalsRequest, QueryProposalsRequestSDKType, QueryProposalsResponse, QueryProposalsResponseSDKType, QueryVoteRequest, QueryVoteRequestSDKType, QueryVoteResponse, QueryVoteResponseSDKType, QueryVotesRequest, QueryVotesRequestSDKType, QueryVotesResponse, QueryVotesResponseSDKType, QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, QueryDepositRequest, QueryDepositRequestSDKType, QueryDepositResponse, QueryDepositResponseSDKType, QueryDepositsRequest, QueryDepositsRequestSDKType, QueryDepositsResponse, QueryDepositsResponseSDKType, QueryTallyResultRequest, QueryTallyResultRequestSDKType, QueryTallyResultResponse, QueryTallyResultResponseSDKType } from "./query";
+import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryProposalRequest, QueryProposalRequestSDKType, QueryProposalResponse, QueryProposalResponseSDKType, QueryProposalsRequest, QueryProposalsRequestSDKType, QueryProposalsResponse, QueryProposalsResponseSDKType, QueryVoteRequest, QueryVoteRequestSDKType, QueryVoteResponse, QueryVoteResponseSDKType, QueryVotesRequest, QueryVotesRequestSDKType, QueryVotesResponse, QueryVotesResponseSDKType, QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, QueryDepositRequest, QueryDepositRequestSDKType, QueryDepositResponse, QueryDepositResponseSDKType, QueryDepositsRequest, QueryDepositsRequestSDKType, QueryDepositsResponse, QueryDepositsResponseSDKType, QueryTallyResultRequest, QueryTallyResultRequestSDKType, QueryTallyResultResponse, QueryTallyResultResponseSDKType, ReactiveQueryProposalRequest, ReactiveQueryProposalsRequest, ReactiveQueryVoteRequest, ReactiveQueryVotesRequest, ReactiveQueryParamsRequest, ReactiveQueryDepositRequest, ReactiveQueryDepositsRequest, ReactiveQueryTallyResultRequest } from "./query";
 /** Query defines the gRPC querier service for gov module */
 export interface Query {
   /** Proposal queries proposal details based on ProposalID. */
@@ -107,76 +105,5 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     tallyResult(request: QueryTallyResultRequest): Promise<QueryTallyResultResponse> {
       return queryService.tallyResult(request);
     }
-  };
-};
-const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
-const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
-  if (!rpc) return;
-  if (_queryClients.has(rpc)) {
-    return _queryClients.get(rpc);
-  }
-  const queryService = new QueryClientImpl(rpc);
-  _queryClients.set(rpc, queryService);
-  return queryService;
-};
-export const createRpcQueryMobxStores = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  class QueryProposalStore {
-    store = new QueryStore<QueryProposalRequest, QueryProposalResponse>(queryService?.proposal);
-    proposal(request: QueryProposalRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryProposalsStore {
-    store = new QueryStore<QueryProposalsRequest, QueryProposalsResponse>(queryService?.proposals);
-    proposals(request: QueryProposalsRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryVoteStore {
-    store = new QueryStore<QueryVoteRequest, QueryVoteResponse>(queryService?.vote);
-    vote(request: QueryVoteRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryVotesStore {
-    store = new QueryStore<QueryVotesRequest, QueryVotesResponse>(queryService?.votes);
-    votes(request: QueryVotesRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryParamsStore {
-    store = new QueryStore<QueryParamsRequest, QueryParamsResponse>(queryService?.params);
-    params(request: QueryParamsRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryDepositStore {
-    store = new QueryStore<QueryDepositRequest, QueryDepositResponse>(queryService?.deposit);
-    deposit(request: QueryDepositRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryDepositsStore {
-    store = new QueryStore<QueryDepositsRequest, QueryDepositsResponse>(queryService?.deposits);
-    deposits(request: QueryDepositsRequest) {
-      return this.store.getData(request);
-    }
-  }
-  class QueryTallyResultStore {
-    store = new QueryStore<QueryTallyResultRequest, QueryTallyResultResponse>(queryService?.tallyResult);
-    tallyResult(request: QueryTallyResultRequest) {
-      return this.store.getData(request);
-    }
-  }
-  return {
-    /** Proposal queries proposal details based on ProposalID. */QueryProposalStore,
-    /** Proposals queries all proposals based on given status. */QueryProposalsStore,
-    /** Vote queries voted information based on proposalID, voterAddr. */QueryVoteStore,
-    /** Votes queries votes of a given proposal. */QueryVotesStore,
-    /** Params queries all parameters of the gov module. */QueryParamsStore,
-    /** Deposit queries single deposit information based proposalID, depositAddr. */QueryDepositStore,
-    /** Deposits queries all deposits of a single proposal. */QueryDepositsStore,
-    /** TallyResult queries the tally of a proposal vote. */QueryTallyResultStore
   };
 };

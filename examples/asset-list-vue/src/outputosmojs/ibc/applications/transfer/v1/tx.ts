@@ -3,6 +3,7 @@ import { Height, HeightSDKType } from "../../../core/client/v1/client";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.transfer.v1";
 /**
  * MsgTransfer defines a msg to transfer fungible tokens (i.e Coins) between
@@ -31,6 +32,15 @@ export interface MsgTransfer {
    */
   timeoutTimestamp: bigint;
 }
+export interface ReactiveMsgTransfer {
+  sourcePort: ComputedRef<string>;
+  sourceChannel: ComputedRef<string>;
+  token: ComputedRef<Coin>;
+  sender: ComputedRef<string>;
+  receiver: ComputedRef<string>;
+  timeoutHeight: ComputedRef<Height>;
+  timeoutTimestamp: ComputedRef<bigint>;
+}
 export interface MsgTransferProtoMsg {
   typeUrl: "/ibc.applications.transfer.v1.MsgTransfer";
   value: Uint8Array;
@@ -51,6 +61,7 @@ export interface MsgTransferSDKType {
 }
 /** MsgTransferResponse defines the Msg/Transfer response type. */
 export interface MsgTransferResponse {}
+export interface ReactiveMsgTransferResponse {}
 export interface MsgTransferResponseProtoMsg {
   typeUrl: "/ibc.applications.transfer.v1.MsgTransferResponse";
   value: Uint8Array;

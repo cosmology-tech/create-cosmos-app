@@ -9,6 +9,7 @@ import { Monitoring, MonitoringSDKType } from "../../monitoring";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.serviceusage.v1";
 /** Whether or not a service has been enabled for use by a consumer. */
 export enum State {
@@ -84,6 +85,12 @@ export interface Service {
   /** Whether or not the service has been enabled for use by the consumer. */
   state: State;
 }
+export interface ReactiveService {
+  name: ComputedRef<string>;
+  parent: ComputedRef<string>;
+  config?: ComputedRef<ServiceConfig>;
+  state: ComputedRef<State>;
+}
 export interface ServiceProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.Service";
   value: Uint8Array;
@@ -138,6 +145,18 @@ export interface ServiceConfig {
    */
   monitoring?: Monitoring;
 }
+export interface ReactiveServiceConfig {
+  name: ComputedRef<string>;
+  title: ComputedRef<string>;
+  apis: ComputedRef<Api[]>;
+  documentation?: ComputedRef<Documentation>;
+  quota?: ComputedRef<Quota>;
+  authentication?: ComputedRef<Authentication>;
+  usage?: ComputedRef<Usage>;
+  endpoints: ComputedRef<Endpoint[]>;
+  monitoredResources: ComputedRef<MonitoredResourceDescriptor[]>;
+  monitoring?: ComputedRef<Monitoring>;
+}
 export interface ServiceConfigProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.ServiceConfig";
   value: Uint8Array;
@@ -162,6 +181,9 @@ export interface OperationMetadata {
    * associated with.
    */
   resourceNames: string[];
+}
+export interface ReactiveOperationMetadata {
+  resourceNames: ComputedRef<string[]>;
 }
 export interface OperationMetadataProtoMsg {
   typeUrl: "/google.api.serviceusage.v1.OperationMetadata";

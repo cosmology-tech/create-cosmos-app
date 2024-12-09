@@ -3,11 +3,16 @@ import { TwapRecord, TwapRecordSDKType } from "./twap_record";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.twap.v1beta1";
 /** Params holds parameters for the twap module */
 export interface Params {
   pruneEpochIdentifier: string;
   recordHistoryKeepPeriod: Duration;
+}
+export interface ReactiveParams {
+  pruneEpochIdentifier: ComputedRef<string>;
+  recordHistoryKeepPeriod: ComputedRef<Duration>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/osmosis.twap.v1beta1.Params";
@@ -24,6 +29,10 @@ export interface GenesisState {
   twaps: TwapRecord[];
   /** params is the container of twap parameters. */
   params: Params;
+}
+export interface ReactiveGenesisState {
+  twaps: ComputedRef<TwapRecord[]>;
+  params: ComputedRef<Params>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.twap.v1beta1.GenesisState";

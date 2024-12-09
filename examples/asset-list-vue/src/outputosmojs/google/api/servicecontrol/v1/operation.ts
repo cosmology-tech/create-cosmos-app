@@ -5,6 +5,7 @@ import { Any, AnySDKType } from "../../../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp, isObject } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /** Defines the importance of the data contained in the operation. */
 export enum Operation_Importance {
@@ -50,6 +51,10 @@ export function operation_ImportanceToJSON(object: Operation_Importance): string
 export interface Operation_LabelsEntry {
   key: string;
   value: string;
+}
+export interface ReactiveOperation_LabelsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface Operation_LabelsEntryProtoMsg {
   typeUrl: string;
@@ -140,6 +145,20 @@ export interface Operation {
   importance: Operation_Importance;
   /** Unimplemented. */
   extensions: Any[];
+}
+export interface ReactiveOperation {
+  operationId: ComputedRef<string>;
+  operationName: ComputedRef<string>;
+  consumerId: ComputedRef<string>;
+  startTime?: ComputedRef<Date>;
+  endTime?: ComputedRef<Date>;
+  labels: ComputedRef<{
+    [key: string]: string;
+  }>;
+  metricValueSets: ComputedRef<MetricValueSet[]>;
+  logEntries: ComputedRef<LogEntry[]>;
+  importance: ComputedRef<Operation_Importance>;
+  extensions: ComputedRef<Any[]>;
 }
 export interface OperationProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.Operation";

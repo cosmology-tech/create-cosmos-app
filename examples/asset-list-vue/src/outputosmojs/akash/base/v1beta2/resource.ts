@@ -3,11 +3,16 @@ import { Attribute, AttributeSDKType } from "./attribute";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.base.v1beta2";
 /** CPU stores resource units and cpu config attributes */
 export interface CPU {
   units: ResourceValue;
   attributes: Attribute[];
+}
+export interface ReactiveCPU {
+  units: ComputedRef<ResourceValue>;
+  attributes: ComputedRef<Attribute[]>;
 }
 export interface CPUProtoMsg {
   typeUrl: "/akash.base.v1beta2.CPU";
@@ -23,6 +28,10 @@ export interface Memory {
   quantity: ResourceValue;
   attributes: Attribute[];
 }
+export interface ReactiveMemory {
+  quantity: ComputedRef<ResourceValue>;
+  attributes: ComputedRef<Attribute[]>;
+}
 export interface MemoryProtoMsg {
   typeUrl: "/akash.base.v1beta2.Memory";
   value: Uint8Array;
@@ -37,6 +46,11 @@ export interface Storage {
   name: string;
   quantity: ResourceValue;
   attributes: Attribute[];
+}
+export interface ReactiveStorage {
+  name: ComputedRef<string>;
+  quantity: ComputedRef<ResourceValue>;
+  attributes: ComputedRef<Attribute[]>;
 }
 export interface StorageProtoMsg {
   typeUrl: "/akash.base.v1beta2.Storage";

@@ -7,6 +7,7 @@ import { GenesisStateSDKType as GenesisState3SDKType } from "../../channel/v1/ge
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.types.v1";
 /** GenesisState defines the ibc module's genesis state. */
 export interface GenesisState {
@@ -16,6 +17,11 @@ export interface GenesisState {
   connectionGenesis: GenesisState2;
   /** ICS004 - Channel genesis state */
   channelGenesis: GenesisState3;
+}
+export interface ReactiveGenesisState {
+  clientGenesis: ComputedRef<GenesisState1>;
+  connectionGenesis: ComputedRef<GenesisState2>;
+  channelGenesis: ComputedRef<GenesisState3>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/ibc.core.types.v1.GenesisState";

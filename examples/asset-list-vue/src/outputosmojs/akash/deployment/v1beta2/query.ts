@@ -6,11 +6,16 @@ import { Account, AccountSDKType } from "../../escrow/v1beta2/types";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta2";
 /** QueryDeploymentsRequest is request type for the Query/Deployments RPC method */
 export interface QueryDeploymentsRequest {
   filters: DeploymentFilters;
   pagination?: PageRequest;
+}
+export interface ReactiveQueryDeploymentsRequest {
+  filters: ComputedRef<DeploymentFilters>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryDeploymentsRequestProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.QueryDeploymentsRequest";
@@ -26,6 +31,10 @@ export interface QueryDeploymentsResponse {
   deployments: QueryDeploymentResponse[];
   pagination?: PageResponse;
 }
+export interface ReactiveQueryDeploymentsResponse {
+  deployments: ComputedRef<QueryDeploymentResponse[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryDeploymentsResponseProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.QueryDeploymentsResponse";
   value: Uint8Array;
@@ -38,6 +47,9 @@ export interface QueryDeploymentsResponseSDKType {
 /** QueryDeploymentRequest is request type for the Query/Deployment RPC method */
 export interface QueryDeploymentRequest {
   id: DeploymentID;
+}
+export interface ReactiveQueryDeploymentRequest {
+  id: ComputedRef<DeploymentID>;
 }
 export interface QueryDeploymentRequestProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.QueryDeploymentRequest";
@@ -53,6 +65,11 @@ export interface QueryDeploymentResponse {
   groups: Group[];
   escrowAccount: Account;
 }
+export interface ReactiveQueryDeploymentResponse {
+  deployment: ComputedRef<Deployment>;
+  groups: ComputedRef<Group[]>;
+  escrowAccount: ComputedRef<Account>;
+}
 export interface QueryDeploymentResponseProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.QueryDeploymentResponse";
   value: Uint8Array;
@@ -67,6 +84,9 @@ export interface QueryDeploymentResponseSDKType {
 export interface QueryGroupRequest {
   id: GroupID;
 }
+export interface ReactiveQueryGroupRequest {
+  id: ComputedRef<GroupID>;
+}
 export interface QueryGroupRequestProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.QueryGroupRequest";
   value: Uint8Array;
@@ -78,6 +98,9 @@ export interface QueryGroupRequestSDKType {
 /** QueryGroupResponse is response type for the Query/Group RPC method */
 export interface QueryGroupResponse {
   group: Group;
+}
+export interface ReactiveQueryGroupResponse {
+  group: ComputedRef<Group>;
 }
 export interface QueryGroupResponseProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.QueryGroupResponse";

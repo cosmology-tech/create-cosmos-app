@@ -4,11 +4,16 @@ import { Params, ParamsSDKType } from "./params";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta1";
 /** GenesisDeployment defines the basic genesis state used by deployment module */
 export interface GenesisDeployment {
   deployment: Deployment | undefined;
   groups: Group[];
+}
+export interface ReactiveGenesisDeployment {
+  deployment: ComputedRef<Deployment | undefined>;
+  groups: ComputedRef<Group[]>;
 }
 export interface GenesisDeploymentProtoMsg {
   typeUrl: "/akash.deployment.v1beta1.GenesisDeployment";
@@ -23,6 +28,10 @@ export interface GenesisDeploymentSDKType {
 export interface GenesisState {
   deployments: GenesisDeployment[];
   params: Params | undefined;
+}
+export interface ReactiveGenesisState {
+  deployments: ComputedRef<GenesisDeployment[]>;
+  params: ComputedRef<Params | undefined>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/akash.deployment.v1beta1.GenesisState";

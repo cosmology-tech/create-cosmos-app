@@ -3,6 +3,7 @@ import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.poolincentives.v1beta1";
 /** GenesisState defines the pool incentives module's genesis state. */
 export interface GenesisState {
@@ -11,6 +12,12 @@ export interface GenesisState {
   lockableDurations: Duration[];
   distrInfo?: DistrInfo;
   poolToGauges?: PoolToGauges;
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  lockableDurations: ComputedRef<Duration[]>;
+  distrInfo?: ComputedRef<DistrInfo>;
+  poolToGauges?: ComputedRef<PoolToGauges>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.poolincentives.v1beta1.GenesisState";

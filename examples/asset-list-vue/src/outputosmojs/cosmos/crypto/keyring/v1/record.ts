@@ -3,6 +3,7 @@ import { BIP44Params, BIP44ParamsSDKType } from "../../hd/v1/hd";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.crypto.keyring.v1";
 /** Record is used for representing a key in the keyring. */
 export interface Record {
@@ -18,6 +19,14 @@ export interface Record {
   multi?: Record_Multi;
   /** Offline does not store any information. */
   offline?: Record_Offline;
+}
+export interface ReactiveRecord {
+  name: ComputedRef<string>;
+  pubKey?: ComputedRef<Any>;
+  local?: ComputedRef<Record_Local>;
+  ledger?: ComputedRef<Record_Ledger>;
+  multi?: ComputedRef<Record_Multi>;
+  offline?: ComputedRef<Record_Offline>;
 }
 export interface RecordProtoMsg {
   typeUrl: "/cosmos.crypto.keyring.v1.Record";
@@ -40,6 +49,10 @@ export interface Record_Local {
   privKey?: Any;
   privKeyType: string;
 }
+export interface ReactiveRecord_Local {
+  privKey?: ComputedRef<Any>;
+  privKeyType: ComputedRef<string>;
+}
 export interface Record_LocalProtoMsg {
   typeUrl: "/cosmos.crypto.keyring.v1.Local";
   value: Uint8Array;
@@ -56,6 +69,9 @@ export interface Record_LocalSDKType {
 export interface Record_Ledger {
   path?: BIP44Params;
 }
+export interface ReactiveRecord_Ledger {
+  path?: ComputedRef<BIP44Params>;
+}
 export interface Record_LedgerProtoMsg {
   typeUrl: "/cosmos.crypto.keyring.v1.Ledger";
   value: Uint8Array;
@@ -66,6 +82,7 @@ export interface Record_LedgerSDKType {
 }
 /** Multi item */
 export interface Record_Multi {}
+export interface ReactiveRecord_Multi {}
 export interface Record_MultiProtoMsg {
   typeUrl: "/cosmos.crypto.keyring.v1.Multi";
   value: Uint8Array;
@@ -74,6 +91,7 @@ export interface Record_MultiProtoMsg {
 export interface Record_MultiSDKType {}
 /** Offline item */
 export interface Record_Offline {}
+export interface ReactiveRecord_Offline {}
 export interface Record_OfflineProtoMsg {
   typeUrl: "/cosmos.crypto.keyring.v1.Offline";
   value: Uint8Array;

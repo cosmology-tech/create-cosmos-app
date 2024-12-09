@@ -1,10 +1,14 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { JsonSafe } from "../../../../json-safe";
 import { DeepPartial, isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.base.kv.v1beta1";
 /** Pairs defines a repeated slice of Pair objects. */
 export interface Pairs {
   pairs: Pair[];
+}
+export interface ReactivePairs {
+  pairs: ComputedRef<Pair[]>;
 }
 export interface PairsProtoMsg {
   typeUrl: "/cosmos.base.kv.v1beta1.Pairs";
@@ -18,6 +22,10 @@ export interface PairsSDKType {
 export interface Pair {
   key: Uint8Array;
   value: Uint8Array;
+}
+export interface ReactivePair {
+  key: ComputedRef<Uint8Array>;
+  value: ComputedRef<Uint8Array>;
 }
 export interface PairProtoMsg {
   typeUrl: "/cosmos.base.kv.v1beta1.Pair";

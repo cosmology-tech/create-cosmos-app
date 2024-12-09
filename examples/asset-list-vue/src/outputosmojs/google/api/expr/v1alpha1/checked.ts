@@ -4,6 +4,7 @@ import { NullValue, NullValueSDKType, nullValueFromJSON, nullValueToJSON } from 
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, isObject } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.expr.v1alpha1";
 /** CEL primitive types. */
 export enum Type_PrimitiveType {
@@ -144,6 +145,10 @@ export interface CheckedExpr_ReferenceMapEntry {
   key: bigint;
   value?: Reference;
 }
+export interface ReactiveCheckedExpr_ReferenceMapEntry {
+  key: ComputedRef<bigint>;
+  value?: ComputedRef<Reference>;
+}
 export interface CheckedExpr_ReferenceMapEntryProtoMsg {
   typeUrl: string;
   value: Uint8Array;
@@ -155,6 +160,10 @@ export interface CheckedExpr_ReferenceMapEntrySDKType {
 export interface CheckedExpr_TypeMapEntry {
   key: bigint;
   value?: Type;
+}
+export interface ReactiveCheckedExpr_TypeMapEntry {
+  key: ComputedRef<bigint>;
+  value?: ComputedRef<Type>;
 }
 export interface CheckedExpr_TypeMapEntryProtoMsg {
   typeUrl: string;
@@ -216,6 +225,17 @@ export interface CheckedExpr {
    * may have structural differences.
    */
   expr?: Expr;
+}
+export interface ReactiveCheckedExpr {
+  referenceMap: ComputedRef<{
+    [key: bigint]: Reference;
+  }>;
+  typeMap: ComputedRef<{
+    [key: bigint]: Type;
+  }>;
+  sourceInfo?: ComputedRef<SourceInfo>;
+  exprVersion: ComputedRef<string>;
+  expr?: ComputedRef<Expr>;
 }
 export interface CheckedExprProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.CheckedExpr";
@@ -284,6 +304,21 @@ export interface Type {
   /** Abstract, application defined type. */
   abstractType?: Type_AbstractType;
 }
+export interface ReactiveType {
+  dyn?: ComputedRef<Empty>;
+  null?: ComputedRef<NullValue>;
+  primitive?: ComputedRef<Type_PrimitiveType>;
+  wrapper?: ComputedRef<Type_PrimitiveType>;
+  wellKnown?: ComputedRef<Type_WellKnownType>;
+  listType?: ComputedRef<Type_ListType>;
+  mapType?: ComputedRef<Type_MapType>;
+  function?: ComputedRef<Type_FunctionType>;
+  messageType?: ComputedRef<string>;
+  typeParam?: ComputedRef<string>;
+  type?: ComputedRef<Type>;
+  error?: ComputedRef<Empty>;
+  abstractType?: ComputedRef<Type_AbstractType>;
+}
 export interface TypeProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Type";
   value: Uint8Array;
@@ -309,6 +344,9 @@ export interface Type_ListType {
   /** The element type. */
   elemType?: Type;
 }
+export interface ReactiveType_ListType {
+  elemType?: ComputedRef<Type>;
+}
 export interface Type_ListTypeProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.ListType";
   value: Uint8Array;
@@ -323,6 +361,10 @@ export interface Type_MapType {
   keyType?: Type;
   /** The type of the value. */
   valueType?: Type;
+}
+export interface ReactiveType_MapType {
+  keyType?: ComputedRef<Type>;
+  valueType?: ComputedRef<Type>;
 }
 export interface Type_MapTypeProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.MapType";
@@ -340,6 +382,10 @@ export interface Type_FunctionType {
   /** Argument types of the function. */
   argTypes: Type[];
 }
+export interface ReactiveType_FunctionType {
+  resultType?: ComputedRef<Type>;
+  argTypes: ComputedRef<Type[]>;
+}
 export interface Type_FunctionTypeProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.FunctionType";
   value: Uint8Array;
@@ -355,6 +401,10 @@ export interface Type_AbstractType {
   name: string;
   /** Parameter types for this abstract type. */
   parameterTypes: Type[];
+}
+export interface ReactiveType_AbstractType {
+  name: ComputedRef<string>;
+  parameterTypes: ComputedRef<Type[]>;
 }
 export interface Type_AbstractTypeProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.AbstractType";
@@ -387,6 +437,11 @@ export interface Decl {
   ident?: Decl_IdentDecl;
   /** Function declaration. */
   function?: Decl_FunctionDecl;
+}
+export interface ReactiveDecl {
+  name: ComputedRef<string>;
+  ident?: ComputedRef<Decl_IdentDecl>;
+  function?: ComputedRef<Decl_FunctionDecl>;
 }
 export interface DeclProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Decl";
@@ -422,6 +477,11 @@ export interface Decl_IdentDecl {
   /** Documentation string for the identifier. */
   doc: string;
 }
+export interface ReactiveDecl_IdentDecl {
+  type?: ComputedRef<Type>;
+  value?: ComputedRef<Constant>;
+  doc: ComputedRef<string>;
+}
 export interface Decl_IdentDeclProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.IdentDecl";
   value: Uint8Array;
@@ -449,6 +509,9 @@ export interface Decl_IdentDeclSDKType {
 export interface Decl_FunctionDecl {
   /** Required. List of function overloads, must contain at least one overload. */
   overloads: Decl_FunctionDecl_Overload[];
+}
+export interface ReactiveDecl_FunctionDecl {
+  overloads: ComputedRef<Decl_FunctionDecl_Overload[]>;
 }
 export interface Decl_FunctionDeclProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.FunctionDecl";
@@ -521,6 +584,14 @@ export interface Decl_FunctionDecl_Overload {
   /** Documentation string for the overload. */
   doc: string;
 }
+export interface ReactiveDecl_FunctionDecl_Overload {
+  overloadId: ComputedRef<string>;
+  params: ComputedRef<Type[]>;
+  typeParams: ComputedRef<string[]>;
+  resultType?: ComputedRef<Type>;
+  isInstanceFunction: ComputedRef<boolean>;
+  doc: ComputedRef<string>;
+}
 export interface Decl_FunctionDecl_OverloadProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Overload";
   value: Uint8Array;
@@ -565,6 +636,11 @@ export interface Reference {
    * constant if known at compile time.
    */
   value?: Constant;
+}
+export interface ReactiveReference {
+  name: ComputedRef<string>;
+  overloadId: ComputedRef<string[]>;
+  value?: ComputedRef<Constant>;
 }
 export interface ReferenceProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Reference";

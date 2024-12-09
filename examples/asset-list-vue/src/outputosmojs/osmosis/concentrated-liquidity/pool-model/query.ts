@@ -7,11 +7,16 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
 import { Decimal } from "@cosmjs/math";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity.v1beta1";
 /** =============================== UserPositions */
 export interface QueryUserPositionsRequest {
   address: string;
   poolId: bigint;
+}
+export interface ReactiveQueryUserPositionsRequest {
+  address: ComputedRef<string>;
+  poolId: ComputedRef<bigint>;
 }
 export interface QueryUserPositionsRequestProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.QueryUserPositionsRequest";
@@ -25,6 +30,9 @@ export interface QueryUserPositionsRequestSDKType {
 export interface QueryUserPositionsResponse {
   positions: PositionWithUnderlyingAssetBreakdown[];
 }
+export interface ReactiveQueryUserPositionsResponse {
+  positions: ComputedRef<PositionWithUnderlyingAssetBreakdown[]>;
+}
 export interface QueryUserPositionsResponseProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.QueryUserPositionsResponse";
   value: Uint8Array;
@@ -35,6 +43,9 @@ export interface QueryUserPositionsResponseSDKType {
 /** =============================== PositionById */
 export interface QueryPositionByIdRequest {
   positionId: bigint;
+}
+export interface ReactiveQueryPositionByIdRequest {
+  positionId: ComputedRef<bigint>;
 }
 export interface QueryPositionByIdRequestProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.QueryPositionByIdRequest";
@@ -47,6 +58,9 @@ export interface QueryPositionByIdRequestSDKType {
 export interface QueryPositionByIdResponse {
   position: PositionWithUnderlyingAssetBreakdown;
 }
+export interface ReactiveQueryPositionByIdResponse {
+  position: ComputedRef<PositionWithUnderlyingAssetBreakdown>;
+}
 export interface QueryPositionByIdResponseProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.QueryPositionByIdResponse";
   value: Uint8Array;
@@ -58,6 +72,9 @@ export interface QueryPositionByIdResponseSDKType {
 export interface QueryPoolsRequest {
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryPoolsRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryPoolsRequestProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.QueryPoolsRequest";
@@ -72,6 +89,10 @@ export interface QueryPoolsResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryPoolsResponse {
+  pools: ComputedRef<Any[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryPoolsResponseProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.QueryPoolsResponse";
   value: Uint8Array;
@@ -82,6 +103,7 @@ export interface QueryPoolsResponseSDKType {
 }
 /** =============================== ModuleParams */
 export interface QueryParamsRequest {}
+export interface ReactiveQueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.QueryParamsRequest";
   value: Uint8Array;
@@ -90,6 +112,9 @@ export interface QueryParamsRequestProtoMsg {
 export interface QueryParamsRequestSDKType {}
 export interface QueryParamsResponse {
   params: Params;
+}
+export interface ReactiveQueryParamsResponse {
+  params: ComputedRef<Params>;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.QueryParamsResponse";
@@ -101,6 +126,10 @@ export interface QueryParamsResponseSDKType {
 export interface TickLiquidityNet {
   liquidityNet: string;
   tickIndex: string;
+}
+export interface ReactiveTickLiquidityNet {
+  liquidityNet: ComputedRef<string>;
+  tickIndex: ComputedRef<string>;
 }
 export interface TickLiquidityNetProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.TickLiquidityNet";
@@ -114,6 +143,11 @@ export interface LiquidityDepthWithRange {
   liquidityAmount: string;
   lowerTick: string;
   upperTick: string;
+}
+export interface ReactiveLiquidityDepthWithRange {
+  liquidityAmount: ComputedRef<string>;
+  lowerTick: ComputedRef<string>;
+  upperTick: ComputedRef<string>;
 }
 export interface LiquidityDepthWithRangeProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.LiquidityDepthWithRange";
@@ -131,6 +165,12 @@ export interface QueryLiquidityNetInDirectionRequest {
   startTick?: string;
   boundTick?: string;
 }
+export interface ReactiveQueryLiquidityNetInDirectionRequest {
+  poolId: ComputedRef<bigint>;
+  tokenIn: ComputedRef<string>;
+  startTick?: ComputedRef<string>;
+  boundTick?: ComputedRef<string>;
+}
 export interface QueryLiquidityNetInDirectionRequestProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.QueryLiquidityNetInDirectionRequest";
   value: Uint8Array;
@@ -147,6 +187,11 @@ export interface QueryLiquidityNetInDirectionResponse {
   currentTick: bigint;
   currentLiquidity: string;
 }
+export interface ReactiveQueryLiquidityNetInDirectionResponse {
+  liquidityDepths: ComputedRef<TickLiquidityNet[]>;
+  currentTick: ComputedRef<bigint>;
+  currentLiquidity: ComputedRef<string>;
+}
 export interface QueryLiquidityNetInDirectionResponseProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.QueryLiquidityNetInDirectionResponse";
   value: Uint8Array;
@@ -160,6 +205,9 @@ export interface QueryLiquidityNetInDirectionResponseSDKType {
 export interface QueryTotalLiquidityForRangeRequest {
   poolId: bigint;
 }
+export interface ReactiveQueryTotalLiquidityForRangeRequest {
+  poolId: ComputedRef<bigint>;
+}
 export interface QueryTotalLiquidityForRangeRequestProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.QueryTotalLiquidityForRangeRequest";
   value: Uint8Array;
@@ -170,6 +218,9 @@ export interface QueryTotalLiquidityForRangeRequestSDKType {
 }
 export interface QueryTotalLiquidityForRangeResponse {
   liquidity: LiquidityDepthWithRange[];
+}
+export interface ReactiveQueryTotalLiquidityForRangeResponse {
+  liquidity: ComputedRef<LiquidityDepthWithRange[]>;
 }
 export interface QueryTotalLiquidityForRangeResponseProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.QueryTotalLiquidityForRangeResponse";
@@ -182,6 +233,9 @@ export interface QueryTotalLiquidityForRangeResponseSDKType {
 export interface QueryClaimableFeesRequest {
   positionId: bigint;
 }
+export interface ReactiveQueryClaimableFeesRequest {
+  positionId: ComputedRef<bigint>;
+}
 export interface QueryClaimableFeesRequestProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.QueryClaimableFeesRequest";
   value: Uint8Array;
@@ -192,6 +246,9 @@ export interface QueryClaimableFeesRequestSDKType {
 }
 export interface QueryClaimableFeesResponse {
   claimableFees: Coin[];
+}
+export interface ReactiveQueryClaimableFeesResponse {
+  claimableFees: ComputedRef<Coin[]>;
 }
 export interface QueryClaimableFeesResponseProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.QueryClaimableFeesResponse";

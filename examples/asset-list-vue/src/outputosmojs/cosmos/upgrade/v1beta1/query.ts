@@ -2,12 +2,14 @@ import { Plan, PlanSDKType, ModuleVersion, ModuleVersionSDKType } from "./upgrad
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet, bytesFromBase64, base64FromBytes } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.upgrade.v1beta1";
 /**
  * QueryCurrentPlanRequest is the request type for the Query/CurrentPlan RPC
  * method.
  */
 export interface QueryCurrentPlanRequest {}
+export interface ReactiveQueryCurrentPlanRequest {}
 export interface QueryCurrentPlanRequestProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.QueryCurrentPlanRequest";
   value: Uint8Array;
@@ -24,6 +26,9 @@ export interface QueryCurrentPlanRequestSDKType {}
 export interface QueryCurrentPlanResponse {
   /** plan is the current upgrade plan. */
   plan?: Plan;
+}
+export interface ReactiveQueryCurrentPlanResponse {
+  plan?: ComputedRef<Plan>;
 }
 export interface QueryCurrentPlanResponseProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.QueryCurrentPlanResponse";
@@ -44,6 +49,9 @@ export interface QueryAppliedPlanRequest {
   /** name is the name of the applied plan to query for. */
   name: string;
 }
+export interface ReactiveQueryAppliedPlanRequest {
+  name: ComputedRef<string>;
+}
 export interface QueryAppliedPlanRequestProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.QueryAppliedPlanRequest";
   value: Uint8Array;
@@ -62,6 +70,9 @@ export interface QueryAppliedPlanRequestSDKType {
 export interface QueryAppliedPlanResponse {
   /** height is the block height at which the plan was applied. */
   height: bigint;
+}
+export interface ReactiveQueryAppliedPlanResponse {
+  height: ComputedRef<bigint>;
 }
 export interface QueryAppliedPlanResponseProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.QueryAppliedPlanResponse";
@@ -86,6 +97,9 @@ export interface QueryUpgradedConsensusStateRequest {
    */
   lastHeight: bigint;
 }
+export interface ReactiveQueryUpgradedConsensusStateRequest {
+  lastHeight: ComputedRef<bigint>;
+}
 export interface QueryUpgradedConsensusStateRequestProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateRequest";
   value: Uint8Array;
@@ -106,6 +120,9 @@ export interface QueryUpgradedConsensusStateRequestSDKType {
 export interface QueryUpgradedConsensusStateResponse {
   /** Since: cosmos-sdk 0.43 */
   upgradedConsensusState: Uint8Array;
+}
+export interface ReactiveQueryUpgradedConsensusStateResponse {
+  upgradedConsensusState: ComputedRef<Uint8Array>;
 }
 export interface QueryUpgradedConsensusStateResponseProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateResponse";
@@ -133,6 +150,9 @@ export interface QueryModuleVersionsRequest {
    */
   moduleName: string;
 }
+export interface ReactiveQueryModuleVersionsRequest {
+  moduleName: ComputedRef<string>;
+}
 export interface QueryModuleVersionsRequestProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.QueryModuleVersionsRequest";
   value: Uint8Array;
@@ -156,6 +176,9 @@ export interface QueryModuleVersionsResponse {
   /** module_versions is a list of module names with their consensus versions. */
   moduleVersions: ModuleVersion[];
 }
+export interface ReactiveQueryModuleVersionsResponse {
+  moduleVersions: ComputedRef<ModuleVersion[]>;
+}
 export interface QueryModuleVersionsResponseProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.QueryModuleVersionsResponse";
   value: Uint8Array;
@@ -175,6 +198,7 @@ export interface QueryModuleVersionsResponseSDKType {
  * Since: cosmos-sdk 0.46
  */
 export interface QueryAuthorityRequest {}
+export interface ReactiveQueryAuthorityRequest {}
 export interface QueryAuthorityRequestProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.QueryAuthorityRequest";
   value: Uint8Array;
@@ -192,6 +216,9 @@ export interface QueryAuthorityRequestSDKType {}
  */
 export interface QueryAuthorityResponse {
   address: string;
+}
+export interface ReactiveQueryAuthorityResponse {
+  address: ComputedRef<string>;
 }
 export interface QueryAuthorityResponseProtoMsg {
   typeUrl: "/cosmos.upgrade.v1beta1.QueryAuthorityResponse";

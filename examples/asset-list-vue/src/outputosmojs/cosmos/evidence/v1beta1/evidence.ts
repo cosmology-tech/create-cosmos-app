@@ -2,6 +2,7 @@ import { Timestamp, TimestampSDKType } from "../../../google/protobuf/timestamp"
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.evidence.v1beta1";
 /**
  * Equivocation implements the Evidence interface and defines evidence of double
@@ -12,6 +13,12 @@ export interface Equivocation {
   time: Date;
   power: bigint;
   consensusAddress: string;
+}
+export interface ReactiveEquivocation {
+  height: ComputedRef<bigint>;
+  time: ComputedRef<Date>;
+  power: ComputedRef<bigint>;
+  consensusAddress: ComputedRef<string>;
 }
 export interface EquivocationProtoMsg {
   typeUrl: "/cosmos.evidence.v1beta1.Equivocation";

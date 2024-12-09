@@ -3,6 +3,7 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.auth.v1beta1";
 /** GenesisState defines the auth module's genesis state. */
 export interface GenesisState {
@@ -10,6 +11,10 @@ export interface GenesisState {
   params: Params;
   /** accounts are the accounts present at genesis. */
   accounts: Any[];
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  accounts: ComputedRef<Any[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/cosmos.auth.v1beta1.GenesisState";

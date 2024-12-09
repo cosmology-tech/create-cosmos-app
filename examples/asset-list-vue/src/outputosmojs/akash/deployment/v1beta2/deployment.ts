@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta2";
 /** State is an enum which refers to state of deployment */
 export enum Deployment_State {
@@ -48,6 +49,10 @@ export interface DeploymentID {
   owner: string;
   dseq: bigint;
 }
+export interface ReactiveDeploymentID {
+  owner: ComputedRef<string>;
+  dseq: ComputedRef<bigint>;
+}
 export interface DeploymentIDProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.DeploymentID";
   value: Uint8Array;
@@ -63,6 +68,12 @@ export interface Deployment {
   state: Deployment_State;
   version: Uint8Array;
   createdAt: bigint;
+}
+export interface ReactiveDeployment {
+  deploymentId: ComputedRef<DeploymentID>;
+  state: ComputedRef<Deployment_State>;
+  version: ComputedRef<Uint8Array>;
+  createdAt: ComputedRef<bigint>;
 }
 export interface DeploymentProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.Deployment";
@@ -80,6 +91,11 @@ export interface DeploymentFilters {
   owner: string;
   dseq: bigint;
   state: string;
+}
+export interface ReactiveDeploymentFilters {
+  owner: ComputedRef<string>;
+  dseq: ComputedRef<bigint>;
+  state: ComputedRef<string>;
 }
 export interface DeploymentFiltersProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.DeploymentFilters";

@@ -4,10 +4,15 @@ import { Validator, ValidatorSDKType } from "./validator";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "tendermint.types";
 export interface Evidence {
   duplicateVoteEvidence?: DuplicateVoteEvidence;
   lightClientAttackEvidence?: LightClientAttackEvidence;
+}
+export interface ReactiveEvidence {
+  duplicateVoteEvidence?: ComputedRef<DuplicateVoteEvidence>;
+  lightClientAttackEvidence?: ComputedRef<LightClientAttackEvidence>;
 }
 export interface EvidenceProtoMsg {
   typeUrl: "/tendermint.types.Evidence";
@@ -24,6 +29,13 @@ export interface DuplicateVoteEvidence {
   totalVotingPower: bigint;
   validatorPower: bigint;
   timestamp: Date;
+}
+export interface ReactiveDuplicateVoteEvidence {
+  voteA?: ComputedRef<Vote>;
+  voteB?: ComputedRef<Vote>;
+  totalVotingPower: ComputedRef<bigint>;
+  validatorPower: ComputedRef<bigint>;
+  timestamp: ComputedRef<Date>;
 }
 export interface DuplicateVoteEvidenceProtoMsg {
   typeUrl: "/tendermint.types.DuplicateVoteEvidence";
@@ -45,6 +57,13 @@ export interface LightClientAttackEvidence {
   totalVotingPower: bigint;
   timestamp: Date;
 }
+export interface ReactiveLightClientAttackEvidence {
+  conflictingBlock?: ComputedRef<LightBlock>;
+  commonHeight: ComputedRef<bigint>;
+  byzantineValidators: ComputedRef<Validator[]>;
+  totalVotingPower: ComputedRef<bigint>;
+  timestamp: ComputedRef<Date>;
+}
 export interface LightClientAttackEvidenceProtoMsg {
   typeUrl: "/tendermint.types.LightClientAttackEvidence";
   value: Uint8Array;
@@ -59,6 +78,9 @@ export interface LightClientAttackEvidenceSDKType {
 }
 export interface EvidenceList {
   evidence: Evidence[];
+}
+export interface ReactiveEvidenceList {
+  evidence: ComputedRef<Evidence[]>;
 }
 export interface EvidenceListProtoMsg {
   typeUrl: "/tendermint.types.EvidenceList";

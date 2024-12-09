@@ -2,6 +2,7 @@ import { GroupSpec, GroupSpecSDKType } from "../../deployment/v1beta2/groupspec"
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.market.v1beta2";
 /** State is an enum which refers to state of order */
 export enum Order_State {
@@ -58,6 +59,12 @@ export interface OrderID {
   gseq: number;
   oseq: number;
 }
+export interface ReactiveOrderID {
+  owner: ComputedRef<string>;
+  dseq: ComputedRef<bigint>;
+  gseq: ComputedRef<number>;
+  oseq: ComputedRef<number>;
+}
 export interface OrderIDProtoMsg {
   typeUrl: "/akash.market.v1beta2.OrderID";
   value: Uint8Array;
@@ -75,6 +82,12 @@ export interface Order {
   state: Order_State;
   spec: GroupSpec;
   createdAt: bigint;
+}
+export interface ReactiveOrder {
+  orderId: ComputedRef<OrderID>;
+  state: ComputedRef<Order_State>;
+  spec: ComputedRef<GroupSpec>;
+  createdAt: ComputedRef<bigint>;
 }
 export interface OrderProtoMsg {
   typeUrl: "/akash.market.v1beta2.Order";
@@ -94,6 +107,13 @@ export interface OrderFilters {
   gseq: number;
   oseq: number;
   state: string;
+}
+export interface ReactiveOrderFilters {
+  owner: ComputedRef<string>;
+  dseq: ComputedRef<bigint>;
+  gseq: ComputedRef<number>;
+  oseq: ComputedRef<number>;
+  state: ComputedRef<string>;
 }
 export interface OrderFiltersProtoMsg {
   typeUrl: "/akash.market.v1beta2.OrderFilters";

@@ -3,6 +3,7 @@ import { Any, AnySDKType } from "../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * `Distribution` contains summary statistics for a population of values. It
@@ -75,6 +76,15 @@ export interface Distribution {
   /** Must be in increasing order of `value` field. */
   exemplars: Distribution_Exemplar[];
 }
+export interface ReactiveDistribution {
+  count: ComputedRef<bigint>;
+  mean: ComputedRef<number>;
+  sumOfSquaredDeviation: ComputedRef<number>;
+  range?: ComputedRef<Distribution_Range>;
+  bucketOptions?: ComputedRef<Distribution_BucketOptions>;
+  bucketCounts: ComputedRef<bigint[]>;
+  exemplars: ComputedRef<Distribution_Exemplar[]>;
+}
 export interface DistributionProtoMsg {
   typeUrl: "/google.api.Distribution";
   value: Uint8Array;
@@ -111,6 +121,10 @@ export interface Distribution_Range {
   /** The maximum of the population values. */
   max: number;
 }
+export interface ReactiveDistribution_Range {
+  min: ComputedRef<number>;
+  max: ComputedRef<number>;
+}
 export interface Distribution_RangeProtoMsg {
   typeUrl: "/google.api.Range";
   value: Uint8Array;
@@ -144,6 +158,11 @@ export interface Distribution_BucketOptions {
   exponentialBuckets?: Distribution_BucketOptions_Exponential;
   /** The explicit buckets. */
   explicitBuckets?: Distribution_BucketOptions_Explicit;
+}
+export interface ReactiveDistribution_BucketOptions {
+  linearBuckets?: ComputedRef<Distribution_BucketOptions_Linear>;
+  exponentialBuckets?: ComputedRef<Distribution_BucketOptions_Exponential>;
+  explicitBuckets?: ComputedRef<Distribution_BucketOptions_Explicit>;
 }
 export interface Distribution_BucketOptionsProtoMsg {
   typeUrl: "/google.api.BucketOptions";
@@ -190,6 +209,11 @@ export interface Distribution_BucketOptions_Linear {
   /** Lower bound of the first bucket. */
   offset: number;
 }
+export interface ReactiveDistribution_BucketOptions_Linear {
+  numFiniteBuckets: ComputedRef<number>;
+  width: ComputedRef<number>;
+  offset: ComputedRef<number>;
+}
 export interface Distribution_BucketOptions_LinearProtoMsg {
   typeUrl: "/google.api.Linear";
   value: Uint8Array;
@@ -229,6 +253,11 @@ export interface Distribution_BucketOptions_Exponential {
   /** Must be greater than 0. */
   scale: number;
 }
+export interface ReactiveDistribution_BucketOptions_Exponential {
+  numFiniteBuckets: ComputedRef<number>;
+  growthFactor: ComputedRef<number>;
+  scale: ComputedRef<number>;
+}
 export interface Distribution_BucketOptions_ExponentialProtoMsg {
   typeUrl: "/google.api.Exponential";
   value: Uint8Array;
@@ -265,6 +294,9 @@ export interface Distribution_BucketOptions_ExponentialSDKType {
 export interface Distribution_BucketOptions_Explicit {
   /** The values must be monotonically increasing. */
   bounds: number[];
+}
+export interface ReactiveDistribution_BucketOptions_Explicit {
+  bounds: ComputedRef<number[]>;
 }
 export interface Distribution_BucketOptions_ExplicitProtoMsg {
   typeUrl: "/google.api.Explicit";
@@ -315,6 +347,11 @@ export interface Distribution_Exemplar {
    * single exemplar, and this is enforced by the system.
    */
   attachments: Any[];
+}
+export interface ReactiveDistribution_Exemplar {
+  value: ComputedRef<number>;
+  timestamp?: ComputedRef<Date>;
+  attachments: ComputedRef<Any[]>;
 }
 export interface Distribution_ExemplarProtoMsg {
   typeUrl: "/google.api.Exemplar";

@@ -6,12 +6,17 @@ import { NodeInfo, NodeInfoSDKType } from "../../../../tendermint/p2p/types";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.base.tendermint.v1beta1";
 /** GetValidatorSetByHeightRequest is the request type for the Query/GetValidatorSetByHeight RPC method. */
 export interface GetValidatorSetByHeightRequest {
   height: bigint;
   /** pagination defines an pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveGetValidatorSetByHeightRequest {
+  height: ComputedRef<bigint>;
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface GetValidatorSetByHeightRequestProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetValidatorSetByHeightRequest";
@@ -29,6 +34,11 @@ export interface GetValidatorSetByHeightResponse {
   /** pagination defines an pagination for the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveGetValidatorSetByHeightResponse {
+  blockHeight: ComputedRef<bigint>;
+  validators: ComputedRef<Validator[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface GetValidatorSetByHeightResponseProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetValidatorSetByHeightResponse";
   value: Uint8Array;
@@ -44,6 +54,9 @@ export interface GetLatestValidatorSetRequest {
   /** pagination defines an pagination for the request. */
   pagination?: PageRequest;
 }
+export interface ReactiveGetLatestValidatorSetRequest {
+  pagination?: ComputedRef<PageRequest>;
+}
 export interface GetLatestValidatorSetRequestProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetLatestValidatorSetRequest";
   value: Uint8Array;
@@ -58,6 +71,11 @@ export interface GetLatestValidatorSetResponse {
   validators: Validator[];
   /** pagination defines an pagination for the response. */
   pagination?: PageResponse;
+}
+export interface ReactiveGetLatestValidatorSetResponse {
+  blockHeight: ComputedRef<bigint>;
+  validators: ComputedRef<Validator[]>;
+  pagination?: ComputedRef<PageResponse>;
 }
 export interface GetLatestValidatorSetResponseProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetLatestValidatorSetResponse";
@@ -76,6 +94,12 @@ export interface Validator {
   votingPower: bigint;
   proposerPriority: bigint;
 }
+export interface ReactiveValidator {
+  address: ComputedRef<string>;
+  pubKey?: ComputedRef<Any>;
+  votingPower: ComputedRef<bigint>;
+  proposerPriority: ComputedRef<bigint>;
+}
 export interface ValidatorProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.Validator";
   value: Uint8Array;
@@ -91,6 +115,9 @@ export interface ValidatorSDKType {
 export interface GetBlockByHeightRequest {
   height: bigint;
 }
+export interface ReactiveGetBlockByHeightRequest {
+  height: ComputedRef<bigint>;
+}
 export interface GetBlockByHeightRequestProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetBlockByHeightRequest";
   value: Uint8Array;
@@ -104,6 +131,10 @@ export interface GetBlockByHeightResponse {
   blockId?: BlockID;
   block?: Block;
 }
+export interface ReactiveGetBlockByHeightResponse {
+  blockId?: ComputedRef<BlockID>;
+  block?: ComputedRef<Block>;
+}
 export interface GetBlockByHeightResponseProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetBlockByHeightResponse";
   value: Uint8Array;
@@ -115,6 +146,7 @@ export interface GetBlockByHeightResponseSDKType {
 }
 /** GetLatestBlockRequest is the request type for the Query/GetLatestBlock RPC method. */
 export interface GetLatestBlockRequest {}
+export interface ReactiveGetLatestBlockRequest {}
 export interface GetLatestBlockRequestProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetLatestBlockRequest";
   value: Uint8Array;
@@ -125,6 +157,10 @@ export interface GetLatestBlockRequestSDKType {}
 export interface GetLatestBlockResponse {
   blockId?: BlockID;
   block?: Block;
+}
+export interface ReactiveGetLatestBlockResponse {
+  blockId?: ComputedRef<BlockID>;
+  block?: ComputedRef<Block>;
 }
 export interface GetLatestBlockResponseProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetLatestBlockResponse";
@@ -137,6 +173,7 @@ export interface GetLatestBlockResponseSDKType {
 }
 /** GetSyncingRequest is the request type for the Query/GetSyncing RPC method. */
 export interface GetSyncingRequest {}
+export interface ReactiveGetSyncingRequest {}
 export interface GetSyncingRequestProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetSyncingRequest";
   value: Uint8Array;
@@ -146,6 +183,9 @@ export interface GetSyncingRequestSDKType {}
 /** GetSyncingResponse is the response type for the Query/GetSyncing RPC method. */
 export interface GetSyncingResponse {
   syncing: boolean;
+}
+export interface ReactiveGetSyncingResponse {
+  syncing: ComputedRef<boolean>;
 }
 export interface GetSyncingResponseProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetSyncingResponse";
@@ -157,6 +197,7 @@ export interface GetSyncingResponseSDKType {
 }
 /** GetNodeInfoRequest is the request type for the Query/GetNodeInfo RPC method. */
 export interface GetNodeInfoRequest {}
+export interface ReactiveGetNodeInfoRequest {}
 export interface GetNodeInfoRequestProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetNodeInfoRequest";
   value: Uint8Array;
@@ -167,6 +208,10 @@ export interface GetNodeInfoRequestSDKType {}
 export interface GetNodeInfoResponse {
   nodeInfo?: NodeInfo;
   applicationVersion?: VersionInfo;
+}
+export interface ReactiveGetNodeInfoResponse {
+  nodeInfo?: ComputedRef<NodeInfo>;
+  applicationVersion?: ComputedRef<VersionInfo>;
 }
 export interface GetNodeInfoResponseProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.GetNodeInfoResponse";
@@ -188,6 +233,16 @@ export interface VersionInfo {
   buildDeps: Module[];
   /** Since: cosmos-sdk 0.43 */
   cosmosSdkVersion: string;
+}
+export interface ReactiveVersionInfo {
+  name: ComputedRef<string>;
+  appName: ComputedRef<string>;
+  version: ComputedRef<string>;
+  gitCommit: ComputedRef<string>;
+  buildTags: ComputedRef<string>;
+  goVersion: ComputedRef<string>;
+  buildDeps: ComputedRef<Module[]>;
+  cosmosSdkVersion: ComputedRef<string>;
 }
 export interface VersionInfoProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.VersionInfo";
@@ -212,6 +267,11 @@ export interface Module {
   version: string;
   /** checksum */
   sum: string;
+}
+export interface ReactiveModule {
+  path: ComputedRef<string>;
+  version: ComputedRef<string>;
+  sum: ComputedRef<string>;
 }
 export interface ModuleProtoMsg {
   typeUrl: "/cosmos.base.tendermint.v1beta1.Module";

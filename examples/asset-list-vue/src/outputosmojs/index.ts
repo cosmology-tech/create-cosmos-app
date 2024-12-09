@@ -3,7 +3,7 @@
   * DO NOT MODIFY BY HAND. Instead, download the latest proto files for your chain
     * and run the transpile command or npm scripts command that is used to regenerate this bundle.
   */
-
+ 
 export * from "./akash/bundle";
 export * from "./akash/client";
 export * from "./ics23/bundle";
@@ -23,9 +23,9 @@ export * from "./osmosis/client";
 export * from "./tendermint/bundle";
 export * from "./amino/bundle";
 export * from "./capability/bundle";
+export * from "./extern";
+export * from "./vue-query";
 export * from "./json-safe";
 export * from "./varint";
 export * from "./utf8";
 export * from "./binary";
-export * from "./vue-query"
-export * from './hooks'

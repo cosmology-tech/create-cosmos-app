@@ -3,12 +3,18 @@ import { DecCoin, DecCoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta2";
 /** Resource stores unit, total count and price of resource */
 export interface Resource {
   resources: ResourceUnits;
   count: number;
   price: DecCoin;
+}
+export interface ReactiveResource {
+  resources: ComputedRef<ResourceUnits>;
+  count: ComputedRef<number>;
+  price: ComputedRef<DecCoin>;
 }
 export interface ResourceProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.Resource";

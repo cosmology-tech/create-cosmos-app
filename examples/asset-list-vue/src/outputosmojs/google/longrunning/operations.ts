@@ -4,6 +4,7 @@ import { Status, StatusSDKType } from "../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.longrunning";
 /**
  * This resource represents a long-running operation that is the result of a
@@ -43,6 +44,13 @@ export interface Operation {
    */
   response?: Any;
 }
+export interface ReactiveOperation {
+  name: ComputedRef<string>;
+  metadata?: ComputedRef<Any>;
+  done: ComputedRef<boolean>;
+  error?: ComputedRef<Status>;
+  response?: ComputedRef<Any>;
+}
 export interface OperationProtoMsg {
   typeUrl: "/google.longrunning.Operation";
   value: Uint8Array;
@@ -63,6 +71,9 @@ export interface GetOperationRequest {
   /** The name of the operation resource. */
   name: string;
 }
+export interface ReactiveGetOperationRequest {
+  name: ComputedRef<string>;
+}
 export interface GetOperationRequestProtoMsg {
   typeUrl: "/google.longrunning.GetOperationRequest";
   value: Uint8Array;
@@ -82,6 +93,12 @@ export interface ListOperationsRequest {
   /** The standard list page token. */
   pageToken: string;
 }
+export interface ReactiveListOperationsRequest {
+  name: ComputedRef<string>;
+  filter: ComputedRef<string>;
+  pageSize: ComputedRef<number>;
+  pageToken: ComputedRef<string>;
+}
 export interface ListOperationsRequestProtoMsg {
   typeUrl: "/google.longrunning.ListOperationsRequest";
   value: Uint8Array;
@@ -100,6 +117,10 @@ export interface ListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken: string;
 }
+export interface ReactiveListOperationsResponse {
+  operations: ComputedRef<Operation[]>;
+  nextPageToken: ComputedRef<string>;
+}
 export interface ListOperationsResponseProtoMsg {
   typeUrl: "/google.longrunning.ListOperationsResponse";
   value: Uint8Array;
@@ -114,6 +135,9 @@ export interface CancelOperationRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
 }
+export interface ReactiveCancelOperationRequest {
+  name: ComputedRef<string>;
+}
 export interface CancelOperationRequestProtoMsg {
   typeUrl: "/google.longrunning.CancelOperationRequest";
   value: Uint8Array;
@@ -126,6 +150,9 @@ export interface CancelOperationRequestSDKType {
 export interface DeleteOperationRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
+}
+export interface ReactiveDeleteOperationRequest {
+  name: ComputedRef<string>;
 }
 export interface DeleteOperationRequestProtoMsg {
   typeUrl: "/google.longrunning.DeleteOperationRequest";
@@ -145,6 +172,10 @@ export interface WaitOperationRequest {
    * If RPC context deadline is also specified, the shorter one will be used.
    */
   timeout?: Duration;
+}
+export interface ReactiveWaitOperationRequest {
+  name: ComputedRef<string>;
+  timeout?: ComputedRef<Duration>;
 }
 export interface WaitOperationRequestProtoMsg {
   typeUrl: "/google.longrunning.WaitOperationRequest";
@@ -190,6 +221,10 @@ export interface OperationInfo {
    * Note: Altering this value constitutes a breaking change.
    */
   metadataType: string;
+}
+export interface ReactiveOperationInfo {
+  responseType: ComputedRef<string>;
+  metadataType: ComputedRef<string>;
 }
 export interface OperationInfoProtoMsg {
   typeUrl: "/google.longrunning.OperationInfo";

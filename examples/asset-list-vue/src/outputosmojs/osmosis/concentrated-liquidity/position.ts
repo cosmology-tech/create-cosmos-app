@@ -4,6 +4,7 @@ import { BinaryReader, BinaryWriter } from "../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../helpers";
 import { Decimal } from "@cosmjs/math";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity.v1beta1";
 /**
  * Position contains position's id, address, pool id, lower tick, upper tick
@@ -17,6 +18,15 @@ export interface Position {
   upperTick: bigint;
   joinTime: Date;
   liquidity: string;
+}
+export interface ReactivePosition {
+  positionId: ComputedRef<bigint>;
+  address: ComputedRef<string>;
+  poolId: ComputedRef<bigint>;
+  lowerTick: ComputedRef<bigint>;
+  upperTick: ComputedRef<bigint>;
+  joinTime: ComputedRef<Date>;
+  liquidity: ComputedRef<string>;
 }
 export interface PositionProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.Position";
@@ -39,6 +49,11 @@ export interface PositionWithUnderlyingAssetBreakdown {
   position: Position;
   asset0: Coin;
   asset1: Coin;
+}
+export interface ReactivePositionWithUnderlyingAssetBreakdown {
+  position: ComputedRef<Position>;
+  asset0: ComputedRef<Coin>;
+  asset1: ComputedRef<Coin>;
 }
 export interface PositionWithUnderlyingAssetBreakdownProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.PositionWithUnderlyingAssetBreakdown";

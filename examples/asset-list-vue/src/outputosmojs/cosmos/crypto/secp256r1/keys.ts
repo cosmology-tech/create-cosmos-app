@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.crypto.secp256r1";
 /** PubKey defines a secp256r1 ECDSA public key. */
 export interface PubKey {
@@ -9,6 +10,9 @@ export interface PubKey {
    * 4.3.6 of ANSI X9.62: https://webstore.ansi.org/standards/ascx9/ansix9621998
    */
   key: Uint8Array;
+}
+export interface ReactivePubKey {
+  key: ComputedRef<Uint8Array>;
 }
 export interface PubKeyProtoMsg {
   typeUrl: "/cosmos.crypto.secp256r1.PubKey";
@@ -22,6 +26,9 @@ export interface PubKeySDKType {
 export interface PrivKey {
   /** secret number serialized using big-endian encoding */
   secret: Uint8Array;
+}
+export interface ReactivePrivKey {
+  secret: ComputedRef<Uint8Array>;
 }
 export interface PrivKeyProtoMsg {
   typeUrl: "/cosmos.crypto.secp256r1.PrivKey";

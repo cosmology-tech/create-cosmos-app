@@ -3,6 +3,7 @@ import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
 import { Decimal } from "@cosmjs/math";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.superfluid";
 /**
  * SuperfluidAssetType indicates whether the superfluid asset is
@@ -48,6 +49,10 @@ export interface SuperfluidAsset {
    */
   assetType: SuperfluidAssetType;
 }
+export interface ReactiveSuperfluidAsset {
+  denom: ComputedRef<string>;
+  assetType: ComputedRef<SuperfluidAssetType>;
+}
 export interface SuperfluidAssetProtoMsg {
   typeUrl: "/osmosis.superfluid.SuperfluidAsset";
   value: Uint8Array;
@@ -68,6 +73,11 @@ export interface SuperfluidIntermediaryAccount {
   valAddr: string;
   /** perpetual gauge for rewards distribution */
   gaugeId: bigint;
+}
+export interface ReactiveSuperfluidIntermediaryAccount {
+  denom: ComputedRef<string>;
+  valAddr: ComputedRef<string>;
+  gaugeId: ComputedRef<bigint>;
 }
 export interface SuperfluidIntermediaryAccountProtoMsg {
   typeUrl: "/osmosis.superfluid.SuperfluidIntermediaryAccount";
@@ -98,6 +108,11 @@ export interface OsmoEquivalentMultiplierRecord {
   denom: string;
   multiplier: string;
 }
+export interface ReactiveOsmoEquivalentMultiplierRecord {
+  epochNumber: ComputedRef<bigint>;
+  denom: ComputedRef<string>;
+  multiplier: ComputedRef<string>;
+}
 export interface OsmoEquivalentMultiplierRecordProtoMsg {
   typeUrl: "/osmosis.superfluid.OsmoEquivalentMultiplierRecord";
   value: Uint8Array;
@@ -126,6 +141,12 @@ export interface SuperfluidDelegationRecord {
   delegationAmount: Coin;
   equivalentStakedAmount?: Coin;
 }
+export interface ReactiveSuperfluidDelegationRecord {
+  delegatorAddress: ComputedRef<string>;
+  validatorAddress: ComputedRef<string>;
+  delegationAmount: ComputedRef<Coin>;
+  equivalentStakedAmount?: ComputedRef<Coin>;
+}
 export interface SuperfluidDelegationRecordProtoMsg {
   typeUrl: "/osmosis.superfluid.SuperfluidDelegationRecord";
   value: Uint8Array;
@@ -149,6 +170,10 @@ export interface LockIdIntermediaryAccountConnection {
   lockId: bigint;
   intermediaryAccount: string;
 }
+export interface ReactiveLockIdIntermediaryAccountConnection {
+  lockId: ComputedRef<bigint>;
+  intermediaryAccount: ComputedRef<string>;
+}
 export interface LockIdIntermediaryAccountConnectionProtoMsg {
   typeUrl: "/osmosis.superfluid.LockIdIntermediaryAccountConnection";
   value: Uint8Array;
@@ -164,6 +189,9 @@ export interface LockIdIntermediaryAccountConnectionSDKType {
 }
 export interface UnpoolWhitelistedPools {
   ids: bigint[];
+}
+export interface ReactiveUnpoolWhitelistedPools {
+  ids: ComputedRef<bigint[]>;
 }
 export interface UnpoolWhitelistedPoolsProtoMsg {
   typeUrl: "/osmosis.superfluid.UnpoolWhitelistedPools";

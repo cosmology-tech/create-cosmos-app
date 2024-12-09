@@ -2,11 +2,17 @@ import { Timestamp, TimestampSDKType } from "../../google/protobuf/timestamp";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes, toTimestamp, fromTimestamp } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "tendermint.p2p";
 export interface ProtocolVersion {
   p2p: bigint;
   block: bigint;
   app: bigint;
+}
+export interface ReactiveProtocolVersion {
+  p2p: ComputedRef<bigint>;
+  block: ComputedRef<bigint>;
+  app: ComputedRef<bigint>;
 }
 export interface ProtocolVersionProtoMsg {
   typeUrl: "/tendermint.p2p.ProtocolVersion";
@@ -27,6 +33,16 @@ export interface NodeInfo {
   moniker: string;
   other: NodeInfoOther;
 }
+export interface ReactiveNodeInfo {
+  protocolVersion: ComputedRef<ProtocolVersion>;
+  nodeId: ComputedRef<string>;
+  listenAddr: ComputedRef<string>;
+  network: ComputedRef<string>;
+  version: ComputedRef<string>;
+  channels: ComputedRef<Uint8Array>;
+  moniker: ComputedRef<string>;
+  other: ComputedRef<NodeInfoOther>;
+}
 export interface NodeInfoProtoMsg {
   typeUrl: "/tendermint.p2p.NodeInfo";
   value: Uint8Array;
@@ -45,6 +61,10 @@ export interface NodeInfoOther {
   txIndex: string;
   rpcAddress: string;
 }
+export interface ReactiveNodeInfoOther {
+  txIndex: ComputedRef<string>;
+  rpcAddress: ComputedRef<string>;
+}
 export interface NodeInfoOtherProtoMsg {
   typeUrl: "/tendermint.p2p.NodeInfoOther";
   value: Uint8Array;
@@ -57,6 +77,11 @@ export interface PeerInfo {
   id: string;
   addressInfo: PeerAddressInfo[];
   lastConnected?: Date;
+}
+export interface ReactivePeerInfo {
+  id: ComputedRef<string>;
+  addressInfo: ComputedRef<PeerAddressInfo[]>;
+  lastConnected?: ComputedRef<Date>;
 }
 export interface PeerInfoProtoMsg {
   typeUrl: "/tendermint.p2p.PeerInfo";
@@ -72,6 +97,12 @@ export interface PeerAddressInfo {
   lastDialSuccess?: Date;
   lastDialFailure?: Date;
   dialFailures: number;
+}
+export interface ReactivePeerAddressInfo {
+  address: ComputedRef<string>;
+  lastDialSuccess?: ComputedRef<Date>;
+  lastDialFailure?: ComputedRef<Date>;
+  dialFailures: ComputedRef<number>;
 }
 export interface PeerAddressInfoProtoMsg {
   typeUrl: "/tendermint.p2p.PeerAddressInfo";

@@ -2,6 +2,7 @@ import { SuperfluidAsset, SuperfluidAssetSDKType } from "../superfluid";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.superfluid.v1beta1";
 /**
  * SetSuperfluidAssetsProposal is a gov Content type to update the superfluid
@@ -11,6 +12,11 @@ export interface SetSuperfluidAssetsProposal {
   title: string;
   description: string;
   assets: SuperfluidAsset[];
+}
+export interface ReactiveSetSuperfluidAssetsProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  assets: ComputedRef<SuperfluidAsset[]>;
 }
 export interface SetSuperfluidAssetsProposalProtoMsg {
   typeUrl: "/osmosis.superfluid.v1beta1.SetSuperfluidAssetsProposal";
@@ -34,6 +40,11 @@ export interface RemoveSuperfluidAssetsProposal {
   description: string;
   superfluidAssetDenoms: string[];
 }
+export interface ReactiveRemoveSuperfluidAssetsProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  superfluidAssetDenoms: ComputedRef<string[]>;
+}
 export interface RemoveSuperfluidAssetsProposalProtoMsg {
   typeUrl: "/osmosis.superfluid.v1beta1.RemoveSuperfluidAssetsProposal";
   value: Uint8Array;
@@ -56,6 +67,12 @@ export interface UpdateUnpoolWhiteListProposal {
   description: string;
   ids: bigint[];
   isOverwrite: boolean;
+}
+export interface ReactiveUpdateUnpoolWhiteListProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  ids: ComputedRef<bigint[]>;
+  isOverwrite: ComputedRef<boolean>;
 }
 export interface UpdateUnpoolWhiteListProposalProtoMsg {
   typeUrl: "/osmosis.superfluid.v1beta1.UpdateUnpoolWhiteListProposal";

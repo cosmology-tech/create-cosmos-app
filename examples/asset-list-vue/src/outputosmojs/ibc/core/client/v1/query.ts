@@ -4,6 +4,7 @@ import { Height, HeightSDKType, IdentifiedClientState, IdentifiedClientStateSDKT
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.client.v1";
 /**
  * QueryClientStateRequest is the request type for the Query/ClientState RPC
@@ -12,6 +13,9 @@ export const protobufPackage = "ibc.core.client.v1";
 export interface QueryClientStateRequest {
   /** client state unique identifier */
   clientId: string;
+}
+export interface ReactiveQueryClientStateRequest {
+  clientId: ComputedRef<string>;
 }
 export interface QueryClientStateRequestProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryClientStateRequest";
@@ -37,6 +41,11 @@ export interface QueryClientStateResponse {
   /** height at which the proof was retrieved */
   proofHeight: Height;
 }
+export interface ReactiveQueryClientStateResponse {
+  clientState?: ComputedRef<Any>;
+  proof: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+}
 export interface QueryClientStateResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryClientStateResponse";
   value: Uint8Array;
@@ -59,6 +68,9 @@ export interface QueryClientStatesRequest {
   /** pagination request */
   pagination?: PageRequest;
 }
+export interface ReactiveQueryClientStatesRequest {
+  pagination?: ComputedRef<PageRequest>;
+}
 export interface QueryClientStatesRequestProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryClientStatesRequest";
   value: Uint8Array;
@@ -79,6 +91,10 @@ export interface QueryClientStatesResponse {
   clientStates: IdentifiedClientState[];
   /** pagination response */
   pagination?: PageResponse;
+}
+export interface ReactiveQueryClientStatesResponse {
+  clientStates: ComputedRef<IdentifiedClientState[]>;
+  pagination?: ComputedRef<PageResponse>;
 }
 export interface QueryClientStatesResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryClientStatesResponse";
@@ -110,6 +126,12 @@ export interface QueryConsensusStateRequest {
    */
   latestHeight: boolean;
 }
+export interface ReactiveQueryConsensusStateRequest {
+  clientId: ComputedRef<string>;
+  revisionNumber: ComputedRef<bigint>;
+  revisionHeight: ComputedRef<bigint>;
+  latestHeight: ComputedRef<boolean>;
+}
 export interface QueryConsensusStateRequestProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryConsensusStateRequest";
   value: Uint8Array;
@@ -137,6 +159,11 @@ export interface QueryConsensusStateResponse {
   /** height at which the proof was retrieved */
   proofHeight: Height;
 }
+export interface ReactiveQueryConsensusStateResponse {
+  consensusState?: ComputedRef<Any>;
+  proof: ComputedRef<Uint8Array>;
+  proofHeight: ComputedRef<Height>;
+}
 export interface QueryConsensusStateResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryConsensusStateResponse";
   value: Uint8Array;
@@ -160,6 +187,10 @@ export interface QueryConsensusStatesRequest {
   /** pagination request */
   pagination?: PageRequest;
 }
+export interface ReactiveQueryConsensusStatesRequest {
+  clientId: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
+}
 export interface QueryConsensusStatesRequestProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryConsensusStatesRequest";
   value: Uint8Array;
@@ -182,6 +213,10 @@ export interface QueryConsensusStatesResponse {
   /** pagination response */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryConsensusStatesResponse {
+  consensusStates: ComputedRef<ConsensusStateWithHeight[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryConsensusStatesResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryConsensusStatesResponse";
   value: Uint8Array;
@@ -202,6 +237,9 @@ export interface QueryClientStatusRequest {
   /** client unique identifier */
   clientId: string;
 }
+export interface ReactiveQueryClientStatusRequest {
+  clientId: ComputedRef<string>;
+}
 export interface QueryClientStatusRequestProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryClientStatusRequest";
   value: Uint8Array;
@@ -220,6 +258,9 @@ export interface QueryClientStatusRequestSDKType {
 export interface QueryClientStatusResponse {
   status: string;
 }
+export interface ReactiveQueryClientStatusResponse {
+  status: ComputedRef<string>;
+}
 export interface QueryClientStatusResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryClientStatusResponse";
   value: Uint8Array;
@@ -236,6 +277,7 @@ export interface QueryClientStatusResponseSDKType {
  * method.
  */
 export interface QueryClientParamsRequest {}
+export interface ReactiveQueryClientParamsRequest {}
 export interface QueryClientParamsRequestProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryClientParamsRequest";
   value: Uint8Array;
@@ -253,6 +295,9 @@ export interface QueryClientParamsResponse {
   /** params defines the parameters of the module. */
   params?: Params;
 }
+export interface ReactiveQueryClientParamsResponse {
+  params?: ComputedRef<Params>;
+}
 export interface QueryClientParamsResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryClientParamsResponse";
   value: Uint8Array;
@@ -269,6 +314,7 @@ export interface QueryClientParamsResponseSDKType {
  * Query/UpgradedClientState RPC method
  */
 export interface QueryUpgradedClientStateRequest {}
+export interface ReactiveQueryUpgradedClientStateRequest {}
 export interface QueryUpgradedClientStateRequestProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryUpgradedClientStateRequest";
   value: Uint8Array;
@@ -286,6 +332,9 @@ export interface QueryUpgradedClientStateResponse {
   /** client state associated with the request identifier */
   upgradedClientState?: Any;
 }
+export interface ReactiveQueryUpgradedClientStateResponse {
+  upgradedClientState?: ComputedRef<Any>;
+}
 export interface QueryUpgradedClientStateResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryUpgradedClientStateResponse";
   value: Uint8Array;
@@ -302,6 +351,7 @@ export interface QueryUpgradedClientStateResponseSDKType {
  * Query/UpgradedConsensusState RPC method
  */
 export interface QueryUpgradedConsensusStateRequest {}
+export interface ReactiveQueryUpgradedConsensusStateRequest {}
 export interface QueryUpgradedConsensusStateRequestProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryUpgradedConsensusStateRequest";
   value: Uint8Array;
@@ -318,6 +368,9 @@ export interface QueryUpgradedConsensusStateRequestSDKType {}
 export interface QueryUpgradedConsensusStateResponse {
   /** Consensus state associated with the request identifier */
   upgradedConsensusState?: Any;
+}
+export interface ReactiveQueryUpgradedConsensusStateResponse {
+  upgradedConsensusState?: ComputedRef<Any>;
 }
 export interface QueryUpgradedConsensusStateResponseProtoMsg {
   typeUrl: "/ibc.core.client.v1.QueryUpgradedConsensusStateResponse";

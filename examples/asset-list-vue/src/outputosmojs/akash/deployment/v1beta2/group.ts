@@ -3,6 +3,7 @@ import { GroupSpec, GroupSpecSDKType } from "./groupspec";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta2";
 /** State is an enum which refers to state of group */
 export enum Group_State {
@@ -65,6 +66,12 @@ export interface Group {
   state: Group_State;
   groupSpec: GroupSpec;
   createdAt: bigint;
+}
+export interface ReactiveGroup {
+  groupId: ComputedRef<GroupID>;
+  state: ComputedRef<Group_State>;
+  groupSpec: ComputedRef<GroupSpec>;
+  createdAt: ComputedRef<bigint>;
 }
 export interface GroupProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.Group";

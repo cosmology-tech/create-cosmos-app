@@ -1,10 +1,15 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, isObject } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.expr.v1beta1";
 export interface SourceInfo_PositionsEntry {
   key: number;
   value: number;
+}
+export interface ReactiveSourceInfo_PositionsEntry {
+  key: ComputedRef<number>;
+  value: ComputedRef<number>;
 }
 export interface SourceInfo_PositionsEntryProtoMsg {
   typeUrl: string;
@@ -40,6 +45,13 @@ export interface SourceInfo {
     [key: number]: number;
   };
 }
+export interface ReactiveSourceInfo {
+  location: ComputedRef<string>;
+  lineOffsets: ComputedRef<number[]>;
+  positions: ComputedRef<{
+    [key: number]: number;
+  }>;
+}
 export interface SourceInfoProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.SourceInfo";
   value: Uint8Array;
@@ -68,6 +80,12 @@ export interface SourcePosition {
    * where the issue occurs.  Only meaningful if line is nonzer..
    */
   column: number;
+}
+export interface ReactiveSourcePosition {
+  location: ComputedRef<string>;
+  offset: ComputedRef<number>;
+  line: ComputedRef<number>;
+  column: ComputedRef<number>;
 }
 export interface SourcePositionProtoMsg {
   typeUrl: "/google.api.expr.v1beta1.SourcePosition";

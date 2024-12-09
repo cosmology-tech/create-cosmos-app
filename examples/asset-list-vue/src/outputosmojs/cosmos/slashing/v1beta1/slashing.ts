@@ -3,6 +3,7 @@ import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.slashing.v1beta1";
 /**
  * ValidatorSigningInfo defines a validator's signing info for monitoring their
@@ -31,6 +32,14 @@ export interface ValidatorSigningInfo {
    */
   missedBlocksCounter: bigint;
 }
+export interface ReactiveValidatorSigningInfo {
+  address: ComputedRef<string>;
+  startHeight: ComputedRef<bigint>;
+  indexOffset: ComputedRef<bigint>;
+  jailedUntil: ComputedRef<Date>;
+  tombstoned: ComputedRef<boolean>;
+  missedBlocksCounter: ComputedRef<bigint>;
+}
 export interface ValidatorSigningInfoProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.ValidatorSigningInfo";
   value: Uint8Array;
@@ -54,6 +63,13 @@ export interface Params {
   downtimeJailDuration: Duration;
   slashFractionDoubleSign: Uint8Array;
   slashFractionDowntime: Uint8Array;
+}
+export interface ReactiveParams {
+  signedBlocksWindow: ComputedRef<bigint>;
+  minSignedPerWindow: ComputedRef<Uint8Array>;
+  downtimeJailDuration: ComputedRef<Duration>;
+  slashFractionDoubleSign: ComputedRef<Uint8Array>;
+  slashFractionDowntime: ComputedRef<Uint8Array>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.Params";

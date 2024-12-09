@@ -2,6 +2,7 @@ import { Minter, MinterSDKType, Params, ParamsSDKType } from "./mint";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.mint.v1beta1";
 /** GenesisState defines the mint module's genesis state. */
 export interface GenesisState {
@@ -9,6 +10,10 @@ export interface GenesisState {
   minter: Minter;
   /** params defines all the paramaters of the module. */
   params: Params;
+}
+export interface ReactiveGenesisState {
+  minter: ComputedRef<Minter>;
+  params: ComputedRef<Params>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/cosmos.mint.v1beta1.GenesisState";

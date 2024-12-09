@@ -2,6 +2,7 @@ import { Value, ValueSDKType } from "./value";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { JsonSafe } from "../../../../json-safe";
 import { DeepPartial, isSet } from "../../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.expr.v1alpha1";
 /**
  * Values of intermediate expressions produced when evaluating expression.
@@ -25,6 +26,10 @@ export interface Explain {
    */
   exprSteps: Explain_ExprStep[];
 }
+export interface ReactiveExplain {
+  values: ComputedRef<Value[]>;
+  exprSteps: ComputedRef<Explain_ExprStep[]>;
+}
 export interface ExplainProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.Explain";
   value: Uint8Array;
@@ -44,6 +49,10 @@ export interface Explain_ExprStep {
   id: bigint;
   /** Index of the value in the values list. */
   valueIndex: number;
+}
+export interface ReactiveExplain_ExprStep {
+  id: ComputedRef<bigint>;
+  valueIndex: ComputedRef<number>;
 }
 export interface Explain_ExprStepProtoMsg {
   typeUrl: "/google.api.expr.v1alpha1.ExprStep";

@@ -1,10 +1,14 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.base.v1beta1";
 /** Unit stores cpu, memory and storage metrics */
 export interface ResourceValue {
   val: Uint8Array;
+}
+export interface ReactiveResourceValue {
+  val: ComputedRef<Uint8Array>;
 }
 export interface ResourceValueProtoMsg {
   typeUrl: "/akash.base.v1beta1.ResourceValue";

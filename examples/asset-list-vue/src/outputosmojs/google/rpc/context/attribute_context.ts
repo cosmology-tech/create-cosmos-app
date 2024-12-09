@@ -5,6 +5,7 @@ import { Any, AnySDKType } from "../../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, isObject, toTimestamp, fromTimestamp } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.rpc.context";
 /**
  * This message defines the standard attribute vocabulary for Google APIs.
@@ -59,6 +60,16 @@ export interface AttributeContext {
   /** Supports extensions for advanced use cases, such as logs and metrics. */
   extensions: Any[];
 }
+export interface ReactiveAttributeContext {
+  origin?: ComputedRef<AttributeContext_Peer>;
+  source?: ComputedRef<AttributeContext_Peer>;
+  destination?: ComputedRef<AttributeContext_Peer>;
+  request?: ComputedRef<AttributeContext_Request>;
+  response?: ComputedRef<AttributeContext_Response>;
+  resource?: ComputedRef<AttributeContext_Resource>;
+  api?: ComputedRef<AttributeContext_Api>;
+  extensions: ComputedRef<Any[]>;
+}
 export interface AttributeContextProtoMsg {
   typeUrl: "/google.rpc.context.AttributeContext";
   value: Uint8Array;
@@ -96,6 +107,10 @@ export interface AttributeContext_Peer_LabelsEntry {
   key: string;
   value: string;
 }
+export interface ReactiveAttributeContext_Peer_LabelsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
+}
 export interface AttributeContext_Peer_LabelsEntryProtoMsg {
   typeUrl: string;
   value: Uint8Array;
@@ -131,6 +146,15 @@ export interface AttributeContext_Peer {
    * physical location where this peer is running.
    */
   regionCode: string;
+}
+export interface ReactiveAttributeContext_Peer {
+  ip: ComputedRef<string>;
+  port: ComputedRef<bigint>;
+  labels: ComputedRef<{
+    [key: string]: string;
+  }>;
+  principal: ComputedRef<string>;
+  regionCode: ComputedRef<string>;
 }
 export interface AttributeContext_PeerProtoMsg {
   typeUrl: "/google.rpc.context.Peer";
@@ -179,6 +203,12 @@ export interface AttributeContext_Api {
    * "v1alpha1".
    */
   version: string;
+}
+export interface ReactiveAttributeContext_Api {
+  service: ComputedRef<string>;
+  operation: ComputedRef<string>;
+  protocol: ComputedRef<string>;
+  version: ComputedRef<string>;
 }
 export interface AttributeContext_ApiProtoMsg {
   typeUrl: "/google.rpc.context.Api";
@@ -262,6 +292,13 @@ export interface AttributeContext_Auth {
    */
   accessLevels: string[];
 }
+export interface ReactiveAttributeContext_Auth {
+  principal: ComputedRef<string>;
+  audiences: ComputedRef<string[]>;
+  presenter: ComputedRef<string>;
+  claims?: ComputedRef<Struct>;
+  accessLevels: ComputedRef<string[]>;
+}
 export interface AttributeContext_AuthProtoMsg {
   typeUrl: "/google.rpc.context.Auth";
   value: Uint8Array;
@@ -281,6 +318,10 @@ export interface AttributeContext_AuthSDKType {
 export interface AttributeContext_Request_HeadersEntry {
   key: string;
   value: string;
+}
+export interface ReactiveAttributeContext_Request_HeadersEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface AttributeContext_Request_HeadersEntryProtoMsg {
   typeUrl: string;
@@ -348,6 +389,22 @@ export interface AttributeContext_Request {
    */
   auth?: AttributeContext_Auth;
 }
+export interface ReactiveAttributeContext_Request {
+  id: ComputedRef<string>;
+  method: ComputedRef<string>;
+  headers: ComputedRef<{
+    [key: string]: string;
+  }>;
+  path: ComputedRef<string>;
+  host: ComputedRef<string>;
+  scheme: ComputedRef<string>;
+  query: ComputedRef<string>;
+  time?: ComputedRef<Date>;
+  size: ComputedRef<bigint>;
+  protocol: ComputedRef<string>;
+  reason: ComputedRef<string>;
+  auth?: ComputedRef<AttributeContext_Auth>;
+}
 export interface AttributeContext_RequestProtoMsg {
   typeUrl: "/google.rpc.context.Request";
   value: Uint8Array;
@@ -376,6 +433,10 @@ export interface AttributeContext_RequestSDKType {
 export interface AttributeContext_Response_HeadersEntry {
   key: string;
   value: string;
+}
+export interface ReactiveAttributeContext_Response_HeadersEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface AttributeContext_Response_HeadersEntryProtoMsg {
   typeUrl: string;
@@ -415,6 +476,15 @@ export interface AttributeContext_Response {
    */
   backendLatency?: Duration;
 }
+export interface ReactiveAttributeContext_Response {
+  code: ComputedRef<bigint>;
+  size: ComputedRef<bigint>;
+  headers: ComputedRef<{
+    [key: string]: string;
+  }>;
+  time?: ComputedRef<Date>;
+  backendLatency?: ComputedRef<Duration>;
+}
 export interface AttributeContext_ResponseProtoMsg {
   typeUrl: "/google.rpc.context.Response";
   value: Uint8Array;
@@ -436,6 +506,10 @@ export interface AttributeContext_Resource_LabelsEntry {
   key: string;
   value: string;
 }
+export interface ReactiveAttributeContext_Resource_LabelsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
+}
 export interface AttributeContext_Resource_LabelsEntryProtoMsg {
   typeUrl: string;
   value: Uint8Array;
@@ -447,6 +521,10 @@ export interface AttributeContext_Resource_LabelsEntrySDKType {
 export interface AttributeContext_Resource_AnnotationsEntry {
   key: string;
   value: string;
+}
+export interface ReactiveAttributeContext_Resource_AnnotationsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface AttributeContext_Resource_AnnotationsEntryProtoMsg {
   typeUrl: string;
@@ -550,6 +628,24 @@ export interface AttributeContext_Resource {
    * `cloud.googleapis.com/location` label used by some Google Cloud APIs.
    */
   location: string;
+}
+export interface ReactiveAttributeContext_Resource {
+  service: ComputedRef<string>;
+  name: ComputedRef<string>;
+  type: ComputedRef<string>;
+  labels: ComputedRef<{
+    [key: string]: string;
+  }>;
+  uid: ComputedRef<string>;
+  annotations: ComputedRef<{
+    [key: string]: string;
+  }>;
+  displayName: ComputedRef<string>;
+  createTime?: ComputedRef<Date>;
+  updateTime?: ComputedRef<Date>;
+  deleteTime?: ComputedRef<Date>;
+  etag: ComputedRef<string>;
+  location: ComputedRef<string>;
 }
 export interface AttributeContext_ResourceProtoMsg {
   typeUrl: "/google.rpc.context.Resource";

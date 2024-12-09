@@ -2,11 +2,17 @@ import { Coin, CoinSDKType } from "../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.superfluid";
 export interface MsgSuperfluidDelegate {
   sender: string;
   lockId: bigint;
   valAddr: string;
+}
+export interface ReactiveMsgSuperfluidDelegate {
+  sender: ComputedRef<string>;
+  lockId: ComputedRef<bigint>;
+  valAddr: ComputedRef<string>;
 }
 export interface MsgSuperfluidDelegateProtoMsg {
   typeUrl: "/osmosis.superfluid.MsgSuperfluidDelegate";
@@ -18,6 +24,7 @@ export interface MsgSuperfluidDelegateSDKType {
   val_addr: string;
 }
 export interface MsgSuperfluidDelegateResponse {}
+export interface ReactiveMsgSuperfluidDelegateResponse {}
 export interface MsgSuperfluidDelegateResponseProtoMsg {
   typeUrl: "/osmosis.superfluid.MsgSuperfluidDelegateResponse";
   value: Uint8Array;
@@ -26,6 +33,10 @@ export interface MsgSuperfluidDelegateResponseSDKType {}
 export interface MsgSuperfluidUndelegate {
   sender: string;
   lockId: bigint;
+}
+export interface ReactiveMsgSuperfluidUndelegate {
+  sender: ComputedRef<string>;
+  lockId: ComputedRef<bigint>;
 }
 export interface MsgSuperfluidUndelegateProtoMsg {
   typeUrl: "/osmosis.superfluid.MsgSuperfluidUndelegate";
@@ -36,6 +47,7 @@ export interface MsgSuperfluidUndelegateSDKType {
   lock_id: bigint;
 }
 export interface MsgSuperfluidUndelegateResponse {}
+export interface ReactiveMsgSuperfluidUndelegateResponse {}
 export interface MsgSuperfluidUndelegateResponseProtoMsg {
   typeUrl: "/osmosis.superfluid.MsgSuperfluidUndelegateResponse";
   value: Uint8Array;
@@ -44,6 +56,10 @@ export interface MsgSuperfluidUndelegateResponseSDKType {}
 export interface MsgSuperfluidUnbondLock {
   sender: string;
   lockId: bigint;
+}
+export interface ReactiveMsgSuperfluidUnbondLock {
+  sender: ComputedRef<string>;
+  lockId: ComputedRef<bigint>;
 }
 export interface MsgSuperfluidUnbondLockProtoMsg {
   typeUrl: "/osmosis.superfluid.MsgSuperfluidUnbondLock";
@@ -54,6 +70,7 @@ export interface MsgSuperfluidUnbondLockSDKType {
   lock_id: bigint;
 }
 export interface MsgSuperfluidUnbondLockResponse {}
+export interface ReactiveMsgSuperfluidUnbondLockResponse {}
 export interface MsgSuperfluidUnbondLockResponseProtoMsg {
   typeUrl: "/osmosis.superfluid.MsgSuperfluidUnbondLockResponse";
   value: Uint8Array;
@@ -68,6 +85,11 @@ export interface MsgLockAndSuperfluidDelegate {
   sender: string;
   coins: Coin[];
   valAddr: string;
+}
+export interface ReactiveMsgLockAndSuperfluidDelegate {
+  sender: ComputedRef<string>;
+  coins: ComputedRef<Coin[]>;
+  valAddr: ComputedRef<string>;
 }
 export interface MsgLockAndSuperfluidDelegateProtoMsg {
   typeUrl: "/osmosis.superfluid.MsgLockAndSuperfluidDelegate";
@@ -85,6 +107,9 @@ export interface MsgLockAndSuperfluidDelegateSDKType {
 }
 export interface MsgLockAndSuperfluidDelegateResponse {
   iD: bigint;
+}
+export interface ReactiveMsgLockAndSuperfluidDelegateResponse {
+  iD: ComputedRef<bigint>;
 }
 export interface MsgLockAndSuperfluidDelegateResponseProtoMsg {
   typeUrl: "/osmosis.superfluid.MsgLockAndSuperfluidDelegateResponse";
@@ -107,6 +132,10 @@ export interface MsgUnPoolWhitelistedPool {
   sender: string;
   poolId: bigint;
 }
+export interface ReactiveMsgUnPoolWhitelistedPool {
+  sender: ComputedRef<string>;
+  poolId: ComputedRef<bigint>;
+}
 export interface MsgUnPoolWhitelistedPoolProtoMsg {
   typeUrl: "/osmosis.superfluid.MsgUnPoolWhitelistedPool";
   value: Uint8Array;
@@ -127,6 +156,9 @@ export interface MsgUnPoolWhitelistedPoolSDKType {
 }
 export interface MsgUnPoolWhitelistedPoolResponse {
   exitedLockIds: bigint[];
+}
+export interface ReactiveMsgUnPoolWhitelistedPoolResponse {
+  exitedLockIds: ComputedRef<bigint[]>;
 }
 export interface MsgUnPoolWhitelistedPoolResponseProtoMsg {
   typeUrl: "/osmosis.superfluid.MsgUnPoolWhitelistedPoolResponse";

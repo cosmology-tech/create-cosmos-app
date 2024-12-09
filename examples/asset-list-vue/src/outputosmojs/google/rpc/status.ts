@@ -2,6 +2,7 @@ import { Any, AnySDKType } from "../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.rpc";
 /**
  * The `Status` type defines a logical error model that is suitable for
@@ -26,6 +27,11 @@ export interface Status {
    * message types for APIs to use.
    */
   details: Any[];
+}
+export interface ReactiveStatus {
+  code: ComputedRef<number>;
+  message: ComputedRef<string>;
+  details: ComputedRef<Any[]>;
 }
 export interface StatusProtoMsg {
   typeUrl: "/google.rpc.Status";

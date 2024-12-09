@@ -5,6 +5,7 @@ import { FeeEnabledChannel, FeeEnabledChannelSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.fee.v1";
 /** QueryIncentivizedPacketsRequest defines the request type for the IncentivizedPackets rpc */
 export interface QueryIncentivizedPacketsRequest {
@@ -12,6 +13,10 @@ export interface QueryIncentivizedPacketsRequest {
   pagination?: PageRequest;
   /** block height at which to query */
   queryHeight: bigint;
+}
+export interface ReactiveQueryIncentivizedPacketsRequest {
+  pagination?: ComputedRef<PageRequest>;
+  queryHeight: ComputedRef<bigint>;
 }
 export interface QueryIncentivizedPacketsRequestProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryIncentivizedPacketsRequest";
@@ -29,6 +34,10 @@ export interface QueryIncentivizedPacketsResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryIncentivizedPacketsResponse {
+  incentivizedPackets: ComputedRef<IdentifiedPacketFees[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryIncentivizedPacketsResponseProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryIncentivizedPacketsResponse";
   value: Uint8Array;
@@ -43,6 +52,9 @@ export interface QueryIncentivizedPacketRequest {
   /** block height at which to query */
   queryHeight: bigint;
 }
+export interface ReactiveQueryIncentivizedPacketRequest {
+  queryHeight: ComputedRef<bigint>;
+}
 export interface QueryIncentivizedPacketRequestProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryIncentivizedPacketRequest";
   value: Uint8Array;
@@ -55,6 +67,9 @@ export interface QueryIncentivizedPacketRequestSDKType {
 export interface QueryIncentivizedPacketResponse {
   /** the identified fees for the incentivized packet */
   incentivizedPacket: IdentifiedPacketFees;
+}
+export interface ReactiveQueryIncentivizedPacketResponse {
+  incentivizedPacket: ComputedRef<IdentifiedPacketFees>;
 }
 export interface QueryIncentivizedPacketResponseProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryIncentivizedPacketResponse";
@@ -75,6 +90,12 @@ export interface QueryIncentivizedPacketsForChannelRequest {
   channelId: string;
   /** Height to query at */
   queryHeight: bigint;
+}
+export interface ReactiveQueryIncentivizedPacketsForChannelRequest {
+  pagination?: ComputedRef<PageRequest>;
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+  queryHeight: ComputedRef<bigint>;
 }
 export interface QueryIncentivizedPacketsForChannelRequestProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryIncentivizedPacketsForChannelRequest";
@@ -97,6 +118,10 @@ export interface QueryIncentivizedPacketsForChannelResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryIncentivizedPacketsForChannelResponse {
+  incentivizedPackets: ComputedRef<IdentifiedPacketFees[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryIncentivizedPacketsForChannelResponseProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryIncentivizedPacketsForChannelResponse";
   value: Uint8Array;
@@ -108,6 +133,7 @@ export interface QueryIncentivizedPacketsForChannelResponseSDKType {
 }
 /** QueryTotalRecvFeesRequest defines the request type for the TotalRecvFees rpc */
 export interface QueryTotalRecvFeesRequest {}
+export interface ReactiveQueryTotalRecvFeesRequest {}
 export interface QueryTotalRecvFeesRequestProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryTotalRecvFeesRequest";
   value: Uint8Array;
@@ -119,6 +145,9 @@ export interface QueryTotalRecvFeesResponse {
   /** the total packet receive fees */
   recvFees: Coin[];
 }
+export interface ReactiveQueryTotalRecvFeesResponse {
+  recvFees: ComputedRef<Coin[]>;
+}
 export interface QueryTotalRecvFeesResponseProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryTotalRecvFeesResponse";
   value: Uint8Array;
@@ -129,6 +158,7 @@ export interface QueryTotalRecvFeesResponseSDKType {
 }
 /** QueryTotalAckFeesRequest defines the request type for the TotalAckFees rpc */
 export interface QueryTotalAckFeesRequest {}
+export interface ReactiveQueryTotalAckFeesRequest {}
 export interface QueryTotalAckFeesRequestProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryTotalAckFeesRequest";
   value: Uint8Array;
@@ -140,6 +170,9 @@ export interface QueryTotalAckFeesResponse {
   /** the total packet acknowledgement fees */
   ackFees: Coin[];
 }
+export interface ReactiveQueryTotalAckFeesResponse {
+  ackFees: ComputedRef<Coin[]>;
+}
 export interface QueryTotalAckFeesResponseProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryTotalAckFeesResponse";
   value: Uint8Array;
@@ -150,6 +183,7 @@ export interface QueryTotalAckFeesResponseSDKType {
 }
 /** QueryTotalTimeoutFeesRequest defines the request type for the TotalTimeoutFees rpc */
 export interface QueryTotalTimeoutFeesRequest {}
+export interface ReactiveQueryTotalTimeoutFeesRequest {}
 export interface QueryTotalTimeoutFeesRequestProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryTotalTimeoutFeesRequest";
   value: Uint8Array;
@@ -160,6 +194,9 @@ export interface QueryTotalTimeoutFeesRequestSDKType {}
 export interface QueryTotalTimeoutFeesResponse {
   /** the total packet timeout fees */
   timeoutFees: Coin[];
+}
+export interface ReactiveQueryTotalTimeoutFeesResponse {
+  timeoutFees: ComputedRef<Coin[]>;
 }
 export interface QueryTotalTimeoutFeesResponseProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryTotalTimeoutFeesResponse";
@@ -176,6 +213,10 @@ export interface QueryPayeeRequest {
   /** the relayer address to which the distribution address is registered */
   relayer: string;
 }
+export interface ReactiveQueryPayeeRequest {
+  channelId: ComputedRef<string>;
+  relayer: ComputedRef<string>;
+}
 export interface QueryPayeeRequestProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryPayeeRequest";
   value: Uint8Array;
@@ -189,6 +230,9 @@ export interface QueryPayeeRequestSDKType {
 export interface QueryPayeeResponse {
   /** the payee address to which packet fees are paid out */
   payeeAddress: string;
+}
+export interface ReactiveQueryPayeeResponse {
+  payeeAddress: ComputedRef<string>;
 }
 export interface QueryPayeeResponseProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryPayeeResponse";
@@ -205,6 +249,10 @@ export interface QueryCounterpartyPayeeRequest {
   /** the relayer address to which the counterparty is registered */
   relayer: string;
 }
+export interface ReactiveQueryCounterpartyPayeeRequest {
+  channelId: ComputedRef<string>;
+  relayer: ComputedRef<string>;
+}
 export interface QueryCounterpartyPayeeRequestProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryCounterpartyPayeeRequest";
   value: Uint8Array;
@@ -218,6 +266,9 @@ export interface QueryCounterpartyPayeeRequestSDKType {
 export interface QueryCounterpartyPayeeResponse {
   /** the counterparty payee address used to compensate forward relaying */
   counterpartyPayee: string;
+}
+export interface ReactiveQueryCounterpartyPayeeResponse {
+  counterpartyPayee: ComputedRef<string>;
 }
 export interface QueryCounterpartyPayeeResponseProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryCounterpartyPayeeResponse";
@@ -233,6 +284,10 @@ export interface QueryFeeEnabledChannelsRequest {
   pagination?: PageRequest;
   /** block height at which to query */
   queryHeight: bigint;
+}
+export interface ReactiveQueryFeeEnabledChannelsRequest {
+  pagination?: ComputedRef<PageRequest>;
+  queryHeight: ComputedRef<bigint>;
 }
 export interface QueryFeeEnabledChannelsRequestProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryFeeEnabledChannelsRequest";
@@ -250,6 +305,10 @@ export interface QueryFeeEnabledChannelsResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryFeeEnabledChannelsResponse {
+  feeEnabledChannels: ComputedRef<FeeEnabledChannel[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryFeeEnabledChannelsResponseProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryFeeEnabledChannelsResponse";
   value: Uint8Array;
@@ -266,6 +325,10 @@ export interface QueryFeeEnabledChannelRequest {
   /** unique channel identifier */
   channelId: string;
 }
+export interface ReactiveQueryFeeEnabledChannelRequest {
+  portId: ComputedRef<string>;
+  channelId: ComputedRef<string>;
+}
 export interface QueryFeeEnabledChannelRequestProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryFeeEnabledChannelRequest";
   value: Uint8Array;
@@ -279,6 +342,9 @@ export interface QueryFeeEnabledChannelRequestSDKType {
 export interface QueryFeeEnabledChannelResponse {
   /** boolean flag representing the fee enabled channel status */
   feeEnabled: boolean;
+}
+export interface ReactiveQueryFeeEnabledChannelResponse {
+  feeEnabled: ComputedRef<boolean>;
 }
 export interface QueryFeeEnabledChannelResponseProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.QueryFeeEnabledChannelResponse";

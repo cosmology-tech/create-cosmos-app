@@ -2,6 +2,7 @@ import { Coin, CoinSDKType } from "../../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { JsonSafe } from "../../../../json-safe";
 import { DeepPartial, isSet } from "../../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.fee.v1";
 /** Fee defines the ICS29 receive, acknowledgement and timeout fees */
 export interface Fee {
@@ -11,6 +12,11 @@ export interface Fee {
   ackFee: Coin[];
   /** the packet timeout fee */
   timeoutFee: Coin[];
+}
+export interface ReactiveFee {
+  recvFee: ComputedRef<Coin[]>;
+  ackFee: ComputedRef<Coin[]>;
+  timeoutFee: ComputedRef<Coin[]>;
 }
 export interface FeeProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.Fee";
@@ -31,6 +37,11 @@ export interface PacketFee {
   /** optional list of relayers permitted to receive fees */
   relayers: string[];
 }
+export interface ReactivePacketFee {
+  fee: ComputedRef<Fee>;
+  refundAddress: ComputedRef<string>;
+  relayers: ComputedRef<string[]>;
+}
 export interface PacketFeeProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.PacketFee";
   value: Uint8Array;
@@ -46,6 +57,9 @@ export interface PacketFees {
   /** list of packet fees */
   packetFees: PacketFee[];
 }
+export interface ReactivePacketFees {
+  packetFees: ComputedRef<PacketFee[]>;
+}
 export interface PacketFeesProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.PacketFees";
   value: Uint8Array;
@@ -58,6 +72,9 @@ export interface PacketFeesSDKType {
 export interface IdentifiedPacketFees {
   /** list of packet fees */
   packetFees: PacketFee[];
+}
+export interface ReactiveIdentifiedPacketFees {
+  packetFees: ComputedRef<PacketFee[]>;
 }
 export interface IdentifiedPacketFeesProtoMsg {
   typeUrl: "/ibc.applications.fee.v1.IdentifiedPacketFees";

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.protorev.v1beta1";
 /**
  * SetProtoRevEnabledProposal is a gov Content type to update whether the
@@ -10,6 +11,11 @@ export interface SetProtoRevEnabledProposal {
   title: string;
   description: string;
   enabled: boolean;
+}
+export interface ReactiveSetProtoRevEnabledProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  enabled: ComputedRef<boolean>;
 }
 export interface SetProtoRevEnabledProposalProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.SetProtoRevEnabledProposal";
@@ -33,6 +39,11 @@ export interface SetProtoRevAdminAccountProposal {
   title: string;
   description: string;
   account: string;
+}
+export interface ReactiveSetProtoRevAdminAccountProposal {
+  title: ComputedRef<string>;
+  description: ComputedRef<string>;
+  account: ComputedRef<string>;
 }
 export interface SetProtoRevAdminAccountProposalProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.SetProtoRevAdminAccountProposal";

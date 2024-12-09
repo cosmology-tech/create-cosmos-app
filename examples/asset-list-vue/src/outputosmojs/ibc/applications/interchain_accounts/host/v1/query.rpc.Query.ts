@@ -2,7 +2,7 @@ import { Params, ParamsSDKType } from "./host";
 import { Rpc } from "../../../../../helpers";
 import { BinaryReader } from "../../../../../binary";
 import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
-import { QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType } from "./query";
+import { QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, ReactiveQueryParamsRequest } from "./query";
 /** Query provides defines the gRPC querier service. */
 export interface Query {
   /** Params queries all parameters of the ICA host submodule. */

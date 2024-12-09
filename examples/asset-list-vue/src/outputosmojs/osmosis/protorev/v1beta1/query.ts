@@ -4,9 +4,11 @@ import { RouteStatistics, RouteStatisticsSDKType, TokenPairArbRoutes, TokenPairA
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.protorev.v1beta1";
 /** QueryParamsRequest is request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
+export interface ReactiveQueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryParamsRequest";
   value: Uint8Array;
@@ -17,6 +19,9 @@ export interface QueryParamsRequestSDKType {}
 export interface QueryParamsResponse {
   /** params holds all the parameters of this module. */
   params: Params;
+}
+export interface ReactiveQueryParamsResponse {
+  params: ComputedRef<Params>;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryParamsResponse";
@@ -31,6 +36,7 @@ export interface QueryParamsResponseSDKType {
  * Query/GetProtoRevNumberOfTrades RPC method.
  */
 export interface QueryGetProtoRevNumberOfTradesRequest {}
+export interface ReactiveQueryGetProtoRevNumberOfTradesRequest {}
 export interface QueryGetProtoRevNumberOfTradesRequestProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevNumberOfTradesRequest";
   value: Uint8Array;
@@ -47,6 +53,9 @@ export interface QueryGetProtoRevNumberOfTradesRequestSDKType {}
 export interface QueryGetProtoRevNumberOfTradesResponse {
   /** number_of_trades is the number of trades the module has executed */
   numberOfTrades: string;
+}
+export interface ReactiveQueryGetProtoRevNumberOfTradesResponse {
+  numberOfTrades: ComputedRef<string>;
 }
 export interface QueryGetProtoRevNumberOfTradesResponseProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevNumberOfTradesResponse";
@@ -67,6 +76,9 @@ export interface QueryGetProtoRevProfitsByDenomRequest {
   /** denom is the denom to query profits by */
   denom: string;
 }
+export interface ReactiveQueryGetProtoRevProfitsByDenomRequest {
+  denom: ComputedRef<string>;
+}
 export interface QueryGetProtoRevProfitsByDenomRequestProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevProfitsByDenomRequest";
   value: Uint8Array;
@@ -86,6 +98,9 @@ export interface QueryGetProtoRevProfitsByDenomResponse {
   /** profit is the profits of the module by the selected denom */
   profit?: Coin;
 }
+export interface ReactiveQueryGetProtoRevProfitsByDenomResponse {
+  profit?: ComputedRef<Coin>;
+}
 export interface QueryGetProtoRevProfitsByDenomResponseProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevProfitsByDenomResponse";
   value: Uint8Array;
@@ -102,6 +117,7 @@ export interface QueryGetProtoRevProfitsByDenomResponseSDKType {
  * Query/GetProtoRevAllProfits RPC method.
  */
 export interface QueryGetProtoRevAllProfitsRequest {}
+export interface ReactiveQueryGetProtoRevAllProfitsRequest {}
 export interface QueryGetProtoRevAllProfitsRequestProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevAllProfitsRequest";
   value: Uint8Array;
@@ -118,6 +134,9 @@ export interface QueryGetProtoRevAllProfitsRequestSDKType {}
 export interface QueryGetProtoRevAllProfitsResponse {
   /** profits is a list of all of the profits from the module */
   profits: Coin[];
+}
+export interface ReactiveQueryGetProtoRevAllProfitsResponse {
+  profits: ComputedRef<Coin[]>;
 }
 export interface QueryGetProtoRevAllProfitsResponseProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevAllProfitsResponse";
@@ -137,6 +156,9 @@ export interface QueryGetProtoRevAllProfitsResponseSDKType {
 export interface QueryGetProtoRevStatisticsByRouteRequest {
   /** route is the set of pool ids to query statistics by i.e. 1,2,3 */
   route: bigint[];
+}
+export interface ReactiveQueryGetProtoRevStatisticsByRouteRequest {
+  route: ComputedRef<bigint[]>;
 }
 export interface QueryGetProtoRevStatisticsByRouteRequestProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevStatisticsByRouteRequest";
@@ -160,6 +182,9 @@ export interface QueryGetProtoRevStatisticsByRouteResponse {
    */
   statistics: RouteStatistics;
 }
+export interface ReactiveQueryGetProtoRevStatisticsByRouteResponse {
+  statistics: ComputedRef<RouteStatistics>;
+}
 export interface QueryGetProtoRevStatisticsByRouteResponseProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevStatisticsByRouteResponse";
   value: Uint8Array;
@@ -176,6 +201,7 @@ export interface QueryGetProtoRevStatisticsByRouteResponseSDKType {
  * Query/GetProtoRevAllRouteStatistics RPC method.
  */
 export interface QueryGetProtoRevAllRouteStatisticsRequest {}
+export interface ReactiveQueryGetProtoRevAllRouteStatisticsRequest {}
 export interface QueryGetProtoRevAllRouteStatisticsRequestProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevAllRouteStatisticsRequest";
   value: Uint8Array;
@@ -196,6 +222,9 @@ export interface QueryGetProtoRevAllRouteStatisticsResponse {
    */
   statistics: RouteStatistics[];
 }
+export interface ReactiveQueryGetProtoRevAllRouteStatisticsResponse {
+  statistics: ComputedRef<RouteStatistics[]>;
+}
 export interface QueryGetProtoRevAllRouteStatisticsResponseProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevAllRouteStatisticsResponse";
   value: Uint8Array;
@@ -212,6 +241,7 @@ export interface QueryGetProtoRevAllRouteStatisticsResponseSDKType {
  * Query/GetProtoRevTokenPairArbRoutes RPC method.
  */
 export interface QueryGetProtoRevTokenPairArbRoutesRequest {}
+export interface ReactiveQueryGetProtoRevTokenPairArbRoutesRequest {}
 export interface QueryGetProtoRevTokenPairArbRoutesRequestProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevTokenPairArbRoutesRequest";
   value: Uint8Array;
@@ -232,6 +262,9 @@ export interface QueryGetProtoRevTokenPairArbRoutesResponse {
    */
   routes: TokenPairArbRoutes[];
 }
+export interface ReactiveQueryGetProtoRevTokenPairArbRoutesResponse {
+  routes: ComputedRef<TokenPairArbRoutes[]>;
+}
 export interface QueryGetProtoRevTokenPairArbRoutesResponseProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevTokenPairArbRoutesResponse";
   value: Uint8Array;
@@ -248,6 +281,7 @@ export interface QueryGetProtoRevTokenPairArbRoutesResponseSDKType {
  * Query/GetProtoRevAdminAccount RPC method.
  */
 export interface QueryGetProtoRevAdminAccountRequest {}
+export interface ReactiveQueryGetProtoRevAdminAccountRequest {}
 export interface QueryGetProtoRevAdminAccountRequestProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevAdminAccountRequest";
   value: Uint8Array;
@@ -265,6 +299,9 @@ export interface QueryGetProtoRevAdminAccountResponse {
   /** admin_account is the admin account of the module */
   adminAccount: string;
 }
+export interface ReactiveQueryGetProtoRevAdminAccountResponse {
+  adminAccount: ComputedRef<string>;
+}
 export interface QueryGetProtoRevAdminAccountResponseProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevAdminAccountResponse";
   value: Uint8Array;
@@ -281,6 +318,7 @@ export interface QueryGetProtoRevAdminAccountResponseSDKType {
  * Query/GetProtoRevDeveloperAccount RPC method.
  */
 export interface QueryGetProtoRevDeveloperAccountRequest {}
+export interface ReactiveQueryGetProtoRevDeveloperAccountRequest {}
 export interface QueryGetProtoRevDeveloperAccountRequestProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevDeveloperAccountRequest";
   value: Uint8Array;
@@ -298,6 +336,9 @@ export interface QueryGetProtoRevDeveloperAccountResponse {
   /** developer_account is the developer account of the module */
   developerAccount: string;
 }
+export interface ReactiveQueryGetProtoRevDeveloperAccountResponse {
+  developerAccount: ComputedRef<string>;
+}
 export interface QueryGetProtoRevDeveloperAccountResponseProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevDeveloperAccountResponse";
   value: Uint8Array;
@@ -314,6 +355,7 @@ export interface QueryGetProtoRevDeveloperAccountResponseSDKType {
  * Query/GetProtoRevPoolWeights RPC method.
  */
 export interface QueryGetProtoRevPoolWeightsRequest {}
+export interface ReactiveQueryGetProtoRevPoolWeightsRequest {}
 export interface QueryGetProtoRevPoolWeightsRequestProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevPoolWeightsRequest";
   value: Uint8Array;
@@ -331,6 +373,9 @@ export interface QueryGetProtoRevPoolWeightsResponse {
   /** pool_weights is a list of all of the pool weights */
   poolWeights: PoolWeights;
 }
+export interface ReactiveQueryGetProtoRevPoolWeightsResponse {
+  poolWeights: ComputedRef<PoolWeights>;
+}
 export interface QueryGetProtoRevPoolWeightsResponseProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevPoolWeightsResponse";
   value: Uint8Array;
@@ -347,6 +392,7 @@ export interface QueryGetProtoRevPoolWeightsResponseSDKType {
  * Query/GetProtoRevMaxPoolPointsPerBlock RPC method.
  */
 export interface QueryGetProtoRevMaxPoolPointsPerBlockRequest {}
+export interface ReactiveQueryGetProtoRevMaxPoolPointsPerBlockRequest {}
 export interface QueryGetProtoRevMaxPoolPointsPerBlockRequestProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevMaxPoolPointsPerBlockRequest";
   value: Uint8Array;
@@ -367,6 +413,9 @@ export interface QueryGetProtoRevMaxPoolPointsPerBlockResponse {
    */
   maxPoolPointsPerBlock: bigint;
 }
+export interface ReactiveQueryGetProtoRevMaxPoolPointsPerBlockResponse {
+  maxPoolPointsPerBlock: ComputedRef<bigint>;
+}
 export interface QueryGetProtoRevMaxPoolPointsPerBlockResponseProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevMaxPoolPointsPerBlockResponse";
   value: Uint8Array;
@@ -383,6 +432,7 @@ export interface QueryGetProtoRevMaxPoolPointsPerBlockResponseSDKType {
  * Query/GetProtoRevMaxPoolPointsPerTx RPC method.
  */
 export interface QueryGetProtoRevMaxPoolPointsPerTxRequest {}
+export interface ReactiveQueryGetProtoRevMaxPoolPointsPerTxRequest {}
 export interface QueryGetProtoRevMaxPoolPointsPerTxRequestProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevMaxPoolPointsPerTxRequest";
   value: Uint8Array;
@@ -403,6 +453,9 @@ export interface QueryGetProtoRevMaxPoolPointsPerTxResponse {
    */
   maxPoolPointsPerTx: bigint;
 }
+export interface ReactiveQueryGetProtoRevMaxPoolPointsPerTxResponse {
+  maxPoolPointsPerTx: ComputedRef<bigint>;
+}
 export interface QueryGetProtoRevMaxPoolPointsPerTxResponseProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevMaxPoolPointsPerTxResponse";
   value: Uint8Array;
@@ -419,6 +472,7 @@ export interface QueryGetProtoRevMaxPoolPointsPerTxResponseSDKType {
  * Query/GetProtoRevBaseDenoms RPC method.
  */
 export interface QueryGetProtoRevBaseDenomsRequest {}
+export interface ReactiveQueryGetProtoRevBaseDenomsRequest {}
 export interface QueryGetProtoRevBaseDenomsRequestProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevBaseDenomsRequest";
   value: Uint8Array;
@@ -436,6 +490,9 @@ export interface QueryGetProtoRevBaseDenomsResponse {
   /** base_denoms is a list of all of the base denoms and step sizes */
   baseDenoms: BaseDenom[];
 }
+export interface ReactiveQueryGetProtoRevBaseDenomsResponse {
+  baseDenoms: ComputedRef<BaseDenom[]>;
+}
 export interface QueryGetProtoRevBaseDenomsResponseProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevBaseDenomsResponse";
   value: Uint8Array;
@@ -452,6 +509,7 @@ export interface QueryGetProtoRevBaseDenomsResponseSDKType {
  * Query/GetProtoRevEnabled RPC method.
  */
 export interface QueryGetProtoRevEnabledRequest {}
+export interface ReactiveQueryGetProtoRevEnabledRequest {}
 export interface QueryGetProtoRevEnabledRequestProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevEnabledRequest";
   value: Uint8Array;
@@ -468,6 +526,9 @@ export interface QueryGetProtoRevEnabledRequestSDKType {}
 export interface QueryGetProtoRevEnabledResponse {
   /** enabled is whether the module is enabled */
   enabled: boolean;
+}
+export interface ReactiveQueryGetProtoRevEnabledResponse {
+  enabled: ComputedRef<boolean>;
 }
 export interface QueryGetProtoRevEnabledResponseProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevEnabledResponse";

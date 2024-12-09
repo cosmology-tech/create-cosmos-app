@@ -3,6 +3,7 @@ import { Any, AnySDKType } from "./any";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf";
 /** Basic field types. */
 export enum Field_Kind {
@@ -254,6 +255,14 @@ export interface Type {
   /** The source syntax. */
   syntax: Syntax;
 }
+export interface ReactiveType {
+  name: ComputedRef<string>;
+  fields: ComputedRef<Field[]>;
+  oneofs: ComputedRef<string[]>;
+  options: ComputedRef<Option[]>;
+  sourceContext?: ComputedRef<SourceContext>;
+  syntax: ComputedRef<Syntax>;
+}
 export interface TypeProtoMsg {
   typeUrl: "/google.protobuf.Type";
   value: Uint8Array;
@@ -296,6 +305,18 @@ export interface Field {
   /** The string value of the default value of this field. Proto2 syntax only. */
   defaultValue: string;
 }
+export interface ReactiveField {
+  kind: ComputedRef<Field_Kind>;
+  cardinality: ComputedRef<Field_Cardinality>;
+  number: ComputedRef<number>;
+  name: ComputedRef<string>;
+  typeUrl: ComputedRef<string>;
+  oneofIndex: ComputedRef<number>;
+  packed: ComputedRef<boolean>;
+  options: ComputedRef<Option[]>;
+  jsonName: ComputedRef<string>;
+  defaultValue: ComputedRef<string>;
+}
 export interface FieldProtoMsg {
   typeUrl: "/google.protobuf.Field";
   value: Uint8Array;
@@ -326,6 +347,13 @@ export interface Enum {
   /** The source syntax. */
   syntax: Syntax;
 }
+export interface ReactiveEnum {
+  name: ComputedRef<string>;
+  enumvalue: ComputedRef<EnumValue[]>;
+  options: ComputedRef<Option[]>;
+  sourceContext?: ComputedRef<SourceContext>;
+  syntax: ComputedRef<Syntax>;
+}
 export interface EnumProtoMsg {
   typeUrl: "/google.protobuf.Enum";
   value: Uint8Array;
@@ -346,6 +374,11 @@ export interface EnumValue {
   number: number;
   /** Protocol buffer options. */
   options: Option[];
+}
+export interface ReactiveEnumValue {
+  name: ComputedRef<string>;
+  number: ComputedRef<number>;
+  options: ComputedRef<Option[]>;
 }
 export interface EnumValueProtoMsg {
   typeUrl: "/google.protobuf.EnumValue";
@@ -376,6 +409,10 @@ export interface Option {
    * value using the google.protobuf.Int32Value type.
    */
   value?: Any;
+}
+export interface ReactiveOption {
+  name: ComputedRef<string>;
+  value?: ComputedRef<Any>;
 }
 export interface OptionProtoMsg {
   typeUrl: "/google.protobuf.Option";

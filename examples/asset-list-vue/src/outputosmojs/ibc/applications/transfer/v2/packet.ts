@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.transfer.v2";
 /**
  * FungibleTokenPacketData defines a struct for the packet payload
@@ -16,6 +17,12 @@ export interface FungibleTokenPacketData {
   sender: string;
   /** the recipient address on the destination chain */
   receiver: string;
+}
+export interface ReactiveFungibleTokenPacketData {
+  denom: ComputedRef<string>;
+  amount: ComputedRef<string>;
+  sender: ComputedRef<string>;
+  receiver: ComputedRef<string>;
 }
 export interface FungibleTokenPacketDataProtoMsg {
   typeUrl: "/ibc.applications.transfer.v2.FungibleTokenPacketData";

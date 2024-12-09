@@ -2,6 +2,7 @@ import { Duration, DurationSDKType } from "../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "tendermint.types";
 /**
  * ConsensusParams contains consensus critical parameters that determine the
@@ -12,6 +13,12 @@ export interface ConsensusParams {
   evidence: EvidenceParams;
   validator: ValidatorParams;
   version: VersionParams;
+}
+export interface ReactiveConsensusParams {
+  block: ComputedRef<BlockParams>;
+  evidence: ComputedRef<EvidenceParams>;
+  validator: ComputedRef<ValidatorParams>;
+  version: ComputedRef<VersionParams>;
 }
 export interface ConsensusParamsProtoMsg {
   typeUrl: "/tendermint.types.ConsensusParams";
@@ -47,6 +54,11 @@ export interface BlockParams {
    */
   timeIotaMs: bigint;
 }
+export interface ReactiveBlockParams {
+  maxBytes: ComputedRef<bigint>;
+  maxGas: ComputedRef<bigint>;
+  timeIotaMs: ComputedRef<bigint>;
+}
 export interface BlockParamsProtoMsg {
   typeUrl: "/tendermint.types.BlockParams";
   value: Uint8Array;
@@ -81,6 +93,11 @@ export interface EvidenceParams {
    */
   maxBytes: bigint;
 }
+export interface ReactiveEvidenceParams {
+  maxAgeNumBlocks: ComputedRef<bigint>;
+  maxAgeDuration: ComputedRef<Duration>;
+  maxBytes: ComputedRef<bigint>;
+}
 export interface EvidenceParamsProtoMsg {
   typeUrl: "/tendermint.types.EvidenceParams";
   value: Uint8Array;
@@ -98,6 +115,9 @@ export interface EvidenceParamsSDKType {
 export interface ValidatorParams {
   pubKeyTypes: string[];
 }
+export interface ReactiveValidatorParams {
+  pubKeyTypes: ComputedRef<string[]>;
+}
 export interface ValidatorParamsProtoMsg {
   typeUrl: "/tendermint.types.ValidatorParams";
   value: Uint8Array;
@@ -112,6 +132,9 @@ export interface ValidatorParamsSDKType {
 /** VersionParams contains the ABCI application version. */
 export interface VersionParams {
   appVersion: bigint;
+}
+export interface ReactiveVersionParams {
+  appVersion: ComputedRef<bigint>;
 }
 export interface VersionParamsProtoMsg {
   typeUrl: "/tendermint.types.VersionParams";
@@ -129,6 +152,10 @@ export interface VersionParamsSDKType {
 export interface HashedParams {
   blockMaxBytes: bigint;
   blockMaxGas: bigint;
+}
+export interface ReactiveHashedParams {
+  blockMaxBytes: ComputedRef<bigint>;
+  blockMaxGas: ComputedRef<bigint>;
 }
 export interface HashedParamsProtoMsg {
   typeUrl: "/tendermint.types.HashedParams";

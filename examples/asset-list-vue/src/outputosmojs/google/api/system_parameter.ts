@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * ### System parameter configuration
@@ -44,6 +45,9 @@ export interface SystemParameters {
    */
   rules: SystemParameterRule[];
 }
+export interface ReactiveSystemParameters {
+  rules: ComputedRef<SystemParameterRule[]>;
+}
 export interface SystemParametersProtoMsg {
   typeUrl: "/google.api.SystemParameters";
   value: Uint8Array;
@@ -80,6 +84,10 @@ export interface SystemParameterRule {
    */
   parameters: SystemParameter[];
 }
+export interface ReactiveSystemParameterRule {
+  selector: ComputedRef<string>;
+  parameters: ComputedRef<SystemParameter[]>;
+}
 export interface SystemParameterRuleProtoMsg {
   typeUrl: "/google.api.SystemParameterRule";
   value: Uint8Array;
@@ -110,6 +118,11 @@ export interface SystemParameter {
    * sensitive.
    */
   urlQueryParameter: string;
+}
+export interface ReactiveSystemParameter {
+  name: ComputedRef<string>;
+  httpHeader: ComputedRef<string>;
+  urlQueryParameter: ComputedRef<string>;
 }
 export interface SystemParameterProtoMsg {
   typeUrl: "/google.api.SystemParameter";

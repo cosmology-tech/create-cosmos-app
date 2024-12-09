@@ -1,3 +1,4 @@
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * The launch stage as defined by [Google Cloud Platform

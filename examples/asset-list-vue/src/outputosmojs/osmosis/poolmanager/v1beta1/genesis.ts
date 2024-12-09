@@ -3,10 +3,14 @@ import { ModuleRoute, ModuleRouteSDKType } from "./module_route";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.poolmanager.v1beta1";
 /** Params holds parameters for the poolmanager module */
 export interface Params {
   poolCreationFee: Coin[];
+}
+export interface ReactiveParams {
+  poolCreationFee: ComputedRef<Coin[]>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/osmosis.poolmanager.v1beta1.Params";
@@ -24,6 +28,11 @@ export interface GenesisState {
   params: Params;
   /** pool_routes is the container of the mappings from pool id to pool type. */
   poolRoutes: ModuleRoute[];
+}
+export interface ReactiveGenesisState {
+  nextPoolId: ComputedRef<bigint>;
+  params: ComputedRef<Params>;
+  poolRoutes: ComputedRef<ModuleRoute[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.poolmanager.v1beta1.GenesisState";

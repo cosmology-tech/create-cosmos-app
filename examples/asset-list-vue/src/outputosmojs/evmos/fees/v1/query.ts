@@ -4,6 +4,7 @@ import { Params, ParamsSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.fees.v1";
 /**
  * QueryDevFeeInfosRequest is the request type for the Query/DevFeeInfos RPC
@@ -12,6 +13,9 @@ export const protobufPackage = "evmos.fees.v1";
 export interface QueryDevFeeInfosRequest {
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryDevFeeInfosRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryDevFeeInfosRequestProtoMsg {
   typeUrl: "/evmos.fees.v1.QueryDevFeeInfosRequest";
@@ -33,6 +37,10 @@ export interface QueryDevFeeInfosResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryDevFeeInfosResponse {
+  fees: ComputedRef<DevFeeInfo[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryDevFeeInfosResponseProtoMsg {
   typeUrl: "/evmos.fees.v1.QueryDevFeeInfosResponse";
   value: Uint8Array;
@@ -53,6 +61,9 @@ export interface QueryDevFeeInfoRequest {
   /** contract identifier is the hex contract address of a contract */
   contractAddress: string;
 }
+export interface ReactiveQueryDevFeeInfoRequest {
+  contractAddress: ComputedRef<string>;
+}
 export interface QueryDevFeeInfoRequestProtoMsg {
   typeUrl: "/evmos.fees.v1.QueryDevFeeInfoRequest";
   value: Uint8Array;
@@ -71,6 +82,9 @@ export interface QueryDevFeeInfoRequestSDKType {
 export interface QueryDevFeeInfoResponse {
   fee: DevFeeInfo;
 }
+export interface ReactiveQueryDevFeeInfoResponse {
+  fee: ComputedRef<DevFeeInfo>;
+}
 export interface QueryDevFeeInfoResponseProtoMsg {
   typeUrl: "/evmos.fees.v1.QueryDevFeeInfoResponse";
   value: Uint8Array;
@@ -84,6 +98,7 @@ export interface QueryDevFeeInfoResponseSDKType {
 }
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
+export interface ReactiveQueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
   typeUrl: "/evmos.fees.v1.QueryParamsRequest";
   value: Uint8Array;
@@ -96,6 +111,9 @@ export interface QueryParamsRequestSDKType {}
  */
 export interface QueryParamsResponse {
   params: Params;
+}
+export interface ReactiveQueryParamsResponse {
+  params: ComputedRef<Params>;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/evmos.fees.v1.QueryParamsResponse";
@@ -118,6 +136,10 @@ export interface QueryDevFeeInfosPerDeployerRequest {
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
 }
+export interface ReactiveQueryDevFeeInfosPerDeployerRequest {
+  deployerAddress: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
+}
 export interface QueryDevFeeInfosPerDeployerRequestProtoMsg {
   typeUrl: "/evmos.fees.v1.QueryDevFeeInfosPerDeployerRequest";
   value: Uint8Array;
@@ -138,6 +160,10 @@ export interface QueryDevFeeInfosPerDeployerResponse {
   fees: DevFeeInfo[];
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
+}
+export interface ReactiveQueryDevFeeInfosPerDeployerResponse {
+  fees: ComputedRef<DevFeeInfo[]>;
+  pagination?: ComputedRef<PageResponse>;
 }
 export interface QueryDevFeeInfosPerDeployerResponseProtoMsg {
   typeUrl: "/evmos.fees.v1.QueryDevFeeInfosPerDeployerResponse";

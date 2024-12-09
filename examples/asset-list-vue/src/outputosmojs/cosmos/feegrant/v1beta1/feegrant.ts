@@ -5,6 +5,7 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.feegrant.v1beta1";
 /**
  * BasicAllowance implements Allowance with a one-time grant of tokens
@@ -19,6 +20,10 @@ export interface BasicAllowance {
   spendLimit: Coin[];
   /** expiration specifies an optional time when this allowance expires */
   expiration?: Date;
+}
+export interface ReactiveBasicAllowance {
+  spendLimit: ComputedRef<Coin[]>;
+  expiration?: ComputedRef<Date>;
 }
 export interface BasicAllowanceProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.BasicAllowance";
@@ -58,6 +63,13 @@ export interface PeriodicAllowance {
    */
   periodReset: Date;
 }
+export interface ReactivePeriodicAllowance {
+  basic: ComputedRef<BasicAllowance>;
+  period: ComputedRef<Duration>;
+  periodSpendLimit: ComputedRef<Coin[]>;
+  periodCanSpend: ComputedRef<Coin[]>;
+  periodReset: ComputedRef<Date>;
+}
 export interface PeriodicAllowanceProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.PeriodicAllowance";
   value: Uint8Array;
@@ -80,6 +92,10 @@ export interface AllowedMsgAllowance {
   /** allowed_messages are the messages for which the grantee has the access. */
   allowedMessages: string[];
 }
+export interface ReactiveAllowedMsgAllowance {
+  allowance?: ComputedRef<Any>;
+  allowedMessages: ComputedRef<string[]>;
+}
 export interface AllowedMsgAllowanceProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.AllowedMsgAllowance";
   value: Uint8Array;
@@ -97,6 +113,11 @@ export interface Grant {
   grantee: string;
   /** allowance can be any of basic, periodic, allowed fee allowance. */
   allowance?: Any;
+}
+export interface ReactiveGrant {
+  granter: ComputedRef<string>;
+  grantee: ComputedRef<string>;
+  allowance?: ComputedRef<Any>;
 }
 export interface GrantProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.Grant";

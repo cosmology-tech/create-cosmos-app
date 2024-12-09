@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /** Configuration controlling usage of a service. */
 export interface Usage {
@@ -33,6 +34,11 @@ export interface Usage {
    * documented in https://cloud.google.com/pubsub/docs/overview.
    */
   producerNotificationChannel: string;
+}
+export interface ReactiveUsage {
+  requirements: ComputedRef<string[]>;
+  rules: ComputedRef<UsageRule[]>;
+  producerNotificationChannel: ComputedRef<string>;
 }
 export interface UsageProtoMsg {
   typeUrl: "/google.api.Usage";
@@ -91,6 +97,11 @@ export interface UsageRule {
    * methods, such as service health check methods.
    */
   skipServiceControl: boolean;
+}
+export interface ReactiveUsageRule {
+  selector: ComputedRef<string>;
+  allowUnregisteredCalls: ComputedRef<boolean>;
+  skipServiceControl: ComputedRef<boolean>;
 }
 export interface UsageRuleProtoMsg {
   typeUrl: "/google.api.UsageRule";

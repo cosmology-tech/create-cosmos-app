@@ -1,3 +1,4 @@
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.logging.type";
 /**
  * The severity of the event described in a log entry, expressed as one of the

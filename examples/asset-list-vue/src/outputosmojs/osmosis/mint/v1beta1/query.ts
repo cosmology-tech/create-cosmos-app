@@ -2,9 +2,11 @@ import { Params, ParamsSDKType } from "./mint";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet, bytesFromBase64, base64FromBytes } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.mint.v1beta1";
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
+export interface ReactiveQueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
   typeUrl: "/osmosis.mint.v1beta1.QueryParamsRequest";
   value: Uint8Array;
@@ -15,6 +17,9 @@ export interface QueryParamsRequestSDKType {}
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
   params: Params;
+}
+export interface ReactiveQueryParamsResponse {
+  params: ComputedRef<Params>;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/osmosis.mint.v1beta1.QueryParamsResponse";
@@ -29,6 +34,7 @@ export interface QueryParamsResponseSDKType {
  * Query/EpochProvisions RPC method.
  */
 export interface QueryEpochProvisionsRequest {}
+export interface ReactiveQueryEpochProvisionsRequest {}
 export interface QueryEpochProvisionsRequestProtoMsg {
   typeUrl: "/osmosis.mint.v1beta1.QueryEpochProvisionsRequest";
   value: Uint8Array;
@@ -45,6 +51,9 @@ export interface QueryEpochProvisionsRequestSDKType {}
 export interface QueryEpochProvisionsResponse {
   /** epoch_provisions is the current minting per epoch provisions value. */
   epochProvisions: Uint8Array;
+}
+export interface ReactiveQueryEpochProvisionsResponse {
+  epochProvisions: ComputedRef<Uint8Array>;
 }
 export interface QueryEpochProvisionsResponseProtoMsg {
   typeUrl: "/osmosis.mint.v1beta1.QueryEpochProvisionsResponse";

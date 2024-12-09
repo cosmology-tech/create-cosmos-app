@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf";
 /**
  * `FieldMask` represents a set of symbolic field paths, for example:
@@ -206,6 +207,9 @@ export const protobufPackage = "google.protobuf";
 export interface FieldMask {
   /** The set of field mask paths. */
   paths: string[];
+}
+export interface ReactiveFieldMask {
+  paths: ComputedRef<string[]>;
 }
 export interface FieldMaskProtoMsg {
   typeUrl: "/google.protobuf.FieldMask";

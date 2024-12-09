@@ -3,6 +3,7 @@ import { Status, StatusSDKType } from "../../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, isObject } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicecontrol.v2";
 /** Request message for the Check method. */
 export interface CheckRequest {
@@ -27,6 +28,13 @@ export interface CheckRequest {
   resources: ResourceInfo[];
   /** Optional. Contains a comma-separated list of flags. */
   flags: string;
+}
+export interface ReactiveCheckRequest {
+  serviceName: ComputedRef<string>;
+  serviceConfigId: ComputedRef<string>;
+  attributes?: ComputedRef<AttributeContext>;
+  resources: ComputedRef<ResourceInfo[]>;
+  flags: ComputedRef<string>;
 }
 export interface CheckRequestProtoMsg {
   typeUrl: "/google.api.servicecontrol.v2.CheckRequest";
@@ -69,6 +77,13 @@ export interface ResourceInfo {
    */
   location: string;
 }
+export interface ReactiveResourceInfo {
+  name: ComputedRef<string>;
+  type: ComputedRef<string>;
+  permission: ComputedRef<string>;
+  container: ComputedRef<string>;
+  location: ComputedRef<string>;
+}
 export interface ResourceInfoProtoMsg {
   typeUrl: "/google.api.servicecontrol.v2.ResourceInfo";
   value: Uint8Array;
@@ -84,6 +99,10 @@ export interface ResourceInfoSDKType {
 export interface CheckResponse_HeadersEntry {
   key: string;
   value: string;
+}
+export interface ReactiveCheckResponse_HeadersEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface CheckResponse_HeadersEntryProtoMsg {
   typeUrl: string;
@@ -105,6 +124,12 @@ export interface CheckResponse {
   headers: {
     [key: string]: string;
   };
+}
+export interface ReactiveCheckResponse {
+  status?: ComputedRef<Status>;
+  headers: ComputedRef<{
+    [key: string]: string;
+  }>;
 }
 export interface CheckResponseProtoMsg {
   typeUrl: "/google.api.servicecontrol.v2.CheckResponse";
@@ -141,6 +166,11 @@ export interface ReportRequest {
    */
   operations: AttributeContext[];
 }
+export interface ReactiveReportRequest {
+  serviceName: ComputedRef<string>;
+  serviceConfigId: ComputedRef<string>;
+  operations: ComputedRef<AttributeContext[]>;
+}
 export interface ReportRequestProtoMsg {
   typeUrl: "/google.api.servicecontrol.v2.ReportRequest";
   value: Uint8Array;
@@ -156,6 +186,7 @@ export interface ReportRequestSDKType {
  * If the request contains any invalid data, the server returns an RPC error.
  */
 export interface ReportResponse {}
+export interface ReactiveReportResponse {}
 export interface ReportResponseProtoMsg {
   typeUrl: "/google.api.servicecontrol.v2.ReportResponse";
   value: Uint8Array;

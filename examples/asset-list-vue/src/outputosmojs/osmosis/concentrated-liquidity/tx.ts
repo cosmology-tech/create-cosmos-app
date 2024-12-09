@@ -5,6 +5,7 @@ import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
 import { Decimal } from "@cosmjs/math";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity.v1beta1";
 /** ===================== MsgCreatePosition */
 export interface MsgCreatePosition {
@@ -16,6 +17,16 @@ export interface MsgCreatePosition {
   tokenDesired1: Coin;
   tokenMinAmount0: string;
   tokenMinAmount1: string;
+}
+export interface ReactiveMsgCreatePosition {
+  poolId: ComputedRef<bigint>;
+  sender: ComputedRef<string>;
+  lowerTick: ComputedRef<bigint>;
+  upperTick: ComputedRef<bigint>;
+  tokenDesired0: ComputedRef<Coin>;
+  tokenDesired1: ComputedRef<Coin>;
+  tokenMinAmount0: ComputedRef<string>;
+  tokenMinAmount1: ComputedRef<string>;
 }
 export interface MsgCreatePositionProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgCreatePosition";
@@ -39,6 +50,13 @@ export interface MsgCreatePositionResponse {
   joinTime: Date;
   liquidityCreated: string;
 }
+export interface ReactiveMsgCreatePositionResponse {
+  positionId: ComputedRef<bigint>;
+  amount0: ComputedRef<string>;
+  amount1: ComputedRef<string>;
+  joinTime: ComputedRef<Date>;
+  liquidityCreated: ComputedRef<string>;
+}
 export interface MsgCreatePositionResponseProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgCreatePositionResponse";
   value: Uint8Array;
@@ -56,6 +74,11 @@ export interface MsgWithdrawPosition {
   sender: string;
   liquidityAmount: string;
 }
+export interface ReactiveMsgWithdrawPosition {
+  positionId: ComputedRef<bigint>;
+  sender: ComputedRef<string>;
+  liquidityAmount: ComputedRef<string>;
+}
 export interface MsgWithdrawPositionProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgWithdrawPosition";
   value: Uint8Array;
@@ -70,6 +93,10 @@ export interface MsgWithdrawPositionResponse {
   amount0: string;
   amount1: string;
 }
+export interface ReactiveMsgWithdrawPositionResponse {
+  amount0: ComputedRef<string>;
+  amount1: ComputedRef<string>;
+}
 export interface MsgWithdrawPositionResponseProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgWithdrawPositionResponse";
   value: Uint8Array;
@@ -83,6 +110,10 @@ export interface MsgCollectFees {
   positionIds: bigint[];
   sender: string;
 }
+export interface ReactiveMsgCollectFees {
+  positionIds: ComputedRef<bigint[]>;
+  sender: ComputedRef<string>;
+}
 export interface MsgCollectFeesProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgCollectFees";
   value: Uint8Array;
@@ -94,6 +125,9 @@ export interface MsgCollectFeesSDKType {
 }
 export interface MsgCollectFeesResponse {
   collectedFees: Coin[];
+}
+export interface ReactiveMsgCollectFeesResponse {
+  collectedFees: ComputedRef<Coin[]>;
 }
 export interface MsgCollectFeesResponseProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgCollectFeesResponse";
@@ -107,6 +141,10 @@ export interface MsgCollectIncentives {
   positionIds: bigint[];
   sender: string;
 }
+export interface ReactiveMsgCollectIncentives {
+  positionIds: ComputedRef<bigint[]>;
+  sender: ComputedRef<string>;
+}
 export interface MsgCollectIncentivesProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgCollectIncentives";
   value: Uint8Array;
@@ -118,6 +156,9 @@ export interface MsgCollectIncentivesSDKType {
 }
 export interface MsgCollectIncentivesResponse {
   collectedIncentives: Coin[];
+}
+export interface ReactiveMsgCollectIncentivesResponse {
+  collectedIncentives: ComputedRef<Coin[]>;
 }
 export interface MsgCollectIncentivesResponseProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgCollectIncentivesResponse";
@@ -135,6 +176,15 @@ export interface MsgCreateIncentive {
   emissionRate: string;
   startTime: Date;
   minUptime: Duration;
+}
+export interface ReactiveMsgCreateIncentive {
+  poolId: ComputedRef<bigint>;
+  sender: ComputedRef<string>;
+  incentiveDenom: ComputedRef<string>;
+  incentiveAmount: ComputedRef<string>;
+  emissionRate: ComputedRef<string>;
+  startTime: ComputedRef<Date>;
+  minUptime: ComputedRef<Duration>;
 }
 export interface MsgCreateIncentiveProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgCreateIncentive";
@@ -157,6 +207,13 @@ export interface MsgCreateIncentiveResponse {
   startTime: Date;
   minUptime: Duration;
 }
+export interface ReactiveMsgCreateIncentiveResponse {
+  incentiveDenom: ComputedRef<string>;
+  incentiveAmount: ComputedRef<string>;
+  emissionRate: ComputedRef<string>;
+  startTime: ComputedRef<Date>;
+  minUptime: ComputedRef<Duration>;
+}
 export interface MsgCreateIncentiveResponseProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgCreateIncentiveResponse";
   value: Uint8Array;
@@ -173,6 +230,10 @@ export interface MsgFungifyChargedPositions {
   positionIds: bigint[];
   sender: string;
 }
+export interface ReactiveMsgFungifyChargedPositions {
+  positionIds: ComputedRef<bigint[]>;
+  sender: ComputedRef<string>;
+}
 export interface MsgFungifyChargedPositionsProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgFungifyChargedPositions";
   value: Uint8Array;
@@ -184,6 +245,9 @@ export interface MsgFungifyChargedPositionsSDKType {
 }
 export interface MsgFungifyChargedPositionsResponse {
   newPositionId: bigint;
+}
+export interface ReactiveMsgFungifyChargedPositionsResponse {
+  newPositionId: ComputedRef<bigint>;
 }
 export interface MsgFungifyChargedPositionsResponseProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgFungifyChargedPositionsResponse";

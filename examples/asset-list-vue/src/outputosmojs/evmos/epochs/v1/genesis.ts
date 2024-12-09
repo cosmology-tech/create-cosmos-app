@@ -3,6 +3,7 @@ import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.epochs.v1";
 export interface EpochInfo {
   identifier: string;
@@ -12,6 +13,15 @@ export interface EpochInfo {
   currentEpochStartTime: Date;
   epochCountingStarted: boolean;
   currentEpochStartHeight: bigint;
+}
+export interface ReactiveEpochInfo {
+  identifier: ComputedRef<string>;
+  startTime: ComputedRef<Date>;
+  duration: ComputedRef<Duration>;
+  currentEpoch: ComputedRef<bigint>;
+  currentEpochStartTime: ComputedRef<Date>;
+  epochCountingStarted: ComputedRef<boolean>;
+  currentEpochStartHeight: ComputedRef<bigint>;
 }
 export interface EpochInfoProtoMsg {
   typeUrl: "/evmos.epochs.v1.EpochInfo";
@@ -29,6 +39,9 @@ export interface EpochInfoSDKType {
 /** GenesisState defines the epochs module's genesis state. */
 export interface GenesisState {
   epochs: EpochInfo[];
+}
+export interface ReactiveGenesisState {
+  epochs: ComputedRef<EpochInfo[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/evmos.epochs.v1.GenesisState";

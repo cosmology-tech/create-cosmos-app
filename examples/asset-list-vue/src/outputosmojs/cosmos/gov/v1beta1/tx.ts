@@ -4,6 +4,7 @@ import { VoteOption, VoteOptionSDKType, WeightedVoteOption, WeightedVoteOptionSD
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.gov.v1beta1";
 /**
  * MsgSubmitProposal defines an sdk.Msg type that supports submitting arbitrary
@@ -13,6 +14,11 @@ export interface MsgSubmitProposal {
   content?: Any;
   initialDeposit: Coin[];
   proposer: string;
+}
+export interface ReactiveMsgSubmitProposal {
+  content?: ComputedRef<Any>;
+  initialDeposit: ComputedRef<Coin[]>;
+  proposer: ComputedRef<string>;
 }
 export interface MsgSubmitProposalProtoMsg {
   typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal";
@@ -31,6 +37,9 @@ export interface MsgSubmitProposalSDKType {
 export interface MsgSubmitProposalResponse {
   proposalId: bigint;
 }
+export interface ReactiveMsgSubmitProposalResponse {
+  proposalId: ComputedRef<bigint>;
+}
 export interface MsgSubmitProposalResponseProtoMsg {
   typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposalResponse";
   value: Uint8Array;
@@ -45,6 +54,11 @@ export interface MsgVote {
   voter: string;
   option: VoteOption;
 }
+export interface ReactiveMsgVote {
+  proposalId: ComputedRef<bigint>;
+  voter: ComputedRef<string>;
+  option: ComputedRef<VoteOption>;
+}
 export interface MsgVoteProtoMsg {
   typeUrl: "/cosmos.gov.v1beta1.MsgVote";
   value: Uint8Array;
@@ -57,6 +71,7 @@ export interface MsgVoteSDKType {
 }
 /** MsgVoteResponse defines the Msg/Vote response type. */
 export interface MsgVoteResponse {}
+export interface ReactiveMsgVoteResponse {}
 export interface MsgVoteResponseProtoMsg {
   typeUrl: "/cosmos.gov.v1beta1.MsgVoteResponse";
   value: Uint8Array;
@@ -72,6 +87,11 @@ export interface MsgVoteWeighted {
   proposalId: bigint;
   voter: string;
   options: WeightedVoteOption[];
+}
+export interface ReactiveMsgVoteWeighted {
+  proposalId: ComputedRef<bigint>;
+  voter: ComputedRef<string>;
+  options: ComputedRef<WeightedVoteOption[]>;
 }
 export interface MsgVoteWeightedProtoMsg {
   typeUrl: "/cosmos.gov.v1beta1.MsgVoteWeighted";
@@ -93,6 +113,7 @@ export interface MsgVoteWeightedSDKType {
  * Since: cosmos-sdk 0.43
  */
 export interface MsgVoteWeightedResponse {}
+export interface ReactiveMsgVoteWeightedResponse {}
 export interface MsgVoteWeightedResponseProtoMsg {
   typeUrl: "/cosmos.gov.v1beta1.MsgVoteWeightedResponse";
   value: Uint8Array;
@@ -109,6 +130,11 @@ export interface MsgDeposit {
   depositor: string;
   amount: Coin[];
 }
+export interface ReactiveMsgDeposit {
+  proposalId: ComputedRef<bigint>;
+  depositor: ComputedRef<string>;
+  amount: ComputedRef<Coin[]>;
+}
 export interface MsgDepositProtoMsg {
   typeUrl: "/cosmos.gov.v1beta1.MsgDeposit";
   value: Uint8Array;
@@ -121,6 +147,7 @@ export interface MsgDepositSDKType {
 }
 /** MsgDepositResponse defines the Msg/Deposit response type. */
 export interface MsgDepositResponse {}
+export interface ReactiveMsgDepositResponse {}
 export interface MsgDepositResponseProtoMsg {
   typeUrl: "/cosmos.gov.v1beta1.MsgDepositResponse";
   value: Uint8Array;

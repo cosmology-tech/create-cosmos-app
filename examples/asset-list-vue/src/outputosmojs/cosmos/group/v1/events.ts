@@ -2,11 +2,15 @@ import { ProposalExecutorResult, ProposalExecutorResultSDKType, proposalExecutor
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.group.v1";
 /** EventCreateGroup is an event emitted when a group is created. */
 export interface EventCreateGroup {
   /** group_id is the unique ID of the group. */
   groupId: bigint;
+}
+export interface ReactiveEventCreateGroup {
+  groupId: ComputedRef<bigint>;
 }
 export interface EventCreateGroupProtoMsg {
   typeUrl: "/cosmos.group.v1.EventCreateGroup";
@@ -21,6 +25,9 @@ export interface EventUpdateGroup {
   /** group_id is the unique ID of the group. */
   groupId: bigint;
 }
+export interface ReactiveEventUpdateGroup {
+  groupId: ComputedRef<bigint>;
+}
 export interface EventUpdateGroupProtoMsg {
   typeUrl: "/cosmos.group.v1.EventUpdateGroup";
   value: Uint8Array;
@@ -33,6 +40,9 @@ export interface EventUpdateGroupSDKType {
 export interface EventCreateGroupPolicy {
   /** address is the account address of the group policy. */
   address: string;
+}
+export interface ReactiveEventCreateGroupPolicy {
+  address: ComputedRef<string>;
 }
 export interface EventCreateGroupPolicyProtoMsg {
   typeUrl: "/cosmos.group.v1.EventCreateGroupPolicy";
@@ -47,6 +57,9 @@ export interface EventUpdateGroupPolicy {
   /** address is the account address of the group policy. */
   address: string;
 }
+export interface ReactiveEventUpdateGroupPolicy {
+  address: ComputedRef<string>;
+}
 export interface EventUpdateGroupPolicyProtoMsg {
   typeUrl: "/cosmos.group.v1.EventUpdateGroupPolicy";
   value: Uint8Array;
@@ -59,6 +72,9 @@ export interface EventUpdateGroupPolicySDKType {
 export interface EventSubmitProposal {
   /** proposal_id is the unique ID of the proposal. */
   proposalId: bigint;
+}
+export interface ReactiveEventSubmitProposal {
+  proposalId: ComputedRef<bigint>;
 }
 export interface EventSubmitProposalProtoMsg {
   typeUrl: "/cosmos.group.v1.EventSubmitProposal";
@@ -73,6 +89,9 @@ export interface EventWithdrawProposal {
   /** proposal_id is the unique ID of the proposal. */
   proposalId: bigint;
 }
+export interface ReactiveEventWithdrawProposal {
+  proposalId: ComputedRef<bigint>;
+}
 export interface EventWithdrawProposalProtoMsg {
   typeUrl: "/cosmos.group.v1.EventWithdrawProposal";
   value: Uint8Array;
@@ -85,6 +104,9 @@ export interface EventWithdrawProposalSDKType {
 export interface EventVote {
   /** proposal_id is the unique ID of the proposal. */
   proposalId: bigint;
+}
+export interface ReactiveEventVote {
+  proposalId: ComputedRef<bigint>;
 }
 export interface EventVoteProtoMsg {
   typeUrl: "/cosmos.group.v1.EventVote";
@@ -101,6 +123,10 @@ export interface EventExec {
   /** result is the proposal execution result. */
   result: ProposalExecutorResult;
 }
+export interface ReactiveEventExec {
+  proposalId: ComputedRef<bigint>;
+  result: ComputedRef<ProposalExecutorResult>;
+}
 export interface EventExecProtoMsg {
   typeUrl: "/cosmos.group.v1.EventExec";
   value: Uint8Array;
@@ -116,6 +142,10 @@ export interface EventLeaveGroup {
   groupId: bigint;
   /** address is the account address of the group member. */
   address: string;
+}
+export interface ReactiveEventLeaveGroup {
+  groupId: ComputedRef<bigint>;
+  address: ComputedRef<string>;
 }
 export interface EventLeaveGroupProtoMsg {
   typeUrl: "/cosmos.group.v1.EventLeaveGroup";

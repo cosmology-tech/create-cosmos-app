@@ -4,11 +4,16 @@ import { Endpoint, EndpointSDKType } from "./endpoint";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.base.v1beta1";
 /** CPU stores resource units and cpu config attributes */
 export interface CPU {
   units: ResourceValue;
   attributes: Attribute[];
+}
+export interface ReactiveCPU {
+  units: ComputedRef<ResourceValue>;
+  attributes: ComputedRef<Attribute[]>;
 }
 export interface CPUProtoMsg {
   typeUrl: "/akash.base.v1beta1.CPU";
@@ -24,6 +29,10 @@ export interface Memory {
   quantity: ResourceValue;
   attributes: Attribute[];
 }
+export interface ReactiveMemory {
+  quantity: ComputedRef<ResourceValue>;
+  attributes: ComputedRef<Attribute[]>;
+}
 export interface MemoryProtoMsg {
   typeUrl: "/akash.base.v1beta1.Memory";
   value: Uint8Array;
@@ -37,6 +46,10 @@ export interface MemorySDKType {
 export interface Storage {
   quantity: ResourceValue;
   attributes: Attribute[];
+}
+export interface ReactiveStorage {
+  quantity: ComputedRef<ResourceValue>;
+  attributes: ComputedRef<Attribute[]>;
 }
 export interface StorageProtoMsg {
   typeUrl: "/akash.base.v1beta1.Storage";
@@ -56,6 +69,12 @@ export interface ResourceUnits {
   memory?: Memory;
   storage?: Storage;
   endpoints: Endpoint[];
+}
+export interface ReactiveResourceUnits {
+  cpu?: ComputedRef<CPU>;
+  memory?: ComputedRef<Memory>;
+  storage?: ComputedRef<Storage>;
+  endpoints: ComputedRef<Endpoint[]>;
 }
 export interface ResourceUnitsProtoMsg {
   typeUrl: "/akash.base.v1beta1.ResourceUnits";

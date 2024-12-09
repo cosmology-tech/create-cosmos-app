@@ -4,6 +4,7 @@ import { Struct, StructSDKType } from "../protobuf/struct";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, isObject } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * An object that describes the schema of a [MonitoredResource][google.api.MonitoredResource] object using a
@@ -52,6 +53,14 @@ export interface MonitoredResourceDescriptor {
   /** Optional. The launch stage of the monitored resource definition. */
   launchStage: LaunchStage;
 }
+export interface ReactiveMonitoredResourceDescriptor {
+  name: ComputedRef<string>;
+  type: ComputedRef<string>;
+  displayName: ComputedRef<string>;
+  description: ComputedRef<string>;
+  labels: ComputedRef<LabelDescriptor[]>;
+  launchStage: ComputedRef<LaunchStage>;
+}
 export interface MonitoredResourceDescriptorProtoMsg {
   typeUrl: "/google.api.MonitoredResourceDescriptor";
   value: Uint8Array;
@@ -78,6 +87,10 @@ export interface MonitoredResourceDescriptorSDKType {
 export interface MonitoredResource_LabelsEntry {
   key: string;
   value: string;
+}
+export interface ReactiveMonitoredResource_LabelsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface MonitoredResource_LabelsEntryProtoMsg {
   typeUrl: string;
@@ -118,6 +131,12 @@ export interface MonitoredResource {
     [key: string]: string;
   };
 }
+export interface ReactiveMonitoredResource {
+  type: ComputedRef<string>;
+  labels: ComputedRef<{
+    [key: string]: string;
+  }>;
+}
 export interface MonitoredResourceProtoMsg {
   typeUrl: "/google.api.MonitoredResource";
   value: Uint8Array;
@@ -146,6 +165,10 @@ export interface MonitoredResourceSDKType {
 export interface MonitoredResourceMetadata_UserLabelsEntry {
   key: string;
   value: string;
+}
+export interface ReactiveMonitoredResourceMetadata_UserLabelsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface MonitoredResourceMetadata_UserLabelsEntryProtoMsg {
   typeUrl: string;
@@ -181,6 +204,12 @@ export interface MonitoredResourceMetadata {
   userLabels: {
     [key: string]: string;
   };
+}
+export interface ReactiveMonitoredResourceMetadata {
+  systemLabels?: ComputedRef<Struct>;
+  userLabels: ComputedRef<{
+    [key: string]: string;
+  }>;
 }
 export interface MonitoredResourceMetadataProtoMsg {
   typeUrl: "/google.api.MonitoredResourceMetadata";

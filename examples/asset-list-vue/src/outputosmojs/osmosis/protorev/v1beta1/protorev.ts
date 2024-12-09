@@ -2,6 +2,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.protorev.v1beta1";
 /** TokenPairArbRoutes tracks all of the hot routes for a given pair of tokens */
 export interface TokenPairArbRoutes {
@@ -11,6 +12,11 @@ export interface TokenPairArbRoutes {
   tokenIn: string;
   /** Token denomination of the second asset */
   tokenOut: string;
+}
+export interface ReactiveTokenPairArbRoutes {
+  arbRoutes: ComputedRef<Route[]>;
+  tokenIn: ComputedRef<string>;
+  tokenOut: ComputedRef<string>;
 }
 export interface TokenPairArbRoutesProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.TokenPairArbRoutes";
@@ -35,6 +41,10 @@ export interface Route {
    */
   stepSize: string;
 }
+export interface ReactiveRoute {
+  trades: ComputedRef<Trade[]>;
+  stepSize: ComputedRef<string>;
+}
 export interface RouteProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.Route";
   value: Uint8Array;
@@ -52,6 +62,11 @@ export interface Trade {
   tokenIn: string;
   /** The denom of the token that is received */
   tokenOut: string;
+}
+export interface ReactiveTrade {
+  pool: ComputedRef<bigint>;
+  tokenIn: ComputedRef<string>;
+  tokenOut: ComputedRef<string>;
 }
 export interface TradeProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.Trade";
@@ -77,6 +92,11 @@ export interface RouteStatistics {
   numberOfTrades: string;
   /** route is the route that was used (pool ids along the arbitrage route) */
   route: bigint[];
+}
+export interface ReactiveRouteStatistics {
+  profits: ComputedRef<Coin[]>;
+  numberOfTrades: ComputedRef<string>;
+  route: ComputedRef<bigint[]>;
 }
 export interface RouteStatisticsProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.RouteStatistics";
@@ -105,6 +125,11 @@ export interface PoolWeights {
   balancerWeight: bigint;
   /** The weight of a concentrated pool */
   concentratedWeight: bigint;
+}
+export interface ReactivePoolWeights {
+  stableWeight: ComputedRef<bigint>;
+  balancerWeight: ComputedRef<bigint>;
+  concentratedWeight: ComputedRef<bigint>;
 }
 export interface PoolWeightsProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.PoolWeights";
@@ -135,6 +160,10 @@ export interface BaseDenom {
    * amount
    */
   stepSize: string;
+}
+export interface ReactiveBaseDenom {
+  denom: ComputedRef<string>;
+  stepSize: ComputedRef<string>;
 }
 export interface BaseDenomProtoMsg {
   typeUrl: "/osmosis.protorev.v1beta1.BaseDenom";

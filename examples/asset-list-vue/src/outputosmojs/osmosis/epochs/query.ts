@@ -2,8 +2,10 @@ import { EpochInfo, EpochInfoSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.epochs.v1beta1";
 export interface QueryEpochsInfoRequest {}
+export interface ReactiveQueryEpochsInfoRequest {}
 export interface QueryEpochsInfoRequestProtoMsg {
   typeUrl: "/osmosis.epochs.v1beta1.QueryEpochsInfoRequest";
   value: Uint8Array;
@@ -11,6 +13,9 @@ export interface QueryEpochsInfoRequestProtoMsg {
 export interface QueryEpochsInfoRequestSDKType {}
 export interface QueryEpochsInfoResponse {
   epochs: EpochInfo[];
+}
+export interface ReactiveQueryEpochsInfoResponse {
+  epochs: ComputedRef<EpochInfo[]>;
 }
 export interface QueryEpochsInfoResponseProtoMsg {
   typeUrl: "/osmosis.epochs.v1beta1.QueryEpochsInfoResponse";
@@ -22,6 +27,9 @@ export interface QueryEpochsInfoResponseSDKType {
 export interface QueryCurrentEpochRequest {
   identifier: string;
 }
+export interface ReactiveQueryCurrentEpochRequest {
+  identifier: ComputedRef<string>;
+}
 export interface QueryCurrentEpochRequestProtoMsg {
   typeUrl: "/osmosis.epochs.v1beta1.QueryCurrentEpochRequest";
   value: Uint8Array;
@@ -31,6 +39,9 @@ export interface QueryCurrentEpochRequestSDKType {
 }
 export interface QueryCurrentEpochResponse {
   currentEpoch: bigint;
+}
+export interface ReactiveQueryCurrentEpochResponse {
+  currentEpoch: ComputedRef<bigint>;
 }
 export interface QueryCurrentEpochResponseProtoMsg {
   typeUrl: "/osmosis.epochs.v1beta1.QueryCurrentEpochResponse";

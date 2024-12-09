@@ -3,9 +3,11 @@ import { Params, ParamsSDKType, ValidatorSigningInfo, ValidatorSigningInfoSDKTyp
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.slashing.v1beta1";
 /** QueryParamsRequest is the request type for the Query/Params RPC method */
 export interface QueryParamsRequest {}
+export interface ReactiveQueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.QueryParamsRequest";
   value: Uint8Array;
@@ -15,6 +17,9 @@ export interface QueryParamsRequestSDKType {}
 /** QueryParamsResponse is the response type for the Query/Params RPC method */
 export interface QueryParamsResponse {
   params: Params;
+}
+export interface ReactiveQueryParamsResponse {
+  params: ComputedRef<Params>;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.QueryParamsResponse";
@@ -31,6 +36,9 @@ export interface QueryParamsResponseSDKType {
 export interface QuerySigningInfoRequest {
   /** cons_address is the address to query signing info of */
   consAddress: string;
+}
+export interface ReactiveQuerySigningInfoRequest {
+  consAddress: ComputedRef<string>;
 }
 export interface QuerySigningInfoRequestProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.QuerySigningInfoRequest";
@@ -51,6 +59,9 @@ export interface QuerySigningInfoResponse {
   /** val_signing_info is the signing info of requested val cons address */
   valSigningInfo: ValidatorSigningInfo;
 }
+export interface ReactiveQuerySigningInfoResponse {
+  valSigningInfo: ComputedRef<ValidatorSigningInfo>;
+}
 export interface QuerySigningInfoResponseProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.QuerySigningInfoResponse";
   value: Uint8Array;
@@ -68,6 +79,9 @@ export interface QuerySigningInfoResponseSDKType {
  */
 export interface QuerySigningInfosRequest {
   pagination?: PageRequest;
+}
+export interface ReactiveQuerySigningInfosRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QuerySigningInfosRequestProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.QuerySigningInfosRequest";
@@ -88,6 +102,10 @@ export interface QuerySigningInfosResponse {
   /** info is the signing info of all validators */
   info: ValidatorSigningInfo[];
   pagination?: PageResponse;
+}
+export interface ReactiveQuerySigningInfosResponse {
+  info: ComputedRef<ValidatorSigningInfo[]>;
+  pagination?: ComputedRef<PageResponse>;
 }
 export interface QuerySigningInfosResponseProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.QuerySigningInfosResponse";

@@ -2,6 +2,7 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.feegrant.v1beta1";
 /**
  * MsgGrantAllowance adds permission for Grantee to spend up to Allowance
@@ -14,6 +15,11 @@ export interface MsgGrantAllowance {
   grantee: string;
   /** allowance can be any of basic, periodic, allowed fee allowance. */
   allowance?: Any;
+}
+export interface ReactiveMsgGrantAllowance {
+  granter: ComputedRef<string>;
+  grantee: ComputedRef<string>;
+  allowance?: ComputedRef<Any>;
 }
 export interface MsgGrantAllowanceProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.MsgGrantAllowance";
@@ -30,6 +36,7 @@ export interface MsgGrantAllowanceSDKType {
 }
 /** MsgGrantAllowanceResponse defines the Msg/GrantAllowanceResponse response type. */
 export interface MsgGrantAllowanceResponse {}
+export interface ReactiveMsgGrantAllowanceResponse {}
 export interface MsgGrantAllowanceResponseProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.MsgGrantAllowanceResponse";
   value: Uint8Array;
@@ -43,6 +50,10 @@ export interface MsgRevokeAllowance {
   /** grantee is the address of the user being granted an allowance of another user's funds. */
   grantee: string;
 }
+export interface ReactiveMsgRevokeAllowance {
+  granter: ComputedRef<string>;
+  grantee: ComputedRef<string>;
+}
 export interface MsgRevokeAllowanceProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.MsgRevokeAllowance";
   value: Uint8Array;
@@ -54,6 +65,7 @@ export interface MsgRevokeAllowanceSDKType {
 }
 /** MsgRevokeAllowanceResponse defines the Msg/RevokeAllowanceResponse response type. */
 export interface MsgRevokeAllowanceResponse {}
+export interface ReactiveMsgRevokeAllowanceResponse {}
 export interface MsgRevokeAllowanceResponseProtoMsg {
   typeUrl: "/cosmos.feegrant.v1beta1.MsgRevokeAllowanceResponse";
   value: Uint8Array;

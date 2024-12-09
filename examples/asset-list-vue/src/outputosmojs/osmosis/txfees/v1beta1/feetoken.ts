@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.txfees.v1beta1";
 /**
  * FeeToken is a struct that specifies a coin denom, and pool ID pair.
@@ -11,6 +12,10 @@ export const protobufPackage = "osmosis.txfees.v1beta1";
 export interface FeeToken {
   denom: string;
   poolID: bigint;
+}
+export interface ReactiveFeeToken {
+  denom: ComputedRef<string>;
+  poolID: ComputedRef<bigint>;
 }
 export interface FeeTokenProtoMsg {
   typeUrl: "/osmosis.txfees.v1beta1.FeeToken";

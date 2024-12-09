@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "capability.v1";
 /**
  * Capability defines an implementation of an object capability. The index
@@ -8,6 +9,9 @@ export const protobufPackage = "capability.v1";
  */
 export interface Capability {
   index: bigint;
+}
+export interface ReactiveCapability {
+  index: ComputedRef<bigint>;
 }
 export interface CapabilityProtoMsg {
   typeUrl: "/capability.v1.Capability";
@@ -28,6 +32,10 @@ export interface Owner {
   module: string;
   name: string;
 }
+export interface ReactiveOwner {
+  module: ComputedRef<string>;
+  name: ComputedRef<string>;
+}
 export interface OwnerProtoMsg {
   typeUrl: "/capability.v1.Owner";
   value: Uint8Array;
@@ -46,6 +54,9 @@ export interface OwnerSDKType {
  */
 export interface CapabilityOwners {
   owners: Owner[];
+}
+export interface ReactiveCapabilityOwners {
+  owners: ComputedRef<Owner[]>;
 }
 export interface CapabilityOwnersProtoMsg {
   typeUrl: "/capability.v1.CapabilityOwners";

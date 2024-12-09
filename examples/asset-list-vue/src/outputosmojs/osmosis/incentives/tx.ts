@@ -4,6 +4,7 @@ import { Timestamp, TimestampSDKType } from "../../google/protobuf/timestamp";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.incentives";
 /** MsgCreateGauge creates a gague to distribute rewards to users */
 export interface MsgCreateGauge {
@@ -32,6 +33,14 @@ export interface MsgCreateGauge {
    */
   numEpochsPaidOver: bigint;
 }
+export interface ReactiveMsgCreateGauge {
+  isPerpetual: ComputedRef<boolean>;
+  owner: ComputedRef<string>;
+  distributeTo: ComputedRef<QueryCondition>;
+  coins: ComputedRef<Coin[]>;
+  startTime: ComputedRef<Date>;
+  numEpochsPaidOver: ComputedRef<bigint>;
+}
 export interface MsgCreateGaugeProtoMsg {
   typeUrl: "/osmosis.incentives.MsgCreateGauge";
   value: Uint8Array;
@@ -46,6 +55,7 @@ export interface MsgCreateGaugeSDKType {
   num_epochs_paid_over: bigint;
 }
 export interface MsgCreateGaugeResponse {}
+export interface ReactiveMsgCreateGaugeResponse {}
 export interface MsgCreateGaugeResponseProtoMsg {
   typeUrl: "/osmosis.incentives.MsgCreateGaugeResponse";
   value: Uint8Array;
@@ -60,6 +70,11 @@ export interface MsgAddToGauge {
   /** rewards are the coin(s) to add to gauge */
   rewards: Coin[];
 }
+export interface ReactiveMsgAddToGauge {
+  owner: ComputedRef<string>;
+  gaugeId: ComputedRef<bigint>;
+  rewards: ComputedRef<Coin[]>;
+}
 export interface MsgAddToGaugeProtoMsg {
   typeUrl: "/osmosis.incentives.MsgAddToGauge";
   value: Uint8Array;
@@ -71,6 +86,7 @@ export interface MsgAddToGaugeSDKType {
   rewards: CoinSDKType[];
 }
 export interface MsgAddToGaugeResponse {}
+export interface ReactiveMsgAddToGaugeResponse {}
 export interface MsgAddToGaugeResponseProtoMsg {
   typeUrl: "/osmosis.incentives.MsgAddToGaugeResponse";
   value: Uint8Array;

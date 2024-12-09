@@ -1,9 +1,13 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet, bytesFromBase64, base64FromBytes } from "../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.store.v1beta1";
 export interface Node {
   children: Child[];
+}
+export interface ReactiveNode {
+  children: ComputedRef<Child[]>;
 }
 export interface NodeProtoMsg {
   typeUrl: "/osmosis.store.v1beta1.Node";
@@ -16,6 +20,10 @@ export interface Child {
   index: Uint8Array;
   accumulation: string;
 }
+export interface ReactiveChild {
+  index: ComputedRef<Uint8Array>;
+  accumulation: ComputedRef<string>;
+}
 export interface ChildProtoMsg {
   typeUrl: "/osmosis.store.v1beta1.Child";
   value: Uint8Array;
@@ -26,6 +34,9 @@ export interface ChildSDKType {
 }
 export interface Leaf {
   leaf?: Child;
+}
+export interface ReactiveLeaf {
+  leaf?: ComputedRef<Child>;
 }
 export interface LeafProtoMsg {
   typeUrl: "/osmosis.store.v1beta1.Leaf";

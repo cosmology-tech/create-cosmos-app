@@ -1,12 +1,19 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.cosmwasmpool.v1beta1";
 export interface CosmWasmPool {
   poolAddress: string;
   contractAddress: string;
   poolId: bigint;
   codeId: bigint;
+}
+export interface ReactiveCosmWasmPool {
+  poolAddress: ComputedRef<string>;
+  contractAddress: ComputedRef<string>;
+  poolId: ComputedRef<bigint>;
+  codeId: ComputedRef<bigint>;
 }
 export interface CosmWasmPoolProtoMsg {
   typeUrl: "/osmosis.cosmwasmpool.v1beta1.CosmWasmPool";

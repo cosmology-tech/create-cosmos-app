@@ -2,6 +2,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.valsetpref.v1beta1";
 /**
  * ValidatorPreference defines the message structure for
@@ -18,6 +19,10 @@ export interface ValidatorPreference {
   valOperAddress: string;
   /** weight is decimal between 0 and 1, and they all sum to 1. */
   weight: string;
+}
+export interface ReactiveValidatorPreference {
+  valOperAddress: ComputedRef<string>;
+  weight: ComputedRef<string>;
 }
 export interface ValidatorPreferenceProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.ValidatorPreference";
@@ -43,6 +48,9 @@ export interface ValidatorPreferenceSDKType {
 export interface ValidatorSetPreferences {
   /** preference holds {valAddr, weight} for the user who created it. */
   preferences: ValidatorPreference[];
+}
+export interface ReactiveValidatorSetPreferences {
+  preferences: ComputedRef<ValidatorPreference[]>;
 }
 export interface ValidatorSetPreferencesProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.ValidatorSetPreferences";

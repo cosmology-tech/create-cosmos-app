@@ -7,10 +7,15 @@ import { HttpRequest, HttpRequestSDKType } from "../type/http_request";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp, isObject } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.logging.v2";
 export interface LogEntry_LabelsEntry {
   key: string;
   value: string;
+}
+export interface ReactiveLogEntry_LabelsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface LogEntry_LabelsEntryProtoMsg {
   typeUrl: string;
@@ -168,6 +173,27 @@ export interface LogEntry {
    */
   split?: LogSplit;
 }
+export interface ReactiveLogEntry {
+  logName: ComputedRef<string>;
+  resource?: ComputedRef<MonitoredResource>;
+  protoPayload?: ComputedRef<Any>;
+  textPayload?: ComputedRef<string>;
+  jsonPayload?: ComputedRef<Struct>;
+  timestamp?: ComputedRef<Date>;
+  receiveTimestamp?: ComputedRef<Date>;
+  severity: ComputedRef<LogSeverity>;
+  insertId: ComputedRef<string>;
+  httpRequest?: ComputedRef<HttpRequest>;
+  labels: ComputedRef<{
+    [key: string]: string;
+  }>;
+  operation?: ComputedRef<LogEntryOperation>;
+  trace: ComputedRef<string>;
+  spanId: ComputedRef<string>;
+  traceSampled: ComputedRef<boolean>;
+  sourceLocation?: ComputedRef<LogEntrySourceLocation>;
+  split?: ComputedRef<LogSplit>;
+}
 export interface LogEntryProtoMsg {
   typeUrl: "/google.logging.v2.LogEntry";
   value: Uint8Array;
@@ -215,6 +241,12 @@ export interface LogEntryOperation {
   /** Optional. Set this to True if this is the last log entry in the operation. */
   last: boolean;
 }
+export interface ReactiveLogEntryOperation {
+  id: ComputedRef<string>;
+  producer: ComputedRef<string>;
+  first: ComputedRef<boolean>;
+  last: ComputedRef<boolean>;
+}
 export interface LogEntryOperationProtoMsg {
   typeUrl: "/google.logging.v2.LogEntryOperation";
   value: Uint8Array;
@@ -254,6 +286,11 @@ export interface LogEntrySourceLocation {
    */
   function: string;
 }
+export interface ReactiveLogEntrySourceLocation {
+  file: ComputedRef<string>;
+  line: ComputedRef<bigint>;
+  function: ComputedRef<string>;
+}
 export interface LogEntrySourceLocationProtoMsg {
   typeUrl: "/google.logging.v2.LogEntrySourceLocation";
   value: Uint8Array;
@@ -287,6 +324,11 @@ export interface LogSplit {
   index: number;
   /** The total number of log entries that the original LogEntry was split into. */
   totalSplits: number;
+}
+export interface ReactiveLogSplit {
+  uid: ComputedRef<string>;
+  index: ComputedRef<number>;
+  totalSplits: ComputedRef<number>;
 }
 export interface LogSplitProtoMsg {
   typeUrl: "/google.logging.v2.LogSplit";

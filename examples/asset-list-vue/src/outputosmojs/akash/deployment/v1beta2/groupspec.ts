@@ -3,12 +3,18 @@ import { Resource, ResourceSDKType } from "./resource";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta2";
 /** GroupSpec stores group specifications */
 export interface GroupSpec {
   name: string;
   requirements: PlacementRequirements;
   resources: Resource[];
+}
+export interface ReactiveGroupSpec {
+  name: ComputedRef<string>;
+  requirements: ComputedRef<PlacementRequirements>;
+  resources: ComputedRef<Resource[]>;
 }
 export interface GroupSpecProtoMsg {
   typeUrl: "/akash.deployment.v1beta2.GroupSpec";

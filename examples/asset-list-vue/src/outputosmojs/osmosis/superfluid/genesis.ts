@@ -3,6 +3,7 @@ import { SuperfluidAsset, SuperfluidAssetSDKType, OsmoEquivalentMultiplierRecord
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.superfluid";
 /** GenesisState defines the module's genesis state. */
 export interface GenesisState {
@@ -23,6 +24,13 @@ export interface GenesisState {
    */
   intermediaryAccounts: SuperfluidIntermediaryAccount[];
   intemediaryAccountConnections: LockIdIntermediaryAccountConnection[];
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  superfluidAssets: ComputedRef<SuperfluidAsset[]>;
+  osmoEquivalentMultipliers: ComputedRef<OsmoEquivalentMultiplierRecord[]>;
+  intermediaryAccounts: ComputedRef<SuperfluidIntermediaryAccount[]>;
+  intemediaryAccountConnections: ComputedRef<LockIdIntermediaryAccountConnection[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.superfluid.GenesisState";

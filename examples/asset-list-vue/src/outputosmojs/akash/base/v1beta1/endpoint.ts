@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.base.v1beta1";
 /** This describes how the endpoint is implemented when the lease is deployed */
 export enum Endpoint_Kind {
@@ -39,6 +40,9 @@ export function endpoint_KindToJSON(object: Endpoint_Kind): string {
 /** Endpoint describes a publicly accessible IP service */
 export interface Endpoint {
   kind: Endpoint_Kind;
+}
+export interface ReactiveEndpoint {
+  kind: ComputedRef<Endpoint_Kind>;
 }
 export interface EndpointProtoMsg {
   typeUrl: "/akash.base.v1beta1.Endpoint";

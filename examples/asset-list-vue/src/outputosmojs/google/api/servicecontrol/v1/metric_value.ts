@@ -3,10 +3,15 @@ import { Distribution, DistributionSDKType } from "./distribution";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp, isObject } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicecontrol.v1";
 export interface MetricValue_LabelsEntry {
   key: string;
   value: string;
+}
+export interface ReactiveMetricValue_LabelsEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface MetricValue_LabelsEntryProtoMsg {
   typeUrl: string;
@@ -52,6 +57,18 @@ export interface MetricValue {
   /** A distribution value. */
   distributionValue?: Distribution;
 }
+export interface ReactiveMetricValue {
+  labels: ComputedRef<{
+    [key: string]: string;
+  }>;
+  startTime?: ComputedRef<Date>;
+  endTime?: ComputedRef<Date>;
+  boolValue?: ComputedRef<boolean>;
+  int64Value?: ComputedRef<bigint>;
+  doubleValue?: ComputedRef<number>;
+  stringValue?: ComputedRef<string>;
+  distributionValue?: ComputedRef<Distribution>;
+}
 export interface MetricValueProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.MetricValue";
   value: Uint8Array;
@@ -79,6 +96,10 @@ export interface MetricValueSet {
   metricName: string;
   /** The values in this metric. */
   metricValues: MetricValue[];
+}
+export interface ReactiveMetricValueSet {
+  metricName: ComputedRef<string>;
+  metricValues: ComputedRef<MetricValue[]>;
 }
 export interface MetricValueSetProtoMsg {
   typeUrl: "/google.api.servicecontrol.v1.MetricValueSet";

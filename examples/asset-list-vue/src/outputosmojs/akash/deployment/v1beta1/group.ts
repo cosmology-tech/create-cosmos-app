@@ -4,6 +4,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta1";
 /** State is an enum which refers to state of group */
 export enum Group_State {
@@ -64,6 +65,9 @@ export function group_StateToJSON(object: Group_State): string {
 export interface MsgCloseGroup {
   id: GroupID | undefined;
 }
+export interface ReactiveMsgCloseGroup {
+  id: ComputedRef<GroupID | undefined>;
+}
 export interface MsgCloseGroupProtoMsg {
   typeUrl: "/akash.deployment.v1beta1.MsgCloseGroup";
   value: Uint8Array;
@@ -74,6 +78,7 @@ export interface MsgCloseGroupSDKType {
 }
 /** MsgCloseGroupResponse defines the Msg/CloseGroup response type. */
 export interface MsgCloseGroupResponse {}
+export interface ReactiveMsgCloseGroupResponse {}
 export interface MsgCloseGroupResponseProtoMsg {
   typeUrl: "/akash.deployment.v1beta1.MsgCloseGroupResponse";
   value: Uint8Array;
@@ -83,6 +88,9 @@ export interface MsgCloseGroupResponseSDKType {}
 /** MsgPauseGroup defines SDK message to close a single Group within a Deployment. */
 export interface MsgPauseGroup {
   id: GroupID | undefined;
+}
+export interface ReactiveMsgPauseGroup {
+  id: ComputedRef<GroupID | undefined>;
 }
 export interface MsgPauseGroupProtoMsg {
   typeUrl: "/akash.deployment.v1beta1.MsgPauseGroup";
@@ -94,6 +102,7 @@ export interface MsgPauseGroupSDKType {
 }
 /** MsgPauseGroupResponse defines the Msg/PauseGroup response type. */
 export interface MsgPauseGroupResponse {}
+export interface ReactiveMsgPauseGroupResponse {}
 export interface MsgPauseGroupResponseProtoMsg {
   typeUrl: "/akash.deployment.v1beta1.MsgPauseGroupResponse";
   value: Uint8Array;
@@ -103,6 +112,9 @@ export interface MsgPauseGroupResponseSDKType {}
 /** MsgStartGroup defines SDK message to close a single Group within a Deployment. */
 export interface MsgStartGroup {
   id: GroupID | undefined;
+}
+export interface ReactiveMsgStartGroup {
+  id: ComputedRef<GroupID | undefined>;
 }
 export interface MsgStartGroupProtoMsg {
   typeUrl: "/akash.deployment.v1beta1.MsgStartGroup";
@@ -114,6 +126,7 @@ export interface MsgStartGroupSDKType {
 }
 /** MsgStartGroupResponse defines the Msg/StartGroup response type. */
 export interface MsgStartGroupResponse {}
+export interface ReactiveMsgStartGroupResponse {}
 export interface MsgStartGroupResponseProtoMsg {
   typeUrl: "/akash.deployment.v1beta1.MsgStartGroupResponse";
   value: Uint8Array;
@@ -125,6 +138,11 @@ export interface GroupID {
   owner: string;
   dseq: bigint;
   gseq: number;
+}
+export interface ReactiveGroupID {
+  owner: ComputedRef<string>;
+  dseq: ComputedRef<bigint>;
+  gseq: ComputedRef<number>;
 }
 export interface GroupIDProtoMsg {
   typeUrl: "/akash.deployment.v1beta1.GroupID";
@@ -141,6 +159,11 @@ export interface GroupSpec {
   name: string;
   requirements: PlacementRequirements | undefined;
   resources: Resource[];
+}
+export interface ReactiveGroupSpec {
+  name: ComputedRef<string>;
+  requirements: ComputedRef<PlacementRequirements | undefined>;
+  resources: ComputedRef<Resource[]>;
 }
 export interface GroupSpecProtoMsg {
   typeUrl: "/akash.deployment.v1beta1.GroupSpec";
@@ -159,6 +182,12 @@ export interface Group {
   groupSpec: GroupSpec | undefined;
   createdAt: bigint;
 }
+export interface ReactiveGroup {
+  groupId: ComputedRef<GroupID | undefined>;
+  state: ComputedRef<Group_State>;
+  groupSpec: ComputedRef<GroupSpec | undefined>;
+  createdAt: ComputedRef<bigint>;
+}
 export interface GroupProtoMsg {
   typeUrl: "/akash.deployment.v1beta1.Group";
   value: Uint8Array;
@@ -175,6 +204,11 @@ export interface Resource {
   resources: ResourceUnits | undefined;
   count: number;
   price: Coin | undefined;
+}
+export interface ReactiveResource {
+  resources: ComputedRef<ResourceUnits | undefined>;
+  count: ComputedRef<number>;
+  price: ComputedRef<Coin | undefined>;
 }
 export interface ResourceProtoMsg {
   typeUrl: "/akash.deployment.v1beta1.Resource";

@@ -2,11 +2,16 @@ import { BaseAccount, BaseAccountSDKType } from "../../../../cosmos/auth/v1beta1
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.interchain_accounts.v1";
 /** An InterchainAccount is defined as a BaseAccount & the address of the account owner on the controller chain */
 export interface InterchainAccount {
   baseAccount?: BaseAccount;
   accountOwner: string;
+}
+export interface ReactiveInterchainAccount {
+  baseAccount?: ComputedRef<BaseAccount>;
+  accountOwner: ComputedRef<string>;
 }
 export interface InterchainAccountProtoMsg {
   typeUrl: "/ibc.applications.interchain_accounts.v1.InterchainAccount";

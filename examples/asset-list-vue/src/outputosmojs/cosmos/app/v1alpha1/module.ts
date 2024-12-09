@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.app.v1alpha1";
 /** ModuleDescriptor describes an app module. */
 export interface ModuleDescriptor {
@@ -29,6 +30,11 @@ export interface ModuleDescriptor {
    * from v1 to v3, assuming all 3 module versions are registered at runtime.
    */
   canMigrateFrom: MigrateFromInfo[];
+}
+export interface ReactiveModuleDescriptor {
+  goImport: ComputedRef<string>;
+  usePackage: ComputedRef<PackageReference[]>;
+  canMigrateFrom: ComputedRef<MigrateFromInfo[]>;
 }
 export interface ModuleDescriptorProtoMsg {
   typeUrl: "/cosmos.app.v1alpha1.ModuleDescriptor";
@@ -83,6 +89,10 @@ export interface PackageReference {
    */
   revision: number;
 }
+export interface ReactivePackageReference {
+  name: ComputedRef<string>;
+  revision: ComputedRef<number>;
+}
 export interface PackageReferenceProtoMsg {
   typeUrl: "/cosmos.app.v1alpha1.PackageReference";
   value: Uint8Array;
@@ -102,6 +112,9 @@ export interface MigrateFromInfo {
    * for the previous module version, ex: "cosmos.group.module.v1.Module".
    */
   module: string;
+}
+export interface ReactiveMigrateFromInfo {
+  module: ComputedRef<string>;
 }
 export interface MigrateFromInfoProtoMsg {
   typeUrl: "/cosmos.app.v1alpha1.MigrateFromInfo";

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * Logging configuration of the service.
@@ -48,6 +49,10 @@ export interface Logging {
    * one consumer destination.
    */
   consumerDestinations: Logging_LoggingDestination[];
+}
+export interface ReactiveLogging {
+  producerDestinations: ComputedRef<Logging_LoggingDestination[]>;
+  consumerDestinations: ComputedRef<Logging_LoggingDestination[]>;
 }
 export interface LoggingProtoMsg {
   typeUrl: "/google.api.Logging";
@@ -105,6 +110,10 @@ export interface Logging_LoggingDestination {
    * the service name followed by "/".
    */
   logs: string[];
+}
+export interface ReactiveLogging_LoggingDestination {
+  monitoredResource: ComputedRef<string>;
+  logs: ComputedRef<string[]>;
 }
 export interface Logging_LoggingDestinationProtoMsg {
   typeUrl: "/google.api.LoggingDestination";

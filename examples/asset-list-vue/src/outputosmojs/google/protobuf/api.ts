@@ -3,6 +3,7 @@ import { SourceContext, SourceContextSDKType } from "./source_context";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf";
 /**
  * Api is a light-weight descriptor for an API Interface.
@@ -57,6 +58,15 @@ export interface Api {
   /** The source syntax of the service. */
   syntax: Syntax;
 }
+export interface ReactiveApi {
+  name: ComputedRef<string>;
+  methods: ComputedRef<Method[]>;
+  options: ComputedRef<Option[]>;
+  version: ComputedRef<string>;
+  sourceContext?: ComputedRef<SourceContext>;
+  mixins: ComputedRef<Mixin[]>;
+  syntax: ComputedRef<Syntax>;
+}
 export interface ApiProtoMsg {
   typeUrl: "/google.protobuf.Api";
   value: Uint8Array;
@@ -97,6 +107,15 @@ export interface Method {
   options: Option[];
   /** The source syntax of this method. */
   syntax: Syntax;
+}
+export interface ReactiveMethod {
+  name: ComputedRef<string>;
+  requestTypeUrl: ComputedRef<string>;
+  requestStreaming: ComputedRef<boolean>;
+  responseTypeUrl: ComputedRef<string>;
+  responseStreaming: ComputedRef<boolean>;
+  options: ComputedRef<Option[]>;
+  syntax: ComputedRef<Syntax>;
 }
 export interface MethodProtoMsg {
   typeUrl: "/google.protobuf.Method";
@@ -200,6 +219,10 @@ export interface Mixin {
    * are rooted.
    */
   root: string;
+}
+export interface ReactiveMixin {
+  name: ComputedRef<string>;
+  root: ComputedRef<string>;
 }
 export interface MixinProtoMsg {
   typeUrl: "/google.protobuf.Mixin";

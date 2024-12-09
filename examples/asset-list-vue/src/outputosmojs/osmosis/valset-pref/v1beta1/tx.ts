@@ -3,6 +3,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.valsetpref.v1beta1";
 /** MsgCreateValidatorSetPreference is a list that holds validator-set. */
 export interface MsgSetValidatorSetPreference {
@@ -10,6 +11,10 @@ export interface MsgSetValidatorSetPreference {
   delegator: string;
   /** list of {valAddr, weight} to delegate to */
   preferences: ValidatorPreference[];
+}
+export interface ReactiveMsgSetValidatorSetPreference {
+  delegator: ComputedRef<string>;
+  preferences: ComputedRef<ValidatorPreference[]>;
 }
 export interface MsgSetValidatorSetPreferenceProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgSetValidatorSetPreference";
@@ -21,6 +26,7 @@ export interface MsgSetValidatorSetPreferenceSDKType {
   preferences: ValidatorPreferenceSDKType[];
 }
 export interface MsgSetValidatorSetPreferenceResponse {}
+export interface ReactiveMsgSetValidatorSetPreferenceResponse {}
 export interface MsgSetValidatorSetPreferenceResponseProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgSetValidatorSetPreferenceResponse";
   value: Uint8Array;
@@ -41,6 +47,10 @@ export interface MsgDelegateToValidatorSet {
    */
   coin: Coin;
 }
+export interface ReactiveMsgDelegateToValidatorSet {
+  delegator: ComputedRef<string>;
+  coin: ComputedRef<Coin>;
+}
 export interface MsgDelegateToValidatorSetProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgDelegateToValidatorSet";
   value: Uint8Array;
@@ -54,6 +64,7 @@ export interface MsgDelegateToValidatorSetSDKType {
   coin: CoinSDKType;
 }
 export interface MsgDelegateToValidatorSetResponse {}
+export interface ReactiveMsgDelegateToValidatorSetResponse {}
 export interface MsgDelegateToValidatorSetResponseProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgDelegateToValidatorSetResponse";
   value: Uint8Array;
@@ -71,6 +82,10 @@ export interface MsgUndelegateFromValidatorSet {
    */
   coin: Coin;
 }
+export interface ReactiveMsgUndelegateFromValidatorSet {
+  delegator: ComputedRef<string>;
+  coin: ComputedRef<Coin>;
+}
 export interface MsgUndelegateFromValidatorSetProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgUndelegateFromValidatorSet";
   value: Uint8Array;
@@ -80,6 +95,7 @@ export interface MsgUndelegateFromValidatorSetSDKType {
   coin: CoinSDKType;
 }
 export interface MsgUndelegateFromValidatorSetResponse {}
+export interface ReactiveMsgUndelegateFromValidatorSetResponse {}
 export interface MsgUndelegateFromValidatorSetResponseProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgUndelegateFromValidatorSetResponse";
   value: Uint8Array;
@@ -91,6 +107,10 @@ export interface MsgRedelegateValidatorSet {
   /** list of {valAddr, weight} to delegate to */
   preferences: ValidatorPreference[];
 }
+export interface ReactiveMsgRedelegateValidatorSet {
+  delegator: ComputedRef<string>;
+  preferences: ComputedRef<ValidatorPreference[]>;
+}
 export interface MsgRedelegateValidatorSetProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgRedelegateValidatorSet";
   value: Uint8Array;
@@ -100,6 +120,7 @@ export interface MsgRedelegateValidatorSetSDKType {
   preferences: ValidatorPreferenceSDKType[];
 }
 export interface MsgRedelegateValidatorSetResponse {}
+export interface ReactiveMsgRedelegateValidatorSetResponse {}
 export interface MsgRedelegateValidatorSetResponseProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgRedelegateValidatorSetResponse";
   value: Uint8Array;
@@ -113,6 +134,9 @@ export interface MsgWithdrawDelegationRewards {
   /** delegator is the user who is trying to claim staking rewards. */
   delegator: string;
 }
+export interface ReactiveMsgWithdrawDelegationRewards {
+  delegator: ComputedRef<string>;
+}
 export interface MsgWithdrawDelegationRewardsProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgWithdrawDelegationRewards";
   value: Uint8Array;
@@ -125,6 +149,7 @@ export interface MsgWithdrawDelegationRewardsSDKType {
   delegator: string;
 }
 export interface MsgWithdrawDelegationRewardsResponse {}
+export interface ReactiveMsgWithdrawDelegationRewardsResponse {}
 export interface MsgWithdrawDelegationRewardsResponseProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgWithdrawDelegationRewardsResponse";
   value: Uint8Array;
@@ -141,6 +166,10 @@ export interface MsgDelegateBondedTokens {
   /** lockup id of osmo in the pool */
   lockID: bigint;
 }
+export interface ReactiveMsgDelegateBondedTokens {
+  delegator: ComputedRef<string>;
+  lockID: ComputedRef<bigint>;
+}
 export interface MsgDelegateBondedTokensProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgDelegateBondedTokens";
   value: Uint8Array;
@@ -155,6 +184,7 @@ export interface MsgDelegateBondedTokensSDKType {
   lockID: bigint;
 }
 export interface MsgDelegateBondedTokensResponse {}
+export interface ReactiveMsgDelegateBondedTokensResponse {}
 export interface MsgDelegateBondedTokensResponseProtoMsg {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgDelegateBondedTokensResponse";
   value: Uint8Array;

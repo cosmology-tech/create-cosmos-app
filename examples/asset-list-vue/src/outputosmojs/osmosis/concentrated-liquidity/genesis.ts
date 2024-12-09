@@ -7,6 +7,7 @@ import { AccumulatorContent, AccumulatorContentSDKType } from "../accum/v1beta1/
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity.v1beta1";
 /**
  * FullTick contains tick index and pool id along with other tick model
@@ -19,6 +20,11 @@ export interface FullTick {
   tickIndex: bigint;
   /** tick's info. */
   info: TickInfo;
+}
+export interface ReactiveFullTick {
+  poolId: ComputedRef<bigint>;
+  tickIndex: ComputedRef<bigint>;
+  info: ComputedRef<TickInfo>;
 }
 export interface FullTickProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.FullTick";
@@ -47,6 +53,13 @@ export interface PoolData {
   /** incentive records to be set */
   incentiveRecords: IncentiveRecord[];
 }
+export interface ReactivePoolData {
+  pool?: ComputedRef<Any>;
+  ticks: ComputedRef<FullTick[]>;
+  feeAccumulator: ComputedRef<AccumObject>;
+  incentivesAccumulators: ComputedRef<AccumObject[]>;
+  incentiveRecords: ComputedRef<IncentiveRecord[]>;
+}
 export interface PoolDataProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.PoolData";
   value: Uint8Array;
@@ -71,6 +84,12 @@ export interface GenesisState {
   positions: Position[];
   nextPositionId: bigint;
 }
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  poolData: ComputedRef<PoolData[]>;
+  positions: ComputedRef<Position[]>;
+  nextPositionId: ComputedRef<bigint>;
+}
 export interface GenesisStateProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.GenesisState";
   value: Uint8Array;
@@ -86,6 +105,10 @@ export interface AccumObject {
   /** Accumulator's name (pulled from AccumulatorContent) */
   name: string;
   accumContent?: AccumulatorContent;
+}
+export interface ReactiveAccumObject {
+  name: ComputedRef<string>;
+  accumContent?: ComputedRef<AccumulatorContent>;
 }
 export interface AccumObjectProtoMsg {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.AccumObject";

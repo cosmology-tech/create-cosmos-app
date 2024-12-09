@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { JsonSafe } from "../../../../json-safe";
 import { DeepPartial } from "../../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.orm.module.v1alpha1";
 /**
  * Module defines the ORM module which adds providers to the app container for
@@ -8,6 +9,7 @@ export const protobufPackage = "cosmos.orm.module.v1alpha1";
  * with ORM data.
  */
 export interface Module {}
+export interface ReactiveModule {}
 export interface ModuleProtoMsg {
   typeUrl: "/cosmos.orm.module.v1alpha1.Module";
   value: Uint8Array;

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.claims.v1";
 /** Action defines the list of available actions to claim the airdrop tokens. */
 export enum Action {
@@ -69,6 +70,11 @@ export interface Claim {
   /** claimable token amount for the action. Zero if completed */
   claimableAmount: string;
 }
+export interface ReactiveClaim {
+  action: ComputedRef<Action>;
+  completed: ComputedRef<boolean>;
+  claimableAmount: ComputedRef<string>;
+}
 export interface ClaimProtoMsg {
   typeUrl: "/evmos.claims.v1.Claim";
   value: Uint8Array;
@@ -91,6 +97,11 @@ export interface ClaimsRecordAddress {
   /** slice of the available actions completed */
   actionsCompleted: boolean[];
 }
+export interface ReactiveClaimsRecordAddress {
+  address: ComputedRef<string>;
+  initialClaimableAmount: ComputedRef<string>;
+  actionsCompleted: ComputedRef<boolean[]>;
+}
 export interface ClaimsRecordAddressProtoMsg {
   typeUrl: "/evmos.claims.v1.ClaimsRecordAddress";
   value: Uint8Array;
@@ -110,6 +121,10 @@ export interface ClaimsRecord {
   initialClaimableAmount: string;
   /** slice of the available actions completed */
   actionsCompleted: boolean[];
+}
+export interface ReactiveClaimsRecord {
+  initialClaimableAmount: ComputedRef<string>;
+  actionsCompleted: ComputedRef<boolean[]>;
 }
 export interface ClaimsRecordProtoMsg {
   typeUrl: "/evmos.claims.v1.ClaimsRecord";

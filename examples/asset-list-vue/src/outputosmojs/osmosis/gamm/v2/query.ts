@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.gamm.v2";
 /**
  * QuerySpotPriceRequest defines the gRPC request structure for a SpotPrice
@@ -10,6 +11,11 @@ export interface QuerySpotPriceRequest {
   poolId: bigint;
   baseAssetDenom: string;
   quoteAssetDenom: string;
+}
+export interface ReactiveQuerySpotPriceRequest {
+  poolId: ComputedRef<bigint>;
+  baseAssetDenom: ComputedRef<string>;
+  quoteAssetDenom: ComputedRef<string>;
 }
 export interface QuerySpotPriceRequestProtoMsg {
   typeUrl: "/osmosis.gamm.v2.QuerySpotPriceRequest";
@@ -31,6 +37,9 @@ export interface QuerySpotPriceRequestSDKType {
 export interface QuerySpotPriceResponse {
   /** String of the Dec. Ex) 10.203uatom */
   spotPrice: string;
+}
+export interface ReactiveQuerySpotPriceResponse {
+  spotPrice: ComputedRef<string>;
 }
 export interface QuerySpotPriceResponseProtoMsg {
   typeUrl: "/osmosis.gamm.v2.QuerySpotPriceResponse";

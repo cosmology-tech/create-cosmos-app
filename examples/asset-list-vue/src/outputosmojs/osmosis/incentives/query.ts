@@ -5,8 +5,10 @@ import { Duration, DurationSDKType } from "../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.incentives";
 export interface ModuleToDistributeCoinsRequest {}
+export interface ReactiveModuleToDistributeCoinsRequest {}
 export interface ModuleToDistributeCoinsRequestProtoMsg {
   typeUrl: "/osmosis.incentives.ModuleToDistributeCoinsRequest";
   value: Uint8Array;
@@ -15,6 +17,9 @@ export interface ModuleToDistributeCoinsRequestSDKType {}
 export interface ModuleToDistributeCoinsResponse {
   /** Coins that have yet to be distributed */
   coins: Coin[];
+}
+export interface ReactiveModuleToDistributeCoinsResponse {
+  coins: ComputedRef<Coin[]>;
 }
 export interface ModuleToDistributeCoinsResponseProtoMsg {
   typeUrl: "/osmosis.incentives.ModuleToDistributeCoinsResponse";
@@ -27,6 +32,9 @@ export interface GaugeByIDRequest {
   /** Gague ID being queried */
   id: bigint;
 }
+export interface ReactiveGaugeByIDRequest {
+  id: ComputedRef<bigint>;
+}
 export interface GaugeByIDRequestProtoMsg {
   typeUrl: "/osmosis.incentives.GaugeByIDRequest";
   value: Uint8Array;
@@ -38,6 +46,9 @@ export interface GaugeByIDResponse {
   /** Gauge that corresponds to provided gague ID */
   gauge?: Gauge;
 }
+export interface ReactiveGaugeByIDResponse {
+  gauge?: ComputedRef<Gauge>;
+}
 export interface GaugeByIDResponseProtoMsg {
   typeUrl: "/osmosis.incentives.GaugeByIDResponse";
   value: Uint8Array;
@@ -48,6 +59,9 @@ export interface GaugeByIDResponseSDKType {
 export interface GaugesRequest {
   /** Pagination defines pagination for the request */
   pagination?: PageRequest;
+}
+export interface ReactiveGaugesRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface GaugesRequestProtoMsg {
   typeUrl: "/osmosis.incentives.GaugesRequest";
@@ -62,6 +76,10 @@ export interface GaugesResponse {
   /** Pagination defines pagination for the response */
   pagination?: PageResponse;
 }
+export interface ReactiveGaugesResponse {
+  data: ComputedRef<Gauge[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface GaugesResponseProtoMsg {
   typeUrl: "/osmosis.incentives.GaugesResponse";
   value: Uint8Array;
@@ -73,6 +91,9 @@ export interface GaugesResponseSDKType {
 export interface ActiveGaugesRequest {
   /** Pagination defines pagination for the request */
   pagination?: PageRequest;
+}
+export interface ReactiveActiveGaugesRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface ActiveGaugesRequestProtoMsg {
   typeUrl: "/osmosis.incentives.ActiveGaugesRequest";
@@ -86,6 +107,10 @@ export interface ActiveGaugesResponse {
   data: Gauge[];
   /** Pagination defines pagination for the response */
   pagination?: PageResponse;
+}
+export interface ReactiveActiveGaugesResponse {
+  data: ComputedRef<Gauge[]>;
+  pagination?: ComputedRef<PageResponse>;
 }
 export interface ActiveGaugesResponseProtoMsg {
   typeUrl: "/osmosis.incentives.ActiveGaugesResponse";
@@ -101,6 +126,10 @@ export interface ActiveGaugesPerDenomRequest {
   /** Pagination defines pagination for the request */
   pagination?: PageRequest;
 }
+export interface ReactiveActiveGaugesPerDenomRequest {
+  denom: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
+}
 export interface ActiveGaugesPerDenomRequestProtoMsg {
   typeUrl: "/osmosis.incentives.ActiveGaugesPerDenomRequest";
   value: Uint8Array;
@@ -115,6 +144,10 @@ export interface ActiveGaugesPerDenomResponse {
   /** Pagination defines pagination for the response */
   pagination?: PageResponse;
 }
+export interface ReactiveActiveGaugesPerDenomResponse {
+  data: ComputedRef<Gauge[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface ActiveGaugesPerDenomResponseProtoMsg {
   typeUrl: "/osmosis.incentives.ActiveGaugesPerDenomResponse";
   value: Uint8Array;
@@ -126,6 +159,9 @@ export interface ActiveGaugesPerDenomResponseSDKType {
 export interface UpcomingGaugesRequest {
   /** Pagination defines pagination for the request */
   pagination?: PageRequest;
+}
+export interface ReactiveUpcomingGaugesRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface UpcomingGaugesRequestProtoMsg {
   typeUrl: "/osmosis.incentives.UpcomingGaugesRequest";
@@ -139,6 +175,10 @@ export interface UpcomingGaugesResponse {
   data: Gauge[];
   /** Pagination defines pagination for the response */
   pagination?: PageResponse;
+}
+export interface ReactiveUpcomingGaugesResponse {
+  data: ComputedRef<Gauge[]>;
+  pagination?: ComputedRef<PageResponse>;
 }
 export interface UpcomingGaugesResponseProtoMsg {
   typeUrl: "/osmosis.incentives.UpcomingGaugesResponse";
@@ -154,6 +194,10 @@ export interface UpcomingGaugesPerDenomRequest {
   /** Pagination defines pagination for the request */
   pagination?: PageRequest;
 }
+export interface ReactiveUpcomingGaugesPerDenomRequest {
+  denom: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
+}
 export interface UpcomingGaugesPerDenomRequestProtoMsg {
   typeUrl: "/osmosis.incentives.UpcomingGaugesPerDenomRequest";
   value: Uint8Array;
@@ -167,6 +211,10 @@ export interface UpcomingGaugesPerDenomResponse {
   upcomingGauges: Gauge[];
   /** Pagination defines pagination for the response */
   pagination?: PageResponse;
+}
+export interface ReactiveUpcomingGaugesPerDenomResponse {
+  upcomingGauges: ComputedRef<Gauge[]>;
+  pagination?: ComputedRef<PageResponse>;
 }
 export interface UpcomingGaugesPerDenomResponseProtoMsg {
   typeUrl: "/osmosis.incentives.UpcomingGaugesPerDenomResponse";
@@ -187,6 +235,11 @@ export interface RewardsEstRequest {
    */
   endEpoch: bigint;
 }
+export interface ReactiveRewardsEstRequest {
+  owner: ComputedRef<string>;
+  lockIds: ComputedRef<bigint[]>;
+  endEpoch: ComputedRef<bigint>;
+}
 export interface RewardsEstRequestProtoMsg {
   typeUrl: "/osmosis.incentives.RewardsEstRequest";
   value: Uint8Array;
@@ -203,6 +256,9 @@ export interface RewardsEstResponse {
    */
   coins: Coin[];
 }
+export interface ReactiveRewardsEstResponse {
+  coins: ComputedRef<Coin[]>;
+}
 export interface RewardsEstResponseProtoMsg {
   typeUrl: "/osmosis.incentives.RewardsEstResponse";
   value: Uint8Array;
@@ -211,6 +267,7 @@ export interface RewardsEstResponseSDKType {
   coins: CoinSDKType[];
 }
 export interface QueryLockableDurationsRequest {}
+export interface ReactiveQueryLockableDurationsRequest {}
 export interface QueryLockableDurationsRequestProtoMsg {
   typeUrl: "/osmosis.incentives.QueryLockableDurationsRequest";
   value: Uint8Array;
@@ -219,6 +276,9 @@ export interface QueryLockableDurationsRequestSDKType {}
 export interface QueryLockableDurationsResponse {
   /** Time durations that users can lock coins for in order to recieve rewards */
   lockableDurations: Duration[];
+}
+export interface ReactiveQueryLockableDurationsResponse {
+  lockableDurations: ComputedRef<Duration[]>;
 }
 export interface QueryLockableDurationsResponseProtoMsg {
   typeUrl: "/osmosis.incentives.QueryLockableDurationsResponse";

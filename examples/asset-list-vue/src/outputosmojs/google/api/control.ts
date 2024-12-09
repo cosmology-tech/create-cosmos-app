@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
  * Selects and configures the service controller used by the service.  The
@@ -13,6 +14,9 @@ export interface Control {
    * feature (like quota and billing) will be enabled.
    */
   environment: string;
+}
+export interface ReactiveControl {
+  environment: ComputedRef<string>;
 }
 export interface ControlProtoMsg {
   typeUrl: "/google.api.Control";

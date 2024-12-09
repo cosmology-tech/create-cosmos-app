@@ -3,9 +3,10 @@ import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } fr
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
 import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
-import { QueryStore, MobxResponse } from "../../../mobx";
-import { makeObservable, override } from "mobx";
-import { QueryCertificatesRequest, QueryCertificatesRequestSDKType, QueryCertificatesResponse, QueryCertificatesResponseSDKType } from "./query";
+import { VueQueryParams } from "../../../vue-query";
+import { ComputedRef, computed, Ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
+import { QueryCertificatesRequest, QueryCertificatesRequestSDKType, QueryCertificatesResponse, QueryCertificatesResponseSDKType, ReactiveQueryCertificatesRequest } from "./query";
 /** Query defines the gRPC querier service */
 export interface Query {
   /** Certificates queries certificates */
@@ -32,25 +33,50 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     }
   };
 };
-const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
-const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
-  if (!rpc) return;
-  if (_queryClients.has(rpc)) {
-    return _queryClients.get(rpc);
-  }
-  const queryService = new QueryClientImpl(rpc);
-  _queryClients.set(rpc, queryService);
-  return queryService;
-};
-export const createRpcQueryMobxStores = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  class QueryCertificatesStore {
-    store = new QueryStore<QueryCertificatesRequest, QueryCertificatesResponse>(queryService?.certificates);
-    certificates(request: QueryCertificatesRequest) {
-      return this.store.getData(request);
+export interface UseCertificatesQuery<TData> extends VueQueryParams<QueryCertificatesResponse, TData> {
+  request: ReactiveQueryCertificatesRequest;
+}
+const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+  const _queryClients = new WeakMap();
+  return computed(() => {
+    if (rpc.value) {
+      if (_queryClients.has(rpc.value)) {
+        return _queryClients.get(rpc.value);
+      }
+      const queryService = new QueryClientImpl(rpc.value);
+      _queryClients.set(rpc.value, queryService);
+      return queryService;
     }
-  }
+  });
+};
+export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => {
+  const queryService = useQueryService(rpc);
+  const useCertificates = <TData = QueryCertificatesResponse,>({
+    request,
+    options
+  }: UseCertificatesQuery<TData>) => {
+    const queryKey = ["certificatesQuery", queryService];
+    if (request) {
+      Object.values(request).forEach(val => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryCertificatesResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.certificates(params);
+      },
+      ...options
+    });
+  };
   return {
-    /** Certificates queries certificates */QueryCertificatesStore
+    /** Certificates queries certificates */useCertificates
   };
 };

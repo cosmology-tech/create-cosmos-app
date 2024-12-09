@@ -2,6 +2,7 @@ import { CapabilityOwners, CapabilityOwnersSDKType } from "./capability";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.capability.v1beta1";
 /** GenesisOwners defines the capability owners with their corresponding index. */
 export interface GenesisOwners {
@@ -9,6 +10,10 @@ export interface GenesisOwners {
   index: bigint;
   /** index_owners are the owners at the given index. */
   indexOwners: CapabilityOwners;
+}
+export interface ReactiveGenesisOwners {
+  index: ComputedRef<bigint>;
+  indexOwners: ComputedRef<CapabilityOwners>;
 }
 export interface GenesisOwnersProtoMsg {
   typeUrl: "/cosmos.capability.v1beta1.GenesisOwners";
@@ -28,6 +33,10 @@ export interface GenesisState {
    * index key is string to allow amino marshalling.
    */
   owners: GenesisOwners[];
+}
+export interface ReactiveGenesisState {
+  index: ComputedRef<bigint>;
+  owners: ComputedRef<GenesisOwners[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/cosmos.capability.v1beta1.GenesisState";

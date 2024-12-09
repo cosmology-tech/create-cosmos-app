@@ -1,9 +1,11 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { JsonSafe } from "../../../../json-safe";
 import { DeepPartial, isSet } from "../../../../helpers";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.base.node.v1beta1";
 /** ConfigRequest defines the request structure for the Config gRPC query. */
 export interface ConfigRequest {}
+export interface ReactiveConfigRequest {}
 export interface ConfigRequestProtoMsg {
   typeUrl: "/cosmos.base.node.v1beta1.ConfigRequest";
   value: Uint8Array;
@@ -13,6 +15,9 @@ export interface ConfigRequestSDKType {}
 /** ConfigResponse defines the response structure for the Config gRPC query. */
 export interface ConfigResponse {
   minimumGasPrice: string;
+}
+export interface ReactiveConfigResponse {
+  minimumGasPrice: ComputedRef<string>;
 }
 export interface ConfigResponseProtoMsg {
   typeUrl: "/cosmos.base.node.v1beta1.ConfigResponse";

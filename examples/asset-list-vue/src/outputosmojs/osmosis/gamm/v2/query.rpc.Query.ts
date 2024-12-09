@@ -1,9 +1,10 @@
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
 import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
-import { QueryStore, MobxResponse } from "../../../mobx";
-import { makeObservable, override } from "mobx";
-import { QuerySpotPriceRequest, QuerySpotPriceRequestSDKType, QuerySpotPriceResponse, QuerySpotPriceResponseSDKType } from "./query";
+import { VueQueryParams } from "../../../vue-query";
+import { ComputedRef, computed, Ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
+import { QuerySpotPriceRequest, QuerySpotPriceRequestSDKType, QuerySpotPriceResponse, QuerySpotPriceResponseSDKType, ReactiveQuerySpotPriceRequest } from "./query";
 export interface Query {
   /**
    * SpotPrice defines a gRPC query handler that returns the spot price given
@@ -32,29 +33,54 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     }
   };
 };
-const _queryClients: WeakMap<ProtobufRpcClient, QueryClientImpl> = new WeakMap();
-const getQueryService = (rpc: ProtobufRpcClient | undefined): QueryClientImpl | undefined => {
-  if (!rpc) return;
-  if (_queryClients.has(rpc)) {
-    return _queryClients.get(rpc);
-  }
-  const queryService = new QueryClientImpl(rpc);
-  _queryClients.set(rpc, queryService);
-  return queryService;
-};
-export const createRpcQueryMobxStores = (rpc: ProtobufRpcClient | undefined) => {
-  const queryService = getQueryService(rpc);
-  class QuerySpotPriceStore {
-    store = new QueryStore<QuerySpotPriceRequest, QuerySpotPriceResponse>(queryService?.spotPrice);
-    spotPrice(request: QuerySpotPriceRequest) {
-      return this.store.getData(request);
+export interface UseSpotPriceQuery<TData> extends VueQueryParams<QuerySpotPriceResponse, TData> {
+  request: ReactiveQuerySpotPriceRequest;
+}
+const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+  const _queryClients = new WeakMap();
+  return computed(() => {
+    if (rpc.value) {
+      if (_queryClients.has(rpc.value)) {
+        return _queryClients.get(rpc.value);
+      }
+      const queryService = new QueryClientImpl(rpc.value);
+      _queryClients.set(rpc.value, queryService);
+      return queryService;
     }
-  }
+  });
+};
+export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => {
+  const queryService = useQueryService(rpc);
+  const useSpotPrice = <TData = QuerySpotPriceResponse,>({
+    request,
+    options
+  }: UseSpotPriceQuery<TData>) => {
+    const queryKey = ["spotPriceQuery", queryService];
+    if (request) {
+      Object.values(request).forEach(val => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QuerySpotPriceResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.spotPrice(params);
+      },
+      ...options
+    });
+  };
   return {
     /**
      * SpotPrice defines a gRPC query handler that returns the spot price given
      * a base denomination and a quote denomination.
      */
-    QuerySpotPriceStore
+    useSpotPrice
   };
 };

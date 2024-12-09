@@ -2,6 +2,7 @@ import { TokenPair, TokenPairSDKType } from "./erc20";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.erc20.v1";
 /** GenesisState defines the module's genesis state. */
 export interface GenesisState {
@@ -9,6 +10,10 @@ export interface GenesisState {
   params: Params;
   /** registered token pairs */
   tokenPairs: TokenPair[];
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  tokenPairs: ComputedRef<TokenPair[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/evmos.erc20.v1.GenesisState";
@@ -29,6 +34,10 @@ export interface Params {
    * ModuleAddress Ethereum address.
    */
   enableEvmHook: boolean;
+}
+export interface ReactiveParams {
+  enableErc20: ComputedRef<boolean>;
+  enableEvmHook: ComputedRef<boolean>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/evmos.erc20.v1.Params";

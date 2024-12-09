@@ -2,6 +2,7 @@ import { Duration, DurationSDKType } from "../protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, isObject } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "google.rpc";
 /**
  * Describes when the clients can retry a failed request. Clients could ignore
@@ -21,6 +22,9 @@ export const protobufPackage = "google.rpc";
 export interface RetryInfo {
   /** Clients should wait at least this long between retrying the same request. */
   retryDelay?: Duration;
+}
+export interface ReactiveRetryInfo {
+  retryDelay?: ComputedRef<Duration>;
 }
 export interface RetryInfoProtoMsg {
   typeUrl: "/google.rpc.RetryInfo";
@@ -51,6 +55,10 @@ export interface DebugInfo {
   /** Additional debugging information provided by the server. */
   detail: string;
 }
+export interface ReactiveDebugInfo {
+  stackEntries: ComputedRef<string[]>;
+  detail: ComputedRef<string>;
+}
 export interface DebugInfoProtoMsg {
   typeUrl: "/google.rpc.DebugInfo";
   value: Uint8Array;
@@ -76,6 +84,9 @@ export interface DebugInfoSDKType {
 export interface QuotaFailure {
   /** Describes all quota violations. */
   violations: QuotaFailure_Violation[];
+}
+export interface ReactiveQuotaFailure {
+  violations: ComputedRef<QuotaFailure_Violation[]>;
 }
 export interface QuotaFailureProtoMsg {
   typeUrl: "/google.rpc.QuotaFailure";
@@ -119,6 +130,10 @@ export interface QuotaFailure_Violation {
    */
   description: string;
 }
+export interface ReactiveQuotaFailure_Violation {
+  subject: ComputedRef<string>;
+  description: ComputedRef<string>;
+}
 export interface QuotaFailure_ViolationProtoMsg {
   typeUrl: "/google.rpc.Violation";
   value: Uint8Array;
@@ -134,6 +149,10 @@ export interface QuotaFailure_ViolationSDKType {
 export interface ErrorInfo_MetadataEntry {
   key: string;
   value: string;
+}
+export interface ReactiveErrorInfo_MetadataEntry {
+  key: ComputedRef<string>;
+  value: ComputedRef<string>;
 }
 export interface ErrorInfo_MetadataEntryProtoMsg {
   typeUrl: string;
@@ -200,6 +219,13 @@ export interface ErrorInfo {
     [key: string]: string;
   };
 }
+export interface ReactiveErrorInfo {
+  reason: ComputedRef<string>;
+  domain: ComputedRef<string>;
+  metadata: ComputedRef<{
+    [key: string]: string;
+  }>;
+}
 export interface ErrorInfoProtoMsg {
   typeUrl: "/google.rpc.ErrorInfo";
   value: Uint8Array;
@@ -248,6 +274,9 @@ export interface PreconditionFailure {
   /** Describes all precondition violations. */
   violations: PreconditionFailure_Violation[];
 }
+export interface ReactivePreconditionFailure {
+  violations: ComputedRef<PreconditionFailure_Violation[]>;
+}
 export interface PreconditionFailureProtoMsg {
   typeUrl: "/google.rpc.PreconditionFailure";
   value: Uint8Array;
@@ -284,6 +313,11 @@ export interface PreconditionFailure_Violation {
    */
   description: string;
 }
+export interface ReactivePreconditionFailure_Violation {
+  type: ComputedRef<string>;
+  subject: ComputedRef<string>;
+  description: ComputedRef<string>;
+}
 export interface PreconditionFailure_ViolationProtoMsg {
   typeUrl: "/google.rpc.Violation";
   value: Uint8Array;
@@ -301,6 +335,9 @@ export interface PreconditionFailure_ViolationSDKType {
 export interface BadRequest {
   /** Describes all violations in a client request. */
   fieldViolations: BadRequest_FieldViolation[];
+}
+export interface ReactiveBadRequest {
+  fieldViolations: ComputedRef<BadRequest_FieldViolation[]>;
 }
 export interface BadRequestProtoMsg {
   typeUrl: "/google.rpc.BadRequest";
@@ -323,6 +360,10 @@ export interface BadRequest_FieldViolation {
   field: string;
   /** A description of why the request element is bad. */
   description: string;
+}
+export interface ReactiveBadRequest_FieldViolation {
+  field: ComputedRef<string>;
+  description: ComputedRef<string>;
 }
 export interface BadRequest_FieldViolationProtoMsg {
   typeUrl: "/google.rpc.FieldViolation";
@@ -348,6 +389,10 @@ export interface RequestInfo {
    * stack trace that can be sent back to the service provider for debugging.
    */
   servingData: string;
+}
+export interface ReactiveRequestInfo {
+  requestId: ComputedRef<string>;
+  servingData: ComputedRef<string>;
 }
 export interface RequestInfoProtoMsg {
   typeUrl: "/google.rpc.RequestInfo";
@@ -388,6 +433,12 @@ export interface ResourceInfo {
    */
   description: string;
 }
+export interface ReactiveResourceInfo {
+  resourceType: ComputedRef<string>;
+  resourceName: ComputedRef<string>;
+  owner: ComputedRef<string>;
+  description: ComputedRef<string>;
+}
 export interface ResourceInfoProtoMsg {
   typeUrl: "/google.rpc.ResourceInfo";
   value: Uint8Array;
@@ -410,6 +461,9 @@ export interface Help {
   /** URL(s) pointing to additional information on handling the current error. */
   links: Help_Link[];
 }
+export interface ReactiveHelp {
+  links: ComputedRef<Help_Link[]>;
+}
 export interface HelpProtoMsg {
   typeUrl: "/google.rpc.Help";
   value: Uint8Array;
@@ -430,6 +484,10 @@ export interface Help_Link {
   description: string;
   /** The URL of the link. */
   url: string;
+}
+export interface ReactiveHelp_Link {
+  description: ComputedRef<string>;
+  url: ComputedRef<string>;
 }
 export interface Help_LinkProtoMsg {
   typeUrl: "/google.rpc.Link";
@@ -453,6 +511,10 @@ export interface LocalizedMessage {
   locale: string;
   /** The localized error message in the above locale. */
   message: string;
+}
+export interface ReactiveLocalizedMessage {
+  locale: ComputedRef<string>;
+  message: ComputedRef<string>;
 }
 export interface LocalizedMessageProtoMsg {
   typeUrl: "/google.rpc.LocalizedMessage";

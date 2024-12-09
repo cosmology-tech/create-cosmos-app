@@ -4,6 +4,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { toUtf8, fromUtf8 } from "@cosmjs/encoding";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmwasm.wasm.v1";
 /**
  * ContractExecutionAuthorization defines authorization for wasm execute.
@@ -12,6 +13,9 @@ export const protobufPackage = "cosmwasm.wasm.v1";
 export interface ContractExecutionAuthorization {
   /** Grants for contract executions */
   grants: ContractGrant[];
+}
+export interface ReactiveContractExecutionAuthorization {
+  grants: ComputedRef<ContractGrant[]>;
 }
 export interface ContractExecutionAuthorizationProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.ContractExecutionAuthorization";
@@ -31,6 +35,9 @@ export interface ContractExecutionAuthorizationSDKType {
 export interface ContractMigrationAuthorization {
   /** Grants for contract migrations */
   grants: ContractGrant[];
+}
+export interface ReactiveContractMigrationAuthorization {
+  grants: ComputedRef<ContractGrant[]>;
 }
 export interface ContractMigrationAuthorizationProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.ContractMigrationAuthorization";
@@ -62,6 +69,11 @@ export interface ContractGrant {
    */
   filter?: Any;
 }
+export interface ReactiveContractGrant {
+  contract: ComputedRef<string>;
+  limit?: ComputedRef<Any>;
+  filter?: ComputedRef<Any>;
+}
 export interface ContractGrantProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.ContractGrant";
   value: Uint8Array;
@@ -83,6 +95,9 @@ export interface MaxCallsLimit {
   /** Remaining number that is decremented on each execution */
   remaining: bigint;
 }
+export interface ReactiveMaxCallsLimit {
+  remaining: ComputedRef<bigint>;
+}
 export interface MaxCallsLimitProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MaxCallsLimit";
   value: Uint8Array;
@@ -101,6 +116,9 @@ export interface MaxCallsLimitSDKType {
 export interface MaxFundsLimit {
   /** Amounts is the maximal amount of tokens transferable to the contract. */
   amounts: Coin[];
+}
+export interface ReactiveMaxFundsLimit {
+  amounts: ComputedRef<Coin[]>;
 }
 export interface MaxFundsLimitProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MaxFundsLimit";
@@ -124,6 +142,10 @@ export interface CombinedLimit {
   /** Amounts is the maximal amount of tokens transferable to the contract. */
   amounts: Coin[];
 }
+export interface ReactiveCombinedLimit {
+  callsRemaining: ComputedRef<bigint>;
+  amounts: ComputedRef<Coin[]>;
+}
 export interface CombinedLimitProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.CombinedLimit";
   value: Uint8Array;
@@ -143,6 +165,7 @@ export interface CombinedLimitSDKType {
  * Since: wasmd 0.30
  */
 export interface AllowAllMessagesFilter {}
+export interface ReactiveAllowAllMessagesFilter {}
 export interface AllowAllMessagesFilterProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.AllowAllMessagesFilter";
   value: Uint8Array;
@@ -161,6 +184,9 @@ export interface AllowAllMessagesFilterSDKType {}
 export interface AcceptedMessageKeysFilter {
   /** Messages is the list of unique keys */
   keys: string[];
+}
+export interface ReactiveAcceptedMessageKeysFilter {
+  keys: ComputedRef<string[]>;
 }
 export interface AcceptedMessageKeysFilterProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.AcceptedMessageKeysFilter";
@@ -182,6 +208,9 @@ export interface AcceptedMessageKeysFilterSDKType {
 export interface AcceptedMessagesFilter {
   /** Messages is the list of raw contract messages */
   messages: Uint8Array[];
+}
+export interface ReactiveAcceptedMessagesFilter {
+  messages: ComputedRef<Uint8Array[]>;
 }
 export interface AcceptedMessagesFilterProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.AcceptedMessagesFilter";

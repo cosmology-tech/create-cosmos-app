@@ -3,10 +3,14 @@ import { Provider, ProviderSDKType } from "./provider";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.provider.v1beta2";
 /** QueryProvidersRequest is request type for the Query/Providers RPC method */
 export interface QueryProvidersRequest {
   pagination?: PageRequest;
+}
+export interface ReactiveQueryProvidersRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryProvidersRequestProtoMsg {
   typeUrl: "/akash.provider.v1beta2.QueryProvidersRequest";
@@ -21,6 +25,10 @@ export interface QueryProvidersResponse {
   providers: Provider[];
   pagination?: PageResponse;
 }
+export interface ReactiveQueryProvidersResponse {
+  providers: ComputedRef<Provider[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryProvidersResponseProtoMsg {
   typeUrl: "/akash.provider.v1beta2.QueryProvidersResponse";
   value: Uint8Array;
@@ -34,6 +42,9 @@ export interface QueryProvidersResponseSDKType {
 export interface QueryProviderRequest {
   owner: string;
 }
+export interface ReactiveQueryProviderRequest {
+  owner: ComputedRef<string>;
+}
 export interface QueryProviderRequestProtoMsg {
   typeUrl: "/akash.provider.v1beta2.QueryProviderRequest";
   value: Uint8Array;
@@ -45,6 +56,9 @@ export interface QueryProviderRequestSDKType {
 /** QueryProviderResponse is response type for the Query/Provider RPC method */
 export interface QueryProviderResponse {
   provider: Provider;
+}
+export interface ReactiveQueryProviderResponse {
+  provider: ComputedRef<Provider>;
 }
 export interface QueryProviderResponseProtoMsg {
   typeUrl: "/akash.provider.v1beta2.QueryProviderResponse";

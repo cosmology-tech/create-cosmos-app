@@ -3,6 +3,7 @@ import { BidID, BidIDSDKType } from "./bid";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "akash.market.v1beta2";
 /** State is an enum which refers to state of lease */
 export enum Lease_State {
@@ -60,6 +61,13 @@ export interface LeaseID {
   oseq: number;
   provider: string;
 }
+export interface ReactiveLeaseID {
+  owner: ComputedRef<string>;
+  dseq: ComputedRef<bigint>;
+  gseq: ComputedRef<number>;
+  oseq: ComputedRef<number>;
+  provider: ComputedRef<string>;
+}
 export interface LeaseIDProtoMsg {
   typeUrl: "/akash.market.v1beta2.LeaseID";
   value: Uint8Array;
@@ -79,6 +87,13 @@ export interface Lease {
   price: DecCoin;
   createdAt: bigint;
   closedOn: bigint;
+}
+export interface ReactiveLease {
+  leaseId: ComputedRef<LeaseID>;
+  state: ComputedRef<Lease_State>;
+  price: ComputedRef<DecCoin>;
+  createdAt: ComputedRef<bigint>;
+  closedOn: ComputedRef<bigint>;
 }
 export interface LeaseProtoMsg {
   typeUrl: "/akash.market.v1beta2.Lease";
@@ -101,6 +116,14 @@ export interface LeaseFilters {
   provider: string;
   state: string;
 }
+export interface ReactiveLeaseFilters {
+  owner: ComputedRef<string>;
+  dseq: ComputedRef<bigint>;
+  gseq: ComputedRef<number>;
+  oseq: ComputedRef<number>;
+  provider: ComputedRef<string>;
+  state: ComputedRef<string>;
+}
 export interface LeaseFiltersProtoMsg {
   typeUrl: "/akash.market.v1beta2.LeaseFilters";
   value: Uint8Array;
@@ -118,6 +141,9 @@ export interface LeaseFiltersSDKType {
 export interface MsgCreateLease {
   bidId: BidID;
 }
+export interface ReactiveMsgCreateLease {
+  bidId: ComputedRef<BidID>;
+}
 export interface MsgCreateLeaseProtoMsg {
   typeUrl: "/akash.market.v1beta2.MsgCreateLease";
   value: Uint8Array;
@@ -128,6 +154,7 @@ export interface MsgCreateLeaseSDKType {
 }
 /** MsgCreateLeaseResponse is the response from creating a lease */
 export interface MsgCreateLeaseResponse {}
+export interface ReactiveMsgCreateLeaseResponse {}
 export interface MsgCreateLeaseResponseProtoMsg {
   typeUrl: "/akash.market.v1beta2.MsgCreateLeaseResponse";
   value: Uint8Array;
@@ -137,6 +164,9 @@ export interface MsgCreateLeaseResponseSDKType {}
 /** MsgWithdrawLease defines an SDK message for closing bid */
 export interface MsgWithdrawLease {
   bidId: LeaseID;
+}
+export interface ReactiveMsgWithdrawLease {
+  bidId: ComputedRef<LeaseID>;
 }
 export interface MsgWithdrawLeaseProtoMsg {
   typeUrl: "/akash.market.v1beta2.MsgWithdrawLease";
@@ -148,6 +178,7 @@ export interface MsgWithdrawLeaseSDKType {
 }
 /** MsgWithdrawLeaseResponse defines the Msg/WithdrawLease response type. */
 export interface MsgWithdrawLeaseResponse {}
+export interface ReactiveMsgWithdrawLeaseResponse {}
 export interface MsgWithdrawLeaseResponseProtoMsg {
   typeUrl: "/akash.market.v1beta2.MsgWithdrawLeaseResponse";
   value: Uint8Array;
@@ -157,6 +188,9 @@ export interface MsgWithdrawLeaseResponseSDKType {}
 /** MsgCloseLease defines an SDK message for closing order */
 export interface MsgCloseLease {
   leaseId: LeaseID;
+}
+export interface ReactiveMsgCloseLease {
+  leaseId: ComputedRef<LeaseID>;
 }
 export interface MsgCloseLeaseProtoMsg {
   typeUrl: "/akash.market.v1beta2.MsgCloseLease";
@@ -168,6 +202,7 @@ export interface MsgCloseLeaseSDKType {
 }
 /** MsgCloseLeaseResponse defines the Msg/CloseLease response type. */
 export interface MsgCloseLeaseResponse {}
+export interface ReactiveMsgCloseLeaseResponse {}
 export interface MsgCloseLeaseResponseProtoMsg {
   typeUrl: "/akash.market.v1beta2.MsgCloseLeaseResponse";
   value: Uint8Array;

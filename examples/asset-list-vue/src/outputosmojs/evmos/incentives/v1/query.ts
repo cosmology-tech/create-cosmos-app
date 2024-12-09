@@ -5,6 +5,7 @@ import { Params, ParamsSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.incentives.v1";
 /**
  * QueryIncentivesRequest is the request type for the Query/Incentives RPC
@@ -13,6 +14,9 @@ export const protobufPackage = "evmos.incentives.v1";
 export interface QueryIncentivesRequest {
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryIncentivesRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryIncentivesRequestProtoMsg {
   typeUrl: "/evmos.incentives.v1.QueryIncentivesRequest";
@@ -34,6 +38,10 @@ export interface QueryIncentivesResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryIncentivesResponse {
+  incentives: ComputedRef<Incentive[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryIncentivesResponseProtoMsg {
   typeUrl: "/evmos.incentives.v1.QueryIncentivesResponse";
   value: Uint8Array;
@@ -51,6 +59,9 @@ export interface QueryIncentiveRequest {
   /** contract identifier is the hex contract address of a contract */
   contract: string;
 }
+export interface ReactiveQueryIncentiveRequest {
+  contract: ComputedRef<string>;
+}
 export interface QueryIncentiveRequestProtoMsg {
   typeUrl: "/evmos.incentives.v1.QueryIncentiveRequest";
   value: Uint8Array;
@@ -65,6 +76,9 @@ export interface QueryIncentiveRequestSDKType {
  */
 export interface QueryIncentiveResponse {
   incentive: Incentive;
+}
+export interface ReactiveQueryIncentiveResponse {
+  incentive: ComputedRef<Incentive>;
 }
 export interface QueryIncentiveResponseProtoMsg {
   typeUrl: "/evmos.incentives.v1.QueryIncentiveResponse";
@@ -87,6 +101,10 @@ export interface QueryGasMetersRequest {
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
 }
+export interface ReactiveQueryGasMetersRequest {
+  contract: ComputedRef<string>;
+  pagination?: ComputedRef<PageRequest>;
+}
 export interface QueryGasMetersRequestProtoMsg {
   typeUrl: "/evmos.incentives.v1.QueryGasMetersRequest";
   value: Uint8Array;
@@ -108,6 +126,10 @@ export interface QueryGasMetersResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryGasMetersResponse {
+  gasMeters: ComputedRef<GasMeter[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryGasMetersResponseProtoMsg {
   typeUrl: "/evmos.incentives.v1.QueryGasMetersResponse";
   value: Uint8Array;
@@ -127,6 +149,10 @@ export interface QueryGasMeterRequest {
   /** participant identifier is the hex address of a user */
   participant: string;
 }
+export interface ReactiveQueryGasMeterRequest {
+  contract: ComputedRef<string>;
+  participant: ComputedRef<string>;
+}
 export interface QueryGasMeterRequestProtoMsg {
   typeUrl: "/evmos.incentives.v1.QueryGasMeterRequest";
   value: Uint8Array;
@@ -142,6 +168,9 @@ export interface QueryGasMeterRequestSDKType {
  */
 export interface QueryGasMeterResponse {
   gasMeter: bigint;
+}
+export interface ReactiveQueryGasMeterResponse {
+  gasMeter: ComputedRef<bigint>;
 }
 export interface QueryGasMeterResponseProtoMsg {
   typeUrl: "/evmos.incentives.v1.QueryGasMeterResponse";
@@ -161,6 +190,9 @@ export interface QueryGasMeterResponseSDKType {
 export interface QueryAllocationMetersRequest {
   /** pagination defines an optional pagination for the request. */
   pagination?: PageRequest;
+}
+export interface ReactiveQueryAllocationMetersRequest {
+  pagination?: ComputedRef<PageRequest>;
 }
 export interface QueryAllocationMetersRequestProtoMsg {
   typeUrl: "/evmos.incentives.v1.QueryAllocationMetersRequest";
@@ -182,6 +214,10 @@ export interface QueryAllocationMetersResponse {
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
+export interface ReactiveQueryAllocationMetersResponse {
+  allocationMeters: ComputedRef<DecCoin[]>;
+  pagination?: ComputedRef<PageResponse>;
+}
 export interface QueryAllocationMetersResponseProtoMsg {
   typeUrl: "/evmos.incentives.v1.QueryAllocationMetersResponse";
   value: Uint8Array;
@@ -202,6 +238,9 @@ export interface QueryAllocationMeterRequest {
   /** denom is the coin denom to query an allocation meter for. */
   denom: string;
 }
+export interface ReactiveQueryAllocationMeterRequest {
+  denom: ComputedRef<string>;
+}
 export interface QueryAllocationMeterRequestProtoMsg {
   typeUrl: "/evmos.incentives.v1.QueryAllocationMeterRequest";
   value: Uint8Array;
@@ -220,6 +259,9 @@ export interface QueryAllocationMeterRequestSDKType {
 export interface QueryAllocationMeterResponse {
   allocationMeter: DecCoin;
 }
+export interface ReactiveQueryAllocationMeterResponse {
+  allocationMeter: ComputedRef<DecCoin>;
+}
 export interface QueryAllocationMeterResponseProtoMsg {
   typeUrl: "/evmos.incentives.v1.QueryAllocationMeterResponse";
   value: Uint8Array;
@@ -233,6 +275,7 @@ export interface QueryAllocationMeterResponseSDKType {
 }
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
+export interface ReactiveQueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
   typeUrl: "/evmos.incentives.v1.QueryParamsRequest";
   value: Uint8Array;
@@ -245,6 +288,9 @@ export interface QueryParamsRequestSDKType {}
  */
 export interface QueryParamsResponse {
   params: Params;
+}
+export interface ReactiveQueryParamsResponse {
+  params: ComputedRef<Params>;
 }
 export interface QueryParamsResponseProtoMsg {
   typeUrl: "/evmos.incentives.v1.QueryParamsResponse";

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.base.store.v1beta1";
 /**
  * StoreKVPair is a KVStore KVPair used for listening to state changes (Sets and Deletes)
@@ -16,6 +17,12 @@ export interface StoreKVPair {
   delete: boolean;
   key: Uint8Array;
   value: Uint8Array;
+}
+export interface ReactiveStoreKVPair {
+  storeKey: ComputedRef<string>;
+  delete: ComputedRef<boolean>;
+  key: ComputedRef<Uint8Array>;
+  value: ComputedRef<Uint8Array>;
 }
 export interface StoreKVPairProtoMsg {
   typeUrl: "/cosmos.base.store.v1beta1.StoreKVPair";

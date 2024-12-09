@@ -8,6 +8,7 @@ import { ValidatorSet, ValidatorSetSDKType } from "../../../../tendermint/types/
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.lightclients.tendermint.v1";
 /**
  * ClientState from Tendermint tracks the current validator set, latest height,
@@ -52,6 +53,19 @@ export interface ClientState {
    */
   allowUpdateAfterMisbehaviour: boolean;
 }
+export interface ReactiveClientState {
+  chainId: ComputedRef<string>;
+  trustLevel: ComputedRef<Fraction>;
+  trustingPeriod: ComputedRef<Duration>;
+  unbondingPeriod: ComputedRef<Duration>;
+  maxClockDrift: ComputedRef<Duration>;
+  frozenHeight: ComputedRef<Height>;
+  latestHeight: ComputedRef<Height>;
+  proofSpecs: ComputedRef<ProofSpec[]>;
+  upgradePath: ComputedRef<string[]>;
+  allowUpdateAfterExpiry: ComputedRef<boolean>;
+  allowUpdateAfterMisbehaviour: ComputedRef<boolean>;
+}
 export interface ClientStateProtoMsg {
   typeUrl: "/ibc.lightclients.tendermint.v1.ClientState";
   value: Uint8Array;
@@ -84,6 +98,11 @@ export interface ConsensusState {
   root: MerkleRoot;
   nextValidatorsHash: Uint8Array;
 }
+export interface ReactiveConsensusState {
+  timestamp: ComputedRef<Date>;
+  root: ComputedRef<MerkleRoot>;
+  nextValidatorsHash: ComputedRef<Uint8Array>;
+}
 export interface ConsensusStateProtoMsg {
   typeUrl: "/ibc.lightclients.tendermint.v1.ConsensusState";
   value: Uint8Array;
@@ -102,6 +121,11 @@ export interface Misbehaviour {
   clientId: string;
   header1?: Header;
   header2?: Header;
+}
+export interface ReactiveMisbehaviour {
+  clientId: ComputedRef<string>;
+  header1?: ComputedRef<Header>;
+  header2?: ComputedRef<Header>;
 }
 export interface MisbehaviourProtoMsg {
   typeUrl: "/ibc.lightclients.tendermint.v1.Misbehaviour";
@@ -136,6 +160,12 @@ export interface Header {
   trustedHeight: Height;
   trustedValidators?: ValidatorSet;
 }
+export interface ReactiveHeader {
+  signedHeader?: ComputedRef<SignedHeader>;
+  validatorSet?: ComputedRef<ValidatorSet>;
+  trustedHeight: ComputedRef<Height>;
+  trustedValidators?: ComputedRef<ValidatorSet>;
+}
 export interface HeaderProtoMsg {
   typeUrl: "/ibc.lightclients.tendermint.v1.Header";
   value: Uint8Array;
@@ -167,6 +197,10 @@ export interface HeaderSDKType {
 export interface Fraction {
   numerator: bigint;
   denominator: bigint;
+}
+export interface ReactiveFraction {
+  numerator: ComputedRef<bigint>;
+  denominator: ComputedRef<bigint>;
 }
 export interface FractionProtoMsg {
   typeUrl: "/ibc.lightclients.tendermint.v1.Fraction";

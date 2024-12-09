@@ -4,6 +4,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
 import { fromBase64, toBase64, toUtf8, fromUtf8 } from "@cosmjs/encoding";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmwasm.wasm.v1";
 /** MsgStoreCode submit Wasm code to the system */
 export interface MsgStoreCode {
@@ -16,6 +17,11 @@ export interface MsgStoreCode {
    * optional
    */
   instantiatePermission?: AccessConfig;
+}
+export interface ReactiveMsgStoreCode {
+  sender: ComputedRef<string>;
+  wasmByteCode: ComputedRef<Uint8Array>;
+  instantiatePermission?: ComputedRef<AccessConfig>;
 }
 export interface MsgStoreCodeProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MsgStoreCode";
@@ -31,6 +37,9 @@ export interface MsgStoreCodeSDKType {
 export interface MsgStoreCodeResponse {
   /** CodeID is the reference to the stored WASM code */
   codeId: bigint;
+}
+export interface ReactiveMsgStoreCodeResponse {
+  codeId: ComputedRef<bigint>;
 }
 export interface MsgStoreCodeResponseProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MsgStoreCodeResponse";
@@ -58,6 +67,14 @@ export interface MsgInstantiateContract {
   /** Funds coins that are transferred to the contract on instantiation */
   funds: Coin[];
 }
+export interface ReactiveMsgInstantiateContract {
+  sender: ComputedRef<string>;
+  admin: ComputedRef<string>;
+  codeId: ComputedRef<bigint>;
+  label: ComputedRef<string>;
+  msg: ComputedRef<Uint8Array>;
+  funds: ComputedRef<Coin[]>;
+}
 export interface MsgInstantiateContractProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract";
   value: Uint8Array;
@@ -81,6 +98,10 @@ export interface MsgInstantiateContractResponse {
   /** Data contains base64-encoded bytes to returned from the contract */
   data: Uint8Array;
 }
+export interface ReactiveMsgInstantiateContractResponse {
+  address: ComputedRef<string>;
+  data: ComputedRef<Uint8Array>;
+}
 export interface MsgInstantiateContractResponseProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContractResponse";
   value: Uint8Array;
@@ -101,6 +122,12 @@ export interface MsgExecuteContract {
   /** Funds coins that are transferred to the contract on execution */
   funds: Coin[];
 }
+export interface ReactiveMsgExecuteContract {
+  sender: ComputedRef<string>;
+  contract: ComputedRef<string>;
+  msg: ComputedRef<Uint8Array>;
+  funds: ComputedRef<Coin[]>;
+}
 export interface MsgExecuteContractProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract";
   value: Uint8Array;
@@ -116,6 +143,9 @@ export interface MsgExecuteContractSDKType {
 export interface MsgExecuteContractResponse {
   /** Data contains base64-encoded bytes to returned from the contract */
   data: Uint8Array;
+}
+export interface ReactiveMsgExecuteContractResponse {
+  data: ComputedRef<Uint8Array>;
 }
 export interface MsgExecuteContractResponseProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContractResponse";
@@ -136,6 +166,12 @@ export interface MsgMigrateContract {
   /** Msg json encoded message to be passed to the contract on migration */
   msg: Uint8Array;
 }
+export interface ReactiveMsgMigrateContract {
+  sender: ComputedRef<string>;
+  contract: ComputedRef<string>;
+  codeId: ComputedRef<bigint>;
+  msg: ComputedRef<Uint8Array>;
+}
 export interface MsgMigrateContractProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MsgMigrateContract";
   value: Uint8Array;
@@ -155,6 +191,9 @@ export interface MsgMigrateContractResponse {
    */
   data: Uint8Array;
 }
+export interface ReactiveMsgMigrateContractResponse {
+  data: ComputedRef<Uint8Array>;
+}
 export interface MsgMigrateContractResponseProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MsgMigrateContractResponse";
   value: Uint8Array;
@@ -172,6 +211,11 @@ export interface MsgUpdateAdmin {
   /** Contract is the address of the smart contract */
   contract: string;
 }
+export interface ReactiveMsgUpdateAdmin {
+  sender: ComputedRef<string>;
+  newAdmin: ComputedRef<string>;
+  contract: ComputedRef<string>;
+}
 export interface MsgUpdateAdminProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MsgUpdateAdmin";
   value: Uint8Array;
@@ -184,6 +228,7 @@ export interface MsgUpdateAdminSDKType {
 }
 /** MsgUpdateAdminResponse returns empty data */
 export interface MsgUpdateAdminResponse {}
+export interface ReactiveMsgUpdateAdminResponse {}
 export interface MsgUpdateAdminResponseProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MsgUpdateAdminResponse";
   value: Uint8Array;
@@ -197,6 +242,10 @@ export interface MsgClearAdmin {
   /** Contract is the address of the smart contract */
   contract: string;
 }
+export interface ReactiveMsgClearAdmin {
+  sender: ComputedRef<string>;
+  contract: ComputedRef<string>;
+}
 export interface MsgClearAdminProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MsgClearAdmin";
   value: Uint8Array;
@@ -208,6 +257,7 @@ export interface MsgClearAdminSDKType {
 }
 /** MsgClearAdminResponse returns empty data */
 export interface MsgClearAdminResponse {}
+export interface ReactiveMsgClearAdminResponse {}
 export interface MsgClearAdminResponseProtoMsg {
   typeUrl: "/cosmwasm.wasm.v1.MsgClearAdminResponse";
   value: Uint8Array;

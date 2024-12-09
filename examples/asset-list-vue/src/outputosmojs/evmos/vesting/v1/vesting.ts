@@ -3,6 +3,7 @@ import { Timestamp, TimestampSDKType } from "../../../google/protobuf/timestamp"
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.vesting.v1";
 /**
  * ClawbackVestingAccount implements the VestingAccount interface. It provides
@@ -24,6 +25,13 @@ export interface ClawbackVestingAccount {
   lockupPeriods: Period[];
   /** vesting_periods defines the vesting schedule relative to the start_time */
   vestingPeriods: Period[];
+}
+export interface ReactiveClawbackVestingAccount {
+  baseVestingAccount?: ComputedRef<BaseVestingAccount>;
+  funderAddress: ComputedRef<string>;
+  startTime: ComputedRef<Date>;
+  lockupPeriods: ComputedRef<Period[]>;
+  vestingPeriods: ComputedRef<Period[]>;
 }
 export interface ClawbackVestingAccountProtoMsg {
   typeUrl: "/evmos.vesting.v1.ClawbackVestingAccount";

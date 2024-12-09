@@ -3,12 +3,19 @@ import { EvidenceList, EvidenceListSDKType } from "./evidence";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "tendermint.types";
 export interface Block {
   header: Header;
   data: Data;
   evidence: EvidenceList;
   lastCommit?: Commit;
+}
+export interface ReactiveBlock {
+  header: ComputedRef<Header>;
+  data: ComputedRef<Data>;
+  evidence: ComputedRef<EvidenceList>;
+  lastCommit?: ComputedRef<Commit>;
 }
 export interface BlockProtoMsg {
   typeUrl: "/tendermint.types.Block";

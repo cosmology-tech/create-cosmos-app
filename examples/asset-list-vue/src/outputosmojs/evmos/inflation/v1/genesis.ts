@@ -2,6 +2,7 @@ import { ExponentialCalculation, ExponentialCalculationSDKType, InflationDistrib
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.inflation.v1";
 /** GenesisState defines the inflation module's genesis state. */
 export interface GenesisState {
@@ -15,6 +16,13 @@ export interface GenesisState {
   epochsPerPeriod: bigint;
   /** number of epochs that have passed while inflation is disabled */
   skippedEpochs: bigint;
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  period: ComputedRef<bigint>;
+  epochIdentifier: ComputedRef<string>;
+  epochsPerPeriod: ComputedRef<bigint>;
+  skippedEpochs: ComputedRef<bigint>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/evmos.inflation.v1.GenesisState";
@@ -38,6 +46,12 @@ export interface Params {
   inflationDistribution: InflationDistribution;
   /** parameter to enable inflation and halt increasing the skipped_epochs */
   enableInflation: boolean;
+}
+export interface ReactiveParams {
+  mintDenom: ComputedRef<string>;
+  exponentialCalculation: ComputedRef<ExponentialCalculation>;
+  inflationDistribution: ComputedRef<InflationDistribution>;
+  enableInflation: ComputedRef<boolean>;
 }
 export interface ParamsProtoMsg {
   typeUrl: "/evmos.inflation.v1.Params";

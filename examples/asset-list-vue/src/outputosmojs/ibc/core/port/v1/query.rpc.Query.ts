@@ -2,7 +2,7 @@ import { Order, OrderSDKType, Counterparty, CounterpartySDKType } from "../../ch
 import { Rpc } from "../../../../helpers";
 import { BinaryReader } from "../../../../binary";
 import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
-import { QueryAppVersionRequest, QueryAppVersionRequestSDKType, QueryAppVersionResponse, QueryAppVersionResponseSDKType } from "./query";
+import { QueryAppVersionRequest, QueryAppVersionRequestSDKType, QueryAppVersionResponse, QueryAppVersionResponseSDKType, ReactiveQueryAppVersionRequest } from "./query";
 /** Query defines the gRPC querier service */
 export interface Query {
   /** AppVersion queries an IBC Port and determines the appropriate application version to be used */

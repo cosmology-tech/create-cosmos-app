@@ -2,6 +2,7 @@ import { Params, ParamsSDKType, ValidatorSigningInfo, ValidatorSigningInfoSDKTyp
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.slashing.v1beta1";
 /** GenesisState defines the slashing module's genesis state. */
 export interface GenesisState {
@@ -17,6 +18,11 @@ export interface GenesisState {
    * missed blocks.
    */
   missedBlocks: ValidatorMissedBlocks[];
+}
+export interface ReactiveGenesisState {
+  params: ComputedRef<Params>;
+  signingInfos: ComputedRef<SigningInfo[]>;
+  missedBlocks: ComputedRef<ValidatorMissedBlocks[]>;
 }
 export interface GenesisStateProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.GenesisState";
@@ -34,6 +40,10 @@ export interface SigningInfo {
   address: string;
   /** validator_signing_info represents the signing info of this validator. */
   validatorSigningInfo: ValidatorSigningInfo;
+}
+export interface ReactiveSigningInfo {
+  address: ComputedRef<string>;
+  validatorSigningInfo: ComputedRef<ValidatorSigningInfo>;
 }
 export interface SigningInfoProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.SigningInfo";
@@ -54,6 +64,10 @@ export interface ValidatorMissedBlocks {
   /** missed_blocks is an array of missed blocks by the validator. */
   missedBlocks: MissedBlock[];
 }
+export interface ReactiveValidatorMissedBlocks {
+  address: ComputedRef<string>;
+  missedBlocks: ComputedRef<MissedBlock[]>;
+}
 export interface ValidatorMissedBlocksProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.ValidatorMissedBlocks";
   value: Uint8Array;
@@ -72,6 +86,10 @@ export interface MissedBlock {
   index: bigint;
   /** missed is the missed status. */
   missed: boolean;
+}
+export interface ReactiveMissedBlock {
+  index: ComputedRef<bigint>;
+  missed: ComputedRef<boolean>;
 }
 export interface MissedBlockProtoMsg {
   typeUrl: "/cosmos.slashing.v1beta1.MissedBlock";
