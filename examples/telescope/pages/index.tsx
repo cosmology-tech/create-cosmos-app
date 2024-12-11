@@ -94,6 +94,14 @@ const COIN_DISPLAY_EXPONENT = coin.denom_units.find(
   (unit) => unit.denom === coin.display
 )?.exponent as number;
 
+const getPagination = (limit: bigint) => ({
+  limit,
+  key: new Uint8Array(),
+  offset: 0n,
+  countTotal: true,
+  reverse: false,
+});
+
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -126,7 +134,6 @@ export default function Home() {
   //@ts-ignore
   // const hooks = cosmos.ClientFactory.createRPCQueryHooks({ rpc: rpcClient })
   const hooks = createRpcQueryHooks({ rpc: rpcClient });
-
   const {
     data: balance,
     isSuccess: isBalanceLoaded,
@@ -146,6 +153,17 @@ export default function Home() {
         ),
     },
   });
+
+  const { data } = hooks.useAllBalances({
+    request: {
+      address: address || '',
+      pagination: getPagination(100n),
+    },
+    options: {
+
+    }
+  })
+  console.log('data>>', data)
 
   console.log(
     JSON.stringify(

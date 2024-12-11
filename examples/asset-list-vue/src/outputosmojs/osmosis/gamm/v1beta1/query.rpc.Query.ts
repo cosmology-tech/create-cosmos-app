@@ -260,7 +260,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UsePoolsQuery<TData>) => {
     const queryKey = ["poolsQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }
@@ -285,7 +285,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UseNumPoolsQuery<TData>) => {
     const queryKey = ["numPoolsQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }
@@ -310,7 +310,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UseTotalLiquidityQuery<TData>) => {
     const queryKey = ["totalLiquidityQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }
@@ -335,7 +335,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UsePoolsWithFilterQuery<TData>) => {
     const queryKey = ["poolsWithFilterQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }
@@ -360,7 +360,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UsePoolQuery<TData>) => {
     const queryKey = ["poolQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }
@@ -385,7 +385,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UsePoolTypeQuery<TData>) => {
     const queryKey = ["poolTypeQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }
@@ -410,7 +410,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UseCalcJoinPoolNoSwapSharesQuery<TData>) => {
     const queryKey = ["calcJoinPoolNoSwapSharesQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }
@@ -435,7 +435,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UseCalcJoinPoolSharesQuery<TData>) => {
     const queryKey = ["calcJoinPoolSharesQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }
@@ -460,7 +460,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UseCalcExitPoolCoinsFromSharesQuery<TData>) => {
     const queryKey = ["calcExitPoolCoinsFromSharesQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }
@@ -485,7 +485,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UsePoolParamsQuery<TData>) => {
     const queryKey = ["poolParamsQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }
@@ -510,7 +510,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UseTotalPoolLiquidityQuery<TData>) => {
     const queryKey = ["totalPoolLiquidityQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }
@@ -535,7 +535,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UseTotalSharesQuery<TData>) => {
     const queryKey = ["totalSharesQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }
@@ -560,7 +560,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UseSpotPriceQuery<TData>) => {
     const queryKey = ["spotPriceQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }
@@ -585,7 +585,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UseEstimateSwapExactAmountInQuery<TData>) => {
     const queryKey = ["estimateSwapExactAmountInQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }
@@ -610,7 +610,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UseEstimateSwapExactAmountOutQuery<TData>) => {
     const queryKey = ["estimateSwapExactAmountOutQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }

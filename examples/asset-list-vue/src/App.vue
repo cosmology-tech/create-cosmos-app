@@ -9,6 +9,7 @@ import { chain as osmosisChain, assetList as osmosisAssetList } from "@chain-reg
 import { chain as cosmoshubChain, assetList as cosmoshubAssetList } from "@chain-registry/v2/mainnet/cosmoshub";
 import { chain as stargazeChain, assetList as stargazeAssetList } from "@chain-registry/v2/mainnet/stargaze";
 import { chain as xplaChain, assetList as xplaAssetList} from "@chain-registry/v2/mainnet/xpla"
+import { chain as osmosisTestChain, assetList as osmosisTestAssetList } from "@chain-registry/v2/testnet/osmosistestnet"
 
 </script>
 
@@ -16,8 +17,8 @@ import { chain as xplaChain, assetList as xplaAssetList} from "@chain-registry/v
   <ThemeProvider>
     <ChainProvider 
       :wallets="[keplrWallet, leapWallet]"
-      :chains="[osmosisChain, junoChain, cosmoshubChain, stargazeChain, xplaChain]"
-      :asset-lists="[osmosisAssetList, junoAssetList, cosmoshubAssetList, stargazeAssetList, xplaAssetList]" :signer-options="{}"
+      :chains="[osmosisChain, junoChain, cosmoshubChain, stargazeChain, xplaChain,, osmosisTestChain]"
+      :asset-lists="[osmosisAssetList, junoAssetList, cosmoshubAssetList, stargazeAssetList, xplaAssetList, osmosisTestAssetList]" :signer-options="{}"
       :endpoint-options="{}">
       <router-view />
     </ChainProvider>

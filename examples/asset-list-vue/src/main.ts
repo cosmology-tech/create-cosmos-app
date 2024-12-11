@@ -17,6 +17,11 @@ const queryClient = new QueryClient({
   },
 });
 
+// @ts-ignore
+BigInt.prototype['toJSON'] = function () {
+  return this.toString()
+}
+
 const app = createApp(App);
 app.use(VueQueryPlugin, { queryClient });
 app.use(router)

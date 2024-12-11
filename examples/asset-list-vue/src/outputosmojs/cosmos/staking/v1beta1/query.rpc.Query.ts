@@ -2,7 +2,10 @@ import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } fr
 import { Validator, ValidatorSDKType, DelegationResponse, DelegationResponseSDKType, UnbondingDelegation, UnbondingDelegationSDKType, RedelegationResponse, RedelegationResponseSDKType, HistoricalInfo, HistoricalInfoSDKType, Pool, PoolSDKType, Params, ParamsSDKType } from "./staking";
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { VueQueryParams } from "../../../vue-query";
+import { ComputedRef, computed, Ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
 import { QueryValidatorsRequest, QueryValidatorsRequestSDKType, QueryValidatorsResponse, QueryValidatorsResponseSDKType, QueryValidatorRequest, QueryValidatorRequestSDKType, QueryValidatorResponse, QueryValidatorResponseSDKType, QueryValidatorDelegationsRequest, QueryValidatorDelegationsRequestSDKType, QueryValidatorDelegationsResponse, QueryValidatorDelegationsResponseSDKType, QueryValidatorUnbondingDelegationsRequest, QueryValidatorUnbondingDelegationsRequestSDKType, QueryValidatorUnbondingDelegationsResponse, QueryValidatorUnbondingDelegationsResponseSDKType, QueryDelegationRequest, QueryDelegationRequestSDKType, QueryDelegationResponse, QueryDelegationResponseSDKType, QueryUnbondingDelegationRequest, QueryUnbondingDelegationRequestSDKType, QueryUnbondingDelegationResponse, QueryUnbondingDelegationResponseSDKType, QueryDelegatorDelegationsRequest, QueryDelegatorDelegationsRequestSDKType, QueryDelegatorDelegationsResponse, QueryDelegatorDelegationsResponseSDKType, QueryDelegatorUnbondingDelegationsRequest, QueryDelegatorUnbondingDelegationsRequestSDKType, QueryDelegatorUnbondingDelegationsResponse, QueryDelegatorUnbondingDelegationsResponseSDKType, QueryRedelegationsRequest, QueryRedelegationsRequestSDKType, QueryRedelegationsResponse, QueryRedelegationsResponseSDKType, QueryDelegatorValidatorsRequest, QueryDelegatorValidatorsRequestSDKType, QueryDelegatorValidatorsResponse, QueryDelegatorValidatorsResponseSDKType, QueryDelegatorValidatorRequest, QueryDelegatorValidatorRequestSDKType, QueryDelegatorValidatorResponse, QueryDelegatorValidatorResponseSDKType, QueryHistoricalInfoRequest, QueryHistoricalInfoRequestSDKType, QueryHistoricalInfoResponse, QueryHistoricalInfoResponseSDKType, QueryPoolRequest, QueryPoolRequestSDKType, QueryPoolResponse, QueryPoolResponseSDKType, QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, ReactiveQueryValidatorsRequest, ReactiveQueryValidatorRequest, ReactiveQueryValidatorDelegationsRequest, ReactiveQueryValidatorUnbondingDelegationsRequest, ReactiveQueryDelegationRequest, ReactiveQueryUnbondingDelegationRequest, ReactiveQueryDelegatorDelegationsRequest, ReactiveQueryDelegatorUnbondingDelegationsRequest, ReactiveQueryRedelegationsRequest, ReactiveQueryDelegatorValidatorsRequest, ReactiveQueryDelegatorValidatorRequest, ReactiveQueryHistoricalInfoRequest, ReactiveQueryPoolRequest, ReactiveQueryParamsRequest } from "./query";
 /** Query defines the gRPC querier service. */
 export interface Query {
@@ -183,5 +186,445 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     params(request?: QueryParamsRequest): Promise<QueryParamsResponse> {
       return queryService.params(request);
     }
+  };
+};
+export interface UseValidatorsQuery<TData> extends VueQueryParams<QueryValidatorsResponse, TData> {
+  request: ReactiveQueryValidatorsRequest;
+}
+export interface UseValidatorQuery<TData> extends VueQueryParams<QueryValidatorResponse, TData> {
+  request: ReactiveQueryValidatorRequest;
+}
+export interface UseValidatorDelegationsQuery<TData> extends VueQueryParams<QueryValidatorDelegationsResponse, TData> {
+  request: ReactiveQueryValidatorDelegationsRequest;
+}
+export interface UseValidatorUnbondingDelegationsQuery<TData> extends VueQueryParams<QueryValidatorUnbondingDelegationsResponse, TData> {
+  request: ReactiveQueryValidatorUnbondingDelegationsRequest;
+}
+export interface UseDelegationQuery<TData> extends VueQueryParams<QueryDelegationResponse, TData> {
+  request: ReactiveQueryDelegationRequest;
+}
+export interface UseUnbondingDelegationQuery<TData> extends VueQueryParams<QueryUnbondingDelegationResponse, TData> {
+  request: ReactiveQueryUnbondingDelegationRequest;
+}
+export interface UseDelegatorDelegationsQuery<TData> extends VueQueryParams<QueryDelegatorDelegationsResponse, TData> {
+  request: ReactiveQueryDelegatorDelegationsRequest;
+}
+export interface UseDelegatorUnbondingDelegationsQuery<TData> extends VueQueryParams<QueryDelegatorUnbondingDelegationsResponse, TData> {
+  request: ReactiveQueryDelegatorUnbondingDelegationsRequest;
+}
+export interface UseRedelegationsQuery<TData> extends VueQueryParams<QueryRedelegationsResponse, TData> {
+  request: ReactiveQueryRedelegationsRequest;
+}
+export interface UseDelegatorValidatorsQuery<TData> extends VueQueryParams<QueryDelegatorValidatorsResponse, TData> {
+  request: ReactiveQueryDelegatorValidatorsRequest;
+}
+export interface UseDelegatorValidatorQuery<TData> extends VueQueryParams<QueryDelegatorValidatorResponse, TData> {
+  request: ReactiveQueryDelegatorValidatorRequest;
+}
+export interface UseHistoricalInfoQuery<TData> extends VueQueryParams<QueryHistoricalInfoResponse, TData> {
+  request: ReactiveQueryHistoricalInfoRequest;
+}
+export interface UsePoolQuery<TData> extends VueQueryParams<QueryPoolResponse, TData> {
+  request?: ReactiveQueryPoolRequest;
+}
+export interface UseParamsQuery<TData> extends VueQueryParams<QueryParamsResponse, TData> {
+  request?: ReactiveQueryParamsRequest;
+}
+const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+  const _queryClients = new WeakMap();
+  return computed(() => {
+    if (rpc.value) {
+      if (_queryClients.has(rpc.value)) {
+        return _queryClients.get(rpc.value);
+      }
+      const queryService = new QueryClientImpl(rpc.value);
+      _queryClients.set(rpc.value, queryService);
+      return queryService;
+    }
+  });
+};
+export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => {
+  const queryService = useQueryService(rpc);
+  const useValidators = <TData = QueryValidatorsResponse,>({
+    request,
+    options
+  }: UseValidatorsQuery<TData>) => {
+    const queryKey = ["validatorsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryValidatorsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.validators(params);
+      },
+      ...options
+    });
+  };
+  const useValidator = <TData = QueryValidatorResponse,>({
+    request,
+    options
+  }: UseValidatorQuery<TData>) => {
+    const queryKey = ["validatorQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryValidatorResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.validator(params);
+      },
+      ...options
+    });
+  };
+  const useValidatorDelegations = <TData = QueryValidatorDelegationsResponse,>({
+    request,
+    options
+  }: UseValidatorDelegationsQuery<TData>) => {
+    const queryKey = ["validatorDelegationsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryValidatorDelegationsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.validatorDelegations(params);
+      },
+      ...options
+    });
+  };
+  const useValidatorUnbondingDelegations = <TData = QueryValidatorUnbondingDelegationsResponse,>({
+    request,
+    options
+  }: UseValidatorUnbondingDelegationsQuery<TData>) => {
+    const queryKey = ["validatorUnbondingDelegationsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryValidatorUnbondingDelegationsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.validatorUnbondingDelegations(params);
+      },
+      ...options
+    });
+  };
+  const useDelegation = <TData = QueryDelegationResponse,>({
+    request,
+    options
+  }: UseDelegationQuery<TData>) => {
+    const queryKey = ["delegationQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryDelegationResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.delegation(params);
+      },
+      ...options
+    });
+  };
+  const useUnbondingDelegation = <TData = QueryUnbondingDelegationResponse,>({
+    request,
+    options
+  }: UseUnbondingDelegationQuery<TData>) => {
+    const queryKey = ["unbondingDelegationQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryUnbondingDelegationResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.unbondingDelegation(params);
+      },
+      ...options
+    });
+  };
+  const useDelegatorDelegations = <TData = QueryDelegatorDelegationsResponse,>({
+    request,
+    options
+  }: UseDelegatorDelegationsQuery<TData>) => {
+    const queryKey = ["delegatorDelegationsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryDelegatorDelegationsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.delegatorDelegations(params);
+      },
+      ...options
+    });
+  };
+  const useDelegatorUnbondingDelegations = <TData = QueryDelegatorUnbondingDelegationsResponse,>({
+    request,
+    options
+  }: UseDelegatorUnbondingDelegationsQuery<TData>) => {
+    const queryKey = ["delegatorUnbondingDelegationsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryDelegatorUnbondingDelegationsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.delegatorUnbondingDelegations(params);
+      },
+      ...options
+    });
+  };
+  const useRedelegations = <TData = QueryRedelegationsResponse,>({
+    request,
+    options
+  }: UseRedelegationsQuery<TData>) => {
+    const queryKey = ["redelegationsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryRedelegationsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.redelegations(params);
+      },
+      ...options
+    });
+  };
+  const useDelegatorValidators = <TData = QueryDelegatorValidatorsResponse,>({
+    request,
+    options
+  }: UseDelegatorValidatorsQuery<TData>) => {
+    const queryKey = ["delegatorValidatorsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryDelegatorValidatorsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.delegatorValidators(params);
+      },
+      ...options
+    });
+  };
+  const useDelegatorValidator = <TData = QueryDelegatorValidatorResponse,>({
+    request,
+    options
+  }: UseDelegatorValidatorQuery<TData>) => {
+    const queryKey = ["delegatorValidatorQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryDelegatorValidatorResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.delegatorValidator(params);
+      },
+      ...options
+    });
+  };
+  const useHistoricalInfo = <TData = QueryHistoricalInfoResponse,>({
+    request,
+    options
+  }: UseHistoricalInfoQuery<TData>) => {
+    const queryKey = ["historicalInfoQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryHistoricalInfoResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.historicalInfo(params);
+      },
+      ...options
+    });
+  };
+  const usePool = <TData = QueryPoolResponse,>({
+    request,
+    options
+  }: UsePoolQuery<TData>) => {
+    const queryKey = ["poolQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryPoolResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.pool(params);
+      },
+      ...options
+    });
+  };
+  const useParams = <TData = QueryParamsResponse,>({
+    request,
+    options
+  }: UseParamsQuery<TData>) => {
+    const queryKey = ["paramsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryParamsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.params(params);
+      },
+      ...options
+    });
+  };
+  return {
+    /** Validators queries all validators that match the given status. */useValidators,
+    /** Validator queries validator info for given validator address. */useValidator,
+    /** ValidatorDelegations queries delegate info for given validator. */useValidatorDelegations,
+    /** ValidatorUnbondingDelegations queries unbonding delegations of a validator. */useValidatorUnbondingDelegations,
+    /** Delegation queries delegate info for given validator delegator pair. */useDelegation,
+    /**
+     * UnbondingDelegation queries unbonding info for given validator delegator
+     * pair.
+     */
+    useUnbondingDelegation,
+    /** DelegatorDelegations queries all delegations of a given delegator address. */useDelegatorDelegations,
+    /**
+     * DelegatorUnbondingDelegations queries all unbonding delegations of a given
+     * delegator address.
+     */
+    useDelegatorUnbondingDelegations,
+    /** Redelegations queries redelegations of given address. */useRedelegations,
+    /**
+     * DelegatorValidators queries all validators info for given delegator
+     * address.
+     */
+    useDelegatorValidators,
+    /**
+     * DelegatorValidator queries validator info for given delegator validator
+     * pair.
+     */
+    useDelegatorValidator,
+    /** HistoricalInfo queries the historical info for given height. */useHistoricalInfo,
+    /** Pool queries the pool info. */usePool,
+    /** Parameters queries the staking parameters. */useParams
   };
 };

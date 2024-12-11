@@ -57,7 +57,7 @@ export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => 
   }: UseSpotPriceQuery<TData>) => {
     const queryKey = ["spotPriceQuery", queryService];
     if (request) {
-      Object.values(request).forEach(val => {
+      Object.values(request).forEach((val: any) => {
         queryKey.push(val);
       });
     }

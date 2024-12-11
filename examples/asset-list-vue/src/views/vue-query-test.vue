@@ -1,8 +1,16 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useChain } from '@interchain-kit/vue'
 import { useRpcClient, useTendermintClient, } from '../outputosmojs'
-import { createRpcQueryHooks } from '../outputosmojs/cosmos/bank/v1beta1/query.rpc.Query.ts'
+import { createRpcQueryHooks, useQueryService } from '../outputosmojs/cosmos/bank/v1beta1/query.rpc.Query.ts'
+
+const getPagination = (limit: bigint) => ({
+  limit,
+  key: new Uint8Array(),
+  offset: 0n,
+  countTotal: true,
+  reverse: false,
+});
 
 const chainName = ref('cosmoshub')
 const { address, rpcEndpoint } = useChain(chainName)
@@ -26,19 +34,18 @@ const { data: rpcClient } = useRpcClient({
 });
 console.log('[rpcClient]', rpcClient)
 
+
 const hooks = createRpcQueryHooks(rpcClient);
 
 const { data, error, isLoading} = hooks.useAllBalances({
   request: {
     address: address || '',
+    pagination: computed(() => getPagination(100n)),
     // denom: chainassets?.assets[0].base as string,
   },
 })
 
 const balance = computed(() => {
-  if (isLoading.value) {
-    return {}
-  }
   return data.value?.balances?.[0]
 })
 console.log('data.>', data)
