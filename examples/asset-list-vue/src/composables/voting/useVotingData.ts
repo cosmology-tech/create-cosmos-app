@@ -1,12 +1,13 @@
 import { Ref, computed } from 'vue'
-import { useRpcClient } from '../../outputosmojs';
+import { useRpcClient } from '../../outputv4';
 import { useChain } from '@interchain-kit/vue';
-import { ProposalStatus } from '../../outputosmojs/cosmos/gov/v1/gov';
-import { createRpcQueryHooks as createGovHooks } from '../../outputosmojs/cosmos/gov/v1/query.rpc.Query';
-import { createRpcQueryHooks as createStakingHooks } from '../../outputosmojs/cosmos/staking/v1beta1/query.rpc.Query';
+import { ProposalStatus } from '../../outputv4/cosmos/gov/v1/gov';
+import { createRpcQueryHooks as createGovHooks, useQueryService } from '../../outputv4/cosmos/gov/v1/query.rpc.Query';
+import { createRpcQueryHooks as createStakingHooks } from '../../outputv4/cosmos/staking/v1beta1/query.rpc.Query';
 import { paginate, parseQuorum } from '../../utils/voting';
-import { Proposal } from '../../outputosmojs/cosmos/gov/v1/gov'
-
+import { Proposal } from '../../outputv4/cosmos/gov/v1/gov'
+import { useQueries } from '@tanstack/vue-query';
+import { Votes } from '../../components/voting/proposal.vue';
 
 export function processProposals(proposals: Proposal[]) {
   const sorted = proposals.sort(
@@ -36,6 +37,7 @@ export function useVotingData(chainName: Ref<string>) {
       enabled: computed(() => !!rpcEndpoint.value),
     },
   });
+  const queryService = useQueryService(rpcClient)
 
   const govHooks = createGovHooks(rpcClient)
   const { data: proposals, isLoading } = govHooks.useProposals({
@@ -46,13 +48,14 @@ export function useVotingData(chainName: Ref<string>) {
       proposalStatus: computed(() => ProposalStatus.PROPOSAL_STATUS_UNSPECIFIED),
     },
     options: {
+      staleTime: Infinity,
       // @ts-ignore
       select: ({ proposals }) => processProposals(proposals),
     }
   })
 
   const stakingHooks = createStakingHooks(rpcClient)
-  const { data: bondedTokens } = stakingHooks.usePool({
+  const { data: bondedTokens } = stakingHooks.usePool<string>({
     options: {
       // enabled: isReady,
       staleTime: Infinity,
@@ -61,7 +64,7 @@ export function useVotingData(chainName: Ref<string>) {
     }
   })
 
-  const { data: quorumData } = govHooks.useParams({
+  const { data: quorumData } = govHooks.useParams<number | undefined>({
     request: {
       paramsType: computed(() => 'tallying')
     },
@@ -71,6 +74,9 @@ export function useVotingData(chainName: Ref<string>) {
       select: ({ tallyParams }) => parseQuorum(tallyParams?.quorum as any),
     },
   })
+  console.log('quorumData>>', quorumData)
+
+  // const tempAddr = ref('cosmos1ek8tydrz5445f7u59yrvn6c4wz2qphh5e7ug2p')
 
   const votedProposalsQuery = govHooks.useProposals({
     request: {
@@ -80,21 +86,48 @@ export function useVotingData(chainName: Ref<string>) {
       proposalStatus: computed(() => ProposalStatus.PROPOSAL_STATUS_UNSPECIFIED),
     },
     options: {
-      enabled: Boolean(address.value),
+      enabled: computed(() => Boolean(address.value)),
       // @ts-ignore
-      // select: ({ proposals }) => proposals,
+      select: ({ proposals }) => proposals,
       keepPreviousData: true,
     },
   });
 
-  console.log('votedProposalsQuery>', votedProposalsQuery)
+  const votedProposalIds = computed(() => {
+    // @ts-ignore
+    return votedProposalsQuery.data.value?.map(({ id }) => id)
+  })
+
+  const queries = computed(() => {
+    return (votedProposalIds?.value || []).map((id: bigint) => {
+      return {
+        queryKey: ['voteQuery', id, queryService],
+        queryFn: async () => {
+          const res = await queryService.value?.vote({
+            proposalId: id,
+            voter: address.value
+          })
+          return res
+        },
+      }
+    })
+  })
+
+  const votesQueries = useQueries({ queries: queries })
+
+  const votes = computed<Votes>(() => {
+    // @ts-ignore
+    return Object.fromEntries(votesQueries.value.filter((record) => record.status === 'success').map(record => [record?.data?.vote?.proposalId?.toString(), record?.data?.vote?.options?.[0]?.option]))
+  })
 
   return {
     data: {
       proposals,
-      votes: []
+      votes,
+      quorumData,
+      bondedTokens
     },
     isLoading,
-    refetch: () => { }
+    refetch: () => { },
   }
 }

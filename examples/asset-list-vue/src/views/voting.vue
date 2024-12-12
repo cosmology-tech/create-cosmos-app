@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { Stack, Spinner, Box, Text } from '@interchain-ui/vue'
+import { Spinner, Box, Text, Modal } from '@interchain-ui/vue'
 import { ref, computed } from 'vue'
-import { ProposalStatus, Proposal as IProposal, TallyResult } from '../outputosmojs/cosmos/gov/v1/gov';
-import { useChain } from '@interchain-kit/vue';
-import { useVotingData } from '../composables/voting/useVotingData';
+import { ProposalStatus, Proposal as IProposal, TallyResult } from '../outputv4/cosmos/gov/v1/gov';
+import { useVotingData, } from '../composables/voting/useVotingData';
 import { formatDate } from '../utils/voting';
+import Proposal from '../components/voting/proposal.vue';
 
 const chainName = ref('cosmoshub')
-const { address } = useChain(chainName);
+
 const { data, isLoading, refetch } = useVotingData(chainName)
+const selectedPoposal = ref<IProposal>()
+const isModalOpen = ref(false)
 
 function status(s: ProposalStatus) {
   switch (s) {
@@ -37,7 +39,6 @@ function votes(result: TallyResult) {
   };
 }
 
-
 const proposals = computed(() => {
   const list = [] as IProposal[]
   // @ts-ignore
@@ -46,6 +47,17 @@ const proposals = computed(() => {
   })
   return list
 })
+
+const clickProposal = async(proposal: IProposal) => {
+  console.log('proposal', proposal)
+  selectedPoposal.value = proposal
+  isModalOpen.value = true
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+}
+
 </script>
 
 <template>
@@ -67,9 +79,12 @@ const proposals = computed(() => {
       my="$8"
       position="relative"
     > 
-      <div v-for="(proposal, index) in proposals" style="border: 1px solid;">
+      <div 
+        v-for="(proposal) in proposals" 
+        style="border: 1px solid; cursor: pointer;"
+        @click="clickProposal(proposal)"
+      >
         <!-- GovernanceProposalItem -->
-        <Divider />
         <div>id: {{ proposal?.id }}</div>
         <div>status: {{ status(proposal?.status) }}</div>
         <div>finalTallyResult: {{ proposal?.finalTallyResult? votes(proposal.finalTallyResult) : '' }}</div>
@@ -77,6 +92,21 @@ const proposals = computed(() => {
       </div>
     </Box>
   </Box>
+  <Modal
+    header="header"
+    :isOpen="isModalOpen"
+    @close="closeModal"
+  >
+    <Proposal
+      v-if="selectedPoposal"
+      :votes="data.votes"
+      :proposal="selectedPoposal"
+      :quorum="data.quorumData"
+      :bondedTokens="data.bondedTokens"
+      :chainName="chainName"
+      :onVoteSuccess="refetch"
+    />
+  </Modal>
 </Box>
 </template>
 

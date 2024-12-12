@@ -162,7 +162,7 @@ export interface UseDenomsMetadataQuery<TData> extends VueQueryParams<QueryDenom
 export interface UseDenomOwnersQuery<TData> extends VueQueryParams<QueryDenomOwnersResponse, TData> {
   request: ReactiveQueryDenomOwnersRequest;
 }
-const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
   const _queryClients = new WeakMap();
   return computed(() => {
     if (rpc.value) {

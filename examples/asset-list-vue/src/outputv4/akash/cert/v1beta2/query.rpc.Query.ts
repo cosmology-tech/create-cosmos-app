@@ -36,7 +36,7 @@ export const createRpcQueryExtension = (base: QueryClient) => {
 export interface UseCertificatesQuery<TData> extends VueQueryParams<QueryCertificatesResponse, TData> {
   request: ReactiveQueryCertificatesRequest;
 }
-const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
   const _queryClients = new WeakMap();
   return computed(() => {
     if (rpc.value) {

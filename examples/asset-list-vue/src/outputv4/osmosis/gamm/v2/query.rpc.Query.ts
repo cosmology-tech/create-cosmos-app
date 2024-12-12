@@ -36,7 +36,7 @@ export const createRpcQueryExtension = (base: QueryClient) => {
 export interface UseSpotPriceQuery<TData> extends VueQueryParams<QuerySpotPriceResponse, TData> {
   request: ReactiveQuerySpotPriceRequest;
 }
-const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
   const _queryClients = new WeakMap();
   return computed(() => {
     if (rpc.value) {

@@ -239,7 +239,7 @@ export interface UseEstimateSwapExactAmountInQuery<TData> extends VueQueryParams
 export interface UseEstimateSwapExactAmountOutQuery<TData> extends VueQueryParams<QuerySwapExactAmountOutResponse, TData> {
   request: ReactiveQuerySwapExactAmountOutRequest;
 }
-const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
   const _queryClients = new WeakMap();
   return computed(() => {
     if (rpc.value) {

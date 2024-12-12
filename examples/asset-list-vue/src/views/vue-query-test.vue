@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useChain } from '@interchain-kit/vue'
-import { useRpcClient, useTendermintClient, } from '../outputosmojs'
-import { createRpcQueryHooks, useQueryService } from '../outputosmojs/cosmos/bank/v1beta1/query.rpc.Query.ts'
+import { useRpcClient, useTendermintClient, } from '../outputv4'
+import { createRpcQueryHooks } from '../outputv4/cosmos/bank/v1beta1/query.rpc.Query.ts'
 
 const getPagination = (limit: bigint) => ({
   limit,

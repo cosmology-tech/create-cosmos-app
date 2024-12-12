@@ -134,7 +134,7 @@ export interface UseDepositsQuery<TData> extends VueQueryParams<QueryDepositsRes
 export interface UseTallyResultQuery<TData> extends VueQueryParams<QueryTallyResultResponse, TData> {
   request: ReactiveQueryTallyResultRequest;
 }
-const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
   const _queryClients = new WeakMap();
   return computed(() => {
     if (rpc.value) {
