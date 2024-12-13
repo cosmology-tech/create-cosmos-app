@@ -25,6 +25,7 @@ This example demonstrates the usage of Vue composables provided by `@interchain-
 ```
 ## Pages
 ### Asset List
+- [x] Compeleted
 This page showcases the use of various Vue query composables to fetch and manage asset-related data. 
 The following composables are utilized:
 ```ts
@@ -35,6 +36,7 @@ cosmos.staking.v1beta1.delegatorDelegations
 osmosis.gamm.v1beta1.pools
 ```
 ### Auth
+- [x] Compeleted
 This page demonstrates the use of composables for managing authorization grants and interacting with validators. 
 The following composables are used:
 ```ts
@@ -43,6 +45,7 @@ cosmos.authz.v1beta1.useGranteeGrants
 cosmos.staking.v1beta1.useValidators
 ```
 ### Voting
+- [x] Compeleted
 The voting page highlights governance functionalities, including proposals and staking pools. 
 The following composables are employed:
 ```ts
@@ -51,3 +54,14 @@ cosmos.gov.v1.useParams
 cosmos.gov.v1.useProposals
 cosmos.staking.v1beta1.usePools
 ```
+### NFT
+- [ ] In Progress
+
+### Injective
+- [ ] In Progress
+
+### Rollkit
+- [ ] In Progress
+
+### Grpc Web & Grpc Gateway
+- [ ] In Progress
