@@ -3,6 +3,7 @@ import { Params, ParamsSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { Decimal } from "@cosmjs/math";
 import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.inflation.v1";
@@ -209,6 +210,12 @@ function createBaseQueryPeriodRequest(): QueryPeriodRequest {
 }
 export const QueryPeriodRequest = {
   typeUrl: "/evmos.inflation.v1.QueryPeriodRequest",
+  is(o: any): o is QueryPeriodRequest {
+    return o && o.$typeUrl === QueryPeriodRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryPeriodRequestSDKType {
+    return o && o.$typeUrl === QueryPeriodRequest.typeUrl;
+  },
   encode(_: QueryPeriodRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -271,6 +278,7 @@ export const QueryPeriodRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPeriodRequest.typeUrl, QueryPeriodRequest);
 function createBaseQueryPeriodResponse(): QueryPeriodResponse {
   return {
     period: BigInt(0)
@@ -278,6 +286,12 @@ function createBaseQueryPeriodResponse(): QueryPeriodResponse {
 }
 export const QueryPeriodResponse = {
   typeUrl: "/evmos.inflation.v1.QueryPeriodResponse",
+  is(o: any): o is QueryPeriodResponse {
+    return o && (o.$typeUrl === QueryPeriodResponse.typeUrl || typeof o.period === "bigint");
+  },
+  isSDK(o: any): o is QueryPeriodResponseSDKType {
+    return o && (o.$typeUrl === QueryPeriodResponse.typeUrl || typeof o.period === "bigint");
+  },
   encode(message: QueryPeriodResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.period !== BigInt(0)) {
       writer.uint32(8).uint64(message.period);
@@ -359,11 +373,18 @@ export const QueryPeriodResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPeriodResponse.typeUrl, QueryPeriodResponse);
 function createBaseQueryEpochMintProvisionRequest(): QueryEpochMintProvisionRequest {
   return {};
 }
 export const QueryEpochMintProvisionRequest = {
   typeUrl: "/evmos.inflation.v1.QueryEpochMintProvisionRequest",
+  is(o: any): o is QueryEpochMintProvisionRequest {
+    return o && o.$typeUrl === QueryEpochMintProvisionRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryEpochMintProvisionRequestSDKType {
+    return o && o.$typeUrl === QueryEpochMintProvisionRequest.typeUrl;
+  },
   encode(_: QueryEpochMintProvisionRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -426,6 +447,7 @@ export const QueryEpochMintProvisionRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryEpochMintProvisionRequest.typeUrl, QueryEpochMintProvisionRequest);
 function createBaseQueryEpochMintProvisionResponse(): QueryEpochMintProvisionResponse {
   return {
     epochMintProvision: DecCoin.fromPartial({})
@@ -433,6 +455,12 @@ function createBaseQueryEpochMintProvisionResponse(): QueryEpochMintProvisionRes
 }
 export const QueryEpochMintProvisionResponse = {
   typeUrl: "/evmos.inflation.v1.QueryEpochMintProvisionResponse",
+  is(o: any): o is QueryEpochMintProvisionResponse {
+    return o && (o.$typeUrl === QueryEpochMintProvisionResponse.typeUrl || DecCoin.is(o.epochMintProvision));
+  },
+  isSDK(o: any): o is QueryEpochMintProvisionResponseSDKType {
+    return o && (o.$typeUrl === QueryEpochMintProvisionResponse.typeUrl || DecCoin.isSDK(o.epoch_mint_provision));
+  },
   encode(message: QueryEpochMintProvisionResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.epochMintProvision !== undefined) {
       DecCoin.encode(message.epochMintProvision, writer.uint32(10).fork()).ldelim();
@@ -514,11 +542,18 @@ export const QueryEpochMintProvisionResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryEpochMintProvisionResponse.typeUrl, QueryEpochMintProvisionResponse);
 function createBaseQuerySkippedEpochsRequest(): QuerySkippedEpochsRequest {
   return {};
 }
 export const QuerySkippedEpochsRequest = {
   typeUrl: "/evmos.inflation.v1.QuerySkippedEpochsRequest",
+  is(o: any): o is QuerySkippedEpochsRequest {
+    return o && o.$typeUrl === QuerySkippedEpochsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QuerySkippedEpochsRequestSDKType {
+    return o && o.$typeUrl === QuerySkippedEpochsRequest.typeUrl;
+  },
   encode(_: QuerySkippedEpochsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -581,6 +616,7 @@ export const QuerySkippedEpochsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuerySkippedEpochsRequest.typeUrl, QuerySkippedEpochsRequest);
 function createBaseQuerySkippedEpochsResponse(): QuerySkippedEpochsResponse {
   return {
     skippedEpochs: BigInt(0)
@@ -588,6 +624,12 @@ function createBaseQuerySkippedEpochsResponse(): QuerySkippedEpochsResponse {
 }
 export const QuerySkippedEpochsResponse = {
   typeUrl: "/evmos.inflation.v1.QuerySkippedEpochsResponse",
+  is(o: any): o is QuerySkippedEpochsResponse {
+    return o && (o.$typeUrl === QuerySkippedEpochsResponse.typeUrl || typeof o.skippedEpochs === "bigint");
+  },
+  isSDK(o: any): o is QuerySkippedEpochsResponseSDKType {
+    return o && (o.$typeUrl === QuerySkippedEpochsResponse.typeUrl || typeof o.skipped_epochs === "bigint");
+  },
   encode(message: QuerySkippedEpochsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.skippedEpochs !== BigInt(0)) {
       writer.uint32(8).uint64(message.skippedEpochs);
@@ -669,11 +711,18 @@ export const QuerySkippedEpochsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuerySkippedEpochsResponse.typeUrl, QuerySkippedEpochsResponse);
 function createBaseQueryCirculatingSupplyRequest(): QueryCirculatingSupplyRequest {
   return {};
 }
 export const QueryCirculatingSupplyRequest = {
   typeUrl: "/evmos.inflation.v1.QueryCirculatingSupplyRequest",
+  is(o: any): o is QueryCirculatingSupplyRequest {
+    return o && o.$typeUrl === QueryCirculatingSupplyRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryCirculatingSupplyRequestSDKType {
+    return o && o.$typeUrl === QueryCirculatingSupplyRequest.typeUrl;
+  },
   encode(_: QueryCirculatingSupplyRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -736,6 +785,7 @@ export const QueryCirculatingSupplyRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryCirculatingSupplyRequest.typeUrl, QueryCirculatingSupplyRequest);
 function createBaseQueryCirculatingSupplyResponse(): QueryCirculatingSupplyResponse {
   return {
     circulatingSupply: DecCoin.fromPartial({})
@@ -743,6 +793,12 @@ function createBaseQueryCirculatingSupplyResponse(): QueryCirculatingSupplyRespo
 }
 export const QueryCirculatingSupplyResponse = {
   typeUrl: "/evmos.inflation.v1.QueryCirculatingSupplyResponse",
+  is(o: any): o is QueryCirculatingSupplyResponse {
+    return o && (o.$typeUrl === QueryCirculatingSupplyResponse.typeUrl || DecCoin.is(o.circulatingSupply));
+  },
+  isSDK(o: any): o is QueryCirculatingSupplyResponseSDKType {
+    return o && (o.$typeUrl === QueryCirculatingSupplyResponse.typeUrl || DecCoin.isSDK(o.circulating_supply));
+  },
   encode(message: QueryCirculatingSupplyResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.circulatingSupply !== undefined) {
       DecCoin.encode(message.circulatingSupply, writer.uint32(10).fork()).ldelim();
@@ -824,11 +880,18 @@ export const QueryCirculatingSupplyResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryCirculatingSupplyResponse.typeUrl, QueryCirculatingSupplyResponse);
 function createBaseQueryInflationRateRequest(): QueryInflationRateRequest {
   return {};
 }
 export const QueryInflationRateRequest = {
   typeUrl: "/evmos.inflation.v1.QueryInflationRateRequest",
+  is(o: any): o is QueryInflationRateRequest {
+    return o && o.$typeUrl === QueryInflationRateRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryInflationRateRequestSDKType {
+    return o && o.$typeUrl === QueryInflationRateRequest.typeUrl;
+  },
   encode(_: QueryInflationRateRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -891,6 +954,7 @@ export const QueryInflationRateRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryInflationRateRequest.typeUrl, QueryInflationRateRequest);
 function createBaseQueryInflationRateResponse(): QueryInflationRateResponse {
   return {
     inflationRate: ""
@@ -898,6 +962,12 @@ function createBaseQueryInflationRateResponse(): QueryInflationRateResponse {
 }
 export const QueryInflationRateResponse = {
   typeUrl: "/evmos.inflation.v1.QueryInflationRateResponse",
+  is(o: any): o is QueryInflationRateResponse {
+    return o && (o.$typeUrl === QueryInflationRateResponse.typeUrl || typeof o.inflationRate === "string");
+  },
+  isSDK(o: any): o is QueryInflationRateResponseSDKType {
+    return o && (o.$typeUrl === QueryInflationRateResponse.typeUrl || typeof o.inflation_rate === "string");
+  },
   encode(message: QueryInflationRateResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.inflationRate !== "") {
       writer.uint32(10).string(Decimal.fromUserInput(message.inflationRate, 18).atomics);
@@ -979,11 +1049,18 @@ export const QueryInflationRateResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryInflationRateResponse.typeUrl, QueryInflationRateResponse);
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
 }
 export const QueryParamsRequest = {
   typeUrl: "/evmos.inflation.v1.QueryParamsRequest",
+  is(o: any): o is QueryParamsRequest {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryParamsRequestSDKType {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
   encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1046,6 +1123,7 @@ export const QueryParamsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsRequest.typeUrl, QueryParamsRequest);
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
     params: Params.fromPartial({})
@@ -1053,6 +1131,12 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
 }
 export const QueryParamsResponse = {
   typeUrl: "/evmos.inflation.v1.QueryParamsResponse",
+  is(o: any): o is QueryParamsResponse {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.is(o.params));
+  },
+  isSDK(o: any): o is QueryParamsResponseSDKType {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.isSDK(o.params));
+  },
   encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -1134,3 +1218,4 @@ export const QueryParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsResponse.typeUrl, QueryParamsResponse);

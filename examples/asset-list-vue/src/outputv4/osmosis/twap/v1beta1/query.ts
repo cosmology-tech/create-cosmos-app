@@ -3,6 +3,7 @@ import { Params, ParamsSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { Decimal } from "@cosmjs/math";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.twap.v1beta1";
@@ -110,6 +111,13 @@ function createBaseArithmeticTwapRequest(): ArithmeticTwapRequest {
 }
 export const ArithmeticTwapRequest = {
   typeUrl: "/osmosis.twap.v1beta1.ArithmeticTwapRequest",
+  aminoType: "osmosis/twap/arithmetic-twap-request",
+  is(o: any): o is ArithmeticTwapRequest {
+    return o && (o.$typeUrl === ArithmeticTwapRequest.typeUrl || typeof o.poolId === "bigint" && typeof o.baseAsset === "string" && typeof o.quoteAsset === "string" && Timestamp.is(o.startTime));
+  },
+  isSDK(o: any): o is ArithmeticTwapRequestSDKType {
+    return o && (o.$typeUrl === ArithmeticTwapRequest.typeUrl || typeof o.pool_id === "bigint" && typeof o.base_asset === "string" && typeof o.quote_asset === "string" && Timestamp.isSDK(o.start_time));
+  },
   encode(message: ArithmeticTwapRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -261,6 +269,8 @@ export const ArithmeticTwapRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ArithmeticTwapRequest.typeUrl, ArithmeticTwapRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(ArithmeticTwapRequest.aminoType, ArithmeticTwapRequest.typeUrl);
 function createBaseArithmeticTwapResponse(): ArithmeticTwapResponse {
   return {
     arithmeticTwap: ""
@@ -268,6 +278,13 @@ function createBaseArithmeticTwapResponse(): ArithmeticTwapResponse {
 }
 export const ArithmeticTwapResponse = {
   typeUrl: "/osmosis.twap.v1beta1.ArithmeticTwapResponse",
+  aminoType: "osmosis/twap/arithmetic-twap-response",
+  is(o: any): o is ArithmeticTwapResponse {
+    return o && (o.$typeUrl === ArithmeticTwapResponse.typeUrl || typeof o.arithmeticTwap === "string");
+  },
+  isSDK(o: any): o is ArithmeticTwapResponseSDKType {
+    return o && (o.$typeUrl === ArithmeticTwapResponse.typeUrl || typeof o.arithmetic_twap === "string");
+  },
   encode(message: ArithmeticTwapResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.arithmeticTwap !== "") {
       writer.uint32(10).string(Decimal.fromUserInput(message.arithmeticTwap, 18).atomics);
@@ -355,6 +372,8 @@ export const ArithmeticTwapResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ArithmeticTwapResponse.typeUrl, ArithmeticTwapResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(ArithmeticTwapResponse.aminoType, ArithmeticTwapResponse.typeUrl);
 function createBaseArithmeticTwapToNowRequest(): ArithmeticTwapToNowRequest {
   return {
     poolId: BigInt(0),
@@ -365,6 +384,13 @@ function createBaseArithmeticTwapToNowRequest(): ArithmeticTwapToNowRequest {
 }
 export const ArithmeticTwapToNowRequest = {
   typeUrl: "/osmosis.twap.v1beta1.ArithmeticTwapToNowRequest",
+  aminoType: "osmosis/twap/arithmetic-twap-to-now-request",
+  is(o: any): o is ArithmeticTwapToNowRequest {
+    return o && (o.$typeUrl === ArithmeticTwapToNowRequest.typeUrl || typeof o.poolId === "bigint" && typeof o.baseAsset === "string" && typeof o.quoteAsset === "string" && Timestamp.is(o.startTime));
+  },
+  isSDK(o: any): o is ArithmeticTwapToNowRequestSDKType {
+    return o && (o.$typeUrl === ArithmeticTwapToNowRequest.typeUrl || typeof o.pool_id === "bigint" && typeof o.base_asset === "string" && typeof o.quote_asset === "string" && Timestamp.isSDK(o.start_time));
+  },
   encode(message: ArithmeticTwapToNowRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -500,6 +526,8 @@ export const ArithmeticTwapToNowRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ArithmeticTwapToNowRequest.typeUrl, ArithmeticTwapToNowRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(ArithmeticTwapToNowRequest.aminoType, ArithmeticTwapToNowRequest.typeUrl);
 function createBaseArithmeticTwapToNowResponse(): ArithmeticTwapToNowResponse {
   return {
     arithmeticTwap: ""
@@ -507,6 +535,13 @@ function createBaseArithmeticTwapToNowResponse(): ArithmeticTwapToNowResponse {
 }
 export const ArithmeticTwapToNowResponse = {
   typeUrl: "/osmosis.twap.v1beta1.ArithmeticTwapToNowResponse",
+  aminoType: "osmosis/twap/arithmetic-twap-to-now-response",
+  is(o: any): o is ArithmeticTwapToNowResponse {
+    return o && (o.$typeUrl === ArithmeticTwapToNowResponse.typeUrl || typeof o.arithmeticTwap === "string");
+  },
+  isSDK(o: any): o is ArithmeticTwapToNowResponseSDKType {
+    return o && (o.$typeUrl === ArithmeticTwapToNowResponse.typeUrl || typeof o.arithmetic_twap === "string");
+  },
   encode(message: ArithmeticTwapToNowResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.arithmeticTwap !== "") {
       writer.uint32(10).string(Decimal.fromUserInput(message.arithmeticTwap, 18).atomics);
@@ -594,11 +629,20 @@ export const ArithmeticTwapToNowResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ArithmeticTwapToNowResponse.typeUrl, ArithmeticTwapToNowResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(ArithmeticTwapToNowResponse.aminoType, ArithmeticTwapToNowResponse.typeUrl);
 function createBaseParamsRequest(): ParamsRequest {
   return {};
 }
 export const ParamsRequest = {
   typeUrl: "/osmosis.twap.v1beta1.ParamsRequest",
+  aminoType: "osmosis/twap/params-request",
+  is(o: any): o is ParamsRequest {
+    return o && o.$typeUrl === ParamsRequest.typeUrl;
+  },
+  isSDK(o: any): o is ParamsRequestSDKType {
+    return o && o.$typeUrl === ParamsRequest.typeUrl;
+  },
   encode(_: ParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -667,6 +711,8 @@ export const ParamsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ParamsRequest.typeUrl, ParamsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(ParamsRequest.aminoType, ParamsRequest.typeUrl);
 function createBaseParamsResponse(): ParamsResponse {
   return {
     params: Params.fromPartial({})
@@ -674,6 +720,13 @@ function createBaseParamsResponse(): ParamsResponse {
 }
 export const ParamsResponse = {
   typeUrl: "/osmosis.twap.v1beta1.ParamsResponse",
+  aminoType: "osmosis/twap/params-response",
+  is(o: any): o is ParamsResponse {
+    return o && (o.$typeUrl === ParamsResponse.typeUrl || Params.is(o.params));
+  },
+  isSDK(o: any): o is ParamsResponseSDKType {
+    return o && (o.$typeUrl === ParamsResponse.typeUrl || Params.isSDK(o.params));
+  },
   encode(message: ParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -761,3 +814,5 @@ export const ParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ParamsResponse.typeUrl, ParamsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(ParamsResponse.aminoType, ParamsResponse.typeUrl);

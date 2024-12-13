@@ -1,6 +1,13 @@
 import { SwapAmountInRoute, SwapAmountInRouteSDKType, SwapAmountOutRoute, SwapAmountOutRouteSDKType } from "./swap_route";
 import { Params, ParamsSDKType } from "./genesis";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
+import { Pool as Pool1 } from "../../gamm/pool-models/balancer/balancerPool";
+import { PoolSDKType as Pool1SDKType } from "../../gamm/pool-models/balancer/balancerPool";
+import { Pool as Pool2 } from "../../gamm/pool-models/stableswap/stableswap_pool";
+import { PoolSDKType as Pool2SDKType } from "../../gamm/pool-models/stableswap/stableswap_pool";
+import { Pool as Pool3 } from "../../concentrated-liquidity/pool";
+import { PoolSDKType as Pool3SDKType } from "../../concentrated-liquidity/pool";
+import { CosmWasmPool, CosmWasmPoolSDKType } from "../../cosmwasmpool/v1beta1/model/pool";
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
 import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";

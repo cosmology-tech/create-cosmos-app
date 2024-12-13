@@ -4,6 +4,7 @@ import { Endpoint, EndpointSDKType } from "./endpoint";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.base.v1beta1";
 /** CPU stores resource units and cpu config attributes */
@@ -98,6 +99,13 @@ function createBaseCPU(): CPU {
 }
 export const CPU = {
   typeUrl: "/akash.base.v1beta1.CPU",
+  aminoType: "akash/base/cpu",
+  is(o: any): o is CPU {
+    return o && (o.$typeUrl === CPU.typeUrl || ResourceValue.is(o.units) && Array.isArray(o.attributes) && (!o.attributes.length || Attribute.is(o.attributes[0])));
+  },
+  isSDK(o: any): o is CPUSDKType {
+    return o && (o.$typeUrl === CPU.typeUrl || ResourceValue.isSDK(o.units) && Array.isArray(o.attributes) && (!o.attributes.length || Attribute.isSDK(o.attributes[0])));
+  },
   encode(message: CPU, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.units !== undefined) {
       ResourceValue.encode(message.units, writer.uint32(10).fork()).ldelim();
@@ -211,6 +219,8 @@ export const CPU = {
     };
   }
 };
+GlobalDecoderRegistry.register(CPU.typeUrl, CPU);
+GlobalDecoderRegistry.registerAminoProtoMapping(CPU.aminoType, CPU.typeUrl);
 function createBaseMemory(): Memory {
   return {
     quantity: ResourceValue.fromPartial({}),
@@ -219,6 +229,13 @@ function createBaseMemory(): Memory {
 }
 export const Memory = {
   typeUrl: "/akash.base.v1beta1.Memory",
+  aminoType: "akash/base/memory",
+  is(o: any): o is Memory {
+    return o && (o.$typeUrl === Memory.typeUrl || ResourceValue.is(o.quantity) && Array.isArray(o.attributes) && (!o.attributes.length || Attribute.is(o.attributes[0])));
+  },
+  isSDK(o: any): o is MemorySDKType {
+    return o && (o.$typeUrl === Memory.typeUrl || ResourceValue.isSDK(o.quantity) && Array.isArray(o.attributes) && (!o.attributes.length || Attribute.isSDK(o.attributes[0])));
+  },
   encode(message: Memory, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.quantity !== undefined) {
       ResourceValue.encode(message.quantity, writer.uint32(10).fork()).ldelim();
@@ -332,6 +349,8 @@ export const Memory = {
     };
   }
 };
+GlobalDecoderRegistry.register(Memory.typeUrl, Memory);
+GlobalDecoderRegistry.registerAminoProtoMapping(Memory.aminoType, Memory.typeUrl);
 function createBaseStorage(): Storage {
   return {
     quantity: ResourceValue.fromPartial({}),
@@ -340,6 +359,13 @@ function createBaseStorage(): Storage {
 }
 export const Storage = {
   typeUrl: "/akash.base.v1beta1.Storage",
+  aminoType: "akash/base/storage",
+  is(o: any): o is Storage {
+    return o && (o.$typeUrl === Storage.typeUrl || ResourceValue.is(o.quantity) && Array.isArray(o.attributes) && (!o.attributes.length || Attribute.is(o.attributes[0])));
+  },
+  isSDK(o: any): o is StorageSDKType {
+    return o && (o.$typeUrl === Storage.typeUrl || ResourceValue.isSDK(o.quantity) && Array.isArray(o.attributes) && (!o.attributes.length || Attribute.isSDK(o.attributes[0])));
+  },
   encode(message: Storage, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.quantity !== undefined) {
       ResourceValue.encode(message.quantity, writer.uint32(10).fork()).ldelim();
@@ -453,6 +479,8 @@ export const Storage = {
     };
   }
 };
+GlobalDecoderRegistry.register(Storage.typeUrl, Storage);
+GlobalDecoderRegistry.registerAminoProtoMapping(Storage.aminoType, Storage.typeUrl);
 function createBaseResourceUnits(): ResourceUnits {
   return {
     cpu: undefined,
@@ -463,6 +491,13 @@ function createBaseResourceUnits(): ResourceUnits {
 }
 export const ResourceUnits = {
   typeUrl: "/akash.base.v1beta1.ResourceUnits",
+  aminoType: "akash/base/resource-units",
+  is(o: any): o is ResourceUnits {
+    return o && (o.$typeUrl === ResourceUnits.typeUrl || Array.isArray(o.endpoints) && (!o.endpoints.length || Endpoint.is(o.endpoints[0])));
+  },
+  isSDK(o: any): o is ResourceUnitsSDKType {
+    return o && (o.$typeUrl === ResourceUnits.typeUrl || Array.isArray(o.endpoints) && (!o.endpoints.length || Endpoint.isSDK(o.endpoints[0])));
+  },
   encode(message: ResourceUnits, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.cpu !== undefined) {
       CPU.encode(message.cpu, writer.uint32(10).fork()).ldelim();
@@ -608,3 +643,5 @@ export const ResourceUnits = {
     };
   }
 };
+GlobalDecoderRegistry.register(ResourceUnits.typeUrl, ResourceUnits);
+GlobalDecoderRegistry.registerAminoProtoMapping(ResourceUnits.aminoType, ResourceUnits.typeUrl);

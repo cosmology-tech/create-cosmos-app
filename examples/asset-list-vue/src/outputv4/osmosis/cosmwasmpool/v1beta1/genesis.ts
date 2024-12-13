@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.cosmwasmpool.v1beta1";
 /** Params holds parameters for the cosmwasmpool module */
@@ -33,6 +34,13 @@ function createBaseParams(): Params {
 }
 export const Params = {
   typeUrl: "/osmosis.cosmwasmpool.v1beta1.Params",
+  aminoType: "osmosis/cosmwasmpool/params",
+  is(o: any): o is Params {
+    return o && o.$typeUrl === Params.typeUrl;
+  },
+  isSDK(o: any): o is ParamsSDKType {
+    return o && o.$typeUrl === Params.typeUrl;
+  },
   encode(_: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -101,6 +109,8 @@ export const Params = {
     };
   }
 };
+GlobalDecoderRegistry.register(Params.typeUrl, Params);
+GlobalDecoderRegistry.registerAminoProtoMapping(Params.aminoType, Params.typeUrl);
 function createBaseGenesisState(): GenesisState {
   return {
     params: Params.fromPartial({})
@@ -108,6 +118,13 @@ function createBaseGenesisState(): GenesisState {
 }
 export const GenesisState = {
   typeUrl: "/osmosis.cosmwasmpool.v1beta1.GenesisState",
+  aminoType: "osmosis/cosmwasmpool/genesis-state",
+  is(o: any): o is GenesisState {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.is(o.params));
+  },
+  isSDK(o: any): o is GenesisStateSDKType {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.isSDK(o.params));
+  },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -195,3 +212,5 @@ export const GenesisState = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisState.typeUrl, GenesisState);
+GlobalDecoderRegistry.registerAminoProtoMapping(GenesisState.aminoType, GenesisState.typeUrl);

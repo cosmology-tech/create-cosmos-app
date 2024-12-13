@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial } from "../../helpers";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf";
 /**
@@ -426,6 +427,12 @@ function createBaseFieldMask(): FieldMask {
 }
 export const FieldMask = {
   typeUrl: "/google.protobuf.FieldMask",
+  is(o: any): o is FieldMask {
+    return o && (o.$typeUrl === FieldMask.typeUrl || Array.isArray(o.paths) && (!o.paths.length || typeof o.paths[0] === "string"));
+  },
+  isSDK(o: any): o is FieldMaskSDKType {
+    return o && (o.$typeUrl === FieldMask.typeUrl || Array.isArray(o.paths) && (!o.paths.length || typeof o.paths[0] === "string"));
+  },
   encode(message: FieldMask, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.paths) {
       writer.uint32(10).string(v!);
@@ -517,3 +524,4 @@ export const FieldMask = {
     };
   }
 };
+GlobalDecoderRegistry.register(FieldMask.typeUrl, FieldMask);

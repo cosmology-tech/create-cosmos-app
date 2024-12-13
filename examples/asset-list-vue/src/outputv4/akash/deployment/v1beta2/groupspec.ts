@@ -3,6 +3,7 @@ import { Resource, ResourceSDKType } from "./resource";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta2";
 /** GroupSpec stores group specifications */
@@ -35,6 +36,13 @@ function createBaseGroupSpec(): GroupSpec {
 }
 export const GroupSpec = {
   typeUrl: "/akash.deployment.v1beta2.GroupSpec",
+  aminoType: "akash/deployment/v1beta2/group-spec",
+  is(o: any): o is GroupSpec {
+    return o && (o.$typeUrl === GroupSpec.typeUrl || typeof o.name === "string" && PlacementRequirements.is(o.requirements) && Array.isArray(o.resources) && (!o.resources.length || Resource.is(o.resources[0])));
+  },
+  isSDK(o: any): o is GroupSpecSDKType {
+    return o && (o.$typeUrl === GroupSpec.typeUrl || typeof o.name === "string" && PlacementRequirements.isSDK(o.requirements) && Array.isArray(o.resources) && (!o.resources.length || Resource.isSDK(o.resources[0])));
+  },
   encode(message: GroupSpec, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -164,3 +172,5 @@ export const GroupSpec = {
     };
   }
 };
+GlobalDecoderRegistry.register(GroupSpec.typeUrl, GroupSpec);
+GlobalDecoderRegistry.registerAminoProtoMapping(GroupSpec.aminoType, GroupSpec.typeUrl);

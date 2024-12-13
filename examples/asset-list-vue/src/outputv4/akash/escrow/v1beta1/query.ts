@@ -3,6 +3,7 @@ import { Account, AccountSDKType, Payment, PaymentSDKType } from "./types";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.escrow.v1beta1";
 /** QueryAccountRequest is request type for the Query/Account RPC method */
@@ -109,6 +110,13 @@ function createBaseQueryAccountsRequest(): QueryAccountsRequest {
 }
 export const QueryAccountsRequest = {
   typeUrl: "/akash.escrow.v1beta1.QueryAccountsRequest",
+  aminoType: "akash/escrow/query-accounts-request",
+  is(o: any): o is QueryAccountsRequest {
+    return o && (o.$typeUrl === QueryAccountsRequest.typeUrl || typeof o.scope === "string" && typeof o.xid === "string" && typeof o.owner === "string" && typeof o.state === "string");
+  },
+  isSDK(o: any): o is QueryAccountsRequestSDKType {
+    return o && (o.$typeUrl === QueryAccountsRequest.typeUrl || typeof o.scope === "string" && typeof o.xid === "string" && typeof o.owner === "string" && typeof o.state === "string");
+  },
   encode(message: QueryAccountsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.scope !== "") {
       writer.uint32(10).string(message.scope);
@@ -260,6 +268,8 @@ export const QueryAccountsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryAccountsRequest.typeUrl, QueryAccountsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryAccountsRequest.aminoType, QueryAccountsRequest.typeUrl);
 function createBaseQueryAccountsResponse(): QueryAccountsResponse {
   return {
     accounts: [],
@@ -268,6 +278,13 @@ function createBaseQueryAccountsResponse(): QueryAccountsResponse {
 }
 export const QueryAccountsResponse = {
   typeUrl: "/akash.escrow.v1beta1.QueryAccountsResponse",
+  aminoType: "akash/escrow/query-accounts-response",
+  is(o: any): o is QueryAccountsResponse {
+    return o && (o.$typeUrl === QueryAccountsResponse.typeUrl || Array.isArray(o.accounts) && (!o.accounts.length || Account.is(o.accounts[0])));
+  },
+  isSDK(o: any): o is QueryAccountsResponseSDKType {
+    return o && (o.$typeUrl === QueryAccountsResponse.typeUrl || Array.isArray(o.accounts) && (!o.accounts.length || Account.isSDK(o.accounts[0])));
+  },
   encode(message: QueryAccountsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.accounts) {
       Account.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -381,6 +398,8 @@ export const QueryAccountsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryAccountsResponse.typeUrl, QueryAccountsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryAccountsResponse.aminoType, QueryAccountsResponse.typeUrl);
 function createBaseQueryPaymentsRequest(): QueryPaymentsRequest {
   return {
     scope: "",
@@ -393,6 +412,13 @@ function createBaseQueryPaymentsRequest(): QueryPaymentsRequest {
 }
 export const QueryPaymentsRequest = {
   typeUrl: "/akash.escrow.v1beta1.QueryPaymentsRequest",
+  aminoType: "akash/escrow/query-payments-request",
+  is(o: any): o is QueryPaymentsRequest {
+    return o && (o.$typeUrl === QueryPaymentsRequest.typeUrl || typeof o.scope === "string" && typeof o.xid === "string" && typeof o.id === "string" && typeof o.owner === "string" && typeof o.state === "string");
+  },
+  isSDK(o: any): o is QueryPaymentsRequestSDKType {
+    return o && (o.$typeUrl === QueryPaymentsRequest.typeUrl || typeof o.scope === "string" && typeof o.xid === "string" && typeof o.id === "string" && typeof o.owner === "string" && typeof o.state === "string");
+  },
   encode(message: QueryPaymentsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.scope !== "") {
       writer.uint32(10).string(message.scope);
@@ -560,6 +586,8 @@ export const QueryPaymentsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPaymentsRequest.typeUrl, QueryPaymentsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryPaymentsRequest.aminoType, QueryPaymentsRequest.typeUrl);
 function createBaseQueryPaymentsResponse(): QueryPaymentsResponse {
   return {
     payments: [],
@@ -568,6 +596,13 @@ function createBaseQueryPaymentsResponse(): QueryPaymentsResponse {
 }
 export const QueryPaymentsResponse = {
   typeUrl: "/akash.escrow.v1beta1.QueryPaymentsResponse",
+  aminoType: "akash/escrow/query-payments-response",
+  is(o: any): o is QueryPaymentsResponse {
+    return o && (o.$typeUrl === QueryPaymentsResponse.typeUrl || Array.isArray(o.payments) && (!o.payments.length || Payment.is(o.payments[0])));
+  },
+  isSDK(o: any): o is QueryPaymentsResponseSDKType {
+    return o && (o.$typeUrl === QueryPaymentsResponse.typeUrl || Array.isArray(o.payments) && (!o.payments.length || Payment.isSDK(o.payments[0])));
+  },
   encode(message: QueryPaymentsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.payments) {
       Payment.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -681,3 +716,5 @@ export const QueryPaymentsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPaymentsResponse.typeUrl, QueryPaymentsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryPaymentsResponse.aminoType, QueryPaymentsResponse.typeUrl);

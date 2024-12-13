@@ -4,6 +4,7 @@ import { Params, ParamsSDKType } from "./params";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.claim.v1beta1";
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
@@ -142,6 +143,13 @@ function createBaseQueryModuleAccountBalanceRequest(): QueryModuleAccountBalance
 }
 export const QueryModuleAccountBalanceRequest = {
   typeUrl: "/osmosis.claim.v1beta1.QueryModuleAccountBalanceRequest",
+  aminoType: "osmosis/claim/query-module-account-balance-request",
+  is(o: any): o is QueryModuleAccountBalanceRequest {
+    return o && o.$typeUrl === QueryModuleAccountBalanceRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryModuleAccountBalanceRequestSDKType {
+    return o && o.$typeUrl === QueryModuleAccountBalanceRequest.typeUrl;
+  },
   encode(_: QueryModuleAccountBalanceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -210,6 +218,8 @@ export const QueryModuleAccountBalanceRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryModuleAccountBalanceRequest.typeUrl, QueryModuleAccountBalanceRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryModuleAccountBalanceRequest.aminoType, QueryModuleAccountBalanceRequest.typeUrl);
 function createBaseQueryModuleAccountBalanceResponse(): QueryModuleAccountBalanceResponse {
   return {
     moduleAccountBalance: []
@@ -217,6 +227,13 @@ function createBaseQueryModuleAccountBalanceResponse(): QueryModuleAccountBalanc
 }
 export const QueryModuleAccountBalanceResponse = {
   typeUrl: "/osmosis.claim.v1beta1.QueryModuleAccountBalanceResponse",
+  aminoType: "osmosis/claim/query-module-account-balance-response",
+  is(o: any): o is QueryModuleAccountBalanceResponse {
+    return o && (o.$typeUrl === QueryModuleAccountBalanceResponse.typeUrl || Array.isArray(o.moduleAccountBalance) && (!o.moduleAccountBalance.length || Coin.is(o.moduleAccountBalance[0])));
+  },
+  isSDK(o: any): o is QueryModuleAccountBalanceResponseSDKType {
+    return o && (o.$typeUrl === QueryModuleAccountBalanceResponse.typeUrl || Array.isArray(o.moduleAccountBalance) && (!o.moduleAccountBalance.length || Coin.isSDK(o.moduleAccountBalance[0])));
+  },
   encode(message: QueryModuleAccountBalanceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.moduleAccountBalance) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -314,11 +331,20 @@ export const QueryModuleAccountBalanceResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryModuleAccountBalanceResponse.typeUrl, QueryModuleAccountBalanceResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryModuleAccountBalanceResponse.aminoType, QueryModuleAccountBalanceResponse.typeUrl);
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
 }
 export const QueryParamsRequest = {
   typeUrl: "/osmosis.claim.v1beta1.QueryParamsRequest",
+  aminoType: "osmosis/claim/query-params-request",
+  is(o: any): o is QueryParamsRequest {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryParamsRequestSDKType {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
   encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -387,6 +413,8 @@ export const QueryParamsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsRequest.typeUrl, QueryParamsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryParamsRequest.aminoType, QueryParamsRequest.typeUrl);
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
     params: Params.fromPartial({})
@@ -394,6 +422,13 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
 }
 export const QueryParamsResponse = {
   typeUrl: "/osmosis.claim.v1beta1.QueryParamsResponse",
+  aminoType: "osmosis/claim/query-params-response",
+  is(o: any): o is QueryParamsResponse {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.is(o.params));
+  },
+  isSDK(o: any): o is QueryParamsResponseSDKType {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.isSDK(o.params));
+  },
   encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -481,6 +516,8 @@ export const QueryParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsResponse.typeUrl, QueryParamsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryParamsResponse.aminoType, QueryParamsResponse.typeUrl);
 function createBaseQueryClaimRecordRequest(): QueryClaimRecordRequest {
   return {
     address: ""
@@ -488,6 +525,13 @@ function createBaseQueryClaimRecordRequest(): QueryClaimRecordRequest {
 }
 export const QueryClaimRecordRequest = {
   typeUrl: "/osmosis.claim.v1beta1.QueryClaimRecordRequest",
+  aminoType: "osmosis/claim/query-claim-record-request",
+  is(o: any): o is QueryClaimRecordRequest {
+    return o && (o.$typeUrl === QueryClaimRecordRequest.typeUrl || typeof o.address === "string");
+  },
+  isSDK(o: any): o is QueryClaimRecordRequestSDKType {
+    return o && (o.$typeUrl === QueryClaimRecordRequest.typeUrl || typeof o.address === "string");
+  },
   encode(message: QueryClaimRecordRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
@@ -575,6 +619,8 @@ export const QueryClaimRecordRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryClaimRecordRequest.typeUrl, QueryClaimRecordRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryClaimRecordRequest.aminoType, QueryClaimRecordRequest.typeUrl);
 function createBaseQueryClaimRecordResponse(): QueryClaimRecordResponse {
   return {
     claimRecord: ClaimRecord.fromPartial({})
@@ -582,6 +628,13 @@ function createBaseQueryClaimRecordResponse(): QueryClaimRecordResponse {
 }
 export const QueryClaimRecordResponse = {
   typeUrl: "/osmosis.claim.v1beta1.QueryClaimRecordResponse",
+  aminoType: "osmosis/claim/query-claim-record-response",
+  is(o: any): o is QueryClaimRecordResponse {
+    return o && (o.$typeUrl === QueryClaimRecordResponse.typeUrl || ClaimRecord.is(o.claimRecord));
+  },
+  isSDK(o: any): o is QueryClaimRecordResponseSDKType {
+    return o && (o.$typeUrl === QueryClaimRecordResponse.typeUrl || ClaimRecord.isSDK(o.claim_record));
+  },
   encode(message: QueryClaimRecordResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.claimRecord !== undefined) {
       ClaimRecord.encode(message.claimRecord, writer.uint32(10).fork()).ldelim();
@@ -669,6 +722,8 @@ export const QueryClaimRecordResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryClaimRecordResponse.typeUrl, QueryClaimRecordResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryClaimRecordResponse.aminoType, QueryClaimRecordResponse.typeUrl);
 function createBaseQueryClaimableForActionRequest(): QueryClaimableForActionRequest {
   return {
     address: "",
@@ -677,6 +732,13 @@ function createBaseQueryClaimableForActionRequest(): QueryClaimableForActionRequ
 }
 export const QueryClaimableForActionRequest = {
   typeUrl: "/osmosis.claim.v1beta1.QueryClaimableForActionRequest",
+  aminoType: "osmosis/claim/query-claimable-for-action-request",
+  is(o: any): o is QueryClaimableForActionRequest {
+    return o && (o.$typeUrl === QueryClaimableForActionRequest.typeUrl || typeof o.address === "string" && isSet(o.action));
+  },
+  isSDK(o: any): o is QueryClaimableForActionRequestSDKType {
+    return o && (o.$typeUrl === QueryClaimableForActionRequest.typeUrl || typeof o.address === "string" && isSet(o.action));
+  },
   encode(message: QueryClaimableForActionRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
@@ -780,6 +842,8 @@ export const QueryClaimableForActionRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryClaimableForActionRequest.typeUrl, QueryClaimableForActionRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryClaimableForActionRequest.aminoType, QueryClaimableForActionRequest.typeUrl);
 function createBaseQueryClaimableForActionResponse(): QueryClaimableForActionResponse {
   return {
     coins: []
@@ -787,6 +851,13 @@ function createBaseQueryClaimableForActionResponse(): QueryClaimableForActionRes
 }
 export const QueryClaimableForActionResponse = {
   typeUrl: "/osmosis.claim.v1beta1.QueryClaimableForActionResponse",
+  aminoType: "osmosis/claim/query-claimable-for-action-response",
+  is(o: any): o is QueryClaimableForActionResponse {
+    return o && (o.$typeUrl === QueryClaimableForActionResponse.typeUrl || Array.isArray(o.coins) && (!o.coins.length || Coin.is(o.coins[0])));
+  },
+  isSDK(o: any): o is QueryClaimableForActionResponseSDKType {
+    return o && (o.$typeUrl === QueryClaimableForActionResponse.typeUrl || Array.isArray(o.coins) && (!o.coins.length || Coin.isSDK(o.coins[0])));
+  },
   encode(message: QueryClaimableForActionResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.coins) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -884,6 +955,8 @@ export const QueryClaimableForActionResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryClaimableForActionResponse.typeUrl, QueryClaimableForActionResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryClaimableForActionResponse.aminoType, QueryClaimableForActionResponse.typeUrl);
 function createBaseQueryTotalClaimableRequest(): QueryTotalClaimableRequest {
   return {
     address: ""
@@ -891,6 +964,13 @@ function createBaseQueryTotalClaimableRequest(): QueryTotalClaimableRequest {
 }
 export const QueryTotalClaimableRequest = {
   typeUrl: "/osmosis.claim.v1beta1.QueryTotalClaimableRequest",
+  aminoType: "osmosis/claim/query-total-claimable-request",
+  is(o: any): o is QueryTotalClaimableRequest {
+    return o && (o.$typeUrl === QueryTotalClaimableRequest.typeUrl || typeof o.address === "string");
+  },
+  isSDK(o: any): o is QueryTotalClaimableRequestSDKType {
+    return o && (o.$typeUrl === QueryTotalClaimableRequest.typeUrl || typeof o.address === "string");
+  },
   encode(message: QueryTotalClaimableRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
@@ -978,6 +1058,8 @@ export const QueryTotalClaimableRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTotalClaimableRequest.typeUrl, QueryTotalClaimableRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryTotalClaimableRequest.aminoType, QueryTotalClaimableRequest.typeUrl);
 function createBaseQueryTotalClaimableResponse(): QueryTotalClaimableResponse {
   return {
     coins: []
@@ -985,6 +1067,13 @@ function createBaseQueryTotalClaimableResponse(): QueryTotalClaimableResponse {
 }
 export const QueryTotalClaimableResponse = {
   typeUrl: "/osmosis.claim.v1beta1.QueryTotalClaimableResponse",
+  aminoType: "osmosis/claim/query-total-claimable-response",
+  is(o: any): o is QueryTotalClaimableResponse {
+    return o && (o.$typeUrl === QueryTotalClaimableResponse.typeUrl || Array.isArray(o.coins) && (!o.coins.length || Coin.is(o.coins[0])));
+  },
+  isSDK(o: any): o is QueryTotalClaimableResponseSDKType {
+    return o && (o.$typeUrl === QueryTotalClaimableResponse.typeUrl || Array.isArray(o.coins) && (!o.coins.length || Coin.isSDK(o.coins[0])));
+  },
   encode(message: QueryTotalClaimableResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.coins) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1082,3 +1171,5 @@ export const QueryTotalClaimableResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTotalClaimableResponse.typeUrl, QueryTotalClaimableResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryTotalClaimableResponse.aminoType, QueryTotalClaimableResponse.typeUrl);

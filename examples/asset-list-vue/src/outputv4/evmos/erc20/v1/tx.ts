@@ -2,6 +2,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.erc20.v1";
 /** MsgConvertCoin defines a Msg to convert a native Cosmos coin to a ERC20 token */
@@ -92,6 +93,12 @@ function createBaseMsgConvertCoin(): MsgConvertCoin {
 }
 export const MsgConvertCoin = {
   typeUrl: "/evmos.erc20.v1.MsgConvertCoin",
+  is(o: any): o is MsgConvertCoin {
+    return o && (o.$typeUrl === MsgConvertCoin.typeUrl || Coin.is(o.coin) && typeof o.receiver === "string" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is MsgConvertCoinSDKType {
+    return o && (o.$typeUrl === MsgConvertCoin.typeUrl || Coin.isSDK(o.coin) && typeof o.receiver === "string" && typeof o.sender === "string");
+  },
   encode(message: MsgConvertCoin, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.coin !== undefined) {
       Coin.encode(message.coin, writer.uint32(10).fork()).ldelim();
@@ -205,11 +212,18 @@ export const MsgConvertCoin = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgConvertCoin.typeUrl, MsgConvertCoin);
 function createBaseMsgConvertCoinResponse(): MsgConvertCoinResponse {
   return {};
 }
 export const MsgConvertCoinResponse = {
   typeUrl: "/evmos.erc20.v1.MsgConvertCoinResponse",
+  is(o: any): o is MsgConvertCoinResponse {
+    return o && o.$typeUrl === MsgConvertCoinResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgConvertCoinResponseSDKType {
+    return o && o.$typeUrl === MsgConvertCoinResponse.typeUrl;
+  },
   encode(_: MsgConvertCoinResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -272,6 +286,7 @@ export const MsgConvertCoinResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgConvertCoinResponse.typeUrl, MsgConvertCoinResponse);
 function createBaseMsgConvertERC20(): MsgConvertERC20 {
   return {
     contractAddress: "",
@@ -282,6 +297,12 @@ function createBaseMsgConvertERC20(): MsgConvertERC20 {
 }
 export const MsgConvertERC20 = {
   typeUrl: "/evmos.erc20.v1.MsgConvertERC20",
+  is(o: any): o is MsgConvertERC20 {
+    return o && (o.$typeUrl === MsgConvertERC20.typeUrl || typeof o.contractAddress === "string" && typeof o.amount === "string" && typeof o.receiver === "string" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is MsgConvertERC20SDKType {
+    return o && (o.$typeUrl === MsgConvertERC20.typeUrl || typeof o.contract_address === "string" && typeof o.amount === "string" && typeof o.receiver === "string" && typeof o.sender === "string");
+  },
   encode(message: MsgConvertERC20, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contractAddress !== "") {
       writer.uint32(10).string(message.contractAddress);
@@ -411,11 +432,18 @@ export const MsgConvertERC20 = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgConvertERC20.typeUrl, MsgConvertERC20);
 function createBaseMsgConvertERC20Response(): MsgConvertERC20Response {
   return {};
 }
 export const MsgConvertERC20Response = {
   typeUrl: "/evmos.erc20.v1.MsgConvertERC20Response",
+  is(o: any): o is MsgConvertERC20Response {
+    return o && o.$typeUrl === MsgConvertERC20Response.typeUrl;
+  },
+  isSDK(o: any): o is MsgConvertERC20ResponseSDKType {
+    return o && o.$typeUrl === MsgConvertERC20Response.typeUrl;
+  },
   encode(_: MsgConvertERC20Response, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -478,3 +506,4 @@ export const MsgConvertERC20Response = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgConvertERC20Response.typeUrl, MsgConvertERC20Response);

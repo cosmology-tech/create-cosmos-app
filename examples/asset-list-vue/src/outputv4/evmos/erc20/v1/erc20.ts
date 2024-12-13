@@ -1,7 +1,8 @@
 import { Metadata, MetadataSDKType } from "../../../cosmos/bank/v1beta1/bank";
-import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.erc20.v1";
 /** Owner enumerates the ownership of a ERC20 contract. */
@@ -182,6 +183,12 @@ function createBaseTokenPair(): TokenPair {
 }
 export const TokenPair = {
   typeUrl: "/evmos.erc20.v1.TokenPair",
+  is(o: any): o is TokenPair {
+    return o && (o.$typeUrl === TokenPair.typeUrl || typeof o.erc20Address === "string" && typeof o.denom === "string" && typeof o.enabled === "boolean" && isSet(o.contractOwner));
+  },
+  isSDK(o: any): o is TokenPairSDKType {
+    return o && (o.$typeUrl === TokenPair.typeUrl || typeof o.erc20_address === "string" && typeof o.denom === "string" && typeof o.enabled === "boolean" && isSet(o.contract_owner));
+  },
   encode(message: TokenPair, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.erc20Address !== "") {
       writer.uint32(10).string(message.erc20Address);
@@ -311,6 +318,7 @@ export const TokenPair = {
     };
   }
 };
+GlobalDecoderRegistry.register(TokenPair.typeUrl, TokenPair);
 function createBaseRegisterCoinProposal(): RegisterCoinProposal {
   return {
     title: "",
@@ -320,6 +328,12 @@ function createBaseRegisterCoinProposal(): RegisterCoinProposal {
 }
 export const RegisterCoinProposal = {
   typeUrl: "/evmos.erc20.v1.RegisterCoinProposal",
+  is(o: any): o is RegisterCoinProposal {
+    return o && (o.$typeUrl === RegisterCoinProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && Metadata.is(o.metadata));
+  },
+  isSDK(o: any): o is RegisterCoinProposalSDKType {
+    return o && (o.$typeUrl === RegisterCoinProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && Metadata.isSDK(o.metadata));
+  },
   encode(message: RegisterCoinProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -433,6 +447,7 @@ export const RegisterCoinProposal = {
     };
   }
 };
+GlobalDecoderRegistry.register(RegisterCoinProposal.typeUrl, RegisterCoinProposal);
 function createBaseRegisterERC20Proposal(): RegisterERC20Proposal {
   return {
     title: "",
@@ -442,6 +457,12 @@ function createBaseRegisterERC20Proposal(): RegisterERC20Proposal {
 }
 export const RegisterERC20Proposal = {
   typeUrl: "/evmos.erc20.v1.RegisterERC20Proposal",
+  is(o: any): o is RegisterERC20Proposal {
+    return o && (o.$typeUrl === RegisterERC20Proposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && typeof o.erc20address === "string");
+  },
+  isSDK(o: any): o is RegisterERC20ProposalSDKType {
+    return o && (o.$typeUrl === RegisterERC20Proposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && typeof o.erc20address === "string");
+  },
   encode(message: RegisterERC20Proposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -555,6 +576,7 @@ export const RegisterERC20Proposal = {
     };
   }
 };
+GlobalDecoderRegistry.register(RegisterERC20Proposal.typeUrl, RegisterERC20Proposal);
 function createBaseToggleTokenConversionProposal(): ToggleTokenConversionProposal {
   return {
     title: "",
@@ -564,6 +586,12 @@ function createBaseToggleTokenConversionProposal(): ToggleTokenConversionProposa
 }
 export const ToggleTokenConversionProposal = {
   typeUrl: "/evmos.erc20.v1.ToggleTokenConversionProposal",
+  is(o: any): o is ToggleTokenConversionProposal {
+    return o && (o.$typeUrl === ToggleTokenConversionProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && typeof o.token === "string");
+  },
+  isSDK(o: any): o is ToggleTokenConversionProposalSDKType {
+    return o && (o.$typeUrl === ToggleTokenConversionProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && typeof o.token === "string");
+  },
   encode(message: ToggleTokenConversionProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -677,3 +705,4 @@ export const ToggleTokenConversionProposal = {
     };
   }
 };
+GlobalDecoderRegistry.register(ToggleTokenConversionProposal.typeUrl, ToggleTokenConversionProposal);

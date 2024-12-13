@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { JsonSafe } from "../../../../json-safe";
 import { DeepPartial, isSet } from "../../../../helpers";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.base.reflection.v1beta1";
 /** ListAllInterfacesRequest is the request type of the ListAllInterfaces RPC. */
@@ -76,6 +77,13 @@ function createBaseListAllInterfacesRequest(): ListAllInterfacesRequest {
 }
 export const ListAllInterfacesRequest = {
   typeUrl: "/cosmos.base.reflection.v1beta1.ListAllInterfacesRequest",
+  aminoType: "cosmos-sdk/ListAllInterfacesRequest",
+  is(o: any): o is ListAllInterfacesRequest {
+    return o && o.$typeUrl === ListAllInterfacesRequest.typeUrl;
+  },
+  isSDK(o: any): o is ListAllInterfacesRequestSDKType {
+    return o && o.$typeUrl === ListAllInterfacesRequest.typeUrl;
+  },
   encode(_: ListAllInterfacesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -144,6 +152,8 @@ export const ListAllInterfacesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ListAllInterfacesRequest.typeUrl, ListAllInterfacesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(ListAllInterfacesRequest.aminoType, ListAllInterfacesRequest.typeUrl);
 function createBaseListAllInterfacesResponse(): ListAllInterfacesResponse {
   return {
     interfaceNames: []
@@ -151,6 +161,13 @@ function createBaseListAllInterfacesResponse(): ListAllInterfacesResponse {
 }
 export const ListAllInterfacesResponse = {
   typeUrl: "/cosmos.base.reflection.v1beta1.ListAllInterfacesResponse",
+  aminoType: "cosmos-sdk/ListAllInterfacesResponse",
+  is(o: any): o is ListAllInterfacesResponse {
+    return o && (o.$typeUrl === ListAllInterfacesResponse.typeUrl || Array.isArray(o.interfaceNames) && (!o.interfaceNames.length || typeof o.interfaceNames[0] === "string"));
+  },
+  isSDK(o: any): o is ListAllInterfacesResponseSDKType {
+    return o && (o.$typeUrl === ListAllInterfacesResponse.typeUrl || Array.isArray(o.interface_names) && (!o.interface_names.length || typeof o.interface_names[0] === "string"));
+  },
   encode(message: ListAllInterfacesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.interfaceNames) {
       writer.uint32(10).string(v!);
@@ -248,6 +265,8 @@ export const ListAllInterfacesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ListAllInterfacesResponse.typeUrl, ListAllInterfacesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(ListAllInterfacesResponse.aminoType, ListAllInterfacesResponse.typeUrl);
 function createBaseListImplementationsRequest(): ListImplementationsRequest {
   return {
     interfaceName: ""
@@ -255,6 +274,13 @@ function createBaseListImplementationsRequest(): ListImplementationsRequest {
 }
 export const ListImplementationsRequest = {
   typeUrl: "/cosmos.base.reflection.v1beta1.ListImplementationsRequest",
+  aminoType: "cosmos-sdk/ListImplementationsRequest",
+  is(o: any): o is ListImplementationsRequest {
+    return o && (o.$typeUrl === ListImplementationsRequest.typeUrl || typeof o.interfaceName === "string");
+  },
+  isSDK(o: any): o is ListImplementationsRequestSDKType {
+    return o && (o.$typeUrl === ListImplementationsRequest.typeUrl || typeof o.interface_name === "string");
+  },
   encode(message: ListImplementationsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.interfaceName !== "") {
       writer.uint32(10).string(message.interfaceName);
@@ -342,6 +368,8 @@ export const ListImplementationsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ListImplementationsRequest.typeUrl, ListImplementationsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(ListImplementationsRequest.aminoType, ListImplementationsRequest.typeUrl);
 function createBaseListImplementationsResponse(): ListImplementationsResponse {
   return {
     implementationMessageNames: []
@@ -349,6 +377,13 @@ function createBaseListImplementationsResponse(): ListImplementationsResponse {
 }
 export const ListImplementationsResponse = {
   typeUrl: "/cosmos.base.reflection.v1beta1.ListImplementationsResponse",
+  aminoType: "cosmos-sdk/ListImplementationsResponse",
+  is(o: any): o is ListImplementationsResponse {
+    return o && (o.$typeUrl === ListImplementationsResponse.typeUrl || Array.isArray(o.implementationMessageNames) && (!o.implementationMessageNames.length || typeof o.implementationMessageNames[0] === "string"));
+  },
+  isSDK(o: any): o is ListImplementationsResponseSDKType {
+    return o && (o.$typeUrl === ListImplementationsResponse.typeUrl || Array.isArray(o.implementation_message_names) && (!o.implementation_message_names.length || typeof o.implementation_message_names[0] === "string"));
+  },
   encode(message: ListImplementationsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.implementationMessageNames) {
       writer.uint32(10).string(v!);
@@ -446,3 +481,5 @@ export const ListImplementationsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ListImplementationsResponse.typeUrl, ListImplementationsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(ListImplementationsResponse.aminoType, ListImplementationsResponse.typeUrl);

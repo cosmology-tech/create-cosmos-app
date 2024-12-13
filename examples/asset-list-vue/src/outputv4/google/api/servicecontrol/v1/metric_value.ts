@@ -3,6 +3,7 @@ import { Distribution, DistributionSDKType } from "./distribution";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp, isObject } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicecontrol.v1";
 export interface MetricValue_LabelsEntry {
@@ -226,6 +227,12 @@ function createBaseMetricValue(): MetricValue {
 }
 export const MetricValue = {
   typeUrl: "/google.api.servicecontrol.v1.MetricValue",
+  is(o: any): o is MetricValue {
+    return o && (o.$typeUrl === MetricValue.typeUrl || isSet(o.labels));
+  },
+  isSDK(o: any): o is MetricValueSDKType {
+    return o && (o.$typeUrl === MetricValue.typeUrl || isSet(o.labels));
+  },
   encode(message: MetricValue, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     Object.entries(message.labels).forEach(([key, value]) => {
       MetricValue_LabelsEntry.encode({
@@ -469,6 +476,7 @@ export const MetricValue = {
     };
   }
 };
+GlobalDecoderRegistry.register(MetricValue.typeUrl, MetricValue);
 function createBaseMetricValueSet(): MetricValueSet {
   return {
     metricName: "",
@@ -477,6 +485,12 @@ function createBaseMetricValueSet(): MetricValueSet {
 }
 export const MetricValueSet = {
   typeUrl: "/google.api.servicecontrol.v1.MetricValueSet",
+  is(o: any): o is MetricValueSet {
+    return o && (o.$typeUrl === MetricValueSet.typeUrl || typeof o.metricName === "string" && Array.isArray(o.metricValues) && (!o.metricValues.length || MetricValue.is(o.metricValues[0])));
+  },
+  isSDK(o: any): o is MetricValueSetSDKType {
+    return o && (o.$typeUrl === MetricValueSet.typeUrl || typeof o.metric_name === "string" && Array.isArray(o.metric_values) && (!o.metric_values.length || MetricValue.isSDK(o.metric_values[0])));
+  },
   encode(message: MetricValueSet, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.metricName !== "") {
       writer.uint32(10).string(message.metricName);
@@ -584,3 +598,4 @@ export const MetricValueSet = {
     };
   }
 };
+GlobalDecoderRegistry.register(MetricValueSet.typeUrl, MetricValueSet);

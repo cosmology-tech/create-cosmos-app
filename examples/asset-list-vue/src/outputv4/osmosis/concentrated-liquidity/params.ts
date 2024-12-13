@@ -2,6 +2,7 @@ import { BinaryReader, BinaryWriter } from "../../binary";
 import { Decimal } from "@cosmjs/math";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial } from "../../helpers";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity";
 export interface Params {
@@ -34,6 +35,13 @@ function createBaseParams(): Params {
 }
 export const Params = {
   typeUrl: "/osmosis.concentratedliquidity.Params",
+  aminoType: "osmosis/concentratedliquidity/params",
+  is(o: any): o is Params {
+    return o && (o.$typeUrl === Params.typeUrl || Array.isArray(o.authorizedTickSpacing) && (!o.authorizedTickSpacing.length || typeof o.authorizedTickSpacing[0] === "bigint") && Array.isArray(o.authorizedSwapFees) && (!o.authorizedSwapFees.length || typeof o.authorizedSwapFees[0] === "string"));
+  },
+  isSDK(o: any): o is ParamsSDKType {
+    return o && (o.$typeUrl === Params.typeUrl || Array.isArray(o.authorized_tick_spacing) && (!o.authorized_tick_spacing.length || typeof o.authorized_tick_spacing[0] === "bigint") && Array.isArray(o.authorized_swap_fees) && (!o.authorized_swap_fees.length || typeof o.authorized_swap_fees[0] === "string"));
+  },
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     writer.uint32(10).fork();
     for (const v of message.authorizedTickSpacing) {
@@ -166,3 +174,5 @@ export const Params = {
     };
   }
 };
+GlobalDecoderRegistry.register(Params.typeUrl, Params);
+GlobalDecoderRegistry.registerAminoProtoMapping(Params.aminoType, Params.typeUrl);

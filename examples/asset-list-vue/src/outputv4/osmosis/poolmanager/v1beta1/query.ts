@@ -1,9 +1,17 @@
 import { SwapAmountInRoute, SwapAmountInRouteSDKType, SwapAmountOutRoute, SwapAmountOutRouteSDKType } from "./swap_route";
 import { Params, ParamsSDKType } from "./genesis";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
+import { Pool as Pool1 } from "../../gamm/pool-models/balancer/balancerPool";
+import { PoolSDKType as Pool1SDKType } from "../../gamm/pool-models/balancer/balancerPool";
+import { Pool as Pool2 } from "../../gamm/pool-models/stableswap/stableswap_pool";
+import { PoolSDKType as Pool2SDKType } from "../../gamm/pool-models/stableswap/stableswap_pool";
+import { Pool as Pool3 } from "../../concentrated-liquidity/pool";
+import { PoolSDKType as Pool3SDKType } from "../../concentrated-liquidity/pool";
+import { CosmWasmPool, CosmWasmPoolSDKType } from "../../cosmwasmpool/v1beta1/model/pool";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.poolmanager.v1beta1";
 /** =============================== Params */
@@ -172,17 +180,17 @@ export interface PoolRequestSDKType {
   pool_id: bigint;
 }
 export interface PoolResponse {
-  pool?: Any;
+  pool?: (Pool1 & Pool2 & Pool3 & CosmWasmPool & Any) | undefined;
 }
 export interface ReactivePoolResponse {
-  pool?: ComputedRef<Any>;
+  pool?: ComputedRef<(Pool1 & Pool2 & Pool3 & CosmWasmPool & Any) | undefined>;
 }
 export interface PoolResponseProtoMsg {
   typeUrl: "/osmosis.poolmanager.v1beta1.PoolResponse";
   value: Uint8Array;
 }
 export interface PoolResponseSDKType {
-  pool?: AnySDKType;
+  pool?: Pool1SDKType | Pool2SDKType | Pool3SDKType | CosmWasmPoolSDKType | AnySDKType | undefined;
 }
 /** =============================== AllPools */
 export interface AllPoolsRequest {
@@ -200,17 +208,17 @@ export interface AllPoolsRequestSDKType {
   pool_id: bigint;
 }
 export interface AllPoolsResponse {
-  pools: Any[];
+  pools: (Pool1 & Pool2 & Pool3 & CosmWasmPool & Any)[] | Any[];
 }
 export interface ReactiveAllPoolsResponse {
-  pools: ComputedRef<Any[]>;
+  pools: ComputedRef<(Pool1 & Pool2 & Pool3 & CosmWasmPool & Any)[] | Any[]>;
 }
 export interface AllPoolsResponseProtoMsg {
   typeUrl: "/osmosis.poolmanager.v1beta1.AllPoolsResponse";
   value: Uint8Array;
 }
 export interface AllPoolsResponseSDKType {
-  pools: AnySDKType[];
+  pools: (Pool1SDKType | Pool2SDKType | Pool3SDKType | CosmWasmPoolSDKType | AnySDKType)[];
 }
 /**
  * SpotPriceRequest defines the gRPC request structure for a SpotPrice
@@ -266,6 +274,13 @@ function createBaseParamsRequest(): ParamsRequest {
 }
 export const ParamsRequest = {
   typeUrl: "/osmosis.poolmanager.v1beta1.ParamsRequest",
+  aminoType: "osmosis/poolmanager/params-request",
+  is(o: any): o is ParamsRequest {
+    return o && o.$typeUrl === ParamsRequest.typeUrl;
+  },
+  isSDK(o: any): o is ParamsRequestSDKType {
+    return o && o.$typeUrl === ParamsRequest.typeUrl;
+  },
   encode(_: ParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -334,6 +349,8 @@ export const ParamsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ParamsRequest.typeUrl, ParamsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(ParamsRequest.aminoType, ParamsRequest.typeUrl);
 function createBaseParamsResponse(): ParamsResponse {
   return {
     params: Params.fromPartial({})
@@ -341,6 +358,13 @@ function createBaseParamsResponse(): ParamsResponse {
 }
 export const ParamsResponse = {
   typeUrl: "/osmosis.poolmanager.v1beta1.ParamsResponse",
+  aminoType: "osmosis/poolmanager/params-response",
+  is(o: any): o is ParamsResponse {
+    return o && (o.$typeUrl === ParamsResponse.typeUrl || Params.is(o.params));
+  },
+  isSDK(o: any): o is ParamsResponseSDKType {
+    return o && (o.$typeUrl === ParamsResponse.typeUrl || Params.isSDK(o.params));
+  },
   encode(message: ParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -428,6 +452,8 @@ export const ParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ParamsResponse.typeUrl, ParamsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(ParamsResponse.aminoType, ParamsResponse.typeUrl);
 function createBaseEstimateSwapExactAmountInRequest(): EstimateSwapExactAmountInRequest {
   return {
     poolId: BigInt(0),
@@ -437,6 +463,13 @@ function createBaseEstimateSwapExactAmountInRequest(): EstimateSwapExactAmountIn
 }
 export const EstimateSwapExactAmountInRequest = {
   typeUrl: "/osmosis.poolmanager.v1beta1.EstimateSwapExactAmountInRequest",
+  aminoType: "osmosis/poolmanager/estimate-swap-exact-amount-in-request",
+  is(o: any): o is EstimateSwapExactAmountInRequest {
+    return o && (o.$typeUrl === EstimateSwapExactAmountInRequest.typeUrl || typeof o.poolId === "bigint" && typeof o.tokenIn === "string" && Array.isArray(o.routes) && (!o.routes.length || SwapAmountInRoute.is(o.routes[0])));
+  },
+  isSDK(o: any): o is EstimateSwapExactAmountInRequestSDKType {
+    return o && (o.$typeUrl === EstimateSwapExactAmountInRequest.typeUrl || typeof o.pool_id === "bigint" && typeof o.token_in === "string" && Array.isArray(o.routes) && (!o.routes.length || SwapAmountInRoute.isSDK(o.routes[0])));
+  },
   encode(message: EstimateSwapExactAmountInRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(16).uint64(message.poolId);
@@ -566,6 +599,8 @@ export const EstimateSwapExactAmountInRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(EstimateSwapExactAmountInRequest.typeUrl, EstimateSwapExactAmountInRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(EstimateSwapExactAmountInRequest.aminoType, EstimateSwapExactAmountInRequest.typeUrl);
 function createBaseEstimateSinglePoolSwapExactAmountInRequest(): EstimateSinglePoolSwapExactAmountInRequest {
   return {
     poolId: BigInt(0),
@@ -575,6 +610,13 @@ function createBaseEstimateSinglePoolSwapExactAmountInRequest(): EstimateSingleP
 }
 export const EstimateSinglePoolSwapExactAmountInRequest = {
   typeUrl: "/osmosis.poolmanager.v1beta1.EstimateSinglePoolSwapExactAmountInRequest",
+  aminoType: "osmosis/poolmanager/estimate-single-pool-swap-exact-amount-in-request",
+  is(o: any): o is EstimateSinglePoolSwapExactAmountInRequest {
+    return o && (o.$typeUrl === EstimateSinglePoolSwapExactAmountInRequest.typeUrl || typeof o.poolId === "bigint" && typeof o.tokenIn === "string" && typeof o.tokenOutDenom === "string");
+  },
+  isSDK(o: any): o is EstimateSinglePoolSwapExactAmountInRequestSDKType {
+    return o && (o.$typeUrl === EstimateSinglePoolSwapExactAmountInRequest.typeUrl || typeof o.pool_id === "bigint" && typeof o.token_in === "string" && typeof o.token_out_denom === "string");
+  },
   encode(message: EstimateSinglePoolSwapExactAmountInRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -694,6 +736,8 @@ export const EstimateSinglePoolSwapExactAmountInRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(EstimateSinglePoolSwapExactAmountInRequest.typeUrl, EstimateSinglePoolSwapExactAmountInRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(EstimateSinglePoolSwapExactAmountInRequest.aminoType, EstimateSinglePoolSwapExactAmountInRequest.typeUrl);
 function createBaseEstimateSwapExactAmountInResponse(): EstimateSwapExactAmountInResponse {
   return {
     tokenOutAmount: ""
@@ -701,6 +745,13 @@ function createBaseEstimateSwapExactAmountInResponse(): EstimateSwapExactAmountI
 }
 export const EstimateSwapExactAmountInResponse = {
   typeUrl: "/osmosis.poolmanager.v1beta1.EstimateSwapExactAmountInResponse",
+  aminoType: "osmosis/poolmanager/estimate-swap-exact-amount-in-response",
+  is(o: any): o is EstimateSwapExactAmountInResponse {
+    return o && (o.$typeUrl === EstimateSwapExactAmountInResponse.typeUrl || typeof o.tokenOutAmount === "string");
+  },
+  isSDK(o: any): o is EstimateSwapExactAmountInResponseSDKType {
+    return o && (o.$typeUrl === EstimateSwapExactAmountInResponse.typeUrl || typeof o.token_out_amount === "string");
+  },
   encode(message: EstimateSwapExactAmountInResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.tokenOutAmount !== "") {
       writer.uint32(10).string(message.tokenOutAmount);
@@ -788,6 +839,8 @@ export const EstimateSwapExactAmountInResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(EstimateSwapExactAmountInResponse.typeUrl, EstimateSwapExactAmountInResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(EstimateSwapExactAmountInResponse.aminoType, EstimateSwapExactAmountInResponse.typeUrl);
 function createBaseEstimateSwapExactAmountOutRequest(): EstimateSwapExactAmountOutRequest {
   return {
     poolId: BigInt(0),
@@ -797,6 +850,13 @@ function createBaseEstimateSwapExactAmountOutRequest(): EstimateSwapExactAmountO
 }
 export const EstimateSwapExactAmountOutRequest = {
   typeUrl: "/osmosis.poolmanager.v1beta1.EstimateSwapExactAmountOutRequest",
+  aminoType: "osmosis/poolmanager/estimate-swap-exact-amount-out-request",
+  is(o: any): o is EstimateSwapExactAmountOutRequest {
+    return o && (o.$typeUrl === EstimateSwapExactAmountOutRequest.typeUrl || typeof o.poolId === "bigint" && Array.isArray(o.routes) && (!o.routes.length || SwapAmountOutRoute.is(o.routes[0])) && typeof o.tokenOut === "string");
+  },
+  isSDK(o: any): o is EstimateSwapExactAmountOutRequestSDKType {
+    return o && (o.$typeUrl === EstimateSwapExactAmountOutRequest.typeUrl || typeof o.pool_id === "bigint" && Array.isArray(o.routes) && (!o.routes.length || SwapAmountOutRoute.isSDK(o.routes[0])) && typeof o.token_out === "string");
+  },
   encode(message: EstimateSwapExactAmountOutRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(16).uint64(message.poolId);
@@ -926,6 +986,8 @@ export const EstimateSwapExactAmountOutRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(EstimateSwapExactAmountOutRequest.typeUrl, EstimateSwapExactAmountOutRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(EstimateSwapExactAmountOutRequest.aminoType, EstimateSwapExactAmountOutRequest.typeUrl);
 function createBaseEstimateSinglePoolSwapExactAmountOutRequest(): EstimateSinglePoolSwapExactAmountOutRequest {
   return {
     poolId: BigInt(0),
@@ -935,6 +997,13 @@ function createBaseEstimateSinglePoolSwapExactAmountOutRequest(): EstimateSingle
 }
 export const EstimateSinglePoolSwapExactAmountOutRequest = {
   typeUrl: "/osmosis.poolmanager.v1beta1.EstimateSinglePoolSwapExactAmountOutRequest",
+  aminoType: "osmosis/poolmanager/estimate-single-pool-swap-exact-amount-out-request",
+  is(o: any): o is EstimateSinglePoolSwapExactAmountOutRequest {
+    return o && (o.$typeUrl === EstimateSinglePoolSwapExactAmountOutRequest.typeUrl || typeof o.poolId === "bigint" && typeof o.tokenInDenom === "string" && typeof o.tokenOut === "string");
+  },
+  isSDK(o: any): o is EstimateSinglePoolSwapExactAmountOutRequestSDKType {
+    return o && (o.$typeUrl === EstimateSinglePoolSwapExactAmountOutRequest.typeUrl || typeof o.pool_id === "bigint" && typeof o.token_in_denom === "string" && typeof o.token_out === "string");
+  },
   encode(message: EstimateSinglePoolSwapExactAmountOutRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -1054,6 +1123,8 @@ export const EstimateSinglePoolSwapExactAmountOutRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(EstimateSinglePoolSwapExactAmountOutRequest.typeUrl, EstimateSinglePoolSwapExactAmountOutRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(EstimateSinglePoolSwapExactAmountOutRequest.aminoType, EstimateSinglePoolSwapExactAmountOutRequest.typeUrl);
 function createBaseEstimateSwapExactAmountOutResponse(): EstimateSwapExactAmountOutResponse {
   return {
     tokenInAmount: ""
@@ -1061,6 +1132,13 @@ function createBaseEstimateSwapExactAmountOutResponse(): EstimateSwapExactAmount
 }
 export const EstimateSwapExactAmountOutResponse = {
   typeUrl: "/osmosis.poolmanager.v1beta1.EstimateSwapExactAmountOutResponse",
+  aminoType: "osmosis/poolmanager/estimate-swap-exact-amount-out-response",
+  is(o: any): o is EstimateSwapExactAmountOutResponse {
+    return o && (o.$typeUrl === EstimateSwapExactAmountOutResponse.typeUrl || typeof o.tokenInAmount === "string");
+  },
+  isSDK(o: any): o is EstimateSwapExactAmountOutResponseSDKType {
+    return o && (o.$typeUrl === EstimateSwapExactAmountOutResponse.typeUrl || typeof o.token_in_amount === "string");
+  },
   encode(message: EstimateSwapExactAmountOutResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.tokenInAmount !== "") {
       writer.uint32(10).string(message.tokenInAmount);
@@ -1148,11 +1226,20 @@ export const EstimateSwapExactAmountOutResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(EstimateSwapExactAmountOutResponse.typeUrl, EstimateSwapExactAmountOutResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(EstimateSwapExactAmountOutResponse.aminoType, EstimateSwapExactAmountOutResponse.typeUrl);
 function createBaseNumPoolsRequest(): NumPoolsRequest {
   return {};
 }
 export const NumPoolsRequest = {
   typeUrl: "/osmosis.poolmanager.v1beta1.NumPoolsRequest",
+  aminoType: "osmosis/poolmanager/num-pools-request",
+  is(o: any): o is NumPoolsRequest {
+    return o && o.$typeUrl === NumPoolsRequest.typeUrl;
+  },
+  isSDK(o: any): o is NumPoolsRequestSDKType {
+    return o && o.$typeUrl === NumPoolsRequest.typeUrl;
+  },
   encode(_: NumPoolsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1221,6 +1308,8 @@ export const NumPoolsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(NumPoolsRequest.typeUrl, NumPoolsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(NumPoolsRequest.aminoType, NumPoolsRequest.typeUrl);
 function createBaseNumPoolsResponse(): NumPoolsResponse {
   return {
     numPools: BigInt(0)
@@ -1228,6 +1317,13 @@ function createBaseNumPoolsResponse(): NumPoolsResponse {
 }
 export const NumPoolsResponse = {
   typeUrl: "/osmosis.poolmanager.v1beta1.NumPoolsResponse",
+  aminoType: "osmosis/poolmanager/num-pools-response",
+  is(o: any): o is NumPoolsResponse {
+    return o && (o.$typeUrl === NumPoolsResponse.typeUrl || typeof o.numPools === "bigint");
+  },
+  isSDK(o: any): o is NumPoolsResponseSDKType {
+    return o && (o.$typeUrl === NumPoolsResponse.typeUrl || typeof o.num_pools === "bigint");
+  },
   encode(message: NumPoolsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.numPools !== BigInt(0)) {
       writer.uint32(8).uint64(message.numPools);
@@ -1315,6 +1411,8 @@ export const NumPoolsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(NumPoolsResponse.typeUrl, NumPoolsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(NumPoolsResponse.aminoType, NumPoolsResponse.typeUrl);
 function createBasePoolRequest(): PoolRequest {
   return {
     poolId: BigInt(0)
@@ -1322,6 +1420,13 @@ function createBasePoolRequest(): PoolRequest {
 }
 export const PoolRequest = {
   typeUrl: "/osmosis.poolmanager.v1beta1.PoolRequest",
+  aminoType: "osmosis/poolmanager/pool-request",
+  is(o: any): o is PoolRequest {
+    return o && (o.$typeUrl === PoolRequest.typeUrl || typeof o.poolId === "bigint");
+  },
+  isSDK(o: any): o is PoolRequestSDKType {
+    return o && (o.$typeUrl === PoolRequest.typeUrl || typeof o.pool_id === "bigint");
+  },
   encode(message: PoolRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -1409,6 +1514,8 @@ export const PoolRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(PoolRequest.typeUrl, PoolRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(PoolRequest.aminoType, PoolRequest.typeUrl);
 function createBasePoolResponse(): PoolResponse {
   return {
     pool: undefined
@@ -1416,6 +1523,13 @@ function createBasePoolResponse(): PoolResponse {
 }
 export const PoolResponse = {
   typeUrl: "/osmosis.poolmanager.v1beta1.PoolResponse",
+  aminoType: "osmosis/poolmanager/pool-response",
+  is(o: any): o is PoolResponse {
+    return o && o.$typeUrl === PoolResponse.typeUrl;
+  },
+  isSDK(o: any): o is PoolResponseSDKType {
+    return o && o.$typeUrl === PoolResponse.typeUrl;
+  },
   encode(message: PoolResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pool !== undefined) {
       Any.encode(message.pool, writer.uint32(10).fork()).ldelim();
@@ -1503,6 +1617,8 @@ export const PoolResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(PoolResponse.typeUrl, PoolResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(PoolResponse.aminoType, PoolResponse.typeUrl);
 function createBaseAllPoolsRequest(): AllPoolsRequest {
   return {
     poolId: BigInt(0)
@@ -1510,6 +1626,13 @@ function createBaseAllPoolsRequest(): AllPoolsRequest {
 }
 export const AllPoolsRequest = {
   typeUrl: "/osmosis.poolmanager.v1beta1.AllPoolsRequest",
+  aminoType: "osmosis/poolmanager/all-pools-request",
+  is(o: any): o is AllPoolsRequest {
+    return o && (o.$typeUrl === AllPoolsRequest.typeUrl || typeof o.poolId === "bigint");
+  },
+  isSDK(o: any): o is AllPoolsRequestSDKType {
+    return o && (o.$typeUrl === AllPoolsRequest.typeUrl || typeof o.pool_id === "bigint");
+  },
   encode(message: AllPoolsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -1597,6 +1720,8 @@ export const AllPoolsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(AllPoolsRequest.typeUrl, AllPoolsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(AllPoolsRequest.aminoType, AllPoolsRequest.typeUrl);
 function createBaseAllPoolsResponse(): AllPoolsResponse {
   return {
     pools: []
@@ -1604,6 +1729,13 @@ function createBaseAllPoolsResponse(): AllPoolsResponse {
 }
 export const AllPoolsResponse = {
   typeUrl: "/osmosis.poolmanager.v1beta1.AllPoolsResponse",
+  aminoType: "osmosis/poolmanager/all-pools-response",
+  is(o: any): o is AllPoolsResponse {
+    return o && (o.$typeUrl === AllPoolsResponse.typeUrl || Array.isArray(o.pools) && (!o.pools.length || Pool1.is(o.pools[0]) || Pool2.is(o.pools[0]) || Pool3.is(o.pools[0]) || CosmWasmPool.is(o.pools[0]) || Any.is(o.pools[0])));
+  },
+  isSDK(o: any): o is AllPoolsResponseSDKType {
+    return o && (o.$typeUrl === AllPoolsResponse.typeUrl || Array.isArray(o.pools) && (!o.pools.length || Pool1.isSDK(o.pools[0]) || Pool2.isSDK(o.pools[0]) || Pool3.isSDK(o.pools[0]) || CosmWasmPool.isSDK(o.pools[0]) || Any.isSDK(o.pools[0])));
+  },
   encode(message: AllPoolsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.pools) {
       Any.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1701,6 +1833,8 @@ export const AllPoolsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AllPoolsResponse.typeUrl, AllPoolsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(AllPoolsResponse.aminoType, AllPoolsResponse.typeUrl);
 function createBaseSpotPriceRequest(): SpotPriceRequest {
   return {
     poolId: BigInt(0),
@@ -1710,6 +1844,13 @@ function createBaseSpotPriceRequest(): SpotPriceRequest {
 }
 export const SpotPriceRequest = {
   typeUrl: "/osmosis.poolmanager.v1beta1.SpotPriceRequest",
+  aminoType: "osmosis/poolmanager/spot-price-request",
+  is(o: any): o is SpotPriceRequest {
+    return o && (o.$typeUrl === SpotPriceRequest.typeUrl || typeof o.poolId === "bigint" && typeof o.baseAssetDenom === "string" && typeof o.quoteAssetDenom === "string");
+  },
+  isSDK(o: any): o is SpotPriceRequestSDKType {
+    return o && (o.$typeUrl === SpotPriceRequest.typeUrl || typeof o.pool_id === "bigint" && typeof o.base_asset_denom === "string" && typeof o.quote_asset_denom === "string");
+  },
   encode(message: SpotPriceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -1829,6 +1970,8 @@ export const SpotPriceRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(SpotPriceRequest.typeUrl, SpotPriceRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(SpotPriceRequest.aminoType, SpotPriceRequest.typeUrl);
 function createBaseSpotPriceResponse(): SpotPriceResponse {
   return {
     spotPrice: ""
@@ -1836,6 +1979,13 @@ function createBaseSpotPriceResponse(): SpotPriceResponse {
 }
 export const SpotPriceResponse = {
   typeUrl: "/osmosis.poolmanager.v1beta1.SpotPriceResponse",
+  aminoType: "osmosis/poolmanager/spot-price-response",
+  is(o: any): o is SpotPriceResponse {
+    return o && (o.$typeUrl === SpotPriceResponse.typeUrl || typeof o.spotPrice === "string");
+  },
+  isSDK(o: any): o is SpotPriceResponseSDKType {
+    return o && (o.$typeUrl === SpotPriceResponse.typeUrl || typeof o.spot_price === "string");
+  },
   encode(message: SpotPriceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.spotPrice !== "") {
       writer.uint32(10).string(message.spotPrice);
@@ -1923,3 +2073,5 @@ export const SpotPriceResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(SpotPriceResponse.typeUrl, SpotPriceResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(SpotPriceResponse.aminoType, SpotPriceResponse.typeUrl);

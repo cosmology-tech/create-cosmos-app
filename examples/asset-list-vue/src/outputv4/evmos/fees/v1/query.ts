@@ -4,6 +4,7 @@ import { Params, ParamsSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.fees.v1";
 /**
@@ -184,6 +185,12 @@ function createBaseQueryDevFeeInfosRequest(): QueryDevFeeInfosRequest {
 }
 export const QueryDevFeeInfosRequest = {
   typeUrl: "/evmos.fees.v1.QueryDevFeeInfosRequest",
+  is(o: any): o is QueryDevFeeInfosRequest {
+    return o && o.$typeUrl === QueryDevFeeInfosRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryDevFeeInfosRequestSDKType {
+    return o && o.$typeUrl === QueryDevFeeInfosRequest.typeUrl;
+  },
   encode(message: QueryDevFeeInfosRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
@@ -265,6 +272,7 @@ export const QueryDevFeeInfosRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryDevFeeInfosRequest.typeUrl, QueryDevFeeInfosRequest);
 function createBaseQueryDevFeeInfosResponse(): QueryDevFeeInfosResponse {
   return {
     fees: [],
@@ -273,6 +281,12 @@ function createBaseQueryDevFeeInfosResponse(): QueryDevFeeInfosResponse {
 }
 export const QueryDevFeeInfosResponse = {
   typeUrl: "/evmos.fees.v1.QueryDevFeeInfosResponse",
+  is(o: any): o is QueryDevFeeInfosResponse {
+    return o && (o.$typeUrl === QueryDevFeeInfosResponse.typeUrl || Array.isArray(o.fees) && (!o.fees.length || DevFeeInfo.is(o.fees[0])));
+  },
+  isSDK(o: any): o is QueryDevFeeInfosResponseSDKType {
+    return o && (o.$typeUrl === QueryDevFeeInfosResponse.typeUrl || Array.isArray(o.fees) && (!o.fees.length || DevFeeInfo.isSDK(o.fees[0])));
+  },
   encode(message: QueryDevFeeInfosResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.fees) {
       DevFeeInfo.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -380,6 +394,7 @@ export const QueryDevFeeInfosResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryDevFeeInfosResponse.typeUrl, QueryDevFeeInfosResponse);
 function createBaseQueryDevFeeInfoRequest(): QueryDevFeeInfoRequest {
   return {
     contractAddress: ""
@@ -387,6 +402,12 @@ function createBaseQueryDevFeeInfoRequest(): QueryDevFeeInfoRequest {
 }
 export const QueryDevFeeInfoRequest = {
   typeUrl: "/evmos.fees.v1.QueryDevFeeInfoRequest",
+  is(o: any): o is QueryDevFeeInfoRequest {
+    return o && (o.$typeUrl === QueryDevFeeInfoRequest.typeUrl || typeof o.contractAddress === "string");
+  },
+  isSDK(o: any): o is QueryDevFeeInfoRequestSDKType {
+    return o && (o.$typeUrl === QueryDevFeeInfoRequest.typeUrl || typeof o.contract_address === "string");
+  },
   encode(message: QueryDevFeeInfoRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contractAddress !== "") {
       writer.uint32(10).string(message.contractAddress);
@@ -468,6 +489,7 @@ export const QueryDevFeeInfoRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryDevFeeInfoRequest.typeUrl, QueryDevFeeInfoRequest);
 function createBaseQueryDevFeeInfoResponse(): QueryDevFeeInfoResponse {
   return {
     fee: DevFeeInfo.fromPartial({})
@@ -475,6 +497,12 @@ function createBaseQueryDevFeeInfoResponse(): QueryDevFeeInfoResponse {
 }
 export const QueryDevFeeInfoResponse = {
   typeUrl: "/evmos.fees.v1.QueryDevFeeInfoResponse",
+  is(o: any): o is QueryDevFeeInfoResponse {
+    return o && (o.$typeUrl === QueryDevFeeInfoResponse.typeUrl || DevFeeInfo.is(o.fee));
+  },
+  isSDK(o: any): o is QueryDevFeeInfoResponseSDKType {
+    return o && (o.$typeUrl === QueryDevFeeInfoResponse.typeUrl || DevFeeInfo.isSDK(o.fee));
+  },
   encode(message: QueryDevFeeInfoResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.fee !== undefined) {
       DevFeeInfo.encode(message.fee, writer.uint32(10).fork()).ldelim();
@@ -556,11 +584,18 @@ export const QueryDevFeeInfoResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryDevFeeInfoResponse.typeUrl, QueryDevFeeInfoResponse);
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
 }
 export const QueryParamsRequest = {
   typeUrl: "/evmos.fees.v1.QueryParamsRequest",
+  is(o: any): o is QueryParamsRequest {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryParamsRequestSDKType {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
   encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -623,6 +658,7 @@ export const QueryParamsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsRequest.typeUrl, QueryParamsRequest);
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
     params: Params.fromPartial({})
@@ -630,6 +666,12 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
 }
 export const QueryParamsResponse = {
   typeUrl: "/evmos.fees.v1.QueryParamsResponse",
+  is(o: any): o is QueryParamsResponse {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.is(o.params));
+  },
+  isSDK(o: any): o is QueryParamsResponseSDKType {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.isSDK(o.params));
+  },
   encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -711,6 +753,7 @@ export const QueryParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsResponse.typeUrl, QueryParamsResponse);
 function createBaseQueryDevFeeInfosPerDeployerRequest(): QueryDevFeeInfosPerDeployerRequest {
   return {
     deployerAddress: "",
@@ -719,6 +762,12 @@ function createBaseQueryDevFeeInfosPerDeployerRequest(): QueryDevFeeInfosPerDepl
 }
 export const QueryDevFeeInfosPerDeployerRequest = {
   typeUrl: "/evmos.fees.v1.QueryDevFeeInfosPerDeployerRequest",
+  is(o: any): o is QueryDevFeeInfosPerDeployerRequest {
+    return o && (o.$typeUrl === QueryDevFeeInfosPerDeployerRequest.typeUrl || typeof o.deployerAddress === "string");
+  },
+  isSDK(o: any): o is QueryDevFeeInfosPerDeployerRequestSDKType {
+    return o && (o.$typeUrl === QueryDevFeeInfosPerDeployerRequest.typeUrl || typeof o.deployer_address === "string");
+  },
   encode(message: QueryDevFeeInfosPerDeployerRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.deployerAddress !== "") {
       writer.uint32(10).string(message.deployerAddress);
@@ -816,6 +865,7 @@ export const QueryDevFeeInfosPerDeployerRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryDevFeeInfosPerDeployerRequest.typeUrl, QueryDevFeeInfosPerDeployerRequest);
 function createBaseQueryDevFeeInfosPerDeployerResponse(): QueryDevFeeInfosPerDeployerResponse {
   return {
     fees: [],
@@ -824,6 +874,12 @@ function createBaseQueryDevFeeInfosPerDeployerResponse(): QueryDevFeeInfosPerDep
 }
 export const QueryDevFeeInfosPerDeployerResponse = {
   typeUrl: "/evmos.fees.v1.QueryDevFeeInfosPerDeployerResponse",
+  is(o: any): o is QueryDevFeeInfosPerDeployerResponse {
+    return o && (o.$typeUrl === QueryDevFeeInfosPerDeployerResponse.typeUrl || Array.isArray(o.fees) && (!o.fees.length || DevFeeInfo.is(o.fees[0])));
+  },
+  isSDK(o: any): o is QueryDevFeeInfosPerDeployerResponseSDKType {
+    return o && (o.$typeUrl === QueryDevFeeInfosPerDeployerResponse.typeUrl || Array.isArray(o.fees) && (!o.fees.length || DevFeeInfo.isSDK(o.fees[0])));
+  },
   encode(message: QueryDevFeeInfosPerDeployerResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.fees) {
       DevFeeInfo.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -931,3 +987,4 @@ export const QueryDevFeeInfosPerDeployerResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryDevFeeInfosPerDeployerResponse.typeUrl, QueryDevFeeInfosPerDeployerResponse);

@@ -3,6 +3,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.valsetpref.v1beta1";
 /** MsgCreateValidatorSetPreference is a list that holds validator-set. */
@@ -198,6 +199,13 @@ function createBaseMsgSetValidatorSetPreference(): MsgSetValidatorSetPreference 
 }
 export const MsgSetValidatorSetPreference = {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgSetValidatorSetPreference",
+  aminoType: "osmosis/valset-pref/MsgSetValidatorSetPreference",
+  is(o: any): o is MsgSetValidatorSetPreference {
+    return o && (o.$typeUrl === MsgSetValidatorSetPreference.typeUrl || typeof o.delegator === "string" && Array.isArray(o.preferences) && (!o.preferences.length || ValidatorPreference.is(o.preferences[0])));
+  },
+  isSDK(o: any): o is MsgSetValidatorSetPreferenceSDKType {
+    return o && (o.$typeUrl === MsgSetValidatorSetPreference.typeUrl || typeof o.delegator === "string" && Array.isArray(o.preferences) && (!o.preferences.length || ValidatorPreference.isSDK(o.preferences[0])));
+  },
   encode(message: MsgSetValidatorSetPreference, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegator !== "") {
       writer.uint32(10).string(message.delegator);
@@ -311,11 +319,20 @@ export const MsgSetValidatorSetPreference = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetValidatorSetPreference.typeUrl, MsgSetValidatorSetPreference);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetValidatorSetPreference.aminoType, MsgSetValidatorSetPreference.typeUrl);
 function createBaseMsgSetValidatorSetPreferenceResponse(): MsgSetValidatorSetPreferenceResponse {
   return {};
 }
 export const MsgSetValidatorSetPreferenceResponse = {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgSetValidatorSetPreferenceResponse",
+  aminoType: "osmosis/valsetpref/set-validator-set-preference-response",
+  is(o: any): o is MsgSetValidatorSetPreferenceResponse {
+    return o && o.$typeUrl === MsgSetValidatorSetPreferenceResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgSetValidatorSetPreferenceResponseSDKType {
+    return o && o.$typeUrl === MsgSetValidatorSetPreferenceResponse.typeUrl;
+  },
   encode(_: MsgSetValidatorSetPreferenceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -384,6 +401,8 @@ export const MsgSetValidatorSetPreferenceResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetValidatorSetPreferenceResponse.typeUrl, MsgSetValidatorSetPreferenceResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetValidatorSetPreferenceResponse.aminoType, MsgSetValidatorSetPreferenceResponse.typeUrl);
 function createBaseMsgDelegateToValidatorSet(): MsgDelegateToValidatorSet {
   return {
     delegator: "",
@@ -392,6 +411,13 @@ function createBaseMsgDelegateToValidatorSet(): MsgDelegateToValidatorSet {
 }
 export const MsgDelegateToValidatorSet = {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgDelegateToValidatorSet",
+  aminoType: "osmosis/valset-pref/MsgDelegateToValidatorSet",
+  is(o: any): o is MsgDelegateToValidatorSet {
+    return o && (o.$typeUrl === MsgDelegateToValidatorSet.typeUrl || typeof o.delegator === "string" && Coin.is(o.coin));
+  },
+  isSDK(o: any): o is MsgDelegateToValidatorSetSDKType {
+    return o && (o.$typeUrl === MsgDelegateToValidatorSet.typeUrl || typeof o.delegator === "string" && Coin.isSDK(o.coin));
+  },
   encode(message: MsgDelegateToValidatorSet, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegator !== "") {
       writer.uint32(10).string(message.delegator);
@@ -495,11 +521,20 @@ export const MsgDelegateToValidatorSet = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgDelegateToValidatorSet.typeUrl, MsgDelegateToValidatorSet);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgDelegateToValidatorSet.aminoType, MsgDelegateToValidatorSet.typeUrl);
 function createBaseMsgDelegateToValidatorSetResponse(): MsgDelegateToValidatorSetResponse {
   return {};
 }
 export const MsgDelegateToValidatorSetResponse = {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgDelegateToValidatorSetResponse",
+  aminoType: "osmosis/valsetpref/delegate-to-validator-set-response",
+  is(o: any): o is MsgDelegateToValidatorSetResponse {
+    return o && o.$typeUrl === MsgDelegateToValidatorSetResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgDelegateToValidatorSetResponseSDKType {
+    return o && o.$typeUrl === MsgDelegateToValidatorSetResponse.typeUrl;
+  },
   encode(_: MsgDelegateToValidatorSetResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -568,6 +603,8 @@ export const MsgDelegateToValidatorSetResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgDelegateToValidatorSetResponse.typeUrl, MsgDelegateToValidatorSetResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgDelegateToValidatorSetResponse.aminoType, MsgDelegateToValidatorSetResponse.typeUrl);
 function createBaseMsgUndelegateFromValidatorSet(): MsgUndelegateFromValidatorSet {
   return {
     delegator: "",
@@ -576,6 +613,13 @@ function createBaseMsgUndelegateFromValidatorSet(): MsgUndelegateFromValidatorSe
 }
 export const MsgUndelegateFromValidatorSet = {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgUndelegateFromValidatorSet",
+  aminoType: "osmosis/valset-pref/MsgUndelegateFromValidatorSet",
+  is(o: any): o is MsgUndelegateFromValidatorSet {
+    return o && (o.$typeUrl === MsgUndelegateFromValidatorSet.typeUrl || typeof o.delegator === "string" && Coin.is(o.coin));
+  },
+  isSDK(o: any): o is MsgUndelegateFromValidatorSetSDKType {
+    return o && (o.$typeUrl === MsgUndelegateFromValidatorSet.typeUrl || typeof o.delegator === "string" && Coin.isSDK(o.coin));
+  },
   encode(message: MsgUndelegateFromValidatorSet, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegator !== "") {
       writer.uint32(10).string(message.delegator);
@@ -679,11 +723,20 @@ export const MsgUndelegateFromValidatorSet = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUndelegateFromValidatorSet.typeUrl, MsgUndelegateFromValidatorSet);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUndelegateFromValidatorSet.aminoType, MsgUndelegateFromValidatorSet.typeUrl);
 function createBaseMsgUndelegateFromValidatorSetResponse(): MsgUndelegateFromValidatorSetResponse {
   return {};
 }
 export const MsgUndelegateFromValidatorSetResponse = {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgUndelegateFromValidatorSetResponse",
+  aminoType: "osmosis/valsetpref/undelegate-from-validator-set-response",
+  is(o: any): o is MsgUndelegateFromValidatorSetResponse {
+    return o && o.$typeUrl === MsgUndelegateFromValidatorSetResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgUndelegateFromValidatorSetResponseSDKType {
+    return o && o.$typeUrl === MsgUndelegateFromValidatorSetResponse.typeUrl;
+  },
   encode(_: MsgUndelegateFromValidatorSetResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -752,6 +805,8 @@ export const MsgUndelegateFromValidatorSetResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUndelegateFromValidatorSetResponse.typeUrl, MsgUndelegateFromValidatorSetResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUndelegateFromValidatorSetResponse.aminoType, MsgUndelegateFromValidatorSetResponse.typeUrl);
 function createBaseMsgRedelegateValidatorSet(): MsgRedelegateValidatorSet {
   return {
     delegator: "",
@@ -760,6 +815,13 @@ function createBaseMsgRedelegateValidatorSet(): MsgRedelegateValidatorSet {
 }
 export const MsgRedelegateValidatorSet = {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgRedelegateValidatorSet",
+  aminoType: "osmosis/valsetpref/redelegate-validator-set",
+  is(o: any): o is MsgRedelegateValidatorSet {
+    return o && (o.$typeUrl === MsgRedelegateValidatorSet.typeUrl || typeof o.delegator === "string" && Array.isArray(o.preferences) && (!o.preferences.length || ValidatorPreference.is(o.preferences[0])));
+  },
+  isSDK(o: any): o is MsgRedelegateValidatorSetSDKType {
+    return o && (o.$typeUrl === MsgRedelegateValidatorSet.typeUrl || typeof o.delegator === "string" && Array.isArray(o.preferences) && (!o.preferences.length || ValidatorPreference.isSDK(o.preferences[0])));
+  },
   encode(message: MsgRedelegateValidatorSet, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegator !== "") {
       writer.uint32(10).string(message.delegator);
@@ -873,11 +935,20 @@ export const MsgRedelegateValidatorSet = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRedelegateValidatorSet.typeUrl, MsgRedelegateValidatorSet);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgRedelegateValidatorSet.aminoType, MsgRedelegateValidatorSet.typeUrl);
 function createBaseMsgRedelegateValidatorSetResponse(): MsgRedelegateValidatorSetResponse {
   return {};
 }
 export const MsgRedelegateValidatorSetResponse = {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgRedelegateValidatorSetResponse",
+  aminoType: "osmosis/valsetpref/redelegate-validator-set-response",
+  is(o: any): o is MsgRedelegateValidatorSetResponse {
+    return o && o.$typeUrl === MsgRedelegateValidatorSetResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgRedelegateValidatorSetResponseSDKType {
+    return o && o.$typeUrl === MsgRedelegateValidatorSetResponse.typeUrl;
+  },
   encode(_: MsgRedelegateValidatorSetResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -946,6 +1017,8 @@ export const MsgRedelegateValidatorSetResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRedelegateValidatorSetResponse.typeUrl, MsgRedelegateValidatorSetResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgRedelegateValidatorSetResponse.aminoType, MsgRedelegateValidatorSetResponse.typeUrl);
 function createBaseMsgWithdrawDelegationRewards(): MsgWithdrawDelegationRewards {
   return {
     delegator: ""
@@ -953,6 +1026,13 @@ function createBaseMsgWithdrawDelegationRewards(): MsgWithdrawDelegationRewards 
 }
 export const MsgWithdrawDelegationRewards = {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgWithdrawDelegationRewards",
+  aminoType: "osmosis/valset-pref/MsgWithdrawDelegationRewards",
+  is(o: any): o is MsgWithdrawDelegationRewards {
+    return o && (o.$typeUrl === MsgWithdrawDelegationRewards.typeUrl || typeof o.delegator === "string");
+  },
+  isSDK(o: any): o is MsgWithdrawDelegationRewardsSDKType {
+    return o && (o.$typeUrl === MsgWithdrawDelegationRewards.typeUrl || typeof o.delegator === "string");
+  },
   encode(message: MsgWithdrawDelegationRewards, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegator !== "") {
       writer.uint32(10).string(message.delegator);
@@ -1040,11 +1120,20 @@ export const MsgWithdrawDelegationRewards = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgWithdrawDelegationRewards.typeUrl, MsgWithdrawDelegationRewards);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgWithdrawDelegationRewards.aminoType, MsgWithdrawDelegationRewards.typeUrl);
 function createBaseMsgWithdrawDelegationRewardsResponse(): MsgWithdrawDelegationRewardsResponse {
   return {};
 }
 export const MsgWithdrawDelegationRewardsResponse = {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgWithdrawDelegationRewardsResponse",
+  aminoType: "osmosis/valsetpref/withdraw-delegation-rewards-response",
+  is(o: any): o is MsgWithdrawDelegationRewardsResponse {
+    return o && o.$typeUrl === MsgWithdrawDelegationRewardsResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgWithdrawDelegationRewardsResponseSDKType {
+    return o && o.$typeUrl === MsgWithdrawDelegationRewardsResponse.typeUrl;
+  },
   encode(_: MsgWithdrawDelegationRewardsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1113,6 +1202,8 @@ export const MsgWithdrawDelegationRewardsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgWithdrawDelegationRewardsResponse.typeUrl, MsgWithdrawDelegationRewardsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgWithdrawDelegationRewardsResponse.aminoType, MsgWithdrawDelegationRewardsResponse.typeUrl);
 function createBaseMsgDelegateBondedTokens(): MsgDelegateBondedTokens {
   return {
     delegator: "",
@@ -1121,6 +1212,13 @@ function createBaseMsgDelegateBondedTokens(): MsgDelegateBondedTokens {
 }
 export const MsgDelegateBondedTokens = {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgDelegateBondedTokens",
+  aminoType: "osmosis/valsetpref/delegate-bonded-tokens",
+  is(o: any): o is MsgDelegateBondedTokens {
+    return o && (o.$typeUrl === MsgDelegateBondedTokens.typeUrl || typeof o.delegator === "string" && typeof o.lockID === "bigint");
+  },
+  isSDK(o: any): o is MsgDelegateBondedTokensSDKType {
+    return o && (o.$typeUrl === MsgDelegateBondedTokens.typeUrl || typeof o.delegator === "string" && typeof o.lockID === "bigint");
+  },
   encode(message: MsgDelegateBondedTokens, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegator !== "") {
       writer.uint32(10).string(message.delegator);
@@ -1224,11 +1322,20 @@ export const MsgDelegateBondedTokens = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgDelegateBondedTokens.typeUrl, MsgDelegateBondedTokens);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgDelegateBondedTokens.aminoType, MsgDelegateBondedTokens.typeUrl);
 function createBaseMsgDelegateBondedTokensResponse(): MsgDelegateBondedTokensResponse {
   return {};
 }
 export const MsgDelegateBondedTokensResponse = {
   typeUrl: "/osmosis.valsetpref.v1beta1.MsgDelegateBondedTokensResponse",
+  aminoType: "osmosis/valsetpref/delegate-bonded-tokens-response",
+  is(o: any): o is MsgDelegateBondedTokensResponse {
+    return o && o.$typeUrl === MsgDelegateBondedTokensResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgDelegateBondedTokensResponseSDKType {
+    return o && o.$typeUrl === MsgDelegateBondedTokensResponse.typeUrl;
+  },
   encode(_: MsgDelegateBondedTokensResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1297,3 +1404,5 @@ export const MsgDelegateBondedTokensResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgDelegateBondedTokensResponse.typeUrl, MsgDelegateBondedTokensResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgDelegateBondedTokensResponse.aminoType, MsgDelegateBondedTokensResponse.typeUrl);

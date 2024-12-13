@@ -1,4 +1,4 @@
-import { Member, MemberSDKType, VoteOption, VoteOptionSDKType } from "./types";
+import { Member, MemberSDKType, VoteOption, VoteOptionSDKType, ThresholdDecisionPolicy, ThresholdDecisionPolicySDKType, PercentageDecisionPolicy, PercentageDecisionPolicySDKType } from "./types";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";

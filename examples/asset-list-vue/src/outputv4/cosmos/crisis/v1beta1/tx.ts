@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.crisis.v1beta1";
 /** MsgVerifyInvariant represents a message to verify a particular invariance. */
@@ -42,6 +43,13 @@ function createBaseMsgVerifyInvariant(): MsgVerifyInvariant {
 }
 export const MsgVerifyInvariant = {
   typeUrl: "/cosmos.crisis.v1beta1.MsgVerifyInvariant",
+  aminoType: "cosmos-sdk/MsgVerifyInvariant",
+  is(o: any): o is MsgVerifyInvariant {
+    return o && (o.$typeUrl === MsgVerifyInvariant.typeUrl || typeof o.sender === "string" && typeof o.invariantModuleName === "string" && typeof o.invariantRoute === "string");
+  },
+  isSDK(o: any): o is MsgVerifyInvariantSDKType {
+    return o && (o.$typeUrl === MsgVerifyInvariant.typeUrl || typeof o.sender === "string" && typeof o.invariant_module_name === "string" && typeof o.invariant_route === "string");
+  },
   encode(message: MsgVerifyInvariant, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.sender !== "") {
       writer.uint32(10).string(message.sender);
@@ -161,11 +169,20 @@ export const MsgVerifyInvariant = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgVerifyInvariant.typeUrl, MsgVerifyInvariant);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgVerifyInvariant.aminoType, MsgVerifyInvariant.typeUrl);
 function createBaseMsgVerifyInvariantResponse(): MsgVerifyInvariantResponse {
   return {};
 }
 export const MsgVerifyInvariantResponse = {
   typeUrl: "/cosmos.crisis.v1beta1.MsgVerifyInvariantResponse",
+  aminoType: "cosmos-sdk/MsgVerifyInvariantResponse",
+  is(o: any): o is MsgVerifyInvariantResponse {
+    return o && o.$typeUrl === MsgVerifyInvariantResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgVerifyInvariantResponseSDKType {
+    return o && o.$typeUrl === MsgVerifyInvariantResponse.typeUrl;
+  },
   encode(_: MsgVerifyInvariantResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -234,3 +251,5 @@ export const MsgVerifyInvariantResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgVerifyInvariantResponse.typeUrl, MsgVerifyInvariantResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgVerifyInvariantResponse.aminoType, MsgVerifyInvariantResponse.typeUrl);

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
@@ -145,6 +146,12 @@ function createBaseSystemParameters(): SystemParameters {
 }
 export const SystemParameters = {
   typeUrl: "/google.api.SystemParameters",
+  is(o: any): o is SystemParameters {
+    return o && (o.$typeUrl === SystemParameters.typeUrl || Array.isArray(o.rules) && (!o.rules.length || SystemParameterRule.is(o.rules[0])));
+  },
+  isSDK(o: any): o is SystemParametersSDKType {
+    return o && (o.$typeUrl === SystemParameters.typeUrl || Array.isArray(o.rules) && (!o.rules.length || SystemParameterRule.isSDK(o.rules[0])));
+  },
   encode(message: SystemParameters, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.rules) {
       SystemParameterRule.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -236,6 +243,7 @@ export const SystemParameters = {
     };
   }
 };
+GlobalDecoderRegistry.register(SystemParameters.typeUrl, SystemParameters);
 function createBaseSystemParameterRule(): SystemParameterRule {
   return {
     selector: "",
@@ -244,6 +252,12 @@ function createBaseSystemParameterRule(): SystemParameterRule {
 }
 export const SystemParameterRule = {
   typeUrl: "/google.api.SystemParameterRule",
+  is(o: any): o is SystemParameterRule {
+    return o && (o.$typeUrl === SystemParameterRule.typeUrl || typeof o.selector === "string" && Array.isArray(o.parameters) && (!o.parameters.length || SystemParameter.is(o.parameters[0])));
+  },
+  isSDK(o: any): o is SystemParameterRuleSDKType {
+    return o && (o.$typeUrl === SystemParameterRule.typeUrl || typeof o.selector === "string" && Array.isArray(o.parameters) && (!o.parameters.length || SystemParameter.isSDK(o.parameters[0])));
+  },
   encode(message: SystemParameterRule, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.selector !== "") {
       writer.uint32(10).string(message.selector);
@@ -351,6 +365,7 @@ export const SystemParameterRule = {
     };
   }
 };
+GlobalDecoderRegistry.register(SystemParameterRule.typeUrl, SystemParameterRule);
 function createBaseSystemParameter(): SystemParameter {
   return {
     name: "",
@@ -360,6 +375,12 @@ function createBaseSystemParameter(): SystemParameter {
 }
 export const SystemParameter = {
   typeUrl: "/google.api.SystemParameter",
+  is(o: any): o is SystemParameter {
+    return o && (o.$typeUrl === SystemParameter.typeUrl || typeof o.name === "string" && typeof o.httpHeader === "string" && typeof o.urlQueryParameter === "string");
+  },
+  isSDK(o: any): o is SystemParameterSDKType {
+    return o && (o.$typeUrl === SystemParameter.typeUrl || typeof o.name === "string" && typeof o.http_header === "string" && typeof o.url_query_parameter === "string");
+  },
   encode(message: SystemParameter, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -473,3 +494,4 @@ export const SystemParameter = {
     };
   }
 };
+GlobalDecoderRegistry.register(SystemParameter.typeUrl, SystemParameter);

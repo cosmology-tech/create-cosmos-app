@@ -2,6 +2,7 @@ import { Expr, ExprSDKType } from "./expr";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.expr.v1beta1";
 /** A declaration. */
@@ -128,6 +129,12 @@ function createBaseDecl(): Decl {
 }
 export const Decl = {
   typeUrl: "/google.api.expr.v1beta1.Decl",
+  is(o: any): o is Decl {
+    return o && (o.$typeUrl === Decl.typeUrl || typeof o.id === "number" && typeof o.name === "string" && typeof o.doc === "string");
+  },
+  isSDK(o: any): o is DeclSDKType {
+    return o && (o.$typeUrl === Decl.typeUrl || typeof o.id === "number" && typeof o.name === "string" && typeof o.doc === "string");
+  },
   encode(message: Decl, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== 0) {
       writer.uint32(8).int32(message.id);
@@ -273,6 +280,7 @@ export const Decl = {
     };
   }
 };
+GlobalDecoderRegistry.register(Decl.typeUrl, Decl);
 function createBaseDeclType(): DeclType {
   return {
     id: 0,
@@ -282,6 +290,12 @@ function createBaseDeclType(): DeclType {
 }
 export const DeclType = {
   typeUrl: "/google.api.expr.v1beta1.DeclType",
+  is(o: any): o is DeclType {
+    return o && (o.$typeUrl === DeclType.typeUrl || typeof o.id === "number" && typeof o.type === "string" && Array.isArray(o.typeParams) && (!o.typeParams.length || DeclType.is(o.typeParams[0])));
+  },
+  isSDK(o: any): o is DeclTypeSDKType {
+    return o && (o.$typeUrl === DeclType.typeUrl || typeof o.id === "number" && typeof o.type === "string" && Array.isArray(o.type_params) && (!o.type_params.length || DeclType.isSDK(o.type_params[0])));
+  },
   encode(message: DeclType, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== 0) {
       writer.uint32(8).int32(message.id);
@@ -405,6 +419,7 @@ export const DeclType = {
     };
   }
 };
+GlobalDecoderRegistry.register(DeclType.typeUrl, DeclType);
 function createBaseIdentDecl(): IdentDecl {
   return {
     type: undefined,
@@ -413,6 +428,12 @@ function createBaseIdentDecl(): IdentDecl {
 }
 export const IdentDecl = {
   typeUrl: "/google.api.expr.v1beta1.IdentDecl",
+  is(o: any): o is IdentDecl {
+    return o && o.$typeUrl === IdentDecl.typeUrl;
+  },
+  isSDK(o: any): o is IdentDeclSDKType {
+    return o && o.$typeUrl === IdentDecl.typeUrl;
+  },
   encode(message: IdentDecl, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.type !== undefined) {
       DeclType.encode(message.type, writer.uint32(26).fork()).ldelim();
@@ -510,6 +531,7 @@ export const IdentDecl = {
     };
   }
 };
+GlobalDecoderRegistry.register(IdentDecl.typeUrl, IdentDecl);
 function createBaseFunctionDecl(): FunctionDecl {
   return {
     args: [],
@@ -519,6 +541,12 @@ function createBaseFunctionDecl(): FunctionDecl {
 }
 export const FunctionDecl = {
   typeUrl: "/google.api.expr.v1beta1.FunctionDecl",
+  is(o: any): o is FunctionDecl {
+    return o && (o.$typeUrl === FunctionDecl.typeUrl || Array.isArray(o.args) && (!o.args.length || IdentDecl.is(o.args[0])) && typeof o.receiverFunction === "boolean");
+  },
+  isSDK(o: any): o is FunctionDeclSDKType {
+    return o && (o.$typeUrl === FunctionDecl.typeUrl || Array.isArray(o.args) && (!o.args.length || IdentDecl.isSDK(o.args[0])) && typeof o.receiver_function === "boolean");
+  },
   encode(message: FunctionDecl, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.args) {
       IdentDecl.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -642,3 +670,4 @@ export const FunctionDecl = {
     };
   }
 };
+GlobalDecoderRegistry.register(FunctionDecl.typeUrl, FunctionDecl);

@@ -2,6 +2,7 @@ import { Any, AnySDKType } from "../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.rpc";
 /**
@@ -60,6 +61,12 @@ function createBaseStatus(): Status {
 }
 export const Status = {
   typeUrl: "/google.rpc.Status",
+  is(o: any): o is Status {
+    return o && (o.$typeUrl === Status.typeUrl || typeof o.code === "number" && typeof o.message === "string" && Array.isArray(o.details) && (!o.details.length || Any.is(o.details[0])));
+  },
+  isSDK(o: any): o is StatusSDKType {
+    return o && (o.$typeUrl === Status.typeUrl || typeof o.code === "number" && typeof o.message === "string" && Array.isArray(o.details) && (!o.details.length || Any.isSDK(o.details[0])));
+  },
   encode(message: Status, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.code !== 0) {
       writer.uint32(8).int32(message.code);
@@ -183,3 +190,4 @@ export const Status = {
     };
   }
 };
+GlobalDecoderRegistry.register(Status.typeUrl, Status);

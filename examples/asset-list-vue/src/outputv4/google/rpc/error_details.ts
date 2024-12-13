@@ -2,6 +2,7 @@ import { Duration, DurationSDKType } from "../protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, isObject } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.rpc";
 /**
@@ -535,6 +536,12 @@ function createBaseRetryInfo(): RetryInfo {
 }
 export const RetryInfo = {
   typeUrl: "/google.rpc.RetryInfo",
+  is(o: any): o is RetryInfo {
+    return o && o.$typeUrl === RetryInfo.typeUrl;
+  },
+  isSDK(o: any): o is RetryInfoSDKType {
+    return o && o.$typeUrl === RetryInfo.typeUrl;
+  },
   encode(message: RetryInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.retryDelay !== undefined) {
       Duration.encode(message.retryDelay, writer.uint32(10).fork()).ldelim();
@@ -616,6 +623,7 @@ export const RetryInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(RetryInfo.typeUrl, RetryInfo);
 function createBaseDebugInfo(): DebugInfo {
   return {
     stackEntries: [],
@@ -624,6 +632,12 @@ function createBaseDebugInfo(): DebugInfo {
 }
 export const DebugInfo = {
   typeUrl: "/google.rpc.DebugInfo",
+  is(o: any): o is DebugInfo {
+    return o && (o.$typeUrl === DebugInfo.typeUrl || Array.isArray(o.stackEntries) && (!o.stackEntries.length || typeof o.stackEntries[0] === "string") && typeof o.detail === "string");
+  },
+  isSDK(o: any): o is DebugInfoSDKType {
+    return o && (o.$typeUrl === DebugInfo.typeUrl || Array.isArray(o.stack_entries) && (!o.stack_entries.length || typeof o.stack_entries[0] === "string") && typeof o.detail === "string");
+  },
   encode(message: DebugInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.stackEntries) {
       writer.uint32(10).string(v!);
@@ -731,6 +745,7 @@ export const DebugInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(DebugInfo.typeUrl, DebugInfo);
 function createBaseQuotaFailure(): QuotaFailure {
   return {
     violations: []
@@ -738,6 +753,12 @@ function createBaseQuotaFailure(): QuotaFailure {
 }
 export const QuotaFailure = {
   typeUrl: "/google.rpc.QuotaFailure",
+  is(o: any): o is QuotaFailure {
+    return o && (o.$typeUrl === QuotaFailure.typeUrl || Array.isArray(o.violations) && (!o.violations.length || QuotaFailure_Violation.is(o.violations[0])));
+  },
+  isSDK(o: any): o is QuotaFailureSDKType {
+    return o && (o.$typeUrl === QuotaFailure.typeUrl || Array.isArray(o.violations) && (!o.violations.length || QuotaFailure_Violation.isSDK(o.violations[0])));
+  },
   encode(message: QuotaFailure, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.violations) {
       QuotaFailure_Violation.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -829,6 +850,7 @@ export const QuotaFailure = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuotaFailure.typeUrl, QuotaFailure);
 function createBaseQuotaFailure_Violation(): QuotaFailure_Violation {
   return {
     subject: "",
@@ -837,6 +859,12 @@ function createBaseQuotaFailure_Violation(): QuotaFailure_Violation {
 }
 export const QuotaFailure_Violation = {
   typeUrl: "/google.rpc.Violation",
+  is(o: any): o is QuotaFailure_Violation {
+    return o && (o.$typeUrl === QuotaFailure_Violation.typeUrl || typeof o.subject === "string" && typeof o.description === "string");
+  },
+  isSDK(o: any): o is QuotaFailure_ViolationSDKType {
+    return o && (o.$typeUrl === QuotaFailure_Violation.typeUrl || typeof o.subject === "string" && typeof o.description === "string");
+  },
   encode(message: QuotaFailure_Violation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.subject !== "") {
       writer.uint32(10).string(message.subject);
@@ -934,6 +962,7 @@ export const QuotaFailure_Violation = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuotaFailure_Violation.typeUrl, QuotaFailure_Violation);
 function createBaseErrorInfo_MetadataEntry(): ErrorInfo_MetadataEntry {
   return {
     key: "",
@@ -1041,6 +1070,12 @@ function createBaseErrorInfo(): ErrorInfo {
 }
 export const ErrorInfo = {
   typeUrl: "/google.rpc.ErrorInfo",
+  is(o: any): o is ErrorInfo {
+    return o && (o.$typeUrl === ErrorInfo.typeUrl || typeof o.reason === "string" && typeof o.domain === "string" && isSet(o.metadata));
+  },
+  isSDK(o: any): o is ErrorInfoSDKType {
+    return o && (o.$typeUrl === ErrorInfo.typeUrl || typeof o.reason === "string" && typeof o.domain === "string" && isSet(o.metadata));
+  },
   encode(message: ErrorInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.reason !== "") {
       writer.uint32(10).string(message.reason);
@@ -1202,6 +1237,7 @@ export const ErrorInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(ErrorInfo.typeUrl, ErrorInfo);
 function createBasePreconditionFailure(): PreconditionFailure {
   return {
     violations: []
@@ -1209,6 +1245,12 @@ function createBasePreconditionFailure(): PreconditionFailure {
 }
 export const PreconditionFailure = {
   typeUrl: "/google.rpc.PreconditionFailure",
+  is(o: any): o is PreconditionFailure {
+    return o && (o.$typeUrl === PreconditionFailure.typeUrl || Array.isArray(o.violations) && (!o.violations.length || PreconditionFailure_Violation.is(o.violations[0])));
+  },
+  isSDK(o: any): o is PreconditionFailureSDKType {
+    return o && (o.$typeUrl === PreconditionFailure.typeUrl || Array.isArray(o.violations) && (!o.violations.length || PreconditionFailure_Violation.isSDK(o.violations[0])));
+  },
   encode(message: PreconditionFailure, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.violations) {
       PreconditionFailure_Violation.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1300,6 +1342,7 @@ export const PreconditionFailure = {
     };
   }
 };
+GlobalDecoderRegistry.register(PreconditionFailure.typeUrl, PreconditionFailure);
 function createBasePreconditionFailure_Violation(): PreconditionFailure_Violation {
   return {
     type: "",
@@ -1309,6 +1352,12 @@ function createBasePreconditionFailure_Violation(): PreconditionFailure_Violatio
 }
 export const PreconditionFailure_Violation = {
   typeUrl: "/google.rpc.Violation",
+  is(o: any): o is PreconditionFailure_Violation {
+    return o && (o.$typeUrl === PreconditionFailure_Violation.typeUrl || typeof o.type === "string" && typeof o.subject === "string" && typeof o.description === "string");
+  },
+  isSDK(o: any): o is PreconditionFailure_ViolationSDKType {
+    return o && (o.$typeUrl === PreconditionFailure_Violation.typeUrl || typeof o.type === "string" && typeof o.subject === "string" && typeof o.description === "string");
+  },
   encode(message: PreconditionFailure_Violation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.type !== "") {
       writer.uint32(10).string(message.type);
@@ -1422,6 +1471,7 @@ export const PreconditionFailure_Violation = {
     };
   }
 };
+GlobalDecoderRegistry.register(PreconditionFailure_Violation.typeUrl, PreconditionFailure_Violation);
 function createBaseBadRequest(): BadRequest {
   return {
     fieldViolations: []
@@ -1429,6 +1479,12 @@ function createBaseBadRequest(): BadRequest {
 }
 export const BadRequest = {
   typeUrl: "/google.rpc.BadRequest",
+  is(o: any): o is BadRequest {
+    return o && (o.$typeUrl === BadRequest.typeUrl || Array.isArray(o.fieldViolations) && (!o.fieldViolations.length || BadRequest_FieldViolation.is(o.fieldViolations[0])));
+  },
+  isSDK(o: any): o is BadRequestSDKType {
+    return o && (o.$typeUrl === BadRequest.typeUrl || Array.isArray(o.field_violations) && (!o.field_violations.length || BadRequest_FieldViolation.isSDK(o.field_violations[0])));
+  },
   encode(message: BadRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.fieldViolations) {
       BadRequest_FieldViolation.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1520,6 +1576,7 @@ export const BadRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(BadRequest.typeUrl, BadRequest);
 function createBaseBadRequest_FieldViolation(): BadRequest_FieldViolation {
   return {
     field: "",
@@ -1528,6 +1585,12 @@ function createBaseBadRequest_FieldViolation(): BadRequest_FieldViolation {
 }
 export const BadRequest_FieldViolation = {
   typeUrl: "/google.rpc.FieldViolation",
+  is(o: any): o is BadRequest_FieldViolation {
+    return o && (o.$typeUrl === BadRequest_FieldViolation.typeUrl || typeof o.field === "string" && typeof o.description === "string");
+  },
+  isSDK(o: any): o is BadRequest_FieldViolationSDKType {
+    return o && (o.$typeUrl === BadRequest_FieldViolation.typeUrl || typeof o.field === "string" && typeof o.description === "string");
+  },
   encode(message: BadRequest_FieldViolation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.field !== "") {
       writer.uint32(10).string(message.field);
@@ -1625,6 +1688,7 @@ export const BadRequest_FieldViolation = {
     };
   }
 };
+GlobalDecoderRegistry.register(BadRequest_FieldViolation.typeUrl, BadRequest_FieldViolation);
 function createBaseRequestInfo(): RequestInfo {
   return {
     requestId: "",
@@ -1633,6 +1697,12 @@ function createBaseRequestInfo(): RequestInfo {
 }
 export const RequestInfo = {
   typeUrl: "/google.rpc.RequestInfo",
+  is(o: any): o is RequestInfo {
+    return o && (o.$typeUrl === RequestInfo.typeUrl || typeof o.requestId === "string" && typeof o.servingData === "string");
+  },
+  isSDK(o: any): o is RequestInfoSDKType {
+    return o && (o.$typeUrl === RequestInfo.typeUrl || typeof o.request_id === "string" && typeof o.serving_data === "string");
+  },
   encode(message: RequestInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.requestId !== "") {
       writer.uint32(10).string(message.requestId);
@@ -1730,6 +1800,7 @@ export const RequestInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(RequestInfo.typeUrl, RequestInfo);
 function createBaseResourceInfo(): ResourceInfo {
   return {
     resourceType: "",
@@ -1740,6 +1811,12 @@ function createBaseResourceInfo(): ResourceInfo {
 }
 export const ResourceInfo = {
   typeUrl: "/google.rpc.ResourceInfo",
+  is(o: any): o is ResourceInfo {
+    return o && (o.$typeUrl === ResourceInfo.typeUrl || typeof o.resourceType === "string" && typeof o.resourceName === "string" && typeof o.owner === "string" && typeof o.description === "string");
+  },
+  isSDK(o: any): o is ResourceInfoSDKType {
+    return o && (o.$typeUrl === ResourceInfo.typeUrl || typeof o.resource_type === "string" && typeof o.resource_name === "string" && typeof o.owner === "string" && typeof o.description === "string");
+  },
   encode(message: ResourceInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.resourceType !== "") {
       writer.uint32(10).string(message.resourceType);
@@ -1869,6 +1946,7 @@ export const ResourceInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(ResourceInfo.typeUrl, ResourceInfo);
 function createBaseHelp(): Help {
   return {
     links: []
@@ -1876,6 +1954,12 @@ function createBaseHelp(): Help {
 }
 export const Help = {
   typeUrl: "/google.rpc.Help",
+  is(o: any): o is Help {
+    return o && (o.$typeUrl === Help.typeUrl || Array.isArray(o.links) && (!o.links.length || Help_Link.is(o.links[0])));
+  },
+  isSDK(o: any): o is HelpSDKType {
+    return o && (o.$typeUrl === Help.typeUrl || Array.isArray(o.links) && (!o.links.length || Help_Link.isSDK(o.links[0])));
+  },
   encode(message: Help, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.links) {
       Help_Link.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1967,6 +2051,7 @@ export const Help = {
     };
   }
 };
+GlobalDecoderRegistry.register(Help.typeUrl, Help);
 function createBaseHelp_Link(): Help_Link {
   return {
     description: "",
@@ -1975,6 +2060,12 @@ function createBaseHelp_Link(): Help_Link {
 }
 export const Help_Link = {
   typeUrl: "/google.rpc.Link",
+  is(o: any): o is Help_Link {
+    return o && (o.$typeUrl === Help_Link.typeUrl || typeof o.description === "string" && typeof o.url === "string");
+  },
+  isSDK(o: any): o is Help_LinkSDKType {
+    return o && (o.$typeUrl === Help_Link.typeUrl || typeof o.description === "string" && typeof o.url === "string");
+  },
   encode(message: Help_Link, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.description !== "") {
       writer.uint32(10).string(message.description);
@@ -2072,6 +2163,7 @@ export const Help_Link = {
     };
   }
 };
+GlobalDecoderRegistry.register(Help_Link.typeUrl, Help_Link);
 function createBaseLocalizedMessage(): LocalizedMessage {
   return {
     locale: "",
@@ -2080,6 +2172,12 @@ function createBaseLocalizedMessage(): LocalizedMessage {
 }
 export const LocalizedMessage = {
   typeUrl: "/google.rpc.LocalizedMessage",
+  is(o: any): o is LocalizedMessage {
+    return o && (o.$typeUrl === LocalizedMessage.typeUrl || typeof o.locale === "string" && typeof o.message === "string");
+  },
+  isSDK(o: any): o is LocalizedMessageSDKType {
+    return o && (o.$typeUrl === LocalizedMessage.typeUrl || typeof o.locale === "string" && typeof o.message === "string");
+  },
   encode(message: LocalizedMessage, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.locale !== "") {
       writer.uint32(10).string(message.locale);
@@ -2177,3 +2275,4 @@ export const LocalizedMessage = {
     };
   }
 };
+GlobalDecoderRegistry.register(LocalizedMessage.typeUrl, LocalizedMessage);

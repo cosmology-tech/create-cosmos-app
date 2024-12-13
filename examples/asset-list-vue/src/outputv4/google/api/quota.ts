@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet, isObject } from "../../helpers";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
@@ -343,6 +344,12 @@ function createBaseQuota(): Quota {
 }
 export const Quota = {
   typeUrl: "/google.api.Quota",
+  is(o: any): o is Quota {
+    return o && (o.$typeUrl === Quota.typeUrl || Array.isArray(o.limits) && (!o.limits.length || QuotaLimit.is(o.limits[0])) && Array.isArray(o.metricRules) && (!o.metricRules.length || MetricRule.is(o.metricRules[0])));
+  },
+  isSDK(o: any): o is QuotaSDKType {
+    return o && (o.$typeUrl === Quota.typeUrl || Array.isArray(o.limits) && (!o.limits.length || QuotaLimit.isSDK(o.limits[0])) && Array.isArray(o.metric_rules) && (!o.metric_rules.length || MetricRule.isSDK(o.metric_rules[0])));
+  },
   encode(message: Quota, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.limits) {
       QuotaLimit.encode(v!, writer.uint32(26).fork()).ldelim();
@@ -460,6 +467,7 @@ export const Quota = {
     };
   }
 };
+GlobalDecoderRegistry.register(Quota.typeUrl, Quota);
 function createBaseMetricRule_MetricCostsEntry(): MetricRule_MetricCostsEntry {
   return {
     key: "",
@@ -566,6 +574,12 @@ function createBaseMetricRule(): MetricRule {
 }
 export const MetricRule = {
   typeUrl: "/google.api.MetricRule",
+  is(o: any): o is MetricRule {
+    return o && (o.$typeUrl === MetricRule.typeUrl || typeof o.selector === "string" && isSet(o.metricCosts));
+  },
+  isSDK(o: any): o is MetricRuleSDKType {
+    return o && (o.$typeUrl === MetricRule.typeUrl || typeof o.selector === "string" && isSet(o.metric_costs));
+  },
   encode(message: MetricRule, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.selector !== "") {
       writer.uint32(10).string(message.selector);
@@ -711,6 +725,7 @@ export const MetricRule = {
     };
   }
 };
+GlobalDecoderRegistry.register(MetricRule.typeUrl, MetricRule);
 function createBaseQuotaLimit_ValuesEntry(): QuotaLimit_ValuesEntry {
   return {
     key: "",
@@ -825,6 +840,12 @@ function createBaseQuotaLimit(): QuotaLimit {
 }
 export const QuotaLimit = {
   typeUrl: "/google.api.QuotaLimit",
+  is(o: any): o is QuotaLimit {
+    return o && (o.$typeUrl === QuotaLimit.typeUrl || typeof o.name === "string" && typeof o.description === "string" && typeof o.defaultLimit === "bigint" && typeof o.maxLimit === "bigint" && typeof o.freeTier === "bigint" && typeof o.duration === "string" && typeof o.metric === "string" && typeof o.unit === "string" && isSet(o.values) && typeof o.displayName === "string");
+  },
+  isSDK(o: any): o is QuotaLimitSDKType {
+    return o && (o.$typeUrl === QuotaLimit.typeUrl || typeof o.name === "string" && typeof o.description === "string" && typeof o.default_limit === "bigint" && typeof o.max_limit === "bigint" && typeof o.free_tier === "bigint" && typeof o.duration === "string" && typeof o.metric === "string" && typeof o.unit === "string" && isSet(o.values) && typeof o.display_name === "string");
+  },
   encode(message: QuotaLimit, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(50).string(message.name);
@@ -1098,3 +1119,4 @@ export const QuotaLimit = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuotaLimit.typeUrl, QuotaLimit);

@@ -3,6 +3,7 @@ import { Status, StatusSDKType } from "../../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, isObject } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /** Supported quota modes. */
@@ -392,6 +393,12 @@ function createBaseAllocateQuotaRequest(): AllocateQuotaRequest {
 }
 export const AllocateQuotaRequest = {
   typeUrl: "/google.api.servicecontrol.v1.AllocateQuotaRequest",
+  is(o: any): o is AllocateQuotaRequest {
+    return o && (o.$typeUrl === AllocateQuotaRequest.typeUrl || typeof o.serviceName === "string" && typeof o.serviceConfigId === "string");
+  },
+  isSDK(o: any): o is AllocateQuotaRequestSDKType {
+    return o && (o.$typeUrl === AllocateQuotaRequest.typeUrl || typeof o.service_name === "string" && typeof o.service_config_id === "string");
+  },
   encode(message: AllocateQuotaRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -505,6 +512,7 @@ export const AllocateQuotaRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(AllocateQuotaRequest.typeUrl, AllocateQuotaRequest);
 function createBaseQuotaOperation_LabelsEntry(): QuotaOperation_LabelsEntry {
   return {
     key: "",
@@ -615,6 +623,12 @@ function createBaseQuotaOperation(): QuotaOperation {
 }
 export const QuotaOperation = {
   typeUrl: "/google.api.servicecontrol.v1.QuotaOperation",
+  is(o: any): o is QuotaOperation {
+    return o && (o.$typeUrl === QuotaOperation.typeUrl || typeof o.operationId === "string" && typeof o.methodName === "string" && typeof o.consumerId === "string" && isSet(o.labels) && Array.isArray(o.quotaMetrics) && (!o.quotaMetrics.length || MetricValueSet.is(o.quotaMetrics[0])) && isSet(o.quotaMode));
+  },
+  isSDK(o: any): o is QuotaOperationSDKType {
+    return o && (o.$typeUrl === QuotaOperation.typeUrl || typeof o.operation_id === "string" && typeof o.method_name === "string" && typeof o.consumer_id === "string" && isSet(o.labels) && Array.isArray(o.quota_metrics) && (!o.quota_metrics.length || MetricValueSet.isSDK(o.quota_metrics[0])) && isSet(o.quota_mode));
+  },
   encode(message: QuotaOperation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.operationId !== "") {
       writer.uint32(10).string(message.operationId);
@@ -834,6 +848,7 @@ export const QuotaOperation = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuotaOperation.typeUrl, QuotaOperation);
 function createBaseAllocateQuotaResponse(): AllocateQuotaResponse {
   return {
     operationId: "",
@@ -844,6 +859,12 @@ function createBaseAllocateQuotaResponse(): AllocateQuotaResponse {
 }
 export const AllocateQuotaResponse = {
   typeUrl: "/google.api.servicecontrol.v1.AllocateQuotaResponse",
+  is(o: any): o is AllocateQuotaResponse {
+    return o && (o.$typeUrl === AllocateQuotaResponse.typeUrl || typeof o.operationId === "string" && Array.isArray(o.allocateErrors) && (!o.allocateErrors.length || QuotaError.is(o.allocateErrors[0])) && Array.isArray(o.quotaMetrics) && (!o.quotaMetrics.length || MetricValueSet.is(o.quotaMetrics[0])) && typeof o.serviceConfigId === "string");
+  },
+  isSDK(o: any): o is AllocateQuotaResponseSDKType {
+    return o && (o.$typeUrl === AllocateQuotaResponse.typeUrl || typeof o.operation_id === "string" && Array.isArray(o.allocate_errors) && (!o.allocate_errors.length || QuotaError.isSDK(o.allocate_errors[0])) && Array.isArray(o.quota_metrics) && (!o.quota_metrics.length || MetricValueSet.isSDK(o.quota_metrics[0])) && typeof o.service_config_id === "string");
+  },
   encode(message: AllocateQuotaResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.operationId !== "") {
       writer.uint32(10).string(message.operationId);
@@ -993,6 +1014,7 @@ export const AllocateQuotaResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AllocateQuotaResponse.typeUrl, AllocateQuotaResponse);
 function createBaseQuotaError(): QuotaError {
   return {
     code: 0,
@@ -1003,6 +1025,12 @@ function createBaseQuotaError(): QuotaError {
 }
 export const QuotaError = {
   typeUrl: "/google.api.servicecontrol.v1.QuotaError",
+  is(o: any): o is QuotaError {
+    return o && (o.$typeUrl === QuotaError.typeUrl || isSet(o.code) && typeof o.subject === "string" && typeof o.description === "string");
+  },
+  isSDK(o: any): o is QuotaErrorSDKType {
+    return o && (o.$typeUrl === QuotaError.typeUrl || isSet(o.code) && typeof o.subject === "string" && typeof o.description === "string");
+  },
   encode(message: QuotaError, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.code !== 0) {
       writer.uint32(8).int32(message.code);
@@ -1132,3 +1160,4 @@ export const QuotaError = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuotaError.typeUrl, QuotaError);

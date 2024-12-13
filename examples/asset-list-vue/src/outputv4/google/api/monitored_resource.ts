@@ -1,9 +1,10 @@
 import { LabelDescriptor, LabelDescriptorSDKType } from "./label";
 import { LaunchStage, LaunchStageSDKType, launchStageFromJSON, launchStageToJSON } from "./launch_stage";
 import { Struct, StructSDKType } from "../protobuf/struct";
-import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, isObject } from "../../helpers";
+import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
@@ -241,6 +242,12 @@ function createBaseMonitoredResourceDescriptor(): MonitoredResourceDescriptor {
 }
 export const MonitoredResourceDescriptor = {
   typeUrl: "/google.api.MonitoredResourceDescriptor",
+  is(o: any): o is MonitoredResourceDescriptor {
+    return o && (o.$typeUrl === MonitoredResourceDescriptor.typeUrl || typeof o.name === "string" && typeof o.type === "string" && typeof o.displayName === "string" && typeof o.description === "string" && Array.isArray(o.labels) && (!o.labels.length || LabelDescriptor.is(o.labels[0])) && isSet(o.launchStage));
+  },
+  isSDK(o: any): o is MonitoredResourceDescriptorSDKType {
+    return o && (o.$typeUrl === MonitoredResourceDescriptor.typeUrl || typeof o.name === "string" && typeof o.type === "string" && typeof o.display_name === "string" && typeof o.description === "string" && Array.isArray(o.labels) && (!o.labels.length || LabelDescriptor.isSDK(o.labels[0])) && isSet(o.launch_stage));
+  },
   encode(message: MonitoredResourceDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(42).string(message.name);
@@ -412,6 +419,7 @@ export const MonitoredResourceDescriptor = {
     };
   }
 };
+GlobalDecoderRegistry.register(MonitoredResourceDescriptor.typeUrl, MonitoredResourceDescriptor);
 function createBaseMonitoredResource_LabelsEntry(): MonitoredResource_LabelsEntry {
   return {
     key: "",
@@ -518,6 +526,12 @@ function createBaseMonitoredResource(): MonitoredResource {
 }
 export const MonitoredResource = {
   typeUrl: "/google.api.MonitoredResource",
+  is(o: any): o is MonitoredResource {
+    return o && (o.$typeUrl === MonitoredResource.typeUrl || typeof o.type === "string" && isSet(o.labels));
+  },
+  isSDK(o: any): o is MonitoredResourceSDKType {
+    return o && (o.$typeUrl === MonitoredResource.typeUrl || typeof o.type === "string" && isSet(o.labels));
+  },
   encode(message: MonitoredResource, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.type !== "") {
       writer.uint32(10).string(message.type);
@@ -663,6 +677,7 @@ export const MonitoredResource = {
     };
   }
 };
+GlobalDecoderRegistry.register(MonitoredResource.typeUrl, MonitoredResource);
 function createBaseMonitoredResourceMetadata_UserLabelsEntry(): MonitoredResourceMetadata_UserLabelsEntry {
   return {
     key: "",
@@ -769,6 +784,12 @@ function createBaseMonitoredResourceMetadata(): MonitoredResourceMetadata {
 }
 export const MonitoredResourceMetadata = {
   typeUrl: "/google.api.MonitoredResourceMetadata",
+  is(o: any): o is MonitoredResourceMetadata {
+    return o && (o.$typeUrl === MonitoredResourceMetadata.typeUrl || isSet(o.userLabels));
+  },
+  isSDK(o: any): o is MonitoredResourceMetadataSDKType {
+    return o && (o.$typeUrl === MonitoredResourceMetadata.typeUrl || isSet(o.user_labels));
+  },
   encode(message: MonitoredResourceMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.systemLabels !== undefined) {
       Struct.encode(message.systemLabels, writer.uint32(10).fork()).ldelim();
@@ -914,3 +935,4 @@ export const MonitoredResourceMetadata = {
     };
   }
 };
+GlobalDecoderRegistry.register(MonitoredResourceMetadata.typeUrl, MonitoredResourceMetadata);

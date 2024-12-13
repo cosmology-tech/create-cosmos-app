@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /** Configuration controlling usage of a service. */
@@ -148,6 +149,12 @@ function createBaseUsage(): Usage {
 }
 export const Usage = {
   typeUrl: "/google.api.Usage",
+  is(o: any): o is Usage {
+    return o && (o.$typeUrl === Usage.typeUrl || Array.isArray(o.requirements) && (!o.requirements.length || typeof o.requirements[0] === "string") && Array.isArray(o.rules) && (!o.rules.length || UsageRule.is(o.rules[0])) && typeof o.producerNotificationChannel === "string");
+  },
+  isSDK(o: any): o is UsageSDKType {
+    return o && (o.$typeUrl === Usage.typeUrl || Array.isArray(o.requirements) && (!o.requirements.length || typeof o.requirements[0] === "string") && Array.isArray(o.rules) && (!o.rules.length || UsageRule.isSDK(o.rules[0])) && typeof o.producer_notification_channel === "string");
+  },
   encode(message: Usage, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.requirements) {
       writer.uint32(10).string(v!);
@@ -281,6 +288,7 @@ export const Usage = {
     };
   }
 };
+GlobalDecoderRegistry.register(Usage.typeUrl, Usage);
 function createBaseUsageRule(): UsageRule {
   return {
     selector: "",
@@ -290,6 +298,12 @@ function createBaseUsageRule(): UsageRule {
 }
 export const UsageRule = {
   typeUrl: "/google.api.UsageRule",
+  is(o: any): o is UsageRule {
+    return o && (o.$typeUrl === UsageRule.typeUrl || typeof o.selector === "string" && typeof o.allowUnregisteredCalls === "boolean" && typeof o.skipServiceControl === "boolean");
+  },
+  isSDK(o: any): o is UsageRuleSDKType {
+    return o && (o.$typeUrl === UsageRule.typeUrl || typeof o.selector === "string" && typeof o.allow_unregistered_calls === "boolean" && typeof o.skip_service_control === "boolean");
+  },
   encode(message: UsageRule, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.selector !== "") {
       writer.uint32(10).string(message.selector);
@@ -403,3 +417,4 @@ export const UsageRule = {
     };
   }
 };
+GlobalDecoderRegistry.register(UsageRule.typeUrl, UsageRule);

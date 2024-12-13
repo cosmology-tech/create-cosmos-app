@@ -6,9 +6,10 @@ import { Usage, UsageSDKType } from "../../usage";
 import { Endpoint, EndpointSDKType } from "../../endpoint";
 import { MonitoredResourceDescriptor, MonitoredResourceDescriptorSDKType } from "../../monitored_resource";
 import { Monitoring, MonitoringSDKType } from "../../monitoring";
-import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, isObject } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.serviceusage.v1beta1";
 /** Whether or not a service has been enabled for use by a consumer. */
@@ -762,6 +763,12 @@ function createBaseService(): Service {
 }
 export const Service = {
   typeUrl: "/google.api.serviceusage.v1beta1.Service",
+  is(o: any): o is Service {
+    return o && (o.$typeUrl === Service.typeUrl || typeof o.name === "string" && typeof o.parent === "string" && isSet(o.state));
+  },
+  isSDK(o: any): o is ServiceSDKType {
+    return o && (o.$typeUrl === Service.typeUrl || typeof o.name === "string" && typeof o.parent === "string" && isSet(o.state));
+  },
   encode(message: Service, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -891,6 +898,7 @@ export const Service = {
     };
   }
 };
+GlobalDecoderRegistry.register(Service.typeUrl, Service);
 function createBaseServiceConfig(): ServiceConfig {
   return {
     name: "",
@@ -907,6 +915,12 @@ function createBaseServiceConfig(): ServiceConfig {
 }
 export const ServiceConfig = {
   typeUrl: "/google.api.serviceusage.v1beta1.ServiceConfig",
+  is(o: any): o is ServiceConfig {
+    return o && (o.$typeUrl === ServiceConfig.typeUrl || typeof o.name === "string" && typeof o.title === "string" && Array.isArray(o.apis) && (!o.apis.length || Api.is(o.apis[0])) && Array.isArray(o.endpoints) && (!o.endpoints.length || Endpoint.is(o.endpoints[0])) && Array.isArray(o.monitoredResources) && (!o.monitoredResources.length || MonitoredResourceDescriptor.is(o.monitoredResources[0])));
+  },
+  isSDK(o: any): o is ServiceConfigSDKType {
+    return o && (o.$typeUrl === ServiceConfig.typeUrl || typeof o.name === "string" && typeof o.title === "string" && Array.isArray(o.apis) && (!o.apis.length || Api.isSDK(o.apis[0])) && Array.isArray(o.endpoints) && (!o.endpoints.length || Endpoint.isSDK(o.endpoints[0])) && Array.isArray(o.monitored_resources) && (!o.monitored_resources.length || MonitoredResourceDescriptor.isSDK(o.monitored_resources[0])));
+  },
   encode(message: ServiceConfig, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -1162,6 +1176,7 @@ export const ServiceConfig = {
     };
   }
 };
+GlobalDecoderRegistry.register(ServiceConfig.typeUrl, ServiceConfig);
 function createBaseOperationMetadata(): OperationMetadata {
   return {
     resourceNames: []
@@ -1169,6 +1184,12 @@ function createBaseOperationMetadata(): OperationMetadata {
 }
 export const OperationMetadata = {
   typeUrl: "/google.api.serviceusage.v1beta1.OperationMetadata",
+  is(o: any): o is OperationMetadata {
+    return o && (o.$typeUrl === OperationMetadata.typeUrl || Array.isArray(o.resourceNames) && (!o.resourceNames.length || typeof o.resourceNames[0] === "string"));
+  },
+  isSDK(o: any): o is OperationMetadataSDKType {
+    return o && (o.$typeUrl === OperationMetadata.typeUrl || Array.isArray(o.resource_names) && (!o.resource_names.length || typeof o.resource_names[0] === "string"));
+  },
   encode(message: OperationMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.resourceNames) {
       writer.uint32(18).string(v!);
@@ -1260,6 +1281,7 @@ export const OperationMetadata = {
     };
   }
 };
+GlobalDecoderRegistry.register(OperationMetadata.typeUrl, OperationMetadata);
 function createBaseConsumerQuotaMetric(): ConsumerQuotaMetric {
   return {
     name: "",
@@ -1272,6 +1294,12 @@ function createBaseConsumerQuotaMetric(): ConsumerQuotaMetric {
 }
 export const ConsumerQuotaMetric = {
   typeUrl: "/google.api.serviceusage.v1beta1.ConsumerQuotaMetric",
+  is(o: any): o is ConsumerQuotaMetric {
+    return o && (o.$typeUrl === ConsumerQuotaMetric.typeUrl || typeof o.name === "string" && typeof o.metric === "string" && typeof o.displayName === "string" && Array.isArray(o.consumerQuotaLimits) && (!o.consumerQuotaLimits.length || ConsumerQuotaLimit.is(o.consumerQuotaLimits[0])) && Array.isArray(o.descendantConsumerQuotaLimits) && (!o.descendantConsumerQuotaLimits.length || ConsumerQuotaLimit.is(o.descendantConsumerQuotaLimits[0])) && typeof o.unit === "string");
+  },
+  isSDK(o: any): o is ConsumerQuotaMetricSDKType {
+    return o && (o.$typeUrl === ConsumerQuotaMetric.typeUrl || typeof o.name === "string" && typeof o.metric === "string" && typeof o.display_name === "string" && Array.isArray(o.consumer_quota_limits) && (!o.consumer_quota_limits.length || ConsumerQuotaLimit.isSDK(o.consumer_quota_limits[0])) && Array.isArray(o.descendant_consumer_quota_limits) && (!o.descendant_consumer_quota_limits.length || ConsumerQuotaLimit.isSDK(o.descendant_consumer_quota_limits[0])) && typeof o.unit === "string");
+  },
   encode(message: ConsumerQuotaMetric, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -1453,6 +1481,7 @@ export const ConsumerQuotaMetric = {
     };
   }
 };
+GlobalDecoderRegistry.register(ConsumerQuotaMetric.typeUrl, ConsumerQuotaMetric);
 function createBaseConsumerQuotaLimit(): ConsumerQuotaLimit {
   return {
     name: "",
@@ -1465,6 +1494,12 @@ function createBaseConsumerQuotaLimit(): ConsumerQuotaLimit {
 }
 export const ConsumerQuotaLimit = {
   typeUrl: "/google.api.serviceusage.v1beta1.ConsumerQuotaLimit",
+  is(o: any): o is ConsumerQuotaLimit {
+    return o && (o.$typeUrl === ConsumerQuotaLimit.typeUrl || typeof o.name === "string" && typeof o.metric === "string" && typeof o.unit === "string" && typeof o.isPrecise === "boolean" && typeof o.allowsAdminOverrides === "boolean" && Array.isArray(o.quotaBuckets) && (!o.quotaBuckets.length || QuotaBucket.is(o.quotaBuckets[0])));
+  },
+  isSDK(o: any): o is ConsumerQuotaLimitSDKType {
+    return o && (o.$typeUrl === ConsumerQuotaLimit.typeUrl || typeof o.name === "string" && typeof o.metric === "string" && typeof o.unit === "string" && typeof o.is_precise === "boolean" && typeof o.allows_admin_overrides === "boolean" && Array.isArray(o.quota_buckets) && (!o.quota_buckets.length || QuotaBucket.isSDK(o.quota_buckets[0])));
+  },
   encode(message: ConsumerQuotaLimit, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -1636,6 +1671,7 @@ export const ConsumerQuotaLimit = {
     };
   }
 };
+GlobalDecoderRegistry.register(ConsumerQuotaLimit.typeUrl, ConsumerQuotaLimit);
 function createBaseQuotaBucket_DimensionsEntry(): QuotaBucket_DimensionsEntry {
   return {
     key: "",
@@ -1746,6 +1782,12 @@ function createBaseQuotaBucket(): QuotaBucket {
 }
 export const QuotaBucket = {
   typeUrl: "/google.api.serviceusage.v1beta1.QuotaBucket",
+  is(o: any): o is QuotaBucket {
+    return o && (o.$typeUrl === QuotaBucket.typeUrl || typeof o.effectiveLimit === "bigint" && typeof o.defaultLimit === "bigint" && isSet(o.dimensions));
+  },
+  isSDK(o: any): o is QuotaBucketSDKType {
+    return o && (o.$typeUrl === QuotaBucket.typeUrl || typeof o.effective_limit === "bigint" && typeof o.default_limit === "bigint" && isSet(o.dimensions));
+  },
   encode(message: QuotaBucket, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.effectiveLimit !== BigInt(0)) {
       writer.uint32(8).int64(message.effectiveLimit);
@@ -1955,6 +1997,7 @@ export const QuotaBucket = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuotaBucket.typeUrl, QuotaBucket);
 function createBaseQuotaOverride_DimensionsEntry(): QuotaOverride_DimensionsEntry {
   return {
     key: "",
@@ -2065,6 +2108,12 @@ function createBaseQuotaOverride(): QuotaOverride {
 }
 export const QuotaOverride = {
   typeUrl: "/google.api.serviceusage.v1beta1.QuotaOverride",
+  is(o: any): o is QuotaOverride {
+    return o && (o.$typeUrl === QuotaOverride.typeUrl || typeof o.name === "string" && typeof o.overrideValue === "bigint" && isSet(o.dimensions) && typeof o.metric === "string" && typeof o.unit === "string" && typeof o.adminOverrideAncestor === "string");
+  },
+  isSDK(o: any): o is QuotaOverrideSDKType {
+    return o && (o.$typeUrl === QuotaOverride.typeUrl || typeof o.name === "string" && typeof o.override_value === "bigint" && isSet(o.dimensions) && typeof o.metric === "string" && typeof o.unit === "string" && typeof o.admin_override_ancestor === "string");
+  },
   encode(message: QuotaOverride, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -2274,6 +2323,7 @@ export const QuotaOverride = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuotaOverride.typeUrl, QuotaOverride);
 function createBaseOverrideInlineSource(): OverrideInlineSource {
   return {
     overrides: []
@@ -2281,6 +2331,12 @@ function createBaseOverrideInlineSource(): OverrideInlineSource {
 }
 export const OverrideInlineSource = {
   typeUrl: "/google.api.serviceusage.v1beta1.OverrideInlineSource",
+  is(o: any): o is OverrideInlineSource {
+    return o && (o.$typeUrl === OverrideInlineSource.typeUrl || Array.isArray(o.overrides) && (!o.overrides.length || QuotaOverride.is(o.overrides[0])));
+  },
+  isSDK(o: any): o is OverrideInlineSourceSDKType {
+    return o && (o.$typeUrl === OverrideInlineSource.typeUrl || Array.isArray(o.overrides) && (!o.overrides.length || QuotaOverride.isSDK(o.overrides[0])));
+  },
   encode(message: OverrideInlineSource, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.overrides) {
       QuotaOverride.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -2372,6 +2428,7 @@ export const OverrideInlineSource = {
     };
   }
 };
+GlobalDecoderRegistry.register(OverrideInlineSource.typeUrl, OverrideInlineSource);
 function createBaseAdminQuotaPolicy_DimensionsEntry(): AdminQuotaPolicy_DimensionsEntry {
   return {
     key: "",
@@ -2482,6 +2539,12 @@ function createBaseAdminQuotaPolicy(): AdminQuotaPolicy {
 }
 export const AdminQuotaPolicy = {
   typeUrl: "/google.api.serviceusage.v1beta1.AdminQuotaPolicy",
+  is(o: any): o is AdminQuotaPolicy {
+    return o && (o.$typeUrl === AdminQuotaPolicy.typeUrl || typeof o.name === "string" && typeof o.policyValue === "bigint" && isSet(o.dimensions) && typeof o.metric === "string" && typeof o.unit === "string" && typeof o.container === "string");
+  },
+  isSDK(o: any): o is AdminQuotaPolicySDKType {
+    return o && (o.$typeUrl === AdminQuotaPolicy.typeUrl || typeof o.name === "string" && typeof o.policy_value === "bigint" && isSet(o.dimensions) && typeof o.metric === "string" && typeof o.unit === "string" && typeof o.container === "string");
+  },
   encode(message: AdminQuotaPolicy, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -2691,6 +2754,7 @@ export const AdminQuotaPolicy = {
     };
   }
 };
+GlobalDecoderRegistry.register(AdminQuotaPolicy.typeUrl, AdminQuotaPolicy);
 function createBaseServiceIdentity(): ServiceIdentity {
   return {
     email: "",
@@ -2699,6 +2763,12 @@ function createBaseServiceIdentity(): ServiceIdentity {
 }
 export const ServiceIdentity = {
   typeUrl: "/google.api.serviceusage.v1beta1.ServiceIdentity",
+  is(o: any): o is ServiceIdentity {
+    return o && (o.$typeUrl === ServiceIdentity.typeUrl || typeof o.email === "string" && typeof o.uniqueId === "string");
+  },
+  isSDK(o: any): o is ServiceIdentitySDKType {
+    return o && (o.$typeUrl === ServiceIdentity.typeUrl || typeof o.email === "string" && typeof o.unique_id === "string");
+  },
   encode(message: ServiceIdentity, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.email !== "") {
       writer.uint32(10).string(message.email);
@@ -2796,3 +2866,4 @@ export const ServiceIdentity = {
     };
   }
 };
+GlobalDecoderRegistry.register(ServiceIdentity.typeUrl, ServiceIdentity);

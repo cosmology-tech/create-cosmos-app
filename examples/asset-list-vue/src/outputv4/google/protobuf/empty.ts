@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial } from "../../helpers";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf";
 /**
@@ -37,6 +38,12 @@ function createBaseEmpty(): Empty {
 }
 export const Empty = {
   typeUrl: "/google.protobuf.Empty",
+  is(o: any): o is Empty {
+    return o && o.$typeUrl === Empty.typeUrl;
+  },
+  isSDK(o: any): o is EmptySDKType {
+    return o && o.$typeUrl === Empty.typeUrl;
+  },
   encode(_: Empty, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -99,3 +106,4 @@ export const Empty = {
     };
   }
 };
+GlobalDecoderRegistry.register(Empty.typeUrl, Empty);

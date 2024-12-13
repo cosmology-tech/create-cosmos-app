@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf";
 /**
@@ -35,6 +36,12 @@ function createBaseSourceContext(): SourceContext {
 }
 export const SourceContext = {
   typeUrl: "/google.protobuf.SourceContext",
+  is(o: any): o is SourceContext {
+    return o && (o.$typeUrl === SourceContext.typeUrl || typeof o.fileName === "string");
+  },
+  isSDK(o: any): o is SourceContextSDKType {
+    return o && (o.$typeUrl === SourceContext.typeUrl || typeof o.file_name === "string");
+  },
   encode(message: SourceContext, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.fileName !== "") {
       writer.uint32(10).string(message.fileName);
@@ -116,3 +123,4 @@ export const SourceContext = {
     };
   }
 };
+GlobalDecoderRegistry.register(SourceContext.typeUrl, SourceContext);

@@ -4,6 +4,7 @@ import { PeriodLock, PeriodLockSDKType } from "./lock";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.lockup";
 export interface MsgLockTokens {
@@ -191,6 +192,13 @@ function createBaseMsgLockTokens(): MsgLockTokens {
 }
 export const MsgLockTokens = {
   typeUrl: "/osmosis.lockup.MsgLockTokens",
+  aminoType: "osmosis/lockup/lock-tokens",
+  is(o: any): o is MsgLockTokens {
+    return o && (o.$typeUrl === MsgLockTokens.typeUrl || typeof o.owner === "string" && Duration.is(o.duration) && Array.isArray(o.coins) && (!o.coins.length || Coin.is(o.coins[0])));
+  },
+  isSDK(o: any): o is MsgLockTokensSDKType {
+    return o && (o.$typeUrl === MsgLockTokens.typeUrl || typeof o.owner === "string" && Duration.isSDK(o.duration) && Array.isArray(o.coins) && (!o.coins.length || Coin.isSDK(o.coins[0])));
+  },
   encode(message: MsgLockTokens, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -320,6 +328,8 @@ export const MsgLockTokens = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgLockTokens.typeUrl, MsgLockTokens);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgLockTokens.aminoType, MsgLockTokens.typeUrl);
 function createBaseMsgLockTokensResponse(): MsgLockTokensResponse {
   return {
     iD: BigInt(0)
@@ -327,6 +337,13 @@ function createBaseMsgLockTokensResponse(): MsgLockTokensResponse {
 }
 export const MsgLockTokensResponse = {
   typeUrl: "/osmosis.lockup.MsgLockTokensResponse",
+  aminoType: "osmosis/lockup/lock-tokens-response",
+  is(o: any): o is MsgLockTokensResponse {
+    return o && (o.$typeUrl === MsgLockTokensResponse.typeUrl || typeof o.iD === "bigint");
+  },
+  isSDK(o: any): o is MsgLockTokensResponseSDKType {
+    return o && (o.$typeUrl === MsgLockTokensResponse.typeUrl || typeof o.ID === "bigint");
+  },
   encode(message: MsgLockTokensResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.iD !== BigInt(0)) {
       writer.uint32(8).uint64(message.iD);
@@ -414,6 +431,8 @@ export const MsgLockTokensResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgLockTokensResponse.typeUrl, MsgLockTokensResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgLockTokensResponse.aminoType, MsgLockTokensResponse.typeUrl);
 function createBaseMsgBeginUnlockingAll(): MsgBeginUnlockingAll {
   return {
     owner: ""
@@ -421,6 +440,13 @@ function createBaseMsgBeginUnlockingAll(): MsgBeginUnlockingAll {
 }
 export const MsgBeginUnlockingAll = {
   typeUrl: "/osmosis.lockup.MsgBeginUnlockingAll",
+  aminoType: "osmosis/lockup/begin-unlock-tokens",
+  is(o: any): o is MsgBeginUnlockingAll {
+    return o && (o.$typeUrl === MsgBeginUnlockingAll.typeUrl || typeof o.owner === "string");
+  },
+  isSDK(o: any): o is MsgBeginUnlockingAllSDKType {
+    return o && (o.$typeUrl === MsgBeginUnlockingAll.typeUrl || typeof o.owner === "string");
+  },
   encode(message: MsgBeginUnlockingAll, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -508,6 +534,8 @@ export const MsgBeginUnlockingAll = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgBeginUnlockingAll.typeUrl, MsgBeginUnlockingAll);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgBeginUnlockingAll.aminoType, MsgBeginUnlockingAll.typeUrl);
 function createBaseMsgBeginUnlockingAllResponse(): MsgBeginUnlockingAllResponse {
   return {
     unlocks: []
@@ -515,6 +543,13 @@ function createBaseMsgBeginUnlockingAllResponse(): MsgBeginUnlockingAllResponse 
 }
 export const MsgBeginUnlockingAllResponse = {
   typeUrl: "/osmosis.lockup.MsgBeginUnlockingAllResponse",
+  aminoType: "osmosis/lockup/begin-unlocking-all-response",
+  is(o: any): o is MsgBeginUnlockingAllResponse {
+    return o && (o.$typeUrl === MsgBeginUnlockingAllResponse.typeUrl || Array.isArray(o.unlocks) && (!o.unlocks.length || PeriodLock.is(o.unlocks[0])));
+  },
+  isSDK(o: any): o is MsgBeginUnlockingAllResponseSDKType {
+    return o && (o.$typeUrl === MsgBeginUnlockingAllResponse.typeUrl || Array.isArray(o.unlocks) && (!o.unlocks.length || PeriodLock.isSDK(o.unlocks[0])));
+  },
   encode(message: MsgBeginUnlockingAllResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.unlocks) {
       PeriodLock.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -612,6 +647,8 @@ export const MsgBeginUnlockingAllResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgBeginUnlockingAllResponse.typeUrl, MsgBeginUnlockingAllResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgBeginUnlockingAllResponse.aminoType, MsgBeginUnlockingAllResponse.typeUrl);
 function createBaseMsgBeginUnlocking(): MsgBeginUnlocking {
   return {
     owner: "",
@@ -621,6 +658,13 @@ function createBaseMsgBeginUnlocking(): MsgBeginUnlocking {
 }
 export const MsgBeginUnlocking = {
   typeUrl: "/osmosis.lockup.MsgBeginUnlocking",
+  aminoType: "osmosis/lockup/begin-unlock-period-lock",
+  is(o: any): o is MsgBeginUnlocking {
+    return o && (o.$typeUrl === MsgBeginUnlocking.typeUrl || typeof o.owner === "string" && typeof o.iD === "bigint" && Array.isArray(o.coins) && (!o.coins.length || Coin.is(o.coins[0])));
+  },
+  isSDK(o: any): o is MsgBeginUnlockingSDKType {
+    return o && (o.$typeUrl === MsgBeginUnlocking.typeUrl || typeof o.owner === "string" && typeof o.ID === "bigint" && Array.isArray(o.coins) && (!o.coins.length || Coin.isSDK(o.coins[0])));
+  },
   encode(message: MsgBeginUnlocking, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -750,6 +794,8 @@ export const MsgBeginUnlocking = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgBeginUnlocking.typeUrl, MsgBeginUnlocking);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgBeginUnlocking.aminoType, MsgBeginUnlocking.typeUrl);
 function createBaseMsgBeginUnlockingResponse(): MsgBeginUnlockingResponse {
   return {
     success: false
@@ -757,6 +803,13 @@ function createBaseMsgBeginUnlockingResponse(): MsgBeginUnlockingResponse {
 }
 export const MsgBeginUnlockingResponse = {
   typeUrl: "/osmosis.lockup.MsgBeginUnlockingResponse",
+  aminoType: "osmosis/lockup/begin-unlocking-response",
+  is(o: any): o is MsgBeginUnlockingResponse {
+    return o && (o.$typeUrl === MsgBeginUnlockingResponse.typeUrl || typeof o.success === "boolean");
+  },
+  isSDK(o: any): o is MsgBeginUnlockingResponseSDKType {
+    return o && (o.$typeUrl === MsgBeginUnlockingResponse.typeUrl || typeof o.success === "boolean");
+  },
   encode(message: MsgBeginUnlockingResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.success === true) {
       writer.uint32(8).bool(message.success);
@@ -844,6 +897,8 @@ export const MsgBeginUnlockingResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgBeginUnlockingResponse.typeUrl, MsgBeginUnlockingResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgBeginUnlockingResponse.aminoType, MsgBeginUnlockingResponse.typeUrl);
 function createBaseMsgExtendLockup(): MsgExtendLockup {
   return {
     owner: "",
@@ -853,6 +908,13 @@ function createBaseMsgExtendLockup(): MsgExtendLockup {
 }
 export const MsgExtendLockup = {
   typeUrl: "/osmosis.lockup.MsgExtendLockup",
+  aminoType: "osmosis/lockup/extend-lockup",
+  is(o: any): o is MsgExtendLockup {
+    return o && (o.$typeUrl === MsgExtendLockup.typeUrl || typeof o.owner === "string" && typeof o.iD === "bigint" && Duration.is(o.duration));
+  },
+  isSDK(o: any): o is MsgExtendLockupSDKType {
+    return o && (o.$typeUrl === MsgExtendLockup.typeUrl || typeof o.owner === "string" && typeof o.ID === "bigint" && Duration.isSDK(o.duration));
+  },
   encode(message: MsgExtendLockup, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -972,6 +1034,8 @@ export const MsgExtendLockup = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgExtendLockup.typeUrl, MsgExtendLockup);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgExtendLockup.aminoType, MsgExtendLockup.typeUrl);
 function createBaseMsgExtendLockupResponse(): MsgExtendLockupResponse {
   return {
     success: false
@@ -979,6 +1043,13 @@ function createBaseMsgExtendLockupResponse(): MsgExtendLockupResponse {
 }
 export const MsgExtendLockupResponse = {
   typeUrl: "/osmosis.lockup.MsgExtendLockupResponse",
+  aminoType: "osmosis/lockup/extend-lockup-response",
+  is(o: any): o is MsgExtendLockupResponse {
+    return o && (o.$typeUrl === MsgExtendLockupResponse.typeUrl || typeof o.success === "boolean");
+  },
+  isSDK(o: any): o is MsgExtendLockupResponseSDKType {
+    return o && (o.$typeUrl === MsgExtendLockupResponse.typeUrl || typeof o.success === "boolean");
+  },
   encode(message: MsgExtendLockupResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.success === true) {
       writer.uint32(8).bool(message.success);
@@ -1066,6 +1137,8 @@ export const MsgExtendLockupResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgExtendLockupResponse.typeUrl, MsgExtendLockupResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgExtendLockupResponse.aminoType, MsgExtendLockupResponse.typeUrl);
 function createBaseMsgForceUnlock(): MsgForceUnlock {
   return {
     owner: "",
@@ -1075,6 +1148,13 @@ function createBaseMsgForceUnlock(): MsgForceUnlock {
 }
 export const MsgForceUnlock = {
   typeUrl: "/osmosis.lockup.MsgForceUnlock",
+  aminoType: "osmosis/lockup/force-unlock",
+  is(o: any): o is MsgForceUnlock {
+    return o && (o.$typeUrl === MsgForceUnlock.typeUrl || typeof o.owner === "string" && typeof o.iD === "bigint" && Array.isArray(o.coins) && (!o.coins.length || Coin.is(o.coins[0])));
+  },
+  isSDK(o: any): o is MsgForceUnlockSDKType {
+    return o && (o.$typeUrl === MsgForceUnlock.typeUrl || typeof o.owner === "string" && typeof o.ID === "bigint" && Array.isArray(o.coins) && (!o.coins.length || Coin.isSDK(o.coins[0])));
+  },
   encode(message: MsgForceUnlock, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -1204,6 +1284,8 @@ export const MsgForceUnlock = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgForceUnlock.typeUrl, MsgForceUnlock);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgForceUnlock.aminoType, MsgForceUnlock.typeUrl);
 function createBaseMsgForceUnlockResponse(): MsgForceUnlockResponse {
   return {
     success: false
@@ -1211,6 +1293,13 @@ function createBaseMsgForceUnlockResponse(): MsgForceUnlockResponse {
 }
 export const MsgForceUnlockResponse = {
   typeUrl: "/osmosis.lockup.MsgForceUnlockResponse",
+  aminoType: "osmosis/lockup/force-unlock-response",
+  is(o: any): o is MsgForceUnlockResponse {
+    return o && (o.$typeUrl === MsgForceUnlockResponse.typeUrl || typeof o.success === "boolean");
+  },
+  isSDK(o: any): o is MsgForceUnlockResponseSDKType {
+    return o && (o.$typeUrl === MsgForceUnlockResponse.typeUrl || typeof o.success === "boolean");
+  },
   encode(message: MsgForceUnlockResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.success === true) {
       writer.uint32(8).bool(message.success);
@@ -1298,3 +1387,5 @@ export const MsgForceUnlockResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgForceUnlockResponse.typeUrl, MsgForceUnlockResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgForceUnlockResponse.aminoType, MsgForceUnlockResponse.typeUrl);

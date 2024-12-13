@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.slashing.v1beta1";
 /** MsgUnjail defines the Msg/Unjail request type */
@@ -34,6 +35,13 @@ function createBaseMsgUnjail(): MsgUnjail {
 }
 export const MsgUnjail = {
   typeUrl: "/cosmos.slashing.v1beta1.MsgUnjail",
+  aminoType: "cosmos-sdk/MsgUnjail",
+  is(o: any): o is MsgUnjail {
+    return o && (o.$typeUrl === MsgUnjail.typeUrl || typeof o.validatorAddr === "string");
+  },
+  isSDK(o: any): o is MsgUnjailSDKType {
+    return o && (o.$typeUrl === MsgUnjail.typeUrl || typeof o.validator_addr === "string");
+  },
   encode(message: MsgUnjail, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.validatorAddr !== "") {
       writer.uint32(10).string(message.validatorAddr);
@@ -121,11 +129,20 @@ export const MsgUnjail = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUnjail.typeUrl, MsgUnjail);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUnjail.aminoType, MsgUnjail.typeUrl);
 function createBaseMsgUnjailResponse(): MsgUnjailResponse {
   return {};
 }
 export const MsgUnjailResponse = {
   typeUrl: "/cosmos.slashing.v1beta1.MsgUnjailResponse",
+  aminoType: "cosmos-sdk/MsgUnjailResponse",
+  is(o: any): o is MsgUnjailResponse {
+    return o && o.$typeUrl === MsgUnjailResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgUnjailResponseSDKType {
+    return o && o.$typeUrl === MsgUnjailResponse.typeUrl;
+  },
   encode(_: MsgUnjailResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -194,3 +211,5 @@ export const MsgUnjailResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUnjailResponse.typeUrl, MsgUnjailResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUnjailResponse.aminoType, MsgUnjailResponse.typeUrl);

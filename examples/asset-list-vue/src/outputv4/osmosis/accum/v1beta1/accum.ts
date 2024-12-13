@@ -3,6 +3,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.accum.v1beta1";
 export interface AccumulatorContent {
@@ -58,6 +59,13 @@ function createBaseAccumulatorContent(): AccumulatorContent {
 }
 export const AccumulatorContent = {
   typeUrl: "/osmosis.accum.v1beta1.AccumulatorContent",
+  aminoType: "osmosis/accum/accumulator-content",
+  is(o: any): o is AccumulatorContent {
+    return o && (o.$typeUrl === AccumulatorContent.typeUrl || Array.isArray(o.accumValue) && (!o.accumValue.length || DecCoin.is(o.accumValue[0])) && typeof o.totalShares === "string");
+  },
+  isSDK(o: any): o is AccumulatorContentSDKType {
+    return o && (o.$typeUrl === AccumulatorContent.typeUrl || Array.isArray(o.accum_value) && (!o.accum_value.length || DecCoin.isSDK(o.accum_value[0])) && typeof o.total_shares === "string");
+  },
   encode(message: AccumulatorContent, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.accumValue) {
       DecCoin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -171,11 +179,20 @@ export const AccumulatorContent = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccumulatorContent.typeUrl, AccumulatorContent);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccumulatorContent.aminoType, AccumulatorContent.typeUrl);
 function createBaseOptions(): Options {
   return {};
 }
 export const Options = {
   typeUrl: "/osmosis.accum.v1beta1.Options",
+  aminoType: "osmosis/accum/options",
+  is(o: any): o is Options {
+    return o && o.$typeUrl === Options.typeUrl;
+  },
+  isSDK(o: any): o is OptionsSDKType {
+    return o && o.$typeUrl === Options.typeUrl;
+  },
   encode(_: Options, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -244,6 +261,8 @@ export const Options = {
     };
   }
 };
+GlobalDecoderRegistry.register(Options.typeUrl, Options);
+GlobalDecoderRegistry.registerAminoProtoMapping(Options.aminoType, Options.typeUrl);
 function createBaseRecord(): Record {
   return {
     numShares: "",
@@ -254,6 +273,13 @@ function createBaseRecord(): Record {
 }
 export const Record = {
   typeUrl: "/osmosis.accum.v1beta1.Record",
+  aminoType: "osmosis/accum/record",
+  is(o: any): o is Record {
+    return o && (o.$typeUrl === Record.typeUrl || typeof o.numShares === "string" && Array.isArray(o.initAccumValue) && (!o.initAccumValue.length || DecCoin.is(o.initAccumValue[0])) && Array.isArray(o.unclaimedRewards) && (!o.unclaimedRewards.length || DecCoin.is(o.unclaimedRewards[0])));
+  },
+  isSDK(o: any): o is RecordSDKType {
+    return o && (o.$typeUrl === Record.typeUrl || typeof o.num_shares === "string" && Array.isArray(o.init_accum_value) && (!o.init_accum_value.length || DecCoin.isSDK(o.init_accum_value[0])) && Array.isArray(o.unclaimed_rewards) && (!o.unclaimed_rewards.length || DecCoin.isSDK(o.unclaimed_rewards[0])));
+  },
   encode(message: Record, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.numShares !== "") {
       writer.uint32(10).string(Decimal.fromUserInput(message.numShares, 18).atomics);
@@ -409,3 +435,5 @@ export const Record = {
     };
   }
 };
+GlobalDecoderRegistry.register(Record.typeUrl, Record);
+GlobalDecoderRegistry.registerAminoProtoMapping(Record.aminoType, Record.typeUrl);

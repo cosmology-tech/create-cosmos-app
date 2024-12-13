@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { JsonSafe } from "../../../../json-safe";
 import { DeepPartial } from "../../../../helpers";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.orm.module.v1alpha1";
 /**
@@ -25,6 +26,13 @@ function createBaseModule(): Module {
 }
 export const Module = {
   typeUrl: "/cosmos.orm.module.v1alpha1.Module",
+  aminoType: "cosmos-sdk/Module",
+  is(o: any): o is Module {
+    return o && o.$typeUrl === Module.typeUrl;
+  },
+  isSDK(o: any): o is ModuleSDKType {
+    return o && o.$typeUrl === Module.typeUrl;
+  },
   encode(_: Module, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -93,3 +101,5 @@ export const Module = {
     };
   }
 };
+GlobalDecoderRegistry.register(Module.typeUrl, Module);
+GlobalDecoderRegistry.registerAminoProtoMapping(Module.aminoType, Module.typeUrl);

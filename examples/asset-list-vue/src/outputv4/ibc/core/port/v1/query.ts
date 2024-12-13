@@ -1,7 +1,8 @@
 import { Order, OrderSDKType, Counterparty, CounterpartySDKType, orderFromJSON, orderToJSON } from "../../channel/v1/channel";
-import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.port.v1";
 /** QueryAppVersionRequest is the request type for the Query/AppVersion RPC method */
@@ -67,6 +68,13 @@ function createBaseQueryAppVersionRequest(): QueryAppVersionRequest {
 }
 export const QueryAppVersionRequest = {
   typeUrl: "/ibc.core.port.v1.QueryAppVersionRequest",
+  aminoType: "cosmos-sdk/QueryAppVersionRequest",
+  is(o: any): o is QueryAppVersionRequest {
+    return o && (o.$typeUrl === QueryAppVersionRequest.typeUrl || typeof o.portId === "string" && typeof o.connectionId === "string" && isSet(o.ordering) && typeof o.proposedVersion === "string");
+  },
+  isSDK(o: any): o is QueryAppVersionRequestSDKType {
+    return o && (o.$typeUrl === QueryAppVersionRequest.typeUrl || typeof o.port_id === "string" && typeof o.connection_id === "string" && isSet(o.ordering) && typeof o.proposed_version === "string");
+  },
   encode(message: QueryAppVersionRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.portId !== "") {
       writer.uint32(10).string(message.portId);
@@ -218,6 +226,8 @@ export const QueryAppVersionRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryAppVersionRequest.typeUrl, QueryAppVersionRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryAppVersionRequest.aminoType, QueryAppVersionRequest.typeUrl);
 function createBaseQueryAppVersionResponse(): QueryAppVersionResponse {
   return {
     portId: "",
@@ -226,6 +236,13 @@ function createBaseQueryAppVersionResponse(): QueryAppVersionResponse {
 }
 export const QueryAppVersionResponse = {
   typeUrl: "/ibc.core.port.v1.QueryAppVersionResponse",
+  aminoType: "cosmos-sdk/QueryAppVersionResponse",
+  is(o: any): o is QueryAppVersionResponse {
+    return o && (o.$typeUrl === QueryAppVersionResponse.typeUrl || typeof o.portId === "string" && typeof o.version === "string");
+  },
+  isSDK(o: any): o is QueryAppVersionResponseSDKType {
+    return o && (o.$typeUrl === QueryAppVersionResponse.typeUrl || typeof o.port_id === "string" && typeof o.version === "string");
+  },
   encode(message: QueryAppVersionResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.portId !== "") {
       writer.uint32(10).string(message.portId);
@@ -329,3 +346,5 @@ export const QueryAppVersionResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryAppVersionResponse.typeUrl, QueryAppVersionResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryAppVersionResponse.aminoType, QueryAppVersionResponse.typeUrl);

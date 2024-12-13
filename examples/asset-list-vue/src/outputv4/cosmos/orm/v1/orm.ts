@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.orm.v1";
 /** TableDescriptor describes an ORM table. */
@@ -153,6 +154,13 @@ function createBaseTableDescriptor(): TableDescriptor {
 }
 export const TableDescriptor = {
   typeUrl: "/cosmos.orm.v1.TableDescriptor",
+  aminoType: "cosmos-sdk/TableDescriptor",
+  is(o: any): o is TableDescriptor {
+    return o && (o.$typeUrl === TableDescriptor.typeUrl || Array.isArray(o.index) && (!o.index.length || SecondaryIndexDescriptor.is(o.index[0])) && typeof o.id === "number");
+  },
+  isSDK(o: any): o is TableDescriptorSDKType {
+    return o && (o.$typeUrl === TableDescriptor.typeUrl || Array.isArray(o.index) && (!o.index.length || SecondaryIndexDescriptor.isSDK(o.index[0])) && typeof o.id === "number");
+  },
   encode(message: TableDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.primaryKey !== undefined) {
       PrimaryKeyDescriptor.encode(message.primaryKey, writer.uint32(10).fork()).ldelim();
@@ -282,6 +290,8 @@ export const TableDescriptor = {
     };
   }
 };
+GlobalDecoderRegistry.register(TableDescriptor.typeUrl, TableDescriptor);
+GlobalDecoderRegistry.registerAminoProtoMapping(TableDescriptor.aminoType, TableDescriptor.typeUrl);
 function createBasePrimaryKeyDescriptor(): PrimaryKeyDescriptor {
   return {
     fields: "",
@@ -290,6 +300,13 @@ function createBasePrimaryKeyDescriptor(): PrimaryKeyDescriptor {
 }
 export const PrimaryKeyDescriptor = {
   typeUrl: "/cosmos.orm.v1.PrimaryKeyDescriptor",
+  aminoType: "cosmos-sdk/PrimaryKeyDescriptor",
+  is(o: any): o is PrimaryKeyDescriptor {
+    return o && (o.$typeUrl === PrimaryKeyDescriptor.typeUrl || typeof o.fields === "string" && typeof o.autoIncrement === "boolean");
+  },
+  isSDK(o: any): o is PrimaryKeyDescriptorSDKType {
+    return o && (o.$typeUrl === PrimaryKeyDescriptor.typeUrl || typeof o.fields === "string" && typeof o.auto_increment === "boolean");
+  },
   encode(message: PrimaryKeyDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.fields !== "") {
       writer.uint32(10).string(message.fields);
@@ -393,6 +410,8 @@ export const PrimaryKeyDescriptor = {
     };
   }
 };
+GlobalDecoderRegistry.register(PrimaryKeyDescriptor.typeUrl, PrimaryKeyDescriptor);
+GlobalDecoderRegistry.registerAminoProtoMapping(PrimaryKeyDescriptor.aminoType, PrimaryKeyDescriptor.typeUrl);
 function createBaseSecondaryIndexDescriptor(): SecondaryIndexDescriptor {
   return {
     fields: "",
@@ -402,6 +421,13 @@ function createBaseSecondaryIndexDescriptor(): SecondaryIndexDescriptor {
 }
 export const SecondaryIndexDescriptor = {
   typeUrl: "/cosmos.orm.v1.SecondaryIndexDescriptor",
+  aminoType: "cosmos-sdk/SecondaryIndexDescriptor",
+  is(o: any): o is SecondaryIndexDescriptor {
+    return o && (o.$typeUrl === SecondaryIndexDescriptor.typeUrl || typeof o.fields === "string" && typeof o.id === "number" && typeof o.unique === "boolean");
+  },
+  isSDK(o: any): o is SecondaryIndexDescriptorSDKType {
+    return o && (o.$typeUrl === SecondaryIndexDescriptor.typeUrl || typeof o.fields === "string" && typeof o.id === "number" && typeof o.unique === "boolean");
+  },
   encode(message: SecondaryIndexDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.fields !== "") {
       writer.uint32(10).string(message.fields);
@@ -521,6 +547,8 @@ export const SecondaryIndexDescriptor = {
     };
   }
 };
+GlobalDecoderRegistry.register(SecondaryIndexDescriptor.typeUrl, SecondaryIndexDescriptor);
+GlobalDecoderRegistry.registerAminoProtoMapping(SecondaryIndexDescriptor.aminoType, SecondaryIndexDescriptor.typeUrl);
 function createBaseSingletonDescriptor(): SingletonDescriptor {
   return {
     id: 0
@@ -528,6 +556,13 @@ function createBaseSingletonDescriptor(): SingletonDescriptor {
 }
 export const SingletonDescriptor = {
   typeUrl: "/cosmos.orm.v1.SingletonDescriptor",
+  aminoType: "cosmos-sdk/SingletonDescriptor",
+  is(o: any): o is SingletonDescriptor {
+    return o && (o.$typeUrl === SingletonDescriptor.typeUrl || typeof o.id === "number");
+  },
+  isSDK(o: any): o is SingletonDescriptorSDKType {
+    return o && (o.$typeUrl === SingletonDescriptor.typeUrl || typeof o.id === "number");
+  },
   encode(message: SingletonDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== 0) {
       writer.uint32(8).uint32(message.id);
@@ -615,3 +650,5 @@ export const SingletonDescriptor = {
     };
   }
 };
+GlobalDecoderRegistry.register(SingletonDescriptor.typeUrl, SingletonDescriptor);
+GlobalDecoderRegistry.registerAminoProtoMapping(SingletonDescriptor.aminoType, SingletonDescriptor.typeUrl);

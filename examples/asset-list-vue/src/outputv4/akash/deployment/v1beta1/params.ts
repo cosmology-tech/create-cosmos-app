@@ -2,6 +2,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta1";
 /** Params defines the parameters for the x/deployment package */
@@ -26,6 +27,13 @@ function createBaseParams(): Params {
 }
 export const Params = {
   typeUrl: "/akash.deployment.v1beta1.Params",
+  aminoType: "akash/deployment/params",
+  is(o: any): o is Params {
+    return o && (o.$typeUrl === Params.typeUrl || Coin.is(o.deploymentMinDeposit));
+  },
+  isSDK(o: any): o is ParamsSDKType {
+    return o && (o.$typeUrl === Params.typeUrl || Coin.isSDK(o.deployment_min_deposit));
+  },
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.deploymentMinDeposit !== undefined) {
       Coin.encode(message.deploymentMinDeposit, writer.uint32(10).fork()).ldelim();
@@ -113,3 +121,5 @@ export const Params = {
     };
   }
 };
+GlobalDecoderRegistry.register(Params.typeUrl, Params);
+GlobalDecoderRegistry.registerAminoProtoMapping(Params.aminoType, Params.typeUrl);

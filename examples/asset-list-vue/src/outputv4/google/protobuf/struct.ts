@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial, isObject } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf";
 /**
@@ -270,6 +271,12 @@ function createBaseStruct(): Struct {
 }
 export const Struct = {
   typeUrl: "/google.protobuf.Struct",
+  is(o: any): o is Struct {
+    return o && (o.$typeUrl === Struct.typeUrl || isSet(o.fields));
+  },
+  isSDK(o: any): o is StructSDKType {
+    return o && (o.$typeUrl === Struct.typeUrl || isSet(o.fields));
+  },
   encode(message: Struct, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     Object.entries(message.fields).forEach(([key, value]) => {
       Struct_FieldsEntry.encode({
@@ -399,6 +406,7 @@ export const Struct = {
     };
   }
 };
+GlobalDecoderRegistry.register(Struct.typeUrl, Struct);
 function createBaseValue(): Value {
   return {
     nullValue: undefined,
@@ -411,6 +419,12 @@ function createBaseValue(): Value {
 }
 export const Value = {
   typeUrl: "/google.protobuf.Value",
+  is(o: any): o is Value {
+    return o && o.$typeUrl === Value.typeUrl;
+  },
+  isSDK(o: any): o is ValueSDKType {
+    return o && o.$typeUrl === Value.typeUrl;
+  },
   encode(message: Value, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.nullValue !== undefined) {
       writer.uint32(8).int32(message.nullValue);
@@ -572,6 +586,7 @@ export const Value = {
     };
   }
 };
+GlobalDecoderRegistry.register(Value.typeUrl, Value);
 function createBaseListValue(): ListValue {
   return {
     values: []
@@ -579,6 +594,12 @@ function createBaseListValue(): ListValue {
 }
 export const ListValue = {
   typeUrl: "/google.protobuf.ListValue",
+  is(o: any): o is ListValue {
+    return o && (o.$typeUrl === ListValue.typeUrl || Array.isArray(o.values) && (!o.values.length || Value.is(o.values[0])));
+  },
+  isSDK(o: any): o is ListValueSDKType {
+    return o && (o.$typeUrl === ListValue.typeUrl || Array.isArray(o.values) && (!o.values.length || Value.isSDK(o.values[0])));
+  },
   encode(message: ListValue, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.values) {
       Value.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -670,3 +691,4 @@ export const ListValue = {
     };
   }
 };
+GlobalDecoderRegistry.register(ListValue.typeUrl, ListValue);

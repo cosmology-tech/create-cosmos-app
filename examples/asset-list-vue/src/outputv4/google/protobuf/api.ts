@@ -1,8 +1,9 @@
 import { Option, OptionSDKType, Syntax, SyntaxSDKType, syntaxFromJSON, syntaxToJSON } from "./type";
 import { SourceContext, SourceContextSDKType } from "./source_context";
-import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
+import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf";
 /**
@@ -325,6 +326,12 @@ function createBaseApi(): Api {
 }
 export const Api = {
   typeUrl: "/google.protobuf.Api",
+  is(o: any): o is Api {
+    return o && (o.$typeUrl === Api.typeUrl || typeof o.name === "string" && Array.isArray(o.methods) && (!o.methods.length || Method.is(o.methods[0])) && Array.isArray(o.options) && (!o.options.length || Option.is(o.options[0])) && typeof o.version === "string" && Array.isArray(o.mixins) && (!o.mixins.length || Mixin.is(o.mixins[0])) && isSet(o.syntax));
+  },
+  isSDK(o: any): o is ApiSDKType {
+    return o && (o.$typeUrl === Api.typeUrl || typeof o.name === "string" && Array.isArray(o.methods) && (!o.methods.length || Method.isSDK(o.methods[0])) && Array.isArray(o.options) && (!o.options.length || Option.isSDK(o.options[0])) && typeof o.version === "string" && Array.isArray(o.mixins) && (!o.mixins.length || Mixin.isSDK(o.mixins[0])) && isSet(o.syntax));
+  },
   encode(message: Api, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -532,6 +539,7 @@ export const Api = {
     };
   }
 };
+GlobalDecoderRegistry.register(Api.typeUrl, Api);
 function createBaseMethod(): Method {
   return {
     name: "",
@@ -545,6 +553,12 @@ function createBaseMethod(): Method {
 }
 export const Method = {
   typeUrl: "/google.protobuf.Method",
+  is(o: any): o is Method {
+    return o && (o.$typeUrl === Method.typeUrl || typeof o.name === "string" && typeof o.requestTypeUrl === "string" && typeof o.requestStreaming === "boolean" && typeof o.responseTypeUrl === "string" && typeof o.responseStreaming === "boolean" && Array.isArray(o.options) && (!o.options.length || Option.is(o.options[0])) && isSet(o.syntax));
+  },
+  isSDK(o: any): o is MethodSDKType {
+    return o && (o.$typeUrl === Method.typeUrl || typeof o.name === "string" && typeof o.request_type_url === "string" && typeof o.request_streaming === "boolean" && typeof o.response_type_url === "string" && typeof o.response_streaming === "boolean" && Array.isArray(o.options) && (!o.options.length || Option.isSDK(o.options[0])) && isSet(o.syntax));
+  },
   encode(message: Method, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -732,6 +746,7 @@ export const Method = {
     };
   }
 };
+GlobalDecoderRegistry.register(Method.typeUrl, Method);
 function createBaseMixin(): Mixin {
   return {
     name: "",
@@ -740,6 +755,12 @@ function createBaseMixin(): Mixin {
 }
 export const Mixin = {
   typeUrl: "/google.protobuf.Mixin",
+  is(o: any): o is Mixin {
+    return o && (o.$typeUrl === Mixin.typeUrl || typeof o.name === "string" && typeof o.root === "string");
+  },
+  isSDK(o: any): o is MixinSDKType {
+    return o && (o.$typeUrl === Mixin.typeUrl || typeof o.name === "string" && typeof o.root === "string");
+  },
   encode(message: Mixin, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -837,3 +858,4 @@ export const Mixin = {
     };
   }
 };
+GlobalDecoderRegistry.register(Mixin.typeUrl, Mixin);

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.fees.v1";
 /** MsgRegisterFeesContract defines a message that registers a DevFeeInfo */
@@ -137,6 +138,12 @@ function createBaseMsgRegisterDevFeeInfo(): MsgRegisterDevFeeInfo {
 }
 export const MsgRegisterDevFeeInfo = {
   typeUrl: "/evmos.fees.v1.MsgRegisterDevFeeInfo",
+  is(o: any): o is MsgRegisterDevFeeInfo {
+    return o && (o.$typeUrl === MsgRegisterDevFeeInfo.typeUrl || typeof o.contractAddress === "string" && typeof o.deployerAddress === "string" && typeof o.withdrawAddress === "string" && Array.isArray(o.nonces) && (!o.nonces.length || typeof o.nonces[0] === "bigint"));
+  },
+  isSDK(o: any): o is MsgRegisterDevFeeInfoSDKType {
+    return o && (o.$typeUrl === MsgRegisterDevFeeInfo.typeUrl || typeof o.contract_address === "string" && typeof o.deployer_address === "string" && typeof o.withdraw_address === "string" && Array.isArray(o.nonces) && (!o.nonces.length || typeof o.nonces[0] === "bigint"));
+  },
   encode(message: MsgRegisterDevFeeInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contractAddress !== "") {
       writer.uint32(10).string(message.contractAddress);
@@ -285,11 +292,18 @@ export const MsgRegisterDevFeeInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRegisterDevFeeInfo.typeUrl, MsgRegisterDevFeeInfo);
 function createBaseMsgRegisterDevFeeInfoResponse(): MsgRegisterDevFeeInfoResponse {
   return {};
 }
 export const MsgRegisterDevFeeInfoResponse = {
   typeUrl: "/evmos.fees.v1.MsgRegisterDevFeeInfoResponse",
+  is(o: any): o is MsgRegisterDevFeeInfoResponse {
+    return o && o.$typeUrl === MsgRegisterDevFeeInfoResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgRegisterDevFeeInfoResponseSDKType {
+    return o && o.$typeUrl === MsgRegisterDevFeeInfoResponse.typeUrl;
+  },
   encode(_: MsgRegisterDevFeeInfoResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -352,6 +366,7 @@ export const MsgRegisterDevFeeInfoResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRegisterDevFeeInfoResponse.typeUrl, MsgRegisterDevFeeInfoResponse);
 function createBaseMsgCancelDevFeeInfo(): MsgCancelDevFeeInfo {
   return {
     contractAddress: "",
@@ -360,6 +375,12 @@ function createBaseMsgCancelDevFeeInfo(): MsgCancelDevFeeInfo {
 }
 export const MsgCancelDevFeeInfo = {
   typeUrl: "/evmos.fees.v1.MsgCancelDevFeeInfo",
+  is(o: any): o is MsgCancelDevFeeInfo {
+    return o && (o.$typeUrl === MsgCancelDevFeeInfo.typeUrl || typeof o.contractAddress === "string" && typeof o.deployerAddress === "string");
+  },
+  isSDK(o: any): o is MsgCancelDevFeeInfoSDKType {
+    return o && (o.$typeUrl === MsgCancelDevFeeInfo.typeUrl || typeof o.contract_address === "string" && typeof o.deployer_address === "string");
+  },
   encode(message: MsgCancelDevFeeInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contractAddress !== "") {
       writer.uint32(10).string(message.contractAddress);
@@ -457,11 +478,18 @@ export const MsgCancelDevFeeInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCancelDevFeeInfo.typeUrl, MsgCancelDevFeeInfo);
 function createBaseMsgCancelDevFeeInfoResponse(): MsgCancelDevFeeInfoResponse {
   return {};
 }
 export const MsgCancelDevFeeInfoResponse = {
   typeUrl: "/evmos.fees.v1.MsgCancelDevFeeInfoResponse",
+  is(o: any): o is MsgCancelDevFeeInfoResponse {
+    return o && o.$typeUrl === MsgCancelDevFeeInfoResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgCancelDevFeeInfoResponseSDKType {
+    return o && o.$typeUrl === MsgCancelDevFeeInfoResponse.typeUrl;
+  },
   encode(_: MsgCancelDevFeeInfoResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -524,6 +552,7 @@ export const MsgCancelDevFeeInfoResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCancelDevFeeInfoResponse.typeUrl, MsgCancelDevFeeInfoResponse);
 function createBaseMsgUpdateDevFeeInfo(): MsgUpdateDevFeeInfo {
   return {
     contractAddress: "",
@@ -533,6 +562,12 @@ function createBaseMsgUpdateDevFeeInfo(): MsgUpdateDevFeeInfo {
 }
 export const MsgUpdateDevFeeInfo = {
   typeUrl: "/evmos.fees.v1.MsgUpdateDevFeeInfo",
+  is(o: any): o is MsgUpdateDevFeeInfo {
+    return o && (o.$typeUrl === MsgUpdateDevFeeInfo.typeUrl || typeof o.contractAddress === "string" && typeof o.deployerAddress === "string" && typeof o.withdrawAddress === "string");
+  },
+  isSDK(o: any): o is MsgUpdateDevFeeInfoSDKType {
+    return o && (o.$typeUrl === MsgUpdateDevFeeInfo.typeUrl || typeof o.contract_address === "string" && typeof o.deployer_address === "string" && typeof o.withdraw_address === "string");
+  },
   encode(message: MsgUpdateDevFeeInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contractAddress !== "") {
       writer.uint32(10).string(message.contractAddress);
@@ -646,11 +681,18 @@ export const MsgUpdateDevFeeInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateDevFeeInfo.typeUrl, MsgUpdateDevFeeInfo);
 function createBaseMsgUpdateDevFeeInfoResponse(): MsgUpdateDevFeeInfoResponse {
   return {};
 }
 export const MsgUpdateDevFeeInfoResponse = {
   typeUrl: "/evmos.fees.v1.MsgUpdateDevFeeInfoResponse",
+  is(o: any): o is MsgUpdateDevFeeInfoResponse {
+    return o && o.$typeUrl === MsgUpdateDevFeeInfoResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgUpdateDevFeeInfoResponseSDKType {
+    return o && o.$typeUrl === MsgUpdateDevFeeInfoResponse.typeUrl;
+  },
   encode(_: MsgUpdateDevFeeInfoResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -713,3 +755,4 @@ export const MsgUpdateDevFeeInfoResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateDevFeeInfoResponse.typeUrl, MsgUpdateDevFeeInfoResponse);

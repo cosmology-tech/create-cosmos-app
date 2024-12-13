@@ -1,6 +1,7 @@
-import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
+import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /** Value types that can be used as label values. */
@@ -77,6 +78,12 @@ function createBaseLabelDescriptor(): LabelDescriptor {
 }
 export const LabelDescriptor = {
   typeUrl: "/google.api.LabelDescriptor",
+  is(o: any): o is LabelDescriptor {
+    return o && (o.$typeUrl === LabelDescriptor.typeUrl || typeof o.key === "string" && isSet(o.valueType) && typeof o.description === "string");
+  },
+  isSDK(o: any): o is LabelDescriptorSDKType {
+    return o && (o.$typeUrl === LabelDescriptor.typeUrl || typeof o.key === "string" && isSet(o.value_type) && typeof o.description === "string");
+  },
   encode(message: LabelDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
@@ -190,3 +197,4 @@ export const LabelDescriptor = {
     };
   }
 };
+GlobalDecoderRegistry.register(LabelDescriptor.typeUrl, LabelDescriptor);

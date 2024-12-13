@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.poolmanager.v1beta1";
 export interface SwapAmountInRoute {
@@ -43,6 +44,13 @@ function createBaseSwapAmountInRoute(): SwapAmountInRoute {
 }
 export const SwapAmountInRoute = {
   typeUrl: "/osmosis.poolmanager.v1beta1.SwapAmountInRoute",
+  aminoType: "osmosis/poolmanager/swap-amount-in-route",
+  is(o: any): o is SwapAmountInRoute {
+    return o && (o.$typeUrl === SwapAmountInRoute.typeUrl || typeof o.poolId === "bigint" && typeof o.tokenOutDenom === "string");
+  },
+  isSDK(o: any): o is SwapAmountInRouteSDKType {
+    return o && (o.$typeUrl === SwapAmountInRoute.typeUrl || typeof o.pool_id === "bigint" && typeof o.token_out_denom === "string");
+  },
   encode(message: SwapAmountInRoute, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -146,6 +154,8 @@ export const SwapAmountInRoute = {
     };
   }
 };
+GlobalDecoderRegistry.register(SwapAmountInRoute.typeUrl, SwapAmountInRoute);
+GlobalDecoderRegistry.registerAminoProtoMapping(SwapAmountInRoute.aminoType, SwapAmountInRoute.typeUrl);
 function createBaseSwapAmountOutRoute(): SwapAmountOutRoute {
   return {
     poolId: BigInt(0),
@@ -154,6 +164,13 @@ function createBaseSwapAmountOutRoute(): SwapAmountOutRoute {
 }
 export const SwapAmountOutRoute = {
   typeUrl: "/osmosis.poolmanager.v1beta1.SwapAmountOutRoute",
+  aminoType: "osmosis/poolmanager/swap-amount-out-route",
+  is(o: any): o is SwapAmountOutRoute {
+    return o && (o.$typeUrl === SwapAmountOutRoute.typeUrl || typeof o.poolId === "bigint" && typeof o.tokenInDenom === "string");
+  },
+  isSDK(o: any): o is SwapAmountOutRouteSDKType {
+    return o && (o.$typeUrl === SwapAmountOutRoute.typeUrl || typeof o.pool_id === "bigint" && typeof o.token_in_denom === "string");
+  },
   encode(message: SwapAmountOutRoute, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -257,3 +274,5 @@ export const SwapAmountOutRoute = {
     };
   }
 };
+GlobalDecoderRegistry.register(SwapAmountOutRoute.typeUrl, SwapAmountOutRoute);
+GlobalDecoderRegistry.registerAminoProtoMapping(SwapAmountOutRoute.aminoType, SwapAmountOutRoute.typeUrl);

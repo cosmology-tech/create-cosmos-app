@@ -2,6 +2,7 @@ import { Value, ValueSDKType } from "./value";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { JsonSafe } from "../../../../json-safe";
 import { DeepPartial, isSet } from "../../../../helpers";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.expr.v1alpha1";
 /**
@@ -71,6 +72,12 @@ function createBaseExplain(): Explain {
 }
 export const Explain = {
   typeUrl: "/google.api.expr.v1alpha1.Explain",
+  is(o: any): o is Explain {
+    return o && (o.$typeUrl === Explain.typeUrl || Array.isArray(o.values) && (!o.values.length || Value.is(o.values[0])) && Array.isArray(o.exprSteps) && (!o.exprSteps.length || Explain_ExprStep.is(o.exprSteps[0])));
+  },
+  isSDK(o: any): o is ExplainSDKType {
+    return o && (o.$typeUrl === Explain.typeUrl || Array.isArray(o.values) && (!o.values.length || Value.isSDK(o.values[0])) && Array.isArray(o.expr_steps) && (!o.expr_steps.length || Explain_ExprStep.isSDK(o.expr_steps[0])));
+  },
   encode(message: Explain, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.values) {
       Value.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -188,6 +195,7 @@ export const Explain = {
     };
   }
 };
+GlobalDecoderRegistry.register(Explain.typeUrl, Explain);
 function createBaseExplain_ExprStep(): Explain_ExprStep {
   return {
     id: BigInt(0),
@@ -196,6 +204,12 @@ function createBaseExplain_ExprStep(): Explain_ExprStep {
 }
 export const Explain_ExprStep = {
   typeUrl: "/google.api.expr.v1alpha1.ExprStep",
+  is(o: any): o is Explain_ExprStep {
+    return o && (o.$typeUrl === Explain_ExprStep.typeUrl || typeof o.id === "bigint" && typeof o.valueIndex === "number");
+  },
+  isSDK(o: any): o is Explain_ExprStepSDKType {
+    return o && (o.$typeUrl === Explain_ExprStep.typeUrl || typeof o.id === "bigint" && typeof o.value_index === "number");
+  },
   encode(message: Explain_ExprStep, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).int64(message.id);
@@ -293,3 +307,4 @@ export const Explain_ExprStep = {
     };
   }
 };
+GlobalDecoderRegistry.register(Explain_ExprStep.typeUrl, Explain_ExprStep);

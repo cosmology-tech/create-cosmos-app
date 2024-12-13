@@ -2,6 +2,7 @@ import { TokenPairArbRoutes, TokenPairArbRoutesSDKType, PoolWeights, PoolWeights
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.protorev.v1beta1";
 /** MsgSetHotRoutes defines the Msg/SetHotRoutes request type. */
@@ -222,6 +223,13 @@ function createBaseMsgSetHotRoutes(): MsgSetHotRoutes {
 }
 export const MsgSetHotRoutes = {
   typeUrl: "/osmosis.protorev.v1beta1.MsgSetHotRoutes",
+  aminoType: "osmosis/MsgSetHotRoutes",
+  is(o: any): o is MsgSetHotRoutes {
+    return o && (o.$typeUrl === MsgSetHotRoutes.typeUrl || typeof o.admin === "string" && Array.isArray(o.hotRoutes) && (!o.hotRoutes.length || TokenPairArbRoutes.is(o.hotRoutes[0])));
+  },
+  isSDK(o: any): o is MsgSetHotRoutesSDKType {
+    return o && (o.$typeUrl === MsgSetHotRoutes.typeUrl || typeof o.admin === "string" && Array.isArray(o.hot_routes) && (!o.hot_routes.length || TokenPairArbRoutes.isSDK(o.hot_routes[0])));
+  },
   encode(message: MsgSetHotRoutes, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -335,11 +343,20 @@ export const MsgSetHotRoutes = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetHotRoutes.typeUrl, MsgSetHotRoutes);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetHotRoutes.aminoType, MsgSetHotRoutes.typeUrl);
 function createBaseMsgSetHotRoutesResponse(): MsgSetHotRoutesResponse {
   return {};
 }
 export const MsgSetHotRoutesResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.MsgSetHotRoutesResponse",
+  aminoType: "osmosis/protorev/set-hot-routes-response",
+  is(o: any): o is MsgSetHotRoutesResponse {
+    return o && o.$typeUrl === MsgSetHotRoutesResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgSetHotRoutesResponseSDKType {
+    return o && o.$typeUrl === MsgSetHotRoutesResponse.typeUrl;
+  },
   encode(_: MsgSetHotRoutesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -408,6 +425,8 @@ export const MsgSetHotRoutesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetHotRoutesResponse.typeUrl, MsgSetHotRoutesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetHotRoutesResponse.aminoType, MsgSetHotRoutesResponse.typeUrl);
 function createBaseMsgSetDeveloperAccount(): MsgSetDeveloperAccount {
   return {
     admin: "",
@@ -416,6 +435,13 @@ function createBaseMsgSetDeveloperAccount(): MsgSetDeveloperAccount {
 }
 export const MsgSetDeveloperAccount = {
   typeUrl: "/osmosis.protorev.v1beta1.MsgSetDeveloperAccount",
+  aminoType: "osmosis/MsgSetDeveloperAccount",
+  is(o: any): o is MsgSetDeveloperAccount {
+    return o && (o.$typeUrl === MsgSetDeveloperAccount.typeUrl || typeof o.admin === "string" && typeof o.developerAccount === "string");
+  },
+  isSDK(o: any): o is MsgSetDeveloperAccountSDKType {
+    return o && (o.$typeUrl === MsgSetDeveloperAccount.typeUrl || typeof o.admin === "string" && typeof o.developer_account === "string");
+  },
   encode(message: MsgSetDeveloperAccount, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -519,11 +545,20 @@ export const MsgSetDeveloperAccount = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetDeveloperAccount.typeUrl, MsgSetDeveloperAccount);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetDeveloperAccount.aminoType, MsgSetDeveloperAccount.typeUrl);
 function createBaseMsgSetDeveloperAccountResponse(): MsgSetDeveloperAccountResponse {
   return {};
 }
 export const MsgSetDeveloperAccountResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.MsgSetDeveloperAccountResponse",
+  aminoType: "osmosis/protorev/set-developer-account-response",
+  is(o: any): o is MsgSetDeveloperAccountResponse {
+    return o && o.$typeUrl === MsgSetDeveloperAccountResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgSetDeveloperAccountResponseSDKType {
+    return o && o.$typeUrl === MsgSetDeveloperAccountResponse.typeUrl;
+  },
   encode(_: MsgSetDeveloperAccountResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -592,6 +627,8 @@ export const MsgSetDeveloperAccountResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetDeveloperAccountResponse.typeUrl, MsgSetDeveloperAccountResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetDeveloperAccountResponse.aminoType, MsgSetDeveloperAccountResponse.typeUrl);
 function createBaseMsgSetPoolWeights(): MsgSetPoolWeights {
   return {
     admin: "",
@@ -600,6 +637,13 @@ function createBaseMsgSetPoolWeights(): MsgSetPoolWeights {
 }
 export const MsgSetPoolWeights = {
   typeUrl: "/osmosis.protorev.v1beta1.MsgSetPoolWeights",
+  aminoType: "osmosis/protorev/set-pool-weights",
+  is(o: any): o is MsgSetPoolWeights {
+    return o && (o.$typeUrl === MsgSetPoolWeights.typeUrl || typeof o.admin === "string" && PoolWeights.is(o.poolWeights));
+  },
+  isSDK(o: any): o is MsgSetPoolWeightsSDKType {
+    return o && (o.$typeUrl === MsgSetPoolWeights.typeUrl || typeof o.admin === "string" && PoolWeights.isSDK(o.pool_weights));
+  },
   encode(message: MsgSetPoolWeights, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -703,11 +747,20 @@ export const MsgSetPoolWeights = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetPoolWeights.typeUrl, MsgSetPoolWeights);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetPoolWeights.aminoType, MsgSetPoolWeights.typeUrl);
 function createBaseMsgSetPoolWeightsResponse(): MsgSetPoolWeightsResponse {
   return {};
 }
 export const MsgSetPoolWeightsResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.MsgSetPoolWeightsResponse",
+  aminoType: "osmosis/protorev/set-pool-weights-response",
+  is(o: any): o is MsgSetPoolWeightsResponse {
+    return o && o.$typeUrl === MsgSetPoolWeightsResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgSetPoolWeightsResponseSDKType {
+    return o && o.$typeUrl === MsgSetPoolWeightsResponse.typeUrl;
+  },
   encode(_: MsgSetPoolWeightsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -776,6 +829,8 @@ export const MsgSetPoolWeightsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetPoolWeightsResponse.typeUrl, MsgSetPoolWeightsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetPoolWeightsResponse.aminoType, MsgSetPoolWeightsResponse.typeUrl);
 function createBaseMsgSetMaxPoolPointsPerTx(): MsgSetMaxPoolPointsPerTx {
   return {
     admin: "",
@@ -784,6 +839,13 @@ function createBaseMsgSetMaxPoolPointsPerTx(): MsgSetMaxPoolPointsPerTx {
 }
 export const MsgSetMaxPoolPointsPerTx = {
   typeUrl: "/osmosis.protorev.v1beta1.MsgSetMaxPoolPointsPerTx",
+  aminoType: "osmosis/protorev/set-max-pool-points-per-tx",
+  is(o: any): o is MsgSetMaxPoolPointsPerTx {
+    return o && (o.$typeUrl === MsgSetMaxPoolPointsPerTx.typeUrl || typeof o.admin === "string" && typeof o.maxPoolPointsPerTx === "bigint");
+  },
+  isSDK(o: any): o is MsgSetMaxPoolPointsPerTxSDKType {
+    return o && (o.$typeUrl === MsgSetMaxPoolPointsPerTx.typeUrl || typeof o.admin === "string" && typeof o.max_pool_points_per_tx === "bigint");
+  },
   encode(message: MsgSetMaxPoolPointsPerTx, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -887,11 +949,20 @@ export const MsgSetMaxPoolPointsPerTx = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetMaxPoolPointsPerTx.typeUrl, MsgSetMaxPoolPointsPerTx);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetMaxPoolPointsPerTx.aminoType, MsgSetMaxPoolPointsPerTx.typeUrl);
 function createBaseMsgSetMaxPoolPointsPerTxResponse(): MsgSetMaxPoolPointsPerTxResponse {
   return {};
 }
 export const MsgSetMaxPoolPointsPerTxResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.MsgSetMaxPoolPointsPerTxResponse",
+  aminoType: "osmosis/protorev/set-max-pool-points-per-tx-response",
+  is(o: any): o is MsgSetMaxPoolPointsPerTxResponse {
+    return o && o.$typeUrl === MsgSetMaxPoolPointsPerTxResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgSetMaxPoolPointsPerTxResponseSDKType {
+    return o && o.$typeUrl === MsgSetMaxPoolPointsPerTxResponse.typeUrl;
+  },
   encode(_: MsgSetMaxPoolPointsPerTxResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -960,6 +1031,8 @@ export const MsgSetMaxPoolPointsPerTxResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetMaxPoolPointsPerTxResponse.typeUrl, MsgSetMaxPoolPointsPerTxResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetMaxPoolPointsPerTxResponse.aminoType, MsgSetMaxPoolPointsPerTxResponse.typeUrl);
 function createBaseMsgSetMaxPoolPointsPerBlock(): MsgSetMaxPoolPointsPerBlock {
   return {
     admin: "",
@@ -968,6 +1041,13 @@ function createBaseMsgSetMaxPoolPointsPerBlock(): MsgSetMaxPoolPointsPerBlock {
 }
 export const MsgSetMaxPoolPointsPerBlock = {
   typeUrl: "/osmosis.protorev.v1beta1.MsgSetMaxPoolPointsPerBlock",
+  aminoType: "osmosis/protorev/set-max-pool-points-per-block",
+  is(o: any): o is MsgSetMaxPoolPointsPerBlock {
+    return o && (o.$typeUrl === MsgSetMaxPoolPointsPerBlock.typeUrl || typeof o.admin === "string" && typeof o.maxPoolPointsPerBlock === "bigint");
+  },
+  isSDK(o: any): o is MsgSetMaxPoolPointsPerBlockSDKType {
+    return o && (o.$typeUrl === MsgSetMaxPoolPointsPerBlock.typeUrl || typeof o.admin === "string" && typeof o.max_pool_points_per_block === "bigint");
+  },
   encode(message: MsgSetMaxPoolPointsPerBlock, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -1071,11 +1151,20 @@ export const MsgSetMaxPoolPointsPerBlock = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetMaxPoolPointsPerBlock.typeUrl, MsgSetMaxPoolPointsPerBlock);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetMaxPoolPointsPerBlock.aminoType, MsgSetMaxPoolPointsPerBlock.typeUrl);
 function createBaseMsgSetMaxPoolPointsPerBlockResponse(): MsgSetMaxPoolPointsPerBlockResponse {
   return {};
 }
 export const MsgSetMaxPoolPointsPerBlockResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.MsgSetMaxPoolPointsPerBlockResponse",
+  aminoType: "osmosis/protorev/set-max-pool-points-per-block-response",
+  is(o: any): o is MsgSetMaxPoolPointsPerBlockResponse {
+    return o && o.$typeUrl === MsgSetMaxPoolPointsPerBlockResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgSetMaxPoolPointsPerBlockResponseSDKType {
+    return o && o.$typeUrl === MsgSetMaxPoolPointsPerBlockResponse.typeUrl;
+  },
   encode(_: MsgSetMaxPoolPointsPerBlockResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1144,6 +1233,8 @@ export const MsgSetMaxPoolPointsPerBlockResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetMaxPoolPointsPerBlockResponse.typeUrl, MsgSetMaxPoolPointsPerBlockResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetMaxPoolPointsPerBlockResponse.aminoType, MsgSetMaxPoolPointsPerBlockResponse.typeUrl);
 function createBaseMsgSetBaseDenoms(): MsgSetBaseDenoms {
   return {
     admin: "",
@@ -1152,6 +1243,13 @@ function createBaseMsgSetBaseDenoms(): MsgSetBaseDenoms {
 }
 export const MsgSetBaseDenoms = {
   typeUrl: "/osmosis.protorev.v1beta1.MsgSetBaseDenoms",
+  aminoType: "osmosis/protorev/set-base-denoms",
+  is(o: any): o is MsgSetBaseDenoms {
+    return o && (o.$typeUrl === MsgSetBaseDenoms.typeUrl || typeof o.admin === "string" && Array.isArray(o.baseDenoms) && (!o.baseDenoms.length || BaseDenom.is(o.baseDenoms[0])));
+  },
+  isSDK(o: any): o is MsgSetBaseDenomsSDKType {
+    return o && (o.$typeUrl === MsgSetBaseDenoms.typeUrl || typeof o.admin === "string" && Array.isArray(o.base_denoms) && (!o.base_denoms.length || BaseDenom.isSDK(o.base_denoms[0])));
+  },
   encode(message: MsgSetBaseDenoms, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -1265,11 +1363,20 @@ export const MsgSetBaseDenoms = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetBaseDenoms.typeUrl, MsgSetBaseDenoms);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetBaseDenoms.aminoType, MsgSetBaseDenoms.typeUrl);
 function createBaseMsgSetBaseDenomsResponse(): MsgSetBaseDenomsResponse {
   return {};
 }
 export const MsgSetBaseDenomsResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.MsgSetBaseDenomsResponse",
+  aminoType: "osmosis/protorev/set-base-denoms-response",
+  is(o: any): o is MsgSetBaseDenomsResponse {
+    return o && o.$typeUrl === MsgSetBaseDenomsResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgSetBaseDenomsResponseSDKType {
+    return o && o.$typeUrl === MsgSetBaseDenomsResponse.typeUrl;
+  },
   encode(_: MsgSetBaseDenomsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1338,3 +1445,5 @@ export const MsgSetBaseDenomsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetBaseDenomsResponse.typeUrl, MsgSetBaseDenomsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetBaseDenomsResponse.aminoType, MsgSetBaseDenomsResponse.typeUrl);

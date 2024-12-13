@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.base.v1beta2";
 /** Attribute represents key value pair */
@@ -79,6 +80,13 @@ function createBaseAttribute(): Attribute {
 }
 export const Attribute = {
   typeUrl: "/akash.base.v1beta2.Attribute",
+  aminoType: "akash/base/v1beta2/attribute",
+  is(o: any): o is Attribute {
+    return o && (o.$typeUrl === Attribute.typeUrl || typeof o.key === "string" && typeof o.value === "string");
+  },
+  isSDK(o: any): o is AttributeSDKType {
+    return o && (o.$typeUrl === Attribute.typeUrl || typeof o.key === "string" && typeof o.value === "string");
+  },
   encode(message: Attribute, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
@@ -182,6 +190,8 @@ export const Attribute = {
     };
   }
 };
+GlobalDecoderRegistry.register(Attribute.typeUrl, Attribute);
+GlobalDecoderRegistry.registerAminoProtoMapping(Attribute.aminoType, Attribute.typeUrl);
 function createBaseSignedBy(): SignedBy {
   return {
     allOf: [],
@@ -190,6 +200,13 @@ function createBaseSignedBy(): SignedBy {
 }
 export const SignedBy = {
   typeUrl: "/akash.base.v1beta2.SignedBy",
+  aminoType: "akash/base/v1beta2/signed-by",
+  is(o: any): o is SignedBy {
+    return o && (o.$typeUrl === SignedBy.typeUrl || Array.isArray(o.allOf) && (!o.allOf.length || typeof o.allOf[0] === "string") && Array.isArray(o.anyOf) && (!o.anyOf.length || typeof o.anyOf[0] === "string"));
+  },
+  isSDK(o: any): o is SignedBySDKType {
+    return o && (o.$typeUrl === SignedBy.typeUrl || Array.isArray(o.all_of) && (!o.all_of.length || typeof o.all_of[0] === "string") && Array.isArray(o.any_of) && (!o.any_of.length || typeof o.any_of[0] === "string"));
+  },
   encode(message: SignedBy, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.allOf) {
       writer.uint32(10).string(v!);
@@ -313,6 +330,8 @@ export const SignedBy = {
     };
   }
 };
+GlobalDecoderRegistry.register(SignedBy.typeUrl, SignedBy);
+GlobalDecoderRegistry.registerAminoProtoMapping(SignedBy.aminoType, SignedBy.typeUrl);
 function createBasePlacementRequirements(): PlacementRequirements {
   return {
     signedBy: SignedBy.fromPartial({}),
@@ -321,6 +340,13 @@ function createBasePlacementRequirements(): PlacementRequirements {
 }
 export const PlacementRequirements = {
   typeUrl: "/akash.base.v1beta2.PlacementRequirements",
+  aminoType: "akash/base/v1beta2/placement-requirements",
+  is(o: any): o is PlacementRequirements {
+    return o && (o.$typeUrl === PlacementRequirements.typeUrl || SignedBy.is(o.signedBy) && Array.isArray(o.attributes) && (!o.attributes.length || Attribute.is(o.attributes[0])));
+  },
+  isSDK(o: any): o is PlacementRequirementsSDKType {
+    return o && (o.$typeUrl === PlacementRequirements.typeUrl || SignedBy.isSDK(o.signed_by) && Array.isArray(o.attributes) && (!o.attributes.length || Attribute.isSDK(o.attributes[0])));
+  },
   encode(message: PlacementRequirements, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.signedBy !== undefined) {
       SignedBy.encode(message.signedBy, writer.uint32(10).fork()).ldelim();
@@ -434,3 +460,5 @@ export const PlacementRequirements = {
     };
   }
 };
+GlobalDecoderRegistry.register(PlacementRequirements.typeUrl, PlacementRequirements);
+GlobalDecoderRegistry.registerAminoProtoMapping(PlacementRequirements.aminoType, PlacementRequirements.typeUrl);

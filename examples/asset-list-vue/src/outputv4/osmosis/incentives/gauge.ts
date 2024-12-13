@@ -5,6 +5,7 @@ import { Duration, DurationSDKType } from "../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.incentives";
 /**
@@ -105,6 +106,13 @@ function createBaseGauge(): Gauge {
 }
 export const Gauge = {
   typeUrl: "/osmosis.incentives.Gauge",
+  aminoType: "osmosis/incentives/gauge",
+  is(o: any): o is Gauge {
+    return o && (o.$typeUrl === Gauge.typeUrl || typeof o.id === "bigint" && typeof o.isPerpetual === "boolean" && QueryCondition.is(o.distributeTo) && Array.isArray(o.coins) && (!o.coins.length || Coin.is(o.coins[0])) && Timestamp.is(o.startTime) && typeof o.numEpochsPaidOver === "bigint" && typeof o.filledEpochs === "bigint" && Array.isArray(o.distributedCoins) && (!o.distributedCoins.length || Coin.is(o.distributedCoins[0])));
+  },
+  isSDK(o: any): o is GaugeSDKType {
+    return o && (o.$typeUrl === Gauge.typeUrl || typeof o.id === "bigint" && typeof o.is_perpetual === "boolean" && QueryCondition.isSDK(o.distribute_to) && Array.isArray(o.coins) && (!o.coins.length || Coin.isSDK(o.coins[0])) && Timestamp.isSDK(o.start_time) && typeof o.num_epochs_paid_over === "bigint" && typeof o.filled_epochs === "bigint" && Array.isArray(o.distributed_coins) && (!o.distributed_coins.length || Coin.isSDK(o.distributed_coins[0])));
+  },
   encode(message: Gauge, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -324,6 +332,8 @@ export const Gauge = {
     };
   }
 };
+GlobalDecoderRegistry.register(Gauge.typeUrl, Gauge);
+GlobalDecoderRegistry.registerAminoProtoMapping(Gauge.aminoType, Gauge.typeUrl);
 function createBaseLockableDurationsInfo(): LockableDurationsInfo {
   return {
     lockableDurations: []
@@ -331,6 +341,13 @@ function createBaseLockableDurationsInfo(): LockableDurationsInfo {
 }
 export const LockableDurationsInfo = {
   typeUrl: "/osmosis.incentives.LockableDurationsInfo",
+  aminoType: "osmosis/incentives/lockable-durations-info",
+  is(o: any): o is LockableDurationsInfo {
+    return o && (o.$typeUrl === LockableDurationsInfo.typeUrl || Array.isArray(o.lockableDurations) && (!o.lockableDurations.length || Duration.is(o.lockableDurations[0])));
+  },
+  isSDK(o: any): o is LockableDurationsInfoSDKType {
+    return o && (o.$typeUrl === LockableDurationsInfo.typeUrl || Array.isArray(o.lockable_durations) && (!o.lockable_durations.length || Duration.isSDK(o.lockable_durations[0])));
+  },
   encode(message: LockableDurationsInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.lockableDurations) {
       Duration.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -428,3 +445,5 @@ export const LockableDurationsInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(LockableDurationsInfo.typeUrl, LockableDurationsInfo);
+GlobalDecoderRegistry.registerAminoProtoMapping(LockableDurationsInfo.aminoType, LockableDurationsInfo.typeUrl);

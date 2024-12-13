@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { bytesFromBase64, base64FromBytes, DeepPartial, isSet } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.crypto.multisig.v1beta1";
 /**
@@ -61,6 +62,13 @@ function createBaseMultiSignature(): MultiSignature {
 }
 export const MultiSignature = {
   typeUrl: "/cosmos.crypto.multisig.v1beta1.MultiSignature",
+  aminoType: "cosmos-sdk/MultiSignature",
+  is(o: any): o is MultiSignature {
+    return o && (o.$typeUrl === MultiSignature.typeUrl || Array.isArray(o.signatures) && (!o.signatures.length || o.signatures[0] instanceof Uint8Array || typeof o.signatures[0] === "string"));
+  },
+  isSDK(o: any): o is MultiSignatureSDKType {
+    return o && (o.$typeUrl === MultiSignature.typeUrl || Array.isArray(o.signatures) && (!o.signatures.length || o.signatures[0] instanceof Uint8Array || typeof o.signatures[0] === "string"));
+  },
   encode(message: MultiSignature, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.signatures) {
       writer.uint32(10).bytes(v!);
@@ -158,6 +166,8 @@ export const MultiSignature = {
     };
   }
 };
+GlobalDecoderRegistry.register(MultiSignature.typeUrl, MultiSignature);
+GlobalDecoderRegistry.registerAminoProtoMapping(MultiSignature.aminoType, MultiSignature.typeUrl);
 function createBaseCompactBitArray(): CompactBitArray {
   return {
     extraBitsStored: 0,
@@ -166,6 +176,13 @@ function createBaseCompactBitArray(): CompactBitArray {
 }
 export const CompactBitArray = {
   typeUrl: "/cosmos.crypto.multisig.v1beta1.CompactBitArray",
+  aminoType: "cosmos-sdk/CompactBitArray",
+  is(o: any): o is CompactBitArray {
+    return o && (o.$typeUrl === CompactBitArray.typeUrl || typeof o.extraBitsStored === "number" && (o.elems instanceof Uint8Array || typeof o.elems === "string"));
+  },
+  isSDK(o: any): o is CompactBitArraySDKType {
+    return o && (o.$typeUrl === CompactBitArray.typeUrl || typeof o.extra_bits_stored === "number" && (o.elems instanceof Uint8Array || typeof o.elems === "string"));
+  },
   encode(message: CompactBitArray, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.extraBitsStored !== 0) {
       writer.uint32(8).uint32(message.extraBitsStored);
@@ -269,3 +286,5 @@ export const CompactBitArray = {
     };
   }
 };
+GlobalDecoderRegistry.register(CompactBitArray.typeUrl, CompactBitArray);
+GlobalDecoderRegistry.registerAminoProtoMapping(CompactBitArray.aminoType, CompactBitArray.typeUrl);

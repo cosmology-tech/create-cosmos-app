@@ -5,6 +5,7 @@ import { Status, StatusSDKType } from "../../../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../../../binary";
 import { isSet, DeepPartial, isObject } from "../../../../../helpers";
 import { JsonSafe } from "../../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.expr.conformance.v1alpha1";
 /** Severities of issues. */
@@ -285,6 +286,12 @@ function createBaseParseRequest(): ParseRequest {
 }
 export const ParseRequest = {
   typeUrl: "/google.api.expr.conformance.v1alpha1.ParseRequest",
+  is(o: any): o is ParseRequest {
+    return o && (o.$typeUrl === ParseRequest.typeUrl || typeof o.celSource === "string" && typeof o.syntaxVersion === "string" && typeof o.sourceLocation === "string" && typeof o.disableMacros === "boolean");
+  },
+  isSDK(o: any): o is ParseRequestSDKType {
+    return o && (o.$typeUrl === ParseRequest.typeUrl || typeof o.cel_source === "string" && typeof o.syntax_version === "string" && typeof o.source_location === "string" && typeof o.disable_macros === "boolean");
+  },
   encode(message: ParseRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.celSource !== "") {
       writer.uint32(10).string(message.celSource);
@@ -414,6 +421,7 @@ export const ParseRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ParseRequest.typeUrl, ParseRequest);
 function createBaseParseResponse(): ParseResponse {
   return {
     parsedExpr: undefined,
@@ -422,6 +430,12 @@ function createBaseParseResponse(): ParseResponse {
 }
 export const ParseResponse = {
   typeUrl: "/google.api.expr.conformance.v1alpha1.ParseResponse",
+  is(o: any): o is ParseResponse {
+    return o && (o.$typeUrl === ParseResponse.typeUrl || Array.isArray(o.issues) && (!o.issues.length || Status.is(o.issues[0])));
+  },
+  isSDK(o: any): o is ParseResponseSDKType {
+    return o && (o.$typeUrl === ParseResponse.typeUrl || Array.isArray(o.issues) && (!o.issues.length || Status.isSDK(o.issues[0])));
+  },
   encode(message: ParseResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parsedExpr !== undefined) {
       ParsedExpr.encode(message.parsedExpr, writer.uint32(10).fork()).ldelim();
@@ -529,6 +543,7 @@ export const ParseResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ParseResponse.typeUrl, ParseResponse);
 function createBaseCheckRequest(): CheckRequest {
   return {
     parsedExpr: undefined,
@@ -539,6 +554,12 @@ function createBaseCheckRequest(): CheckRequest {
 }
 export const CheckRequest = {
   typeUrl: "/google.api.expr.conformance.v1alpha1.CheckRequest",
+  is(o: any): o is CheckRequest {
+    return o && (o.$typeUrl === CheckRequest.typeUrl || Array.isArray(o.typeEnv) && (!o.typeEnv.length || Decl.is(o.typeEnv[0])) && typeof o.container === "string" && typeof o.noStdEnv === "boolean");
+  },
+  isSDK(o: any): o is CheckRequestSDKType {
+    return o && (o.$typeUrl === CheckRequest.typeUrl || Array.isArray(o.type_env) && (!o.type_env.length || Decl.isSDK(o.type_env[0])) && typeof o.container === "string" && typeof o.no_std_env === "boolean");
+  },
   encode(message: CheckRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parsedExpr !== undefined) {
       ParsedExpr.encode(message.parsedExpr, writer.uint32(10).fork()).ldelim();
@@ -678,6 +699,7 @@ export const CheckRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(CheckRequest.typeUrl, CheckRequest);
 function createBaseCheckResponse(): CheckResponse {
   return {
     checkedExpr: undefined,
@@ -686,6 +708,12 @@ function createBaseCheckResponse(): CheckResponse {
 }
 export const CheckResponse = {
   typeUrl: "/google.api.expr.conformance.v1alpha1.CheckResponse",
+  is(o: any): o is CheckResponse {
+    return o && (o.$typeUrl === CheckResponse.typeUrl || Array.isArray(o.issues) && (!o.issues.length || Status.is(o.issues[0])));
+  },
+  isSDK(o: any): o is CheckResponseSDKType {
+    return o && (o.$typeUrl === CheckResponse.typeUrl || Array.isArray(o.issues) && (!o.issues.length || Status.isSDK(o.issues[0])));
+  },
   encode(message: CheckResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.checkedExpr !== undefined) {
       CheckedExpr.encode(message.checkedExpr, writer.uint32(10).fork()).ldelim();
@@ -793,6 +821,7 @@ export const CheckResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(CheckResponse.typeUrl, CheckResponse);
 function createBaseEvalRequest_BindingsEntry(): EvalRequest_BindingsEntry {
   return {
     key: "",
@@ -901,6 +930,12 @@ function createBaseEvalRequest(): EvalRequest {
 }
 export const EvalRequest = {
   typeUrl: "/google.api.expr.conformance.v1alpha1.EvalRequest",
+  is(o: any): o is EvalRequest {
+    return o && (o.$typeUrl === EvalRequest.typeUrl || isSet(o.bindings) && typeof o.container === "string");
+  },
+  isSDK(o: any): o is EvalRequestSDKType {
+    return o && (o.$typeUrl === EvalRequest.typeUrl || isSet(o.bindings) && typeof o.container === "string");
+  },
   encode(message: EvalRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parsedExpr !== undefined) {
       ParsedExpr.encode(message.parsedExpr, writer.uint32(10).fork()).ldelim();
@@ -1078,6 +1113,7 @@ export const EvalRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(EvalRequest.typeUrl, EvalRequest);
 function createBaseEvalResponse(): EvalResponse {
   return {
     result: undefined,
@@ -1086,6 +1122,12 @@ function createBaseEvalResponse(): EvalResponse {
 }
 export const EvalResponse = {
   typeUrl: "/google.api.expr.conformance.v1alpha1.EvalResponse",
+  is(o: any): o is EvalResponse {
+    return o && (o.$typeUrl === EvalResponse.typeUrl || Array.isArray(o.issues) && (!o.issues.length || Status.is(o.issues[0])));
+  },
+  isSDK(o: any): o is EvalResponseSDKType {
+    return o && (o.$typeUrl === EvalResponse.typeUrl || Array.isArray(o.issues) && (!o.issues.length || Status.isSDK(o.issues[0])));
+  },
   encode(message: EvalResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.result !== undefined) {
       ExprValue.encode(message.result, writer.uint32(10).fork()).ldelim();
@@ -1193,6 +1235,7 @@ export const EvalResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(EvalResponse.typeUrl, EvalResponse);
 function createBaseIssueDetails(): IssueDetails {
   return {
     severity: 0,
@@ -1202,6 +1245,12 @@ function createBaseIssueDetails(): IssueDetails {
 }
 export const IssueDetails = {
   typeUrl: "/google.api.expr.conformance.v1alpha1.IssueDetails",
+  is(o: any): o is IssueDetails {
+    return o && (o.$typeUrl === IssueDetails.typeUrl || isSet(o.severity) && typeof o.id === "bigint");
+  },
+  isSDK(o: any): o is IssueDetailsSDKType {
+    return o && (o.$typeUrl === IssueDetails.typeUrl || isSet(o.severity) && typeof o.id === "bigint");
+  },
   encode(message: IssueDetails, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.severity !== 0) {
       writer.uint32(8).int32(message.severity);
@@ -1315,3 +1364,4 @@ export const IssueDetails = {
     };
   }
 };
+GlobalDecoderRegistry.register(IssueDetails.typeUrl, IssueDetails);

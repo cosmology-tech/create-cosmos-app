@@ -4,6 +4,7 @@ import { Timestamp, TimestampSDKType } from "../../protobuf/timestamp";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp, isObject } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.logging.v2";
 /** Logging API version. */
@@ -509,6 +510,12 @@ function createBaseLogMetric(): LogMetric {
 }
 export const LogMetric = {
   typeUrl: "/google.logging.v2.LogMetric",
+  is(o: any): o is LogMetric {
+    return o && (o.$typeUrl === LogMetric.typeUrl || typeof o.name === "string" && typeof o.description === "string" && typeof o.filter === "string" && typeof o.disabled === "boolean" && typeof o.valueExtractor === "string" && isSet(o.labelExtractors) && isSet(o.version));
+  },
+  isSDK(o: any): o is LogMetricSDKType {
+    return o && (o.$typeUrl === LogMetric.typeUrl || typeof o.name === "string" && typeof o.description === "string" && typeof o.filter === "string" && typeof o.disabled === "boolean" && typeof o.value_extractor === "string" && isSet(o.label_extractors) && isSet(o.version));
+  },
   encode(message: LogMetric, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -798,6 +805,7 @@ export const LogMetric = {
     };
   }
 };
+GlobalDecoderRegistry.register(LogMetric.typeUrl, LogMetric);
 function createBaseListLogMetricsRequest(): ListLogMetricsRequest {
   return {
     parent: "",
@@ -807,6 +815,12 @@ function createBaseListLogMetricsRequest(): ListLogMetricsRequest {
 }
 export const ListLogMetricsRequest = {
   typeUrl: "/google.logging.v2.ListLogMetricsRequest",
+  is(o: any): o is ListLogMetricsRequest {
+    return o && (o.$typeUrl === ListLogMetricsRequest.typeUrl || typeof o.parent === "string" && typeof o.pageToken === "string" && typeof o.pageSize === "number");
+  },
+  isSDK(o: any): o is ListLogMetricsRequestSDKType {
+    return o && (o.$typeUrl === ListLogMetricsRequest.typeUrl || typeof o.parent === "string" && typeof o.page_token === "string" && typeof o.page_size === "number");
+  },
   encode(message: ListLogMetricsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
@@ -920,6 +934,7 @@ export const ListLogMetricsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ListLogMetricsRequest.typeUrl, ListLogMetricsRequest);
 function createBaseListLogMetricsResponse(): ListLogMetricsResponse {
   return {
     metrics: [],
@@ -928,6 +943,12 @@ function createBaseListLogMetricsResponse(): ListLogMetricsResponse {
 }
 export const ListLogMetricsResponse = {
   typeUrl: "/google.logging.v2.ListLogMetricsResponse",
+  is(o: any): o is ListLogMetricsResponse {
+    return o && (o.$typeUrl === ListLogMetricsResponse.typeUrl || Array.isArray(o.metrics) && (!o.metrics.length || LogMetric.is(o.metrics[0])) && typeof o.nextPageToken === "string");
+  },
+  isSDK(o: any): o is ListLogMetricsResponseSDKType {
+    return o && (o.$typeUrl === ListLogMetricsResponse.typeUrl || Array.isArray(o.metrics) && (!o.metrics.length || LogMetric.isSDK(o.metrics[0])) && typeof o.next_page_token === "string");
+  },
   encode(message: ListLogMetricsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.metrics) {
       LogMetric.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1035,6 +1056,7 @@ export const ListLogMetricsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ListLogMetricsResponse.typeUrl, ListLogMetricsResponse);
 function createBaseGetLogMetricRequest(): GetLogMetricRequest {
   return {
     metricName: ""
@@ -1042,6 +1064,12 @@ function createBaseGetLogMetricRequest(): GetLogMetricRequest {
 }
 export const GetLogMetricRequest = {
   typeUrl: "/google.logging.v2.GetLogMetricRequest",
+  is(o: any): o is GetLogMetricRequest {
+    return o && (o.$typeUrl === GetLogMetricRequest.typeUrl || typeof o.metricName === "string");
+  },
+  isSDK(o: any): o is GetLogMetricRequestSDKType {
+    return o && (o.$typeUrl === GetLogMetricRequest.typeUrl || typeof o.metric_name === "string");
+  },
   encode(message: GetLogMetricRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.metricName !== "") {
       writer.uint32(10).string(message.metricName);
@@ -1123,6 +1151,7 @@ export const GetLogMetricRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(GetLogMetricRequest.typeUrl, GetLogMetricRequest);
 function createBaseCreateLogMetricRequest(): CreateLogMetricRequest {
   return {
     parent: "",
@@ -1131,6 +1160,12 @@ function createBaseCreateLogMetricRequest(): CreateLogMetricRequest {
 }
 export const CreateLogMetricRequest = {
   typeUrl: "/google.logging.v2.CreateLogMetricRequest",
+  is(o: any): o is CreateLogMetricRequest {
+    return o && (o.$typeUrl === CreateLogMetricRequest.typeUrl || typeof o.parent === "string");
+  },
+  isSDK(o: any): o is CreateLogMetricRequestSDKType {
+    return o && (o.$typeUrl === CreateLogMetricRequest.typeUrl || typeof o.parent === "string");
+  },
   encode(message: CreateLogMetricRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.parent !== "") {
       writer.uint32(10).string(message.parent);
@@ -1228,6 +1263,7 @@ export const CreateLogMetricRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(CreateLogMetricRequest.typeUrl, CreateLogMetricRequest);
 function createBaseUpdateLogMetricRequest(): UpdateLogMetricRequest {
   return {
     metricName: "",
@@ -1236,6 +1272,12 @@ function createBaseUpdateLogMetricRequest(): UpdateLogMetricRequest {
 }
 export const UpdateLogMetricRequest = {
   typeUrl: "/google.logging.v2.UpdateLogMetricRequest",
+  is(o: any): o is UpdateLogMetricRequest {
+    return o && (o.$typeUrl === UpdateLogMetricRequest.typeUrl || typeof o.metricName === "string");
+  },
+  isSDK(o: any): o is UpdateLogMetricRequestSDKType {
+    return o && (o.$typeUrl === UpdateLogMetricRequest.typeUrl || typeof o.metric_name === "string");
+  },
   encode(message: UpdateLogMetricRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.metricName !== "") {
       writer.uint32(10).string(message.metricName);
@@ -1333,6 +1375,7 @@ export const UpdateLogMetricRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(UpdateLogMetricRequest.typeUrl, UpdateLogMetricRequest);
 function createBaseDeleteLogMetricRequest(): DeleteLogMetricRequest {
   return {
     metricName: ""
@@ -1340,6 +1383,12 @@ function createBaseDeleteLogMetricRequest(): DeleteLogMetricRequest {
 }
 export const DeleteLogMetricRequest = {
   typeUrl: "/google.logging.v2.DeleteLogMetricRequest",
+  is(o: any): o is DeleteLogMetricRequest {
+    return o && (o.$typeUrl === DeleteLogMetricRequest.typeUrl || typeof o.metricName === "string");
+  },
+  isSDK(o: any): o is DeleteLogMetricRequestSDKType {
+    return o && (o.$typeUrl === DeleteLogMetricRequest.typeUrl || typeof o.metric_name === "string");
+  },
   encode(message: DeleteLogMetricRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.metricName !== "") {
       writer.uint32(10).string(message.metricName);
@@ -1421,3 +1470,4 @@ export const DeleteLogMetricRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(DeleteLogMetricRequest.typeUrl, DeleteLogMetricRequest);

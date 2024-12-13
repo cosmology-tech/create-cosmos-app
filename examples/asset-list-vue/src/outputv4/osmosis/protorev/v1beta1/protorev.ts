@@ -2,6 +2,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.protorev.v1beta1";
 /** TokenPairArbRoutes tracks all of the hot routes for a given pair of tokens */
@@ -187,6 +188,13 @@ function createBaseTokenPairArbRoutes(): TokenPairArbRoutes {
 }
 export const TokenPairArbRoutes = {
   typeUrl: "/osmosis.protorev.v1beta1.TokenPairArbRoutes",
+  aminoType: "osmosis/protorev/token-pair-arb-routes",
+  is(o: any): o is TokenPairArbRoutes {
+    return o && (o.$typeUrl === TokenPairArbRoutes.typeUrl || Array.isArray(o.arbRoutes) && (!o.arbRoutes.length || Route.is(o.arbRoutes[0])) && typeof o.tokenIn === "string" && typeof o.tokenOut === "string");
+  },
+  isSDK(o: any): o is TokenPairArbRoutesSDKType {
+    return o && (o.$typeUrl === TokenPairArbRoutes.typeUrl || Array.isArray(o.arb_routes) && (!o.arb_routes.length || Route.isSDK(o.arb_routes[0])) && typeof o.token_in === "string" && typeof o.token_out === "string");
+  },
   encode(message: TokenPairArbRoutes, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.arbRoutes) {
       Route.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -316,6 +324,8 @@ export const TokenPairArbRoutes = {
     };
   }
 };
+GlobalDecoderRegistry.register(TokenPairArbRoutes.typeUrl, TokenPairArbRoutes);
+GlobalDecoderRegistry.registerAminoProtoMapping(TokenPairArbRoutes.aminoType, TokenPairArbRoutes.typeUrl);
 function createBaseRoute(): Route {
   return {
     trades: [],
@@ -324,6 +334,13 @@ function createBaseRoute(): Route {
 }
 export const Route = {
   typeUrl: "/osmosis.protorev.v1beta1.Route",
+  aminoType: "osmosis/protorev/route",
+  is(o: any): o is Route {
+    return o && (o.$typeUrl === Route.typeUrl || Array.isArray(o.trades) && (!o.trades.length || Trade.is(o.trades[0])) && typeof o.stepSize === "string");
+  },
+  isSDK(o: any): o is RouteSDKType {
+    return o && (o.$typeUrl === Route.typeUrl || Array.isArray(o.trades) && (!o.trades.length || Trade.isSDK(o.trades[0])) && typeof o.step_size === "string");
+  },
   encode(message: Route, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.trades) {
       Trade.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -437,6 +454,8 @@ export const Route = {
     };
   }
 };
+GlobalDecoderRegistry.register(Route.typeUrl, Route);
+GlobalDecoderRegistry.registerAminoProtoMapping(Route.aminoType, Route.typeUrl);
 function createBaseTrade(): Trade {
   return {
     pool: BigInt(0),
@@ -446,6 +465,13 @@ function createBaseTrade(): Trade {
 }
 export const Trade = {
   typeUrl: "/osmosis.protorev.v1beta1.Trade",
+  aminoType: "osmosis/protorev/trade",
+  is(o: any): o is Trade {
+    return o && (o.$typeUrl === Trade.typeUrl || typeof o.pool === "bigint" && typeof o.tokenIn === "string" && typeof o.tokenOut === "string");
+  },
+  isSDK(o: any): o is TradeSDKType {
+    return o && (o.$typeUrl === Trade.typeUrl || typeof o.pool === "bigint" && typeof o.token_in === "string" && typeof o.token_out === "string");
+  },
   encode(message: Trade, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pool !== BigInt(0)) {
       writer.uint32(8).uint64(message.pool);
@@ -565,6 +591,8 @@ export const Trade = {
     };
   }
 };
+GlobalDecoderRegistry.register(Trade.typeUrl, Trade);
+GlobalDecoderRegistry.registerAminoProtoMapping(Trade.aminoType, Trade.typeUrl);
 function createBaseRouteStatistics(): RouteStatistics {
   return {
     profits: [],
@@ -574,6 +602,13 @@ function createBaseRouteStatistics(): RouteStatistics {
 }
 export const RouteStatistics = {
   typeUrl: "/osmosis.protorev.v1beta1.RouteStatistics",
+  aminoType: "osmosis/protorev/route-statistics",
+  is(o: any): o is RouteStatistics {
+    return o && (o.$typeUrl === RouteStatistics.typeUrl || Array.isArray(o.profits) && (!o.profits.length || Coin.is(o.profits[0])) && typeof o.numberOfTrades === "string" && Array.isArray(o.route) && (!o.route.length || typeof o.route[0] === "bigint"));
+  },
+  isSDK(o: any): o is RouteStatisticsSDKType {
+    return o && (o.$typeUrl === RouteStatistics.typeUrl || Array.isArray(o.profits) && (!o.profits.length || Coin.isSDK(o.profits[0])) && typeof o.number_of_trades === "string" && Array.isArray(o.route) && (!o.route.length || typeof o.route[0] === "bigint"));
+  },
   encode(message: RouteStatistics, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.profits) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -722,6 +757,8 @@ export const RouteStatistics = {
     };
   }
 };
+GlobalDecoderRegistry.register(RouteStatistics.typeUrl, RouteStatistics);
+GlobalDecoderRegistry.registerAminoProtoMapping(RouteStatistics.aminoType, RouteStatistics.typeUrl);
 function createBasePoolWeights(): PoolWeights {
   return {
     stableWeight: BigInt(0),
@@ -731,6 +768,13 @@ function createBasePoolWeights(): PoolWeights {
 }
 export const PoolWeights = {
   typeUrl: "/osmosis.protorev.v1beta1.PoolWeights",
+  aminoType: "osmosis/protorev/pool-weights",
+  is(o: any): o is PoolWeights {
+    return o && (o.$typeUrl === PoolWeights.typeUrl || typeof o.stableWeight === "bigint" && typeof o.balancerWeight === "bigint" && typeof o.concentratedWeight === "bigint");
+  },
+  isSDK(o: any): o is PoolWeightsSDKType {
+    return o && (o.$typeUrl === PoolWeights.typeUrl || typeof o.stable_weight === "bigint" && typeof o.balancer_weight === "bigint" && typeof o.concentrated_weight === "bigint");
+  },
   encode(message: PoolWeights, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.stableWeight !== BigInt(0)) {
       writer.uint32(8).uint64(message.stableWeight);
@@ -850,6 +894,8 @@ export const PoolWeights = {
     };
   }
 };
+GlobalDecoderRegistry.register(PoolWeights.typeUrl, PoolWeights);
+GlobalDecoderRegistry.registerAminoProtoMapping(PoolWeights.aminoType, PoolWeights.typeUrl);
 function createBaseBaseDenom(): BaseDenom {
   return {
     denom: "",
@@ -858,6 +904,13 @@ function createBaseBaseDenom(): BaseDenom {
 }
 export const BaseDenom = {
   typeUrl: "/osmosis.protorev.v1beta1.BaseDenom",
+  aminoType: "osmosis/protorev/base-denom",
+  is(o: any): o is BaseDenom {
+    return o && (o.$typeUrl === BaseDenom.typeUrl || typeof o.denom === "string" && typeof o.stepSize === "string");
+  },
+  isSDK(o: any): o is BaseDenomSDKType {
+    return o && (o.$typeUrl === BaseDenom.typeUrl || typeof o.denom === "string" && typeof o.step_size === "string");
+  },
   encode(message: BaseDenom, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
@@ -961,3 +1014,5 @@ export const BaseDenom = {
     };
   }
 };
+GlobalDecoderRegistry.register(BaseDenom.typeUrl, BaseDenom);
+GlobalDecoderRegistry.registerAminoProtoMapping(BaseDenom.aminoType, BaseDenom.typeUrl);

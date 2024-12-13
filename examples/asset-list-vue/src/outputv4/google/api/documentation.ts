@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
@@ -274,6 +275,12 @@ function createBaseDocumentation(): Documentation {
 }
 export const Documentation = {
   typeUrl: "/google.api.Documentation",
+  is(o: any): o is Documentation {
+    return o && (o.$typeUrl === Documentation.typeUrl || typeof o.summary === "string" && Array.isArray(o.pages) && (!o.pages.length || Page.is(o.pages[0])) && Array.isArray(o.rules) && (!o.rules.length || DocumentationRule.is(o.rules[0])) && typeof o.documentationRootUrl === "string" && typeof o.serviceRootUrl === "string" && typeof o.overview === "string");
+  },
+  isSDK(o: any): o is DocumentationSDKType {
+    return o && (o.$typeUrl === Documentation.typeUrl || typeof o.summary === "string" && Array.isArray(o.pages) && (!o.pages.length || Page.isSDK(o.pages[0])) && Array.isArray(o.rules) && (!o.rules.length || DocumentationRule.isSDK(o.rules[0])) && typeof o.documentation_root_url === "string" && typeof o.service_root_url === "string" && typeof o.overview === "string");
+  },
   encode(message: Documentation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.summary !== "") {
       writer.uint32(10).string(message.summary);
@@ -455,6 +462,7 @@ export const Documentation = {
     };
   }
 };
+GlobalDecoderRegistry.register(Documentation.typeUrl, Documentation);
 function createBaseDocumentationRule(): DocumentationRule {
   return {
     selector: "",
@@ -464,6 +472,12 @@ function createBaseDocumentationRule(): DocumentationRule {
 }
 export const DocumentationRule = {
   typeUrl: "/google.api.DocumentationRule",
+  is(o: any): o is DocumentationRule {
+    return o && (o.$typeUrl === DocumentationRule.typeUrl || typeof o.selector === "string" && typeof o.description === "string" && typeof o.deprecationDescription === "string");
+  },
+  isSDK(o: any): o is DocumentationRuleSDKType {
+    return o && (o.$typeUrl === DocumentationRule.typeUrl || typeof o.selector === "string" && typeof o.description === "string" && typeof o.deprecation_description === "string");
+  },
   encode(message: DocumentationRule, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.selector !== "") {
       writer.uint32(10).string(message.selector);
@@ -577,6 +591,7 @@ export const DocumentationRule = {
     };
   }
 };
+GlobalDecoderRegistry.register(DocumentationRule.typeUrl, DocumentationRule);
 function createBasePage(): Page {
   return {
     name: "",
@@ -586,6 +601,12 @@ function createBasePage(): Page {
 }
 export const Page = {
   typeUrl: "/google.api.Page",
+  is(o: any): o is Page {
+    return o && (o.$typeUrl === Page.typeUrl || typeof o.name === "string" && typeof o.content === "string" && Array.isArray(o.subpages) && (!o.subpages.length || Page.is(o.subpages[0])));
+  },
+  isSDK(o: any): o is PageSDKType {
+    return o && (o.$typeUrl === Page.typeUrl || typeof o.name === "string" && typeof o.content === "string" && Array.isArray(o.subpages) && (!o.subpages.length || Page.isSDK(o.subpages[0])));
+  },
   encode(message: Page, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -709,3 +730,4 @@ export const Page = {
     };
   }
 };
+GlobalDecoderRegistry.register(Page.typeUrl, Page);

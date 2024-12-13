@@ -2,14 +2,17 @@ import { BaseAccount, BaseAccountSDKType } from "../../../../cosmos/auth/v1beta1
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.interchain_accounts.v1";
 /** An InterchainAccount is defined as a BaseAccount & the address of the account owner on the controller chain */
 export interface InterchainAccount {
+  $typeUrl?: "/ibc.applications.interchain_accounts.v1.InterchainAccount";
   baseAccount?: BaseAccount;
   accountOwner: string;
 }
 export interface ReactiveInterchainAccount {
+  $typeUrl?: ComputedRef<"/ibc.applications.interchain_accounts.v1.InterchainAccount">;
   baseAccount?: ComputedRef<BaseAccount>;
   accountOwner: ComputedRef<string>;
 }
@@ -19,17 +22,26 @@ export interface InterchainAccountProtoMsg {
 }
 /** An InterchainAccount is defined as a BaseAccount & the address of the account owner on the controller chain */
 export interface InterchainAccountSDKType {
+  $typeUrl?: "/ibc.applications.interchain_accounts.v1.InterchainAccount";
   base_account?: BaseAccountSDKType;
   account_owner: string;
 }
 function createBaseInterchainAccount(): InterchainAccount {
   return {
+    $typeUrl: "/ibc.applications.interchain_accounts.v1.InterchainAccount",
     baseAccount: undefined,
     accountOwner: ""
   };
 }
 export const InterchainAccount = {
   typeUrl: "/ibc.applications.interchain_accounts.v1.InterchainAccount",
+  aminoType: "cosmos-sdk/InterchainAccount",
+  is(o: any): o is InterchainAccount {
+    return o && (o.$typeUrl === InterchainAccount.typeUrl || typeof o.accountOwner === "string");
+  },
+  isSDK(o: any): o is InterchainAccountSDKType {
+    return o && (o.$typeUrl === InterchainAccount.typeUrl || typeof o.account_owner === "string");
+  },
   encode(message: InterchainAccount, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.baseAccount !== undefined) {
       BaseAccount.encode(message.baseAccount, writer.uint32(10).fork()).ldelim();
@@ -133,3 +145,5 @@ export const InterchainAccount = {
     };
   }
 };
+GlobalDecoderRegistry.register(InterchainAccount.typeUrl, InterchainAccount);
+GlobalDecoderRegistry.registerAminoProtoMapping(InterchainAccount.aminoType, InterchainAccount.typeUrl);

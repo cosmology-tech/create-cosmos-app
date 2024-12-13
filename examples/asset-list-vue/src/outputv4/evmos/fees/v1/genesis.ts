@@ -2,6 +2,7 @@ import { DevFeeInfo, DevFeeInfoSDKType } from "./fees";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { Decimal } from "@cosmjs/math";
 import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.fees.v1";
@@ -74,6 +75,12 @@ function createBaseGenesisState(): GenesisState {
 }
 export const GenesisState = {
   typeUrl: "/evmos.fees.v1.GenesisState",
+  is(o: any): o is GenesisState {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.is(o.params) && Array.isArray(o.devFeeInfos) && (!o.devFeeInfos.length || DevFeeInfo.is(o.devFeeInfos[0])));
+  },
+  isSDK(o: any): o is GenesisStateSDKType {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.isSDK(o.params) && Array.isArray(o.dev_fee_infos) && (!o.dev_fee_infos.length || DevFeeInfo.isSDK(o.dev_fee_infos[0])));
+  },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -181,6 +188,7 @@ export const GenesisState = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisState.typeUrl, GenesisState);
 function createBaseParams(): Params {
   return {
     enableFees: false,
@@ -192,6 +200,12 @@ function createBaseParams(): Params {
 }
 export const Params = {
   typeUrl: "/evmos.fees.v1.Params",
+  is(o: any): o is Params {
+    return o && (o.$typeUrl === Params.typeUrl || typeof o.enableFees === "boolean" && typeof o.developerShares === "string" && typeof o.validatorShares === "string" && typeof o.addrDerivationCostCreate === "bigint" && typeof o.minGasPrice === "string");
+  },
+  isSDK(o: any): o is ParamsSDKType {
+    return o && (o.$typeUrl === Params.typeUrl || typeof o.enable_fees === "boolean" && typeof o.developer_shares === "string" && typeof o.validator_shares === "string" && typeof o.addr_derivation_cost_create === "bigint" && typeof o.min_gas_price === "string");
+  },
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.enableFees === true) {
       writer.uint32(8).bool(message.enableFees);
@@ -337,3 +351,4 @@ export const Params = {
     };
   }
 };
+GlobalDecoderRegistry.register(Params.typeUrl, Params);

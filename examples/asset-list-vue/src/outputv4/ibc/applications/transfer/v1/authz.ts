@@ -2,6 +2,7 @@ import { Coin, CoinSDKType } from "../../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.transfer.v1";
 /** Allocation defines the spend limit for a particular port and channel */
@@ -37,10 +38,12 @@ export interface AllocationSDKType {
  * the granter's account for ibc transfer on a specific channel
  */
 export interface TransferAuthorization {
+  $typeUrl?: "/ibc.applications.transfer.v1.TransferAuthorization";
   /** port and channel amounts */
   allocations: Allocation[];
 }
 export interface ReactiveTransferAuthorization {
+  $typeUrl?: ComputedRef<"/ibc.applications.transfer.v1.TransferAuthorization">;
   allocations: ComputedRef<Allocation[]>;
 }
 export interface TransferAuthorizationProtoMsg {
@@ -52,6 +55,7 @@ export interface TransferAuthorizationProtoMsg {
  * the granter's account for ibc transfer on a specific channel
  */
 export interface TransferAuthorizationSDKType {
+  $typeUrl?: "/ibc.applications.transfer.v1.TransferAuthorization";
   allocations: AllocationSDKType[];
 }
 function createBaseAllocation(): Allocation {
@@ -64,6 +68,13 @@ function createBaseAllocation(): Allocation {
 }
 export const Allocation = {
   typeUrl: "/ibc.applications.transfer.v1.Allocation",
+  aminoType: "cosmos-sdk/Allocation",
+  is(o: any): o is Allocation {
+    return o && (o.$typeUrl === Allocation.typeUrl || typeof o.sourcePort === "string" && typeof o.sourceChannel === "string" && Array.isArray(o.spendLimit) && (!o.spendLimit.length || Coin.is(o.spendLimit[0])) && Array.isArray(o.allowList) && (!o.allowList.length || typeof o.allowList[0] === "string"));
+  },
+  isSDK(o: any): o is AllocationSDKType {
+    return o && (o.$typeUrl === Allocation.typeUrl || typeof o.source_port === "string" && typeof o.source_channel === "string" && Array.isArray(o.spend_limit) && (!o.spend_limit.length || Coin.isSDK(o.spend_limit[0])) && Array.isArray(o.allow_list) && (!o.allow_list.length || typeof o.allow_list[0] === "string"));
+  },
   encode(message: Allocation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.sourcePort !== "") {
       writer.uint32(10).string(message.sourcePort);
@@ -219,13 +230,23 @@ export const Allocation = {
     };
   }
 };
+GlobalDecoderRegistry.register(Allocation.typeUrl, Allocation);
+GlobalDecoderRegistry.registerAminoProtoMapping(Allocation.aminoType, Allocation.typeUrl);
 function createBaseTransferAuthorization(): TransferAuthorization {
   return {
+    $typeUrl: "/ibc.applications.transfer.v1.TransferAuthorization",
     allocations: []
   };
 }
 export const TransferAuthorization = {
   typeUrl: "/ibc.applications.transfer.v1.TransferAuthorization",
+  aminoType: "cosmos-sdk/TransferAuthorization",
+  is(o: any): o is TransferAuthorization {
+    return o && (o.$typeUrl === TransferAuthorization.typeUrl || Array.isArray(o.allocations) && (!o.allocations.length || Allocation.is(o.allocations[0])));
+  },
+  isSDK(o: any): o is TransferAuthorizationSDKType {
+    return o && (o.$typeUrl === TransferAuthorization.typeUrl || Array.isArray(o.allocations) && (!o.allocations.length || Allocation.isSDK(o.allocations[0])));
+  },
   encode(message: TransferAuthorization, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.allocations) {
       Allocation.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -323,3 +344,5 @@ export const TransferAuthorization = {
     };
   }
 };
+GlobalDecoderRegistry.register(TransferAuthorization.typeUrl, TransferAuthorization);
+GlobalDecoderRegistry.registerAminoProtoMapping(TransferAuthorization.aminoType, TransferAuthorization.typeUrl);

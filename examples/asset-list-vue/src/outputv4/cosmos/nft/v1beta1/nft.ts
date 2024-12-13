@@ -2,6 +2,7 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.nft.v1beta1";
 /** Class defines the class of the nft type. */
@@ -89,6 +90,13 @@ function createBaseClass(): Class {
 }
 export const Class = {
   typeUrl: "/cosmos.nft.v1beta1.Class",
+  aminoType: "cosmos-sdk/Class",
+  is(o: any): o is Class {
+    return o && (o.$typeUrl === Class.typeUrl || typeof o.id === "string" && typeof o.name === "string" && typeof o.symbol === "string" && typeof o.description === "string" && typeof o.uri === "string" && typeof o.uriHash === "string");
+  },
+  isSDK(o: any): o is ClassSDKType {
+    return o && (o.$typeUrl === Class.typeUrl || typeof o.id === "string" && typeof o.name === "string" && typeof o.symbol === "string" && typeof o.description === "string" && typeof o.uri === "string" && typeof o.uri_hash === "string");
+  },
   encode(message: Class, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
@@ -272,6 +280,8 @@ export const Class = {
     };
   }
 };
+GlobalDecoderRegistry.register(Class.typeUrl, Class);
+GlobalDecoderRegistry.registerAminoProtoMapping(Class.aminoType, Class.typeUrl);
 function createBaseNFT(): NFT {
   return {
     classId: "",
@@ -283,6 +293,13 @@ function createBaseNFT(): NFT {
 }
 export const NFT = {
   typeUrl: "/cosmos.nft.v1beta1.NFT",
+  aminoType: "cosmos-sdk/NFT",
+  is(o: any): o is NFT {
+    return o && (o.$typeUrl === NFT.typeUrl || typeof o.classId === "string" && typeof o.id === "string" && typeof o.uri === "string" && typeof o.uriHash === "string");
+  },
+  isSDK(o: any): o is NFTSDKType {
+    return o && (o.$typeUrl === NFT.typeUrl || typeof o.class_id === "string" && typeof o.id === "string" && typeof o.uri === "string" && typeof o.uri_hash === "string");
+  },
   encode(message: NFT, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.classId !== "") {
       writer.uint32(10).string(message.classId);
@@ -434,3 +451,5 @@ export const NFT = {
     };
   }
 };
+GlobalDecoderRegistry.register(NFT.typeUrl, NFT);
+GlobalDecoderRegistry.registerAminoProtoMapping(NFT.aminoType, NFT.typeUrl);

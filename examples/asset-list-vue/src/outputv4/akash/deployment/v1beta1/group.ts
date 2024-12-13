@@ -4,6 +4,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta1";
 /** State is an enum which refers to state of group */
@@ -227,6 +228,13 @@ function createBaseMsgCloseGroup(): MsgCloseGroup {
 }
 export const MsgCloseGroup = {
   typeUrl: "/akash.deployment.v1beta1.MsgCloseGroup",
+  aminoType: "akash/deployment/testonly-close-group",
+  is(o: any): o is MsgCloseGroup {
+    return o && (o.$typeUrl === MsgCloseGroup.typeUrl || GroupID.is(o.id));
+  },
+  isSDK(o: any): o is MsgCloseGroupSDKType {
+    return o && (o.$typeUrl === MsgCloseGroup.typeUrl || GroupID.isSDK(o.id));
+  },
   encode(message: MsgCloseGroup, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       GroupID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -314,11 +322,20 @@ export const MsgCloseGroup = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCloseGroup.typeUrl, MsgCloseGroup);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCloseGroup.aminoType, MsgCloseGroup.typeUrl);
 function createBaseMsgCloseGroupResponse(): MsgCloseGroupResponse {
   return {};
 }
 export const MsgCloseGroupResponse = {
   typeUrl: "/akash.deployment.v1beta1.MsgCloseGroupResponse",
+  aminoType: "akash/deployment/testonly-close-group-response",
+  is(o: any): o is MsgCloseGroupResponse {
+    return o && o.$typeUrl === MsgCloseGroupResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgCloseGroupResponseSDKType {
+    return o && o.$typeUrl === MsgCloseGroupResponse.typeUrl;
+  },
   encode(_: MsgCloseGroupResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -387,6 +404,8 @@ export const MsgCloseGroupResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCloseGroupResponse.typeUrl, MsgCloseGroupResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCloseGroupResponse.aminoType, MsgCloseGroupResponse.typeUrl);
 function createBaseMsgPauseGroup(): MsgPauseGroup {
   return {
     id: GroupID.fromPartial({})
@@ -394,6 +413,13 @@ function createBaseMsgPauseGroup(): MsgPauseGroup {
 }
 export const MsgPauseGroup = {
   typeUrl: "/akash.deployment.v1beta1.MsgPauseGroup",
+  aminoType: "akash/deployment/testonly-pause-group",
+  is(o: any): o is MsgPauseGroup {
+    return o && (o.$typeUrl === MsgPauseGroup.typeUrl || GroupID.is(o.id));
+  },
+  isSDK(o: any): o is MsgPauseGroupSDKType {
+    return o && (o.$typeUrl === MsgPauseGroup.typeUrl || GroupID.isSDK(o.id));
+  },
   encode(message: MsgPauseGroup, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       GroupID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -481,11 +507,20 @@ export const MsgPauseGroup = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgPauseGroup.typeUrl, MsgPauseGroup);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgPauseGroup.aminoType, MsgPauseGroup.typeUrl);
 function createBaseMsgPauseGroupResponse(): MsgPauseGroupResponse {
   return {};
 }
 export const MsgPauseGroupResponse = {
   typeUrl: "/akash.deployment.v1beta1.MsgPauseGroupResponse",
+  aminoType: "akash/deployment/testonly-pause-group-response",
+  is(o: any): o is MsgPauseGroupResponse {
+    return o && o.$typeUrl === MsgPauseGroupResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgPauseGroupResponseSDKType {
+    return o && o.$typeUrl === MsgPauseGroupResponse.typeUrl;
+  },
   encode(_: MsgPauseGroupResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -554,6 +589,8 @@ export const MsgPauseGroupResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgPauseGroupResponse.typeUrl, MsgPauseGroupResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgPauseGroupResponse.aminoType, MsgPauseGroupResponse.typeUrl);
 function createBaseMsgStartGroup(): MsgStartGroup {
   return {
     id: GroupID.fromPartial({})
@@ -561,6 +598,13 @@ function createBaseMsgStartGroup(): MsgStartGroup {
 }
 export const MsgStartGroup = {
   typeUrl: "/akash.deployment.v1beta1.MsgStartGroup",
+  aminoType: "akash/deployment/testonly-start-group",
+  is(o: any): o is MsgStartGroup {
+    return o && (o.$typeUrl === MsgStartGroup.typeUrl || GroupID.is(o.id));
+  },
+  isSDK(o: any): o is MsgStartGroupSDKType {
+    return o && (o.$typeUrl === MsgStartGroup.typeUrl || GroupID.isSDK(o.id));
+  },
   encode(message: MsgStartGroup, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       GroupID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -648,11 +692,20 @@ export const MsgStartGroup = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgStartGroup.typeUrl, MsgStartGroup);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgStartGroup.aminoType, MsgStartGroup.typeUrl);
 function createBaseMsgStartGroupResponse(): MsgStartGroupResponse {
   return {};
 }
 export const MsgStartGroupResponse = {
   typeUrl: "/akash.deployment.v1beta1.MsgStartGroupResponse",
+  aminoType: "akash/deployment/testonly-start-group-response",
+  is(o: any): o is MsgStartGroupResponse {
+    return o && o.$typeUrl === MsgStartGroupResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgStartGroupResponseSDKType {
+    return o && o.$typeUrl === MsgStartGroupResponse.typeUrl;
+  },
   encode(_: MsgStartGroupResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -721,6 +774,8 @@ export const MsgStartGroupResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgStartGroupResponse.typeUrl, MsgStartGroupResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgStartGroupResponse.aminoType, MsgStartGroupResponse.typeUrl);
 function createBaseGroupID(): GroupID {
   return {
     owner: "",
@@ -730,6 +785,13 @@ function createBaseGroupID(): GroupID {
 }
 export const GroupID = {
   typeUrl: "/akash.deployment.v1beta1.GroupID",
+  aminoType: "akash/deployment/group-i-d",
+  is(o: any): o is GroupID {
+    return o && (o.$typeUrl === GroupID.typeUrl || typeof o.owner === "string" && typeof o.dseq === "bigint" && typeof o.gseq === "number");
+  },
+  isSDK(o: any): o is GroupIDSDKType {
+    return o && (o.$typeUrl === GroupID.typeUrl || typeof o.owner === "string" && typeof o.dseq === "bigint" && typeof o.gseq === "number");
+  },
   encode(message: GroupID, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -849,6 +911,8 @@ export const GroupID = {
     };
   }
 };
+GlobalDecoderRegistry.register(GroupID.typeUrl, GroupID);
+GlobalDecoderRegistry.registerAminoProtoMapping(GroupID.aminoType, GroupID.typeUrl);
 function createBaseGroupSpec(): GroupSpec {
   return {
     name: "",
@@ -858,6 +922,13 @@ function createBaseGroupSpec(): GroupSpec {
 }
 export const GroupSpec = {
   typeUrl: "/akash.deployment.v1beta1.GroupSpec",
+  aminoType: "akash/deployment/group-spec",
+  is(o: any): o is GroupSpec {
+    return o && (o.$typeUrl === GroupSpec.typeUrl || typeof o.name === "string" && PlacementRequirements.is(o.requirements) && Array.isArray(o.resources) && (!o.resources.length || Resource.is(o.resources[0])));
+  },
+  isSDK(o: any): o is GroupSpecSDKType {
+    return o && (o.$typeUrl === GroupSpec.typeUrl || typeof o.name === "string" && PlacementRequirements.isSDK(o.requirements) && Array.isArray(o.resources) && (!o.resources.length || Resource.isSDK(o.resources[0])));
+  },
   encode(message: GroupSpec, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -987,6 +1058,8 @@ export const GroupSpec = {
     };
   }
 };
+GlobalDecoderRegistry.register(GroupSpec.typeUrl, GroupSpec);
+GlobalDecoderRegistry.registerAminoProtoMapping(GroupSpec.aminoType, GroupSpec.typeUrl);
 function createBaseGroup(): Group {
   return {
     groupId: GroupID.fromPartial({}),
@@ -997,6 +1070,13 @@ function createBaseGroup(): Group {
 }
 export const Group = {
   typeUrl: "/akash.deployment.v1beta1.Group",
+  aminoType: "akash/deployment/group",
+  is(o: any): o is Group {
+    return o && (o.$typeUrl === Group.typeUrl || GroupID.is(o.groupId) && isSet(o.state) && GroupSpec.is(o.groupSpec) && typeof o.createdAt === "bigint");
+  },
+  isSDK(o: any): o is GroupSDKType {
+    return o && (o.$typeUrl === Group.typeUrl || GroupID.isSDK(o.group_id) && isSet(o.state) && GroupSpec.isSDK(o.group_spec) && typeof o.created_at === "bigint");
+  },
   encode(message: Group, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.groupId !== undefined) {
       GroupID.encode(message.groupId, writer.uint32(10).fork()).ldelim();
@@ -1132,6 +1212,8 @@ export const Group = {
     };
   }
 };
+GlobalDecoderRegistry.register(Group.typeUrl, Group);
+GlobalDecoderRegistry.registerAminoProtoMapping(Group.aminoType, Group.typeUrl);
 function createBaseResource(): Resource {
   return {
     resources: ResourceUnits.fromPartial({}),
@@ -1141,6 +1223,13 @@ function createBaseResource(): Resource {
 }
 export const Resource = {
   typeUrl: "/akash.deployment.v1beta1.Resource",
+  aminoType: "akash/deployment/resource",
+  is(o: any): o is Resource {
+    return o && (o.$typeUrl === Resource.typeUrl || ResourceUnits.is(o.resources) && typeof o.count === "number" && Coin.is(o.price));
+  },
+  isSDK(o: any): o is ResourceSDKType {
+    return o && (o.$typeUrl === Resource.typeUrl || ResourceUnits.isSDK(o.resources) && typeof o.count === "number" && Coin.isSDK(o.price));
+  },
   encode(message: Resource, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.resources !== undefined) {
       ResourceUnits.encode(message.resources, writer.uint32(10).fork()).ldelim();
@@ -1260,3 +1349,5 @@ export const Resource = {
     };
   }
 };
+GlobalDecoderRegistry.register(Resource.typeUrl, Resource);
+GlobalDecoderRegistry.registerAminoProtoMapping(Resource.aminoType, Resource.typeUrl);

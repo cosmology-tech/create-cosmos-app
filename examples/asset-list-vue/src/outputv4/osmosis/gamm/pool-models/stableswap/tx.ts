@@ -3,6 +3,7 @@ import { Coin, CoinSDKType } from "../../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.gamm.poolmodels.stableswap.v1beta1";
 /** ===================== MsgCreatePool */
@@ -96,6 +97,13 @@ function createBaseMsgCreateStableswapPool(): MsgCreateStableswapPool {
 }
 export const MsgCreateStableswapPool = {
   typeUrl: "/osmosis.gamm.poolmodels.stableswap.v1beta1.MsgCreateStableswapPool",
+  aminoType: "osmosis/gamm/create-stableswap-pool",
+  is(o: any): o is MsgCreateStableswapPool {
+    return o && (o.$typeUrl === MsgCreateStableswapPool.typeUrl || typeof o.sender === "string" && Array.isArray(o.initialPoolLiquidity) && (!o.initialPoolLiquidity.length || Coin.is(o.initialPoolLiquidity[0])) && Array.isArray(o.scalingFactors) && (!o.scalingFactors.length || typeof o.scalingFactors[0] === "bigint") && typeof o.futurePoolGovernor === "string" && typeof o.scalingFactorController === "string");
+  },
+  isSDK(o: any): o is MsgCreateStableswapPoolSDKType {
+    return o && (o.$typeUrl === MsgCreateStableswapPool.typeUrl || typeof o.sender === "string" && Array.isArray(o.initial_pool_liquidity) && (!o.initial_pool_liquidity.length || Coin.isSDK(o.initial_pool_liquidity[0])) && Array.isArray(o.scaling_factors) && (!o.scaling_factors.length || typeof o.scaling_factors[0] === "bigint") && typeof o.future_pool_governor === "string" && typeof o.scaling_factor_controller === "string");
+  },
   encode(message: MsgCreateStableswapPool, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.sender !== "") {
       writer.uint32(10).string(message.sender);
@@ -292,6 +300,8 @@ export const MsgCreateStableswapPool = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCreateStableswapPool.typeUrl, MsgCreateStableswapPool);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCreateStableswapPool.aminoType, MsgCreateStableswapPool.typeUrl);
 function createBaseMsgCreateStableswapPoolResponse(): MsgCreateStableswapPoolResponse {
   return {
     poolId: BigInt(0)
@@ -299,6 +309,13 @@ function createBaseMsgCreateStableswapPoolResponse(): MsgCreateStableswapPoolRes
 }
 export const MsgCreateStableswapPoolResponse = {
   typeUrl: "/osmosis.gamm.poolmodels.stableswap.v1beta1.MsgCreateStableswapPoolResponse",
+  aminoType: "osmosis/gamm/create-stableswap-pool-response",
+  is(o: any): o is MsgCreateStableswapPoolResponse {
+    return o && (o.$typeUrl === MsgCreateStableswapPoolResponse.typeUrl || typeof o.poolId === "bigint");
+  },
+  isSDK(o: any): o is MsgCreateStableswapPoolResponseSDKType {
+    return o && (o.$typeUrl === MsgCreateStableswapPoolResponse.typeUrl || typeof o.pool_id === "bigint");
+  },
   encode(message: MsgCreateStableswapPoolResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -386,6 +403,8 @@ export const MsgCreateStableswapPoolResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCreateStableswapPoolResponse.typeUrl, MsgCreateStableswapPoolResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCreateStableswapPoolResponse.aminoType, MsgCreateStableswapPoolResponse.typeUrl);
 function createBaseMsgStableSwapAdjustScalingFactors(): MsgStableSwapAdjustScalingFactors {
   return {
     sender: "",
@@ -395,6 +414,13 @@ function createBaseMsgStableSwapAdjustScalingFactors(): MsgStableSwapAdjustScali
 }
 export const MsgStableSwapAdjustScalingFactors = {
   typeUrl: "/osmosis.gamm.poolmodels.stableswap.v1beta1.MsgStableSwapAdjustScalingFactors",
+  aminoType: "osmosis/gamm/stable-swap-adjust-scaling-factors",
+  is(o: any): o is MsgStableSwapAdjustScalingFactors {
+    return o && (o.$typeUrl === MsgStableSwapAdjustScalingFactors.typeUrl || typeof o.sender === "string" && typeof o.poolId === "bigint" && Array.isArray(o.scalingFactors) && (!o.scalingFactors.length || typeof o.scalingFactors[0] === "bigint"));
+  },
+  isSDK(o: any): o is MsgStableSwapAdjustScalingFactorsSDKType {
+    return o && (o.$typeUrl === MsgStableSwapAdjustScalingFactors.typeUrl || typeof o.sender === "string" && typeof o.pool_id === "bigint" && Array.isArray(o.scaling_factors) && (!o.scaling_factors.length || typeof o.scaling_factors[0] === "bigint"));
+  },
   encode(message: MsgStableSwapAdjustScalingFactors, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.sender !== "") {
       writer.uint32(10).string(message.sender);
@@ -533,11 +559,20 @@ export const MsgStableSwapAdjustScalingFactors = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgStableSwapAdjustScalingFactors.typeUrl, MsgStableSwapAdjustScalingFactors);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgStableSwapAdjustScalingFactors.aminoType, MsgStableSwapAdjustScalingFactors.typeUrl);
 function createBaseMsgStableSwapAdjustScalingFactorsResponse(): MsgStableSwapAdjustScalingFactorsResponse {
   return {};
 }
 export const MsgStableSwapAdjustScalingFactorsResponse = {
   typeUrl: "/osmosis.gamm.poolmodels.stableswap.v1beta1.MsgStableSwapAdjustScalingFactorsResponse",
+  aminoType: "osmosis/gamm/stable-swap-adjust-scaling-factors-response",
+  is(o: any): o is MsgStableSwapAdjustScalingFactorsResponse {
+    return o && o.$typeUrl === MsgStableSwapAdjustScalingFactorsResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgStableSwapAdjustScalingFactorsResponseSDKType {
+    return o && o.$typeUrl === MsgStableSwapAdjustScalingFactorsResponse.typeUrl;
+  },
   encode(_: MsgStableSwapAdjustScalingFactorsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -606,3 +641,5 @@ export const MsgStableSwapAdjustScalingFactorsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgStableSwapAdjustScalingFactorsResponse.typeUrl, MsgStableSwapAdjustScalingFactorsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgStableSwapAdjustScalingFactorsResponse.aminoType, MsgStableSwapAdjustScalingFactorsResponse.typeUrl);

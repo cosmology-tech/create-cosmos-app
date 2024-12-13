@@ -2,6 +2,7 @@ import { LabelDescriptor, LabelDescriptorSDKType } from "./label";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
@@ -75,6 +76,12 @@ function createBaseLogDescriptor(): LogDescriptor {
 }
 export const LogDescriptor = {
   typeUrl: "/google.api.LogDescriptor",
+  is(o: any): o is LogDescriptor {
+    return o && (o.$typeUrl === LogDescriptor.typeUrl || typeof o.name === "string" && Array.isArray(o.labels) && (!o.labels.length || LabelDescriptor.is(o.labels[0])) && typeof o.description === "string" && typeof o.displayName === "string");
+  },
+  isSDK(o: any): o is LogDescriptorSDKType {
+    return o && (o.$typeUrl === LogDescriptor.typeUrl || typeof o.name === "string" && Array.isArray(o.labels) && (!o.labels.length || LabelDescriptor.isSDK(o.labels[0])) && typeof o.description === "string" && typeof o.display_name === "string");
+  },
   encode(message: LogDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -214,3 +221,4 @@ export const LogDescriptor = {
     };
   }
 };
+GlobalDecoderRegistry.register(LogDescriptor.typeUrl, LogDescriptor);

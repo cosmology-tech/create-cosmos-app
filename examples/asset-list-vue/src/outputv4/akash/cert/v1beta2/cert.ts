@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.cert.v1beta2";
 /** State is an enum which refers to state of deployment */
@@ -166,6 +167,13 @@ function createBaseCertificateID(): CertificateID {
 }
 export const CertificateID = {
   typeUrl: "/akash.cert.v1beta2.CertificateID",
+  aminoType: "akash/cert/v1beta2/certificate-i-d",
+  is(o: any): o is CertificateID {
+    return o && (o.$typeUrl === CertificateID.typeUrl || typeof o.owner === "string" && typeof o.serial === "string");
+  },
+  isSDK(o: any): o is CertificateIDSDKType {
+    return o && (o.$typeUrl === CertificateID.typeUrl || typeof o.owner === "string" && typeof o.serial === "string");
+  },
   encode(message: CertificateID, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -269,6 +277,8 @@ export const CertificateID = {
     };
   }
 };
+GlobalDecoderRegistry.register(CertificateID.typeUrl, CertificateID);
+GlobalDecoderRegistry.registerAminoProtoMapping(CertificateID.aminoType, CertificateID.typeUrl);
 function createBaseCertificate(): Certificate {
   return {
     state: 0,
@@ -278,6 +288,13 @@ function createBaseCertificate(): Certificate {
 }
 export const Certificate = {
   typeUrl: "/akash.cert.v1beta2.Certificate",
+  aminoType: "akash/cert/v1beta2/certificate",
+  is(o: any): o is Certificate {
+    return o && (o.$typeUrl === Certificate.typeUrl || isSet(o.state) && (o.cert instanceof Uint8Array || typeof o.cert === "string") && (o.pubkey instanceof Uint8Array || typeof o.pubkey === "string"));
+  },
+  isSDK(o: any): o is CertificateSDKType {
+    return o && (o.$typeUrl === Certificate.typeUrl || isSet(o.state) && (o.cert instanceof Uint8Array || typeof o.cert === "string") && (o.pubkey instanceof Uint8Array || typeof o.pubkey === "string"));
+  },
   encode(message: Certificate, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.state !== 0) {
       writer.uint32(16).int32(message.state);
@@ -397,6 +414,8 @@ export const Certificate = {
     };
   }
 };
+GlobalDecoderRegistry.register(Certificate.typeUrl, Certificate);
+GlobalDecoderRegistry.registerAminoProtoMapping(Certificate.aminoType, Certificate.typeUrl);
 function createBaseCertificateFilter(): CertificateFilter {
   return {
     owner: "",
@@ -406,6 +425,13 @@ function createBaseCertificateFilter(): CertificateFilter {
 }
 export const CertificateFilter = {
   typeUrl: "/akash.cert.v1beta2.CertificateFilter",
+  aminoType: "akash/cert/v1beta2/certificate-filter",
+  is(o: any): o is CertificateFilter {
+    return o && (o.$typeUrl === CertificateFilter.typeUrl || typeof o.owner === "string" && typeof o.serial === "string" && typeof o.state === "string");
+  },
+  isSDK(o: any): o is CertificateFilterSDKType {
+    return o && (o.$typeUrl === CertificateFilter.typeUrl || typeof o.owner === "string" && typeof o.serial === "string" && typeof o.state === "string");
+  },
   encode(message: CertificateFilter, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -525,6 +551,8 @@ export const CertificateFilter = {
     };
   }
 };
+GlobalDecoderRegistry.register(CertificateFilter.typeUrl, CertificateFilter);
+GlobalDecoderRegistry.registerAminoProtoMapping(CertificateFilter.aminoType, CertificateFilter.typeUrl);
 function createBaseMsgCreateCertificate(): MsgCreateCertificate {
   return {
     owner: "",
@@ -534,6 +562,13 @@ function createBaseMsgCreateCertificate(): MsgCreateCertificate {
 }
 export const MsgCreateCertificate = {
   typeUrl: "/akash.cert.v1beta2.MsgCreateCertificate",
+  aminoType: "akash/cert/v1beta2/testonly-create-certificate",
+  is(o: any): o is MsgCreateCertificate {
+    return o && (o.$typeUrl === MsgCreateCertificate.typeUrl || typeof o.owner === "string" && (o.cert instanceof Uint8Array || typeof o.cert === "string") && (o.pubkey instanceof Uint8Array || typeof o.pubkey === "string"));
+  },
+  isSDK(o: any): o is MsgCreateCertificateSDKType {
+    return o && (o.$typeUrl === MsgCreateCertificate.typeUrl || typeof o.owner === "string" && (o.cert instanceof Uint8Array || typeof o.cert === "string") && (o.pubkey instanceof Uint8Array || typeof o.pubkey === "string"));
+  },
   encode(message: MsgCreateCertificate, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -653,11 +688,20 @@ export const MsgCreateCertificate = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCreateCertificate.typeUrl, MsgCreateCertificate);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCreateCertificate.aminoType, MsgCreateCertificate.typeUrl);
 function createBaseMsgCreateCertificateResponse(): MsgCreateCertificateResponse {
   return {};
 }
 export const MsgCreateCertificateResponse = {
   typeUrl: "/akash.cert.v1beta2.MsgCreateCertificateResponse",
+  aminoType: "akash/cert/v1beta2/testonly-create-certificate-response",
+  is(o: any): o is MsgCreateCertificateResponse {
+    return o && o.$typeUrl === MsgCreateCertificateResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgCreateCertificateResponseSDKType {
+    return o && o.$typeUrl === MsgCreateCertificateResponse.typeUrl;
+  },
   encode(_: MsgCreateCertificateResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -726,6 +770,8 @@ export const MsgCreateCertificateResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCreateCertificateResponse.typeUrl, MsgCreateCertificateResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCreateCertificateResponse.aminoType, MsgCreateCertificateResponse.typeUrl);
 function createBaseMsgRevokeCertificate(): MsgRevokeCertificate {
   return {
     id: CertificateID.fromPartial({})
@@ -733,6 +779,13 @@ function createBaseMsgRevokeCertificate(): MsgRevokeCertificate {
 }
 export const MsgRevokeCertificate = {
   typeUrl: "/akash.cert.v1beta2.MsgRevokeCertificate",
+  aminoType: "akash/cert/v1beta2/testonly-revoke-certificate",
+  is(o: any): o is MsgRevokeCertificate {
+    return o && (o.$typeUrl === MsgRevokeCertificate.typeUrl || CertificateID.is(o.id));
+  },
+  isSDK(o: any): o is MsgRevokeCertificateSDKType {
+    return o && (o.$typeUrl === MsgRevokeCertificate.typeUrl || CertificateID.isSDK(o.id));
+  },
   encode(message: MsgRevokeCertificate, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       CertificateID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -820,11 +873,20 @@ export const MsgRevokeCertificate = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRevokeCertificate.typeUrl, MsgRevokeCertificate);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgRevokeCertificate.aminoType, MsgRevokeCertificate.typeUrl);
 function createBaseMsgRevokeCertificateResponse(): MsgRevokeCertificateResponse {
   return {};
 }
 export const MsgRevokeCertificateResponse = {
   typeUrl: "/akash.cert.v1beta2.MsgRevokeCertificateResponse",
+  aminoType: "akash/cert/v1beta2/testonly-revoke-certificate-response",
+  is(o: any): o is MsgRevokeCertificateResponse {
+    return o && o.$typeUrl === MsgRevokeCertificateResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgRevokeCertificateResponseSDKType {
+    return o && o.$typeUrl === MsgRevokeCertificateResponse.typeUrl;
+  },
   encode(_: MsgRevokeCertificateResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -893,3 +955,5 @@ export const MsgRevokeCertificateResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRevokeCertificateResponse.typeUrl, MsgRevokeCertificateResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgRevokeCertificateResponse.aminoType, MsgRevokeCertificateResponse.typeUrl);

@@ -2,6 +2,7 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.app.v1alpha1";
 /**
@@ -77,6 +78,13 @@ function createBaseConfig(): Config {
 }
 export const Config = {
   typeUrl: "/cosmos.app.v1alpha1.Config",
+  aminoType: "cosmos-sdk/Config",
+  is(o: any): o is Config {
+    return o && (o.$typeUrl === Config.typeUrl || Array.isArray(o.modules) && (!o.modules.length || ModuleConfig.is(o.modules[0])));
+  },
+  isSDK(o: any): o is ConfigSDKType {
+    return o && (o.$typeUrl === Config.typeUrl || Array.isArray(o.modules) && (!o.modules.length || ModuleConfig.isSDK(o.modules[0])));
+  },
   encode(message: Config, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.modules) {
       ModuleConfig.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -174,6 +182,8 @@ export const Config = {
     };
   }
 };
+GlobalDecoderRegistry.register(Config.typeUrl, Config);
+GlobalDecoderRegistry.registerAminoProtoMapping(Config.aminoType, Config.typeUrl);
 function createBaseModuleConfig(): ModuleConfig {
   return {
     name: "",
@@ -182,6 +192,13 @@ function createBaseModuleConfig(): ModuleConfig {
 }
 export const ModuleConfig = {
   typeUrl: "/cosmos.app.v1alpha1.ModuleConfig",
+  aminoType: "cosmos-sdk/ModuleConfig",
+  is(o: any): o is ModuleConfig {
+    return o && (o.$typeUrl === ModuleConfig.typeUrl || typeof o.name === "string");
+  },
+  isSDK(o: any): o is ModuleConfigSDKType {
+    return o && (o.$typeUrl === ModuleConfig.typeUrl || typeof o.name === "string");
+  },
   encode(message: ModuleConfig, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -285,3 +302,5 @@ export const ModuleConfig = {
     };
   }
 };
+GlobalDecoderRegistry.register(ModuleConfig.typeUrl, ModuleConfig);
+GlobalDecoderRegistry.registerAminoProtoMapping(ModuleConfig.aminoType, ModuleConfig.typeUrl);

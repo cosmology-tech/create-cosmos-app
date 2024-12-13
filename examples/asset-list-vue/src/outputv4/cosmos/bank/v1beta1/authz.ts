@@ -2,6 +2,7 @@ import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial } from "../../../helpers";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.bank.v1beta1";
 /**
@@ -11,9 +12,11 @@ export const protobufPackage = "cosmos.bank.v1beta1";
  * Since: cosmos-sdk 0.43
  */
 export interface SendAuthorization {
+  $typeUrl?: "/cosmos.bank.v1beta1.SendAuthorization";
   spendLimit: Coin[];
 }
 export interface ReactiveSendAuthorization {
+  $typeUrl?: ComputedRef<"/cosmos.bank.v1beta1.SendAuthorization">;
   spendLimit: ComputedRef<Coin[]>;
 }
 export interface SendAuthorizationProtoMsg {
@@ -27,15 +30,24 @@ export interface SendAuthorizationProtoMsg {
  * Since: cosmos-sdk 0.43
  */
 export interface SendAuthorizationSDKType {
+  $typeUrl?: "/cosmos.bank.v1beta1.SendAuthorization";
   spend_limit: CoinSDKType[];
 }
 function createBaseSendAuthorization(): SendAuthorization {
   return {
+    $typeUrl: "/cosmos.bank.v1beta1.SendAuthorization",
     spendLimit: []
   };
 }
 export const SendAuthorization = {
   typeUrl: "/cosmos.bank.v1beta1.SendAuthorization",
+  aminoType: "cosmos-sdk/SendAuthorization",
+  is(o: any): o is SendAuthorization {
+    return o && (o.$typeUrl === SendAuthorization.typeUrl || Array.isArray(o.spendLimit) && (!o.spendLimit.length || Coin.is(o.spendLimit[0])));
+  },
+  isSDK(o: any): o is SendAuthorizationSDKType {
+    return o && (o.$typeUrl === SendAuthorization.typeUrl || Array.isArray(o.spend_limit) && (!o.spend_limit.length || Coin.isSDK(o.spend_limit[0])));
+  },
   encode(message: SendAuthorization, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.spendLimit) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -133,3 +145,5 @@ export const SendAuthorization = {
     };
   }
 };
+GlobalDecoderRegistry.register(SendAuthorization.typeUrl, SendAuthorization);
+GlobalDecoderRegistry.registerAminoProtoMapping(SendAuthorization.aminoType, SendAuthorization.typeUrl);

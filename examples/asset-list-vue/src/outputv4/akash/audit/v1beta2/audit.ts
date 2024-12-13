@@ -2,6 +2,7 @@ import { Attribute, AttributeSDKType } from "../../base/v1beta2/attribute";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.audit.v1beta2";
 /** Provider stores owner auditor and attributes details */
@@ -148,6 +149,13 @@ function createBaseProvider(): Provider {
 }
 export const Provider = {
   typeUrl: "/akash.audit.v1beta2.Provider",
+  aminoType: "akash/audit/v1beta2/provider",
+  is(o: any): o is Provider {
+    return o && (o.$typeUrl === Provider.typeUrl || typeof o.owner === "string" && typeof o.auditor === "string" && Array.isArray(o.attributes) && (!o.attributes.length || Attribute.is(o.attributes[0])));
+  },
+  isSDK(o: any): o is ProviderSDKType {
+    return o && (o.$typeUrl === Provider.typeUrl || typeof o.owner === "string" && typeof o.auditor === "string" && Array.isArray(o.attributes) && (!o.attributes.length || Attribute.isSDK(o.attributes[0])));
+  },
   encode(message: Provider, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -277,6 +285,8 @@ export const Provider = {
     };
   }
 };
+GlobalDecoderRegistry.register(Provider.typeUrl, Provider);
+GlobalDecoderRegistry.registerAminoProtoMapping(Provider.aminoType, Provider.typeUrl);
 function createBaseAuditedAttributes(): AuditedAttributes {
   return {
     owner: "",
@@ -286,6 +296,13 @@ function createBaseAuditedAttributes(): AuditedAttributes {
 }
 export const AuditedAttributes = {
   typeUrl: "/akash.audit.v1beta2.AuditedAttributes",
+  aminoType: "akash/audit/v1beta2/audited-attributes",
+  is(o: any): o is AuditedAttributes {
+    return o && (o.$typeUrl === AuditedAttributes.typeUrl || typeof o.owner === "string" && typeof o.auditor === "string" && Array.isArray(o.attributes) && (!o.attributes.length || Attribute.is(o.attributes[0])));
+  },
+  isSDK(o: any): o is AuditedAttributesSDKType {
+    return o && (o.$typeUrl === AuditedAttributes.typeUrl || typeof o.owner === "string" && typeof o.auditor === "string" && Array.isArray(o.attributes) && (!o.attributes.length || Attribute.isSDK(o.attributes[0])));
+  },
   encode(message: AuditedAttributes, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -415,6 +432,8 @@ export const AuditedAttributes = {
     };
   }
 };
+GlobalDecoderRegistry.register(AuditedAttributes.typeUrl, AuditedAttributes);
+GlobalDecoderRegistry.registerAminoProtoMapping(AuditedAttributes.aminoType, AuditedAttributes.typeUrl);
 function createBaseAttributesResponse(): AttributesResponse {
   return {
     attributes: []
@@ -422,6 +441,13 @@ function createBaseAttributesResponse(): AttributesResponse {
 }
 export const AttributesResponse = {
   typeUrl: "/akash.audit.v1beta2.AttributesResponse",
+  aminoType: "akash/audit/v1beta2/attributes-response",
+  is(o: any): o is AttributesResponse {
+    return o && (o.$typeUrl === AttributesResponse.typeUrl || Array.isArray(o.attributes) && (!o.attributes.length || AuditedAttributes.is(o.attributes[0])));
+  },
+  isSDK(o: any): o is AttributesResponseSDKType {
+    return o && (o.$typeUrl === AttributesResponse.typeUrl || Array.isArray(o.attributes) && (!o.attributes.length || AuditedAttributes.isSDK(o.attributes[0])));
+  },
   encode(message: AttributesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.attributes) {
       AuditedAttributes.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -519,6 +545,8 @@ export const AttributesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AttributesResponse.typeUrl, AttributesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(AttributesResponse.aminoType, AttributesResponse.typeUrl);
 function createBaseAttributesFilters(): AttributesFilters {
   return {
     auditors: [],
@@ -527,6 +555,13 @@ function createBaseAttributesFilters(): AttributesFilters {
 }
 export const AttributesFilters = {
   typeUrl: "/akash.audit.v1beta2.AttributesFilters",
+  aminoType: "akash/audit/v1beta2/attributes-filters",
+  is(o: any): o is AttributesFilters {
+    return o && (o.$typeUrl === AttributesFilters.typeUrl || Array.isArray(o.auditors) && (!o.auditors.length || typeof o.auditors[0] === "string") && Array.isArray(o.owners) && (!o.owners.length || typeof o.owners[0] === "string"));
+  },
+  isSDK(o: any): o is AttributesFiltersSDKType {
+    return o && (o.$typeUrl === AttributesFilters.typeUrl || Array.isArray(o.auditors) && (!o.auditors.length || typeof o.auditors[0] === "string") && Array.isArray(o.owners) && (!o.owners.length || typeof o.owners[0] === "string"));
+  },
   encode(message: AttributesFilters, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.auditors) {
       writer.uint32(10).string(v!);
@@ -650,6 +685,8 @@ export const AttributesFilters = {
     };
   }
 };
+GlobalDecoderRegistry.register(AttributesFilters.typeUrl, AttributesFilters);
+GlobalDecoderRegistry.registerAminoProtoMapping(AttributesFilters.aminoType, AttributesFilters.typeUrl);
 function createBaseMsgSignProviderAttributes(): MsgSignProviderAttributes {
   return {
     owner: "",
@@ -659,6 +696,13 @@ function createBaseMsgSignProviderAttributes(): MsgSignProviderAttributes {
 }
 export const MsgSignProviderAttributes = {
   typeUrl: "/akash.audit.v1beta2.MsgSignProviderAttributes",
+  aminoType: "mymessage-testonly",
+  is(o: any): o is MsgSignProviderAttributes {
+    return o && (o.$typeUrl === MsgSignProviderAttributes.typeUrl || typeof o.owner === "string" && typeof o.auditor === "string" && Array.isArray(o.attributes) && (!o.attributes.length || Attribute.is(o.attributes[0])));
+  },
+  isSDK(o: any): o is MsgSignProviderAttributesSDKType {
+    return o && (o.$typeUrl === MsgSignProviderAttributes.typeUrl || typeof o.owner === "string" && typeof o.auditor === "string" && Array.isArray(o.attributes) && (!o.attributes.length || Attribute.isSDK(o.attributes[0])));
+  },
   encode(message: MsgSignProviderAttributes, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -788,11 +832,20 @@ export const MsgSignProviderAttributes = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSignProviderAttributes.typeUrl, MsgSignProviderAttributes);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSignProviderAttributes.aminoType, MsgSignProviderAttributes.typeUrl);
 function createBaseMsgSignProviderAttributesResponse(): MsgSignProviderAttributesResponse {
   return {};
 }
 export const MsgSignProviderAttributesResponse = {
   typeUrl: "/akash.audit.v1beta2.MsgSignProviderAttributesResponse",
+  aminoType: "akash/audit/v1beta2/testonly-sign-provider-attributes-response",
+  is(o: any): o is MsgSignProviderAttributesResponse {
+    return o && o.$typeUrl === MsgSignProviderAttributesResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgSignProviderAttributesResponseSDKType {
+    return o && o.$typeUrl === MsgSignProviderAttributesResponse.typeUrl;
+  },
   encode(_: MsgSignProviderAttributesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -861,6 +914,8 @@ export const MsgSignProviderAttributesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSignProviderAttributesResponse.typeUrl, MsgSignProviderAttributesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSignProviderAttributesResponse.aminoType, MsgSignProviderAttributesResponse.typeUrl);
 function createBaseMsgDeleteProviderAttributes(): MsgDeleteProviderAttributes {
   return {
     owner: "",
@@ -870,6 +925,13 @@ function createBaseMsgDeleteProviderAttributes(): MsgDeleteProviderAttributes {
 }
 export const MsgDeleteProviderAttributes = {
   typeUrl: "/akash.audit.v1beta2.MsgDeleteProviderAttributes",
+  aminoType: "akash/audit/v1beta2/testonly-delete-provider-attributes",
+  is(o: any): o is MsgDeleteProviderAttributes {
+    return o && (o.$typeUrl === MsgDeleteProviderAttributes.typeUrl || typeof o.owner === "string" && typeof o.auditor === "string" && Array.isArray(o.keys) && (!o.keys.length || typeof o.keys[0] === "string"));
+  },
+  isSDK(o: any): o is MsgDeleteProviderAttributesSDKType {
+    return o && (o.$typeUrl === MsgDeleteProviderAttributes.typeUrl || typeof o.owner === "string" && typeof o.auditor === "string" && Array.isArray(o.keys) && (!o.keys.length || typeof o.keys[0] === "string"));
+  },
   encode(message: MsgDeleteProviderAttributes, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -999,11 +1061,20 @@ export const MsgDeleteProviderAttributes = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgDeleteProviderAttributes.typeUrl, MsgDeleteProviderAttributes);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgDeleteProviderAttributes.aminoType, MsgDeleteProviderAttributes.typeUrl);
 function createBaseMsgDeleteProviderAttributesResponse(): MsgDeleteProviderAttributesResponse {
   return {};
 }
 export const MsgDeleteProviderAttributesResponse = {
   typeUrl: "/akash.audit.v1beta2.MsgDeleteProviderAttributesResponse",
+  aminoType: "akash/audit/v1beta2/testonly-delete-provider-attributes-response",
+  is(o: any): o is MsgDeleteProviderAttributesResponse {
+    return o && o.$typeUrl === MsgDeleteProviderAttributesResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgDeleteProviderAttributesResponseSDKType {
+    return o && o.$typeUrl === MsgDeleteProviderAttributesResponse.typeUrl;
+  },
   encode(_: MsgDeleteProviderAttributesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1072,3 +1143,5 @@ export const MsgDeleteProviderAttributesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgDeleteProviderAttributesResponse.typeUrl, MsgDeleteProviderAttributesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgDeleteProviderAttributesResponse.aminoType, MsgDeleteProviderAttributesResponse.typeUrl);

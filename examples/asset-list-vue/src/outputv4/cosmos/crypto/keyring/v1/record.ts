@@ -3,6 +3,7 @@ import { BIP44Params, BIP44ParamsSDKType } from "../../hd/v1/hd";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.crypto.keyring.v1";
 /** Record is used for representing a key in the keyring. */
@@ -110,6 +111,13 @@ function createBaseRecord(): Record {
 }
 export const Record = {
   typeUrl: "/cosmos.crypto.keyring.v1.Record",
+  aminoType: "cosmos-sdk/Record",
+  is(o: any): o is Record {
+    return o && (o.$typeUrl === Record.typeUrl || typeof o.name === "string");
+  },
+  isSDK(o: any): o is RecordSDKType {
+    return o && (o.$typeUrl === Record.typeUrl || typeof o.name === "string");
+  },
   encode(message: Record, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -277,6 +285,8 @@ export const Record = {
     };
   }
 };
+GlobalDecoderRegistry.register(Record.typeUrl, Record);
+GlobalDecoderRegistry.registerAminoProtoMapping(Record.aminoType, Record.typeUrl);
 function createBaseRecord_Local(): Record_Local {
   return {
     privKey: undefined,
@@ -285,6 +295,13 @@ function createBaseRecord_Local(): Record_Local {
 }
 export const Record_Local = {
   typeUrl: "/cosmos.crypto.keyring.v1.Local",
+  aminoType: "cosmos-sdk/Local",
+  is(o: any): o is Record_Local {
+    return o && (o.$typeUrl === Record_Local.typeUrl || typeof o.privKeyType === "string");
+  },
+  isSDK(o: any): o is Record_LocalSDKType {
+    return o && (o.$typeUrl === Record_Local.typeUrl || typeof o.priv_key_type === "string");
+  },
   encode(message: Record_Local, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.privKey !== undefined) {
       Any.encode(message.privKey, writer.uint32(10).fork()).ldelim();
@@ -388,6 +405,8 @@ export const Record_Local = {
     };
   }
 };
+GlobalDecoderRegistry.register(Record_Local.typeUrl, Record_Local);
+GlobalDecoderRegistry.registerAminoProtoMapping(Record_Local.aminoType, Record_Local.typeUrl);
 function createBaseRecord_Ledger(): Record_Ledger {
   return {
     path: undefined
@@ -395,6 +414,13 @@ function createBaseRecord_Ledger(): Record_Ledger {
 }
 export const Record_Ledger = {
   typeUrl: "/cosmos.crypto.keyring.v1.Ledger",
+  aminoType: "cosmos-sdk/Ledger",
+  is(o: any): o is Record_Ledger {
+    return o && o.$typeUrl === Record_Ledger.typeUrl;
+  },
+  isSDK(o: any): o is Record_LedgerSDKType {
+    return o && o.$typeUrl === Record_Ledger.typeUrl;
+  },
   encode(message: Record_Ledger, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path !== undefined) {
       BIP44Params.encode(message.path, writer.uint32(10).fork()).ldelim();
@@ -482,11 +508,20 @@ export const Record_Ledger = {
     };
   }
 };
+GlobalDecoderRegistry.register(Record_Ledger.typeUrl, Record_Ledger);
+GlobalDecoderRegistry.registerAminoProtoMapping(Record_Ledger.aminoType, Record_Ledger.typeUrl);
 function createBaseRecord_Multi(): Record_Multi {
   return {};
 }
 export const Record_Multi = {
   typeUrl: "/cosmos.crypto.keyring.v1.Multi",
+  aminoType: "cosmos-sdk/Multi",
+  is(o: any): o is Record_Multi {
+    return o && o.$typeUrl === Record_Multi.typeUrl;
+  },
+  isSDK(o: any): o is Record_MultiSDKType {
+    return o && o.$typeUrl === Record_Multi.typeUrl;
+  },
   encode(_: Record_Multi, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -555,11 +590,20 @@ export const Record_Multi = {
     };
   }
 };
+GlobalDecoderRegistry.register(Record_Multi.typeUrl, Record_Multi);
+GlobalDecoderRegistry.registerAminoProtoMapping(Record_Multi.aminoType, Record_Multi.typeUrl);
 function createBaseRecord_Offline(): Record_Offline {
   return {};
 }
 export const Record_Offline = {
   typeUrl: "/cosmos.crypto.keyring.v1.Offline",
+  aminoType: "cosmos-sdk/Offline",
+  is(o: any): o is Record_Offline {
+    return o && o.$typeUrl === Record_Offline.typeUrl;
+  },
+  isSDK(o: any): o is Record_OfflineSDKType {
+    return o && o.$typeUrl === Record_Offline.typeUrl;
+  },
   encode(_: Record_Offline, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -628,3 +672,5 @@ export const Record_Offline = {
     };
   }
 };
+GlobalDecoderRegistry.register(Record_Offline.typeUrl, Record_Offline);
+GlobalDecoderRegistry.registerAminoProtoMapping(Record_Offline.aminoType, Record_Offline.typeUrl);

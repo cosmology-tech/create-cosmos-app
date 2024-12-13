@@ -3,6 +3,7 @@ import { Params, ParamsSDKType, CodeInfo, CodeInfoSDKType, ContractInfo, Contrac
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "cosmwasm.wasm.v1";
 /** GenesisState - genesis state of x/wasm */
@@ -134,6 +135,13 @@ function createBaseGenesisState(): GenesisState {
 }
 export const GenesisState = {
   typeUrl: "/cosmwasm.wasm.v1.GenesisState",
+  aminoType: "wasm/GenesisState",
+  is(o: any): o is GenesisState {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.is(o.params) && Array.isArray(o.codes) && (!o.codes.length || Code.is(o.codes[0])) && Array.isArray(o.contracts) && (!o.contracts.length || Contract.is(o.contracts[0])) && Array.isArray(o.sequences) && (!o.sequences.length || Sequence.is(o.sequences[0])) && Array.isArray(o.genMsgs) && (!o.genMsgs.length || GenesisState_GenMsgs.is(o.genMsgs[0])));
+  },
+  isSDK(o: any): o is GenesisStateSDKType {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.isSDK(o.params) && Array.isArray(o.codes) && (!o.codes.length || Code.isSDK(o.codes[0])) && Array.isArray(o.contracts) && (!o.contracts.length || Contract.isSDK(o.contracts[0])) && Array.isArray(o.sequences) && (!o.sequences.length || Sequence.isSDK(o.sequences[0])) && Array.isArray(o.gen_msgs) && (!o.gen_msgs.length || GenesisState_GenMsgs.isSDK(o.gen_msgs[0])));
+  },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -325,6 +333,8 @@ export const GenesisState = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisState.typeUrl, GenesisState);
+GlobalDecoderRegistry.registerAminoProtoMapping(GenesisState.aminoType, GenesisState.typeUrl);
 function createBaseGenesisState_GenMsgs(): GenesisState_GenMsgs {
   return {
     storeCode: undefined,
@@ -334,6 +344,13 @@ function createBaseGenesisState_GenMsgs(): GenesisState_GenMsgs {
 }
 export const GenesisState_GenMsgs = {
   typeUrl: "/cosmwasm.wasm.v1.GenMsgs",
+  aminoType: "wasm/GenMsgs",
+  is(o: any): o is GenesisState_GenMsgs {
+    return o && o.$typeUrl === GenesisState_GenMsgs.typeUrl;
+  },
+  isSDK(o: any): o is GenesisState_GenMsgsSDKType {
+    return o && o.$typeUrl === GenesisState_GenMsgs.typeUrl;
+  },
   encode(message: GenesisState_GenMsgs, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.storeCode !== undefined) {
       MsgStoreCode.encode(message.storeCode, writer.uint32(10).fork()).ldelim();
@@ -453,6 +470,8 @@ export const GenesisState_GenMsgs = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisState_GenMsgs.typeUrl, GenesisState_GenMsgs);
+GlobalDecoderRegistry.registerAminoProtoMapping(GenesisState_GenMsgs.aminoType, GenesisState_GenMsgs.typeUrl);
 function createBaseCode(): Code {
   return {
     codeId: BigInt(0),
@@ -463,6 +482,13 @@ function createBaseCode(): Code {
 }
 export const Code = {
   typeUrl: "/cosmwasm.wasm.v1.Code",
+  aminoType: "wasm/Code",
+  is(o: any): o is Code {
+    return o && (o.$typeUrl === Code.typeUrl || typeof o.codeId === "bigint" && CodeInfo.is(o.codeInfo) && (o.codeBytes instanceof Uint8Array || typeof o.codeBytes === "string") && typeof o.pinned === "boolean");
+  },
+  isSDK(o: any): o is CodeSDKType {
+    return o && (o.$typeUrl === Code.typeUrl || typeof o.code_id === "bigint" && CodeInfo.isSDK(o.code_info) && (o.code_bytes instanceof Uint8Array || typeof o.code_bytes === "string") && typeof o.pinned === "boolean");
+  },
   encode(message: Code, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.codeId !== BigInt(0)) {
       writer.uint32(8).uint64(message.codeId);
@@ -598,6 +624,8 @@ export const Code = {
     };
   }
 };
+GlobalDecoderRegistry.register(Code.typeUrl, Code);
+GlobalDecoderRegistry.registerAminoProtoMapping(Code.aminoType, Code.typeUrl);
 function createBaseContract(): Contract {
   return {
     contractAddress: "",
@@ -607,6 +635,13 @@ function createBaseContract(): Contract {
 }
 export const Contract = {
   typeUrl: "/cosmwasm.wasm.v1.Contract",
+  aminoType: "wasm/Contract",
+  is(o: any): o is Contract {
+    return o && (o.$typeUrl === Contract.typeUrl || typeof o.contractAddress === "string" && ContractInfo.is(o.contractInfo) && Array.isArray(o.contractState) && (!o.contractState.length || Model.is(o.contractState[0])));
+  },
+  isSDK(o: any): o is ContractSDKType {
+    return o && (o.$typeUrl === Contract.typeUrl || typeof o.contract_address === "string" && ContractInfo.isSDK(o.contract_info) && Array.isArray(o.contract_state) && (!o.contract_state.length || Model.isSDK(o.contract_state[0])));
+  },
   encode(message: Contract, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contractAddress !== "") {
       writer.uint32(10).string(message.contractAddress);
@@ -736,6 +771,8 @@ export const Contract = {
     };
   }
 };
+GlobalDecoderRegistry.register(Contract.typeUrl, Contract);
+GlobalDecoderRegistry.registerAminoProtoMapping(Contract.aminoType, Contract.typeUrl);
 function createBaseSequence(): Sequence {
   return {
     idKey: new Uint8Array(),
@@ -744,6 +781,13 @@ function createBaseSequence(): Sequence {
 }
 export const Sequence = {
   typeUrl: "/cosmwasm.wasm.v1.Sequence",
+  aminoType: "wasm/Sequence",
+  is(o: any): o is Sequence {
+    return o && (o.$typeUrl === Sequence.typeUrl || (o.idKey instanceof Uint8Array || typeof o.idKey === "string") && typeof o.value === "bigint");
+  },
+  isSDK(o: any): o is SequenceSDKType {
+    return o && (o.$typeUrl === Sequence.typeUrl || (o.id_key instanceof Uint8Array || typeof o.id_key === "string") && typeof o.value === "bigint");
+  },
   encode(message: Sequence, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.idKey.length !== 0) {
       writer.uint32(10).bytes(message.idKey);
@@ -847,3 +891,5 @@ export const Sequence = {
     };
   }
 };
+GlobalDecoderRegistry.register(Sequence.typeUrl, Sequence);
+GlobalDecoderRegistry.registerAminoProtoMapping(Sequence.aminoType, Sequence.typeUrl);

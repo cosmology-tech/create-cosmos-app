@@ -2,6 +2,7 @@ import { CommitmentProof, CommitmentProofSDKType } from "../../../../confio/proo
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.core.commitment.v1";
 /**
@@ -105,6 +106,13 @@ function createBaseMerkleRoot(): MerkleRoot {
 }
 export const MerkleRoot = {
   typeUrl: "/ibc.core.commitment.v1.MerkleRoot",
+  aminoType: "cosmos-sdk/MerkleRoot",
+  is(o: any): o is MerkleRoot {
+    return o && (o.$typeUrl === MerkleRoot.typeUrl || o.hash instanceof Uint8Array || typeof o.hash === "string");
+  },
+  isSDK(o: any): o is MerkleRootSDKType {
+    return o && (o.$typeUrl === MerkleRoot.typeUrl || o.hash instanceof Uint8Array || typeof o.hash === "string");
+  },
   encode(message: MerkleRoot, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.hash.length !== 0) {
       writer.uint32(10).bytes(message.hash);
@@ -192,6 +200,8 @@ export const MerkleRoot = {
     };
   }
 };
+GlobalDecoderRegistry.register(MerkleRoot.typeUrl, MerkleRoot);
+GlobalDecoderRegistry.registerAminoProtoMapping(MerkleRoot.aminoType, MerkleRoot.typeUrl);
 function createBaseMerklePrefix(): MerklePrefix {
   return {
     keyPrefix: new Uint8Array()
@@ -199,6 +209,13 @@ function createBaseMerklePrefix(): MerklePrefix {
 }
 export const MerklePrefix = {
   typeUrl: "/ibc.core.commitment.v1.MerklePrefix",
+  aminoType: "cosmos-sdk/MerklePrefix",
+  is(o: any): o is MerklePrefix {
+    return o && (o.$typeUrl === MerklePrefix.typeUrl || o.keyPrefix instanceof Uint8Array || typeof o.keyPrefix === "string");
+  },
+  isSDK(o: any): o is MerklePrefixSDKType {
+    return o && (o.$typeUrl === MerklePrefix.typeUrl || o.key_prefix instanceof Uint8Array || typeof o.key_prefix === "string");
+  },
   encode(message: MerklePrefix, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.keyPrefix.length !== 0) {
       writer.uint32(10).bytes(message.keyPrefix);
@@ -286,6 +303,8 @@ export const MerklePrefix = {
     };
   }
 };
+GlobalDecoderRegistry.register(MerklePrefix.typeUrl, MerklePrefix);
+GlobalDecoderRegistry.registerAminoProtoMapping(MerklePrefix.aminoType, MerklePrefix.typeUrl);
 function createBaseMerklePath(): MerklePath {
   return {
     keyPath: []
@@ -293,6 +312,13 @@ function createBaseMerklePath(): MerklePath {
 }
 export const MerklePath = {
   typeUrl: "/ibc.core.commitment.v1.MerklePath",
+  aminoType: "cosmos-sdk/MerklePath",
+  is(o: any): o is MerklePath {
+    return o && (o.$typeUrl === MerklePath.typeUrl || Array.isArray(o.keyPath) && (!o.keyPath.length || typeof o.keyPath[0] === "string"));
+  },
+  isSDK(o: any): o is MerklePathSDKType {
+    return o && (o.$typeUrl === MerklePath.typeUrl || Array.isArray(o.key_path) && (!o.key_path.length || typeof o.key_path[0] === "string"));
+  },
   encode(message: MerklePath, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.keyPath) {
       writer.uint32(10).string(v!);
@@ -390,6 +416,8 @@ export const MerklePath = {
     };
   }
 };
+GlobalDecoderRegistry.register(MerklePath.typeUrl, MerklePath);
+GlobalDecoderRegistry.registerAminoProtoMapping(MerklePath.aminoType, MerklePath.typeUrl);
 function createBaseMerkleProof(): MerkleProof {
   return {
     proofs: []
@@ -397,6 +425,13 @@ function createBaseMerkleProof(): MerkleProof {
 }
 export const MerkleProof = {
   typeUrl: "/ibc.core.commitment.v1.MerkleProof",
+  aminoType: "cosmos-sdk/MerkleProof",
+  is(o: any): o is MerkleProof {
+    return o && (o.$typeUrl === MerkleProof.typeUrl || Array.isArray(o.proofs) && (!o.proofs.length || CommitmentProof.is(o.proofs[0])));
+  },
+  isSDK(o: any): o is MerkleProofSDKType {
+    return o && (o.$typeUrl === MerkleProof.typeUrl || Array.isArray(o.proofs) && (!o.proofs.length || CommitmentProof.isSDK(o.proofs[0])));
+  },
   encode(message: MerkleProof, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.proofs) {
       CommitmentProof.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -494,3 +529,5 @@ export const MerkleProof = {
     };
   }
 };
+GlobalDecoderRegistry.register(MerkleProof.typeUrl, MerkleProof);
+GlobalDecoderRegistry.registerAminoProtoMapping(MerkleProof.aminoType, MerkleProof.typeUrl);

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.tokenfactory.v1beta1";
 /**
@@ -34,6 +35,13 @@ function createBaseDenomAuthorityMetadata(): DenomAuthorityMetadata {
 }
 export const DenomAuthorityMetadata = {
   typeUrl: "/osmosis.tokenfactory.v1beta1.DenomAuthorityMetadata",
+  aminoType: "osmosis/tokenfactory/denom-authority-metadata",
+  is(o: any): o is DenomAuthorityMetadata {
+    return o && (o.$typeUrl === DenomAuthorityMetadata.typeUrl || typeof o.admin === "string");
+  },
+  isSDK(o: any): o is DenomAuthorityMetadataSDKType {
+    return o && (o.$typeUrl === DenomAuthorityMetadata.typeUrl || typeof o.admin === "string");
+  },
   encode(message: DenomAuthorityMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.admin !== "") {
       writer.uint32(10).string(message.admin);
@@ -121,3 +129,5 @@ export const DenomAuthorityMetadata = {
     };
   }
 };
+GlobalDecoderRegistry.register(DenomAuthorityMetadata.typeUrl, DenomAuthorityMetadata);
+GlobalDecoderRegistry.registerAminoProtoMapping(DenomAuthorityMetadata.aminoType, DenomAuthorityMetadata.typeUrl);

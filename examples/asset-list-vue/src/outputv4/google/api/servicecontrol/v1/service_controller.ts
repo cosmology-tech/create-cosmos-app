@@ -4,6 +4,7 @@ import { Status, StatusSDKType } from "../../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicecontrol.v1";
 /**
@@ -338,6 +339,12 @@ function createBaseCheckRequest(): CheckRequest {
 }
 export const CheckRequest = {
   typeUrl: "/google.api.servicecontrol.v1.CheckRequest",
+  is(o: any): o is CheckRequest {
+    return o && (o.$typeUrl === CheckRequest.typeUrl || typeof o.serviceName === "string" && typeof o.serviceConfigId === "string");
+  },
+  isSDK(o: any): o is CheckRequestSDKType {
+    return o && (o.$typeUrl === CheckRequest.typeUrl || typeof o.service_name === "string" && typeof o.service_config_id === "string");
+  },
   encode(message: CheckRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -451,6 +458,7 @@ export const CheckRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(CheckRequest.typeUrl, CheckRequest);
 function createBaseCheckResponse(): CheckResponse {
   return {
     operationId: "",
@@ -462,6 +470,12 @@ function createBaseCheckResponse(): CheckResponse {
 }
 export const CheckResponse = {
   typeUrl: "/google.api.servicecontrol.v1.CheckResponse",
+  is(o: any): o is CheckResponse {
+    return o && (o.$typeUrl === CheckResponse.typeUrl || typeof o.operationId === "string" && Array.isArray(o.checkErrors) && (!o.checkErrors.length || CheckError.is(o.checkErrors[0])) && typeof o.serviceConfigId === "string" && typeof o.serviceRolloutId === "string");
+  },
+  isSDK(o: any): o is CheckResponseSDKType {
+    return o && (o.$typeUrl === CheckResponse.typeUrl || typeof o.operation_id === "string" && Array.isArray(o.check_errors) && (!o.check_errors.length || CheckError.isSDK(o.check_errors[0])) && typeof o.service_config_id === "string" && typeof o.service_rollout_id === "string");
+  },
   encode(message: CheckResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.operationId !== "") {
       writer.uint32(10).string(message.operationId);
@@ -617,6 +631,7 @@ export const CheckResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(CheckResponse.typeUrl, CheckResponse);
 function createBaseCheckResponse_CheckInfo(): CheckResponse_CheckInfo {
   return {
     unusedArguments: [],
@@ -625,6 +640,12 @@ function createBaseCheckResponse_CheckInfo(): CheckResponse_CheckInfo {
 }
 export const CheckResponse_CheckInfo = {
   typeUrl: "/google.api.servicecontrol.v1.CheckInfo",
+  is(o: any): o is CheckResponse_CheckInfo {
+    return o && (o.$typeUrl === CheckResponse_CheckInfo.typeUrl || Array.isArray(o.unusedArguments) && (!o.unusedArguments.length || typeof o.unusedArguments[0] === "string"));
+  },
+  isSDK(o: any): o is CheckResponse_CheckInfoSDKType {
+    return o && (o.$typeUrl === CheckResponse_CheckInfo.typeUrl || Array.isArray(o.unused_arguments) && (!o.unused_arguments.length || typeof o.unused_arguments[0] === "string"));
+  },
   encode(message: CheckResponse_CheckInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.unusedArguments) {
       writer.uint32(10).string(v!);
@@ -732,6 +753,7 @@ export const CheckResponse_CheckInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(CheckResponse_CheckInfo.typeUrl, CheckResponse_CheckInfo);
 function createBaseCheckResponse_ConsumerInfo(): CheckResponse_ConsumerInfo {
   return {
     projectNumber: BigInt(0),
@@ -741,6 +763,12 @@ function createBaseCheckResponse_ConsumerInfo(): CheckResponse_ConsumerInfo {
 }
 export const CheckResponse_ConsumerInfo = {
   typeUrl: "/google.api.servicecontrol.v1.ConsumerInfo",
+  is(o: any): o is CheckResponse_ConsumerInfo {
+    return o && (o.$typeUrl === CheckResponse_ConsumerInfo.typeUrl || typeof o.projectNumber === "bigint" && isSet(o.type) && typeof o.consumerNumber === "bigint");
+  },
+  isSDK(o: any): o is CheckResponse_ConsumerInfoSDKType {
+    return o && (o.$typeUrl === CheckResponse_ConsumerInfo.typeUrl || typeof o.project_number === "bigint" && isSet(o.type) && typeof o.consumer_number === "bigint");
+  },
   encode(message: CheckResponse_ConsumerInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.projectNumber !== BigInt(0)) {
       writer.uint32(8).int64(message.projectNumber);
@@ -854,6 +882,7 @@ export const CheckResponse_ConsumerInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(CheckResponse_ConsumerInfo.typeUrl, CheckResponse_ConsumerInfo);
 function createBaseReportRequest(): ReportRequest {
   return {
     serviceName: "",
@@ -863,6 +892,12 @@ function createBaseReportRequest(): ReportRequest {
 }
 export const ReportRequest = {
   typeUrl: "/google.api.servicecontrol.v1.ReportRequest",
+  is(o: any): o is ReportRequest {
+    return o && (o.$typeUrl === ReportRequest.typeUrl || typeof o.serviceName === "string" && Array.isArray(o.operations) && (!o.operations.length || Operation.is(o.operations[0])) && typeof o.serviceConfigId === "string");
+  },
+  isSDK(o: any): o is ReportRequestSDKType {
+    return o && (o.$typeUrl === ReportRequest.typeUrl || typeof o.service_name === "string" && Array.isArray(o.operations) && (!o.operations.length || Operation.isSDK(o.operations[0])) && typeof o.service_config_id === "string");
+  },
   encode(message: ReportRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -986,6 +1021,7 @@ export const ReportRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ReportRequest.typeUrl, ReportRequest);
 function createBaseReportResponse(): ReportResponse {
   return {
     reportErrors: [],
@@ -995,6 +1031,12 @@ function createBaseReportResponse(): ReportResponse {
 }
 export const ReportResponse = {
   typeUrl: "/google.api.servicecontrol.v1.ReportResponse",
+  is(o: any): o is ReportResponse {
+    return o && (o.$typeUrl === ReportResponse.typeUrl || Array.isArray(o.reportErrors) && (!o.reportErrors.length || ReportResponse_ReportError.is(o.reportErrors[0])) && typeof o.serviceConfigId === "string" && typeof o.serviceRolloutId === "string");
+  },
+  isSDK(o: any): o is ReportResponseSDKType {
+    return o && (o.$typeUrl === ReportResponse.typeUrl || Array.isArray(o.report_errors) && (!o.report_errors.length || ReportResponse_ReportError.isSDK(o.report_errors[0])) && typeof o.service_config_id === "string" && typeof o.service_rollout_id === "string");
+  },
   encode(message: ReportResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.reportErrors) {
       ReportResponse_ReportError.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1118,6 +1160,7 @@ export const ReportResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ReportResponse.typeUrl, ReportResponse);
 function createBaseReportResponse_ReportError(): ReportResponse_ReportError {
   return {
     operationId: "",
@@ -1126,6 +1169,12 @@ function createBaseReportResponse_ReportError(): ReportResponse_ReportError {
 }
 export const ReportResponse_ReportError = {
   typeUrl: "/google.api.servicecontrol.v1.ReportError",
+  is(o: any): o is ReportResponse_ReportError {
+    return o && (o.$typeUrl === ReportResponse_ReportError.typeUrl || typeof o.operationId === "string");
+  },
+  isSDK(o: any): o is ReportResponse_ReportErrorSDKType {
+    return o && (o.$typeUrl === ReportResponse_ReportError.typeUrl || typeof o.operation_id === "string");
+  },
   encode(message: ReportResponse_ReportError, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.operationId !== "") {
       writer.uint32(10).string(message.operationId);
@@ -1223,3 +1272,4 @@ export const ReportResponse_ReportError = {
     };
   }
 };
+GlobalDecoderRegistry.register(ReportResponse_ReportError.typeUrl, ReportResponse_ReportError);

@@ -7,6 +7,7 @@ import { HttpRequest, HttpRequestSDKType } from "../type/http_request";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, toTimestamp, fromTimestamp, isObject } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.logging.v2";
 export interface LogEntry_LabelsEntry {
@@ -465,6 +466,12 @@ function createBaseLogEntry(): LogEntry {
 }
 export const LogEntry = {
   typeUrl: "/google.logging.v2.LogEntry",
+  is(o: any): o is LogEntry {
+    return o && (o.$typeUrl === LogEntry.typeUrl || typeof o.logName === "string" && isSet(o.severity) && typeof o.insertId === "string" && isSet(o.labels) && typeof o.trace === "string" && typeof o.spanId === "string" && typeof o.traceSampled === "boolean");
+  },
+  isSDK(o: any): o is LogEntrySDKType {
+    return o && (o.$typeUrl === LogEntry.typeUrl || typeof o.log_name === "string" && isSet(o.severity) && typeof o.insert_id === "string" && isSet(o.labels) && typeof o.trace === "string" && typeof o.span_id === "string" && typeof o.trace_sampled === "boolean");
+  },
   encode(message: LogEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.logName !== "") {
       writer.uint32(98).string(message.logName);
@@ -850,6 +857,7 @@ export const LogEntry = {
     };
   }
 };
+GlobalDecoderRegistry.register(LogEntry.typeUrl, LogEntry);
 function createBaseLogEntryOperation(): LogEntryOperation {
   return {
     id: "",
@@ -860,6 +868,12 @@ function createBaseLogEntryOperation(): LogEntryOperation {
 }
 export const LogEntryOperation = {
   typeUrl: "/google.logging.v2.LogEntryOperation",
+  is(o: any): o is LogEntryOperation {
+    return o && (o.$typeUrl === LogEntryOperation.typeUrl || typeof o.id === "string" && typeof o.producer === "string" && typeof o.first === "boolean" && typeof o.last === "boolean");
+  },
+  isSDK(o: any): o is LogEntryOperationSDKType {
+    return o && (o.$typeUrl === LogEntryOperation.typeUrl || typeof o.id === "string" && typeof o.producer === "string" && typeof o.first === "boolean" && typeof o.last === "boolean");
+  },
   encode(message: LogEntryOperation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
@@ -989,6 +1003,7 @@ export const LogEntryOperation = {
     };
   }
 };
+GlobalDecoderRegistry.register(LogEntryOperation.typeUrl, LogEntryOperation);
 function createBaseLogEntrySourceLocation(): LogEntrySourceLocation {
   return {
     file: "",
@@ -998,6 +1013,12 @@ function createBaseLogEntrySourceLocation(): LogEntrySourceLocation {
 }
 export const LogEntrySourceLocation = {
   typeUrl: "/google.logging.v2.LogEntrySourceLocation",
+  is(o: any): o is LogEntrySourceLocation {
+    return o && (o.$typeUrl === LogEntrySourceLocation.typeUrl || typeof o.file === "string" && typeof o.line === "bigint" && typeof o.function === "string");
+  },
+  isSDK(o: any): o is LogEntrySourceLocationSDKType {
+    return o && (o.$typeUrl === LogEntrySourceLocation.typeUrl || typeof o.file === "string" && typeof o.line === "bigint" && typeof o.function === "string");
+  },
   encode(message: LogEntrySourceLocation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.file !== "") {
       writer.uint32(10).string(message.file);
@@ -1111,6 +1132,7 @@ export const LogEntrySourceLocation = {
     };
   }
 };
+GlobalDecoderRegistry.register(LogEntrySourceLocation.typeUrl, LogEntrySourceLocation);
 function createBaseLogSplit(): LogSplit {
   return {
     uid: "",
@@ -1120,6 +1142,12 @@ function createBaseLogSplit(): LogSplit {
 }
 export const LogSplit = {
   typeUrl: "/google.logging.v2.LogSplit",
+  is(o: any): o is LogSplit {
+    return o && (o.$typeUrl === LogSplit.typeUrl || typeof o.uid === "string" && typeof o.index === "number" && typeof o.totalSplits === "number");
+  },
+  isSDK(o: any): o is LogSplitSDKType {
+    return o && (o.$typeUrl === LogSplit.typeUrl || typeof o.uid === "string" && typeof o.index === "number" && typeof o.total_splits === "number");
+  },
   encode(message: LogSplit, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.uid !== "") {
       writer.uint32(10).string(message.uid);
@@ -1233,3 +1261,4 @@ export const LogSplit = {
     };
   }
 };
+GlobalDecoderRegistry.register(LogSplit.typeUrl, LogSplit);

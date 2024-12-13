@@ -3,6 +3,7 @@ import { Endpoint, EndpointSDKType } from "./endpoint";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.base.v1beta2";
 /**
@@ -45,6 +46,13 @@ function createBaseResourceUnits(): ResourceUnits {
 }
 export const ResourceUnits = {
   typeUrl: "/akash.base.v1beta2.ResourceUnits",
+  aminoType: "akash/base/v1beta2/resource-units",
+  is(o: any): o is ResourceUnits {
+    return o && (o.$typeUrl === ResourceUnits.typeUrl || Array.isArray(o.storage) && (!o.storage.length || Storage.is(o.storage[0])) && Array.isArray(o.endpoints) && (!o.endpoints.length || Endpoint.is(o.endpoints[0])));
+  },
+  isSDK(o: any): o is ResourceUnitsSDKType {
+    return o && (o.$typeUrl === ResourceUnits.typeUrl || Array.isArray(o.storage) && (!o.storage.length || Storage.isSDK(o.storage[0])) && Array.isArray(o.endpoints) && (!o.endpoints.length || Endpoint.isSDK(o.endpoints[0])));
+  },
   encode(message: ResourceUnits, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.cpu !== undefined) {
       CPU.encode(message.cpu, writer.uint32(10).fork()).ldelim();
@@ -200,3 +208,5 @@ export const ResourceUnits = {
     };
   }
 };
+GlobalDecoderRegistry.register(ResourceUnits.typeUrl, ResourceUnits);
+GlobalDecoderRegistry.registerAminoProtoMapping(ResourceUnits.aminoType, ResourceUnits.typeUrl);

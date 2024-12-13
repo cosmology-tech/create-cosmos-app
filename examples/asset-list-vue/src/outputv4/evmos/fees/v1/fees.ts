@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.fees.v1";
 /**
@@ -45,6 +46,12 @@ function createBaseDevFeeInfo(): DevFeeInfo {
 }
 export const DevFeeInfo = {
   typeUrl: "/evmos.fees.v1.DevFeeInfo",
+  is(o: any): o is DevFeeInfo {
+    return o && (o.$typeUrl === DevFeeInfo.typeUrl || typeof o.contractAddress === "string" && typeof o.deployerAddress === "string" && typeof o.withdrawAddress === "string");
+  },
+  isSDK(o: any): o is DevFeeInfoSDKType {
+    return o && (o.$typeUrl === DevFeeInfo.typeUrl || typeof o.contract_address === "string" && typeof o.deployer_address === "string" && typeof o.withdraw_address === "string");
+  },
   encode(message: DevFeeInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contractAddress !== "") {
       writer.uint32(10).string(message.contractAddress);
@@ -158,3 +165,4 @@ export const DevFeeInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(DevFeeInfo.typeUrl, DevFeeInfo);

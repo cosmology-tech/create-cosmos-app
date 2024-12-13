@@ -3,6 +3,7 @@ import { BinaryReader, BinaryWriter } from "../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity.v1beta1";
 export interface TickInfo {
@@ -50,6 +51,13 @@ function createBaseTickInfo(): TickInfo {
 }
 export const TickInfo = {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.TickInfo",
+  aminoType: "osmosis/concentratedliquidity/tick-info",
+  is(o: any): o is TickInfo {
+    return o && (o.$typeUrl === TickInfo.typeUrl || typeof o.liquidityGross === "string" && typeof o.liquidityNet === "string" && Array.isArray(o.feeGrowthOutside) && (!o.feeGrowthOutside.length || DecCoin.is(o.feeGrowthOutside[0])) && Array.isArray(o.uptimeTrackers) && (!o.uptimeTrackers.length || UptimeTracker.is(o.uptimeTrackers[0])));
+  },
+  isSDK(o: any): o is TickInfoSDKType {
+    return o && (o.$typeUrl === TickInfo.typeUrl || typeof o.liquidity_gross === "string" && typeof o.liquidity_net === "string" && Array.isArray(o.fee_growth_outside) && (!o.fee_growth_outside.length || DecCoin.isSDK(o.fee_growth_outside[0])) && Array.isArray(o.uptime_trackers) && (!o.uptime_trackers.length || UptimeTracker.isSDK(o.uptime_trackers[0])));
+  },
   encode(message: TickInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.liquidityGross !== "") {
       writer.uint32(10).string(Decimal.fromUserInput(message.liquidityGross, 18).atomics);
@@ -205,6 +213,8 @@ export const TickInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(TickInfo.typeUrl, TickInfo);
+GlobalDecoderRegistry.registerAminoProtoMapping(TickInfo.aminoType, TickInfo.typeUrl);
 function createBaseUptimeTracker(): UptimeTracker {
   return {
     uptimeGrowthOutside: []
@@ -212,6 +222,13 @@ function createBaseUptimeTracker(): UptimeTracker {
 }
 export const UptimeTracker = {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.UptimeTracker",
+  aminoType: "osmosis/concentratedliquidity/uptime-tracker",
+  is(o: any): o is UptimeTracker {
+    return o && (o.$typeUrl === UptimeTracker.typeUrl || Array.isArray(o.uptimeGrowthOutside) && (!o.uptimeGrowthOutside.length || DecCoin.is(o.uptimeGrowthOutside[0])));
+  },
+  isSDK(o: any): o is UptimeTrackerSDKType {
+    return o && (o.$typeUrl === UptimeTracker.typeUrl || Array.isArray(o.uptime_growth_outside) && (!o.uptime_growth_outside.length || DecCoin.isSDK(o.uptime_growth_outside[0])));
+  },
   encode(message: UptimeTracker, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.uptimeGrowthOutside) {
       DecCoin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -309,3 +326,5 @@ export const UptimeTracker = {
     };
   }
 };
+GlobalDecoderRegistry.register(UptimeTracker.typeUrl, UptimeTracker);
+GlobalDecoderRegistry.registerAminoProtoMapping(UptimeTracker.aminoType, UptimeTracker.typeUrl);

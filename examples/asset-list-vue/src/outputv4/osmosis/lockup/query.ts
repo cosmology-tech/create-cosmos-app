@@ -6,6 +6,7 @@ import { Params, ParamsSDKType } from "./params";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet, toTimestamp, fromTimestamp } from "../../helpers";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.lockup";
 export interface ModuleBalanceRequest {}
@@ -470,6 +471,13 @@ function createBaseModuleBalanceRequest(): ModuleBalanceRequest {
 }
 export const ModuleBalanceRequest = {
   typeUrl: "/osmosis.lockup.ModuleBalanceRequest",
+  aminoType: "osmosis/lockup/module-balance-request",
+  is(o: any): o is ModuleBalanceRequest {
+    return o && o.$typeUrl === ModuleBalanceRequest.typeUrl;
+  },
+  isSDK(o: any): o is ModuleBalanceRequestSDKType {
+    return o && o.$typeUrl === ModuleBalanceRequest.typeUrl;
+  },
   encode(_: ModuleBalanceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -538,6 +546,8 @@ export const ModuleBalanceRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ModuleBalanceRequest.typeUrl, ModuleBalanceRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(ModuleBalanceRequest.aminoType, ModuleBalanceRequest.typeUrl);
 function createBaseModuleBalanceResponse(): ModuleBalanceResponse {
   return {
     coins: []
@@ -545,6 +555,13 @@ function createBaseModuleBalanceResponse(): ModuleBalanceResponse {
 }
 export const ModuleBalanceResponse = {
   typeUrl: "/osmosis.lockup.ModuleBalanceResponse",
+  aminoType: "osmosis/lockup/module-balance-response",
+  is(o: any): o is ModuleBalanceResponse {
+    return o && (o.$typeUrl === ModuleBalanceResponse.typeUrl || Array.isArray(o.coins) && (!o.coins.length || Coin.is(o.coins[0])));
+  },
+  isSDK(o: any): o is ModuleBalanceResponseSDKType {
+    return o && (o.$typeUrl === ModuleBalanceResponse.typeUrl || Array.isArray(o.coins) && (!o.coins.length || Coin.isSDK(o.coins[0])));
+  },
   encode(message: ModuleBalanceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.coins) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -642,11 +659,20 @@ export const ModuleBalanceResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ModuleBalanceResponse.typeUrl, ModuleBalanceResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(ModuleBalanceResponse.aminoType, ModuleBalanceResponse.typeUrl);
 function createBaseModuleLockedAmountRequest(): ModuleLockedAmountRequest {
   return {};
 }
 export const ModuleLockedAmountRequest = {
   typeUrl: "/osmosis.lockup.ModuleLockedAmountRequest",
+  aminoType: "osmosis/lockup/module-locked-amount-request",
+  is(o: any): o is ModuleLockedAmountRequest {
+    return o && o.$typeUrl === ModuleLockedAmountRequest.typeUrl;
+  },
+  isSDK(o: any): o is ModuleLockedAmountRequestSDKType {
+    return o && o.$typeUrl === ModuleLockedAmountRequest.typeUrl;
+  },
   encode(_: ModuleLockedAmountRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -715,6 +741,8 @@ export const ModuleLockedAmountRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ModuleLockedAmountRequest.typeUrl, ModuleLockedAmountRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(ModuleLockedAmountRequest.aminoType, ModuleLockedAmountRequest.typeUrl);
 function createBaseModuleLockedAmountResponse(): ModuleLockedAmountResponse {
   return {
     coins: []
@@ -722,6 +750,13 @@ function createBaseModuleLockedAmountResponse(): ModuleLockedAmountResponse {
 }
 export const ModuleLockedAmountResponse = {
   typeUrl: "/osmosis.lockup.ModuleLockedAmountResponse",
+  aminoType: "osmosis/lockup/module-locked-amount-response",
+  is(o: any): o is ModuleLockedAmountResponse {
+    return o && (o.$typeUrl === ModuleLockedAmountResponse.typeUrl || Array.isArray(o.coins) && (!o.coins.length || Coin.is(o.coins[0])));
+  },
+  isSDK(o: any): o is ModuleLockedAmountResponseSDKType {
+    return o && (o.$typeUrl === ModuleLockedAmountResponse.typeUrl || Array.isArray(o.coins) && (!o.coins.length || Coin.isSDK(o.coins[0])));
+  },
   encode(message: ModuleLockedAmountResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.coins) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -819,6 +854,8 @@ export const ModuleLockedAmountResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ModuleLockedAmountResponse.typeUrl, ModuleLockedAmountResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(ModuleLockedAmountResponse.aminoType, ModuleLockedAmountResponse.typeUrl);
 function createBaseAccountUnlockableCoinsRequest(): AccountUnlockableCoinsRequest {
   return {
     owner: ""
@@ -826,6 +863,13 @@ function createBaseAccountUnlockableCoinsRequest(): AccountUnlockableCoinsReques
 }
 export const AccountUnlockableCoinsRequest = {
   typeUrl: "/osmosis.lockup.AccountUnlockableCoinsRequest",
+  aminoType: "osmosis/lockup/account-unlockable-coins-request",
+  is(o: any): o is AccountUnlockableCoinsRequest {
+    return o && (o.$typeUrl === AccountUnlockableCoinsRequest.typeUrl || typeof o.owner === "string");
+  },
+  isSDK(o: any): o is AccountUnlockableCoinsRequestSDKType {
+    return o && (o.$typeUrl === AccountUnlockableCoinsRequest.typeUrl || typeof o.owner === "string");
+  },
   encode(message: AccountUnlockableCoinsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -913,6 +957,8 @@ export const AccountUnlockableCoinsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountUnlockableCoinsRequest.typeUrl, AccountUnlockableCoinsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountUnlockableCoinsRequest.aminoType, AccountUnlockableCoinsRequest.typeUrl);
 function createBaseAccountUnlockableCoinsResponse(): AccountUnlockableCoinsResponse {
   return {
     coins: []
@@ -920,6 +966,13 @@ function createBaseAccountUnlockableCoinsResponse(): AccountUnlockableCoinsRespo
 }
 export const AccountUnlockableCoinsResponse = {
   typeUrl: "/osmosis.lockup.AccountUnlockableCoinsResponse",
+  aminoType: "osmosis/lockup/account-unlockable-coins-response",
+  is(o: any): o is AccountUnlockableCoinsResponse {
+    return o && (o.$typeUrl === AccountUnlockableCoinsResponse.typeUrl || Array.isArray(o.coins) && (!o.coins.length || Coin.is(o.coins[0])));
+  },
+  isSDK(o: any): o is AccountUnlockableCoinsResponseSDKType {
+    return o && (o.$typeUrl === AccountUnlockableCoinsResponse.typeUrl || Array.isArray(o.coins) && (!o.coins.length || Coin.isSDK(o.coins[0])));
+  },
   encode(message: AccountUnlockableCoinsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.coins) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1017,6 +1070,8 @@ export const AccountUnlockableCoinsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountUnlockableCoinsResponse.typeUrl, AccountUnlockableCoinsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountUnlockableCoinsResponse.aminoType, AccountUnlockableCoinsResponse.typeUrl);
 function createBaseAccountUnlockingCoinsRequest(): AccountUnlockingCoinsRequest {
   return {
     owner: ""
@@ -1024,6 +1079,13 @@ function createBaseAccountUnlockingCoinsRequest(): AccountUnlockingCoinsRequest 
 }
 export const AccountUnlockingCoinsRequest = {
   typeUrl: "/osmosis.lockup.AccountUnlockingCoinsRequest",
+  aminoType: "osmosis/lockup/account-unlocking-coins-request",
+  is(o: any): o is AccountUnlockingCoinsRequest {
+    return o && (o.$typeUrl === AccountUnlockingCoinsRequest.typeUrl || typeof o.owner === "string");
+  },
+  isSDK(o: any): o is AccountUnlockingCoinsRequestSDKType {
+    return o && (o.$typeUrl === AccountUnlockingCoinsRequest.typeUrl || typeof o.owner === "string");
+  },
   encode(message: AccountUnlockingCoinsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -1111,6 +1173,8 @@ export const AccountUnlockingCoinsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountUnlockingCoinsRequest.typeUrl, AccountUnlockingCoinsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountUnlockingCoinsRequest.aminoType, AccountUnlockingCoinsRequest.typeUrl);
 function createBaseAccountUnlockingCoinsResponse(): AccountUnlockingCoinsResponse {
   return {
     coins: []
@@ -1118,6 +1182,13 @@ function createBaseAccountUnlockingCoinsResponse(): AccountUnlockingCoinsRespons
 }
 export const AccountUnlockingCoinsResponse = {
   typeUrl: "/osmosis.lockup.AccountUnlockingCoinsResponse",
+  aminoType: "osmosis/lockup/account-unlocking-coins-response",
+  is(o: any): o is AccountUnlockingCoinsResponse {
+    return o && (o.$typeUrl === AccountUnlockingCoinsResponse.typeUrl || Array.isArray(o.coins) && (!o.coins.length || Coin.is(o.coins[0])));
+  },
+  isSDK(o: any): o is AccountUnlockingCoinsResponseSDKType {
+    return o && (o.$typeUrl === AccountUnlockingCoinsResponse.typeUrl || Array.isArray(o.coins) && (!o.coins.length || Coin.isSDK(o.coins[0])));
+  },
   encode(message: AccountUnlockingCoinsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.coins) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1215,6 +1286,8 @@ export const AccountUnlockingCoinsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountUnlockingCoinsResponse.typeUrl, AccountUnlockingCoinsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountUnlockingCoinsResponse.aminoType, AccountUnlockingCoinsResponse.typeUrl);
 function createBaseAccountLockedCoinsRequest(): AccountLockedCoinsRequest {
   return {
     owner: ""
@@ -1222,6 +1295,13 @@ function createBaseAccountLockedCoinsRequest(): AccountLockedCoinsRequest {
 }
 export const AccountLockedCoinsRequest = {
   typeUrl: "/osmosis.lockup.AccountLockedCoinsRequest",
+  aminoType: "osmosis/lockup/account-locked-coins-request",
+  is(o: any): o is AccountLockedCoinsRequest {
+    return o && (o.$typeUrl === AccountLockedCoinsRequest.typeUrl || typeof o.owner === "string");
+  },
+  isSDK(o: any): o is AccountLockedCoinsRequestSDKType {
+    return o && (o.$typeUrl === AccountLockedCoinsRequest.typeUrl || typeof o.owner === "string");
+  },
   encode(message: AccountLockedCoinsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -1309,6 +1389,8 @@ export const AccountLockedCoinsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedCoinsRequest.typeUrl, AccountLockedCoinsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedCoinsRequest.aminoType, AccountLockedCoinsRequest.typeUrl);
 function createBaseAccountLockedCoinsResponse(): AccountLockedCoinsResponse {
   return {
     coins: []
@@ -1316,6 +1398,13 @@ function createBaseAccountLockedCoinsResponse(): AccountLockedCoinsResponse {
 }
 export const AccountLockedCoinsResponse = {
   typeUrl: "/osmosis.lockup.AccountLockedCoinsResponse",
+  aminoType: "osmosis/lockup/account-locked-coins-response",
+  is(o: any): o is AccountLockedCoinsResponse {
+    return o && (o.$typeUrl === AccountLockedCoinsResponse.typeUrl || Array.isArray(o.coins) && (!o.coins.length || Coin.is(o.coins[0])));
+  },
+  isSDK(o: any): o is AccountLockedCoinsResponseSDKType {
+    return o && (o.$typeUrl === AccountLockedCoinsResponse.typeUrl || Array.isArray(o.coins) && (!o.coins.length || Coin.isSDK(o.coins[0])));
+  },
   encode(message: AccountLockedCoinsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.coins) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1413,6 +1502,8 @@ export const AccountLockedCoinsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedCoinsResponse.typeUrl, AccountLockedCoinsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedCoinsResponse.aminoType, AccountLockedCoinsResponse.typeUrl);
 function createBaseAccountLockedPastTimeRequest(): AccountLockedPastTimeRequest {
   return {
     owner: "",
@@ -1421,6 +1512,13 @@ function createBaseAccountLockedPastTimeRequest(): AccountLockedPastTimeRequest 
 }
 export const AccountLockedPastTimeRequest = {
   typeUrl: "/osmosis.lockup.AccountLockedPastTimeRequest",
+  aminoType: "osmosis/lockup/account-locked-past-time-request",
+  is(o: any): o is AccountLockedPastTimeRequest {
+    return o && (o.$typeUrl === AccountLockedPastTimeRequest.typeUrl || typeof o.owner === "string" && Timestamp.is(o.timestamp));
+  },
+  isSDK(o: any): o is AccountLockedPastTimeRequestSDKType {
+    return o && (o.$typeUrl === AccountLockedPastTimeRequest.typeUrl || typeof o.owner === "string" && Timestamp.isSDK(o.timestamp));
+  },
   encode(message: AccountLockedPastTimeRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -1524,6 +1622,8 @@ export const AccountLockedPastTimeRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedPastTimeRequest.typeUrl, AccountLockedPastTimeRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedPastTimeRequest.aminoType, AccountLockedPastTimeRequest.typeUrl);
 function createBaseAccountLockedPastTimeResponse(): AccountLockedPastTimeResponse {
   return {
     locks: []
@@ -1531,6 +1631,13 @@ function createBaseAccountLockedPastTimeResponse(): AccountLockedPastTimeRespons
 }
 export const AccountLockedPastTimeResponse = {
   typeUrl: "/osmosis.lockup.AccountLockedPastTimeResponse",
+  aminoType: "osmosis/lockup/account-locked-past-time-response",
+  is(o: any): o is AccountLockedPastTimeResponse {
+    return o && (o.$typeUrl === AccountLockedPastTimeResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.is(o.locks[0])));
+  },
+  isSDK(o: any): o is AccountLockedPastTimeResponseSDKType {
+    return o && (o.$typeUrl === AccountLockedPastTimeResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.isSDK(o.locks[0])));
+  },
   encode(message: AccountLockedPastTimeResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.locks) {
       PeriodLock.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1628,6 +1735,8 @@ export const AccountLockedPastTimeResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedPastTimeResponse.typeUrl, AccountLockedPastTimeResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedPastTimeResponse.aminoType, AccountLockedPastTimeResponse.typeUrl);
 function createBaseAccountLockedPastTimeNotUnlockingOnlyRequest(): AccountLockedPastTimeNotUnlockingOnlyRequest {
   return {
     owner: "",
@@ -1636,6 +1745,13 @@ function createBaseAccountLockedPastTimeNotUnlockingOnlyRequest(): AccountLocked
 }
 export const AccountLockedPastTimeNotUnlockingOnlyRequest = {
   typeUrl: "/osmosis.lockup.AccountLockedPastTimeNotUnlockingOnlyRequest",
+  aminoType: "osmosis/lockup/account-locked-past-time-not-unlocking-only-request",
+  is(o: any): o is AccountLockedPastTimeNotUnlockingOnlyRequest {
+    return o && (o.$typeUrl === AccountLockedPastTimeNotUnlockingOnlyRequest.typeUrl || typeof o.owner === "string" && Timestamp.is(o.timestamp));
+  },
+  isSDK(o: any): o is AccountLockedPastTimeNotUnlockingOnlyRequestSDKType {
+    return o && (o.$typeUrl === AccountLockedPastTimeNotUnlockingOnlyRequest.typeUrl || typeof o.owner === "string" && Timestamp.isSDK(o.timestamp));
+  },
   encode(message: AccountLockedPastTimeNotUnlockingOnlyRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -1739,6 +1855,8 @@ export const AccountLockedPastTimeNotUnlockingOnlyRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedPastTimeNotUnlockingOnlyRequest.typeUrl, AccountLockedPastTimeNotUnlockingOnlyRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedPastTimeNotUnlockingOnlyRequest.aminoType, AccountLockedPastTimeNotUnlockingOnlyRequest.typeUrl);
 function createBaseAccountLockedPastTimeNotUnlockingOnlyResponse(): AccountLockedPastTimeNotUnlockingOnlyResponse {
   return {
     locks: []
@@ -1746,6 +1864,13 @@ function createBaseAccountLockedPastTimeNotUnlockingOnlyResponse(): AccountLocke
 }
 export const AccountLockedPastTimeNotUnlockingOnlyResponse = {
   typeUrl: "/osmosis.lockup.AccountLockedPastTimeNotUnlockingOnlyResponse",
+  aminoType: "osmosis/lockup/account-locked-past-time-not-unlocking-only-response",
+  is(o: any): o is AccountLockedPastTimeNotUnlockingOnlyResponse {
+    return o && (o.$typeUrl === AccountLockedPastTimeNotUnlockingOnlyResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.is(o.locks[0])));
+  },
+  isSDK(o: any): o is AccountLockedPastTimeNotUnlockingOnlyResponseSDKType {
+    return o && (o.$typeUrl === AccountLockedPastTimeNotUnlockingOnlyResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.isSDK(o.locks[0])));
+  },
   encode(message: AccountLockedPastTimeNotUnlockingOnlyResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.locks) {
       PeriodLock.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1843,6 +1968,8 @@ export const AccountLockedPastTimeNotUnlockingOnlyResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedPastTimeNotUnlockingOnlyResponse.typeUrl, AccountLockedPastTimeNotUnlockingOnlyResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedPastTimeNotUnlockingOnlyResponse.aminoType, AccountLockedPastTimeNotUnlockingOnlyResponse.typeUrl);
 function createBaseAccountUnlockedBeforeTimeRequest(): AccountUnlockedBeforeTimeRequest {
   return {
     owner: "",
@@ -1851,6 +1978,13 @@ function createBaseAccountUnlockedBeforeTimeRequest(): AccountUnlockedBeforeTime
 }
 export const AccountUnlockedBeforeTimeRequest = {
   typeUrl: "/osmosis.lockup.AccountUnlockedBeforeTimeRequest",
+  aminoType: "osmosis/lockup/account-unlocked-before-time-request",
+  is(o: any): o is AccountUnlockedBeforeTimeRequest {
+    return o && (o.$typeUrl === AccountUnlockedBeforeTimeRequest.typeUrl || typeof o.owner === "string" && Timestamp.is(o.timestamp));
+  },
+  isSDK(o: any): o is AccountUnlockedBeforeTimeRequestSDKType {
+    return o && (o.$typeUrl === AccountUnlockedBeforeTimeRequest.typeUrl || typeof o.owner === "string" && Timestamp.isSDK(o.timestamp));
+  },
   encode(message: AccountUnlockedBeforeTimeRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -1954,6 +2088,8 @@ export const AccountUnlockedBeforeTimeRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountUnlockedBeforeTimeRequest.typeUrl, AccountUnlockedBeforeTimeRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountUnlockedBeforeTimeRequest.aminoType, AccountUnlockedBeforeTimeRequest.typeUrl);
 function createBaseAccountUnlockedBeforeTimeResponse(): AccountUnlockedBeforeTimeResponse {
   return {
     locks: []
@@ -1961,6 +2097,13 @@ function createBaseAccountUnlockedBeforeTimeResponse(): AccountUnlockedBeforeTim
 }
 export const AccountUnlockedBeforeTimeResponse = {
   typeUrl: "/osmosis.lockup.AccountUnlockedBeforeTimeResponse",
+  aminoType: "osmosis/lockup/account-unlocked-before-time-response",
+  is(o: any): o is AccountUnlockedBeforeTimeResponse {
+    return o && (o.$typeUrl === AccountUnlockedBeforeTimeResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.is(o.locks[0])));
+  },
+  isSDK(o: any): o is AccountUnlockedBeforeTimeResponseSDKType {
+    return o && (o.$typeUrl === AccountUnlockedBeforeTimeResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.isSDK(o.locks[0])));
+  },
   encode(message: AccountUnlockedBeforeTimeResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.locks) {
       PeriodLock.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -2058,6 +2201,8 @@ export const AccountUnlockedBeforeTimeResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountUnlockedBeforeTimeResponse.typeUrl, AccountUnlockedBeforeTimeResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountUnlockedBeforeTimeResponse.aminoType, AccountUnlockedBeforeTimeResponse.typeUrl);
 function createBaseAccountLockedPastTimeDenomRequest(): AccountLockedPastTimeDenomRequest {
   return {
     owner: "",
@@ -2067,6 +2212,13 @@ function createBaseAccountLockedPastTimeDenomRequest(): AccountLockedPastTimeDen
 }
 export const AccountLockedPastTimeDenomRequest = {
   typeUrl: "/osmosis.lockup.AccountLockedPastTimeDenomRequest",
+  aminoType: "osmosis/lockup/account-locked-past-time-denom-request",
+  is(o: any): o is AccountLockedPastTimeDenomRequest {
+    return o && (o.$typeUrl === AccountLockedPastTimeDenomRequest.typeUrl || typeof o.owner === "string" && Timestamp.is(o.timestamp) && typeof o.denom === "string");
+  },
+  isSDK(o: any): o is AccountLockedPastTimeDenomRequestSDKType {
+    return o && (o.$typeUrl === AccountLockedPastTimeDenomRequest.typeUrl || typeof o.owner === "string" && Timestamp.isSDK(o.timestamp) && typeof o.denom === "string");
+  },
   encode(message: AccountLockedPastTimeDenomRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -2186,6 +2338,8 @@ export const AccountLockedPastTimeDenomRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedPastTimeDenomRequest.typeUrl, AccountLockedPastTimeDenomRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedPastTimeDenomRequest.aminoType, AccountLockedPastTimeDenomRequest.typeUrl);
 function createBaseAccountLockedPastTimeDenomResponse(): AccountLockedPastTimeDenomResponse {
   return {
     locks: []
@@ -2193,6 +2347,13 @@ function createBaseAccountLockedPastTimeDenomResponse(): AccountLockedPastTimeDe
 }
 export const AccountLockedPastTimeDenomResponse = {
   typeUrl: "/osmosis.lockup.AccountLockedPastTimeDenomResponse",
+  aminoType: "osmosis/lockup/account-locked-past-time-denom-response",
+  is(o: any): o is AccountLockedPastTimeDenomResponse {
+    return o && (o.$typeUrl === AccountLockedPastTimeDenomResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.is(o.locks[0])));
+  },
+  isSDK(o: any): o is AccountLockedPastTimeDenomResponseSDKType {
+    return o && (o.$typeUrl === AccountLockedPastTimeDenomResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.isSDK(o.locks[0])));
+  },
   encode(message: AccountLockedPastTimeDenomResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.locks) {
       PeriodLock.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -2290,6 +2451,8 @@ export const AccountLockedPastTimeDenomResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedPastTimeDenomResponse.typeUrl, AccountLockedPastTimeDenomResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedPastTimeDenomResponse.aminoType, AccountLockedPastTimeDenomResponse.typeUrl);
 function createBaseLockedDenomRequest(): LockedDenomRequest {
   return {
     denom: "",
@@ -2298,6 +2461,13 @@ function createBaseLockedDenomRequest(): LockedDenomRequest {
 }
 export const LockedDenomRequest = {
   typeUrl: "/osmosis.lockup.LockedDenomRequest",
+  aminoType: "osmosis/lockup/locked-denom-request",
+  is(o: any): o is LockedDenomRequest {
+    return o && (o.$typeUrl === LockedDenomRequest.typeUrl || typeof o.denom === "string" && Duration.is(o.duration));
+  },
+  isSDK(o: any): o is LockedDenomRequestSDKType {
+    return o && (o.$typeUrl === LockedDenomRequest.typeUrl || typeof o.denom === "string" && Duration.isSDK(o.duration));
+  },
   encode(message: LockedDenomRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
@@ -2401,6 +2571,8 @@ export const LockedDenomRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(LockedDenomRequest.typeUrl, LockedDenomRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(LockedDenomRequest.aminoType, LockedDenomRequest.typeUrl);
 function createBaseLockedDenomResponse(): LockedDenomResponse {
   return {
     amount: ""
@@ -2408,6 +2580,13 @@ function createBaseLockedDenomResponse(): LockedDenomResponse {
 }
 export const LockedDenomResponse = {
   typeUrl: "/osmosis.lockup.LockedDenomResponse",
+  aminoType: "osmosis/lockup/locked-denom-response",
+  is(o: any): o is LockedDenomResponse {
+    return o && (o.$typeUrl === LockedDenomResponse.typeUrl || typeof o.amount === "string");
+  },
+  isSDK(o: any): o is LockedDenomResponseSDKType {
+    return o && (o.$typeUrl === LockedDenomResponse.typeUrl || typeof o.amount === "string");
+  },
   encode(message: LockedDenomResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.amount !== "") {
       writer.uint32(10).string(message.amount);
@@ -2495,6 +2674,8 @@ export const LockedDenomResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(LockedDenomResponse.typeUrl, LockedDenomResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(LockedDenomResponse.aminoType, LockedDenomResponse.typeUrl);
 function createBaseLockedRequest(): LockedRequest {
   return {
     lockId: BigInt(0)
@@ -2502,6 +2683,13 @@ function createBaseLockedRequest(): LockedRequest {
 }
 export const LockedRequest = {
   typeUrl: "/osmosis.lockup.LockedRequest",
+  aminoType: "osmosis/lockup/locked-request",
+  is(o: any): o is LockedRequest {
+    return o && (o.$typeUrl === LockedRequest.typeUrl || typeof o.lockId === "bigint");
+  },
+  isSDK(o: any): o is LockedRequestSDKType {
+    return o && (o.$typeUrl === LockedRequest.typeUrl || typeof o.lock_id === "bigint");
+  },
   encode(message: LockedRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.lockId !== BigInt(0)) {
       writer.uint32(8).uint64(message.lockId);
@@ -2589,6 +2777,8 @@ export const LockedRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(LockedRequest.typeUrl, LockedRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(LockedRequest.aminoType, LockedRequest.typeUrl);
 function createBaseLockedResponse(): LockedResponse {
   return {
     lock: undefined
@@ -2596,6 +2786,13 @@ function createBaseLockedResponse(): LockedResponse {
 }
 export const LockedResponse = {
   typeUrl: "/osmosis.lockup.LockedResponse",
+  aminoType: "osmosis/lockup/locked-response",
+  is(o: any): o is LockedResponse {
+    return o && o.$typeUrl === LockedResponse.typeUrl;
+  },
+  isSDK(o: any): o is LockedResponseSDKType {
+    return o && o.$typeUrl === LockedResponse.typeUrl;
+  },
   encode(message: LockedResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.lock !== undefined) {
       PeriodLock.encode(message.lock, writer.uint32(10).fork()).ldelim();
@@ -2683,6 +2880,8 @@ export const LockedResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(LockedResponse.typeUrl, LockedResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(LockedResponse.aminoType, LockedResponse.typeUrl);
 function createBaseSyntheticLockupsByLockupIDRequest(): SyntheticLockupsByLockupIDRequest {
   return {
     lockId: BigInt(0)
@@ -2690,6 +2889,13 @@ function createBaseSyntheticLockupsByLockupIDRequest(): SyntheticLockupsByLockup
 }
 export const SyntheticLockupsByLockupIDRequest = {
   typeUrl: "/osmosis.lockup.SyntheticLockupsByLockupIDRequest",
+  aminoType: "osmosis/lockup/synthetic-lockups-by-lockup-id-request",
+  is(o: any): o is SyntheticLockupsByLockupIDRequest {
+    return o && (o.$typeUrl === SyntheticLockupsByLockupIDRequest.typeUrl || typeof o.lockId === "bigint");
+  },
+  isSDK(o: any): o is SyntheticLockupsByLockupIDRequestSDKType {
+    return o && (o.$typeUrl === SyntheticLockupsByLockupIDRequest.typeUrl || typeof o.lock_id === "bigint");
+  },
   encode(message: SyntheticLockupsByLockupIDRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.lockId !== BigInt(0)) {
       writer.uint32(8).uint64(message.lockId);
@@ -2777,6 +2983,8 @@ export const SyntheticLockupsByLockupIDRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(SyntheticLockupsByLockupIDRequest.typeUrl, SyntheticLockupsByLockupIDRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(SyntheticLockupsByLockupIDRequest.aminoType, SyntheticLockupsByLockupIDRequest.typeUrl);
 function createBaseSyntheticLockupsByLockupIDResponse(): SyntheticLockupsByLockupIDResponse {
   return {
     syntheticLocks: []
@@ -2784,6 +2992,13 @@ function createBaseSyntheticLockupsByLockupIDResponse(): SyntheticLockupsByLocku
 }
 export const SyntheticLockupsByLockupIDResponse = {
   typeUrl: "/osmosis.lockup.SyntheticLockupsByLockupIDResponse",
+  aminoType: "osmosis/lockup/synthetic-lockups-by-lockup-id-response",
+  is(o: any): o is SyntheticLockupsByLockupIDResponse {
+    return o && (o.$typeUrl === SyntheticLockupsByLockupIDResponse.typeUrl || Array.isArray(o.syntheticLocks) && (!o.syntheticLocks.length || SyntheticLock.is(o.syntheticLocks[0])));
+  },
+  isSDK(o: any): o is SyntheticLockupsByLockupIDResponseSDKType {
+    return o && (o.$typeUrl === SyntheticLockupsByLockupIDResponse.typeUrl || Array.isArray(o.synthetic_locks) && (!o.synthetic_locks.length || SyntheticLock.isSDK(o.synthetic_locks[0])));
+  },
   encode(message: SyntheticLockupsByLockupIDResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.syntheticLocks) {
       SyntheticLock.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -2881,6 +3096,8 @@ export const SyntheticLockupsByLockupIDResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(SyntheticLockupsByLockupIDResponse.typeUrl, SyntheticLockupsByLockupIDResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(SyntheticLockupsByLockupIDResponse.aminoType, SyntheticLockupsByLockupIDResponse.typeUrl);
 function createBaseAccountLockedLongerDurationRequest(): AccountLockedLongerDurationRequest {
   return {
     owner: "",
@@ -2889,6 +3106,13 @@ function createBaseAccountLockedLongerDurationRequest(): AccountLockedLongerDura
 }
 export const AccountLockedLongerDurationRequest = {
   typeUrl: "/osmosis.lockup.AccountLockedLongerDurationRequest",
+  aminoType: "osmosis/lockup/account-locked-longer-duration-request",
+  is(o: any): o is AccountLockedLongerDurationRequest {
+    return o && (o.$typeUrl === AccountLockedLongerDurationRequest.typeUrl || typeof o.owner === "string" && Duration.is(o.duration));
+  },
+  isSDK(o: any): o is AccountLockedLongerDurationRequestSDKType {
+    return o && (o.$typeUrl === AccountLockedLongerDurationRequest.typeUrl || typeof o.owner === "string" && Duration.isSDK(o.duration));
+  },
   encode(message: AccountLockedLongerDurationRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -2992,6 +3216,8 @@ export const AccountLockedLongerDurationRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedLongerDurationRequest.typeUrl, AccountLockedLongerDurationRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedLongerDurationRequest.aminoType, AccountLockedLongerDurationRequest.typeUrl);
 function createBaseAccountLockedLongerDurationResponse(): AccountLockedLongerDurationResponse {
   return {
     locks: []
@@ -2999,6 +3225,13 @@ function createBaseAccountLockedLongerDurationResponse(): AccountLockedLongerDur
 }
 export const AccountLockedLongerDurationResponse = {
   typeUrl: "/osmosis.lockup.AccountLockedLongerDurationResponse",
+  aminoType: "osmosis/lockup/account-locked-longer-duration-response",
+  is(o: any): o is AccountLockedLongerDurationResponse {
+    return o && (o.$typeUrl === AccountLockedLongerDurationResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.is(o.locks[0])));
+  },
+  isSDK(o: any): o is AccountLockedLongerDurationResponseSDKType {
+    return o && (o.$typeUrl === AccountLockedLongerDurationResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.isSDK(o.locks[0])));
+  },
   encode(message: AccountLockedLongerDurationResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.locks) {
       PeriodLock.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -3096,6 +3329,8 @@ export const AccountLockedLongerDurationResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedLongerDurationResponse.typeUrl, AccountLockedLongerDurationResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedLongerDurationResponse.aminoType, AccountLockedLongerDurationResponse.typeUrl);
 function createBaseAccountLockedDurationRequest(): AccountLockedDurationRequest {
   return {
     owner: "",
@@ -3104,6 +3339,13 @@ function createBaseAccountLockedDurationRequest(): AccountLockedDurationRequest 
 }
 export const AccountLockedDurationRequest = {
   typeUrl: "/osmosis.lockup.AccountLockedDurationRequest",
+  aminoType: "osmosis/lockup/account-locked-duration-request",
+  is(o: any): o is AccountLockedDurationRequest {
+    return o && (o.$typeUrl === AccountLockedDurationRequest.typeUrl || typeof o.owner === "string" && Duration.is(o.duration));
+  },
+  isSDK(o: any): o is AccountLockedDurationRequestSDKType {
+    return o && (o.$typeUrl === AccountLockedDurationRequest.typeUrl || typeof o.owner === "string" && Duration.isSDK(o.duration));
+  },
   encode(message: AccountLockedDurationRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -3207,6 +3449,8 @@ export const AccountLockedDurationRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedDurationRequest.typeUrl, AccountLockedDurationRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedDurationRequest.aminoType, AccountLockedDurationRequest.typeUrl);
 function createBaseAccountLockedDurationResponse(): AccountLockedDurationResponse {
   return {
     locks: []
@@ -3214,6 +3458,13 @@ function createBaseAccountLockedDurationResponse(): AccountLockedDurationRespons
 }
 export const AccountLockedDurationResponse = {
   typeUrl: "/osmosis.lockup.AccountLockedDurationResponse",
+  aminoType: "osmosis/lockup/account-locked-duration-response",
+  is(o: any): o is AccountLockedDurationResponse {
+    return o && (o.$typeUrl === AccountLockedDurationResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.is(o.locks[0])));
+  },
+  isSDK(o: any): o is AccountLockedDurationResponseSDKType {
+    return o && (o.$typeUrl === AccountLockedDurationResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.isSDK(o.locks[0])));
+  },
   encode(message: AccountLockedDurationResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.locks) {
       PeriodLock.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -3311,6 +3562,8 @@ export const AccountLockedDurationResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedDurationResponse.typeUrl, AccountLockedDurationResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedDurationResponse.aminoType, AccountLockedDurationResponse.typeUrl);
 function createBaseAccountLockedLongerDurationNotUnlockingOnlyRequest(): AccountLockedLongerDurationNotUnlockingOnlyRequest {
   return {
     owner: "",
@@ -3319,6 +3572,13 @@ function createBaseAccountLockedLongerDurationNotUnlockingOnlyRequest(): Account
 }
 export const AccountLockedLongerDurationNotUnlockingOnlyRequest = {
   typeUrl: "/osmosis.lockup.AccountLockedLongerDurationNotUnlockingOnlyRequest",
+  aminoType: "osmosis/lockup/account-locked-longer-duration-not-unlocking-only-request",
+  is(o: any): o is AccountLockedLongerDurationNotUnlockingOnlyRequest {
+    return o && (o.$typeUrl === AccountLockedLongerDurationNotUnlockingOnlyRequest.typeUrl || typeof o.owner === "string" && Duration.is(o.duration));
+  },
+  isSDK(o: any): o is AccountLockedLongerDurationNotUnlockingOnlyRequestSDKType {
+    return o && (o.$typeUrl === AccountLockedLongerDurationNotUnlockingOnlyRequest.typeUrl || typeof o.owner === "string" && Duration.isSDK(o.duration));
+  },
   encode(message: AccountLockedLongerDurationNotUnlockingOnlyRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -3422,6 +3682,8 @@ export const AccountLockedLongerDurationNotUnlockingOnlyRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedLongerDurationNotUnlockingOnlyRequest.typeUrl, AccountLockedLongerDurationNotUnlockingOnlyRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedLongerDurationNotUnlockingOnlyRequest.aminoType, AccountLockedLongerDurationNotUnlockingOnlyRequest.typeUrl);
 function createBaseAccountLockedLongerDurationNotUnlockingOnlyResponse(): AccountLockedLongerDurationNotUnlockingOnlyResponse {
   return {
     locks: []
@@ -3429,6 +3691,13 @@ function createBaseAccountLockedLongerDurationNotUnlockingOnlyResponse(): Accoun
 }
 export const AccountLockedLongerDurationNotUnlockingOnlyResponse = {
   typeUrl: "/osmosis.lockup.AccountLockedLongerDurationNotUnlockingOnlyResponse",
+  aminoType: "osmosis/lockup/account-locked-longer-duration-not-unlocking-only-response",
+  is(o: any): o is AccountLockedLongerDurationNotUnlockingOnlyResponse {
+    return o && (o.$typeUrl === AccountLockedLongerDurationNotUnlockingOnlyResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.is(o.locks[0])));
+  },
+  isSDK(o: any): o is AccountLockedLongerDurationNotUnlockingOnlyResponseSDKType {
+    return o && (o.$typeUrl === AccountLockedLongerDurationNotUnlockingOnlyResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.isSDK(o.locks[0])));
+  },
   encode(message: AccountLockedLongerDurationNotUnlockingOnlyResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.locks) {
       PeriodLock.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -3526,6 +3795,8 @@ export const AccountLockedLongerDurationNotUnlockingOnlyResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedLongerDurationNotUnlockingOnlyResponse.typeUrl, AccountLockedLongerDurationNotUnlockingOnlyResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedLongerDurationNotUnlockingOnlyResponse.aminoType, AccountLockedLongerDurationNotUnlockingOnlyResponse.typeUrl);
 function createBaseAccountLockedLongerDurationDenomRequest(): AccountLockedLongerDurationDenomRequest {
   return {
     owner: "",
@@ -3535,6 +3806,13 @@ function createBaseAccountLockedLongerDurationDenomRequest(): AccountLockedLonge
 }
 export const AccountLockedLongerDurationDenomRequest = {
   typeUrl: "/osmosis.lockup.AccountLockedLongerDurationDenomRequest",
+  aminoType: "osmosis/lockup/account-locked-longer-duration-denom-request",
+  is(o: any): o is AccountLockedLongerDurationDenomRequest {
+    return o && (o.$typeUrl === AccountLockedLongerDurationDenomRequest.typeUrl || typeof o.owner === "string" && Duration.is(o.duration) && typeof o.denom === "string");
+  },
+  isSDK(o: any): o is AccountLockedLongerDurationDenomRequestSDKType {
+    return o && (o.$typeUrl === AccountLockedLongerDurationDenomRequest.typeUrl || typeof o.owner === "string" && Duration.isSDK(o.duration) && typeof o.denom === "string");
+  },
   encode(message: AccountLockedLongerDurationDenomRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -3654,6 +3932,8 @@ export const AccountLockedLongerDurationDenomRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedLongerDurationDenomRequest.typeUrl, AccountLockedLongerDurationDenomRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedLongerDurationDenomRequest.aminoType, AccountLockedLongerDurationDenomRequest.typeUrl);
 function createBaseAccountLockedLongerDurationDenomResponse(): AccountLockedLongerDurationDenomResponse {
   return {
     locks: []
@@ -3661,6 +3941,13 @@ function createBaseAccountLockedLongerDurationDenomResponse(): AccountLockedLong
 }
 export const AccountLockedLongerDurationDenomResponse = {
   typeUrl: "/osmosis.lockup.AccountLockedLongerDurationDenomResponse",
+  aminoType: "osmosis/lockup/account-locked-longer-duration-denom-response",
+  is(o: any): o is AccountLockedLongerDurationDenomResponse {
+    return o && (o.$typeUrl === AccountLockedLongerDurationDenomResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.is(o.locks[0])));
+  },
+  isSDK(o: any): o is AccountLockedLongerDurationDenomResponseSDKType {
+    return o && (o.$typeUrl === AccountLockedLongerDurationDenomResponse.typeUrl || Array.isArray(o.locks) && (!o.locks.length || PeriodLock.isSDK(o.locks[0])));
+  },
   encode(message: AccountLockedLongerDurationDenomResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.locks) {
       PeriodLock.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -3758,11 +4045,20 @@ export const AccountLockedLongerDurationDenomResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountLockedLongerDurationDenomResponse.typeUrl, AccountLockedLongerDurationDenomResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountLockedLongerDurationDenomResponse.aminoType, AccountLockedLongerDurationDenomResponse.typeUrl);
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
 }
 export const QueryParamsRequest = {
   typeUrl: "/osmosis.lockup.QueryParamsRequest",
+  aminoType: "osmosis/lockup/query-params-request",
+  is(o: any): o is QueryParamsRequest {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryParamsRequestSDKType {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
   encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -3831,6 +4127,8 @@ export const QueryParamsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsRequest.typeUrl, QueryParamsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryParamsRequest.aminoType, QueryParamsRequest.typeUrl);
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
     params: Params.fromPartial({})
@@ -3838,6 +4136,13 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
 }
 export const QueryParamsResponse = {
   typeUrl: "/osmosis.lockup.QueryParamsResponse",
+  aminoType: "osmosis/lockup/query-params-response",
+  is(o: any): o is QueryParamsResponse {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.is(o.params));
+  },
+  isSDK(o: any): o is QueryParamsResponseSDKType {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.isSDK(o.params));
+  },
   encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -3925,3 +4230,5 @@ export const QueryParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsResponse.typeUrl, QueryParamsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryParamsResponse.aminoType, QueryParamsResponse.typeUrl);

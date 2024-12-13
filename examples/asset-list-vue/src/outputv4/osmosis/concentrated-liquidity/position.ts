@@ -4,6 +4,7 @@ import { BinaryReader, BinaryWriter } from "../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../helpers";
 import { Decimal } from "@cosmjs/math";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity.v1beta1";
 /**
@@ -77,6 +78,13 @@ function createBasePosition(): Position {
 }
 export const Position = {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.Position",
+  aminoType: "osmosis/concentratedliquidity/position",
+  is(o: any): o is Position {
+    return o && (o.$typeUrl === Position.typeUrl || typeof o.positionId === "bigint" && typeof o.address === "string" && typeof o.poolId === "bigint" && typeof o.lowerTick === "bigint" && typeof o.upperTick === "bigint" && Timestamp.is(o.joinTime) && typeof o.liquidity === "string");
+  },
+  isSDK(o: any): o is PositionSDKType {
+    return o && (o.$typeUrl === Position.typeUrl || typeof o.position_id === "bigint" && typeof o.address === "string" && typeof o.pool_id === "bigint" && typeof o.lower_tick === "bigint" && typeof o.upper_tick === "bigint" && Timestamp.isSDK(o.join_time) && typeof o.liquidity === "string");
+  },
   encode(message: Position, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.positionId !== BigInt(0)) {
       writer.uint32(8).uint64(message.positionId);
@@ -260,6 +268,8 @@ export const Position = {
     };
   }
 };
+GlobalDecoderRegistry.register(Position.typeUrl, Position);
+GlobalDecoderRegistry.registerAminoProtoMapping(Position.aminoType, Position.typeUrl);
 function createBasePositionWithUnderlyingAssetBreakdown(): PositionWithUnderlyingAssetBreakdown {
   return {
     position: Position.fromPartial({}),
@@ -269,6 +279,13 @@ function createBasePositionWithUnderlyingAssetBreakdown(): PositionWithUnderlyin
 }
 export const PositionWithUnderlyingAssetBreakdown = {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.PositionWithUnderlyingAssetBreakdown",
+  aminoType: "osmosis/concentratedliquidity/position-with-underlying-asset-breakdown",
+  is(o: any): o is PositionWithUnderlyingAssetBreakdown {
+    return o && (o.$typeUrl === PositionWithUnderlyingAssetBreakdown.typeUrl || Position.is(o.position) && Coin.is(o.asset0) && Coin.is(o.asset1));
+  },
+  isSDK(o: any): o is PositionWithUnderlyingAssetBreakdownSDKType {
+    return o && (o.$typeUrl === PositionWithUnderlyingAssetBreakdown.typeUrl || Position.isSDK(o.position) && Coin.isSDK(o.asset0) && Coin.isSDK(o.asset1));
+  },
   encode(message: PositionWithUnderlyingAssetBreakdown, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.position !== undefined) {
       Position.encode(message.position, writer.uint32(10).fork()).ldelim();
@@ -388,3 +405,5 @@ export const PositionWithUnderlyingAssetBreakdown = {
     };
   }
 };
+GlobalDecoderRegistry.register(PositionWithUnderlyingAssetBreakdown.typeUrl, PositionWithUnderlyingAssetBreakdown);
+GlobalDecoderRegistry.registerAminoProtoMapping(PositionWithUnderlyingAssetBreakdown.aminoType, PositionWithUnderlyingAssetBreakdown.typeUrl);

@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.base.v1beta1";
 /** Unit stores cpu, memory and storage metrics */
@@ -25,6 +26,13 @@ function createBaseResourceValue(): ResourceValue {
 }
 export const ResourceValue = {
   typeUrl: "/akash.base.v1beta1.ResourceValue",
+  aminoType: "akash/base/resource-value",
+  is(o: any): o is ResourceValue {
+    return o && (o.$typeUrl === ResourceValue.typeUrl || o.val instanceof Uint8Array || typeof o.val === "string");
+  },
+  isSDK(o: any): o is ResourceValueSDKType {
+    return o && (o.$typeUrl === ResourceValue.typeUrl || o.val instanceof Uint8Array || typeof o.val === "string");
+  },
   encode(message: ResourceValue, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.val.length !== 0) {
       writer.uint32(10).bytes(message.val);
@@ -112,3 +120,5 @@ export const ResourceValue = {
     };
   }
 };
+GlobalDecoderRegistry.register(ResourceValue.typeUrl, ResourceValue);
+GlobalDecoderRegistry.registerAminoProtoMapping(ResourceValue.aminoType, ResourceValue.typeUrl);

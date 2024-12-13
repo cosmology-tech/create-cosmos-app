@@ -2,6 +2,7 @@ import { Duration, DurationSDKType } from "../../google/protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "tendermint.types";
 /**
@@ -180,6 +181,12 @@ function createBaseConsensusParams(): ConsensusParams {
 }
 export const ConsensusParams = {
   typeUrl: "/tendermint.types.ConsensusParams",
+  is(o: any): o is ConsensusParams {
+    return o && (o.$typeUrl === ConsensusParams.typeUrl || BlockParams.is(o.block) && EvidenceParams.is(o.evidence) && ValidatorParams.is(o.validator) && VersionParams.is(o.version));
+  },
+  isSDK(o: any): o is ConsensusParamsSDKType {
+    return o && (o.$typeUrl === ConsensusParams.typeUrl || BlockParams.isSDK(o.block) && EvidenceParams.isSDK(o.evidence) && ValidatorParams.isSDK(o.validator) && VersionParams.isSDK(o.version));
+  },
   encode(message: ConsensusParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.block !== undefined) {
       BlockParams.encode(message.block, writer.uint32(10).fork()).ldelim();
@@ -309,6 +316,7 @@ export const ConsensusParams = {
     };
   }
 };
+GlobalDecoderRegistry.register(ConsensusParams.typeUrl, ConsensusParams);
 function createBaseBlockParams(): BlockParams {
   return {
     maxBytes: BigInt(0),
@@ -318,6 +326,12 @@ function createBaseBlockParams(): BlockParams {
 }
 export const BlockParams = {
   typeUrl: "/tendermint.types.BlockParams",
+  is(o: any): o is BlockParams {
+    return o && (o.$typeUrl === BlockParams.typeUrl || typeof o.maxBytes === "bigint" && typeof o.maxGas === "bigint" && typeof o.timeIotaMs === "bigint");
+  },
+  isSDK(o: any): o is BlockParamsSDKType {
+    return o && (o.$typeUrl === BlockParams.typeUrl || typeof o.max_bytes === "bigint" && typeof o.max_gas === "bigint" && typeof o.time_iota_ms === "bigint");
+  },
   encode(message: BlockParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.maxBytes !== BigInt(0)) {
       writer.uint32(8).int64(message.maxBytes);
@@ -431,6 +445,7 @@ export const BlockParams = {
     };
   }
 };
+GlobalDecoderRegistry.register(BlockParams.typeUrl, BlockParams);
 function createBaseEvidenceParams(): EvidenceParams {
   return {
     maxAgeNumBlocks: BigInt(0),
@@ -440,6 +455,12 @@ function createBaseEvidenceParams(): EvidenceParams {
 }
 export const EvidenceParams = {
   typeUrl: "/tendermint.types.EvidenceParams",
+  is(o: any): o is EvidenceParams {
+    return o && (o.$typeUrl === EvidenceParams.typeUrl || typeof o.maxAgeNumBlocks === "bigint" && Duration.is(o.maxAgeDuration) && typeof o.maxBytes === "bigint");
+  },
+  isSDK(o: any): o is EvidenceParamsSDKType {
+    return o && (o.$typeUrl === EvidenceParams.typeUrl || typeof o.max_age_num_blocks === "bigint" && Duration.isSDK(o.max_age_duration) && typeof o.max_bytes === "bigint");
+  },
   encode(message: EvidenceParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.maxAgeNumBlocks !== BigInt(0)) {
       writer.uint32(8).int64(message.maxAgeNumBlocks);
@@ -553,6 +574,7 @@ export const EvidenceParams = {
     };
   }
 };
+GlobalDecoderRegistry.register(EvidenceParams.typeUrl, EvidenceParams);
 function createBaseValidatorParams(): ValidatorParams {
   return {
     pubKeyTypes: []
@@ -560,6 +582,12 @@ function createBaseValidatorParams(): ValidatorParams {
 }
 export const ValidatorParams = {
   typeUrl: "/tendermint.types.ValidatorParams",
+  is(o: any): o is ValidatorParams {
+    return o && (o.$typeUrl === ValidatorParams.typeUrl || Array.isArray(o.pubKeyTypes) && (!o.pubKeyTypes.length || typeof o.pubKeyTypes[0] === "string"));
+  },
+  isSDK(o: any): o is ValidatorParamsSDKType {
+    return o && (o.$typeUrl === ValidatorParams.typeUrl || Array.isArray(o.pub_key_types) && (!o.pub_key_types.length || typeof o.pub_key_types[0] === "string"));
+  },
   encode(message: ValidatorParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.pubKeyTypes) {
       writer.uint32(10).string(v!);
@@ -651,6 +679,7 @@ export const ValidatorParams = {
     };
   }
 };
+GlobalDecoderRegistry.register(ValidatorParams.typeUrl, ValidatorParams);
 function createBaseVersionParams(): VersionParams {
   return {
     appVersion: BigInt(0)
@@ -658,6 +687,12 @@ function createBaseVersionParams(): VersionParams {
 }
 export const VersionParams = {
   typeUrl: "/tendermint.types.VersionParams",
+  is(o: any): o is VersionParams {
+    return o && (o.$typeUrl === VersionParams.typeUrl || typeof o.appVersion === "bigint");
+  },
+  isSDK(o: any): o is VersionParamsSDKType {
+    return o && (o.$typeUrl === VersionParams.typeUrl || typeof o.app_version === "bigint");
+  },
   encode(message: VersionParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.appVersion !== BigInt(0)) {
       writer.uint32(8).uint64(message.appVersion);
@@ -739,6 +774,7 @@ export const VersionParams = {
     };
   }
 };
+GlobalDecoderRegistry.register(VersionParams.typeUrl, VersionParams);
 function createBaseHashedParams(): HashedParams {
   return {
     blockMaxBytes: BigInt(0),
@@ -747,6 +783,12 @@ function createBaseHashedParams(): HashedParams {
 }
 export const HashedParams = {
   typeUrl: "/tendermint.types.HashedParams",
+  is(o: any): o is HashedParams {
+    return o && (o.$typeUrl === HashedParams.typeUrl || typeof o.blockMaxBytes === "bigint" && typeof o.blockMaxGas === "bigint");
+  },
+  isSDK(o: any): o is HashedParamsSDKType {
+    return o && (o.$typeUrl === HashedParams.typeUrl || typeof o.block_max_bytes === "bigint" && typeof o.block_max_gas === "bigint");
+  },
   encode(message: HashedParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.blockMaxBytes !== BigInt(0)) {
       writer.uint32(8).int64(message.blockMaxBytes);
@@ -844,3 +886,4 @@ export const HashedParams = {
     };
   }
 };
+GlobalDecoderRegistry.register(HashedParams.typeUrl, HashedParams);

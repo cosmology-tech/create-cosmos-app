@@ -2,6 +2,7 @@ import { GroupSpec, GroupSpecSDKType } from "../../deployment/v1beta2/groupspec"
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.market.v1beta2";
 /** State is an enum which refers to state of order */
@@ -137,6 +138,13 @@ function createBaseOrderID(): OrderID {
 }
 export const OrderID = {
   typeUrl: "/akash.market.v1beta2.OrderID",
+  aminoType: "akash/market/v1beta2/order-i-d",
+  is(o: any): o is OrderID {
+    return o && (o.$typeUrl === OrderID.typeUrl || typeof o.owner === "string" && typeof o.dseq === "bigint" && typeof o.gseq === "number" && typeof o.oseq === "number");
+  },
+  isSDK(o: any): o is OrderIDSDKType {
+    return o && (o.$typeUrl === OrderID.typeUrl || typeof o.owner === "string" && typeof o.dseq === "bigint" && typeof o.gseq === "number" && typeof o.oseq === "number");
+  },
   encode(message: OrderID, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -272,6 +280,8 @@ export const OrderID = {
     };
   }
 };
+GlobalDecoderRegistry.register(OrderID.typeUrl, OrderID);
+GlobalDecoderRegistry.registerAminoProtoMapping(OrderID.aminoType, OrderID.typeUrl);
 function createBaseOrder(): Order {
   return {
     orderId: OrderID.fromPartial({}),
@@ -282,6 +292,13 @@ function createBaseOrder(): Order {
 }
 export const Order = {
   typeUrl: "/akash.market.v1beta2.Order",
+  aminoType: "akash/market/v1beta2/order",
+  is(o: any): o is Order {
+    return o && (o.$typeUrl === Order.typeUrl || OrderID.is(o.orderId) && isSet(o.state) && GroupSpec.is(o.spec) && typeof o.createdAt === "bigint");
+  },
+  isSDK(o: any): o is OrderSDKType {
+    return o && (o.$typeUrl === Order.typeUrl || OrderID.isSDK(o.order_id) && isSet(o.state) && GroupSpec.isSDK(o.spec) && typeof o.created_at === "bigint");
+  },
   encode(message: Order, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.orderId !== undefined) {
       OrderID.encode(message.orderId, writer.uint32(10).fork()).ldelim();
@@ -417,6 +434,8 @@ export const Order = {
     };
   }
 };
+GlobalDecoderRegistry.register(Order.typeUrl, Order);
+GlobalDecoderRegistry.registerAminoProtoMapping(Order.aminoType, Order.typeUrl);
 function createBaseOrderFilters(): OrderFilters {
   return {
     owner: "",
@@ -428,6 +447,13 @@ function createBaseOrderFilters(): OrderFilters {
 }
 export const OrderFilters = {
   typeUrl: "/akash.market.v1beta2.OrderFilters",
+  aminoType: "akash/market/v1beta2/order-filters",
+  is(o: any): o is OrderFilters {
+    return o && (o.$typeUrl === OrderFilters.typeUrl || typeof o.owner === "string" && typeof o.dseq === "bigint" && typeof o.gseq === "number" && typeof o.oseq === "number" && typeof o.state === "string");
+  },
+  isSDK(o: any): o is OrderFiltersSDKType {
+    return o && (o.$typeUrl === OrderFilters.typeUrl || typeof o.owner === "string" && typeof o.dseq === "bigint" && typeof o.gseq === "number" && typeof o.oseq === "number" && typeof o.state === "string");
+  },
   encode(message: OrderFilters, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -579,3 +605,5 @@ export const OrderFilters = {
     };
   }
 };
+GlobalDecoderRegistry.register(OrderFilters.typeUrl, OrderFilters);
+GlobalDecoderRegistry.registerAminoProtoMapping(OrderFilters.aminoType, OrderFilters.typeUrl);

@@ -1,6 +1,7 @@
-import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.base.v1beta1";
 /** This describes how the endpoint is implemented when the lease is deployed */
@@ -59,6 +60,13 @@ function createBaseEndpoint(): Endpoint {
 }
 export const Endpoint = {
   typeUrl: "/akash.base.v1beta1.Endpoint",
+  aminoType: "akash/base/endpoint",
+  is(o: any): o is Endpoint {
+    return o && (o.$typeUrl === Endpoint.typeUrl || isSet(o.kind));
+  },
+  isSDK(o: any): o is EndpointSDKType {
+    return o && (o.$typeUrl === Endpoint.typeUrl || isSet(o.kind));
+  },
   encode(message: Endpoint, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.kind !== 0) {
       writer.uint32(8).int32(message.kind);
@@ -146,3 +154,5 @@ export const Endpoint = {
     };
   }
 };
+GlobalDecoderRegistry.register(Endpoint.typeUrl, Endpoint);
+GlobalDecoderRegistry.registerAminoProtoMapping(Endpoint.aminoType, Endpoint.typeUrl);

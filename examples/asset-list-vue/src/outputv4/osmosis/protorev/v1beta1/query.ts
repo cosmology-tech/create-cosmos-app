@@ -4,6 +4,7 @@ import { RouteStatistics, RouteStatisticsSDKType, TokenPairArbRoutes, TokenPairA
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.protorev.v1beta1";
 /** QueryParamsRequest is request type for the Query/Params RPC method. */
@@ -546,6 +547,13 @@ function createBaseQueryParamsRequest(): QueryParamsRequest {
 }
 export const QueryParamsRequest = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryParamsRequest",
+  aminoType: "osmosis/protorev/query-params-request",
+  is(o: any): o is QueryParamsRequest {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryParamsRequestSDKType {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
   encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -614,6 +622,8 @@ export const QueryParamsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsRequest.typeUrl, QueryParamsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryParamsRequest.aminoType, QueryParamsRequest.typeUrl);
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
     params: Params.fromPartial({})
@@ -621,6 +631,13 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
 }
 export const QueryParamsResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryParamsResponse",
+  aminoType: "osmosis/protorev/query-params-response",
+  is(o: any): o is QueryParamsResponse {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.is(o.params));
+  },
+  isSDK(o: any): o is QueryParamsResponseSDKType {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.isSDK(o.params));
+  },
   encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -708,11 +725,20 @@ export const QueryParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsResponse.typeUrl, QueryParamsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryParamsResponse.aminoType, QueryParamsResponse.typeUrl);
 function createBaseQueryGetProtoRevNumberOfTradesRequest(): QueryGetProtoRevNumberOfTradesRequest {
   return {};
 }
 export const QueryGetProtoRevNumberOfTradesRequest = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevNumberOfTradesRequest",
+  aminoType: "osmosis/protorev/query-get-proto-rev-number-of-trades-request",
+  is(o: any): o is QueryGetProtoRevNumberOfTradesRequest {
+    return o && o.$typeUrl === QueryGetProtoRevNumberOfTradesRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryGetProtoRevNumberOfTradesRequestSDKType {
+    return o && o.$typeUrl === QueryGetProtoRevNumberOfTradesRequest.typeUrl;
+  },
   encode(_: QueryGetProtoRevNumberOfTradesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -781,6 +807,8 @@ export const QueryGetProtoRevNumberOfTradesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevNumberOfTradesRequest.typeUrl, QueryGetProtoRevNumberOfTradesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevNumberOfTradesRequest.aminoType, QueryGetProtoRevNumberOfTradesRequest.typeUrl);
 function createBaseQueryGetProtoRevNumberOfTradesResponse(): QueryGetProtoRevNumberOfTradesResponse {
   return {
     numberOfTrades: ""
@@ -788,6 +816,13 @@ function createBaseQueryGetProtoRevNumberOfTradesResponse(): QueryGetProtoRevNum
 }
 export const QueryGetProtoRevNumberOfTradesResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevNumberOfTradesResponse",
+  aminoType: "osmosis/protorev/query-get-proto-rev-number-of-trades-response",
+  is(o: any): o is QueryGetProtoRevNumberOfTradesResponse {
+    return o && (o.$typeUrl === QueryGetProtoRevNumberOfTradesResponse.typeUrl || typeof o.numberOfTrades === "string");
+  },
+  isSDK(o: any): o is QueryGetProtoRevNumberOfTradesResponseSDKType {
+    return o && (o.$typeUrl === QueryGetProtoRevNumberOfTradesResponse.typeUrl || typeof o.number_of_trades === "string");
+  },
   encode(message: QueryGetProtoRevNumberOfTradesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.numberOfTrades !== "") {
       writer.uint32(10).string(message.numberOfTrades);
@@ -875,6 +910,8 @@ export const QueryGetProtoRevNumberOfTradesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevNumberOfTradesResponse.typeUrl, QueryGetProtoRevNumberOfTradesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevNumberOfTradesResponse.aminoType, QueryGetProtoRevNumberOfTradesResponse.typeUrl);
 function createBaseQueryGetProtoRevProfitsByDenomRequest(): QueryGetProtoRevProfitsByDenomRequest {
   return {
     denom: ""
@@ -882,6 +919,13 @@ function createBaseQueryGetProtoRevProfitsByDenomRequest(): QueryGetProtoRevProf
 }
 export const QueryGetProtoRevProfitsByDenomRequest = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevProfitsByDenomRequest",
+  aminoType: "osmosis/protorev/query-get-proto-rev-profits-by-denom-request",
+  is(o: any): o is QueryGetProtoRevProfitsByDenomRequest {
+    return o && (o.$typeUrl === QueryGetProtoRevProfitsByDenomRequest.typeUrl || typeof o.denom === "string");
+  },
+  isSDK(o: any): o is QueryGetProtoRevProfitsByDenomRequestSDKType {
+    return o && (o.$typeUrl === QueryGetProtoRevProfitsByDenomRequest.typeUrl || typeof o.denom === "string");
+  },
   encode(message: QueryGetProtoRevProfitsByDenomRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
@@ -969,6 +1013,8 @@ export const QueryGetProtoRevProfitsByDenomRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevProfitsByDenomRequest.typeUrl, QueryGetProtoRevProfitsByDenomRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevProfitsByDenomRequest.aminoType, QueryGetProtoRevProfitsByDenomRequest.typeUrl);
 function createBaseQueryGetProtoRevProfitsByDenomResponse(): QueryGetProtoRevProfitsByDenomResponse {
   return {
     profit: undefined
@@ -976,6 +1022,13 @@ function createBaseQueryGetProtoRevProfitsByDenomResponse(): QueryGetProtoRevPro
 }
 export const QueryGetProtoRevProfitsByDenomResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevProfitsByDenomResponse",
+  aminoType: "osmosis/protorev/query-get-proto-rev-profits-by-denom-response",
+  is(o: any): o is QueryGetProtoRevProfitsByDenomResponse {
+    return o && o.$typeUrl === QueryGetProtoRevProfitsByDenomResponse.typeUrl;
+  },
+  isSDK(o: any): o is QueryGetProtoRevProfitsByDenomResponseSDKType {
+    return o && o.$typeUrl === QueryGetProtoRevProfitsByDenomResponse.typeUrl;
+  },
   encode(message: QueryGetProtoRevProfitsByDenomResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.profit !== undefined) {
       Coin.encode(message.profit, writer.uint32(10).fork()).ldelim();
@@ -1063,11 +1116,20 @@ export const QueryGetProtoRevProfitsByDenomResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevProfitsByDenomResponse.typeUrl, QueryGetProtoRevProfitsByDenomResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevProfitsByDenomResponse.aminoType, QueryGetProtoRevProfitsByDenomResponse.typeUrl);
 function createBaseQueryGetProtoRevAllProfitsRequest(): QueryGetProtoRevAllProfitsRequest {
   return {};
 }
 export const QueryGetProtoRevAllProfitsRequest = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevAllProfitsRequest",
+  aminoType: "osmosis/protorev/query-get-proto-rev-all-profits-request",
+  is(o: any): o is QueryGetProtoRevAllProfitsRequest {
+    return o && o.$typeUrl === QueryGetProtoRevAllProfitsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryGetProtoRevAllProfitsRequestSDKType {
+    return o && o.$typeUrl === QueryGetProtoRevAllProfitsRequest.typeUrl;
+  },
   encode(_: QueryGetProtoRevAllProfitsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1136,6 +1198,8 @@ export const QueryGetProtoRevAllProfitsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevAllProfitsRequest.typeUrl, QueryGetProtoRevAllProfitsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevAllProfitsRequest.aminoType, QueryGetProtoRevAllProfitsRequest.typeUrl);
 function createBaseQueryGetProtoRevAllProfitsResponse(): QueryGetProtoRevAllProfitsResponse {
   return {
     profits: []
@@ -1143,6 +1207,13 @@ function createBaseQueryGetProtoRevAllProfitsResponse(): QueryGetProtoRevAllProf
 }
 export const QueryGetProtoRevAllProfitsResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevAllProfitsResponse",
+  aminoType: "osmosis/protorev/query-get-proto-rev-all-profits-response",
+  is(o: any): o is QueryGetProtoRevAllProfitsResponse {
+    return o && (o.$typeUrl === QueryGetProtoRevAllProfitsResponse.typeUrl || Array.isArray(o.profits) && (!o.profits.length || Coin.is(o.profits[0])));
+  },
+  isSDK(o: any): o is QueryGetProtoRevAllProfitsResponseSDKType {
+    return o && (o.$typeUrl === QueryGetProtoRevAllProfitsResponse.typeUrl || Array.isArray(o.profits) && (!o.profits.length || Coin.isSDK(o.profits[0])));
+  },
   encode(message: QueryGetProtoRevAllProfitsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.profits) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1240,6 +1311,8 @@ export const QueryGetProtoRevAllProfitsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevAllProfitsResponse.typeUrl, QueryGetProtoRevAllProfitsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevAllProfitsResponse.aminoType, QueryGetProtoRevAllProfitsResponse.typeUrl);
 function createBaseQueryGetProtoRevStatisticsByRouteRequest(): QueryGetProtoRevStatisticsByRouteRequest {
   return {
     route: []
@@ -1247,6 +1320,13 @@ function createBaseQueryGetProtoRevStatisticsByRouteRequest(): QueryGetProtoRevS
 }
 export const QueryGetProtoRevStatisticsByRouteRequest = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevStatisticsByRouteRequest",
+  aminoType: "osmosis/protorev/query-get-proto-rev-statistics-by-route-request",
+  is(o: any): o is QueryGetProtoRevStatisticsByRouteRequest {
+    return o && (o.$typeUrl === QueryGetProtoRevStatisticsByRouteRequest.typeUrl || Array.isArray(o.route) && (!o.route.length || typeof o.route[0] === "bigint"));
+  },
+  isSDK(o: any): o is QueryGetProtoRevStatisticsByRouteRequestSDKType {
+    return o && (o.$typeUrl === QueryGetProtoRevStatisticsByRouteRequest.typeUrl || Array.isArray(o.route) && (!o.route.length || typeof o.route[0] === "bigint"));
+  },
   encode(message: QueryGetProtoRevStatisticsByRouteRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     writer.uint32(10).fork();
     for (const v of message.route) {
@@ -1353,6 +1433,8 @@ export const QueryGetProtoRevStatisticsByRouteRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevStatisticsByRouteRequest.typeUrl, QueryGetProtoRevStatisticsByRouteRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevStatisticsByRouteRequest.aminoType, QueryGetProtoRevStatisticsByRouteRequest.typeUrl);
 function createBaseQueryGetProtoRevStatisticsByRouteResponse(): QueryGetProtoRevStatisticsByRouteResponse {
   return {
     statistics: RouteStatistics.fromPartial({})
@@ -1360,6 +1442,13 @@ function createBaseQueryGetProtoRevStatisticsByRouteResponse(): QueryGetProtoRev
 }
 export const QueryGetProtoRevStatisticsByRouteResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevStatisticsByRouteResponse",
+  aminoType: "osmosis/protorev/query-get-proto-rev-statistics-by-route-response",
+  is(o: any): o is QueryGetProtoRevStatisticsByRouteResponse {
+    return o && (o.$typeUrl === QueryGetProtoRevStatisticsByRouteResponse.typeUrl || RouteStatistics.is(o.statistics));
+  },
+  isSDK(o: any): o is QueryGetProtoRevStatisticsByRouteResponseSDKType {
+    return o && (o.$typeUrl === QueryGetProtoRevStatisticsByRouteResponse.typeUrl || RouteStatistics.isSDK(o.statistics));
+  },
   encode(message: QueryGetProtoRevStatisticsByRouteResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.statistics !== undefined) {
       RouteStatistics.encode(message.statistics, writer.uint32(10).fork()).ldelim();
@@ -1447,11 +1536,20 @@ export const QueryGetProtoRevStatisticsByRouteResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevStatisticsByRouteResponse.typeUrl, QueryGetProtoRevStatisticsByRouteResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevStatisticsByRouteResponse.aminoType, QueryGetProtoRevStatisticsByRouteResponse.typeUrl);
 function createBaseQueryGetProtoRevAllRouteStatisticsRequest(): QueryGetProtoRevAllRouteStatisticsRequest {
   return {};
 }
 export const QueryGetProtoRevAllRouteStatisticsRequest = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevAllRouteStatisticsRequest",
+  aminoType: "osmosis/protorev/query-get-proto-rev-all-route-statistics-request",
+  is(o: any): o is QueryGetProtoRevAllRouteStatisticsRequest {
+    return o && o.$typeUrl === QueryGetProtoRevAllRouteStatisticsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryGetProtoRevAllRouteStatisticsRequestSDKType {
+    return o && o.$typeUrl === QueryGetProtoRevAllRouteStatisticsRequest.typeUrl;
+  },
   encode(_: QueryGetProtoRevAllRouteStatisticsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1520,6 +1618,8 @@ export const QueryGetProtoRevAllRouteStatisticsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevAllRouteStatisticsRequest.typeUrl, QueryGetProtoRevAllRouteStatisticsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevAllRouteStatisticsRequest.aminoType, QueryGetProtoRevAllRouteStatisticsRequest.typeUrl);
 function createBaseQueryGetProtoRevAllRouteStatisticsResponse(): QueryGetProtoRevAllRouteStatisticsResponse {
   return {
     statistics: []
@@ -1527,6 +1627,13 @@ function createBaseQueryGetProtoRevAllRouteStatisticsResponse(): QueryGetProtoRe
 }
 export const QueryGetProtoRevAllRouteStatisticsResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevAllRouteStatisticsResponse",
+  aminoType: "osmosis/protorev/query-get-proto-rev-all-route-statistics-response",
+  is(o: any): o is QueryGetProtoRevAllRouteStatisticsResponse {
+    return o && (o.$typeUrl === QueryGetProtoRevAllRouteStatisticsResponse.typeUrl || Array.isArray(o.statistics) && (!o.statistics.length || RouteStatistics.is(o.statistics[0])));
+  },
+  isSDK(o: any): o is QueryGetProtoRevAllRouteStatisticsResponseSDKType {
+    return o && (o.$typeUrl === QueryGetProtoRevAllRouteStatisticsResponse.typeUrl || Array.isArray(o.statistics) && (!o.statistics.length || RouteStatistics.isSDK(o.statistics[0])));
+  },
   encode(message: QueryGetProtoRevAllRouteStatisticsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.statistics) {
       RouteStatistics.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1624,11 +1731,20 @@ export const QueryGetProtoRevAllRouteStatisticsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevAllRouteStatisticsResponse.typeUrl, QueryGetProtoRevAllRouteStatisticsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevAllRouteStatisticsResponse.aminoType, QueryGetProtoRevAllRouteStatisticsResponse.typeUrl);
 function createBaseQueryGetProtoRevTokenPairArbRoutesRequest(): QueryGetProtoRevTokenPairArbRoutesRequest {
   return {};
 }
 export const QueryGetProtoRevTokenPairArbRoutesRequest = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevTokenPairArbRoutesRequest",
+  aminoType: "osmosis/protorev/query-get-proto-rev-token-pair-arb-routes-request",
+  is(o: any): o is QueryGetProtoRevTokenPairArbRoutesRequest {
+    return o && o.$typeUrl === QueryGetProtoRevTokenPairArbRoutesRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryGetProtoRevTokenPairArbRoutesRequestSDKType {
+    return o && o.$typeUrl === QueryGetProtoRevTokenPairArbRoutesRequest.typeUrl;
+  },
   encode(_: QueryGetProtoRevTokenPairArbRoutesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1697,6 +1813,8 @@ export const QueryGetProtoRevTokenPairArbRoutesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevTokenPairArbRoutesRequest.typeUrl, QueryGetProtoRevTokenPairArbRoutesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevTokenPairArbRoutesRequest.aminoType, QueryGetProtoRevTokenPairArbRoutesRequest.typeUrl);
 function createBaseQueryGetProtoRevTokenPairArbRoutesResponse(): QueryGetProtoRevTokenPairArbRoutesResponse {
   return {
     routes: []
@@ -1704,6 +1822,13 @@ function createBaseQueryGetProtoRevTokenPairArbRoutesResponse(): QueryGetProtoRe
 }
 export const QueryGetProtoRevTokenPairArbRoutesResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevTokenPairArbRoutesResponse",
+  aminoType: "osmosis/protorev/query-get-proto-rev-token-pair-arb-routes-response",
+  is(o: any): o is QueryGetProtoRevTokenPairArbRoutesResponse {
+    return o && (o.$typeUrl === QueryGetProtoRevTokenPairArbRoutesResponse.typeUrl || Array.isArray(o.routes) && (!o.routes.length || TokenPairArbRoutes.is(o.routes[0])));
+  },
+  isSDK(o: any): o is QueryGetProtoRevTokenPairArbRoutesResponseSDKType {
+    return o && (o.$typeUrl === QueryGetProtoRevTokenPairArbRoutesResponse.typeUrl || Array.isArray(o.routes) && (!o.routes.length || TokenPairArbRoutes.isSDK(o.routes[0])));
+  },
   encode(message: QueryGetProtoRevTokenPairArbRoutesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.routes) {
       TokenPairArbRoutes.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1801,11 +1926,20 @@ export const QueryGetProtoRevTokenPairArbRoutesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevTokenPairArbRoutesResponse.typeUrl, QueryGetProtoRevTokenPairArbRoutesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevTokenPairArbRoutesResponse.aminoType, QueryGetProtoRevTokenPairArbRoutesResponse.typeUrl);
 function createBaseQueryGetProtoRevAdminAccountRequest(): QueryGetProtoRevAdminAccountRequest {
   return {};
 }
 export const QueryGetProtoRevAdminAccountRequest = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevAdminAccountRequest",
+  aminoType: "osmosis/protorev/query-get-proto-rev-admin-account-request",
+  is(o: any): o is QueryGetProtoRevAdminAccountRequest {
+    return o && o.$typeUrl === QueryGetProtoRevAdminAccountRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryGetProtoRevAdminAccountRequestSDKType {
+    return o && o.$typeUrl === QueryGetProtoRevAdminAccountRequest.typeUrl;
+  },
   encode(_: QueryGetProtoRevAdminAccountRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1874,6 +2008,8 @@ export const QueryGetProtoRevAdminAccountRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevAdminAccountRequest.typeUrl, QueryGetProtoRevAdminAccountRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevAdminAccountRequest.aminoType, QueryGetProtoRevAdminAccountRequest.typeUrl);
 function createBaseQueryGetProtoRevAdminAccountResponse(): QueryGetProtoRevAdminAccountResponse {
   return {
     adminAccount: ""
@@ -1881,6 +2017,13 @@ function createBaseQueryGetProtoRevAdminAccountResponse(): QueryGetProtoRevAdmin
 }
 export const QueryGetProtoRevAdminAccountResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevAdminAccountResponse",
+  aminoType: "osmosis/protorev/query-get-proto-rev-admin-account-response",
+  is(o: any): o is QueryGetProtoRevAdminAccountResponse {
+    return o && (o.$typeUrl === QueryGetProtoRevAdminAccountResponse.typeUrl || typeof o.adminAccount === "string");
+  },
+  isSDK(o: any): o is QueryGetProtoRevAdminAccountResponseSDKType {
+    return o && (o.$typeUrl === QueryGetProtoRevAdminAccountResponse.typeUrl || typeof o.admin_account === "string");
+  },
   encode(message: QueryGetProtoRevAdminAccountResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.adminAccount !== "") {
       writer.uint32(10).string(message.adminAccount);
@@ -1968,11 +2111,20 @@ export const QueryGetProtoRevAdminAccountResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevAdminAccountResponse.typeUrl, QueryGetProtoRevAdminAccountResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevAdminAccountResponse.aminoType, QueryGetProtoRevAdminAccountResponse.typeUrl);
 function createBaseQueryGetProtoRevDeveloperAccountRequest(): QueryGetProtoRevDeveloperAccountRequest {
   return {};
 }
 export const QueryGetProtoRevDeveloperAccountRequest = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevDeveloperAccountRequest",
+  aminoType: "osmosis/protorev/query-get-proto-rev-developer-account-request",
+  is(o: any): o is QueryGetProtoRevDeveloperAccountRequest {
+    return o && o.$typeUrl === QueryGetProtoRevDeveloperAccountRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryGetProtoRevDeveloperAccountRequestSDKType {
+    return o && o.$typeUrl === QueryGetProtoRevDeveloperAccountRequest.typeUrl;
+  },
   encode(_: QueryGetProtoRevDeveloperAccountRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -2041,6 +2193,8 @@ export const QueryGetProtoRevDeveloperAccountRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevDeveloperAccountRequest.typeUrl, QueryGetProtoRevDeveloperAccountRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevDeveloperAccountRequest.aminoType, QueryGetProtoRevDeveloperAccountRequest.typeUrl);
 function createBaseQueryGetProtoRevDeveloperAccountResponse(): QueryGetProtoRevDeveloperAccountResponse {
   return {
     developerAccount: ""
@@ -2048,6 +2202,13 @@ function createBaseQueryGetProtoRevDeveloperAccountResponse(): QueryGetProtoRevD
 }
 export const QueryGetProtoRevDeveloperAccountResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevDeveloperAccountResponse",
+  aminoType: "osmosis/protorev/query-get-proto-rev-developer-account-response",
+  is(o: any): o is QueryGetProtoRevDeveloperAccountResponse {
+    return o && (o.$typeUrl === QueryGetProtoRevDeveloperAccountResponse.typeUrl || typeof o.developerAccount === "string");
+  },
+  isSDK(o: any): o is QueryGetProtoRevDeveloperAccountResponseSDKType {
+    return o && (o.$typeUrl === QueryGetProtoRevDeveloperAccountResponse.typeUrl || typeof o.developer_account === "string");
+  },
   encode(message: QueryGetProtoRevDeveloperAccountResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.developerAccount !== "") {
       writer.uint32(10).string(message.developerAccount);
@@ -2135,11 +2296,20 @@ export const QueryGetProtoRevDeveloperAccountResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevDeveloperAccountResponse.typeUrl, QueryGetProtoRevDeveloperAccountResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevDeveloperAccountResponse.aminoType, QueryGetProtoRevDeveloperAccountResponse.typeUrl);
 function createBaseQueryGetProtoRevPoolWeightsRequest(): QueryGetProtoRevPoolWeightsRequest {
   return {};
 }
 export const QueryGetProtoRevPoolWeightsRequest = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevPoolWeightsRequest",
+  aminoType: "osmosis/protorev/query-get-proto-rev-pool-weights-request",
+  is(o: any): o is QueryGetProtoRevPoolWeightsRequest {
+    return o && o.$typeUrl === QueryGetProtoRevPoolWeightsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryGetProtoRevPoolWeightsRequestSDKType {
+    return o && o.$typeUrl === QueryGetProtoRevPoolWeightsRequest.typeUrl;
+  },
   encode(_: QueryGetProtoRevPoolWeightsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -2208,6 +2378,8 @@ export const QueryGetProtoRevPoolWeightsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevPoolWeightsRequest.typeUrl, QueryGetProtoRevPoolWeightsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevPoolWeightsRequest.aminoType, QueryGetProtoRevPoolWeightsRequest.typeUrl);
 function createBaseQueryGetProtoRevPoolWeightsResponse(): QueryGetProtoRevPoolWeightsResponse {
   return {
     poolWeights: PoolWeights.fromPartial({})
@@ -2215,6 +2387,13 @@ function createBaseQueryGetProtoRevPoolWeightsResponse(): QueryGetProtoRevPoolWe
 }
 export const QueryGetProtoRevPoolWeightsResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevPoolWeightsResponse",
+  aminoType: "osmosis/protorev/query-get-proto-rev-pool-weights-response",
+  is(o: any): o is QueryGetProtoRevPoolWeightsResponse {
+    return o && (o.$typeUrl === QueryGetProtoRevPoolWeightsResponse.typeUrl || PoolWeights.is(o.poolWeights));
+  },
+  isSDK(o: any): o is QueryGetProtoRevPoolWeightsResponseSDKType {
+    return o && (o.$typeUrl === QueryGetProtoRevPoolWeightsResponse.typeUrl || PoolWeights.isSDK(o.pool_weights));
+  },
   encode(message: QueryGetProtoRevPoolWeightsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolWeights !== undefined) {
       PoolWeights.encode(message.poolWeights, writer.uint32(10).fork()).ldelim();
@@ -2302,11 +2481,20 @@ export const QueryGetProtoRevPoolWeightsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevPoolWeightsResponse.typeUrl, QueryGetProtoRevPoolWeightsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevPoolWeightsResponse.aminoType, QueryGetProtoRevPoolWeightsResponse.typeUrl);
 function createBaseQueryGetProtoRevMaxPoolPointsPerBlockRequest(): QueryGetProtoRevMaxPoolPointsPerBlockRequest {
   return {};
 }
 export const QueryGetProtoRevMaxPoolPointsPerBlockRequest = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevMaxPoolPointsPerBlockRequest",
+  aminoType: "osmosis/protorev/query-get-proto-rev-max-pool-points-per-block-request",
+  is(o: any): o is QueryGetProtoRevMaxPoolPointsPerBlockRequest {
+    return o && o.$typeUrl === QueryGetProtoRevMaxPoolPointsPerBlockRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryGetProtoRevMaxPoolPointsPerBlockRequestSDKType {
+    return o && o.$typeUrl === QueryGetProtoRevMaxPoolPointsPerBlockRequest.typeUrl;
+  },
   encode(_: QueryGetProtoRevMaxPoolPointsPerBlockRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -2375,6 +2563,8 @@ export const QueryGetProtoRevMaxPoolPointsPerBlockRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevMaxPoolPointsPerBlockRequest.typeUrl, QueryGetProtoRevMaxPoolPointsPerBlockRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevMaxPoolPointsPerBlockRequest.aminoType, QueryGetProtoRevMaxPoolPointsPerBlockRequest.typeUrl);
 function createBaseQueryGetProtoRevMaxPoolPointsPerBlockResponse(): QueryGetProtoRevMaxPoolPointsPerBlockResponse {
   return {
     maxPoolPointsPerBlock: BigInt(0)
@@ -2382,6 +2572,13 @@ function createBaseQueryGetProtoRevMaxPoolPointsPerBlockResponse(): QueryGetProt
 }
 export const QueryGetProtoRevMaxPoolPointsPerBlockResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevMaxPoolPointsPerBlockResponse",
+  aminoType: "osmosis/protorev/query-get-proto-rev-max-pool-points-per-block-response",
+  is(o: any): o is QueryGetProtoRevMaxPoolPointsPerBlockResponse {
+    return o && (o.$typeUrl === QueryGetProtoRevMaxPoolPointsPerBlockResponse.typeUrl || typeof o.maxPoolPointsPerBlock === "bigint");
+  },
+  isSDK(o: any): o is QueryGetProtoRevMaxPoolPointsPerBlockResponseSDKType {
+    return o && (o.$typeUrl === QueryGetProtoRevMaxPoolPointsPerBlockResponse.typeUrl || typeof o.max_pool_points_per_block === "bigint");
+  },
   encode(message: QueryGetProtoRevMaxPoolPointsPerBlockResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.maxPoolPointsPerBlock !== BigInt(0)) {
       writer.uint32(8).uint64(message.maxPoolPointsPerBlock);
@@ -2469,11 +2666,20 @@ export const QueryGetProtoRevMaxPoolPointsPerBlockResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevMaxPoolPointsPerBlockResponse.typeUrl, QueryGetProtoRevMaxPoolPointsPerBlockResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevMaxPoolPointsPerBlockResponse.aminoType, QueryGetProtoRevMaxPoolPointsPerBlockResponse.typeUrl);
 function createBaseQueryGetProtoRevMaxPoolPointsPerTxRequest(): QueryGetProtoRevMaxPoolPointsPerTxRequest {
   return {};
 }
 export const QueryGetProtoRevMaxPoolPointsPerTxRequest = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevMaxPoolPointsPerTxRequest",
+  aminoType: "osmosis/protorev/query-get-proto-rev-max-pool-points-per-tx-request",
+  is(o: any): o is QueryGetProtoRevMaxPoolPointsPerTxRequest {
+    return o && o.$typeUrl === QueryGetProtoRevMaxPoolPointsPerTxRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryGetProtoRevMaxPoolPointsPerTxRequestSDKType {
+    return o && o.$typeUrl === QueryGetProtoRevMaxPoolPointsPerTxRequest.typeUrl;
+  },
   encode(_: QueryGetProtoRevMaxPoolPointsPerTxRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -2542,6 +2748,8 @@ export const QueryGetProtoRevMaxPoolPointsPerTxRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevMaxPoolPointsPerTxRequest.typeUrl, QueryGetProtoRevMaxPoolPointsPerTxRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevMaxPoolPointsPerTxRequest.aminoType, QueryGetProtoRevMaxPoolPointsPerTxRequest.typeUrl);
 function createBaseQueryGetProtoRevMaxPoolPointsPerTxResponse(): QueryGetProtoRevMaxPoolPointsPerTxResponse {
   return {
     maxPoolPointsPerTx: BigInt(0)
@@ -2549,6 +2757,13 @@ function createBaseQueryGetProtoRevMaxPoolPointsPerTxResponse(): QueryGetProtoRe
 }
 export const QueryGetProtoRevMaxPoolPointsPerTxResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevMaxPoolPointsPerTxResponse",
+  aminoType: "osmosis/protorev/query-get-proto-rev-max-pool-points-per-tx-response",
+  is(o: any): o is QueryGetProtoRevMaxPoolPointsPerTxResponse {
+    return o && (o.$typeUrl === QueryGetProtoRevMaxPoolPointsPerTxResponse.typeUrl || typeof o.maxPoolPointsPerTx === "bigint");
+  },
+  isSDK(o: any): o is QueryGetProtoRevMaxPoolPointsPerTxResponseSDKType {
+    return o && (o.$typeUrl === QueryGetProtoRevMaxPoolPointsPerTxResponse.typeUrl || typeof o.max_pool_points_per_tx === "bigint");
+  },
   encode(message: QueryGetProtoRevMaxPoolPointsPerTxResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.maxPoolPointsPerTx !== BigInt(0)) {
       writer.uint32(8).uint64(message.maxPoolPointsPerTx);
@@ -2636,11 +2851,20 @@ export const QueryGetProtoRevMaxPoolPointsPerTxResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevMaxPoolPointsPerTxResponse.typeUrl, QueryGetProtoRevMaxPoolPointsPerTxResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevMaxPoolPointsPerTxResponse.aminoType, QueryGetProtoRevMaxPoolPointsPerTxResponse.typeUrl);
 function createBaseQueryGetProtoRevBaseDenomsRequest(): QueryGetProtoRevBaseDenomsRequest {
   return {};
 }
 export const QueryGetProtoRevBaseDenomsRequest = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevBaseDenomsRequest",
+  aminoType: "osmosis/protorev/query-get-proto-rev-base-denoms-request",
+  is(o: any): o is QueryGetProtoRevBaseDenomsRequest {
+    return o && o.$typeUrl === QueryGetProtoRevBaseDenomsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryGetProtoRevBaseDenomsRequestSDKType {
+    return o && o.$typeUrl === QueryGetProtoRevBaseDenomsRequest.typeUrl;
+  },
   encode(_: QueryGetProtoRevBaseDenomsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -2709,6 +2933,8 @@ export const QueryGetProtoRevBaseDenomsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevBaseDenomsRequest.typeUrl, QueryGetProtoRevBaseDenomsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevBaseDenomsRequest.aminoType, QueryGetProtoRevBaseDenomsRequest.typeUrl);
 function createBaseQueryGetProtoRevBaseDenomsResponse(): QueryGetProtoRevBaseDenomsResponse {
   return {
     baseDenoms: []
@@ -2716,6 +2942,13 @@ function createBaseQueryGetProtoRevBaseDenomsResponse(): QueryGetProtoRevBaseDen
 }
 export const QueryGetProtoRevBaseDenomsResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevBaseDenomsResponse",
+  aminoType: "osmosis/protorev/query-get-proto-rev-base-denoms-response",
+  is(o: any): o is QueryGetProtoRevBaseDenomsResponse {
+    return o && (o.$typeUrl === QueryGetProtoRevBaseDenomsResponse.typeUrl || Array.isArray(o.baseDenoms) && (!o.baseDenoms.length || BaseDenom.is(o.baseDenoms[0])));
+  },
+  isSDK(o: any): o is QueryGetProtoRevBaseDenomsResponseSDKType {
+    return o && (o.$typeUrl === QueryGetProtoRevBaseDenomsResponse.typeUrl || Array.isArray(o.base_denoms) && (!o.base_denoms.length || BaseDenom.isSDK(o.base_denoms[0])));
+  },
   encode(message: QueryGetProtoRevBaseDenomsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.baseDenoms) {
       BaseDenom.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -2813,11 +3046,20 @@ export const QueryGetProtoRevBaseDenomsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevBaseDenomsResponse.typeUrl, QueryGetProtoRevBaseDenomsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevBaseDenomsResponse.aminoType, QueryGetProtoRevBaseDenomsResponse.typeUrl);
 function createBaseQueryGetProtoRevEnabledRequest(): QueryGetProtoRevEnabledRequest {
   return {};
 }
 export const QueryGetProtoRevEnabledRequest = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevEnabledRequest",
+  aminoType: "osmosis/protorev/query-get-proto-rev-enabled-request",
+  is(o: any): o is QueryGetProtoRevEnabledRequest {
+    return o && o.$typeUrl === QueryGetProtoRevEnabledRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryGetProtoRevEnabledRequestSDKType {
+    return o && o.$typeUrl === QueryGetProtoRevEnabledRequest.typeUrl;
+  },
   encode(_: QueryGetProtoRevEnabledRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -2886,6 +3128,8 @@ export const QueryGetProtoRevEnabledRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevEnabledRequest.typeUrl, QueryGetProtoRevEnabledRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevEnabledRequest.aminoType, QueryGetProtoRevEnabledRequest.typeUrl);
 function createBaseQueryGetProtoRevEnabledResponse(): QueryGetProtoRevEnabledResponse {
   return {
     enabled: false
@@ -2893,6 +3137,13 @@ function createBaseQueryGetProtoRevEnabledResponse(): QueryGetProtoRevEnabledRes
 }
 export const QueryGetProtoRevEnabledResponse = {
   typeUrl: "/osmosis.protorev.v1beta1.QueryGetProtoRevEnabledResponse",
+  aminoType: "osmosis/protorev/query-get-proto-rev-enabled-response",
+  is(o: any): o is QueryGetProtoRevEnabledResponse {
+    return o && (o.$typeUrl === QueryGetProtoRevEnabledResponse.typeUrl || typeof o.enabled === "boolean");
+  },
+  isSDK(o: any): o is QueryGetProtoRevEnabledResponseSDKType {
+    return o && (o.$typeUrl === QueryGetProtoRevEnabledResponse.typeUrl || typeof o.enabled === "boolean");
+  },
   encode(message: QueryGetProtoRevEnabledResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.enabled === true) {
       writer.uint32(8).bool(message.enabled);
@@ -2980,3 +3231,5 @@ export const QueryGetProtoRevEnabledResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryGetProtoRevEnabledResponse.typeUrl, QueryGetProtoRevEnabledResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryGetProtoRevEnabledResponse.aminoType, QueryGetProtoRevEnabledResponse.typeUrl);

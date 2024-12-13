@@ -2,6 +2,7 @@ import { Incentive, IncentiveSDKType, GasMeter, GasMeterSDKType } from "./incent
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { Decimal } from "@cosmjs/math";
 import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.incentives.v1";
@@ -66,6 +67,12 @@ function createBaseGenesisState(): GenesisState {
 }
 export const GenesisState = {
   typeUrl: "/evmos.incentives.v1.GenesisState",
+  is(o: any): o is GenesisState {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.is(o.params) && Array.isArray(o.incentives) && (!o.incentives.length || Incentive.is(o.incentives[0])) && Array.isArray(o.gasMeters) && (!o.gasMeters.length || GasMeter.is(o.gasMeters[0])));
+  },
+  isSDK(o: any): o is GenesisStateSDKType {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.isSDK(o.params) && Array.isArray(o.incentives) && (!o.incentives.length || Incentive.isSDK(o.incentives[0])) && Array.isArray(o.gas_meters) && (!o.gas_meters.length || GasMeter.isSDK(o.gas_meters[0])));
+  },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -199,6 +206,7 @@ export const GenesisState = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisState.typeUrl, GenesisState);
 function createBaseParams(): Params {
   return {
     enableIncentives: false,
@@ -209,6 +217,12 @@ function createBaseParams(): Params {
 }
 export const Params = {
   typeUrl: "/evmos.incentives.v1.Params",
+  is(o: any): o is Params {
+    return o && (o.$typeUrl === Params.typeUrl || typeof o.enableIncentives === "boolean" && typeof o.allocationLimit === "string" && typeof o.incentivesEpochIdentifier === "string" && typeof o.rewardScaler === "string");
+  },
+  isSDK(o: any): o is ParamsSDKType {
+    return o && (o.$typeUrl === Params.typeUrl || typeof o.enable_incentives === "boolean" && typeof o.allocation_limit === "string" && typeof o.incentives_epoch_identifier === "string" && typeof o.reward_scaler === "string");
+  },
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.enableIncentives === true) {
       writer.uint32(8).bool(message.enableIncentives);
@@ -338,3 +352,4 @@ export const Params = {
     };
   }
 };
+GlobalDecoderRegistry.register(Params.typeUrl, Params);

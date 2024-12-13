@@ -2,6 +2,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.inflation.v1";
 /**
@@ -106,6 +107,12 @@ function createBaseInflationDistribution(): InflationDistribution {
 }
 export const InflationDistribution = {
   typeUrl: "/evmos.inflation.v1.InflationDistribution",
+  is(o: any): o is InflationDistribution {
+    return o && (o.$typeUrl === InflationDistribution.typeUrl || typeof o.stakingRewards === "string" && typeof o.usageIncentives === "string" && typeof o.communityPool === "string");
+  },
+  isSDK(o: any): o is InflationDistributionSDKType {
+    return o && (o.$typeUrl === InflationDistribution.typeUrl || typeof o.staking_rewards === "string" && typeof o.usage_incentives === "string" && typeof o.community_pool === "string");
+  },
   encode(message: InflationDistribution, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.stakingRewards !== "") {
       writer.uint32(10).string(Decimal.fromUserInput(message.stakingRewards, 18).atomics);
@@ -219,6 +226,7 @@ export const InflationDistribution = {
     };
   }
 };
+GlobalDecoderRegistry.register(InflationDistribution.typeUrl, InflationDistribution);
 function createBaseExponentialCalculation(): ExponentialCalculation {
   return {
     a: "",
@@ -230,6 +238,12 @@ function createBaseExponentialCalculation(): ExponentialCalculation {
 }
 export const ExponentialCalculation = {
   typeUrl: "/evmos.inflation.v1.ExponentialCalculation",
+  is(o: any): o is ExponentialCalculation {
+    return o && (o.$typeUrl === ExponentialCalculation.typeUrl || typeof o.a === "string" && typeof o.r === "string" && typeof o.c === "string" && typeof o.bondingTarget === "string" && typeof o.maxVariance === "string");
+  },
+  isSDK(o: any): o is ExponentialCalculationSDKType {
+    return o && (o.$typeUrl === ExponentialCalculation.typeUrl || typeof o.a === "string" && typeof o.r === "string" && typeof o.c === "string" && typeof o.bonding_target === "string" && typeof o.max_variance === "string");
+  },
   encode(message: ExponentialCalculation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.a !== "") {
       writer.uint32(10).string(Decimal.fromUserInput(message.a, 18).atomics);
@@ -375,3 +389,4 @@ export const ExponentialCalculation = {
     };
   }
 };
+GlobalDecoderRegistry.register(ExponentialCalculation.typeUrl, ExponentialCalculation);

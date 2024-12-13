@@ -1,8 +1,9 @@
 import { GroupID, GroupIDSDKType } from "./groupid";
 import { GroupSpec, GroupSpecSDKType } from "./groupspec";
-import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta2";
 /** State is an enum which refers to state of group */
@@ -94,6 +95,13 @@ function createBaseGroup(): Group {
 }
 export const Group = {
   typeUrl: "/akash.deployment.v1beta2.Group",
+  aminoType: "akash/deployment/v1beta2/group",
+  is(o: any): o is Group {
+    return o && (o.$typeUrl === Group.typeUrl || GroupID.is(o.groupId) && isSet(o.state) && GroupSpec.is(o.groupSpec) && typeof o.createdAt === "bigint");
+  },
+  isSDK(o: any): o is GroupSDKType {
+    return o && (o.$typeUrl === Group.typeUrl || GroupID.isSDK(o.group_id) && isSet(o.state) && GroupSpec.isSDK(o.group_spec) && typeof o.created_at === "bigint");
+  },
   encode(message: Group, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.groupId !== undefined) {
       GroupID.encode(message.groupId, writer.uint32(10).fork()).ldelim();
@@ -229,3 +237,5 @@ export const Group = {
     };
   }
 };
+GlobalDecoderRegistry.register(Group.typeUrl, Group);
+GlobalDecoderRegistry.registerAminoProtoMapping(Group.aminoType, Group.typeUrl);

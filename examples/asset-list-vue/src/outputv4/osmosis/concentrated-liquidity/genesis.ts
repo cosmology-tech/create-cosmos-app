@@ -4,9 +4,17 @@ import { IncentiveRecord, IncentiveRecordSDKType } from "./incentive_record";
 import { Params, ParamsSDKType } from "./params";
 import { Position, PositionSDKType } from "./position";
 import { AccumulatorContent, AccumulatorContentSDKType } from "../accum/v1beta1/accum";
+import { Pool as Pool1 } from "../gamm/pool-models/balancer/balancerPool";
+import { PoolSDKType as Pool1SDKType } from "../gamm/pool-models/balancer/balancerPool";
+import { Pool as Pool2 } from "../gamm/pool-models/stableswap/stableswap_pool";
+import { PoolSDKType as Pool2SDKType } from "../gamm/pool-models/stableswap/stableswap_pool";
+import { Pool as Pool3 } from "./pool";
+import { PoolSDKType as Pool3SDKType } from "./pool";
+import { CosmWasmPool, CosmWasmPoolSDKType } from "../cosmwasmpool/v1beta1/model/pool";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity.v1beta1";
 /**
@@ -45,7 +53,7 @@ export interface FullTickSDKType {
  */
 export interface PoolData {
   /** pool struct */
-  pool?: Any;
+  pool?: (Pool1 & Pool2 & Pool3 & CosmWasmPool & Any) | undefined;
   /** pool's ticks */
   ticks: FullTick[];
   feeAccumulator: AccumObject;
@@ -54,7 +62,7 @@ export interface PoolData {
   incentiveRecords: IncentiveRecord[];
 }
 export interface ReactivePoolData {
-  pool?: ComputedRef<Any>;
+  pool?: ComputedRef<(Pool1 & Pool2 & Pool3 & CosmWasmPool & Any) | undefined>;
   ticks: ComputedRef<FullTick[]>;
   feeAccumulator: ComputedRef<AccumObject>;
   incentivesAccumulators: ComputedRef<AccumObject[]>;
@@ -69,7 +77,7 @@ export interface PoolDataProtoMsg {
  * for genesis state.
  */
 export interface PoolDataSDKType {
-  pool?: AnySDKType;
+  pool?: Pool1SDKType | Pool2SDKType | Pool3SDKType | CosmWasmPoolSDKType | AnySDKType | undefined;
   ticks: FullTickSDKType[];
   fee_accumulator: AccumObjectSDKType;
   incentives_accumulators: AccumObjectSDKType[];
@@ -127,6 +135,13 @@ function createBaseFullTick(): FullTick {
 }
 export const FullTick = {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.FullTick",
+  aminoType: "osmosis/concentratedliquidity/full-tick",
+  is(o: any): o is FullTick {
+    return o && (o.$typeUrl === FullTick.typeUrl || typeof o.poolId === "bigint" && typeof o.tickIndex === "bigint" && TickInfo.is(o.info));
+  },
+  isSDK(o: any): o is FullTickSDKType {
+    return o && (o.$typeUrl === FullTick.typeUrl || typeof o.pool_id === "bigint" && typeof o.tick_index === "bigint" && TickInfo.isSDK(o.info));
+  },
   encode(message: FullTick, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -246,6 +261,8 @@ export const FullTick = {
     };
   }
 };
+GlobalDecoderRegistry.register(FullTick.typeUrl, FullTick);
+GlobalDecoderRegistry.registerAminoProtoMapping(FullTick.aminoType, FullTick.typeUrl);
 function createBasePoolData(): PoolData {
   return {
     pool: undefined,
@@ -257,6 +274,13 @@ function createBasePoolData(): PoolData {
 }
 export const PoolData = {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.PoolData",
+  aminoType: "osmosis/concentratedliquidity/pool-data",
+  is(o: any): o is PoolData {
+    return o && (o.$typeUrl === PoolData.typeUrl || Array.isArray(o.ticks) && (!o.ticks.length || FullTick.is(o.ticks[0])) && AccumObject.is(o.feeAccumulator) && Array.isArray(o.incentivesAccumulators) && (!o.incentivesAccumulators.length || AccumObject.is(o.incentivesAccumulators[0])) && Array.isArray(o.incentiveRecords) && (!o.incentiveRecords.length || IncentiveRecord.is(o.incentiveRecords[0])));
+  },
+  isSDK(o: any): o is PoolDataSDKType {
+    return o && (o.$typeUrl === PoolData.typeUrl || Array.isArray(o.ticks) && (!o.ticks.length || FullTick.isSDK(o.ticks[0])) && AccumObject.isSDK(o.fee_accumulator) && Array.isArray(o.incentives_accumulators) && (!o.incentives_accumulators.length || AccumObject.isSDK(o.incentives_accumulators[0])) && Array.isArray(o.incentive_records) && (!o.incentive_records.length || IncentiveRecord.isSDK(o.incentive_records[0])));
+  },
   encode(message: PoolData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pool !== undefined) {
       Any.encode(message.pool, writer.uint32(10).fork()).ldelim();
@@ -438,6 +462,8 @@ export const PoolData = {
     };
   }
 };
+GlobalDecoderRegistry.register(PoolData.typeUrl, PoolData);
+GlobalDecoderRegistry.registerAminoProtoMapping(PoolData.aminoType, PoolData.typeUrl);
 function createBaseGenesisState(): GenesisState {
   return {
     params: Params.fromPartial({}),
@@ -448,6 +474,13 @@ function createBaseGenesisState(): GenesisState {
 }
 export const GenesisState = {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.GenesisState",
+  aminoType: "osmosis/concentratedliquidity/genesis-state",
+  is(o: any): o is GenesisState {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.is(o.params) && Array.isArray(o.poolData) && (!o.poolData.length || PoolData.is(o.poolData[0])) && Array.isArray(o.positions) && (!o.positions.length || Position.is(o.positions[0])) && typeof o.nextPositionId === "bigint");
+  },
+  isSDK(o: any): o is GenesisStateSDKType {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.isSDK(o.params) && Array.isArray(o.pool_data) && (!o.pool_data.length || PoolData.isSDK(o.pool_data[0])) && Array.isArray(o.positions) && (!o.positions.length || Position.isSDK(o.positions[0])) && typeof o.next_position_id === "bigint");
+  },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -603,6 +636,8 @@ export const GenesisState = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisState.typeUrl, GenesisState);
+GlobalDecoderRegistry.registerAminoProtoMapping(GenesisState.aminoType, GenesisState.typeUrl);
 function createBaseAccumObject(): AccumObject {
   return {
     name: "",
@@ -611,6 +646,13 @@ function createBaseAccumObject(): AccumObject {
 }
 export const AccumObject = {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.AccumObject",
+  aminoType: "osmosis/concentratedliquidity/accum-object",
+  is(o: any): o is AccumObject {
+    return o && (o.$typeUrl === AccumObject.typeUrl || typeof o.name === "string");
+  },
+  isSDK(o: any): o is AccumObjectSDKType {
+    return o && (o.$typeUrl === AccumObject.typeUrl || typeof o.name === "string");
+  },
   encode(message: AccumObject, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -714,3 +756,5 @@ export const AccumObject = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccumObject.typeUrl, AccumObject);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccumObject.aminoType, AccumObject.typeUrl);

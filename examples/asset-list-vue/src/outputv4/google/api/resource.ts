@@ -1,6 +1,7 @@
-import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
+import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
@@ -372,6 +373,12 @@ function createBaseResourceDescriptor(): ResourceDescriptor {
 }
 export const ResourceDescriptor = {
   typeUrl: "/google.api.ResourceDescriptor",
+  is(o: any): o is ResourceDescriptor {
+    return o && (o.$typeUrl === ResourceDescriptor.typeUrl || typeof o.type === "string" && Array.isArray(o.pattern) && (!o.pattern.length || typeof o.pattern[0] === "string") && typeof o.nameField === "string" && isSet(o.history) && typeof o.plural === "string" && typeof o.singular === "string" && Array.isArray(o.style));
+  },
+  isSDK(o: any): o is ResourceDescriptorSDKType {
+    return o && (o.$typeUrl === ResourceDescriptor.typeUrl || typeof o.type === "string" && Array.isArray(o.pattern) && (!o.pattern.length || typeof o.pattern[0] === "string") && typeof o.name_field === "string" && isSet(o.history) && typeof o.plural === "string" && typeof o.singular === "string" && Array.isArray(o.style));
+  },
   encode(message: ResourceDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.type !== "") {
       writer.uint32(10).string(message.type);
@@ -578,6 +585,7 @@ export const ResourceDescriptor = {
     };
   }
 };
+GlobalDecoderRegistry.register(ResourceDescriptor.typeUrl, ResourceDescriptor);
 function createBaseResourceReference(): ResourceReference {
   return {
     type: "",
@@ -586,6 +594,12 @@ function createBaseResourceReference(): ResourceReference {
 }
 export const ResourceReference = {
   typeUrl: "/google.api.ResourceReference",
+  is(o: any): o is ResourceReference {
+    return o && (o.$typeUrl === ResourceReference.typeUrl || typeof o.type === "string" && typeof o.childType === "string");
+  },
+  isSDK(o: any): o is ResourceReferenceSDKType {
+    return o && (o.$typeUrl === ResourceReference.typeUrl || typeof o.type === "string" && typeof o.child_type === "string");
+  },
   encode(message: ResourceReference, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.type !== "") {
       writer.uint32(10).string(message.type);
@@ -683,3 +697,4 @@ export const ResourceReference = {
     };
   }
 };
+GlobalDecoderRegistry.register(ResourceReference.typeUrl, ResourceReference);

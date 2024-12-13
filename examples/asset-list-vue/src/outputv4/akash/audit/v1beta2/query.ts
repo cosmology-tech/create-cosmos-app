@@ -3,6 +3,7 @@ import { Provider, ProviderSDKType } from "./audit";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.audit.v1beta2";
 /** QueryProvidersResponse is response type for the Query/Providers RPC method */
@@ -118,6 +119,13 @@ function createBaseQueryProvidersResponse(): QueryProvidersResponse {
 }
 export const QueryProvidersResponse = {
   typeUrl: "/akash.audit.v1beta2.QueryProvidersResponse",
+  aminoType: "akash/audit/v1beta2/query-providers-response",
+  is(o: any): o is QueryProvidersResponse {
+    return o && (o.$typeUrl === QueryProvidersResponse.typeUrl || Array.isArray(o.providers) && (!o.providers.length || Provider.is(o.providers[0])));
+  },
+  isSDK(o: any): o is QueryProvidersResponseSDKType {
+    return o && (o.$typeUrl === QueryProvidersResponse.typeUrl || Array.isArray(o.providers) && (!o.providers.length || Provider.isSDK(o.providers[0])));
+  },
   encode(message: QueryProvidersResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.providers) {
       Provider.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -231,6 +239,8 @@ export const QueryProvidersResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryProvidersResponse.typeUrl, QueryProvidersResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryProvidersResponse.aminoType, QueryProvidersResponse.typeUrl);
 function createBaseQueryProviderRequest(): QueryProviderRequest {
   return {
     auditor: "",
@@ -239,6 +249,13 @@ function createBaseQueryProviderRequest(): QueryProviderRequest {
 }
 export const QueryProviderRequest = {
   typeUrl: "/akash.audit.v1beta2.QueryProviderRequest",
+  aminoType: "akash/audit/v1beta2/query-provider-request",
+  is(o: any): o is QueryProviderRequest {
+    return o && (o.$typeUrl === QueryProviderRequest.typeUrl || typeof o.auditor === "string" && typeof o.owner === "string");
+  },
+  isSDK(o: any): o is QueryProviderRequestSDKType {
+    return o && (o.$typeUrl === QueryProviderRequest.typeUrl || typeof o.auditor === "string" && typeof o.owner === "string");
+  },
   encode(message: QueryProviderRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.auditor !== "") {
       writer.uint32(10).string(message.auditor);
@@ -342,6 +359,8 @@ export const QueryProviderRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryProviderRequest.typeUrl, QueryProviderRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryProviderRequest.aminoType, QueryProviderRequest.typeUrl);
 function createBaseQueryAllProvidersAttributesRequest(): QueryAllProvidersAttributesRequest {
   return {
     pagination: undefined
@@ -349,6 +368,13 @@ function createBaseQueryAllProvidersAttributesRequest(): QueryAllProvidersAttrib
 }
 export const QueryAllProvidersAttributesRequest = {
   typeUrl: "/akash.audit.v1beta2.QueryAllProvidersAttributesRequest",
+  aminoType: "akash/audit/v1beta2/query-all-providers-attributes-request",
+  is(o: any): o is QueryAllProvidersAttributesRequest {
+    return o && o.$typeUrl === QueryAllProvidersAttributesRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryAllProvidersAttributesRequestSDKType {
+    return o && o.$typeUrl === QueryAllProvidersAttributesRequest.typeUrl;
+  },
   encode(message: QueryAllProvidersAttributesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
@@ -436,6 +462,8 @@ export const QueryAllProvidersAttributesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryAllProvidersAttributesRequest.typeUrl, QueryAllProvidersAttributesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryAllProvidersAttributesRequest.aminoType, QueryAllProvidersAttributesRequest.typeUrl);
 function createBaseQueryProviderAttributesRequest(): QueryProviderAttributesRequest {
   return {
     owner: "",
@@ -444,6 +472,13 @@ function createBaseQueryProviderAttributesRequest(): QueryProviderAttributesRequ
 }
 export const QueryProviderAttributesRequest = {
   typeUrl: "/akash.audit.v1beta2.QueryProviderAttributesRequest",
+  aminoType: "akash/audit/v1beta2/query-provider-attributes-request",
+  is(o: any): o is QueryProviderAttributesRequest {
+    return o && (o.$typeUrl === QueryProviderAttributesRequest.typeUrl || typeof o.owner === "string");
+  },
+  isSDK(o: any): o is QueryProviderAttributesRequestSDKType {
+    return o && (o.$typeUrl === QueryProviderAttributesRequest.typeUrl || typeof o.owner === "string");
+  },
   encode(message: QueryProviderAttributesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -547,6 +582,8 @@ export const QueryProviderAttributesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryProviderAttributesRequest.typeUrl, QueryProviderAttributesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryProviderAttributesRequest.aminoType, QueryProviderAttributesRequest.typeUrl);
 function createBaseQueryProviderAuditorRequest(): QueryProviderAuditorRequest {
   return {
     auditor: "",
@@ -555,6 +592,13 @@ function createBaseQueryProviderAuditorRequest(): QueryProviderAuditorRequest {
 }
 export const QueryProviderAuditorRequest = {
   typeUrl: "/akash.audit.v1beta2.QueryProviderAuditorRequest",
+  aminoType: "akash/audit/v1beta2/query-provider-auditor-request",
+  is(o: any): o is QueryProviderAuditorRequest {
+    return o && (o.$typeUrl === QueryProviderAuditorRequest.typeUrl || typeof o.auditor === "string" && typeof o.owner === "string");
+  },
+  isSDK(o: any): o is QueryProviderAuditorRequestSDKType {
+    return o && (o.$typeUrl === QueryProviderAuditorRequest.typeUrl || typeof o.auditor === "string" && typeof o.owner === "string");
+  },
   encode(message: QueryProviderAuditorRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.auditor !== "") {
       writer.uint32(10).string(message.auditor);
@@ -658,6 +702,8 @@ export const QueryProviderAuditorRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryProviderAuditorRequest.typeUrl, QueryProviderAuditorRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryProviderAuditorRequest.aminoType, QueryProviderAuditorRequest.typeUrl);
 function createBaseQueryAuditorAttributesRequest(): QueryAuditorAttributesRequest {
   return {
     auditor: "",
@@ -666,6 +712,13 @@ function createBaseQueryAuditorAttributesRequest(): QueryAuditorAttributesReques
 }
 export const QueryAuditorAttributesRequest = {
   typeUrl: "/akash.audit.v1beta2.QueryAuditorAttributesRequest",
+  aminoType: "akash/audit/v1beta2/query-auditor-attributes-request",
+  is(o: any): o is QueryAuditorAttributesRequest {
+    return o && (o.$typeUrl === QueryAuditorAttributesRequest.typeUrl || typeof o.auditor === "string");
+  },
+  isSDK(o: any): o is QueryAuditorAttributesRequestSDKType {
+    return o && (o.$typeUrl === QueryAuditorAttributesRequest.typeUrl || typeof o.auditor === "string");
+  },
   encode(message: QueryAuditorAttributesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.auditor !== "") {
       writer.uint32(10).string(message.auditor);
@@ -769,3 +822,5 @@ export const QueryAuditorAttributesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryAuditorAttributesRequest.typeUrl, QueryAuditorAttributesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryAuditorAttributesRequest.aminoType, QueryAuditorAttributesRequest.typeUrl);

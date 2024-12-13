@@ -3,6 +3,7 @@ import { Timestamp, TimestampSDKType } from "../../../google/protobuf/timestamp"
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.incentives.v1";
 /**
@@ -69,6 +70,7 @@ export interface GasMeterSDKType {
 }
 /** RegisterIncentiveProposal is a gov Content type to register an incentive */
 export interface RegisterIncentiveProposal {
+  $typeUrl?: "/evmos.incentives.v1.RegisterIncentiveProposal";
   /** title of the proposal */
   title: string;
   /** proposal description */
@@ -81,6 +83,7 @@ export interface RegisterIncentiveProposal {
   epochs: number;
 }
 export interface ReactiveRegisterIncentiveProposal {
+  $typeUrl?: ComputedRef<"/evmos.incentives.v1.RegisterIncentiveProposal">;
   title: ComputedRef<string>;
   description: ComputedRef<string>;
   contract: ComputedRef<string>;
@@ -93,6 +96,7 @@ export interface RegisterIncentiveProposalProtoMsg {
 }
 /** RegisterIncentiveProposal is a gov Content type to register an incentive */
 export interface RegisterIncentiveProposalSDKType {
+  $typeUrl?: "/evmos.incentives.v1.RegisterIncentiveProposal";
   title: string;
   description: string;
   contract: string;
@@ -134,6 +138,12 @@ function createBaseIncentive(): Incentive {
 }
 export const Incentive = {
   typeUrl: "/evmos.incentives.v1.Incentive",
+  is(o: any): o is Incentive {
+    return o && (o.$typeUrl === Incentive.typeUrl || typeof o.contract === "string" && Array.isArray(o.allocations) && (!o.allocations.length || DecCoin.is(o.allocations[0])) && typeof o.epochs === "number" && Timestamp.is(o.startTime) && typeof o.totalGas === "bigint");
+  },
+  isSDK(o: any): o is IncentiveSDKType {
+    return o && (o.$typeUrl === Incentive.typeUrl || typeof o.contract === "string" && Array.isArray(o.allocations) && (!o.allocations.length || DecCoin.isSDK(o.allocations[0])) && typeof o.epochs === "number" && Timestamp.isSDK(o.start_time) && typeof o.total_gas === "bigint");
+  },
   encode(message: Incentive, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contract !== "") {
       writer.uint32(10).string(message.contract);
@@ -289,6 +299,7 @@ export const Incentive = {
     };
   }
 };
+GlobalDecoderRegistry.register(Incentive.typeUrl, Incentive);
 function createBaseGasMeter(): GasMeter {
   return {
     contract: "",
@@ -298,6 +309,12 @@ function createBaseGasMeter(): GasMeter {
 }
 export const GasMeter = {
   typeUrl: "/evmos.incentives.v1.GasMeter",
+  is(o: any): o is GasMeter {
+    return o && (o.$typeUrl === GasMeter.typeUrl || typeof o.contract === "string" && typeof o.participant === "string" && typeof o.cumulativeGas === "bigint");
+  },
+  isSDK(o: any): o is GasMeterSDKType {
+    return o && (o.$typeUrl === GasMeter.typeUrl || typeof o.contract === "string" && typeof o.participant === "string" && typeof o.cumulative_gas === "bigint");
+  },
   encode(message: GasMeter, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contract !== "") {
       writer.uint32(10).string(message.contract);
@@ -411,8 +428,10 @@ export const GasMeter = {
     };
   }
 };
+GlobalDecoderRegistry.register(GasMeter.typeUrl, GasMeter);
 function createBaseRegisterIncentiveProposal(): RegisterIncentiveProposal {
   return {
+    $typeUrl: "/evmos.incentives.v1.RegisterIncentiveProposal",
     title: "",
     description: "",
     contract: "",
@@ -422,6 +441,12 @@ function createBaseRegisterIncentiveProposal(): RegisterIncentiveProposal {
 }
 export const RegisterIncentiveProposal = {
   typeUrl: "/evmos.incentives.v1.RegisterIncentiveProposal",
+  is(o: any): o is RegisterIncentiveProposal {
+    return o && (o.$typeUrl === RegisterIncentiveProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && typeof o.contract === "string" && Array.isArray(o.allocations) && (!o.allocations.length || DecCoin.is(o.allocations[0])) && typeof o.epochs === "number");
+  },
+  isSDK(o: any): o is RegisterIncentiveProposalSDKType {
+    return o && (o.$typeUrl === RegisterIncentiveProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && typeof o.contract === "string" && Array.isArray(o.allocations) && (!o.allocations.length || DecCoin.isSDK(o.allocations[0])) && typeof o.epochs === "number");
+  },
   encode(message: RegisterIncentiveProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -577,6 +602,7 @@ export const RegisterIncentiveProposal = {
     };
   }
 };
+GlobalDecoderRegistry.register(RegisterIncentiveProposal.typeUrl, RegisterIncentiveProposal);
 function createBaseCancelIncentiveProposal(): CancelIncentiveProposal {
   return {
     title: "",
@@ -586,6 +612,12 @@ function createBaseCancelIncentiveProposal(): CancelIncentiveProposal {
 }
 export const CancelIncentiveProposal = {
   typeUrl: "/evmos.incentives.v1.CancelIncentiveProposal",
+  is(o: any): o is CancelIncentiveProposal {
+    return o && (o.$typeUrl === CancelIncentiveProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && typeof o.contract === "string");
+  },
+  isSDK(o: any): o is CancelIncentiveProposalSDKType {
+    return o && (o.$typeUrl === CancelIncentiveProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && typeof o.contract === "string");
+  },
   encode(message: CancelIncentiveProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -699,3 +731,4 @@ export const CancelIncentiveProposal = {
     };
   }
 };
+GlobalDecoderRegistry.register(CancelIncentiveProposal.typeUrl, CancelIncentiveProposal);

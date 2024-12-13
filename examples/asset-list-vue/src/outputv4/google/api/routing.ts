@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
@@ -828,6 +829,12 @@ function createBaseRoutingRule(): RoutingRule {
 }
 export const RoutingRule = {
   typeUrl: "/google.api.RoutingRule",
+  is(o: any): o is RoutingRule {
+    return o && (o.$typeUrl === RoutingRule.typeUrl || Array.isArray(o.routingParameters) && (!o.routingParameters.length || RoutingParameter.is(o.routingParameters[0])));
+  },
+  isSDK(o: any): o is RoutingRuleSDKType {
+    return o && (o.$typeUrl === RoutingRule.typeUrl || Array.isArray(o.routing_parameters) && (!o.routing_parameters.length || RoutingParameter.isSDK(o.routing_parameters[0])));
+  },
   encode(message: RoutingRule, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.routingParameters) {
       RoutingParameter.encode(v!, writer.uint32(18).fork()).ldelim();
@@ -919,6 +926,7 @@ export const RoutingRule = {
     };
   }
 };
+GlobalDecoderRegistry.register(RoutingRule.typeUrl, RoutingRule);
 function createBaseRoutingParameter(): RoutingParameter {
   return {
     field: "",
@@ -927,6 +935,12 @@ function createBaseRoutingParameter(): RoutingParameter {
 }
 export const RoutingParameter = {
   typeUrl: "/google.api.RoutingParameter",
+  is(o: any): o is RoutingParameter {
+    return o && (o.$typeUrl === RoutingParameter.typeUrl || typeof o.field === "string" && typeof o.pathTemplate === "string");
+  },
+  isSDK(o: any): o is RoutingParameterSDKType {
+    return o && (o.$typeUrl === RoutingParameter.typeUrl || typeof o.field === "string" && typeof o.path_template === "string");
+  },
   encode(message: RoutingParameter, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.field !== "") {
       writer.uint32(10).string(message.field);
@@ -1024,3 +1038,4 @@ export const RoutingParameter = {
     };
   }
 };
+GlobalDecoderRegistry.register(RoutingParameter.typeUrl, RoutingParameter);

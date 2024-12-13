@@ -2,6 +2,7 @@ import { BinaryReader, BinaryWriter } from "../../../binary";
 import { Decimal } from "@cosmjs/math";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity.v1beta1";
 /** ===================== MsgCreateConcentratedPool */
@@ -61,6 +62,13 @@ function createBaseMsgCreateConcentratedPool(): MsgCreateConcentratedPool {
 }
 export const MsgCreateConcentratedPool = {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgCreateConcentratedPool",
+  aminoType: "osmosis/concentratedliquidity/create-concentrated-pool",
+  is(o: any): o is MsgCreateConcentratedPool {
+    return o && (o.$typeUrl === MsgCreateConcentratedPool.typeUrl || typeof o.sender === "string" && typeof o.denom0 === "string" && typeof o.denom1 === "string" && typeof o.tickSpacing === "bigint" && typeof o.exponentAtPriceOne === "string" && typeof o.swapFee === "string");
+  },
+  isSDK(o: any): o is MsgCreateConcentratedPoolSDKType {
+    return o && (o.$typeUrl === MsgCreateConcentratedPool.typeUrl || typeof o.sender === "string" && typeof o.denom0 === "string" && typeof o.denom1 === "string" && typeof o.tick_spacing === "bigint" && typeof o.exponent_at_price_one === "string" && typeof o.swap_fee === "string");
+  },
   encode(message: MsgCreateConcentratedPool, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.sender !== "") {
       writer.uint32(10).string(message.sender);
@@ -228,6 +236,8 @@ export const MsgCreateConcentratedPool = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCreateConcentratedPool.typeUrl, MsgCreateConcentratedPool);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCreateConcentratedPool.aminoType, MsgCreateConcentratedPool.typeUrl);
 function createBaseMsgCreateConcentratedPoolResponse(): MsgCreateConcentratedPoolResponse {
   return {
     poolId: BigInt(0)
@@ -235,6 +245,13 @@ function createBaseMsgCreateConcentratedPoolResponse(): MsgCreateConcentratedPoo
 }
 export const MsgCreateConcentratedPoolResponse = {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.MsgCreateConcentratedPoolResponse",
+  aminoType: "osmosis/concentratedliquidity/create-concentrated-pool-response",
+  is(o: any): o is MsgCreateConcentratedPoolResponse {
+    return o && (o.$typeUrl === MsgCreateConcentratedPoolResponse.typeUrl || typeof o.poolId === "bigint");
+  },
+  isSDK(o: any): o is MsgCreateConcentratedPoolResponseSDKType {
+    return o && (o.$typeUrl === MsgCreateConcentratedPoolResponse.typeUrl || typeof o.pool_id === "bigint");
+  },
   encode(message: MsgCreateConcentratedPoolResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -322,3 +339,5 @@ export const MsgCreateConcentratedPoolResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCreateConcentratedPoolResponse.typeUrl, MsgCreateConcentratedPoolResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCreateConcentratedPoolResponse.aminoType, MsgCreateConcentratedPoolResponse.typeUrl);

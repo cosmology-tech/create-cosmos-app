@@ -21,6 +21,7 @@ import { UInt32Value, UInt32ValueSDKType } from "../protobuf/wrappers";
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
@@ -259,6 +260,12 @@ function createBaseService(): Service {
 }
 export const Service = {
   typeUrl: "/google.api.Service",
+  is(o: any): o is Service {
+    return o && (o.$typeUrl === Service.typeUrl || typeof o.name === "string" && typeof o.title === "string" && typeof o.producerProjectId === "string" && typeof o.id === "string" && Array.isArray(o.apis) && (!o.apis.length || Api.is(o.apis[0])) && Array.isArray(o.types) && (!o.types.length || Type.is(o.types[0])) && Array.isArray(o.enums) && (!o.enums.length || Enum.is(o.enums[0])) && Array.isArray(o.endpoints) && (!o.endpoints.length || Endpoint.is(o.endpoints[0])) && Array.isArray(o.logs) && (!o.logs.length || LogDescriptor.is(o.logs[0])) && Array.isArray(o.metrics) && (!o.metrics.length || MetricDescriptor.is(o.metrics[0])) && Array.isArray(o.monitoredResources) && (!o.monitoredResources.length || MonitoredResourceDescriptor.is(o.monitoredResources[0])));
+  },
+  isSDK(o: any): o is ServiceSDKType {
+    return o && (o.$typeUrl === Service.typeUrl || typeof o.name === "string" && typeof o.title === "string" && typeof o.producer_project_id === "string" && typeof o.id === "string" && Array.isArray(o.apis) && (!o.apis.length || Api.isSDK(o.apis[0])) && Array.isArray(o.types) && (!o.types.length || Type.isSDK(o.types[0])) && Array.isArray(o.enums) && (!o.enums.length || Enum.isSDK(o.enums[0])) && Array.isArray(o.endpoints) && (!o.endpoints.length || Endpoint.isSDK(o.endpoints[0])) && Array.isArray(o.logs) && (!o.logs.length || LogDescriptor.isSDK(o.logs[0])) && Array.isArray(o.metrics) && (!o.metrics.length || MetricDescriptor.isSDK(o.metrics[0])) && Array.isArray(o.monitored_resources) && (!o.monitored_resources.length || MonitoredResourceDescriptor.isSDK(o.monitored_resources[0])));
+  },
   encode(message: Service, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -794,3 +801,4 @@ export const Service = {
     };
   }
 };
+GlobalDecoderRegistry.register(Service.typeUrl, Service);

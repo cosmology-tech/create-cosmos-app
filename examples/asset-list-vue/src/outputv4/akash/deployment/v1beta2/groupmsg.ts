@@ -2,6 +2,7 @@ import { GroupID, GroupIDSDKType } from "./groupid";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta2";
 /** MsgCloseGroup defines SDK message to close a single Group within a Deployment. */
@@ -83,6 +84,13 @@ function createBaseMsgCloseGroup(): MsgCloseGroup {
 }
 export const MsgCloseGroup = {
   typeUrl: "/akash.deployment.v1beta2.MsgCloseGroup",
+  aminoType: "akash/deployment/v1beta2/testonly-close-group",
+  is(o: any): o is MsgCloseGroup {
+    return o && (o.$typeUrl === MsgCloseGroup.typeUrl || GroupID.is(o.id));
+  },
+  isSDK(o: any): o is MsgCloseGroupSDKType {
+    return o && (o.$typeUrl === MsgCloseGroup.typeUrl || GroupID.isSDK(o.id));
+  },
   encode(message: MsgCloseGroup, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       GroupID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -170,11 +178,20 @@ export const MsgCloseGroup = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCloseGroup.typeUrl, MsgCloseGroup);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCloseGroup.aminoType, MsgCloseGroup.typeUrl);
 function createBaseMsgCloseGroupResponse(): MsgCloseGroupResponse {
   return {};
 }
 export const MsgCloseGroupResponse = {
   typeUrl: "/akash.deployment.v1beta2.MsgCloseGroupResponse",
+  aminoType: "akash/deployment/v1beta2/testonly-close-group-response",
+  is(o: any): o is MsgCloseGroupResponse {
+    return o && o.$typeUrl === MsgCloseGroupResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgCloseGroupResponseSDKType {
+    return o && o.$typeUrl === MsgCloseGroupResponse.typeUrl;
+  },
   encode(_: MsgCloseGroupResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -243,6 +260,8 @@ export const MsgCloseGroupResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCloseGroupResponse.typeUrl, MsgCloseGroupResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCloseGroupResponse.aminoType, MsgCloseGroupResponse.typeUrl);
 function createBaseMsgPauseGroup(): MsgPauseGroup {
   return {
     id: GroupID.fromPartial({})
@@ -250,6 +269,13 @@ function createBaseMsgPauseGroup(): MsgPauseGroup {
 }
 export const MsgPauseGroup = {
   typeUrl: "/akash.deployment.v1beta2.MsgPauseGroup",
+  aminoType: "akash/deployment/v1beta2/testonly-pause-group",
+  is(o: any): o is MsgPauseGroup {
+    return o && (o.$typeUrl === MsgPauseGroup.typeUrl || GroupID.is(o.id));
+  },
+  isSDK(o: any): o is MsgPauseGroupSDKType {
+    return o && (o.$typeUrl === MsgPauseGroup.typeUrl || GroupID.isSDK(o.id));
+  },
   encode(message: MsgPauseGroup, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       GroupID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -337,11 +363,20 @@ export const MsgPauseGroup = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgPauseGroup.typeUrl, MsgPauseGroup);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgPauseGroup.aminoType, MsgPauseGroup.typeUrl);
 function createBaseMsgPauseGroupResponse(): MsgPauseGroupResponse {
   return {};
 }
 export const MsgPauseGroupResponse = {
   typeUrl: "/akash.deployment.v1beta2.MsgPauseGroupResponse",
+  aminoType: "akash/deployment/v1beta2/testonly-pause-group-response",
+  is(o: any): o is MsgPauseGroupResponse {
+    return o && o.$typeUrl === MsgPauseGroupResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgPauseGroupResponseSDKType {
+    return o && o.$typeUrl === MsgPauseGroupResponse.typeUrl;
+  },
   encode(_: MsgPauseGroupResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -410,6 +445,8 @@ export const MsgPauseGroupResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgPauseGroupResponse.typeUrl, MsgPauseGroupResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgPauseGroupResponse.aminoType, MsgPauseGroupResponse.typeUrl);
 function createBaseMsgStartGroup(): MsgStartGroup {
   return {
     id: GroupID.fromPartial({})
@@ -417,6 +454,13 @@ function createBaseMsgStartGroup(): MsgStartGroup {
 }
 export const MsgStartGroup = {
   typeUrl: "/akash.deployment.v1beta2.MsgStartGroup",
+  aminoType: "akash/deployment/v1beta2/testonly-start-group",
+  is(o: any): o is MsgStartGroup {
+    return o && (o.$typeUrl === MsgStartGroup.typeUrl || GroupID.is(o.id));
+  },
+  isSDK(o: any): o is MsgStartGroupSDKType {
+    return o && (o.$typeUrl === MsgStartGroup.typeUrl || GroupID.isSDK(o.id));
+  },
   encode(message: MsgStartGroup, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       GroupID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -504,11 +548,20 @@ export const MsgStartGroup = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgStartGroup.typeUrl, MsgStartGroup);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgStartGroup.aminoType, MsgStartGroup.typeUrl);
 function createBaseMsgStartGroupResponse(): MsgStartGroupResponse {
   return {};
 }
 export const MsgStartGroupResponse = {
   typeUrl: "/akash.deployment.v1beta2.MsgStartGroupResponse",
+  aminoType: "akash/deployment/v1beta2/testonly-start-group-response",
+  is(o: any): o is MsgStartGroupResponse {
+    return o && o.$typeUrl === MsgStartGroupResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgStartGroupResponseSDKType {
+    return o && o.$typeUrl === MsgStartGroupResponse.typeUrl;
+  },
   encode(_: MsgStartGroupResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -577,3 +630,5 @@ export const MsgStartGroupResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgStartGroupResponse.typeUrl, MsgStartGroupResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgStartGroupResponse.aminoType, MsgStartGroupResponse.typeUrl);

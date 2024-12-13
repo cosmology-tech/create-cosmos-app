@@ -1,6 +1,7 @@
-import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
+import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
@@ -164,6 +165,12 @@ function createBaseConfigChange(): ConfigChange {
 }
 export const ConfigChange = {
   typeUrl: "/google.api.ConfigChange",
+  is(o: any): o is ConfigChange {
+    return o && (o.$typeUrl === ConfigChange.typeUrl || typeof o.element === "string" && typeof o.oldValue === "string" && typeof o.newValue === "string" && isSet(o.changeType) && Array.isArray(o.advices) && (!o.advices.length || Advice.is(o.advices[0])));
+  },
+  isSDK(o: any): o is ConfigChangeSDKType {
+    return o && (o.$typeUrl === ConfigChange.typeUrl || typeof o.element === "string" && typeof o.old_value === "string" && typeof o.new_value === "string" && isSet(o.change_type) && Array.isArray(o.advices) && (!o.advices.length || Advice.isSDK(o.advices[0])));
+  },
   encode(message: ConfigChange, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.element !== "") {
       writer.uint32(10).string(message.element);
@@ -319,6 +326,7 @@ export const ConfigChange = {
     };
   }
 };
+GlobalDecoderRegistry.register(ConfigChange.typeUrl, ConfigChange);
 function createBaseAdvice(): Advice {
   return {
     description: ""
@@ -326,6 +334,12 @@ function createBaseAdvice(): Advice {
 }
 export const Advice = {
   typeUrl: "/google.api.Advice",
+  is(o: any): o is Advice {
+    return o && (o.$typeUrl === Advice.typeUrl || typeof o.description === "string");
+  },
+  isSDK(o: any): o is AdviceSDKType {
+    return o && (o.$typeUrl === Advice.typeUrl || typeof o.description === "string");
+  },
   encode(message: Advice, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.description !== "") {
       writer.uint32(18).string(message.description);
@@ -407,3 +421,4 @@ export const Advice = {
     };
   }
 };
+GlobalDecoderRegistry.register(Advice.typeUrl, Advice);

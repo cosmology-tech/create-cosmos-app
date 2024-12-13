@@ -2,6 +2,7 @@ import { SuperfluidAsset, SuperfluidAssetSDKType } from "../superfluid";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.superfluid.v1beta1";
 /**
@@ -9,11 +10,13 @@ export const protobufPackage = "osmosis.superfluid.v1beta1";
  * assets
  */
 export interface SetSuperfluidAssetsProposal {
+  $typeUrl?: "/osmosis.superfluid.v1beta1.SetSuperfluidAssetsProposal";
   title: string;
   description: string;
   assets: SuperfluidAsset[];
 }
 export interface ReactiveSetSuperfluidAssetsProposal {
+  $typeUrl?: ComputedRef<"/osmosis.superfluid.v1beta1.SetSuperfluidAssetsProposal">;
   title: ComputedRef<string>;
   description: ComputedRef<string>;
   assets: ComputedRef<SuperfluidAsset[]>;
@@ -27,6 +30,7 @@ export interface SetSuperfluidAssetsProposalProtoMsg {
  * assets
  */
 export interface SetSuperfluidAssetsProposalSDKType {
+  $typeUrl?: "/osmosis.superfluid.v1beta1.SetSuperfluidAssetsProposal";
   title: string;
   description: string;
   assets: SuperfluidAssetSDKType[];
@@ -36,11 +40,13 @@ export interface SetSuperfluidAssetsProposalSDKType {
  * assets by denom
  */
 export interface RemoveSuperfluidAssetsProposal {
+  $typeUrl?: "/osmosis.superfluid.v1beta1.RemoveSuperfluidAssetsProposal";
   title: string;
   description: string;
   superfluidAssetDenoms: string[];
 }
 export interface ReactiveRemoveSuperfluidAssetsProposal {
+  $typeUrl?: ComputedRef<"/osmosis.superfluid.v1beta1.RemoveSuperfluidAssetsProposal">;
   title: ComputedRef<string>;
   description: ComputedRef<string>;
   superfluidAssetDenoms: ComputedRef<string[]>;
@@ -54,6 +60,7 @@ export interface RemoveSuperfluidAssetsProposalProtoMsg {
  * assets by denom
  */
 export interface RemoveSuperfluidAssetsProposalSDKType {
+  $typeUrl?: "/osmosis.superfluid.v1beta1.RemoveSuperfluidAssetsProposal";
   title: string;
   description: string;
   superfluid_asset_denoms: string[];
@@ -63,12 +70,14 @@ export interface RemoveSuperfluidAssetsProposalSDKType {
  * allowed list of pool ids.
  */
 export interface UpdateUnpoolWhiteListProposal {
+  $typeUrl?: "/osmosis.superfluid.v1beta1.UpdateUnpoolWhiteListProposal";
   title: string;
   description: string;
   ids: bigint[];
   isOverwrite: boolean;
 }
 export interface ReactiveUpdateUnpoolWhiteListProposal {
+  $typeUrl?: ComputedRef<"/osmosis.superfluid.v1beta1.UpdateUnpoolWhiteListProposal">;
   title: ComputedRef<string>;
   description: ComputedRef<string>;
   ids: ComputedRef<bigint[]>;
@@ -83,6 +92,7 @@ export interface UpdateUnpoolWhiteListProposalProtoMsg {
  * allowed list of pool ids.
  */
 export interface UpdateUnpoolWhiteListProposalSDKType {
+  $typeUrl?: "/osmosis.superfluid.v1beta1.UpdateUnpoolWhiteListProposal";
   title: string;
   description: string;
   ids: bigint[];
@@ -90,6 +100,7 @@ export interface UpdateUnpoolWhiteListProposalSDKType {
 }
 function createBaseSetSuperfluidAssetsProposal(): SetSuperfluidAssetsProposal {
   return {
+    $typeUrl: "/osmosis.superfluid.v1beta1.SetSuperfluidAssetsProposal",
     title: "",
     description: "",
     assets: []
@@ -97,6 +108,13 @@ function createBaseSetSuperfluidAssetsProposal(): SetSuperfluidAssetsProposal {
 }
 export const SetSuperfluidAssetsProposal = {
   typeUrl: "/osmosis.superfluid.v1beta1.SetSuperfluidAssetsProposal",
+  aminoType: "osmosis/v1beta1/set-superfluid-assets-proposal",
+  is(o: any): o is SetSuperfluidAssetsProposal {
+    return o && (o.$typeUrl === SetSuperfluidAssetsProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && Array.isArray(o.assets) && (!o.assets.length || SuperfluidAsset.is(o.assets[0])));
+  },
+  isSDK(o: any): o is SetSuperfluidAssetsProposalSDKType {
+    return o && (o.$typeUrl === SetSuperfluidAssetsProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && Array.isArray(o.assets) && (!o.assets.length || SuperfluidAsset.isSDK(o.assets[0])));
+  },
   encode(message: SetSuperfluidAssetsProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -226,8 +244,11 @@ export const SetSuperfluidAssetsProposal = {
     };
   }
 };
+GlobalDecoderRegistry.register(SetSuperfluidAssetsProposal.typeUrl, SetSuperfluidAssetsProposal);
+GlobalDecoderRegistry.registerAminoProtoMapping(SetSuperfluidAssetsProposal.aminoType, SetSuperfluidAssetsProposal.typeUrl);
 function createBaseRemoveSuperfluidAssetsProposal(): RemoveSuperfluidAssetsProposal {
   return {
+    $typeUrl: "/osmosis.superfluid.v1beta1.RemoveSuperfluidAssetsProposal",
     title: "",
     description: "",
     superfluidAssetDenoms: []
@@ -235,6 +256,13 @@ function createBaseRemoveSuperfluidAssetsProposal(): RemoveSuperfluidAssetsPropo
 }
 export const RemoveSuperfluidAssetsProposal = {
   typeUrl: "/osmosis.superfluid.v1beta1.RemoveSuperfluidAssetsProposal",
+  aminoType: "osmosis/v1beta1/remove-superfluid-assets-proposal",
+  is(o: any): o is RemoveSuperfluidAssetsProposal {
+    return o && (o.$typeUrl === RemoveSuperfluidAssetsProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && Array.isArray(o.superfluidAssetDenoms) && (!o.superfluidAssetDenoms.length || typeof o.superfluidAssetDenoms[0] === "string"));
+  },
+  isSDK(o: any): o is RemoveSuperfluidAssetsProposalSDKType {
+    return o && (o.$typeUrl === RemoveSuperfluidAssetsProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && Array.isArray(o.superfluid_asset_denoms) && (!o.superfluid_asset_denoms.length || typeof o.superfluid_asset_denoms[0] === "string"));
+  },
   encode(message: RemoveSuperfluidAssetsProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -364,8 +392,11 @@ export const RemoveSuperfluidAssetsProposal = {
     };
   }
 };
+GlobalDecoderRegistry.register(RemoveSuperfluidAssetsProposal.typeUrl, RemoveSuperfluidAssetsProposal);
+GlobalDecoderRegistry.registerAminoProtoMapping(RemoveSuperfluidAssetsProposal.aminoType, RemoveSuperfluidAssetsProposal.typeUrl);
 function createBaseUpdateUnpoolWhiteListProposal(): UpdateUnpoolWhiteListProposal {
   return {
+    $typeUrl: "/osmosis.superfluid.v1beta1.UpdateUnpoolWhiteListProposal",
     title: "",
     description: "",
     ids: [],
@@ -374,6 +405,13 @@ function createBaseUpdateUnpoolWhiteListProposal(): UpdateUnpoolWhiteListProposa
 }
 export const UpdateUnpoolWhiteListProposal = {
   typeUrl: "/osmosis.superfluid.v1beta1.UpdateUnpoolWhiteListProposal",
+  aminoType: "osmosis/v1beta1/update-unpool-white-list-proposal",
+  is(o: any): o is UpdateUnpoolWhiteListProposal {
+    return o && (o.$typeUrl === UpdateUnpoolWhiteListProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && Array.isArray(o.ids) && (!o.ids.length || typeof o.ids[0] === "bigint") && typeof o.isOverwrite === "boolean");
+  },
+  isSDK(o: any): o is UpdateUnpoolWhiteListProposalSDKType {
+    return o && (o.$typeUrl === UpdateUnpoolWhiteListProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && Array.isArray(o.ids) && (!o.ids.length || typeof o.ids[0] === "bigint") && typeof o.is_overwrite === "boolean");
+  },
   encode(message: UpdateUnpoolWhiteListProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -528,3 +566,5 @@ export const UpdateUnpoolWhiteListProposal = {
     };
   }
 };
+GlobalDecoderRegistry.register(UpdateUnpoolWhiteListProposal.typeUrl, UpdateUnpoolWhiteListProposal);
+GlobalDecoderRegistry.registerAminoProtoMapping(UpdateUnpoolWhiteListProposal.aminoType, UpdateUnpoolWhiteListProposal.typeUrl);

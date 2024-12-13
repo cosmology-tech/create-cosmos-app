@@ -5,6 +5,7 @@ import { FeeEnabledChannel, FeeEnabledChannelSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "ibc.applications.fee.v1";
 /** QueryIncentivizedPacketsRequest defines the request type for the IncentivizedPackets rpc */
@@ -362,6 +363,13 @@ function createBaseQueryIncentivizedPacketsRequest(): QueryIncentivizedPacketsRe
 }
 export const QueryIncentivizedPacketsRequest = {
   typeUrl: "/ibc.applications.fee.v1.QueryIncentivizedPacketsRequest",
+  aminoType: "cosmos-sdk/QueryIncentivizedPacketsRequest",
+  is(o: any): o is QueryIncentivizedPacketsRequest {
+    return o && (o.$typeUrl === QueryIncentivizedPacketsRequest.typeUrl || typeof o.queryHeight === "bigint");
+  },
+  isSDK(o: any): o is QueryIncentivizedPacketsRequestSDKType {
+    return o && (o.$typeUrl === QueryIncentivizedPacketsRequest.typeUrl || typeof o.query_height === "bigint");
+  },
   encode(message: QueryIncentivizedPacketsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
@@ -465,6 +473,8 @@ export const QueryIncentivizedPacketsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryIncentivizedPacketsRequest.typeUrl, QueryIncentivizedPacketsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryIncentivizedPacketsRequest.aminoType, QueryIncentivizedPacketsRequest.typeUrl);
 function createBaseQueryIncentivizedPacketsResponse(): QueryIncentivizedPacketsResponse {
   return {
     incentivizedPackets: [],
@@ -473,6 +483,13 @@ function createBaseQueryIncentivizedPacketsResponse(): QueryIncentivizedPacketsR
 }
 export const QueryIncentivizedPacketsResponse = {
   typeUrl: "/ibc.applications.fee.v1.QueryIncentivizedPacketsResponse",
+  aminoType: "cosmos-sdk/QueryIncentivizedPacketsResponse",
+  is(o: any): o is QueryIncentivizedPacketsResponse {
+    return o && (o.$typeUrl === QueryIncentivizedPacketsResponse.typeUrl || Array.isArray(o.incentivizedPackets) && (!o.incentivizedPackets.length || IdentifiedPacketFees.is(o.incentivizedPackets[0])));
+  },
+  isSDK(o: any): o is QueryIncentivizedPacketsResponseSDKType {
+    return o && (o.$typeUrl === QueryIncentivizedPacketsResponse.typeUrl || Array.isArray(o.incentivized_packets) && (!o.incentivized_packets.length || IdentifiedPacketFees.isSDK(o.incentivized_packets[0])));
+  },
   encode(message: QueryIncentivizedPacketsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.incentivizedPackets) {
       IdentifiedPacketFees.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -586,6 +603,8 @@ export const QueryIncentivizedPacketsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryIncentivizedPacketsResponse.typeUrl, QueryIncentivizedPacketsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryIncentivizedPacketsResponse.aminoType, QueryIncentivizedPacketsResponse.typeUrl);
 function createBaseQueryIncentivizedPacketRequest(): QueryIncentivizedPacketRequest {
   return {
     queryHeight: BigInt(0)
@@ -593,6 +612,13 @@ function createBaseQueryIncentivizedPacketRequest(): QueryIncentivizedPacketRequ
 }
 export const QueryIncentivizedPacketRequest = {
   typeUrl: "/ibc.applications.fee.v1.QueryIncentivizedPacketRequest",
+  aminoType: "cosmos-sdk/QueryIncentivizedPacketRequest",
+  is(o: any): o is QueryIncentivizedPacketRequest {
+    return o && (o.$typeUrl === QueryIncentivizedPacketRequest.typeUrl || typeof o.queryHeight === "bigint");
+  },
+  isSDK(o: any): o is QueryIncentivizedPacketRequestSDKType {
+    return o && (o.$typeUrl === QueryIncentivizedPacketRequest.typeUrl || typeof o.query_height === "bigint");
+  },
   encode(message: QueryIncentivizedPacketRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.queryHeight !== BigInt(0)) {
       writer.uint32(16).uint64(message.queryHeight);
@@ -680,6 +706,8 @@ export const QueryIncentivizedPacketRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryIncentivizedPacketRequest.typeUrl, QueryIncentivizedPacketRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryIncentivizedPacketRequest.aminoType, QueryIncentivizedPacketRequest.typeUrl);
 function createBaseQueryIncentivizedPacketResponse(): QueryIncentivizedPacketResponse {
   return {
     incentivizedPacket: IdentifiedPacketFees.fromPartial({})
@@ -687,6 +715,13 @@ function createBaseQueryIncentivizedPacketResponse(): QueryIncentivizedPacketRes
 }
 export const QueryIncentivizedPacketResponse = {
   typeUrl: "/ibc.applications.fee.v1.QueryIncentivizedPacketResponse",
+  aminoType: "cosmos-sdk/QueryIncentivizedPacketResponse",
+  is(o: any): o is QueryIncentivizedPacketResponse {
+    return o && (o.$typeUrl === QueryIncentivizedPacketResponse.typeUrl || IdentifiedPacketFees.is(o.incentivizedPacket));
+  },
+  isSDK(o: any): o is QueryIncentivizedPacketResponseSDKType {
+    return o && (o.$typeUrl === QueryIncentivizedPacketResponse.typeUrl || IdentifiedPacketFees.isSDK(o.incentivized_packet));
+  },
   encode(message: QueryIncentivizedPacketResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.incentivizedPacket !== undefined) {
       IdentifiedPacketFees.encode(message.incentivizedPacket, writer.uint32(10).fork()).ldelim();
@@ -774,6 +809,8 @@ export const QueryIncentivizedPacketResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryIncentivizedPacketResponse.typeUrl, QueryIncentivizedPacketResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryIncentivizedPacketResponse.aminoType, QueryIncentivizedPacketResponse.typeUrl);
 function createBaseQueryIncentivizedPacketsForChannelRequest(): QueryIncentivizedPacketsForChannelRequest {
   return {
     pagination: undefined,
@@ -784,6 +821,13 @@ function createBaseQueryIncentivizedPacketsForChannelRequest(): QueryIncentivize
 }
 export const QueryIncentivizedPacketsForChannelRequest = {
   typeUrl: "/ibc.applications.fee.v1.QueryIncentivizedPacketsForChannelRequest",
+  aminoType: "cosmos-sdk/QueryIncentivizedPacketsForChannelRequest",
+  is(o: any): o is QueryIncentivizedPacketsForChannelRequest {
+    return o && (o.$typeUrl === QueryIncentivizedPacketsForChannelRequest.typeUrl || typeof o.portId === "string" && typeof o.channelId === "string" && typeof o.queryHeight === "bigint");
+  },
+  isSDK(o: any): o is QueryIncentivizedPacketsForChannelRequestSDKType {
+    return o && (o.$typeUrl === QueryIncentivizedPacketsForChannelRequest.typeUrl || typeof o.port_id === "string" && typeof o.channel_id === "string" && typeof o.query_height === "bigint");
+  },
   encode(message: QueryIncentivizedPacketsForChannelRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
@@ -919,6 +963,8 @@ export const QueryIncentivizedPacketsForChannelRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryIncentivizedPacketsForChannelRequest.typeUrl, QueryIncentivizedPacketsForChannelRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryIncentivizedPacketsForChannelRequest.aminoType, QueryIncentivizedPacketsForChannelRequest.typeUrl);
 function createBaseQueryIncentivizedPacketsForChannelResponse(): QueryIncentivizedPacketsForChannelResponse {
   return {
     incentivizedPackets: [],
@@ -927,6 +973,13 @@ function createBaseQueryIncentivizedPacketsForChannelResponse(): QueryIncentiviz
 }
 export const QueryIncentivizedPacketsForChannelResponse = {
   typeUrl: "/ibc.applications.fee.v1.QueryIncentivizedPacketsForChannelResponse",
+  aminoType: "cosmos-sdk/QueryIncentivizedPacketsForChannelResponse",
+  is(o: any): o is QueryIncentivizedPacketsForChannelResponse {
+    return o && (o.$typeUrl === QueryIncentivizedPacketsForChannelResponse.typeUrl || Array.isArray(o.incentivizedPackets) && (!o.incentivizedPackets.length || IdentifiedPacketFees.is(o.incentivizedPackets[0])));
+  },
+  isSDK(o: any): o is QueryIncentivizedPacketsForChannelResponseSDKType {
+    return o && (o.$typeUrl === QueryIncentivizedPacketsForChannelResponse.typeUrl || Array.isArray(o.incentivized_packets) && (!o.incentivized_packets.length || IdentifiedPacketFees.isSDK(o.incentivized_packets[0])));
+  },
   encode(message: QueryIncentivizedPacketsForChannelResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.incentivizedPackets) {
       IdentifiedPacketFees.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1040,11 +1093,20 @@ export const QueryIncentivizedPacketsForChannelResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryIncentivizedPacketsForChannelResponse.typeUrl, QueryIncentivizedPacketsForChannelResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryIncentivizedPacketsForChannelResponse.aminoType, QueryIncentivizedPacketsForChannelResponse.typeUrl);
 function createBaseQueryTotalRecvFeesRequest(): QueryTotalRecvFeesRequest {
   return {};
 }
 export const QueryTotalRecvFeesRequest = {
   typeUrl: "/ibc.applications.fee.v1.QueryTotalRecvFeesRequest",
+  aminoType: "cosmos-sdk/QueryTotalRecvFeesRequest",
+  is(o: any): o is QueryTotalRecvFeesRequest {
+    return o && o.$typeUrl === QueryTotalRecvFeesRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryTotalRecvFeesRequestSDKType {
+    return o && o.$typeUrl === QueryTotalRecvFeesRequest.typeUrl;
+  },
   encode(_: QueryTotalRecvFeesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1113,6 +1175,8 @@ export const QueryTotalRecvFeesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTotalRecvFeesRequest.typeUrl, QueryTotalRecvFeesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryTotalRecvFeesRequest.aminoType, QueryTotalRecvFeesRequest.typeUrl);
 function createBaseQueryTotalRecvFeesResponse(): QueryTotalRecvFeesResponse {
   return {
     recvFees: []
@@ -1120,6 +1184,13 @@ function createBaseQueryTotalRecvFeesResponse(): QueryTotalRecvFeesResponse {
 }
 export const QueryTotalRecvFeesResponse = {
   typeUrl: "/ibc.applications.fee.v1.QueryTotalRecvFeesResponse",
+  aminoType: "cosmos-sdk/QueryTotalRecvFeesResponse",
+  is(o: any): o is QueryTotalRecvFeesResponse {
+    return o && (o.$typeUrl === QueryTotalRecvFeesResponse.typeUrl || Array.isArray(o.recvFees) && (!o.recvFees.length || Coin.is(o.recvFees[0])));
+  },
+  isSDK(o: any): o is QueryTotalRecvFeesResponseSDKType {
+    return o && (o.$typeUrl === QueryTotalRecvFeesResponse.typeUrl || Array.isArray(o.recv_fees) && (!o.recv_fees.length || Coin.isSDK(o.recv_fees[0])));
+  },
   encode(message: QueryTotalRecvFeesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.recvFees) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1217,11 +1288,20 @@ export const QueryTotalRecvFeesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTotalRecvFeesResponse.typeUrl, QueryTotalRecvFeesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryTotalRecvFeesResponse.aminoType, QueryTotalRecvFeesResponse.typeUrl);
 function createBaseQueryTotalAckFeesRequest(): QueryTotalAckFeesRequest {
   return {};
 }
 export const QueryTotalAckFeesRequest = {
   typeUrl: "/ibc.applications.fee.v1.QueryTotalAckFeesRequest",
+  aminoType: "cosmos-sdk/QueryTotalAckFeesRequest",
+  is(o: any): o is QueryTotalAckFeesRequest {
+    return o && o.$typeUrl === QueryTotalAckFeesRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryTotalAckFeesRequestSDKType {
+    return o && o.$typeUrl === QueryTotalAckFeesRequest.typeUrl;
+  },
   encode(_: QueryTotalAckFeesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1290,6 +1370,8 @@ export const QueryTotalAckFeesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTotalAckFeesRequest.typeUrl, QueryTotalAckFeesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryTotalAckFeesRequest.aminoType, QueryTotalAckFeesRequest.typeUrl);
 function createBaseQueryTotalAckFeesResponse(): QueryTotalAckFeesResponse {
   return {
     ackFees: []
@@ -1297,6 +1379,13 @@ function createBaseQueryTotalAckFeesResponse(): QueryTotalAckFeesResponse {
 }
 export const QueryTotalAckFeesResponse = {
   typeUrl: "/ibc.applications.fee.v1.QueryTotalAckFeesResponse",
+  aminoType: "cosmos-sdk/QueryTotalAckFeesResponse",
+  is(o: any): o is QueryTotalAckFeesResponse {
+    return o && (o.$typeUrl === QueryTotalAckFeesResponse.typeUrl || Array.isArray(o.ackFees) && (!o.ackFees.length || Coin.is(o.ackFees[0])));
+  },
+  isSDK(o: any): o is QueryTotalAckFeesResponseSDKType {
+    return o && (o.$typeUrl === QueryTotalAckFeesResponse.typeUrl || Array.isArray(o.ack_fees) && (!o.ack_fees.length || Coin.isSDK(o.ack_fees[0])));
+  },
   encode(message: QueryTotalAckFeesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.ackFees) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1394,11 +1483,20 @@ export const QueryTotalAckFeesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTotalAckFeesResponse.typeUrl, QueryTotalAckFeesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryTotalAckFeesResponse.aminoType, QueryTotalAckFeesResponse.typeUrl);
 function createBaseQueryTotalTimeoutFeesRequest(): QueryTotalTimeoutFeesRequest {
   return {};
 }
 export const QueryTotalTimeoutFeesRequest = {
   typeUrl: "/ibc.applications.fee.v1.QueryTotalTimeoutFeesRequest",
+  aminoType: "cosmos-sdk/QueryTotalTimeoutFeesRequest",
+  is(o: any): o is QueryTotalTimeoutFeesRequest {
+    return o && o.$typeUrl === QueryTotalTimeoutFeesRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryTotalTimeoutFeesRequestSDKType {
+    return o && o.$typeUrl === QueryTotalTimeoutFeesRequest.typeUrl;
+  },
   encode(_: QueryTotalTimeoutFeesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1467,6 +1565,8 @@ export const QueryTotalTimeoutFeesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTotalTimeoutFeesRequest.typeUrl, QueryTotalTimeoutFeesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryTotalTimeoutFeesRequest.aminoType, QueryTotalTimeoutFeesRequest.typeUrl);
 function createBaseQueryTotalTimeoutFeesResponse(): QueryTotalTimeoutFeesResponse {
   return {
     timeoutFees: []
@@ -1474,6 +1574,13 @@ function createBaseQueryTotalTimeoutFeesResponse(): QueryTotalTimeoutFeesRespons
 }
 export const QueryTotalTimeoutFeesResponse = {
   typeUrl: "/ibc.applications.fee.v1.QueryTotalTimeoutFeesResponse",
+  aminoType: "cosmos-sdk/QueryTotalTimeoutFeesResponse",
+  is(o: any): o is QueryTotalTimeoutFeesResponse {
+    return o && (o.$typeUrl === QueryTotalTimeoutFeesResponse.typeUrl || Array.isArray(o.timeoutFees) && (!o.timeoutFees.length || Coin.is(o.timeoutFees[0])));
+  },
+  isSDK(o: any): o is QueryTotalTimeoutFeesResponseSDKType {
+    return o && (o.$typeUrl === QueryTotalTimeoutFeesResponse.typeUrl || Array.isArray(o.timeout_fees) && (!o.timeout_fees.length || Coin.isSDK(o.timeout_fees[0])));
+  },
   encode(message: QueryTotalTimeoutFeesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.timeoutFees) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1571,6 +1678,8 @@ export const QueryTotalTimeoutFeesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTotalTimeoutFeesResponse.typeUrl, QueryTotalTimeoutFeesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryTotalTimeoutFeesResponse.aminoType, QueryTotalTimeoutFeesResponse.typeUrl);
 function createBaseQueryPayeeRequest(): QueryPayeeRequest {
   return {
     channelId: "",
@@ -1579,6 +1688,13 @@ function createBaseQueryPayeeRequest(): QueryPayeeRequest {
 }
 export const QueryPayeeRequest = {
   typeUrl: "/ibc.applications.fee.v1.QueryPayeeRequest",
+  aminoType: "cosmos-sdk/QueryPayeeRequest",
+  is(o: any): o is QueryPayeeRequest {
+    return o && (o.$typeUrl === QueryPayeeRequest.typeUrl || typeof o.channelId === "string" && typeof o.relayer === "string");
+  },
+  isSDK(o: any): o is QueryPayeeRequestSDKType {
+    return o && (o.$typeUrl === QueryPayeeRequest.typeUrl || typeof o.channel_id === "string" && typeof o.relayer === "string");
+  },
   encode(message: QueryPayeeRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.channelId !== "") {
       writer.uint32(10).string(message.channelId);
@@ -1682,6 +1798,8 @@ export const QueryPayeeRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPayeeRequest.typeUrl, QueryPayeeRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryPayeeRequest.aminoType, QueryPayeeRequest.typeUrl);
 function createBaseQueryPayeeResponse(): QueryPayeeResponse {
   return {
     payeeAddress: ""
@@ -1689,6 +1807,13 @@ function createBaseQueryPayeeResponse(): QueryPayeeResponse {
 }
 export const QueryPayeeResponse = {
   typeUrl: "/ibc.applications.fee.v1.QueryPayeeResponse",
+  aminoType: "cosmos-sdk/QueryPayeeResponse",
+  is(o: any): o is QueryPayeeResponse {
+    return o && (o.$typeUrl === QueryPayeeResponse.typeUrl || typeof o.payeeAddress === "string");
+  },
+  isSDK(o: any): o is QueryPayeeResponseSDKType {
+    return o && (o.$typeUrl === QueryPayeeResponse.typeUrl || typeof o.payee_address === "string");
+  },
   encode(message: QueryPayeeResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.payeeAddress !== "") {
       writer.uint32(10).string(message.payeeAddress);
@@ -1776,6 +1901,8 @@ export const QueryPayeeResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPayeeResponse.typeUrl, QueryPayeeResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryPayeeResponse.aminoType, QueryPayeeResponse.typeUrl);
 function createBaseQueryCounterpartyPayeeRequest(): QueryCounterpartyPayeeRequest {
   return {
     channelId: "",
@@ -1784,6 +1911,13 @@ function createBaseQueryCounterpartyPayeeRequest(): QueryCounterpartyPayeeReques
 }
 export const QueryCounterpartyPayeeRequest = {
   typeUrl: "/ibc.applications.fee.v1.QueryCounterpartyPayeeRequest",
+  aminoType: "cosmos-sdk/QueryCounterpartyPayeeRequest",
+  is(o: any): o is QueryCounterpartyPayeeRequest {
+    return o && (o.$typeUrl === QueryCounterpartyPayeeRequest.typeUrl || typeof o.channelId === "string" && typeof o.relayer === "string");
+  },
+  isSDK(o: any): o is QueryCounterpartyPayeeRequestSDKType {
+    return o && (o.$typeUrl === QueryCounterpartyPayeeRequest.typeUrl || typeof o.channel_id === "string" && typeof o.relayer === "string");
+  },
   encode(message: QueryCounterpartyPayeeRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.channelId !== "") {
       writer.uint32(10).string(message.channelId);
@@ -1887,6 +2021,8 @@ export const QueryCounterpartyPayeeRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryCounterpartyPayeeRequest.typeUrl, QueryCounterpartyPayeeRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryCounterpartyPayeeRequest.aminoType, QueryCounterpartyPayeeRequest.typeUrl);
 function createBaseQueryCounterpartyPayeeResponse(): QueryCounterpartyPayeeResponse {
   return {
     counterpartyPayee: ""
@@ -1894,6 +2030,13 @@ function createBaseQueryCounterpartyPayeeResponse(): QueryCounterpartyPayeeRespo
 }
 export const QueryCounterpartyPayeeResponse = {
   typeUrl: "/ibc.applications.fee.v1.QueryCounterpartyPayeeResponse",
+  aminoType: "cosmos-sdk/QueryCounterpartyPayeeResponse",
+  is(o: any): o is QueryCounterpartyPayeeResponse {
+    return o && (o.$typeUrl === QueryCounterpartyPayeeResponse.typeUrl || typeof o.counterpartyPayee === "string");
+  },
+  isSDK(o: any): o is QueryCounterpartyPayeeResponseSDKType {
+    return o && (o.$typeUrl === QueryCounterpartyPayeeResponse.typeUrl || typeof o.counterparty_payee === "string");
+  },
   encode(message: QueryCounterpartyPayeeResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.counterpartyPayee !== "") {
       writer.uint32(10).string(message.counterpartyPayee);
@@ -1981,6 +2124,8 @@ export const QueryCounterpartyPayeeResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryCounterpartyPayeeResponse.typeUrl, QueryCounterpartyPayeeResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryCounterpartyPayeeResponse.aminoType, QueryCounterpartyPayeeResponse.typeUrl);
 function createBaseQueryFeeEnabledChannelsRequest(): QueryFeeEnabledChannelsRequest {
   return {
     pagination: undefined,
@@ -1989,6 +2134,13 @@ function createBaseQueryFeeEnabledChannelsRequest(): QueryFeeEnabledChannelsRequ
 }
 export const QueryFeeEnabledChannelsRequest = {
   typeUrl: "/ibc.applications.fee.v1.QueryFeeEnabledChannelsRequest",
+  aminoType: "cosmos-sdk/QueryFeeEnabledChannelsRequest",
+  is(o: any): o is QueryFeeEnabledChannelsRequest {
+    return o && (o.$typeUrl === QueryFeeEnabledChannelsRequest.typeUrl || typeof o.queryHeight === "bigint");
+  },
+  isSDK(o: any): o is QueryFeeEnabledChannelsRequestSDKType {
+    return o && (o.$typeUrl === QueryFeeEnabledChannelsRequest.typeUrl || typeof o.query_height === "bigint");
+  },
   encode(message: QueryFeeEnabledChannelsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
@@ -2092,6 +2244,8 @@ export const QueryFeeEnabledChannelsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryFeeEnabledChannelsRequest.typeUrl, QueryFeeEnabledChannelsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryFeeEnabledChannelsRequest.aminoType, QueryFeeEnabledChannelsRequest.typeUrl);
 function createBaseQueryFeeEnabledChannelsResponse(): QueryFeeEnabledChannelsResponse {
   return {
     feeEnabledChannels: [],
@@ -2100,6 +2254,13 @@ function createBaseQueryFeeEnabledChannelsResponse(): QueryFeeEnabledChannelsRes
 }
 export const QueryFeeEnabledChannelsResponse = {
   typeUrl: "/ibc.applications.fee.v1.QueryFeeEnabledChannelsResponse",
+  aminoType: "cosmos-sdk/QueryFeeEnabledChannelsResponse",
+  is(o: any): o is QueryFeeEnabledChannelsResponse {
+    return o && (o.$typeUrl === QueryFeeEnabledChannelsResponse.typeUrl || Array.isArray(o.feeEnabledChannels) && (!o.feeEnabledChannels.length || FeeEnabledChannel.is(o.feeEnabledChannels[0])));
+  },
+  isSDK(o: any): o is QueryFeeEnabledChannelsResponseSDKType {
+    return o && (o.$typeUrl === QueryFeeEnabledChannelsResponse.typeUrl || Array.isArray(o.fee_enabled_channels) && (!o.fee_enabled_channels.length || FeeEnabledChannel.isSDK(o.fee_enabled_channels[0])));
+  },
   encode(message: QueryFeeEnabledChannelsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.feeEnabledChannels) {
       FeeEnabledChannel.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -2213,6 +2374,8 @@ export const QueryFeeEnabledChannelsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryFeeEnabledChannelsResponse.typeUrl, QueryFeeEnabledChannelsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryFeeEnabledChannelsResponse.aminoType, QueryFeeEnabledChannelsResponse.typeUrl);
 function createBaseQueryFeeEnabledChannelRequest(): QueryFeeEnabledChannelRequest {
   return {
     portId: "",
@@ -2221,6 +2384,13 @@ function createBaseQueryFeeEnabledChannelRequest(): QueryFeeEnabledChannelReques
 }
 export const QueryFeeEnabledChannelRequest = {
   typeUrl: "/ibc.applications.fee.v1.QueryFeeEnabledChannelRequest",
+  aminoType: "cosmos-sdk/QueryFeeEnabledChannelRequest",
+  is(o: any): o is QueryFeeEnabledChannelRequest {
+    return o && (o.$typeUrl === QueryFeeEnabledChannelRequest.typeUrl || typeof o.portId === "string" && typeof o.channelId === "string");
+  },
+  isSDK(o: any): o is QueryFeeEnabledChannelRequestSDKType {
+    return o && (o.$typeUrl === QueryFeeEnabledChannelRequest.typeUrl || typeof o.port_id === "string" && typeof o.channel_id === "string");
+  },
   encode(message: QueryFeeEnabledChannelRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.portId !== "") {
       writer.uint32(10).string(message.portId);
@@ -2324,6 +2494,8 @@ export const QueryFeeEnabledChannelRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryFeeEnabledChannelRequest.typeUrl, QueryFeeEnabledChannelRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryFeeEnabledChannelRequest.aminoType, QueryFeeEnabledChannelRequest.typeUrl);
 function createBaseQueryFeeEnabledChannelResponse(): QueryFeeEnabledChannelResponse {
   return {
     feeEnabled: false
@@ -2331,6 +2503,13 @@ function createBaseQueryFeeEnabledChannelResponse(): QueryFeeEnabledChannelRespo
 }
 export const QueryFeeEnabledChannelResponse = {
   typeUrl: "/ibc.applications.fee.v1.QueryFeeEnabledChannelResponse",
+  aminoType: "cosmos-sdk/QueryFeeEnabledChannelResponse",
+  is(o: any): o is QueryFeeEnabledChannelResponse {
+    return o && (o.$typeUrl === QueryFeeEnabledChannelResponse.typeUrl || typeof o.feeEnabled === "boolean");
+  },
+  isSDK(o: any): o is QueryFeeEnabledChannelResponseSDKType {
+    return o && (o.$typeUrl === QueryFeeEnabledChannelResponse.typeUrl || typeof o.fee_enabled === "boolean");
+  },
   encode(message: QueryFeeEnabledChannelResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.feeEnabled === true) {
       writer.uint32(8).bool(message.feeEnabled);
@@ -2418,3 +2597,5 @@ export const QueryFeeEnabledChannelResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryFeeEnabledChannelResponse.typeUrl, QueryFeeEnabledChannelResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryFeeEnabledChannelResponse.aminoType, QueryFeeEnabledChannelResponse.typeUrl);

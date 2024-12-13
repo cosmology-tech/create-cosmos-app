@@ -1,15 +1,18 @@
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.cosmwasmpool.v1beta1";
 export interface CosmWasmPool {
+  $typeUrl?: "/osmosis.cosmwasmpool.v1beta1.CosmWasmPool";
   poolAddress: string;
   contractAddress: string;
   poolId: bigint;
   codeId: bigint;
 }
 export interface ReactiveCosmWasmPool {
+  $typeUrl?: ComputedRef<"/osmosis.cosmwasmpool.v1beta1.CosmWasmPool">;
   poolAddress: ComputedRef<string>;
   contractAddress: ComputedRef<string>;
   poolId: ComputedRef<bigint>;
@@ -20,6 +23,7 @@ export interface CosmWasmPoolProtoMsg {
   value: Uint8Array;
 }
 export interface CosmWasmPoolSDKType {
+  $typeUrl?: "/osmosis.cosmwasmpool.v1beta1.CosmWasmPool";
   pool_address: string;
   contract_address: string;
   pool_id: bigint;
@@ -27,6 +31,7 @@ export interface CosmWasmPoolSDKType {
 }
 function createBaseCosmWasmPool(): CosmWasmPool {
   return {
+    $typeUrl: "/osmosis.cosmwasmpool.v1beta1.CosmWasmPool",
     poolAddress: "",
     contractAddress: "",
     poolId: BigInt(0),
@@ -35,6 +40,13 @@ function createBaseCosmWasmPool(): CosmWasmPool {
 }
 export const CosmWasmPool = {
   typeUrl: "/osmosis.cosmwasmpool.v1beta1.CosmWasmPool",
+  aminoType: "osmosis/cosmwasmpool/cosm-wasm-pool",
+  is(o: any): o is CosmWasmPool {
+    return o && (o.$typeUrl === CosmWasmPool.typeUrl || typeof o.poolAddress === "string" && typeof o.contractAddress === "string" && typeof o.poolId === "bigint" && typeof o.codeId === "bigint");
+  },
+  isSDK(o: any): o is CosmWasmPoolSDKType {
+    return o && (o.$typeUrl === CosmWasmPool.typeUrl || typeof o.pool_address === "string" && typeof o.contract_address === "string" && typeof o.pool_id === "bigint" && typeof o.code_id === "bigint");
+  },
   encode(message: CosmWasmPool, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolAddress !== "") {
       writer.uint32(10).string(message.poolAddress);
@@ -170,3 +182,5 @@ export const CosmWasmPool = {
     };
   }
 };
+GlobalDecoderRegistry.register(CosmWasmPool.typeUrl, CosmWasmPool);
+GlobalDecoderRegistry.registerAminoProtoMapping(CosmWasmPool.aminoType, CosmWasmPool.typeUrl);

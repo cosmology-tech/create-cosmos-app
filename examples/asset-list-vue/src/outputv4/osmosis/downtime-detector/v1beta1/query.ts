@@ -1,8 +1,9 @@
 import { Downtime, DowntimeSDKType, downtimeFromJSON, downtimeToJSON } from "./downtime_duration";
 import { Duration, DurationSDKType } from "../../../google/protobuf/duration";
-import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.downtimedetector.v1beta1";
 /**
@@ -50,6 +51,13 @@ function createBaseRecoveredSinceDowntimeOfLengthRequest(): RecoveredSinceDownti
 }
 export const RecoveredSinceDowntimeOfLengthRequest = {
   typeUrl: "/osmosis.downtimedetector.v1beta1.RecoveredSinceDowntimeOfLengthRequest",
+  aminoType: "osmosis/downtimedetector/recovered-since-downtime-of-length-request",
+  is(o: any): o is RecoveredSinceDowntimeOfLengthRequest {
+    return o && (o.$typeUrl === RecoveredSinceDowntimeOfLengthRequest.typeUrl || isSet(o.downtime) && Duration.is(o.recovery));
+  },
+  isSDK(o: any): o is RecoveredSinceDowntimeOfLengthRequestSDKType {
+    return o && (o.$typeUrl === RecoveredSinceDowntimeOfLengthRequest.typeUrl || isSet(o.downtime) && Duration.isSDK(o.recovery));
+  },
   encode(message: RecoveredSinceDowntimeOfLengthRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.downtime !== 0) {
       writer.uint32(8).int32(message.downtime);
@@ -153,6 +161,8 @@ export const RecoveredSinceDowntimeOfLengthRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(RecoveredSinceDowntimeOfLengthRequest.typeUrl, RecoveredSinceDowntimeOfLengthRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(RecoveredSinceDowntimeOfLengthRequest.aminoType, RecoveredSinceDowntimeOfLengthRequest.typeUrl);
 function createBaseRecoveredSinceDowntimeOfLengthResponse(): RecoveredSinceDowntimeOfLengthResponse {
   return {
     succesfullyRecovered: false
@@ -160,6 +170,13 @@ function createBaseRecoveredSinceDowntimeOfLengthResponse(): RecoveredSinceDownt
 }
 export const RecoveredSinceDowntimeOfLengthResponse = {
   typeUrl: "/osmosis.downtimedetector.v1beta1.RecoveredSinceDowntimeOfLengthResponse",
+  aminoType: "osmosis/downtimedetector/recovered-since-downtime-of-length-response",
+  is(o: any): o is RecoveredSinceDowntimeOfLengthResponse {
+    return o && (o.$typeUrl === RecoveredSinceDowntimeOfLengthResponse.typeUrl || typeof o.succesfullyRecovered === "boolean");
+  },
+  isSDK(o: any): o is RecoveredSinceDowntimeOfLengthResponseSDKType {
+    return o && (o.$typeUrl === RecoveredSinceDowntimeOfLengthResponse.typeUrl || typeof o.succesfully_recovered === "boolean");
+  },
   encode(message: RecoveredSinceDowntimeOfLengthResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.succesfullyRecovered === true) {
       writer.uint32(8).bool(message.succesfullyRecovered);
@@ -247,3 +264,5 @@ export const RecoveredSinceDowntimeOfLengthResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(RecoveredSinceDowntimeOfLengthResponse.typeUrl, RecoveredSinceDowntimeOfLengthResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(RecoveredSinceDowntimeOfLengthResponse.aminoType, RecoveredSinceDowntimeOfLengthResponse.typeUrl);

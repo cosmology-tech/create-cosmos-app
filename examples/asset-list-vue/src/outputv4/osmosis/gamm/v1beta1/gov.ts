@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.gamm.v1beta1";
 /**
@@ -77,6 +78,13 @@ function createBaseReplaceMigrationRecordsProposal(): ReplaceMigrationRecordsPro
 }
 export const ReplaceMigrationRecordsProposal = {
   typeUrl: "/osmosis.gamm.v1beta1.ReplaceMigrationRecordsProposal",
+  aminoType: "osmosis/gamm/replace-migration-records-proposal",
+  is(o: any): o is ReplaceMigrationRecordsProposal {
+    return o && (o.$typeUrl === ReplaceMigrationRecordsProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string");
+  },
+  isSDK(o: any): o is ReplaceMigrationRecordsProposalSDKType {
+    return o && (o.$typeUrl === ReplaceMigrationRecordsProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string");
+  },
   encode(message: ReplaceMigrationRecordsProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -180,6 +188,8 @@ export const ReplaceMigrationRecordsProposal = {
     };
   }
 };
+GlobalDecoderRegistry.register(ReplaceMigrationRecordsProposal.typeUrl, ReplaceMigrationRecordsProposal);
+GlobalDecoderRegistry.registerAminoProtoMapping(ReplaceMigrationRecordsProposal.aminoType, ReplaceMigrationRecordsProposal.typeUrl);
 function createBaseUpdateMigrationRecordsProposal(): UpdateMigrationRecordsProposal {
   return {
     title: "",
@@ -188,6 +198,13 @@ function createBaseUpdateMigrationRecordsProposal(): UpdateMigrationRecordsPropo
 }
 export const UpdateMigrationRecordsProposal = {
   typeUrl: "/osmosis.gamm.v1beta1.UpdateMigrationRecordsProposal",
+  aminoType: "osmosis/gamm/update-migration-records-proposal",
+  is(o: any): o is UpdateMigrationRecordsProposal {
+    return o && (o.$typeUrl === UpdateMigrationRecordsProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string");
+  },
+  isSDK(o: any): o is UpdateMigrationRecordsProposalSDKType {
+    return o && (o.$typeUrl === UpdateMigrationRecordsProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string");
+  },
   encode(message: UpdateMigrationRecordsProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -291,3 +308,5 @@ export const UpdateMigrationRecordsProposal = {
     };
   }
 };
+GlobalDecoderRegistry.register(UpdateMigrationRecordsProposal.typeUrl, UpdateMigrationRecordsProposal);
+GlobalDecoderRegistry.registerAminoProtoMapping(UpdateMigrationRecordsProposal.aminoType, UpdateMigrationRecordsProposal.typeUrl);

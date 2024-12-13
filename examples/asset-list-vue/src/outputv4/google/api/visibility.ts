@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
@@ -122,6 +123,12 @@ function createBaseVisibility(): Visibility {
 }
 export const Visibility = {
   typeUrl: "/google.api.Visibility",
+  is(o: any): o is Visibility {
+    return o && (o.$typeUrl === Visibility.typeUrl || Array.isArray(o.rules) && (!o.rules.length || VisibilityRule.is(o.rules[0])));
+  },
+  isSDK(o: any): o is VisibilitySDKType {
+    return o && (o.$typeUrl === Visibility.typeUrl || Array.isArray(o.rules) && (!o.rules.length || VisibilityRule.isSDK(o.rules[0])));
+  },
   encode(message: Visibility, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.rules) {
       VisibilityRule.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -213,6 +220,7 @@ export const Visibility = {
     };
   }
 };
+GlobalDecoderRegistry.register(Visibility.typeUrl, Visibility);
 function createBaseVisibilityRule(): VisibilityRule {
   return {
     selector: "",
@@ -221,6 +229,12 @@ function createBaseVisibilityRule(): VisibilityRule {
 }
 export const VisibilityRule = {
   typeUrl: "/google.api.VisibilityRule",
+  is(o: any): o is VisibilityRule {
+    return o && (o.$typeUrl === VisibilityRule.typeUrl || typeof o.selector === "string" && typeof o.restriction === "string");
+  },
+  isSDK(o: any): o is VisibilityRuleSDKType {
+    return o && (o.$typeUrl === VisibilityRule.typeUrl || typeof o.selector === "string" && typeof o.restriction === "string");
+  },
   encode(message: VisibilityRule, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.selector !== "") {
       writer.uint32(10).string(message.selector);
@@ -318,3 +332,4 @@ export const VisibilityRule = {
     };
   }
 };
+GlobalDecoderRegistry.register(VisibilityRule.typeUrl, VisibilityRule);

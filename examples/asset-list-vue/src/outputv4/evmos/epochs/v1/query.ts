@@ -3,6 +3,7 @@ import { EpochInfo, EpochInfoSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.epochs.v1";
 export interface QueryEpochsInfoRequest {
@@ -67,6 +68,12 @@ function createBaseQueryEpochsInfoRequest(): QueryEpochsInfoRequest {
 }
 export const QueryEpochsInfoRequest = {
   typeUrl: "/evmos.epochs.v1.QueryEpochsInfoRequest",
+  is(o: any): o is QueryEpochsInfoRequest {
+    return o && o.$typeUrl === QueryEpochsInfoRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryEpochsInfoRequestSDKType {
+    return o && o.$typeUrl === QueryEpochsInfoRequest.typeUrl;
+  },
   encode(message: QueryEpochsInfoRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
@@ -148,6 +155,7 @@ export const QueryEpochsInfoRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryEpochsInfoRequest.typeUrl, QueryEpochsInfoRequest);
 function createBaseQueryEpochsInfoResponse(): QueryEpochsInfoResponse {
   return {
     epochs: [],
@@ -156,6 +164,12 @@ function createBaseQueryEpochsInfoResponse(): QueryEpochsInfoResponse {
 }
 export const QueryEpochsInfoResponse = {
   typeUrl: "/evmos.epochs.v1.QueryEpochsInfoResponse",
+  is(o: any): o is QueryEpochsInfoResponse {
+    return o && (o.$typeUrl === QueryEpochsInfoResponse.typeUrl || Array.isArray(o.epochs) && (!o.epochs.length || EpochInfo.is(o.epochs[0])));
+  },
+  isSDK(o: any): o is QueryEpochsInfoResponseSDKType {
+    return o && (o.$typeUrl === QueryEpochsInfoResponse.typeUrl || Array.isArray(o.epochs) && (!o.epochs.length || EpochInfo.isSDK(o.epochs[0])));
+  },
   encode(message: QueryEpochsInfoResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.epochs) {
       EpochInfo.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -263,6 +277,7 @@ export const QueryEpochsInfoResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryEpochsInfoResponse.typeUrl, QueryEpochsInfoResponse);
 function createBaseQueryCurrentEpochRequest(): QueryCurrentEpochRequest {
   return {
     identifier: ""
@@ -270,6 +285,12 @@ function createBaseQueryCurrentEpochRequest(): QueryCurrentEpochRequest {
 }
 export const QueryCurrentEpochRequest = {
   typeUrl: "/evmos.epochs.v1.QueryCurrentEpochRequest",
+  is(o: any): o is QueryCurrentEpochRequest {
+    return o && (o.$typeUrl === QueryCurrentEpochRequest.typeUrl || typeof o.identifier === "string");
+  },
+  isSDK(o: any): o is QueryCurrentEpochRequestSDKType {
+    return o && (o.$typeUrl === QueryCurrentEpochRequest.typeUrl || typeof o.identifier === "string");
+  },
   encode(message: QueryCurrentEpochRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.identifier !== "") {
       writer.uint32(10).string(message.identifier);
@@ -351,6 +372,7 @@ export const QueryCurrentEpochRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryCurrentEpochRequest.typeUrl, QueryCurrentEpochRequest);
 function createBaseQueryCurrentEpochResponse(): QueryCurrentEpochResponse {
   return {
     currentEpoch: BigInt(0)
@@ -358,6 +380,12 @@ function createBaseQueryCurrentEpochResponse(): QueryCurrentEpochResponse {
 }
 export const QueryCurrentEpochResponse = {
   typeUrl: "/evmos.epochs.v1.QueryCurrentEpochResponse",
+  is(o: any): o is QueryCurrentEpochResponse {
+    return o && (o.$typeUrl === QueryCurrentEpochResponse.typeUrl || typeof o.currentEpoch === "bigint");
+  },
+  isSDK(o: any): o is QueryCurrentEpochResponseSDKType {
+    return o && (o.$typeUrl === QueryCurrentEpochResponse.typeUrl || typeof o.current_epoch === "bigint");
+  },
   encode(message: QueryCurrentEpochResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.currentEpoch !== BigInt(0)) {
       writer.uint32(8).int64(message.currentEpoch);
@@ -439,3 +467,4 @@ export const QueryCurrentEpochResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryCurrentEpochResponse.typeUrl, QueryCurrentEpochResponse);

@@ -2,6 +2,7 @@ import { FileDescriptorProto, FileDescriptorProtoSDKType } from "../descriptor";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.protobuf.compiler";
 /** The version number of protocol compiler. */
@@ -191,6 +192,12 @@ function createBaseVersion(): Version {
 }
 export const Version = {
   typeUrl: "/google.protobuf.compiler.Version",
+  is(o: any): o is Version {
+    return o && (o.$typeUrl === Version.typeUrl || typeof o.major === "number" && typeof o.minor === "number" && typeof o.patch === "number" && typeof o.suffix === "string");
+  },
+  isSDK(o: any): o is VersionSDKType {
+    return o && (o.$typeUrl === Version.typeUrl || typeof o.major === "number" && typeof o.minor === "number" && typeof o.patch === "number" && typeof o.suffix === "string");
+  },
   encode(message: Version, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.major !== 0) {
       writer.uint32(8).int32(message.major);
@@ -320,6 +327,7 @@ export const Version = {
     };
   }
 };
+GlobalDecoderRegistry.register(Version.typeUrl, Version);
 function createBaseCodeGeneratorRequest(): CodeGeneratorRequest {
   return {
     fileToGenerate: [],
@@ -330,6 +338,12 @@ function createBaseCodeGeneratorRequest(): CodeGeneratorRequest {
 }
 export const CodeGeneratorRequest = {
   typeUrl: "/google.protobuf.compiler.CodeGeneratorRequest",
+  is(o: any): o is CodeGeneratorRequest {
+    return o && (o.$typeUrl === CodeGeneratorRequest.typeUrl || Array.isArray(o.fileToGenerate) && (!o.fileToGenerate.length || typeof o.fileToGenerate[0] === "string") && typeof o.parameter === "string" && Array.isArray(o.protoFile) && (!o.protoFile.length || FileDescriptorProto.is(o.protoFile[0])));
+  },
+  isSDK(o: any): o is CodeGeneratorRequestSDKType {
+    return o && (o.$typeUrl === CodeGeneratorRequest.typeUrl || Array.isArray(o.file_to_generate) && (!o.file_to_generate.length || typeof o.file_to_generate[0] === "string") && typeof o.parameter === "string" && Array.isArray(o.proto_file) && (!o.proto_file.length || FileDescriptorProto.isSDK(o.proto_file[0])));
+  },
   encode(message: CodeGeneratorRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.fileToGenerate) {
       writer.uint32(10).string(v!);
@@ -479,6 +493,7 @@ export const CodeGeneratorRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(CodeGeneratorRequest.typeUrl, CodeGeneratorRequest);
 function createBaseCodeGeneratorResponse(): CodeGeneratorResponse {
   return {
     error: "",
@@ -487,6 +502,12 @@ function createBaseCodeGeneratorResponse(): CodeGeneratorResponse {
 }
 export const CodeGeneratorResponse = {
   typeUrl: "/google.protobuf.compiler.CodeGeneratorResponse",
+  is(o: any): o is CodeGeneratorResponse {
+    return o && (o.$typeUrl === CodeGeneratorResponse.typeUrl || typeof o.error === "string" && Array.isArray(o.file) && (!o.file.length || CodeGeneratorResponse_File.is(o.file[0])));
+  },
+  isSDK(o: any): o is CodeGeneratorResponseSDKType {
+    return o && (o.$typeUrl === CodeGeneratorResponse.typeUrl || typeof o.error === "string" && Array.isArray(o.file) && (!o.file.length || CodeGeneratorResponse_File.isSDK(o.file[0])));
+  },
   encode(message: CodeGeneratorResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.error !== "") {
       writer.uint32(10).string(message.error);
@@ -594,6 +615,7 @@ export const CodeGeneratorResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(CodeGeneratorResponse.typeUrl, CodeGeneratorResponse);
 function createBaseCodeGeneratorResponse_File(): CodeGeneratorResponse_File {
   return {
     name: "",
@@ -603,6 +625,12 @@ function createBaseCodeGeneratorResponse_File(): CodeGeneratorResponse_File {
 }
 export const CodeGeneratorResponse_File = {
   typeUrl: "/google.protobuf.compiler.File",
+  is(o: any): o is CodeGeneratorResponse_File {
+    return o && (o.$typeUrl === CodeGeneratorResponse_File.typeUrl || typeof o.name === "string" && typeof o.insertionPoint === "string" && typeof o.content === "string");
+  },
+  isSDK(o: any): o is CodeGeneratorResponse_FileSDKType {
+    return o && (o.$typeUrl === CodeGeneratorResponse_File.typeUrl || typeof o.name === "string" && typeof o.insertion_point === "string" && typeof o.content === "string");
+  },
   encode(message: CodeGeneratorResponse_File, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -716,3 +744,4 @@ export const CodeGeneratorResponse_File = {
     };
   }
 };
+GlobalDecoderRegistry.register(CodeGeneratorResponse_File.typeUrl, CodeGeneratorResponse_File);

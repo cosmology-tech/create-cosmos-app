@@ -6,6 +6,7 @@ import { Account, AccountSDKType, FractionalPayment, FractionalPaymentSDKType } 
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.market.v1beta2";
 /** QueryOrdersRequest is request type for the Query/Orders RPC method */
@@ -220,6 +221,13 @@ function createBaseQueryOrdersRequest(): QueryOrdersRequest {
 }
 export const QueryOrdersRequest = {
   typeUrl: "/akash.market.v1beta2.QueryOrdersRequest",
+  aminoType: "akash/market/v1beta2/query-orders-request",
+  is(o: any): o is QueryOrdersRequest {
+    return o && (o.$typeUrl === QueryOrdersRequest.typeUrl || OrderFilters.is(o.filters));
+  },
+  isSDK(o: any): o is QueryOrdersRequestSDKType {
+    return o && (o.$typeUrl === QueryOrdersRequest.typeUrl || OrderFilters.isSDK(o.filters));
+  },
   encode(message: QueryOrdersRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.filters !== undefined) {
       OrderFilters.encode(message.filters, writer.uint32(10).fork()).ldelim();
@@ -323,6 +331,8 @@ export const QueryOrdersRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryOrdersRequest.typeUrl, QueryOrdersRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryOrdersRequest.aminoType, QueryOrdersRequest.typeUrl);
 function createBaseQueryOrdersResponse(): QueryOrdersResponse {
   return {
     orders: [],
@@ -331,6 +341,13 @@ function createBaseQueryOrdersResponse(): QueryOrdersResponse {
 }
 export const QueryOrdersResponse = {
   typeUrl: "/akash.market.v1beta2.QueryOrdersResponse",
+  aminoType: "akash/market/v1beta2/query-orders-response",
+  is(o: any): o is QueryOrdersResponse {
+    return o && (o.$typeUrl === QueryOrdersResponse.typeUrl || Array.isArray(o.orders) && (!o.orders.length || Order.is(o.orders[0])));
+  },
+  isSDK(o: any): o is QueryOrdersResponseSDKType {
+    return o && (o.$typeUrl === QueryOrdersResponse.typeUrl || Array.isArray(o.orders) && (!o.orders.length || Order.isSDK(o.orders[0])));
+  },
   encode(message: QueryOrdersResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.orders) {
       Order.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -444,6 +461,8 @@ export const QueryOrdersResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryOrdersResponse.typeUrl, QueryOrdersResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryOrdersResponse.aminoType, QueryOrdersResponse.typeUrl);
 function createBaseQueryOrderRequest(): QueryOrderRequest {
   return {
     id: OrderID.fromPartial({})
@@ -451,6 +470,13 @@ function createBaseQueryOrderRequest(): QueryOrderRequest {
 }
 export const QueryOrderRequest = {
   typeUrl: "/akash.market.v1beta2.QueryOrderRequest",
+  aminoType: "akash/market/v1beta2/query-order-request",
+  is(o: any): o is QueryOrderRequest {
+    return o && (o.$typeUrl === QueryOrderRequest.typeUrl || OrderID.is(o.id));
+  },
+  isSDK(o: any): o is QueryOrderRequestSDKType {
+    return o && (o.$typeUrl === QueryOrderRequest.typeUrl || OrderID.isSDK(o.id));
+  },
   encode(message: QueryOrderRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       OrderID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -538,6 +564,8 @@ export const QueryOrderRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryOrderRequest.typeUrl, QueryOrderRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryOrderRequest.aminoType, QueryOrderRequest.typeUrl);
 function createBaseQueryOrderResponse(): QueryOrderResponse {
   return {
     order: Order.fromPartial({})
@@ -545,6 +573,13 @@ function createBaseQueryOrderResponse(): QueryOrderResponse {
 }
 export const QueryOrderResponse = {
   typeUrl: "/akash.market.v1beta2.QueryOrderResponse",
+  aminoType: "akash/market/v1beta2/query-order-response",
+  is(o: any): o is QueryOrderResponse {
+    return o && (o.$typeUrl === QueryOrderResponse.typeUrl || Order.is(o.order));
+  },
+  isSDK(o: any): o is QueryOrderResponseSDKType {
+    return o && (o.$typeUrl === QueryOrderResponse.typeUrl || Order.isSDK(o.order));
+  },
   encode(message: QueryOrderResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.order !== undefined) {
       Order.encode(message.order, writer.uint32(10).fork()).ldelim();
@@ -632,6 +667,8 @@ export const QueryOrderResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryOrderResponse.typeUrl, QueryOrderResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryOrderResponse.aminoType, QueryOrderResponse.typeUrl);
 function createBaseQueryBidsRequest(): QueryBidsRequest {
   return {
     filters: BidFilters.fromPartial({}),
@@ -640,6 +677,13 @@ function createBaseQueryBidsRequest(): QueryBidsRequest {
 }
 export const QueryBidsRequest = {
   typeUrl: "/akash.market.v1beta2.QueryBidsRequest",
+  aminoType: "akash/market/v1beta2/query-bids-request",
+  is(o: any): o is QueryBidsRequest {
+    return o && (o.$typeUrl === QueryBidsRequest.typeUrl || BidFilters.is(o.filters));
+  },
+  isSDK(o: any): o is QueryBidsRequestSDKType {
+    return o && (o.$typeUrl === QueryBidsRequest.typeUrl || BidFilters.isSDK(o.filters));
+  },
   encode(message: QueryBidsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.filters !== undefined) {
       BidFilters.encode(message.filters, writer.uint32(10).fork()).ldelim();
@@ -743,6 +787,8 @@ export const QueryBidsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryBidsRequest.typeUrl, QueryBidsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryBidsRequest.aminoType, QueryBidsRequest.typeUrl);
 function createBaseQueryBidsResponse(): QueryBidsResponse {
   return {
     bids: [],
@@ -751,6 +797,13 @@ function createBaseQueryBidsResponse(): QueryBidsResponse {
 }
 export const QueryBidsResponse = {
   typeUrl: "/akash.market.v1beta2.QueryBidsResponse",
+  aminoType: "akash/market/v1beta2/query-bids-response",
+  is(o: any): o is QueryBidsResponse {
+    return o && (o.$typeUrl === QueryBidsResponse.typeUrl || Array.isArray(o.bids) && (!o.bids.length || QueryBidResponse.is(o.bids[0])));
+  },
+  isSDK(o: any): o is QueryBidsResponseSDKType {
+    return o && (o.$typeUrl === QueryBidsResponse.typeUrl || Array.isArray(o.bids) && (!o.bids.length || QueryBidResponse.isSDK(o.bids[0])));
+  },
   encode(message: QueryBidsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.bids) {
       QueryBidResponse.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -864,6 +917,8 @@ export const QueryBidsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryBidsResponse.typeUrl, QueryBidsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryBidsResponse.aminoType, QueryBidsResponse.typeUrl);
 function createBaseQueryBidRequest(): QueryBidRequest {
   return {
     id: BidID.fromPartial({})
@@ -871,6 +926,13 @@ function createBaseQueryBidRequest(): QueryBidRequest {
 }
 export const QueryBidRequest = {
   typeUrl: "/akash.market.v1beta2.QueryBidRequest",
+  aminoType: "akash/market/v1beta2/query-bid-request",
+  is(o: any): o is QueryBidRequest {
+    return o && (o.$typeUrl === QueryBidRequest.typeUrl || BidID.is(o.id));
+  },
+  isSDK(o: any): o is QueryBidRequestSDKType {
+    return o && (o.$typeUrl === QueryBidRequest.typeUrl || BidID.isSDK(o.id));
+  },
   encode(message: QueryBidRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       BidID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -958,6 +1020,8 @@ export const QueryBidRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryBidRequest.typeUrl, QueryBidRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryBidRequest.aminoType, QueryBidRequest.typeUrl);
 function createBaseQueryBidResponse(): QueryBidResponse {
   return {
     bid: Bid.fromPartial({}),
@@ -966,6 +1030,13 @@ function createBaseQueryBidResponse(): QueryBidResponse {
 }
 export const QueryBidResponse = {
   typeUrl: "/akash.market.v1beta2.QueryBidResponse",
+  aminoType: "akash/market/v1beta2/query-bid-response",
+  is(o: any): o is QueryBidResponse {
+    return o && (o.$typeUrl === QueryBidResponse.typeUrl || Bid.is(o.bid) && Account.is(o.escrowAccount));
+  },
+  isSDK(o: any): o is QueryBidResponseSDKType {
+    return o && (o.$typeUrl === QueryBidResponse.typeUrl || Bid.isSDK(o.bid) && Account.isSDK(o.escrow_account));
+  },
   encode(message: QueryBidResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.bid !== undefined) {
       Bid.encode(message.bid, writer.uint32(10).fork()).ldelim();
@@ -1069,6 +1140,8 @@ export const QueryBidResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryBidResponse.typeUrl, QueryBidResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryBidResponse.aminoType, QueryBidResponse.typeUrl);
 function createBaseQueryLeasesRequest(): QueryLeasesRequest {
   return {
     filters: LeaseFilters.fromPartial({}),
@@ -1077,6 +1150,13 @@ function createBaseQueryLeasesRequest(): QueryLeasesRequest {
 }
 export const QueryLeasesRequest = {
   typeUrl: "/akash.market.v1beta2.QueryLeasesRequest",
+  aminoType: "akash/market/v1beta2/query-leases-request",
+  is(o: any): o is QueryLeasesRequest {
+    return o && (o.$typeUrl === QueryLeasesRequest.typeUrl || LeaseFilters.is(o.filters));
+  },
+  isSDK(o: any): o is QueryLeasesRequestSDKType {
+    return o && (o.$typeUrl === QueryLeasesRequest.typeUrl || LeaseFilters.isSDK(o.filters));
+  },
   encode(message: QueryLeasesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.filters !== undefined) {
       LeaseFilters.encode(message.filters, writer.uint32(10).fork()).ldelim();
@@ -1180,6 +1260,8 @@ export const QueryLeasesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryLeasesRequest.typeUrl, QueryLeasesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryLeasesRequest.aminoType, QueryLeasesRequest.typeUrl);
 function createBaseQueryLeasesResponse(): QueryLeasesResponse {
   return {
     leases: [],
@@ -1188,6 +1270,13 @@ function createBaseQueryLeasesResponse(): QueryLeasesResponse {
 }
 export const QueryLeasesResponse = {
   typeUrl: "/akash.market.v1beta2.QueryLeasesResponse",
+  aminoType: "akash/market/v1beta2/query-leases-response",
+  is(o: any): o is QueryLeasesResponse {
+    return o && (o.$typeUrl === QueryLeasesResponse.typeUrl || Array.isArray(o.leases) && (!o.leases.length || QueryLeaseResponse.is(o.leases[0])));
+  },
+  isSDK(o: any): o is QueryLeasesResponseSDKType {
+    return o && (o.$typeUrl === QueryLeasesResponse.typeUrl || Array.isArray(o.leases) && (!o.leases.length || QueryLeaseResponse.isSDK(o.leases[0])));
+  },
   encode(message: QueryLeasesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.leases) {
       QueryLeaseResponse.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1301,6 +1390,8 @@ export const QueryLeasesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryLeasesResponse.typeUrl, QueryLeasesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryLeasesResponse.aminoType, QueryLeasesResponse.typeUrl);
 function createBaseQueryLeaseRequest(): QueryLeaseRequest {
   return {
     id: LeaseID.fromPartial({})
@@ -1308,6 +1399,13 @@ function createBaseQueryLeaseRequest(): QueryLeaseRequest {
 }
 export const QueryLeaseRequest = {
   typeUrl: "/akash.market.v1beta2.QueryLeaseRequest",
+  aminoType: "akash/market/v1beta2/query-lease-request",
+  is(o: any): o is QueryLeaseRequest {
+    return o && (o.$typeUrl === QueryLeaseRequest.typeUrl || LeaseID.is(o.id));
+  },
+  isSDK(o: any): o is QueryLeaseRequestSDKType {
+    return o && (o.$typeUrl === QueryLeaseRequest.typeUrl || LeaseID.isSDK(o.id));
+  },
   encode(message: QueryLeaseRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       LeaseID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -1395,6 +1493,8 @@ export const QueryLeaseRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryLeaseRequest.typeUrl, QueryLeaseRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryLeaseRequest.aminoType, QueryLeaseRequest.typeUrl);
 function createBaseQueryLeaseResponse(): QueryLeaseResponse {
   return {
     lease: Lease.fromPartial({}),
@@ -1403,6 +1503,13 @@ function createBaseQueryLeaseResponse(): QueryLeaseResponse {
 }
 export const QueryLeaseResponse = {
   typeUrl: "/akash.market.v1beta2.QueryLeaseResponse",
+  aminoType: "akash/market/v1beta2/query-lease-response",
+  is(o: any): o is QueryLeaseResponse {
+    return o && (o.$typeUrl === QueryLeaseResponse.typeUrl || Lease.is(o.lease) && FractionalPayment.is(o.escrowPayment));
+  },
+  isSDK(o: any): o is QueryLeaseResponseSDKType {
+    return o && (o.$typeUrl === QueryLeaseResponse.typeUrl || Lease.isSDK(o.lease) && FractionalPayment.isSDK(o.escrow_payment));
+  },
   encode(message: QueryLeaseResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.lease !== undefined) {
       Lease.encode(message.lease, writer.uint32(10).fork()).ldelim();
@@ -1506,3 +1613,5 @@ export const QueryLeaseResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryLeaseResponse.typeUrl, QueryLeaseResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryLeaseResponse.aminoType, QueryLeaseResponse.typeUrl);

@@ -2,6 +2,7 @@ import { ExponentialCalculation, ExponentialCalculationSDKType, InflationDistrib
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.inflation.v1";
 /** GenesisState defines the inflation module's genesis state. */
@@ -75,6 +76,12 @@ function createBaseGenesisState(): GenesisState {
 }
 export const GenesisState = {
   typeUrl: "/evmos.inflation.v1.GenesisState",
+  is(o: any): o is GenesisState {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.is(o.params) && typeof o.period === "bigint" && typeof o.epochIdentifier === "string" && typeof o.epochsPerPeriod === "bigint" && typeof o.skippedEpochs === "bigint");
+  },
+  isSDK(o: any): o is GenesisStateSDKType {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.isSDK(o.params) && typeof o.period === "bigint" && typeof o.epoch_identifier === "string" && typeof o.epochs_per_period === "bigint" && typeof o.skipped_epochs === "bigint");
+  },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -220,6 +227,7 @@ export const GenesisState = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisState.typeUrl, GenesisState);
 function createBaseParams(): Params {
   return {
     mintDenom: "",
@@ -230,6 +238,12 @@ function createBaseParams(): Params {
 }
 export const Params = {
   typeUrl: "/evmos.inflation.v1.Params",
+  is(o: any): o is Params {
+    return o && (o.$typeUrl === Params.typeUrl || typeof o.mintDenom === "string" && ExponentialCalculation.is(o.exponentialCalculation) && InflationDistribution.is(o.inflationDistribution) && typeof o.enableInflation === "boolean");
+  },
+  isSDK(o: any): o is ParamsSDKType {
+    return o && (o.$typeUrl === Params.typeUrl || typeof o.mint_denom === "string" && ExponentialCalculation.isSDK(o.exponential_calculation) && InflationDistribution.isSDK(o.inflation_distribution) && typeof o.enable_inflation === "boolean");
+  },
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.mintDenom !== "") {
       writer.uint32(10).string(message.mintDenom);
@@ -359,3 +373,4 @@ export const Params = {
     };
   }
 };
+GlobalDecoderRegistry.register(Params.typeUrl, Params);

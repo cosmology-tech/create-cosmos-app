@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
@@ -382,6 +383,12 @@ function createBaseAuthentication(): Authentication {
 }
 export const Authentication = {
   typeUrl: "/google.api.Authentication",
+  is(o: any): o is Authentication {
+    return o && (o.$typeUrl === Authentication.typeUrl || Array.isArray(o.rules) && (!o.rules.length || AuthenticationRule.is(o.rules[0])) && Array.isArray(o.providers) && (!o.providers.length || AuthProvider.is(o.providers[0])));
+  },
+  isSDK(o: any): o is AuthenticationSDKType {
+    return o && (o.$typeUrl === Authentication.typeUrl || Array.isArray(o.rules) && (!o.rules.length || AuthenticationRule.isSDK(o.rules[0])) && Array.isArray(o.providers) && (!o.providers.length || AuthProvider.isSDK(o.providers[0])));
+  },
   encode(message: Authentication, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.rules) {
       AuthenticationRule.encode(v!, writer.uint32(26).fork()).ldelim();
@@ -499,6 +506,7 @@ export const Authentication = {
     };
   }
 };
+GlobalDecoderRegistry.register(Authentication.typeUrl, Authentication);
 function createBaseAuthenticationRule(): AuthenticationRule {
   return {
     selector: "",
@@ -509,6 +517,12 @@ function createBaseAuthenticationRule(): AuthenticationRule {
 }
 export const AuthenticationRule = {
   typeUrl: "/google.api.AuthenticationRule",
+  is(o: any): o is AuthenticationRule {
+    return o && (o.$typeUrl === AuthenticationRule.typeUrl || typeof o.selector === "string" && typeof o.allowWithoutCredential === "boolean" && Array.isArray(o.requirements) && (!o.requirements.length || AuthRequirement.is(o.requirements[0])));
+  },
+  isSDK(o: any): o is AuthenticationRuleSDKType {
+    return o && (o.$typeUrl === AuthenticationRule.typeUrl || typeof o.selector === "string" && typeof o.allow_without_credential === "boolean" && Array.isArray(o.requirements) && (!o.requirements.length || AuthRequirement.isSDK(o.requirements[0])));
+  },
   encode(message: AuthenticationRule, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.selector !== "") {
       writer.uint32(10).string(message.selector);
@@ -648,6 +662,7 @@ export const AuthenticationRule = {
     };
   }
 };
+GlobalDecoderRegistry.register(AuthenticationRule.typeUrl, AuthenticationRule);
 function createBaseJwtLocation(): JwtLocation {
   return {
     header: undefined,
@@ -657,6 +672,12 @@ function createBaseJwtLocation(): JwtLocation {
 }
 export const JwtLocation = {
   typeUrl: "/google.api.JwtLocation",
+  is(o: any): o is JwtLocation {
+    return o && (o.$typeUrl === JwtLocation.typeUrl || typeof o.valuePrefix === "string");
+  },
+  isSDK(o: any): o is JwtLocationSDKType {
+    return o && (o.$typeUrl === JwtLocation.typeUrl || typeof o.value_prefix === "string");
+  },
   encode(message: JwtLocation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.header !== undefined) {
       writer.uint32(10).string(message.header);
@@ -770,6 +791,7 @@ export const JwtLocation = {
     };
   }
 };
+GlobalDecoderRegistry.register(JwtLocation.typeUrl, JwtLocation);
 function createBaseAuthProvider(): AuthProvider {
   return {
     id: "",
@@ -782,6 +804,12 @@ function createBaseAuthProvider(): AuthProvider {
 }
 export const AuthProvider = {
   typeUrl: "/google.api.AuthProvider",
+  is(o: any): o is AuthProvider {
+    return o && (o.$typeUrl === AuthProvider.typeUrl || typeof o.id === "string" && typeof o.issuer === "string" && typeof o.jwksUri === "string" && typeof o.audiences === "string" && typeof o.authorizationUrl === "string" && Array.isArray(o.jwtLocations) && (!o.jwtLocations.length || JwtLocation.is(o.jwtLocations[0])));
+  },
+  isSDK(o: any): o is AuthProviderSDKType {
+    return o && (o.$typeUrl === AuthProvider.typeUrl || typeof o.id === "string" && typeof o.issuer === "string" && typeof o.jwks_uri === "string" && typeof o.audiences === "string" && typeof o.authorization_url === "string" && Array.isArray(o.jwt_locations) && (!o.jwt_locations.length || JwtLocation.isSDK(o.jwt_locations[0])));
+  },
   encode(message: AuthProvider, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
@@ -953,6 +981,7 @@ export const AuthProvider = {
     };
   }
 };
+GlobalDecoderRegistry.register(AuthProvider.typeUrl, AuthProvider);
 function createBaseOAuthRequirements(): OAuthRequirements {
   return {
     canonicalScopes: ""
@@ -960,6 +989,12 @@ function createBaseOAuthRequirements(): OAuthRequirements {
 }
 export const OAuthRequirements = {
   typeUrl: "/google.api.OAuthRequirements",
+  is(o: any): o is OAuthRequirements {
+    return o && (o.$typeUrl === OAuthRequirements.typeUrl || typeof o.canonicalScopes === "string");
+  },
+  isSDK(o: any): o is OAuthRequirementsSDKType {
+    return o && (o.$typeUrl === OAuthRequirements.typeUrl || typeof o.canonical_scopes === "string");
+  },
   encode(message: OAuthRequirements, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.canonicalScopes !== "") {
       writer.uint32(10).string(message.canonicalScopes);
@@ -1041,6 +1076,7 @@ export const OAuthRequirements = {
     };
   }
 };
+GlobalDecoderRegistry.register(OAuthRequirements.typeUrl, OAuthRequirements);
 function createBaseAuthRequirement(): AuthRequirement {
   return {
     providerId: "",
@@ -1049,6 +1085,12 @@ function createBaseAuthRequirement(): AuthRequirement {
 }
 export const AuthRequirement = {
   typeUrl: "/google.api.AuthRequirement",
+  is(o: any): o is AuthRequirement {
+    return o && (o.$typeUrl === AuthRequirement.typeUrl || typeof o.providerId === "string" && typeof o.audiences === "string");
+  },
+  isSDK(o: any): o is AuthRequirementSDKType {
+    return o && (o.$typeUrl === AuthRequirement.typeUrl || typeof o.provider_id === "string" && typeof o.audiences === "string");
+  },
   encode(message: AuthRequirement, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.providerId !== "") {
       writer.uint32(10).string(message.providerId);
@@ -1146,3 +1188,4 @@ export const AuthRequirement = {
     };
   }
 };
+GlobalDecoderRegistry.register(AuthRequirement.typeUrl, AuthRequirement);

@@ -4,6 +4,7 @@ import { Any, AnySDKType } from "../../../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicemanagement.v1";
 export enum GetServiceConfigRequest_ConfigView {
@@ -536,6 +537,12 @@ function createBaseListServicesRequest(): ListServicesRequest {
 }
 export const ListServicesRequest = {
   typeUrl: "/google.api.servicemanagement.v1.ListServicesRequest",
+  is(o: any): o is ListServicesRequest {
+    return o && (o.$typeUrl === ListServicesRequest.typeUrl || typeof o.producerProjectId === "string" && typeof o.pageSize === "number" && typeof o.pageToken === "string" && typeof o.consumerId === "string");
+  },
+  isSDK(o: any): o is ListServicesRequestSDKType {
+    return o && (o.$typeUrl === ListServicesRequest.typeUrl || typeof o.producer_project_id === "string" && typeof o.page_size === "number" && typeof o.page_token === "string" && typeof o.consumer_id === "string");
+  },
   encode(message: ListServicesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.producerProjectId !== "") {
       writer.uint32(10).string(message.producerProjectId);
@@ -665,6 +672,7 @@ export const ListServicesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ListServicesRequest.typeUrl, ListServicesRequest);
 function createBaseListServicesResponse(): ListServicesResponse {
   return {
     services: [],
@@ -673,6 +681,12 @@ function createBaseListServicesResponse(): ListServicesResponse {
 }
 export const ListServicesResponse = {
   typeUrl: "/google.api.servicemanagement.v1.ListServicesResponse",
+  is(o: any): o is ListServicesResponse {
+    return o && (o.$typeUrl === ListServicesResponse.typeUrl || Array.isArray(o.services) && (!o.services.length || ManagedService.is(o.services[0])) && typeof o.nextPageToken === "string");
+  },
+  isSDK(o: any): o is ListServicesResponseSDKType {
+    return o && (o.$typeUrl === ListServicesResponse.typeUrl || Array.isArray(o.services) && (!o.services.length || ManagedService.isSDK(o.services[0])) && typeof o.next_page_token === "string");
+  },
   encode(message: ListServicesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.services) {
       ManagedService.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -780,6 +794,7 @@ export const ListServicesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ListServicesResponse.typeUrl, ListServicesResponse);
 function createBaseGetServiceRequest(): GetServiceRequest {
   return {
     serviceName: ""
@@ -787,6 +802,12 @@ function createBaseGetServiceRequest(): GetServiceRequest {
 }
 export const GetServiceRequest = {
   typeUrl: "/google.api.servicemanagement.v1.GetServiceRequest",
+  is(o: any): o is GetServiceRequest {
+    return o && (o.$typeUrl === GetServiceRequest.typeUrl || typeof o.serviceName === "string");
+  },
+  isSDK(o: any): o is GetServiceRequestSDKType {
+    return o && (o.$typeUrl === GetServiceRequest.typeUrl || typeof o.service_name === "string");
+  },
   encode(message: GetServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -868,6 +889,7 @@ export const GetServiceRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(GetServiceRequest.typeUrl, GetServiceRequest);
 function createBaseCreateServiceRequest(): CreateServiceRequest {
   return {
     service: undefined
@@ -875,6 +897,12 @@ function createBaseCreateServiceRequest(): CreateServiceRequest {
 }
 export const CreateServiceRequest = {
   typeUrl: "/google.api.servicemanagement.v1.CreateServiceRequest",
+  is(o: any): o is CreateServiceRequest {
+    return o && o.$typeUrl === CreateServiceRequest.typeUrl;
+  },
+  isSDK(o: any): o is CreateServiceRequestSDKType {
+    return o && o.$typeUrl === CreateServiceRequest.typeUrl;
+  },
   encode(message: CreateServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.service !== undefined) {
       ManagedService.encode(message.service, writer.uint32(10).fork()).ldelim();
@@ -956,6 +984,7 @@ export const CreateServiceRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(CreateServiceRequest.typeUrl, CreateServiceRequest);
 function createBaseDeleteServiceRequest(): DeleteServiceRequest {
   return {
     serviceName: ""
@@ -963,6 +992,12 @@ function createBaseDeleteServiceRequest(): DeleteServiceRequest {
 }
 export const DeleteServiceRequest = {
   typeUrl: "/google.api.servicemanagement.v1.DeleteServiceRequest",
+  is(o: any): o is DeleteServiceRequest {
+    return o && (o.$typeUrl === DeleteServiceRequest.typeUrl || typeof o.serviceName === "string");
+  },
+  isSDK(o: any): o is DeleteServiceRequestSDKType {
+    return o && (o.$typeUrl === DeleteServiceRequest.typeUrl || typeof o.service_name === "string");
+  },
   encode(message: DeleteServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -1044,6 +1079,7 @@ export const DeleteServiceRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(DeleteServiceRequest.typeUrl, DeleteServiceRequest);
 function createBaseUndeleteServiceRequest(): UndeleteServiceRequest {
   return {
     serviceName: ""
@@ -1051,6 +1087,12 @@ function createBaseUndeleteServiceRequest(): UndeleteServiceRequest {
 }
 export const UndeleteServiceRequest = {
   typeUrl: "/google.api.servicemanagement.v1.UndeleteServiceRequest",
+  is(o: any): o is UndeleteServiceRequest {
+    return o && (o.$typeUrl === UndeleteServiceRequest.typeUrl || typeof o.serviceName === "string");
+  },
+  isSDK(o: any): o is UndeleteServiceRequestSDKType {
+    return o && (o.$typeUrl === UndeleteServiceRequest.typeUrl || typeof o.service_name === "string");
+  },
   encode(message: UndeleteServiceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -1132,6 +1174,7 @@ export const UndeleteServiceRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(UndeleteServiceRequest.typeUrl, UndeleteServiceRequest);
 function createBaseUndeleteServiceResponse(): UndeleteServiceResponse {
   return {
     service: undefined
@@ -1139,6 +1182,12 @@ function createBaseUndeleteServiceResponse(): UndeleteServiceResponse {
 }
 export const UndeleteServiceResponse = {
   typeUrl: "/google.api.servicemanagement.v1.UndeleteServiceResponse",
+  is(o: any): o is UndeleteServiceResponse {
+    return o && o.$typeUrl === UndeleteServiceResponse.typeUrl;
+  },
+  isSDK(o: any): o is UndeleteServiceResponseSDKType {
+    return o && o.$typeUrl === UndeleteServiceResponse.typeUrl;
+  },
   encode(message: UndeleteServiceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.service !== undefined) {
       ManagedService.encode(message.service, writer.uint32(10).fork()).ldelim();
@@ -1220,6 +1269,7 @@ export const UndeleteServiceResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(UndeleteServiceResponse.typeUrl, UndeleteServiceResponse);
 function createBaseGetServiceConfigRequest(): GetServiceConfigRequest {
   return {
     serviceName: "",
@@ -1229,6 +1279,12 @@ function createBaseGetServiceConfigRequest(): GetServiceConfigRequest {
 }
 export const GetServiceConfigRequest = {
   typeUrl: "/google.api.servicemanagement.v1.GetServiceConfigRequest",
+  is(o: any): o is GetServiceConfigRequest {
+    return o && (o.$typeUrl === GetServiceConfigRequest.typeUrl || typeof o.serviceName === "string" && typeof o.configId === "string" && isSet(o.view));
+  },
+  isSDK(o: any): o is GetServiceConfigRequestSDKType {
+    return o && (o.$typeUrl === GetServiceConfigRequest.typeUrl || typeof o.service_name === "string" && typeof o.config_id === "string" && isSet(o.view));
+  },
   encode(message: GetServiceConfigRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -1342,6 +1398,7 @@ export const GetServiceConfigRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(GetServiceConfigRequest.typeUrl, GetServiceConfigRequest);
 function createBaseListServiceConfigsRequest(): ListServiceConfigsRequest {
   return {
     serviceName: "",
@@ -1351,6 +1408,12 @@ function createBaseListServiceConfigsRequest(): ListServiceConfigsRequest {
 }
 export const ListServiceConfigsRequest = {
   typeUrl: "/google.api.servicemanagement.v1.ListServiceConfigsRequest",
+  is(o: any): o is ListServiceConfigsRequest {
+    return o && (o.$typeUrl === ListServiceConfigsRequest.typeUrl || typeof o.serviceName === "string" && typeof o.pageToken === "string" && typeof o.pageSize === "number");
+  },
+  isSDK(o: any): o is ListServiceConfigsRequestSDKType {
+    return o && (o.$typeUrl === ListServiceConfigsRequest.typeUrl || typeof o.service_name === "string" && typeof o.page_token === "string" && typeof o.page_size === "number");
+  },
   encode(message: ListServiceConfigsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -1464,6 +1527,7 @@ export const ListServiceConfigsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ListServiceConfigsRequest.typeUrl, ListServiceConfigsRequest);
 function createBaseListServiceConfigsResponse(): ListServiceConfigsResponse {
   return {
     serviceConfigs: [],
@@ -1472,6 +1536,12 @@ function createBaseListServiceConfigsResponse(): ListServiceConfigsResponse {
 }
 export const ListServiceConfigsResponse = {
   typeUrl: "/google.api.servicemanagement.v1.ListServiceConfigsResponse",
+  is(o: any): o is ListServiceConfigsResponse {
+    return o && (o.$typeUrl === ListServiceConfigsResponse.typeUrl || Array.isArray(o.serviceConfigs) && (!o.serviceConfigs.length || Service.is(o.serviceConfigs[0])) && typeof o.nextPageToken === "string");
+  },
+  isSDK(o: any): o is ListServiceConfigsResponseSDKType {
+    return o && (o.$typeUrl === ListServiceConfigsResponse.typeUrl || Array.isArray(o.service_configs) && (!o.service_configs.length || Service.isSDK(o.service_configs[0])) && typeof o.next_page_token === "string");
+  },
   encode(message: ListServiceConfigsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.serviceConfigs) {
       Service.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1579,6 +1649,7 @@ export const ListServiceConfigsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ListServiceConfigsResponse.typeUrl, ListServiceConfigsResponse);
 function createBaseCreateServiceConfigRequest(): CreateServiceConfigRequest {
   return {
     serviceName: "",
@@ -1587,6 +1658,12 @@ function createBaseCreateServiceConfigRequest(): CreateServiceConfigRequest {
 }
 export const CreateServiceConfigRequest = {
   typeUrl: "/google.api.servicemanagement.v1.CreateServiceConfigRequest",
+  is(o: any): o is CreateServiceConfigRequest {
+    return o && (o.$typeUrl === CreateServiceConfigRequest.typeUrl || typeof o.serviceName === "string");
+  },
+  isSDK(o: any): o is CreateServiceConfigRequestSDKType {
+    return o && (o.$typeUrl === CreateServiceConfigRequest.typeUrl || typeof o.service_name === "string");
+  },
   encode(message: CreateServiceConfigRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -1684,6 +1761,7 @@ export const CreateServiceConfigRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(CreateServiceConfigRequest.typeUrl, CreateServiceConfigRequest);
 function createBaseSubmitConfigSourceRequest(): SubmitConfigSourceRequest {
   return {
     serviceName: "",
@@ -1693,6 +1771,12 @@ function createBaseSubmitConfigSourceRequest(): SubmitConfigSourceRequest {
 }
 export const SubmitConfigSourceRequest = {
   typeUrl: "/google.api.servicemanagement.v1.SubmitConfigSourceRequest",
+  is(o: any): o is SubmitConfigSourceRequest {
+    return o && (o.$typeUrl === SubmitConfigSourceRequest.typeUrl || typeof o.serviceName === "string" && typeof o.validateOnly === "boolean");
+  },
+  isSDK(o: any): o is SubmitConfigSourceRequestSDKType {
+    return o && (o.$typeUrl === SubmitConfigSourceRequest.typeUrl || typeof o.service_name === "string" && typeof o.validate_only === "boolean");
+  },
   encode(message: SubmitConfigSourceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -1806,6 +1890,7 @@ export const SubmitConfigSourceRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(SubmitConfigSourceRequest.typeUrl, SubmitConfigSourceRequest);
 function createBaseSubmitConfigSourceResponse(): SubmitConfigSourceResponse {
   return {
     serviceConfig: undefined
@@ -1813,6 +1898,12 @@ function createBaseSubmitConfigSourceResponse(): SubmitConfigSourceResponse {
 }
 export const SubmitConfigSourceResponse = {
   typeUrl: "/google.api.servicemanagement.v1.SubmitConfigSourceResponse",
+  is(o: any): o is SubmitConfigSourceResponse {
+    return o && o.$typeUrl === SubmitConfigSourceResponse.typeUrl;
+  },
+  isSDK(o: any): o is SubmitConfigSourceResponseSDKType {
+    return o && o.$typeUrl === SubmitConfigSourceResponse.typeUrl;
+  },
   encode(message: SubmitConfigSourceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceConfig !== undefined) {
       Service.encode(message.serviceConfig, writer.uint32(10).fork()).ldelim();
@@ -1894,6 +1985,7 @@ export const SubmitConfigSourceResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(SubmitConfigSourceResponse.typeUrl, SubmitConfigSourceResponse);
 function createBaseCreateServiceRolloutRequest(): CreateServiceRolloutRequest {
   return {
     serviceName: "",
@@ -1902,6 +1994,12 @@ function createBaseCreateServiceRolloutRequest(): CreateServiceRolloutRequest {
 }
 export const CreateServiceRolloutRequest = {
   typeUrl: "/google.api.servicemanagement.v1.CreateServiceRolloutRequest",
+  is(o: any): o is CreateServiceRolloutRequest {
+    return o && (o.$typeUrl === CreateServiceRolloutRequest.typeUrl || typeof o.serviceName === "string");
+  },
+  isSDK(o: any): o is CreateServiceRolloutRequestSDKType {
+    return o && (o.$typeUrl === CreateServiceRolloutRequest.typeUrl || typeof o.service_name === "string");
+  },
   encode(message: CreateServiceRolloutRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -1999,6 +2097,7 @@ export const CreateServiceRolloutRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(CreateServiceRolloutRequest.typeUrl, CreateServiceRolloutRequest);
 function createBaseListServiceRolloutsRequest(): ListServiceRolloutsRequest {
   return {
     serviceName: "",
@@ -2009,6 +2108,12 @@ function createBaseListServiceRolloutsRequest(): ListServiceRolloutsRequest {
 }
 export const ListServiceRolloutsRequest = {
   typeUrl: "/google.api.servicemanagement.v1.ListServiceRolloutsRequest",
+  is(o: any): o is ListServiceRolloutsRequest {
+    return o && (o.$typeUrl === ListServiceRolloutsRequest.typeUrl || typeof o.serviceName === "string" && typeof o.pageToken === "string" && typeof o.pageSize === "number" && typeof o.filter === "string");
+  },
+  isSDK(o: any): o is ListServiceRolloutsRequestSDKType {
+    return o && (o.$typeUrl === ListServiceRolloutsRequest.typeUrl || typeof o.service_name === "string" && typeof o.page_token === "string" && typeof o.page_size === "number" && typeof o.filter === "string");
+  },
   encode(message: ListServiceRolloutsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -2138,6 +2243,7 @@ export const ListServiceRolloutsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ListServiceRolloutsRequest.typeUrl, ListServiceRolloutsRequest);
 function createBaseListServiceRolloutsResponse(): ListServiceRolloutsResponse {
   return {
     rollouts: [],
@@ -2146,6 +2252,12 @@ function createBaseListServiceRolloutsResponse(): ListServiceRolloutsResponse {
 }
 export const ListServiceRolloutsResponse = {
   typeUrl: "/google.api.servicemanagement.v1.ListServiceRolloutsResponse",
+  is(o: any): o is ListServiceRolloutsResponse {
+    return o && (o.$typeUrl === ListServiceRolloutsResponse.typeUrl || Array.isArray(o.rollouts) && (!o.rollouts.length || Rollout.is(o.rollouts[0])) && typeof o.nextPageToken === "string");
+  },
+  isSDK(o: any): o is ListServiceRolloutsResponseSDKType {
+    return o && (o.$typeUrl === ListServiceRolloutsResponse.typeUrl || Array.isArray(o.rollouts) && (!o.rollouts.length || Rollout.isSDK(o.rollouts[0])) && typeof o.next_page_token === "string");
+  },
   encode(message: ListServiceRolloutsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.rollouts) {
       Rollout.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -2253,6 +2365,7 @@ export const ListServiceRolloutsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ListServiceRolloutsResponse.typeUrl, ListServiceRolloutsResponse);
 function createBaseGetServiceRolloutRequest(): GetServiceRolloutRequest {
   return {
     serviceName: "",
@@ -2261,6 +2374,12 @@ function createBaseGetServiceRolloutRequest(): GetServiceRolloutRequest {
 }
 export const GetServiceRolloutRequest = {
   typeUrl: "/google.api.servicemanagement.v1.GetServiceRolloutRequest",
+  is(o: any): o is GetServiceRolloutRequest {
+    return o && (o.$typeUrl === GetServiceRolloutRequest.typeUrl || typeof o.serviceName === "string" && typeof o.rolloutId === "string");
+  },
+  isSDK(o: any): o is GetServiceRolloutRequestSDKType {
+    return o && (o.$typeUrl === GetServiceRolloutRequest.typeUrl || typeof o.service_name === "string" && typeof o.rollout_id === "string");
+  },
   encode(message: GetServiceRolloutRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -2358,6 +2477,7 @@ export const GetServiceRolloutRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(GetServiceRolloutRequest.typeUrl, GetServiceRolloutRequest);
 function createBaseGenerateConfigReportRequest(): GenerateConfigReportRequest {
   return {
     newConfig: undefined,
@@ -2366,6 +2486,12 @@ function createBaseGenerateConfigReportRequest(): GenerateConfigReportRequest {
 }
 export const GenerateConfigReportRequest = {
   typeUrl: "/google.api.servicemanagement.v1.GenerateConfigReportRequest",
+  is(o: any): o is GenerateConfigReportRequest {
+    return o && o.$typeUrl === GenerateConfigReportRequest.typeUrl;
+  },
+  isSDK(o: any): o is GenerateConfigReportRequestSDKType {
+    return o && o.$typeUrl === GenerateConfigReportRequest.typeUrl;
+  },
   encode(message: GenerateConfigReportRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.newConfig !== undefined) {
       Any.encode(message.newConfig, writer.uint32(10).fork()).ldelim();
@@ -2463,6 +2589,7 @@ export const GenerateConfigReportRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenerateConfigReportRequest.typeUrl, GenerateConfigReportRequest);
 function createBaseGenerateConfigReportResponse(): GenerateConfigReportResponse {
   return {
     serviceName: "",
@@ -2473,6 +2600,12 @@ function createBaseGenerateConfigReportResponse(): GenerateConfigReportResponse 
 }
 export const GenerateConfigReportResponse = {
   typeUrl: "/google.api.servicemanagement.v1.GenerateConfigReportResponse",
+  is(o: any): o is GenerateConfigReportResponse {
+    return o && (o.$typeUrl === GenerateConfigReportResponse.typeUrl || typeof o.serviceName === "string" && typeof o.id === "string" && Array.isArray(o.changeReports) && (!o.changeReports.length || ChangeReport.is(o.changeReports[0])) && Array.isArray(o.diagnostics) && (!o.diagnostics.length || Diagnostic.is(o.diagnostics[0])));
+  },
+  isSDK(o: any): o is GenerateConfigReportResponseSDKType {
+    return o && (o.$typeUrl === GenerateConfigReportResponse.typeUrl || typeof o.service_name === "string" && typeof o.id === "string" && Array.isArray(o.change_reports) && (!o.change_reports.length || ChangeReport.isSDK(o.change_reports[0])) && Array.isArray(o.diagnostics) && (!o.diagnostics.length || Diagnostic.isSDK(o.diagnostics[0])));
+  },
   encode(message: GenerateConfigReportResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -2622,3 +2755,4 @@ export const GenerateConfigReportResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenerateConfigReportResponse.typeUrl, GenerateConfigReportResponse);

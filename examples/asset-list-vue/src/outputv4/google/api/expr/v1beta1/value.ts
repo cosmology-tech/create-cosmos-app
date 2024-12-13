@@ -3,6 +3,7 @@ import { Any, AnySDKType } from "../../../protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.expr.v1beta1";
 /**
@@ -195,6 +196,12 @@ function createBaseValue(): Value {
 }
 export const Value = {
   typeUrl: "/google.api.expr.v1beta1.Value",
+  is(o: any): o is Value {
+    return o && o.$typeUrl === Value.typeUrl;
+  },
+  isSDK(o: any): o is ValueSDKType {
+    return o && o.$typeUrl === Value.typeUrl;
+  },
   encode(message: Value, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.nullValue !== undefined) {
       writer.uint32(8).int32(message.nullValue);
@@ -456,6 +463,7 @@ export const Value = {
     };
   }
 };
+GlobalDecoderRegistry.register(Value.typeUrl, Value);
 function createBaseEnumValue(): EnumValue {
   return {
     type: "",
@@ -464,6 +472,12 @@ function createBaseEnumValue(): EnumValue {
 }
 export const EnumValue = {
   typeUrl: "/google.api.expr.v1beta1.EnumValue",
+  is(o: any): o is EnumValue {
+    return o && (o.$typeUrl === EnumValue.typeUrl || typeof o.type === "string" && typeof o.value === "number");
+  },
+  isSDK(o: any): o is EnumValueSDKType {
+    return o && (o.$typeUrl === EnumValue.typeUrl || typeof o.type === "string" && typeof o.value === "number");
+  },
   encode(message: EnumValue, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.type !== "") {
       writer.uint32(10).string(message.type);
@@ -561,6 +575,7 @@ export const EnumValue = {
     };
   }
 };
+GlobalDecoderRegistry.register(EnumValue.typeUrl, EnumValue);
 function createBaseListValue(): ListValue {
   return {
     values: []
@@ -568,6 +583,12 @@ function createBaseListValue(): ListValue {
 }
 export const ListValue = {
   typeUrl: "/google.api.expr.v1beta1.ListValue",
+  is(o: any): o is ListValue {
+    return o && (o.$typeUrl === ListValue.typeUrl || Array.isArray(o.values) && (!o.values.length || Value.is(o.values[0])));
+  },
+  isSDK(o: any): o is ListValueSDKType {
+    return o && (o.$typeUrl === ListValue.typeUrl || Array.isArray(o.values) && (!o.values.length || Value.isSDK(o.values[0])));
+  },
   encode(message: ListValue, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.values) {
       Value.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -659,6 +680,7 @@ export const ListValue = {
     };
   }
 };
+GlobalDecoderRegistry.register(ListValue.typeUrl, ListValue);
 function createBaseMapValue(): MapValue {
   return {
     entries: []
@@ -666,6 +688,12 @@ function createBaseMapValue(): MapValue {
 }
 export const MapValue = {
   typeUrl: "/google.api.expr.v1beta1.MapValue",
+  is(o: any): o is MapValue {
+    return o && (o.$typeUrl === MapValue.typeUrl || Array.isArray(o.entries) && (!o.entries.length || MapValue_Entry.is(o.entries[0])));
+  },
+  isSDK(o: any): o is MapValueSDKType {
+    return o && (o.$typeUrl === MapValue.typeUrl || Array.isArray(o.entries) && (!o.entries.length || MapValue_Entry.isSDK(o.entries[0])));
+  },
   encode(message: MapValue, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.entries) {
       MapValue_Entry.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -757,6 +785,7 @@ export const MapValue = {
     };
   }
 };
+GlobalDecoderRegistry.register(MapValue.typeUrl, MapValue);
 function createBaseMapValue_Entry(): MapValue_Entry {
   return {
     key: undefined,
@@ -765,6 +794,12 @@ function createBaseMapValue_Entry(): MapValue_Entry {
 }
 export const MapValue_Entry = {
   typeUrl: "/google.api.expr.v1beta1.Entry",
+  is(o: any): o is MapValue_Entry {
+    return o && o.$typeUrl === MapValue_Entry.typeUrl;
+  },
+  isSDK(o: any): o is MapValue_EntrySDKType {
+    return o && o.$typeUrl === MapValue_Entry.typeUrl;
+  },
   encode(message: MapValue_Entry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== undefined) {
       Value.encode(message.key, writer.uint32(10).fork()).ldelim();
@@ -862,3 +897,4 @@ export const MapValue_Entry = {
     };
   }
 };
+GlobalDecoderRegistry.register(MapValue_Entry.typeUrl, MapValue_Entry);

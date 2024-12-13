@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact, bytesFromBase64, base64FromBytes } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta2";
 /** State is an enum which refers to state of deployment */
@@ -115,6 +116,13 @@ function createBaseDeploymentID(): DeploymentID {
 }
 export const DeploymentID = {
   typeUrl: "/akash.deployment.v1beta2.DeploymentID",
+  aminoType: "akash/deployment/v1beta2/deployment-i-d",
+  is(o: any): o is DeploymentID {
+    return o && (o.$typeUrl === DeploymentID.typeUrl || typeof o.owner === "string" && typeof o.dseq === "bigint");
+  },
+  isSDK(o: any): o is DeploymentIDSDKType {
+    return o && (o.$typeUrl === DeploymentID.typeUrl || typeof o.owner === "string" && typeof o.dseq === "bigint");
+  },
   encode(message: DeploymentID, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -218,6 +226,8 @@ export const DeploymentID = {
     };
   }
 };
+GlobalDecoderRegistry.register(DeploymentID.typeUrl, DeploymentID);
+GlobalDecoderRegistry.registerAminoProtoMapping(DeploymentID.aminoType, DeploymentID.typeUrl);
 function createBaseDeployment(): Deployment {
   return {
     deploymentId: DeploymentID.fromPartial({}),
@@ -228,6 +238,13 @@ function createBaseDeployment(): Deployment {
 }
 export const Deployment = {
   typeUrl: "/akash.deployment.v1beta2.Deployment",
+  aminoType: "akash/deployment/v1beta2/deployment",
+  is(o: any): o is Deployment {
+    return o && (o.$typeUrl === Deployment.typeUrl || DeploymentID.is(o.deploymentId) && isSet(o.state) && (o.version instanceof Uint8Array || typeof o.version === "string") && typeof o.createdAt === "bigint");
+  },
+  isSDK(o: any): o is DeploymentSDKType {
+    return o && (o.$typeUrl === Deployment.typeUrl || DeploymentID.isSDK(o.deployment_id) && isSet(o.state) && (o.version instanceof Uint8Array || typeof o.version === "string") && typeof o.created_at === "bigint");
+  },
   encode(message: Deployment, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.deploymentId !== undefined) {
       DeploymentID.encode(message.deploymentId, writer.uint32(10).fork()).ldelim();
@@ -363,6 +380,8 @@ export const Deployment = {
     };
   }
 };
+GlobalDecoderRegistry.register(Deployment.typeUrl, Deployment);
+GlobalDecoderRegistry.registerAminoProtoMapping(Deployment.aminoType, Deployment.typeUrl);
 function createBaseDeploymentFilters(): DeploymentFilters {
   return {
     owner: "",
@@ -372,6 +391,13 @@ function createBaseDeploymentFilters(): DeploymentFilters {
 }
 export const DeploymentFilters = {
   typeUrl: "/akash.deployment.v1beta2.DeploymentFilters",
+  aminoType: "akash/deployment/v1beta2/deployment-filters",
+  is(o: any): o is DeploymentFilters {
+    return o && (o.$typeUrl === DeploymentFilters.typeUrl || typeof o.owner === "string" && typeof o.dseq === "bigint" && typeof o.state === "string");
+  },
+  isSDK(o: any): o is DeploymentFiltersSDKType {
+    return o && (o.$typeUrl === DeploymentFilters.typeUrl || typeof o.owner === "string" && typeof o.dseq === "bigint" && typeof o.state === "string");
+  },
   encode(message: DeploymentFilters, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -491,3 +517,5 @@ export const DeploymentFilters = {
     };
   }
 };
+GlobalDecoderRegistry.register(DeploymentFilters.typeUrl, DeploymentFilters);
+GlobalDecoderRegistry.registerAminoProtoMapping(DeploymentFilters.aminoType, DeploymentFilters.typeUrl);

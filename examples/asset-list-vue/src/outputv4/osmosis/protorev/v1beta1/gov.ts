@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.protorev.v1beta1";
 /**
@@ -8,11 +9,13 @@ export const protobufPackage = "osmosis.protorev.v1beta1";
  * protorev module is enabled
  */
 export interface SetProtoRevEnabledProposal {
+  $typeUrl?: "/osmosis.protorev.v1beta1.SetProtoRevEnabledProposal";
   title: string;
   description: string;
   enabled: boolean;
 }
 export interface ReactiveSetProtoRevEnabledProposal {
+  $typeUrl?: ComputedRef<"/osmosis.protorev.v1beta1.SetProtoRevEnabledProposal">;
   title: ComputedRef<string>;
   description: ComputedRef<string>;
   enabled: ComputedRef<boolean>;
@@ -26,6 +29,7 @@ export interface SetProtoRevEnabledProposalProtoMsg {
  * protorev module is enabled
  */
 export interface SetProtoRevEnabledProposalSDKType {
+  $typeUrl?: "/osmosis.protorev.v1beta1.SetProtoRevEnabledProposal";
   title: string;
   description: string;
   enabled: boolean;
@@ -36,11 +40,13 @@ export interface SetProtoRevEnabledProposalSDKType {
  * developer address that will be receiving a share of profits from the module
  */
 export interface SetProtoRevAdminAccountProposal {
+  $typeUrl?: "/osmosis.protorev.v1beta1.SetProtoRevAdminAccountProposal";
   title: string;
   description: string;
   account: string;
 }
 export interface ReactiveSetProtoRevAdminAccountProposal {
+  $typeUrl?: ComputedRef<"/osmosis.protorev.v1beta1.SetProtoRevAdminAccountProposal">;
   title: ComputedRef<string>;
   description: ComputedRef<string>;
   account: ComputedRef<string>;
@@ -55,12 +61,14 @@ export interface SetProtoRevAdminAccountProposalProtoMsg {
  * developer address that will be receiving a share of profits from the module
  */
 export interface SetProtoRevAdminAccountProposalSDKType {
+  $typeUrl?: "/osmosis.protorev.v1beta1.SetProtoRevAdminAccountProposal";
   title: string;
   description: string;
   account: string;
 }
 function createBaseSetProtoRevEnabledProposal(): SetProtoRevEnabledProposal {
   return {
+    $typeUrl: "/osmosis.protorev.v1beta1.SetProtoRevEnabledProposal",
     title: "",
     description: "",
     enabled: false
@@ -68,6 +76,13 @@ function createBaseSetProtoRevEnabledProposal(): SetProtoRevEnabledProposal {
 }
 export const SetProtoRevEnabledProposal = {
   typeUrl: "/osmosis.protorev.v1beta1.SetProtoRevEnabledProposal",
+  aminoType: "osmosis/protorev/set-proto-rev-enabled-proposal",
+  is(o: any): o is SetProtoRevEnabledProposal {
+    return o && (o.$typeUrl === SetProtoRevEnabledProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && typeof o.enabled === "boolean");
+  },
+  isSDK(o: any): o is SetProtoRevEnabledProposalSDKType {
+    return o && (o.$typeUrl === SetProtoRevEnabledProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && typeof o.enabled === "boolean");
+  },
   encode(message: SetProtoRevEnabledProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -187,8 +202,11 @@ export const SetProtoRevEnabledProposal = {
     };
   }
 };
+GlobalDecoderRegistry.register(SetProtoRevEnabledProposal.typeUrl, SetProtoRevEnabledProposal);
+GlobalDecoderRegistry.registerAminoProtoMapping(SetProtoRevEnabledProposal.aminoType, SetProtoRevEnabledProposal.typeUrl);
 function createBaseSetProtoRevAdminAccountProposal(): SetProtoRevAdminAccountProposal {
   return {
+    $typeUrl: "/osmosis.protorev.v1beta1.SetProtoRevAdminAccountProposal",
     title: "",
     description: "",
     account: ""
@@ -196,6 +214,13 @@ function createBaseSetProtoRevAdminAccountProposal(): SetProtoRevAdminAccountPro
 }
 export const SetProtoRevAdminAccountProposal = {
   typeUrl: "/osmosis.protorev.v1beta1.SetProtoRevAdminAccountProposal",
+  aminoType: "osmosis/protorev/set-proto-rev-admin-account-proposal",
+  is(o: any): o is SetProtoRevAdminAccountProposal {
+    return o && (o.$typeUrl === SetProtoRevAdminAccountProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && typeof o.account === "string");
+  },
+  isSDK(o: any): o is SetProtoRevAdminAccountProposalSDKType {
+    return o && (o.$typeUrl === SetProtoRevAdminAccountProposal.typeUrl || typeof o.title === "string" && typeof o.description === "string" && typeof o.account === "string");
+  },
   encode(message: SetProtoRevAdminAccountProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -315,3 +340,5 @@ export const SetProtoRevAdminAccountProposal = {
     };
   }
 };
+GlobalDecoderRegistry.register(SetProtoRevAdminAccountProposal.typeUrl, SetProtoRevAdminAccountProposal);
+GlobalDecoderRegistry.registerAminoProtoMapping(SetProtoRevAdminAccountProposal.aminoType, SetProtoRevAdminAccountProposal.typeUrl);

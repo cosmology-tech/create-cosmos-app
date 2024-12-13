@@ -2,6 +2,7 @@ import { DecCoin, DecCoinSDKType, Coin, CoinSDKType } from "../../../cosmos/base
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.escrow.v1beta2";
 /** State stores state for an escrow account */
@@ -210,6 +211,13 @@ function createBaseAccountID(): AccountID {
 }
 export const AccountID = {
   typeUrl: "/akash.escrow.v1beta2.AccountID",
+  aminoType: "akash/escrow/v1beta2/account-i-d",
+  is(o: any): o is AccountID {
+    return o && (o.$typeUrl === AccountID.typeUrl || typeof o.scope === "string" && typeof o.xid === "string");
+  },
+  isSDK(o: any): o is AccountIDSDKType {
+    return o && (o.$typeUrl === AccountID.typeUrl || typeof o.scope === "string" && typeof o.xid === "string");
+  },
   encode(message: AccountID, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.scope !== "") {
       writer.uint32(10).string(message.scope);
@@ -313,6 +321,8 @@ export const AccountID = {
     };
   }
 };
+GlobalDecoderRegistry.register(AccountID.typeUrl, AccountID);
+GlobalDecoderRegistry.registerAminoProtoMapping(AccountID.aminoType, AccountID.typeUrl);
 function createBaseAccount(): Account {
   return {
     id: AccountID.fromPartial({}),
@@ -327,6 +337,13 @@ function createBaseAccount(): Account {
 }
 export const Account = {
   typeUrl: "/akash.escrow.v1beta2.Account",
+  aminoType: "akash/escrow/v1beta2/account",
+  is(o: any): o is Account {
+    return o && (o.$typeUrl === Account.typeUrl || AccountID.is(o.id) && typeof o.owner === "string" && isSet(o.state) && DecCoin.is(o.balance) && DecCoin.is(o.transferred) && typeof o.settledAt === "bigint" && typeof o.depositor === "string" && DecCoin.is(o.funds));
+  },
+  isSDK(o: any): o is AccountSDKType {
+    return o && (o.$typeUrl === Account.typeUrl || AccountID.isSDK(o.id) && typeof o.owner === "string" && isSet(o.state) && DecCoin.isSDK(o.balance) && DecCoin.isSDK(o.transferred) && typeof o.settled_at === "bigint" && typeof o.depositor === "string" && DecCoin.isSDK(o.funds));
+  },
   encode(message: Account, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       AccountID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -526,6 +543,8 @@ export const Account = {
     };
   }
 };
+GlobalDecoderRegistry.register(Account.typeUrl, Account);
+GlobalDecoderRegistry.registerAminoProtoMapping(Account.aminoType, Account.typeUrl);
 function createBaseFractionalPayment(): FractionalPayment {
   return {
     accountId: AccountID.fromPartial({}),
@@ -539,6 +558,13 @@ function createBaseFractionalPayment(): FractionalPayment {
 }
 export const FractionalPayment = {
   typeUrl: "/akash.escrow.v1beta2.FractionalPayment",
+  aminoType: "akash/escrow/v1beta2/fractional-payment",
+  is(o: any): o is FractionalPayment {
+    return o && (o.$typeUrl === FractionalPayment.typeUrl || AccountID.is(o.accountId) && typeof o.paymentId === "string" && typeof o.owner === "string" && isSet(o.state) && DecCoin.is(o.rate) && DecCoin.is(o.balance) && Coin.is(o.withdrawn));
+  },
+  isSDK(o: any): o is FractionalPaymentSDKType {
+    return o && (o.$typeUrl === FractionalPayment.typeUrl || AccountID.isSDK(o.account_id) && typeof o.payment_id === "string" && typeof o.owner === "string" && isSet(o.state) && DecCoin.isSDK(o.rate) && DecCoin.isSDK(o.balance) && Coin.isSDK(o.withdrawn));
+  },
   encode(message: FractionalPayment, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.accountId !== undefined) {
       AccountID.encode(message.accountId, writer.uint32(10).fork()).ldelim();
@@ -722,3 +748,5 @@ export const FractionalPayment = {
     };
   }
 };
+GlobalDecoderRegistry.register(FractionalPayment.typeUrl, FractionalPayment);
+GlobalDecoderRegistry.registerAminoProtoMapping(FractionalPayment.aminoType, FractionalPayment.typeUrl);

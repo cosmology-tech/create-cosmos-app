@@ -1,8 +1,9 @@
 import { Downtime, DowntimeSDKType, downtimeFromJSON, downtimeToJSON } from "./downtime_duration";
 import { Timestamp, TimestampSDKType } from "../../../google/protobuf/timestamp";
+import { isSet, toTimestamp, fromTimestamp, DeepPartial } from "../../../helpers";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.downtimedetector.v1beta1";
 export interface GenesisDowntimeEntry {
@@ -47,6 +48,13 @@ function createBaseGenesisDowntimeEntry(): GenesisDowntimeEntry {
 }
 export const GenesisDowntimeEntry = {
   typeUrl: "/osmosis.downtimedetector.v1beta1.GenesisDowntimeEntry",
+  aminoType: "osmosis/downtimedetector/genesis-downtime-entry",
+  is(o: any): o is GenesisDowntimeEntry {
+    return o && (o.$typeUrl === GenesisDowntimeEntry.typeUrl || isSet(o.duration) && Timestamp.is(o.lastDowntime));
+  },
+  isSDK(o: any): o is GenesisDowntimeEntrySDKType {
+    return o && (o.$typeUrl === GenesisDowntimeEntry.typeUrl || isSet(o.duration) && Timestamp.isSDK(o.last_downtime));
+  },
   encode(message: GenesisDowntimeEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.duration !== 0) {
       writer.uint32(8).int32(message.duration);
@@ -150,6 +158,8 @@ export const GenesisDowntimeEntry = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisDowntimeEntry.typeUrl, GenesisDowntimeEntry);
+GlobalDecoderRegistry.registerAminoProtoMapping(GenesisDowntimeEntry.aminoType, GenesisDowntimeEntry.typeUrl);
 function createBaseGenesisState(): GenesisState {
   return {
     downtimes: [],
@@ -158,6 +168,13 @@ function createBaseGenesisState(): GenesisState {
 }
 export const GenesisState = {
   typeUrl: "/osmosis.downtimedetector.v1beta1.GenesisState",
+  aminoType: "osmosis/downtimedetector/genesis-state",
+  is(o: any): o is GenesisState {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Array.isArray(o.downtimes) && (!o.downtimes.length || GenesisDowntimeEntry.is(o.downtimes[0])) && Timestamp.is(o.lastBlockTime));
+  },
+  isSDK(o: any): o is GenesisStateSDKType {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Array.isArray(o.downtimes) && (!o.downtimes.length || GenesisDowntimeEntry.isSDK(o.downtimes[0])) && Timestamp.isSDK(o.last_block_time));
+  },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.downtimes) {
       GenesisDowntimeEntry.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -271,3 +288,5 @@ export const GenesisState = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisState.typeUrl, GenesisState);
+GlobalDecoderRegistry.registerAminoProtoMapping(GenesisState.aminoType, GenesisState.typeUrl);

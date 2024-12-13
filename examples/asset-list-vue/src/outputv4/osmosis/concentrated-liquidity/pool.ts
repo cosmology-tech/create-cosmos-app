@@ -3,9 +3,11 @@ import { BinaryReader, BinaryWriter } from "../../binary";
 import { Decimal } from "@cosmjs/math";
 import { toTimestamp, fromTimestamp, isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.concentratedliquidity.v1beta1";
 export interface Pool {
+  $typeUrl?: "/osmosis.concentratedliquidity.v1beta1.Pool";
   /** pool's address holding all liquidity tokens. */
   address: string;
   /** address holding the incentives liquidity. */
@@ -32,6 +34,7 @@ export interface Pool {
   lastLiquidityUpdate: Date;
 }
 export interface ReactivePool {
+  $typeUrl?: ComputedRef<"/osmosis.concentratedliquidity.v1beta1.Pool">;
   address: ComputedRef<string>;
   incentivesAddress: ComputedRef<string>;
   id: ComputedRef<bigint>;
@@ -50,6 +53,7 @@ export interface PoolProtoMsg {
   value: Uint8Array;
 }
 export interface PoolSDKType {
+  $typeUrl?: "/osmosis.concentratedliquidity.v1beta1.Pool";
   address: string;
   incentives_address: string;
   id: bigint;
@@ -65,6 +69,7 @@ export interface PoolSDKType {
 }
 function createBasePool(): Pool {
   return {
+    $typeUrl: "/osmosis.concentratedliquidity.v1beta1.Pool",
     address: "",
     incentivesAddress: "",
     id: BigInt(0),
@@ -81,6 +86,13 @@ function createBasePool(): Pool {
 }
 export const Pool = {
   typeUrl: "/osmosis.concentratedliquidity.v1beta1.Pool",
+  aminoType: "osmosis/concentratedliquidity/pool",
+  is(o: any): o is Pool {
+    return o && (o.$typeUrl === Pool.typeUrl || typeof o.address === "string" && typeof o.incentivesAddress === "string" && typeof o.id === "bigint" && typeof o.currentTickLiquidity === "string" && typeof o.token0 === "string" && typeof o.token1 === "string" && typeof o.currentSqrtPrice === "string" && typeof o.currentTick === "string" && typeof o.tickSpacing === "bigint" && typeof o.exponentAtPriceOne === "string" && typeof o.swapFee === "string" && Timestamp.is(o.lastLiquidityUpdate));
+  },
+  isSDK(o: any): o is PoolSDKType {
+    return o && (o.$typeUrl === Pool.typeUrl || typeof o.address === "string" && typeof o.incentives_address === "string" && typeof o.id === "bigint" && typeof o.current_tick_liquidity === "string" && typeof o.token0 === "string" && typeof o.token1 === "string" && typeof o.current_sqrt_price === "string" && typeof o.current_tick === "string" && typeof o.tick_spacing === "bigint" && typeof o.exponent_at_price_one === "string" && typeof o.swap_fee === "string" && Timestamp.isSDK(o.last_liquidity_update));
+  },
   encode(message: Pool, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
@@ -344,3 +356,5 @@ export const Pool = {
     };
   }
 };
+GlobalDecoderRegistry.register(Pool.typeUrl, Pool);
+GlobalDecoderRegistry.registerAminoProtoMapping(Pool.aminoType, Pool.typeUrl);

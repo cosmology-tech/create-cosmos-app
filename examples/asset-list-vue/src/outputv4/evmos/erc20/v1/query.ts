@@ -4,6 +4,7 @@ import { Params, ParamsSDKType } from "./genesis";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "evmos.erc20.v1";
 /**
@@ -130,6 +131,12 @@ function createBaseQueryTokenPairsRequest(): QueryTokenPairsRequest {
 }
 export const QueryTokenPairsRequest = {
   typeUrl: "/evmos.erc20.v1.QueryTokenPairsRequest",
+  is(o: any): o is QueryTokenPairsRequest {
+    return o && o.$typeUrl === QueryTokenPairsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryTokenPairsRequestSDKType {
+    return o && o.$typeUrl === QueryTokenPairsRequest.typeUrl;
+  },
   encode(message: QueryTokenPairsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
@@ -211,6 +218,7 @@ export const QueryTokenPairsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTokenPairsRequest.typeUrl, QueryTokenPairsRequest);
 function createBaseQueryTokenPairsResponse(): QueryTokenPairsResponse {
   return {
     tokenPairs: [],
@@ -219,6 +227,12 @@ function createBaseQueryTokenPairsResponse(): QueryTokenPairsResponse {
 }
 export const QueryTokenPairsResponse = {
   typeUrl: "/evmos.erc20.v1.QueryTokenPairsResponse",
+  is(o: any): o is QueryTokenPairsResponse {
+    return o && (o.$typeUrl === QueryTokenPairsResponse.typeUrl || Array.isArray(o.tokenPairs) && (!o.tokenPairs.length || TokenPair.is(o.tokenPairs[0])));
+  },
+  isSDK(o: any): o is QueryTokenPairsResponseSDKType {
+    return o && (o.$typeUrl === QueryTokenPairsResponse.typeUrl || Array.isArray(o.token_pairs) && (!o.token_pairs.length || TokenPair.isSDK(o.token_pairs[0])));
+  },
   encode(message: QueryTokenPairsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.tokenPairs) {
       TokenPair.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -326,6 +340,7 @@ export const QueryTokenPairsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTokenPairsResponse.typeUrl, QueryTokenPairsResponse);
 function createBaseQueryTokenPairRequest(): QueryTokenPairRequest {
   return {
     token: ""
@@ -333,6 +348,12 @@ function createBaseQueryTokenPairRequest(): QueryTokenPairRequest {
 }
 export const QueryTokenPairRequest = {
   typeUrl: "/evmos.erc20.v1.QueryTokenPairRequest",
+  is(o: any): o is QueryTokenPairRequest {
+    return o && (o.$typeUrl === QueryTokenPairRequest.typeUrl || typeof o.token === "string");
+  },
+  isSDK(o: any): o is QueryTokenPairRequestSDKType {
+    return o && (o.$typeUrl === QueryTokenPairRequest.typeUrl || typeof o.token === "string");
+  },
   encode(message: QueryTokenPairRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.token !== "") {
       writer.uint32(10).string(message.token);
@@ -414,6 +435,7 @@ export const QueryTokenPairRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTokenPairRequest.typeUrl, QueryTokenPairRequest);
 function createBaseQueryTokenPairResponse(): QueryTokenPairResponse {
   return {
     tokenPair: TokenPair.fromPartial({})
@@ -421,6 +443,12 @@ function createBaseQueryTokenPairResponse(): QueryTokenPairResponse {
 }
 export const QueryTokenPairResponse = {
   typeUrl: "/evmos.erc20.v1.QueryTokenPairResponse",
+  is(o: any): o is QueryTokenPairResponse {
+    return o && (o.$typeUrl === QueryTokenPairResponse.typeUrl || TokenPair.is(o.tokenPair));
+  },
+  isSDK(o: any): o is QueryTokenPairResponseSDKType {
+    return o && (o.$typeUrl === QueryTokenPairResponse.typeUrl || TokenPair.isSDK(o.token_pair));
+  },
   encode(message: QueryTokenPairResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.tokenPair !== undefined) {
       TokenPair.encode(message.tokenPair, writer.uint32(10).fork()).ldelim();
@@ -502,11 +530,18 @@ export const QueryTokenPairResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTokenPairResponse.typeUrl, QueryTokenPairResponse);
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
 }
 export const QueryParamsRequest = {
   typeUrl: "/evmos.erc20.v1.QueryParamsRequest",
+  is(o: any): o is QueryParamsRequest {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryParamsRequestSDKType {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
   encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -569,6 +604,7 @@ export const QueryParamsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsRequest.typeUrl, QueryParamsRequest);
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
     params: Params.fromPartial({})
@@ -576,6 +612,12 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
 }
 export const QueryParamsResponse = {
   typeUrl: "/evmos.erc20.v1.QueryParamsResponse",
+  is(o: any): o is QueryParamsResponse {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.is(o.params));
+  },
+  isSDK(o: any): o is QueryParamsResponseSDKType {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.isSDK(o.params));
+  },
   encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -657,3 +699,4 @@ export const QueryParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsResponse.typeUrl, QueryParamsResponse);

@@ -1,8 +1,16 @@
 import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
+import { Pool as Pool1 } from "../pool-models/balancer/balancerPool";
+import { PoolSDKType as Pool1SDKType } from "../pool-models/balancer/balancerPool";
+import { Pool as Pool2 } from "../pool-models/stableswap/stableswap_pool";
+import { PoolSDKType as Pool2SDKType } from "../pool-models/stableswap/stableswap_pool";
+import { Pool as Pool3 } from "../../concentrated-liquidity/pool";
+import { PoolSDKType as Pool3SDKType } from "../../concentrated-liquidity/pool";
+import { CosmWasmPool, CosmWasmPoolSDKType } from "../../cosmwasmpool/v1beta1/model/pool";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
 import { DeepPartial, isSet } from "../../../helpers";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.gamm.v1beta1";
 /** Params holds parameters for the incentives module */
@@ -22,13 +30,13 @@ export interface ParamsSDKType {
 }
 /** GenesisState defines the gamm module's genesis state. */
 export interface GenesisState {
-  pools: Any[];
+  pools: (Pool1 & Pool2 & Pool3 & CosmWasmPool & Any)[] | Any[];
   /** will be renamed to next_pool_id in an upcoming version */
   nextPoolNumber: bigint;
   params: Params;
 }
 export interface ReactiveGenesisState {
-  pools: ComputedRef<Any[]>;
+  pools: ComputedRef<(Pool1 & Pool2 & Pool3 & CosmWasmPool & Any)[] | Any[]>;
   nextPoolNumber: ComputedRef<bigint>;
   params: ComputedRef<Params>;
 }
@@ -38,7 +46,7 @@ export interface GenesisStateProtoMsg {
 }
 /** GenesisState defines the gamm module's genesis state. */
 export interface GenesisStateSDKType {
-  pools: AnySDKType[];
+  pools: (Pool1SDKType | Pool2SDKType | Pool3SDKType | CosmWasmPoolSDKType | AnySDKType)[];
   next_pool_number: bigint;
   params: ParamsSDKType;
 }
@@ -49,6 +57,13 @@ function createBaseParams(): Params {
 }
 export const Params = {
   typeUrl: "/osmosis.gamm.v1beta1.Params",
+  aminoType: "osmosis/gamm/params",
+  is(o: any): o is Params {
+    return o && (o.$typeUrl === Params.typeUrl || Array.isArray(o.poolCreationFee) && (!o.poolCreationFee.length || Coin.is(o.poolCreationFee[0])));
+  },
+  isSDK(o: any): o is ParamsSDKType {
+    return o && (o.$typeUrl === Params.typeUrl || Array.isArray(o.pool_creation_fee) && (!o.pool_creation_fee.length || Coin.isSDK(o.pool_creation_fee[0])));
+  },
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.poolCreationFee) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -146,6 +161,8 @@ export const Params = {
     };
   }
 };
+GlobalDecoderRegistry.register(Params.typeUrl, Params);
+GlobalDecoderRegistry.registerAminoProtoMapping(Params.aminoType, Params.typeUrl);
 function createBaseGenesisState(): GenesisState {
   return {
     pools: [],
@@ -155,6 +172,13 @@ function createBaseGenesisState(): GenesisState {
 }
 export const GenesisState = {
   typeUrl: "/osmosis.gamm.v1beta1.GenesisState",
+  aminoType: "osmosis/gamm/genesis-state",
+  is(o: any): o is GenesisState {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Array.isArray(o.pools) && (!o.pools.length || Pool1.is(o.pools[0]) || Pool2.is(o.pools[0]) || Pool3.is(o.pools[0]) || CosmWasmPool.is(o.pools[0]) || Any.is(o.pools[0])) && typeof o.nextPoolNumber === "bigint" && Params.is(o.params));
+  },
+  isSDK(o: any): o is GenesisStateSDKType {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Array.isArray(o.pools) && (!o.pools.length || Pool1.isSDK(o.pools[0]) || Pool2.isSDK(o.pools[0]) || Pool3.isSDK(o.pools[0]) || CosmWasmPool.isSDK(o.pools[0]) || Any.isSDK(o.pools[0])) && typeof o.next_pool_number === "bigint" && Params.isSDK(o.params));
+  },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.pools) {
       Any.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -284,3 +308,5 @@ export const GenesisState = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisState.typeUrl, GenesisState);
+GlobalDecoderRegistry.registerAminoProtoMapping(GenesisState.aminoType, GenesisState.typeUrl);

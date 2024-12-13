@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { JsonSafe } from "../../json-safe";
 import { DeepPartial, isSet } from "../../helpers";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
@@ -183,6 +184,12 @@ function createBaseMonitoring(): Monitoring {
 }
 export const Monitoring = {
   typeUrl: "/google.api.Monitoring",
+  is(o: any): o is Monitoring {
+    return o && (o.$typeUrl === Monitoring.typeUrl || Array.isArray(o.producerDestinations) && (!o.producerDestinations.length || Monitoring_MonitoringDestination.is(o.producerDestinations[0])) && Array.isArray(o.consumerDestinations) && (!o.consumerDestinations.length || Monitoring_MonitoringDestination.is(o.consumerDestinations[0])));
+  },
+  isSDK(o: any): o is MonitoringSDKType {
+    return o && (o.$typeUrl === Monitoring.typeUrl || Array.isArray(o.producer_destinations) && (!o.producer_destinations.length || Monitoring_MonitoringDestination.isSDK(o.producer_destinations[0])) && Array.isArray(o.consumer_destinations) && (!o.consumer_destinations.length || Monitoring_MonitoringDestination.isSDK(o.consumer_destinations[0])));
+  },
   encode(message: Monitoring, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.producerDestinations) {
       Monitoring_MonitoringDestination.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -300,6 +307,7 @@ export const Monitoring = {
     };
   }
 };
+GlobalDecoderRegistry.register(Monitoring.typeUrl, Monitoring);
 function createBaseMonitoring_MonitoringDestination(): Monitoring_MonitoringDestination {
   return {
     monitoredResource: "",
@@ -308,6 +316,12 @@ function createBaseMonitoring_MonitoringDestination(): Monitoring_MonitoringDest
 }
 export const Monitoring_MonitoringDestination = {
   typeUrl: "/google.api.MonitoringDestination",
+  is(o: any): o is Monitoring_MonitoringDestination {
+    return o && (o.$typeUrl === Monitoring_MonitoringDestination.typeUrl || typeof o.monitoredResource === "string" && Array.isArray(o.metrics) && (!o.metrics.length || typeof o.metrics[0] === "string"));
+  },
+  isSDK(o: any): o is Monitoring_MonitoringDestinationSDKType {
+    return o && (o.$typeUrl === Monitoring_MonitoringDestination.typeUrl || typeof o.monitored_resource === "string" && Array.isArray(o.metrics) && (!o.metrics.length || typeof o.metrics[0] === "string"));
+  },
   encode(message: Monitoring_MonitoringDestination, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.monitoredResource !== "") {
       writer.uint32(10).string(message.monitoredResource);
@@ -415,3 +429,4 @@ export const Monitoring_MonitoringDestination = {
     };
   }
 };
+GlobalDecoderRegistry.register(Monitoring_MonitoringDestination.typeUrl, Monitoring_MonitoringDestination);

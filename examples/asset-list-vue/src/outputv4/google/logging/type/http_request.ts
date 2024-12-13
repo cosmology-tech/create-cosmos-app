@@ -2,6 +2,7 @@ import { Duration, DurationSDKType } from "../../protobuf/duration";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.logging.type";
 /**
@@ -147,6 +148,12 @@ function createBaseHttpRequest(): HttpRequest {
 }
 export const HttpRequest = {
   typeUrl: "/google.logging.type.HttpRequest",
+  is(o: any): o is HttpRequest {
+    return o && (o.$typeUrl === HttpRequest.typeUrl || typeof o.requestMethod === "string" && typeof o.requestUrl === "string" && typeof o.requestSize === "bigint" && typeof o.status === "number" && typeof o.responseSize === "bigint" && typeof o.userAgent === "string" && typeof o.remoteIp === "string" && typeof o.serverIp === "string" && typeof o.referer === "string" && typeof o.cacheLookup === "boolean" && typeof o.cacheHit === "boolean" && typeof o.cacheValidatedWithOriginServer === "boolean" && typeof o.cacheFillBytes === "bigint" && typeof o.protocol === "string");
+  },
+  isSDK(o: any): o is HttpRequestSDKType {
+    return o && (o.$typeUrl === HttpRequest.typeUrl || typeof o.request_method === "string" && typeof o.request_url === "string" && typeof o.request_size === "bigint" && typeof o.status === "number" && typeof o.response_size === "bigint" && typeof o.user_agent === "string" && typeof o.remote_ip === "string" && typeof o.server_ip === "string" && typeof o.referer === "string" && typeof o.cache_lookup === "boolean" && typeof o.cache_hit === "boolean" && typeof o.cache_validated_with_origin_server === "boolean" && typeof o.cache_fill_bytes === "bigint" && typeof o.protocol === "string");
+  },
   encode(message: HttpRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.requestMethod !== "") {
       writer.uint32(10).string(message.requestMethod);
@@ -452,3 +459,4 @@ export const HttpRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(HttpRequest.typeUrl, HttpRequest);

@@ -2,6 +2,7 @@ import { Certificate, CertificateSDKType } from "./cert";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.cert.v1beta2";
 /** GenesisCertificate defines certificate entry at genesis */
@@ -45,6 +46,13 @@ function createBaseGenesisCertificate(): GenesisCertificate {
 }
 export const GenesisCertificate = {
   typeUrl: "/akash.cert.v1beta2.GenesisCertificate",
+  aminoType: "akash/cert/v1beta2/genesis-certificate",
+  is(o: any): o is GenesisCertificate {
+    return o && (o.$typeUrl === GenesisCertificate.typeUrl || typeof o.owner === "string" && Certificate.is(o.certificate));
+  },
+  isSDK(o: any): o is GenesisCertificateSDKType {
+    return o && (o.$typeUrl === GenesisCertificate.typeUrl || typeof o.owner === "string" && Certificate.isSDK(o.certificate));
+  },
   encode(message: GenesisCertificate, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -148,6 +156,8 @@ export const GenesisCertificate = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisCertificate.typeUrl, GenesisCertificate);
+GlobalDecoderRegistry.registerAminoProtoMapping(GenesisCertificate.aminoType, GenesisCertificate.typeUrl);
 function createBaseGenesisState(): GenesisState {
   return {
     certificates: []
@@ -155,6 +165,13 @@ function createBaseGenesisState(): GenesisState {
 }
 export const GenesisState = {
   typeUrl: "/akash.cert.v1beta2.GenesisState",
+  aminoType: "akash/cert/v1beta2/genesis-state",
+  is(o: any): o is GenesisState {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Array.isArray(o.certificates) && (!o.certificates.length || GenesisCertificate.is(o.certificates[0])));
+  },
+  isSDK(o: any): o is GenesisStateSDKType {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Array.isArray(o.certificates) && (!o.certificates.length || GenesisCertificate.isSDK(o.certificates[0])));
+  },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.certificates) {
       GenesisCertificate.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -252,3 +269,5 @@ export const GenesisState = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisState.typeUrl, GenesisState);
+GlobalDecoderRegistry.registerAminoProtoMapping(GenesisState.aminoType, GenesisState.typeUrl);

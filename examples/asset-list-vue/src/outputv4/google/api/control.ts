@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../binary";
 import { isSet, DeepPartial } from "../../helpers";
 import { JsonSafe } from "../../json-safe";
+import { GlobalDecoderRegistry } from "../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api";
 /**
@@ -37,6 +38,12 @@ function createBaseControl(): Control {
 }
 export const Control = {
   typeUrl: "/google.api.Control",
+  is(o: any): o is Control {
+    return o && (o.$typeUrl === Control.typeUrl || typeof o.environment === "string");
+  },
+  isSDK(o: any): o is ControlSDKType {
+    return o && (o.$typeUrl === Control.typeUrl || typeof o.environment === "string");
+  },
   encode(message: Control, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.environment !== "") {
       writer.uint32(10).string(message.environment);
@@ -118,3 +125,4 @@ export const Control = {
     };
   }
 };
+GlobalDecoderRegistry.register(Control.typeUrl, Control);

@@ -4,6 +4,7 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, bytesFromBase64, base64FromBytes, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta2";
 /** MsgCreateDeployment defines an SDK message for creating deployment */
@@ -136,6 +137,13 @@ function createBaseMsgCreateDeployment(): MsgCreateDeployment {
 }
 export const MsgCreateDeployment = {
   typeUrl: "/akash.deployment.v1beta2.MsgCreateDeployment",
+  aminoType: "akash/deployment/v1beta2/testonly-create-deployment",
+  is(o: any): o is MsgCreateDeployment {
+    return o && (o.$typeUrl === MsgCreateDeployment.typeUrl || DeploymentID.is(o.id) && Array.isArray(o.groups) && (!o.groups.length || GroupSpec.is(o.groups[0])) && (o.version instanceof Uint8Array || typeof o.version === "string") && Coin.is(o.deposit) && typeof o.depositor === "string");
+  },
+  isSDK(o: any): o is MsgCreateDeploymentSDKType {
+    return o && (o.$typeUrl === MsgCreateDeployment.typeUrl || DeploymentID.isSDK(o.id) && Array.isArray(o.groups) && (!o.groups.length || GroupSpec.isSDK(o.groups[0])) && (o.version instanceof Uint8Array || typeof o.version === "string") && Coin.isSDK(o.deposit) && typeof o.depositor === "string");
+  },
   encode(message: MsgCreateDeployment, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       DeploymentID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -297,11 +305,20 @@ export const MsgCreateDeployment = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCreateDeployment.typeUrl, MsgCreateDeployment);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCreateDeployment.aminoType, MsgCreateDeployment.typeUrl);
 function createBaseMsgCreateDeploymentResponse(): MsgCreateDeploymentResponse {
   return {};
 }
 export const MsgCreateDeploymentResponse = {
   typeUrl: "/akash.deployment.v1beta2.MsgCreateDeploymentResponse",
+  aminoType: "akash/deployment/v1beta2/testonly-create-deployment-response",
+  is(o: any): o is MsgCreateDeploymentResponse {
+    return o && o.$typeUrl === MsgCreateDeploymentResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgCreateDeploymentResponseSDKType {
+    return o && o.$typeUrl === MsgCreateDeploymentResponse.typeUrl;
+  },
   encode(_: MsgCreateDeploymentResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -370,6 +387,8 @@ export const MsgCreateDeploymentResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCreateDeploymentResponse.typeUrl, MsgCreateDeploymentResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCreateDeploymentResponse.aminoType, MsgCreateDeploymentResponse.typeUrl);
 function createBaseMsgDepositDeployment(): MsgDepositDeployment {
   return {
     id: DeploymentID.fromPartial({}),
@@ -379,6 +398,13 @@ function createBaseMsgDepositDeployment(): MsgDepositDeployment {
 }
 export const MsgDepositDeployment = {
   typeUrl: "/akash.deployment.v1beta2.MsgDepositDeployment",
+  aminoType: "akash/deployment/v1beta2/testonly-deposit-deployment",
+  is(o: any): o is MsgDepositDeployment {
+    return o && (o.$typeUrl === MsgDepositDeployment.typeUrl || DeploymentID.is(o.id) && Coin.is(o.amount) && typeof o.depositor === "string");
+  },
+  isSDK(o: any): o is MsgDepositDeploymentSDKType {
+    return o && (o.$typeUrl === MsgDepositDeployment.typeUrl || DeploymentID.isSDK(o.id) && Coin.isSDK(o.amount) && typeof o.depositor === "string");
+  },
   encode(message: MsgDepositDeployment, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       DeploymentID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -498,11 +524,20 @@ export const MsgDepositDeployment = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgDepositDeployment.typeUrl, MsgDepositDeployment);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgDepositDeployment.aminoType, MsgDepositDeployment.typeUrl);
 function createBaseMsgDepositDeploymentResponse(): MsgDepositDeploymentResponse {
   return {};
 }
 export const MsgDepositDeploymentResponse = {
   typeUrl: "/akash.deployment.v1beta2.MsgDepositDeploymentResponse",
+  aminoType: "akash/deployment/v1beta2/testonly-deposit-deployment-response",
+  is(o: any): o is MsgDepositDeploymentResponse {
+    return o && o.$typeUrl === MsgDepositDeploymentResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgDepositDeploymentResponseSDKType {
+    return o && o.$typeUrl === MsgDepositDeploymentResponse.typeUrl;
+  },
   encode(_: MsgDepositDeploymentResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -571,6 +606,8 @@ export const MsgDepositDeploymentResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgDepositDeploymentResponse.typeUrl, MsgDepositDeploymentResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgDepositDeploymentResponse.aminoType, MsgDepositDeploymentResponse.typeUrl);
 function createBaseMsgUpdateDeployment(): MsgUpdateDeployment {
   return {
     id: DeploymentID.fromPartial({}),
@@ -579,6 +616,13 @@ function createBaseMsgUpdateDeployment(): MsgUpdateDeployment {
 }
 export const MsgUpdateDeployment = {
   typeUrl: "/akash.deployment.v1beta2.MsgUpdateDeployment",
+  aminoType: "akash/deployment/v1beta2/testonly-update-deployment",
+  is(o: any): o is MsgUpdateDeployment {
+    return o && (o.$typeUrl === MsgUpdateDeployment.typeUrl || DeploymentID.is(o.id) && (o.version instanceof Uint8Array || typeof o.version === "string"));
+  },
+  isSDK(o: any): o is MsgUpdateDeploymentSDKType {
+    return o && (o.$typeUrl === MsgUpdateDeployment.typeUrl || DeploymentID.isSDK(o.id) && (o.version instanceof Uint8Array || typeof o.version === "string"));
+  },
   encode(message: MsgUpdateDeployment, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       DeploymentID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -682,11 +726,20 @@ export const MsgUpdateDeployment = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateDeployment.typeUrl, MsgUpdateDeployment);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUpdateDeployment.aminoType, MsgUpdateDeployment.typeUrl);
 function createBaseMsgUpdateDeploymentResponse(): MsgUpdateDeploymentResponse {
   return {};
 }
 export const MsgUpdateDeploymentResponse = {
   typeUrl: "/akash.deployment.v1beta2.MsgUpdateDeploymentResponse",
+  aminoType: "akash/deployment/v1beta2/testonly-update-deployment-response",
+  is(o: any): o is MsgUpdateDeploymentResponse {
+    return o && o.$typeUrl === MsgUpdateDeploymentResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgUpdateDeploymentResponseSDKType {
+    return o && o.$typeUrl === MsgUpdateDeploymentResponse.typeUrl;
+  },
   encode(_: MsgUpdateDeploymentResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -755,6 +808,8 @@ export const MsgUpdateDeploymentResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateDeploymentResponse.typeUrl, MsgUpdateDeploymentResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUpdateDeploymentResponse.aminoType, MsgUpdateDeploymentResponse.typeUrl);
 function createBaseMsgCloseDeployment(): MsgCloseDeployment {
   return {
     id: DeploymentID.fromPartial({})
@@ -762,6 +817,13 @@ function createBaseMsgCloseDeployment(): MsgCloseDeployment {
 }
 export const MsgCloseDeployment = {
   typeUrl: "/akash.deployment.v1beta2.MsgCloseDeployment",
+  aminoType: "akash/deployment/v1beta2/testonly-close-deployment",
+  is(o: any): o is MsgCloseDeployment {
+    return o && (o.$typeUrl === MsgCloseDeployment.typeUrl || DeploymentID.is(o.id));
+  },
+  isSDK(o: any): o is MsgCloseDeploymentSDKType {
+    return o && (o.$typeUrl === MsgCloseDeployment.typeUrl || DeploymentID.isSDK(o.id));
+  },
   encode(message: MsgCloseDeployment, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== undefined) {
       DeploymentID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -849,11 +911,20 @@ export const MsgCloseDeployment = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCloseDeployment.typeUrl, MsgCloseDeployment);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCloseDeployment.aminoType, MsgCloseDeployment.typeUrl);
 function createBaseMsgCloseDeploymentResponse(): MsgCloseDeploymentResponse {
   return {};
 }
 export const MsgCloseDeploymentResponse = {
   typeUrl: "/akash.deployment.v1beta2.MsgCloseDeploymentResponse",
+  aminoType: "akash/deployment/v1beta2/testonly-close-deployment-response",
+  is(o: any): o is MsgCloseDeploymentResponse {
+    return o && o.$typeUrl === MsgCloseDeploymentResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgCloseDeploymentResponseSDKType {
+    return o && o.$typeUrl === MsgCloseDeploymentResponse.typeUrl;
+  },
   encode(_: MsgCloseDeploymentResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -922,3 +993,5 @@ export const MsgCloseDeploymentResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCloseDeploymentResponse.typeUrl, MsgCloseDeploymentResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCloseDeploymentResponse.aminoType, MsgCloseDeploymentResponse.typeUrl);

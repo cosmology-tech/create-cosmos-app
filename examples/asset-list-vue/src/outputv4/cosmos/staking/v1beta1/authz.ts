@@ -1,7 +1,8 @@
 import { Coin, CoinSDKType } from "../../base/v1beta1/coin";
-import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "cosmos.staking.v1beta1";
 /**
@@ -62,6 +63,7 @@ export function authorizationTypeToJSON(object: AuthorizationType): string {
  * Since: cosmos-sdk 0.43
  */
 export interface StakeAuthorization {
+  $typeUrl?: "/cosmos.staking.v1beta1.StakeAuthorization";
   /**
    * max_tokens specifies the maximum amount of tokens can be delegate to a validator. If it is
    * empty, there is no spend limit and any amount of coins can be delegated.
@@ -78,6 +80,7 @@ export interface StakeAuthorization {
   authorizationType: AuthorizationType;
 }
 export interface ReactiveStakeAuthorization {
+  $typeUrl?: ComputedRef<"/cosmos.staking.v1beta1.StakeAuthorization">;
   maxTokens?: ComputedRef<Coin>;
   allowList?: ComputedRef<StakeAuthorization_Validators>;
   denyList?: ComputedRef<StakeAuthorization_Validators>;
@@ -93,6 +96,7 @@ export interface StakeAuthorizationProtoMsg {
  * Since: cosmos-sdk 0.43
  */
 export interface StakeAuthorizationSDKType {
+  $typeUrl?: "/cosmos.staking.v1beta1.StakeAuthorization";
   max_tokens?: CoinSDKType;
   allow_list?: StakeAuthorization_ValidatorsSDKType;
   deny_list?: StakeAuthorization_ValidatorsSDKType;
@@ -115,6 +119,7 @@ export interface StakeAuthorization_ValidatorsSDKType {
 }
 function createBaseStakeAuthorization(): StakeAuthorization {
   return {
+    $typeUrl: "/cosmos.staking.v1beta1.StakeAuthorization",
     maxTokens: undefined,
     allowList: undefined,
     denyList: undefined,
@@ -123,6 +128,13 @@ function createBaseStakeAuthorization(): StakeAuthorization {
 }
 export const StakeAuthorization = {
   typeUrl: "/cosmos.staking.v1beta1.StakeAuthorization",
+  aminoType: "cosmos-sdk/StakeAuthorization",
+  is(o: any): o is StakeAuthorization {
+    return o && (o.$typeUrl === StakeAuthorization.typeUrl || isSet(o.authorizationType));
+  },
+  isSDK(o: any): o is StakeAuthorizationSDKType {
+    return o && (o.$typeUrl === StakeAuthorization.typeUrl || isSet(o.authorization_type));
+  },
   encode(message: StakeAuthorization, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.maxTokens !== undefined) {
       Coin.encode(message.maxTokens, writer.uint32(10).fork()).ldelim();
@@ -258,6 +270,8 @@ export const StakeAuthorization = {
     };
   }
 };
+GlobalDecoderRegistry.register(StakeAuthorization.typeUrl, StakeAuthorization);
+GlobalDecoderRegistry.registerAminoProtoMapping(StakeAuthorization.aminoType, StakeAuthorization.typeUrl);
 function createBaseStakeAuthorization_Validators(): StakeAuthorization_Validators {
   return {
     address: []
@@ -265,6 +279,13 @@ function createBaseStakeAuthorization_Validators(): StakeAuthorization_Validator
 }
 export const StakeAuthorization_Validators = {
   typeUrl: "/cosmos.staking.v1beta1.Validators",
+  aminoType: "cosmos-sdk/Validators",
+  is(o: any): o is StakeAuthorization_Validators {
+    return o && (o.$typeUrl === StakeAuthorization_Validators.typeUrl || Array.isArray(o.address) && (!o.address.length || typeof o.address[0] === "string"));
+  },
+  isSDK(o: any): o is StakeAuthorization_ValidatorsSDKType {
+    return o && (o.$typeUrl === StakeAuthorization_Validators.typeUrl || Array.isArray(o.address) && (!o.address.length || typeof o.address[0] === "string"));
+  },
   encode(message: StakeAuthorization_Validators, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.address) {
       writer.uint32(10).string(v!);
@@ -362,3 +383,5 @@ export const StakeAuthorization_Validators = {
     };
   }
 };
+GlobalDecoderRegistry.register(StakeAuthorization_Validators.typeUrl, StakeAuthorization_Validators);
+GlobalDecoderRegistry.registerAminoProtoMapping(StakeAuthorization_Validators.aminoType, StakeAuthorization_Validators.typeUrl);

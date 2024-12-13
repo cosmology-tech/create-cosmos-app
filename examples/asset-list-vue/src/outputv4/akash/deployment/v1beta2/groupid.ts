@@ -1,6 +1,7 @@
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta2";
 /** GroupID stores owner, deployment sequence number and group sequence number */
@@ -33,6 +34,13 @@ function createBaseGroupID(): GroupID {
 }
 export const GroupID = {
   typeUrl: "/akash.deployment.v1beta2.GroupID",
+  aminoType: "akash/deployment/v1beta2/group-i-d",
+  is(o: any): o is GroupID {
+    return o && (o.$typeUrl === GroupID.typeUrl || typeof o.owner === "string" && typeof o.dseq === "bigint" && typeof o.gseq === "number");
+  },
+  isSDK(o: any): o is GroupIDSDKType {
+    return o && (o.$typeUrl === GroupID.typeUrl || typeof o.owner === "string" && typeof o.dseq === "bigint" && typeof o.gseq === "number");
+  },
   encode(message: GroupID, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -152,3 +160,5 @@ export const GroupID = {
     };
   }
 };
+GlobalDecoderRegistry.register(GroupID.typeUrl, GroupID);
+GlobalDecoderRegistry.registerAminoProtoMapping(GroupID.aminoType, GroupID.typeUrl);

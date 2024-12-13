@@ -3,6 +3,7 @@ import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } fr
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.cert.v1beta2";
 /** CertificateResponse contains a single X509 certificate and its serial number */
@@ -67,6 +68,13 @@ function createBaseCertificateResponse(): CertificateResponse {
 }
 export const CertificateResponse = {
   typeUrl: "/akash.cert.v1beta2.CertificateResponse",
+  aminoType: "akash/cert/v1beta2/certificate-response",
+  is(o: any): o is CertificateResponse {
+    return o && (o.$typeUrl === CertificateResponse.typeUrl || Certificate.is(o.certificate) && typeof o.serial === "string");
+  },
+  isSDK(o: any): o is CertificateResponseSDKType {
+    return o && (o.$typeUrl === CertificateResponse.typeUrl || Certificate.isSDK(o.certificate) && typeof o.serial === "string");
+  },
   encode(message: CertificateResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.certificate !== undefined) {
       Certificate.encode(message.certificate, writer.uint32(10).fork()).ldelim();
@@ -170,6 +178,8 @@ export const CertificateResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(CertificateResponse.typeUrl, CertificateResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(CertificateResponse.aminoType, CertificateResponse.typeUrl);
 function createBaseQueryCertificatesRequest(): QueryCertificatesRequest {
   return {
     filter: CertificateFilter.fromPartial({}),
@@ -178,6 +188,13 @@ function createBaseQueryCertificatesRequest(): QueryCertificatesRequest {
 }
 export const QueryCertificatesRequest = {
   typeUrl: "/akash.cert.v1beta2.QueryCertificatesRequest",
+  aminoType: "akash/cert/v1beta2/query-certificates-request",
+  is(o: any): o is QueryCertificatesRequest {
+    return o && (o.$typeUrl === QueryCertificatesRequest.typeUrl || CertificateFilter.is(o.filter));
+  },
+  isSDK(o: any): o is QueryCertificatesRequestSDKType {
+    return o && (o.$typeUrl === QueryCertificatesRequest.typeUrl || CertificateFilter.isSDK(o.filter));
+  },
   encode(message: QueryCertificatesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.filter !== undefined) {
       CertificateFilter.encode(message.filter, writer.uint32(10).fork()).ldelim();
@@ -281,6 +298,8 @@ export const QueryCertificatesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryCertificatesRequest.typeUrl, QueryCertificatesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryCertificatesRequest.aminoType, QueryCertificatesRequest.typeUrl);
 function createBaseQueryCertificatesResponse(): QueryCertificatesResponse {
   return {
     certificates: [],
@@ -289,6 +308,13 @@ function createBaseQueryCertificatesResponse(): QueryCertificatesResponse {
 }
 export const QueryCertificatesResponse = {
   typeUrl: "/akash.cert.v1beta2.QueryCertificatesResponse",
+  aminoType: "akash/cert/v1beta2/query-certificates-response",
+  is(o: any): o is QueryCertificatesResponse {
+    return o && (o.$typeUrl === QueryCertificatesResponse.typeUrl || Array.isArray(o.certificates) && (!o.certificates.length || CertificateResponse.is(o.certificates[0])));
+  },
+  isSDK(o: any): o is QueryCertificatesResponseSDKType {
+    return o && (o.$typeUrl === QueryCertificatesResponse.typeUrl || Array.isArray(o.certificates) && (!o.certificates.length || CertificateResponse.isSDK(o.certificates[0])));
+  },
   encode(message: QueryCertificatesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.certificates) {
       CertificateResponse.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -402,3 +428,5 @@ export const QueryCertificatesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryCertificatesResponse.typeUrl, QueryCertificatesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryCertificatesResponse.aminoType, QueryCertificatesResponse.typeUrl);

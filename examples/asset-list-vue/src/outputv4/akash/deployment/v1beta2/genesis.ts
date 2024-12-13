@@ -4,6 +4,7 @@ import { Params, ParamsSDKType } from "./params";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "akash.deployment.v1beta2";
 /** GenesisDeployment defines the basic genesis state used by deployment module */
@@ -50,6 +51,13 @@ function createBaseGenesisDeployment(): GenesisDeployment {
 }
 export const GenesisDeployment = {
   typeUrl: "/akash.deployment.v1beta2.GenesisDeployment",
+  aminoType: "akash/deployment/v1beta2/genesis-deployment",
+  is(o: any): o is GenesisDeployment {
+    return o && (o.$typeUrl === GenesisDeployment.typeUrl || Deployment.is(o.deployment) && Array.isArray(o.groups) && (!o.groups.length || Group.is(o.groups[0])));
+  },
+  isSDK(o: any): o is GenesisDeploymentSDKType {
+    return o && (o.$typeUrl === GenesisDeployment.typeUrl || Deployment.isSDK(o.deployment) && Array.isArray(o.groups) && (!o.groups.length || Group.isSDK(o.groups[0])));
+  },
   encode(message: GenesisDeployment, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.deployment !== undefined) {
       Deployment.encode(message.deployment, writer.uint32(10).fork()).ldelim();
@@ -163,6 +171,8 @@ export const GenesisDeployment = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisDeployment.typeUrl, GenesisDeployment);
+GlobalDecoderRegistry.registerAminoProtoMapping(GenesisDeployment.aminoType, GenesisDeployment.typeUrl);
 function createBaseGenesisState(): GenesisState {
   return {
     deployments: [],
@@ -171,6 +181,13 @@ function createBaseGenesisState(): GenesisState {
 }
 export const GenesisState = {
   typeUrl: "/akash.deployment.v1beta2.GenesisState",
+  aminoType: "akash/deployment/v1beta2/genesis-state",
+  is(o: any): o is GenesisState {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Array.isArray(o.deployments) && (!o.deployments.length || GenesisDeployment.is(o.deployments[0])) && Params.is(o.params));
+  },
+  isSDK(o: any): o is GenesisStateSDKType {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Array.isArray(o.deployments) && (!o.deployments.length || GenesisDeployment.isSDK(o.deployments[0])) && Params.isSDK(o.params));
+  },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.deployments) {
       GenesisDeployment.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -284,3 +301,5 @@ export const GenesisState = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisState.typeUrl, GenesisState);
+GlobalDecoderRegistry.registerAminoProtoMapping(GenesisState.aminoType, GenesisState.typeUrl);

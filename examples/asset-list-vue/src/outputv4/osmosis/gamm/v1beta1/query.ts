@@ -2,9 +2,17 @@ import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } fr
 import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { SwapAmountInRoute, SwapAmountInRouteSDKType, SwapAmountOutRoute, SwapAmountOutRouteSDKType } from "./tx";
 import { Any, AnySDKType } from "../../../google/protobuf/any";
+import { Pool as Pool1 } from "../pool-models/balancer/balancerPool";
+import { PoolSDKType as Pool1SDKType } from "../pool-models/balancer/balancerPool";
+import { Pool as Pool2 } from "../pool-models/stableswap/stableswap_pool";
+import { PoolSDKType as Pool2SDKType } from "../pool-models/stableswap/stableswap_pool";
+import { Pool as Pool3 } from "../../concentrated-liquidity/pool";
+import { PoolSDKType as Pool3SDKType } from "../../concentrated-liquidity/pool";
+import { CosmWasmPool, CosmWasmPoolSDKType } from "../../cosmwasmpool/v1beta1/model/pool";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, DeepPartial } from "../../../helpers";
 import { JsonSafe } from "../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "osmosis.gamm.v1beta1";
 /** =============================== Pool */
@@ -23,17 +31,17 @@ export interface QueryPoolRequestSDKType {
   pool_id: bigint;
 }
 export interface QueryPoolResponse {
-  pool?: Any;
+  pool?: (Pool1 & Pool2 & Pool3 & CosmWasmPool & Any) | undefined;
 }
 export interface ReactiveQueryPoolResponse {
-  pool?: ComputedRef<Any>;
+  pool?: ComputedRef<(Pool1 & Pool2 & Pool3 & CosmWasmPool & Any) | undefined>;
 }
 export interface QueryPoolResponseProtoMsg {
   typeUrl: "/osmosis.gamm.v1beta1.QueryPoolResponse";
   value: Uint8Array;
 }
 export interface QueryPoolResponseSDKType {
-  pool?: AnySDKType;
+  pool?: Pool1SDKType | Pool2SDKType | Pool3SDKType | CosmWasmPoolSDKType | AnySDKType | undefined;
 }
 /** =============================== Pools */
 export interface QueryPoolsRequest {
@@ -52,12 +60,12 @@ export interface QueryPoolsRequestSDKType {
   pagination?: PageRequestSDKType;
 }
 export interface QueryPoolsResponse {
-  pools: Any[];
+  pools: (Pool1 & Pool2 & Pool3 & CosmWasmPool & Any)[] | Any[];
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
 export interface ReactiveQueryPoolsResponse {
-  pools: ComputedRef<Any[]>;
+  pools: ComputedRef<(Pool1 & Pool2 & Pool3 & CosmWasmPool & Any)[] | Any[]>;
   pagination?: ComputedRef<PageResponse>;
 }
 export interface QueryPoolsResponseProtoMsg {
@@ -65,7 +73,7 @@ export interface QueryPoolsResponseProtoMsg {
   value: Uint8Array;
 }
 export interface QueryPoolsResponseSDKType {
-  pools: AnySDKType[];
+  pools: (Pool1SDKType | Pool2SDKType | Pool3SDKType | CosmWasmPoolSDKType | AnySDKType)[];
   pagination?: PageResponseSDKType;
 }
 /** =============================== NumPools */
@@ -350,12 +358,12 @@ export interface QueryPoolsWithFilterRequestSDKType {
   pagination?: PageRequestSDKType;
 }
 export interface QueryPoolsWithFilterResponse {
-  pools: Any[];
+  pools: (Pool1 & Pool2 & Pool3 & CosmWasmPool & Any)[] | Any[];
   /** pagination defines the pagination in the response. */
   pagination?: PageResponse;
 }
 export interface ReactiveQueryPoolsWithFilterResponse {
-  pools: ComputedRef<Any[]>;
+  pools: ComputedRef<(Pool1 & Pool2 & Pool3 & CosmWasmPool & Any)[] | Any[]>;
   pagination?: ComputedRef<PageResponse>;
 }
 export interface QueryPoolsWithFilterResponseProtoMsg {
@@ -363,7 +371,7 @@ export interface QueryPoolsWithFilterResponseProtoMsg {
   value: Uint8Array;
 }
 export interface QueryPoolsWithFilterResponseSDKType {
-  pools: AnySDKType[];
+  pools: (Pool1SDKType | Pool2SDKType | Pool3SDKType | CosmWasmPoolSDKType | AnySDKType)[];
   pagination?: PageResponseSDKType;
 }
 /**
@@ -493,6 +501,13 @@ function createBaseQueryPoolRequest(): QueryPoolRequest {
 }
 export const QueryPoolRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryPoolRequest",
+  aminoType: "osmosis/gamm/query-pool-request",
+  is(o: any): o is QueryPoolRequest {
+    return o && (o.$typeUrl === QueryPoolRequest.typeUrl || typeof o.poolId === "bigint");
+  },
+  isSDK(o: any): o is QueryPoolRequestSDKType {
+    return o && (o.$typeUrl === QueryPoolRequest.typeUrl || typeof o.pool_id === "bigint");
+  },
   encode(message: QueryPoolRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -580,6 +595,8 @@ export const QueryPoolRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPoolRequest.typeUrl, QueryPoolRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryPoolRequest.aminoType, QueryPoolRequest.typeUrl);
 function createBaseQueryPoolResponse(): QueryPoolResponse {
   return {
     pool: undefined
@@ -587,6 +604,13 @@ function createBaseQueryPoolResponse(): QueryPoolResponse {
 }
 export const QueryPoolResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryPoolResponse",
+  aminoType: "osmosis/gamm/query-pool-response",
+  is(o: any): o is QueryPoolResponse {
+    return o && o.$typeUrl === QueryPoolResponse.typeUrl;
+  },
+  isSDK(o: any): o is QueryPoolResponseSDKType {
+    return o && o.$typeUrl === QueryPoolResponse.typeUrl;
+  },
   encode(message: QueryPoolResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pool !== undefined) {
       Any.encode(message.pool, writer.uint32(10).fork()).ldelim();
@@ -674,6 +698,8 @@ export const QueryPoolResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPoolResponse.typeUrl, QueryPoolResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryPoolResponse.aminoType, QueryPoolResponse.typeUrl);
 function createBaseQueryPoolsRequest(): QueryPoolsRequest {
   return {
     pagination: undefined
@@ -681,6 +707,13 @@ function createBaseQueryPoolsRequest(): QueryPoolsRequest {
 }
 export const QueryPoolsRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryPoolsRequest",
+  aminoType: "osmosis/gamm/query-pools-request",
+  is(o: any): o is QueryPoolsRequest {
+    return o && o.$typeUrl === QueryPoolsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryPoolsRequestSDKType {
+    return o && o.$typeUrl === QueryPoolsRequest.typeUrl;
+  },
   encode(message: QueryPoolsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
@@ -768,6 +801,8 @@ export const QueryPoolsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPoolsRequest.typeUrl, QueryPoolsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryPoolsRequest.aminoType, QueryPoolsRequest.typeUrl);
 function createBaseQueryPoolsResponse(): QueryPoolsResponse {
   return {
     pools: [],
@@ -776,6 +811,13 @@ function createBaseQueryPoolsResponse(): QueryPoolsResponse {
 }
 export const QueryPoolsResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryPoolsResponse",
+  aminoType: "osmosis/gamm/query-pools-response",
+  is(o: any): o is QueryPoolsResponse {
+    return o && (o.$typeUrl === QueryPoolsResponse.typeUrl || Array.isArray(o.pools) && (!o.pools.length || Pool1.is(o.pools[0]) || Pool2.is(o.pools[0]) || Pool3.is(o.pools[0]) || CosmWasmPool.is(o.pools[0]) || Any.is(o.pools[0])));
+  },
+  isSDK(o: any): o is QueryPoolsResponseSDKType {
+    return o && (o.$typeUrl === QueryPoolsResponse.typeUrl || Array.isArray(o.pools) && (!o.pools.length || Pool1.isSDK(o.pools[0]) || Pool2.isSDK(o.pools[0]) || Pool3.isSDK(o.pools[0]) || CosmWasmPool.isSDK(o.pools[0]) || Any.isSDK(o.pools[0])));
+  },
   encode(message: QueryPoolsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.pools) {
       Any.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -889,11 +931,20 @@ export const QueryPoolsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPoolsResponse.typeUrl, QueryPoolsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryPoolsResponse.aminoType, QueryPoolsResponse.typeUrl);
 function createBaseQueryNumPoolsRequest(): QueryNumPoolsRequest {
   return {};
 }
 export const QueryNumPoolsRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryNumPoolsRequest",
+  aminoType: "osmosis/gamm/query-num-pools-request",
+  is(o: any): o is QueryNumPoolsRequest {
+    return o && o.$typeUrl === QueryNumPoolsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryNumPoolsRequestSDKType {
+    return o && o.$typeUrl === QueryNumPoolsRequest.typeUrl;
+  },
   encode(_: QueryNumPoolsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -962,6 +1013,8 @@ export const QueryNumPoolsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryNumPoolsRequest.typeUrl, QueryNumPoolsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryNumPoolsRequest.aminoType, QueryNumPoolsRequest.typeUrl);
 function createBaseQueryNumPoolsResponse(): QueryNumPoolsResponse {
   return {
     numPools: BigInt(0)
@@ -969,6 +1022,13 @@ function createBaseQueryNumPoolsResponse(): QueryNumPoolsResponse {
 }
 export const QueryNumPoolsResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryNumPoolsResponse",
+  aminoType: "osmosis/gamm/query-num-pools-response",
+  is(o: any): o is QueryNumPoolsResponse {
+    return o && (o.$typeUrl === QueryNumPoolsResponse.typeUrl || typeof o.numPools === "bigint");
+  },
+  isSDK(o: any): o is QueryNumPoolsResponseSDKType {
+    return o && (o.$typeUrl === QueryNumPoolsResponse.typeUrl || typeof o.num_pools === "bigint");
+  },
   encode(message: QueryNumPoolsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.numPools !== BigInt(0)) {
       writer.uint32(8).uint64(message.numPools);
@@ -1056,6 +1116,8 @@ export const QueryNumPoolsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryNumPoolsResponse.typeUrl, QueryNumPoolsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryNumPoolsResponse.aminoType, QueryNumPoolsResponse.typeUrl);
 function createBaseQueryPoolTypeRequest(): QueryPoolTypeRequest {
   return {
     poolId: BigInt(0)
@@ -1063,6 +1125,13 @@ function createBaseQueryPoolTypeRequest(): QueryPoolTypeRequest {
 }
 export const QueryPoolTypeRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryPoolTypeRequest",
+  aminoType: "osmosis/gamm/query-pool-type-request",
+  is(o: any): o is QueryPoolTypeRequest {
+    return o && (o.$typeUrl === QueryPoolTypeRequest.typeUrl || typeof o.poolId === "bigint");
+  },
+  isSDK(o: any): o is QueryPoolTypeRequestSDKType {
+    return o && (o.$typeUrl === QueryPoolTypeRequest.typeUrl || typeof o.pool_id === "bigint");
+  },
   encode(message: QueryPoolTypeRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -1150,6 +1219,8 @@ export const QueryPoolTypeRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPoolTypeRequest.typeUrl, QueryPoolTypeRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryPoolTypeRequest.aminoType, QueryPoolTypeRequest.typeUrl);
 function createBaseQueryPoolTypeResponse(): QueryPoolTypeResponse {
   return {
     poolType: ""
@@ -1157,6 +1228,13 @@ function createBaseQueryPoolTypeResponse(): QueryPoolTypeResponse {
 }
 export const QueryPoolTypeResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryPoolTypeResponse",
+  aminoType: "osmosis/gamm/query-pool-type-response",
+  is(o: any): o is QueryPoolTypeResponse {
+    return o && (o.$typeUrl === QueryPoolTypeResponse.typeUrl || typeof o.poolType === "string");
+  },
+  isSDK(o: any): o is QueryPoolTypeResponseSDKType {
+    return o && (o.$typeUrl === QueryPoolTypeResponse.typeUrl || typeof o.pool_type === "string");
+  },
   encode(message: QueryPoolTypeResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolType !== "") {
       writer.uint32(10).string(message.poolType);
@@ -1244,6 +1322,8 @@ export const QueryPoolTypeResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPoolTypeResponse.typeUrl, QueryPoolTypeResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryPoolTypeResponse.aminoType, QueryPoolTypeResponse.typeUrl);
 function createBaseQueryCalcJoinPoolSharesRequest(): QueryCalcJoinPoolSharesRequest {
   return {
     poolId: BigInt(0),
@@ -1252,6 +1332,13 @@ function createBaseQueryCalcJoinPoolSharesRequest(): QueryCalcJoinPoolSharesRequ
 }
 export const QueryCalcJoinPoolSharesRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryCalcJoinPoolSharesRequest",
+  aminoType: "osmosis/gamm/query-calc-join-pool-shares-request",
+  is(o: any): o is QueryCalcJoinPoolSharesRequest {
+    return o && (o.$typeUrl === QueryCalcJoinPoolSharesRequest.typeUrl || typeof o.poolId === "bigint" && Array.isArray(o.tokensIn) && (!o.tokensIn.length || Coin.is(o.tokensIn[0])));
+  },
+  isSDK(o: any): o is QueryCalcJoinPoolSharesRequestSDKType {
+    return o && (o.$typeUrl === QueryCalcJoinPoolSharesRequest.typeUrl || typeof o.pool_id === "bigint" && Array.isArray(o.tokens_in) && (!o.tokens_in.length || Coin.isSDK(o.tokens_in[0])));
+  },
   encode(message: QueryCalcJoinPoolSharesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -1365,6 +1452,8 @@ export const QueryCalcJoinPoolSharesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryCalcJoinPoolSharesRequest.typeUrl, QueryCalcJoinPoolSharesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryCalcJoinPoolSharesRequest.aminoType, QueryCalcJoinPoolSharesRequest.typeUrl);
 function createBaseQueryCalcJoinPoolSharesResponse(): QueryCalcJoinPoolSharesResponse {
   return {
     shareOutAmount: "",
@@ -1373,6 +1462,13 @@ function createBaseQueryCalcJoinPoolSharesResponse(): QueryCalcJoinPoolSharesRes
 }
 export const QueryCalcJoinPoolSharesResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryCalcJoinPoolSharesResponse",
+  aminoType: "osmosis/gamm/query-calc-join-pool-shares-response",
+  is(o: any): o is QueryCalcJoinPoolSharesResponse {
+    return o && (o.$typeUrl === QueryCalcJoinPoolSharesResponse.typeUrl || typeof o.shareOutAmount === "string" && Array.isArray(o.tokensOut) && (!o.tokensOut.length || Coin.is(o.tokensOut[0])));
+  },
+  isSDK(o: any): o is QueryCalcJoinPoolSharesResponseSDKType {
+    return o && (o.$typeUrl === QueryCalcJoinPoolSharesResponse.typeUrl || typeof o.share_out_amount === "string" && Array.isArray(o.tokens_out) && (!o.tokens_out.length || Coin.isSDK(o.tokens_out[0])));
+  },
   encode(message: QueryCalcJoinPoolSharesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.shareOutAmount !== "") {
       writer.uint32(10).string(message.shareOutAmount);
@@ -1486,6 +1582,8 @@ export const QueryCalcJoinPoolSharesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryCalcJoinPoolSharesResponse.typeUrl, QueryCalcJoinPoolSharesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryCalcJoinPoolSharesResponse.aminoType, QueryCalcJoinPoolSharesResponse.typeUrl);
 function createBaseQueryCalcExitPoolCoinsFromSharesRequest(): QueryCalcExitPoolCoinsFromSharesRequest {
   return {
     poolId: BigInt(0),
@@ -1494,6 +1592,13 @@ function createBaseQueryCalcExitPoolCoinsFromSharesRequest(): QueryCalcExitPoolC
 }
 export const QueryCalcExitPoolCoinsFromSharesRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryCalcExitPoolCoinsFromSharesRequest",
+  aminoType: "osmosis/gamm/query-calc-exit-pool-coins-from-shares-request",
+  is(o: any): o is QueryCalcExitPoolCoinsFromSharesRequest {
+    return o && (o.$typeUrl === QueryCalcExitPoolCoinsFromSharesRequest.typeUrl || typeof o.poolId === "bigint" && typeof o.shareInAmount === "string");
+  },
+  isSDK(o: any): o is QueryCalcExitPoolCoinsFromSharesRequestSDKType {
+    return o && (o.$typeUrl === QueryCalcExitPoolCoinsFromSharesRequest.typeUrl || typeof o.pool_id === "bigint" && typeof o.share_in_amount === "string");
+  },
   encode(message: QueryCalcExitPoolCoinsFromSharesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -1597,6 +1702,8 @@ export const QueryCalcExitPoolCoinsFromSharesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryCalcExitPoolCoinsFromSharesRequest.typeUrl, QueryCalcExitPoolCoinsFromSharesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryCalcExitPoolCoinsFromSharesRequest.aminoType, QueryCalcExitPoolCoinsFromSharesRequest.typeUrl);
 function createBaseQueryCalcExitPoolCoinsFromSharesResponse(): QueryCalcExitPoolCoinsFromSharesResponse {
   return {
     tokensOut: []
@@ -1604,6 +1711,13 @@ function createBaseQueryCalcExitPoolCoinsFromSharesResponse(): QueryCalcExitPool
 }
 export const QueryCalcExitPoolCoinsFromSharesResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryCalcExitPoolCoinsFromSharesResponse",
+  aminoType: "osmosis/gamm/query-calc-exit-pool-coins-from-shares-response",
+  is(o: any): o is QueryCalcExitPoolCoinsFromSharesResponse {
+    return o && (o.$typeUrl === QueryCalcExitPoolCoinsFromSharesResponse.typeUrl || Array.isArray(o.tokensOut) && (!o.tokensOut.length || Coin.is(o.tokensOut[0])));
+  },
+  isSDK(o: any): o is QueryCalcExitPoolCoinsFromSharesResponseSDKType {
+    return o && (o.$typeUrl === QueryCalcExitPoolCoinsFromSharesResponse.typeUrl || Array.isArray(o.tokens_out) && (!o.tokens_out.length || Coin.isSDK(o.tokens_out[0])));
+  },
   encode(message: QueryCalcExitPoolCoinsFromSharesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.tokensOut) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1701,6 +1815,8 @@ export const QueryCalcExitPoolCoinsFromSharesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryCalcExitPoolCoinsFromSharesResponse.typeUrl, QueryCalcExitPoolCoinsFromSharesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryCalcExitPoolCoinsFromSharesResponse.aminoType, QueryCalcExitPoolCoinsFromSharesResponse.typeUrl);
 function createBaseQueryPoolParamsRequest(): QueryPoolParamsRequest {
   return {
     poolId: BigInt(0)
@@ -1708,6 +1824,13 @@ function createBaseQueryPoolParamsRequest(): QueryPoolParamsRequest {
 }
 export const QueryPoolParamsRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryPoolParamsRequest",
+  aminoType: "osmosis/gamm/query-pool-params-request",
+  is(o: any): o is QueryPoolParamsRequest {
+    return o && (o.$typeUrl === QueryPoolParamsRequest.typeUrl || typeof o.poolId === "bigint");
+  },
+  isSDK(o: any): o is QueryPoolParamsRequestSDKType {
+    return o && (o.$typeUrl === QueryPoolParamsRequest.typeUrl || typeof o.pool_id === "bigint");
+  },
   encode(message: QueryPoolParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -1795,6 +1918,8 @@ export const QueryPoolParamsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPoolParamsRequest.typeUrl, QueryPoolParamsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryPoolParamsRequest.aminoType, QueryPoolParamsRequest.typeUrl);
 function createBaseQueryPoolParamsResponse(): QueryPoolParamsResponse {
   return {
     params: undefined
@@ -1802,6 +1927,13 @@ function createBaseQueryPoolParamsResponse(): QueryPoolParamsResponse {
 }
 export const QueryPoolParamsResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryPoolParamsResponse",
+  aminoType: "osmosis/gamm/query-pool-params-response",
+  is(o: any): o is QueryPoolParamsResponse {
+    return o && o.$typeUrl === QueryPoolParamsResponse.typeUrl;
+  },
+  isSDK(o: any): o is QueryPoolParamsResponseSDKType {
+    return o && o.$typeUrl === QueryPoolParamsResponse.typeUrl;
+  },
   encode(message: QueryPoolParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Any.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -1889,6 +2021,8 @@ export const QueryPoolParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPoolParamsResponse.typeUrl, QueryPoolParamsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryPoolParamsResponse.aminoType, QueryPoolParamsResponse.typeUrl);
 function createBaseQueryTotalPoolLiquidityRequest(): QueryTotalPoolLiquidityRequest {
   return {
     poolId: BigInt(0)
@@ -1896,6 +2030,13 @@ function createBaseQueryTotalPoolLiquidityRequest(): QueryTotalPoolLiquidityRequ
 }
 export const QueryTotalPoolLiquidityRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryTotalPoolLiquidityRequest",
+  aminoType: "osmosis/gamm/query-total-pool-liquidity-request",
+  is(o: any): o is QueryTotalPoolLiquidityRequest {
+    return o && (o.$typeUrl === QueryTotalPoolLiquidityRequest.typeUrl || typeof o.poolId === "bigint");
+  },
+  isSDK(o: any): o is QueryTotalPoolLiquidityRequestSDKType {
+    return o && (o.$typeUrl === QueryTotalPoolLiquidityRequest.typeUrl || typeof o.pool_id === "bigint");
+  },
   encode(message: QueryTotalPoolLiquidityRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -1983,6 +2124,8 @@ export const QueryTotalPoolLiquidityRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTotalPoolLiquidityRequest.typeUrl, QueryTotalPoolLiquidityRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryTotalPoolLiquidityRequest.aminoType, QueryTotalPoolLiquidityRequest.typeUrl);
 function createBaseQueryTotalPoolLiquidityResponse(): QueryTotalPoolLiquidityResponse {
   return {
     liquidity: []
@@ -1990,6 +2133,13 @@ function createBaseQueryTotalPoolLiquidityResponse(): QueryTotalPoolLiquidityRes
 }
 export const QueryTotalPoolLiquidityResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryTotalPoolLiquidityResponse",
+  aminoType: "osmosis/gamm/query-total-pool-liquidity-response",
+  is(o: any): o is QueryTotalPoolLiquidityResponse {
+    return o && (o.$typeUrl === QueryTotalPoolLiquidityResponse.typeUrl || Array.isArray(o.liquidity) && (!o.liquidity.length || Coin.is(o.liquidity[0])));
+  },
+  isSDK(o: any): o is QueryTotalPoolLiquidityResponseSDKType {
+    return o && (o.$typeUrl === QueryTotalPoolLiquidityResponse.typeUrl || Array.isArray(o.liquidity) && (!o.liquidity.length || Coin.isSDK(o.liquidity[0])));
+  },
   encode(message: QueryTotalPoolLiquidityResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.liquidity) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -2087,6 +2237,8 @@ export const QueryTotalPoolLiquidityResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTotalPoolLiquidityResponse.typeUrl, QueryTotalPoolLiquidityResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryTotalPoolLiquidityResponse.aminoType, QueryTotalPoolLiquidityResponse.typeUrl);
 function createBaseQueryTotalSharesRequest(): QueryTotalSharesRequest {
   return {
     poolId: BigInt(0)
@@ -2094,6 +2246,13 @@ function createBaseQueryTotalSharesRequest(): QueryTotalSharesRequest {
 }
 export const QueryTotalSharesRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryTotalSharesRequest",
+  aminoType: "osmosis/gamm/query-total-shares-request",
+  is(o: any): o is QueryTotalSharesRequest {
+    return o && (o.$typeUrl === QueryTotalSharesRequest.typeUrl || typeof o.poolId === "bigint");
+  },
+  isSDK(o: any): o is QueryTotalSharesRequestSDKType {
+    return o && (o.$typeUrl === QueryTotalSharesRequest.typeUrl || typeof o.pool_id === "bigint");
+  },
   encode(message: QueryTotalSharesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -2181,6 +2340,8 @@ export const QueryTotalSharesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTotalSharesRequest.typeUrl, QueryTotalSharesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryTotalSharesRequest.aminoType, QueryTotalSharesRequest.typeUrl);
 function createBaseQueryTotalSharesResponse(): QueryTotalSharesResponse {
   return {
     totalShares: Coin.fromPartial({})
@@ -2188,6 +2349,13 @@ function createBaseQueryTotalSharesResponse(): QueryTotalSharesResponse {
 }
 export const QueryTotalSharesResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryTotalSharesResponse",
+  aminoType: "osmosis/gamm/query-total-shares-response",
+  is(o: any): o is QueryTotalSharesResponse {
+    return o && (o.$typeUrl === QueryTotalSharesResponse.typeUrl || Coin.is(o.totalShares));
+  },
+  isSDK(o: any): o is QueryTotalSharesResponseSDKType {
+    return o && (o.$typeUrl === QueryTotalSharesResponse.typeUrl || Coin.isSDK(o.total_shares));
+  },
   encode(message: QueryTotalSharesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.totalShares !== undefined) {
       Coin.encode(message.totalShares, writer.uint32(10).fork()).ldelim();
@@ -2275,6 +2443,8 @@ export const QueryTotalSharesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTotalSharesResponse.typeUrl, QueryTotalSharesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryTotalSharesResponse.aminoType, QueryTotalSharesResponse.typeUrl);
 function createBaseQueryCalcJoinPoolNoSwapSharesRequest(): QueryCalcJoinPoolNoSwapSharesRequest {
   return {
     poolId: BigInt(0),
@@ -2283,6 +2453,13 @@ function createBaseQueryCalcJoinPoolNoSwapSharesRequest(): QueryCalcJoinPoolNoSw
 }
 export const QueryCalcJoinPoolNoSwapSharesRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryCalcJoinPoolNoSwapSharesRequest",
+  aminoType: "osmosis/gamm/query-calc-join-pool-no-swap-shares-request",
+  is(o: any): o is QueryCalcJoinPoolNoSwapSharesRequest {
+    return o && (o.$typeUrl === QueryCalcJoinPoolNoSwapSharesRequest.typeUrl || typeof o.poolId === "bigint" && Array.isArray(o.tokensIn) && (!o.tokensIn.length || Coin.is(o.tokensIn[0])));
+  },
+  isSDK(o: any): o is QueryCalcJoinPoolNoSwapSharesRequestSDKType {
+    return o && (o.$typeUrl === QueryCalcJoinPoolNoSwapSharesRequest.typeUrl || typeof o.pool_id === "bigint" && Array.isArray(o.tokens_in) && (!o.tokens_in.length || Coin.isSDK(o.tokens_in[0])));
+  },
   encode(message: QueryCalcJoinPoolNoSwapSharesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -2396,6 +2573,8 @@ export const QueryCalcJoinPoolNoSwapSharesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryCalcJoinPoolNoSwapSharesRequest.typeUrl, QueryCalcJoinPoolNoSwapSharesRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryCalcJoinPoolNoSwapSharesRequest.aminoType, QueryCalcJoinPoolNoSwapSharesRequest.typeUrl);
 function createBaseQueryCalcJoinPoolNoSwapSharesResponse(): QueryCalcJoinPoolNoSwapSharesResponse {
   return {
     tokensOut: [],
@@ -2404,6 +2583,13 @@ function createBaseQueryCalcJoinPoolNoSwapSharesResponse(): QueryCalcJoinPoolNoS
 }
 export const QueryCalcJoinPoolNoSwapSharesResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryCalcJoinPoolNoSwapSharesResponse",
+  aminoType: "osmosis/gamm/query-calc-join-pool-no-swap-shares-response",
+  is(o: any): o is QueryCalcJoinPoolNoSwapSharesResponse {
+    return o && (o.$typeUrl === QueryCalcJoinPoolNoSwapSharesResponse.typeUrl || Array.isArray(o.tokensOut) && (!o.tokensOut.length || Coin.is(o.tokensOut[0])) && typeof o.sharesOut === "string");
+  },
+  isSDK(o: any): o is QueryCalcJoinPoolNoSwapSharesResponseSDKType {
+    return o && (o.$typeUrl === QueryCalcJoinPoolNoSwapSharesResponse.typeUrl || Array.isArray(o.tokens_out) && (!o.tokens_out.length || Coin.isSDK(o.tokens_out[0])) && typeof o.shares_out === "string");
+  },
   encode(message: QueryCalcJoinPoolNoSwapSharesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.tokensOut) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -2517,6 +2703,8 @@ export const QueryCalcJoinPoolNoSwapSharesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryCalcJoinPoolNoSwapSharesResponse.typeUrl, QueryCalcJoinPoolNoSwapSharesResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryCalcJoinPoolNoSwapSharesResponse.aminoType, QueryCalcJoinPoolNoSwapSharesResponse.typeUrl);
 function createBaseQuerySpotPriceRequest(): QuerySpotPriceRequest {
   return {
     poolId: BigInt(0),
@@ -2526,6 +2714,13 @@ function createBaseQuerySpotPriceRequest(): QuerySpotPriceRequest {
 }
 export const QuerySpotPriceRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QuerySpotPriceRequest",
+  aminoType: "osmosis/gamm/query-spot-price-request",
+  is(o: any): o is QuerySpotPriceRequest {
+    return o && (o.$typeUrl === QuerySpotPriceRequest.typeUrl || typeof o.poolId === "bigint" && typeof o.baseAssetDenom === "string" && typeof o.quoteAssetDenom === "string");
+  },
+  isSDK(o: any): o is QuerySpotPriceRequestSDKType {
+    return o && (o.$typeUrl === QuerySpotPriceRequest.typeUrl || typeof o.pool_id === "bigint" && typeof o.base_asset_denom === "string" && typeof o.quote_asset_denom === "string");
+  },
   encode(message: QuerySpotPriceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.poolId !== BigInt(0)) {
       writer.uint32(8).uint64(message.poolId);
@@ -2645,6 +2840,8 @@ export const QuerySpotPriceRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuerySpotPriceRequest.typeUrl, QuerySpotPriceRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QuerySpotPriceRequest.aminoType, QuerySpotPriceRequest.typeUrl);
 function createBaseQueryPoolsWithFilterRequest(): QueryPoolsWithFilterRequest {
   return {
     minLiquidity: [],
@@ -2654,6 +2851,13 @@ function createBaseQueryPoolsWithFilterRequest(): QueryPoolsWithFilterRequest {
 }
 export const QueryPoolsWithFilterRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryPoolsWithFilterRequest",
+  aminoType: "osmosis/gamm/query-pools-with-filter-request",
+  is(o: any): o is QueryPoolsWithFilterRequest {
+    return o && (o.$typeUrl === QueryPoolsWithFilterRequest.typeUrl || Array.isArray(o.minLiquidity) && (!o.minLiquidity.length || Coin.is(o.minLiquidity[0])) && typeof o.poolType === "string");
+  },
+  isSDK(o: any): o is QueryPoolsWithFilterRequestSDKType {
+    return o && (o.$typeUrl === QueryPoolsWithFilterRequest.typeUrl || Array.isArray(o.min_liquidity) && (!o.min_liquidity.length || Coin.isSDK(o.min_liquidity[0])) && typeof o.pool_type === "string");
+  },
   encode(message: QueryPoolsWithFilterRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.minLiquidity) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -2783,6 +2987,8 @@ export const QueryPoolsWithFilterRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPoolsWithFilterRequest.typeUrl, QueryPoolsWithFilterRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryPoolsWithFilterRequest.aminoType, QueryPoolsWithFilterRequest.typeUrl);
 function createBaseQueryPoolsWithFilterResponse(): QueryPoolsWithFilterResponse {
   return {
     pools: [],
@@ -2791,6 +2997,13 @@ function createBaseQueryPoolsWithFilterResponse(): QueryPoolsWithFilterResponse 
 }
 export const QueryPoolsWithFilterResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryPoolsWithFilterResponse",
+  aminoType: "osmosis/gamm/query-pools-with-filter-response",
+  is(o: any): o is QueryPoolsWithFilterResponse {
+    return o && (o.$typeUrl === QueryPoolsWithFilterResponse.typeUrl || Array.isArray(o.pools) && (!o.pools.length || Pool1.is(o.pools[0]) || Pool2.is(o.pools[0]) || Pool3.is(o.pools[0]) || CosmWasmPool.is(o.pools[0]) || Any.is(o.pools[0])));
+  },
+  isSDK(o: any): o is QueryPoolsWithFilterResponseSDKType {
+    return o && (o.$typeUrl === QueryPoolsWithFilterResponse.typeUrl || Array.isArray(o.pools) && (!o.pools.length || Pool1.isSDK(o.pools[0]) || Pool2.isSDK(o.pools[0]) || Pool3.isSDK(o.pools[0]) || CosmWasmPool.isSDK(o.pools[0]) || Any.isSDK(o.pools[0])));
+  },
   encode(message: QueryPoolsWithFilterResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.pools) {
       Any.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -2904,6 +3117,8 @@ export const QueryPoolsWithFilterResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPoolsWithFilterResponse.typeUrl, QueryPoolsWithFilterResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryPoolsWithFilterResponse.aminoType, QueryPoolsWithFilterResponse.typeUrl);
 function createBaseQuerySpotPriceResponse(): QuerySpotPriceResponse {
   return {
     spotPrice: ""
@@ -2911,6 +3126,13 @@ function createBaseQuerySpotPriceResponse(): QuerySpotPriceResponse {
 }
 export const QuerySpotPriceResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QuerySpotPriceResponse",
+  aminoType: "osmosis/gamm/query-spot-price-response",
+  is(o: any): o is QuerySpotPriceResponse {
+    return o && (o.$typeUrl === QuerySpotPriceResponse.typeUrl || typeof o.spotPrice === "string");
+  },
+  isSDK(o: any): o is QuerySpotPriceResponseSDKType {
+    return o && (o.$typeUrl === QuerySpotPriceResponse.typeUrl || typeof o.spot_price === "string");
+  },
   encode(message: QuerySpotPriceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.spotPrice !== "") {
       writer.uint32(10).string(message.spotPrice);
@@ -2998,6 +3220,8 @@ export const QuerySpotPriceResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuerySpotPriceResponse.typeUrl, QuerySpotPriceResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QuerySpotPriceResponse.aminoType, QuerySpotPriceResponse.typeUrl);
 function createBaseQuerySwapExactAmountInRequest(): QuerySwapExactAmountInRequest {
   return {
     sender: "",
@@ -3008,6 +3232,13 @@ function createBaseQuerySwapExactAmountInRequest(): QuerySwapExactAmountInReques
 }
 export const QuerySwapExactAmountInRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QuerySwapExactAmountInRequest",
+  aminoType: "osmosis/gamm/query-swap-exact-amount-in-request",
+  is(o: any): o is QuerySwapExactAmountInRequest {
+    return o && (o.$typeUrl === QuerySwapExactAmountInRequest.typeUrl || typeof o.sender === "string" && typeof o.poolId === "bigint" && typeof o.tokenIn === "string" && Array.isArray(o.routes) && (!o.routes.length || SwapAmountInRoute.is(o.routes[0])));
+  },
+  isSDK(o: any): o is QuerySwapExactAmountInRequestSDKType {
+    return o && (o.$typeUrl === QuerySwapExactAmountInRequest.typeUrl || typeof o.sender === "string" && typeof o.pool_id === "bigint" && typeof o.token_in === "string" && Array.isArray(o.routes) && (!o.routes.length || SwapAmountInRoute.isSDK(o.routes[0])));
+  },
   encode(message: QuerySwapExactAmountInRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.sender !== "") {
       writer.uint32(10).string(message.sender);
@@ -3153,6 +3384,8 @@ export const QuerySwapExactAmountInRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuerySwapExactAmountInRequest.typeUrl, QuerySwapExactAmountInRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QuerySwapExactAmountInRequest.aminoType, QuerySwapExactAmountInRequest.typeUrl);
 function createBaseQuerySwapExactAmountInResponse(): QuerySwapExactAmountInResponse {
   return {
     tokenOutAmount: ""
@@ -3160,6 +3393,13 @@ function createBaseQuerySwapExactAmountInResponse(): QuerySwapExactAmountInRespo
 }
 export const QuerySwapExactAmountInResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QuerySwapExactAmountInResponse",
+  aminoType: "osmosis/gamm/query-swap-exact-amount-in-response",
+  is(o: any): o is QuerySwapExactAmountInResponse {
+    return o && (o.$typeUrl === QuerySwapExactAmountInResponse.typeUrl || typeof o.tokenOutAmount === "string");
+  },
+  isSDK(o: any): o is QuerySwapExactAmountInResponseSDKType {
+    return o && (o.$typeUrl === QuerySwapExactAmountInResponse.typeUrl || typeof o.token_out_amount === "string");
+  },
   encode(message: QuerySwapExactAmountInResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.tokenOutAmount !== "") {
       writer.uint32(10).string(message.tokenOutAmount);
@@ -3247,6 +3487,8 @@ export const QuerySwapExactAmountInResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuerySwapExactAmountInResponse.typeUrl, QuerySwapExactAmountInResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QuerySwapExactAmountInResponse.aminoType, QuerySwapExactAmountInResponse.typeUrl);
 function createBaseQuerySwapExactAmountOutRequest(): QuerySwapExactAmountOutRequest {
   return {
     sender: "",
@@ -3257,6 +3499,13 @@ function createBaseQuerySwapExactAmountOutRequest(): QuerySwapExactAmountOutRequ
 }
 export const QuerySwapExactAmountOutRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QuerySwapExactAmountOutRequest",
+  aminoType: "osmosis/gamm/query-swap-exact-amount-out-request",
+  is(o: any): o is QuerySwapExactAmountOutRequest {
+    return o && (o.$typeUrl === QuerySwapExactAmountOutRequest.typeUrl || typeof o.sender === "string" && typeof o.poolId === "bigint" && Array.isArray(o.routes) && (!o.routes.length || SwapAmountOutRoute.is(o.routes[0])) && typeof o.tokenOut === "string");
+  },
+  isSDK(o: any): o is QuerySwapExactAmountOutRequestSDKType {
+    return o && (o.$typeUrl === QuerySwapExactAmountOutRequest.typeUrl || typeof o.sender === "string" && typeof o.pool_id === "bigint" && Array.isArray(o.routes) && (!o.routes.length || SwapAmountOutRoute.isSDK(o.routes[0])) && typeof o.token_out === "string");
+  },
   encode(message: QuerySwapExactAmountOutRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.sender !== "") {
       writer.uint32(10).string(message.sender);
@@ -3402,6 +3651,8 @@ export const QuerySwapExactAmountOutRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuerySwapExactAmountOutRequest.typeUrl, QuerySwapExactAmountOutRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QuerySwapExactAmountOutRequest.aminoType, QuerySwapExactAmountOutRequest.typeUrl);
 function createBaseQuerySwapExactAmountOutResponse(): QuerySwapExactAmountOutResponse {
   return {
     tokenInAmount: ""
@@ -3409,6 +3660,13 @@ function createBaseQuerySwapExactAmountOutResponse(): QuerySwapExactAmountOutRes
 }
 export const QuerySwapExactAmountOutResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QuerySwapExactAmountOutResponse",
+  aminoType: "osmosis/gamm/query-swap-exact-amount-out-response",
+  is(o: any): o is QuerySwapExactAmountOutResponse {
+    return o && (o.$typeUrl === QuerySwapExactAmountOutResponse.typeUrl || typeof o.tokenInAmount === "string");
+  },
+  isSDK(o: any): o is QuerySwapExactAmountOutResponseSDKType {
+    return o && (o.$typeUrl === QuerySwapExactAmountOutResponse.typeUrl || typeof o.token_in_amount === "string");
+  },
   encode(message: QuerySwapExactAmountOutResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.tokenInAmount !== "") {
       writer.uint32(10).string(message.tokenInAmount);
@@ -3496,11 +3754,20 @@ export const QuerySwapExactAmountOutResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QuerySwapExactAmountOutResponse.typeUrl, QuerySwapExactAmountOutResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QuerySwapExactAmountOutResponse.aminoType, QuerySwapExactAmountOutResponse.typeUrl);
 function createBaseQueryTotalLiquidityRequest(): QueryTotalLiquidityRequest {
   return {};
 }
 export const QueryTotalLiquidityRequest = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryTotalLiquidityRequest",
+  aminoType: "osmosis/gamm/query-total-liquidity-request",
+  is(o: any): o is QueryTotalLiquidityRequest {
+    return o && o.$typeUrl === QueryTotalLiquidityRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryTotalLiquidityRequestSDKType {
+    return o && o.$typeUrl === QueryTotalLiquidityRequest.typeUrl;
+  },
   encode(_: QueryTotalLiquidityRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -3569,6 +3836,8 @@ export const QueryTotalLiquidityRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTotalLiquidityRequest.typeUrl, QueryTotalLiquidityRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryTotalLiquidityRequest.aminoType, QueryTotalLiquidityRequest.typeUrl);
 function createBaseQueryTotalLiquidityResponse(): QueryTotalLiquidityResponse {
   return {
     liquidity: []
@@ -3576,6 +3845,13 @@ function createBaseQueryTotalLiquidityResponse(): QueryTotalLiquidityResponse {
 }
 export const QueryTotalLiquidityResponse = {
   typeUrl: "/osmosis.gamm.v1beta1.QueryTotalLiquidityResponse",
+  aminoType: "osmosis/gamm/query-total-liquidity-response",
+  is(o: any): o is QueryTotalLiquidityResponse {
+    return o && (o.$typeUrl === QueryTotalLiquidityResponse.typeUrl || Array.isArray(o.liquidity) && (!o.liquidity.length || Coin.is(o.liquidity[0])));
+  },
+  isSDK(o: any): o is QueryTotalLiquidityResponseSDKType {
+    return o && (o.$typeUrl === QueryTotalLiquidityResponse.typeUrl || Array.isArray(o.liquidity) && (!o.liquidity.length || Coin.isSDK(o.liquidity[0])));
+  },
   encode(message: QueryTotalLiquidityResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.liquidity) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -3673,3 +3949,5 @@ export const QueryTotalLiquidityResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTotalLiquidityResponse.typeUrl, QueryTotalLiquidityResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(QueryTotalLiquidityResponse.aminoType, QueryTotalLiquidityResponse.typeUrl);

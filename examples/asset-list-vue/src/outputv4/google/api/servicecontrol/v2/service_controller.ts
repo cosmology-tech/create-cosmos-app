@@ -3,6 +3,7 @@ import { Status, StatusSDKType } from "../../../rpc/status";
 import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet, DeepPartial, isObject } from "../../../../helpers";
 import { JsonSafe } from "../../../../json-safe";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { ComputedRef } from "vue";
 export const protobufPackage = "google.api.servicecontrol.v2";
 /** Request message for the Check method. */
@@ -207,6 +208,12 @@ function createBaseCheckRequest(): CheckRequest {
 }
 export const CheckRequest = {
   typeUrl: "/google.api.servicecontrol.v2.CheckRequest",
+  is(o: any): o is CheckRequest {
+    return o && (o.$typeUrl === CheckRequest.typeUrl || typeof o.serviceName === "string" && typeof o.serviceConfigId === "string" && Array.isArray(o.resources) && (!o.resources.length || ResourceInfo.is(o.resources[0])) && typeof o.flags === "string");
+  },
+  isSDK(o: any): o is CheckRequestSDKType {
+    return o && (o.$typeUrl === CheckRequest.typeUrl || typeof o.service_name === "string" && typeof o.service_config_id === "string" && Array.isArray(o.resources) && (!o.resources.length || ResourceInfo.isSDK(o.resources[0])) && typeof o.flags === "string");
+  },
   encode(message: CheckRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -362,6 +369,7 @@ export const CheckRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(CheckRequest.typeUrl, CheckRequest);
 function createBaseResourceInfo(): ResourceInfo {
   return {
     name: "",
@@ -373,6 +381,12 @@ function createBaseResourceInfo(): ResourceInfo {
 }
 export const ResourceInfo = {
   typeUrl: "/google.api.servicecontrol.v2.ResourceInfo",
+  is(o: any): o is ResourceInfo {
+    return o && (o.$typeUrl === ResourceInfo.typeUrl || typeof o.name === "string" && typeof o.type === "string" && typeof o.permission === "string" && typeof o.container === "string" && typeof o.location === "string");
+  },
+  isSDK(o: any): o is ResourceInfoSDKType {
+    return o && (o.$typeUrl === ResourceInfo.typeUrl || typeof o.name === "string" && typeof o.type === "string" && typeof o.permission === "string" && typeof o.container === "string" && typeof o.location === "string");
+  },
   encode(message: ResourceInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -518,6 +532,7 @@ export const ResourceInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(ResourceInfo.typeUrl, ResourceInfo);
 function createBaseCheckResponse_HeadersEntry(): CheckResponse_HeadersEntry {
   return {
     key: "",
@@ -624,6 +639,12 @@ function createBaseCheckResponse(): CheckResponse {
 }
 export const CheckResponse = {
   typeUrl: "/google.api.servicecontrol.v2.CheckResponse",
+  is(o: any): o is CheckResponse {
+    return o && (o.$typeUrl === CheckResponse.typeUrl || isSet(o.headers));
+  },
+  isSDK(o: any): o is CheckResponseSDKType {
+    return o && (o.$typeUrl === CheckResponse.typeUrl || isSet(o.headers));
+  },
   encode(message: CheckResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.status !== undefined) {
       Status.encode(message.status, writer.uint32(10).fork()).ldelim();
@@ -769,6 +790,7 @@ export const CheckResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(CheckResponse.typeUrl, CheckResponse);
 function createBaseReportRequest(): ReportRequest {
   return {
     serviceName: "",
@@ -778,6 +800,12 @@ function createBaseReportRequest(): ReportRequest {
 }
 export const ReportRequest = {
   typeUrl: "/google.api.servicecontrol.v2.ReportRequest",
+  is(o: any): o is ReportRequest {
+    return o && (o.$typeUrl === ReportRequest.typeUrl || typeof o.serviceName === "string" && typeof o.serviceConfigId === "string" && Array.isArray(o.operations) && (!o.operations.length || AttributeContext.is(o.operations[0])));
+  },
+  isSDK(o: any): o is ReportRequestSDKType {
+    return o && (o.$typeUrl === ReportRequest.typeUrl || typeof o.service_name === "string" && typeof o.service_config_id === "string" && Array.isArray(o.operations) && (!o.operations.length || AttributeContext.isSDK(o.operations[0])));
+  },
   encode(message: ReportRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.serviceName !== "") {
       writer.uint32(10).string(message.serviceName);
@@ -901,11 +929,18 @@ export const ReportRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(ReportRequest.typeUrl, ReportRequest);
 function createBaseReportResponse(): ReportResponse {
   return {};
 }
 export const ReportResponse = {
   typeUrl: "/google.api.servicecontrol.v2.ReportResponse",
+  is(o: any): o is ReportResponse {
+    return o && o.$typeUrl === ReportResponse.typeUrl;
+  },
+  isSDK(o: any): o is ReportResponseSDKType {
+    return o && o.$typeUrl === ReportResponse.typeUrl;
+  },
   encode(_: ReportResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -968,3 +1003,4 @@ export const ReportResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(ReportResponse.typeUrl, ReportResponse);
