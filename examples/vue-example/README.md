@@ -29,60 +29,56 @@ This example demonstrates the usage of Vue composables provided by [@interchain-
 │   └── main.ts 
 ```
 ## Pages
+
 ### Asset List
-#### Compeletion Status
-- [x] Compeleted
-
-#### Functionalities
-`Wallet connect`, `Assets display`, `IBC transfer`
-
-#### Modules Used:
+- **Completion Status:** ✅ Completed  
+- **Functionalities:**  
+  - Wallet connect  
+  - Assets display  
+  - IBC transfer  
+- **Modules Used:**
 ```ts
 cosmos.bank.v1beta1.balance
 cosmos.bank.v1beta1.allBalances
 cosmos.staking.v1beta1.delegatorDelegations
-cosmos.staking.v1beta1.delegatorDelegations
 osmosis.gamm.v1beta1.pools
 ```
+
 ### Auth
-#### Compeletion Status
-- [x] Compeleted
-
-#### Functionalities
-`Vote permission granting`, `Send permission granting`, `Delegate permission granting`, `Claim rewards granting`
-
-#### Modules Used:
+- **Completion Status:** ✅ Completed  
+- **Functionalities:**  
+  - Vote permission granting 
+  - Send permission granting
+  - Delegate permission granting
+  - Claim rewards granting
+- **Modules Used:**
 ```ts
 cosmos.authz.v1beta1.useGranterGrants
 cosmos.authz.v1beta1.useGranteeGrants
 cosmos.staking.v1beta1.useValidators
 ```
+
 ### Voting
-#### Compeletion Status
-- [x] Compeleted
-
-#### Functionalities
-`Proposals display`, `Proposal voting`
-
-#### Modules Used:
+- **Completion Status:** ✅ Completed  
+- **Functionalities:**  
+  - Proposals display
+  - Proposal voting
+- **Modules Used:**
 ```ts
 cosmos.gov.v1.useProposals
 cosmos.gov.v1.useParams
 cosmos.gov.v1.useProposals
 cosmos.staking.v1beta1.usePools
 ```
+
 ### NFT
-#### Compeletion Status
-- [ ] In Progress...
+- **Completion Status:** ⏳ In Progress...
 
 ### Injective
-#### Compeletion Status
-- [ ] In Progress...
+- **Completion Status:** ⏳ In Progress...
 
 ### Rollkit
-#### Compeletion Status
-- [ ] In Progress...
+- **Completion Status:** ⏳ In Progress...
 
 ### Grpc Web & Grpc Gateway
-#### Compeletion Status
-- [ ] In Progress..
+- **Completion Status:** ⏳ In Progress...
