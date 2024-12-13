@@ -15,7 +15,7 @@ export const useGrants = (chainName: Ref<string>) => {
   });
 
   const hooks = createRpcQueryHooks(rpcClient)
-  const { data: granterGrants } = hooks.useGranterGrants<GrantAuthorization[]>({
+  const { data: granterGrants, refetch: refetchGranterGrants } = hooks.useGranterGrants<GrantAuthorization[]>({
     request: {
       granter: address
     },
@@ -25,7 +25,7 @@ export const useGrants = (chainName: Ref<string>) => {
     }
   })
 
-  const { data: granteeGrants } = hooks.useGranteeGrants<GrantAuthorization[]>({
+  const { data: granteeGrants, refetch: refetchGranteeGrants } = hooks.useGranteeGrants<GrantAuthorization[]>({
     request: {
       grantee: address
     },
@@ -45,6 +45,10 @@ export const useGrants = (chainName: Ref<string>) => {
 
   return {
     granteeGrants: granteeGrants$1,
-    granterGrants: granterGrants$1
+    granterGrants: granterGrants$1,
+    refetch: () => {
+      refetchGranteeGrants()
+      refetchGranterGrants()
+    }
   }
 }

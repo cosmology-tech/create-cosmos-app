@@ -36,7 +36,7 @@ This example demonstrates the usage of Vue composables provided by [@interchain-
   - Wallet connect  
   - Assets display  
   - IBC transfer  
-- **Modules Used:**
+- **Telescope generated `Vue Composables` Used:**
 ```ts
 cosmos.bank.v1beta1.balance
 cosmos.bank.v1beta1.allBalances
@@ -47,11 +47,11 @@ osmosis.gamm.v1beta1.pools
 ### Auth
 - **Completion Status:** ✅ Completed  
 - **Functionalities:**  
-  - Vote permission granting 
-  - Send permission granting
-  - Delegate permission granting
-  - Claim rewards granting
-- **Modules Used:**
+  - Vote permission granting and revoking
+  - Send permission granting and revoking
+  - Delegate permission granting and revoking
+  - Claim rewards granting and revoking
+- **Telescope generated `Vue Composables` Used:**
 ```ts
 cosmos.authz.v1beta1.useGranterGrants
 cosmos.authz.v1beta1.useGranteeGrants
@@ -63,7 +63,7 @@ cosmos.staking.v1beta1.useValidators
 - **Functionalities:**  
   - Proposals display
   - Proposal voting
-- **Modules Used:**
+- **Telescope generated `Vue Composables` Used:**
 ```ts
 cosmos.gov.v1.useProposals
 cosmos.gov.v1.useParams

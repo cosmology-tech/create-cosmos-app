@@ -21,6 +21,7 @@ type GrantModalProps = {
 const props = defineProps<GrantModalProps>()
 const emits = defineEmits<{
   (event: 'close'): void;
+  (event: 'ongrant'): void;
 }>()
 const chainName = ref(props.chainName)
 const { address } = useChain(chainName)
@@ -142,6 +143,23 @@ const onGrantClick = async() => {
         },
       }),
     }
+  } else if (selectedPermissionId.value === 'claim-rewards') {
+    msg = {
+      typeUrl: "/cosmos.authz.v1beta1.MsgGrant",
+      value: MsgGrant.fromPartial({
+        grantee: granteeAddress.value,
+        granter: address.value,
+        grant: {
+          authorization: {
+            typeUrl: "/cosmos.authz.v1beta1.GenericAuthorization",
+            value: GenericAuthorization.encode({
+              msg: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward'
+            }).finish(),
+          },
+          // expiration: new Date("2024-12-31"),
+        },
+      })
+    }
   }
 
   const res = await authzTx({
@@ -149,6 +167,7 @@ const onGrantClick = async() => {
   })
 
   console.log('res>>', res)
+  emits('ongrant')
 }
 </script>
 

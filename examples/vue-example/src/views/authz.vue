@@ -6,6 +6,7 @@ import GrantModal from '../components/authz/grant-modal.vue';
 
 const chainName = ref('osmosis')
 const isModalOpen = ref(false)
+const grantsRef = ref(null)
 
 enum GRANT_VALUES {
   GRANTEE = '0',
@@ -17,6 +18,14 @@ const options = [
   { value: GRANT_VALUES.GRANTEE, label: 'grants to me' },
   { value: GRANT_VALUES.GRANTER, label: 'grants by me' },
 ]
+
+const onGrant = () => {
+  if (grantsRef.value) {
+    // @ts-ignore
+    grantsRef.value?.refetch?.()
+    isModalOpen.value = false
+  }
+}
 
 const role = computed(() => {
   return activeOption.value === GRANT_VALUES.GRANTER ? 'granter' : 'grantee'
@@ -44,13 +53,15 @@ const role = computed(() => {
       <label :for="option.value">{{ option.label }}</label>
     </div>
   </Box>
-  <Grants 
+  <Grants
+    ref="grantsRef"
     :role="role"
     :chainName="chainName"
   />
   <GrantModal
     :isOpen="isModalOpen"
     :chainName="chainName"
+    @ongrant="onGrant"
     @close="isModalOpen = false"
   />
 </Box>

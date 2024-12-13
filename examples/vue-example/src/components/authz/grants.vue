@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, defineExpose } from 'vue'
 import { Box } from '@interchain-ui/vue';
 import { useGrants } from '../../composables/authz/useGrants';
 import GrantCard from './grant-card.vue';
@@ -10,9 +10,11 @@ type GrantsProps = {
 
 const props = defineProps<GrantsProps>()
 const chainName = ref(props.chainName)
-const { granteeGrants, granterGrants } = useGrants(chainName)
+const { granteeGrants, granterGrants, refetch } = useGrants(chainName)
 
-console.log('123', granteeGrants, granterGrants)
+defineExpose({
+  refetch
+})
 </script>
 
 <template>
@@ -35,6 +37,7 @@ console.log('123', granteeGrants, granterGrants)
     v-for="grant in granterGrants"
     :role="role"
     :grant="grant"
+    @revoke="refetch"
     :chainName="chainName"
   />
 </Box>

@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { Box, Stack, Text, IconButton, Button } from '@interchain-ui/vue';
+import { Box, Stack, Text, Button } from '@interchain-ui/vue';
 import { defineProps, ref, computed } from 'vue'
 import { useChain } from '@interchain-kit/vue';
 import { PrettyGrant, PrettyPermission } from '../../utils/authz/authz';
+import { MsgRevoke } from '../../codegen/cosmos/authz/v1beta1/tx';
+import { useAuthzTx } from '../../composables/authz/useAuthzTx';
 
 type GrantCardProps = {
   role: 'granter' | 'grantee';
@@ -11,18 +13,51 @@ type GrantCardProps = {
 };
 
 const props = defineProps<GrantCardProps>()
+const emits = defineEmits<{
+  (event: 'revoke'): void;
+}>()
+
 const chainName = ref(props.chainName)
 const { chain, logoUrl } = useChain(chainName)
-const isCopied = ref(false)
 const isRevoking = ref(false)
 const revokingPermission = ref()
+const { authzTx } = useAuthzTx(chainName)
 
 const isGranter = computed(() => {
   return props.role === 'granter'
 })
 
-const handleRevoke = (permission: PrettyPermission) => {
+const handleRevoke = async(permission: PrettyPermission) => {
+  console.log('permission>', permission)
   isRevoking.value = true
+  const { grantee, granter, name } = permission
+  let msgTypeUrl = ''
+  if (name === 'Delegate') {
+    msgTypeUrl = '/cosmos.staking.v1beta1.MsgDelegate'
+  } else if (name === 'Vote') {
+    msgTypeUrl = '/cosmos.gov.v1beta1.MsgVote'
+  } else if (name === 'Send') {
+    msgTypeUrl = '/cosmos.bank.v1beta1.MsgSend'
+  }
+  if (!msgTypeUrl) {
+    console.error('msgTypeUrl is empty.')
+    return;
+  }
+  isRevoking.value = true
+  let msg = {
+    typeUrl: "/cosmos.authz.v1beta1.MsgRevoke",
+    value: MsgRevoke.fromPartial({
+      grantee,
+      granter,
+      msgTypeUrl,
+    })
+  }
+  const res = await authzTx({
+    msgs: [msg],
+  })
+  isRevoking.value = false
+  console.log('revoke res>', res)
+  emits('revoke')
 }
 
 // const onViewDetails = () => {
@@ -47,14 +82,6 @@ const handleRevoke = (permission: PrettyPermission) => {
   <Box position="relative" mb="$10">
     {{ isGranter ? 'Grantee' : 'Granter' }}
     <input type="text" :value="grant.address "/>
-    <Box position="absolute" bottom="$2" right="$2">
-      <IconButton
-        :icon="isCopied ? 'checkLine' : 'copy'"
-        size="sm"
-        intent="secondary"
-        :iconSize="isCopied ? '$xl' : '$md'"
-      />
-    </Box>
     <Text
       color="$textSecondary"
       fontSize="$sm"
