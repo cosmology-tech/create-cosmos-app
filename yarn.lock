@@ -17181,32 +17181,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"asset-list-vue@workspace:examples/asset-list-vue":
-  version: 0.0.0-use.local
-  resolution: "asset-list-vue@workspace:examples/asset-list-vue"
-  dependencies:
-    "@chain-registry/v2": "npm:^1.71.44"
-    "@chain-registry/v2-types": "npm:^0.53.20"
-    "@cosmjs/amino": "npm:^0.32.4"
-    "@cosmjs/stargate": "npm:^0.32.4"
-    "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
-    "@interchain-kit/core": "npm:^0.0.1-beta.39"
-    "@interchain-kit/keplr-extension": "npm:^0.0.1-beta.39"
-    "@interchain-kit/leap-extension": "npm:^0.0.1-beta.39"
-    "@interchain-kit/vue": "npm:^0.0.1-beta.38"
-    "@interchain-ui/vue": "npm:^1.4.1"
-    "@tanstack/vue-query": "npm:^5.7.2"
-    "@vitejs/plugin-vue": "npm:^5.2.1"
-    interchainjs: "npm:0.0.1-beta.36"
-    osmojs: "npm:^16.15.0"
-    typescript: "npm:~5.6.2"
-    vite: "npm:^6.0.0"
-    vue: "npm:^3.5.13"
-    vue-router: "npm:^4.5.0"
-    vue-tsc: "npm:^2.1.10"
-  languageName: unknown
-  linkType: soft
-
 "ast-stringify@npm:0.1.0":
   version: 0.1.0
   resolution: "ast-stringify@npm:0.1.0"
@@ -32178,6 +32152,32 @@ __metadata:
   checksum: 10c0/a9ed8712fa36d01bc13c39757f95f30cebf42d557b99e94bff86d8660c81f2911b41220f7affc023d1ffcc19e13999e4a83019991e264787cca2c616e83aea48
   languageName: node
   linkType: hard
+
+"vue-example@workspace:examples/vue-example":
+  version: 0.0.0-use.local
+  resolution: "vue-example@workspace:examples/vue-example"
+  dependencies:
+    "@chain-registry/v2": "npm:^1.71.44"
+    "@chain-registry/v2-types": "npm:^0.53.20"
+    "@cosmjs/amino": "npm:^0.32.4"
+    "@cosmjs/stargate": "npm:^0.32.4"
+    "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
+    "@interchain-kit/core": "npm:^0.0.1-beta.39"
+    "@interchain-kit/keplr-extension": "npm:^0.0.1-beta.39"
+    "@interchain-kit/leap-extension": "npm:^0.0.1-beta.39"
+    "@interchain-kit/vue": "npm:^0.0.1-beta.38"
+    "@interchain-ui/vue": "npm:^1.4.1"
+    "@tanstack/vue-query": "npm:^5.7.2"
+    "@vitejs/plugin-vue": "npm:^5.2.1"
+    interchainjs: "npm:0.0.1-beta.36"
+    osmojs: "npm:^16.15.0"
+    typescript: "npm:~5.6.2"
+    vite: "npm:^6.0.0"
+    vue: "npm:^3.5.13"
+    vue-router: "npm:^4.5.0"
+    vue-tsc: "npm:^2.1.10"
+  languageName: unknown
+  linkType: soft
 
 "vue-final-modal@npm:^4.5.4":
   version: 4.5.5
