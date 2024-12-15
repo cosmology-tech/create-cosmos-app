@@ -10,15 +10,15 @@ import { chain as cosmoshubChain, assetList as cosmoshubAssetList } from "@chain
 import { chain as stargazeChain, assetList as stargazeAssetList } from "@chain-registry/v2/mainnet/stargaze";
 import { chain as xplaChain, assetList as xplaAssetList} from "@chain-registry/v2/mainnet/xpla"
 import { chain as osmosisTestChain, assetList as osmosisTestAssetList } from "@chain-registry/v2/testnet/osmosistestnet"
-
+import { chain as injectiveChain, assetList as injectiveAssetList } from "@chain-registry/v2/mainnet/injective"
 </script>
 
 <template>
   <ThemeProvider>
     <ChainProvider 
       :wallets="[keplrWallet, leapWallet]"
-      :chains="[osmosisChain, junoChain, cosmoshubChain, stargazeChain, xplaChain,, osmosisTestChain]"
-      :asset-lists="[osmosisAssetList, junoAssetList, cosmoshubAssetList, stargazeAssetList, xplaAssetList, osmosisTestAssetList]" :signer-options="{}"
+      :chains="[osmosisChain, junoChain, cosmoshubChain, stargazeChain, xplaChain, osmosisTestChain, injectiveChain]"
+      :asset-lists="[osmosisAssetList, junoAssetList, cosmoshubAssetList, stargazeAssetList, xplaAssetList, osmosisTestAssetList, injectiveAssetList]" :signer-options="{}"
       :endpoint-options="{}">
       <router-view />
     </ChainProvider>

@@ -13,7 +13,8 @@ This example demonstrates the usage of Vue composables provided by [@interchain-
 │   │   ├── authz/
 │   │   ├── voting/
 │   │   ├── useAssets.ts          # get assets by chainName
-│   │   └── useStargazeClient.ts  # get signingStargazeClient by chainName
+│   │   ├── useInjectiveClient.ts # get injective signing client by chainName
+│   │   └── useStargazeClient.ts  # get stargaze signing client by chainName
 │   ├── utils/
 │   │   ├── asset-list/
 │   │   ├── authz/
@@ -38,12 +39,12 @@ This example demonstrates the usage of Vue composables provided by [@interchain-
   - IBC transfer  
 - **Telescope generated `Vue Composables` Used:**
 ```ts
-cosmos.bank.v1beta1.balance
-cosmos.bank.v1beta1.allBalances
-cosmos.staking.v1beta1.delegatorDelegations
-osmosis.gamm.v1beta1.pools
+cosmos.bank.v1beta1.useBalance
+cosmos.bank.v1beta1.useAllBalances
+cosmos.staking.v1beta1.useDelegatorDelegations
+osmosis.gamm.v1beta1.usePools
 ```
-- **`signAndBroadcast`ed `msgType`s :**
+- **`msgType`s been signAndBroadcasted:**
 ```ts
 /ibc.applications.transfer.v1.MsgTransfer
 ```
@@ -61,7 +62,7 @@ cosmos.authz.v1beta1.useGranterGrants
 cosmos.authz.v1beta1.useGranteeGrants
 cosmos.staking.v1beta1.useValidators
 ```
-- **`signAndBroadcast`ed `msgType`s :**
+- **`msgType`s been signAndBroadcasted:**
 ```ts
 /cosmos.authz.v1beta1.MsgRevoke
 /cosmos.authz.v1beta1.MsgGrant
@@ -79,15 +80,26 @@ cosmos.gov.v1.useParams
 cosmos.gov.v1.useProposals
 cosmos.staking.v1beta1.usePools
 ```
-- **`signAndBroadcast`ed `msgType`s :**
+- **`msgType`s been signAndBroadcasted:**
 ```ts
 /cosmos.gov.v1.MsgVote
 ```
 
-### NFT
-- **Completion Status:** ⏳ In Progress...
-
 ### Injective
+- **Completion Status:** ✅ Completed 
+- **Functionalities:**  
+  - inj balance display
+  - inj tokens transfer
+- **Telescope generated `Vue Composables` Used:**
+```ts
+cosmos.bank.v1beta1.useBalance
+```
+- **`msgType`s been signAndBroadcasted:**
+```ts
+/cosmos.bank.v1beta1.MsgSend
+```
+
+### NFT
 - **Completion Status:** ⏳ In Progress...
 
 ### Rollkit
