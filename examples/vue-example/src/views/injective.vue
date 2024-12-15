@@ -2,7 +2,6 @@
 import { Box, Button, Text, Link } from '@interchain-ui/vue'
 import { computed, ref } from 'vue'
 import { useBalance } from '../composables/injective/useBalance';
-import { } from 'interchainjs/signing-client'
 import { useChain } from '@interchain-kit/vue';
 import { cosmos } from '../codegen';
 import { useInjectiveClient } from '../composables/useInjectiveClient';

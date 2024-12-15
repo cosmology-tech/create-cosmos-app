@@ -44,7 +44,7 @@ cosmos.bank.v1beta1.useAllBalances
 cosmos.staking.v1beta1.useDelegatorDelegations
 osmosis.gamm.v1beta1.usePools
 ```
-- **`msgType`s been signAndBroadcasted:**
+- **`msgType`s are signAndBroadcasted:**
 ```ts
 /ibc.applications.transfer.v1.MsgTransfer
 ```
@@ -62,7 +62,7 @@ cosmos.authz.v1beta1.useGranterGrants
 cosmos.authz.v1beta1.useGranteeGrants
 cosmos.staking.v1beta1.useValidators
 ```
-- **`msgType`s been signAndBroadcasted:**
+- **`msgType`s are signAndBroadcasted:**
 ```ts
 /cosmos.authz.v1beta1.MsgRevoke
 /cosmos.authz.v1beta1.MsgGrant
@@ -80,7 +80,7 @@ cosmos.gov.v1.useParams
 cosmos.gov.v1.useProposals
 cosmos.staking.v1beta1.usePools
 ```
-- **`msgType`s been signAndBroadcasted:**
+- **`msgType`s are signAndBroadcasted:**
 ```ts
 /cosmos.gov.v1.MsgVote
 ```
@@ -94,7 +94,7 @@ cosmos.staking.v1beta1.usePools
 ```ts
 cosmos.bank.v1beta1.useBalance
 ```
-- **`msgType`s been signAndBroadcasted:**
+- **`msgType`s are signAndBroadcasted:**
 ```ts
 /cosmos.bank.v1beta1.MsgSend
 ```
