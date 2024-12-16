@@ -2,7 +2,10 @@ import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } fr
 import { GroupInfo, GroupInfoSDKType, GroupPolicyInfo, GroupPolicyInfoSDKType, GroupMember, GroupMemberSDKType, Proposal, ProposalSDKType, Vote, VoteSDKType, TallyResult, TallyResultSDKType } from "./types";
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { VueQueryParams } from "../../../vue-query";
+import { ComputedRef, computed, Ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
 import { QueryGroupInfoRequest, QueryGroupInfoRequestSDKType, QueryGroupInfoResponse, QueryGroupInfoResponseSDKType, QueryGroupPolicyInfoRequest, QueryGroupPolicyInfoRequestSDKType, QueryGroupPolicyInfoResponse, QueryGroupPolicyInfoResponseSDKType, QueryGroupMembersRequest, QueryGroupMembersRequestSDKType, QueryGroupMembersResponse, QueryGroupMembersResponseSDKType, QueryGroupsByAdminRequest, QueryGroupsByAdminRequestSDKType, QueryGroupsByAdminResponse, QueryGroupsByAdminResponseSDKType, QueryGroupPoliciesByGroupRequest, QueryGroupPoliciesByGroupRequestSDKType, QueryGroupPoliciesByGroupResponse, QueryGroupPoliciesByGroupResponseSDKType, QueryGroupPoliciesByAdminRequest, QueryGroupPoliciesByAdminRequestSDKType, QueryGroupPoliciesByAdminResponse, QueryGroupPoliciesByAdminResponseSDKType, QueryProposalRequest, QueryProposalRequestSDKType, QueryProposalResponse, QueryProposalResponseSDKType, QueryProposalsByGroupPolicyRequest, QueryProposalsByGroupPolicyRequestSDKType, QueryProposalsByGroupPolicyResponse, QueryProposalsByGroupPolicyResponseSDKType, QueryVoteByProposalVoterRequest, QueryVoteByProposalVoterRequestSDKType, QueryVoteByProposalVoterResponse, QueryVoteByProposalVoterResponseSDKType, QueryVotesByProposalRequest, QueryVotesByProposalRequestSDKType, QueryVotesByProposalResponse, QueryVotesByProposalResponseSDKType, QueryVotesByVoterRequest, QueryVotesByVoterRequestSDKType, QueryVotesByVoterResponse, QueryVotesByVoterResponseSDKType, QueryGroupsByMemberRequest, QueryGroupsByMemberRequestSDKType, QueryGroupsByMemberResponse, QueryGroupsByMemberResponseSDKType, QueryTallyResultRequest, QueryTallyResultRequestSDKType, QueryTallyResultResponse, QueryTallyResultResponseSDKType, ReactiveQueryGroupInfoRequest, ReactiveQueryGroupPolicyInfoRequest, ReactiveQueryGroupMembersRequest, ReactiveQueryGroupsByAdminRequest, ReactiveQueryGroupPoliciesByGroupRequest, ReactiveQueryGroupPoliciesByAdminRequest, ReactiveQueryProposalRequest, ReactiveQueryProposalsByGroupPolicyRequest, ReactiveQueryVoteByProposalVoterRequest, ReactiveQueryVotesByProposalRequest, ReactiveQueryVotesByVoterRequest, ReactiveQueryGroupsByMemberRequest, ReactiveQueryTallyResultRequest } from "./query";
 /** Query is the cosmos.group.v1 Query service. */
 export interface Query {
@@ -160,5 +163,400 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     tallyResult(request: QueryTallyResultRequest): Promise<QueryTallyResultResponse> {
       return queryService.tallyResult(request);
     }
+  };
+};
+export interface UseGroupInfoQuery<TData> extends VueQueryParams<QueryGroupInfoResponse, TData> {
+  request: ReactiveQueryGroupInfoRequest;
+}
+export interface UseGroupPolicyInfoQuery<TData> extends VueQueryParams<QueryGroupPolicyInfoResponse, TData> {
+  request: ReactiveQueryGroupPolicyInfoRequest;
+}
+export interface UseGroupMembersQuery<TData> extends VueQueryParams<QueryGroupMembersResponse, TData> {
+  request: ReactiveQueryGroupMembersRequest;
+}
+export interface UseGroupsByAdminQuery<TData> extends VueQueryParams<QueryGroupsByAdminResponse, TData> {
+  request: ReactiveQueryGroupsByAdminRequest;
+}
+export interface UseGroupPoliciesByGroupQuery<TData> extends VueQueryParams<QueryGroupPoliciesByGroupResponse, TData> {
+  request: ReactiveQueryGroupPoliciesByGroupRequest;
+}
+export interface UseGroupPoliciesByAdminQuery<TData> extends VueQueryParams<QueryGroupPoliciesByAdminResponse, TData> {
+  request: ReactiveQueryGroupPoliciesByAdminRequest;
+}
+export interface UseProposalQuery<TData> extends VueQueryParams<QueryProposalResponse, TData> {
+  request: ReactiveQueryProposalRequest;
+}
+export interface UseProposalsByGroupPolicyQuery<TData> extends VueQueryParams<QueryProposalsByGroupPolicyResponse, TData> {
+  request: ReactiveQueryProposalsByGroupPolicyRequest;
+}
+export interface UseVoteByProposalVoterQuery<TData> extends VueQueryParams<QueryVoteByProposalVoterResponse, TData> {
+  request: ReactiveQueryVoteByProposalVoterRequest;
+}
+export interface UseVotesByProposalQuery<TData> extends VueQueryParams<QueryVotesByProposalResponse, TData> {
+  request: ReactiveQueryVotesByProposalRequest;
+}
+export interface UseVotesByVoterQuery<TData> extends VueQueryParams<QueryVotesByVoterResponse, TData> {
+  request: ReactiveQueryVotesByVoterRequest;
+}
+export interface UseGroupsByMemberQuery<TData> extends VueQueryParams<QueryGroupsByMemberResponse, TData> {
+  request: ReactiveQueryGroupsByMemberRequest;
+}
+export interface UseTallyResultQuery<TData> extends VueQueryParams<QueryTallyResultResponse, TData> {
+  request: ReactiveQueryTallyResultRequest;
+}
+export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+  const _queryClients = new WeakMap();
+  return computed(() => {
+    if (rpc.value) {
+      if (_queryClients.has(rpc.value)) {
+        return _queryClients.get(rpc.value);
+      }
+      const queryService = new QueryClientImpl(rpc.value);
+      _queryClients.set(rpc.value, queryService);
+      return queryService;
+    }
+  });
+};
+export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => {
+  const queryService = useQueryService(rpc);
+  const useGroupInfo = <TData = QueryGroupInfoResponse,>({
+    request,
+    options
+  }: UseGroupInfoQuery<TData>) => {
+    const queryKey = ["groupInfoQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGroupInfoResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.groupInfo(params);
+      },
+      ...options
+    });
+  };
+  const useGroupPolicyInfo = <TData = QueryGroupPolicyInfoResponse,>({
+    request,
+    options
+  }: UseGroupPolicyInfoQuery<TData>) => {
+    const queryKey = ["groupPolicyInfoQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGroupPolicyInfoResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.groupPolicyInfo(params);
+      },
+      ...options
+    });
+  };
+  const useGroupMembers = <TData = QueryGroupMembersResponse,>({
+    request,
+    options
+  }: UseGroupMembersQuery<TData>) => {
+    const queryKey = ["groupMembersQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGroupMembersResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.groupMembers(params);
+      },
+      ...options
+    });
+  };
+  const useGroupsByAdmin = <TData = QueryGroupsByAdminResponse,>({
+    request,
+    options
+  }: UseGroupsByAdminQuery<TData>) => {
+    const queryKey = ["groupsByAdminQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGroupsByAdminResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.groupsByAdmin(params);
+      },
+      ...options
+    });
+  };
+  const useGroupPoliciesByGroup = <TData = QueryGroupPoliciesByGroupResponse,>({
+    request,
+    options
+  }: UseGroupPoliciesByGroupQuery<TData>) => {
+    const queryKey = ["groupPoliciesByGroupQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGroupPoliciesByGroupResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.groupPoliciesByGroup(params);
+      },
+      ...options
+    });
+  };
+  const useGroupPoliciesByAdmin = <TData = QueryGroupPoliciesByAdminResponse,>({
+    request,
+    options
+  }: UseGroupPoliciesByAdminQuery<TData>) => {
+    const queryKey = ["groupPoliciesByAdminQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGroupPoliciesByAdminResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.groupPoliciesByAdmin(params);
+      },
+      ...options
+    });
+  };
+  const useProposal = <TData = QueryProposalResponse,>({
+    request,
+    options
+  }: UseProposalQuery<TData>) => {
+    const queryKey = ["proposalQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryProposalResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.proposal(params);
+      },
+      ...options
+    });
+  };
+  const useProposalsByGroupPolicy = <TData = QueryProposalsByGroupPolicyResponse,>({
+    request,
+    options
+  }: UseProposalsByGroupPolicyQuery<TData>) => {
+    const queryKey = ["proposalsByGroupPolicyQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryProposalsByGroupPolicyResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.proposalsByGroupPolicy(params);
+      },
+      ...options
+    });
+  };
+  const useVoteByProposalVoter = <TData = QueryVoteByProposalVoterResponse,>({
+    request,
+    options
+  }: UseVoteByProposalVoterQuery<TData>) => {
+    const queryKey = ["voteByProposalVoterQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryVoteByProposalVoterResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.voteByProposalVoter(params);
+      },
+      ...options
+    });
+  };
+  const useVotesByProposal = <TData = QueryVotesByProposalResponse,>({
+    request,
+    options
+  }: UseVotesByProposalQuery<TData>) => {
+    const queryKey = ["votesByProposalQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryVotesByProposalResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.votesByProposal(params);
+      },
+      ...options
+    });
+  };
+  const useVotesByVoter = <TData = QueryVotesByVoterResponse,>({
+    request,
+    options
+  }: UseVotesByVoterQuery<TData>) => {
+    const queryKey = ["votesByVoterQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryVotesByVoterResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.votesByVoter(params);
+      },
+      ...options
+    });
+  };
+  const useGroupsByMember = <TData = QueryGroupsByMemberResponse,>({
+    request,
+    options
+  }: UseGroupsByMemberQuery<TData>) => {
+    const queryKey = ["groupsByMemberQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGroupsByMemberResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.groupsByMember(params);
+      },
+      ...options
+    });
+  };
+  const useTallyResult = <TData = QueryTallyResultResponse,>({
+    request,
+    options
+  }: UseTallyResultQuery<TData>) => {
+    const queryKey = ["tallyResultQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryTallyResultResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.tallyResult(params);
+      },
+      ...options
+    });
+  };
+  return {
+    /** GroupInfo queries group info based on group id. */useGroupInfo,
+    /** GroupPolicyInfo queries group policy info based on account address of group policy. */useGroupPolicyInfo,
+    /** GroupMembers queries members of a group */useGroupMembers,
+    /** GroupsByAdmin queries groups by admin address. */useGroupsByAdmin,
+    /** GroupPoliciesByGroup queries group policies by group id. */useGroupPoliciesByGroup,
+    /** GroupsByAdmin queries group policies by admin address. */useGroupPoliciesByAdmin,
+    /** Proposal queries a proposal based on proposal id. */useProposal,
+    /** ProposalsByGroupPolicy queries proposals based on account address of group policy. */useProposalsByGroupPolicy,
+    /** VoteByProposalVoter queries a vote by proposal id and voter. */useVoteByProposalVoter,
+    /** VotesByProposal queries a vote by proposal. */useVotesByProposal,
+    /** VotesByVoter queries a vote by voter. */useVotesByVoter,
+    /** GroupsByMember queries groups by member address. */useGroupsByMember,
+    /** TallyResult queries the tally of a proposal votes. */useTallyResult
   };
 };

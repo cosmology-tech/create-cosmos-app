@@ -1,10 +1,10 @@
 import { useChain } from '@interchain-kit/vue'
 import { Ref, computed } from 'vue'
-import { useRpcClient } from '../../codegen'
-import { cosmos } from '../../codegen'
-import { createRpcQueryHooks } from '../../codegen/cosmos/staking/v1beta1/query.rpc.Query'
+import { useRpcClient } from '../codegen'
+import { cosmos } from '../codegen'
+import { createRpcQueryHooks } from '../codegen/cosmos/staking/v1beta1/query.rpc.Query'
 import BigNumber from 'bignumber.js';
-import { parseValidators } from '../../utils/authz/staking'
+import { parseValidators } from '../utils/authz/staking'
 
 export const useValidators = (chainName: Ref<string>) => {
   const { rpcEndpoint, address } = useChain(chainName)
@@ -48,7 +48,6 @@ export const useValidators = (chainName: Ref<string>) => {
       staleTime: Infinity,
     },
   })
-  console.log('data>>', data)
 
   return {
     validators: computed(() => data.value)

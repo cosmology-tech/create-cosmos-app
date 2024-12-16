@@ -3,7 +3,10 @@ import { Any, AnySDKType } from "../../../google/protobuf/any";
 import { Params, ParamsSDKType, BaseAccount, BaseAccountSDKType, ModuleAccount, ModuleAccountSDKType } from "./auth";
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { VueQueryParams } from "../../../vue-query";
+import { ComputedRef, computed, Ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
 import { QueryAccountsRequest, QueryAccountsRequestSDKType, QueryAccountsResponse, QueryAccountsResponseSDKType, QueryAccountRequest, QueryAccountRequestSDKType, QueryAccountResponse, QueryAccountResponseSDKType, QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, QueryModuleAccountsRequest, QueryModuleAccountsRequestSDKType, QueryModuleAccountsResponse, QueryModuleAccountsResponseSDKType, Bech32PrefixRequest, Bech32PrefixRequestSDKType, Bech32PrefixResponse, Bech32PrefixResponseSDKType, AddressBytesToStringRequest, AddressBytesToStringRequestSDKType, AddressBytesToStringResponse, AddressBytesToStringResponseSDKType, AddressStringToBytesRequest, AddressStringToBytesRequestSDKType, AddressStringToBytesResponse, AddressStringToBytesResponseSDKType, ReactiveQueryAccountsRequest, ReactiveQueryAccountRequest, ReactiveQueryParamsRequest, ReactiveQueryModuleAccountsRequest, ReactiveBech32PrefixRequest, ReactiveAddressBytesToStringRequest, ReactiveAddressStringToBytesRequest } from "./query";
 /** Query defines the gRPC querier service. */
 export interface Query {
@@ -101,5 +104,231 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     addressStringToBytes(request: AddressStringToBytesRequest): Promise<AddressStringToBytesResponse> {
       return queryService.addressStringToBytes(request);
     }
+  };
+};
+export interface UseAccountsQuery<TData> extends VueQueryParams<QueryAccountsResponse, TData> {
+  request?: ReactiveQueryAccountsRequest;
+}
+export interface UseAccountQuery<TData> extends VueQueryParams<QueryAccountResponse, TData> {
+  request: ReactiveQueryAccountRequest;
+}
+export interface UseParamsQuery<TData> extends VueQueryParams<QueryParamsResponse, TData> {
+  request?: ReactiveQueryParamsRequest;
+}
+export interface UseModuleAccountsQuery<TData> extends VueQueryParams<QueryModuleAccountsResponse, TData> {
+  request?: ReactiveQueryModuleAccountsRequest;
+}
+export interface UseBech32PrefixQuery<TData> extends VueQueryParams<Bech32PrefixResponse, TData> {
+  request?: ReactiveBech32PrefixRequest;
+}
+export interface UseAddressBytesToStringQuery<TData> extends VueQueryParams<AddressBytesToStringResponse, TData> {
+  request: ReactiveAddressBytesToStringRequest;
+}
+export interface UseAddressStringToBytesQuery<TData> extends VueQueryParams<AddressStringToBytesResponse, TData> {
+  request: ReactiveAddressStringToBytesRequest;
+}
+export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+  const _queryClients = new WeakMap();
+  return computed(() => {
+    if (rpc.value) {
+      if (_queryClients.has(rpc.value)) {
+        return _queryClients.get(rpc.value);
+      }
+      const queryService = new QueryClientImpl(rpc.value);
+      _queryClients.set(rpc.value, queryService);
+      return queryService;
+    }
+  });
+};
+export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => {
+  const queryService = useQueryService(rpc);
+  const useAccounts = <TData = QueryAccountsResponse,>({
+    request,
+    options
+  }: UseAccountsQuery<TData>) => {
+    const queryKey = ["accountsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryAccountsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.accounts(params);
+      },
+      ...options
+    });
+  };
+  const useAccount = <TData = QueryAccountResponse,>({
+    request,
+    options
+  }: UseAccountQuery<TData>) => {
+    const queryKey = ["accountQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryAccountResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.account(params);
+      },
+      ...options
+    });
+  };
+  const useParams = <TData = QueryParamsResponse,>({
+    request,
+    options
+  }: UseParamsQuery<TData>) => {
+    const queryKey = ["paramsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryParamsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.params(params);
+      },
+      ...options
+    });
+  };
+  const useModuleAccounts = <TData = QueryModuleAccountsResponse,>({
+    request,
+    options
+  }: UseModuleAccountsQuery<TData>) => {
+    const queryKey = ["moduleAccountsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryModuleAccountsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.moduleAccounts(params);
+      },
+      ...options
+    });
+  };
+  const useBech32Prefix = <TData = Bech32PrefixResponse,>({
+    request,
+    options
+  }: UseBech32PrefixQuery<TData>) => {
+    const queryKey = ["bech32PrefixQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<Bech32PrefixResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.bech32Prefix(params);
+      },
+      ...options
+    });
+  };
+  const useAddressBytesToString = <TData = AddressBytesToStringResponse,>({
+    request,
+    options
+  }: UseAddressBytesToStringQuery<TData>) => {
+    const queryKey = ["addressBytesToStringQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<AddressBytesToStringResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.addressBytesToString(params);
+      },
+      ...options
+    });
+  };
+  const useAddressStringToBytes = <TData = AddressStringToBytesResponse,>({
+    request,
+    options
+  }: UseAddressStringToBytesQuery<TData>) => {
+    const queryKey = ["addressStringToBytesQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<AddressStringToBytesResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.addressStringToBytes(params);
+      },
+      ...options
+    });
+  };
+  return {
+    /**
+     * Accounts returns all the existing accounts
+     * 
+     * Since: cosmos-sdk 0.43
+     */
+    useAccounts,
+    /** Account returns account details based on address. */useAccount,
+    /** Params queries all parameters. */useParams,
+    /** ModuleAccounts returns all the existing module accounts. */useModuleAccounts,
+    /** Bech32 queries bech32Prefix */useBech32Prefix,
+    /** AddressBytesToString converts Account Address bytes to string */useAddressBytesToString,
+    /** AddressStringToBytes converts Address string to bytes */useAddressStringToBytes
   };
 };

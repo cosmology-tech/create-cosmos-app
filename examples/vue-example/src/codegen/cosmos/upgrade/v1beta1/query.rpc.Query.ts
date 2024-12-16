@@ -1,7 +1,10 @@
 import { Plan, PlanSDKType, ModuleVersion, ModuleVersionSDKType } from "./upgrade";
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { VueQueryParams } from "../../../vue-query";
+import { ComputedRef, computed, Ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
 import { QueryCurrentPlanRequest, QueryCurrentPlanRequestSDKType, QueryCurrentPlanResponse, QueryCurrentPlanResponseSDKType, QueryAppliedPlanRequest, QueryAppliedPlanRequestSDKType, QueryAppliedPlanResponse, QueryAppliedPlanResponseSDKType, QueryUpgradedConsensusStateRequest, QueryUpgradedConsensusStateRequestSDKType, QueryUpgradedConsensusStateResponse, QueryUpgradedConsensusStateResponseSDKType, QueryModuleVersionsRequest, QueryModuleVersionsRequestSDKType, QueryModuleVersionsResponse, QueryModuleVersionsResponseSDKType, QueryAuthorityRequest, QueryAuthorityRequestSDKType, QueryAuthorityResponse, QueryAuthorityResponseSDKType, ReactiveQueryCurrentPlanRequest, ReactiveQueryAppliedPlanRequest, ReactiveQueryUpgradedConsensusStateRequest, ReactiveQueryModuleVersionsRequest, ReactiveQueryAuthorityRequest } from "./query";
 /** Query defines the gRPC upgrade querier service. */
 export interface Query {
@@ -82,5 +85,181 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     authority(request?: QueryAuthorityRequest): Promise<QueryAuthorityResponse> {
       return queryService.authority(request);
     }
+  };
+};
+export interface UseCurrentPlanQuery<TData> extends VueQueryParams<QueryCurrentPlanResponse, TData> {
+  request?: ReactiveQueryCurrentPlanRequest;
+}
+export interface UseAppliedPlanQuery<TData> extends VueQueryParams<QueryAppliedPlanResponse, TData> {
+  request: ReactiveQueryAppliedPlanRequest;
+}
+export interface UseUpgradedConsensusStateQuery<TData> extends VueQueryParams<QueryUpgradedConsensusStateResponse, TData> {
+  request: ReactiveQueryUpgradedConsensusStateRequest;
+}
+export interface UseModuleVersionsQuery<TData> extends VueQueryParams<QueryModuleVersionsResponse, TData> {
+  request: ReactiveQueryModuleVersionsRequest;
+}
+export interface UseAuthorityQuery<TData> extends VueQueryParams<QueryAuthorityResponse, TData> {
+  request?: ReactiveQueryAuthorityRequest;
+}
+export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+  const _queryClients = new WeakMap();
+  return computed(() => {
+    if (rpc.value) {
+      if (_queryClients.has(rpc.value)) {
+        return _queryClients.get(rpc.value);
+      }
+      const queryService = new QueryClientImpl(rpc.value);
+      _queryClients.set(rpc.value, queryService);
+      return queryService;
+    }
+  });
+};
+export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => {
+  const queryService = useQueryService(rpc);
+  const useCurrentPlan = <TData = QueryCurrentPlanResponse,>({
+    request,
+    options
+  }: UseCurrentPlanQuery<TData>) => {
+    const queryKey = ["currentPlanQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryCurrentPlanResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.currentPlan(params);
+      },
+      ...options
+    });
+  };
+  const useAppliedPlan = <TData = QueryAppliedPlanResponse,>({
+    request,
+    options
+  }: UseAppliedPlanQuery<TData>) => {
+    const queryKey = ["appliedPlanQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryAppliedPlanResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.appliedPlan(params);
+      },
+      ...options
+    });
+  };
+  const useUpgradedConsensusState = <TData = QueryUpgradedConsensusStateResponse,>({
+    request,
+    options
+  }: UseUpgradedConsensusStateQuery<TData>) => {
+    const queryKey = ["upgradedConsensusStateQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryUpgradedConsensusStateResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.upgradedConsensusState(params);
+      },
+      ...options
+    });
+  };
+  const useModuleVersions = <TData = QueryModuleVersionsResponse,>({
+    request,
+    options
+  }: UseModuleVersionsQuery<TData>) => {
+    const queryKey = ["moduleVersionsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryModuleVersionsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.moduleVersions(params);
+      },
+      ...options
+    });
+  };
+  const useAuthority = <TData = QueryAuthorityResponse,>({
+    request,
+    options
+  }: UseAuthorityQuery<TData>) => {
+    const queryKey = ["authorityQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryAuthorityResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.authority(params);
+      },
+      ...options
+    });
+  };
+  return {
+    /** CurrentPlan queries the current upgrade plan. */useCurrentPlan,
+    /** AppliedPlan queries a previously applied upgrade plan by its name. */useAppliedPlan,
+    /**
+     * UpgradedConsensusState queries the consensus state that will serve
+     * as a trusted kernel for the next version of this chain. It will only be
+     * stored at the last height of this chain.
+     * UpgradedConsensusState RPC not supported with legacy querier
+     * This rpc is deprecated now that IBC has its own replacement
+     * (https://github.com/cosmos/ibc-go/blob/2c880a22e9f9cc75f62b527ca94aa75ce1106001/proto/ibc/core/client/v1/query.proto#L54)
+     */
+    useUpgradedConsensusState,
+    /**
+     * ModuleVersions queries the list of module versions from state.
+     * 
+     * Since: cosmos-sdk 0.43
+     */
+    useModuleVersions,
+    /** Returns the account with authority to conduct upgrades */useAuthority
   };
 };

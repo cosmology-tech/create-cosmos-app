@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 import { SendAuthorization } from "../../codegen/cosmos/bank/v1beta1/authz";
 import { GenericAuthorization } from 'osmojs/cosmos/authz/v1beta1/authz';
 import { MsgGrant } from '../../codegen/cosmos/authz/v1beta1/tx';
-import { useValidators } from '../../composables/authz/useValidators';
+import { useValidators } from '../../composables/useValidators';
 import { AuthorizationType, StakeAuthorization } from '../../codegen/cosmos/staking/v1beta1/authz';
 
 type GrantModalProps = {

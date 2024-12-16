@@ -2,7 +2,10 @@ import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } fr
 import { NFT, NFTSDKType, Class, ClassSDKType } from "./nft";
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { VueQueryParams } from "../../../vue-query";
+import { ComputedRef, computed, Ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
 import { QueryBalanceRequest, QueryBalanceRequestSDKType, QueryBalanceResponse, QueryBalanceResponseSDKType, QueryOwnerRequest, QueryOwnerRequestSDKType, QueryOwnerResponse, QueryOwnerResponseSDKType, QuerySupplyRequest, QuerySupplyRequestSDKType, QuerySupplyResponse, QuerySupplyResponseSDKType, QueryNFTsRequest, QueryNFTsRequestSDKType, QueryNFTsResponse, QueryNFTsResponseSDKType, QueryNFTRequest, QueryNFTRequestSDKType, QueryNFTResponse, QueryNFTResponseSDKType, QueryClassRequest, QueryClassRequestSDKType, QueryClassResponse, QueryClassResponseSDKType, QueryClassesRequest, QueryClassesRequestSDKType, QueryClassesResponse, QueryClassesResponseSDKType, ReactiveQueryBalanceRequest, ReactiveQueryOwnerRequest, ReactiveQuerySupplyRequest, ReactiveQueryNFTsRequest, ReactiveQueryNFTRequest, ReactiveQueryClassRequest, ReactiveQueryClassesRequest } from "./query";
 /** Query defines the gRPC querier service. */
 export interface Query {
@@ -99,5 +102,230 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     classes(request?: QueryClassesRequest): Promise<QueryClassesResponse> {
       return queryService.classes(request);
     }
+  };
+};
+export interface UseBalanceQuery<TData> extends VueQueryParams<QueryBalanceResponse, TData> {
+  request: ReactiveQueryBalanceRequest;
+}
+export interface UseOwnerQuery<TData> extends VueQueryParams<QueryOwnerResponse, TData> {
+  request: ReactiveQueryOwnerRequest;
+}
+export interface UseSupplyQuery<TData> extends VueQueryParams<QuerySupplyResponse, TData> {
+  request: ReactiveQuerySupplyRequest;
+}
+export interface UseNFTsQuery<TData> extends VueQueryParams<QueryNFTsResponse, TData> {
+  request: ReactiveQueryNFTsRequest;
+}
+export interface UseNFTQuery<TData> extends VueQueryParams<QueryNFTResponse, TData> {
+  request: ReactiveQueryNFTRequest;
+}
+export interface UseClassQuery<TData> extends VueQueryParams<QueryClassResponse, TData> {
+  request: ReactiveQueryClassRequest;
+}
+export interface UseClassesQuery<TData> extends VueQueryParams<QueryClassesResponse, TData> {
+  request?: ReactiveQueryClassesRequest;
+}
+export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+  const _queryClients = new WeakMap();
+  return computed(() => {
+    if (rpc.value) {
+      if (_queryClients.has(rpc.value)) {
+        return _queryClients.get(rpc.value);
+      }
+      const queryService = new QueryClientImpl(rpc.value);
+      _queryClients.set(rpc.value, queryService);
+      return queryService;
+    }
+  });
+};
+export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => {
+  const queryService = useQueryService(rpc);
+  const useBalance = <TData = QueryBalanceResponse,>({
+    request,
+    options
+  }: UseBalanceQuery<TData>) => {
+    const queryKey = ["balanceQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryBalanceResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.balance(params);
+      },
+      ...options
+    });
+  };
+  const useOwner = <TData = QueryOwnerResponse,>({
+    request,
+    options
+  }: UseOwnerQuery<TData>) => {
+    const queryKey = ["ownerQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryOwnerResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.owner(params);
+      },
+      ...options
+    });
+  };
+  const useSupply = <TData = QuerySupplyResponse,>({
+    request,
+    options
+  }: UseSupplyQuery<TData>) => {
+    const queryKey = ["supplyQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QuerySupplyResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.supply(params);
+      },
+      ...options
+    });
+  };
+  const useNFTs = <TData = QueryNFTsResponse,>({
+    request,
+    options
+  }: UseNFTsQuery<TData>) => {
+    const queryKey = ["nFTsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryNFTsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.nFTs(params);
+      },
+      ...options
+    });
+  };
+  const useNFT = <TData = QueryNFTResponse,>({
+    request,
+    options
+  }: UseNFTQuery<TData>) => {
+    const queryKey = ["nFTQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryNFTResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.nFT(params);
+      },
+      ...options
+    });
+  };
+  const useClass = <TData = QueryClassResponse,>({
+    request,
+    options
+  }: UseClassQuery<TData>) => {
+    const queryKey = ["classQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryClassResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.class(params);
+      },
+      ...options
+    });
+  };
+  const useClasses = <TData = QueryClassesResponse,>({
+    request,
+    options
+  }: UseClassesQuery<TData>) => {
+    const queryKey = ["classesQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryClassesResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.classes(params);
+      },
+      ...options
+    });
+  };
+  return {
+    /** Balance queries the number of NFTs of a given class owned by the owner, same as balanceOf in ERC721 */useBalance,
+    /** Owner queries the owner of the NFT based on its class and id, same as ownerOf in ERC721 */useOwner,
+    /** Supply queries the number of NFTs from the given class, same as totalSupply of ERC721. */useSupply,
+    /**
+     * NFTs queries all NFTs of a given class or owner,choose at least one of the two, similar to tokenByIndex in
+     * ERC721Enumerable
+     */
+    useNFTs,
+    /** NFT queries an NFT based on its class and id. */useNFT,
+    /** Class queries an NFT class based on its id */useClass,
+    /** Classes queries all NFT classes */useClasses
   };
 };

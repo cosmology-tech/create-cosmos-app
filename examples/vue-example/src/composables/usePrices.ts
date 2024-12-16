@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/vue-query';
 type CoinGeckoId = string;
 type CoinGeckoUSD = { usd: number };
 type CoinGeckoUSDResponse = Record<CoinGeckoId, CoinGeckoUSD>;
+export type Prices = Record<CoinGeckoId, CoinGeckoUSD['usd']>;
 
 export const handleError = (resp: Response) => {
   if (!resp.ok) throw Error(resp.statusText);

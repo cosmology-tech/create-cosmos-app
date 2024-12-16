@@ -2,7 +2,10 @@ import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } fr
 import { Params, ParamsSDKType, ValidatorSigningInfo, ValidatorSigningInfoSDKType } from "./slashing";
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { VueQueryParams } from "../../../vue-query";
+import { ComputedRef, computed, Ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
 import { QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, QuerySigningInfoRequest, QuerySigningInfoRequestSDKType, QuerySigningInfoResponse, QuerySigningInfoResponseSDKType, QuerySigningInfosRequest, QuerySigningInfosRequestSDKType, QuerySigningInfosResponse, QuerySigningInfosResponseSDKType, ReactiveQueryParamsRequest, ReactiveQuerySigningInfoRequest, ReactiveQuerySigningInfosRequest } from "./query";
 /** Query provides defines the gRPC querier service */
 export interface Query {
@@ -52,5 +55,110 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     signingInfos(request?: QuerySigningInfosRequest): Promise<QuerySigningInfosResponse> {
       return queryService.signingInfos(request);
     }
+  };
+};
+export interface UseParamsQuery<TData> extends VueQueryParams<QueryParamsResponse, TData> {
+  request?: ReactiveQueryParamsRequest;
+}
+export interface UseSigningInfoQuery<TData> extends VueQueryParams<QuerySigningInfoResponse, TData> {
+  request: ReactiveQuerySigningInfoRequest;
+}
+export interface UseSigningInfosQuery<TData> extends VueQueryParams<QuerySigningInfosResponse, TData> {
+  request?: ReactiveQuerySigningInfosRequest;
+}
+export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+  const _queryClients = new WeakMap();
+  return computed(() => {
+    if (rpc.value) {
+      if (_queryClients.has(rpc.value)) {
+        return _queryClients.get(rpc.value);
+      }
+      const queryService = new QueryClientImpl(rpc.value);
+      _queryClients.set(rpc.value, queryService);
+      return queryService;
+    }
+  });
+};
+export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => {
+  const queryService = useQueryService(rpc);
+  const useParams = <TData = QueryParamsResponse,>({
+    request,
+    options
+  }: UseParamsQuery<TData>) => {
+    const queryKey = ["paramsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryParamsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.params(params);
+      },
+      ...options
+    });
+  };
+  const useSigningInfo = <TData = QuerySigningInfoResponse,>({
+    request,
+    options
+  }: UseSigningInfoQuery<TData>) => {
+    const queryKey = ["signingInfoQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QuerySigningInfoResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.signingInfo(params);
+      },
+      ...options
+    });
+  };
+  const useSigningInfos = <TData = QuerySigningInfosResponse,>({
+    request,
+    options
+  }: UseSigningInfosQuery<TData>) => {
+    const queryKey = ["signingInfosQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QuerySigningInfosResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.signingInfos(params);
+      },
+      ...options
+    });
+  };
+  return {
+    /** Params queries the parameters of slashing module */useParams,
+    /** SigningInfo queries the signing info of given cons address */useSigningInfo,
+    /** SigningInfos queries signing info of all validators */useSigningInfos
   };
 };

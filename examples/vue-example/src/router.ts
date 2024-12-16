@@ -6,6 +6,7 @@ import Authz from './views/authz.vue'
 import AssetListSection from './views/asset-list.vue'
 import Injective from './views/injective.vue'
 import ProvideLiquidity from './views/provide-liquidity.vue'
+import StakeTokens from './views/stake-tokens.vue'
 
 const routes = [
   { path: '/', name: 'index', component: Index },
@@ -15,6 +16,7 @@ const routes = [
   { path: '/authz', name: 'authz', component: Authz },
   { path: '/injective', name: 'injective', component: Injective },
   { path: '/provide-liquidity', name: 'provideLiquidity', component: ProvideLiquidity },
+  { path: '/stake-tokens', name: 'stakeTokens', component: StakeTokens },
 ]
 
 const router = createRouter({
