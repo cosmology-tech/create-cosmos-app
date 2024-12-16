@@ -20,6 +20,7 @@ export const useInjectiveClient = (chainName: Ref<string>) => {
     if (!rpcEndpoint || !signer) {
       return
     }
+    signer.signMode = 'direct'
     let res = await InjSigningClient.connectWithSigner(rpcEndpoint, signer)
 
     injectiveClient.value = res

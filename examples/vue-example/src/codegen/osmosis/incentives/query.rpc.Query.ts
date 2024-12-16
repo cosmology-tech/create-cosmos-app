@@ -4,8 +4,11 @@ import { Gauge, GaugeSDKType } from "./gauge";
 import { Duration, DurationSDKType } from "../../google/protobuf/duration";
 import { Rpc } from "../../helpers";
 import { BinaryReader } from "../../binary";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
-import { ModuleToDistributeCoinsRequest, ModuleToDistributeCoinsRequestSDKType, ModuleToDistributeCoinsResponse, ModuleToDistributeCoinsResponseSDKType, GaugeByIDRequest, GaugeByIDRequestSDKType, GaugeByIDResponse, GaugeByIDResponseSDKType, GaugesRequest, GaugesRequestSDKType, GaugesResponse, GaugesResponseSDKType, ActiveGaugesRequest, ActiveGaugesRequestSDKType, ActiveGaugesResponse, ActiveGaugesResponseSDKType, ActiveGaugesPerDenomRequest, ActiveGaugesPerDenomRequestSDKType, ActiveGaugesPerDenomResponse, ActiveGaugesPerDenomResponseSDKType, UpcomingGaugesRequest, UpcomingGaugesRequestSDKType, UpcomingGaugesResponse, UpcomingGaugesResponseSDKType, UpcomingGaugesPerDenomRequest, UpcomingGaugesPerDenomRequestSDKType, UpcomingGaugesPerDenomResponse, UpcomingGaugesPerDenomResponseSDKType, RewardsEstRequest, RewardsEstRequestSDKType, RewardsEstResponse, RewardsEstResponseSDKType, QueryLockableDurationsRequest, QueryLockableDurationsRequestSDKType, QueryLockableDurationsResponse, QueryLockableDurationsResponseSDKType, ReactiveQueryLockableDurationsRequest } from "./query";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { VueQueryParams } from "../../vue-query";
+import { ComputedRef, computed, Ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
+import { ModuleToDistributeCoinsRequest, ModuleToDistributeCoinsRequestSDKType, ModuleToDistributeCoinsResponse, ModuleToDistributeCoinsResponseSDKType, GaugeByIDRequest, GaugeByIDRequestSDKType, GaugeByIDResponse, GaugeByIDResponseSDKType, GaugesRequest, GaugesRequestSDKType, GaugesResponse, GaugesResponseSDKType, ActiveGaugesRequest, ActiveGaugesRequestSDKType, ActiveGaugesResponse, ActiveGaugesResponseSDKType, ActiveGaugesPerDenomRequest, ActiveGaugesPerDenomRequestSDKType, ActiveGaugesPerDenomResponse, ActiveGaugesPerDenomResponseSDKType, UpcomingGaugesRequest, UpcomingGaugesRequestSDKType, UpcomingGaugesResponse, UpcomingGaugesResponseSDKType, UpcomingGaugesPerDenomRequest, UpcomingGaugesPerDenomRequestSDKType, UpcomingGaugesPerDenomResponse, UpcomingGaugesPerDenomResponseSDKType, RewardsEstRequest, RewardsEstRequestSDKType, RewardsEstResponse, RewardsEstResponseSDKType, QueryLockableDurationsRequest, QueryLockableDurationsRequestSDKType, QueryLockableDurationsResponse, QueryLockableDurationsResponseSDKType, ReactiveModuleToDistributeCoinsRequest, ReactiveGaugeByIDRequest, ReactiveGaugesRequest, ReactiveActiveGaugesRequest, ReactiveActiveGaugesPerDenomRequest, ReactiveUpcomingGaugesRequest, ReactiveUpcomingGaugesPerDenomRequest, ReactiveRewardsEstRequest, ReactiveQueryLockableDurationsRequest } from "./query";
 /** Query defines the gRPC querier service */
 export interface Query {
   /** ModuleToDistributeCoins returns coins that are going to be distributed */
@@ -134,5 +137,297 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     lockableDurations(request?: QueryLockableDurationsRequest): Promise<QueryLockableDurationsResponse> {
       return queryService.lockableDurations(request);
     }
+  };
+};
+export interface UseModuleToDistributeCoinsQuery<TData> extends VueQueryParams<ModuleToDistributeCoinsResponse, TData> {
+  request?: ReactiveModuleToDistributeCoinsRequest;
+}
+export interface UseGaugeByIDQuery<TData> extends VueQueryParams<GaugeByIDResponse, TData> {
+  request: ReactiveGaugeByIDRequest;
+}
+export interface UseGaugesQuery<TData> extends VueQueryParams<GaugesResponse, TData> {
+  request?: ReactiveGaugesRequest;
+}
+export interface UseActiveGaugesQuery<TData> extends VueQueryParams<ActiveGaugesResponse, TData> {
+  request?: ReactiveActiveGaugesRequest;
+}
+export interface UseActiveGaugesPerDenomQuery<TData> extends VueQueryParams<ActiveGaugesPerDenomResponse, TData> {
+  request: ReactiveActiveGaugesPerDenomRequest;
+}
+export interface UseUpcomingGaugesQuery<TData> extends VueQueryParams<UpcomingGaugesResponse, TData> {
+  request?: ReactiveUpcomingGaugesRequest;
+}
+export interface UseUpcomingGaugesPerDenomQuery<TData> extends VueQueryParams<UpcomingGaugesPerDenomResponse, TData> {
+  request: ReactiveUpcomingGaugesPerDenomRequest;
+}
+export interface UseRewardsEstQuery<TData> extends VueQueryParams<RewardsEstResponse, TData> {
+  request: ReactiveRewardsEstRequest;
+}
+export interface UseLockableDurationsQuery<TData> extends VueQueryParams<QueryLockableDurationsResponse, TData> {
+  request?: ReactiveQueryLockableDurationsRequest;
+}
+export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+  const _queryClients = new WeakMap();
+  return computed(() => {
+    if (rpc.value) {
+      if (_queryClients.has(rpc.value)) {
+        return _queryClients.get(rpc.value);
+      }
+      const queryService = new QueryClientImpl(rpc.value);
+      _queryClients.set(rpc.value, queryService);
+      return queryService;
+    }
+  });
+};
+export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => {
+  const queryService = useQueryService(rpc);
+  const useModuleToDistributeCoins = <TData = ModuleToDistributeCoinsResponse,>({
+    request,
+    options
+  }: UseModuleToDistributeCoinsQuery<TData>) => {
+    const queryKey = ["moduleToDistributeCoinsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<ModuleToDistributeCoinsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.moduleToDistributeCoins(params);
+      },
+      ...options
+    });
+  };
+  const useGaugeByID = <TData = GaugeByIDResponse,>({
+    request,
+    options
+  }: UseGaugeByIDQuery<TData>) => {
+    const queryKey = ["gaugeByIDQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<GaugeByIDResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.gaugeByID(params);
+      },
+      ...options
+    });
+  };
+  const useGauges = <TData = GaugesResponse,>({
+    request,
+    options
+  }: UseGaugesQuery<TData>) => {
+    const queryKey = ["gaugesQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<GaugesResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.gauges(params);
+      },
+      ...options
+    });
+  };
+  const useActiveGauges = <TData = ActiveGaugesResponse,>({
+    request,
+    options
+  }: UseActiveGaugesQuery<TData>) => {
+    const queryKey = ["activeGaugesQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<ActiveGaugesResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.activeGauges(params);
+      },
+      ...options
+    });
+  };
+  const useActiveGaugesPerDenom = <TData = ActiveGaugesPerDenomResponse,>({
+    request,
+    options
+  }: UseActiveGaugesPerDenomQuery<TData>) => {
+    const queryKey = ["activeGaugesPerDenomQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<ActiveGaugesPerDenomResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.activeGaugesPerDenom(params);
+      },
+      ...options
+    });
+  };
+  const useUpcomingGauges = <TData = UpcomingGaugesResponse,>({
+    request,
+    options
+  }: UseUpcomingGaugesQuery<TData>) => {
+    const queryKey = ["upcomingGaugesQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<UpcomingGaugesResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.upcomingGauges(params);
+      },
+      ...options
+    });
+  };
+  const useUpcomingGaugesPerDenom = <TData = UpcomingGaugesPerDenomResponse,>({
+    request,
+    options
+  }: UseUpcomingGaugesPerDenomQuery<TData>) => {
+    const queryKey = ["upcomingGaugesPerDenomQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<UpcomingGaugesPerDenomResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.upcomingGaugesPerDenom(params);
+      },
+      ...options
+    });
+  };
+  const useRewardsEst = <TData = RewardsEstResponse,>({
+    request,
+    options
+  }: UseRewardsEstQuery<TData>) => {
+    const queryKey = ["rewardsEstQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<RewardsEstResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.rewardsEst(params);
+      },
+      ...options
+    });
+  };
+  const useLockableDurations = <TData = QueryLockableDurationsResponse,>({
+    request,
+    options
+  }: UseLockableDurationsQuery<TData>) => {
+    const queryKey = ["lockableDurationsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryLockableDurationsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.lockableDurations(params);
+      },
+      ...options
+    });
+  };
+  return {
+    /** ModuleToDistributeCoins returns coins that are going to be distributed */useModuleToDistributeCoins,
+    /** GaugeByID returns gauges by their respective ID */useGaugeByID,
+    /** Gauges returns both upcoming and active gauges */useGauges,
+    /** ActiveGauges returns active gauges */useActiveGauges,
+    /** ActiveGaugesPerDenom returns active gauges by denom */useActiveGaugesPerDenom,
+    /** Returns scheduled gauges that have not yet occured */useUpcomingGauges,
+    /**
+     * UpcomingGaugesPerDenom returns scheduled gauges that have not yet occured
+     * by denom
+     */
+    useUpcomingGaugesPerDenom,
+    /**
+     * RewardsEst returns an estimate of the rewards from now until a specified
+     * time in the future The querier either provides an address or a set of locks
+     * for which they want to find the associated rewards
+     */
+    useRewardsEst,
+    /**
+     * LockableDurations returns lockable durations that are valid to distribute
+     * incentives for
+     */
+    useLockableDurations
   };
 };

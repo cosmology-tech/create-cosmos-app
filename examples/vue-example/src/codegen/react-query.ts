@@ -4,14 +4,14 @@
 * and run the transpile command or npm scripts command that is used to regenerate this bundle.
 */
 
-import { getRpcClient } from './extern.js'
+import { getRpcClient } from './extern'
 import {
     useQuery,
     UseQueryOptions,
 } from '@tanstack/react-query';
 
 import { HttpEndpoint, ProtobufRpcClient } from '@cosmjs/stargate';
-import { CometClient, connectComet, Tendermint34Client, Tendermint37Client } from '@cosmjs/tendermint-rpc';
+import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
 
 export interface ReactQueryParams<TResponse, TData = TResponse> {
     options?: UseQueryOptions<TResponse, Error, TData>;
@@ -23,15 +23,13 @@ export interface UseRpcClientQuery<TData> extends ReactQueryParams<ProtobufRpcCl
 
 export interface UseRpcEndpointQuery<TData> extends ReactQueryParams<string | HttpEndpoint, TData> {
     getter: () => Promise<string | HttpEndpoint>;
-    extraKey?: string
 }
 
 export const useRpcEndpoint = <TData = string | HttpEndpoint>({
     getter,
     options,
-    extraKey
 }: UseRpcEndpointQuery<TData>) => {
-    return useQuery<string | HttpEndpoint, Error, TData>(['rpcEndpoint', extraKey], async () => {
+    return useQuery<string | HttpEndpoint, Error, TData>(['rpcEndpoint', getter], async () => {
         return await getter();
     }, options);
 };
@@ -45,7 +43,7 @@ export const useRpcClient = <TData = ProtobufRpcClient>({
     }, options);
 };
 
-interface UseTendermintClient extends ReactQueryParams<Tendermint34Client | Tendermint37Client | CometClient> {
+interface UseTendermintClient extends ReactQueryParams<Tendermint34Client> {
     rpcEndpoint: string | HttpEndpoint;
 }
 
@@ -56,9 +54,9 @@ export const useTendermintClient = ({
     rpcEndpoint,
     options,
 }: UseTendermintClient) => {
-    const { data: client } = useQuery<Tendermint34Client | Tendermint37Client | CometClient, Error, Tendermint34Client | Tendermint37Client | CometClient>(
+    const { data: client } = useQuery<Tendermint34Client, Error, Tendermint34Client>(
         ['client', 'tendermint', rpcEndpoint],
-        () => connectComet(rpcEndpoint),
+        () => Tendermint34Client.connect(rpcEndpoint),
         {
             // allow overriding
             onError: (e) => {

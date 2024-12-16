@@ -3,7 +3,10 @@ import { DistrInfo, DistrInfoSDKType, Params, ParamsSDKType } from "./incentives
 import { Gauge, GaugeSDKType } from "../../incentives/gauge";
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { VueQueryParams } from "../../../vue-query";
+import { ComputedRef, computed, Ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
 import { QueryGaugeIdsRequest, QueryGaugeIdsRequestSDKType, QueryGaugeIdsResponse, QueryGaugeIdsResponseSDKType, QueryDistrInfoRequest, QueryDistrInfoRequestSDKType, QueryDistrInfoResponse, QueryDistrInfoResponseSDKType, QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, QueryLockableDurationsRequest, QueryLockableDurationsRequestSDKType, QueryLockableDurationsResponse, QueryLockableDurationsResponseSDKType, QueryIncentivizedPoolsRequest, QueryIncentivizedPoolsRequestSDKType, QueryIncentivizedPoolsResponse, QueryIncentivizedPoolsResponseSDKType, QueryExternalIncentiveGaugesRequest, QueryExternalIncentiveGaugesRequestSDKType, QueryExternalIncentiveGaugesResponse, QueryExternalIncentiveGaugesResponseSDKType, ReactiveQueryGaugeIdsRequest, ReactiveQueryDistrInfoRequest, ReactiveQueryParamsRequest, ReactiveQueryLockableDurationsRequest, ReactiveQueryIncentivizedPoolsRequest, ReactiveQueryExternalIncentiveGaugesRequest } from "./query";
 export interface Query {
   /** GaugeIds takes the pool id and returns the matching gauge ids and durations */
@@ -83,5 +86,197 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     externalIncentiveGauges(request?: QueryExternalIncentiveGaugesRequest): Promise<QueryExternalIncentiveGaugesResponse> {
       return queryService.externalIncentiveGauges(request);
     }
+  };
+};
+export interface UseGaugeIdsQuery<TData> extends VueQueryParams<QueryGaugeIdsResponse, TData> {
+  request: ReactiveQueryGaugeIdsRequest;
+}
+export interface UseDistrInfoQuery<TData> extends VueQueryParams<QueryDistrInfoResponse, TData> {
+  request?: ReactiveQueryDistrInfoRequest;
+}
+export interface UseParamsQuery<TData> extends VueQueryParams<QueryParamsResponse, TData> {
+  request?: ReactiveQueryParamsRequest;
+}
+export interface UseLockableDurationsQuery<TData> extends VueQueryParams<QueryLockableDurationsResponse, TData> {
+  request?: ReactiveQueryLockableDurationsRequest;
+}
+export interface UseIncentivizedPoolsQuery<TData> extends VueQueryParams<QueryIncentivizedPoolsResponse, TData> {
+  request?: ReactiveQueryIncentivizedPoolsRequest;
+}
+export interface UseExternalIncentiveGaugesQuery<TData> extends VueQueryParams<QueryExternalIncentiveGaugesResponse, TData> {
+  request?: ReactiveQueryExternalIncentiveGaugesRequest;
+}
+export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+  const _queryClients = new WeakMap();
+  return computed(() => {
+    if (rpc.value) {
+      if (_queryClients.has(rpc.value)) {
+        return _queryClients.get(rpc.value);
+      }
+      const queryService = new QueryClientImpl(rpc.value);
+      _queryClients.set(rpc.value, queryService);
+      return queryService;
+    }
+  });
+};
+export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => {
+  const queryService = useQueryService(rpc);
+  const useGaugeIds = <TData = QueryGaugeIdsResponse,>({
+    request,
+    options
+  }: UseGaugeIdsQuery<TData>) => {
+    const queryKey = ["gaugeIdsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGaugeIdsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.gaugeIds(params);
+      },
+      ...options
+    });
+  };
+  const useDistrInfo = <TData = QueryDistrInfoResponse,>({
+    request,
+    options
+  }: UseDistrInfoQuery<TData>) => {
+    const queryKey = ["distrInfoQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryDistrInfoResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.distrInfo(params);
+      },
+      ...options
+    });
+  };
+  const useParams = <TData = QueryParamsResponse,>({
+    request,
+    options
+  }: UseParamsQuery<TData>) => {
+    const queryKey = ["paramsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryParamsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.params(params);
+      },
+      ...options
+    });
+  };
+  const useLockableDurations = <TData = QueryLockableDurationsResponse,>({
+    request,
+    options
+  }: UseLockableDurationsQuery<TData>) => {
+    const queryKey = ["lockableDurationsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryLockableDurationsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.lockableDurations(params);
+      },
+      ...options
+    });
+  };
+  const useIncentivizedPools = <TData = QueryIncentivizedPoolsResponse,>({
+    request,
+    options
+  }: UseIncentivizedPoolsQuery<TData>) => {
+    const queryKey = ["incentivizedPoolsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryIncentivizedPoolsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.incentivizedPools(params);
+      },
+      ...options
+    });
+  };
+  const useExternalIncentiveGauges = <TData = QueryExternalIncentiveGaugesResponse,>({
+    request,
+    options
+  }: UseExternalIncentiveGaugesQuery<TData>) => {
+    const queryKey = ["externalIncentiveGaugesQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryExternalIncentiveGaugesResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.externalIncentiveGauges(params);
+      },
+      ...options
+    });
+  };
+  return {
+    /** GaugeIds takes the pool id and returns the matching gauge ids and durations */useGaugeIds,
+    /** DistrInfo returns the pool's matching gauge ids and weights. */useDistrInfo,
+    /** Params returns pool incentives params. */useParams,
+    /** LockableDurations returns lock durations for pools. */useLockableDurations,
+    /** IncentivizedPools returns currently incentivized pools */useIncentivizedPools,
+    /** ExternalIncentiveGauges returns external incentive gauges. */useExternalIncentiveGauges
   };
 };

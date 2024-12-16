@@ -3,7 +3,10 @@ import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { RouteStatistics, RouteStatisticsSDKType, TokenPairArbRoutes, TokenPairArbRoutesSDKType, PoolWeights, PoolWeightsSDKType, BaseDenom, BaseDenomSDKType } from "./protorev";
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { VueQueryParams } from "../../../vue-query";
+import { ComputedRef, computed, Ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
 import { QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, QueryGetProtoRevNumberOfTradesRequest, QueryGetProtoRevNumberOfTradesRequestSDKType, QueryGetProtoRevNumberOfTradesResponse, QueryGetProtoRevNumberOfTradesResponseSDKType, QueryGetProtoRevProfitsByDenomRequest, QueryGetProtoRevProfitsByDenomRequestSDKType, QueryGetProtoRevProfitsByDenomResponse, QueryGetProtoRevProfitsByDenomResponseSDKType, QueryGetProtoRevAllProfitsRequest, QueryGetProtoRevAllProfitsRequestSDKType, QueryGetProtoRevAllProfitsResponse, QueryGetProtoRevAllProfitsResponseSDKType, QueryGetProtoRevStatisticsByRouteRequest, QueryGetProtoRevStatisticsByRouteRequestSDKType, QueryGetProtoRevStatisticsByRouteResponse, QueryGetProtoRevStatisticsByRouteResponseSDKType, QueryGetProtoRevAllRouteStatisticsRequest, QueryGetProtoRevAllRouteStatisticsRequestSDKType, QueryGetProtoRevAllRouteStatisticsResponse, QueryGetProtoRevAllRouteStatisticsResponseSDKType, QueryGetProtoRevTokenPairArbRoutesRequest, QueryGetProtoRevTokenPairArbRoutesRequestSDKType, QueryGetProtoRevTokenPairArbRoutesResponse, QueryGetProtoRevTokenPairArbRoutesResponseSDKType, QueryGetProtoRevAdminAccountRequest, QueryGetProtoRevAdminAccountRequestSDKType, QueryGetProtoRevAdminAccountResponse, QueryGetProtoRevAdminAccountResponseSDKType, QueryGetProtoRevDeveloperAccountRequest, QueryGetProtoRevDeveloperAccountRequestSDKType, QueryGetProtoRevDeveloperAccountResponse, QueryGetProtoRevDeveloperAccountResponseSDKType, QueryGetProtoRevPoolWeightsRequest, QueryGetProtoRevPoolWeightsRequestSDKType, QueryGetProtoRevPoolWeightsResponse, QueryGetProtoRevPoolWeightsResponseSDKType, QueryGetProtoRevMaxPoolPointsPerTxRequest, QueryGetProtoRevMaxPoolPointsPerTxRequestSDKType, QueryGetProtoRevMaxPoolPointsPerTxResponse, QueryGetProtoRevMaxPoolPointsPerTxResponseSDKType, QueryGetProtoRevMaxPoolPointsPerBlockRequest, QueryGetProtoRevMaxPoolPointsPerBlockRequestSDKType, QueryGetProtoRevMaxPoolPointsPerBlockResponse, QueryGetProtoRevMaxPoolPointsPerBlockResponseSDKType, QueryGetProtoRevBaseDenomsRequest, QueryGetProtoRevBaseDenomsRequestSDKType, QueryGetProtoRevBaseDenomsResponse, QueryGetProtoRevBaseDenomsResponseSDKType, QueryGetProtoRevEnabledRequest, QueryGetProtoRevEnabledRequestSDKType, QueryGetProtoRevEnabledResponse, QueryGetProtoRevEnabledResponseSDKType, ReactiveQueryParamsRequest, ReactiveQueryGetProtoRevNumberOfTradesRequest, ReactiveQueryGetProtoRevProfitsByDenomRequest, ReactiveQueryGetProtoRevAllProfitsRequest, ReactiveQueryGetProtoRevStatisticsByRouteRequest, ReactiveQueryGetProtoRevAllRouteStatisticsRequest, ReactiveQueryGetProtoRevTokenPairArbRoutesRequest, ReactiveQueryGetProtoRevAdminAccountRequest, ReactiveQueryGetProtoRevDeveloperAccountRequest, ReactiveQueryGetProtoRevPoolWeightsRequest, ReactiveQueryGetProtoRevMaxPoolPointsPerTxRequest, ReactiveQueryGetProtoRevMaxPoolPointsPerBlockRequest, ReactiveQueryGetProtoRevBaseDenomsRequest, ReactiveQueryGetProtoRevEnabledRequest } from "./query";
 /** Query defines the gRPC querier service. */
 export interface Query {
@@ -197,5 +200,462 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     getProtoRevEnabled(request?: QueryGetProtoRevEnabledRequest): Promise<QueryGetProtoRevEnabledResponse> {
       return queryService.getProtoRevEnabled(request);
     }
+  };
+};
+export interface UseParamsQuery<TData> extends VueQueryParams<QueryParamsResponse, TData> {
+  request?: ReactiveQueryParamsRequest;
+}
+export interface UseGetProtoRevNumberOfTradesQuery<TData> extends VueQueryParams<QueryGetProtoRevNumberOfTradesResponse, TData> {
+  request?: ReactiveQueryGetProtoRevNumberOfTradesRequest;
+}
+export interface UseGetProtoRevProfitsByDenomQuery<TData> extends VueQueryParams<QueryGetProtoRevProfitsByDenomResponse, TData> {
+  request: ReactiveQueryGetProtoRevProfitsByDenomRequest;
+}
+export interface UseGetProtoRevAllProfitsQuery<TData> extends VueQueryParams<QueryGetProtoRevAllProfitsResponse, TData> {
+  request?: ReactiveQueryGetProtoRevAllProfitsRequest;
+}
+export interface UseGetProtoRevStatisticsByRouteQuery<TData> extends VueQueryParams<QueryGetProtoRevStatisticsByRouteResponse, TData> {
+  request: ReactiveQueryGetProtoRevStatisticsByRouteRequest;
+}
+export interface UseGetProtoRevAllRouteStatisticsQuery<TData> extends VueQueryParams<QueryGetProtoRevAllRouteStatisticsResponse, TData> {
+  request?: ReactiveQueryGetProtoRevAllRouteStatisticsRequest;
+}
+export interface UseGetProtoRevTokenPairArbRoutesQuery<TData> extends VueQueryParams<QueryGetProtoRevTokenPairArbRoutesResponse, TData> {
+  request?: ReactiveQueryGetProtoRevTokenPairArbRoutesRequest;
+}
+export interface UseGetProtoRevAdminAccountQuery<TData> extends VueQueryParams<QueryGetProtoRevAdminAccountResponse, TData> {
+  request?: ReactiveQueryGetProtoRevAdminAccountRequest;
+}
+export interface UseGetProtoRevDeveloperAccountQuery<TData> extends VueQueryParams<QueryGetProtoRevDeveloperAccountResponse, TData> {
+  request?: ReactiveQueryGetProtoRevDeveloperAccountRequest;
+}
+export interface UseGetProtoRevPoolWeightsQuery<TData> extends VueQueryParams<QueryGetProtoRevPoolWeightsResponse, TData> {
+  request?: ReactiveQueryGetProtoRevPoolWeightsRequest;
+}
+export interface UseGetProtoRevMaxPoolPointsPerTxQuery<TData> extends VueQueryParams<QueryGetProtoRevMaxPoolPointsPerTxResponse, TData> {
+  request?: ReactiveQueryGetProtoRevMaxPoolPointsPerTxRequest;
+}
+export interface UseGetProtoRevMaxPoolPointsPerBlockQuery<TData> extends VueQueryParams<QueryGetProtoRevMaxPoolPointsPerBlockResponse, TData> {
+  request?: ReactiveQueryGetProtoRevMaxPoolPointsPerBlockRequest;
+}
+export interface UseGetProtoRevBaseDenomsQuery<TData> extends VueQueryParams<QueryGetProtoRevBaseDenomsResponse, TData> {
+  request?: ReactiveQueryGetProtoRevBaseDenomsRequest;
+}
+export interface UseGetProtoRevEnabledQuery<TData> extends VueQueryParams<QueryGetProtoRevEnabledResponse, TData> {
+  request?: ReactiveQueryGetProtoRevEnabledRequest;
+}
+export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+  const _queryClients = new WeakMap();
+  return computed(() => {
+    if (rpc.value) {
+      if (_queryClients.has(rpc.value)) {
+        return _queryClients.get(rpc.value);
+      }
+      const queryService = new QueryClientImpl(rpc.value);
+      _queryClients.set(rpc.value, queryService);
+      return queryService;
+    }
+  });
+};
+export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => {
+  const queryService = useQueryService(rpc);
+  const useParams = <TData = QueryParamsResponse,>({
+    request,
+    options
+  }: UseParamsQuery<TData>) => {
+    const queryKey = ["paramsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryParamsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.params(params);
+      },
+      ...options
+    });
+  };
+  const useGetProtoRevNumberOfTrades = <TData = QueryGetProtoRevNumberOfTradesResponse,>({
+    request,
+    options
+  }: UseGetProtoRevNumberOfTradesQuery<TData>) => {
+    const queryKey = ["getProtoRevNumberOfTradesQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGetProtoRevNumberOfTradesResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.getProtoRevNumberOfTrades(params);
+      },
+      ...options
+    });
+  };
+  const useGetProtoRevProfitsByDenom = <TData = QueryGetProtoRevProfitsByDenomResponse,>({
+    request,
+    options
+  }: UseGetProtoRevProfitsByDenomQuery<TData>) => {
+    const queryKey = ["getProtoRevProfitsByDenomQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGetProtoRevProfitsByDenomResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.getProtoRevProfitsByDenom(params);
+      },
+      ...options
+    });
+  };
+  const useGetProtoRevAllProfits = <TData = QueryGetProtoRevAllProfitsResponse,>({
+    request,
+    options
+  }: UseGetProtoRevAllProfitsQuery<TData>) => {
+    const queryKey = ["getProtoRevAllProfitsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGetProtoRevAllProfitsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.getProtoRevAllProfits(params);
+      },
+      ...options
+    });
+  };
+  const useGetProtoRevStatisticsByRoute = <TData = QueryGetProtoRevStatisticsByRouteResponse,>({
+    request,
+    options
+  }: UseGetProtoRevStatisticsByRouteQuery<TData>) => {
+    const queryKey = ["getProtoRevStatisticsByRouteQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGetProtoRevStatisticsByRouteResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.getProtoRevStatisticsByRoute(params);
+      },
+      ...options
+    });
+  };
+  const useGetProtoRevAllRouteStatistics = <TData = QueryGetProtoRevAllRouteStatisticsResponse,>({
+    request,
+    options
+  }: UseGetProtoRevAllRouteStatisticsQuery<TData>) => {
+    const queryKey = ["getProtoRevAllRouteStatisticsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGetProtoRevAllRouteStatisticsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.getProtoRevAllRouteStatistics(params);
+      },
+      ...options
+    });
+  };
+  const useGetProtoRevTokenPairArbRoutes = <TData = QueryGetProtoRevTokenPairArbRoutesResponse,>({
+    request,
+    options
+  }: UseGetProtoRevTokenPairArbRoutesQuery<TData>) => {
+    const queryKey = ["getProtoRevTokenPairArbRoutesQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGetProtoRevTokenPairArbRoutesResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.getProtoRevTokenPairArbRoutes(params);
+      },
+      ...options
+    });
+  };
+  const useGetProtoRevAdminAccount = <TData = QueryGetProtoRevAdminAccountResponse,>({
+    request,
+    options
+  }: UseGetProtoRevAdminAccountQuery<TData>) => {
+    const queryKey = ["getProtoRevAdminAccountQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGetProtoRevAdminAccountResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.getProtoRevAdminAccount(params);
+      },
+      ...options
+    });
+  };
+  const useGetProtoRevDeveloperAccount = <TData = QueryGetProtoRevDeveloperAccountResponse,>({
+    request,
+    options
+  }: UseGetProtoRevDeveloperAccountQuery<TData>) => {
+    const queryKey = ["getProtoRevDeveloperAccountQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGetProtoRevDeveloperAccountResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.getProtoRevDeveloperAccount(params);
+      },
+      ...options
+    });
+  };
+  const useGetProtoRevPoolWeights = <TData = QueryGetProtoRevPoolWeightsResponse,>({
+    request,
+    options
+  }: UseGetProtoRevPoolWeightsQuery<TData>) => {
+    const queryKey = ["getProtoRevPoolWeightsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGetProtoRevPoolWeightsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.getProtoRevPoolWeights(params);
+      },
+      ...options
+    });
+  };
+  const useGetProtoRevMaxPoolPointsPerTx = <TData = QueryGetProtoRevMaxPoolPointsPerTxResponse,>({
+    request,
+    options
+  }: UseGetProtoRevMaxPoolPointsPerTxQuery<TData>) => {
+    const queryKey = ["getProtoRevMaxPoolPointsPerTxQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGetProtoRevMaxPoolPointsPerTxResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.getProtoRevMaxPoolPointsPerTx(params);
+      },
+      ...options
+    });
+  };
+  const useGetProtoRevMaxPoolPointsPerBlock = <TData = QueryGetProtoRevMaxPoolPointsPerBlockResponse,>({
+    request,
+    options
+  }: UseGetProtoRevMaxPoolPointsPerBlockQuery<TData>) => {
+    const queryKey = ["getProtoRevMaxPoolPointsPerBlockQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGetProtoRevMaxPoolPointsPerBlockResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.getProtoRevMaxPoolPointsPerBlock(params);
+      },
+      ...options
+    });
+  };
+  const useGetProtoRevBaseDenoms = <TData = QueryGetProtoRevBaseDenomsResponse,>({
+    request,
+    options
+  }: UseGetProtoRevBaseDenomsQuery<TData>) => {
+    const queryKey = ["getProtoRevBaseDenomsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGetProtoRevBaseDenomsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.getProtoRevBaseDenoms(params);
+      },
+      ...options
+    });
+  };
+  const useGetProtoRevEnabled = <TData = QueryGetProtoRevEnabledResponse,>({
+    request,
+    options
+  }: UseGetProtoRevEnabledQuery<TData>) => {
+    const queryKey = ["getProtoRevEnabledQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryGetProtoRevEnabledResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.getProtoRevEnabled(params);
+      },
+      ...options
+    });
+  };
+  return {
+    /** Params queries the parameters of the module. */useParams,
+    /**
+     * GetProtoRevNumberOfTrades queries the number of arbitrage trades the module
+     * has executed
+     */
+    useGetProtoRevNumberOfTrades,
+    /** GetProtoRevProfitsByDenom queries the profits of the module by denom */useGetProtoRevProfitsByDenom,
+    /** GetProtoRevAllProfits queries all of the profits from the module */useGetProtoRevAllProfits,
+    /**
+     * GetProtoRevStatisticsByRoute queries the number of arbitrages and profits
+     * that have been executed for a given route
+     */
+    useGetProtoRevStatisticsByRoute,
+    /**
+     * GetProtoRevAllRouteStatistics queries all of routes that the module has
+     * arbitraged against and the number of trades and profits that have been
+     * accumulated for each route
+     */
+    useGetProtoRevAllRouteStatistics,
+    /**
+     * GetProtoRevTokenPairArbRoutes queries all of the hot routes that the module
+     * is currently arbitraging
+     */
+    useGetProtoRevTokenPairArbRoutes,
+    /** GetProtoRevAdminAccount queries the admin account of the module */useGetProtoRevAdminAccount,
+    /** GetProtoRevDeveloperAccount queries the developer account of the module */useGetProtoRevDeveloperAccount,
+    /**
+     * GetProtoRevPoolWeights queries the weights of each pool type currently
+     * being used by the module
+     */
+    useGetProtoRevPoolWeights,
+    /**
+     * GetProtoRevMaxPoolPointsPerTx queries the maximum number of pool points
+     * that can be consumed per transaction
+     */
+    useGetProtoRevMaxPoolPointsPerTx,
+    /**
+     * GetProtoRevMaxPoolPointsPerBlock queries the maximum number of pool points
+     * that can consumed per block
+     */
+    useGetProtoRevMaxPoolPointsPerBlock,
+    /**
+     * GetProtoRevBaseDenoms queries the base denoms that the module is currently
+     * utilizing for arbitrage
+     */
+    useGetProtoRevBaseDenoms,
+    /** GetProtoRevEnabled queries whether the module is enabled or not */useGetProtoRevEnabled
   };
 };

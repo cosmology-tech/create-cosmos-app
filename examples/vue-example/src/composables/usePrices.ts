@@ -1,6 +1,6 @@
 import { Ref, computed } from 'vue'
 import { Asset } from '@chain-registry/types';
-import { useAssets } from '../useAssets';
+import { useAssets } from './useAssets';
 import { useQuery } from '@tanstack/vue-query';
 
 type CoinGeckoId = string;

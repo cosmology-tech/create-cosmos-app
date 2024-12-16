@@ -1,12 +1,12 @@
 
 import { Ref } from 'vue'
 import { useWalletManager } from '@interchain-kit/vue'
-import { useAssets } from '../useAssets'
+import { useAssets } from './useAssets'
 import { Asset } from '@chain-registry/types';
 import { ibc } from 'chain-registry'
 import { Coin } from 'osmojs/cosmos/base/v1beta1/coin';
 import BigNumber from 'bignumber.js'
-import { CoinDenom, CoinSymbol, Exponent, PriceHash } from '../../utils/asset-list/types';
+import { CoinDenom, CoinSymbol, Exponent, PriceHash } from '../utils/asset-list/types';
 
 
 export const useChainUtils = (chainName: Ref<string>) => {

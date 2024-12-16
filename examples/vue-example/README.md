@@ -98,6 +98,8 @@ cosmos.bank.v1beta1.useBalance
 ```ts
 /cosmos.bank.v1beta1.MsgSend
 ```
+### Provide Liquidity
+- **Completion Status:** ⏳ In Progress...
 
 ### NFT
 - **Completion Status:** ⏳ In Progress...

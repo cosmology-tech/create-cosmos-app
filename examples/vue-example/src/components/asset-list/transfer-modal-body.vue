@@ -4,7 +4,7 @@ import { defineProps, computed, ref } from 'vue';
 import { Transfer } from '../../utils/asset-list/types';
 import { useBalance } from '../../composables/asset-list/useBalance';
 import BigNumber from 'bignumber.js'
-import { useChainUtils } from '../../composables/asset-list/useChainUtils';
+import { useChainUtils } from '../../composables/useChainUtils';
 import { IProps } from './row-transfer-modal.vue';
 import AssetWithdrawTokens from './asset-withdraw-tokens.vue';
 import { coins, StdFee } from '@cosmjs/amino';

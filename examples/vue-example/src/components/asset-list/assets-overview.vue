@@ -10,7 +10,7 @@ import RowTransferModal from './row-transfer-modal.vue';
 import BigNumber from 'bignumber.js';
 import { useDisclosure } from '../../composables/asset-list/useDisclosure';
 import { CoinDenom, Transfer } from '../../utils/asset-list/types';
-import { useChainUtils } from '../../composables/asset-list/useChainUtils';
+import { useChainUtils } from '../../composables/useChainUtils';
 import { Coin } from 'osmojs/cosmos/base/v1beta1/coin';
 
 export type TransferValues = typeof Transfer[keyof typeof Transfer];

@@ -5,8 +5,11 @@ import { PeriodLock, PeriodLockSDKType, SyntheticLock, SyntheticLockSDKType } fr
 import { Params, ParamsSDKType } from "./params";
 import { Rpc } from "../../helpers";
 import { BinaryReader } from "../../binary";
-import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
-import { ModuleBalanceRequest, ModuleBalanceRequestSDKType, ModuleBalanceResponse, ModuleBalanceResponseSDKType, ModuleLockedAmountRequest, ModuleLockedAmountRequestSDKType, ModuleLockedAmountResponse, ModuleLockedAmountResponseSDKType, AccountUnlockableCoinsRequest, AccountUnlockableCoinsRequestSDKType, AccountUnlockableCoinsResponse, AccountUnlockableCoinsResponseSDKType, AccountUnlockingCoinsRequest, AccountUnlockingCoinsRequestSDKType, AccountUnlockingCoinsResponse, AccountUnlockingCoinsResponseSDKType, AccountLockedCoinsRequest, AccountLockedCoinsRequestSDKType, AccountLockedCoinsResponse, AccountLockedCoinsResponseSDKType, AccountLockedPastTimeRequest, AccountLockedPastTimeRequestSDKType, AccountLockedPastTimeResponse, AccountLockedPastTimeResponseSDKType, AccountLockedPastTimeNotUnlockingOnlyRequest, AccountLockedPastTimeNotUnlockingOnlyRequestSDKType, AccountLockedPastTimeNotUnlockingOnlyResponse, AccountLockedPastTimeNotUnlockingOnlyResponseSDKType, AccountUnlockedBeforeTimeRequest, AccountUnlockedBeforeTimeRequestSDKType, AccountUnlockedBeforeTimeResponse, AccountUnlockedBeforeTimeResponseSDKType, AccountLockedPastTimeDenomRequest, AccountLockedPastTimeDenomRequestSDKType, AccountLockedPastTimeDenomResponse, AccountLockedPastTimeDenomResponseSDKType, LockedDenomRequest, LockedDenomRequestSDKType, LockedDenomResponse, LockedDenomResponseSDKType, LockedRequest, LockedRequestSDKType, LockedResponse, LockedResponseSDKType, SyntheticLockupsByLockupIDRequest, SyntheticLockupsByLockupIDRequestSDKType, SyntheticLockupsByLockupIDResponse, SyntheticLockupsByLockupIDResponseSDKType, AccountLockedLongerDurationRequest, AccountLockedLongerDurationRequestSDKType, AccountLockedLongerDurationResponse, AccountLockedLongerDurationResponseSDKType, AccountLockedDurationRequest, AccountLockedDurationRequestSDKType, AccountLockedDurationResponse, AccountLockedDurationResponseSDKType, AccountLockedLongerDurationNotUnlockingOnlyRequest, AccountLockedLongerDurationNotUnlockingOnlyRequestSDKType, AccountLockedLongerDurationNotUnlockingOnlyResponse, AccountLockedLongerDurationNotUnlockingOnlyResponseSDKType, AccountLockedLongerDurationDenomRequest, AccountLockedLongerDurationDenomRequestSDKType, AccountLockedLongerDurationDenomResponse, AccountLockedLongerDurationDenomResponseSDKType, QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, ReactiveQueryParamsRequest } from "./query";
+import { QueryClient, createProtobufRpcClient, ProtobufRpcClient } from "@cosmjs/stargate";
+import { VueQueryParams } from "../../vue-query";
+import { ComputedRef, computed, Ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
+import { ModuleBalanceRequest, ModuleBalanceRequestSDKType, ModuleBalanceResponse, ModuleBalanceResponseSDKType, ModuleLockedAmountRequest, ModuleLockedAmountRequestSDKType, ModuleLockedAmountResponse, ModuleLockedAmountResponseSDKType, AccountUnlockableCoinsRequest, AccountUnlockableCoinsRequestSDKType, AccountUnlockableCoinsResponse, AccountUnlockableCoinsResponseSDKType, AccountUnlockingCoinsRequest, AccountUnlockingCoinsRequestSDKType, AccountUnlockingCoinsResponse, AccountUnlockingCoinsResponseSDKType, AccountLockedCoinsRequest, AccountLockedCoinsRequestSDKType, AccountLockedCoinsResponse, AccountLockedCoinsResponseSDKType, AccountLockedPastTimeRequest, AccountLockedPastTimeRequestSDKType, AccountLockedPastTimeResponse, AccountLockedPastTimeResponseSDKType, AccountLockedPastTimeNotUnlockingOnlyRequest, AccountLockedPastTimeNotUnlockingOnlyRequestSDKType, AccountLockedPastTimeNotUnlockingOnlyResponse, AccountLockedPastTimeNotUnlockingOnlyResponseSDKType, AccountUnlockedBeforeTimeRequest, AccountUnlockedBeforeTimeRequestSDKType, AccountUnlockedBeforeTimeResponse, AccountUnlockedBeforeTimeResponseSDKType, AccountLockedPastTimeDenomRequest, AccountLockedPastTimeDenomRequestSDKType, AccountLockedPastTimeDenomResponse, AccountLockedPastTimeDenomResponseSDKType, LockedDenomRequest, LockedDenomRequestSDKType, LockedDenomResponse, LockedDenomResponseSDKType, LockedRequest, LockedRequestSDKType, LockedResponse, LockedResponseSDKType, SyntheticLockupsByLockupIDRequest, SyntheticLockupsByLockupIDRequestSDKType, SyntheticLockupsByLockupIDResponse, SyntheticLockupsByLockupIDResponseSDKType, AccountLockedLongerDurationRequest, AccountLockedLongerDurationRequestSDKType, AccountLockedLongerDurationResponse, AccountLockedLongerDurationResponseSDKType, AccountLockedDurationRequest, AccountLockedDurationRequestSDKType, AccountLockedDurationResponse, AccountLockedDurationResponseSDKType, AccountLockedLongerDurationNotUnlockingOnlyRequest, AccountLockedLongerDurationNotUnlockingOnlyRequestSDKType, AccountLockedLongerDurationNotUnlockingOnlyResponse, AccountLockedLongerDurationNotUnlockingOnlyResponseSDKType, AccountLockedLongerDurationDenomRequest, AccountLockedLongerDurationDenomRequestSDKType, AccountLockedLongerDurationDenomResponse, AccountLockedLongerDurationDenomResponseSDKType, QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, ReactiveModuleBalanceRequest, ReactiveModuleLockedAmountRequest, ReactiveAccountUnlockableCoinsRequest, ReactiveAccountUnlockingCoinsRequest, ReactiveAccountLockedCoinsRequest, ReactiveAccountLockedPastTimeRequest, ReactiveAccountLockedPastTimeNotUnlockingOnlyRequest, ReactiveAccountUnlockedBeforeTimeRequest, ReactiveAccountLockedPastTimeDenomRequest, ReactiveLockedDenomRequest, ReactiveLockedRequest, ReactiveSyntheticLockupsByLockupIDRequest, ReactiveAccountLockedLongerDurationRequest, ReactiveAccountLockedDurationRequest, ReactiveAccountLockedLongerDurationNotUnlockingOnlyRequest, ReactiveAccountLockedLongerDurationDenomRequest, ReactiveQueryParamsRequest } from "./query";
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Return full balance of the module */
@@ -213,5 +216,524 @@ export const createRpcQueryExtension = (base: QueryClient) => {
     params(request?: QueryParamsRequest): Promise<QueryParamsResponse> {
       return queryService.params(request);
     }
+  };
+};
+export interface UseModuleBalanceQuery<TData> extends VueQueryParams<ModuleBalanceResponse, TData> {
+  request?: ReactiveModuleBalanceRequest;
+}
+export interface UseModuleLockedAmountQuery<TData> extends VueQueryParams<ModuleLockedAmountResponse, TData> {
+  request?: ReactiveModuleLockedAmountRequest;
+}
+export interface UseAccountUnlockableCoinsQuery<TData> extends VueQueryParams<AccountUnlockableCoinsResponse, TData> {
+  request: ReactiveAccountUnlockableCoinsRequest;
+}
+export interface UseAccountUnlockingCoinsQuery<TData> extends VueQueryParams<AccountUnlockingCoinsResponse, TData> {
+  request: ReactiveAccountUnlockingCoinsRequest;
+}
+export interface UseAccountLockedCoinsQuery<TData> extends VueQueryParams<AccountLockedCoinsResponse, TData> {
+  request: ReactiveAccountLockedCoinsRequest;
+}
+export interface UseAccountLockedPastTimeQuery<TData> extends VueQueryParams<AccountLockedPastTimeResponse, TData> {
+  request: ReactiveAccountLockedPastTimeRequest;
+}
+export interface UseAccountLockedPastTimeNotUnlockingOnlyQuery<TData> extends VueQueryParams<AccountLockedPastTimeNotUnlockingOnlyResponse, TData> {
+  request: ReactiveAccountLockedPastTimeNotUnlockingOnlyRequest;
+}
+export interface UseAccountUnlockedBeforeTimeQuery<TData> extends VueQueryParams<AccountUnlockedBeforeTimeResponse, TData> {
+  request: ReactiveAccountUnlockedBeforeTimeRequest;
+}
+export interface UseAccountLockedPastTimeDenomQuery<TData> extends VueQueryParams<AccountLockedPastTimeDenomResponse, TData> {
+  request: ReactiveAccountLockedPastTimeDenomRequest;
+}
+export interface UseLockedDenomQuery<TData> extends VueQueryParams<LockedDenomResponse, TData> {
+  request: ReactiveLockedDenomRequest;
+}
+export interface UseLockedByIDQuery<TData> extends VueQueryParams<LockedResponse, TData> {
+  request: ReactiveLockedRequest;
+}
+export interface UseSyntheticLockupsByLockupIDQuery<TData> extends VueQueryParams<SyntheticLockupsByLockupIDResponse, TData> {
+  request: ReactiveSyntheticLockupsByLockupIDRequest;
+}
+export interface UseAccountLockedLongerDurationQuery<TData> extends VueQueryParams<AccountLockedLongerDurationResponse, TData> {
+  request: ReactiveAccountLockedLongerDurationRequest;
+}
+export interface UseAccountLockedDurationQuery<TData> extends VueQueryParams<AccountLockedDurationResponse, TData> {
+  request: ReactiveAccountLockedDurationRequest;
+}
+export interface UseAccountLockedLongerDurationNotUnlockingOnlyQuery<TData> extends VueQueryParams<AccountLockedLongerDurationNotUnlockingOnlyResponse, TData> {
+  request: ReactiveAccountLockedLongerDurationNotUnlockingOnlyRequest;
+}
+export interface UseAccountLockedLongerDurationDenomQuery<TData> extends VueQueryParams<AccountLockedLongerDurationDenomResponse, TData> {
+  request: ReactiveAccountLockedLongerDurationDenomRequest;
+}
+export interface UseParamsQuery<TData> extends VueQueryParams<QueryParamsResponse, TData> {
+  request?: ReactiveQueryParamsRequest;
+}
+export const useQueryService = (rpc: Ref<ProtobufRpcClient | undefined>): ComputedRef<QueryClientImpl | undefined> => {
+  const _queryClients = new WeakMap();
+  return computed(() => {
+    if (rpc.value) {
+      if (_queryClients.has(rpc.value)) {
+        return _queryClients.get(rpc.value);
+      }
+      const queryService = new QueryClientImpl(rpc.value);
+      _queryClients.set(rpc.value, queryService);
+      return queryService;
+    }
+  });
+};
+export const createRpcQueryHooks = (rpc: Ref<ProtobufRpcClient | undefined>) => {
+  const queryService = useQueryService(rpc);
+  const useModuleBalance = <TData = ModuleBalanceResponse,>({
+    request,
+    options
+  }: UseModuleBalanceQuery<TData>) => {
+    const queryKey = ["moduleBalanceQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<ModuleBalanceResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.moduleBalance(params);
+      },
+      ...options
+    });
+  };
+  const useModuleLockedAmount = <TData = ModuleLockedAmountResponse,>({
+    request,
+    options
+  }: UseModuleLockedAmountQuery<TData>) => {
+    const queryKey = ["moduleLockedAmountQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<ModuleLockedAmountResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.moduleLockedAmount(params);
+      },
+      ...options
+    });
+  };
+  const useAccountUnlockableCoins = <TData = AccountUnlockableCoinsResponse,>({
+    request,
+    options
+  }: UseAccountUnlockableCoinsQuery<TData>) => {
+    const queryKey = ["accountUnlockableCoinsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<AccountUnlockableCoinsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.accountUnlockableCoins(params);
+      },
+      ...options
+    });
+  };
+  const useAccountUnlockingCoins = <TData = AccountUnlockingCoinsResponse,>({
+    request,
+    options
+  }: UseAccountUnlockingCoinsQuery<TData>) => {
+    const queryKey = ["accountUnlockingCoinsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<AccountUnlockingCoinsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.accountUnlockingCoins(params);
+      },
+      ...options
+    });
+  };
+  const useAccountLockedCoins = <TData = AccountLockedCoinsResponse,>({
+    request,
+    options
+  }: UseAccountLockedCoinsQuery<TData>) => {
+    const queryKey = ["accountLockedCoinsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<AccountLockedCoinsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.accountLockedCoins(params);
+      },
+      ...options
+    });
+  };
+  const useAccountLockedPastTime = <TData = AccountLockedPastTimeResponse,>({
+    request,
+    options
+  }: UseAccountLockedPastTimeQuery<TData>) => {
+    const queryKey = ["accountLockedPastTimeQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<AccountLockedPastTimeResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.accountLockedPastTime(params);
+      },
+      ...options
+    });
+  };
+  const useAccountLockedPastTimeNotUnlockingOnly = <TData = AccountLockedPastTimeNotUnlockingOnlyResponse,>({
+    request,
+    options
+  }: UseAccountLockedPastTimeNotUnlockingOnlyQuery<TData>) => {
+    const queryKey = ["accountLockedPastTimeNotUnlockingOnlyQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<AccountLockedPastTimeNotUnlockingOnlyResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.accountLockedPastTimeNotUnlockingOnly(params);
+      },
+      ...options
+    });
+  };
+  const useAccountUnlockedBeforeTime = <TData = AccountUnlockedBeforeTimeResponse,>({
+    request,
+    options
+  }: UseAccountUnlockedBeforeTimeQuery<TData>) => {
+    const queryKey = ["accountUnlockedBeforeTimeQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<AccountUnlockedBeforeTimeResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.accountUnlockedBeforeTime(params);
+      },
+      ...options
+    });
+  };
+  const useAccountLockedPastTimeDenom = <TData = AccountLockedPastTimeDenomResponse,>({
+    request,
+    options
+  }: UseAccountLockedPastTimeDenomQuery<TData>) => {
+    const queryKey = ["accountLockedPastTimeDenomQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<AccountLockedPastTimeDenomResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.accountLockedPastTimeDenom(params);
+      },
+      ...options
+    });
+  };
+  const useLockedDenom = <TData = LockedDenomResponse,>({
+    request,
+    options
+  }: UseLockedDenomQuery<TData>) => {
+    const queryKey = ["lockedDenomQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<LockedDenomResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.lockedDenom(params);
+      },
+      ...options
+    });
+  };
+  const useLockedByID = <TData = LockedResponse,>({
+    request,
+    options
+  }: UseLockedByIDQuery<TData>) => {
+    const queryKey = ["lockedByIDQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<LockedResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.lockedByID(params);
+      },
+      ...options
+    });
+  };
+  const useSyntheticLockupsByLockupID = <TData = SyntheticLockupsByLockupIDResponse,>({
+    request,
+    options
+  }: UseSyntheticLockupsByLockupIDQuery<TData>) => {
+    const queryKey = ["syntheticLockupsByLockupIDQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<SyntheticLockupsByLockupIDResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.syntheticLockupsByLockupID(params);
+      },
+      ...options
+    });
+  };
+  const useAccountLockedLongerDuration = <TData = AccountLockedLongerDurationResponse,>({
+    request,
+    options
+  }: UseAccountLockedLongerDurationQuery<TData>) => {
+    const queryKey = ["accountLockedLongerDurationQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<AccountLockedLongerDurationResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.accountLockedLongerDuration(params);
+      },
+      ...options
+    });
+  };
+  const useAccountLockedDuration = <TData = AccountLockedDurationResponse,>({
+    request,
+    options
+  }: UseAccountLockedDurationQuery<TData>) => {
+    const queryKey = ["accountLockedDurationQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<AccountLockedDurationResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.accountLockedDuration(params);
+      },
+      ...options
+    });
+  };
+  const useAccountLockedLongerDurationNotUnlockingOnly = <TData = AccountLockedLongerDurationNotUnlockingOnlyResponse,>({
+    request,
+    options
+  }: UseAccountLockedLongerDurationNotUnlockingOnlyQuery<TData>) => {
+    const queryKey = ["accountLockedLongerDurationNotUnlockingOnlyQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<AccountLockedLongerDurationNotUnlockingOnlyResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.accountLockedLongerDurationNotUnlockingOnly(params);
+      },
+      ...options
+    });
+  };
+  const useAccountLockedLongerDurationDenom = <TData = AccountLockedLongerDurationDenomResponse,>({
+    request,
+    options
+  }: UseAccountLockedLongerDurationDenomQuery<TData>) => {
+    const queryKey = ["accountLockedLongerDurationDenomQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<AccountLockedLongerDurationDenomResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.accountLockedLongerDurationDenom(params);
+      },
+      ...options
+    });
+  };
+  const useParams = <TData = QueryParamsResponse,>({
+    request,
+    options
+  }: UseParamsQuery<TData>) => {
+    const queryKey = ["paramsQuery", queryService];
+    if (request) {
+      Object.values(request).forEach((val: any) => {
+        queryKey.push(val);
+      });
+    }
+    return useQuery<QueryParamsResponse, Error, TData>({
+      queryKey,
+      queryFn: () => {
+        if (!queryService.value) throw new Error("Query Service not initialized");
+        let params = ({} as any);
+        if (request) {
+          Object.entries(request).forEach(([key, val]) => {
+            params[key] = val.value;
+          });
+        }
+        return queryService.value.params(params);
+      },
+      ...options
+    });
+  };
+  return {
+    /** Return full balance of the module */useModuleBalance,
+    /** Return locked balance of the module */useModuleLockedAmount,
+    /** Returns unlockable coins which are not withdrawn yet */useAccountUnlockableCoins,
+    /** Returns unlocking coins */useAccountUnlockingCoins,
+    /** Return a locked coins that can't be withdrawn */useAccountLockedCoins,
+    /** Returns locked records of an account with unlock time beyond timestamp */useAccountLockedPastTime,
+    /**
+     * Returns locked records of an account with unlock time beyond timestamp
+     * excluding tokens started unlocking
+     */
+    useAccountLockedPastTimeNotUnlockingOnly,
+    /** Returns unlocked records with unlock time before timestamp */useAccountUnlockedBeforeTime,
+    /** Returns lock records by address, timestamp, denom */useAccountLockedPastTimeDenom,
+    /** Returns total locked per denom with longer past given time */useLockedDenom,
+    /** Returns lock record by id */useLockedByID,
+    /** Returns synthetic lockups by native lockup id */useSyntheticLockupsByLockupID,
+    /** Returns account locked records with longer duration */useAccountLockedLongerDuration,
+    /** Returns account locked records with a specific duration */useAccountLockedDuration,
+    /**
+     * Returns account locked records with longer duration excluding tokens
+     * started unlocking
+     */
+    useAccountLockedLongerDurationNotUnlockingOnly,
+    /** Returns account's locked records for a denom with longer duration */useAccountLockedLongerDurationDenom,
+    /** Params returns lockup params. */useParams
   };
 };

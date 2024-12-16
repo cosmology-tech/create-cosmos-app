@@ -10,6 +10,8 @@ import WalletSection from '../components/asset-list/wallet/wallet.vue'
   <div><router-link to="/asset-list">Go to asset list</router-link></div>
   <div><router-link to="/authz">Go to authz</router-link></div>
   <div><router-link to="/voting">Go to voting</router-link></div>
+  <div><router-link to="/injective">Go to injective</router-link></div>
+  <div><router-link to="/provide-liquidity">Go to provide liquidity</router-link></div>
 </Layout>
 </template>
 
