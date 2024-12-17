@@ -4,7 +4,7 @@ import { computed, ref } from 'vue'
 import { useBalance } from '../composables/injective/useBalance';
 import { useChain } from '@interchain-kit/vue';
 import { cosmos } from '../codegen';
-import { useInjectiveClient } from '../composables/useInjectiveClient';
+import { useInjectiveClient } from '../composables/common/useInjectiveClient';
 
 const chainName = ref('injective')
 const injectiveClient = useInjectiveClient(chainName)

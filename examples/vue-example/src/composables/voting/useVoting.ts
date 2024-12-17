@@ -3,8 +3,8 @@ import { Proposal } from "../../codegen/cosmos/gov/v1/gov";
 import { computed, ref, Ref } from 'vue'
 import { MessageComposer } from "../../codegen/cosmos/gov/v1/tx.registry";
 import { coins, StdFee } from "@cosmjs/amino";
-import { useAssets } from "../useAssets";
-import { useStargateClient } from "../useStargateClient";
+import { useAssets } from "../common/useAssets";
+import { useStargateClient } from "../common/useStargateClient";
 
 export type useVotingOptions = {
   chainName: Ref<string>;

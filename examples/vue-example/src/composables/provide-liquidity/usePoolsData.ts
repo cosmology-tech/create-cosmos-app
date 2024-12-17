@@ -1,13 +1,13 @@
 import { Ref, computed } from 'vue'
 import { useChain } from '@interchain-kit/vue'
 import { useRpcClient } from '../../codegen';
-import { usePools } from '../usePools';
-import { useBalances } from '../useBalances';
-import { usePrices } from '../usePrices';
+import { usePools } from '../common/usePools';
+import { useBalances } from '../common/useBalances';
+import { usePrices } from '../common/usePrices';
 import { Pool } from '../../codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 import { PriceHash } from '../../utils/asset-list/types';
-import { useAssets } from '../useAssets';
-import { usePoolUtils } from '../usePoolUtils';
+import { useAssets } from '../common/useAssets';
+import { usePoolUtils } from '../common/usePoolUtils';
 import { useFees } from './useFees';
 
 export const usePoolsData = (chainName: Ref<string>) => {

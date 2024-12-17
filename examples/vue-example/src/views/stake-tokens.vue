@@ -3,7 +3,7 @@ import { Box} from '@interchain-ui/vue'
 import { ref } from 'vue'
 import { useStakingData } from '../composables/stake-tokens/useStakingData';
 import Overview from '../components/stake-tokens/overview.vue';
-import { usePrices } from '../composables/usePrices';
+import { usePrices } from '../composables/common/usePrices';
 const chainName = ref('osmosis')
 const { rewards, balance, totalDelegated, allValidators } = useStakingData(chainName)
 const { prices } = usePrices(chainName)

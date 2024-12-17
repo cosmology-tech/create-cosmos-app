@@ -1,8 +1,8 @@
 import { Ref, computed } from 'vue'
 import { useChain } from '@interchain-kit/vue'
-import { useRpcClient } from '../codegen';
-import { createRpcQueryHooks } from '../codegen/cosmos/staking/v1beta1/query.rpc.Query';
-import { ParsedDelegations, parseDelegations } from '../utils/stake-tokens/staking';
+import { useRpcClient } from '../../codegen';
+import { createRpcQueryHooks } from '../../codegen/cosmos/staking/v1beta1/query.rpc.Query';
+import { ParsedDelegations, parseDelegations } from '../../utils/stake-tokens/staking';
 import { useAssets } from './useAssets';
 
 export const useDelegationDelegators = (chainName: Ref<string>) => {

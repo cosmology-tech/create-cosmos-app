@@ -12,6 +12,7 @@ import WalletSection from '../components/asset-list/wallet/wallet.vue'
   <div><router-link to="/voting">Go to voting</router-link></div>
   <div><router-link to="/injective">Go to injective</router-link></div>
   <div><router-link to="/provide-liquidity">Go to provide liquidity</router-link></div>
+  <div><router-link to="/stake-tokens">Stake Tokens</router-link></div>
 </Layout>
 </template>
 

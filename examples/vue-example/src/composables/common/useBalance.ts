@@ -1,9 +1,9 @@
 import { Ref, computed } from 'vue'
 import { useChain } from '@interchain-kit/vue'
-import { useRpcClient } from '../codegen';
-import { createRpcQueryHooks } from '../codegen/cosmos/bank/v1beta1/query.rpc.Query';
+import { useRpcClient } from '../../codegen';
+import { createRpcQueryHooks } from '../../codegen/cosmos/bank/v1beta1/query.rpc.Query';
 import { useAssets } from './useAssets';
-import { shiftDigits } from '../utils/stake-tokens/math';
+import { shiftDigits } from '../../utils/stake-tokens/math';
 
 export const useBalance = (chainName: Ref<string>) => {
   const { rpcEndpoint, address } = useChain(chainName)

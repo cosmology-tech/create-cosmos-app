@@ -4,13 +4,13 @@ import SingleChain from './single-chain.vue';
 import { useTotalAssets } from '../../composables/asset-list/useTotalAssets';
 import { PrettyAsset } from '../../views/asset-list.vue'
 import { truncDecimals, formatDollarValue, AvailableItem, prettyAssetToTransferItem } from '../../utils/asset-list/format';
-import { useAssets } from '../../composables/useAssets';
+import { useAssets } from '../../composables/common/useAssets';
 import DropdownTransferModal from './dropdown-transfer-modal.vue'
 import RowTransferModal from './row-transfer-modal.vue';
 import BigNumber from 'bignumber.js';
 import { useDisclosure } from '../../composables/asset-list/useDisclosure';
 import { CoinDenom, Transfer } from '../../utils/asset-list/types';
-import { useChainUtils } from '../../composables/useChainUtils';
+import { useChainUtils } from '../../composables/common/useChainUtils';
 import { Coin } from 'osmojs/cosmos/base/v1beta1/coin';
 
 export type TransferValues = typeof Transfer[keyof typeof Transfer];

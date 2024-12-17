@@ -1,10 +1,10 @@
 import { useChain } from '@interchain-kit/vue'
 import { Ref, computed } from 'vue'
 import { useBalances, useDelegations, useLockedCoins, usePools } from './useOsmosQueries'
-import { usePrices } from '../usePrices'
+import { usePrices } from '../common/usePrices'
 import BigNumber from 'bignumber.js';
-import { usePoolUtils } from '../usePoolUtils';
-import { useChainUtils } from '../useChainUtils';
+import { usePoolUtils } from '../common/usePoolUtils';
+import { useChainUtils } from '../common/useChainUtils';
 
 export const useTotalAssets = (chainName: Ref<string>) => {
   const { rpcEndpoint, address } = useChain(chainName)

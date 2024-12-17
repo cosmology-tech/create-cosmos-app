@@ -4,12 +4,12 @@ import { defineProps, computed, ref } from 'vue';
 import { Transfer } from '../../utils/asset-list/types';
 import { useBalance } from '../../composables/asset-list/useBalance';
 import BigNumber from 'bignumber.js'
-import { useChainUtils } from '../../composables/useChainUtils';
+import { useChainUtils } from '../../composables/common/useChainUtils';
 import { IProps } from './row-transfer-modal.vue';
 import AssetWithdrawTokens from './asset-withdraw-tokens.vue';
 import { coins, StdFee } from '@cosmjs/amino';
 import { ibc, cosmos } from 'osmojs';
-import { useStargateClient } from '../../composables/useStargateClient';
+import { useStargateClient } from '../../composables/common/useStargateClient';
 
 const {
     transfer

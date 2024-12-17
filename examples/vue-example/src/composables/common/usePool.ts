@@ -1,8 +1,8 @@
 import { Ref, computed } from 'vue'
 import { useChain } from '@interchain-kit/vue'
-import { useRpcClient } from '../codegen';
-import { createRpcQueryHooks } from '../codegen/cosmos/staking/v1beta1/query.rpc.Query';
-import { Pool } from '../codegen/cosmos/staking/v1beta1/staking';
+import { useRpcClient } from '../../codegen';
+import { createRpcQueryHooks } from '../../codegen/cosmos/staking/v1beta1/query.rpc.Query';
+import { Pool } from '../../codegen/cosmos/staking/v1beta1/staking';
 
 export const usePool = (chainName: Ref<string>) => {
   const { rpcEndpoint } = useChain(chainName)

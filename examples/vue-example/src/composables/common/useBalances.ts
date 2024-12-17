@@ -1,7 +1,7 @@
 import { Ref, computed } from 'vue'
 import { useChain } from '@interchain-kit/vue'
-import { useRpcClient } from '../codegen';
-import { createRpcQueryHooks } from '../codegen/cosmos/bank/v1beta1/query.rpc.Query';
+import { useRpcClient } from '../../codegen';
+import { createRpcQueryHooks } from '../../codegen/cosmos/bank/v1beta1/query.rpc.Query';
 
 export const getPagination = (limit: bigint) => ({
   limit,

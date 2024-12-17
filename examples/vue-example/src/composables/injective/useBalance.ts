@@ -3,7 +3,7 @@ import { Ref, computed } from 'vue'
 import { useChain } from '@interchain-kit/vue';
 import { useRpcClient } from '../../codegen';
 import { createRpcQueryHooks } from '../../codegen/cosmos/bank/v1beta1/query.rpc.Query';
-import { useAssets } from '../useAssets';
+import { useAssets } from '../common/useAssets';
 import BigNumber from "bignumber.js";
 
 export const useBalance = (chainName: Ref<string>) => {

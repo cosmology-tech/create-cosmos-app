@@ -3,7 +3,7 @@ import { useChain } from '@interchain-kit/vue'
 import { useRpcClient } from '../../codegen';
 import { createRpcQueryHooks } from '../../codegen/cosmos/distribution/v1beta1/query.rpc.Query';
 import { ParsedRewards, parseRewards } from '../../utils/stake-tokens/staking';
-import { useAssets } from '../useAssets';
+import { useAssets } from '../common/useAssets';
 
 export const useDelegationTotalRewards = (chainName: Ref<string>) => {
   const { rpcEndpoint, address } = useChain(chainName)

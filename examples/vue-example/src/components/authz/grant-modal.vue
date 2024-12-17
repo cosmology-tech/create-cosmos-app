@@ -6,12 +6,12 @@ import { useChain } from '@interchain-kit/vue';
 import { useAuthzTx } from '../../composables/authz/useAuthzTx';
 import { coin } from '@cosmjs/amino';
 import { shiftDigits } from '../../utils/authz/calc';
-import { useAssets } from '../../composables/useAssets';
+import { useAssets } from '../../composables/common/useAssets';
 import dayjs from 'dayjs';
 import { SendAuthorization } from "../../codegen/cosmos/bank/v1beta1/authz";
 import { GenericAuthorization } from 'osmojs/cosmos/authz/v1beta1/authz';
 import { MsgGrant } from '../../codegen/cosmos/authz/v1beta1/tx';
-import { useValidators } from '../../composables/useValidators';
+import { useValidators } from '../../composables/common/useValidators';
 import { AuthorizationType, StakeAuthorization } from '../../codegen/cosmos/staking/v1beta1/authz';
 
 type GrantModalProps = {

@@ -1,11 +1,11 @@
 import { Coin } from "osmojs";
 // import { Pool } from "osmojs/osmosis/gamm/v1beta1/balancerPool";
 import BigNumber from 'bignumber.js';
-import { PriceHash } from "../utils/asset-list/types";
+import { PriceHash } from "../../utils/asset-list/types";
 import { useChainUtils } from "./useChainUtils";
 import { Ref } from 'vue'
-import { Pool } from "../codegen/osmosis/gamm/pool-models/balancer/balancerPool";
-import { Fee } from "./provide-liquidity/useFees";
+import { Pool } from "../../codegen/osmosis/gamm/pool-models/balancer/balancerPool";
+import { Fee } from "./../provide-liquidity/useFees";
 
 interface ExtendPoolProps {
   pool: Pool;

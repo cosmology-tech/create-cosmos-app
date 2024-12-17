@@ -3,7 +3,7 @@ import { Ref, computed, ref, watch } from 'vue'
 import { ExtensionWallet } from '@interchain-kit/core'
 import { useChain, useWalletManager } from '@interchain-kit/vue'
 import { toEncoders, toConverters } from '@interchainjs/cosmos/utils';
-import { MsgSend } from '../codegen/cosmos/bank/v1beta1/tx';
+import { MsgSend } from '../../codegen/cosmos/bank/v1beta1/tx';
 
 export const useInjectiveClient = (chainName: Ref<string>) => {
   const { rpcEndpoint, chain } = useChain(chainName)

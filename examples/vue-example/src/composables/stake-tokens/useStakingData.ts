@@ -1,16 +1,16 @@
 import { Ref, computed } from 'vue'
 import { useChain } from '@interchain-kit/vue'
 import { useRpcClient } from '../../codegen'
-import { useBalance } from '../useBalance'
+import { useBalance } from '../common/useBalance'
 import { useDelegationValidators } from './useDelegationValidators'
 import { useDelegationTotalRewards } from './useDelegationTotalRewards'
-import { useValidators } from '../useValidators'
-import { useDelegationDelegators } from '../useDelegatorDelegations'
+import { useValidators } from '../common/useValidators'
+import { useDelegationDelegators } from '../common/useDelegatorDelegations'
 import { useParams } from './useParams'
 import { useAnnualProvisions } from './useAnnualProvisions'
 import { useCommunityTax } from './useCommunityTax'
 import { calcTotalDelegation, extendValidators } from '../../utils/stake-tokens/staking'
-import { usePool } from '../usePool'
+import { usePool } from '../common/usePool'
 
 export const useStakingData = (chainName: Ref<string>) => {
   const { rpcEndpoint, address } = useChain(chainName)

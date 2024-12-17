@@ -6,9 +6,9 @@ import { StakeAuthorization } from "../../codegen/cosmos/staking/v1beta1/authz";
 import { Permission } from "../../utils/authz/permissions";
 import { Ref } from 'vue'
 import { useChain } from "@interchain-kit/vue";
-import { useStargateClient } from "../useStargateClient";
+import { useStargateClient } from "../common/useStargateClient";
 import { coins, StdFee } from "@cosmjs/amino";
-import { useAssets } from "../useAssets";
+import { useAssets } from "../common/useAssets";
 
 export type GrantMsg =
   | {

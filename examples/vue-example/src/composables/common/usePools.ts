@@ -1,8 +1,8 @@
 import { Ref, computed } from 'vue'
 import { useChain } from '@interchain-kit/vue'
-import { useRpcClient } from '../codegen';
-import { createRpcQueryHooks } from '../codegen/osmosis/gamm/v1beta1/query.rpc.Query';
-import { Pool } from '../codegen/osmosis/gamm/pool-models/balancer/balancerPool';
+import { useRpcClient } from '../../codegen';
+import { createRpcQueryHooks } from '../../codegen/osmosis/gamm/v1beta1/query.rpc.Query';
+import { Pool } from '../../codegen/osmosis/gamm/pool-models/balancer/balancerPool';
 
 export const getPagination = (limit: bigint) => ({
   limit,

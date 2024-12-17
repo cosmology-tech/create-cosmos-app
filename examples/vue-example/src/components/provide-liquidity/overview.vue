@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { usePrices } from '../../composables/usePrices';
-import { useAssets } from '../../composables/useAssets';
+import { usePrices } from '../../composables/common/usePrices';
+import { useAssets } from '../../composables/common/useAssets';
 import { useEpochs } from '../../composables/provide-liquidity/useEpochs';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';

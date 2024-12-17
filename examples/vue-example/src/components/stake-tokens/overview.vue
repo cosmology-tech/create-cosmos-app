@@ -2,8 +2,8 @@
 import { Box} from '@interchain-ui/vue'
 import { ref, defineProps, computed } from 'vue'
 import { ParsedRewards } from '../../utils/stake-tokens/staking';
-import { Prices } from '../../composables/usePrices';
-import { useAssets } from '../../composables/useAssets';
+import { Prices } from '../../composables/common/usePrices';
+import { useAssets } from '../../composables/common/useAssets';
 import { sum, calcDollarValue, isGreaterThanZero } from '../../utils/stake-tokens/math';
 const props = defineProps<{
   balance: string,

@@ -5,7 +5,7 @@ import { Proposal, ProposalStatus } from '../../codegen/cosmos/gov/v1/gov'
 import { formatDate } from '../../utils/voting';
 import { useVoting } from '../../composables/voting/useVoting';
 import { exponentiate, percent } from '../../utils/voting';
-import { useAssets } from '../../composables/useAssets';
+import { useAssets } from '../../composables/common/useAssets';
 export interface Votes {
   [key: string]: number;
 }

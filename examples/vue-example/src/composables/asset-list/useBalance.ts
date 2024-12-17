@@ -1,7 +1,7 @@
 import { computed, Ref, watch } from 'vue'
 import { useChain } from '@interchain-kit/vue'
 import { osmosis } from 'osmojs'
-import { useAssets } from '../useAssets'
+import { useAssets } from '../common/useAssets'
 import { useQuery } from '@tanstack/vue-query'
 
 export const useBalance = (chainName: Ref<string>, displayDenom?: string) => {

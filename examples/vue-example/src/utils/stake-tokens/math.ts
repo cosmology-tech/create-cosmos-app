@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { Prices } from '../../composables/usePrices';
+import { Prices } from '../../composables/common/usePrices';
 
 export const shiftDigits = (
   num: string | number,
