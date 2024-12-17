@@ -3300,8 +3300,8 @@ __metadata:
     "@interchain-kit/react": "npm:0.0.1-beta.23"
     "@interchain-ui/react": "npm:^1.23.29"
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
-    "@interchainjs/cosmos-types": "npm:0.0.1-beta.9"
-    "@interchainjs/injective": "npm:0.0.1-beta.12"
+    "@interchainjs/cosmos-types": "npm:1.6.1"
+    "@interchainjs/injective": "npm:1.6.1"
     "@tanstack/react-query": "npm:4.29.1"
     "@tanstack/react-query-devtools": "npm:4.29.1"
     "@types/node": "npm:^20.14.6"
@@ -3313,7 +3313,7 @@ __metadata:
     eslint: "npm:8.28.0"
     eslint-config-next: "npm:13.0.5"
     generate-lockfile: "npm:0.0.12"
-    interchainjs: "npm:0.0.1-beta.14"
+    interchainjs: "npm:1.6.1"
     mobx: "npm:^6.13.5"
     next: "npm:^13"
     react: "npm:18.2.0"
@@ -4173,6 +4173,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@interchainjs/auth@npm:1.6.1":
+  version: 1.6.1
+  resolution: "@interchainjs/auth@npm:1.6.1"
+  dependencies:
+    "@interchainjs/types": "npm:1.6.1"
+    "@interchainjs/utils": "npm:1.6.1"
+    "@noble/curves": "npm:^1.1.0"
+    "@noble/hashes": "npm:^1.3.1"
+    ethers: "npm:^6.5.1"
+  checksum: 10c0/e5a3281e3a41154b790cc28bf3f7d92abdfd2b5a2dc6e5457d7082c2b4dcbd7cd2a0d76745ead24d5a6da0c038bc7f8a268014124abd982dd78d24ef564df3e0
+  languageName: node
+  linkType: hard
+
 "@interchainjs/auth@npm:^0.0.1-beta.16":
   version: 0.0.1-beta.16
   resolution: "@interchainjs/auth@npm:0.0.1-beta.16"
@@ -4196,6 +4209,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@interchainjs/cosmos-types@npm:1.6.1":
+  version: 1.6.1
+  resolution: "@interchainjs/cosmos-types@npm:1.6.1"
+  dependencies:
+    "@interchainjs/types": "npm:1.6.1"
+    "@interchainjs/utils": "npm:1.6.1"
+  checksum: 10c0/76d8edb30e4ace4f21a2ec41026acf07c4ffcd982518d207dd494f111e5e89004f1431de73fbbedde6e31a318b2007f9a59acca5d3a683221bcbb5135c53720e
+  languageName: node
+  linkType: hard
+
 "@interchainjs/cosmos-types@npm:^0.0.1-beta.17, @interchainjs/cosmos-types@npm:^0.0.1-beta.9":
   version: 0.0.1-beta.17
   resolution: "@interchainjs/cosmos-types@npm:0.0.1-beta.17"
@@ -4203,6 +4226,23 @@ __metadata:
     "@interchainjs/types": "npm:^0.0.1-beta.15"
     "@interchainjs/utils": "npm:^0.0.1-beta.15"
   checksum: 10c0/9e3c7793dd5cdf9b09795a90fd0b318bbb192adca4ffe9a1faf310c0a21b514fac59b9dd21eec67b738c1767e4550dc7271cb338652cbe97940c5b76a889d081
+  languageName: node
+  linkType: hard
+
+"@interchainjs/cosmos@npm:1.6.1":
+  version: 1.6.1
+  resolution: "@interchainjs/cosmos@npm:1.6.1"
+  dependencies:
+    "@chain-registry/v2": "npm:^1.65.6"
+    "@chain-registry/v2-types": "npm:^0.49.6"
+    "@interchainjs/auth": "npm:1.6.1"
+    "@interchainjs/cosmos-types": "npm:1.6.1"
+    "@interchainjs/types": "npm:1.6.1"
+    "@interchainjs/utils": "npm:1.6.1"
+    "@noble/curves": "npm:^1.1.0"
+    "@noble/hashes": "npm:^1.3.1"
+    decimal.js: "npm:^10.4.3"
+  checksum: 10c0/97908a54bd1d4b6d7ce2fbfff122a1a06ede0540242c6354da3bbe8900031831d42c69c6e090be26b05a37a3407f474b5fca760178d71f8024532017cd6498db
   languageName: node
   linkType: hard
 
@@ -4223,6 +4263,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@interchainjs/ethereum@npm:1.6.1":
+  version: 1.6.1
+  resolution: "@interchainjs/ethereum@npm:1.6.1"
+  dependencies:
+    "@ethersproject/bignumber": "npm:^5.7.0"
+    "@ethersproject/bytes": "npm:^5.7.0"
+    "@ethersproject/hash": "npm:^5.7.0"
+    "@ethersproject/transactions": "npm:^5.7.0"
+    "@interchainjs/types": "npm:1.6.1"
+    "@interchainjs/utils": "npm:1.6.1"
+    "@noble/hashes": "npm:^1.3.1"
+    ethers: "npm:^6.13.4"
+  checksum: 10c0/3fc7ab23a63f7da648176e97266266b390142a66b6fdae29221c7f363987efce1374553b126cbc5d146f510dd1a99e81d8eb08d21ad0af42f0748e286deed484
+  languageName: node
+  linkType: hard
+
 "@interchainjs/ethereum@npm:^0.0.1-beta.9":
   version: 0.0.1-beta.15
   resolution: "@interchainjs/ethereum@npm:0.0.1-beta.15"
@@ -4235,21 +4291,6 @@ __metadata:
     "@interchainjs/utils": "npm:^0.0.1-beta.15"
     "@noble/hashes": "npm:^1.3.1"
   checksum: 10c0/55ea9df08d4b41f933187cd10116d6e128ccd6a5d2e65a223fdadfee570827cfe163ea1b5f814035ead91486fa9bf35c7326f5b78cf51808a51fbc26033ab5de
-  languageName: node
-  linkType: hard
-
-"@interchainjs/injective@npm:0.0.1-beta.12":
-  version: 0.0.1-beta.12
-  resolution: "@interchainjs/injective@npm:0.0.1-beta.12"
-  dependencies:
-    "@interchainjs/cosmos": "npm:^0.0.1-beta.12"
-    "@interchainjs/cosmos-types": "npm:^0.0.1-beta.9"
-    "@interchainjs/ethereum": "npm:^0.0.1-beta.9"
-    "@interchainjs/types": "npm:^0.0.1-beta.9"
-    "@interchainjs/utils": "npm:^0.0.1-beta.9"
-    decimal.js: "npm:^10.4.3"
-    interchainjs: "npm:^0.0.1-beta.13"
-  checksum: 10c0/69c39b35fae8a7bf5d364e50b6fffc825229a1675accca460fd0fdfeec251713934811e144d1c9ac215b2908e2f8d5d8d60cfacea9aa3078442163a7323a0b7b
   languageName: node
   linkType: hard
 
@@ -4268,12 +4309,46 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@interchainjs/injective@npm:1.6.1":
+  version: 1.6.1
+  resolution: "@interchainjs/injective@npm:1.6.1"
+  dependencies:
+    "@interchainjs/cosmos": "npm:1.6.1"
+    "@interchainjs/cosmos-types": "npm:1.6.1"
+    "@interchainjs/ethereum": "npm:1.6.1"
+    "@interchainjs/types": "npm:1.6.1"
+    "@interchainjs/utils": "npm:1.6.1"
+    decimal.js: "npm:^10.4.3"
+    interchainjs: "npm:1.6.1"
+  checksum: 10c0/7724f95e89406abd1ce37bee4a752ec1b98daed689df380d36e8d21c6f2de93254010cefc527c7e3ee70685d978598c8827d31d916d83ada31fcbc6eaccf1fca
+  languageName: node
+  linkType: hard
+
+"@interchainjs/types@npm:1.6.1":
+  version: 1.6.1
+  resolution: "@interchainjs/types@npm:1.6.1"
+  dependencies:
+    decimal.js: "npm:^10.4.3"
+  checksum: 10c0/76e0b78c6a44e3c5a91a5c8f47c7ddfaae9317639156c78a631b35d110bec42a977abe6f787bebd98381279dbf444e86484c4b77025c4090f599efb6e25725ea
+  languageName: node
+  linkType: hard
+
 "@interchainjs/types@npm:^0.0.1-beta.15, @interchainjs/types@npm:^0.0.1-beta.9":
   version: 0.0.1-beta.15
   resolution: "@interchainjs/types@npm:0.0.1-beta.15"
   dependencies:
     decimal.js: "npm:^10.4.3"
   checksum: 10c0/ba5ed0e696f4f24ed522cae0497bd496c17e54e0373d47a9543032e7d8d63b69ae573e5853a4a150b6996671a616fcf2ca9615fcbcf48de92a213ac7417ae93c
+  languageName: node
+  linkType: hard
+
+"@interchainjs/utils@npm:1.6.1":
+  version: 1.6.1
+  resolution: "@interchainjs/utils@npm:1.6.1"
+  dependencies:
+    "@interchainjs/types": "npm:1.6.1"
+    bech32: "npm:^2.0.0"
+  checksum: 10c0/b2a455ee83be28da02dfaa0a6e87de36213d5f0b62fb3ce081577faa6cc991e360bc32b844f3aa0dcaee6205e3cfdbd242db01c7685fdeaf0d4f44215ac291cb
   languageName: node
   linkType: hard
 
@@ -9495,7 +9570,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^6.5.1":
+"ethers@npm:^6.13.4, ethers@npm:^6.5.1":
   version: 6.13.4
   resolution: "ethers@npm:6.13.4"
   dependencies:
@@ -10461,7 +10536,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"interchainjs@npm:^0.0.1-beta.13, interchainjs@npm:^0.0.1-beta.14":
+"interchainjs@npm:1.6.1":
+  version: 1.6.1
+  resolution: "interchainjs@npm:1.6.1"
+  dependencies:
+    "@interchainjs/cosmos": "npm:1.6.1"
+    "@interchainjs/cosmos-types": "npm:1.6.1"
+    "@interchainjs/types": "npm:1.6.1"
+    "@interchainjs/utils": "npm:1.6.1"
+    "@noble/hashes": "npm:^1.3.1"
+    decimal.js: "npm:^10.4.3"
+  peerDependencies:
+    "@tanstack/react-query": 4.29.1
+  checksum: 10c0/1c9fc8242912bcb5a1f260137188e196c78b0c0d0123ef0219da26f6d1d850253e3715e148aa0c422409cda9be9bb7e1dc4797814fa5043793dc2fa5d38803f6
+  languageName: node
+  linkType: hard
+
+"interchainjs@npm:^0.0.1-beta.14":
   version: 0.0.1-beta.30
   resolution: "interchainjs@npm:0.0.1-beta.30"
   dependencies:
