@@ -74,6 +74,8 @@ export const parseRewards = (
   return { byValidators: rewardsParsed, total: totalReward };
 };
 
+export type ExtendedValidator = ReturnType<typeof extendValidators>[0];
+
 export const parseValidators = (validators: Validator[]) => {
   return validators.map((validator) => ({
     description: validator.description?.details || '',

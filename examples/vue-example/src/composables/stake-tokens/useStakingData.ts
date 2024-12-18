@@ -1,11 +1,9 @@
 import { Ref, computed } from 'vue'
-import { useChain } from '@interchain-kit/vue'
-import { useRpcClient } from '../../codegen'
 import { useBalance } from '../common/useBalance'
 import { useDelegationValidators } from './useDelegationValidators'
 import { useDelegationTotalRewards } from './useDelegationTotalRewards'
 import { useValidators } from '../common/useValidators'
-import { useDelegationDelegators } from '../common/useDelegatorDelegations'
+import { useDelegatorDelegations } from '../common/useDelegatorDelegations'
 import { useParams } from './useParams'
 import { useAnnualProvisions } from './useAnnualProvisions'
 import { useCommunityTax } from './useCommunityTax'
@@ -13,14 +11,6 @@ import { calcTotalDelegation, extendValidators } from '../../utils/stake-tokens/
 import { usePool } from '../common/usePool'
 
 export const useStakingData = (chainName: Ref<string>) => {
-  const { rpcEndpoint, address } = useChain(chainName)
-  const { data: rpcClient } = useRpcClient({
-    rpcEndpoint,
-    options: {
-      enabled: computed(() => !!rpcEndpoint.value),
-    },
-  });
-
   const { data: balance, isLoading: isBalanceLoading } = useBalance(chainName)
 
   const { data: delegationValidators } = useDelegationValidators(chainName)
@@ -32,7 +22,7 @@ export const useStakingData = (chainName: Ref<string>) => {
 
   const { validators: allValidators } = useValidators(chainName)
 
-  const { data: delegatorDelegations } = useDelegationDelegators(chainName)
+  const { data: delegatorDelegations } = useDelegatorDelegations(chainName)
   console.log('delegatorDelegations>', delegatorDelegations)
 
   const { data: params } = useParams(chainName)
@@ -68,6 +58,15 @@ export const useStakingData = (chainName: Ref<string>) => {
     }
   })
 
+  const extendedMyValidators = computed(() => {
+    return extendValidators(
+      delegationValidators.value,
+      delegatorDelegations.value,
+      delegationTotalRewards.value?.byValidators,
+      chainMetadata.value
+    )
+  })
+
   const extendedAllValidators = computed(() => {
     return extendValidators(
       allValidators.value,
@@ -82,6 +81,7 @@ export const useStakingData = (chainName: Ref<string>) => {
     rewards: delegationTotalRewards,
     totalDelegated,
     isLoading,
-    allValidators: extendedAllValidators
+    allValidators: extendedAllValidators,
+    myValidators: extendedMyValidators
   }
 }

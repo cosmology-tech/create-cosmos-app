@@ -5,7 +5,7 @@ import { createRpcQueryHooks } from '../../codegen/cosmos/staking/v1beta1/query.
 import { ParsedDelegations, parseDelegations } from '../../utils/stake-tokens/staking';
 import { useAssets } from './useAssets';
 
-export const useDelegationDelegators = (chainName: Ref<string>) => {
+export const useDelegatorDelegations = (chainName: Ref<string>) => {
   const { rpcEndpoint, address } = useChain(chainName)
   const { allAssets } = useAssets(chainName)
   const exp = computed(() => {

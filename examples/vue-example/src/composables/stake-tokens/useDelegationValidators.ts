@@ -15,7 +15,7 @@ export const useDelegationValidators = (chainName: Ref<string>) => {
   });
 
   const hooks = createRpcQueryHooks(rpcClient)
-  const { data } = hooks.useDelegatorValidators({
+  const { data } = hooks.useDelegatorValidators<Array<any>>({
     request: {
       delegatorAddr: address
     },
