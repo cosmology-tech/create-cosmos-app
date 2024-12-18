@@ -4,7 +4,7 @@ import { useChain } from "@interchain-kit/react";
 import { defaultAssetList, defaultChain, defaultChainName } from "@/config";
 import useBalance from "@/hooks/useBalance";
 import { toEncoders, toConverters } from '@interchainjs/cosmos/utils';
-import { MsgSend } from '@interchainjs/cosmos-types/cosmos/bank/v1beta1/tx';
+import { MsgSend } from '../src/codegen/cosmos/bank/v1beta1/tx';
 import { cosmos } from '../src/codegen';
 
 export default function SendMsg() {
@@ -17,7 +17,7 @@ export default function SendMsg() {
   )?.exponent as number;
 
   const chain = defaultChain
-  const txPage =  chain?.explorers?.[0].txPage
+  const txPage = chain?.explorers?.[0].txPage
 
   const { address, signingClient, isLoading } = useChain(defaultChainName);
   signingClient?.addEncoders(toEncoders(MsgSend));
@@ -42,7 +42,7 @@ export default function SendMsg() {
     setError(null);
     setTxHash(null);
     setSending(true);
-    
+
     const fee = {
       amount: [{
         denom,
@@ -61,17 +61,17 @@ export default function SendMsg() {
         address, msgs, fee, 'using interchainjs'
       ) as any
       console.log('onSuccess', data)
-      if (data.code===0) {
+      if (data.code === 0) {
         setTimeout(() => {
           refetchBalance()
           setTxHash(data.hash);
           setSending(false);
         }, 4000)
       } else {
-        setError(data.rawLog||JSON.stringify(data||{}));
+        setError(data.rawLog || JSON.stringify(data || {}));
         setSending(false);
       }
-    } catch (error:any) {
+    } catch (error: any) {
       console.log('onError', error)
       setError(error?.message || 'Unknown error');
       setSending(false);
@@ -81,14 +81,14 @@ export default function SendMsg() {
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <Box mb='$4'>
-        <Text fontSize='$2xl'>Balance: {isFetchingBalance?'--':(balance?.toFixed(COIN_DISPLAY_EXPONENT))} {coin?.symbol}</Text>
+        <Text fontSize='$2xl'>Balance: {isFetchingBalance ? '--' : (balance?.toFixed(COIN_DISPLAY_EXPONENT))} {coin?.symbol}</Text>
       </Box>
       <Box>
         <Button
           disabled={sending || isLoading}
           isLoading={sending}
           onClick={handleSend}
-        >{isLoading?'Initializing...':'Send Token'}</Button>
+        >{isLoading ? 'Initializing...' : 'Send Token'}</Button>
       </Box>
       {txHash && <Box mt='$4' display='flex' flexDirection='row' alignItems='center'>
         <Text attributes={{ mr: '$1' }}>Details:</Text>
