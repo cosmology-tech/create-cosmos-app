@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { Box} from '@interchain-ui/vue'
+import { Box } from '@interchain-ui/vue'
 import { ref, defineProps, computed } from 'vue'
 import { ParsedRewards } from '../../utils/stake-tokens/staking';
 import { Prices } from '../../composables/common/usePrices';
 import { useAssets } from '../../composables/common/useAssets';
 import { sum, calcDollarValue, isGreaterThanZero } from '../../utils/stake-tokens/math';
+import { useChain } from '@interchain-kit/vue';
+import { cosmos, StdFee } from '../../codegen';
+import { useStargateClient } from '../../composables/common/useStargateClient';
+import { coins } from '@cosmjs/stargate';
+
+const { withdrawDelegatorReward } =
+  cosmos.distribution.v1beta1.MessageComposer.fromPartial;
+  
 const props = defineProps<{
   balance: string,
   rewards: ParsedRewards,
@@ -13,30 +21,59 @@ const props = defineProps<{
   prices: Prices
 }>()
 
+const emit = defineEmits<{
+  (event: 'success'): void;
+}>();
+
 const chainName = ref(props.chainName)
 const { allAssets } = useAssets(chainName)
-
+const { address } = useChain(chainName)
+const isClaiming = ref(false)
+const stargazeClient = useStargateClient(chainName)
 const totalAmount = computed(() => {
   return sum(props.balance, props.staked, props.rewards?.total ?? 0)
 })
 
 const onClaimRewardClick = async () => {
-  // setIsClaiming(true);
 
-  // if (!address) return;
+  isClaiming.value = true
+  if (!address.value) return;
 
-  // const msgs = rewards.byValidators.map(({ validatorAddress }) =>
-  //   withdrawDelegatorReward({
-  //     delegatorAddress: address,
-  //     validatorAddress,
-  //   })
-  // );
+  const msgs = props.rewards.byValidators.map(({ validatorAddress }) =>
+    withdrawDelegatorReward({
+      delegatorAddress: address.value,
+      validatorAddress,
+    })
+  );
 
-  // await tx(msgs, {
-  //   onSuccess: updateData,
-  // });
+  console.log('msgs>>', msgs)
+  
+  const gasEstimate = await stargazeClient.value.simulate(
+    address.value,
+    msgs,
+  );
+  const gasLimit = Math.ceil(gasEstimate * 1.2);
+  console.log('gasLimit>', gasLimit)
 
-  // setIsClaiming(false);
+  const fee: StdFee = {
+    amount: coins('1000', allAssets[0].base),
+    gas: String(gasLimit)
+  }
+
+  isClaiming.value = true
+  try {
+    const res = await stargazeClient.value.signAndBroadcast(
+      address.value,
+      msgs,
+      fee
+    )
+    console.log('[signAndBroadcast result]', res)
+    emit('success')
+  } catch(e) {
+    console.error(e)
+  } finally {
+    isClaiming.value = false
+  }
 };
 
 </script>
@@ -56,7 +93,7 @@ const onClaimRewardClick = async () => {
   <div>symbol: {{ allAssets[0]?.symbol }}</div>
   <div>rewardsAmount: {{ rewards.total }}</div>
   <div>stakedAmount: {{ staked }}</div>
-  <button @click="onClaimRewardClick" :disabled="!isGreaterThanZero(rewards.total)">claim</button>
+  <button @click="onClaimRewardClick" :disabled="!isGreaterThanZero(rewards.total) || isClaiming">claim</button>
 </Box>
 </template>
 

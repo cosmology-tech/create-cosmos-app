@@ -21,7 +21,7 @@ export const useBalance = (chainName: Ref<string>) => {
     },
   });
   const hooks = createRpcQueryHooks(rpcClient)
-  const { data, isLoading } = hooks.useBalance<string>({
+  const { data, isLoading, refetch } = hooks.useBalance<string>({
     request: {
       address,
       denom: computed(() => allAssets[0].base)
@@ -34,6 +34,7 @@ export const useBalance = (chainName: Ref<string>) => {
 
   return {
     data,
-    isLoading
+    isLoading,
+    refetch
   }
 }

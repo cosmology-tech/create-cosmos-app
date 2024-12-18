@@ -21,7 +21,7 @@ export const useDelegatorDelegations = (chainName: Ref<string>) => {
   });
 
   const hooks = createRpcQueryHooks(rpcClient)
-  const { data } = hooks.useDelegatorDelegations<ParsedDelegations>({
+  const { data, refetch } = hooks.useDelegatorDelegations<ParsedDelegations>({
     request: {
       delegatorAddr: address,
       pagination: computed(() => {
@@ -40,6 +40,7 @@ export const useDelegatorDelegations = (chainName: Ref<string>) => {
     }
   })
   return {
-    data
+    data,
+    refetch
   }
 }

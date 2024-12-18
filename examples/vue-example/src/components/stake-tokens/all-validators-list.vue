@@ -4,6 +4,7 @@ import { ref, defineProps } from 'vue'
 import { ExtendedValidator } from '../../utils/stake-tokens/staking';
 import { useAssets } from '../../composables/common/useAssets';
 import { shiftDigits } from '../../utils/stake-tokens/math';
+import DelegateModal from './my-validators-modals/delegate-modal.vue';
 
 const props = defineProps<{
   validators: ExtendedValidator[],
@@ -13,8 +14,19 @@ const props = defineProps<{
   chainName: string
 }>()
 
+const emit = defineEmits<{
+  (event: 'refetch'): void;
+}>();
+
+const selectedValidator = ref<ExtendedValidator>()
+const delegateModalOpen = ref(false)
 const chainName = ref(props.chainName)
 const { allAssets } = useAssets(chainName)
+
+const handleManage = (validator: ExtendedValidator) => {
+  selectedValidator.value = validator
+  delegateModalOpen.value = true
+}
 </script>
 <template>
 <h2>All validators</h2>
@@ -49,11 +61,20 @@ const { allAssets } = useAssets(chainName)
         {{shiftDigits(validator.commission, 2)}}%
       </td>
       <td>
-        <Button>Manage</Button>
+        <Button @click="handleManage(validator)">Manage</Button>
       </td>
     </tr>
   </tbody>
 </table>
+<DelegateModal
+  v-if="selectedValidator"
+  @close="delegateModalOpen = false"
+  :isOpen="delegateModalOpen"
+  :selectedValidator="selectedValidator"
+  :logoUrl="logos[selectedValidator.address]"
+  :chainName="chainName"
+  @success="emit('refetch')"
+/>
 </template>
 
 <style scoped></style>

@@ -7,7 +7,7 @@ import BigNumber from 'bignumber.js';
 import { parseValidators } from '../../utils/authz/staking'
 
 export const useValidators = (chainName: Ref<string>) => {
-  const { rpcEndpoint, address } = useChain(chainName)
+  const { rpcEndpoint } = useChain(chainName)
   const { data: rpcClient } = useRpcClient({
     rpcEndpoint,
     options: {
@@ -17,7 +17,7 @@ export const useValidators = (chainName: Ref<string>) => {
 
   const hooks = createRpcQueryHooks(rpcClient)
 
-  const { data } = hooks.useValidators<Array<any>>({
+  const { data, refetch } = hooks.useValidators<Array<any>>({
     request: {
       status: computed(() => {
         return cosmos.staking.v1beta1.bondStatusToJSON(
@@ -50,6 +50,7 @@ export const useValidators = (chainName: Ref<string>) => {
   })
 
   return {
-    validators: computed(() => data.value)
+    data,
+    refetch
   }
 }

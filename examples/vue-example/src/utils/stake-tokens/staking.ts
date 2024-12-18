@@ -89,6 +89,15 @@ export const parseValidators = (validators: Validator[]) => {
   }));
 };
 
+export const formatValidatorMetaInfo = (
+  validator: ExtendedValidator
+): string => {
+  const commissionStr = `Commission ${shiftDigits(validator.commission, 2)}%`;
+  const aprStr = validator.apr ? `APR ${validator.apr}%` : '';
+
+  return [commissionStr, aprStr].filter(Boolean).join(' | ');
+};
+
 export const parseDelegations = (
   delegations: QueryDelegatorDelegationsResponse['delegationResponses'],
   exponent: number

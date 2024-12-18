@@ -4,35 +4,26 @@ import { useDelegationValidators } from './useDelegationValidators'
 import { useDelegationTotalRewards } from './useDelegationTotalRewards'
 import { useValidators } from '../common/useValidators'
 import { useDelegatorDelegations } from '../common/useDelegatorDelegations'
-import { useParams } from './useParams'
 import { useAnnualProvisions } from './useAnnualProvisions'
 import { useCommunityTax } from './useCommunityTax'
 import { calcTotalDelegation, extendValidators } from '../../utils/stake-tokens/staking'
 import { usePool } from '../common/usePool'
 
 export const useStakingData = (chainName: Ref<string>) => {
-  const { data: balance, isLoading: isBalanceLoading } = useBalance(chainName)
+  const { data: balance, isLoading: isBalanceLoading, refetch: refetchBalance } = useBalance(chainName)
 
-  const { data: delegationValidators } = useDelegationValidators(chainName)
-  console.log('delegationValidators', delegationValidators)
+  const { data: delegationValidators, refetch: refetchDelegationValidators } = useDelegationValidators(chainName)
 
 
-  const { data: delegationTotalRewards } = useDelegationTotalRewards(chainName)
-  console.log('delegationTotalRewards>', delegationTotalRewards)
+  const { data: delegationTotalRewards, refetch: refetchDelegationTotalRewards } = useDelegationTotalRewards(chainName)
 
-  const { validators: allValidators } = useValidators(chainName)
+  const { data: allValidators, refetch: refetchAllValidators } = useValidators(chainName)
 
-  const { data: delegatorDelegations } = useDelegatorDelegations(chainName)
-  console.log('delegatorDelegations>', delegatorDelegations)
+  const { data: delegatorDelegations, refetch: refetchDelegatorDelegations } = useDelegatorDelegations(chainName)
 
-  const { data: params } = useParams(chainName)
-  console.log('params>>', params)
+  const { data: annualProvisions, refetch: refetchAnnualProvisions } = useAnnualProvisions(chainName)
 
-  const { data: annualProvisions } = useAnnualProvisions(chainName)
-  console.log('annualProvisions', annualProvisions)
-
-  const { data: communityTax } = useCommunityTax(chainName)
-  console.log('communityTax', communityTax)
+  const { data: communityTax, refetch: refetchUseCommunityTax } = useCommunityTax(chainName)
 
   const { pool } = usePool(chainName)
 
@@ -76,12 +67,23 @@ export const useStakingData = (chainName: Ref<string>) => {
     )
   })
 
+  const refetch = () => {
+    refetchBalance()
+    refetchAllValidators()
+    refetchAnnualProvisions()
+    refetchDelegationTotalRewards()
+    refetchDelegatorDelegations()
+    refetchDelegationValidators()
+    refetchUseCommunityTax
+  }
+
   return {
     balance,
     rewards: delegationTotalRewards,
     totalDelegated,
     isLoading,
     allValidators: extendedAllValidators,
-    myValidators: extendedMyValidators
+    myValidators: extendedMyValidators,
+    refetch
   }
 }

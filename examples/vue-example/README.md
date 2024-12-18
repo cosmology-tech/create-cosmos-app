@@ -42,17 +42,6 @@ This example demonstrates the usage of Vue composables provided by [@interchain-
   - Wallet connect  
   - Assets display  
   - IBC transfer  
-- **Telescope generated `Vue Composables` Used:**
-```ts
-cosmos.bank.v1beta1.useBalance
-cosmos.bank.v1beta1.useAllBalances
-cosmos.staking.v1beta1.useDelegatorDelegations
-osmosis.gamm.v1beta1.usePools
-```
-- **`msgType`s are signAndBroadcasted:**
-```ts
-/ibc.applications.transfer.v1.MsgTransfer
-```
 
 ### Auth
 - **Completion Status:** ✅ Completed  
@@ -61,68 +50,28 @@ osmosis.gamm.v1beta1.usePools
   - Send permission granting and revoking
   - Delegate permission granting and revoking
   - Claim rewards granting and revoking
-- **Telescope generated `Vue Composables` Used:**
-```ts
-cosmos.authz.v1beta1.useGranterGrants
-cosmos.authz.v1beta1.useGranteeGrants
-cosmos.staking.v1beta1.useValidators
-```
-- **`msgType`s are signAndBroadcasted:**
-```ts
-/cosmos.authz.v1beta1.MsgRevoke
-/cosmos.authz.v1beta1.MsgGrant
-```
 
 ### Voting
 - **Completion Status:** ✅ Completed  
 - **Functionalities:**  
   - Proposals display
   - Proposal voting
-- **Telescope generated `Vue Composables` Used:**
-```ts
-cosmos.gov.v1.useProposals
-cosmos.gov.v1.useParams
-cosmos.gov.v1.useProposals
-cosmos.staking.v1beta1.usePools
-```
-- **`msgType`s are signAndBroadcasted:**
-```ts
-/cosmos.gov.v1.MsgVote
-```
 
 ### Injective
 - **Completion Status:** ✅ Completed 
 - **Functionalities:**  
   - inj balance display
   - inj tokens transfer
-- **Telescope generated `Vue Composables` Used:**
-```ts
-cosmos.bank.v1beta1.useBalance
-```
-- **`msgType`s are signAndBroadcasted:**
-```ts
-/cosmos.bank.v1beta1.MsgSend
-```
+
 ### Stake tokens
-- **Completion Status:** ⏳ In Progress... 50% done.
+- **Completion Status:** ✅ Completed 
 - **Functionalities:**  
   - all validators display
-  - validators display for a specified address 
+  - user's validators display
   - claimable rewards display
-  - staked tokens display for a specified chain
   - claim rewards
-  - manage validators
-- **Telescope generated `Vue Composables` Used:**
-```ts
-cosmos.mint.v1beta.useAnnualProvisions
-cosmos.distribution.v1beta1.useParams
-cosmos.distribution.v1beta1.useDelegationTotalRewards
-codegen.cosmos.staking.v1beta1.useDelegatorValidators
-cosmos.staking.v1beta1.useParams
-```
-- **`msgType`s are signAndBroadcasted:**
-```ts
-```
+  - user's staked tokens display
+  - manage validators (undelegate, redelegate, delegate)
 
 ### Provide Liquidity
 - **Completion Status:** ⏳ In Progress...

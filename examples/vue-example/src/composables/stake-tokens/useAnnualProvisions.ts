@@ -15,7 +15,7 @@ export const useAnnualProvisions = (chainName: Ref<string>) => {
   });
 
   const hooks = createRpcQueryHooks(rpcClient)
-  const { data } = hooks.useAnnualProvisions<string>({
+  return hooks.useAnnualProvisions<string>({
     request: {
     },
     options: {
@@ -23,8 +23,4 @@ export const useAnnualProvisions = (chainName: Ref<string>) => {
       retry: false,
     }
   })
-
-  return {
-    data
-  }
 }

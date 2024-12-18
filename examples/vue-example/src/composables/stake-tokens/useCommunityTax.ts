@@ -15,13 +15,11 @@ export const useCommunityTax = (chainName: Ref<string>) => {
   });
 
   const hooks = createRpcQueryHooks(rpcClient)
-  const { data } = hooks.useParams<string>({
+  return hooks.useParams<string>({
     options: {
       // @ts-ignore
       select: ({ params }) => shiftDigits(params?.communityTax || '0', -18),
     }
   })
-  return {
-    data
-  }
+
 }
