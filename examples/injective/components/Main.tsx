@@ -9,11 +9,10 @@ const SendMsg = dynamic(() => import('./SendMsg'), {
 });
 
 export function Main() {
-  const { status } = useChain(defaultChainName);
-
+  const { status, address, rpcEndpoint } = useChain(defaultChainName);
   return (
     status === WalletState.Connected ?
-      <SendMsg /> :
+      ((address) ? <SendMsg address={address} /> : '') :
       <Box textAlign="center">
         <Text color="$gray600" fontSize="$xl" attributes={{ my: '$20' }}>
           Please connect to your wallet.

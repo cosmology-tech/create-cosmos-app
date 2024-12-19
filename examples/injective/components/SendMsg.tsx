@@ -1,13 +1,18 @@
 import { Box, Text, Button, Link } from "@interchain-ui/react";
-import { useState } from "react";
-import { useChain } from "@interchain-kit/react";
 import { defaultAssetList, defaultChain, defaultChainName } from "@/config";
+import { ProtobufRpcClient } from "@cosmjs/stargate";
+import { useState } from "react";
 import useBalance from "@/hooks/useBalance";
-import { toEncoders, toConverters } from '@interchainjs/cosmos/utils';
-import { MsgSend } from '../src/codegen/cosmos/bank/v1beta1/tx';
+import { useInjectiveClient } from "@/hooks/useInjectiveClient";
 import { cosmos } from '../src/codegen';
 
-export default function SendMsg() {
+type Props = {
+  rpcClient: ProtobufRpcClient;
+  address: string;
+}
+
+const SendMsg: React.FC<Props> = ({ address }) => {
+
   const coin = defaultAssetList?.assets[0];
 
   const denom = coin!.base!
@@ -19,17 +24,14 @@ export default function SendMsg() {
   const chain = defaultChain
   const txPage = chain?.explorers?.[0].txPage
 
-  const { address, signingClient, isLoading } = useChain(defaultChainName);
-  signingClient?.addEncoders(toEncoders(MsgSend));
-  signingClient?.addConverters(toConverters(MsgSend));
-
   const [sending, setSending] = useState(false);
   const [txHash, setTxHash] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const injectiveClient = useInjectiveClient(defaultChainName)
+
   const {
     balance,
-    isBalanceLoaded,
     isFetchingBalance,
     refetchBalance,
   } = useBalance({
@@ -37,7 +39,7 @@ export default function SendMsg() {
   })
 
   const handleSend = async () => {
-    if (sending || isLoading) return;
+    if (sending) return;
 
     setError(null);
     setTxHash(null);
@@ -57,7 +59,7 @@ export default function SendMsg() {
       amount: [{ denom, amount: '1' }]
     })]
     try {
-      const data = await signingClient.signAndBroadcast(
+      const data = await injectiveClient?.signAndBroadcast(
         address, msgs, fee, 'using interchainjs'
       ) as any
       console.log('onSuccess', data)
@@ -85,10 +87,12 @@ export default function SendMsg() {
       </Box>
       <Box>
         <Button
-          disabled={sending || isLoading}
+          disabled={sending}
           isLoading={sending}
           onClick={handleSend}
-        >{isLoading ? 'Initializing...' : 'Send Token'}</Button>
+        >
+          {'Send Token'}
+        </Button>
       </Box>
       {txHash && <Box mt='$4' display='flex' flexDirection='row' alignItems='center'>
         <Text attributes={{ mr: '$1' }}>Details:</Text>
@@ -103,3 +107,5 @@ export default function SendMsg() {
     </Box>
   );
 }
+
+export default SendMsg
