@@ -3,7 +3,7 @@ import { defaultAssetList, defaultChain, defaultChainName } from "@/config";
 import { ProtobufRpcClient } from "@cosmjs/stargate";
 import { useState } from "react";
 import useBalance from "@/hooks/useBalance";
-import { useInjectiveClient } from "@/hooks/useInjectiveClient";
+import useInjectiveClient from "@/hooks/useInjectiveClient";
 import { cosmos } from '../src/codegen';
 
 type Props = {

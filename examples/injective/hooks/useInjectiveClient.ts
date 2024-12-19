@@ -4,7 +4,7 @@ import { toEncoders, toConverters } from '@interchainjs/cosmos/utils';
 import { MsgSend } from '../src/codegen/cosmos/bank/v1beta1/tx';
 import { useEffect, useMemo, useState } from 'react'
 
-export const useInjectiveClient = (chainName: string) => {
+const useInjectiveClient = (chainName: string) => {
   const { rpcEndpoint, chain } = useChain(chainName)
   const [injectiveClient, setInjectiveClient] = useState<InjSigningClient>()
   const wm = useWalletManager()
@@ -34,3 +34,5 @@ export const useInjectiveClient = (chainName: string) => {
 
   return injectiveClient
 }
+
+export default useInjectiveClient
