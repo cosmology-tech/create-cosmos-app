@@ -4,7 +4,7 @@ import { useChain, useOfflineSigner } from "@interchain-kit/react";
 import { defaultAssetList, defaultChain, defaultChainName, defaultRpcEndpoint } from "@/config";
 import useBalance from "@/hooks/useBalance";
 import { InjSigningClient } from "@interchainjs/injective/signing-client";
-import { MessageComposer } from 'interchain-vue/cosmos/bank/v1beta1/tx.registry';
+import { MessageComposer } from 'interchain-query/cosmos/bank/v1beta1/tx.registry';
 import { toEncoders, toConverters } from '@interchainjs/cosmos/utils';
 import { MsgSend } from 'interchain-react/cosmos/bank/v1beta1/tx';
 
