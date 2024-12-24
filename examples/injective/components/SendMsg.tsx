@@ -40,10 +40,7 @@ export default function SendMsg() {
   }, [signingClient])
 
   const {
-    balance,
-    isBalanceLoaded,
-    isFetchingBalance,
-    refetchBalance,
+    balance, refetchBalance, isFetchingBalance
   } = useBalance({
     address,
   })
