@@ -1,31 +1,43 @@
 import { Box, Text, Button, Link } from "@interchain-ui/react";
-import { useState } from "react";
-import { useChain } from "@interchain-kit/react";
-import { defaultAssetList, defaultChain, defaultChainName } from "@/config";
+import { useEffect, useState } from "react";
+import { useChain, useOfflineSigner } from "@interchain-kit/react";
+import { defaultAssetList, defaultChain, defaultChainName, defaultRpcEndpoint } from "@/config";
 import useBalance from "@/hooks/useBalance";
+import { InjSigningClient } from "@interchainjs/injective/signing-client";
+import { MessageComposer } from 'interchain-vue/cosmos/bank/v1beta1/tx.registry';
 import { toEncoders, toConverters } from '@interchainjs/cosmos/utils';
-import { MsgSend } from '../src/codegen/cosmos/bank/v1beta1/tx';
-import { cosmos } from '../src/codegen';
+import { MsgSend } from 'interchain-react/cosmos/bank/v1beta1/tx';
 
 export default function SendMsg() {
   const coin = defaultAssetList?.assets[0];
-
   const denom = coin!.base!
-
   const COIN_DISPLAY_EXPONENT = coin!.denomUnits.find(
     (unit) => unit.denom === coin!.display
   )?.exponent as number;
-
   const chain = defaultChain
   const txPage = chain?.explorers?.[0].txPage
 
-  const { address, signingClient, isLoading } = useChain(defaultChainName);
-  signingClient?.addEncoders(toEncoders(MsgSend));
-  signingClient?.addConverters(toConverters(MsgSend));
+  const { address, isLoading, wallet } = useChain(defaultChainName);
+
+  const { offlineSigner } = useOfflineSigner(defaultChainName, wallet.info!.name)
 
   const [sending, setSending] = useState(false);
   const [txHash, setTxHash] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [signingClient, setSigningClient] = useState<InjSigningClient | null>(null);
+
+  useEffect(() => {
+    if (!offlineSigner) return;
+    (async () => {
+      console.log('offlineSigner', offlineSigner)
+      setSigningClient(await InjSigningClient.connectWithSigner(defaultRpcEndpoint, offlineSigner))
+    })()
+  }, [offlineSigner])
+
+  useEffect(() => {
+    signingClient?.addEncoders(toEncoders(MsgSend));
+    signingClient?.addConverters(toConverters(MsgSend));
+  }, [signingClient])
 
   const {
     balance,
@@ -50,14 +62,14 @@ export default function SendMsg() {
       }],
       gas: "1000000",
     };
-    const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl
+    const { send } = MessageComposer.withTypeUrl
     const msgs = [send({
       fromAddress: address,
       toAddress: address,
       amount: [{ denom, amount: '1' }]
     })]
     try {
-      const data = await signingClient.signAndBroadcast(
+      const data = await signingClient!.signAndBroadcast(
         address, msgs, fee, 'using interchainjs'
       ) as any
       console.log('onSuccess', data)

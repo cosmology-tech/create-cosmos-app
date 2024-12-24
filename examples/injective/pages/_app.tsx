@@ -30,11 +30,12 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
       <ChainProvider
-        // @ts-ignore
         chains={[defaultChain!]}
-        // @ts-ignore
         assetLists={[defaultAssetList!]}
-        wallets={[keplrWallet, leapWallet]}
+        wallets={[
+          keplrWallet,
+          leapWallet
+        ]}
         signerOptions={{
           signing: () => {
             return {
