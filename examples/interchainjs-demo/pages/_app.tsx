@@ -1,20 +1,24 @@
-import "../styles/globals.css";
-import "@interchain-ui/react/styles";
+import '../styles/globals.css';
+import '@interchain-ui/react/styles';
 
-import type { AppProps } from "next/app";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { ChainProvider } from "@interchain-kit/react";
-import { defaultAssetList, defaultChain } from "../config/defaults";
-import { keplrWallet } from "@interchain-kit/keplr-extension";
-import { leapWallet } from "@interchain-kit/leap-extension";
+import type { AppProps } from 'next/app';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { ChainProvider } from '@interchain-kit/react';
+import {
+  defaultAssetList,
+  defaultChain,
+  defaultChainName,
+} from '../config/defaults';
+import { keplrWallet } from '@interchain-kit/keplr-extension';
+import { leapWallet } from '@interchain-kit/leap-extension';
 import {
   Box,
   ThemeProvider,
   Toaster,
   useTheme,
   useColorModeValue,
-} from "@interchain-ui/react";
-import { defaultRpcEndpoint } from "@/config";
+} from '@interchain-ui/react';
+import { defaultRpcEndpoint } from '@/config';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -32,10 +36,8 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={[defaultChain!]}
         assetLists={[defaultAssetList!]}
-        wallets={[
-          keplrWallet,
-          leapWallet
-        ]}
+        // @ts-ignore
+        wallets={[keplrWallet]}
         signerOptions={{
           signing: () => {
             return {
@@ -48,7 +50,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         }}
         endpointOptions={{
           endpoints: {
-            "injective": {
+            [defaultChainName]: {
               rpc: [defaultRpcEndpoint],
             },
           },
@@ -58,7 +60,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
           <Box
             className={themeClass}
             minHeight="100dvh"
-            backgroundColor={useColorModeValue("$white", "$background")}
+            backgroundColor={useColorModeValue('$white', '$background')}
           >
             {/* TODO fix type error */}
             {/* @ts-ignore */}
@@ -67,7 +69,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         </QueryClientProvider>
       </ChainProvider>
 
-      <Toaster position={"top-right"} closeButton={true} />
+      <Toaster position={'top-right'} closeButton={true} />
     </ThemeProvider>
   );
 }
