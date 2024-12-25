@@ -3029,9 +3029,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmology/injective@workspace:.":
+"@cosmology/interchainjs-demo@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@cosmology/injective@workspace:."
+  resolution: "@cosmology/interchainjs-demo@workspace:."
   dependencies:
     "@chain-registry/types": "npm:^0.50.13"
     "@chain-registry/utils": "npm:^1.51.13"

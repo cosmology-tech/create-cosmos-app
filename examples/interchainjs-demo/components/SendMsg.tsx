@@ -1,13 +1,7 @@
 import { Box, Text, Button, Link } from '@interchain-ui/react';
-import { InjSigningClient } from '@interchainjs/injective/signing-client';
-import { useEffect, useState } from 'react';
-import { useChain, useOfflineSigner } from '@interchain-kit/react';
-import {
-  defaultAssetList,
-  defaultChain,
-  defaultChainName,
-  defaultRpcEndpoint,
-} from '@/config';
+import { useState } from 'react';
+import { useChain } from '@interchain-kit/react';
+import { defaultAssetList, defaultChain, defaultChainName } from '@/config';
 import useBalance from '@/hooks/useBalance';
 import { useSend } from 'interchain-react/cosmos/bank/v1beta1/tx.rpc.func';
 import { defaultContext } from '@tanstack/react-query';
@@ -24,35 +18,14 @@ export default function SendMsg() {
   const chain = defaultChain;
   const txPage = chain?.explorers?.[0].txPage;
 
-  const { address, isLoading, wallet } = useChain(defaultChainName);
-  const { offlineSigner } = useOfflineSigner(
-    defaultChainName,
-    wallet.info!.name
-  );
-
-  const [signingClient, setSigningClient] = useState<InjSigningClient | null>(
-    null
-  );
-
-  useEffect(() => {
-    if (!offlineSigner) return;
-    (async () => {
-      console.log('offlineSigner', offlineSigner);
-      setSigningClient(
-        await InjSigningClient.connectWithSigner(
-          defaultRpcEndpoint,
-          offlineSigner
-        )
-      );
-    })();
-  }, [offlineSigner]);
+  const { address, signingClient, isLoading } = useChain(defaultChainName);
 
   const [sending, setSending] = useState(false);
   const [txHash, setTxHash] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const { mutate: send, isSuccess: isSendSuccess } = useSend({
-    clientResolver: signingClient ?? undefined,
+    clientResolver: signingClient,
     options: {
       context: defaultContext,
       onSuccess: (data) => {
