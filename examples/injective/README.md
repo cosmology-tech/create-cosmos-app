@@ -1,3 +1,5 @@
+# Injective React Example
+
 ## Getting Started
 
 First, install the packages and run the development server:
@@ -10,7 +12,50 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-## Learn More 
+## Overview
+
+This example demonstrates how to build a React application that interacts with the Injective blockchain. By following this guide, you will learn how to set up a development environment, use React hooks, and integrate various Cosmos ecosystem tools to enhance your application.
+
+## Query and Tx Hooks
+
+This example uses the query hooks(e.g. useGetBalance) and tx hooks(e.g. useSend) from the `injective-react` package to interact with the Injective blockchain. These hooks allow you to query data from the blockchain and send transactions to the blockchain.
+
+```js
+import { useDelegate } from "injective-react/cosmos/staking/v1beta1/tx.rpc.func";
+import { useGetValidators } from "injective-react/cosmos/staking/v1beta1/query.rpc.func";
+
+const {
+  data,
+  isSuccess: isGetValidatorsDone,
+  isLoading: isGetValidatorsLoading,
+} = useGetValidators({
+  request: {
+    status: "BOND_STATUS_BONDED",
+  },
+  options: {
+    context: defaultContext,
+    enabled: !validatorAddress,
+  },
+  rpcClient,
+});
+
+const { mutate: delegate, isSuccess: isDelegateSuccess } = useDelegate({
+  clientResolver: signingClient,
+  options: {
+    context: defaultContext,
+    onSuccess: (data: any) => {
+      console.log("onSuccess", data);
+    },
+    onError: (error) => {
+      console.log("onError", error);
+    },
+  },
+});
+```
+
+For more information on how to use these hooks, please refer to the [injective-react](https://github.com/cosmology-tech/interchainjs/tree/main/libs/injective-react)
+
+## Learn More
 
 ### Chain Registry
 
