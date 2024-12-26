@@ -1,5 +1,12 @@
 # Injective Vue Example
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/545047/193426489-d5d3c9a9-d738-43a0-a628-b8b4f1a8034b.png" width="80"><br />
+    Building the future of decentralized exchange
+</p>
+
+## Introduction
+
 This example demonstrates the usage of Vue composables provided by [@interchain-kit/vue](https://github.com/cosmology-tech/interchain-kit/tree/main/packages/vue) and [injective-vue](https://github.com/cosmology-tech/interchainjs/tree/main/libs/injective-vue).
 
 ## Getting Started

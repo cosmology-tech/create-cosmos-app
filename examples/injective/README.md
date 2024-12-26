@@ -1,5 +1,14 @@
 # Injective React Example
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/545047/193426489-d5d3c9a9-d738-43a0-a628-b8b4f1a8034b.png" width="80"><br />
+    Building the future of decentralized exchange
+</p>
+
+## Introduction
+
+This example demonstrates the usage of React hooks provided by [injective-react](https://github.com/cosmology-tech/interchainjs/tree/main/libs/injective-react) and how to interact with the Injective blockchain on the frontend.
+
 ## Getting Started
 
 First, install the packages and run the development server:
