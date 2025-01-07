@@ -29,7 +29,7 @@
     "@cosmjs/stargate": "0.32.3",
     "@cosmology/lcd": "^0.12.0",
     "@cosmology/telescope": "^1.10.3",
-    "@cosmos-kit/react": "2.17.0",
+    "@cosmos-kit/react": "2.21.2",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
     "@interchain-kit/core": "0.0.1-beta.23",
