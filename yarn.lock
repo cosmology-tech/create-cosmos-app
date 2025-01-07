@@ -5428,6 +5428,52 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@cosmology/interchainjs-demo@workspace:examples/interchainjs-demo":
+  version: 0.0.0-use.local
+  resolution: "@cosmology/interchainjs-demo@workspace:examples/interchainjs-demo"
+  dependencies:
+    "@chain-registry/types": "npm:^0.50.13"
+    "@chain-registry/utils": "npm:^1.51.13"
+    "@chain-registry/v2": "npm:^1.71.31"
+    "@chakra-ui/icons": "npm:2.0.12"
+    "@chakra-ui/react": "npm:2.5.1"
+    "@cosmjs/proto-signing": "npm:0.32.3"
+    "@cosmjs/stargate": "npm:0.32.3"
+    "@cosmology/lcd": "npm:^0.12.0"
+    "@cosmology/telescope": "npm:^1.10.3"
+    "@emotion/react": "npm:11.10.6"
+    "@emotion/styled": "npm:11.10.6"
+    "@interchain-kit/core": "npm:0.0.1-beta.43"
+    "@interchain-kit/keplr-extension": "npm:0.0.1-beta.43"
+    "@interchain-kit/leap-extension": "npm:0.0.1-beta.43"
+    "@interchain-kit/react": "npm:0.0.1-beta.43"
+    "@interchain-ui/react": "npm:^1.23.29"
+    "@interchain-ui/react-no-ssr": "npm:^0.1.6"
+    "@interchainjs/cosmos-types": "npm:1.6.3"
+    "@interchainjs/injective": "npm:1.6.3"
+    "@tanstack/react-query": "npm:4.29.1"
+    "@tanstack/react-query-devtools": "npm:4.29.1"
+    "@types/node": "npm:^20.14.6"
+    "@types/react": "npm:^18.3.3"
+    "@types/react-dom": "npm:^18.3.0"
+    bignumber.js: "npm:9.1.1"
+    chain-registry: "npm:^1.69.32"
+    decimal.js: "npm:^10.4.3"
+    eslint: "npm:8.28.0"
+    eslint-config-next: "npm:13.0.5"
+    generate-lockfile: "npm:0.0.12"
+    injective-react: "npm:^1.6.4"
+    interchain-react: "npm:1.6.4"
+    interchainjs: "npm:1.6.4"
+    mobx: "npm:^6.13.5"
+    next: "npm:^13"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
+    react-icons: "npm:4.6.0"
+    typescript: "npm:^5.1.6"
+  languageName: unknown
+  linkType: soft
+
 "@cosmology/lcd@npm:^0.12.0":
   version: 0.12.0
   resolution: "@cosmology/lcd@npm:0.12.0"
