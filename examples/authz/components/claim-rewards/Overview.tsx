@@ -10,15 +10,17 @@ import {
 import { ChainName } from 'cosmos-kit';
 
 import { getCoin } from '@/configs';
-import { Prices, useAuthzTx } from '@/hooks';
+import { Prices, useAuthzTx, useSigningClientDirect } from '@/hooks';
 import {
   sum,
   calcDollarValue,
   isGreaterThanZero,
   type ParsedRewards as Rewards,
 } from '@/utils';
-import { MsgWithdrawDelegatorReward } from '@/src/codegen/cosmos/distribution/v1beta1/tx';
+import { MsgWithdrawDelegatorReward } from 'interchain-react/cosmos/distribution/v1beta1/tx';
 import { useAuthzContext } from '@/context';
+import { useExec } from 'interchain-react/cosmos/authz/v1beta1/tx.rpc.func';
+import { defaultContext } from '@tanstack/react-query';
 
 const Overview = ({
   balance,
@@ -38,7 +40,16 @@ const Overview = ({
   const [isClaiming, setIsClaiming] = useState(false);
 
   const { permission } = useAuthzContext();
-  const { authzTx, createExecMsg } = useAuthzTx(chainName);
+  const { createExecMsg } = useAuthzTx(chainName);
+
+  const { data: client } = useSigningClientDirect(chainName);
+
+  const { mutate: exec } = useExec({
+    clientResolver: client,
+    options: {
+      context: defaultContext,
+    },
+  });
 
   const totalAmount = sum(balance, staked, rewards?.total ?? 0);
   const coin = getCoin(chainName);
@@ -57,16 +68,22 @@ const Overview = ({
       })
     );
 
-    authzTx({
-      msgs: [createExecMsg({ msgs, grantee })],
-      execExpiration: expiration,
-      onSuccess: () => {
-        updateData();
+    exec(
+      {
+        granter,
+        message: createExecMsg({ msgs, grantee }),
+        fee: 'auto',
+        memo: 'executing permission',
       },
-      onComplete: () => {
-        setIsClaiming(false);
-      },
-    });
+      {
+        onSuccess: () => {
+          updateData();
+        },
+        onError: () => {
+          setIsClaiming(false);
+        },
+      }
+    );
   };
 
   return (

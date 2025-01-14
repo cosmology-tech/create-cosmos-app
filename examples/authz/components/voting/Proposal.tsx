@@ -25,9 +25,10 @@ import {
 } from '@/utils';
 import Markdown from 'react-markdown';
 import { useEffect, useState } from 'react';
-import { useAuthzTx, Votes } from '@/hooks';
+import { useAuthzTx, useSigningClientDirect, Votes } from '@/hooks';
 import { useAuthzContext } from '@/context';
-import { MsgVote } from '@/src/codegen/cosmos/gov/v1beta1/tx';
+import { MsgVote } from 'interchain-react/cosmos/gov/v1beta1/tx';
+import { useExec } from 'interchain-react/cosmos/authz/v1beta1/tx.rpc.func';
 
 // export declare enum VoteOption {
 //   /** VOTE_OPTION_UNSPECIFIED - VOTE_OPTION_UNSPECIFIED defines a no-op vote option. */
@@ -71,7 +72,16 @@ export function Proposal({
   const coin = getCoin(chainName);
   const exponent = getExponent(chainName);
 
-  const { authzTx, createExecMsg } = useAuthzTx(chainName);
+  const { createExecMsg } = useAuthzTx(chainName);
+  const { data: client } = useSigningClientDirect(chainName);
+
+  const { mutate: exec } = useExec({
+    clientResolver: client,
+    options: {
+      context: defaultContext,
+    },
+  });
+
   const { permission } = useAuthzContext();
 
   const toggleShowMore = () => setShowMore((v) => !v);
@@ -154,16 +164,22 @@ export function Proposal({
       proposalId: proposal.proposalId,
     });
 
-    authzTx({
-      msgs: [createExecMsg({ msgs: [msg], grantee })],
-      execExpiration: expiration,
-      onSuccess: () => {
-        onVoteSuccess();
+    exec(
+      {
+        granter,
+        message: createExecMsg({ msgs: [msg], grantee }),
+        fee: 'auto',
+        memo: 'executing permission',
       },
-      onComplete: () => {
-        setIsVoting(false);
-      },
-    });
+      {
+        onSuccess: () => {
+          onVoteSuccess();
+        },
+        onComplete: () => {
+          setIsVoting(false);
+        },
+      }
+    );
   }
 
   return (

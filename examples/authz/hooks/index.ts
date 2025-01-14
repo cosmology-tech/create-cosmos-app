@@ -8,7 +8,6 @@ export * from './useDisclosure';
 export * from './useStakingData';
 export * from './useValidatorLogos';
 export * from './useQueryHooks';
-export * from './useRpcQueryClient';
 export * from './useVotingData';
 export * from './useModal';
 export * from './useSendData';

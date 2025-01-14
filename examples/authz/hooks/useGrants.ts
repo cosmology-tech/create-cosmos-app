@@ -1,37 +1,43 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useChain } from '@cosmos-kit/react';
-import { useQuery } from '@tanstack/react-query';
+import { defaultContext, useQuery } from '@tanstack/react-query';
 
 import { prettyGrants } from '@/utils';
-import { useRpcQueryClient } from './useRpcQueryClient';
+import { useQueryHooks } from './useQueryHooks';
+import {
+  useGetGranteeGrants,
+  useGetGranterGrants,
+} from 'interchain-react/cosmos/authz/v1beta1/query.rpc.func';
 
 export const useGrants = (chainName: string) => {
   const { address } = useChain(chainName);
   const prevAddressRef = useRef(address);
 
-  const { rpcQueryClient, isLoading: isRpcQueryClientLoading } =
-    useRpcQueryClient(chainName);
+  const { rpcEndpoint, isFetching: isRpcQueryClientLoading } =
+    useQueryHooks(chainName);
 
-  const granterGrantsQuery = useQuery({
-    queryKey: ['granterGrants', address],
-    queryFn: () =>
-      rpcQueryClient?.cosmos.authz.v1beta1.granterGrants({
-        granter: address || '',
-      }),
-    enabled: !!rpcQueryClient && !!address,
-    select: (data) => data?.grants,
-    staleTime: Infinity,
+  const granterGrantsQuery = useGetGranterGrants({
+    request: {
+      granter: address || '',
+    },
+    options: {
+      context: defaultContext,
+      enabled: !!address && !!rpcEndpoint,
+      select: (data) => data?.grants,
+    },
+    clientResolver: rpcEndpoint,
   });
 
-  const granteeGrantsQuery = useQuery({
-    queryKey: ['granteeGrants', address],
-    queryFn: () =>
-      rpcQueryClient?.cosmos.authz.v1beta1.granteeGrants({
-        grantee: address || '',
-      }),
-    enabled: !!rpcQueryClient && !!address,
-    select: (data) => data?.grants,
-    staleTime: Infinity,
+  const granteeGrantsQuery = useGetGranteeGrants({
+    request: {
+      grantee: address || '',
+    },
+    options: {
+      context: defaultContext,
+      enabled: !!address && !!rpcEndpoint,
+      select: (data) => data?.grants,
+    },
+    clientResolver: rpcEndpoint,
   });
 
   const dataQueries = {
@@ -66,7 +72,7 @@ export const useGrants = (chainName: string) => {
   const isLoading =
     isRpcQueryClientLoading || isInitialFetching || isRefetching;
 
-  const isError = !rpcQueryClient && !isRpcQueryClientLoading;
+  const isError = !rpcEndpoint && !isRpcQueryClientLoading;
 
   type DataQueries = typeof dataQueries;
 

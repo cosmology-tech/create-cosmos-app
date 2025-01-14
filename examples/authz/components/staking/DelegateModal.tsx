@@ -24,9 +24,17 @@ import {
 } from '@/utils';
 import { getCoin, getExponent } from '@/configs';
 import { useAuthzContext } from '@/context';
-import { Prices, useAuthzTx, UseDisclosureReturn, useToast } from '@/hooks';
-import { MsgDelegate } from '@/src/codegen/cosmos/staking/v1beta1/tx';
-import { StakeAuthorization } from '@/src/codegen/cosmos/staking/v1beta1/authz';
+import {
+  Prices,
+  useAuthzTx,
+  UseDisclosureReturn,
+  useSigningClientDirect,
+  useToast,
+} from '@/hooks';
+import { MsgDelegate } from 'interchain-react/cosmos/staking/v1beta1/tx';
+import { StakeAuthorization } from 'interchain-react/cosmos/staking/v1beta1/authz';
+import { useExec } from 'interchain-react/cosmos/authz/v1beta1/tx.rpc.func';
+import { defaultContext } from '@tanstack/react-query';
 
 export const DelegateModal = ({
   balance,
@@ -62,7 +70,17 @@ export const DelegateModal = ({
   const coin = getCoin(chainName);
   const exponent = getExponent(chainName);
 
-  const { authzTx, createExecMsg } = useAuthzTx(chainName);
+  const { createExecMsg } = useAuthzTx(chainName);
+
+  const { data: client } = useSigningClientDirect(chainName);
+
+  const { mutate: exec } = useExec({
+    clientResolver: client,
+    options: {
+      context: defaultContext,
+    },
+  });
+
   const { permission } = useAuthzContext();
   const { toast } = useToast();
 
@@ -118,18 +136,24 @@ export const DelegateModal = ({
       },
     });
 
-    authzTx({
-      msgs: [createExecMsg({ msgs: [msg], grantee })],
-      execExpiration: expiration,
-      onSuccess: () => {
-        closeOuterModal && closeOuterModal();
-        updateData();
-        onModalClose();
+    exec(
+      {
+        granter,
+        message: createExecMsg({ msgs: [msg], grantee }),
+        fee: 'auto',
+        memo: 'executing permission',
       },
-      onComplete: () => {
-        setIsDelegating(false);
-      },
-    });
+      {
+        onSuccess: () => {
+          closeOuterModal && closeOuterModal();
+          updateData();
+          onModalClose();
+        },
+        onError: () => {
+          setIsDelegating(false);
+        },
+      }
+    );
   };
 
   const headerExtra = (

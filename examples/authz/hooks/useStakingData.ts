@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 import BigNumber from 'bignumber.js';
-import { cosmos } from 'interchain-query';
 
 import { usePrices } from './usePrices';
 import { getCoin, getExponent } from '@/configs';
@@ -16,6 +15,24 @@ import {
 } from '@/utils';
 import { useAuthzContext } from '@/context';
 import { useQueryHooks } from './useQueryHooks';
+import { useGetBalance } from 'interchain-react/cosmos/bank/v1beta1/query.rpc.func';
+import {
+  useGetDelegatorDelegations,
+  useGetDelegatorValidators,
+  useGetParams as useGetStakingParams,
+  useGetPool,
+  useGetValidators,
+} from 'interchain-react/cosmos/staking/v1beta1/query.rpc.func';
+import {
+  useGetDelegationTotalRewards,
+  useGetParams as useGetDistributionParams,
+} from 'interchain-react/cosmos/distribution/v1beta1/query.rpc.func';
+import { useGetAnnualProvisions } from 'interchain-react/cosmos/mint/v1beta1/query.rpc.func';
+import {
+  BondStatus,
+  bondStatusToJSON,
+} from 'interchain-react/cosmos/staking/v1beta1/staking';
+import { defaultContext } from '@tanstack/react-query';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -30,49 +47,51 @@ export const useStakingData = (chainName: string) => {
   const exp = getExponent(chainName);
 
   const {
-    cosmos: cosmosQuery,
+    rpcEndpoint,
     isReady: isQueryHooksReady,
     isFetching: isQueryHooksFetching,
   } = useQueryHooks(chainName);
 
-  const balanceQuery = cosmosQuery.bank.v1beta1.useBalance({
+  const balanceQuery = useGetBalance({
     request: {
       address: address || '',
       denom: coin.base,
     },
     options: {
+      context: defaultContext,
       enabled: isQueryHooksReady && !!address,
       select: ({ balance }) => shiftDigits(balance?.amount || '0', -exp),
     },
+    clientResolver: rpcEndpoint,
   });
 
-  const myValidatorsQuery = cosmosQuery.staking.v1beta1.useDelegatorValidators({
+  const myValidatorsQuery = useGetDelegatorValidators({
     request: {
       delegatorAddr: address || '',
-      pagination: undefined,
     },
     options: {
+      context: defaultContext,
       enabled: isQueryHooksReady && !!address,
       select: ({ validators }) => parseValidators(validators),
     },
+    clientResolver: rpcEndpoint,
   });
 
-  const rewardsQuery =
-    cosmosQuery.distribution.v1beta1.useDelegationTotalRewards({
-      request: {
-        delegatorAddress: address || '',
-      },
-      options: {
-        enabled: isQueryHooksReady && !!address,
-        select: (data) => parseRewards(data, coin.base, -exp),
-      },
-    });
-
-  const validatorsQuery = cosmosQuery.staking.v1beta1.useValidators({
+  const rewardsQuery = useGetDelegationTotalRewards({
     request: {
-      status: cosmos.staking.v1beta1.bondStatusToJSON(
-        cosmos.staking.v1beta1.BondStatus.BOND_STATUS_BONDED
-      ),
+      delegatorAddress: address || '',
+    },
+    options: {
+      context: defaultContext,
+      enabled: isQueryHooksReady && !!address,
+      select: (data) => parseRewards(data, coin.base, -exp),
+    },
+    clientResolver: rpcEndpoint,
+  });
+
+  const validatorsQuery = useGetValidators({
+    request: {
+      status: bondStatusToJSON(BondStatus.BOND_STATUS_BONDED),
       pagination: {
         key: new Uint8Array(),
         offset: 0n,
@@ -82,6 +101,7 @@ export const useStakingData = (chainName: string) => {
       },
     },
     options: {
+      context: defaultContext,
       enabled: isQueryHooksReady,
       select: ({ validators }) => {
         const sorted = validators.sort((a, b) =>
@@ -90,9 +110,10 @@ export const useStakingData = (chainName: string) => {
         return parseValidators(sorted);
       },
     },
+    clientResolver: rpcEndpoint,
   });
 
-  const delegationsQuery = cosmosQuery.staking.v1beta1.useDelegatorDelegations({
+  const delegationsQuery = useGetDelegatorDelegations({
     request: {
       delegatorAddr: address || '',
       pagination: {
@@ -104,39 +125,53 @@ export const useStakingData = (chainName: string) => {
       },
     },
     options: {
+      context: defaultContext,
       enabled: isQueryHooksReady && !!address,
       select: ({ delegationResponses }) =>
         parseDelegations(delegationResponses, -exp),
     },
+    clientResolver: rpcEndpoint,
   });
 
-  const unbondingDaysQuery = cosmosQuery.staking.v1beta1.useParams({
+  const unbondingDaysQuery = useGetStakingParams<string>({
+    request: {},
     options: {
+      context: defaultContext,
       enabled: isQueryHooksReady,
       select: ({ params }) => parseUnbondingDays(params),
     },
+    clientResolver: rpcEndpoint,
   });
 
-  const annualProvisionsQuery = cosmosQuery.mint.v1beta1.useAnnualProvisions({
+  const annualProvisionsQuery = useGetAnnualProvisions({
+    request: {},
     options: {
+      context: defaultContext,
       enabled: isQueryHooksReady,
       select: parseAnnualProvisions,
       retry: false,
     },
+    clientResolver: rpcEndpoint,
   });
 
-  const poolQuery = cosmosQuery.staking.v1beta1.usePool({
+  const poolQuery = useGetPool({
+    request: {},
     options: {
+      context: defaultContext,
       enabled: isQueryHooksReady,
       select: ({ pool }) => pool,
     },
+    clientResolver: rpcEndpoint,
   });
 
-  const communityTaxQuery = cosmosQuery.distribution.v1beta1.useParams({
+  const communityTaxQuery = useGetDistributionParams({
+    request: {},
     options: {
+      context: defaultContext,
       enabled: isQueryHooksReady,
       select: ({ params }) => shiftDigits(params?.communityTax || '0', -18),
     },
+    clientResolver: rpcEndpoint,
   });
 
   const pricesQuery = usePrices();

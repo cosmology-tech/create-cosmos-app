@@ -6,7 +6,12 @@ import { useChain } from '@cosmos-kit/react';
 import { Box, Button, Spinner, Text, TokenInput } from '@interchain-ui/react';
 import BigNumber from 'bignumber.js';
 
-import { useAuthzTx, useSendData, useToast } from '@/hooks';
+import {
+  useAuthzTx,
+  useSendData,
+  useSigningClientDirect,
+  useToast,
+} from '@/hooks';
 import {
   getCoin,
   getExponent,
@@ -15,8 +20,10 @@ import {
 } from '@/utils';
 import { useAuthzContext } from '@/context';
 import { AddressInput } from '@/components';
-import { MsgSend } from '@/src/codegen/cosmos/bank/v1beta1/tx';
-import { SendAuthorization } from '@/src/codegen/cosmos/bank/v1beta1/authz';
+import { MsgSend } from 'interchain-react/cosmos/bank/v1beta1/tx';
+import { SendAuthorization } from 'interchain-react/cosmos/bank/v1beta1/authz';
+import { useExec } from 'interchain-react/cosmos/authz/v1beta1/tx.rpc.func';
+import { defaultContext } from '@tanstack/react-query';
 
 type SendSectionProps = {
   chainName: string;
@@ -30,7 +37,16 @@ export const SendSection = ({ chainName }: SendSectionProps) => {
 
   const { isWalletConnected } = useChain(chainName);
   const { data, isLoading, refetch } = useSendData(chainName);
-  const { authzTx, createExecMsg } = useAuthzTx(chainName);
+  const { createExecMsg } = useAuthzTx(chainName);
+  const { data: client } = useSigningClientDirect(chainName);
+
+  const { mutate: exec } = useExec({
+    clientResolver: client,
+    options: {
+      context: defaultContext,
+    },
+  });
+
   const { permission } = useAuthzContext();
   const { toast } = useToast();
 
@@ -68,18 +84,24 @@ export const SendSection = ({ chainName }: SendSectionProps) => {
       toAddress: recipientAddress,
     });
 
-    authzTx({
-      msgs: [createExecMsg({ msgs: [msg], grantee })],
-      execExpiration: expiration,
-      onSuccess: () => {
-        refetch();
-        setAmount(undefined);
-        setRecipientAddress('');
+    exec(
+      {
+        granter,
+        message: createExecMsg({ msgs: [msg], grantee }),
+        fee: 'auto',
+        memo: 'executing permission',
       },
-      onComplete: () => {
-        setIsSending(false);
-      },
-    });
+      {
+        onSuccess: () => {
+          refetch();
+          setAmount(undefined);
+          setRecipientAddress('');
+        },
+        onError: () => {
+          setIsSending(false);
+        },
+      }
+    );
   };
 
   if (!isWalletConnected) {

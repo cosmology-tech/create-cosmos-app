@@ -10,18 +10,18 @@ import {
 import { useChain } from '@cosmos-kit/react';
 import { ChainName } from 'cosmos-kit';
 import { cosmos } from 'interchain-query';
+import { useWithdrawDelegatorReward } from 'interchain-react/cosmos/distribution/v1beta1/tx.rpc.func';
 
 import { getCoin } from '@/configs';
-import { Prices, useTx } from '@/hooks';
+import { Prices, useSigningClientDirect, useTx } from '@/hooks';
 import {
   sum,
   calcDollarValue,
   isGreaterThanZero,
   type ParsedRewards as Rewards,
 } from '@/utils';
-
-const { withdrawDelegatorReward } =
-  cosmos.distribution.v1beta1.MessageComposer.fromPartial;
+import { defaultContext } from '@tanstack/react-query';
+import { MsgWithdrawDelegatorReward } from 'interchain-react/cosmos/distribution/v1beta1/tx';
 
 const Overview = ({
   balance,
@@ -40,10 +40,17 @@ const Overview = ({
 }) => {
   const [isClaiming, setIsClaiming] = useState(false);
   const { address } = useChain(chainName);
-  const { tx } = useTx(chainName);
+
+  const { data: client } = useSigningClientDirect(chainName);
 
   const totalAmount = sum(balance, staked, rewards?.total ?? 0);
   const coin = getCoin(chainName);
+  const withdrawDelegatorReward = useWithdrawDelegatorReward({
+    clientResolver: client,
+    options: {
+      context: defaultContext,
+    },
+  });
 
   const onClaimRewardClick = async () => {
     setIsClaiming(true);
@@ -51,15 +58,23 @@ const Overview = ({
     if (!address) return;
 
     const msgs = rewards.byValidators.map(({ validatorAddress }) =>
-      withdrawDelegatorReward({
+      MsgWithdrawDelegatorReward.fromPartial({
         delegatorAddress: address,
         validatorAddress,
       })
     );
 
-    await tx(msgs, {
-      onSuccess: updateData,
-    });
+    withdrawDelegatorReward(
+      {
+        address,
+        message: msgs,
+        fee: 'auto',
+        memo: 'Claiming rewards',
+      },
+      {
+        onSuccess: updateData,
+      }
+    );
 
     setIsClaiming(false);
   };

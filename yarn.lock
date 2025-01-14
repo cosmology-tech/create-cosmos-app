@@ -5091,6 +5091,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmology/ast@npm:^1.9.3":
+  version: 1.9.3
+  resolution: "@cosmology/ast@npm:1.9.3"
+  dependencies:
+    "@babel/types": "npm:7.23.6"
+    "@cosmology/types": "npm:^1.11.2"
+    "@cosmology/utils": "npm:^1.9.2"
+    case: "npm:1.6.3"
+    dotty: "npm:0.1.2"
+  checksum: 10c0/3fb53ab55d992a18a440f58fb449c2fd5ea0873c5e0427e5ee84a42985c5d84b298f201012b80815c16f86c03ce6d24cf487003226e9258061f46285f0d2b331
+  languageName: node
+  linkType: hard
+
 "@cosmology/authz@workspace:examples/authz":
   version: 0.0.0-use.local
   resolution: "@cosmology/authz@workspace:examples/authz"
@@ -5106,10 +5119,11 @@ __metadata:
     "@cosmjs/tendermint-rpc": "npm:0.32.4"
     "@cosmjson/wasmswap": "npm:^0.0.9"
     "@cosmology/lcd": "npm:^0.12.0"
-    "@cosmology/telescope": "npm:^1.4.1"
+    "@cosmology/telescope": "npm:1.11.7"
     "@cosmos-kit/react": "npm:2.21.2"
     "@interchain-ui/react": "npm:1.23.22"
     "@interchain-ui/react-no-ssr": "npm:^0.1.6"
+    "@interchainjs/cosmos": "npm:1.6.3"
     "@protobufs/cosmos": "npm:^0.1.0"
     "@protobufs/cosmwasm": "npm:^0.1.1"
     "@protobufs/ibc": "npm:^0.1.0"
@@ -5128,6 +5142,7 @@ __metadata:
     fast-fuzzy: "npm:^1.12.0"
     generate-lockfile: "npm:0.0.12"
     interchain-query: "npm:1.10.1"
+    interchain-react: "npm:1.7.1"
     jest: "npm:^29.5.0"
     jest-in-case: "npm:^1.0.2"
     next: "npm:^13"
@@ -5572,6 +5587,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmology/proto-parser@npm:^1.9.2":
+  version: 1.9.2
+  resolution: "@cosmology/proto-parser@npm:1.9.2"
+  dependencies:
+    "@cosmology/protobufjs": "npm:7.3.2"
+    "@cosmology/types": "npm:^1.11.2"
+    "@cosmology/utils": "npm:^1.9.2"
+    dotty: "npm:0.1.2"
+    fast-json-patch: "npm:3.1.1"
+    glob: "npm:8.0.3"
+    minimatch: "npm:5.1.0"
+    mkdirp: "npm:3.0.0"
+  checksum: 10c0/575c6778e31bc50936f7b23a5278530365558cc248ddaa2c566f146a8741e5857331b1defc7eaddde6a226fcd20c02ff9745372e3882cab84f730afb2d30393b
+  languageName: node
+  linkType: hard
+
 "@cosmology/protobufjs@npm:6.11.6":
   version: 6.11.6
   resolution: "@cosmology/protobufjs@npm:6.11.6"
@@ -5850,6 +5881,40 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@cosmology/telescope@npm:1.11.7":
+  version: 1.11.7
+  resolution: "@cosmology/telescope@npm:1.11.7"
+  dependencies:
+    "@babel/generator": "npm:^7.23.6"
+    "@babel/parser": "npm:^7.23.6"
+    "@babel/traverse": "npm:7.23.6"
+    "@babel/types": "npm:7.23.6"
+    "@cosmology/ast": "npm:^1.9.3"
+    "@cosmology/proto-parser": "npm:^1.9.2"
+    "@cosmology/types": "npm:^1.11.2"
+    "@cosmology/utils": "npm:^1.9.2"
+    "@cosmwasm/ts-codegen": "npm:0.35.7"
+    "@types/parse-package-name": "npm:0.1.0"
+    case: "npm:1.6.3"
+    dargs: "npm:7.0.0"
+    deepmerge: "npm:4.3.1"
+    dotty: "npm:0.1.2"
+    fuzzy: "npm:0.1.3"
+    glob: "npm:8.0.3"
+    inquirerer: "npm:0.1.3"
+    long: "npm:^5.2.1"
+    minimatch: "npm:5.1.0"
+    minimist: "npm:1.2.8"
+    mkdirp: "npm:3.0.0"
+    parse-package-name: "npm:1.0.0"
+    rimraf: "npm:5.0.0"
+    yaml: "npm:^2.3.4"
+  bin:
+    telescope: main/telescope.js
+  checksum: 10c0/cad63de9aa65a6fae4a0be510fa0520f698eb8c5e3e0b75e6afec1a9c823f874d76e2a39f8ad8da77966064498cd324e5b0ad1eb678c67c9c274cc514467b42f
+  languageName: node
+  linkType: hard
+
 "@cosmology/telescope@npm:^0.102.0":
   version: 0.102.1
   resolution: "@cosmology/telescope@npm:0.102.1"
@@ -5976,7 +6041,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmology/telescope@npm:^1.10.3, @cosmology/telescope@npm:^1.4.1":
+"@cosmology/telescope@npm:^1.10.3":
   version: 1.10.9
   resolution: "@cosmology/telescope@npm:1.10.9"
   dependencies:
@@ -6041,6 +6106,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmology/types@npm:^1.11.2":
+  version: 1.11.2
+  resolution: "@cosmology/types@npm:1.11.2"
+  dependencies:
+    case: "npm:1.6.3"
+    fast-json-patch: "npm:3.1.1"
+  checksum: 10c0/b3f82cf54b35cc3de501c8d38dc06325cd5f988f117859bfedb1be0ebad3dba7508e0c4b5773fc4fcbde66e5d42e103cf1e48eefbca440171ffd457c8d77821b
+  languageName: node
+  linkType: hard
+
 "@cosmology/utils@npm:^0.12.0":
   version: 0.12.0
   resolution: "@cosmology/utils@npm:0.12.0"
@@ -6068,6 +6143,16 @@ __metadata:
     "@cosmology/types": "npm:^1.10.3"
     dotty: "npm:0.1.2"
   checksum: 10c0/2d07ad7515c2ef40342ba9b645f3f87c379c0308ebc3748471d681febecc3973766f83bd5d56d96d3733a640d074f86b876b18407cb58822d505f0207a477d20
+  languageName: node
+  linkType: hard
+
+"@cosmology/utils@npm:^1.9.2":
+  version: 1.9.2
+  resolution: "@cosmology/utils@npm:1.9.2"
+  dependencies:
+    "@cosmology/types": "npm:^1.11.2"
+    dotty: "npm:0.1.2"
+  checksum: 10c0/9094401425e691e9728ea9cabe31df282c137e563f58f8f0870f8e82c338bdbe24fd7b0c0360343bb8deda3aeb67bfefa35dc726f631b7c14a204c400d7a52dd
   languageName: node
   linkType: hard
 
@@ -21998,6 +22083,22 @@ __metadata:
   peerDependencies:
     "@tanstack/react-query": 4.29.1
   checksum: 10c0/3b166295b38e7ff6a5b9905524be162f67a84989f57d48ab68247a718f123e2fcf148d2bc9292ad5cc410d737153ca68fc3e9e0941677f0b2b8a431451e17412
+  languageName: node
+  linkType: hard
+
+"interchain-react@npm:1.7.1":
+  version: 1.7.1
+  resolution: "interchain-react@npm:1.7.1"
+  dependencies:
+    "@interchainjs/cosmos": "npm:1.6.3"
+    "@interchainjs/cosmos-types": "npm:1.6.3"
+    "@interchainjs/types": "npm:1.6.3"
+    "@interchainjs/utils": "npm:1.6.3"
+    "@noble/hashes": "npm:^1.3.1"
+    decimal.js: "npm:^10.4.3"
+  peerDependencies:
+    "@tanstack/react-query": 4.29.1
+  checksum: 10c0/e730dfd7ceab54eada78717751e48c173fba0477056c8fd9c59157980ed997c696f4c60b65a8291b6cadb6ed9f2d88332f8e44d5556075d2f24841e4e1343f69
   languageName: node
   linkType: hard
 

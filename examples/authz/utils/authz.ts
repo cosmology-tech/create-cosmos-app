@@ -5,12 +5,12 @@ import { GetServerSideProps } from 'next';
 import {
   GenericAuthorization,
   GrantAuthorization,
-} from '@/src/codegen/cosmos/authz/v1beta1/authz';
-import { SendAuthorization } from '@/src/codegen/cosmos/bank/v1beta1/authz';
+} from 'interchain-react/cosmos/authz/v1beta1/authz';
+import { SendAuthorization } from 'interchain-react/cosmos/bank/v1beta1/authz';
 import {
   authorizationTypeToJSON,
   StakeAuthorization,
-} from '@/src/codegen/cosmos/staking/v1beta1/authz';
+} from 'interchain-react/cosmos/staking/v1beta1/authz';
 
 import { shiftDigits } from './calc';
 import { ExtendedValidator } from './staking';

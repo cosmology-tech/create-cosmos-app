@@ -5,6 +5,8 @@ import { shiftDigits } from '@/utils';
 import { useAuthzContext } from '@/context';
 import { getCoin, getExponent } from '@/configs';
 import { useQueryHooks } from './useQueryHooks';
+import { useGetBalance } from 'interchain-react/cosmos/bank/v1beta1/query.rpc.func';
+import { defaultContext } from '@tanstack/react-query';
 
 export const useSendData = (chainName: string) => {
   const { permission } = useAuthzContext();
@@ -15,21 +17,23 @@ export const useSendData = (chainName: string) => {
   const exp = getExponent(chainName);
 
   const {
-    cosmos: cosmosQuery,
     isReady: isQueryHooksReady,
     isFetching: isQueryHooksFetching,
+    rpcEndpoint,
   } = useQueryHooks(chainName);
 
-  const balanceQuery = cosmosQuery.bank.v1beta1.useBalance({
+  const balanceQuery = useGetBalance({
     request: {
       address: address || '',
       denom: coin.base,
     },
     options: {
+      context: defaultContext,
       enabled: isQueryHooksReady && !!address,
       select: ({ balance }) => shiftDigits(balance?.amount || '0', -exp),
       staleTime: 0,
     },
+    clientResolver: rpcEndpoint,
   });
 
   const pricesQuery = usePrices();

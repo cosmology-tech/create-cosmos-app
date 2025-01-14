@@ -4,7 +4,7 @@ import { Chain, Asset } from '@chain-registry/types';
 import {
   Proposal,
   ProposalStatus,
-} from 'interchain-query/cosmos/gov/v1beta1/gov';
+} from 'interchain-react/cosmos/gov/v1beta1/gov';
 import { getChainAssets } from './chain';
 
 export function getChainLogo(chain: Chain) {

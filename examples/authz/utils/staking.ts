@@ -2,13 +2,13 @@ import { QueryDelegationTotalRewardsResponse } from 'interchain-query/cosmos/dis
 import {
   Pool,
   Validator,
-} from 'interchain-query/cosmos/staking/v1beta1/staking';
+} from 'interchain-react/cosmos/staking/v1beta1/staking';
 import { isGreaterThanZero, shiftDigits, toNumber } from '.';
 import { Coin, decodeCosmosSdkDecFromProto } from '@cosmjs/stargate';
 import {
   QueryDelegatorDelegationsResponse,
   QueryParamsResponse,
-} from 'interchain-query/cosmos/staking/v1beta1/query';
+} from 'interchain-react/cosmos/staking/v1beta1/query';
 import BigNumber from 'bignumber.js';
 import { QueryAnnualProvisionsResponse } from 'interchain-query/cosmos/mint/v1beta1/query';
 import type { Asset } from '@chain-registry/types';

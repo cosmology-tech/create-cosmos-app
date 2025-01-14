@@ -1,10 +1,17 @@
 import { useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { cosmos } from 'interchain-query';
+import { defaultContext, useQuery } from '@tanstack/react-query';
 import BigNumber from 'bignumber.js';
 
 import { extendValidators, getLogoUrls, parseValidators } from '@/utils';
 import { useQueryHooks } from './useQueryHooks';
+import {
+  BondStatus,
+  bondStatusToJSON,
+} from 'interchain-react/cosmos/staking/v1beta1/staking';
+import {
+  useGetValidator,
+  useGetValidators,
+} from 'interchain-react/cosmos/staking/v1beta1/query.rpc.func';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -19,16 +26,14 @@ export const useValidators = (
   { fetchLogos = true }: UseValidatorsConfig = {}
 ) => {
   const {
-    cosmos: cosmosQuery,
+    rpcEndpoint,
     isReady: isQueryHooksReady,
     isFetching: isQueryHooksFetching,
   } = useQueryHooks(chainName);
 
-  const validatorsQuery = cosmosQuery.staking.v1beta1.useValidators({
+  const validatorsQuery = useGetValidators({
     request: {
-      status: cosmos.staking.v1beta1.bondStatusToJSON(
-        cosmos.staking.v1beta1.BondStatus.BOND_STATUS_BONDED
-      ),
+      status: bondStatusToJSON(BondStatus.BOND_STATUS_BONDED),
       pagination: {
         key: new Uint8Array(),
         offset: 0n,
@@ -38,6 +43,7 @@ export const useValidators = (
       },
     },
     options: {
+      context: defaultContext,
       enabled: isQueryHooksReady,
       select: ({ validators }) => {
         const sorted = validators.sort((a, b) =>
@@ -50,6 +56,7 @@ export const useValidators = (
       },
       staleTime: Infinity,
     },
+    clientResolver: rpcEndpoint,
   });
 
   const validatorLogosQuery = useQuery({

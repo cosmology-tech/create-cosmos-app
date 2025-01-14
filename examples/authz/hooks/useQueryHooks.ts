@@ -26,15 +26,10 @@ export const useQueryHooks = (chainName: string) => {
     },
   });
 
-  const { cosmos } = createRpcQueryHooks({
-    rpc: rpcClientQuery.data,
-  });
-
   const isReady = Boolean(rpcClientQuery.data);
   const isFetching = rpcEndpointQuery.isFetching || rpcClientQuery.isFetching;
 
   return {
-    cosmos,
     isReady,
     isFetching,
     rpcEndpoint: rpcEndpointQuery.data,

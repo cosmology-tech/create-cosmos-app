@@ -20,10 +20,17 @@ import {
   PrettyPermission,
 } from '@/utils';
 import { useAuthzContext } from '@/context';
-import { useAuthzTx, useGrants } from '@/hooks';
+import {
+  useAuthzTx,
+  useGrants,
+  useSigningClientAmino,
+  useSigningClientDirect,
+} from '@/hooks';
 import { getCoin, permissionNameToRouteMap } from '@/configs';
 
 import styles from '@/styles/custom.module.css';
+import { useRevoke } from 'interchain-react/cosmos/authz/v1beta1/tx.rpc.func';
+import { defaultContext } from '@tanstack/react-query';
 
 type GrantCardProps = {
   role: 'granter' | 'grantee';
@@ -43,10 +50,18 @@ export const GrantCard = ({
   const [revokingPermission, setRevokingPermission] =
     useState<PrettyPermission>();
 
-  const { chain } = useChain(chainName);
+  const { address: signerAddress, chain } = useChain(chainName);
   const { refetch } = useGrants(chainName);
   const { setPermission } = useAuthzContext();
-  const { authzTx, createRevokeMsg } = useAuthzTx(chainName);
+  const { createRevokeMsg } = useAuthzTx(chainName);
+  const { data: client } = useSigningClientDirect(chainName);
+
+  const { mutate: revoke } = useRevoke({
+    clientResolver: client,
+    options: {
+      context: defaultContext,
+    },
+  });
 
   const { address, permissions } = grant;
 
@@ -70,15 +85,22 @@ export const GrantCard = ({
   const handleRevoke = (permission: PrettyPermission) => {
     setIsRevoking(true);
 
-    authzTx({
-      msgs: [createRevokeMsg(permission)],
-      onSuccess: () => {
-        refetch();
+    revoke(
+      {
+        signerAddress,
+        message: createRevokeMsg(permission),
+        fee: 'auto',
+        memo: 'revoking permission',
       },
-      onComplete: () => {
-        setIsRevoking(false);
-      },
-    });
+      {
+        onSuccess: () => {
+          refetch();
+        },
+        onComplete: () => {
+          setIsRevoking(false);
+        },
+      }
+    );
   };
 
   return (

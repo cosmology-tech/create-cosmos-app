@@ -28,13 +28,22 @@ import {
   PermissionItem,
   permissions,
 } from '@/configs';
-import { AuthorizationType } from '@/src/codegen/cosmos/staking/v1beta1/authz';
-import { GrantMsg, useAuthzTx, useGrants } from '@/hooks';
+import { AuthorizationType } from 'interchain-react/cosmos/staking/v1beta1/authz';
+import {
+  GrantMsg,
+  useAuthzTx,
+  useGrants,
+  useSigningClientAmino,
+  useSigningClientDirect,
+} from '@/hooks';
 import { getTokenByChainName, shiftDigits } from '@/utils';
 import { CustomizationField } from './CustomizationField';
 import { AddressInput } from '@/components';
 
 import styles from '@/styles/custom.module.css';
+import { useGrant } from 'interchain-react/cosmos/authz/v1beta1/tx.rpc.func';
+import { defaultContext } from '@tanstack/react-query';
+import { SendAuthorization } from 'interchain-react/cosmos/bank/v1beta1/authz';
 
 export type AccessList = {
   type: 'allowList' | 'denyList';
@@ -70,7 +79,15 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
 
   const { refetch } = useGrants(chainName);
   const { address } = useChain(chainName);
-  const { authzTx, createGrantMsg } = useAuthzTx(chainName);
+  const { createGrantMsg } = useAuthzTx(chainName);
+  const { data: client } = useSigningClientAmino(chainName);
+
+  const { mutate: grant } = useGrant({
+    clientResolver: client,
+    options: {
+      context: defaultContext,
+    },
+  });
 
   const token = getTokenByChainName(chainName);
   const exponent = getExponent(chainName);
@@ -96,9 +113,9 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
     const sendMsg: GrantMsg = {
       grantType: 'send',
       customize: sendLimit
-        ? {
+        ? SendAuthorization.fromPartial({
             spendLimit: [coin(shiftDigits(sendLimit, exponent), denom)],
-          }
+          })
         : undefined,
     };
 
@@ -128,16 +145,33 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
       ...grantMsg[selectedPermission.id],
     });
 
-    authzTx({
-      msgs: [msg],
-      onSuccess: () => {
-        refetch();
-        onModalClose();
+    const fee = {
+      amount: [
+        {
+          denom: token.base,
+          amount: '2500',
+        },
+      ],
+      gas: '1000000',
+    };
+
+    grant(
+      {
+        signerAddress: address,
+        message: msg,
+        fee,
+        memo: 'granting permission',
       },
-      onComplete: () => {
-        setIsGranting(false);
-      },
-    });
+      {
+        onSuccess: () => {
+          refetch();
+          onModalClose();
+        },
+        onComplete: () => {
+          setIsGranting(false);
+        },
+      }
+    );
   };
 
   return (

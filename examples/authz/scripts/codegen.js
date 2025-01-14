@@ -17,6 +17,7 @@ telescope({
     interfaces: {
       enabled: true,
       useGlobalDecoderRegistry: true,
+      registerAllDecodersToGlobal: false,
       useUnionTypes: true
     },
 
@@ -150,6 +151,12 @@ telescope({
         'ReflectionService',
         'ABCIApplication'
       ]
+    },
+
+    helperFuncCreators: {
+      enabled: true,
+      useGlobalDecoderRegistry: true,
+      genCustomHooks: true
     },
 
     aminoEncoding: {
