@@ -46,7 +46,7 @@ import { QueryValidatorsRequest } from '../src/codegen/cosmos/staking/v1beta1/qu
 const library = {
   title: 'Telescope',
   text: 'telescope',
-  href: 'https://github.com/cosmology-tech/telescope',
+  href: 'https://github.com/hyperweb-io/telescope',
 };
 
 const sendTokens = (

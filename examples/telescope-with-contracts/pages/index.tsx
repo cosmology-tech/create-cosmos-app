@@ -28,7 +28,7 @@ import { ContractsProvider } from '../src/codegen/contracts-context';
 const library = {
   title: 'StargazeJS',
   text: 'Typescript libraries for the Stargaze ecosystem',
-  href: 'https://github.com/cosmology-tech/stargazejs',
+  href: 'https://github.com/hyperweb-io/stargazejs',
 };
 
 export default function Home() {

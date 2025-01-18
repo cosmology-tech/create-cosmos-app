@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This example demonstrates the usage of React hooks provided by [injective-react](https://github.com/cosmology-tech/interchainjs/tree/main/libs/injective-react) and how to interact with the Injective blockchain on the frontend.
+This example demonstrates the usage of React hooks provided by [injective-react](https://github.com/hyperweb-io/interchainjs/tree/main/libs/injective-react) and how to interact with the Injective blockchain on the frontend.
 
 ## Getting Started
 
@@ -62,7 +62,7 @@ const { mutate: delegate, isSuccess: isDelegateSuccess } = useDelegate({
 });
 ```
 
-For more information on how to use these hooks, please refer to the [injective-react](https://github.com/cosmology-tech/interchainjs/tree/main/libs/injective-react)
+For more information on how to use these hooks, please refer to the [injective-react](https://github.com/hyperweb-io/interchainjs/tree/main/libs/injective-react)
 
 ## Learn More
 
@@ -70,7 +70,7 @@ For more information on how to use these hooks, please refer to the [injective-r
 
 The npm package for the Official Cosmos chain registry. Get chain and token data for you application.
 
-* https://github.com/cosmology-tech/chain-registry
+* https://github.com/hyperweb-io/chain-registry
 
 ### Cosmology Videos
 
@@ -82,13 +82,13 @@ Checkout more videos for how to use various frontend tooling in the Cosmos!
 
 A wallet connector for the Cosmos ⚛️
 
-* https://github.com/cosmology-tech/interchain-kit
+* https://github.com/hyperweb-io/interchain-kit
 
 ### Telescope
 
 A "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs. Telescope is used to generate libraries for Cosmos blockchains. Simply point to your protobuffer files and create developer-friendly Typescript libraries for teams to build on your blockchain.
 
-* https://github.com/cosmology-tech/telescope
+* https://github.com/hyperweb-io/telescope
 
 🎥 [Checkout the Telescope video playlist](https://www.youtube.com/watch?v=n82MsLe82mk&list=PL-lMkVv7GZwyQaK6bp6kMdOS5mzosxytC) to learn how to use `telescope`!
 
@@ -120,17 +120,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 Checkout these related projects:
 
-* [@cosmology/telescope](https://github.com/cosmology-tech/telescope) Your Frontend Companion for Building with TypeScript with Cosmos SDK Modules.
+* [telescope](https://github.com/hyperweb-io/telescope) Your Frontend Companion for Building with TypeScript with Cosmos SDK Modules.
 * [@cosmwasm/ts-codegen](https://github.com/CosmWasm/ts-codegen) Convert your CosmWasm smart contracts into dev-friendly TypeScript classes.
-* [chain-registry](https://github.com/cosmology-tech/chain-registry) Everything from token symbols, logos, and IBC denominations for all assets you want to support in your application.
-* [interchain-kit](https://github.com/cosmology-tech/interchain-kit) Experience the convenience of connecting with a variety of web3 wallets through a single, streamlined interface.
-* [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) Set up a modern Cosmos app by running one command.
-* [interchain-ui](https://github.com/cosmology-tech/interchain-ui) The Interchain Design System, empowering developers with a flexible, easy-to-use UI kit.
-* [starship](https://github.com/cosmology-tech/starship) Unified Testing and Development for the Interchain.
+* [chain-registry](https://github.com/hyperweb-io/chain-registry) Everything from token symbols, logos, and IBC denominations for all assets you want to support in your application.
+* [interchain-kit](https://github.com/hyperweb-io/interchain-kit) Experience the convenience of connecting with a variety of web3 wallets through a single, streamlined interface.
+* [create-cosmos-app](https://github.com/hyperweb-io/create-cosmos-app) Set up a modern Cosmos app by running one command.
+* [interchain-ui](https://github.com/hyperweb-io/interchain-ui) The Interchain Design System, empowering developers with a flexible, easy-to-use UI kit.
+* [starship](https://github.com/hyperweb-io/starship) Unified Testing and Development for the Interchain.
 
 ## Credits
 
-🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.zone/validator)
+🛠 Built by Hyperweb (formerly Cosmology) — if you like our tools, please checkout and contribute to [our github ⚛️](https://github.com/hyperweb-io)
 
 
 ## Disclaimer

@@ -1,4 +1,4 @@
-This is a Cosmos App project bootstrapped with [`create-cosmos-app`](https://github.com/cosmology-tech/create-cosmos-app).
+This is a Cosmos App project bootstrapped with [`create-cosmos-app`](https://github.com/hyperweb-io/create-cosmos-app).
 
 ## Getting Started
 
@@ -18,7 +18,7 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 
 The npm package for the Official Cosmos chain registry. Get chain and token data for you application.
 
-* https://github.com/cosmology-tech/chain-registry
+* https://github.com/hyperweb-io/chain-registry
 
 ### Cosmology Videos
 
@@ -30,13 +30,13 @@ Checkout more videos for how to use various frontend tooling in the Cosmos!
 
 A wallet connector for the Cosmos ⚛️
 
-* https://github.com/cosmology-tech/cosmos-kit
+* https://github.com/hyperweb-io/cosmos-kit
 
 ### Telescope
 
 A "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs. Telescope is used to generate libraries for Cosmos blockchains. Simply point to your protobuffer files and create developer-friendly Typescript libraries for teams to build on your blockchain.
 
-* https://github.com/cosmology-tech/telescope
+* https://github.com/hyperweb-io/telescope
 
 🎥 [Checkout the Telescope video playlist](https://www.youtube.com/watch?v=n82MsLe82mk&list=PL-lMkVv7GZwyQaK6bp6kMdOS5mzosxytC) to learn how to use `telescope`!
 
@@ -71,6 +71,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 Code built with the help of these related projects:
 
 * [@cosmwasm/ts-codegen](https://github.com/CosmWasm/ts-codegen) for generated CosmWasm contract Typescript classes
-* [@cosmology/telescope](https://github.com/cosmology-tech/telescope) a "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs.
-* [chain-registry](https://github.com/cosmology-tech/chain-registry) Cosmos chain registry and chain info.
-* [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit) A wallet connector for the Cosmos.
+* [telescope](https://github.com/hyperweb-io/telescope) a "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs.
+* [chain-registry](https://github.com/hyperweb-io/chain-registry) Cosmos chain registry and chain info.
+* [cosmos-kit](https://github.com/hyperweb-io/cosmos-kit) A wallet connector for the Cosmos.

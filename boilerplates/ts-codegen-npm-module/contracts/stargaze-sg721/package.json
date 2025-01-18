@@ -5,17 +5,17 @@
   "version": "0.0.7",
   "description": "stargaze",
   "author": "Dan Lynch <pyramation@gmail.com>",
-  "homepage": "https://github.com/cosmology-tech/cosmjson/tree/master/packages/stargaze#readme",
+  "homepage": "https://github.com/hyperweb-io/cosmjson/tree/master/packages/stargaze#readme",
   "license": "SEE LICENSE IN LICENSE",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cosmology-tech/cosmjson"
+    "url": "https://github.com/hyperweb-io/cosmjson"
   },
   "bugs": {
-    "url": "https://github.com/cosmology-tech/cosmjson/issues"
+    "url": "https://github.com/hyperweb-io/cosmjson/issues"
   },
   "gitHead": "2d1a7b9aa6c3ac7596dbea4211180fd5c7235513"
 }

@@ -52,7 +52,7 @@ import { trace } from 'mobx';
 const library = {
   title: 'Telescope',
   text: 'telescope',
-  href: 'https://github.com/cosmology-tech/telescope',
+  href: 'https://github.com/hyperweb-io/telescope',
 };
 
 const sendTokens = (

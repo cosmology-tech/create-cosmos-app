@@ -92,7 +92,7 @@ function decodeAmino(typeUrl: string, pubkey: { key: Uint8Array }) {
 const library = {
   title: 'Telescope',
   text: 'telescope',
-  href: 'https://github.com/cosmology-tech/telescope',
+  href: 'https://github.com/hyperweb-io/telescope',
 };
 
 const sendTokens = (

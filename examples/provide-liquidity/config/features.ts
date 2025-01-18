@@ -8,12 +8,12 @@ export const products: FeatureProps[] = [
   {
     title: 'Cosmos Kit',
     text: 'A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.',
-    href: 'https://github.com/cosmology-tech/cosmos-kit',
+    href: 'https://github.com/hyperweb-io/cosmos-kit',
   },
   {
     title: 'Telescope',
     text: 'A TypeScript Transpiler for Cosmos Protobufs to generate libraries for Cosmos blockchains.',
-    href: 'https://github.com/cosmology-tech/telescope',
+    href: 'https://github.com/hyperweb-io/telescope',
   },
   {
     title: 'TS Codegen',
@@ -28,7 +28,7 @@ export const products: FeatureProps[] = [
   {
     title: 'Chain Registry',
     text: 'Get chain and asset list information from the npm package for the Official Cosmos chain registry.',
-    href: 'https://github.com/cosmology-tech/chain-registry',
+    href: 'https://github.com/hyperweb-io/chain-registry',
   },
   {
     title: 'Videos',

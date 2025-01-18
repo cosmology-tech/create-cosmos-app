@@ -46,7 +46,7 @@ import { TxRaw } from '../codegen_grpc_web/cosmos/tx/v1beta1/tx';
 const library = {
   title: 'Interchain',
   text: 'Interchain',
-  href: 'https://github.com/cosmology-tech/interchain',
+  href: 'https://github.com/hyperweb-io/interchain',
 };
 
 const sendTokens = (
