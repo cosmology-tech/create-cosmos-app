@@ -16,7 +16,7 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 
 ### Chain Registry
 
-The npm package for the Official Cosmos chain registry. Get chain and token data for you application.
+The npm package for the Official Cosmos chain registry. Get chain and token data for your application.
 
 * https://github.com/hyperweb-io/chain-registry
 
