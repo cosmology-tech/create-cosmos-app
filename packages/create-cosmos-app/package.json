@@ -1,6 +1,6 @@
 {
   "name": "create-cosmos-app",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "Set up a modern Cosmos app by running one command ⚛️",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/hyperweb-io/create-cosmos-app#readme",

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/hyperweb-io/create-cosmos-app/compare/@cosmology/chain-template@1.1.0...@cosmology/chain-template@1.2.0) (2025-01-18)
+
+
+### Bug Fixes
+
+* remove comments ([f89c630](https://github.com/hyperweb-io/create-cosmos-app/commit/f89c6306258d532a8a8daaa37801e955b47973d9))
+
+
+### Features
+
+* move chain-template to /templates ([295eaf1](https://github.com/hyperweb-io/create-cosmos-app/commit/295eaf18dd0d0293321f9b3a24e3198c3e4d9bb6))
+
+
+
+
+
 # 1.1.0 (2024-10-08)
 
 

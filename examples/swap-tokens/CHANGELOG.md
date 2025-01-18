@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/hyperweb-io/create-cosmos-app/compare/@cosmology/swap-tokens@1.1.0...@cosmology/swap-tokens@1.1.1) (2025-01-18)
+
+
+### Bug Fixes
+
+* update deps ([1390d23](https://github.com/hyperweb-io/create-cosmos-app/commit/1390d23e7b77fff16f2dd497a0ac406a37af9880))
+
+
+
+
+
 # 1.1.0 (2024-10-08)
 
 

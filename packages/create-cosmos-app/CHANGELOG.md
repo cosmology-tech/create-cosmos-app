@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.1](https://github.com/hyperweb-io/create-cosmos-app/compare/create-cosmos-app@2.4.0...create-cosmos-app@2.4.1) (2025-01-18)
+
+**Note:** Version bump only for package create-cosmos-app
+
+
+
+
+
 # [2.4.0](https://github.com/hyperweb-io/create-cosmos-app/compare/create-cosmos-app@0.0.6...create-cosmos-app@2.4.0) (2024-10-08)
 
 

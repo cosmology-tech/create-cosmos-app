@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/hyperweb-io/create-cosmos-app/compare/@cosmology/spawn@1.1.0...@cosmology/spawn@1.2.0) (2025-01-18)
+
+
+### Bug Fixes
+
+* add chains to wallet for all connect buttons ([f9b09f9](https://github.com/hyperweb-io/create-cosmos-app/commit/f9b09f9d2e366670b3aff2cda71e7bbd1d89b303))
+* incorrect staking data fetching on first render ([9aea9b6](https://github.com/hyperweb-io/create-cosmos-app/commit/9aea9b6a5ae360b94bbb5c1472ae9ae9b7ffa7c8))
+
+
+### Features
+
+* select spawn chain by default if it's running ([2c00c33](https://github.com/hyperweb-io/create-cosmos-app/commit/2c00c33d313dd2a475e1723654bc537c745de881))
+* show raw json in instantiate tx result ([aef88fa](https://github.com/hyperweb-io/create-cosmos-app/commit/aef88faf558e9a4d1364fea9c357a34d86e27462))
+
+
+
+
+
 # 1.1.0 (2024-10-08)
 
 **Note:** Version bump only for package @cosmology/spawn
