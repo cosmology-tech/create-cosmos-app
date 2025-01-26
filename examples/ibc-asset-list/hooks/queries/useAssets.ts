@@ -92,7 +92,7 @@ export const useAssets = (chainName: string) => {
       })
       .filter((asset) => {
         const isWithinLimit = ibcAssets.length <= MAX_TOKENS_TO_SHOW;
-        return isWithinLimit || topTokens.includes(asset.symbol);
+        return isWithinLimit || topTokens?.includes(asset.symbol);
       })
       .map((asset) => ({ denom: asset.base, amount: '0' }));
 
