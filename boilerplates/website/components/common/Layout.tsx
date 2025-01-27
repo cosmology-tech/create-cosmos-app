@@ -43,7 +43,7 @@ function DrawContent({
         borderBottomStyle="solid"
       >
         <Link href="/">
-          <Image src={logo} alt="Cosmology" width={35} />
+          <Image src={logo} alt="Hyperweb" width={35} />
         </Link>
         <Box display="flex" flex="1" justifyContent="end">
           <Box attributes={{ onClick: onClose }}>

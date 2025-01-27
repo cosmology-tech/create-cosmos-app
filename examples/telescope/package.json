@@ -1,5 +1,5 @@
 {
-  "name": "@cosmology/connect-chain-with-telescope",
+  "name": "@hyperweb/connect-chain-with-telescope",
   "version": "2.1.1",
   "private": true,
   "scripts": {

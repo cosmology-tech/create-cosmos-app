@@ -32,8 +32,8 @@ export const products: Project[] = [
   },
   {
     name: 'Videos',
-    desc: 'How-to videos from the official Cosmology website, with learning resources for building in Cosmos.',
-    link: 'https://cosmology.tech/learn',
+    desc: 'How-to videos from the official Hyperweb website, with learning resources for building in Cosmos.',
+    link: 'https://hyperweb.io/learn',
   },
 ];
 

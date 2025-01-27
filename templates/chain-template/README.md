@@ -14,7 +14,7 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 
 ## How to connect to Starship chains
 
-1. Follow the official guide to set up Starship: https://docs.cosmology.zone/starship/get-started/step-1
+1. Follow the official guide to set up Starship: https://docs.hyperweb.io/starship/get-started/step-1
 2. Run `yarn starship start` and wait until Starship is up and running
 3. Open a new terminal and run `yarn dev`
 4. Open http://localhost:3000, select "Osmosis Devnet" or "Cosmos Hub Devnet" from the chain dropdown in the top right corner then click "Connect Wallet" in the left sidebar to connect to the chain
@@ -28,11 +28,11 @@ The npm package for the Official Cosmos chain registry. Get chain and token data
 
 - https://github.com/hyperweb-io/chain-registry
 
-### Cosmology Videos
+### Hyperweb Videos
 
 Checkout more videos for how to use various frontend tooling in the Cosmos!
 
-- https://cosmology.zone/learn
+- https://hyperweb.io/learn
 
 ### Cosmos Kit
 

@@ -135,7 +135,7 @@ const {
 
 ⚡️ For web interfaces, we recommend using [cosmos-kit](https://github.com/hyperweb-io/cosmos-kit). Continue below to see how to manually construct signers and clients.
 
-Here are the docs on [creating signers](https://docs.cosmology.zone/cosmos-kit) in cosmos-kit that can be used with Keplr and other wallets.
+Here are the docs on [creating signers](https://docs.hyperweb.io/cosmos-kit) in cosmos-kit that can be used with Keplr and other wallets.
 
 ### Initializing the Stargate Client
 
@@ -153,7 +153,7 @@ const stargateClient = await getSigning__CHAIN_UPPER__Client({
 
 To broadcast messages, you can create signers with a variety of options:
 
-* [cosmos-kit](https://docs.cosmology.zone/cosmos-kit) (recommended)
+* [cosmos-kit](https://docs.hyperweb.io/cosmos-kit) (recommended)
 * [keplr](https://docs.keplr.app/api/cosmjs.html)
 * [cosmjs](https://gist.github.com/webmaster128/8444d42a7eceeda2544c8a59fbd7e1d9)
 ### Amino Signer

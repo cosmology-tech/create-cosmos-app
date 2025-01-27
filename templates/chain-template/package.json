@@ -1,5 +1,5 @@
 {
-  "name": "@cosmology/chain-template",
+  "name": "@hyperweb/chain-template",
   "version": "1.2.0",
   "private": true,
   "scripts": {
