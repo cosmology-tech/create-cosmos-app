@@ -17,8 +17,8 @@ export function Footer() {
       borderTopStyle="solid"
     >
       <Text color="$gray500" fontSize="$xs">Built with</Text>
-      <Link href="https://cosmology.zone/" target="_blank">
-        <Image src={logo} alt="Cosmology Logo" width={110} />
+      <Link href="https://hyperweb.io/" target="_blank">
+        <Image src={logo} alt="Hyperweb Logo" width={110} />
       </Link>
     </Box>
   );

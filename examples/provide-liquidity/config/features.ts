@@ -32,8 +32,8 @@ export const products: FeatureProps[] = [
   },
   {
     title: 'Videos',
-    text: 'How-to videos from the official Cosmology website, with learning resources for building in Cosmos.',
-    href: 'https://cosmology.zone/learn',
+    text: 'How-to videos from the official Hyperweb website, with learning resources for building in Cosmos.',
+    href: 'https://hyperweb.io/learn',
   },
 ];
 
@@ -46,7 +46,7 @@ export const dependencies: FeatureProps[] = [
   {
     title: 'Interchain UI',
     text: 'A simple, modular and accessible React Component Library.',
-    href: 'https://cosmology.zone/components',
+    href: 'https://hyperweb.io/components',
   },
   {
     title: 'Next.js',

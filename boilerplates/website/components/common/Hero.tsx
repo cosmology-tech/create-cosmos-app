@@ -34,7 +34,7 @@ export function Hero() {
             marginTop: "$7",
           }}
         >
-          Cosmology develops cutting-edge tools for the interchain ecosystem,
+          Hyperweb develops cutting-edge tools for the interchain ecosystem,
           empowering seamless interactions across the Internet of Blockchains.
         </Text>
         <Link href="/components" style={{ display: "inline-block" }}>

@@ -16,70 +16,70 @@ export const products: Product[] = [
     name: 'Cosmos Kit',
     description:
       'A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.',
-    link: 'https://cosmology.zone/products/cosmos-kit',
+    link: 'https://hyperweb.io/products/cosmos-kit',
     category: 'frontend',
   },
   {
     name: 'Telescope',
     description:
       'A TypeScript Transpiler for Cosmos Protobufs to generate libraries for Cosmos blockchains.',
-    link: 'https://cosmology.zone/products/telescope',
+    link: 'https://hyperweb.io/products/telescope',
     category: 'cosmos-sdk',
   },
   {
     name: 'Interchain UI',
     description:
       'A simple, modular and cross-framework component library for Cosmos ecosystem.',
-    link: 'https://cosmology.zone/products/interchain-ui',
+    link: 'https://hyperweb.io/products/interchain-ui',
     category: 'frontend',
   },
   {
     name: 'TS Codegen',
     description:
       'The quickest and easiest way to convert CosmWasm Contracts into dev-friendly TypeScript classes.',
-    link: 'https://cosmology.zone/products/ts-codegen',
+    link: 'https://hyperweb.io/products/ts-codegen',
     category: 'cosmwasm',
   },
   {
     name: 'Chain Registry',
     description:
       'Get chain and asset list information from the npm package for the Official Cosmos chain registry.',
-    link: 'https://cosmology.zone/products/chain-registry',
+    link: 'https://hyperweb.io/products/chain-registry',
     category: 'frontend',
   },
   {
     name: 'OsmoJS',
     description:
       'OsmosJS makes it easy to compose and broadcast Osmosis and Cosmos messages.',
-    link: 'https://cosmology.zone/products/osmojs',
+    link: 'https://hyperweb.io/products/osmojs',
     category: 'frontend',
   },
   {
     name: 'Starship',
     description:
       'Starship makes it easy to build a universal interchain development environment in k8s.',
-    link: 'https://cosmology.zone/products/starship',
+    link: 'https://hyperweb.io/products/starship',
     category: 'testing',
   },
   {
     name: 'Create Cosmos App',
     description:
       'One-Command Setup for Modern Cosmos dApps. Speed up your development and bootstrap new web3 dApps quickly.',
-    link: 'https://cosmology.zone/products/create-cosmos-app',
+    link: 'https://hyperweb.io/products/create-cosmos-app',
     category: 'frontend',
   },
   {
     name: 'CosmWasm Academy',
     description:
       'Master CosmWasm and build your secure, multi-chain dApp on any CosmWasm chain!',
-    link: 'https://cosmology.zone/learn/ts-codegen',
+    link: 'https://hyperweb.io/learn/ts-codegen',
     category: 'cosmwasm',
   },
   {
     name: 'Videos',
     description:
-      'How-to videos from the official Cosmology website, with learning resources for building in Cosmos.',
-    link: 'https://cosmology.zone/learn',
+      'How-to videos from the official Hyperweb website, with learning resources for building in Cosmos.',
+    link: 'https://hyperweb.io/learn',
     category: 'frontend',
   },
   {

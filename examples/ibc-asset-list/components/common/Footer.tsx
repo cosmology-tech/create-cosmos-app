@@ -169,8 +169,8 @@ export function Footer() {
         }}
       >
         <Text>Built with</Text>
-        <Link href="https://cosmology.zone/" target="_blank">
-          Cosmology
+        <Link href="https://hyperweb.io/" target="_blank">
+          Hyperweb
         </Link>
       </Stack>
     </>

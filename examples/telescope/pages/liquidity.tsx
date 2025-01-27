@@ -116,11 +116,11 @@ export default function Home() {
       >
         <Text>Built with</Text>
         <Link
-          href="https://cosmology.zone/"
+          href="https://hyperweb.io/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Cosmology
+          Hyperweb
         </Link>
       </Stack>
     </Container>

@@ -20,11 +20,11 @@ The npm package for the Official Cosmos chain registry. Get chain and token data
 
 * https://github.com/hyperweb-io/chain-registry
 
-### Cosmology Videos
+### Hyperweb Videos
 
 Checkout more videos for how to use various frontend tooling in the Cosmos!
 
-* https://cosmology.zone/learn
+* https://hyperweb.io/learn
 
 ### Cosmos Kit
 

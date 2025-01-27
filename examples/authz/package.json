@@ -1,5 +1,5 @@
 {
-  "name": "@cosmology/authz",
+  "name": "@hyperweb/authz",
   "version": "1.1.1",
   "private": true,
   "scripts": {

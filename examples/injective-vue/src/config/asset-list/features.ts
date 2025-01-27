@@ -32,8 +32,8 @@ export const products: Project[] = [
   },
   {
     name: 'Videos',
-    desc: 'How-to videos from the official Cosmology website, with learning resources for building in Cosmos.',
-    link: 'https://cosmology.zone/learn',
+    desc: 'How-to videos from the official Hyperweb website, with learning resources for building in Cosmos.',
+    link: 'https://hyperweb.io/learn',
   },
 ];
 
@@ -46,7 +46,7 @@ export const dependencies: Project[] = [
   {
     name: 'Interchain UI',
     desc: 'A simple, modular and accessible React Component Library.',
-    link: 'https://cosmology.zone/components',
+    link: 'https://hyperweb.io/components',
   },
   {
     name: 'Next.js',

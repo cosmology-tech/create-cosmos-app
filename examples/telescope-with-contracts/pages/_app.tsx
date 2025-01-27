@@ -52,7 +52,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
               metadata: {
                 name: 'Cosmos Kit dApp',
                 description: 'Cosmos Kit dApp built by Create Cosmos App',
-                url: 'https://docs.cosmology.zone/cosmos-kit/',
+                url: 'https://docs.hyperweb.io/cosmos-kit/',
                 icons: [],
               },
             },

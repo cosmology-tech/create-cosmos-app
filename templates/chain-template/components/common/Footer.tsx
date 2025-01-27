@@ -21,7 +21,7 @@ export const Footer = () => {
         gap="4px"
       >
         <Text color="$blackAlpha500" fontSize="12px" fontWeight="500">
-          © {new Date().getFullYear()} Cosmology
+          © {new Date().getFullYear()} Hyperweb
         </Text>
         {isMobile ? <TextDivider /> : <SocialLinks />}
         <Link href="/disclaimer">

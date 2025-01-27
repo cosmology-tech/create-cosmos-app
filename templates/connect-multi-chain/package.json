@@ -1,5 +1,5 @@
 {
-  "name": "@cosmology/connect-multi-chain",
+  "name": "@hyperweb/connect-multi-chain",
   "version": "1.1.1",
   "private": true,
   "scripts": {

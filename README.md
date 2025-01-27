@@ -60,13 +60,13 @@ Everything is preconfigured, ready-to-go, so you can focus on your code!
 
 - ⚡️ Connect easily to 20+ wallets via [Cosmos Kit](https://github.com/hyperweb-io/cosmos-kit) — including Ledger, Keplr, Cosmostation, Leap, Trust Wallet, OKX, XDEFI, Exodus, Wallet Connect and more!
 - ⚛️ Sign and broadcast with [cosmjs](https://github.com/cosmos/cosmjs) stargate + cosmwasm signers
-- 🎨 Build awesome UI with [Interchain UI](https://cosmology.zone/products/interchain-ui) and [Explore Components](https://cosmology.zone/components)
+- 🎨 Build awesome UI with [Interchain UI](https://hyperweb.io/products/interchain-ui) and [Explore Components](https://hyperweb.io/components)
 - 🛠 Render pages with [next.js](https://nextjs.org/) hybrid static & server rendering
 - 📝 Leverage [chain-registry](https://github.com/hyperweb-io/chain-registry) for Chain and Asset info for all Cosmos chains
 
 ## Education & Resources
 
-🎥 [Checkout our videos](https://cosmology.zone/learn) to learn to learn more about `create-cosmos-app` and tooling for building frontends in the Cosmos!
+🎥 [Checkout our videos](https://hyperweb.io/learn) to learn to learn more about `create-cosmos-app` and tooling for building frontends in the Cosmos!
 
 Checkout [cosmos-kit](https://github.com/hyperweb-io/cosmos-kit) for more docs as well as [cosmos-kit/react](https://github.com/hyperweb-io/cosmos-kit/tree/main/packages/react#signing-clients) for getting cosmjs stargate and cosmjs signers.
 
@@ -214,7 +214,7 @@ cca --name liquidity-example --example provide-liquidity
 Create and manage an asset list, offering comprehensive insights into the available assets, and empower your application with Inter-Blockchain Communication (IBC) capabilities for transferring tokens across different chains.
 
 ```
-cca --name asset-list-example --example asset-list
+cca --name ibc-asset-list-example --example ibc-asset-list
 ```
 
 ### NFT
