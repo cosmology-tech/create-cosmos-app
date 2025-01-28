@@ -16,56 +16,56 @@ export const products: Product[] = [
     name: 'Cosmos Kit',
     description:
       'A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.',
-    link: 'https://hyperweb.io/products/cosmos-kit',
+    link: 'https://hyperweb.io/stack/cosmos-kit',
     category: 'frontend',
   },
   {
     name: 'Telescope',
     description:
       'A TypeScript Transpiler for Cosmos Protobufs to generate libraries for Cosmos blockchains.',
-    link: 'https://hyperweb.io/products/telescope',
+    link: 'https://hyperweb.io/stack/telescope',
     category: 'cosmos-sdk',
   },
   {
     name: 'Interchain UI',
     description:
       'A simple, modular and cross-framework component library for Cosmos ecosystem.',
-    link: 'https://hyperweb.io/products/interchain-ui',
+    link: 'https://hyperweb.io/stack/interchain-ui',
     category: 'frontend',
   },
   {
     name: 'TS Codegen',
     description:
       'The quickest and easiest way to convert CosmWasm Contracts into dev-friendly TypeScript classes.',
-    link: 'https://hyperweb.io/products/ts-codegen',
+    link: 'https://hyperweb.io/stack/ts-codegen',
     category: 'cosmwasm',
   },
   {
     name: 'Chain Registry',
     description:
       'Get chain and asset list information from the npm package for the Official Cosmos chain registry.',
-    link: 'https://hyperweb.io/products/chain-registry',
+    link: 'https://hyperweb.io/stack/chain-registry',
     category: 'frontend',
   },
   {
     name: 'OsmoJS',
     description:
       'OsmosJS makes it easy to compose and broadcast Osmosis and Cosmos messages.',
-    link: 'https://hyperweb.io/products/osmojs',
+    link: 'https://hyperweb.io/stack/osmojs',
     category: 'frontend',
   },
   {
     name: 'Starship',
     description:
       'Starship makes it easy to build a universal interchain development environment in k8s.',
-    link: 'https://hyperweb.io/products/starship',
+    link: 'https://hyperweb.io/stack/starship',
     category: 'testing',
   },
   {
     name: 'Create Cosmos App',
     description:
       'One-Command Setup for Modern Cosmos dApps. Speed up your development and bootstrap new web3 dApps quickly.',
-    link: 'https://hyperweb.io/products/create-cosmos-app',
+    link: 'https://hyperweb.io/stack/create-cosmos-app',
     category: 'frontend',
   },
   {
