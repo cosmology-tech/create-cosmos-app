@@ -9,6 +9,7 @@ import { SignerOptions, wallets } from 'cosmos-kit';
 import { ChainProvider } from '@cosmos-kit/react';
 import { chains, assets } from 'chain-registry';
 import { GasPrice } from '@cosmjs/stargate';
+import { Chain } from '@chain-registry/types';
 
 import {
   Box,
@@ -32,14 +33,10 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const { themeClass } = useTheme();
 
   const signerOptions: SignerOptions = {
-    // TODO fix type error
-    // @ts-ignore
     signingStargate: (chain) => {
       let gasPrice;
       try {
-        // TODO fix type error
-        // @ts-ignore
-        const feeToken = chain.fees?.fee_tokens[0];
+        const feeToken = (chain as Chain).fees?.fee_tokens[0];
         const fee = `${feeToken?.average_gas_price || 0.025}${feeToken?.denom}`;
         gasPrice = GasPrice.fromString(fee);
       } catch (error) {
